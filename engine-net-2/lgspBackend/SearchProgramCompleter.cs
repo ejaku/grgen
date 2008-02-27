@@ -18,6 +18,7 @@ namespace de.unika.ipd.grGen.lgsp
                 CompleteCheckOperations(
                     searchProgram.GetNestedSearchOperationsList(),
                     searchProgram,
+                    null,
                     null);
                 searchProgram = searchProgram.Next as SearchProgram;
             }
@@ -38,7 +39,8 @@ namespace de.unika.ipd.grGen.lgsp
         private void CompleteCheckOperations(
             SearchProgramOperation currentOperation,
             SearchProgramOperation enclosingSearchProgram,
-            CheckPartialMatchByNegative enclosingCheckNegative)
+            CheckPartialMatchByNegative enclosingCheckNegative,
+            GetPartialMatchOfAlternative enclosingAlternative)
         {
             // mainly dispatching and iteration method, traverses search program
             // real completion done in MoveOutwardsAppendingRemoveIsomorphyAndJump
@@ -79,7 +81,8 @@ namespace de.unika.ipd.grGen.lgsp
                         // give it its special bit of attention here
                         CompleteCheckOperations(checkPreset.CheckFailedOperations,
                             enclosingSearchProgram,
-                            enclosingCheckNegative);
+                            enclosingCheckNegative,
+                            enclosingAlternative);
                     }
                     else
                     {
@@ -119,7 +122,8 @@ namespace de.unika.ipd.grGen.lgsp
                         // of the negative case - enter negative case
                         CompleteCheckOperations(checkNegative.NestedOperationsList,
                             enclosingCheckNegative ?? enclosingSearchProgram,
-                            checkNegative);
+                            checkNegative,
+                            enclosingAlternative);
                     }
                     else if (currentOperation is CheckPartialMatchForSubpatternsFound)
                     {
@@ -151,7 +155,8 @@ namespace de.unika.ipd.grGen.lgsp
                         // give it its special bit of attention here
                         CompleteCheckOperations(checkSubpatternsFound.CheckFailedOperations,
                             enclosingSearchProgram,
-                            enclosingCheckNegative);
+                            enclosingCheckNegative,
+                            enclosingAlternative);
                     }
                     else
                     {
@@ -190,7 +195,7 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkFailed,
                             enclosingCheckNegative.NeededElements,
-                            enclosingSearchProgram);
+                            enclosingAlternative ?? enclosingSearchProgram);
                     }
                     else if (currentOperation is CheckContinueMatchingTasksLeft)
                     {
@@ -220,12 +225,24 @@ namespace de.unika.ipd.grGen.lgsp
                         // give it its special bit of attention here
                         CompleteCheckOperations(tasksLeft.CheckFailedOperations,
                             enclosingSearchProgram,
-                            enclosingCheckNegative);
+                            enclosingCheckNegative,
+                            enclosingAlternative);
                     }
                     else
                     {
                         Debug.Assert(false, "unknown check abort matching operation");
                     }
+                }
+                //////////////////////////////////////////////////////////
+                else if (currentOperation is GetPartialMatchOfAlternative)
+                //////////////////////////////////////////////////////////
+                {
+                    // depth first
+                    CompleteCheckOperations(
+                        currentOperation.GetNestedSearchOperationsList(),
+                        enclosingSearchProgram,
+                        null,
+                        (GetPartialMatchOfAlternative)currentOperation);
                 }
                 //////////////////////////////////////////////////////////
                 else if (currentOperation.IsSearchNestingOperation())
@@ -235,7 +252,8 @@ namespace de.unika.ipd.grGen.lgsp
                     CompleteCheckOperations(
                         currentOperation.GetNestedSearchOperationsList(),
                         enclosingSearchProgram,
-                        enclosingCheckNegative);
+                        enclosingCheckNegative,
+                        enclosingAlternative);
                 }
 
                 // breadth
@@ -443,6 +461,20 @@ namespace de.unika.ipd.grGen.lgsp
                 GetCandidateByIteration candidateIteration =
                     continuationPoint as GetCandidateByIteration;
                 op = candidateIteration.NestedOperationsList;
+                while (op.Next != null)
+                {
+                    op = op.Next;
+                }
+                gotoLabel = new GotoLabel();
+                op.Append(gotoLabel);
+            }
+            // if our continuation point is an alternative
+            // -> append label at the end of the alternative operations
+            else if (continuationPoint is GetPartialMatchOfAlternative)
+            {
+                GetPartialMatchOfAlternative getAlternative =
+                    continuationPoint as GetPartialMatchOfAlternative;
+                op = getAlternative.OperationsList;
                 while (op.Next != null)
                 {
                     op = op.Next;

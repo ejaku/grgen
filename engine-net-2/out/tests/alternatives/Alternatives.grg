@@ -1,0 +1,166 @@
+using alternatives;
+
+rule createA {
+	modify {
+		:A;
+	}
+}
+
+rule createB {
+	modify {
+		:B;
+	}
+}
+
+rule createC {
+	modify {
+		:C;
+	}
+}
+
+rule createAtoB {
+	modify {
+		:A-->:B;
+	}
+}
+
+test leer {
+	alternative {
+		leer {
+		}
+	}
+}
+
+test AorB {
+	alternative {
+		A {
+			:A;
+		}
+		B {
+			:B;
+		}
+	}
+}
+
+test AandnotCorB {
+	alternative {
+		A {
+			:A;
+			negative {
+				:C;
+			}
+		}
+		B {
+			:B;
+		}
+	}
+}
+
+test AorBorC {
+	alternative {
+		A {
+			:A;
+		}
+		B {
+			:B;
+		}
+		C {
+			:C;
+		}
+	}
+}
+
+test AtoAorB {
+	a:A;
+	alternative {
+		toA {
+			a-->:A;
+		}
+		toB {
+			a-->:B;
+		}
+	}
+}
+
+rule createComplex {
+	modify {
+		a:A-->b:B-->a;
+		a-->b2:B-->a;
+		b-->:C-->:C-->:C;
+	}
+}
+
+test Complex {
+	a:A-->b:B-->a;
+	alternative {
+		ExtendAv {
+			a-->b2:B-->a;
+			b-->:C-->:C;
+		}
+		ExtendAv2 {
+			a-->b2:B-->a;
+			b-->:C-->:C-->:C;
+		}
+		ExtendNA2 {
+			a-->:C-->:C;
+			b-->b2:B-->b;
+		}
+	}
+}
+
+test ComplexMax {
+	a:A-->b:B-->a;
+	alternative {
+		ExtendAv {
+			a-->b2:B-->a;
+			b-->:C-->c:C;
+			negative {
+				c-->:C;
+			}
+		}
+		ExtendAv2 {
+			a-->b2:B-->a;
+			b-->:C-->:C-->:C;
+		}
+		ExtendNA2 {
+			a-->:C-->:C;
+			b-->b2:B-->b;
+		}
+	}
+}
+
+rule createABA {
+	modify {
+		a:A-->:B-->a;
+	}
+}
+
+test homm {
+	a:A-->b:B-->a;
+	alternative {
+		case1 {
+			a-->b2:B-->a;
+			hom(b, b2);
+		}
+		case2 {
+			a-->b2:B-->a;
+		}
+	}
+}
+
+pattern toAorB(x:Node) {
+	x-y:Edge->;
+	alternative {
+		toA {
+			-y->a:A;
+		}
+		toB {
+			-y->b:B;
+		}
+	}
+}
+
+test XtoAorB {
+	x:Node;
+	:toAorB(x);
+}

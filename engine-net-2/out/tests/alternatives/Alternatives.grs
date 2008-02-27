@@ -1,0 +1,50 @@
+new graph "alternatives\alternatives"
+
+debug set layout Organic
+
+xgrs [?leer]
+xgrs [?AorB]
+
+xgrs createA
+xgrs [?leer]
+xgrs [?AorB]
+xgrs [?AorBorC]
+
+xgrs createB
+xgrs [?AorB]
+xgrs [?AorBorC]
+xgrs [?AandnotCorB]
+
+xgrs createC
+xgrs [?AorB]
+xgrs [?AorBorC]
+xgrs [?AandnotCorB]
+
+xgrs createAtoB
+xgrs [?AorBorC]
+xgrs [?AtoAorB]
+xgrs [?XtoAorB]
+
+xgrs createABA
+xgrs [?homm]
+xgrs createComplex
+xgrs [?Complex]
+xgrs [?ComplexMax]
+
+custom graph analyze_graph
+custom actions gen_searchplan AorBorC AtoAorB XtoAorB
+
+xgrs [?AorBorC]
+xgrs [?AtoAorB]
+xgrs [?XtoAorB]
+
+clear graph
+
+xgrs createABA
+xgrs [?homm]
+
+xgrs [?AorBorC]
+xgrs [?AtoAorB]
+xgrs [?XtoAorB]
+
+quit

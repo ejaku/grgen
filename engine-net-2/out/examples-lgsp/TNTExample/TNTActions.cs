@@ -56,7 +56,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "BenzolRing";
 			isSubpattern = true;
 
-			PatternGraph BenzolRing;
+			PatternGraph pat_BenzolRing;
 			PatternNode BenzolRing_node_c1 = new PatternNode((int) NodeTypes.@C, "BenzolRing_node_c1", "c1", BenzolRing_node_c1_AllowedTypes, BenzolRing_node_c1_IsAllowedType, 5.5F, -1);
 			PatternNode BenzolRing_node_c2 = new PatternNode((int) NodeTypes.@C, "BenzolRing_node_c2", "c2", BenzolRing_node_c2_AllowedTypes, BenzolRing_node_c2_IsAllowedType, 5.5F, -1);
 			PatternNode BenzolRing_node_c3 = new PatternNode((int) NodeTypes.@C, "BenzolRing_node_c3", "c3", BenzolRing_node_c3_AllowedTypes, BenzolRing_node_c3_IsAllowedType, 5.5F, -1);
@@ -72,7 +72,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge BenzolRing_edge__edge6 = new PatternEdge(BenzolRing_node_c1, BenzolRing_node_c2, (int) EdgeTypes.@Edge, "BenzolRing_edge__edge6", "_edge6", BenzolRing_edge__edge6_AllowedTypes, BenzolRing_edge__edge6_IsAllowedType, 5.5F, -1);
 			PatternEdge BenzolRing_edge__edge7 = new PatternEdge(BenzolRing_node_c3, BenzolRing_node_c4, (int) EdgeTypes.@Edge, "BenzolRing_edge__edge7", "_edge7", BenzolRing_edge__edge7_AllowedTypes, BenzolRing_edge__edge7_IsAllowedType, 5.5F, -1);
 			PatternEdge BenzolRing_edge__edge8 = new PatternEdge(BenzolRing_node_c5, BenzolRing_node_c6, (int) EdgeTypes.@Edge, "BenzolRing_edge__edge8", "_edge8", BenzolRing_edge__edge8_AllowedTypes, BenzolRing_edge__edge8_IsAllowedType, 5.5F, -1);
-			BenzolRing = new PatternGraph(
+			pat_BenzolRing = new PatternGraph(
 				"BenzolRing",
 				"",
 				new PatternNode[] { BenzolRing_node_c1, BenzolRing_node_c2, BenzolRing_node_c3, BenzolRing_node_c4, BenzolRing_node_c5, BenzolRing_node_c6 }, 
@@ -109,23 +109,23 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, }
 			);
-			BenzolRing_node_c1.PointOfDefinition = BenzolRing;
-			BenzolRing_node_c2.PointOfDefinition = BenzolRing;
-			BenzolRing_node_c3.PointOfDefinition = BenzolRing;
-			BenzolRing_node_c4.PointOfDefinition = BenzolRing;
-			BenzolRing_node_c5.PointOfDefinition = BenzolRing;
-			BenzolRing_node_c6.PointOfDefinition = BenzolRing;
-			BenzolRing_edge__edge0.PointOfDefinition = BenzolRing;
-			BenzolRing_edge__edge1.PointOfDefinition = BenzolRing;
-			BenzolRing_edge__edge2.PointOfDefinition = BenzolRing;
-			BenzolRing_edge__edge3.PointOfDefinition = BenzolRing;
-			BenzolRing_edge__edge4.PointOfDefinition = BenzolRing;
-			BenzolRing_edge__edge5.PointOfDefinition = BenzolRing;
-			BenzolRing_edge__edge6.PointOfDefinition = BenzolRing;
-			BenzolRing_edge__edge7.PointOfDefinition = BenzolRing;
-			BenzolRing_edge__edge8.PointOfDefinition = BenzolRing;
+			BenzolRing_node_c1.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_node_c2.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_node_c3.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_node_c4.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_node_c5.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_node_c6.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge0.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge1.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge2.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge3.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge4.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge5.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge6.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge7.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge8.PointOfDefinition = pat_BenzolRing;
 
-			patternGraph = BenzolRing;
+			patternGraph = pat_BenzolRing;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "BenzolRingC123456Exposed";
 			isSubpattern = true;
 
-			PatternGraph BenzolRingC123456Exposed;
+			PatternGraph pat_BenzolRingC123456Exposed;
 			PatternNode BenzolRingC123456Exposed_node_c1 = new PatternNode((int) NodeTypes.@C, "BenzolRingC123456Exposed_node_c1", "c1", BenzolRingC123456Exposed_node_c1_AllowedTypes, BenzolRingC123456Exposed_node_c1_IsAllowedType, 5.5F, 0);
 			PatternNode BenzolRingC123456Exposed_node_c2 = new PatternNode((int) NodeTypes.@C, "BenzolRingC123456Exposed_node_c2", "c2", BenzolRingC123456Exposed_node_c2_AllowedTypes, BenzolRingC123456Exposed_node_c2_IsAllowedType, 5.5F, 1);
 			PatternNode BenzolRingC123456Exposed_node_c3 = new PatternNode((int) NodeTypes.@C, "BenzolRingC123456Exposed_node_c3", "c3", BenzolRingC123456Exposed_node_c3_AllowedTypes, BenzolRingC123456Exposed_node_c3_IsAllowedType, 5.5F, 2);
@@ -213,7 +213,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge BenzolRingC123456Exposed_edge__edge6 = new PatternEdge(BenzolRingC123456Exposed_node_c1, BenzolRingC123456Exposed_node_c2, (int) EdgeTypes.@Edge, "BenzolRingC123456Exposed_edge__edge6", "_edge6", BenzolRingC123456Exposed_edge__edge6_AllowedTypes, BenzolRingC123456Exposed_edge__edge6_IsAllowedType, 5.5F, -1);
 			PatternEdge BenzolRingC123456Exposed_edge__edge7 = new PatternEdge(BenzolRingC123456Exposed_node_c3, BenzolRingC123456Exposed_node_c4, (int) EdgeTypes.@Edge, "BenzolRingC123456Exposed_edge__edge7", "_edge7", BenzolRingC123456Exposed_edge__edge7_AllowedTypes, BenzolRingC123456Exposed_edge__edge7_IsAllowedType, 5.5F, -1);
 			PatternEdge BenzolRingC123456Exposed_edge__edge8 = new PatternEdge(BenzolRingC123456Exposed_node_c5, BenzolRingC123456Exposed_node_c6, (int) EdgeTypes.@Edge, "BenzolRingC123456Exposed_edge__edge8", "_edge8", BenzolRingC123456Exposed_edge__edge8_AllowedTypes, BenzolRingC123456Exposed_edge__edge8_IsAllowedType, 5.5F, -1);
-			BenzolRingC123456Exposed = new PatternGraph(
+			pat_BenzolRingC123456Exposed = new PatternGraph(
 				"BenzolRingC123456Exposed",
 				"",
 				new PatternNode[] { BenzolRingC123456Exposed_node_c1, BenzolRingC123456Exposed_node_c2, BenzolRingC123456Exposed_node_c3, BenzolRingC123456Exposed_node_c4, BenzolRingC123456Exposed_node_c5, BenzolRingC123456Exposed_node_c6 }, 
@@ -256,17 +256,17 @@ namespace de.unika.ipd.grGen.Action_TNT
 			BenzolRingC123456Exposed_node_c4.PointOfDefinition = null;
 			BenzolRingC123456Exposed_node_c5.PointOfDefinition = null;
 			BenzolRingC123456Exposed_node_c6.PointOfDefinition = null;
-			BenzolRingC123456Exposed_edge__edge0.PointOfDefinition = BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge1.PointOfDefinition = BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge2.PointOfDefinition = BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge3.PointOfDefinition = BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge4.PointOfDefinition = BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge5.PointOfDefinition = BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge6.PointOfDefinition = BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge7.PointOfDefinition = BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge8.PointOfDefinition = BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge0.PointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge1.PointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge2.PointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge3.PointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge4.PointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge5.PointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge6.PointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge7.PointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge8.PointOfDefinition = pat_BenzolRingC123456Exposed;
 
-			patternGraph = BenzolRingC123456Exposed;
+			patternGraph = pat_BenzolRingC123456Exposed;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "BenzolRingC123456Exposed_node_c1", "BenzolRingC123456Exposed_node_c2", "BenzolRingC123456Exposed_node_c3", "BenzolRingC123456Exposed_node_c4", "BenzolRingC123456Exposed_node_c5", "BenzolRingC123456Exposed_node_c6", };
@@ -338,7 +338,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "BenzolRingC1Exposed";
 			isSubpattern = true;
 
-			PatternGraph BenzolRingC1Exposed;
+			PatternGraph pat_BenzolRingC1Exposed;
 			PatternNode BenzolRingC1Exposed_node_c1 = new PatternNode((int) NodeTypes.@C, "BenzolRingC1Exposed_node_c1", "c1", BenzolRingC1Exposed_node_c1_AllowedTypes, BenzolRingC1Exposed_node_c1_IsAllowedType, 5.5F, 0);
 			PatternNode BenzolRingC1Exposed_node_c2 = new PatternNode((int) NodeTypes.@C, "BenzolRingC1Exposed_node_c2", "c2", BenzolRingC1Exposed_node_c2_AllowedTypes, BenzolRingC1Exposed_node_c2_IsAllowedType, 5.5F, -1);
 			PatternNode BenzolRingC1Exposed_node_c3 = new PatternNode((int) NodeTypes.@C, "BenzolRingC1Exposed_node_c3", "c3", BenzolRingC1Exposed_node_c3_AllowedTypes, BenzolRingC1Exposed_node_c3_IsAllowedType, 5.5F, -1);
@@ -354,7 +354,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge BenzolRingC1Exposed_edge__edge6 = new PatternEdge(BenzolRingC1Exposed_node_c1, BenzolRingC1Exposed_node_c2, (int) EdgeTypes.@Edge, "BenzolRingC1Exposed_edge__edge6", "_edge6", BenzolRingC1Exposed_edge__edge6_AllowedTypes, BenzolRingC1Exposed_edge__edge6_IsAllowedType, 5.5F, -1);
 			PatternEdge BenzolRingC1Exposed_edge__edge7 = new PatternEdge(BenzolRingC1Exposed_node_c3, BenzolRingC1Exposed_node_c4, (int) EdgeTypes.@Edge, "BenzolRingC1Exposed_edge__edge7", "_edge7", BenzolRingC1Exposed_edge__edge7_AllowedTypes, BenzolRingC1Exposed_edge__edge7_IsAllowedType, 5.5F, -1);
 			PatternEdge BenzolRingC1Exposed_edge__edge8 = new PatternEdge(BenzolRingC1Exposed_node_c5, BenzolRingC1Exposed_node_c6, (int) EdgeTypes.@Edge, "BenzolRingC1Exposed_edge__edge8", "_edge8", BenzolRingC1Exposed_edge__edge8_AllowedTypes, BenzolRingC1Exposed_edge__edge8_IsAllowedType, 5.5F, -1);
-			BenzolRingC1Exposed = new PatternGraph(
+			pat_BenzolRingC1Exposed = new PatternGraph(
 				"BenzolRingC1Exposed",
 				"",
 				new PatternNode[] { BenzolRingC1Exposed_node_c1, BenzolRingC1Exposed_node_c2, BenzolRingC1Exposed_node_c3, BenzolRingC1Exposed_node_c4, BenzolRingC1Exposed_node_c5, BenzolRingC1Exposed_node_c6 }, 
@@ -392,25 +392,224 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, true, true, true, true, true, true, true, }
 			);
 			BenzolRingC1Exposed_node_c1.PointOfDefinition = null;
-			BenzolRingC1Exposed_node_c2.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_node_c3.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_node_c4.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_node_c5.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_node_c6.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge0.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge1.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge2.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge3.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge4.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge5.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge6.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge7.PointOfDefinition = BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge8.PointOfDefinition = BenzolRingC1Exposed;
+			BenzolRingC1Exposed_node_c2.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_node_c3.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_node_c4.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_node_c5.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_node_c6.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge0.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge1.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge2.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge3.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge4.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge5.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge6.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge7.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge8.PointOfDefinition = pat_BenzolRingC1Exposed;
 
-			patternGraph = BenzolRingC1Exposed;
+			patternGraph = pat_BenzolRingC1Exposed;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "BenzolRingC1Exposed_node_c1", };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+	public class Pattern_BenzolRingC1ExposedNotC6Nitro : LGSPRulePattern
+	{
+		private static Pattern_BenzolRingC1ExposedNotC6Nitro instance = null;
+		public static Pattern_BenzolRingC1ExposedNotC6Nitro Instance { get { if (instance==null) instance = new Pattern_BenzolRingC1ExposedNotC6Nitro(); return instance; } }
+
+		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_node_c1_AllowedTypes = null;
+		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_node_c2_AllowedTypes = null;
+		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_node_c3_AllowedTypes = null;
+		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_node_c4_AllowedTypes = null;
+		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_node_c5_AllowedTypes = null;
+		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_node_c6_AllowedTypes = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_node_c1_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_node_c2_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_node_c3_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_node_c4_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_node_c5_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_node_c6_IsAllowedType = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_edge__edge0_AllowedTypes = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_edge__edge1_AllowedTypes = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_edge__edge2_AllowedTypes = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_edge__edge3_AllowedTypes = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_edge__edge4_AllowedTypes = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_edge__edge5_AllowedTypes = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_edge__edge6_AllowedTypes = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_edge__edge7_AllowedTypes = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_edge__edge8_AllowedTypes = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_edge__edge0_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_edge__edge1_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_edge__edge2_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_edge__edge3_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_edge__edge4_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_edge__edge5_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_edge__edge6_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_edge__edge7_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_edge__edge8_IsAllowedType = null;
+		public enum BenzolRingC1ExposedNotC6Nitro_NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, };
+		public enum BenzolRingC1ExposedNotC6Nitro_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, };
+		public enum BenzolRingC1ExposedNotC6Nitro_SubNums { };
+		public enum BenzolRingC1ExposedNotC6Nitro_AltNums { };
+		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_AllowedTypes = null;
+		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_AllowedTypes = null;
+		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_AllowedTypes = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_IsAllowedType = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_AllowedTypes = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_AllowedTypes = null;
+		public static EdgeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_AllowedTypes = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_IsAllowedType = null;
+		public static bool[] BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_IsAllowedType = null;
+		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_NodeNums { @c6, @n, @_node0, @_node1, };
+		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_EdgeNums { @_edge0, @_edge1, @_edge2, };
+		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_SubNums { };
+		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_AltNums { };
+
+#if INITIAL_WARMUP
+		public Pattern_BenzolRingC1ExposedNotC6Nitro()
+#else
+		private Pattern_BenzolRingC1ExposedNotC6Nitro()
+#endif
+		{
+			name = "BenzolRingC1ExposedNotC6Nitro";
+			isSubpattern = true;
+
+			PatternGraph pat_BenzolRingC1ExposedNotC6Nitro;
+			PatternNode BenzolRingC1ExposedNotC6Nitro_node_c1 = new PatternNode((int) NodeTypes.@C, "BenzolRingC1ExposedNotC6Nitro_node_c1", "c1", BenzolRingC1ExposedNotC6Nitro_node_c1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c1_IsAllowedType, 5.5F, 0);
+			PatternNode BenzolRingC1ExposedNotC6Nitro_node_c2 = new PatternNode((int) NodeTypes.@C, "BenzolRingC1ExposedNotC6Nitro_node_c2", "c2", BenzolRingC1ExposedNotC6Nitro_node_c2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c2_IsAllowedType, 5.5F, -1);
+			PatternNode BenzolRingC1ExposedNotC6Nitro_node_c3 = new PatternNode((int) NodeTypes.@C, "BenzolRingC1ExposedNotC6Nitro_node_c3", "c3", BenzolRingC1ExposedNotC6Nitro_node_c3_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c3_IsAllowedType, 5.5F, -1);
+			PatternNode BenzolRingC1ExposedNotC6Nitro_node_c4 = new PatternNode((int) NodeTypes.@C, "BenzolRingC1ExposedNotC6Nitro_node_c4", "c4", BenzolRingC1ExposedNotC6Nitro_node_c4_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c4_IsAllowedType, 5.5F, -1);
+			PatternNode BenzolRingC1ExposedNotC6Nitro_node_c5 = new PatternNode((int) NodeTypes.@C, "BenzolRingC1ExposedNotC6Nitro_node_c5", "c5", BenzolRingC1ExposedNotC6Nitro_node_c5_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c5_IsAllowedType, 5.5F, -1);
+			PatternNode BenzolRingC1ExposedNotC6Nitro_node_c6 = new PatternNode((int) NodeTypes.@C, "BenzolRingC1ExposedNotC6Nitro_node_c6", "c6", BenzolRingC1ExposedNotC6Nitro_node_c6_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c6_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge0 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_node_c1, BenzolRingC1ExposedNotC6Nitro_node_c2, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge0", "_edge0", BenzolRingC1ExposedNotC6Nitro_edge__edge0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge1 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_node_c2, BenzolRingC1ExposedNotC6Nitro_node_c3, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge1", "_edge1", BenzolRingC1ExposedNotC6Nitro_edge__edge1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge2 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_node_c3, BenzolRingC1ExposedNotC6Nitro_node_c4, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge2", "_edge2", BenzolRingC1ExposedNotC6Nitro_edge__edge2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge2_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge3 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_node_c4, BenzolRingC1ExposedNotC6Nitro_node_c5, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge3", "_edge3", BenzolRingC1ExposedNotC6Nitro_edge__edge3_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge3_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge4 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_node_c5, BenzolRingC1ExposedNotC6Nitro_node_c6, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge4", "_edge4", BenzolRingC1ExposedNotC6Nitro_edge__edge4_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge4_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge5 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_node_c6, BenzolRingC1ExposedNotC6Nitro_node_c1, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge5", "_edge5", BenzolRingC1ExposedNotC6Nitro_edge__edge5_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge5_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge6 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_node_c1, BenzolRingC1ExposedNotC6Nitro_node_c2, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge6", "_edge6", BenzolRingC1ExposedNotC6Nitro_edge__edge6_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge6_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge7 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_node_c3, BenzolRingC1ExposedNotC6Nitro_node_c4, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge7", "_edge7", BenzolRingC1ExposedNotC6Nitro_edge__edge7_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge7_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge8 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_node_c5, BenzolRingC1ExposedNotC6Nitro_node_c6, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge8", "_edge8", BenzolRingC1ExposedNotC6Nitro_edge__edge8_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge8_IsAllowedType, 5.5F, -1);
+			PatternGraph BenzolRingC1ExposedNotC6Nitro_neg_0;
+			PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node_n = new PatternNode((int) NodeTypes.@N, "BenzolRingC1ExposedNotC6Nitro_neg_0_node_n", "n", BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_IsAllowedType, 5.5F, -1);
+			PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = new PatternNode((int) NodeTypes.@O, "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0", "_node0", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_IsAllowedType, 5.5F, -1);
+			PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 = new PatternNode((int) NodeTypes.@O, "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1", "_node1", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_node_c6, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0", "_edge0", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_neg_0_node_n, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1", "_edge1", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 = new PatternEdge(BenzolRingC1ExposedNotC6Nitro_neg_0_node_n, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2", "_edge2", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_IsAllowedType, 5.5F, -1);
+			BenzolRingC1ExposedNotC6Nitro_neg_0 = new PatternGraph(
+				"neg_0",
+				"BenzolRingC1ExposedNotC6Nitro_",
+				new PatternNode[] { BenzolRingC1ExposedNotC6Nitro_node_c6, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 }, 
+				new PatternEdge[] { BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 }, 
+				new PatternGraphEmbedding[] {  }, 
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
+				new bool[4, 4] {
+					{ true, false, false, false, },
+					{ false, true, false, false, },
+					{ false, false, true, false, },
+					{ false, false, false, true, },
+				},
+				new bool[3, 3] {
+					{ true, false, false, },
+					{ false, true, false, },
+					{ false, false, true, },
+				},
+				new bool[] {
+					false, false, false, false, },
+				new bool[] {
+					false, false, false, },
+				new bool[] {
+					true, true, true, true, },
+				new bool[] {
+					true, true, true, }
+			);
+			pat_BenzolRingC1ExposedNotC6Nitro = new PatternGraph(
+				"BenzolRingC1ExposedNotC6Nitro",
+				"",
+				new PatternNode[] { BenzolRingC1ExposedNotC6Nitro_node_c1, BenzolRingC1ExposedNotC6Nitro_node_c2, BenzolRingC1ExposedNotC6Nitro_node_c3, BenzolRingC1ExposedNotC6Nitro_node_c4, BenzolRingC1ExposedNotC6Nitro_node_c5, BenzolRingC1ExposedNotC6Nitro_node_c6 }, 
+				new PatternEdge[] { BenzolRingC1ExposedNotC6Nitro_edge__edge0, BenzolRingC1ExposedNotC6Nitro_edge__edge1, BenzolRingC1ExposedNotC6Nitro_edge__edge2, BenzolRingC1ExposedNotC6Nitro_edge__edge3, BenzolRingC1ExposedNotC6Nitro_edge__edge4, BenzolRingC1ExposedNotC6Nitro_edge__edge5, BenzolRingC1ExposedNotC6Nitro_edge__edge6, BenzolRingC1ExposedNotC6Nitro_edge__edge7, BenzolRingC1ExposedNotC6Nitro_edge__edge8 }, 
+				new PatternGraphEmbedding[] {  }, 
+				new Alternative[] {  }, 
+				new PatternGraph[] { BenzolRingC1ExposedNotC6Nitro_neg_0,  }, 
+				new Condition[] {  }, 
+				new bool[6, 6] {
+					{ true, false, false, false, false, false, },
+					{ false, true, false, false, false, false, },
+					{ false, false, true, false, false, false, },
+					{ false, false, false, true, false, false, },
+					{ false, false, false, false, true, false, },
+					{ false, false, false, false, false, true, },
+				},
+				new bool[9, 9] {
+					{ true, false, false, false, false, false, false, false, false, },
+					{ false, true, false, false, false, false, false, false, false, },
+					{ false, false, true, false, false, false, false, false, false, },
+					{ false, false, false, true, false, false, false, false, false, },
+					{ false, false, false, false, true, false, false, false, false, },
+					{ false, false, false, false, false, true, false, false, false, },
+					{ false, false, false, false, false, false, true, false, false, },
+					{ false, false, false, false, false, false, false, true, false, },
+					{ false, false, false, false, false, false, false, false, true, },
+				},
+				new bool[] {
+					false, false, false, false, false, false, },
+				new bool[] {
+					false, false, false, false, false, false, false, false, false, },
+				new bool[] {
+					true, true, true, true, true, true, },
+				new bool[] {
+					true, true, true, true, true, true, true, true, true, }
+			);
+			BenzolRingC1ExposedNotC6Nitro_node_c1.PointOfDefinition = null;
+			BenzolRingC1ExposedNotC6Nitro_node_c2.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_node_c3.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_node_c4.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_node_c5.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_node_c6.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge0.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge1.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge2.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge3.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge4.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge5.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge6.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge7.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge8.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+
+			patternGraph = pat_BenzolRingC1ExposedNotC6Nitro;
+
+			inputs = new GrGenType[] { NodeType_C.typeVar, };
+			inputNames = new string[] { "BenzolRingC1ExposedNotC6Nitro_node_c1", };
 			outputs = new GrGenType[] { };
 			outputNames = new string[] { };
 		}
@@ -455,11 +654,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "Hydrogen";
 			isSubpattern = true;
 
-			PatternGraph Hydrogen;
+			PatternGraph pat_Hydrogen;
 			PatternNode Hydrogen_node_anchor = new PatternNode((int) NodeTypes.@C, "Hydrogen_node_anchor", "anchor", Hydrogen_node_anchor_AllowedTypes, Hydrogen_node_anchor_IsAllowedType, 5.5F, 0);
 			PatternNode Hydrogen_node__node0 = new PatternNode((int) NodeTypes.@H, "Hydrogen_node__node0", "_node0", Hydrogen_node__node0_AllowedTypes, Hydrogen_node__node0_IsAllowedType, 5.5F, -1);
 			PatternEdge Hydrogen_edge__edge0 = new PatternEdge(Hydrogen_node_anchor, Hydrogen_node__node0, (int) EdgeTypes.@Edge, "Hydrogen_edge__edge0", "_edge0", Hydrogen_edge__edge0_AllowedTypes, Hydrogen_edge__edge0_IsAllowedType, 5.5F, -1);
-			Hydrogen = new PatternGraph(
+			pat_Hydrogen = new PatternGraph(
 				"Hydrogen",
 				"",
 				new PatternNode[] { Hydrogen_node_anchor, Hydrogen_node__node0 }, 
@@ -485,10 +684,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, }
 			);
 			Hydrogen_node_anchor.PointOfDefinition = null;
-			Hydrogen_node__node0.PointOfDefinition = Hydrogen;
-			Hydrogen_edge__edge0.PointOfDefinition = Hydrogen;
+			Hydrogen_node__node0.PointOfDefinition = pat_Hydrogen;
+			Hydrogen_edge__edge0.PointOfDefinition = pat_Hydrogen;
 
-			patternGraph = Hydrogen;
+			patternGraph = pat_Hydrogen;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Hydrogen_node_anchor", };
@@ -540,13 +739,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "Hydroxyl";
 			isSubpattern = true;
 
-			PatternGraph Hydroxyl;
+			PatternGraph pat_Hydroxyl;
 			PatternNode Hydroxyl_node_anchor = new PatternNode((int) NodeTypes.@C, "Hydroxyl_node_anchor", "anchor", Hydroxyl_node_anchor_AllowedTypes, Hydroxyl_node_anchor_IsAllowedType, 5.5F, 0);
 			PatternNode Hydroxyl_node__node0 = new PatternNode((int) NodeTypes.@O, "Hydroxyl_node__node0", "_node0", Hydroxyl_node__node0_AllowedTypes, Hydroxyl_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode Hydroxyl_node__node1 = new PatternNode((int) NodeTypes.@H, "Hydroxyl_node__node1", "_node1", Hydroxyl_node__node1_AllowedTypes, Hydroxyl_node__node1_IsAllowedType, 5.5F, -1);
 			PatternEdge Hydroxyl_edge__edge0 = new PatternEdge(Hydroxyl_node_anchor, Hydroxyl_node__node0, (int) EdgeTypes.@Edge, "Hydroxyl_edge__edge0", "_edge0", Hydroxyl_edge__edge0_AllowedTypes, Hydroxyl_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternEdge Hydroxyl_edge__edge1 = new PatternEdge(Hydroxyl_node__node0, Hydroxyl_node__node1, (int) EdgeTypes.@Edge, "Hydroxyl_edge__edge1", "_edge1", Hydroxyl_edge__edge1_AllowedTypes, Hydroxyl_edge__edge1_IsAllowedType, 5.5F, -1);
-			Hydroxyl = new PatternGraph(
+			pat_Hydroxyl = new PatternGraph(
 				"Hydroxyl",
 				"",
 				new PatternNode[] { Hydroxyl_node_anchor, Hydroxyl_node__node0, Hydroxyl_node__node1 }, 
@@ -574,12 +773,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, }
 			);
 			Hydroxyl_node_anchor.PointOfDefinition = null;
-			Hydroxyl_node__node0.PointOfDefinition = Hydroxyl;
-			Hydroxyl_node__node1.PointOfDefinition = Hydroxyl;
-			Hydroxyl_edge__edge0.PointOfDefinition = Hydroxyl;
-			Hydroxyl_edge__edge1.PointOfDefinition = Hydroxyl;
+			Hydroxyl_node__node0.PointOfDefinition = pat_Hydroxyl;
+			Hydroxyl_node__node1.PointOfDefinition = pat_Hydroxyl;
+			Hydroxyl_edge__edge0.PointOfDefinition = pat_Hydroxyl;
+			Hydroxyl_edge__edge1.PointOfDefinition = pat_Hydroxyl;
 
-			patternGraph = Hydroxyl;
+			patternGraph = pat_Hydroxyl;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Hydroxyl_node_anchor", };
@@ -639,7 +838,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "Methyl";
 			isSubpattern = true;
 
-			PatternGraph Methyl;
+			PatternGraph pat_Methyl;
 			PatternNode Methyl_node_anchor = new PatternNode((int) NodeTypes.@C, "Methyl_node_anchor", "anchor", Methyl_node_anchor_AllowedTypes, Methyl_node_anchor_IsAllowedType, 5.5F, 0);
 			PatternNode Methyl_node_c = new PatternNode((int) NodeTypes.@C, "Methyl_node_c", "c", Methyl_node_c_AllowedTypes, Methyl_node_c_IsAllowedType, 5.5F, -1);
 			PatternNode Methyl_node__node0 = new PatternNode((int) NodeTypes.@H, "Methyl_node__node0", "_node0", Methyl_node__node0_AllowedTypes, Methyl_node__node0_IsAllowedType, 5.5F, -1);
@@ -649,7 +848,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge Methyl_edge__edge1 = new PatternEdge(Methyl_node_c, Methyl_node__node0, (int) EdgeTypes.@Edge, "Methyl_edge__edge1", "_edge1", Methyl_edge__edge1_AllowedTypes, Methyl_edge__edge1_IsAllowedType, 5.5F, -1);
 			PatternEdge Methyl_edge__edge2 = new PatternEdge(Methyl_node_c, Methyl_node__node1, (int) EdgeTypes.@Edge, "Methyl_edge__edge2", "_edge2", Methyl_edge__edge2_AllowedTypes, Methyl_edge__edge2_IsAllowedType, 5.5F, -1);
 			PatternEdge Methyl_edge__edge3 = new PatternEdge(Methyl_node_c, Methyl_node__node2, (int) EdgeTypes.@Edge, "Methyl_edge__edge3", "_edge3", Methyl_edge__edge3_AllowedTypes, Methyl_edge__edge3_IsAllowedType, 5.5F, -1);
-			Methyl = new PatternGraph(
+			pat_Methyl = new PatternGraph(
 				"Methyl",
 				"",
 				new PatternNode[] { Methyl_node_anchor, Methyl_node_c, Methyl_node__node0, Methyl_node__node1, Methyl_node__node2 }, 
@@ -681,16 +880,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, true, true, }
 			);
 			Methyl_node_anchor.PointOfDefinition = null;
-			Methyl_node_c.PointOfDefinition = Methyl;
-			Methyl_node__node0.PointOfDefinition = Methyl;
-			Methyl_node__node1.PointOfDefinition = Methyl;
-			Methyl_node__node2.PointOfDefinition = Methyl;
-			Methyl_edge__edge0.PointOfDefinition = Methyl;
-			Methyl_edge__edge1.PointOfDefinition = Methyl;
-			Methyl_edge__edge2.PointOfDefinition = Methyl;
-			Methyl_edge__edge3.PointOfDefinition = Methyl;
+			Methyl_node_c.PointOfDefinition = pat_Methyl;
+			Methyl_node__node0.PointOfDefinition = pat_Methyl;
+			Methyl_node__node1.PointOfDefinition = pat_Methyl;
+			Methyl_node__node2.PointOfDefinition = pat_Methyl;
+			Methyl_edge__edge0.PointOfDefinition = pat_Methyl;
+			Methyl_edge__edge1.PointOfDefinition = pat_Methyl;
+			Methyl_edge__edge2.PointOfDefinition = pat_Methyl;
+			Methyl_edge__edge3.PointOfDefinition = pat_Methyl;
 
-			patternGraph = Methyl;
+			patternGraph = pat_Methyl;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Methyl_node_anchor", };
@@ -746,7 +945,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "Nitro";
 			isSubpattern = true;
 
-			PatternGraph Nitro;
+			PatternGraph pat_Nitro;
 			PatternNode Nitro_node_anchor = new PatternNode((int) NodeTypes.@C, "Nitro_node_anchor", "anchor", Nitro_node_anchor_AllowedTypes, Nitro_node_anchor_IsAllowedType, 5.5F, 0);
 			PatternNode Nitro_node_n = new PatternNode((int) NodeTypes.@N, "Nitro_node_n", "n", Nitro_node_n_AllowedTypes, Nitro_node_n_IsAllowedType, 5.5F, -1);
 			PatternNode Nitro_node__node0 = new PatternNode((int) NodeTypes.@O, "Nitro_node__node0", "_node0", Nitro_node__node0_AllowedTypes, Nitro_node__node0_IsAllowedType, 5.5F, -1);
@@ -754,7 +953,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge Nitro_edge__edge0 = new PatternEdge(Nitro_node_anchor, Nitro_node_n, (int) EdgeTypes.@Edge, "Nitro_edge__edge0", "_edge0", Nitro_edge__edge0_AllowedTypes, Nitro_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternEdge Nitro_edge__edge1 = new PatternEdge(Nitro_node_n, Nitro_node__node0, (int) EdgeTypes.@Edge, "Nitro_edge__edge1", "_edge1", Nitro_edge__edge1_AllowedTypes, Nitro_edge__edge1_IsAllowedType, 5.5F, -1);
 			PatternEdge Nitro_edge__edge2 = new PatternEdge(Nitro_node_n, Nitro_node__node1, (int) EdgeTypes.@Edge, "Nitro_edge__edge2", "_edge2", Nitro_edge__edge2_AllowedTypes, Nitro_edge__edge2_IsAllowedType, 5.5F, -1);
-			Nitro = new PatternGraph(
+			pat_Nitro = new PatternGraph(
 				"Nitro",
 				"",
 				new PatternNode[] { Nitro_node_anchor, Nitro_node_n, Nitro_node__node0, Nitro_node__node1 }, 
@@ -784,14 +983,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, true, }
 			);
 			Nitro_node_anchor.PointOfDefinition = null;
-			Nitro_node_n.PointOfDefinition = Nitro;
-			Nitro_node__node0.PointOfDefinition = Nitro;
-			Nitro_node__node1.PointOfDefinition = Nitro;
-			Nitro_edge__edge0.PointOfDefinition = Nitro;
-			Nitro_edge__edge1.PointOfDefinition = Nitro;
-			Nitro_edge__edge2.PointOfDefinition = Nitro;
+			Nitro_node_n.PointOfDefinition = pat_Nitro;
+			Nitro_node__node0.PointOfDefinition = pat_Nitro;
+			Nitro_node__node1.PointOfDefinition = pat_Nitro;
+			Nitro_edge__edge0.PointOfDefinition = pat_Nitro;
+			Nitro_edge__edge1.PointOfDefinition = pat_Nitro;
+			Nitro_edge__edge2.PointOfDefinition = pat_Nitro;
 
-			patternGraph = Nitro;
+			patternGraph = pat_Nitro;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Nitro_node_anchor", };
@@ -841,12 +1040,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "Oxygen";
 			isSubpattern = true;
 
-			PatternGraph Oxygen;
+			PatternGraph pat_Oxygen;
 			PatternNode Oxygen_node_o1 = new PatternNode((int) NodeTypes.@O, "Oxygen_node_o1", "o1", Oxygen_node_o1_AllowedTypes, Oxygen_node_o1_IsAllowedType, 5.5F, -1);
 			PatternNode Oxygen_node_o2 = new PatternNode((int) NodeTypes.@O, "Oxygen_node_o2", "o2", Oxygen_node_o2_AllowedTypes, Oxygen_node_o2_IsAllowedType, 5.5F, -1);
 			PatternEdge Oxygen_edge__edge0 = new PatternEdge(Oxygen_node_o1, Oxygen_node_o2, (int) EdgeTypes.@Edge, "Oxygen_edge__edge0", "_edge0", Oxygen_edge__edge0_AllowedTypes, Oxygen_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternEdge Oxygen_edge__edge1 = new PatternEdge(Oxygen_node_o2, Oxygen_node_o1, (int) EdgeTypes.@Edge, "Oxygen_edge__edge1", "_edge1", Oxygen_edge__edge1_AllowedTypes, Oxygen_edge__edge1_IsAllowedType, 5.5F, -1);
-			Oxygen = new PatternGraph(
+			pat_Oxygen = new PatternGraph(
 				"Oxygen",
 				"",
 				new PatternNode[] { Oxygen_node_o1, Oxygen_node_o2 }, 
@@ -872,12 +1071,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, }
 			);
-			Oxygen_node_o1.PointOfDefinition = Oxygen;
-			Oxygen_node_o2.PointOfDefinition = Oxygen;
-			Oxygen_edge__edge0.PointOfDefinition = Oxygen;
-			Oxygen_edge__edge1.PointOfDefinition = Oxygen;
+			Oxygen_node_o1.PointOfDefinition = pat_Oxygen;
+			Oxygen_node_o2.PointOfDefinition = pat_Oxygen;
+			Oxygen_edge__edge0.PointOfDefinition = pat_Oxygen;
+			Oxygen_edge__edge1.PointOfDefinition = pat_Oxygen;
 
-			patternGraph = Oxygen;
+			patternGraph = pat_Oxygen;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -931,7 +1130,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "ToluolCoreThenTriNitro";
 			isSubpattern = true;
 
-			PatternGraph ToluolCoreThenTriNitro;
+			PatternGraph pat_ToluolCoreThenTriNitro;
 			PatternNode ToluolCoreThenTriNitro_node_c1 = new PatternNode((int) NodeTypes.@C, "ToluolCoreThenTriNitro_node_c1", "c1", ToluolCoreThenTriNitro_node_c1_AllowedTypes, ToluolCoreThenTriNitro_node_c1_IsAllowedType, 5.5F, 0);
 			PatternNode ToluolCoreThenTriNitro_node_c2 = new PatternNode((int) NodeTypes.@C, "ToluolCoreThenTriNitro_node_c2", "c2", ToluolCoreThenTriNitro_node_c2_AllowedTypes, ToluolCoreThenTriNitro_node_c2_IsAllowedType, 5.5F, 1);
 			PatternNode ToluolCoreThenTriNitro_node_c3 = new PatternNode((int) NodeTypes.@C, "ToluolCoreThenTriNitro_node_c3", "c3", ToluolCoreThenTriNitro_node_c3_AllowedTypes, ToluolCoreThenTriNitro_node_c3_IsAllowedType, 5.5F, 2);
@@ -942,7 +1141,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding ToluolCoreThenTriNitro__subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Hydrogen.Instance, new PatternElement[] { ToluolCoreThenTriNitro_node_c3 });
 			PatternGraphEmbedding ToluolCoreThenTriNitro__subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new PatternElement[] { ToluolCoreThenTriNitro_node_c5 });
 			PatternGraphEmbedding ToluolCoreThenTriNitro__subpattern3 = new PatternGraphEmbedding("_subpattern3", Pattern_TriNitro.Instance, new PatternElement[] { ToluolCoreThenTriNitro_node_c2, ToluolCoreThenTriNitro_node_c4, ToluolCoreThenTriNitro_node_c6 });
-			ToluolCoreThenTriNitro = new PatternGraph(
+			pat_ToluolCoreThenTriNitro = new PatternGraph(
 				"ToluolCoreThenTriNitro",
 				"",
 				new PatternNode[] { ToluolCoreThenTriNitro_node_c1, ToluolCoreThenTriNitro_node_c2, ToluolCoreThenTriNitro_node_c3, ToluolCoreThenTriNitro_node_c4, ToluolCoreThenTriNitro_node_c5, ToluolCoreThenTriNitro_node_c6 }, 
@@ -973,12 +1172,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 			ToluolCoreThenTriNitro_node_c4.PointOfDefinition = null;
 			ToluolCoreThenTriNitro_node_c5.PointOfDefinition = null;
 			ToluolCoreThenTriNitro_node_c6.PointOfDefinition = null;
-			ToluolCoreThenTriNitro__subpattern0.PointOfDefinition = ToluolCoreThenTriNitro;
-			ToluolCoreThenTriNitro__subpattern1.PointOfDefinition = ToluolCoreThenTriNitro;
-			ToluolCoreThenTriNitro__subpattern2.PointOfDefinition = ToluolCoreThenTriNitro;
-			ToluolCoreThenTriNitro__subpattern3.PointOfDefinition = ToluolCoreThenTriNitro;
+			ToluolCoreThenTriNitro__subpattern0.PointOfDefinition = pat_ToluolCoreThenTriNitro;
+			ToluolCoreThenTriNitro__subpattern1.PointOfDefinition = pat_ToluolCoreThenTriNitro;
+			ToluolCoreThenTriNitro__subpattern2.PointOfDefinition = pat_ToluolCoreThenTriNitro;
+			ToluolCoreThenTriNitro__subpattern3.PointOfDefinition = pat_ToluolCoreThenTriNitro;
 
-			patternGraph = ToluolCoreThenTriNitro;
+			patternGraph = pat_ToluolCoreThenTriNitro;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "ToluolCoreThenTriNitro_node_c1", "ToluolCoreThenTriNitro_node_c2", "ToluolCoreThenTriNitro_node_c3", "ToluolCoreThenTriNitro_node_c4", "ToluolCoreThenTriNitro_node_c5", "ToluolCoreThenTriNitro_node_c6", };
@@ -1026,14 +1225,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "TriNitro";
 			isSubpattern = true;
 
-			PatternGraph TriNitro;
+			PatternGraph pat_TriNitro;
 			PatternNode TriNitro_node_c2 = new PatternNode((int) NodeTypes.@C, "TriNitro_node_c2", "c2", TriNitro_node_c2_AllowedTypes, TriNitro_node_c2_IsAllowedType, 5.5F, 0);
 			PatternNode TriNitro_node_c4 = new PatternNode((int) NodeTypes.@C, "TriNitro_node_c4", "c4", TriNitro_node_c4_AllowedTypes, TriNitro_node_c4_IsAllowedType, 5.5F, 1);
 			PatternNode TriNitro_node_c6 = new PatternNode((int) NodeTypes.@C, "TriNitro_node_c6", "c6", TriNitro_node_c6_AllowedTypes, TriNitro_node_c6_IsAllowedType, 5.5F, 2);
 			PatternGraphEmbedding TriNitro__subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_Nitro.Instance, new PatternElement[] { TriNitro_node_c2 });
 			PatternGraphEmbedding TriNitro__subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, new PatternElement[] { TriNitro_node_c4 });
 			PatternGraphEmbedding TriNitro__subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Nitro.Instance, new PatternElement[] { TriNitro_node_c6 });
-			TriNitro = new PatternGraph(
+			pat_TriNitro = new PatternGraph(
 				"TriNitro",
 				"",
 				new PatternNode[] { TriNitro_node_c2, TriNitro_node_c4, TriNitro_node_c6 }, 
@@ -1058,11 +1257,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 			TriNitro_node_c2.PointOfDefinition = null;
 			TriNitro_node_c4.PointOfDefinition = null;
 			TriNitro_node_c6.PointOfDefinition = null;
-			TriNitro__subpattern0.PointOfDefinition = TriNitro;
-			TriNitro__subpattern1.PointOfDefinition = TriNitro;
-			TriNitro__subpattern2.PointOfDefinition = TriNitro;
+			TriNitro__subpattern0.PointOfDefinition = pat_TriNitro;
+			TriNitro__subpattern1.PointOfDefinition = pat_TriNitro;
+			TriNitro__subpattern2.PointOfDefinition = pat_TriNitro;
 
-			patternGraph = TriNitro;
+			patternGraph = pat_TriNitro;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "TriNitro_node_c2", "TriNitro_node_c4", "TriNitro_node_c6", };
@@ -1104,9 +1303,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "BenzolRing";
 			isSubpattern = false;
 
-			PatternGraph BenzolRing;
+			PatternGraph pat_BenzolRing;
 			PatternGraphEmbedding BenzolRing__subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRing.Instance, new PatternElement[] {  });
-			BenzolRing = new PatternGraph(
+			pat_BenzolRing = new PatternGraph(
 				"BenzolRing",
 				"",
 				new PatternNode[] {  }, 
@@ -1122,9 +1321,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {},
 				new bool[] {}
 			);
-			BenzolRing__subpattern0.PointOfDefinition = BenzolRing;
+			BenzolRing__subpattern0.PointOfDefinition = pat_BenzolRing;
 
-			patternGraph = BenzolRing;
+			patternGraph = pat_BenzolRing;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1196,7 +1395,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "DNT";
 			isSubpattern = false;
 
-			PatternGraph DNT;
+			PatternGraph pat_DNT;
 			PatternNode DNT_node_c1 = new PatternNode((int) NodeTypes.@C, "DNT_node_c1", "c1", DNT_node_c1_AllowedTypes, DNT_node_c1_IsAllowedType, 5.5F, -1);
 			PatternNode DNT_node_c2 = new PatternNode((int) NodeTypes.@C, "DNT_node_c2", "c2", DNT_node_c2_AllowedTypes, DNT_node_c2_IsAllowedType, 5.5F, -1);
 			PatternNode DNT_node_c3 = new PatternNode((int) NodeTypes.@C, "DNT_node_c3", "c3", DNT_node_c3_AllowedTypes, DNT_node_c3_IsAllowedType, 5.5F, -1);
@@ -1218,7 +1417,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding DNT__subpattern3 = new PatternGraphEmbedding("_subpattern3", Pattern_Nitro.Instance, new PatternElement[] { DNT_node_c4 });
 			PatternGraphEmbedding DNT__subpattern4 = new PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new PatternElement[] { DNT_node_c5 });
 			PatternGraphEmbedding DNT__subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new PatternElement[] { DNT_node_c6 });
-			DNT = new PatternGraph(
+			pat_DNT = new PatternGraph(
 				"DNT",
 				"",
 				new PatternNode[] { DNT_node_c1, DNT_node_c2, DNT_node_c3, DNT_node_c4, DNT_node_c5, DNT_node_c6 }, 
@@ -1255,29 +1454,29 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, }
 			);
-			DNT_node_c1.PointOfDefinition = DNT;
-			DNT_node_c2.PointOfDefinition = DNT;
-			DNT_node_c3.PointOfDefinition = DNT;
-			DNT_node_c4.PointOfDefinition = DNT;
-			DNT_node_c5.PointOfDefinition = DNT;
-			DNT_node_c6.PointOfDefinition = DNT;
-			DNT_edge__edge0.PointOfDefinition = DNT;
-			DNT_edge__edge1.PointOfDefinition = DNT;
-			DNT_edge__edge2.PointOfDefinition = DNT;
-			DNT_edge__edge3.PointOfDefinition = DNT;
-			DNT_edge__edge4.PointOfDefinition = DNT;
-			DNT_edge__edge5.PointOfDefinition = DNT;
-			DNT_edge__edge6.PointOfDefinition = DNT;
-			DNT_edge__edge7.PointOfDefinition = DNT;
-			DNT_edge__edge8.PointOfDefinition = DNT;
-			DNT__subpattern0.PointOfDefinition = DNT;
-			DNT__subpattern1.PointOfDefinition = DNT;
-			DNT__subpattern2.PointOfDefinition = DNT;
-			DNT__subpattern3.PointOfDefinition = DNT;
-			DNT__subpattern4.PointOfDefinition = DNT;
-			DNT__subpattern5.PointOfDefinition = DNT;
+			DNT_node_c1.PointOfDefinition = pat_DNT;
+			DNT_node_c2.PointOfDefinition = pat_DNT;
+			DNT_node_c3.PointOfDefinition = pat_DNT;
+			DNT_node_c4.PointOfDefinition = pat_DNT;
+			DNT_node_c5.PointOfDefinition = pat_DNT;
+			DNT_node_c6.PointOfDefinition = pat_DNT;
+			DNT_edge__edge0.PointOfDefinition = pat_DNT;
+			DNT_edge__edge1.PointOfDefinition = pat_DNT;
+			DNT_edge__edge2.PointOfDefinition = pat_DNT;
+			DNT_edge__edge3.PointOfDefinition = pat_DNT;
+			DNT_edge__edge4.PointOfDefinition = pat_DNT;
+			DNT_edge__edge5.PointOfDefinition = pat_DNT;
+			DNT_edge__edge6.PointOfDefinition = pat_DNT;
+			DNT_edge__edge7.PointOfDefinition = pat_DNT;
+			DNT_edge__edge8.PointOfDefinition = pat_DNT;
+			DNT__subpattern0.PointOfDefinition = pat_DNT;
+			DNT__subpattern1.PointOfDefinition = pat_DNT;
+			DNT__subpattern2.PointOfDefinition = pat_DNT;
+			DNT__subpattern3.PointOfDefinition = pat_DNT;
+			DNT__subpattern4.PointOfDefinition = pat_DNT;
+			DNT__subpattern5.PointOfDefinition = pat_DNT;
 
-			patternGraph = DNT;
+			patternGraph = pat_DNT;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1401,7 +1600,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "DNTUnfolded";
 			isSubpattern = false;
 
-			PatternGraph DNTUnfolded;
+			PatternGraph pat_DNTUnfolded;
 			PatternNode DNTUnfolded_node_c1 = new PatternNode((int) NodeTypes.@C, "DNTUnfolded_node_c1", "c1", DNTUnfolded_node_c1_AllowedTypes, DNTUnfolded_node_c1_IsAllowedType, 5.5F, -1);
 			PatternNode DNTUnfolded_node_c2 = new PatternNode((int) NodeTypes.@C, "DNTUnfolded_node_c2", "c2", DNTUnfolded_node_c2_AllowedTypes, DNTUnfolded_node_c2_IsAllowedType, 5.5F, -1);
 			PatternNode DNTUnfolded_node_c3 = new PatternNode((int) NodeTypes.@C, "DNTUnfolded_node_c3", "c3", DNTUnfolded_node_c3_AllowedTypes, DNTUnfolded_node_c3_IsAllowedType, 5.5F, -1);
@@ -1443,7 +1642,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge DNTUnfolded_edge__edge19 = new PatternEdge(DNTUnfolded_node_n4, DNTUnfolded_node__node7, (int) EdgeTypes.@Edge, "DNTUnfolded_edge__edge19", "_edge19", DNTUnfolded_edge__edge19_AllowedTypes, DNTUnfolded_edge__edge19_IsAllowedType, 5.5F, -1);
 			PatternEdge DNTUnfolded_edge__edge20 = new PatternEdge(DNTUnfolded_node_c5, DNTUnfolded_node__node8, (int) EdgeTypes.@Edge, "DNTUnfolded_edge__edge20", "_edge20", DNTUnfolded_edge__edge20_AllowedTypes, DNTUnfolded_edge__edge20_IsAllowedType, 5.5F, -1);
 			PatternEdge DNTUnfolded_edge__edge21 = new PatternEdge(DNTUnfolded_node_c6, DNTUnfolded_node__node9, (int) EdgeTypes.@Edge, "DNTUnfolded_edge__edge21", "_edge21", DNTUnfolded_edge__edge21_AllowedTypes, DNTUnfolded_edge__edge21_IsAllowedType, 5.5F, -1);
-			DNTUnfolded = new PatternGraph(
+			pat_DNTUnfolded = new PatternGraph(
 				"DNTUnfolded",
 				"",
 				new PatternNode[] { DNTUnfolded_node_c1, DNTUnfolded_node_c2, DNTUnfolded_node_c3, DNTUnfolded_node_c4, DNTUnfolded_node_c5, DNTUnfolded_node_c6, DNTUnfolded_node_c, DNTUnfolded_node__node0, DNTUnfolded_node__node1, DNTUnfolded_node__node2, DNTUnfolded_node_n2, DNTUnfolded_node__node3, DNTUnfolded_node__node4, DNTUnfolded_node__node5, DNTUnfolded_node_n4, DNTUnfolded_node__node6, DNTUnfolded_node__node7, DNTUnfolded_node__node8, DNTUnfolded_node__node9 }, 
@@ -1506,49 +1705,49 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, }
 			);
-			DNTUnfolded_node_c1.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node_c2.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node_c3.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node_c4.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node_c5.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node_c6.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node_c.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node__node0.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node__node1.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node__node2.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node_n2.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node__node3.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node__node4.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node__node5.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node_n4.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node__node6.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node__node7.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node__node8.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_node__node9.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge0.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge1.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge2.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge3.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge4.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge5.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge6.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge7.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge8.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge9.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge10.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge11.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge12.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge13.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge14.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge15.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge16.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge17.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge18.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge19.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge20.PointOfDefinition = DNTUnfolded;
-			DNTUnfolded_edge__edge21.PointOfDefinition = DNTUnfolded;
+			DNTUnfolded_node_c1.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c2.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c3.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c4.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c5.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c6.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node0.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node1.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node2.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_n2.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node3.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node4.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node5.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_n4.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node6.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node7.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node8.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node9.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge0.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge1.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge2.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge3.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge4.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge5.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge6.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge7.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge8.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge9.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge10.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge11.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge12.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge13.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge14.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge15.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge16.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge17.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge18.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge19.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge20.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge21.PointOfDefinition = pat_DNTUnfolded;
 
-			patternGraph = DNTUnfolded;
+			patternGraph = pat_DNTUnfolded;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1620,7 +1819,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "TNB";
 			isSubpattern = false;
 
-			PatternGraph TNB;
+			PatternGraph pat_TNB;
 			PatternNode TNB_node_c1 = new PatternNode((int) NodeTypes.@C, "TNB_node_c1", "c1", TNB_node_c1_AllowedTypes, TNB_node_c1_IsAllowedType, 5.5F, -1);
 			PatternNode TNB_node_c2 = new PatternNode((int) NodeTypes.@C, "TNB_node_c2", "c2", TNB_node_c2_AllowedTypes, TNB_node_c2_IsAllowedType, 5.5F, -1);
 			PatternNode TNB_node_c3 = new PatternNode((int) NodeTypes.@C, "TNB_node_c3", "c3", TNB_node_c3_AllowedTypes, TNB_node_c3_IsAllowedType, 5.5F, -1);
@@ -1642,7 +1841,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding TNB__subpattern3 = new PatternGraphEmbedding("_subpattern3", Pattern_Nitro.Instance, new PatternElement[] { TNB_node_c4 });
 			PatternGraphEmbedding TNB__subpattern4 = new PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new PatternElement[] { TNB_node_c5 });
 			PatternGraphEmbedding TNB__subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Nitro.Instance, new PatternElement[] { TNB_node_c6 });
-			TNB = new PatternGraph(
+			pat_TNB = new PatternGraph(
 				"TNB",
 				"",
 				new PatternNode[] { TNB_node_c1, TNB_node_c2, TNB_node_c3, TNB_node_c4, TNB_node_c5, TNB_node_c6 }, 
@@ -1679,29 +1878,29 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, }
 			);
-			TNB_node_c1.PointOfDefinition = TNB;
-			TNB_node_c2.PointOfDefinition = TNB;
-			TNB_node_c3.PointOfDefinition = TNB;
-			TNB_node_c4.PointOfDefinition = TNB;
-			TNB_node_c5.PointOfDefinition = TNB;
-			TNB_node_c6.PointOfDefinition = TNB;
-			TNB_edge__edge0.PointOfDefinition = TNB;
-			TNB_edge__edge1.PointOfDefinition = TNB;
-			TNB_edge__edge2.PointOfDefinition = TNB;
-			TNB_edge__edge3.PointOfDefinition = TNB;
-			TNB_edge__edge4.PointOfDefinition = TNB;
-			TNB_edge__edge5.PointOfDefinition = TNB;
-			TNB_edge__edge6.PointOfDefinition = TNB;
-			TNB_edge__edge7.PointOfDefinition = TNB;
-			TNB_edge__edge8.PointOfDefinition = TNB;
-			TNB__subpattern0.PointOfDefinition = TNB;
-			TNB__subpattern1.PointOfDefinition = TNB;
-			TNB__subpattern2.PointOfDefinition = TNB;
-			TNB__subpattern3.PointOfDefinition = TNB;
-			TNB__subpattern4.PointOfDefinition = TNB;
-			TNB__subpattern5.PointOfDefinition = TNB;
+			TNB_node_c1.PointOfDefinition = pat_TNB;
+			TNB_node_c2.PointOfDefinition = pat_TNB;
+			TNB_node_c3.PointOfDefinition = pat_TNB;
+			TNB_node_c4.PointOfDefinition = pat_TNB;
+			TNB_node_c5.PointOfDefinition = pat_TNB;
+			TNB_node_c6.PointOfDefinition = pat_TNB;
+			TNB_edge__edge0.PointOfDefinition = pat_TNB;
+			TNB_edge__edge1.PointOfDefinition = pat_TNB;
+			TNB_edge__edge2.PointOfDefinition = pat_TNB;
+			TNB_edge__edge3.PointOfDefinition = pat_TNB;
+			TNB_edge__edge4.PointOfDefinition = pat_TNB;
+			TNB_edge__edge5.PointOfDefinition = pat_TNB;
+			TNB_edge__edge6.PointOfDefinition = pat_TNB;
+			TNB_edge__edge7.PointOfDefinition = pat_TNB;
+			TNB_edge__edge8.PointOfDefinition = pat_TNB;
+			TNB__subpattern0.PointOfDefinition = pat_TNB;
+			TNB__subpattern1.PointOfDefinition = pat_TNB;
+			TNB__subpattern2.PointOfDefinition = pat_TNB;
+			TNB__subpattern3.PointOfDefinition = pat_TNB;
+			TNB__subpattern4.PointOfDefinition = pat_TNB;
+			TNB__subpattern5.PointOfDefinition = pat_TNB;
 
-			patternGraph = TNB;
+			patternGraph = pat_TNB;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1821,7 +2020,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "TNBUnfolded";
 			isSubpattern = false;
 
-			PatternGraph TNBUnfolded;
+			PatternGraph pat_TNBUnfolded;
 			PatternNode TNBUnfolded_node_c1 = new PatternNode((int) NodeTypes.@C, "TNBUnfolded_node_c1", "c1", TNBUnfolded_node_c1_AllowedTypes, TNBUnfolded_node_c1_IsAllowedType, 5.5F, -1);
 			PatternNode TNBUnfolded_node_c2 = new PatternNode((int) NodeTypes.@C, "TNBUnfolded_node_c2", "c2", TNBUnfolded_node_c2_AllowedTypes, TNBUnfolded_node_c2_IsAllowedType, 5.5F, -1);
 			PatternNode TNBUnfolded_node_c3 = new PatternNode((int) NodeTypes.@C, "TNBUnfolded_node_c3", "c3", TNBUnfolded_node_c3_AllowedTypes, TNBUnfolded_node_c3_IsAllowedType, 5.5F, -1);
@@ -1861,7 +2060,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge TNBUnfolded_edge__edge18 = new PatternEdge(TNBUnfolded_node_c6, TNBUnfolded_node_n6, (int) EdgeTypes.@Edge, "TNBUnfolded_edge__edge18", "_edge18", TNBUnfolded_edge__edge18_AllowedTypes, TNBUnfolded_edge__edge18_IsAllowedType, 5.5F, -1);
 			PatternEdge TNBUnfolded_edge__edge19 = new PatternEdge(TNBUnfolded_node_n6, TNBUnfolded_node__node7, (int) EdgeTypes.@Edge, "TNBUnfolded_edge__edge19", "_edge19", TNBUnfolded_edge__edge19_AllowedTypes, TNBUnfolded_edge__edge19_IsAllowedType, 5.5F, -1);
 			PatternEdge TNBUnfolded_edge__edge20 = new PatternEdge(TNBUnfolded_node_n6, TNBUnfolded_node__node8, (int) EdgeTypes.@Edge, "TNBUnfolded_edge__edge20", "_edge20", TNBUnfolded_edge__edge20_AllowedTypes, TNBUnfolded_edge__edge20_IsAllowedType, 5.5F, -1);
-			TNBUnfolded = new PatternGraph(
+			pat_TNBUnfolded = new PatternGraph(
 				"TNBUnfolded",
 				"",
 				new PatternNode[] { TNBUnfolded_node_c1, TNBUnfolded_node_c2, TNBUnfolded_node_c3, TNBUnfolded_node_c4, TNBUnfolded_node_c5, TNBUnfolded_node_c6, TNBUnfolded_node__node0, TNBUnfolded_node_n2, TNBUnfolded_node__node1, TNBUnfolded_node__node2, TNBUnfolded_node__node3, TNBUnfolded_node_n4, TNBUnfolded_node__node4, TNBUnfolded_node__node5, TNBUnfolded_node__node6, TNBUnfolded_node_n6, TNBUnfolded_node__node7, TNBUnfolded_node__node8 }, 
@@ -1922,47 +2121,47 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, }
 			);
-			TNBUnfolded_node_c1.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node_c2.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node_c3.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node_c4.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node_c5.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node_c6.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node__node0.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node_n2.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node__node1.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node__node2.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node__node3.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node_n4.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node__node4.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node__node5.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node__node6.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node_n6.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node__node7.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_node__node8.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge0.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge1.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge2.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge3.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge4.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge5.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge6.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge7.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge8.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge9.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge10.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge11.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge12.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge13.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge14.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge15.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge16.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge17.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge18.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge19.PointOfDefinition = TNBUnfolded;
-			TNBUnfolded_edge__edge20.PointOfDefinition = TNBUnfolded;
+			TNBUnfolded_node_c1.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_c2.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_c3.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_c4.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_c5.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_c6.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node0.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_n2.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node1.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node2.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node3.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_n4.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node4.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node5.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node6.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_n6.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node7.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node8.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge0.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge1.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge2.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge3.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge4.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge5.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge6.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge7.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge8.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge9.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge10.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge11.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge12.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge13.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge14.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge15.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge16.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge17.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge18.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge19.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge20.PointOfDefinition = pat_TNBUnfolded;
 
-			patternGraph = TNBUnfolded;
+			patternGraph = pat_TNBUnfolded;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2034,7 +2233,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "TNT";
 			isSubpattern = false;
 
-			PatternGraph TNT;
+			PatternGraph pat_TNT;
 			PatternNode TNT_node_c1 = new PatternNode((int) NodeTypes.@C, "TNT_node_c1", "c1", TNT_node_c1_AllowedTypes, TNT_node_c1_IsAllowedType, 5.5F, -1);
 			PatternNode TNT_node_c2 = new PatternNode((int) NodeTypes.@C, "TNT_node_c2", "c2", TNT_node_c2_AllowedTypes, TNT_node_c2_IsAllowedType, 5.5F, -1);
 			PatternNode TNT_node_c3 = new PatternNode((int) NodeTypes.@C, "TNT_node_c3", "c3", TNT_node_c3_AllowedTypes, TNT_node_c3_IsAllowedType, 5.5F, -1);
@@ -2056,7 +2255,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding TNT__subpattern3 = new PatternGraphEmbedding("_subpattern3", Pattern_Nitro.Instance, new PatternElement[] { TNT_node_c4 });
 			PatternGraphEmbedding TNT__subpattern4 = new PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new PatternElement[] { TNT_node_c5 });
 			PatternGraphEmbedding TNT__subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Nitro.Instance, new PatternElement[] { TNT_node_c6 });
-			TNT = new PatternGraph(
+			pat_TNT = new PatternGraph(
 				"TNT",
 				"",
 				new PatternNode[] { TNT_node_c1, TNT_node_c2, TNT_node_c3, TNT_node_c4, TNT_node_c5, TNT_node_c6 }, 
@@ -2093,29 +2292,29 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, }
 			);
-			TNT_node_c1.PointOfDefinition = TNT;
-			TNT_node_c2.PointOfDefinition = TNT;
-			TNT_node_c3.PointOfDefinition = TNT;
-			TNT_node_c4.PointOfDefinition = TNT;
-			TNT_node_c5.PointOfDefinition = TNT;
-			TNT_node_c6.PointOfDefinition = TNT;
-			TNT_edge__edge0.PointOfDefinition = TNT;
-			TNT_edge__edge1.PointOfDefinition = TNT;
-			TNT_edge__edge2.PointOfDefinition = TNT;
-			TNT_edge__edge3.PointOfDefinition = TNT;
-			TNT_edge__edge4.PointOfDefinition = TNT;
-			TNT_edge__edge5.PointOfDefinition = TNT;
-			TNT_edge__edge6.PointOfDefinition = TNT;
-			TNT_edge__edge7.PointOfDefinition = TNT;
-			TNT_edge__edge8.PointOfDefinition = TNT;
-			TNT__subpattern0.PointOfDefinition = TNT;
-			TNT__subpattern1.PointOfDefinition = TNT;
-			TNT__subpattern2.PointOfDefinition = TNT;
-			TNT__subpattern3.PointOfDefinition = TNT;
-			TNT__subpattern4.PointOfDefinition = TNT;
-			TNT__subpattern5.PointOfDefinition = TNT;
+			TNT_node_c1.PointOfDefinition = pat_TNT;
+			TNT_node_c2.PointOfDefinition = pat_TNT;
+			TNT_node_c3.PointOfDefinition = pat_TNT;
+			TNT_node_c4.PointOfDefinition = pat_TNT;
+			TNT_node_c5.PointOfDefinition = pat_TNT;
+			TNT_node_c6.PointOfDefinition = pat_TNT;
+			TNT_edge__edge0.PointOfDefinition = pat_TNT;
+			TNT_edge__edge1.PointOfDefinition = pat_TNT;
+			TNT_edge__edge2.PointOfDefinition = pat_TNT;
+			TNT_edge__edge3.PointOfDefinition = pat_TNT;
+			TNT_edge__edge4.PointOfDefinition = pat_TNT;
+			TNT_edge__edge5.PointOfDefinition = pat_TNT;
+			TNT_edge__edge6.PointOfDefinition = pat_TNT;
+			TNT_edge__edge7.PointOfDefinition = pat_TNT;
+			TNT_edge__edge8.PointOfDefinition = pat_TNT;
+			TNT__subpattern0.PointOfDefinition = pat_TNT;
+			TNT__subpattern1.PointOfDefinition = pat_TNT;
+			TNT__subpattern2.PointOfDefinition = pat_TNT;
+			TNT__subpattern3.PointOfDefinition = pat_TNT;
+			TNT__subpattern4.PointOfDefinition = pat_TNT;
+			TNT__subpattern5.PointOfDefinition = pat_TNT;
 
-			patternGraph = TNT;
+			patternGraph = pat_TNT;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2169,7 +2368,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "TNTChain";
 			isSubpattern = false;
 
-			PatternGraph TNTChain;
+			PatternGraph pat_TNTChain;
 			PatternNode TNTChain_node_c1 = new PatternNode((int) NodeTypes.@C, "TNTChain_node_c1", "c1", TNTChain_node_c1_AllowedTypes, TNTChain_node_c1_IsAllowedType, 5.5F, -1);
 			PatternNode TNTChain_node_c2 = new PatternNode((int) NodeTypes.@C, "TNTChain_node_c2", "c2", TNTChain_node_c2_AllowedTypes, TNTChain_node_c2_IsAllowedType, 5.5F, -1);
 			PatternNode TNTChain_node_c3 = new PatternNode((int) NodeTypes.@C, "TNTChain_node_c3", "c3", TNTChain_node_c3_AllowedTypes, TNTChain_node_c3_IsAllowedType, 5.5F, -1);
@@ -2178,7 +2377,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternNode TNTChain_node_c6 = new PatternNode((int) NodeTypes.@C, "TNTChain_node_c6", "c6", TNTChain_node_c6_AllowedTypes, TNTChain_node_c6_IsAllowedType, 5.5F, -1);
 			PatternGraphEmbedding TNTChain__subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, new PatternElement[] { TNTChain_node_c1, TNTChain_node_c2, TNTChain_node_c3, TNTChain_node_c4, TNTChain_node_c5, TNTChain_node_c6 });
 			PatternGraphEmbedding TNTChain__subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_ToluolCoreThenTriNitro.Instance, new PatternElement[] { TNTChain_node_c1, TNTChain_node_c2, TNTChain_node_c3, TNTChain_node_c4, TNTChain_node_c5, TNTChain_node_c6 });
-			TNTChain = new PatternGraph(
+			pat_TNTChain = new PatternGraph(
 				"TNTChain",
 				"",
 				new PatternNode[] { TNTChain_node_c1, TNTChain_node_c2, TNTChain_node_c3, TNTChain_node_c4, TNTChain_node_c5, TNTChain_node_c6 }, 
@@ -2203,16 +2402,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, true, true, true, true, },
 				new bool[] {}
 			);
-			TNTChain_node_c1.PointOfDefinition = TNTChain;
-			TNTChain_node_c2.PointOfDefinition = TNTChain;
-			TNTChain_node_c3.PointOfDefinition = TNTChain;
-			TNTChain_node_c4.PointOfDefinition = TNTChain;
-			TNTChain_node_c5.PointOfDefinition = TNTChain;
-			TNTChain_node_c6.PointOfDefinition = TNTChain;
-			TNTChain__subpattern0.PointOfDefinition = TNTChain;
-			TNTChain__subpattern1.PointOfDefinition = TNTChain;
+			TNTChain_node_c1.PointOfDefinition = pat_TNTChain;
+			TNTChain_node_c2.PointOfDefinition = pat_TNTChain;
+			TNTChain_node_c3.PointOfDefinition = pat_TNTChain;
+			TNTChain_node_c4.PointOfDefinition = pat_TNTChain;
+			TNTChain_node_c5.PointOfDefinition = pat_TNTChain;
+			TNTChain_node_c6.PointOfDefinition = pat_TNTChain;
+			TNTChain__subpattern0.PointOfDefinition = pat_TNTChain;
+			TNTChain__subpattern1.PointOfDefinition = pat_TNTChain;
 
-			patternGraph = TNTChain;
+			patternGraph = pat_TNTChain;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2266,7 +2465,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "TNTTotallyFolded";
 			isSubpattern = false;
 
-			PatternGraph TNTTotallyFolded;
+			PatternGraph pat_TNTTotallyFolded;
 			PatternNode TNTTotallyFolded_node_c1 = new PatternNode((int) NodeTypes.@C, "TNTTotallyFolded_node_c1", "c1", TNTTotallyFolded_node_c1_AllowedTypes, TNTTotallyFolded_node_c1_IsAllowedType, 5.5F, -1);
 			PatternNode TNTTotallyFolded_node_c2 = new PatternNode((int) NodeTypes.@C, "TNTTotallyFolded_node_c2", "c2", TNTTotallyFolded_node_c2_AllowedTypes, TNTTotallyFolded_node_c2_IsAllowedType, 5.5F, -1);
 			PatternNode TNTTotallyFolded_node_c3 = new PatternNode((int) NodeTypes.@C, "TNTTotallyFolded_node_c3", "c3", TNTTotallyFolded_node_c3_AllowedTypes, TNTTotallyFolded_node_c3_IsAllowedType, 5.5F, -1);
@@ -2280,7 +2479,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding TNTTotallyFolded__subpattern4 = new PatternGraphEmbedding("_subpattern4", Pattern_Nitro.Instance, new PatternElement[] { TNTTotallyFolded_node_c4 });
 			PatternGraphEmbedding TNTTotallyFolded__subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new PatternElement[] { TNTTotallyFolded_node_c5 });
 			PatternGraphEmbedding TNTTotallyFolded__subpattern6 = new PatternGraphEmbedding("_subpattern6", Pattern_Nitro.Instance, new PatternElement[] { TNTTotallyFolded_node_c6 });
-			TNTTotallyFolded = new PatternGraph(
+			pat_TNTTotallyFolded = new PatternGraph(
 				"TNTTotallyFolded",
 				"",
 				new PatternNode[] { TNTTotallyFolded_node_c1, TNTTotallyFolded_node_c2, TNTTotallyFolded_node_c3, TNTTotallyFolded_node_c4, TNTTotallyFolded_node_c5, TNTTotallyFolded_node_c6 }, 
@@ -2305,21 +2504,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, true, true, true, true, },
 				new bool[] {}
 			);
-			TNTTotallyFolded_node_c1.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded_node_c2.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded_node_c3.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded_node_c4.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded_node_c5.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded_node_c6.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded__subpattern0.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded__subpattern1.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded__subpattern2.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded__subpattern3.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded__subpattern4.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded__subpattern5.PointOfDefinition = TNTTotallyFolded;
-			TNTTotallyFolded__subpattern6.PointOfDefinition = TNTTotallyFolded;
+			TNTTotallyFolded_node_c1.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded_node_c2.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded_node_c3.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded_node_c4.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded_node_c5.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded_node_c6.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded__subpattern0.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded__subpattern1.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded__subpattern2.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded__subpattern3.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded__subpattern4.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded__subpattern5.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded__subpattern6.PointOfDefinition = pat_TNTTotallyFolded;
 
-			patternGraph = TNTTotallyFolded;
+			patternGraph = pat_TNTTotallyFolded;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2451,7 +2650,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "TNTUnfolded";
 			isSubpattern = false;
 
-			PatternGraph TNTUnfolded;
+			PatternGraph pat_TNTUnfolded;
 			PatternNode TNTUnfolded_node_c1 = new PatternNode((int) NodeTypes.@C, "TNTUnfolded_node_c1", "c1", TNTUnfolded_node_c1_AllowedTypes, TNTUnfolded_node_c1_IsAllowedType, 5.5F, -1);
 			PatternNode TNTUnfolded_node_c2 = new PatternNode((int) NodeTypes.@C, "TNTUnfolded_node_c2", "c2", TNTUnfolded_node_c2_AllowedTypes, TNTUnfolded_node_c2_IsAllowedType, 5.5F, -1);
 			PatternNode TNTUnfolded_node_c3 = new PatternNode((int) NodeTypes.@C, "TNTUnfolded_node_c3", "c3", TNTUnfolded_node_c3_AllowedTypes, TNTUnfolded_node_c3_IsAllowedType, 5.5F, -1);
@@ -2497,7 +2696,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge TNTUnfolded_edge__edge21 = new PatternEdge(TNTUnfolded_node_c6, TNTUnfolded_node_n6, (int) EdgeTypes.@Edge, "TNTUnfolded_edge__edge21", "_edge21", TNTUnfolded_edge__edge21_AllowedTypes, TNTUnfolded_edge__edge21_IsAllowedType, 5.5F, -1);
 			PatternEdge TNTUnfolded_edge__edge22 = new PatternEdge(TNTUnfolded_node_n6, TNTUnfolded_node__node9, (int) EdgeTypes.@Edge, "TNTUnfolded_edge__edge22", "_edge22", TNTUnfolded_edge__edge22_AllowedTypes, TNTUnfolded_edge__edge22_IsAllowedType, 5.5F, -1);
 			PatternEdge TNTUnfolded_edge__edge23 = new PatternEdge(TNTUnfolded_node_n6, TNTUnfolded_node__node10, (int) EdgeTypes.@Edge, "TNTUnfolded_edge__edge23", "_edge23", TNTUnfolded_edge__edge23_AllowedTypes, TNTUnfolded_edge__edge23_IsAllowedType, 5.5F, -1);
-			TNTUnfolded = new PatternGraph(
+			pat_TNTUnfolded = new PatternGraph(
 				"TNTUnfolded",
 				"",
 				new PatternNode[] { TNTUnfolded_node_c1, TNTUnfolded_node_c2, TNTUnfolded_node_c3, TNTUnfolded_node_c4, TNTUnfolded_node_c5, TNTUnfolded_node_c6, TNTUnfolded_node_c, TNTUnfolded_node__node0, TNTUnfolded_node__node1, TNTUnfolded_node__node2, TNTUnfolded_node_n2, TNTUnfolded_node__node3, TNTUnfolded_node__node4, TNTUnfolded_node__node5, TNTUnfolded_node_n4, TNTUnfolded_node__node6, TNTUnfolded_node__node7, TNTUnfolded_node__node8, TNTUnfolded_node_n6, TNTUnfolded_node__node9, TNTUnfolded_node__node10 }, 
@@ -2564,53 +2763,53 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, }
 			);
-			TNTUnfolded_node_c1.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node_c2.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node_c3.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node_c4.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node_c5.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node_c6.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node_c.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node__node0.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node__node1.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node__node2.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node_n2.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node__node3.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node__node4.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node__node5.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node_n4.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node__node6.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node__node7.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node__node8.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node_n6.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node__node9.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_node__node10.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge0.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge1.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge2.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge3.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge4.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge5.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge6.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge7.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge8.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge9.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge10.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge11.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge12.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge13.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge14.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge15.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge16.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge17.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge18.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge19.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge20.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge21.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge22.PointOfDefinition = TNTUnfolded;
-			TNTUnfolded_edge__edge23.PointOfDefinition = TNTUnfolded;
+			TNTUnfolded_node_c1.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c2.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c3.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c4.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c5.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c6.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node0.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node1.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node2.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_n2.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node3.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node4.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node5.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_n4.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node6.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node7.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node8.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_n6.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node9.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node10.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge0.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge1.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge2.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge3.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge4.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge5.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge6.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge7.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge8.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge9.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge10.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge11.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge12.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge13.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge14.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge15.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge16.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge17.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge18.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge19.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge20.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge21.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge22.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge23.PointOfDefinition = pat_TNTUnfolded;
 
-			patternGraph = TNTUnfolded;
+			patternGraph = pat_TNTUnfolded;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2664,7 +2863,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "Toluol";
 			isSubpattern = false;
 
-			PatternGraph Toluol;
+			PatternGraph pat_Toluol;
 			PatternNode Toluol_node_c1 = new PatternNode((int) NodeTypes.@C, "Toluol_node_c1", "c1", Toluol_node_c1_AllowedTypes, Toluol_node_c1_IsAllowedType, 5.5F, -1);
 			PatternNode Toluol_node_c2 = new PatternNode((int) NodeTypes.@C, "Toluol_node_c2", "c2", Toluol_node_c2_AllowedTypes, Toluol_node_c2_IsAllowedType, 5.5F, -1);
 			PatternNode Toluol_node_c3 = new PatternNode((int) NodeTypes.@C, "Toluol_node_c3", "c3", Toluol_node_c3_AllowedTypes, Toluol_node_c3_IsAllowedType, 5.5F, -1);
@@ -2678,7 +2877,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding Toluol__subpattern4 = new PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new PatternElement[] { Toluol_node_c4 });
 			PatternGraphEmbedding Toluol__subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new PatternElement[] { Toluol_node_c5 });
 			PatternGraphEmbedding Toluol__subpattern6 = new PatternGraphEmbedding("_subpattern6", Pattern_Hydrogen.Instance, new PatternElement[] { Toluol_node_c6 });
-			Toluol = new PatternGraph(
+			pat_Toluol = new PatternGraph(
 				"Toluol",
 				"",
 				new PatternNode[] { Toluol_node_c1, Toluol_node_c2, Toluol_node_c3, Toluol_node_c4, Toluol_node_c5, Toluol_node_c6 }, 
@@ -2703,21 +2902,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, true, true, true, true, },
 				new bool[] {}
 			);
-			Toluol_node_c1.PointOfDefinition = Toluol;
-			Toluol_node_c2.PointOfDefinition = Toluol;
-			Toluol_node_c3.PointOfDefinition = Toluol;
-			Toluol_node_c4.PointOfDefinition = Toluol;
-			Toluol_node_c5.PointOfDefinition = Toluol;
-			Toluol_node_c6.PointOfDefinition = Toluol;
-			Toluol__subpattern0.PointOfDefinition = Toluol;
-			Toluol__subpattern1.PointOfDefinition = Toluol;
-			Toluol__subpattern2.PointOfDefinition = Toluol;
-			Toluol__subpattern3.PointOfDefinition = Toluol;
-			Toluol__subpattern4.PointOfDefinition = Toluol;
-			Toluol__subpattern5.PointOfDefinition = Toluol;
-			Toluol__subpattern6.PointOfDefinition = Toluol;
+			Toluol_node_c1.PointOfDefinition = pat_Toluol;
+			Toluol_node_c2.PointOfDefinition = pat_Toluol;
+			Toluol_node_c3.PointOfDefinition = pat_Toluol;
+			Toluol_node_c4.PointOfDefinition = pat_Toluol;
+			Toluol_node_c5.PointOfDefinition = pat_Toluol;
+			Toluol_node_c6.PointOfDefinition = pat_Toluol;
+			Toluol__subpattern0.PointOfDefinition = pat_Toluol;
+			Toluol__subpattern1.PointOfDefinition = pat_Toluol;
+			Toluol__subpattern2.PointOfDefinition = pat_Toluol;
+			Toluol__subpattern3.PointOfDefinition = pat_Toluol;
+			Toluol__subpattern4.PointOfDefinition = pat_Toluol;
+			Toluol__subpattern5.PointOfDefinition = pat_Toluol;
+			Toluol__subpattern6.PointOfDefinition = pat_Toluol;
 
-			patternGraph = Toluol;
+			patternGraph = pat_Toluol;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2761,11 +2960,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "ToluolCore";
 			isSubpattern = false;
 
-			PatternGraph ToluolCore;
+			PatternGraph pat_ToluolCore;
 			PatternNode ToluolCore_node_c1 = new PatternNode((int) NodeTypes.@C, "ToluolCore_node_c1", "c1", ToluolCore_node_c1_AllowedTypes, ToluolCore_node_c1_IsAllowedType, 5.5F, -1);
 			PatternGraphEmbedding ToluolCore__subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC1Exposed.Instance, new PatternElement[] { ToluolCore_node_c1 });
 			PatternGraphEmbedding ToluolCore__subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new PatternElement[] { ToluolCore_node_c1 });
-			ToluolCore = new PatternGraph(
+			pat_ToluolCore = new PatternGraph(
 				"ToluolCore",
 				"",
 				new PatternNode[] { ToluolCore_node_c1 }, 
@@ -2785,11 +2984,83 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, },
 				new bool[] {}
 			);
-			ToluolCore_node_c1.PointOfDefinition = ToluolCore;
-			ToluolCore__subpattern0.PointOfDefinition = ToluolCore;
-			ToluolCore__subpattern1.PointOfDefinition = ToluolCore;
+			ToluolCore_node_c1.PointOfDefinition = pat_ToluolCore;
+			ToluolCore__subpattern0.PointOfDefinition = pat_ToluolCore;
+			ToluolCore__subpattern1.PointOfDefinition = pat_ToluolCore;
 
-			patternGraph = ToluolCore;
+			patternGraph = pat_ToluolCore;
+
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+	public class Rule_ToluolCoreNotC6Nitro : LGSPRulePattern
+	{
+		private static Rule_ToluolCoreNotC6Nitro instance = null;
+		public static Rule_ToluolCoreNotC6Nitro Instance { get { if (instance==null) instance = new Rule_ToluolCoreNotC6Nitro(); return instance; } }
+
+		public static NodeType[] ToluolCoreNotC6Nitro_node_c1_AllowedTypes = null;
+		public static bool[] ToluolCoreNotC6Nitro_node_c1_IsAllowedType = null;
+		public enum ToluolCoreNotC6Nitro_NodeNums { @c1, };
+		public enum ToluolCoreNotC6Nitro_EdgeNums { };
+		public enum ToluolCoreNotC6Nitro_SubNums { @_subpattern0, @_subpattern1, };
+		public enum ToluolCoreNotC6Nitro_AltNums { };
+
+#if INITIAL_WARMUP
+		public Rule_ToluolCoreNotC6Nitro()
+#else
+		private Rule_ToluolCoreNotC6Nitro()
+#endif
+		{
+			name = "ToluolCoreNotC6Nitro";
+			isSubpattern = false;
+
+			PatternGraph pat_ToluolCoreNotC6Nitro;
+			PatternNode ToluolCoreNotC6Nitro_node_c1 = new PatternNode((int) NodeTypes.@C, "ToluolCoreNotC6Nitro_node_c1", "c1", ToluolCoreNotC6Nitro_node_c1_AllowedTypes, ToluolCoreNotC6Nitro_node_c1_IsAllowedType, 5.5F, -1);
+			PatternGraphEmbedding ToluolCoreNotC6Nitro__subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC1ExposedNotC6Nitro.Instance, new PatternElement[] { ToluolCoreNotC6Nitro_node_c1 });
+			PatternGraphEmbedding ToluolCoreNotC6Nitro__subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new PatternElement[] { ToluolCoreNotC6Nitro_node_c1 });
+			pat_ToluolCoreNotC6Nitro = new PatternGraph(
+				"ToluolCoreNotC6Nitro",
+				"",
+				new PatternNode[] { ToluolCoreNotC6Nitro_node_c1 }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] { ToluolCoreNotC6Nitro__subpattern0, ToluolCoreNotC6Nitro__subpattern1 }, 
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
+				new bool[1, 1] {
+					{ true, },
+				},
+				new bool[0, 0] ,
+				new bool[] {
+					false, },
+				new bool[] {},
+				new bool[] {
+					true, },
+				new bool[] {}
+			);
+			ToluolCoreNotC6Nitro_node_c1.PointOfDefinition = pat_ToluolCoreNotC6Nitro;
+			ToluolCoreNotC6Nitro__subpattern0.PointOfDefinition = pat_ToluolCoreNotC6Nitro;
+			ToluolCoreNotC6Nitro__subpattern1.PointOfDefinition = pat_ToluolCoreNotC6Nitro;
+
+			patternGraph = pat_ToluolCoreNotC6Nitro;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2831,8 +3102,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "createDNT";
 			isSubpattern = false;
 
-			PatternGraph createDNT;
-			createDNT = new PatternGraph(
+			PatternGraph pat_createDNT;
+			pat_createDNT = new PatternGraph(
 				"createDNT",
 				"",
 				new PatternNode[] {  }, 
@@ -2849,7 +3120,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {}
 			);
 
-			patternGraph = createDNT;
+			patternGraph = pat_createDNT;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2974,8 +3245,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "createTNB";
 			isSubpattern = false;
 
-			PatternGraph createTNB;
-			createTNB = new PatternGraph(
+			PatternGraph pat_createTNB;
+			pat_createTNB = new PatternGraph(
 				"createTNB",
 				"",
 				new PatternNode[] {  }, 
@@ -2992,7 +3263,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {}
 			);
 
-			patternGraph = createTNB;
+			patternGraph = pat_createTNB;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -3113,8 +3384,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			name = "createTNT";
 			isSubpattern = false;
 
-			PatternGraph createTNT;
-			createTNT = new PatternGraph(
+			PatternGraph pat_createTNT;
+			pat_createTNT = new PatternGraph(
 				"createTNT",
 				"",
 				new PatternNode[] {  }, 
@@ -3131,7 +3402,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {}
 			);
 
-			patternGraph = createTNT;
+			patternGraph = pat_createTNT;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -3259,6 +3530,7 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // Lookup BenzolRing_edge__edge0 
             int edge_type_id_BenzolRing_edge__edge0 = 1;
             for(LGSPEdge edge_head_BenzolRing_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_BenzolRing_edge__edge0], edge_cur_BenzolRing_edge__edge0 = edge_head_BenzolRing_edge__edge0.typeNext; edge_cur_BenzolRing_edge__edge0 != edge_head_BenzolRing_edge__edge0; edge_cur_BenzolRing_edge__edge0 = edge_cur_BenzolRing_edge__edge0.typeNext)
             {
@@ -3268,6 +3540,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool edge_cur_BenzolRing_edge__edge0_prevIsMatched = edge_cur_BenzolRing_edge__edge0.isMatched;
                 edge_cur_BenzolRing_edge__edge0.isMatched = true;
+                // Implicit source BenzolRing_node_c1 from BenzolRing_edge__edge0 
                 LGSPNode node_cur_BenzolRing_node_c1 = edge_cur_BenzolRing_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_BenzolRing_node_c1.type.TypeID]) {
                     edge_cur_BenzolRing_edge__edge0.isMatched = edge_cur_BenzolRing_edge__edge0_prevIsMatched;
@@ -3280,6 +3553,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_BenzolRing_node_c1_prevIsMatched = node_cur_BenzolRing_node_c1.isMatched;
                 node_cur_BenzolRing_node_c1.isMatched = true;
+                // Implicit target BenzolRing_node_c2 from BenzolRing_edge__edge0 
                 LGSPNode node_cur_BenzolRing_node_c2 = edge_cur_BenzolRing_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_BenzolRing_node_c2.type.TypeID]) {
                     node_cur_BenzolRing_node_c1.isMatched = node_cur_BenzolRing_node_c1_prevIsMatched;
@@ -3302,6 +3576,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_BenzolRing_node_c2_prevIsMatched = node_cur_BenzolRing_node_c2.isMatched;
                 node_cur_BenzolRing_node_c2.isMatched = true;
+                // Extend outgoing BenzolRing_edge__edge6 from BenzolRing_node_c1 
                 LGSPEdge edge_head_BenzolRing_edge__edge6 = node_cur_BenzolRing_node_c1.outhead;
                 if(edge_head_BenzolRing_edge__edge6 != null)
                 {
@@ -3326,6 +3601,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_BenzolRing_edge__edge6_prevIsMatched = edge_cur_BenzolRing_edge__edge6.isMatched;
                         edge_cur_BenzolRing_edge__edge6.isMatched = true;
+                        // Extend outgoing BenzolRing_edge__edge1 from BenzolRing_node_c2 
                         LGSPEdge edge_head_BenzolRing_edge__edge1 = node_cur_BenzolRing_node_c2.outhead;
                         if(edge_head_BenzolRing_edge__edge1 != null)
                         {
@@ -3349,6 +3625,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_BenzolRing_edge__edge1_prevIsMatched = edge_cur_BenzolRing_edge__edge1.isMatched;
                                 edge_cur_BenzolRing_edge__edge1.isMatched = true;
+                                // Implicit target BenzolRing_node_c3 from BenzolRing_edge__edge1 
                                 LGSPNode node_cur_BenzolRing_node_c3 = edge_cur_BenzolRing_edge__edge1.target;
                                 if(!NodeType_C.isMyType[node_cur_BenzolRing_node_c3.type.TypeID]) {
                                     edge_cur_BenzolRing_edge__edge1.isMatched = edge_cur_BenzolRing_edge__edge1_prevIsMatched;
@@ -3370,6 +3647,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_BenzolRing_node_c3_prevIsMatched = node_cur_BenzolRing_node_c3.isMatched;
                                 node_cur_BenzolRing_node_c3.isMatched = true;
+                                // Extend outgoing BenzolRing_edge__edge2 from BenzolRing_node_c3 
                                 LGSPEdge edge_head_BenzolRing_edge__edge2 = node_cur_BenzolRing_node_c3.outhead;
                                 if(edge_head_BenzolRing_edge__edge2 != null)
                                 {
@@ -3394,6 +3672,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_BenzolRing_edge__edge2_prevIsMatched = edge_cur_BenzolRing_edge__edge2.isMatched;
                                         edge_cur_BenzolRing_edge__edge2.isMatched = true;
+                                        // Implicit target BenzolRing_node_c4 from BenzolRing_edge__edge2 
                                         LGSPNode node_cur_BenzolRing_node_c4 = edge_cur_BenzolRing_edge__edge2.target;
                                         if(!NodeType_C.isMyType[node_cur_BenzolRing_node_c4.type.TypeID]) {
                                             edge_cur_BenzolRing_edge__edge2.isMatched = edge_cur_BenzolRing_edge__edge2_prevIsMatched;
@@ -3416,6 +3695,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_BenzolRing_node_c4_prevIsMatched = node_cur_BenzolRing_node_c4.isMatched;
                                         node_cur_BenzolRing_node_c4.isMatched = true;
+                                        // Extend outgoing BenzolRing_edge__edge7 from BenzolRing_node_c3 
                                         LGSPEdge edge_head_BenzolRing_edge__edge7 = node_cur_BenzolRing_node_c3.outhead;
                                         if(edge_head_BenzolRing_edge__edge7 != null)
                                         {
@@ -3444,6 +3724,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_BenzolRing_edge__edge7_prevIsMatched = edge_cur_BenzolRing_edge__edge7.isMatched;
                                                 edge_cur_BenzolRing_edge__edge7.isMatched = true;
+                                                // Extend outgoing BenzolRing_edge__edge3 from BenzolRing_node_c4 
                                                 LGSPEdge edge_head_BenzolRing_edge__edge3 = node_cur_BenzolRing_node_c4.outhead;
                                                 if(edge_head_BenzolRing_edge__edge3 != null)
                                                 {
@@ -3470,6 +3751,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_BenzolRing_edge__edge3_prevIsMatched = edge_cur_BenzolRing_edge__edge3.isMatched;
                                                         edge_cur_BenzolRing_edge__edge3.isMatched = true;
+                                                        // Implicit target BenzolRing_node_c5 from BenzolRing_edge__edge3 
                                                         LGSPNode node_cur_BenzolRing_node_c5 = edge_cur_BenzolRing_edge__edge3.target;
                                                         if(!NodeType_C.isMyType[node_cur_BenzolRing_node_c5.type.TypeID]) {
                                                             edge_cur_BenzolRing_edge__edge3.isMatched = edge_cur_BenzolRing_edge__edge3_prevIsMatched;
@@ -3493,6 +3775,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_BenzolRing_node_c5_prevIsMatched = node_cur_BenzolRing_node_c5.isMatched;
                                                         node_cur_BenzolRing_node_c5.isMatched = true;
+                                                        // Extend outgoing BenzolRing_edge__edge4 from BenzolRing_node_c5 
                                                         LGSPEdge edge_head_BenzolRing_edge__edge4 = node_cur_BenzolRing_node_c5.outhead;
                                                         if(edge_head_BenzolRing_edge__edge4 != null)
                                                         {
@@ -3520,6 +3803,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_BenzolRing_edge__edge4_prevIsMatched = edge_cur_BenzolRing_edge__edge4.isMatched;
                                                                 edge_cur_BenzolRing_edge__edge4.isMatched = true;
+                                                                // Implicit target BenzolRing_node_c6 from BenzolRing_edge__edge4 
                                                                 LGSPNode node_cur_BenzolRing_node_c6 = edge_cur_BenzolRing_edge__edge4.target;
                                                                 if(!NodeType_C.isMyType[node_cur_BenzolRing_node_c6.type.TypeID]) {
                                                                     edge_cur_BenzolRing_edge__edge4.isMatched = edge_cur_BenzolRing_edge__edge4_prevIsMatched;
@@ -3542,6 +3826,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     edge_cur_BenzolRing_edge__edge4.isMatched = edge_cur_BenzolRing_edge__edge4_prevIsMatched;
                                                                     continue;
                                                                 }
+                                                                // Extend outgoing BenzolRing_edge__edge8 from BenzolRing_node_c5 
                                                                 LGSPEdge edge_head_BenzolRing_edge__edge8 = node_cur_BenzolRing_node_c5.outhead;
                                                                 if(edge_head_BenzolRing_edge__edge8 != null)
                                                                 {
@@ -3573,6 +3858,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_BenzolRing_edge__edge8_prevIsMatched = edge_cur_BenzolRing_edge__edge8.isMatched;
                                                                         edge_cur_BenzolRing_edge__edge8.isMatched = true;
+                                                                        // Extend outgoing BenzolRing_edge__edge5 from BenzolRing_node_c6 
                                                                         LGSPEdge edge_head_BenzolRing_edge__edge5 = node_cur_BenzolRing_node_c6.outhead;
                                                                         if(edge_head_BenzolRing_edge__edge5 != null)
                                                                         {
@@ -3603,6 +3889,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 {
                                                                                     continue;
                                                                                 }
+                                                                                // Check whether there are subpattern matching tasks left to execute
                                                                                 if(openTasks.Count==0)
                                                                                 {
                                                                                     Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
@@ -3625,6 +3912,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     match.Edges[(int)Pattern_BenzolRing.BenzolRing_EdgeNums.@_edge7] = edge_cur_BenzolRing_edge__edge7;
                                                                                     match.Edges[(int)Pattern_BenzolRing.BenzolRing_EdgeNums.@_edge8] = edge_cur_BenzolRing_edge__edge8;
                                                                                     currentFoundPartialMatch.Push(match);
+                                                                                    // if enough matches were found, we leave
                                                                                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                     {
                                                                                         edge_cur_BenzolRing_edge__edge8.isMatched = edge_cur_BenzolRing_edge__edge8_prevIsMatched;
@@ -3660,11 +3948,14 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 edge_cur_BenzolRing_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_BenzolRing_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_BenzolRing_edge__edge8.isMatchedByEnclosingPattern = true;
+                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                                                                // Check whether subpatterns were found 
                                                                                 if(matchesList.Count>0) {
+                                                                                    // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
-                                                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
+                                                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0+0]);
                                                                                         match.patternGraph = patternGraph;
                                                                                         match.Nodes[(int)Pattern_BenzolRing.BenzolRing_NodeNums.@c1] = node_cur_BenzolRing_node_c1;
                                                                                         match.Nodes[(int)Pattern_BenzolRing.BenzolRing_NodeNums.@c2] = node_cur_BenzolRing_node_c2;
@@ -3692,6 +3983,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         matchesList.Clear();
                                                                                     }
+                                                                                    // if enough matches were found, we leave
                                                                                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                     {
                                                                                         edge_cur_BenzolRing_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -3819,12 +4111,19 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset BenzolRingC123456Exposed_node_c1 
             LGSPNode node_cur_BenzolRingC123456Exposed_node_c1 = BenzolRingC123456Exposed_node_c1;
+            // SubPreset BenzolRingC123456Exposed_node_c2 
             LGSPNode node_cur_BenzolRingC123456Exposed_node_c2 = BenzolRingC123456Exposed_node_c2;
+            // SubPreset BenzolRingC123456Exposed_node_c3 
             LGSPNode node_cur_BenzolRingC123456Exposed_node_c3 = BenzolRingC123456Exposed_node_c3;
+            // SubPreset BenzolRingC123456Exposed_node_c4 
             LGSPNode node_cur_BenzolRingC123456Exposed_node_c4 = BenzolRingC123456Exposed_node_c4;
+            // SubPreset BenzolRingC123456Exposed_node_c5 
             LGSPNode node_cur_BenzolRingC123456Exposed_node_c5 = BenzolRingC123456Exposed_node_c5;
+            // SubPreset BenzolRingC123456Exposed_node_c6 
             LGSPNode node_cur_BenzolRingC123456Exposed_node_c6 = BenzolRingC123456Exposed_node_c6;
+            // Extend outgoing BenzolRingC123456Exposed_edge__edge0 from BenzolRingC123456Exposed_node_c1 
             LGSPEdge edge_head_BenzolRingC123456Exposed_edge__edge0 = node_cur_BenzolRingC123456Exposed_node_c1.outhead;
             if(edge_head_BenzolRingC123456Exposed_edge__edge0 != null)
             {
@@ -3843,6 +4142,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool edge_cur_BenzolRingC123456Exposed_edge__edge0_prevIsMatched = edge_cur_BenzolRingC123456Exposed_edge__edge0.isMatched;
                     edge_cur_BenzolRingC123456Exposed_edge__edge0.isMatched = true;
+                    // Extend outgoing BenzolRingC123456Exposed_edge__edge6 from BenzolRingC123456Exposed_node_c1 
                     LGSPEdge edge_head_BenzolRingC123456Exposed_edge__edge6 = node_cur_BenzolRingC123456Exposed_node_c1.outhead;
                     if(edge_head_BenzolRingC123456Exposed_edge__edge6 != null)
                     {
@@ -3867,6 +4167,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool edge_cur_BenzolRingC123456Exposed_edge__edge6_prevIsMatched = edge_cur_BenzolRingC123456Exposed_edge__edge6.isMatched;
                             edge_cur_BenzolRingC123456Exposed_edge__edge6.isMatched = true;
+                            // Extend outgoing BenzolRingC123456Exposed_edge__edge1 from BenzolRingC123456Exposed_node_c2 
                             LGSPEdge edge_head_BenzolRingC123456Exposed_edge__edge1 = node_cur_BenzolRingC123456Exposed_node_c2.outhead;
                             if(edge_head_BenzolRingC123456Exposed_edge__edge1 != null)
                             {
@@ -3893,6 +4194,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     bool edge_cur_BenzolRingC123456Exposed_edge__edge1_prevIsMatched = edge_cur_BenzolRingC123456Exposed_edge__edge1.isMatched;
                                     edge_cur_BenzolRingC123456Exposed_edge__edge1.isMatched = true;
+                                    // Extend outgoing BenzolRingC123456Exposed_edge__edge2 from BenzolRingC123456Exposed_node_c3 
                                     LGSPEdge edge_head_BenzolRingC123456Exposed_edge__edge2 = node_cur_BenzolRingC123456Exposed_node_c3.outhead;
                                     if(edge_head_BenzolRingC123456Exposed_edge__edge2 != null)
                                     {
@@ -3920,6 +4222,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             }
                                             bool edge_cur_BenzolRingC123456Exposed_edge__edge2_prevIsMatched = edge_cur_BenzolRingC123456Exposed_edge__edge2.isMatched;
                                             edge_cur_BenzolRingC123456Exposed_edge__edge2.isMatched = true;
+                                            // Extend outgoing BenzolRingC123456Exposed_edge__edge7 from BenzolRingC123456Exposed_node_c3 
                                             LGSPEdge edge_head_BenzolRingC123456Exposed_edge__edge7 = node_cur_BenzolRingC123456Exposed_node_c3.outhead;
                                             if(edge_head_BenzolRingC123456Exposed_edge__edge7 != null)
                                             {
@@ -3948,6 +4251,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                     }
                                                     bool edge_cur_BenzolRingC123456Exposed_edge__edge7_prevIsMatched = edge_cur_BenzolRingC123456Exposed_edge__edge7.isMatched;
                                                     edge_cur_BenzolRingC123456Exposed_edge__edge7.isMatched = true;
+                                                    // Extend outgoing BenzolRingC123456Exposed_edge__edge3 from BenzolRingC123456Exposed_node_c4 
                                                     LGSPEdge edge_head_BenzolRingC123456Exposed_edge__edge3 = node_cur_BenzolRingC123456Exposed_node_c4.outhead;
                                                     if(edge_head_BenzolRingC123456Exposed_edge__edge3 != null)
                                                     {
@@ -3977,6 +4281,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                             }
                                                             bool edge_cur_BenzolRingC123456Exposed_edge__edge3_prevIsMatched = edge_cur_BenzolRingC123456Exposed_edge__edge3.isMatched;
                                                             edge_cur_BenzolRingC123456Exposed_edge__edge3.isMatched = true;
+                                                            // Extend outgoing BenzolRingC123456Exposed_edge__edge4 from BenzolRingC123456Exposed_node_c5 
                                                             LGSPEdge edge_head_BenzolRingC123456Exposed_edge__edge4 = node_cur_BenzolRingC123456Exposed_node_c5.outhead;
                                                             if(edge_head_BenzolRingC123456Exposed_edge__edge4 != null)
                                                             {
@@ -4007,6 +4312,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     }
                                                                     bool edge_cur_BenzolRingC123456Exposed_edge__edge4_prevIsMatched = edge_cur_BenzolRingC123456Exposed_edge__edge4.isMatched;
                                                                     edge_cur_BenzolRingC123456Exposed_edge__edge4.isMatched = true;
+                                                                    // Extend outgoing BenzolRingC123456Exposed_edge__edge8 from BenzolRingC123456Exposed_node_c5 
                                                                     LGSPEdge edge_head_BenzolRingC123456Exposed_edge__edge8 = node_cur_BenzolRingC123456Exposed_node_c5.outhead;
                                                                     if(edge_head_BenzolRingC123456Exposed_edge__edge8 != null)
                                                                     {
@@ -4038,6 +4344,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                             }
                                                                             bool edge_cur_BenzolRingC123456Exposed_edge__edge8_prevIsMatched = edge_cur_BenzolRingC123456Exposed_edge__edge8.isMatched;
                                                                             edge_cur_BenzolRingC123456Exposed_edge__edge8.isMatched = true;
+                                                                            // Extend outgoing BenzolRingC123456Exposed_edge__edge5 from BenzolRingC123456Exposed_node_c6 
                                                                             LGSPEdge edge_head_BenzolRingC123456Exposed_edge__edge5 = node_cur_BenzolRingC123456Exposed_node_c6.outhead;
                                                                             if(edge_head_BenzolRingC123456Exposed_edge__edge5 != null)
                                                                             {
@@ -4068,6 +4375,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     {
                                                                                         continue;
                                                                                     }
+                                                                                    // Check whether there are subpattern matching tasks left to execute
                                                                                     if(openTasks.Count==0)
                                                                                     {
                                                                                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
@@ -4090,6 +4398,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         match.Edges[(int)Pattern_BenzolRingC123456Exposed.BenzolRingC123456Exposed_EdgeNums.@_edge7] = edge_cur_BenzolRingC123456Exposed_edge__edge7;
                                                                                         match.Edges[(int)Pattern_BenzolRingC123456Exposed.BenzolRingC123456Exposed_EdgeNums.@_edge8] = edge_cur_BenzolRingC123456Exposed_edge__edge8;
                                                                                         currentFoundPartialMatch.Push(match);
+                                                                                        // if enough matches were found, we leave
                                                                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                         {
                                                                                             edge_cur_BenzolRingC123456Exposed_edge__edge8.isMatched = edge_cur_BenzolRingC123456Exposed_edge__edge8_prevIsMatched;
@@ -4120,11 +4429,14 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     edge_cur_BenzolRingC123456Exposed_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                     edge_cur_BenzolRingC123456Exposed_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                     edge_cur_BenzolRingC123456Exposed_edge__edge8.isMatchedByEnclosingPattern = true;
+                                                                                    // Match subpatterns
                                                                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                                                                    // Check whether subpatterns were found 
                                                                                     if(matchesList.Count>0) {
+                                                                                        // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                         {
-                                                                                            LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
+                                                                                            LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0+0]);
                                                                                             match.patternGraph = patternGraph;
                                                                                             match.Nodes[(int)Pattern_BenzolRingC123456Exposed.BenzolRingC123456Exposed_NodeNums.@c1] = node_cur_BenzolRingC123456Exposed_node_c1;
                                                                                             match.Nodes[(int)Pattern_BenzolRingC123456Exposed.BenzolRingC123456Exposed_NodeNums.@c2] = node_cur_BenzolRingC123456Exposed_node_c2;
@@ -4152,6 +4464,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                             }
                                                                                             matchesList.Clear();
                                                                                         }
+                                                                                        // if enough matches were found, we leave
                                                                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                         {
                                                                                             edge_cur_BenzolRingC123456Exposed_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -4266,7 +4579,9 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset BenzolRingC1Exposed_node_c1 
             LGSPNode node_cur_BenzolRingC1Exposed_node_c1 = BenzolRingC1Exposed_node_c1;
+            // Extend outgoing BenzolRingC1Exposed_edge__edge0 from BenzolRingC1Exposed_node_c1 
             LGSPEdge edge_head_BenzolRingC1Exposed_edge__edge0 = node_cur_BenzolRingC1Exposed_node_c1.outhead;
             if(edge_head_BenzolRingC1Exposed_edge__edge0 != null)
             {
@@ -4282,6 +4597,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool edge_cur_BenzolRingC1Exposed_edge__edge0_prevIsMatched = edge_cur_BenzolRingC1Exposed_edge__edge0.isMatched;
                     edge_cur_BenzolRingC1Exposed_edge__edge0.isMatched = true;
+                    // Implicit target BenzolRingC1Exposed_node_c2 from BenzolRingC1Exposed_edge__edge0 
                     LGSPNode node_cur_BenzolRingC1Exposed_node_c2 = edge_cur_BenzolRingC1Exposed_edge__edge0.target;
                     if(!NodeType_C.isMyType[node_cur_BenzolRingC1Exposed_node_c2.type.TypeID]) {
                         edge_cur_BenzolRingC1Exposed_edge__edge0.isMatched = edge_cur_BenzolRingC1Exposed_edge__edge0_prevIsMatched;
@@ -4301,6 +4617,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool node_cur_BenzolRingC1Exposed_node_c2_prevIsMatched = node_cur_BenzolRingC1Exposed_node_c2.isMatched;
                     node_cur_BenzolRingC1Exposed_node_c2.isMatched = true;
+                    // Extend outgoing BenzolRingC1Exposed_edge__edge6 from BenzolRingC1Exposed_node_c1 
                     LGSPEdge edge_head_BenzolRingC1Exposed_edge__edge6 = node_cur_BenzolRingC1Exposed_node_c1.outhead;
                     if(edge_head_BenzolRingC1Exposed_edge__edge6 != null)
                     {
@@ -4325,6 +4642,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool edge_cur_BenzolRingC1Exposed_edge__edge6_prevIsMatched = edge_cur_BenzolRingC1Exposed_edge__edge6.isMatched;
                             edge_cur_BenzolRingC1Exposed_edge__edge6.isMatched = true;
+                            // Extend outgoing BenzolRingC1Exposed_edge__edge1 from BenzolRingC1Exposed_node_c2 
                             LGSPEdge edge_head_BenzolRingC1Exposed_edge__edge1 = node_cur_BenzolRingC1Exposed_node_c2.outhead;
                             if(edge_head_BenzolRingC1Exposed_edge__edge1 != null)
                             {
@@ -4348,6 +4666,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     bool edge_cur_BenzolRingC1Exposed_edge__edge1_prevIsMatched = edge_cur_BenzolRingC1Exposed_edge__edge1.isMatched;
                                     edge_cur_BenzolRingC1Exposed_edge__edge1.isMatched = true;
+                                    // Implicit target BenzolRingC1Exposed_node_c3 from BenzolRingC1Exposed_edge__edge1 
                                     LGSPNode node_cur_BenzolRingC1Exposed_node_c3 = edge_cur_BenzolRingC1Exposed_edge__edge1.target;
                                     if(!NodeType_C.isMyType[node_cur_BenzolRingC1Exposed_node_c3.type.TypeID]) {
                                         edge_cur_BenzolRingC1Exposed_edge__edge1.isMatched = edge_cur_BenzolRingC1Exposed_edge__edge1_prevIsMatched;
@@ -4369,6 +4688,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     bool node_cur_BenzolRingC1Exposed_node_c3_prevIsMatched = node_cur_BenzolRingC1Exposed_node_c3.isMatched;
                                     node_cur_BenzolRingC1Exposed_node_c3.isMatched = true;
+                                    // Extend outgoing BenzolRingC1Exposed_edge__edge2 from BenzolRingC1Exposed_node_c3 
                                     LGSPEdge edge_head_BenzolRingC1Exposed_edge__edge2 = node_cur_BenzolRingC1Exposed_node_c3.outhead;
                                     if(edge_head_BenzolRingC1Exposed_edge__edge2 != null)
                                     {
@@ -4393,6 +4713,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             }
                                             bool edge_cur_BenzolRingC1Exposed_edge__edge2_prevIsMatched = edge_cur_BenzolRingC1Exposed_edge__edge2.isMatched;
                                             edge_cur_BenzolRingC1Exposed_edge__edge2.isMatched = true;
+                                            // Implicit target BenzolRingC1Exposed_node_c4 from BenzolRingC1Exposed_edge__edge2 
                                             LGSPNode node_cur_BenzolRingC1Exposed_node_c4 = edge_cur_BenzolRingC1Exposed_edge__edge2.target;
                                             if(!NodeType_C.isMyType[node_cur_BenzolRingC1Exposed_node_c4.type.TypeID]) {
                                                 edge_cur_BenzolRingC1Exposed_edge__edge2.isMatched = edge_cur_BenzolRingC1Exposed_edge__edge2_prevIsMatched;
@@ -4415,6 +4736,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             }
                                             bool node_cur_BenzolRingC1Exposed_node_c4_prevIsMatched = node_cur_BenzolRingC1Exposed_node_c4.isMatched;
                                             node_cur_BenzolRingC1Exposed_node_c4.isMatched = true;
+                                            // Extend outgoing BenzolRingC1Exposed_edge__edge7 from BenzolRingC1Exposed_node_c3 
                                             LGSPEdge edge_head_BenzolRingC1Exposed_edge__edge7 = node_cur_BenzolRingC1Exposed_node_c3.outhead;
                                             if(edge_head_BenzolRingC1Exposed_edge__edge7 != null)
                                             {
@@ -4443,6 +4765,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                     }
                                                     bool edge_cur_BenzolRingC1Exposed_edge__edge7_prevIsMatched = edge_cur_BenzolRingC1Exposed_edge__edge7.isMatched;
                                                     edge_cur_BenzolRingC1Exposed_edge__edge7.isMatched = true;
+                                                    // Extend outgoing BenzolRingC1Exposed_edge__edge3 from BenzolRingC1Exposed_node_c4 
                                                     LGSPEdge edge_head_BenzolRingC1Exposed_edge__edge3 = node_cur_BenzolRingC1Exposed_node_c4.outhead;
                                                     if(edge_head_BenzolRingC1Exposed_edge__edge3 != null)
                                                     {
@@ -4469,6 +4792,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                             }
                                                             bool edge_cur_BenzolRingC1Exposed_edge__edge3_prevIsMatched = edge_cur_BenzolRingC1Exposed_edge__edge3.isMatched;
                                                             edge_cur_BenzolRingC1Exposed_edge__edge3.isMatched = true;
+                                                            // Implicit target BenzolRingC1Exposed_node_c5 from BenzolRingC1Exposed_edge__edge3 
                                                             LGSPNode node_cur_BenzolRingC1Exposed_node_c5 = edge_cur_BenzolRingC1Exposed_edge__edge3.target;
                                                             if(!NodeType_C.isMyType[node_cur_BenzolRingC1Exposed_node_c5.type.TypeID]) {
                                                                 edge_cur_BenzolRingC1Exposed_edge__edge3.isMatched = edge_cur_BenzolRingC1Exposed_edge__edge3_prevIsMatched;
@@ -4492,6 +4816,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                             }
                                                             bool node_cur_BenzolRingC1Exposed_node_c5_prevIsMatched = node_cur_BenzolRingC1Exposed_node_c5.isMatched;
                                                             node_cur_BenzolRingC1Exposed_node_c5.isMatched = true;
+                                                            // Extend outgoing BenzolRingC1Exposed_edge__edge4 from BenzolRingC1Exposed_node_c5 
                                                             LGSPEdge edge_head_BenzolRingC1Exposed_edge__edge4 = node_cur_BenzolRingC1Exposed_node_c5.outhead;
                                                             if(edge_head_BenzolRingC1Exposed_edge__edge4 != null)
                                                             {
@@ -4519,6 +4844,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     }
                                                                     bool edge_cur_BenzolRingC1Exposed_edge__edge4_prevIsMatched = edge_cur_BenzolRingC1Exposed_edge__edge4.isMatched;
                                                                     edge_cur_BenzolRingC1Exposed_edge__edge4.isMatched = true;
+                                                                    // Implicit target BenzolRingC1Exposed_node_c6 from BenzolRingC1Exposed_edge__edge4 
                                                                     LGSPNode node_cur_BenzolRingC1Exposed_node_c6 = edge_cur_BenzolRingC1Exposed_edge__edge4.target;
                                                                     if(!NodeType_C.isMyType[node_cur_BenzolRingC1Exposed_node_c6.type.TypeID]) {
                                                                         edge_cur_BenzolRingC1Exposed_edge__edge4.isMatched = edge_cur_BenzolRingC1Exposed_edge__edge4_prevIsMatched;
@@ -4541,6 +4867,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         edge_cur_BenzolRingC1Exposed_edge__edge4.isMatched = edge_cur_BenzolRingC1Exposed_edge__edge4_prevIsMatched;
                                                                         continue;
                                                                     }
+                                                                    // Extend outgoing BenzolRingC1Exposed_edge__edge8 from BenzolRingC1Exposed_node_c5 
                                                                     LGSPEdge edge_head_BenzolRingC1Exposed_edge__edge8 = node_cur_BenzolRingC1Exposed_node_c5.outhead;
                                                                     if(edge_head_BenzolRingC1Exposed_edge__edge8 != null)
                                                                     {
@@ -4572,6 +4899,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                             }
                                                                             bool edge_cur_BenzolRingC1Exposed_edge__edge8_prevIsMatched = edge_cur_BenzolRingC1Exposed_edge__edge8.isMatched;
                                                                             edge_cur_BenzolRingC1Exposed_edge__edge8.isMatched = true;
+                                                                            // Extend outgoing BenzolRingC1Exposed_edge__edge5 from BenzolRingC1Exposed_node_c6 
                                                                             LGSPEdge edge_head_BenzolRingC1Exposed_edge__edge5 = node_cur_BenzolRingC1Exposed_node_c6.outhead;
                                                                             if(edge_head_BenzolRingC1Exposed_edge__edge5 != null)
                                                                             {
@@ -4602,6 +4930,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     {
                                                                                         continue;
                                                                                     }
+                                                                                    // Check whether there are subpattern matching tasks left to execute
                                                                                     if(openTasks.Count==0)
                                                                                     {
                                                                                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
@@ -4624,6 +4953,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         match.Edges[(int)Pattern_BenzolRingC1Exposed.BenzolRingC1Exposed_EdgeNums.@_edge7] = edge_cur_BenzolRingC1Exposed_edge__edge7;
                                                                                         match.Edges[(int)Pattern_BenzolRingC1Exposed.BenzolRingC1Exposed_EdgeNums.@_edge8] = edge_cur_BenzolRingC1Exposed_edge__edge8;
                                                                                         currentFoundPartialMatch.Push(match);
+                                                                                        // if enough matches were found, we leave
                                                                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                         {
                                                                                             edge_cur_BenzolRingC1Exposed_edge__edge8.isMatched = edge_cur_BenzolRingC1Exposed_edge__edge8_prevIsMatched;
@@ -4658,11 +4988,14 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     edge_cur_BenzolRingC1Exposed_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                     edge_cur_BenzolRingC1Exposed_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                     edge_cur_BenzolRingC1Exposed_edge__edge8.isMatchedByEnclosingPattern = true;
+                                                                                    // Match subpatterns
                                                                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                                                                    // Check whether subpatterns were found 
                                                                                     if(matchesList.Count>0) {
+                                                                                        // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                         {
-                                                                                            LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
+                                                                                            LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0+0]);
                                                                                             match.patternGraph = patternGraph;
                                                                                             match.Nodes[(int)Pattern_BenzolRingC1Exposed.BenzolRingC1Exposed_NodeNums.@c1] = node_cur_BenzolRingC1Exposed_node_c1;
                                                                                             match.Nodes[(int)Pattern_BenzolRingC1Exposed.BenzolRingC1Exposed_NodeNums.@c2] = node_cur_BenzolRingC1Exposed_node_c2;
@@ -4690,6 +5023,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                             }
                                                                                             matchesList.Clear();
                                                                                         }
+                                                                                        // if enough matches were found, we leave
                                                                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                         {
                                                                                             edge_cur_BenzolRingC1Exposed_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -4798,6 +5132,696 @@ namespace de.unika.ipd.grGen.Action_TNT
         }
     }
 
+    public class PatternAction_BenzolRingC1ExposedNotC6Nitro : LGSPSubpatternAction
+    {
+        public PatternAction_BenzolRingC1ExposedNotC6Nitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            graph = graph_; openTasks = openTasks_;
+            patternGraph = Pattern_BenzolRingC1ExposedNotC6Nitro.Instance.patternGraph;
+        }
+
+        public LGSPNode BenzolRingC1ExposedNotC6Nitro_node_c1;
+        
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        {
+            openTasks.Pop();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset BenzolRingC1ExposedNotC6Nitro_node_c1 
+            LGSPNode node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1 = BenzolRingC1ExposedNotC6Nitro_node_c1;
+            // Extend outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge0 from BenzolRingC1ExposedNotC6Nitro_node_c1 
+            LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge0 = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1.outhead;
+            if(edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge0 != null)
+            {
+                LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0 = edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge0;
+                do
+                {
+                    if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.type.TypeID]) {
+                        continue;
+                    }
+                    if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatchedByEnclosingPattern)
+                    {
+                        continue;
+                    }
+                    bool edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0_prevIsMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatched;
+                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatched = true;
+                    // Implicit target BenzolRingC1ExposedNotC6Nitro_node_c2 from BenzolRingC1ExposedNotC6Nitro_edge__edge0 
+                    LGSPNode node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.target;
+                    if(!NodeType_C.isMyType[node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.type.TypeID]) {
+                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0_prevIsMatched;
+                        continue;
+                    }
+                    if(node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.isMatched
+                        && node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1
+                        )
+                    {
+                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0_prevIsMatched;
+                        continue;
+                    }
+                    if(node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.isMatchedByEnclosingPattern)
+                    {
+                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0_prevIsMatched;
+                        continue;
+                    }
+                    bool node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2_prevIsMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.isMatched;
+                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.isMatched = true;
+                    // Extend outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge6 from BenzolRingC1ExposedNotC6Nitro_node_c1 
+                    LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge6 = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1.outhead;
+                    if(edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge6 != null)
+                    {
+                        LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6 = edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge6;
+                        do
+                        {
+                            if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.type.TypeID]) {
+                                continue;
+                            }
+                            if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.target != node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2) {
+                                continue;
+                            }
+                            if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.isMatched
+                                && edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0
+                                )
+                            {
+                                continue;
+                            }
+                            if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.isMatchedByEnclosingPattern)
+                            {
+                                continue;
+                            }
+                            bool edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6_prevIsMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.isMatched;
+                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.isMatched = true;
+                            // Extend outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge1 from BenzolRingC1ExposedNotC6Nitro_node_c2 
+                            LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge1 = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.outhead;
+                            if(edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge1 != null)
+                            {
+                                LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1 = edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge1;
+                                do
+                                {
+                                    if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.type.TypeID]) {
+                                        continue;
+                                    }
+                                    if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatched
+                                        && (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0
+                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6
+                                            )
+                                        )
+                                    {
+                                        continue;
+                                    }
+                                    if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatchedByEnclosingPattern)
+                                    {
+                                        continue;
+                                    }
+                                    bool edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1_prevIsMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatched;
+                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatched = true;
+                                    // Implicit target BenzolRingC1ExposedNotC6Nitro_node_c3 from BenzolRingC1ExposedNotC6Nitro_edge__edge1 
+                                    LGSPNode node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.target;
+                                    if(!NodeType_C.isMyType[node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.type.TypeID]) {
+                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1_prevIsMatched;
+                                        continue;
+                                    }
+                                    if(node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.isMatched
+                                        && (node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1
+                                            || node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2
+                                            )
+                                        )
+                                    {
+                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1_prevIsMatched;
+                                        continue;
+                                    }
+                                    if(node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.isMatchedByEnclosingPattern)
+                                    {
+                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1_prevIsMatched;
+                                        continue;
+                                    }
+                                    bool node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3_prevIsMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.isMatched;
+                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.isMatched = true;
+                                    // Extend outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge2 from BenzolRingC1ExposedNotC6Nitro_node_c3 
+                                    LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge2 = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.outhead;
+                                    if(edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge2 != null)
+                                    {
+                                        LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2 = edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge2;
+                                        do
+                                        {
+                                            if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.type.TypeID]) {
+                                                continue;
+                                            }
+                                            if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatched
+                                                && (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0
+                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6
+                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1
+                                                    )
+                                                )
+                                            {
+                                                continue;
+                                            }
+                                            if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatchedByEnclosingPattern)
+                                            {
+                                                continue;
+                                            }
+                                            bool edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2_prevIsMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatched;
+                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatched = true;
+                                            // Implicit target BenzolRingC1ExposedNotC6Nitro_node_c4 from BenzolRingC1ExposedNotC6Nitro_edge__edge2 
+                                            LGSPNode node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.target;
+                                            if(!NodeType_C.isMyType[node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.type.TypeID]) {
+                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2_prevIsMatched;
+                                                continue;
+                                            }
+                                            if(node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.isMatched
+                                                && (node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1
+                                                    || node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2
+                                                    || node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3
+                                                    )
+                                                )
+                                            {
+                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2_prevIsMatched;
+                                                continue;
+                                            }
+                                            if(node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.isMatchedByEnclosingPattern)
+                                            {
+                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2_prevIsMatched;
+                                                continue;
+                                            }
+                                            bool node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4_prevIsMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.isMatched;
+                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.isMatched = true;
+                                            // Extend outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge7 from BenzolRingC1ExposedNotC6Nitro_node_c3 
+                                            LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge7 = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.outhead;
+                                            if(edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge7 != null)
+                                            {
+                                                LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7 = edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge7;
+                                                do
+                                                {
+                                                    if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.type.TypeID]) {
+                                                        continue;
+                                                    }
+                                                    if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.target != node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4) {
+                                                        continue;
+                                                    }
+                                                    if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.isMatched
+                                                        && (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0
+                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6
+                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1
+                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2
+                                                            )
+                                                        )
+                                                    {
+                                                        continue;
+                                                    }
+                                                    if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.isMatchedByEnclosingPattern)
+                                                    {
+                                                        continue;
+                                                    }
+                                                    bool edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7_prevIsMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.isMatched;
+                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.isMatched = true;
+                                                    // Extend outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge3 from BenzolRingC1ExposedNotC6Nitro_node_c4 
+                                                    LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge3 = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.outhead;
+                                                    if(edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge3 != null)
+                                                    {
+                                                        LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3 = edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge3;
+                                                        do
+                                                        {
+                                                            if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.type.TypeID]) {
+                                                                continue;
+                                                            }
+                                                            if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatched
+                                                                && (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0
+                                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6
+                                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1
+                                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2
+                                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7
+                                                                    )
+                                                                )
+                                                            {
+                                                                continue;
+                                                            }
+                                                            if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatchedByEnclosingPattern)
+                                                            {
+                                                                continue;
+                                                            }
+                                                            bool edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3_prevIsMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatched;
+                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatched = true;
+                                                            // Implicit target BenzolRingC1ExposedNotC6Nitro_node_c5 from BenzolRingC1ExposedNotC6Nitro_edge__edge3 
+                                                            LGSPNode node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.target;
+                                                            if(!NodeType_C.isMyType[node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.type.TypeID]) {
+                                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3_prevIsMatched;
+                                                                continue;
+                                                            }
+                                                            if(node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.isMatched
+                                                                && (node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1
+                                                                    || node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2
+                                                                    || node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3
+                                                                    || node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4
+                                                                    )
+                                                                )
+                                                            {
+                                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3_prevIsMatched;
+                                                                continue;
+                                                            }
+                                                            if(node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.isMatchedByEnclosingPattern)
+                                                            {
+                                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3_prevIsMatched;
+                                                                continue;
+                                                            }
+                                                            bool node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5_prevIsMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.isMatched;
+                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.isMatched = true;
+                                                            // Extend outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge4 from BenzolRingC1ExposedNotC6Nitro_node_c5 
+                                                            LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge4 = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.outhead;
+                                                            if(edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge4 != null)
+                                                            {
+                                                                LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4 = edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge4;
+                                                                do
+                                                                {
+                                                                    if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.type.TypeID]) {
+                                                                        continue;
+                                                                    }
+                                                                    if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatched
+                                                                        && (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0
+                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6
+                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1
+                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2
+                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7
+                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3
+                                                                            )
+                                                                        )
+                                                                    {
+                                                                        continue;
+                                                                    }
+                                                                    if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatchedByEnclosingPattern)
+                                                                    {
+                                                                        continue;
+                                                                    }
+                                                                    bool edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4_prevIsMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatched;
+                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatched = true;
+                                                                    // Implicit target BenzolRingC1ExposedNotC6Nitro_node_c6 from BenzolRingC1ExposedNotC6Nitro_edge__edge4 
+                                                                    LGSPNode node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.target;
+                                                                    if(!NodeType_C.isMyType[node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6.type.TypeID]) {
+                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4_prevIsMatched;
+                                                                        continue;
+                                                                    }
+                                                                    if(node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6.isMatched
+                                                                        && (node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1
+                                                                            || node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2
+                                                                            || node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3
+                                                                            || node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4
+                                                                            || node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6==node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5
+                                                                            )
+                                                                        )
+                                                                    {
+                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4_prevIsMatched;
+                                                                        continue;
+                                                                    }
+                                                                    if(node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6.isMatchedByEnclosingPattern)
+                                                                    {
+                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4_prevIsMatched;
+                                                                        continue;
+                                                                    }
+                                                                    // Extend outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge8 from BenzolRingC1ExposedNotC6Nitro_node_c5 
+                                                                    LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge8 = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.outhead;
+                                                                    if(edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge8 != null)
+                                                                    {
+                                                                        LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8 = edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge8;
+                                                                        do
+                                                                        {
+                                                                            if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.type.TypeID]) {
+                                                                                continue;
+                                                                            }
+                                                                            if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.target != node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6) {
+                                                                                continue;
+                                                                            }
+                                                                            if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatched
+                                                                                && (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0
+                                                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6
+                                                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1
+                                                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2
+                                                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7
+                                                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3
+                                                                                    || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4
+                                                                                    )
+                                                                                )
+                                                                            {
+                                                                                continue;
+                                                                            }
+                                                                            if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatchedByEnclosingPattern)
+                                                                            {
+                                                                                continue;
+                                                                            }
+                                                                            bool edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8_prevIsMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatched;
+                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatched = true;
+                                                                            // Extend outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge5 from BenzolRingC1ExposedNotC6Nitro_node_c6 
+                                                                            LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge5 = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6.outhead;
+                                                                            if(edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge5 != null)
+                                                                            {
+                                                                                LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5 = edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge5;
+                                                                                do
+                                                                                {
+                                                                                    if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5.type.TypeID]) {
+                                                                                        continue;
+                                                                                    }
+                                                                                    if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5.target != node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1) {
+                                                                                        continue;
+                                                                                    }
+                                                                                    if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5.isMatched
+                                                                                        && (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0
+                                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6
+                                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1
+                                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2
+                                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7
+                                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3
+                                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4
+                                                                                            || edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5==edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8
+                                                                                            )
+                                                                                        )
+                                                                                    {
+                                                                                        continue;
+                                                                                    }
+                                                                                    if(edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5.isMatchedByEnclosingPattern)
+                                                                                    {
+                                                                                        continue;
+                                                                                    }
+                                                                                    // NegativePattern 
+                                                                                    {
+                                                                                        // Extend outgoing BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 from BenzolRingC1ExposedNotC6Nitro_node_c6 
+                                                                                        LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6.outhead;
+                                                                                        if(edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 != null)
+                                                                                        {
+                                                                                            LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
+                                                                                            do
+                                                                                            {
+                                                                                                if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.type.TypeID]) {
+                                                                                                    continue;
+                                                                                                }
+                                                                                                if(edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.isMatchedByEnclosingPattern)
+                                                                                                {
+                                                                                                    continue;
+                                                                                                }
+                                                                                                bool edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_prevIsMatchedNeg = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.isMatchedNeg;
+                                                                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.isMatchedNeg = true;
+                                                                                                // Implicit target BenzolRingC1ExposedNotC6Nitro_neg_0_node_n from BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 
+                                                                                                LGSPNode node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.target;
+                                                                                                if(!NodeType_N.isMyType[node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.type.TypeID]) {
+                                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.isMatchedNeg = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_prevIsMatchedNeg;
+                                                                                                    continue;
+                                                                                                }
+                                                                                                if(node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.isMatchedByEnclosingPattern)
+                                                                                                {
+                                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.isMatchedNeg = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_prevIsMatchedNeg;
+                                                                                                    continue;
+                                                                                                }
+                                                                                                // Extend outgoing BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 from BenzolRingC1ExposedNotC6Nitro_neg_0_node_n 
+                                                                                                LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.outhead;
+                                                                                                if(edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 != null)
+                                                                                                {
+                                                                                                    LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
+                                                                                                    do
+                                                                                                    {
+                                                                                                        if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.type.TypeID]) {
+                                                                                                            continue;
+                                                                                                        }
+                                                                                                        if(edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.isMatchedNeg
+                                                                                                            && edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1==edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0
+                                                                                                            )
+                                                                                                        {
+                                                                                                            continue;
+                                                                                                        }
+                                                                                                        if(edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.isMatchedByEnclosingPattern)
+                                                                                                        {
+                                                                                                            continue;
+                                                                                                        }
+                                                                                                        bool edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_prevIsMatchedNeg = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.isMatchedNeg;
+                                                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.isMatchedNeg = true;
+                                                                                                        // Implicit target BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 from BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 
+                                                                                                        LGSPNode node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.target;
+                                                                                                        if(!NodeType_O.isMyType[node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.type.TypeID]) {
+                                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.isMatchedNeg = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_prevIsMatchedNeg;
+                                                                                                            continue;
+                                                                                                        }
+                                                                                                        if(node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.isMatchedByEnclosingPattern)
+                                                                                                        {
+                                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.isMatchedNeg = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_prevIsMatchedNeg;
+                                                                                                            continue;
+                                                                                                        }
+                                                                                                        bool node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_prevIsMatchedNeg = node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.isMatchedNeg;
+                                                                                                        node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.isMatchedNeg = true;
+                                                                                                        // Extend outgoing BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 from BenzolRingC1ExposedNotC6Nitro_neg_0_node_n 
+                                                                                                        LGSPEdge edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 = node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.outhead;
+                                                                                                        if(edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 != null)
+                                                                                                        {
+                                                                                                            LGSPEdge edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 = edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2;
+                                                                                                            do
+                                                                                                            {
+                                                                                                                if(!EdgeType_Edge.isMyType[edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2.type.TypeID]) {
+                                                                                                                    continue;
+                                                                                                                }
+                                                                                                                if(edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2.isMatchedNeg
+                                                                                                                    && (edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2==edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0
+                                                                                                                        || edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2==edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1
+                                                                                                                        )
+                                                                                                                    )
+                                                                                                                {
+                                                                                                                    continue;
+                                                                                                                }
+                                                                                                                if(edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2.isMatchedByEnclosingPattern)
+                                                                                                                {
+                                                                                                                    continue;
+                                                                                                                }
+                                                                                                                // Implicit target BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 from BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 
+                                                                                                                LGSPNode node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2.target;
+                                                                                                                if(!NodeType_O.isMyType[node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1.type.TypeID]) {
+                                                                                                                    continue;
+                                                                                                                }
+                                                                                                                if(node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1.isMatchedNeg
+                                                                                                                    && node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1==node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0
+                                                                                                                    )
+                                                                                                                {
+                                                                                                                    continue;
+                                                                                                                }
+                                                                                                                if(node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1.isMatchedByEnclosingPattern)
+                                                                                                                {
+                                                                                                                    continue;
+                                                                                                                }
+                                                                                                                node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.isMatchedNeg = node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_prevIsMatchedNeg;
+                                                                                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.isMatchedNeg = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_prevIsMatchedNeg;
+                                                                                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.isMatchedNeg = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_prevIsMatchedNeg;
+                                                                                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8_prevIsMatched;
+                                                                                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4_prevIsMatched;
+                                                                                                                goto label0;
+                                                                                                            }
+                                                                                                            while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 );
+                                                                                                        }
+                                                                                                        node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.isMatchedNeg = node_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_prevIsMatchedNeg;
+                                                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.isMatchedNeg = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_prevIsMatchedNeg;
+                                                                                                    }
+                                                                                                    while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 );
+                                                                                                }
+                                                                                                edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.isMatchedNeg = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_prevIsMatchedNeg;
+                                                                                            }
+                                                                                            while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = edge_cur_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 );
+                                                                                        }
+                                                                                    }
+                                                                                    // Check whether there are subpattern matching tasks left to execute
+                                                                                    if(openTasks.Count==0)
+                                                                                    {
+                                                                                        Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
+                                                                                        foundPartialMatches.Add(currentFoundPartialMatch);
+                                                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
+                                                                                        match.patternGraph = patternGraph;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c1] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c2] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c3] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c4] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c5] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c6] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge0] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge1] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge2] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge3] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge4] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge5] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge6] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge7] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge8] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8;
+                                                                                        currentFoundPartialMatch.Push(match);
+                                                                                        // if enough matches were found, we leave
+                                                                                        if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                                                                                        {
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4_prevIsMatched;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7_prevIsMatched;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2_prevIsMatched;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6_prevIsMatched;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0_prevIsMatched;
+                                                                                            openTasks.Push(this);
+                                                                                            return;
+                                                                                        }
+                                                                                        goto label1;
+                                                                                    }
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatchedByEnclosingPattern = true;
+                                                                                    // Match subpatterns
+                                                                                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                                                                    // Check whether subpatterns were found 
+                                                                                    if(matchesList.Count>0) {
+                                                                                        // subpatterns/alternatives were found, extend the partial matches by our local match object
+                                                                                        foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                                                                                        {
+                                                                                            LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0+0]);
+                                                                                            match.patternGraph = patternGraph;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c1] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c2] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c3] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c4] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c5] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_NodeNums.@c6] = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge0] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge1] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge2] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge3] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge4] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge5] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge6] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge7] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1ExposedNotC6Nitro.BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge8] = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8;
+                                                                                            currentFoundPartialMatch.Push(match);
+                                                                                        }
+                                                                                        if(matchesList==foundPartialMatches) {
+                                                                                            matchesList = new List<Stack<LGSPMatch>>();
+                                                                                        } else {
+                                                                                            foreach(Stack<LGSPMatch> match in matchesList)
+                                                                                            {
+                                                                                                foundPartialMatches.Add(match);
+                                                                                            }
+                                                                                            matchesList.Clear();
+                                                                                        }
+                                                                                        // if enough matches were found, we leave
+                                                                                        if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                                                                                        {
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4_prevIsMatched;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7_prevIsMatched;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2_prevIsMatched;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6_prevIsMatched;
+                                                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2_prevIsMatched;
+                                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0_prevIsMatched;
+                                                                                            openTasks.Push(this);
+                                                                                            return;
+                                                                                        }
+                                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1.isMatchedByEnclosingPattern = false;
+                                                                                        goto label2;
+                                                                                    }
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c1.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c6.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatchedByEnclosingPattern = false;
+label1: ;
+label2: ;
+                                                                                }
+                                                                                while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge5.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge5 );
+                                                                            }
+                                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8_prevIsMatched;
+                                                                        }
+                                                                        while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge8.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge8 );
+                                                                    }
+                                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4_prevIsMatched;
+label0: ;
+                                                                }
+                                                                while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge4.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge4 );
+                                                            }
+                                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c5_prevIsMatched;
+                                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3_prevIsMatched;
+                                                        }
+                                                        while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge3.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge3 );
+                                                    }
+                                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7_prevIsMatched;
+                                                }
+                                                while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge7.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge7 );
+                                            }
+                                            node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c4_prevIsMatched;
+                                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2_prevIsMatched;
+                                        }
+                                        while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge2.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge2 );
+                                    }
+                                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c3_prevIsMatched;
+                                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1_prevIsMatched;
+                                }
+                                while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge1.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge1 );
+                            }
+                            edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6_prevIsMatched;
+                        }
+                        while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge6.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge6 );
+                    }
+                    node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2.isMatched = node_cur_BenzolRingC1ExposedNotC6Nitro_node_c2_prevIsMatched;
+                    edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.isMatched = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0_prevIsMatched;
+                }
+                while( (edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0 = edge_cur_BenzolRingC1ExposedNotC6Nitro_edge__edge0.outNext) != edge_head_BenzolRingC1ExposedNotC6Nitro_edge__edge0 );
+            }
+            openTasks.Push(this);
+            return;
+        }
+    }
+
     public class PatternAction_Hydrogen : LGSPSubpatternAction
     {
         public PatternAction_Hydrogen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
@@ -4812,7 +5836,9 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset Hydrogen_node_anchor 
             LGSPNode node_cur_Hydrogen_node_anchor = Hydrogen_node_anchor;
+            // Extend outgoing Hydrogen_edge__edge0 from Hydrogen_node_anchor 
             LGSPEdge edge_head_Hydrogen_edge__edge0 = node_cur_Hydrogen_node_anchor.outhead;
             if(edge_head_Hydrogen_edge__edge0 != null)
             {
@@ -4826,6 +5852,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     {
                         continue;
                     }
+                    // Implicit target Hydrogen_node__node0 from Hydrogen_edge__edge0 
                     LGSPNode node_cur_Hydrogen_node__node0 = edge_cur_Hydrogen_edge__edge0.target;
                     if(!NodeType_H.isMyType[node_cur_Hydrogen_node__node0.type.TypeID]) {
                         continue;
@@ -4834,6 +5861,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     {
                         continue;
                     }
+                    // Check whether there are subpattern matching tasks left to execute
                     if(openTasks.Count==0)
                     {
                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
@@ -4844,6 +5872,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         match.Nodes[(int)Pattern_Hydrogen.Hydrogen_NodeNums.@_node0] = node_cur_Hydrogen_node__node0;
                         match.Edges[(int)Pattern_Hydrogen.Hydrogen_EdgeNums.@_edge0] = edge_cur_Hydrogen_edge__edge0;
                         currentFoundPartialMatch.Push(match);
+                        // if enough matches were found, we leave
                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                         {
                             openTasks.Push(this);
@@ -4854,11 +5883,14 @@ namespace de.unika.ipd.grGen.Action_TNT
                     node_cur_Hydrogen_node_anchor.isMatchedByEnclosingPattern = true;
                     node_cur_Hydrogen_node__node0.isMatchedByEnclosingPattern = true;
                     edge_cur_Hydrogen_edge__edge0.isMatchedByEnclosingPattern = true;
+                    // Match subpatterns
                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                    // Check whether subpatterns were found 
                     if(matchesList.Count>0) {
+                        // subpatterns/alternatives were found, extend the partial matches by our local match object
                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                         {
-                            LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0]);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0+0]);
                             match.patternGraph = patternGraph;
                             match.Nodes[(int)Pattern_Hydrogen.Hydrogen_NodeNums.@anchor] = node_cur_Hydrogen_node_anchor;
                             match.Nodes[(int)Pattern_Hydrogen.Hydrogen_NodeNums.@_node0] = node_cur_Hydrogen_node__node0;
@@ -4874,6 +5906,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             matchesList.Clear();
                         }
+                        // if enough matches were found, we leave
                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                         {
                             edge_cur_Hydrogen_edge__edge0.isMatchedByEnclosingPattern = false;
@@ -4912,7 +5945,9 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset Hydroxyl_node_anchor 
             LGSPNode node_cur_Hydroxyl_node_anchor = Hydroxyl_node_anchor;
+            // Extend outgoing Hydroxyl_edge__edge0 from Hydroxyl_node_anchor 
             LGSPEdge edge_head_Hydroxyl_edge__edge0 = node_cur_Hydroxyl_node_anchor.outhead;
             if(edge_head_Hydroxyl_edge__edge0 != null)
             {
@@ -4928,6 +5963,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool edge_cur_Hydroxyl_edge__edge0_prevIsMatched = edge_cur_Hydroxyl_edge__edge0.isMatched;
                     edge_cur_Hydroxyl_edge__edge0.isMatched = true;
+                    // Implicit target Hydroxyl_node__node0 from Hydroxyl_edge__edge0 
                     LGSPNode node_cur_Hydroxyl_node__node0 = edge_cur_Hydroxyl_edge__edge0.target;
                     if(!NodeType_O.isMyType[node_cur_Hydroxyl_node__node0.type.TypeID]) {
                         edge_cur_Hydroxyl_edge__edge0.isMatched = edge_cur_Hydroxyl_edge__edge0_prevIsMatched;
@@ -4938,6 +5974,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         edge_cur_Hydroxyl_edge__edge0.isMatched = edge_cur_Hydroxyl_edge__edge0_prevIsMatched;
                         continue;
                     }
+                    // Extend outgoing Hydroxyl_edge__edge1 from Hydroxyl_node__node0 
                     LGSPEdge edge_head_Hydroxyl_edge__edge1 = node_cur_Hydroxyl_node__node0.outhead;
                     if(edge_head_Hydroxyl_edge__edge1 != null)
                     {
@@ -4957,6 +5994,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             {
                                 continue;
                             }
+                            // Implicit target Hydroxyl_node__node1 from Hydroxyl_edge__edge1 
                             LGSPNode node_cur_Hydroxyl_node__node1 = edge_cur_Hydroxyl_edge__edge1.target;
                             if(!NodeType_H.isMyType[node_cur_Hydroxyl_node__node1.type.TypeID]) {
                                 continue;
@@ -4965,6 +6003,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             {
                                 continue;
                             }
+                            // Check whether there are subpattern matching tasks left to execute
                             if(openTasks.Count==0)
                             {
                                 Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
@@ -4977,6 +6016,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 match.Edges[(int)Pattern_Hydroxyl.Hydroxyl_EdgeNums.@_edge0] = edge_cur_Hydroxyl_edge__edge0;
                                 match.Edges[(int)Pattern_Hydroxyl.Hydroxyl_EdgeNums.@_edge1] = edge_cur_Hydroxyl_edge__edge1;
                                 currentFoundPartialMatch.Push(match);
+                                // if enough matches were found, we leave
                                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                 {
                                     edge_cur_Hydroxyl_edge__edge0.isMatched = edge_cur_Hydroxyl_edge__edge0_prevIsMatched;
@@ -4990,11 +6030,14 @@ namespace de.unika.ipd.grGen.Action_TNT
                             node_cur_Hydroxyl_node__node1.isMatchedByEnclosingPattern = true;
                             edge_cur_Hydroxyl_edge__edge0.isMatchedByEnclosingPattern = true;
                             edge_cur_Hydroxyl_edge__edge1.isMatchedByEnclosingPattern = true;
+                            // Match subpatterns
                             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                            // Check whether subpatterns were found 
                             if(matchesList.Count>0) {
+                                // subpatterns/alternatives were found, extend the partial matches by our local match object
                                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                 {
-                                    LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[2], new LGSPMatch[0]);
+                                    LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[2], new LGSPMatch[0+0]);
                                     match.patternGraph = patternGraph;
                                     match.Nodes[(int)Pattern_Hydroxyl.Hydroxyl_NodeNums.@anchor] = node_cur_Hydroxyl_node_anchor;
                                     match.Nodes[(int)Pattern_Hydroxyl.Hydroxyl_NodeNums.@_node0] = node_cur_Hydroxyl_node__node0;
@@ -5012,6 +6055,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     matchesList.Clear();
                                 }
+                                // if enough matches were found, we leave
                                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                 {
                                     edge_cur_Hydroxyl_edge__edge1.isMatchedByEnclosingPattern = false;
@@ -5061,7 +6105,9 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset Methyl_node_anchor 
             LGSPNode node_cur_Methyl_node_anchor = Methyl_node_anchor;
+            // Extend outgoing Methyl_edge__edge0 from Methyl_node_anchor 
             LGSPEdge edge_head_Methyl_edge__edge0 = node_cur_Methyl_node_anchor.outhead;
             if(edge_head_Methyl_edge__edge0 != null)
             {
@@ -5077,6 +6123,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool edge_cur_Methyl_edge__edge0_prevIsMatched = edge_cur_Methyl_edge__edge0.isMatched;
                     edge_cur_Methyl_edge__edge0.isMatched = true;
+                    // Implicit target Methyl_node_c from Methyl_edge__edge0 
                     LGSPNode node_cur_Methyl_node_c = edge_cur_Methyl_edge__edge0.target;
                     if(!NodeType_C.isMyType[node_cur_Methyl_node_c.type.TypeID]) {
                         edge_cur_Methyl_edge__edge0.isMatched = edge_cur_Methyl_edge__edge0_prevIsMatched;
@@ -5094,6 +6141,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         edge_cur_Methyl_edge__edge0.isMatched = edge_cur_Methyl_edge__edge0_prevIsMatched;
                         continue;
                     }
+                    // Extend outgoing Methyl_edge__edge1 from Methyl_node_c 
                     LGSPEdge edge_head_Methyl_edge__edge1 = node_cur_Methyl_node_c.outhead;
                     if(edge_head_Methyl_edge__edge1 != null)
                     {
@@ -5115,6 +6163,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool edge_cur_Methyl_edge__edge1_prevIsMatched = edge_cur_Methyl_edge__edge1.isMatched;
                             edge_cur_Methyl_edge__edge1.isMatched = true;
+                            // Implicit target Methyl_node__node0 from Methyl_edge__edge1 
                             LGSPNode node_cur_Methyl_node__node0 = edge_cur_Methyl_edge__edge1.target;
                             if(!NodeType_H.isMyType[node_cur_Methyl_node__node0.type.TypeID]) {
                                 edge_cur_Methyl_edge__edge1.isMatched = edge_cur_Methyl_edge__edge1_prevIsMatched;
@@ -5127,6 +6176,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool node_cur_Methyl_node__node0_prevIsMatched = node_cur_Methyl_node__node0.isMatched;
                             node_cur_Methyl_node__node0.isMatched = true;
+                            // Extend outgoing Methyl_edge__edge2 from Methyl_node_c 
                             LGSPEdge edge_head_Methyl_edge__edge2 = node_cur_Methyl_node_c.outhead;
                             if(edge_head_Methyl_edge__edge2 != null)
                             {
@@ -5150,6 +6200,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     bool edge_cur_Methyl_edge__edge2_prevIsMatched = edge_cur_Methyl_edge__edge2.isMatched;
                                     edge_cur_Methyl_edge__edge2.isMatched = true;
+                                    // Implicit target Methyl_node__node1 from Methyl_edge__edge2 
                                     LGSPNode node_cur_Methyl_node__node1 = edge_cur_Methyl_edge__edge2.target;
                                     if(!NodeType_H.isMyType[node_cur_Methyl_node__node1.type.TypeID]) {
                                         edge_cur_Methyl_edge__edge2.isMatched = edge_cur_Methyl_edge__edge2_prevIsMatched;
@@ -5169,6 +6220,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     bool node_cur_Methyl_node__node1_prevIsMatched = node_cur_Methyl_node__node1.isMatched;
                                     node_cur_Methyl_node__node1.isMatched = true;
+                                    // Extend outgoing Methyl_edge__edge3 from Methyl_node_c 
                                     LGSPEdge edge_head_Methyl_edge__edge3 = node_cur_Methyl_node_c.outhead;
                                     if(edge_head_Methyl_edge__edge3 != null)
                                     {
@@ -5191,6 +6243,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             {
                                                 continue;
                                             }
+                                            // Implicit target Methyl_node__node2 from Methyl_edge__edge3 
                                             LGSPNode node_cur_Methyl_node__node2 = edge_cur_Methyl_edge__edge3.target;
                                             if(!NodeType_H.isMyType[node_cur_Methyl_node__node2.type.TypeID]) {
                                                 continue;
@@ -5207,6 +6260,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             {
                                                 continue;
                                             }
+                                            // Check whether there are subpattern matching tasks left to execute
                                             if(openTasks.Count==0)
                                             {
                                                 Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
@@ -5223,6 +6277,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 match.Edges[(int)Pattern_Methyl.Methyl_EdgeNums.@_edge2] = edge_cur_Methyl_edge__edge2;
                                                 match.Edges[(int)Pattern_Methyl.Methyl_EdgeNums.@_edge3] = edge_cur_Methyl_edge__edge3;
                                                 currentFoundPartialMatch.Push(match);
+                                                // if enough matches were found, we leave
                                                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                 {
                                                     node_cur_Methyl_node__node1.isMatched = node_cur_Methyl_node__node1_prevIsMatched;
@@ -5244,11 +6299,14 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             edge_cur_Methyl_edge__edge1.isMatchedByEnclosingPattern = true;
                                             edge_cur_Methyl_edge__edge2.isMatchedByEnclosingPattern = true;
                                             edge_cur_Methyl_edge__edge3.isMatchedByEnclosingPattern = true;
+                                            // Match subpatterns
                                             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                            // Check whether subpatterns were found 
                                             if(matchesList.Count>0) {
+                                                // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                 {
-                                                    LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0]);
+                                                    LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0+0]);
                                                     match.patternGraph = patternGraph;
                                                     match.Nodes[(int)Pattern_Methyl.Methyl_NodeNums.@anchor] = node_cur_Methyl_node_anchor;
                                                     match.Nodes[(int)Pattern_Methyl.Methyl_NodeNums.@c] = node_cur_Methyl_node_c;
@@ -5270,6 +6328,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                     }
                                                     matchesList.Clear();
                                                 }
+                                                // if enough matches were found, we leave
                                                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                 {
                                                     edge_cur_Methyl_edge__edge3.isMatchedByEnclosingPattern = false;
@@ -5345,7 +6404,9 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset Nitro_node_anchor 
             LGSPNode node_cur_Nitro_node_anchor = Nitro_node_anchor;
+            // Extend outgoing Nitro_edge__edge0 from Nitro_node_anchor 
             LGSPEdge edge_head_Nitro_edge__edge0 = node_cur_Nitro_node_anchor.outhead;
             if(edge_head_Nitro_edge__edge0 != null)
             {
@@ -5361,6 +6422,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool edge_cur_Nitro_edge__edge0_prevIsMatched = edge_cur_Nitro_edge__edge0.isMatched;
                     edge_cur_Nitro_edge__edge0.isMatched = true;
+                    // Implicit target Nitro_node_n from Nitro_edge__edge0 
                     LGSPNode node_cur_Nitro_node_n = edge_cur_Nitro_edge__edge0.target;
                     if(!NodeType_N.isMyType[node_cur_Nitro_node_n.type.TypeID]) {
                         edge_cur_Nitro_edge__edge0.isMatched = edge_cur_Nitro_edge__edge0_prevIsMatched;
@@ -5371,6 +6433,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         edge_cur_Nitro_edge__edge0.isMatched = edge_cur_Nitro_edge__edge0_prevIsMatched;
                         continue;
                     }
+                    // Extend outgoing Nitro_edge__edge1 from Nitro_node_n 
                     LGSPEdge edge_head_Nitro_edge__edge1 = node_cur_Nitro_node_n.outhead;
                     if(edge_head_Nitro_edge__edge1 != null)
                     {
@@ -5392,6 +6455,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool edge_cur_Nitro_edge__edge1_prevIsMatched = edge_cur_Nitro_edge__edge1.isMatched;
                             edge_cur_Nitro_edge__edge1.isMatched = true;
+                            // Implicit target Nitro_node__node0 from Nitro_edge__edge1 
                             LGSPNode node_cur_Nitro_node__node0 = edge_cur_Nitro_edge__edge1.target;
                             if(!NodeType_O.isMyType[node_cur_Nitro_node__node0.type.TypeID]) {
                                 edge_cur_Nitro_edge__edge1.isMatched = edge_cur_Nitro_edge__edge1_prevIsMatched;
@@ -5404,6 +6468,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool node_cur_Nitro_node__node0_prevIsMatched = node_cur_Nitro_node__node0.isMatched;
                             node_cur_Nitro_node__node0.isMatched = true;
+                            // Extend outgoing Nitro_edge__edge2 from Nitro_node_n 
                             LGSPEdge edge_head_Nitro_edge__edge2 = node_cur_Nitro_node_n.outhead;
                             if(edge_head_Nitro_edge__edge2 != null)
                             {
@@ -5425,6 +6490,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     {
                                         continue;
                                     }
+                                    // Implicit target Nitro_node__node1 from Nitro_edge__edge2 
                                     LGSPNode node_cur_Nitro_node__node1 = edge_cur_Nitro_edge__edge2.target;
                                     if(!NodeType_O.isMyType[node_cur_Nitro_node__node1.type.TypeID]) {
                                         continue;
@@ -5439,6 +6505,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     {
                                         continue;
                                     }
+                                    // Check whether there are subpattern matching tasks left to execute
                                     if(openTasks.Count==0)
                                     {
                                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
@@ -5453,6 +6520,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         match.Edges[(int)Pattern_Nitro.Nitro_EdgeNums.@_edge1] = edge_cur_Nitro_edge__edge1;
                                         match.Edges[(int)Pattern_Nitro.Nitro_EdgeNums.@_edge2] = edge_cur_Nitro_edge__edge2;
                                         currentFoundPartialMatch.Push(match);
+                                        // if enough matches were found, we leave
                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                         {
                                             node_cur_Nitro_node__node0.isMatched = node_cur_Nitro_node__node0_prevIsMatched;
@@ -5470,11 +6538,14 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     edge_cur_Nitro_edge__edge0.isMatchedByEnclosingPattern = true;
                                     edge_cur_Nitro_edge__edge1.isMatchedByEnclosingPattern = true;
                                     edge_cur_Nitro_edge__edge2.isMatchedByEnclosingPattern = true;
+                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                    // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
+                                        // subpatterns/alternatives were found, extend the partial matches by our local match object
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
-                                            LGSPMatch match = new LGSPMatch(new LGSPNode[4], new LGSPEdge[3], new LGSPMatch[0]);
+                                            LGSPMatch match = new LGSPMatch(new LGSPNode[4], new LGSPEdge[3], new LGSPMatch[0+0]);
                                             match.patternGraph = patternGraph;
                                             match.Nodes[(int)Pattern_Nitro.Nitro_NodeNums.@anchor] = node_cur_Nitro_node_anchor;
                                             match.Nodes[(int)Pattern_Nitro.Nitro_NodeNums.@n] = node_cur_Nitro_node_n;
@@ -5494,6 +6565,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             }
                                             matchesList.Clear();
                                         }
+                                        // if enough matches were found, we leave
                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                         {
                                             edge_cur_Nitro_edge__edge2.isMatchedByEnclosingPattern = false;
@@ -5555,6 +6627,7 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // Lookup Oxygen_edge__edge0 
             int edge_type_id_Oxygen_edge__edge0 = 1;
             for(LGSPEdge edge_head_Oxygen_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_Oxygen_edge__edge0], edge_cur_Oxygen_edge__edge0 = edge_head_Oxygen_edge__edge0.typeNext; edge_cur_Oxygen_edge__edge0 != edge_head_Oxygen_edge__edge0; edge_cur_Oxygen_edge__edge0 = edge_cur_Oxygen_edge__edge0.typeNext)
             {
@@ -5564,6 +6637,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool edge_cur_Oxygen_edge__edge0_prevIsMatched = edge_cur_Oxygen_edge__edge0.isMatched;
                 edge_cur_Oxygen_edge__edge0.isMatched = true;
+                // Implicit source Oxygen_node_o1 from Oxygen_edge__edge0 
                 LGSPNode node_cur_Oxygen_node_o1 = edge_cur_Oxygen_edge__edge0.source;
                 if(!NodeType_O.isMyType[node_cur_Oxygen_node_o1.type.TypeID]) {
                     edge_cur_Oxygen_edge__edge0.isMatched = edge_cur_Oxygen_edge__edge0_prevIsMatched;
@@ -5576,6 +6650,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_Oxygen_node_o1_prevIsMatched = node_cur_Oxygen_node_o1.isMatched;
                 node_cur_Oxygen_node_o1.isMatched = true;
+                // Implicit target Oxygen_node_o2 from Oxygen_edge__edge0 
                 LGSPNode node_cur_Oxygen_node_o2 = edge_cur_Oxygen_edge__edge0.target;
                 if(!NodeType_O.isMyType[node_cur_Oxygen_node_o2.type.TypeID]) {
                     node_cur_Oxygen_node_o1.isMatched = node_cur_Oxygen_node_o1_prevIsMatched;
@@ -5596,6 +6671,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     edge_cur_Oxygen_edge__edge0.isMatched = edge_cur_Oxygen_edge__edge0_prevIsMatched;
                     continue;
                 }
+                // Extend outgoing Oxygen_edge__edge1 from Oxygen_node_o2 
                 LGSPEdge edge_head_Oxygen_edge__edge1 = node_cur_Oxygen_node_o2.outhead;
                 if(edge_head_Oxygen_edge__edge1 != null)
                 {
@@ -5618,6 +6694,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         {
                             continue;
                         }
+                        // Check whether there are subpattern matching tasks left to execute
                         if(openTasks.Count==0)
                         {
                             Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
@@ -5629,6 +6706,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             match.Edges[(int)Pattern_Oxygen.Oxygen_EdgeNums.@_edge0] = edge_cur_Oxygen_edge__edge0;
                             match.Edges[(int)Pattern_Oxygen.Oxygen_EdgeNums.@_edge1] = edge_cur_Oxygen_edge__edge1;
                             currentFoundPartialMatch.Push(match);
+                            // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
                                 node_cur_Oxygen_node_o1.isMatched = node_cur_Oxygen_node_o1_prevIsMatched;
@@ -5642,11 +6720,14 @@ namespace de.unika.ipd.grGen.Action_TNT
                         node_cur_Oxygen_node_o2.isMatchedByEnclosingPattern = true;
                         edge_cur_Oxygen_edge__edge0.isMatchedByEnclosingPattern = true;
                         edge_cur_Oxygen_edge__edge1.isMatchedByEnclosingPattern = true;
+                        // Match subpatterns
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                        // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
+                            // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                             {
-                                LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[2], new LGSPMatch[0]);
+                                LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[2], new LGSPMatch[0+0]);
                                 match.patternGraph = patternGraph;
                                 match.Nodes[(int)Pattern_Oxygen.Oxygen_NodeNums.@o1] = node_cur_Oxygen_node_o1;
                                 match.Nodes[(int)Pattern_Oxygen.Oxygen_NodeNums.@o2] = node_cur_Oxygen_node_o2;
@@ -5663,6 +6744,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 matchesList.Clear();
                             }
+                            // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
                                 edge_cur_Oxygen_edge__edge1.isMatchedByEnclosingPattern = false;
@@ -5714,23 +6796,33 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset ToluolCoreThenTriNitro_node_c1 
             LGSPNode node_cur_ToluolCoreThenTriNitro_node_c1 = ToluolCoreThenTriNitro_node_c1;
+            // SubPreset ToluolCoreThenTriNitro_node_c2 
             LGSPNode node_cur_ToluolCoreThenTriNitro_node_c2 = ToluolCoreThenTriNitro_node_c2;
+            // SubPreset ToluolCoreThenTriNitro_node_c3 
             LGSPNode node_cur_ToluolCoreThenTriNitro_node_c3 = ToluolCoreThenTriNitro_node_c3;
+            // SubPreset ToluolCoreThenTriNitro_node_c4 
             LGSPNode node_cur_ToluolCoreThenTriNitro_node_c4 = ToluolCoreThenTriNitro_node_c4;
+            // SubPreset ToluolCoreThenTriNitro_node_c5 
             LGSPNode node_cur_ToluolCoreThenTriNitro_node_c5 = ToluolCoreThenTriNitro_node_c5;
+            // SubPreset ToluolCoreThenTriNitro_node_c6 
             LGSPNode node_cur_ToluolCoreThenTriNitro_node_c6 = ToluolCoreThenTriNitro_node_c6;
+            // Push subpattern matching task for _subpattern3
             PatternAction_TriNitro taskFor__subpattern3 = new PatternAction_TriNitro(graph, openTasks);
             taskFor__subpattern3.TriNitro_node_c2 = node_cur_ToluolCoreThenTriNitro_node_c2;
             taskFor__subpattern3.TriNitro_node_c4 = node_cur_ToluolCoreThenTriNitro_node_c4;
             taskFor__subpattern3.TriNitro_node_c6 = node_cur_ToluolCoreThenTriNitro_node_c6;
             openTasks.Push(taskFor__subpattern3);
+            // Push subpattern matching task for _subpattern2
             PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
             taskFor__subpattern2.Hydrogen_node_anchor = node_cur_ToluolCoreThenTriNitro_node_c5;
             openTasks.Push(taskFor__subpattern2);
+            // Push subpattern matching task for _subpattern1
             PatternAction_Hydrogen taskFor__subpattern1 = new PatternAction_Hydrogen(graph, openTasks);
             taskFor__subpattern1.Hydrogen_node_anchor = node_cur_ToluolCoreThenTriNitro_node_c3;
             openTasks.Push(taskFor__subpattern1);
+            // Push subpattern matching task for _subpattern0
             PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
             taskFor__subpattern0.Methyl_node_anchor = node_cur_ToluolCoreThenTriNitro_node_c1;
             openTasks.Push(taskFor__subpattern0);
@@ -5740,15 +6832,22 @@ namespace de.unika.ipd.grGen.Action_TNT
             node_cur_ToluolCoreThenTriNitro_node_c4.isMatchedByEnclosingPattern = true;
             node_cur_ToluolCoreThenTriNitro_node_c5.isMatchedByEnclosingPattern = true;
             node_cur_ToluolCoreThenTriNitro_node_c6.isMatchedByEnclosingPattern = true;
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            //Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            //Pop subpattern matching task for _subpattern1
             openTasks.Pop();
+            //Pop subpattern matching task for _subpattern2
             openTasks.Pop();
+            //Pop subpattern matching task for _subpattern3
             openTasks.Pop();
+            // Check whether subpatterns were found 
             if(matchesList.Count>0) {
+                // subpatterns/alternatives were found, extend the partial matches by our local match object
                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                 {
-                    LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[0], new LGSPMatch[4]);
+                    LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[0], new LGSPMatch[4+0]);
                     match.patternGraph = patternGraph;
                     match.Nodes[(int)Pattern_ToluolCoreThenTriNitro.ToluolCoreThenTriNitro_NodeNums.@c1] = node_cur_ToluolCoreThenTriNitro_node_c1;
                     match.Nodes[(int)Pattern_ToluolCoreThenTriNitro.ToluolCoreThenTriNitro_NodeNums.@c2] = node_cur_ToluolCoreThenTriNitro_node_c2;
@@ -5771,6 +6870,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     matchesList.Clear();
                 }
+                // if enough matches were found, we leave
                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                 {
                     node_cur_ToluolCoreThenTriNitro_node_c6.isMatchedByEnclosingPattern = false;
@@ -5818,29 +6918,41 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset TriNitro_node_c2 
             LGSPNode node_cur_TriNitro_node_c2 = TriNitro_node_c2;
+            // SubPreset TriNitro_node_c4 
             LGSPNode node_cur_TriNitro_node_c4 = TriNitro_node_c4;
+            // SubPreset TriNitro_node_c6 
             LGSPNode node_cur_TriNitro_node_c6 = TriNitro_node_c6;
+            // Push subpattern matching task for _subpattern2
             PatternAction_Nitro taskFor__subpattern2 = new PatternAction_Nitro(graph, openTasks);
             taskFor__subpattern2.Nitro_node_anchor = node_cur_TriNitro_node_c6;
             openTasks.Push(taskFor__subpattern2);
+            // Push subpattern matching task for _subpattern1
             PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
             taskFor__subpattern1.Nitro_node_anchor = node_cur_TriNitro_node_c4;
             openTasks.Push(taskFor__subpattern1);
+            // Push subpattern matching task for _subpattern0
             PatternAction_Nitro taskFor__subpattern0 = new PatternAction_Nitro(graph, openTasks);
             taskFor__subpattern0.Nitro_node_anchor = node_cur_TriNitro_node_c2;
             openTasks.Push(taskFor__subpattern0);
             node_cur_TriNitro_node_c2.isMatchedByEnclosingPattern = true;
             node_cur_TriNitro_node_c4.isMatchedByEnclosingPattern = true;
             node_cur_TriNitro_node_c6.isMatchedByEnclosingPattern = true;
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            //Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            //Pop subpattern matching task for _subpattern1
             openTasks.Pop();
+            //Pop subpattern matching task for _subpattern2
             openTasks.Pop();
+            // Check whether subpatterns were found 
             if(matchesList.Count>0) {
+                // subpatterns/alternatives were found, extend the partial matches by our local match object
                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                 {
-                    LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[0], new LGSPMatch[3]);
+                    LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[0], new LGSPMatch[3+0]);
                     match.patternGraph = patternGraph;
                     match.Nodes[(int)Pattern_TriNitro.TriNitro_NodeNums.@c2] = node_cur_TriNitro_node_c2;
                     match.Nodes[(int)Pattern_TriNitro.TriNitro_NodeNums.@c4] = node_cur_TriNitro_node_c4;
@@ -5859,6 +6971,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     matchesList.Clear();
                 }
+                // if enough matches were found, we leave
                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                 {
                     node_cur_TriNitro_node_c6.isMatchedByEnclosingPattern = false;
@@ -5886,7 +6999,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_BenzolRing() {
             rulePattern = Rule_BenzolRing.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 1);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 1+0);
         }
 
         public override string Name { get { return "BenzolRing"; } }
@@ -5901,11 +7014,16 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Push subpattern matching task for _subpattern0
             PatternAction_BenzolRing taskFor__subpattern0 = new PatternAction_BenzolRing(graph, openTasks);
             openTasks.Push(taskFor__subpattern0);
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            //Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            // Check whether subpatterns were found 
             if(matchesList.Count>0) {
+                // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                 {
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -5914,6 +7032,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     matches.matchesList.PositionWasFilledFixIt();
                 }
                 matchesList.Clear();
+                // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
                     return matches;
@@ -5929,7 +7048,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_DNT() {
             rulePattern = Rule_DNT.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6+0);
         }
 
         public override string Name { get { return "DNT"; } }
@@ -5944,11 +7063,13 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup DNT_edge__edge0 
             int edge_type_id_DNT_edge__edge0 = 1;
             for(LGSPEdge edge_head_DNT_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_DNT_edge__edge0], edge_cur_DNT_edge__edge0 = edge_head_DNT_edge__edge0.typeNext; edge_cur_DNT_edge__edge0 != edge_head_DNT_edge__edge0; edge_cur_DNT_edge__edge0 = edge_cur_DNT_edge__edge0.typeNext)
             {
                 bool edge_cur_DNT_edge__edge0_prevIsMatched = edge_cur_DNT_edge__edge0.isMatched;
                 edge_cur_DNT_edge__edge0.isMatched = true;
+                // Implicit source DNT_node_c1 from DNT_edge__edge0 
                 LGSPNode node_cur_DNT_node_c1 = edge_cur_DNT_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_DNT_node_c1.type.TypeID]) {
                     edge_cur_DNT_edge__edge0.isMatched = edge_cur_DNT_edge__edge0_prevIsMatched;
@@ -5956,6 +7077,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_DNT_node_c1_prevIsMatched = node_cur_DNT_node_c1.isMatched;
                 node_cur_DNT_node_c1.isMatched = true;
+                // Implicit target DNT_node_c2 from DNT_edge__edge0 
                 LGSPNode node_cur_DNT_node_c2 = edge_cur_DNT_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_DNT_node_c2.type.TypeID]) {
                     node_cur_DNT_node_c1.isMatched = node_cur_DNT_node_c1_prevIsMatched;
@@ -5972,6 +7094,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_DNT_node_c2_prevIsMatched = node_cur_DNT_node_c2.isMatched;
                 node_cur_DNT_node_c2.isMatched = true;
+                // Extend outgoing DNT_edge__edge6 from DNT_node_c1 
                 LGSPEdge edge_head_DNT_edge__edge6 = node_cur_DNT_node_c1.outhead;
                 if(edge_head_DNT_edge__edge6 != null)
                 {
@@ -5992,6 +7115,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_DNT_edge__edge6_prevIsMatched = edge_cur_DNT_edge__edge6.isMatched;
                         edge_cur_DNT_edge__edge6.isMatched = true;
+                        // Extend outgoing DNT_edge__edge1 from DNT_node_c2 
                         LGSPEdge edge_head_DNT_edge__edge1 = node_cur_DNT_node_c2.outhead;
                         if(edge_head_DNT_edge__edge1 != null)
                         {
@@ -6011,6 +7135,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_DNT_edge__edge1_prevIsMatched = edge_cur_DNT_edge__edge1.isMatched;
                                 edge_cur_DNT_edge__edge1.isMatched = true;
+                                // Implicit target DNT_node_c3 from DNT_edge__edge1 
                                 LGSPNode node_cur_DNT_node_c3 = edge_cur_DNT_edge__edge1.target;
                                 if(!NodeType_C.isMyType[node_cur_DNT_node_c3.type.TypeID]) {
                                     edge_cur_DNT_edge__edge1.isMatched = edge_cur_DNT_edge__edge1_prevIsMatched;
@@ -6027,6 +7152,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_DNT_node_c3_prevIsMatched = node_cur_DNT_node_c3.isMatched;
                                 node_cur_DNT_node_c3.isMatched = true;
+                                // Extend outgoing DNT_edge__edge2 from DNT_node_c3 
                                 LGSPEdge edge_head_DNT_edge__edge2 = node_cur_DNT_node_c3.outhead;
                                 if(edge_head_DNT_edge__edge2 != null)
                                 {
@@ -6047,6 +7173,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_DNT_edge__edge2_prevIsMatched = edge_cur_DNT_edge__edge2.isMatched;
                                         edge_cur_DNT_edge__edge2.isMatched = true;
+                                        // Implicit target DNT_node_c4 from DNT_edge__edge2 
                                         LGSPNode node_cur_DNT_node_c4 = edge_cur_DNT_edge__edge2.target;
                                         if(!NodeType_C.isMyType[node_cur_DNT_node_c4.type.TypeID]) {
                                             edge_cur_DNT_edge__edge2.isMatched = edge_cur_DNT_edge__edge2_prevIsMatched;
@@ -6064,6 +7191,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_DNT_node_c4_prevIsMatched = node_cur_DNT_node_c4.isMatched;
                                         node_cur_DNT_node_c4.isMatched = true;
+                                        // Extend outgoing DNT_edge__edge7 from DNT_node_c3 
                                         LGSPEdge edge_head_DNT_edge__edge7 = node_cur_DNT_node_c3.outhead;
                                         if(edge_head_DNT_edge__edge7 != null)
                                         {
@@ -6088,6 +7216,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_DNT_edge__edge7_prevIsMatched = edge_cur_DNT_edge__edge7.isMatched;
                                                 edge_cur_DNT_edge__edge7.isMatched = true;
+                                                // Extend outgoing DNT_edge__edge3 from DNT_node_c4 
                                                 LGSPEdge edge_head_DNT_edge__edge3 = node_cur_DNT_node_c4.outhead;
                                                 if(edge_head_DNT_edge__edge3 != null)
                                                 {
@@ -6110,6 +7239,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_DNT_edge__edge3_prevIsMatched = edge_cur_DNT_edge__edge3.isMatched;
                                                         edge_cur_DNT_edge__edge3.isMatched = true;
+                                                        // Implicit target DNT_node_c5 from DNT_edge__edge3 
                                                         LGSPNode node_cur_DNT_node_c5 = edge_cur_DNT_edge__edge3.target;
                                                         if(!NodeType_C.isMyType[node_cur_DNT_node_c5.type.TypeID]) {
                                                             edge_cur_DNT_edge__edge3.isMatched = edge_cur_DNT_edge__edge3_prevIsMatched;
@@ -6128,6 +7258,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_DNT_node_c5_prevIsMatched = node_cur_DNT_node_c5.isMatched;
                                                         node_cur_DNT_node_c5.isMatched = true;
+                                                        // Extend outgoing DNT_edge__edge4 from DNT_node_c5 
                                                         LGSPEdge edge_head_DNT_edge__edge4 = node_cur_DNT_node_c5.outhead;
                                                         if(edge_head_DNT_edge__edge4 != null)
                                                         {
@@ -6151,6 +7282,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_DNT_edge__edge4_prevIsMatched = edge_cur_DNT_edge__edge4.isMatched;
                                                                 edge_cur_DNT_edge__edge4.isMatched = true;
+                                                                // Implicit target DNT_node_c6 from DNT_edge__edge4 
                                                                 LGSPNode node_cur_DNT_node_c6 = edge_cur_DNT_edge__edge4.target;
                                                                 if(!NodeType_C.isMyType[node_cur_DNT_node_c6.type.TypeID]) {
                                                                     edge_cur_DNT_edge__edge4.isMatched = edge_cur_DNT_edge__edge4_prevIsMatched;
@@ -6168,6 +7300,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     edge_cur_DNT_edge__edge4.isMatched = edge_cur_DNT_edge__edge4_prevIsMatched;
                                                                     continue;
                                                                 }
+                                                                // Extend outgoing DNT_edge__edge8 from DNT_node_c5 
                                                                 LGSPEdge edge_head_DNT_edge__edge8 = node_cur_DNT_node_c5.outhead;
                                                                 if(edge_head_DNT_edge__edge8 != null)
                                                                 {
@@ -6195,6 +7328,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_DNT_edge__edge8_prevIsMatched = edge_cur_DNT_edge__edge8.isMatched;
                                                                         edge_cur_DNT_edge__edge8.isMatched = true;
+                                                                        // Extend outgoing DNT_edge__edge5 from DNT_node_c6 
                                                                         LGSPEdge edge_head_DNT_edge__edge5 = node_cur_DNT_node_c6.outhead;
                                                                         if(edge_head_DNT_edge__edge5 != null)
                                                                         {
@@ -6221,21 +7355,27 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 {
                                                                                     continue;
                                                                                 }
+                                                                                // Push subpattern matching task for _subpattern5
                                                                                 PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern5.Hydrogen_node_anchor = node_cur_DNT_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
+                                                                                // Push subpattern matching task for _subpattern4
                                                                                 PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern4.Hydrogen_node_anchor = node_cur_DNT_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
+                                                                                // Push subpattern matching task for _subpattern3
                                                                                 PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern3.Nitro_node_anchor = node_cur_DNT_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
+                                                                                // Push subpattern matching task for _subpattern2
                                                                                 PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern2.Hydrogen_node_anchor = node_cur_DNT_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
+                                                                                // Push subpattern matching task for _subpattern1
                                                                                 PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern1.Nitro_node_anchor = node_cur_DNT_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
+                                                                                // Push subpattern matching task for _subpattern0
                                                                                 PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
                                                                                 taskFor__subpattern0.Methyl_node_anchor = node_cur_DNT_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
@@ -6254,14 +7394,23 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 edge_cur_DNT_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_DNT_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_DNT_edge__edge8.isMatchedByEnclosingPattern = true;
+                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                                                                //Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern1
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern2
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern3
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern4
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern5
                                                                                 openTasks.Pop();
+                                                                                // Check whether subpatterns were found 
                                                                                 if(matchesList.Count>0) {
+                                                                                    // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
                                                                                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -6290,6 +7439,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         matches.matchesList.PositionWasFilledFixIt();
                                                                                     }
                                                                                     matchesList.Clear();
+                                                                                    // if enough matches were found, we leave
                                                                                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                     {
                                                                                         edge_cur_DNT_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -6401,7 +7551,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_DNTUnfolded() {
             rulePattern = Rule_DNTUnfolded.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 19, 22, 0);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 19, 22, 0+0);
         }
 
         public override string Name { get { return "DNTUnfolded"; } }
@@ -6413,11 +7563,13 @@ namespace de.unika.ipd.grGen.Action_TNT
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            // Lookup DNTUnfolded_edge__edge0 
             int edge_type_id_DNTUnfolded_edge__edge0 = 1;
             for(LGSPEdge edge_head_DNTUnfolded_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_DNTUnfolded_edge__edge0], edge_cur_DNTUnfolded_edge__edge0 = edge_head_DNTUnfolded_edge__edge0.typeNext; edge_cur_DNTUnfolded_edge__edge0 != edge_head_DNTUnfolded_edge__edge0; edge_cur_DNTUnfolded_edge__edge0 = edge_cur_DNTUnfolded_edge__edge0.typeNext)
             {
                 bool edge_cur_DNTUnfolded_edge__edge0_prevIsMatched = edge_cur_DNTUnfolded_edge__edge0.isMatched;
                 edge_cur_DNTUnfolded_edge__edge0.isMatched = true;
+                // Implicit source DNTUnfolded_node_c1 from DNTUnfolded_edge__edge0 
                 LGSPNode node_cur_DNTUnfolded_node_c1 = edge_cur_DNTUnfolded_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_DNTUnfolded_node_c1.type.TypeID]) {
                     edge_cur_DNTUnfolded_edge__edge0.isMatched = edge_cur_DNTUnfolded_edge__edge0_prevIsMatched;
@@ -6425,6 +7577,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_DNTUnfolded_node_c1_prevIsMatched = node_cur_DNTUnfolded_node_c1.isMatched;
                 node_cur_DNTUnfolded_node_c1.isMatched = true;
+                // Implicit target DNTUnfolded_node_c2 from DNTUnfolded_edge__edge0 
                 LGSPNode node_cur_DNTUnfolded_node_c2 = edge_cur_DNTUnfolded_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_DNTUnfolded_node_c2.type.TypeID]) {
                     node_cur_DNTUnfolded_node_c1.isMatched = node_cur_DNTUnfolded_node_c1_prevIsMatched;
@@ -6441,6 +7594,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_DNTUnfolded_node_c2_prevIsMatched = node_cur_DNTUnfolded_node_c2.isMatched;
                 node_cur_DNTUnfolded_node_c2.isMatched = true;
+                // Extend outgoing DNTUnfolded_edge__edge6 from DNTUnfolded_node_c1 
                 LGSPEdge edge_head_DNTUnfolded_edge__edge6 = node_cur_DNTUnfolded_node_c1.outhead;
                 if(edge_head_DNTUnfolded_edge__edge6 != null)
                 {
@@ -6461,6 +7615,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_DNTUnfolded_edge__edge6_prevIsMatched = edge_cur_DNTUnfolded_edge__edge6.isMatched;
                         edge_cur_DNTUnfolded_edge__edge6.isMatched = true;
+                        // Extend outgoing DNTUnfolded_edge__edge9 from DNTUnfolded_node_c1 
                         LGSPEdge edge_head_DNTUnfolded_edge__edge9 = node_cur_DNTUnfolded_node_c1.outhead;
                         if(edge_head_DNTUnfolded_edge__edge9 != null)
                         {
@@ -6480,6 +7635,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_DNTUnfolded_edge__edge9_prevIsMatched = edge_cur_DNTUnfolded_edge__edge9.isMatched;
                                 edge_cur_DNTUnfolded_edge__edge9.isMatched = true;
+                                // Implicit target DNTUnfolded_node_c from DNTUnfolded_edge__edge9 
                                 LGSPNode node_cur_DNTUnfolded_node_c = edge_cur_DNTUnfolded_edge__edge9.target;
                                 if(!NodeType_C.isMyType[node_cur_DNTUnfolded_node_c.type.TypeID]) {
                                     edge_cur_DNTUnfolded_edge__edge9.isMatched = edge_cur_DNTUnfolded_edge__edge9_prevIsMatched;
@@ -6496,6 +7652,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_DNTUnfolded_node_c_prevIsMatched = node_cur_DNTUnfolded_node_c.isMatched;
                                 node_cur_DNTUnfolded_node_c.isMatched = true;
+                                // Extend outgoing DNTUnfolded_edge__edge1 from DNTUnfolded_node_c2 
                                 LGSPEdge edge_head_DNTUnfolded_edge__edge1 = node_cur_DNTUnfolded_node_c2.outhead;
                                 if(edge_head_DNTUnfolded_edge__edge1 != null)
                                 {
@@ -6516,6 +7673,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_DNTUnfolded_edge__edge1_prevIsMatched = edge_cur_DNTUnfolded_edge__edge1.isMatched;
                                         edge_cur_DNTUnfolded_edge__edge1.isMatched = true;
+                                        // Implicit target DNTUnfolded_node_c3 from DNTUnfolded_edge__edge1 
                                         LGSPNode node_cur_DNTUnfolded_node_c3 = edge_cur_DNTUnfolded_edge__edge1.target;
                                         if(!NodeType_C.isMyType[node_cur_DNTUnfolded_node_c3.type.TypeID]) {
                                             edge_cur_DNTUnfolded_edge__edge1.isMatched = edge_cur_DNTUnfolded_edge__edge1_prevIsMatched;
@@ -6533,6 +7691,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_DNTUnfolded_node_c3_prevIsMatched = node_cur_DNTUnfolded_node_c3.isMatched;
                                         node_cur_DNTUnfolded_node_c3.isMatched = true;
+                                        // Extend outgoing DNTUnfolded_edge__edge13 from DNTUnfolded_node_c2 
                                         LGSPEdge edge_head_DNTUnfolded_edge__edge13 = node_cur_DNTUnfolded_node_c2.outhead;
                                         if(edge_head_DNTUnfolded_edge__edge13 != null)
                                         {
@@ -6554,6 +7713,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_DNTUnfolded_edge__edge13_prevIsMatched = edge_cur_DNTUnfolded_edge__edge13.isMatched;
                                                 edge_cur_DNTUnfolded_edge__edge13.isMatched = true;
+                                                // Implicit target DNTUnfolded_node_n2 from DNTUnfolded_edge__edge13 
                                                 LGSPNode node_cur_DNTUnfolded_node_n2 = edge_cur_DNTUnfolded_edge__edge13.target;
                                                 if(!NodeType_N.isMyType[node_cur_DNTUnfolded_node_n2.type.TypeID]) {
                                                     edge_cur_DNTUnfolded_edge__edge13.isMatched = edge_cur_DNTUnfolded_edge__edge13_prevIsMatched;
@@ -6561,6 +7721,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool node_cur_DNTUnfolded_node_n2_prevIsMatched = node_cur_DNTUnfolded_node_n2.isMatched;
                                                 node_cur_DNTUnfolded_node_n2.isMatched = true;
+                                                // Extend outgoing DNTUnfolded_edge__edge10 from DNTUnfolded_node_c 
                                                 LGSPEdge edge_head_DNTUnfolded_edge__edge10 = node_cur_DNTUnfolded_node_c.outhead;
                                                 if(edge_head_DNTUnfolded_edge__edge10 != null)
                                                 {
@@ -6583,6 +7744,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_DNTUnfolded_edge__edge10_prevIsMatched = edge_cur_DNTUnfolded_edge__edge10.isMatched;
                                                         edge_cur_DNTUnfolded_edge__edge10.isMatched = true;
+                                                        // Implicit target DNTUnfolded_node__node0 from DNTUnfolded_edge__edge10 
                                                         LGSPNode node_cur_DNTUnfolded_node__node0 = edge_cur_DNTUnfolded_edge__edge10.target;
                                                         if(!NodeType_H.isMyType[node_cur_DNTUnfolded_node__node0.type.TypeID]) {
                                                             edge_cur_DNTUnfolded_edge__edge10.isMatched = edge_cur_DNTUnfolded_edge__edge10_prevIsMatched;
@@ -6590,6 +7752,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_DNTUnfolded_node__node0_prevIsMatched = node_cur_DNTUnfolded_node__node0.isMatched;
                                                         node_cur_DNTUnfolded_node__node0.isMatched = true;
+                                                        // Extend outgoing DNTUnfolded_edge__edge11 from DNTUnfolded_node_c 
                                                         LGSPEdge edge_head_DNTUnfolded_edge__edge11 = node_cur_DNTUnfolded_node_c.outhead;
                                                         if(edge_head_DNTUnfolded_edge__edge11 != null)
                                                         {
@@ -6613,6 +7776,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_DNTUnfolded_edge__edge11_prevIsMatched = edge_cur_DNTUnfolded_edge__edge11.isMatched;
                                                                 edge_cur_DNTUnfolded_edge__edge11.isMatched = true;
+                                                                // Implicit target DNTUnfolded_node__node1 from DNTUnfolded_edge__edge11 
                                                                 LGSPNode node_cur_DNTUnfolded_node__node1 = edge_cur_DNTUnfolded_edge__edge11.target;
                                                                 if(!NodeType_H.isMyType[node_cur_DNTUnfolded_node__node1.type.TypeID]) {
                                                                     edge_cur_DNTUnfolded_edge__edge11.isMatched = edge_cur_DNTUnfolded_edge__edge11_prevIsMatched;
@@ -6627,6 +7791,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool node_cur_DNTUnfolded_node__node1_prevIsMatched = node_cur_DNTUnfolded_node__node1.isMatched;
                                                                 node_cur_DNTUnfolded_node__node1.isMatched = true;
+                                                                // Extend outgoing DNTUnfolded_edge__edge12 from DNTUnfolded_node_c 
                                                                 LGSPEdge edge_head_DNTUnfolded_edge__edge12 = node_cur_DNTUnfolded_node_c.outhead;
                                                                 if(edge_head_DNTUnfolded_edge__edge12 != null)
                                                                 {
@@ -6651,6 +7816,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_DNTUnfolded_edge__edge12_prevIsMatched = edge_cur_DNTUnfolded_edge__edge12.isMatched;
                                                                         edge_cur_DNTUnfolded_edge__edge12.isMatched = true;
+                                                                        // Implicit target DNTUnfolded_node__node2 from DNTUnfolded_edge__edge12 
                                                                         LGSPNode node_cur_DNTUnfolded_node__node2 = edge_cur_DNTUnfolded_edge__edge12.target;
                                                                         if(!NodeType_H.isMyType[node_cur_DNTUnfolded_node__node2.type.TypeID]) {
                                                                             edge_cur_DNTUnfolded_edge__edge12.isMatched = edge_cur_DNTUnfolded_edge__edge12_prevIsMatched;
@@ -6667,6 +7833,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool node_cur_DNTUnfolded_node__node2_prevIsMatched = node_cur_DNTUnfolded_node__node2.isMatched;
                                                                         node_cur_DNTUnfolded_node__node2.isMatched = true;
+                                                                        // Extend outgoing DNTUnfolded_edge__edge2 from DNTUnfolded_node_c3 
                                                                         LGSPEdge edge_head_DNTUnfolded_edge__edge2 = node_cur_DNTUnfolded_node_c3.outhead;
                                                                         if(edge_head_DNTUnfolded_edge__edge2 != null)
                                                                         {
@@ -6692,6 +7859,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool edge_cur_DNTUnfolded_edge__edge2_prevIsMatched = edge_cur_DNTUnfolded_edge__edge2.isMatched;
                                                                                 edge_cur_DNTUnfolded_edge__edge2.isMatched = true;
+                                                                                // Implicit target DNTUnfolded_node_c4 from DNTUnfolded_edge__edge2 
                                                                                 LGSPNode node_cur_DNTUnfolded_node_c4 = edge_cur_DNTUnfolded_edge__edge2.target;
                                                                                 if(!NodeType_C.isMyType[node_cur_DNTUnfolded_node_c4.type.TypeID]) {
                                                                                     edge_cur_DNTUnfolded_edge__edge2.isMatched = edge_cur_DNTUnfolded_edge__edge2_prevIsMatched;
@@ -6710,6 +7878,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool node_cur_DNTUnfolded_node_c4_prevIsMatched = node_cur_DNTUnfolded_node_c4.isMatched;
                                                                                 node_cur_DNTUnfolded_node_c4.isMatched = true;
+                                                                                // Extend outgoing DNTUnfolded_edge__edge7 from DNTUnfolded_node_c3 
                                                                                 LGSPEdge edge_head_DNTUnfolded_edge__edge7 = node_cur_DNTUnfolded_node_c3.outhead;
                                                                                 if(edge_head_DNTUnfolded_edge__edge7 != null)
                                                                                 {
@@ -6739,6 +7908,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         bool edge_cur_DNTUnfolded_edge__edge7_prevIsMatched = edge_cur_DNTUnfolded_edge__edge7.isMatched;
                                                                                         edge_cur_DNTUnfolded_edge__edge7.isMatched = true;
+                                                                                        // Extend outgoing DNTUnfolded_edge__edge16 from DNTUnfolded_node_c3 
                                                                                         LGSPEdge edge_head_DNTUnfolded_edge__edge16 = node_cur_DNTUnfolded_node_c3.outhead;
                                                                                         if(edge_head_DNTUnfolded_edge__edge16 != null)
                                                                                         {
@@ -6766,6 +7936,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool edge_cur_DNTUnfolded_edge__edge16_prevIsMatched = edge_cur_DNTUnfolded_edge__edge16.isMatched;
                                                                                                 edge_cur_DNTUnfolded_edge__edge16.isMatched = true;
+                                                                                                // Implicit target DNTUnfolded_node__node5 from DNTUnfolded_edge__edge16 
                                                                                                 LGSPNode node_cur_DNTUnfolded_node__node5 = edge_cur_DNTUnfolded_edge__edge16.target;
                                                                                                 if(!NodeType_H.isMyType[node_cur_DNTUnfolded_node__node5.type.TypeID]) {
                                                                                                     edge_cur_DNTUnfolded_edge__edge16.isMatched = edge_cur_DNTUnfolded_edge__edge16_prevIsMatched;
@@ -6783,6 +7954,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool node_cur_DNTUnfolded_node__node5_prevIsMatched = node_cur_DNTUnfolded_node__node5.isMatched;
                                                                                                 node_cur_DNTUnfolded_node__node5.isMatched = true;
+                                                                                                // Extend outgoing DNTUnfolded_edge__edge14 from DNTUnfolded_node_n2 
                                                                                                 LGSPEdge edge_head_DNTUnfolded_edge__edge14 = node_cur_DNTUnfolded_node_n2.outhead;
                                                                                                 if(edge_head_DNTUnfolded_edge__edge14 != null)
                                                                                                 {
@@ -6811,6 +7983,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool edge_cur_DNTUnfolded_edge__edge14_prevIsMatched = edge_cur_DNTUnfolded_edge__edge14.isMatched;
                                                                                                         edge_cur_DNTUnfolded_edge__edge14.isMatched = true;
+                                                                                                        // Implicit target DNTUnfolded_node__node3 from DNTUnfolded_edge__edge14 
                                                                                                         LGSPNode node_cur_DNTUnfolded_node__node3 = edge_cur_DNTUnfolded_edge__edge14.target;
                                                                                                         if(!NodeType_O.isMyType[node_cur_DNTUnfolded_node__node3.type.TypeID]) {
                                                                                                             edge_cur_DNTUnfolded_edge__edge14.isMatched = edge_cur_DNTUnfolded_edge__edge14_prevIsMatched;
@@ -6818,6 +7991,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool node_cur_DNTUnfolded_node__node3_prevIsMatched = node_cur_DNTUnfolded_node__node3.isMatched;
                                                                                                         node_cur_DNTUnfolded_node__node3.isMatched = true;
+                                                                                                        // Extend outgoing DNTUnfolded_edge__edge15 from DNTUnfolded_node_n2 
                                                                                                         LGSPEdge edge_head_DNTUnfolded_edge__edge15 = node_cur_DNTUnfolded_node_n2.outhead;
                                                                                                         if(edge_head_DNTUnfolded_edge__edge15 != null)
                                                                                                         {
@@ -6847,6 +8021,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 }
                                                                                                                 bool edge_cur_DNTUnfolded_edge__edge15_prevIsMatched = edge_cur_DNTUnfolded_edge__edge15.isMatched;
                                                                                                                 edge_cur_DNTUnfolded_edge__edge15.isMatched = true;
+                                                                                                                // Implicit target DNTUnfolded_node__node4 from DNTUnfolded_edge__edge15 
                                                                                                                 LGSPNode node_cur_DNTUnfolded_node__node4 = edge_cur_DNTUnfolded_edge__edge15.target;
                                                                                                                 if(!NodeType_O.isMyType[node_cur_DNTUnfolded_node__node4.type.TypeID]) {
                                                                                                                     edge_cur_DNTUnfolded_edge__edge15.isMatched = edge_cur_DNTUnfolded_edge__edge15_prevIsMatched;
@@ -6861,6 +8036,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 }
                                                                                                                 bool node_cur_DNTUnfolded_node__node4_prevIsMatched = node_cur_DNTUnfolded_node__node4.isMatched;
                                                                                                                 node_cur_DNTUnfolded_node__node4.isMatched = true;
+                                                                                                                // Extend outgoing DNTUnfolded_edge__edge3 from DNTUnfolded_node_c4 
                                                                                                                 LGSPEdge edge_head_DNTUnfolded_edge__edge3 = node_cur_DNTUnfolded_node_c4.outhead;
                                                                                                                 if(edge_head_DNTUnfolded_edge__edge3 != null)
                                                                                                                 {
@@ -6891,6 +8067,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                         }
                                                                                                                         bool edge_cur_DNTUnfolded_edge__edge3_prevIsMatched = edge_cur_DNTUnfolded_edge__edge3.isMatched;
                                                                                                                         edge_cur_DNTUnfolded_edge__edge3.isMatched = true;
+                                                                                                                        // Implicit target DNTUnfolded_node_c5 from DNTUnfolded_edge__edge3 
                                                                                                                         LGSPNode node_cur_DNTUnfolded_node_c5 = edge_cur_DNTUnfolded_edge__edge3.target;
                                                                                                                         if(!NodeType_C.isMyType[node_cur_DNTUnfolded_node_c5.type.TypeID]) {
                                                                                                                             edge_cur_DNTUnfolded_edge__edge3.isMatched = edge_cur_DNTUnfolded_edge__edge3_prevIsMatched;
@@ -6910,6 +8087,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                         }
                                                                                                                         bool node_cur_DNTUnfolded_node_c5_prevIsMatched = node_cur_DNTUnfolded_node_c5.isMatched;
                                                                                                                         node_cur_DNTUnfolded_node_c5.isMatched = true;
+                                                                                                                        // Extend outgoing DNTUnfolded_edge__edge17 from DNTUnfolded_node_c4 
                                                                                                                         LGSPEdge edge_head_DNTUnfolded_edge__edge17 = node_cur_DNTUnfolded_node_c4.outhead;
                                                                                                                         if(edge_head_DNTUnfolded_edge__edge17 != null)
                                                                                                                         {
@@ -6941,6 +8119,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                 }
                                                                                                                                 bool edge_cur_DNTUnfolded_edge__edge17_prevIsMatched = edge_cur_DNTUnfolded_edge__edge17.isMatched;
                                                                                                                                 edge_cur_DNTUnfolded_edge__edge17.isMatched = true;
+                                                                                                                                // Implicit target DNTUnfolded_node_n4 from DNTUnfolded_edge__edge17 
                                                                                                                                 LGSPNode node_cur_DNTUnfolded_node_n4 = edge_cur_DNTUnfolded_edge__edge17.target;
                                                                                                                                 if(!NodeType_N.isMyType[node_cur_DNTUnfolded_node_n4.type.TypeID]) {
                                                                                                                                     edge_cur_DNTUnfolded_edge__edge17.isMatched = edge_cur_DNTUnfolded_edge__edge17_prevIsMatched;
@@ -6953,6 +8132,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                     edge_cur_DNTUnfolded_edge__edge17.isMatched = edge_cur_DNTUnfolded_edge__edge17_prevIsMatched;
                                                                                                                                     continue;
                                                                                                                                 }
+                                                                                                                                // Extend outgoing DNTUnfolded_edge__edge4 from DNTUnfolded_node_c5 
                                                                                                                                 LGSPEdge edge_head_DNTUnfolded_edge__edge4 = node_cur_DNTUnfolded_node_c5.outhead;
                                                                                                                                 if(edge_head_DNTUnfolded_edge__edge4 != null)
                                                                                                                                 {
@@ -6985,6 +8165,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                         }
                                                                                                                                         bool edge_cur_DNTUnfolded_edge__edge4_prevIsMatched = edge_cur_DNTUnfolded_edge__edge4.isMatched;
                                                                                                                                         edge_cur_DNTUnfolded_edge__edge4.isMatched = true;
+                                                                                                                                        // Implicit target DNTUnfolded_node_c6 from DNTUnfolded_edge__edge4 
                                                                                                                                         LGSPNode node_cur_DNTUnfolded_node_c6 = edge_cur_DNTUnfolded_edge__edge4.target;
                                                                                                                                         if(!NodeType_C.isMyType[node_cur_DNTUnfolded_node_c6.type.TypeID]) {
                                                                                                                                             edge_cur_DNTUnfolded_edge__edge4.isMatched = edge_cur_DNTUnfolded_edge__edge4_prevIsMatched;
@@ -7003,6 +8184,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                             edge_cur_DNTUnfolded_edge__edge4.isMatched = edge_cur_DNTUnfolded_edge__edge4_prevIsMatched;
                                                                                                                                             continue;
                                                                                                                                         }
+                                                                                                                                        // Extend outgoing DNTUnfolded_edge__edge8 from DNTUnfolded_node_c5 
                                                                                                                                         LGSPEdge edge_head_DNTUnfolded_edge__edge8 = node_cur_DNTUnfolded_node_c5.outhead;
                                                                                                                                         if(edge_head_DNTUnfolded_edge__edge8 != null)
                                                                                                                                         {
@@ -7039,6 +8221,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                 }
                                                                                                                                                 bool edge_cur_DNTUnfolded_edge__edge8_prevIsMatched = edge_cur_DNTUnfolded_edge__edge8.isMatched;
                                                                                                                                                 edge_cur_DNTUnfolded_edge__edge8.isMatched = true;
+                                                                                                                                                // Extend outgoing DNTUnfolded_edge__edge20 from DNTUnfolded_node_c5 
                                                                                                                                                 LGSPEdge edge_head_DNTUnfolded_edge__edge20 = node_cur_DNTUnfolded_node_c5.outhead;
                                                                                                                                                 if(edge_head_DNTUnfolded_edge__edge20 != null)
                                                                                                                                                 {
@@ -7073,6 +8256,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                         }
                                                                                                                                                         bool edge_cur_DNTUnfolded_edge__edge20_prevIsMatched = edge_cur_DNTUnfolded_edge__edge20.isMatched;
                                                                                                                                                         edge_cur_DNTUnfolded_edge__edge20.isMatched = true;
+                                                                                                                                                        // Implicit target DNTUnfolded_node__node8 from DNTUnfolded_edge__edge20 
                                                                                                                                                         LGSPNode node_cur_DNTUnfolded_node__node8 = edge_cur_DNTUnfolded_edge__edge20.target;
                                                                                                                                                         if(!NodeType_H.isMyType[node_cur_DNTUnfolded_node__node8.type.TypeID]) {
                                                                                                                                                             edge_cur_DNTUnfolded_edge__edge20.isMatched = edge_cur_DNTUnfolded_edge__edge20_prevIsMatched;
@@ -7091,6 +8275,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                         }
                                                                                                                                                         bool node_cur_DNTUnfolded_node__node8_prevIsMatched = node_cur_DNTUnfolded_node__node8.isMatched;
                                                                                                                                                         node_cur_DNTUnfolded_node__node8.isMatched = true;
+                                                                                                                                                        // Extend outgoing DNTUnfolded_edge__edge18 from DNTUnfolded_node_n4 
                                                                                                                                                         LGSPEdge edge_head_DNTUnfolded_edge__edge18 = node_cur_DNTUnfolded_node_n4.outhead;
                                                                                                                                                         if(edge_head_DNTUnfolded_edge__edge18 != null)
                                                                                                                                                         {
@@ -7126,6 +8311,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                 }
                                                                                                                                                                 bool edge_cur_DNTUnfolded_edge__edge18_prevIsMatched = edge_cur_DNTUnfolded_edge__edge18.isMatched;
                                                                                                                                                                 edge_cur_DNTUnfolded_edge__edge18.isMatched = true;
+                                                                                                                                                                // Implicit target DNTUnfolded_node__node6 from DNTUnfolded_edge__edge18 
                                                                                                                                                                 LGSPNode node_cur_DNTUnfolded_node__node6 = edge_cur_DNTUnfolded_edge__edge18.target;
                                                                                                                                                                 if(!NodeType_O.isMyType[node_cur_DNTUnfolded_node__node6.type.TypeID]) {
                                                                                                                                                                     edge_cur_DNTUnfolded_edge__edge18.isMatched = edge_cur_DNTUnfolded_edge__edge18_prevIsMatched;
@@ -7142,6 +8328,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                 }
                                                                                                                                                                 bool node_cur_DNTUnfolded_node__node6_prevIsMatched = node_cur_DNTUnfolded_node__node6.isMatched;
                                                                                                                                                                 node_cur_DNTUnfolded_node__node6.isMatched = true;
+                                                                                                                                                                // Extend outgoing DNTUnfolded_edge__edge19 from DNTUnfolded_node_n4 
                                                                                                                                                                 LGSPEdge edge_head_DNTUnfolded_edge__edge19 = node_cur_DNTUnfolded_node_n4.outhead;
                                                                                                                                                                 if(edge_head_DNTUnfolded_edge__edge19 != null)
                                                                                                                                                                 {
@@ -7178,6 +8365,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                         }
                                                                                                                                                                         bool edge_cur_DNTUnfolded_edge__edge19_prevIsMatched = edge_cur_DNTUnfolded_edge__edge19.isMatched;
                                                                                                                                                                         edge_cur_DNTUnfolded_edge__edge19.isMatched = true;
+                                                                                                                                                                        // Implicit target DNTUnfolded_node__node7 from DNTUnfolded_edge__edge19 
                                                                                                                                                                         LGSPNode node_cur_DNTUnfolded_node__node7 = edge_cur_DNTUnfolded_edge__edge19.target;
                                                                                                                                                                         if(!NodeType_O.isMyType[node_cur_DNTUnfolded_node__node7.type.TypeID]) {
                                                                                                                                                                             edge_cur_DNTUnfolded_edge__edge19.isMatched = edge_cur_DNTUnfolded_edge__edge19_prevIsMatched;
@@ -7193,6 +8381,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                             edge_cur_DNTUnfolded_edge__edge19.isMatched = edge_cur_DNTUnfolded_edge__edge19_prevIsMatched;
                                                                                                                                                                             continue;
                                                                                                                                                                         }
+                                                                                                                                                                        // Extend outgoing DNTUnfolded_edge__edge5 from DNTUnfolded_node_c6 
                                                                                                                                                                         LGSPEdge edge_head_DNTUnfolded_edge__edge5 = node_cur_DNTUnfolded_node_c6.outhead;
                                                                                                                                                                         if(edge_head_DNTUnfolded_edge__edge5 != null)
                                                                                                                                                                         {
@@ -7233,6 +8422,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                 }
                                                                                                                                                                                 bool edge_cur_DNTUnfolded_edge__edge5_prevIsMatched = edge_cur_DNTUnfolded_edge__edge5.isMatched;
                                                                                                                                                                                 edge_cur_DNTUnfolded_edge__edge5.isMatched = true;
+                                                                                                                                                                                // Extend outgoing DNTUnfolded_edge__edge21 from DNTUnfolded_node_c6 
                                                                                                                                                                                 LGSPEdge edge_head_DNTUnfolded_edge__edge21 = node_cur_DNTUnfolded_node_c6.outhead;
                                                                                                                                                                                 if(edge_head_DNTUnfolded_edge__edge21 != null)
                                                                                                                                                                                 {
@@ -7269,6 +8459,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                         {
                                                                                                                                                                                             continue;
                                                                                                                                                                                         }
+                                                                                                                                                                                        // Implicit target DNTUnfolded_node__node9 from DNTUnfolded_edge__edge21 
                                                                                                                                                                                         LGSPNode node_cur_DNTUnfolded_node__node9 = edge_cur_DNTUnfolded_edge__edge21.target;
                                                                                                                                                                                         if(!NodeType_H.isMyType[node_cur_DNTUnfolded_node__node9.type.TypeID]) {
                                                                                                                                                                                             continue;
@@ -7328,6 +8519,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                         match.Edges[(int)Rule_DNTUnfolded.DNTUnfolded_EdgeNums.@_edge20] = edge_cur_DNTUnfolded_edge__edge20;
                                                                                                                                                                                         match.Edges[(int)Rule_DNTUnfolded.DNTUnfolded_EdgeNums.@_edge21] = edge_cur_DNTUnfolded_edge__edge21;
                                                                                                                                                                                         matches.matchesList.PositionWasFilledFixIt();
+                                                                                                                                                                                        // if enough matches were found, we leave
                                                                                                                                                                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                                                                                                                         {
                                                                                                                                                                                             node_cur_DNTUnfolded_node_c6.MoveOutHeadAfter(edge_cur_DNTUnfolded_edge__edge21);
@@ -7499,7 +8691,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_TNB() {
             rulePattern = Rule_TNB.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6+0);
         }
 
         public override string Name { get { return "TNB"; } }
@@ -7514,11 +8706,13 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup TNB_edge__edge0 
             int edge_type_id_TNB_edge__edge0 = 1;
             for(LGSPEdge edge_head_TNB_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_TNB_edge__edge0], edge_cur_TNB_edge__edge0 = edge_head_TNB_edge__edge0.typeNext; edge_cur_TNB_edge__edge0 != edge_head_TNB_edge__edge0; edge_cur_TNB_edge__edge0 = edge_cur_TNB_edge__edge0.typeNext)
             {
                 bool edge_cur_TNB_edge__edge0_prevIsMatched = edge_cur_TNB_edge__edge0.isMatched;
                 edge_cur_TNB_edge__edge0.isMatched = true;
+                // Implicit source TNB_node_c1 from TNB_edge__edge0 
                 LGSPNode node_cur_TNB_node_c1 = edge_cur_TNB_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_TNB_node_c1.type.TypeID]) {
                     edge_cur_TNB_edge__edge0.isMatched = edge_cur_TNB_edge__edge0_prevIsMatched;
@@ -7526,6 +8720,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_TNB_node_c1_prevIsMatched = node_cur_TNB_node_c1.isMatched;
                 node_cur_TNB_node_c1.isMatched = true;
+                // Implicit target TNB_node_c2 from TNB_edge__edge0 
                 LGSPNode node_cur_TNB_node_c2 = edge_cur_TNB_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_TNB_node_c2.type.TypeID]) {
                     node_cur_TNB_node_c1.isMatched = node_cur_TNB_node_c1_prevIsMatched;
@@ -7542,6 +8737,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_TNB_node_c2_prevIsMatched = node_cur_TNB_node_c2.isMatched;
                 node_cur_TNB_node_c2.isMatched = true;
+                // Extend outgoing TNB_edge__edge6 from TNB_node_c1 
                 LGSPEdge edge_head_TNB_edge__edge6 = node_cur_TNB_node_c1.outhead;
                 if(edge_head_TNB_edge__edge6 != null)
                 {
@@ -7562,6 +8758,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_TNB_edge__edge6_prevIsMatched = edge_cur_TNB_edge__edge6.isMatched;
                         edge_cur_TNB_edge__edge6.isMatched = true;
+                        // Extend outgoing TNB_edge__edge1 from TNB_node_c2 
                         LGSPEdge edge_head_TNB_edge__edge1 = node_cur_TNB_node_c2.outhead;
                         if(edge_head_TNB_edge__edge1 != null)
                         {
@@ -7581,6 +8778,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_TNB_edge__edge1_prevIsMatched = edge_cur_TNB_edge__edge1.isMatched;
                                 edge_cur_TNB_edge__edge1.isMatched = true;
+                                // Implicit target TNB_node_c3 from TNB_edge__edge1 
                                 LGSPNode node_cur_TNB_node_c3 = edge_cur_TNB_edge__edge1.target;
                                 if(!NodeType_C.isMyType[node_cur_TNB_node_c3.type.TypeID]) {
                                     edge_cur_TNB_edge__edge1.isMatched = edge_cur_TNB_edge__edge1_prevIsMatched;
@@ -7597,6 +8795,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_TNB_node_c3_prevIsMatched = node_cur_TNB_node_c3.isMatched;
                                 node_cur_TNB_node_c3.isMatched = true;
+                                // Extend outgoing TNB_edge__edge2 from TNB_node_c3 
                                 LGSPEdge edge_head_TNB_edge__edge2 = node_cur_TNB_node_c3.outhead;
                                 if(edge_head_TNB_edge__edge2 != null)
                                 {
@@ -7617,6 +8816,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_TNB_edge__edge2_prevIsMatched = edge_cur_TNB_edge__edge2.isMatched;
                                         edge_cur_TNB_edge__edge2.isMatched = true;
+                                        // Implicit target TNB_node_c4 from TNB_edge__edge2 
                                         LGSPNode node_cur_TNB_node_c4 = edge_cur_TNB_edge__edge2.target;
                                         if(!NodeType_C.isMyType[node_cur_TNB_node_c4.type.TypeID]) {
                                             edge_cur_TNB_edge__edge2.isMatched = edge_cur_TNB_edge__edge2_prevIsMatched;
@@ -7634,6 +8834,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_TNB_node_c4_prevIsMatched = node_cur_TNB_node_c4.isMatched;
                                         node_cur_TNB_node_c4.isMatched = true;
+                                        // Extend outgoing TNB_edge__edge7 from TNB_node_c3 
                                         LGSPEdge edge_head_TNB_edge__edge7 = node_cur_TNB_node_c3.outhead;
                                         if(edge_head_TNB_edge__edge7 != null)
                                         {
@@ -7658,6 +8859,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_TNB_edge__edge7_prevIsMatched = edge_cur_TNB_edge__edge7.isMatched;
                                                 edge_cur_TNB_edge__edge7.isMatched = true;
+                                                // Extend outgoing TNB_edge__edge3 from TNB_node_c4 
                                                 LGSPEdge edge_head_TNB_edge__edge3 = node_cur_TNB_node_c4.outhead;
                                                 if(edge_head_TNB_edge__edge3 != null)
                                                 {
@@ -7680,6 +8882,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_TNB_edge__edge3_prevIsMatched = edge_cur_TNB_edge__edge3.isMatched;
                                                         edge_cur_TNB_edge__edge3.isMatched = true;
+                                                        // Implicit target TNB_node_c5 from TNB_edge__edge3 
                                                         LGSPNode node_cur_TNB_node_c5 = edge_cur_TNB_edge__edge3.target;
                                                         if(!NodeType_C.isMyType[node_cur_TNB_node_c5.type.TypeID]) {
                                                             edge_cur_TNB_edge__edge3.isMatched = edge_cur_TNB_edge__edge3_prevIsMatched;
@@ -7698,6 +8901,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_TNB_node_c5_prevIsMatched = node_cur_TNB_node_c5.isMatched;
                                                         node_cur_TNB_node_c5.isMatched = true;
+                                                        // Extend outgoing TNB_edge__edge4 from TNB_node_c5 
                                                         LGSPEdge edge_head_TNB_edge__edge4 = node_cur_TNB_node_c5.outhead;
                                                         if(edge_head_TNB_edge__edge4 != null)
                                                         {
@@ -7721,6 +8925,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_TNB_edge__edge4_prevIsMatched = edge_cur_TNB_edge__edge4.isMatched;
                                                                 edge_cur_TNB_edge__edge4.isMatched = true;
+                                                                // Implicit target TNB_node_c6 from TNB_edge__edge4 
                                                                 LGSPNode node_cur_TNB_node_c6 = edge_cur_TNB_edge__edge4.target;
                                                                 if(!NodeType_C.isMyType[node_cur_TNB_node_c6.type.TypeID]) {
                                                                     edge_cur_TNB_edge__edge4.isMatched = edge_cur_TNB_edge__edge4_prevIsMatched;
@@ -7738,6 +8943,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     edge_cur_TNB_edge__edge4.isMatched = edge_cur_TNB_edge__edge4_prevIsMatched;
                                                                     continue;
                                                                 }
+                                                                // Extend outgoing TNB_edge__edge8 from TNB_node_c5 
                                                                 LGSPEdge edge_head_TNB_edge__edge8 = node_cur_TNB_node_c5.outhead;
                                                                 if(edge_head_TNB_edge__edge8 != null)
                                                                 {
@@ -7765,6 +8971,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_TNB_edge__edge8_prevIsMatched = edge_cur_TNB_edge__edge8.isMatched;
                                                                         edge_cur_TNB_edge__edge8.isMatched = true;
+                                                                        // Extend outgoing TNB_edge__edge5 from TNB_node_c6 
                                                                         LGSPEdge edge_head_TNB_edge__edge5 = node_cur_TNB_node_c6.outhead;
                                                                         if(edge_head_TNB_edge__edge5 != null)
                                                                         {
@@ -7791,21 +8998,27 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 {
                                                                                     continue;
                                                                                 }
+                                                                                // Push subpattern matching task for _subpattern5
                                                                                 PatternAction_Nitro taskFor__subpattern5 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern5.Nitro_node_anchor = node_cur_TNB_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
+                                                                                // Push subpattern matching task for _subpattern4
                                                                                 PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern4.Hydrogen_node_anchor = node_cur_TNB_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
+                                                                                // Push subpattern matching task for _subpattern3
                                                                                 PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern3.Nitro_node_anchor = node_cur_TNB_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
+                                                                                // Push subpattern matching task for _subpattern2
                                                                                 PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern2.Hydrogen_node_anchor = node_cur_TNB_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
+                                                                                // Push subpattern matching task for _subpattern1
                                                                                 PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern1.Nitro_node_anchor = node_cur_TNB_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
+                                                                                // Push subpattern matching task for _subpattern0
                                                                                 PatternAction_Hydrogen taskFor__subpattern0 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern0.Hydrogen_node_anchor = node_cur_TNB_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
@@ -7824,14 +9037,23 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 edge_cur_TNB_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_TNB_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_TNB_edge__edge8.isMatchedByEnclosingPattern = true;
+                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                                                                //Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern1
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern2
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern3
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern4
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern5
                                                                                 openTasks.Pop();
+                                                                                // Check whether subpatterns were found 
                                                                                 if(matchesList.Count>0) {
+                                                                                    // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
                                                                                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -7860,6 +9082,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         matches.matchesList.PositionWasFilledFixIt();
                                                                                     }
                                                                                     matchesList.Clear();
+                                                                                    // if enough matches were found, we leave
                                                                                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                     {
                                                                                         edge_cur_TNB_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -7971,7 +9194,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_TNBUnfolded() {
             rulePattern = Rule_TNBUnfolded.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 18, 21, 0);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 18, 21, 0+0);
         }
 
         public override string Name { get { return "TNBUnfolded"; } }
@@ -7983,11 +9206,13 @@ namespace de.unika.ipd.grGen.Action_TNT
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            // Lookup TNBUnfolded_edge__edge0 
             int edge_type_id_TNBUnfolded_edge__edge0 = 1;
             for(LGSPEdge edge_head_TNBUnfolded_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_TNBUnfolded_edge__edge0], edge_cur_TNBUnfolded_edge__edge0 = edge_head_TNBUnfolded_edge__edge0.typeNext; edge_cur_TNBUnfolded_edge__edge0 != edge_head_TNBUnfolded_edge__edge0; edge_cur_TNBUnfolded_edge__edge0 = edge_cur_TNBUnfolded_edge__edge0.typeNext)
             {
                 bool edge_cur_TNBUnfolded_edge__edge0_prevIsMatched = edge_cur_TNBUnfolded_edge__edge0.isMatched;
                 edge_cur_TNBUnfolded_edge__edge0.isMatched = true;
+                // Implicit source TNBUnfolded_node_c1 from TNBUnfolded_edge__edge0 
                 LGSPNode node_cur_TNBUnfolded_node_c1 = edge_cur_TNBUnfolded_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_TNBUnfolded_node_c1.type.TypeID]) {
                     edge_cur_TNBUnfolded_edge__edge0.isMatched = edge_cur_TNBUnfolded_edge__edge0_prevIsMatched;
@@ -7995,6 +9220,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_TNBUnfolded_node_c1_prevIsMatched = node_cur_TNBUnfolded_node_c1.isMatched;
                 node_cur_TNBUnfolded_node_c1.isMatched = true;
+                // Implicit target TNBUnfolded_node_c2 from TNBUnfolded_edge__edge0 
                 LGSPNode node_cur_TNBUnfolded_node_c2 = edge_cur_TNBUnfolded_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_TNBUnfolded_node_c2.type.TypeID]) {
                     node_cur_TNBUnfolded_node_c1.isMatched = node_cur_TNBUnfolded_node_c1_prevIsMatched;
@@ -8011,6 +9237,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_TNBUnfolded_node_c2_prevIsMatched = node_cur_TNBUnfolded_node_c2.isMatched;
                 node_cur_TNBUnfolded_node_c2.isMatched = true;
+                // Extend outgoing TNBUnfolded_edge__edge6 from TNBUnfolded_node_c1 
                 LGSPEdge edge_head_TNBUnfolded_edge__edge6 = node_cur_TNBUnfolded_node_c1.outhead;
                 if(edge_head_TNBUnfolded_edge__edge6 != null)
                 {
@@ -8031,6 +9258,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_TNBUnfolded_edge__edge6_prevIsMatched = edge_cur_TNBUnfolded_edge__edge6.isMatched;
                         edge_cur_TNBUnfolded_edge__edge6.isMatched = true;
+                        // Extend outgoing TNBUnfolded_edge__edge9 from TNBUnfolded_node_c1 
                         LGSPEdge edge_head_TNBUnfolded_edge__edge9 = node_cur_TNBUnfolded_node_c1.outhead;
                         if(edge_head_TNBUnfolded_edge__edge9 != null)
                         {
@@ -8050,6 +9278,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_TNBUnfolded_edge__edge9_prevIsMatched = edge_cur_TNBUnfolded_edge__edge9.isMatched;
                                 edge_cur_TNBUnfolded_edge__edge9.isMatched = true;
+                                // Implicit target TNBUnfolded_node__node0 from TNBUnfolded_edge__edge9 
                                 LGSPNode node_cur_TNBUnfolded_node__node0 = edge_cur_TNBUnfolded_edge__edge9.target;
                                 if(!NodeType_H.isMyType[node_cur_TNBUnfolded_node__node0.type.TypeID]) {
                                     edge_cur_TNBUnfolded_edge__edge9.isMatched = edge_cur_TNBUnfolded_edge__edge9_prevIsMatched;
@@ -8057,6 +9286,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_TNBUnfolded_node__node0_prevIsMatched = node_cur_TNBUnfolded_node__node0.isMatched;
                                 node_cur_TNBUnfolded_node__node0.isMatched = true;
+                                // Extend outgoing TNBUnfolded_edge__edge1 from TNBUnfolded_node_c2 
                                 LGSPEdge edge_head_TNBUnfolded_edge__edge1 = node_cur_TNBUnfolded_node_c2.outhead;
                                 if(edge_head_TNBUnfolded_edge__edge1 != null)
                                 {
@@ -8077,6 +9307,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_TNBUnfolded_edge__edge1_prevIsMatched = edge_cur_TNBUnfolded_edge__edge1.isMatched;
                                         edge_cur_TNBUnfolded_edge__edge1.isMatched = true;
+                                        // Implicit target TNBUnfolded_node_c3 from TNBUnfolded_edge__edge1 
                                         LGSPNode node_cur_TNBUnfolded_node_c3 = edge_cur_TNBUnfolded_edge__edge1.target;
                                         if(!NodeType_C.isMyType[node_cur_TNBUnfolded_node_c3.type.TypeID]) {
                                             edge_cur_TNBUnfolded_edge__edge1.isMatched = edge_cur_TNBUnfolded_edge__edge1_prevIsMatched;
@@ -8093,6 +9324,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_TNBUnfolded_node_c3_prevIsMatched = node_cur_TNBUnfolded_node_c3.isMatched;
                                         node_cur_TNBUnfolded_node_c3.isMatched = true;
+                                        // Extend outgoing TNBUnfolded_edge__edge10 from TNBUnfolded_node_c2 
                                         LGSPEdge edge_head_TNBUnfolded_edge__edge10 = node_cur_TNBUnfolded_node_c2.outhead;
                                         if(edge_head_TNBUnfolded_edge__edge10 != null)
                                         {
@@ -8114,6 +9346,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_TNBUnfolded_edge__edge10_prevIsMatched = edge_cur_TNBUnfolded_edge__edge10.isMatched;
                                                 edge_cur_TNBUnfolded_edge__edge10.isMatched = true;
+                                                // Implicit target TNBUnfolded_node_n2 from TNBUnfolded_edge__edge10 
                                                 LGSPNode node_cur_TNBUnfolded_node_n2 = edge_cur_TNBUnfolded_edge__edge10.target;
                                                 if(!NodeType_N.isMyType[node_cur_TNBUnfolded_node_n2.type.TypeID]) {
                                                     edge_cur_TNBUnfolded_edge__edge10.isMatched = edge_cur_TNBUnfolded_edge__edge10_prevIsMatched;
@@ -8121,6 +9354,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool node_cur_TNBUnfolded_node_n2_prevIsMatched = node_cur_TNBUnfolded_node_n2.isMatched;
                                                 node_cur_TNBUnfolded_node_n2.isMatched = true;
+                                                // Extend outgoing TNBUnfolded_edge__edge2 from TNBUnfolded_node_c3 
                                                 LGSPEdge edge_head_TNBUnfolded_edge__edge2 = node_cur_TNBUnfolded_node_c3.outhead;
                                                 if(edge_head_TNBUnfolded_edge__edge2 != null)
                                                 {
@@ -8143,6 +9377,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_TNBUnfolded_edge__edge2_prevIsMatched = edge_cur_TNBUnfolded_edge__edge2.isMatched;
                                                         edge_cur_TNBUnfolded_edge__edge2.isMatched = true;
+                                                        // Implicit target TNBUnfolded_node_c4 from TNBUnfolded_edge__edge2 
                                                         LGSPNode node_cur_TNBUnfolded_node_c4 = edge_cur_TNBUnfolded_edge__edge2.target;
                                                         if(!NodeType_C.isMyType[node_cur_TNBUnfolded_node_c4.type.TypeID]) {
                                                             edge_cur_TNBUnfolded_edge__edge2.isMatched = edge_cur_TNBUnfolded_edge__edge2_prevIsMatched;
@@ -8160,6 +9395,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_TNBUnfolded_node_c4_prevIsMatched = node_cur_TNBUnfolded_node_c4.isMatched;
                                                         node_cur_TNBUnfolded_node_c4.isMatched = true;
+                                                        // Extend outgoing TNBUnfolded_edge__edge7 from TNBUnfolded_node_c3 
                                                         LGSPEdge edge_head_TNBUnfolded_edge__edge7 = node_cur_TNBUnfolded_node_c3.outhead;
                                                         if(edge_head_TNBUnfolded_edge__edge7 != null)
                                                         {
@@ -8186,6 +9422,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_TNBUnfolded_edge__edge7_prevIsMatched = edge_cur_TNBUnfolded_edge__edge7.isMatched;
                                                                 edge_cur_TNBUnfolded_edge__edge7.isMatched = true;
+                                                                // Extend outgoing TNBUnfolded_edge__edge13 from TNBUnfolded_node_c3 
                                                                 LGSPEdge edge_head_TNBUnfolded_edge__edge13 = node_cur_TNBUnfolded_node_c3.outhead;
                                                                 if(edge_head_TNBUnfolded_edge__edge13 != null)
                                                                 {
@@ -8210,6 +9447,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_TNBUnfolded_edge__edge13_prevIsMatched = edge_cur_TNBUnfolded_edge__edge13.isMatched;
                                                                         edge_cur_TNBUnfolded_edge__edge13.isMatched = true;
+                                                                        // Implicit target TNBUnfolded_node__node3 from TNBUnfolded_edge__edge13 
                                                                         LGSPNode node_cur_TNBUnfolded_node__node3 = edge_cur_TNBUnfolded_edge__edge13.target;
                                                                         if(!NodeType_H.isMyType[node_cur_TNBUnfolded_node__node3.type.TypeID]) {
                                                                             edge_cur_TNBUnfolded_edge__edge13.isMatched = edge_cur_TNBUnfolded_edge__edge13_prevIsMatched;
@@ -8224,6 +9462,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool node_cur_TNBUnfolded_node__node3_prevIsMatched = node_cur_TNBUnfolded_node__node3.isMatched;
                                                                         node_cur_TNBUnfolded_node__node3.isMatched = true;
+                                                                        // Extend outgoing TNBUnfolded_edge__edge11 from TNBUnfolded_node_n2 
                                                                         LGSPEdge edge_head_TNBUnfolded_edge__edge11 = node_cur_TNBUnfolded_node_n2.outhead;
                                                                         if(edge_head_TNBUnfolded_edge__edge11 != null)
                                                                         {
@@ -8249,6 +9488,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool edge_cur_TNBUnfolded_edge__edge11_prevIsMatched = edge_cur_TNBUnfolded_edge__edge11.isMatched;
                                                                                 edge_cur_TNBUnfolded_edge__edge11.isMatched = true;
+                                                                                // Implicit target TNBUnfolded_node__node1 from TNBUnfolded_edge__edge11 
                                                                                 LGSPNode node_cur_TNBUnfolded_node__node1 = edge_cur_TNBUnfolded_edge__edge11.target;
                                                                                 if(!NodeType_O.isMyType[node_cur_TNBUnfolded_node__node1.type.TypeID]) {
                                                                                     edge_cur_TNBUnfolded_edge__edge11.isMatched = edge_cur_TNBUnfolded_edge__edge11_prevIsMatched;
@@ -8256,6 +9496,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool node_cur_TNBUnfolded_node__node1_prevIsMatched = node_cur_TNBUnfolded_node__node1.isMatched;
                                                                                 node_cur_TNBUnfolded_node__node1.isMatched = true;
+                                                                                // Extend outgoing TNBUnfolded_edge__edge12 from TNBUnfolded_node_n2 
                                                                                 LGSPEdge edge_head_TNBUnfolded_edge__edge12 = node_cur_TNBUnfolded_node_n2.outhead;
                                                                                 if(edge_head_TNBUnfolded_edge__edge12 != null)
                                                                                 {
@@ -8282,6 +9523,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         bool edge_cur_TNBUnfolded_edge__edge12_prevIsMatched = edge_cur_TNBUnfolded_edge__edge12.isMatched;
                                                                                         edge_cur_TNBUnfolded_edge__edge12.isMatched = true;
+                                                                                        // Implicit target TNBUnfolded_node__node2 from TNBUnfolded_edge__edge12 
                                                                                         LGSPNode node_cur_TNBUnfolded_node__node2 = edge_cur_TNBUnfolded_edge__edge12.target;
                                                                                         if(!NodeType_O.isMyType[node_cur_TNBUnfolded_node__node2.type.TypeID]) {
                                                                                             edge_cur_TNBUnfolded_edge__edge12.isMatched = edge_cur_TNBUnfolded_edge__edge12_prevIsMatched;
@@ -8296,6 +9538,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         bool node_cur_TNBUnfolded_node__node2_prevIsMatched = node_cur_TNBUnfolded_node__node2.isMatched;
                                                                                         node_cur_TNBUnfolded_node__node2.isMatched = true;
+                                                                                        // Extend outgoing TNBUnfolded_edge__edge3 from TNBUnfolded_node_c4 
                                                                                         LGSPEdge edge_head_TNBUnfolded_edge__edge3 = node_cur_TNBUnfolded_node_c4.outhead;
                                                                                         if(edge_head_TNBUnfolded_edge__edge3 != null)
                                                                                         {
@@ -8323,6 +9566,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool edge_cur_TNBUnfolded_edge__edge3_prevIsMatched = edge_cur_TNBUnfolded_edge__edge3.isMatched;
                                                                                                 edge_cur_TNBUnfolded_edge__edge3.isMatched = true;
+                                                                                                // Implicit target TNBUnfolded_node_c5 from TNBUnfolded_edge__edge3 
                                                                                                 LGSPNode node_cur_TNBUnfolded_node_c5 = edge_cur_TNBUnfolded_edge__edge3.target;
                                                                                                 if(!NodeType_C.isMyType[node_cur_TNBUnfolded_node_c5.type.TypeID]) {
                                                                                                     edge_cur_TNBUnfolded_edge__edge3.isMatched = edge_cur_TNBUnfolded_edge__edge3_prevIsMatched;
@@ -8341,6 +9585,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool node_cur_TNBUnfolded_node_c5_prevIsMatched = node_cur_TNBUnfolded_node_c5.isMatched;
                                                                                                 node_cur_TNBUnfolded_node_c5.isMatched = true;
+                                                                                                // Extend outgoing TNBUnfolded_edge__edge14 from TNBUnfolded_node_c4 
                                                                                                 LGSPEdge edge_head_TNBUnfolded_edge__edge14 = node_cur_TNBUnfolded_node_c4.outhead;
                                                                                                 if(edge_head_TNBUnfolded_edge__edge14 != null)
                                                                                                 {
@@ -8369,6 +9614,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool edge_cur_TNBUnfolded_edge__edge14_prevIsMatched = edge_cur_TNBUnfolded_edge__edge14.isMatched;
                                                                                                         edge_cur_TNBUnfolded_edge__edge14.isMatched = true;
+                                                                                                        // Implicit target TNBUnfolded_node_n4 from TNBUnfolded_edge__edge14 
                                                                                                         LGSPNode node_cur_TNBUnfolded_node_n4 = edge_cur_TNBUnfolded_edge__edge14.target;
                                                                                                         if(!NodeType_N.isMyType[node_cur_TNBUnfolded_node_n4.type.TypeID]) {
                                                                                                             edge_cur_TNBUnfolded_edge__edge14.isMatched = edge_cur_TNBUnfolded_edge__edge14_prevIsMatched;
@@ -8383,6 +9629,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool node_cur_TNBUnfolded_node_n4_prevIsMatched = node_cur_TNBUnfolded_node_n4.isMatched;
                                                                                                         node_cur_TNBUnfolded_node_n4.isMatched = true;
+                                                                                                        // Extend outgoing TNBUnfolded_edge__edge4 from TNBUnfolded_node_c5 
                                                                                                         LGSPEdge edge_head_TNBUnfolded_edge__edge4 = node_cur_TNBUnfolded_node_c5.outhead;
                                                                                                         if(edge_head_TNBUnfolded_edge__edge4 != null)
                                                                                                         {
@@ -8412,6 +9659,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 }
                                                                                                                 bool edge_cur_TNBUnfolded_edge__edge4_prevIsMatched = edge_cur_TNBUnfolded_edge__edge4.isMatched;
                                                                                                                 edge_cur_TNBUnfolded_edge__edge4.isMatched = true;
+                                                                                                                // Implicit target TNBUnfolded_node_c6 from TNBUnfolded_edge__edge4 
                                                                                                                 LGSPNode node_cur_TNBUnfolded_node_c6 = edge_cur_TNBUnfolded_edge__edge4.target;
                                                                                                                 if(!NodeType_C.isMyType[node_cur_TNBUnfolded_node_c6.type.TypeID]) {
                                                                                                                     edge_cur_TNBUnfolded_edge__edge4.isMatched = edge_cur_TNBUnfolded_edge__edge4_prevIsMatched;
@@ -8429,6 +9677,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                     edge_cur_TNBUnfolded_edge__edge4.isMatched = edge_cur_TNBUnfolded_edge__edge4_prevIsMatched;
                                                                                                                     continue;
                                                                                                                 }
+                                                                                                                // Extend outgoing TNBUnfolded_edge__edge8 from TNBUnfolded_node_c5 
                                                                                                                 LGSPEdge edge_head_TNBUnfolded_edge__edge8 = node_cur_TNBUnfolded_node_c5.outhead;
                                                                                                                 if(edge_head_TNBUnfolded_edge__edge8 != null)
                                                                                                                 {
@@ -8462,6 +9711,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                         }
                                                                                                                         bool edge_cur_TNBUnfolded_edge__edge8_prevIsMatched = edge_cur_TNBUnfolded_edge__edge8.isMatched;
                                                                                                                         edge_cur_TNBUnfolded_edge__edge8.isMatched = true;
+                                                                                                                        // Extend outgoing TNBUnfolded_edge__edge17 from TNBUnfolded_node_c5 
                                                                                                                         LGSPEdge edge_head_TNBUnfolded_edge__edge17 = node_cur_TNBUnfolded_node_c5.outhead;
                                                                                                                         if(edge_head_TNBUnfolded_edge__edge17 != null)
                                                                                                                         {
@@ -8493,6 +9743,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                 }
                                                                                                                                 bool edge_cur_TNBUnfolded_edge__edge17_prevIsMatched = edge_cur_TNBUnfolded_edge__edge17.isMatched;
                                                                                                                                 edge_cur_TNBUnfolded_edge__edge17.isMatched = true;
+                                                                                                                                // Implicit target TNBUnfolded_node__node6 from TNBUnfolded_edge__edge17 
                                                                                                                                 LGSPNode node_cur_TNBUnfolded_node__node6 = edge_cur_TNBUnfolded_edge__edge17.target;
                                                                                                                                 if(!NodeType_H.isMyType[node_cur_TNBUnfolded_node__node6.type.TypeID]) {
                                                                                                                                     edge_cur_TNBUnfolded_edge__edge17.isMatched = edge_cur_TNBUnfolded_edge__edge17_prevIsMatched;
@@ -8507,6 +9758,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                     edge_cur_TNBUnfolded_edge__edge17.isMatched = edge_cur_TNBUnfolded_edge__edge17_prevIsMatched;
                                                                                                                                     continue;
                                                                                                                                 }
+                                                                                                                                // Extend outgoing TNBUnfolded_edge__edge15 from TNBUnfolded_node_n4 
                                                                                                                                 LGSPEdge edge_head_TNBUnfolded_edge__edge15 = node_cur_TNBUnfolded_node_n4.outhead;
                                                                                                                                 if(edge_head_TNBUnfolded_edge__edge15 != null)
                                                                                                                                 {
@@ -8539,6 +9791,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                         }
                                                                                                                                         bool edge_cur_TNBUnfolded_edge__edge15_prevIsMatched = edge_cur_TNBUnfolded_edge__edge15.isMatched;
                                                                                                                                         edge_cur_TNBUnfolded_edge__edge15.isMatched = true;
+                                                                                                                                        // Implicit target TNBUnfolded_node__node4 from TNBUnfolded_edge__edge15 
                                                                                                                                         LGSPNode node_cur_TNBUnfolded_node__node4 = edge_cur_TNBUnfolded_edge__edge15.target;
                                                                                                                                         if(!NodeType_O.isMyType[node_cur_TNBUnfolded_node__node4.type.TypeID]) {
                                                                                                                                             edge_cur_TNBUnfolded_edge__edge15.isMatched = edge_cur_TNBUnfolded_edge__edge15_prevIsMatched;
@@ -8555,6 +9808,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                         }
                                                                                                                                         bool node_cur_TNBUnfolded_node__node4_prevIsMatched = node_cur_TNBUnfolded_node__node4.isMatched;
                                                                                                                                         node_cur_TNBUnfolded_node__node4.isMatched = true;
+                                                                                                                                        // Extend outgoing TNBUnfolded_edge__edge16 from TNBUnfolded_node_n4 
                                                                                                                                         LGSPEdge edge_head_TNBUnfolded_edge__edge16 = node_cur_TNBUnfolded_node_n4.outhead;
                                                                                                                                         if(edge_head_TNBUnfolded_edge__edge16 != null)
                                                                                                                                         {
@@ -8588,6 +9842,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                 }
                                                                                                                                                 bool edge_cur_TNBUnfolded_edge__edge16_prevIsMatched = edge_cur_TNBUnfolded_edge__edge16.isMatched;
                                                                                                                                                 edge_cur_TNBUnfolded_edge__edge16.isMatched = true;
+                                                                                                                                                // Implicit target TNBUnfolded_node__node5 from TNBUnfolded_edge__edge16 
                                                                                                                                                 LGSPNode node_cur_TNBUnfolded_node__node5 = edge_cur_TNBUnfolded_edge__edge16.target;
                                                                                                                                                 if(!NodeType_O.isMyType[node_cur_TNBUnfolded_node__node5.type.TypeID]) {
                                                                                                                                                     edge_cur_TNBUnfolded_edge__edge16.isMatched = edge_cur_TNBUnfolded_edge__edge16_prevIsMatched;
@@ -8605,6 +9860,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                 }
                                                                                                                                                 bool node_cur_TNBUnfolded_node__node5_prevIsMatched = node_cur_TNBUnfolded_node__node5.isMatched;
                                                                                                                                                 node_cur_TNBUnfolded_node__node5.isMatched = true;
+                                                                                                                                                // Extend outgoing TNBUnfolded_edge__edge5 from TNBUnfolded_node_c6 
                                                                                                                                                 LGSPEdge edge_head_TNBUnfolded_edge__edge5 = node_cur_TNBUnfolded_node_c6.outhead;
                                                                                                                                                 if(edge_head_TNBUnfolded_edge__edge5 != null)
                                                                                                                                                 {
@@ -8642,6 +9898,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                         }
                                                                                                                                                         bool edge_cur_TNBUnfolded_edge__edge5_prevIsMatched = edge_cur_TNBUnfolded_edge__edge5.isMatched;
                                                                                                                                                         edge_cur_TNBUnfolded_edge__edge5.isMatched = true;
+                                                                                                                                                        // Extend outgoing TNBUnfolded_edge__edge18 from TNBUnfolded_node_c6 
                                                                                                                                                         LGSPEdge edge_head_TNBUnfolded_edge__edge18 = node_cur_TNBUnfolded_node_c6.outhead;
                                                                                                                                                         if(edge_head_TNBUnfolded_edge__edge18 != null)
                                                                                                                                                         {
@@ -8677,6 +9934,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                 }
                                                                                                                                                                 bool edge_cur_TNBUnfolded_edge__edge18_prevIsMatched = edge_cur_TNBUnfolded_edge__edge18.isMatched;
                                                                                                                                                                 edge_cur_TNBUnfolded_edge__edge18.isMatched = true;
+                                                                                                                                                                // Implicit target TNBUnfolded_node_n6 from TNBUnfolded_edge__edge18 
                                                                                                                                                                 LGSPNode node_cur_TNBUnfolded_node_n6 = edge_cur_TNBUnfolded_edge__edge18.target;
                                                                                                                                                                 if(!NodeType_N.isMyType[node_cur_TNBUnfolded_node_n6.type.TypeID]) {
                                                                                                                                                                     edge_cur_TNBUnfolded_edge__edge18.isMatched = edge_cur_TNBUnfolded_edge__edge18_prevIsMatched;
@@ -8691,6 +9949,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                     edge_cur_TNBUnfolded_edge__edge18.isMatched = edge_cur_TNBUnfolded_edge__edge18_prevIsMatched;
                                                                                                                                                                     continue;
                                                                                                                                                                 }
+                                                                                                                                                                // Extend outgoing TNBUnfolded_edge__edge19 from TNBUnfolded_node_n6 
                                                                                                                                                                 LGSPEdge edge_head_TNBUnfolded_edge__edge19 = node_cur_TNBUnfolded_node_n6.outhead;
                                                                                                                                                                 if(edge_head_TNBUnfolded_edge__edge19 != null)
                                                                                                                                                                 {
@@ -8727,6 +9986,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                         }
                                                                                                                                                                         bool edge_cur_TNBUnfolded_edge__edge19_prevIsMatched = edge_cur_TNBUnfolded_edge__edge19.isMatched;
                                                                                                                                                                         edge_cur_TNBUnfolded_edge__edge19.isMatched = true;
+                                                                                                                                                                        // Implicit target TNBUnfolded_node__node7 from TNBUnfolded_edge__edge19 
                                                                                                                                                                         LGSPNode node_cur_TNBUnfolded_node__node7 = edge_cur_TNBUnfolded_edge__edge19.target;
                                                                                                                                                                         if(!NodeType_O.isMyType[node_cur_TNBUnfolded_node__node7.type.TypeID]) {
                                                                                                                                                                             edge_cur_TNBUnfolded_edge__edge19.isMatched = edge_cur_TNBUnfolded_edge__edge19_prevIsMatched;
@@ -8745,6 +10005,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                         }
                                                                                                                                                                         bool node_cur_TNBUnfolded_node__node7_prevIsMatched = node_cur_TNBUnfolded_node__node7.isMatched;
                                                                                                                                                                         node_cur_TNBUnfolded_node__node7.isMatched = true;
+                                                                                                                                                                        // Extend outgoing TNBUnfolded_edge__edge20 from TNBUnfolded_node_n6 
                                                                                                                                                                         LGSPEdge edge_head_TNBUnfolded_edge__edge20 = node_cur_TNBUnfolded_node_n6.outhead;
                                                                                                                                                                         if(edge_head_TNBUnfolded_edge__edge20 != null)
                                                                                                                                                                         {
@@ -8780,6 +10041,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                 {
                                                                                                                                                                                     continue;
                                                                                                                                                                                 }
+                                                                                                                                                                                // Implicit target TNBUnfolded_node__node8 from TNBUnfolded_edge__edge20 
                                                                                                                                                                                 LGSPNode node_cur_TNBUnfolded_node__node8 = edge_cur_TNBUnfolded_edge__edge20.target;
                                                                                                                                                                                 if(!NodeType_O.isMyType[node_cur_TNBUnfolded_node__node8.type.TypeID]) {
                                                                                                                                                                                     continue;
@@ -8837,6 +10099,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                 match.Edges[(int)Rule_TNBUnfolded.TNBUnfolded_EdgeNums.@_edge19] = edge_cur_TNBUnfolded_edge__edge19;
                                                                                                                                                                                 match.Edges[(int)Rule_TNBUnfolded.TNBUnfolded_EdgeNums.@_edge20] = edge_cur_TNBUnfolded_edge__edge20;
                                                                                                                                                                                 matches.matchesList.PositionWasFilledFixIt();
+                                                                                                                                                                                // if enough matches were found, we leave
                                                                                                                                                                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                                                                                                                 {
                                                                                                                                                                                     node_cur_TNBUnfolded_node_n6.MoveOutHeadAfter(edge_cur_TNBUnfolded_edge__edge20);
@@ -9000,7 +10263,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_TNT() {
             rulePattern = Rule_TNT.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6+0);
         }
 
         public override string Name { get { return "TNT"; } }
@@ -9015,11 +10278,13 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup TNT_edge__edge0 
             int edge_type_id_TNT_edge__edge0 = 1;
             for(LGSPEdge edge_head_TNT_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_TNT_edge__edge0], edge_cur_TNT_edge__edge0 = edge_head_TNT_edge__edge0.typeNext; edge_cur_TNT_edge__edge0 != edge_head_TNT_edge__edge0; edge_cur_TNT_edge__edge0 = edge_cur_TNT_edge__edge0.typeNext)
             {
                 bool edge_cur_TNT_edge__edge0_prevIsMatched = edge_cur_TNT_edge__edge0.isMatched;
                 edge_cur_TNT_edge__edge0.isMatched = true;
+                // Implicit source TNT_node_c1 from TNT_edge__edge0 
                 LGSPNode node_cur_TNT_node_c1 = edge_cur_TNT_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_TNT_node_c1.type.TypeID]) {
                     edge_cur_TNT_edge__edge0.isMatched = edge_cur_TNT_edge__edge0_prevIsMatched;
@@ -9027,6 +10292,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_TNT_node_c1_prevIsMatched = node_cur_TNT_node_c1.isMatched;
                 node_cur_TNT_node_c1.isMatched = true;
+                // Implicit target TNT_node_c2 from TNT_edge__edge0 
                 LGSPNode node_cur_TNT_node_c2 = edge_cur_TNT_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_TNT_node_c2.type.TypeID]) {
                     node_cur_TNT_node_c1.isMatched = node_cur_TNT_node_c1_prevIsMatched;
@@ -9043,6 +10309,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_TNT_node_c2_prevIsMatched = node_cur_TNT_node_c2.isMatched;
                 node_cur_TNT_node_c2.isMatched = true;
+                // Extend outgoing TNT_edge__edge6 from TNT_node_c1 
                 LGSPEdge edge_head_TNT_edge__edge6 = node_cur_TNT_node_c1.outhead;
                 if(edge_head_TNT_edge__edge6 != null)
                 {
@@ -9063,6 +10330,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_TNT_edge__edge6_prevIsMatched = edge_cur_TNT_edge__edge6.isMatched;
                         edge_cur_TNT_edge__edge6.isMatched = true;
+                        // Extend outgoing TNT_edge__edge1 from TNT_node_c2 
                         LGSPEdge edge_head_TNT_edge__edge1 = node_cur_TNT_node_c2.outhead;
                         if(edge_head_TNT_edge__edge1 != null)
                         {
@@ -9082,6 +10350,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_TNT_edge__edge1_prevIsMatched = edge_cur_TNT_edge__edge1.isMatched;
                                 edge_cur_TNT_edge__edge1.isMatched = true;
+                                // Implicit target TNT_node_c3 from TNT_edge__edge1 
                                 LGSPNode node_cur_TNT_node_c3 = edge_cur_TNT_edge__edge1.target;
                                 if(!NodeType_C.isMyType[node_cur_TNT_node_c3.type.TypeID]) {
                                     edge_cur_TNT_edge__edge1.isMatched = edge_cur_TNT_edge__edge1_prevIsMatched;
@@ -9098,6 +10367,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_TNT_node_c3_prevIsMatched = node_cur_TNT_node_c3.isMatched;
                                 node_cur_TNT_node_c3.isMatched = true;
+                                // Extend outgoing TNT_edge__edge2 from TNT_node_c3 
                                 LGSPEdge edge_head_TNT_edge__edge2 = node_cur_TNT_node_c3.outhead;
                                 if(edge_head_TNT_edge__edge2 != null)
                                 {
@@ -9118,6 +10388,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_TNT_edge__edge2_prevIsMatched = edge_cur_TNT_edge__edge2.isMatched;
                                         edge_cur_TNT_edge__edge2.isMatched = true;
+                                        // Implicit target TNT_node_c4 from TNT_edge__edge2 
                                         LGSPNode node_cur_TNT_node_c4 = edge_cur_TNT_edge__edge2.target;
                                         if(!NodeType_C.isMyType[node_cur_TNT_node_c4.type.TypeID]) {
                                             edge_cur_TNT_edge__edge2.isMatched = edge_cur_TNT_edge__edge2_prevIsMatched;
@@ -9135,6 +10406,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_TNT_node_c4_prevIsMatched = node_cur_TNT_node_c4.isMatched;
                                         node_cur_TNT_node_c4.isMatched = true;
+                                        // Extend outgoing TNT_edge__edge7 from TNT_node_c3 
                                         LGSPEdge edge_head_TNT_edge__edge7 = node_cur_TNT_node_c3.outhead;
                                         if(edge_head_TNT_edge__edge7 != null)
                                         {
@@ -9159,6 +10431,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_TNT_edge__edge7_prevIsMatched = edge_cur_TNT_edge__edge7.isMatched;
                                                 edge_cur_TNT_edge__edge7.isMatched = true;
+                                                // Extend outgoing TNT_edge__edge3 from TNT_node_c4 
                                                 LGSPEdge edge_head_TNT_edge__edge3 = node_cur_TNT_node_c4.outhead;
                                                 if(edge_head_TNT_edge__edge3 != null)
                                                 {
@@ -9181,6 +10454,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_TNT_edge__edge3_prevIsMatched = edge_cur_TNT_edge__edge3.isMatched;
                                                         edge_cur_TNT_edge__edge3.isMatched = true;
+                                                        // Implicit target TNT_node_c5 from TNT_edge__edge3 
                                                         LGSPNode node_cur_TNT_node_c5 = edge_cur_TNT_edge__edge3.target;
                                                         if(!NodeType_C.isMyType[node_cur_TNT_node_c5.type.TypeID]) {
                                                             edge_cur_TNT_edge__edge3.isMatched = edge_cur_TNT_edge__edge3_prevIsMatched;
@@ -9199,6 +10473,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_TNT_node_c5_prevIsMatched = node_cur_TNT_node_c5.isMatched;
                                                         node_cur_TNT_node_c5.isMatched = true;
+                                                        // Extend outgoing TNT_edge__edge4 from TNT_node_c5 
                                                         LGSPEdge edge_head_TNT_edge__edge4 = node_cur_TNT_node_c5.outhead;
                                                         if(edge_head_TNT_edge__edge4 != null)
                                                         {
@@ -9222,6 +10497,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_TNT_edge__edge4_prevIsMatched = edge_cur_TNT_edge__edge4.isMatched;
                                                                 edge_cur_TNT_edge__edge4.isMatched = true;
+                                                                // Implicit target TNT_node_c6 from TNT_edge__edge4 
                                                                 LGSPNode node_cur_TNT_node_c6 = edge_cur_TNT_edge__edge4.target;
                                                                 if(!NodeType_C.isMyType[node_cur_TNT_node_c6.type.TypeID]) {
                                                                     edge_cur_TNT_edge__edge4.isMatched = edge_cur_TNT_edge__edge4_prevIsMatched;
@@ -9239,6 +10515,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     edge_cur_TNT_edge__edge4.isMatched = edge_cur_TNT_edge__edge4_prevIsMatched;
                                                                     continue;
                                                                 }
+                                                                // Extend outgoing TNT_edge__edge8 from TNT_node_c5 
                                                                 LGSPEdge edge_head_TNT_edge__edge8 = node_cur_TNT_node_c5.outhead;
                                                                 if(edge_head_TNT_edge__edge8 != null)
                                                                 {
@@ -9266,6 +10543,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_TNT_edge__edge8_prevIsMatched = edge_cur_TNT_edge__edge8.isMatched;
                                                                         edge_cur_TNT_edge__edge8.isMatched = true;
+                                                                        // Extend outgoing TNT_edge__edge5 from TNT_node_c6 
                                                                         LGSPEdge edge_head_TNT_edge__edge5 = node_cur_TNT_node_c6.outhead;
                                                                         if(edge_head_TNT_edge__edge5 != null)
                                                                         {
@@ -9292,21 +10570,27 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 {
                                                                                     continue;
                                                                                 }
+                                                                                // Push subpattern matching task for _subpattern5
                                                                                 PatternAction_Nitro taskFor__subpattern5 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern5.Nitro_node_anchor = node_cur_TNT_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
+                                                                                // Push subpattern matching task for _subpattern4
                                                                                 PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern4.Hydrogen_node_anchor = node_cur_TNT_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
+                                                                                // Push subpattern matching task for _subpattern3
                                                                                 PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern3.Nitro_node_anchor = node_cur_TNT_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
+                                                                                // Push subpattern matching task for _subpattern2
                                                                                 PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern2.Hydrogen_node_anchor = node_cur_TNT_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
+                                                                                // Push subpattern matching task for _subpattern1
                                                                                 PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern1.Nitro_node_anchor = node_cur_TNT_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
+                                                                                // Push subpattern matching task for _subpattern0
                                                                                 PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
                                                                                 taskFor__subpattern0.Methyl_node_anchor = node_cur_TNT_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
@@ -9325,14 +10609,23 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 edge_cur_TNT_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_TNT_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_TNT_edge__edge8.isMatchedByEnclosingPattern = true;
+                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                                                                //Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern1
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern2
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern3
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern4
                                                                                 openTasks.Pop();
+                                                                                //Pop subpattern matching task for _subpattern5
                                                                                 openTasks.Pop();
+                                                                                // Check whether subpatterns were found 
                                                                                 if(matchesList.Count>0) {
+                                                                                    // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
                                                                                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -9361,6 +10654,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         matches.matchesList.PositionWasFilledFixIt();
                                                                                     }
                                                                                     matchesList.Clear();
+                                                                                    // if enough matches were found, we leave
                                                                                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                     {
                                                                                         edge_cur_TNT_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -9472,7 +10766,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_TNTChain() {
             rulePattern = Rule_TNTChain.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 2);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 2+0);
         }
 
         public override string Name { get { return "TNTChain"; } }
@@ -9487,11 +10781,13 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup TNTChain_node_c3 
             int node_type_id_TNTChain_node_c3 = 1;
             for(LGSPNode node_head_TNTChain_node_c3 = graph.nodesByTypeHeads[node_type_id_TNTChain_node_c3], node_cur_TNTChain_node_c3 = node_head_TNTChain_node_c3.typeNext; node_cur_TNTChain_node_c3 != node_head_TNTChain_node_c3; node_cur_TNTChain_node_c3 = node_cur_TNTChain_node_c3.typeNext)
             {
                 bool node_cur_TNTChain_node_c3_prevIsMatched = node_cur_TNTChain_node_c3.isMatched;
                 node_cur_TNTChain_node_c3.isMatched = true;
+                // Lookup TNTChain_node_c5 
                 int node_type_id_TNTChain_node_c5 = 1;
                 for(LGSPNode node_head_TNTChain_node_c5 = graph.nodesByTypeHeads[node_type_id_TNTChain_node_c5], node_cur_TNTChain_node_c5 = node_head_TNTChain_node_c5.typeNext; node_cur_TNTChain_node_c5 != node_head_TNTChain_node_c5; node_cur_TNTChain_node_c5 = node_cur_TNTChain_node_c5.typeNext)
                 {
@@ -9503,6 +10799,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool node_cur_TNTChain_node_c5_prevIsMatched = node_cur_TNTChain_node_c5.isMatched;
                     node_cur_TNTChain_node_c5.isMatched = true;
+                    // Lookup TNTChain_node_c6 
                     int node_type_id_TNTChain_node_c6 = 1;
                     for(LGSPNode node_head_TNTChain_node_c6 = graph.nodesByTypeHeads[node_type_id_TNTChain_node_c6], node_cur_TNTChain_node_c6 = node_head_TNTChain_node_c6.typeNext; node_cur_TNTChain_node_c6 != node_head_TNTChain_node_c6; node_cur_TNTChain_node_c6 = node_cur_TNTChain_node_c6.typeNext)
                     {
@@ -9516,6 +10813,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool node_cur_TNTChain_node_c6_prevIsMatched = node_cur_TNTChain_node_c6.isMatched;
                         node_cur_TNTChain_node_c6.isMatched = true;
+                        // Lookup TNTChain_node_c4 
                         int node_type_id_TNTChain_node_c4 = 1;
                         for(LGSPNode node_head_TNTChain_node_c4 = graph.nodesByTypeHeads[node_type_id_TNTChain_node_c4], node_cur_TNTChain_node_c4 = node_head_TNTChain_node_c4.typeNext; node_cur_TNTChain_node_c4 != node_head_TNTChain_node_c4; node_cur_TNTChain_node_c4 = node_cur_TNTChain_node_c4.typeNext)
                         {
@@ -9530,6 +10828,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool node_cur_TNTChain_node_c4_prevIsMatched = node_cur_TNTChain_node_c4.isMatched;
                             node_cur_TNTChain_node_c4.isMatched = true;
+                            // Lookup TNTChain_node_c2 
                             int node_type_id_TNTChain_node_c2 = 1;
                             for(LGSPNode node_head_TNTChain_node_c2 = graph.nodesByTypeHeads[node_type_id_TNTChain_node_c2], node_cur_TNTChain_node_c2 = node_head_TNTChain_node_c2.typeNext; node_cur_TNTChain_node_c2 != node_head_TNTChain_node_c2; node_cur_TNTChain_node_c2 = node_cur_TNTChain_node_c2.typeNext)
                             {
@@ -9545,6 +10844,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_TNTChain_node_c2_prevIsMatched = node_cur_TNTChain_node_c2.isMatched;
                                 node_cur_TNTChain_node_c2.isMatched = true;
+                                // Lookup TNTChain_node_c1 
                                 int node_type_id_TNTChain_node_c1 = 1;
                                 for(LGSPNode node_head_TNTChain_node_c1 = graph.nodesByTypeHeads[node_type_id_TNTChain_node_c1], node_cur_TNTChain_node_c1 = node_head_TNTChain_node_c1.typeNext; node_cur_TNTChain_node_c1 != node_head_TNTChain_node_c1; node_cur_TNTChain_node_c1 = node_cur_TNTChain_node_c1.typeNext)
                                 {
@@ -9559,6 +10859,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     {
                                         continue;
                                     }
+                                    // Push subpattern matching task for _subpattern1
                                     PatternAction_ToluolCoreThenTriNitro taskFor__subpattern1 = new PatternAction_ToluolCoreThenTriNitro(graph, openTasks);
                                     taskFor__subpattern1.ToluolCoreThenTriNitro_node_c1 = node_cur_TNTChain_node_c1;
                                     taskFor__subpattern1.ToluolCoreThenTriNitro_node_c2 = node_cur_TNTChain_node_c2;
@@ -9567,6 +10868,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     taskFor__subpattern1.ToluolCoreThenTriNitro_node_c5 = node_cur_TNTChain_node_c5;
                                     taskFor__subpattern1.ToluolCoreThenTriNitro_node_c6 = node_cur_TNTChain_node_c6;
                                     openTasks.Push(taskFor__subpattern1);
+                                    // Push subpattern matching task for _subpattern0
                                     PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c1 = node_cur_TNTChain_node_c1;
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c2 = node_cur_TNTChain_node_c2;
@@ -9581,10 +10883,15 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     node_cur_TNTChain_node_c4.isMatchedByEnclosingPattern = true;
                                     node_cur_TNTChain_node_c5.isMatchedByEnclosingPattern = true;
                                     node_cur_TNTChain_node_c6.isMatchedByEnclosingPattern = true;
+                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                    //Pop subpattern matching task for _subpattern0
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern1
                                     openTasks.Pop();
+                                    // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
+                                        // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
                                             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -9600,6 +10907,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             matches.matchesList.PositionWasFilledFixIt();
                                         }
                                         matchesList.Clear();
+                                        // if enough matches were found, we leave
                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                         {
                                             node_cur_TNTChain_node_c6.isMatchedByEnclosingPattern = false;
@@ -9649,7 +10957,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_TNTTotallyFolded() {
             rulePattern = Rule_TNTTotallyFolded.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 7);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 7+0);
         }
 
         public override string Name { get { return "TNTTotallyFolded"; } }
@@ -9664,11 +10972,13 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup TNTTotallyFolded_node_c3 
             int node_type_id_TNTTotallyFolded_node_c3 = 1;
             for(LGSPNode node_head_TNTTotallyFolded_node_c3 = graph.nodesByTypeHeads[node_type_id_TNTTotallyFolded_node_c3], node_cur_TNTTotallyFolded_node_c3 = node_head_TNTTotallyFolded_node_c3.typeNext; node_cur_TNTTotallyFolded_node_c3 != node_head_TNTTotallyFolded_node_c3; node_cur_TNTTotallyFolded_node_c3 = node_cur_TNTTotallyFolded_node_c3.typeNext)
             {
                 bool node_cur_TNTTotallyFolded_node_c3_prevIsMatched = node_cur_TNTTotallyFolded_node_c3.isMatched;
                 node_cur_TNTTotallyFolded_node_c3.isMatched = true;
+                // Lookup TNTTotallyFolded_node_c5 
                 int node_type_id_TNTTotallyFolded_node_c5 = 1;
                 for(LGSPNode node_head_TNTTotallyFolded_node_c5 = graph.nodesByTypeHeads[node_type_id_TNTTotallyFolded_node_c5], node_cur_TNTTotallyFolded_node_c5 = node_head_TNTTotallyFolded_node_c5.typeNext; node_cur_TNTTotallyFolded_node_c5 != node_head_TNTTotallyFolded_node_c5; node_cur_TNTTotallyFolded_node_c5 = node_cur_TNTTotallyFolded_node_c5.typeNext)
                 {
@@ -9680,6 +10990,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool node_cur_TNTTotallyFolded_node_c5_prevIsMatched = node_cur_TNTTotallyFolded_node_c5.isMatched;
                     node_cur_TNTTotallyFolded_node_c5.isMatched = true;
+                    // Lookup TNTTotallyFolded_node_c6 
                     int node_type_id_TNTTotallyFolded_node_c6 = 1;
                     for(LGSPNode node_head_TNTTotallyFolded_node_c6 = graph.nodesByTypeHeads[node_type_id_TNTTotallyFolded_node_c6], node_cur_TNTTotallyFolded_node_c6 = node_head_TNTTotallyFolded_node_c6.typeNext; node_cur_TNTTotallyFolded_node_c6 != node_head_TNTTotallyFolded_node_c6; node_cur_TNTTotallyFolded_node_c6 = node_cur_TNTTotallyFolded_node_c6.typeNext)
                     {
@@ -9693,6 +11004,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool node_cur_TNTTotallyFolded_node_c6_prevIsMatched = node_cur_TNTTotallyFolded_node_c6.isMatched;
                         node_cur_TNTTotallyFolded_node_c6.isMatched = true;
+                        // Lookup TNTTotallyFolded_node_c4 
                         int node_type_id_TNTTotallyFolded_node_c4 = 1;
                         for(LGSPNode node_head_TNTTotallyFolded_node_c4 = graph.nodesByTypeHeads[node_type_id_TNTTotallyFolded_node_c4], node_cur_TNTTotallyFolded_node_c4 = node_head_TNTTotallyFolded_node_c4.typeNext; node_cur_TNTTotallyFolded_node_c4 != node_head_TNTTotallyFolded_node_c4; node_cur_TNTTotallyFolded_node_c4 = node_cur_TNTTotallyFolded_node_c4.typeNext)
                         {
@@ -9707,6 +11019,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool node_cur_TNTTotallyFolded_node_c4_prevIsMatched = node_cur_TNTTotallyFolded_node_c4.isMatched;
                             node_cur_TNTTotallyFolded_node_c4.isMatched = true;
+                            // Lookup TNTTotallyFolded_node_c2 
                             int node_type_id_TNTTotallyFolded_node_c2 = 1;
                             for(LGSPNode node_head_TNTTotallyFolded_node_c2 = graph.nodesByTypeHeads[node_type_id_TNTTotallyFolded_node_c2], node_cur_TNTTotallyFolded_node_c2 = node_head_TNTTotallyFolded_node_c2.typeNext; node_cur_TNTTotallyFolded_node_c2 != node_head_TNTTotallyFolded_node_c2; node_cur_TNTTotallyFolded_node_c2 = node_cur_TNTTotallyFolded_node_c2.typeNext)
                             {
@@ -9722,6 +11035,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_TNTTotallyFolded_node_c2_prevIsMatched = node_cur_TNTTotallyFolded_node_c2.isMatched;
                                 node_cur_TNTTotallyFolded_node_c2.isMatched = true;
+                                // Lookup TNTTotallyFolded_node_c1 
                                 int node_type_id_TNTTotallyFolded_node_c1 = 1;
                                 for(LGSPNode node_head_TNTTotallyFolded_node_c1 = graph.nodesByTypeHeads[node_type_id_TNTTotallyFolded_node_c1], node_cur_TNTTotallyFolded_node_c1 = node_head_TNTTotallyFolded_node_c1.typeNext; node_cur_TNTTotallyFolded_node_c1 != node_head_TNTTotallyFolded_node_c1; node_cur_TNTTotallyFolded_node_c1 = node_cur_TNTTotallyFolded_node_c1.typeNext)
                                 {
@@ -9736,24 +11050,31 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     {
                                         continue;
                                     }
+                                    // Push subpattern matching task for _subpattern6
                                     PatternAction_Nitro taskFor__subpattern6 = new PatternAction_Nitro(graph, openTasks);
                                     taskFor__subpattern6.Nitro_node_anchor = node_cur_TNTTotallyFolded_node_c6;
                                     openTasks.Push(taskFor__subpattern6);
+                                    // Push subpattern matching task for _subpattern5
                                     PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern5.Hydrogen_node_anchor = node_cur_TNTTotallyFolded_node_c5;
                                     openTasks.Push(taskFor__subpattern5);
+                                    // Push subpattern matching task for _subpattern4
                                     PatternAction_Nitro taskFor__subpattern4 = new PatternAction_Nitro(graph, openTasks);
                                     taskFor__subpattern4.Nitro_node_anchor = node_cur_TNTTotallyFolded_node_c4;
                                     openTasks.Push(taskFor__subpattern4);
+                                    // Push subpattern matching task for _subpattern3
                                     PatternAction_Hydrogen taskFor__subpattern3 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern3.Hydrogen_node_anchor = node_cur_TNTTotallyFolded_node_c3;
                                     openTasks.Push(taskFor__subpattern3);
+                                    // Push subpattern matching task for _subpattern2
                                     PatternAction_Nitro taskFor__subpattern2 = new PatternAction_Nitro(graph, openTasks);
                                     taskFor__subpattern2.Nitro_node_anchor = node_cur_TNTTotallyFolded_node_c2;
                                     openTasks.Push(taskFor__subpattern2);
+                                    // Push subpattern matching task for _subpattern1
                                     PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
                                     taskFor__subpattern1.Methyl_node_anchor = node_cur_TNTTotallyFolded_node_c1;
                                     openTasks.Push(taskFor__subpattern1);
+                                    // Push subpattern matching task for _subpattern0
                                     PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c1 = node_cur_TNTTotallyFolded_node_c1;
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c2 = node_cur_TNTTotallyFolded_node_c2;
@@ -9768,15 +11089,25 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     node_cur_TNTTotallyFolded_node_c4.isMatchedByEnclosingPattern = true;
                                     node_cur_TNTTotallyFolded_node_c5.isMatchedByEnclosingPattern = true;
                                     node_cur_TNTTotallyFolded_node_c6.isMatchedByEnclosingPattern = true;
+                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                    //Pop subpattern matching task for _subpattern0
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern1
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern2
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern3
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern4
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern5
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern6
                                     openTasks.Pop();
+                                    // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
+                                        // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
                                             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -9797,6 +11128,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             matches.matchesList.PositionWasFilledFixIt();
                                         }
                                         matchesList.Clear();
+                                        // if enough matches were found, we leave
                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                         {
                                             node_cur_TNTTotallyFolded_node_c6.isMatchedByEnclosingPattern = false;
@@ -9846,7 +11178,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_TNTUnfolded() {
             rulePattern = Rule_TNTUnfolded.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 21, 24, 0);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 21, 24, 0+0);
         }
 
         public override string Name { get { return "TNTUnfolded"; } }
@@ -9858,11 +11190,13 @@ namespace de.unika.ipd.grGen.Action_TNT
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            // Lookup TNTUnfolded_edge__edge0 
             int edge_type_id_TNTUnfolded_edge__edge0 = 1;
             for(LGSPEdge edge_head_TNTUnfolded_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_TNTUnfolded_edge__edge0], edge_cur_TNTUnfolded_edge__edge0 = edge_head_TNTUnfolded_edge__edge0.typeNext; edge_cur_TNTUnfolded_edge__edge0 != edge_head_TNTUnfolded_edge__edge0; edge_cur_TNTUnfolded_edge__edge0 = edge_cur_TNTUnfolded_edge__edge0.typeNext)
             {
                 bool edge_cur_TNTUnfolded_edge__edge0_prevIsMatched = edge_cur_TNTUnfolded_edge__edge0.isMatched;
                 edge_cur_TNTUnfolded_edge__edge0.isMatched = true;
+                // Implicit source TNTUnfolded_node_c1 from TNTUnfolded_edge__edge0 
                 LGSPNode node_cur_TNTUnfolded_node_c1 = edge_cur_TNTUnfolded_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_TNTUnfolded_node_c1.type.TypeID]) {
                     edge_cur_TNTUnfolded_edge__edge0.isMatched = edge_cur_TNTUnfolded_edge__edge0_prevIsMatched;
@@ -9870,6 +11204,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_TNTUnfolded_node_c1_prevIsMatched = node_cur_TNTUnfolded_node_c1.isMatched;
                 node_cur_TNTUnfolded_node_c1.isMatched = true;
+                // Implicit target TNTUnfolded_node_c2 from TNTUnfolded_edge__edge0 
                 LGSPNode node_cur_TNTUnfolded_node_c2 = edge_cur_TNTUnfolded_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_TNTUnfolded_node_c2.type.TypeID]) {
                     node_cur_TNTUnfolded_node_c1.isMatched = node_cur_TNTUnfolded_node_c1_prevIsMatched;
@@ -9886,6 +11221,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_TNTUnfolded_node_c2_prevIsMatched = node_cur_TNTUnfolded_node_c2.isMatched;
                 node_cur_TNTUnfolded_node_c2.isMatched = true;
+                // Extend outgoing TNTUnfolded_edge__edge6 from TNTUnfolded_node_c1 
                 LGSPEdge edge_head_TNTUnfolded_edge__edge6 = node_cur_TNTUnfolded_node_c1.outhead;
                 if(edge_head_TNTUnfolded_edge__edge6 != null)
                 {
@@ -9906,6 +11242,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_TNTUnfolded_edge__edge6_prevIsMatched = edge_cur_TNTUnfolded_edge__edge6.isMatched;
                         edge_cur_TNTUnfolded_edge__edge6.isMatched = true;
+                        // Extend outgoing TNTUnfolded_edge__edge9 from TNTUnfolded_node_c1 
                         LGSPEdge edge_head_TNTUnfolded_edge__edge9 = node_cur_TNTUnfolded_node_c1.outhead;
                         if(edge_head_TNTUnfolded_edge__edge9 != null)
                         {
@@ -9925,6 +11262,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_TNTUnfolded_edge__edge9_prevIsMatched = edge_cur_TNTUnfolded_edge__edge9.isMatched;
                                 edge_cur_TNTUnfolded_edge__edge9.isMatched = true;
+                                // Implicit target TNTUnfolded_node_c from TNTUnfolded_edge__edge9 
                                 LGSPNode node_cur_TNTUnfolded_node_c = edge_cur_TNTUnfolded_edge__edge9.target;
                                 if(!NodeType_C.isMyType[node_cur_TNTUnfolded_node_c.type.TypeID]) {
                                     edge_cur_TNTUnfolded_edge__edge9.isMatched = edge_cur_TNTUnfolded_edge__edge9_prevIsMatched;
@@ -9941,6 +11279,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_TNTUnfolded_node_c_prevIsMatched = node_cur_TNTUnfolded_node_c.isMatched;
                                 node_cur_TNTUnfolded_node_c.isMatched = true;
+                                // Extend outgoing TNTUnfolded_edge__edge1 from TNTUnfolded_node_c2 
                                 LGSPEdge edge_head_TNTUnfolded_edge__edge1 = node_cur_TNTUnfolded_node_c2.outhead;
                                 if(edge_head_TNTUnfolded_edge__edge1 != null)
                                 {
@@ -9961,6 +11300,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_TNTUnfolded_edge__edge1_prevIsMatched = edge_cur_TNTUnfolded_edge__edge1.isMatched;
                                         edge_cur_TNTUnfolded_edge__edge1.isMatched = true;
+                                        // Implicit target TNTUnfolded_node_c3 from TNTUnfolded_edge__edge1 
                                         LGSPNode node_cur_TNTUnfolded_node_c3 = edge_cur_TNTUnfolded_edge__edge1.target;
                                         if(!NodeType_C.isMyType[node_cur_TNTUnfolded_node_c3.type.TypeID]) {
                                             edge_cur_TNTUnfolded_edge__edge1.isMatched = edge_cur_TNTUnfolded_edge__edge1_prevIsMatched;
@@ -9978,6 +11318,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_TNTUnfolded_node_c3_prevIsMatched = node_cur_TNTUnfolded_node_c3.isMatched;
                                         node_cur_TNTUnfolded_node_c3.isMatched = true;
+                                        // Extend outgoing TNTUnfolded_edge__edge13 from TNTUnfolded_node_c2 
                                         LGSPEdge edge_head_TNTUnfolded_edge__edge13 = node_cur_TNTUnfolded_node_c2.outhead;
                                         if(edge_head_TNTUnfolded_edge__edge13 != null)
                                         {
@@ -9999,6 +11340,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_TNTUnfolded_edge__edge13_prevIsMatched = edge_cur_TNTUnfolded_edge__edge13.isMatched;
                                                 edge_cur_TNTUnfolded_edge__edge13.isMatched = true;
+                                                // Implicit target TNTUnfolded_node_n2 from TNTUnfolded_edge__edge13 
                                                 LGSPNode node_cur_TNTUnfolded_node_n2 = edge_cur_TNTUnfolded_edge__edge13.target;
                                                 if(!NodeType_N.isMyType[node_cur_TNTUnfolded_node_n2.type.TypeID]) {
                                                     edge_cur_TNTUnfolded_edge__edge13.isMatched = edge_cur_TNTUnfolded_edge__edge13_prevIsMatched;
@@ -10006,6 +11348,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool node_cur_TNTUnfolded_node_n2_prevIsMatched = node_cur_TNTUnfolded_node_n2.isMatched;
                                                 node_cur_TNTUnfolded_node_n2.isMatched = true;
+                                                // Extend outgoing TNTUnfolded_edge__edge10 from TNTUnfolded_node_c 
                                                 LGSPEdge edge_head_TNTUnfolded_edge__edge10 = node_cur_TNTUnfolded_node_c.outhead;
                                                 if(edge_head_TNTUnfolded_edge__edge10 != null)
                                                 {
@@ -10028,6 +11371,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_TNTUnfolded_edge__edge10_prevIsMatched = edge_cur_TNTUnfolded_edge__edge10.isMatched;
                                                         edge_cur_TNTUnfolded_edge__edge10.isMatched = true;
+                                                        // Implicit target TNTUnfolded_node__node0 from TNTUnfolded_edge__edge10 
                                                         LGSPNode node_cur_TNTUnfolded_node__node0 = edge_cur_TNTUnfolded_edge__edge10.target;
                                                         if(!NodeType_H.isMyType[node_cur_TNTUnfolded_node__node0.type.TypeID]) {
                                                             edge_cur_TNTUnfolded_edge__edge10.isMatched = edge_cur_TNTUnfolded_edge__edge10_prevIsMatched;
@@ -10035,6 +11379,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_TNTUnfolded_node__node0_prevIsMatched = node_cur_TNTUnfolded_node__node0.isMatched;
                                                         node_cur_TNTUnfolded_node__node0.isMatched = true;
+                                                        // Extend outgoing TNTUnfolded_edge__edge11 from TNTUnfolded_node_c 
                                                         LGSPEdge edge_head_TNTUnfolded_edge__edge11 = node_cur_TNTUnfolded_node_c.outhead;
                                                         if(edge_head_TNTUnfolded_edge__edge11 != null)
                                                         {
@@ -10058,6 +11403,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_TNTUnfolded_edge__edge11_prevIsMatched = edge_cur_TNTUnfolded_edge__edge11.isMatched;
                                                                 edge_cur_TNTUnfolded_edge__edge11.isMatched = true;
+                                                                // Implicit target TNTUnfolded_node__node1 from TNTUnfolded_edge__edge11 
                                                                 LGSPNode node_cur_TNTUnfolded_node__node1 = edge_cur_TNTUnfolded_edge__edge11.target;
                                                                 if(!NodeType_H.isMyType[node_cur_TNTUnfolded_node__node1.type.TypeID]) {
                                                                     edge_cur_TNTUnfolded_edge__edge11.isMatched = edge_cur_TNTUnfolded_edge__edge11_prevIsMatched;
@@ -10072,6 +11418,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool node_cur_TNTUnfolded_node__node1_prevIsMatched = node_cur_TNTUnfolded_node__node1.isMatched;
                                                                 node_cur_TNTUnfolded_node__node1.isMatched = true;
+                                                                // Extend outgoing TNTUnfolded_edge__edge12 from TNTUnfolded_node_c 
                                                                 LGSPEdge edge_head_TNTUnfolded_edge__edge12 = node_cur_TNTUnfolded_node_c.outhead;
                                                                 if(edge_head_TNTUnfolded_edge__edge12 != null)
                                                                 {
@@ -10096,6 +11443,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_TNTUnfolded_edge__edge12_prevIsMatched = edge_cur_TNTUnfolded_edge__edge12.isMatched;
                                                                         edge_cur_TNTUnfolded_edge__edge12.isMatched = true;
+                                                                        // Implicit target TNTUnfolded_node__node2 from TNTUnfolded_edge__edge12 
                                                                         LGSPNode node_cur_TNTUnfolded_node__node2 = edge_cur_TNTUnfolded_edge__edge12.target;
                                                                         if(!NodeType_H.isMyType[node_cur_TNTUnfolded_node__node2.type.TypeID]) {
                                                                             edge_cur_TNTUnfolded_edge__edge12.isMatched = edge_cur_TNTUnfolded_edge__edge12_prevIsMatched;
@@ -10112,6 +11460,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool node_cur_TNTUnfolded_node__node2_prevIsMatched = node_cur_TNTUnfolded_node__node2.isMatched;
                                                                         node_cur_TNTUnfolded_node__node2.isMatched = true;
+                                                                        // Extend outgoing TNTUnfolded_edge__edge2 from TNTUnfolded_node_c3 
                                                                         LGSPEdge edge_head_TNTUnfolded_edge__edge2 = node_cur_TNTUnfolded_node_c3.outhead;
                                                                         if(edge_head_TNTUnfolded_edge__edge2 != null)
                                                                         {
@@ -10137,6 +11486,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool edge_cur_TNTUnfolded_edge__edge2_prevIsMatched = edge_cur_TNTUnfolded_edge__edge2.isMatched;
                                                                                 edge_cur_TNTUnfolded_edge__edge2.isMatched = true;
+                                                                                // Implicit target TNTUnfolded_node_c4 from TNTUnfolded_edge__edge2 
                                                                                 LGSPNode node_cur_TNTUnfolded_node_c4 = edge_cur_TNTUnfolded_edge__edge2.target;
                                                                                 if(!NodeType_C.isMyType[node_cur_TNTUnfolded_node_c4.type.TypeID]) {
                                                                                     edge_cur_TNTUnfolded_edge__edge2.isMatched = edge_cur_TNTUnfolded_edge__edge2_prevIsMatched;
@@ -10155,6 +11505,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool node_cur_TNTUnfolded_node_c4_prevIsMatched = node_cur_TNTUnfolded_node_c4.isMatched;
                                                                                 node_cur_TNTUnfolded_node_c4.isMatched = true;
+                                                                                // Extend outgoing TNTUnfolded_edge__edge7 from TNTUnfolded_node_c3 
                                                                                 LGSPEdge edge_head_TNTUnfolded_edge__edge7 = node_cur_TNTUnfolded_node_c3.outhead;
                                                                                 if(edge_head_TNTUnfolded_edge__edge7 != null)
                                                                                 {
@@ -10184,6 +11535,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         bool edge_cur_TNTUnfolded_edge__edge7_prevIsMatched = edge_cur_TNTUnfolded_edge__edge7.isMatched;
                                                                                         edge_cur_TNTUnfolded_edge__edge7.isMatched = true;
+                                                                                        // Extend outgoing TNTUnfolded_edge__edge16 from TNTUnfolded_node_c3 
                                                                                         LGSPEdge edge_head_TNTUnfolded_edge__edge16 = node_cur_TNTUnfolded_node_c3.outhead;
                                                                                         if(edge_head_TNTUnfolded_edge__edge16 != null)
                                                                                         {
@@ -10211,6 +11563,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool edge_cur_TNTUnfolded_edge__edge16_prevIsMatched = edge_cur_TNTUnfolded_edge__edge16.isMatched;
                                                                                                 edge_cur_TNTUnfolded_edge__edge16.isMatched = true;
+                                                                                                // Implicit target TNTUnfolded_node__node5 from TNTUnfolded_edge__edge16 
                                                                                                 LGSPNode node_cur_TNTUnfolded_node__node5 = edge_cur_TNTUnfolded_edge__edge16.target;
                                                                                                 if(!NodeType_H.isMyType[node_cur_TNTUnfolded_node__node5.type.TypeID]) {
                                                                                                     edge_cur_TNTUnfolded_edge__edge16.isMatched = edge_cur_TNTUnfolded_edge__edge16_prevIsMatched;
@@ -10228,6 +11581,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool node_cur_TNTUnfolded_node__node5_prevIsMatched = node_cur_TNTUnfolded_node__node5.isMatched;
                                                                                                 node_cur_TNTUnfolded_node__node5.isMatched = true;
+                                                                                                // Extend outgoing TNTUnfolded_edge__edge14 from TNTUnfolded_node_n2 
                                                                                                 LGSPEdge edge_head_TNTUnfolded_edge__edge14 = node_cur_TNTUnfolded_node_n2.outhead;
                                                                                                 if(edge_head_TNTUnfolded_edge__edge14 != null)
                                                                                                 {
@@ -10256,6 +11610,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool edge_cur_TNTUnfolded_edge__edge14_prevIsMatched = edge_cur_TNTUnfolded_edge__edge14.isMatched;
                                                                                                         edge_cur_TNTUnfolded_edge__edge14.isMatched = true;
+                                                                                                        // Implicit target TNTUnfolded_node__node3 from TNTUnfolded_edge__edge14 
                                                                                                         LGSPNode node_cur_TNTUnfolded_node__node3 = edge_cur_TNTUnfolded_edge__edge14.target;
                                                                                                         if(!NodeType_O.isMyType[node_cur_TNTUnfolded_node__node3.type.TypeID]) {
                                                                                                             edge_cur_TNTUnfolded_edge__edge14.isMatched = edge_cur_TNTUnfolded_edge__edge14_prevIsMatched;
@@ -10263,6 +11618,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool node_cur_TNTUnfolded_node__node3_prevIsMatched = node_cur_TNTUnfolded_node__node3.isMatched;
                                                                                                         node_cur_TNTUnfolded_node__node3.isMatched = true;
+                                                                                                        // Extend outgoing TNTUnfolded_edge__edge15 from TNTUnfolded_node_n2 
                                                                                                         LGSPEdge edge_head_TNTUnfolded_edge__edge15 = node_cur_TNTUnfolded_node_n2.outhead;
                                                                                                         if(edge_head_TNTUnfolded_edge__edge15 != null)
                                                                                                         {
@@ -10292,6 +11648,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 }
                                                                                                                 bool edge_cur_TNTUnfolded_edge__edge15_prevIsMatched = edge_cur_TNTUnfolded_edge__edge15.isMatched;
                                                                                                                 edge_cur_TNTUnfolded_edge__edge15.isMatched = true;
+                                                                                                                // Implicit target TNTUnfolded_node__node4 from TNTUnfolded_edge__edge15 
                                                                                                                 LGSPNode node_cur_TNTUnfolded_node__node4 = edge_cur_TNTUnfolded_edge__edge15.target;
                                                                                                                 if(!NodeType_O.isMyType[node_cur_TNTUnfolded_node__node4.type.TypeID]) {
                                                                                                                     edge_cur_TNTUnfolded_edge__edge15.isMatched = edge_cur_TNTUnfolded_edge__edge15_prevIsMatched;
@@ -10306,6 +11663,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 }
                                                                                                                 bool node_cur_TNTUnfolded_node__node4_prevIsMatched = node_cur_TNTUnfolded_node__node4.isMatched;
                                                                                                                 node_cur_TNTUnfolded_node__node4.isMatched = true;
+                                                                                                                // Extend outgoing TNTUnfolded_edge__edge3 from TNTUnfolded_node_c4 
                                                                                                                 LGSPEdge edge_head_TNTUnfolded_edge__edge3 = node_cur_TNTUnfolded_node_c4.outhead;
                                                                                                                 if(edge_head_TNTUnfolded_edge__edge3 != null)
                                                                                                                 {
@@ -10336,6 +11694,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                         }
                                                                                                                         bool edge_cur_TNTUnfolded_edge__edge3_prevIsMatched = edge_cur_TNTUnfolded_edge__edge3.isMatched;
                                                                                                                         edge_cur_TNTUnfolded_edge__edge3.isMatched = true;
+                                                                                                                        // Implicit target TNTUnfolded_node_c5 from TNTUnfolded_edge__edge3 
                                                                                                                         LGSPNode node_cur_TNTUnfolded_node_c5 = edge_cur_TNTUnfolded_edge__edge3.target;
                                                                                                                         if(!NodeType_C.isMyType[node_cur_TNTUnfolded_node_c5.type.TypeID]) {
                                                                                                                             edge_cur_TNTUnfolded_edge__edge3.isMatched = edge_cur_TNTUnfolded_edge__edge3_prevIsMatched;
@@ -10355,6 +11714,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                         }
                                                                                                                         bool node_cur_TNTUnfolded_node_c5_prevIsMatched = node_cur_TNTUnfolded_node_c5.isMatched;
                                                                                                                         node_cur_TNTUnfolded_node_c5.isMatched = true;
+                                                                                                                        // Extend outgoing TNTUnfolded_edge__edge17 from TNTUnfolded_node_c4 
                                                                                                                         LGSPEdge edge_head_TNTUnfolded_edge__edge17 = node_cur_TNTUnfolded_node_c4.outhead;
                                                                                                                         if(edge_head_TNTUnfolded_edge__edge17 != null)
                                                                                                                         {
@@ -10386,6 +11746,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                 }
                                                                                                                                 bool edge_cur_TNTUnfolded_edge__edge17_prevIsMatched = edge_cur_TNTUnfolded_edge__edge17.isMatched;
                                                                                                                                 edge_cur_TNTUnfolded_edge__edge17.isMatched = true;
+                                                                                                                                // Implicit target TNTUnfolded_node_n4 from TNTUnfolded_edge__edge17 
                                                                                                                                 LGSPNode node_cur_TNTUnfolded_node_n4 = edge_cur_TNTUnfolded_edge__edge17.target;
                                                                                                                                 if(!NodeType_N.isMyType[node_cur_TNTUnfolded_node_n4.type.TypeID]) {
                                                                                                                                     edge_cur_TNTUnfolded_edge__edge17.isMatched = edge_cur_TNTUnfolded_edge__edge17_prevIsMatched;
@@ -10400,6 +11761,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                 }
                                                                                                                                 bool node_cur_TNTUnfolded_node_n4_prevIsMatched = node_cur_TNTUnfolded_node_n4.isMatched;
                                                                                                                                 node_cur_TNTUnfolded_node_n4.isMatched = true;
+                                                                                                                                // Extend outgoing TNTUnfolded_edge__edge4 from TNTUnfolded_node_c5 
                                                                                                                                 LGSPEdge edge_head_TNTUnfolded_edge__edge4 = node_cur_TNTUnfolded_node_c5.outhead;
                                                                                                                                 if(edge_head_TNTUnfolded_edge__edge4 != null)
                                                                                                                                 {
@@ -10432,6 +11794,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                         }
                                                                                                                                         bool edge_cur_TNTUnfolded_edge__edge4_prevIsMatched = edge_cur_TNTUnfolded_edge__edge4.isMatched;
                                                                                                                                         edge_cur_TNTUnfolded_edge__edge4.isMatched = true;
+                                                                                                                                        // Implicit target TNTUnfolded_node_c6 from TNTUnfolded_edge__edge4 
                                                                                                                                         LGSPNode node_cur_TNTUnfolded_node_c6 = edge_cur_TNTUnfolded_edge__edge4.target;
                                                                                                                                         if(!NodeType_C.isMyType[node_cur_TNTUnfolded_node_c6.type.TypeID]) {
                                                                                                                                             edge_cur_TNTUnfolded_edge__edge4.isMatched = edge_cur_TNTUnfolded_edge__edge4_prevIsMatched;
@@ -10450,6 +11813,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                             edge_cur_TNTUnfolded_edge__edge4.isMatched = edge_cur_TNTUnfolded_edge__edge4_prevIsMatched;
                                                                                                                                             continue;
                                                                                                                                         }
+                                                                                                                                        // Extend outgoing TNTUnfolded_edge__edge8 from TNTUnfolded_node_c5 
                                                                                                                                         LGSPEdge edge_head_TNTUnfolded_edge__edge8 = node_cur_TNTUnfolded_node_c5.outhead;
                                                                                                                                         if(edge_head_TNTUnfolded_edge__edge8 != null)
                                                                                                                                         {
@@ -10486,6 +11850,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                 }
                                                                                                                                                 bool edge_cur_TNTUnfolded_edge__edge8_prevIsMatched = edge_cur_TNTUnfolded_edge__edge8.isMatched;
                                                                                                                                                 edge_cur_TNTUnfolded_edge__edge8.isMatched = true;
+                                                                                                                                                // Extend outgoing TNTUnfolded_edge__edge20 from TNTUnfolded_node_c5 
                                                                                                                                                 LGSPEdge edge_head_TNTUnfolded_edge__edge20 = node_cur_TNTUnfolded_node_c5.outhead;
                                                                                                                                                 if(edge_head_TNTUnfolded_edge__edge20 != null)
                                                                                                                                                 {
@@ -10520,6 +11885,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                         }
                                                                                                                                                         bool edge_cur_TNTUnfolded_edge__edge20_prevIsMatched = edge_cur_TNTUnfolded_edge__edge20.isMatched;
                                                                                                                                                         edge_cur_TNTUnfolded_edge__edge20.isMatched = true;
+                                                                                                                                                        // Implicit target TNTUnfolded_node__node8 from TNTUnfolded_edge__edge20 
                                                                                                                                                         LGSPNode node_cur_TNTUnfolded_node__node8 = edge_cur_TNTUnfolded_edge__edge20.target;
                                                                                                                                                         if(!NodeType_H.isMyType[node_cur_TNTUnfolded_node__node8.type.TypeID]) {
                                                                                                                                                             edge_cur_TNTUnfolded_edge__edge20.isMatched = edge_cur_TNTUnfolded_edge__edge20_prevIsMatched;
@@ -10536,6 +11902,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                             edge_cur_TNTUnfolded_edge__edge20.isMatched = edge_cur_TNTUnfolded_edge__edge20_prevIsMatched;
                                                                                                                                                             continue;
                                                                                                                                                         }
+                                                                                                                                                        // Extend outgoing TNTUnfolded_edge__edge18 from TNTUnfolded_node_n4 
                                                                                                                                                         LGSPEdge edge_head_TNTUnfolded_edge__edge18 = node_cur_TNTUnfolded_node_n4.outhead;
                                                                                                                                                         if(edge_head_TNTUnfolded_edge__edge18 != null)
                                                                                                                                                         {
@@ -10571,6 +11938,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                 }
                                                                                                                                                                 bool edge_cur_TNTUnfolded_edge__edge18_prevIsMatched = edge_cur_TNTUnfolded_edge__edge18.isMatched;
                                                                                                                                                                 edge_cur_TNTUnfolded_edge__edge18.isMatched = true;
+                                                                                                                                                                // Implicit target TNTUnfolded_node__node6 from TNTUnfolded_edge__edge18 
                                                                                                                                                                 LGSPNode node_cur_TNTUnfolded_node__node6 = edge_cur_TNTUnfolded_edge__edge18.target;
                                                                                                                                                                 if(!NodeType_O.isMyType[node_cur_TNTUnfolded_node__node6.type.TypeID]) {
                                                                                                                                                                     edge_cur_TNTUnfolded_edge__edge18.isMatched = edge_cur_TNTUnfolded_edge__edge18_prevIsMatched;
@@ -10587,6 +11955,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                 }
                                                                                                                                                                 bool node_cur_TNTUnfolded_node__node6_prevIsMatched = node_cur_TNTUnfolded_node__node6.isMatched;
                                                                                                                                                                 node_cur_TNTUnfolded_node__node6.isMatched = true;
+                                                                                                                                                                // Extend outgoing TNTUnfolded_edge__edge19 from TNTUnfolded_node_n4 
                                                                                                                                                                 LGSPEdge edge_head_TNTUnfolded_edge__edge19 = node_cur_TNTUnfolded_node_n4.outhead;
                                                                                                                                                                 if(edge_head_TNTUnfolded_edge__edge19 != null)
                                                                                                                                                                 {
@@ -10623,6 +11992,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                         }
                                                                                                                                                                         bool edge_cur_TNTUnfolded_edge__edge19_prevIsMatched = edge_cur_TNTUnfolded_edge__edge19.isMatched;
                                                                                                                                                                         edge_cur_TNTUnfolded_edge__edge19.isMatched = true;
+                                                                                                                                                                        // Implicit target TNTUnfolded_node__node7 from TNTUnfolded_edge__edge19 
                                                                                                                                                                         LGSPNode node_cur_TNTUnfolded_node__node7 = edge_cur_TNTUnfolded_edge__edge19.target;
                                                                                                                                                                         if(!NodeType_O.isMyType[node_cur_TNTUnfolded_node__node7.type.TypeID]) {
                                                                                                                                                                             edge_cur_TNTUnfolded_edge__edge19.isMatched = edge_cur_TNTUnfolded_edge__edge19_prevIsMatched;
@@ -10640,6 +12010,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                         }
                                                                                                                                                                         bool node_cur_TNTUnfolded_node__node7_prevIsMatched = node_cur_TNTUnfolded_node__node7.isMatched;
                                                                                                                                                                         node_cur_TNTUnfolded_node__node7.isMatched = true;
+                                                                                                                                                                        // Extend outgoing TNTUnfolded_edge__edge5 from TNTUnfolded_node_c6 
                                                                                                                                                                         LGSPEdge edge_head_TNTUnfolded_edge__edge5 = node_cur_TNTUnfolded_node_c6.outhead;
                                                                                                                                                                         if(edge_head_TNTUnfolded_edge__edge5 != null)
                                                                                                                                                                         {
@@ -10680,6 +12051,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                 }
                                                                                                                                                                                 bool edge_cur_TNTUnfolded_edge__edge5_prevIsMatched = edge_cur_TNTUnfolded_edge__edge5.isMatched;
                                                                                                                                                                                 edge_cur_TNTUnfolded_edge__edge5.isMatched = true;
+                                                                                                                                                                                // Extend outgoing TNTUnfolded_edge__edge21 from TNTUnfolded_node_c6 
                                                                                                                                                                                 LGSPEdge edge_head_TNTUnfolded_edge__edge21 = node_cur_TNTUnfolded_node_c6.outhead;
                                                                                                                                                                                 if(edge_head_TNTUnfolded_edge__edge21 != null)
                                                                                                                                                                                 {
@@ -10718,6 +12090,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                         }
                                                                                                                                                                                         bool edge_cur_TNTUnfolded_edge__edge21_prevIsMatched = edge_cur_TNTUnfolded_edge__edge21.isMatched;
                                                                                                                                                                                         edge_cur_TNTUnfolded_edge__edge21.isMatched = true;
+                                                                                                                                                                                        // Implicit target TNTUnfolded_node_n6 from TNTUnfolded_edge__edge21 
                                                                                                                                                                                         LGSPNode node_cur_TNTUnfolded_node_n6 = edge_cur_TNTUnfolded_edge__edge21.target;
                                                                                                                                                                                         if(!NodeType_N.isMyType[node_cur_TNTUnfolded_node_n6.type.TypeID]) {
                                                                                                                                                                                             edge_cur_TNTUnfolded_edge__edge21.isMatched = edge_cur_TNTUnfolded_edge__edge21_prevIsMatched;
@@ -10732,6 +12105,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                             edge_cur_TNTUnfolded_edge__edge21.isMatched = edge_cur_TNTUnfolded_edge__edge21_prevIsMatched;
                                                                                                                                                                                             continue;
                                                                                                                                                                                         }
+                                                                                                                                                                                        // Extend outgoing TNTUnfolded_edge__edge22 from TNTUnfolded_node_n6 
                                                                                                                                                                                         LGSPEdge edge_head_TNTUnfolded_edge__edge22 = node_cur_TNTUnfolded_node_n6.outhead;
                                                                                                                                                                                         if(edge_head_TNTUnfolded_edge__edge22 != null)
                                                                                                                                                                                         {
@@ -10771,6 +12145,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                                 }
                                                                                                                                                                                                 bool edge_cur_TNTUnfolded_edge__edge22_prevIsMatched = edge_cur_TNTUnfolded_edge__edge22.isMatched;
                                                                                                                                                                                                 edge_cur_TNTUnfolded_edge__edge22.isMatched = true;
+                                                                                                                                                                                                // Implicit target TNTUnfolded_node__node9 from TNTUnfolded_edge__edge22 
                                                                                                                                                                                                 LGSPNode node_cur_TNTUnfolded_node__node9 = edge_cur_TNTUnfolded_edge__edge22.target;
                                                                                                                                                                                                 if(!NodeType_O.isMyType[node_cur_TNTUnfolded_node__node9.type.TypeID]) {
                                                                                                                                                                                                     edge_cur_TNTUnfolded_edge__edge22.isMatched = edge_cur_TNTUnfolded_edge__edge22_prevIsMatched;
@@ -10789,6 +12164,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                                 }
                                                                                                                                                                                                 bool node_cur_TNTUnfolded_node__node9_prevIsMatched = node_cur_TNTUnfolded_node__node9.isMatched;
                                                                                                                                                                                                 node_cur_TNTUnfolded_node__node9.isMatched = true;
+                                                                                                                                                                                                // Extend outgoing TNTUnfolded_edge__edge23 from TNTUnfolded_node_n6 
                                                                                                                                                                                                 LGSPEdge edge_head_TNTUnfolded_edge__edge23 = node_cur_TNTUnfolded_node_n6.outhead;
                                                                                                                                                                                                 if(edge_head_TNTUnfolded_edge__edge23 != null)
                                                                                                                                                                                                 {
@@ -10827,6 +12203,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                                         {
                                                                                                                                                                                                             continue;
                                                                                                                                                                                                         }
+                                                                                                                                                                                                        // Implicit target TNTUnfolded_node__node10 from TNTUnfolded_edge__edge23 
                                                                                                                                                                                                         LGSPNode node_cur_TNTUnfolded_node__node10 = edge_cur_TNTUnfolded_edge__edge23.target;
                                                                                                                                                                                                         if(!NodeType_O.isMyType[node_cur_TNTUnfolded_node__node10.type.TypeID]) {
                                                                                                                                                                                                             continue;
@@ -10890,6 +12267,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                                         match.Edges[(int)Rule_TNTUnfolded.TNTUnfolded_EdgeNums.@_edge22] = edge_cur_TNTUnfolded_edge__edge22;
                                                                                                                                                                                                         match.Edges[(int)Rule_TNTUnfolded.TNTUnfolded_EdgeNums.@_edge23] = edge_cur_TNTUnfolded_edge__edge23;
                                                                                                                                                                                                         matches.matchesList.PositionWasFilledFixIt();
+                                                                                                                                                                                                        // if enough matches were found, we leave
                                                                                                                                                                                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                                                                                                                                         {
                                                                                                                                                                                                             node_cur_TNTUnfolded_node_n6.MoveOutHeadAfter(edge_cur_TNTUnfolded_edge__edge23);
@@ -11077,7 +12455,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_Toluol() {
             rulePattern = Rule_Toluol.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 7);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 7+0);
         }
 
         public override string Name { get { return "Toluol"; } }
@@ -11092,11 +12470,13 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup Toluol_node_c3 
             int node_type_id_Toluol_node_c3 = 1;
             for(LGSPNode node_head_Toluol_node_c3 = graph.nodesByTypeHeads[node_type_id_Toluol_node_c3], node_cur_Toluol_node_c3 = node_head_Toluol_node_c3.typeNext; node_cur_Toluol_node_c3 != node_head_Toluol_node_c3; node_cur_Toluol_node_c3 = node_cur_Toluol_node_c3.typeNext)
             {
                 bool node_cur_Toluol_node_c3_prevIsMatched = node_cur_Toluol_node_c3.isMatched;
                 node_cur_Toluol_node_c3.isMatched = true;
+                // Lookup Toluol_node_c5 
                 int node_type_id_Toluol_node_c5 = 1;
                 for(LGSPNode node_head_Toluol_node_c5 = graph.nodesByTypeHeads[node_type_id_Toluol_node_c5], node_cur_Toluol_node_c5 = node_head_Toluol_node_c5.typeNext; node_cur_Toluol_node_c5 != node_head_Toluol_node_c5; node_cur_Toluol_node_c5 = node_cur_Toluol_node_c5.typeNext)
                 {
@@ -11108,6 +12488,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool node_cur_Toluol_node_c5_prevIsMatched = node_cur_Toluol_node_c5.isMatched;
                     node_cur_Toluol_node_c5.isMatched = true;
+                    // Lookup Toluol_node_c6 
                     int node_type_id_Toluol_node_c6 = 1;
                     for(LGSPNode node_head_Toluol_node_c6 = graph.nodesByTypeHeads[node_type_id_Toluol_node_c6], node_cur_Toluol_node_c6 = node_head_Toluol_node_c6.typeNext; node_cur_Toluol_node_c6 != node_head_Toluol_node_c6; node_cur_Toluol_node_c6 = node_cur_Toluol_node_c6.typeNext)
                     {
@@ -11121,6 +12502,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool node_cur_Toluol_node_c6_prevIsMatched = node_cur_Toluol_node_c6.isMatched;
                         node_cur_Toluol_node_c6.isMatched = true;
+                        // Lookup Toluol_node_c4 
                         int node_type_id_Toluol_node_c4 = 1;
                         for(LGSPNode node_head_Toluol_node_c4 = graph.nodesByTypeHeads[node_type_id_Toluol_node_c4], node_cur_Toluol_node_c4 = node_head_Toluol_node_c4.typeNext; node_cur_Toluol_node_c4 != node_head_Toluol_node_c4; node_cur_Toluol_node_c4 = node_cur_Toluol_node_c4.typeNext)
                         {
@@ -11135,6 +12517,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool node_cur_Toluol_node_c4_prevIsMatched = node_cur_Toluol_node_c4.isMatched;
                             node_cur_Toluol_node_c4.isMatched = true;
+                            // Lookup Toluol_node_c2 
                             int node_type_id_Toluol_node_c2 = 1;
                             for(LGSPNode node_head_Toluol_node_c2 = graph.nodesByTypeHeads[node_type_id_Toluol_node_c2], node_cur_Toluol_node_c2 = node_head_Toluol_node_c2.typeNext; node_cur_Toluol_node_c2 != node_head_Toluol_node_c2; node_cur_Toluol_node_c2 = node_cur_Toluol_node_c2.typeNext)
                             {
@@ -11150,6 +12533,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_Toluol_node_c2_prevIsMatched = node_cur_Toluol_node_c2.isMatched;
                                 node_cur_Toluol_node_c2.isMatched = true;
+                                // Lookup Toluol_node_c1 
                                 int node_type_id_Toluol_node_c1 = 1;
                                 for(LGSPNode node_head_Toluol_node_c1 = graph.nodesByTypeHeads[node_type_id_Toluol_node_c1], node_cur_Toluol_node_c1 = node_head_Toluol_node_c1.typeNext; node_cur_Toluol_node_c1 != node_head_Toluol_node_c1; node_cur_Toluol_node_c1 = node_cur_Toluol_node_c1.typeNext)
                                 {
@@ -11164,24 +12548,31 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     {
                                         continue;
                                     }
+                                    // Push subpattern matching task for _subpattern6
                                     PatternAction_Hydrogen taskFor__subpattern6 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern6.Hydrogen_node_anchor = node_cur_Toluol_node_c6;
                                     openTasks.Push(taskFor__subpattern6);
+                                    // Push subpattern matching task for _subpattern5
                                     PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern5.Hydrogen_node_anchor = node_cur_Toluol_node_c5;
                                     openTasks.Push(taskFor__subpattern5);
+                                    // Push subpattern matching task for _subpattern4
                                     PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern4.Hydrogen_node_anchor = node_cur_Toluol_node_c4;
                                     openTasks.Push(taskFor__subpattern4);
+                                    // Push subpattern matching task for _subpattern3
                                     PatternAction_Hydrogen taskFor__subpattern3 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern3.Hydrogen_node_anchor = node_cur_Toluol_node_c3;
                                     openTasks.Push(taskFor__subpattern3);
+                                    // Push subpattern matching task for _subpattern2
                                     PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern2.Hydrogen_node_anchor = node_cur_Toluol_node_c2;
                                     openTasks.Push(taskFor__subpattern2);
+                                    // Push subpattern matching task for _subpattern1
                                     PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
                                     taskFor__subpattern1.Methyl_node_anchor = node_cur_Toluol_node_c1;
                                     openTasks.Push(taskFor__subpattern1);
+                                    // Push subpattern matching task for _subpattern0
                                     PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c1 = node_cur_Toluol_node_c1;
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c2 = node_cur_Toluol_node_c2;
@@ -11196,15 +12587,25 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     node_cur_Toluol_node_c4.isMatchedByEnclosingPattern = true;
                                     node_cur_Toluol_node_c5.isMatchedByEnclosingPattern = true;
                                     node_cur_Toluol_node_c6.isMatchedByEnclosingPattern = true;
+                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                    //Pop subpattern matching task for _subpattern0
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern1
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern2
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern3
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern4
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern5
                                     openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern6
                                     openTasks.Pop();
+                                    // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
+                                        // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
                                             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -11225,6 +12626,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             matches.matchesList.PositionWasFilledFixIt();
                                         }
                                         matchesList.Clear();
+                                        // if enough matches were found, we leave
                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                         {
                                             node_cur_Toluol_node_c6.isMatchedByEnclosingPattern = false;
@@ -11274,7 +12676,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_ToluolCore() {
             rulePattern = Rule_ToluolCore.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 1, 0, 2);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 1, 0, 2+0);
         }
 
         public override string Name { get { return "ToluolCore"; } }
@@ -11289,20 +12691,28 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup ToluolCore_node_c1 
             int node_type_id_ToluolCore_node_c1 = 1;
             for(LGSPNode node_head_ToluolCore_node_c1 = graph.nodesByTypeHeads[node_type_id_ToluolCore_node_c1], node_cur_ToluolCore_node_c1 = node_head_ToluolCore_node_c1.typeNext; node_cur_ToluolCore_node_c1 != node_head_ToluolCore_node_c1; node_cur_ToluolCore_node_c1 = node_cur_ToluolCore_node_c1.typeNext)
             {
+                // Push subpattern matching task for _subpattern1
                 PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
                 taskFor__subpattern1.Methyl_node_anchor = node_cur_ToluolCore_node_c1;
                 openTasks.Push(taskFor__subpattern1);
+                // Push subpattern matching task for _subpattern0
                 PatternAction_BenzolRingC1Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC1Exposed(graph, openTasks);
                 taskFor__subpattern0.BenzolRingC1Exposed_node_c1 = node_cur_ToluolCore_node_c1;
                 openTasks.Push(taskFor__subpattern0);
                 node_cur_ToluolCore_node_c1.isMatchedByEnclosingPattern = true;
+                // Match subpatterns
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                //Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                //Pop subpattern matching task for _subpattern1
                 openTasks.Pop();
+                // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
+                    // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                     {
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -11313,6 +12723,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         matches.matchesList.PositionWasFilledFixIt();
                     }
                     matchesList.Clear();
+                    // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
                         node_cur_ToluolCore_node_c1.isMatchedByEnclosingPattern = false;
@@ -11327,12 +12738,79 @@ namespace de.unika.ipd.grGen.Action_TNT
         }
     }
 
+    public class Action_ToluolCoreNotC6Nitro : LGSPAction
+    {
+        public Action_ToluolCoreNotC6Nitro() {
+            rulePattern = Rule_ToluolCoreNotC6Nitro.Instance;
+            patternGraph = rulePattern.patternGraph;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 1, 0, 2+0);
+        }
+
+        public override string Name { get { return "ToluolCoreNotC6Nitro"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_ToluolCoreNotC6Nitro instance = new Action_ToluolCoreNotC6Nitro();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
+            List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup ToluolCoreNotC6Nitro_node_c1 
+            int node_type_id_ToluolCoreNotC6Nitro_node_c1 = 1;
+            for(LGSPNode node_head_ToluolCoreNotC6Nitro_node_c1 = graph.nodesByTypeHeads[node_type_id_ToluolCoreNotC6Nitro_node_c1], node_cur_ToluolCoreNotC6Nitro_node_c1 = node_head_ToluolCoreNotC6Nitro_node_c1.typeNext; node_cur_ToluolCoreNotC6Nitro_node_c1 != node_head_ToluolCoreNotC6Nitro_node_c1; node_cur_ToluolCoreNotC6Nitro_node_c1 = node_cur_ToluolCoreNotC6Nitro_node_c1.typeNext)
+            {
+                // Push subpattern matching task for _subpattern1
+                PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
+                taskFor__subpattern1.Methyl_node_anchor = node_cur_ToluolCoreNotC6Nitro_node_c1;
+                openTasks.Push(taskFor__subpattern1);
+                // Push subpattern matching task for _subpattern0
+                PatternAction_BenzolRingC1ExposedNotC6Nitro taskFor__subpattern0 = new PatternAction_BenzolRingC1ExposedNotC6Nitro(graph, openTasks);
+                taskFor__subpattern0.BenzolRingC1ExposedNotC6Nitro_node_c1 = node_cur_ToluolCoreNotC6Nitro_node_c1;
+                openTasks.Push(taskFor__subpattern0);
+                node_cur_ToluolCoreNotC6Nitro_node_c1.isMatchedByEnclosingPattern = true;
+                // Match subpatterns
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                //Pop subpattern matching task for _subpattern0
+                openTasks.Pop();
+                //Pop subpattern matching task for _subpattern1
+                openTasks.Pop();
+                // Check whether subpatterns were found 
+                if(matchesList.Count>0) {
+                    // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
+                    foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                    {
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                        match.patternGraph = rulePattern.patternGraph;
+                        match.Nodes[(int)Rule_ToluolCoreNotC6Nitro.ToluolCoreNotC6Nitro_NodeNums.@c1] = node_cur_ToluolCoreNotC6Nitro_node_c1;
+                        match.EmbeddedGraphs[(int)Rule_ToluolCoreNotC6Nitro.ToluolCoreNotC6Nitro_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
+                        match.EmbeddedGraphs[(int)Rule_ToluolCoreNotC6Nitro.ToluolCoreNotC6Nitro_SubNums.@_subpattern1] = currentFoundPartialMatch.Pop();
+                        matches.matchesList.PositionWasFilledFixIt();
+                    }
+                    matchesList.Clear();
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    {
+                        node_cur_ToluolCoreNotC6Nitro_node_c1.isMatchedByEnclosingPattern = false;
+                        return matches;
+                    }
+                    node_cur_ToluolCoreNotC6Nitro_node_c1.isMatchedByEnclosingPattern = false;
+                    continue;
+                }
+                node_cur_ToluolCoreNotC6Nitro_node_c1.isMatchedByEnclosingPattern = false;
+            }
+            return matches;
+        }
+    }
+
     public class Action_createDNT : LGSPAction
     {
         public Action_createDNT() {
             rulePattern = Rule_createDNT.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
         }
 
         public override string Name { get { return "createDNT"; } }
@@ -11347,6 +12825,7 @@ namespace de.unika.ipd.grGen.Action_TNT
             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
             match.patternGraph = rulePattern.patternGraph;
             matches.matchesList.PositionWasFilledFixIt();
+            // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
             {
                 return matches;
@@ -11360,7 +12839,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_createTNB() {
             rulePattern = Rule_createTNB.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
         }
 
         public override string Name { get { return "createTNB"; } }
@@ -11375,6 +12854,7 @@ namespace de.unika.ipd.grGen.Action_TNT
             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
             match.patternGraph = rulePattern.patternGraph;
             matches.matchesList.PositionWasFilledFixIt();
+            // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
             {
                 return matches;
@@ -11388,7 +12868,7 @@ namespace de.unika.ipd.grGen.Action_TNT
         public Action_createTNT() {
             rulePattern = Rule_createTNT.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0);
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
         }
 
         public override string Name { get { return "createTNT"; } }
@@ -11403,6 +12883,7 @@ namespace de.unika.ipd.grGen.Action_TNT
             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
             match.patternGraph = rulePattern.patternGraph;
             matches.matchesList.PositionWasFilledFixIt();
+            // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
             {
                 return matches;
@@ -11439,6 +12920,7 @@ namespace de.unika.ipd.grGen.Action_TNT
             actions.Add("TNTUnfolded", (LGSPAction) Action_TNTUnfolded.Instance);
             actions.Add("Toluol", (LGSPAction) Action_Toluol.Instance);
             actions.Add("ToluolCore", (LGSPAction) Action_ToluolCore.Instance);
+            actions.Add("ToluolCoreNotC6Nitro", (LGSPAction) Action_ToluolCoreNotC6Nitro.Instance);
             actions.Add("createDNT", (LGSPAction) Action_createDNT.Instance);
             actions.Add("createTNB", (LGSPAction) Action_createTNB.Instance);
             actions.Add("createTNT", (LGSPAction) Action_createTNT.Instance);

@@ -1310,7 +1310,7 @@ exitSecondLoop: ;
             sb.AppendFront("DynamicMatch = myMatch; matches = new LGSPMatches(this, " 
                 + patternGraph.Nodes.Length + ", " 
                 + patternGraph.Edges.Length + ", " 
-                + patternGraph.EmbeddedGraphs.Length +
+                + patternGraph.EmbeddedGraphs.Length + "+" + patternGraph.Alternatives.Length +
                 ");\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");

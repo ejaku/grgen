@@ -1097,7 +1097,8 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.nodes[i].UnprefixedName,
                         patternGraph.nodes[i].Name,
                         rulePatternClassName,
-                        patternGraph.pathPrefix + patternGraph.name + "_"
+                        patternGraph.pathPrefix + patternGraph.name + "_",
+                        -1
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
@@ -1109,7 +1110,8 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.edges[i].UnprefixedName,
                         patternGraph.edges[i].Name,
                         rulePatternClassName,
-                        patternGraph.pathPrefix + patternGraph.name + "_"
+                        patternGraph.pathPrefix + patternGraph.name + "_",
+                        -1
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
@@ -1121,7 +1123,21 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.embeddedGraphs[i].name,
                         patternGraph.embeddedGraphs[i].name,
                         rulePatternClassName,
-                        patternGraph.pathPrefix+patternGraph.name+"_"
+                        patternGraph.pathPrefix+patternGraph.name+"_",
+                        -1
+                    );
+                insertionPoint = insertionPoint.Append(buildMatch);
+            }
+            for (int i = 0; i < patternGraph.alternatives.Length; ++i)
+            {
+                BuildMatchObject buildMatch =
+                    new BuildMatchObject(
+                        BuildMatchObjectType.Alternative,
+                        patternGraph.alternatives[i].name,
+                        patternGraph.alternatives[i].name,
+                        rulePatternClassName,
+                        patternGraph.pathPrefix + patternGraph.name + "_",
+                        patternGraph.embeddedGraphs.Length
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
@@ -1220,6 +1236,15 @@ namespace de.unika.ipd.grGen.lgsp
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
                         subpattern.name
+                    );
+                insertionPoint = insertionPoint.Append(popTask);
+            }
+
+            foreach (Alternative alternative in patternGraph.alternatives)
+            {
+                PopSubpatternTask popTask =
+                    new PopSubpatternTask(
+                        alternative.name
                     );
                 insertionPoint = insertionPoint.Append(popTask);
             }
@@ -1336,7 +1361,8 @@ namespace de.unika.ipd.grGen.lgsp
                 patternAndSubpatternsMatched = new PatternAndSubpatternsMatched(
                     patternGraph.nodes.Length,
                     patternGraph.edges.Length,
-                    patternGraph.embeddedGraphs.Length
+                    patternGraph.embeddedGraphs.Length,
+                    patternGraph.alternatives.Length
                 );
             }
             SearchProgramOperation continuationPointAfterPatternAndSubpatternsMatched =
