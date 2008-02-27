@@ -1,0 +1,26 @@
+using reuse2Model;
+
+rule init {
+    replace {
+        a:N12 -e12_1:E12-> b:N1;
+        a -e12_2:E12-> c:N2;
+        b -e1_1:E1-> c;
+        b -e1_2:E1-> a;
+        eval {
+            e12_1.e1 = 93 + e12_1.e12;
+            e12_2.e2 = e12_2.e2 + e12_1.e1 + e1_1.e1;
+            e1_2.e1 = 99 + e1_2.e1;
+        }
+    }
+}
+
+rule reuseTest {
+    a:N1 -e:E1-> b:N1;
+    replace {
+        a -e2:E1-> b;
+        eval {
+            e2.e1 = e.e1 + e2.e1 + 1000;
+        }
+        emit("The value of attribute \"e1\" is: \"" + e2.e1 + "\".\n");
+    }
+}

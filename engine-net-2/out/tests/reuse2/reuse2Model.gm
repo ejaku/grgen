@@ -1,0 +1,7 @@
+node class N1;
+node class N2;
+node class N12 extends N1, N2;
+
+edge class E1 { e1 : int = 1; }
+edge class E2 { e2 : int = 19; }
+edge class E12 extends E1, E2 { e12 : int = 7; e1 = 50; }

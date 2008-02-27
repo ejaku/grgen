@@ -1,0 +1,47 @@
+new graph "reuse2/reuse2.grg"
+
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N12"
+show num edges "E1"
+show num edges "E2"
+show num edges "E12"
+xgrs init
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N12"
+show num edges "E1"
+show num edges "E2"
+show num edges "E12"
+xgrs [?reuseTest]
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N12"
+show num edges "E1"
+show num edges "E2"
+show num edges "E12"
+xgrs [reuseTest]
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N12"
+show num edges "E1"
+show num edges "E2"
+show num edges "E12"
+xgrs [?reuseTest]
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N12"
+show num edges "E1"
+show num edges "E2"
+show num edges "E12"
+quit
