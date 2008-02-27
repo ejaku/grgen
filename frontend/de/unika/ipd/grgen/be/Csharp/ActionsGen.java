@@ -334,6 +334,10 @@ public class ActionsGen extends CSharpBase {
 		sb.append(aux);
 	}
 
+	//////////////////////
+	// Enums generation //
+	//////////////////////
+
 	private void genEnums(StringBuffer sb, PatternGraph pattern, String pathPrefixForElements)
 	{
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "NodeNums { ");
@@ -705,7 +709,7 @@ public class ActionsGen extends CSharpBase {
 					sb.append(param.getIdent());
 				}
 				sb.append(") {}\n");
-			} else assert false :"unkown ImperativeStmt: " + istmt + " in " + rule;
+			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;
 		}
 		sb.append("#endif\n");
 	}
@@ -1181,10 +1185,10 @@ public class ActionsGen extends CSharpBase {
 			Node src_node = rightSide.getSource(edge);
 			Node tgt_node = rightSide.getTarget(edge);
 
-			if( commonNodes.contains(src_node) )
+			if(commonNodes.contains(src_node))
 				nodesNeededAsElements.add(src_node);
 
-			if( commonNodes.contains(tgt_node) )
+			if(commonNodes.contains(tgt_node))
 				nodesNeededAsElements.add(tgt_node);
 
 			if(edge.inheritsType()) {
@@ -1218,8 +1222,9 @@ public class ActionsGen extends CSharpBase {
 				}
 
 				if(bestDelEdge != null) {
-					// We may be able to reuse the edge instead of deleting it!
-					// This is a veritable performance optimization, as object creation is costly
+					// We may be able to reuse the edge instead of deleting it,
+					// if the runtime type of the reused edge has the exact type.
+					// This is a veritable performance optimization, as object creation is costly.
 
 					String newEdgeName = formatEntity(edge);
 					String reusedEdgeName = formatEntity(bestDelEdge);
@@ -1227,12 +1232,12 @@ public class ActionsGen extends CSharpBase {
 					String tgt = formatEntity(tgt_node);
 
 					sb2.append("\t\t\t" + etype + " " + newEdgeName + ";\n"
-								   + "\t\t\tif(" + reusedEdgeName + ".type == "
-								   + formatTypeClass(edge.getType()) + ".typeVar)\n"
-								   + "\t\t\t{\n"
-								   + "\t\t\t\t// re-using " + reusedEdgeName + " as " + newEdgeName + "\n"
-								   + "\t\t\t\t" + newEdgeName + " = (" + etype + ") " + reusedEdgeName + ";\n"
-								   + "\t\t\t\tgraph.ReuseEdge(" + reusedEdgeName + ", ");
+							+ "\t\t\tif(" + reusedEdgeName + ".type == "
+							+ formatTypeClass(edge.getType()) + ".typeVar)\n"
+							+ "\t\t\t{\n"
+							+ "\t\t\t\t// re-using " + reusedEdgeName + " as " + newEdgeName + "\n"
+							+ "\t\t\t\t" + newEdgeName + " = (" + etype + ") " + reusedEdgeName + ";\n"
+							+ "\t\t\t\tgraph.ReuseEdge(" + reusedEdgeName + ", ");
 
 					if(leftSide.getSource(bestDelEdge) != src_node)
 						sb2.append(src + ", ");
@@ -1244,12 +1249,15 @@ public class ActionsGen extends CSharpBase {
 					else
 						sb2.append("null");
 
+					// If the runtime type does not match, delete the edge and create a new one
 					sb2.append(");\n"
-								   + "\t\t\t}\n"
-								   + "\t\t\telse\n"
-								   + "\t\t\t\t" + formatEntity(edge) + " = " + etype
-								   + ".CreateEdge(graph, " + formatEntity(src_node)
-								   + ", " + formatEntity(tgt_node) + ");\n");
+							+ "\t\t\t}\n"
+							+ "\t\t\telse\n"
+							+ "\t\t\t{\n"
+							+ "\t\t\t\tgraph.Remove(" + reusedEdgeName + ");\n"
+							+ "\t\t\t\t" + newEdgeName + " = " + etype
+							+ ".CreateEdge(graph, " + src + ", " + tgt + ");\n"
+							+ "\t\t\t}\n");
 
 					delEdges.remove(bestDelEdge); // Do not delete the edge (it is reused)
 					edgesNeededAsElements.add(bestDelEdge);
@@ -1260,8 +1268,8 @@ public class ActionsGen extends CSharpBase {
 
 			// Create the edge
 			sb2.append("\t\t\t" + etype + " " + formatEntity(edge) + " = " + etype
-						   + ".CreateEdge(graph, " + formatEntity(src_node)
-						   + ", " + formatEntity(tgt_node) + ");\n");
+					+ ".CreateEdge(graph, " + formatEntity(src_node)
+					+ ", " + formatEntity(tgt_node) + ");\n");
 		}
 	}
 
@@ -1316,23 +1324,22 @@ public class ActionsGen extends CSharpBase {
 			genExpression(sb, ass.getExpression());
 			sb.append(";\n");
 
+			String kindStr = null;
 			if(entity instanceof Node) {
-				Node node = (Node) entity;
-				nodesNeededAsElements.add(node);
-				sb.append("\t\t\tgraph.ChangingNodeAttribute(" + formatEntity(node) +
-							  ", NodeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
-							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
-				genExpression(sb, ass.getTarget());
-				sb.append(", " + varName + ");\n");
-			} else if(entity instanceof Edge) {
-				Edge edge = (Edge) entity;
-				edgesNeededAsElements.add(edge);
-				sb.append("\t\t\tgraph.ChangingEdgeAttribute(" + formatEntity(edge) +
-							  ", EdgeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
-							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
-				genExpression(sb, ass.getTarget());
-				sb.append(", " + varName + ");\n");
+				nodesNeededAsElements.add((Node) entity);
+				kindStr = "Node";
 			}
+			else if(entity instanceof Edge) {
+				edgesNeededAsElements.add((Edge) entity);
+				kindStr = "Edge";
+			}
+			else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
+
+			sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
+					", " + kindStr + "Type_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
+					".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
+			genExpression(sb, ass.getTarget());
+			sb.append(", " + varName + ");\n");
 
 			sb.append("\t\t\t");
 			genExpression(sb, ass.getTarget());
