@@ -20,7 +20,9 @@ rule reuseTest {
         a -e2:E1-> b;
         eval {
             e2.e1 = e.e1 + e2.e1 + 1000;
+            e.e1 = 7 + e2.e1 - e.e1;
         }
         emit("The value of attribute \"e1\" is: \"" + e2.e1 + "\".\n");
+        emit("The value of attribute \"e\" is: \"" + e.e1 + "\".\n");
     }
 }

@@ -775,8 +775,8 @@ public class ActionsGen extends CSharpBase {
 		//  - Create new edges or reuse edges
 		//  - Retype nodes
 		//  - Retype edges
-		//  - Create variables for used attributes of non-reusees needed for emits
 		//  - Attribute reevaluation
+		//  - Create variables for used attributes of non-reusees needed for emits
 		//  - Remove edges
 		//  - Remove nodes
 		//  - Emit
@@ -915,10 +915,10 @@ public class ActionsGen extends CSharpBase {
 
 			String grEntName = formatEntity(owner);
 			for(Entity entity : entry.getValue()) {
-				genVariable(sb2, grEntName, entity);
-				sb2.append(" = ");
-				genQualAccess(sb2, owner, entity);
-				sb2.append(";\n");
+				genVariable(sb3, grEntName, entity);
+				sb3.append(" = ");
+				genQualAccess(sb3, owner, entity);
+				sb3.append(";\n");
 
 				HashSet<Entity> forcedAttrs = forceAttributeToVar.get(owner);
 				if(forcedAttrs == null)
@@ -929,6 +929,7 @@ public class ActionsGen extends CSharpBase {
 
 		// Remove edges
 		for(Edge edge : delEdges) {
+			if(reusedElements.contains(edge)) continue;
 			edgesNeededAsElements.add(edge);
 			sb3.append("\t\t\tgraph.Remove(" + formatEntity(edge) + ");\n");
 		}
@@ -958,7 +959,7 @@ public class ActionsGen extends CSharpBase {
 					sb3.append(formatEntity(param));
 				}
 				sb3.append(");\n");
-			} else assert false :"unkown ImperativeStmt: " + istmt + " in " + rule;
+			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;
 		}
 
 		// Generate return statement
@@ -1001,7 +1002,7 @@ public class ActionsGen extends CSharpBase {
 		for(Node node : nodesNeededAsElements) {
 			if(!node.isRetyped()) {
 				sb.append("\t\t\tLGSPNode " + formatEntity(node)
-							  + " = match.Nodes[ (int) " + patternGraph.getNameOfGraph() + "_NodeNums.@"
+							  + " = match.Nodes[(int) " + patternGraph.getNameOfGraph() + "_NodeNums.@"
 							  + formatIdentifiable(node) + "];\n");
 			}
 		}
@@ -1011,14 +1012,14 @@ public class ActionsGen extends CSharpBase {
 				if(nodesNeededAsElements.contains(node))
 					sb.append(formatEntity(node) + ";\n");
 				else
-					sb.append("match.Nodes[ (int) " + patternGraph.getNameOfGraph() + "_NodeNums.@"
+					sb.append("match.Nodes[(int) " + patternGraph.getNameOfGraph() + "_NodeNums.@"
 							+ formatIdentifiable(node) + "];\n");
 			}
 		}
 		for(Edge edge : edgesNeededAsElements) {
 			if(!edge.isRetyped()) {
 				sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
-							  + " = match.Edges[ (int) " + patternGraph.getNameOfGraph() + "_EdgeNums.@"
+							  + " = match.Edges[(int) " + patternGraph.getNameOfGraph() + "_EdgeNums.@"
 							  + formatIdentifiable(edge) + "];\n");
 			}
 		}
@@ -1028,7 +1029,7 @@ public class ActionsGen extends CSharpBase {
 				if(edgesNeededAsElements.contains(edge))
 					sb.append(formatEntity(edge) + ";\n");
 				else
-					sb.append("match.Edges[ (int) " + patternGraph.getNameOfGraph() + "_EdgeNums.@"
+					sb.append("match.Edges[(int) " + patternGraph.getNameOfGraph() + "_EdgeNums.@"
 							+ formatIdentifiable(edge) + "];\n");
 			}
 		}
@@ -1055,10 +1056,10 @@ public class ActionsGen extends CSharpBase {
 			}
 		}
 
-		// New nodes/edges (re-use), retype nodes/edges, imperative statements
+		// New nodes/edges (re-use), retype nodes/edges
 		sb.append(sb2);
 
-		// Attribute re-calc, remove, emit, return
+		// Attribute re-calc, attr vars for emit, remove, emit, return
 		sb.append(sb3);
 	}
 
@@ -1207,6 +1208,7 @@ public class ActionsGen extends CSharpBase {
 
 				// Can we reuse a deleted edge of the same type?
 				for(Edge delEdge : delEdges) {
+					if(reusedElements.contains(delEdge)) continue;
 					if(delEdge.getType() != edge.getType()) continue;
 
 					int curPoints = 0;
@@ -1259,7 +1261,6 @@ public class ActionsGen extends CSharpBase {
 							+ ".CreateEdge(graph, " + src + ", " + tgt + ");\n"
 							+ "\t\t\t}\n");
 
-					delEdges.remove(bestDelEdge); // Do not delete the edge (it is reused)
 					edgesNeededAsElements.add(bestDelEdge);
 					reusedElements.add(bestDelEdge);
 					continue NE;
@@ -1325,21 +1326,26 @@ public class ActionsGen extends CSharpBase {
 			sb.append(";\n");
 
 			String kindStr = null;
+			boolean isDeletedElem = false;
 			if(entity instanceof Node) {
 				nodesNeededAsElements.add((Node) entity);
 				kindStr = "Node";
+				isDeletedElem = delNodes.contains(entity);
 			}
 			else if(entity instanceof Edge) {
 				edgesNeededAsElements.add((Edge) entity);
 				kindStr = "Edge";
+				isDeletedElem = delEdges.contains(entity);
 			}
 			else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
 
-			sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
-					", " + kindStr + "Type_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
-					".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
-			genExpression(sb, ass.getTarget());
-			sb.append(", " + varName + ");\n");
+			if(!isDeletedElem) {
+				sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
+						", " + kindStr + "Type_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
+						".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
+				genExpression(sb, ass.getTarget());
+				sb.append(", " + varName + ");\n");
+			}
 
 			sb.append("\t\t\t");
 			genExpression(sb, ass.getTarget());
