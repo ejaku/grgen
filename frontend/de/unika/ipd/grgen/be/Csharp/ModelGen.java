@@ -869,7 +869,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 							if(!alreadyCasted) {
 								alreadyCasted = true;
 								sb.append("\t\t\t\t\t{\n"
-										+ "\t\t\t\t\t\t" + formatCastedAssign(commonType, "I", "old")
+										+ "\t\t\t\t\t\t" + formatVarDeclWithCast(commonType, "I", "old")
 										+ "old" + kindName + ";\n");
 							}
 							copiedAttribs.add(member);

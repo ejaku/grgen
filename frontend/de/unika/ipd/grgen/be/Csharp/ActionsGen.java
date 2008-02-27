@@ -756,11 +756,12 @@ public class ActionsGen extends CSharpBase {
 
 		PatternGraph patternGraph = rule.getLeft();
 		PatternGraph replaceGraph = rule.getRight();
+		String patternName = patternGraph.getNameOfGraph();
 
 		// Emit function header
 		sb.append("\t\tpublic override IGraphElement[] "
-					  + (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
-					  + "(LGSPGraph graph, LGSPMatch match)\n");
+				+ (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
+				+ "(LGSPGraph graph, LGSPMatch match)\n");
 		sb.append("\t\t{\n");
 
 		// The resulting code has the following order:
@@ -786,6 +787,7 @@ public class ActionsGen extends CSharpBase {
 
 		// Initialize used data structures
 		reusedElements.clear();
+		accessViaInterface.clear();
 		neededAttributes.clear();
 		neededAttributesForEmit.clear();
 		nodesNeededAsElements.clear();
@@ -824,6 +826,22 @@ public class ActionsGen extends CSharpBase {
 				newOrRetypedEdges.add(edge.getRetypedEdge());
 		}
 
+		// Collect all elements which must be accessed via interface
+		accessViaInterface.addAll(patternGraph.getNodes());
+		accessViaInterface.addAll(patternGraph.getEdges());
+		for(Node node : replaceGraph.getNodes()) {
+			if(node.inheritsType())
+				accessViaInterface.add(node);
+			else if(node.changesType())
+				accessViaInterface.add(node.getRetypedEntity());
+		}
+		for(Edge edge : replaceGraph.getEdges()) {
+			if(edge.inheritsType())
+				accessViaInterface.add(edge);
+			else if(edge.changesType())
+				accessViaInterface.add(edge.getRetypedEntity());
+		}
+
 		// Collect all entities with their attributes needed by imperative statements
 		for(ImperativeStmt istmt : replaceGraph.getImperativeStmts()) {
 			if(istmt instanceof Emit) {
@@ -856,8 +874,18 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		// Collect all entities with their attributes needed by evals
-		for(Assignment ass : rule.getEvals())
+		for(Assignment ass : rule.getEvals()) {
+			Entity entity = ass.getTarget().getOwner();
+			if(entity instanceof Node)
+				nodesNeededAsElements.add((Node) entity);
+			else if(entity instanceof Edge)
+				edgesNeededAsElements.add((Edge) entity);
+			else
+				throw new UnsupportedOperationException("Unsupported entity (" + entity + ")");
+
+			collectNeededAttributes(ass.getTarget());
 			collectNeededAttributes(ass.getExpression());
+		}
 
 		// Generate new nodes
 		genRewriteNewNodes(sb2, reuseNodeAndEdges);
@@ -865,48 +893,56 @@ public class ActionsGen extends CSharpBase {
 		// Generate new edges
 		genRewriteNewEdges(sb2, rule, reuseNodeAndEdges);
 
-		// Generate attribute re-calculations
-		genEvals(sb3, rule);
-
 		// Generate node type changes
 		for(Node node : replaceGraph.getNodes()) {
-			if(node.changesType()) {
-				String new_type;
-				RetypedNode rnode = node.getRetypedNode();
+			if(!node.changesType()) continue;
+			String new_type;
+			RetypedNode rnode = node.getRetypedNode();
 
-				if(rnode.inheritsType()) {
-					new_type = formatEntity(rnode.getTypeof()) + "_type";
-					nodesNeededAsElements.add(rnode.getTypeof());
-					nodesNeededAsTypes.add(rnode.getTypeof());
-				} else {
-					new_type = formatTypeClass(rnode.getType()) + ".typeVar";
-				}
+			if(rnode.inheritsType()) {
+				Node typeofElem = (Node) getConcreteTypeof(rnode);
+				new_type = formatEntity(typeofElem) + "_type";
+				nodesNeededAsElements.add(typeofElem);
+				nodesNeededAsTypes.add(typeofElem);
+			} else {
+				new_type = formatTypeClass(rnode.getType()) + ".typeVar";
+			}
 
-				nodesNeededAsElements.add(node);
-				sb2.append("\t\t\t" + formatNodeAssign(rnode, nodesNeededAsAttributes)
-							   + "graph.Retype(" + formatEntity(node) + ", " + new_type + ");\n");
+			nodesNeededAsElements.add(node);
+			sb2.append("\t\t\tLGSPNode " + formatEntity(rnode) + " = graph.Retype("
+					+ formatEntity(node) + ", " + new_type + ");\n");
+			if(nodesNeededAsAttributes.contains(rnode) && accessViaInterface.contains(rnode)) {
+				sb2.append("\t\t\t" + formatVarDeclWithCast(rnode.getType(), "I", "i" + formatEntity(rnode))
+						+ formatEntity(rnode) + ";\n");
 			}
 		}
 
 		// Generate edge type changes
 		for(Edge edge : replaceGraph.getEdges()) {
-			if(edge.changesType()) {
-				String new_type;
-				RetypedEdge redge = edge.getRetypedEdge();
+			if(!edge.changesType()) continue;
+			String new_type;
+			RetypedEdge redge = edge.getRetypedEdge();
 
-				if(redge.inheritsType()) {
-					new_type = formatEntity(redge.getTypeof()) + "_type";
-					edgesNeededAsElements.add(redge.getTypeof());
-					edgesNeededAsTypes.add(redge.getTypeof());
-				} else {
-					new_type = formatTypeClass(redge.getType()) + ".typeVar";
-				}
+			if(redge.inheritsType()) {
+				Edge typeofElem = (Edge) getConcreteTypeof(redge);
+				new_type = formatEntity(typeofElem) + "_type";
+				edgesNeededAsElements.add(typeofElem);
+				edgesNeededAsTypes.add(typeofElem);
+			} else {
+				new_type = formatTypeClass(redge.getType()) + ".typeVar";
+			}
 
-				edgesNeededAsElements.add(edge);
-				sb2.append("\t\t\t" + formatEdgeAssign(redge, edgesNeededAsAttributes)
-							   + "graph.Retype(" + formatEntity(edge) + ", " + new_type + ");\n");
+			edgesNeededAsElements.add(edge);
+			sb2.append("\t\t\tLGSPEdge " + formatEntity(redge) + " = graph.Retype("
+					+ formatEntity(edge) + ", " + new_type + ");\n");
+			if(edgesNeededAsAttributes.contains(redge) && accessViaInterface.contains(redge)) {
+				sb2.append("\t\t\t" + formatVarDeclWithCast(redge.getType(), "I", "i" + formatEntity(redge))
+						+ formatEntity(redge) + ";\n");
 			}
 		}
+
+		// Generate attribute re-calculations
+		genEvals(sb3, rule);
 
 		// Create variables for used attributes of non-reusees needed for emits
 		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : neededAttributesForEmit.entrySet()) {
@@ -945,7 +981,7 @@ public class ActionsGen extends CSharpBase {
 		int xgrsID = 0;
 		for(ImperativeStmt istmt : replaceGraph.getImperativeStmts()) {
 			if(istmt instanceof Emit) {
-				Emit emit =(Emit)istmt;
+				Emit emit =(Emit) istmt;
 				for(Expression arg : emit.getArguments()) {
 					sb3.append("\t\t\tConsole.Write(");
 					genExpression(sb3, arg);
@@ -969,9 +1005,9 @@ public class ActionsGen extends CSharpBase {
 			sb3.append("\t\t\treturn new IGraphElement[] { ");
 			for(Entity ent : rule.getReturns()) {
 				if(ent instanceof Node)
-					nodesNeededAsElements.add((Node)ent);
+					nodesNeededAsElements.add((Node) ent);
 				else if(ent instanceof Edge)
-					edgesNeededAsElements.add((Edge)ent);
+					edgesNeededAsElements.add((Edge) ent);
 				else
 					throw new IllegalArgumentException("unknown Entity: " + ent);
 				sb3.append(formatEntity(ent) + ", ");
@@ -985,9 +1021,9 @@ public class ActionsGen extends CSharpBase {
 		// Collect elements needed by return
 		for(Entity ent : rule.getReturns()) {
 			if(ent instanceof Node)
-				nodesNeededAsElements.add((Node)ent);
+				nodesNeededAsElements.add((Node) ent);
 			else if(ent instanceof Edge)
-				edgesNeededAsElements.add((Edge)ent);
+				edgesNeededAsElements.add((Edge) ent);
 			else
 				throw new IllegalArgumentException("unknown Entity: " + ent);
 		}
@@ -1000,38 +1036,34 @@ public class ActionsGen extends CSharpBase {
 
 		// Extract nodes/edges from match
 		for(Node node : nodesNeededAsElements) {
-			if(!node.isRetyped()) {
-				sb.append("\t\t\tLGSPNode " + formatEntity(node)
-							  + " = match.Nodes[(int) " + patternGraph.getNameOfGraph() + "_NodeNums.@"
-							  + formatIdentifiable(node) + "];\n");
-			}
+			if(node.isRetyped()) continue;
+			sb.append("\t\t\tLGSPNode " + formatEntity(node)
+					+ " = match.Nodes[(int) " + patternName + "_NodeNums.@"
+					+ formatIdentifiable(node) + "];\n");
 		}
 		for(Node node : nodesNeededAsAttributes) {
-			if(!node.isRetyped()) {
-				sb.append("\t\t\t" + formatCastedAssign(node.getType(), "I", "i" + formatEntity(node)));
-				if(nodesNeededAsElements.contains(node))
-					sb.append(formatEntity(node) + ";\n");
-				else
-					sb.append("match.Nodes[(int) " + patternGraph.getNameOfGraph() + "_NodeNums.@"
-							+ formatIdentifiable(node) + "];\n");
-			}
+			if(node.isRetyped()) continue;
+			sb.append("\t\t\t" + formatVarDeclWithCast(node.getType(), "I", "i" + formatEntity(node)));
+			if(nodesNeededAsElements.contains(node))
+				sb.append(formatEntity(node) + ";\n");
+			else
+				sb.append("match.Nodes[(int) " + patternName + "_NodeNums.@"
+						+ formatIdentifiable(node) + "];\n");
 		}
 		for(Edge edge : edgesNeededAsElements) {
-			if(!edge.isRetyped()) {
-				sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
-							  + " = match.Edges[(int) " + patternGraph.getNameOfGraph() + "_EdgeNums.@"
-							  + formatIdentifiable(edge) + "];\n");
-			}
+			if(edge.isRetyped()) continue;
+			sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
+					+ " = match.Edges[(int) " + patternName + "_EdgeNums.@"
+					+ formatIdentifiable(edge) + "];\n");
 		}
 		for(Edge edge : edgesNeededAsAttributes) {
-			if(!edge.isRetyped()) {
-				sb.append("\t\t\t" + formatCastedAssign(edge.getType(), "I", "i" + formatEntity(edge)));
-				if(edgesNeededAsElements.contains(edge))
-					sb.append(formatEntity(edge) + ";\n");
-				else
-					sb.append("match.Edges[(int) " + patternGraph.getNameOfGraph() + "_EdgeNums.@"
-							+ formatIdentifiable(edge) + "];\n");
-			}
+			if(edge.isRetyped()) continue;
+			sb.append("\t\t\t" + formatVarDeclWithCast(edge.getType(), "I", "i" + formatEntity(edge)));
+			if(edgesNeededAsElements.contains(edge))
+				sb.append(formatEntity(edge) + ";\n");
+			else
+				sb.append("match.Edges[(int) " + patternName + "_EdgeNums.@"
+						+ formatIdentifiable(edge) + "];\n");
 		}
 
 		// Generate needed types
@@ -1065,7 +1097,8 @@ public class ActionsGen extends CSharpBase {
 
 	/**
 	 * Scans an expression for all read attributes and collects
-	 * them in the neededAttributes hash map.
+	 * them in the neededAttributes hash map and their owners in
+	 * the appropriate <kind>NeededAsAttributes hash set.
 	 */
 	private void collectNeededAttributes(Expression expr) {
 		if(expr instanceof Operator) {
@@ -1081,6 +1114,12 @@ public class ActionsGen extends CSharpBase {
 				neededAttributes.put(entity, neededAttrs = new LinkedHashSet<Entity>());
 			}
 			neededAttrs.add(qual.getMember());
+			if(entity instanceof Node)
+				nodesNeededAsAttributes.add((Node) entity);
+			else if(entity instanceof Edge)
+				edgesNeededAsAttributes.add((Edge) entity);
+			else
+				throw new UnsupportedOperationException("Unsupported entity (" + entity + ")");
 		}
 		else if(expr instanceof Cast) {
 			Cast cast = (Cast) expr;
@@ -1093,11 +1132,11 @@ public class ActionsGen extends CSharpBase {
 	////////////////////////////
 
 	private void genRewriteNewNodes(StringBuffer sb2, boolean reuseNodeAndEdges) {
-		reuseNodeAndEdges = false;							// TODO: reimplement this!!
+		//reuseNodeAndEdges = false;							// TODO: reimplement this!!
 
 		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(newNodes);
 		LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
-		if(reuseNodeAndEdges) {
+		/*		if(reuseNodeAndEdges) {
 			NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
 				Node node = i.next();
 				// Can we reuse the node
@@ -1133,12 +1172,12 @@ public class ActionsGen extends CSharpBase {
 					}
 				}
 			}
-		}
-		NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
+		 }
+		NN:*/ for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
 			Node node = i.next();
 			String type = computeGraphEntityType(node);
 			// Can we reuse the node
-			if(reuseNodeAndEdges && !tmpDelNodes.isEmpty()) {
+			/*if(reuseNodeAndEdges && !tmpDelNodes.isEmpty()) {
 				Node delNode = tmpDelNodes.getFirst();
 				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
 				sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
@@ -1148,13 +1187,18 @@ public class ActionsGen extends CSharpBase {
 				nodesNeededAsElements.add(delNode);
 				reusedElements.add(delNode);
 				continue NN;
-			}
+			 }*/
 			if(node.inheritsType()) {
-				nodesNeededAsElements.add(node.getTypeof());
-				nodesNeededAsTypes.add(node.getTypeof());
+				Node typeofElem = (Node) getConcreteTypeof(node);
+				nodesNeededAsElements.add(typeofElem);
+				nodesNeededAsTypes.add(typeofElem);
 				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) "
-						+ formatEntity(node.getTypeof()) + "_type.CreateNode();\n"
+						+ formatEntity(typeofElem) + "_type.CreateNode();\n"
 						+ "\t\t\tgraph.AddNode(" + formatEntity(node) + ");\n");
+				if(nodesNeededAsAttributes.contains(node) && accessViaInterface.contains(node)) {
+					sb2.append("\t\t\t" + formatVarDeclWithCast(node.getType(), "I", "i" + formatEntity(node))
+							+ formatEntity(node) + ";\n");
+				}
 			}
 			else
 			{
@@ -1164,12 +1208,24 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
+	/**
+	 * Returns the iterated inherited type element for a given element
+	 * or null, if the given element does not inherit its type from another element.
+	 */
+	private GraphEntity getConcreteTypeof(GraphEntity elem) {
+		GraphEntity typeofElem = elem;
+		while(typeofElem.inheritsType())
+			typeofElem = typeofElem.getTypeof();
+		return typeofElem == elem ? null : typeofElem;
+	}
+
 	private String computeGraphEntityType(Node node) {
 		String type;
 		if(node.inheritsType()) {
-			type = formatEntity(node.getTypeof()) + "_type";
-			nodesNeededAsElements.add(node.getTypeof());
-			nodesNeededAsTypes.add(node.getTypeof());
+			Node typeofElem = (Node) getConcreteTypeof(node);
+			type = formatEntity(typeofElem) + "_type";
+			nodesNeededAsElements.add(typeofElem);
+			nodesNeededAsTypes.add(typeofElem);
 		} else {
 			type = formatTypeClass(node.getType()) + ".typeVar";
 		}
@@ -1193,13 +1249,18 @@ public class ActionsGen extends CSharpBase {
 				nodesNeededAsElements.add(tgt_node);
 
 			if(edge.inheritsType()) {
-				edgesNeededAsElements.add(edge.getTypeof());
-				edgesNeededAsTypes.add(edge.getTypeof());
+				Edge typeofElem = (Edge) getConcreteTypeof(edge);
+				edgesNeededAsElements.add(typeofElem);
+				edgesNeededAsTypes.add(typeofElem);
 
 				sb2.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = (LGSPEdge) "
-						+ formatEntity(edge.getTypeof()) + "_type.CreateEdge("
+						+ formatEntity(typeofElem) + "_type.CreateEdge("
 						+ formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
 						+ "\t\t\tgraph.AddEdge(" + formatEntity(edge) + ");\n");
+				if(edgesNeededAsAttributes.contains(edge) && accessViaInterface.contains(edge)) {
+					sb2.append("\t\t\t" + formatVarDeclWithCast(edge.getType(), "I", "i" + formatEntity(edge))
+							+ formatEntity(edge) + ";\n");
+				}
 				continue;
 			}
 			else if(reuseNodeAndEdges) {
@@ -1328,12 +1389,10 @@ public class ActionsGen extends CSharpBase {
 			String kindStr = null;
 			boolean isDeletedElem = false;
 			if(entity instanceof Node) {
-				nodesNeededAsElements.add((Node) entity);
 				kindStr = "Node";
 				isDeletedElem = delNodes.contains(entity);
 			}
 			else if(entity instanceof Edge) {
-				edgesNeededAsElements.add((Edge) entity);
 				kindStr = "Edge";
 				isDeletedElem = delEdges.contains(entity);
 			}
@@ -1417,26 +1476,11 @@ public class ActionsGen extends CSharpBase {
 	protected void genQualAccess(StringBuffer sb, Entity owner, Entity member) {
 		if(inRewriteModify) {
 			if(accessViaVariable((GraphEntity) owner, member)) {
-				if(owner instanceof Node)
-					nodesNeededAsAttributes.add((Node) owner);
-				else if(owner instanceof Edge)
-					edgesNeededAsAttributes.add((Edge) owner);
-
 				sb.append("var_" + formatEntity(owner) + "_" + formatIdentifiable(member));
 			}
 			else {
-				if(owner instanceof Node) {
-					nodesNeededAsAttributes.add((Node) owner);
-					if(!newOrRetypedNodes.contains(owner))		// element extracted from match?
-						sb.append("i");							// yes, attributes only accessible via interface
-				}
-				else if(owner instanceof Edge) {
-					edgesNeededAsAttributes.add((Edge) owner);
-					if(!newOrRetypedEdges.contains(owner))		// element extracted from match?
-						sb.append("i");							// yes, attributes only accessible via interface
-				}
-				else
-					throw new UnsupportedOperationException("Unsupported Entity (" + owner + ")");
+				if(accessViaInterface.contains(owner))
+					sb.append("i");
 
 				sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
 			}
@@ -1513,6 +1557,7 @@ public class ActionsGen extends CSharpBase {
 	private HashSet<Node> newOrRetypedNodes;
 	private HashSet<Edge> newOrRetypedEdges;
 	private HashSet<GraphEntity> reusedElements = new HashSet<GraphEntity>();
+	private HashSet<GraphEntity> accessViaInterface = new HashSet<GraphEntity>();
 
 	private HashMap<GraphEntity, HashSet<Entity>> neededAttributes = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 	private HashMap<GraphEntity, HashSet<Entity>> neededAttributesForEmit = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
