@@ -391,7 +391,7 @@ ERROR  should_fail/basic_106.grg
 ERROR  should_fail/basic_107.grg
 ERROR  should_fail/basic_108.grg
 ERROR  should_fail/basic_109.grg
-ABEND  should_fail/basic_110.grg
+ERROR  should_fail/basic_110.grg
 ERROR  should_fail/cast_001.grg
 ERROR  should_fail/cast_002.grg
 ERROR  should_fail/cast_003.grg
@@ -496,6 +496,7 @@ ERROR  should_fail/inh_attrib_013.grg
 ERROR  should_fail/inh_attrib_014.grg
 ERROR  should_fail/inh_attrib_015.grg
 ERROR  should_fail/inh_attrib_016.grg
+ERROR  should_fail/inh_attrib_017.grg
 ERROR  should_fail/inh_model_008.grg
 ERROR  should_fail/model_init_001.grg
 ABEND  should_fail/model_init_002.grg

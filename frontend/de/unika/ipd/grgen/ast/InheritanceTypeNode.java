@@ -80,15 +80,18 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal()
 	{
+		boolean res = true;
 		getAllSuperTypes();
 
 		for(DeclNode member : getAllMembers().values())
-			if(member instanceof AbstractMemberDeclNode && !isAbstract())
+			if(member instanceof AbstractMemberDeclNode && !isAbstract()) {
 				error.error(getIdentNode().getCoords(),
 						getUseStr() + " \"" + getIdentNode() + "\" must be declared abstract, because member \"" +
 						member + "\" is abstract.");
+				res = false;
+			}
 
-		return true;
+		return res;
 	}
 
 	public void setModifiers(int modifiers) {

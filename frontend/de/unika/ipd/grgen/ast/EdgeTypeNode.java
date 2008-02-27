@@ -60,6 +60,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 
     			DeclNode old=members.put(decl.getIdentNode().toString(), decl);
     			if(old!=null && !(old instanceof AbstractMemberDeclNode)) {
+    				// TODO this should be part of a check (that return false)
     				error.error(decl.getCoords(), "member " + decl.toString() +" of " +
     								getUseString() + " " + getIdentNode() +
     								" already defined in " + old.getParents() + "." // TODO improve error message
