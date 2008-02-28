@@ -1,17 +1,17 @@
-using state_machine;
+using StateMachine;
 
-rule CheckStartState {
+rule checkStartState {
     pattern {
-        x: StartState;
+        x:StartState;
         negative {
             x;
-            y: StartState;
+            y:StartState;
         }
     }
     modify {}
 }
 
-rule CheckDoublettes {
+rule checkDoublettes {
     pattern {
         x:State -e:Transition-> y:State;
         hom(x,y);
@@ -22,7 +22,7 @@ rule CheckDoublettes {
     modify {}
 }
 
-rule ForwardTransition {
+rule forwardTransition {
     pattern {
         x:State -:EpsilonTransition-> y:State -e:Transition-> z:State;
         hom(x,y,z);
@@ -38,7 +38,7 @@ rule ForwardTransition {
     }    
 }
 
-rule AddStartFinalState {
+rule addStartFinalState {
     pattern {
         x:StartState -:EpsilonTransition-> :FinalState;
     }
@@ -47,7 +47,7 @@ rule AddStartFinalState {
     }
 }
 
-rule AddFinalState {
+rule addFinalState {
     pattern {
         x:State -:EpsilonTransition-> :FinalState;
         if { typeof(x) < SpecialState; }
@@ -57,7 +57,7 @@ rule AddFinalState {
     }
 }
 
-rule RemoveEpsilonTransition {
+rule removeEpsilonTransition {
     pattern {
         -:EpsilonTransition->;
     }
