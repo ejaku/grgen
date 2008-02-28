@@ -774,13 +774,10 @@ namespace de.unika.ipd.grGen.grShell
 
                     // Unable to connect, so try to bind the current port.
                     // Trying to bind directly (without the connect-check before), does not
-                    // work on Windows Vista even with ExclusiveAddressUse set to true.
+                    // work on Windows Vista even with ExclusiveAddressUse set to true (which does not work on Mono).
                     // It will bind to already used ports without any notice.
                     using(Socket socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
-                    {
-                        socket.ExclusiveAddressUse = true;
                         socket.Bind(endpoint);
-                    }
                 }
                 catch(SocketException)
                 {
