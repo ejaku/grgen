@@ -118,6 +118,8 @@ OK     should_pass/edge_011.grg
 OK     should_pass/edge_012.grg
 OK     should_pass/edge_013.grg
 OK     should_pass/edge_014.grg
+OK     should_pass/edge_015.grg
+OK     should_pass/edge_016.grg
 OK     should_pass/emit_001.grg
 OK     should_pass/emit_002.grg
 OK     should_pass/emit_003.grg
@@ -430,6 +432,7 @@ ERROR  should_fail/edge_006.grg
 ERROR  should_fail/edge_007.grg
 ERROR  should_fail/edge_008.grg
 ERROR  should_fail/edge_010.grg
+ERROR  should_fail/edge_011.grg
 ERROR  should_fail/edge_into_neg_001.grg
 ERROR  should_fail/edge_into_neg_002.grg
 ERROR  should_fail/edge_into_neg_003.grg

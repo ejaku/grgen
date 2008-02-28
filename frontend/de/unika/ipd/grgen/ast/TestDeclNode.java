@@ -316,6 +316,13 @@ public class TestDeclNode extends ActionDeclNode {
 
 	protected IR constructIR() {
 		PatternGraph left = pattern.getPatternGraph();
+
+		// return if the pattern graph already constructed the IR object
+		// that may happens in recursive patterns
+		if (isIRAlreadySet()) {
+			return getIR();
+		}
+
 		Test test = new Test(getIdentNode().getIdent(), left);
 
 		constructIRaux(test, pattern.returns);

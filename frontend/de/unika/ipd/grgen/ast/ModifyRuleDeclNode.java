@@ -275,7 +275,20 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	@Override
 	protected IR constructIR() {
 		PatternGraph left = pattern.getPatternGraph();
+
+		// return if the pattern graph already constructed the IR object
+		// that may happens in recursive patterns
+		if (isIRAlreadySet()) {
+			return getIR();
+		}
+
 		PatternGraph right = this.right.getGraph();
+
+		// return if the pattern graph already constructed the IR object
+		// that may happens in recursive patterns
+		if (isIRAlreadySet()) {
+			return getIR();
+		}
 
 		Collection<Entity> deleteSet = new HashSet<Entity>();
 		for(BaseNode n : delete.getChildren()) {

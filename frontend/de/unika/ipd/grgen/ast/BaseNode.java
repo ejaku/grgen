@@ -591,8 +591,30 @@ public abstract class BaseNode extends Base
 	 */
 	public final IR getIR() {
 		if(irObject == null)
-			irObject = constructIR();
+			setIR(constructIR());
 		return irObject;
+	}
+
+	/**
+	 * Set the IR object for this AST node.
+	 *
+	 * This method ensures that, you cannot set two different IR object.
+	 */
+	public final void setIR(IR ir) {
+		if (irObject == null) {
+			irObject = ir;
+			return;
+		}
+
+		if (irObject != ir) {
+			assert false : "Another IR object already exists.";
+		}
+
+		return;
+	}
+
+	public final boolean isIRAlreadySet() {
+		return irObject != null;
 	}
 
 	/**

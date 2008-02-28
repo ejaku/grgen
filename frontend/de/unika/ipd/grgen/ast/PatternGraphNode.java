@@ -261,6 +261,9 @@ public class PatternGraphNode extends GraphNode {
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph(nameOfGraph);
 
+		// mark this node as already visited
+		setIR(gr);
+
 		for (BaseNode connection : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter) connection;
 			conn.addToGraph(gr);
