@@ -125,22 +125,31 @@ public class TypeDeclNode extends DeclNode {
 
 	    EdgeTypeNode edgeType = (EdgeTypeNode) type;
 
-		boolean extendAEdge = false;
-	    for (InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
-	        if (inh instanceof ArbitraryEdgeTypeNode) {
-	        	extendAEdge = true;
-	        }
-        }
-
-	    if (!extendAEdge) {
+	    // abstract subtypes of AEdge are legal
+	    if (edgeType.isAbstract()) {
 	    	return true;
 	    }
 
-	    if (!ident.getNodeLabel().equals("UEdge")
-	    	&& !ident.getNodeLabel().equals("Edge")) {
-	    	reportError("Illegal extension of AEdge");
+	    // don't check Edge and UEdge
+	    if (ident.getNodeLabel().equals("UEdge")
+   			 || ident.getNodeLabel().equals("Edge")) {
+	    	return true;
+	    }
+
+		boolean onlyExtendAEdge = true;
+	    for (InheritanceTypeNode inh : edgeType.getAllSuperTypes()) {
+	    	if (inh.getDecl().ident.getNodeLabel().equals("UEdge")
+	    			 || inh.getDecl().ident.getNodeLabel().equals("Edge")) {
+	    		onlyExtendAEdge = false;
+	    	}
+        }
+
+	    // type is not abstract (see above)
+	    if (onlyExtendAEdge) {
+	    	reportError("A non-abstract edge class should extend Edge or UEdge");
 	    	return false;
 	    }
+
 		return true;
     }
 

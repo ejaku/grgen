@@ -1,0 +1,1 @@
+abstract edge class A extends AEdge;

@@ -115,6 +115,9 @@ OK     should_pass/edge_008.grg
 OK     should_pass/edge_009.grg
 OK     should_pass/edge_010.grg
 OK     should_pass/edge_011.grg
+OK     should_pass/edge_012.grg
+OK     should_pass/edge_013.grg
+OK     should_pass/edge_014.grg
 OK     should_pass/emit_001.grg
 OK     should_pass/emit_002.grg
 OK     should_pass/emit_003.grg
@@ -392,6 +395,7 @@ ERROR  should_fail/basic_107.grg
 ERROR  should_fail/basic_108.grg
 ERROR  should_fail/basic_109.grg
 ERROR  should_fail/basic_110.grg
+ERROR  should_fail/basic_111.grg
 ERROR  should_fail/cast_001.grg
 ERROR  should_fail/cast_002.grg
 ERROR  should_fail/cast_003.grg
@@ -425,7 +429,6 @@ ERROR  should_fail/edge_005.grg
 ERROR  should_fail/edge_006.grg
 ERROR  should_fail/edge_007.grg
 ERROR  should_fail/edge_008.grg
-ERROR  should_fail/edge_009.grg
 ERROR  should_fail/edge_010.grg
 ERROR  should_fail/edge_into_neg_001.grg
 ERROR  should_fail/edge_into_neg_002.grg
@@ -559,6 +562,8 @@ ERROR  should_fail/reuse_007.grg
 ERROR  should_fail/reuse_008.grg
 ERROR  should_fail/test_001.grg
 ERROR  should_fail/typeof_001.grg
+ABEND  should_fail/typeof_002.grg
+ABEND  should_fail/typeof_003.grg
 ERROR  should_fail/unary_001.grg
 ERROR  should_fail/unary_002.grg
 ERROR  should_fail/unary_003.grg
