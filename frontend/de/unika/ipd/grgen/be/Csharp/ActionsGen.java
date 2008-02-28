@@ -773,8 +773,8 @@ public class ActionsGen extends CSharpBase {
 		//  - Extract edge types
 		//  - Create variables for used attributes of reusee
 		//  - Create new nodes or reuse nodes
-		//  - Create new edges or reuse edges
 		//  - Retype nodes
+		//  - Create new edges or reuse edges
 		//  - Retype edges
 		//  - Attribute reevaluation
 		//  - Create variables for used attributes of non-reusees needed for emits
@@ -782,8 +782,6 @@ public class ActionsGen extends CSharpBase {
 		//  - Remove nodes
 		//  - Emit
 		//  - Return
-
-		// TODO: New order: create nodes, retype nodes, create edges, retype edges
 
 		// Initialize used data structures
 		reusedElements.clear();
@@ -890,9 +888,6 @@ public class ActionsGen extends CSharpBase {
 		// Generate new nodes
 		genRewriteNewNodes(sb2, reuseNodeAndEdges);
 
-		// Generate new edges
-		genRewriteNewEdges(sb2, rule, reuseNodeAndEdges);
-
 		// Generate node type changes
 		for(Node node : replaceGraph.getNodes()) {
 			if(!node.changesType()) continue;
@@ -916,6 +911,9 @@ public class ActionsGen extends CSharpBase {
 						+ formatEntity(rnode) + ";\n");
 			}
 		}
+
+		// Generate new edges
+		genRewriteNewEdges(sb2, rule, reuseNodeAndEdges);
 
 		// Generate edge type changes
 		for(Edge edge : replaceGraph.getEdges()) {
@@ -983,7 +981,7 @@ public class ActionsGen extends CSharpBase {
 			if(istmt instanceof Emit) {
 				Emit emit =(Emit) istmt;
 				for(Expression arg : emit.getArguments()) {
-					sb3.append("\t\t\tConsole.Write(");
+					sb3.append("\t\t\tgraph.EmitWriter.Write(");
 					genExpression(sb3, arg);
 					sb3.append(");\n");
 				}
@@ -1241,6 +1239,9 @@ public class ActionsGen extends CSharpBase {
 
 			Node src_node = rightSide.getSource(edge);
 			Node tgt_node = rightSide.getTarget(edge);
+
+			if(src_node.changesType()) src_node = src_node.getRetypedNode();
+			if(tgt_node.changesType()) tgt_node = tgt_node.getRetypedNode();
 
 			if(commonNodes.contains(src_node))
 				nodesNeededAsElements.add(src_node);
@@ -1571,4 +1572,5 @@ public class ActionsGen extends CSharpBase {
 
 	private HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 }
+
 
