@@ -118,10 +118,15 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 		)
 		{
 			EdgeTypeNode et;
-			if (undirected) {
-				et = new UndirectedEdgeTypeNode(ext, cas, body, modifiers, externalName);
-			} else {
-				et = new DirectedEdgeTypeNode(ext, cas, body, modifiers, externalName);
+			if ((modifiers & InheritanceTypeNode.MOD_ABSTRACT) != 0) {
+				et = new ArbitraryEdgeTypeNode(ext, cas, body, modifiers, externalName);
+			}
+			else {
+				if (undirected) {
+					et = new UndirectedEdgeTypeNode(ext, cas, body, modifiers, externalName);
+				} else {
+					et = new DirectedEdgeTypeNode(ext, cas, body, modifiers, externalName);
+				}
 			}
 			id.setDecl(new TypeDeclNode(id, et));
 			res = id;

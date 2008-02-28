@@ -41,6 +41,7 @@ import de.unika.ipd.grgen.ast.ConnAssertNode;
 import de.unika.ipd.grgen.ast.DirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.ExprNode;
 import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.IntConstNode;
 import de.unika.ipd.grgen.ast.ModelNode;
 import de.unika.ipd.grgen.ast.NodeDeclNode;
@@ -118,7 +119,7 @@ public abstract class ParserEnvironment extends Base {
 		// The edge type roots
 
 		arbitraryEdgeRoot = predefineType("AEdge",
-				new ArbitraryEdgeTypeNode(new CollectNode<IdentNode>(), new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>()));
+				new ArbitraryEdgeTypeNode(new CollectNode<IdentNode>(), new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), InheritanceTypeNode.MOD_ABSTRACT, null));
 		CollectNode<IdentNode> superTypes = new CollectNode<IdentNode>();
 		superTypes.addChild(arbitraryEdgeRoot);
 

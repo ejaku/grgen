@@ -76,7 +76,7 @@ public class TypeDeclNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return checkNoArbitraryEdgeChildren() & checkNoConflictionEdgeParents();
+		return checkOnlyAbstractArbitraryEdgeChildren() & checkNoConflictionEdgeParents();
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class TypeDeclNode extends DeclNode {
 	 *
 	 * @return Whether this type is not an illegal extend of AEdge.
 	 */
-	private boolean checkNoArbitraryEdgeChildren()
+	private boolean checkOnlyAbstractArbitraryEdgeChildren()
     {
 	    if (!(type instanceof EdgeTypeNode)) {
 	    	return true;
