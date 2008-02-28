@@ -1,0 +1,4 @@
+abstract undirected edge class A;
+undirected edge class B extends A;
+abstract undirected edge class C extends B;
+undirected edge class D extends C;
