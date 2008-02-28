@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -557,6 +558,20 @@ namespace de.unika.ipd.grGen.libGr
         /// Enumerates all edges in the graph.
         /// </summary>
         public IEnumerable<IEdge> Edges { get { return GetCompatibleEdges(Model.EdgeModel.RootType); } }
+
+        /// <summary>
+        /// The writer used by emit statements. By default this is Console.Out.
+        /// </summary>
+        private TextWriter emitWriter = Console.Out;
+
+        /// <summary>
+        /// The writer used by emit statements. By default this is Console.Out.
+        /// </summary>
+        public TextWriter EmitWriter
+        {
+            get { return emitWriter; }
+            set { emitWriter = value; }
+        }
 
         #region Convenience methods
 

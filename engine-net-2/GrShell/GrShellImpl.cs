@@ -443,6 +443,18 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("Bye!\n");
         }
 
+        public void Cleanup()
+        {
+            foreach(ShellGraph shellGraph in graphs)
+            {
+                if(shellGraph.Graph.EmitWriter != Console.Out)
+                {
+                    shellGraph.Graph.EmitWriter.Close();
+                    shellGraph.Graph.EmitWriter = Console.Out;
+                }
+            }
+        }
+
         #region Model operations
         public bool SelectBackend(String assemblyName, ArrayList parameters)
         {
@@ -1352,6 +1364,31 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!GraphExists()) return;
             curShellGraph.Graph.SetVariableValue(varName, elem);
+        }
+
+        public bool RedirectEmit(String filename)
+        {
+            if(!GraphExists()) return false;
+
+            if(curShellGraph.Graph.EmitWriter != Console.Out)
+                curShellGraph.Graph.EmitWriter.Close();
+            if(filename == "-")
+                curShellGraph.Graph.EmitWriter = Console.Out;
+            else
+            {
+                try
+                {
+                    curShellGraph.Graph.EmitWriter = new StreamWriter(filename);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("Unable to redirect emit to file \"" + filename + "\":\n" + ex.Message);
+                    curShellGraph.Graph.EmitWriter = Console.Out;
+                    return false;
+                }
+            }
+            curShellGraph.Graph.EmitWriter.Write("Toller test");
+            return true;
         }
 
         public bool ParseFile(String filename)

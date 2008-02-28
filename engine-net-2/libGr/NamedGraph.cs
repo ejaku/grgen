@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -390,6 +391,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Don't forget to call Commit after a transaction is finished!
         /// </summary>
         public ITransactionManager TransactionManager { get { return graph.TransactionManager; } }
+
+        /// <summary>
+        /// The writer used by emit statements. By default this is Console.Out.
+        /// </summary>
+        public TextWriter EmitWriter { get { return graph.EmitWriter; } set { graph.EmitWriter = value; } }
 
         /// <summary>
         /// If true (the default case), elements deleted during a rewrite

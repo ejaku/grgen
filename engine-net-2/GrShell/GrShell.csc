@@ -131,40 +131,47 @@ PARSER_BEGIN(GrShell)
             shell.workaround = workaround;
             shell.impl = new GrShellImpl();
             shell.impl.TokenSourceStack.AddFirst(shell.token_source);
-            while(!shell.Quit && !shell.Eof)
+            try
             {
-                bool noError = shell.ParseShellCommand();
-                if(!shell.readFromConsole && (shell.Eof || !noError))
+                while(!shell.Quit && !shell.Eof)
                 {
-                    if(scriptFilename.Count != 0)
+                    bool noError = shell.ParseShellCommand();
+                    if(!shell.readFromConsole && (shell.Eof || !noError))
                     {
-                        TextReader newReader;
-                        try
+                        if(scriptFilename.Count != 0)
                         {
-                            newReader = new StreamReader((String) scriptFilename[0]);
+                            TextReader newReader;
+                            try
+                            {
+                                newReader = new StreamReader((String) scriptFilename[0]);
+                            }
+                            catch(Exception e)
+                            {
+                                Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
+                                return;
+                            }
+                            scriptFilename.RemoveAt(0);
+                            shell.ReInit(newReader);
+                            shell.Eof = false;
+                            reader.Close();
+                            reader = newReader;
                         }
-                        catch(Exception e)
+                        else
                         {
-                            Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
-                            return;
+                            shell.ReInit(workaround.In);
+                            shell.impl.TokenSourceStack.RemoveFirst();
+                            shell.impl.TokenSourceStack.AddFirst(shell.token_source);
+                            shell.ShowPrompt = true;
+                            shell.readFromConsole = true;
+                            shell.Eof = false;
+                            reader.Close();
                         }
-                        scriptFilename.RemoveAt(0);
-                        shell.ReInit(newReader);
-                        shell.Eof = false;
-                        reader.Close();
-                        reader = newReader;
-                    }
-                    else
-                    {
-                        shell.ReInit(workaround.In);
-                        shell.impl.TokenSourceStack.RemoveFirst();
-                        shell.impl.TokenSourceStack.AddFirst(shell.token_source);
-                        shell.ShowPrompt = true;
-                        shell.readFromConsole = true;
-                        shell.Eof = false;
-                        reader.Close();
                     }
                 }
+            }
+            finally
+            {
+                shell.impl.Cleanup();
             }
         }
     }
@@ -232,6 +239,7 @@ TOKEN: {
 |   < ECHO: "echo">
 |   < EDGE: "edge" >
 |   < EDGES: "edges" >
+|   < EMIT: "emit" >
 |   < ENABLE: "enable" >
 |   < EXCLUDE: "exclude" >
 |   < EXIT: "exit" >
@@ -264,6 +272,7 @@ TOKEN: {
 |   < PARSE: "parse" >
 |   < PARSER: "parser" >
 |   < QUIT: "quit" >
+|   < REDIRECT: "redirect" >
 |   < RESET: "reset" >
 |   < SAVE: "save" >
 |   < SELECT: "select" >
@@ -701,6 +710,11 @@ void ShellCommand():
 	}
 |
 	"custom" CustomCommand()
+|
+    "redirect" "emit" str1=Filename() LineEnd()
+    {
+        noError = impl.RedirectEmit(str1);
+    }
 |
 	"sync" "io" LineEnd()
 	{
