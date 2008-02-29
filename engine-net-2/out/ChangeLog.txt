@@ -9,7 +9,7 @@ v1.4 (2008-03-01)
     hence containing classes are abstract)
   - Introduced "dpo", "induced" and "exact" modifiers for rules
   - Introduced "induced" and "exact" statements in rule patterns
-  - "null" is keyword, now. It represents the default object value
+  - "null" is a keyword, now. It represents the default object value
   - Member initializers in model specification
   - Added support for external implementations of element types
   - Updated implicit and explicit casts (see user manual section 5.1)

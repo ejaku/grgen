@@ -1387,7 +1387,6 @@ namespace de.unika.ipd.grGen.grShell
                     return false;
                 }
             }
-            curShellGraph.Graph.EmitWriter.Write("Toller test");
             return true;
         }
 

@@ -1,5 +1,7 @@
 new graph UML2CSP
 
+redirect emit output.csp
+
 dump set node Node color White
 dump set node Node bordercolor black
 dump set edge Edge color black

@@ -182,14 +182,14 @@ namespace de.unika.ipd.grGen.testBench
 						Console.WriteLine(" ... FAILED");
                         logFile.WriteLine("FAILED " + fileForLog);
 					}
-					else if(logStr.Contains("WARNING"))
-					{
-						Console.WriteLine(" ... WARNED");
-                        logFile.WriteLine("WARNED " + fileForLog);
-					}
 					else if(!failed)
 					{
-						if(File.Exists(outDir + Path.DirectorySeparatorChar + "printOutput.txt"))
+					    if(logStr.Contains("WARNING"))
+					    {
+						    Console.WriteLine(" ... WARNED");
+                            logFile.WriteLine("WARNED " + fileForLog);
+					    }
+						else if(File.Exists(outDir + Path.DirectorySeparatorChar + "printOutput.txt"))
 						{
 							using(StreamReader sr = new StreamReader(outDir + Path.DirectorySeparatorChar + "printOutput.txt"))
 								javaOutput = sr.ReadToEnd();

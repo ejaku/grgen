@@ -128,7 +128,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             catch(ReflectionTypeLoadException e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e);
             }
             if(modelType == null)
             {
@@ -945,8 +945,17 @@ namespace de.unika.ipd.grGen.lgsp
         public static void ProcessSpecification(String specPath, String destDir, String intermediateDir, UseExistingKind useExisting,
             bool keepIntermediateDir, bool compileWithDebug)
         {
-            ErrorType ret = new LGSPGrGen().ProcessSpecificationImpl(specPath, destDir, intermediateDir, useExisting,
-                keepIntermediateDir, compileWithDebug);
+            ErrorType ret;
+            try
+            {
+                ret = new LGSPGrGen().ProcessSpecificationImpl(specPath, destDir, intermediateDir, useExisting,
+                    keepIntermediateDir, compileWithDebug);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw ex;
+            }
             if(ret != ErrorType.NoError)
             {
                 if(ret == ErrorType.GrGenJavaError && File.Exists(intermediateDir + Path.DirectorySeparatorChar + "printOutput.txt"))
