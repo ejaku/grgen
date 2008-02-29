@@ -45,7 +45,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	}
 
 	IdentNode ident;
-	BaseNode typeUnresolved;
+	public BaseNode typeUnresolved;
 
 
 	/** An invalid declaration. */
@@ -110,4 +110,5 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		return ident.toString();
 	}
 }
+
 

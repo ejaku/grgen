@@ -25,27 +25,39 @@
 package de.unika.ipd.grgen.ast;
 
 
+import de.unika.ipd.grgen.ast.NodeDeclNode;
+import de.unika.ipd.grgen.ast.TypeDeclNode;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import java.util.Collection;
+import java.util.Vector;
 
 /**
  * Decleration of a variable.
  */
 public class VarDeclNode extends DeclNode {
+	private static final DeclarationResolver<DeclNode> typeResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
 
-	public VarDeclNode(IdentNode id, TypeNode type) {
+	private DeclNode type;
+
+	public VarDeclNode(IdentNode id, IdentNode type) {
 		super(id, type);
     }
 
 	/** returns children of this node */
 	public Collection<? extends BaseNode> getChildren() {
-		// TODO
-		return null;
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(getValidVersion(typeUnresolved, type));
+		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
-		// TODO
-		return null;
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("ident");
+		childrenNames.add("type");
+		return childrenNames;
 	}
 
 	/**
@@ -54,8 +66,8 @@ public class VarDeclNode extends DeclNode {
 	 * false, if there was some error.
 	 */
 	protected boolean resolveLocal() {
-		// TODO
-		return false;
+		type = typeResolver.resolve(typeUnresolved, this);
+		return type != null;
 	}
 
 	/**
@@ -64,13 +76,13 @@ public class VarDeclNode extends DeclNode {
 	 * false, if there was some error.
 	 */
 	protected boolean checkLocal() {
-		// TODO
-		return false;
+		return true;
 	}
 
 	/** @return The type node of the declaration */
 	public TypeNode getDeclType() {
-		// TODO
-		return null;
+		assert isResolved() : this + " was not resolved";
+		return (TypeNode)(Object)type;
 	}
 }
+

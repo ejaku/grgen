@@ -13,6 +13,38 @@ rule r(p : B) : (B) {
     exec([r(l)]);
     exec([r(r)]);
 
+    exec(%r(p));
+    exec(%r(l));
+    exec(%r(r));
+
+    exec([%r(p)]);
+    exec([%r(l)]);
+    exec([%r(r)]);
+
+    exec(?r(p));
+    exec(?r(l));
+    exec(?r(r));
+
+    exec([?r(p)]);
+    exec([?r(l)]);
+    exec([?r(r)]);
+
+    exec(%?r(p));
+    exec(%?r(l));
+    exec(%?r(r));
+
+    exec([%?r(p)]);
+    exec([%?r(l)]);
+    exec([%?r(r)]);
+
+    exec(?%r(p));
+    exec(?%r(l));
+    exec(?%r(r));
+
+    exec([?%r(p)]);
+    exec([?%r(l)]);
+    exec([?%r(r)]);
+
     exec((r(p)));
     exec(((r(l))));
     exec((((r(r)))));
@@ -152,13 +184,19 @@ rule r(p : B) : (B) {
     exec(true ^  false);
 
     exec(b:boolean=true & (b=(r(p)) & !b)[*]);
-//    exec(b=true & (b:boolean=(r(p)) & !b)[*]);
-//    exec((b:boolean=true) & (b=(r(p)) & !b)[*]);
-//    exec(b=true & (b:boolean=((r(p)) & !b))[*]);
-//    exec(b=true & (b:boolean=((r(p))) & !b)[*]);
-//    exec(b=true & b:boolean=((r(p))) & !b[*]);
-//    exec(b=true & b:boolean=(r(p) & !b[*]));
+    exec(b=true & (b:boolean=(r(p)) & !b)[*]);
+    exec((b:boolean=true) & (b=(r(p)) & !b)[*]);
+    exec(b=true & (b:boolean=((r(p)) & !b))[*]);
+    exec(b=true & (b:boolean=((r(p))) & !b)[*]);
+    exec(b=true & b:boolean=((r(p))) & !b[*]);
+    exec(b=true & b:boolean=(r(p) & !b[*]));
 
     return (r);
+  }
+}
+
+rule r2(-e:Edge->):(Edge) {
+  modify {
+    exec( (-x:Edge->)=r2(e) && ( (x)=r2(x) )[*] );
   }
 }

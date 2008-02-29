@@ -25,16 +25,15 @@ package de.unika.ipd.grgen.ast;
 
 
 
+import de.unika.ipd.grgen.ir.Exec;
+import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
-
-import de.unika.ipd.grgen.ir.Exec;
-import de.unika.ipd.grgen.ir.GraphEntity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
 
 /**
  *
@@ -47,6 +46,7 @@ public class ExecNode extends BaseNode {
 	private StringBuilder sb = new StringBuilder();
 
 	private CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
+	private CollectNode<VarDeclNode> varDecls = new CollectNode<VarDeclNode>();
 
 	public ExecNode(Coords coords) {
 		super(coords);
@@ -68,10 +68,15 @@ public class ExecNode extends BaseNode {
 		callActions.addChild(n);
 	}
 
+	public void addVarDecls(VarDeclNode varDecl) {
+		varDecls.addChild(varDecl);
+	}
+
 	/** returns children of this node */
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> res = new Vector<BaseNode>();
 		res.add(callActions);
+		res.add(varDecls);
 		return res;
 	}
 
@@ -79,6 +84,7 @@ public class ExecNode extends BaseNode {
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("actions");
+		childrenNames.add("var decls");
 		return childrenNames;
 	}
 
@@ -99,11 +105,12 @@ public class ExecNode extends BaseNode {
 		Set<GraphEntity> parameters = new LinkedHashSet<GraphEntity>();
 		for(CallActionNode callActionNode : callActions.getChildren())
 			for(DeclNode param : callActionNode.getParams().getChildren())
-			parameters.add((GraphEntity) param.getIR());
+				parameters.add((GraphEntity) param.getIR());
 		Exec res= new Exec(getXGRSString(), parameters);
 		return res;
 	}
 }
+
 
 
 

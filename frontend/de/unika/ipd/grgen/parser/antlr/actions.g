@@ -45,7 +45,7 @@ header {
 class GRActionsParser extends GRBaseParser;
 
 options {
-	k=2;
+	k=4;
 	codeGenMakeSwitchThreshold = 2;
 	codeGenBitsetTestThreshold = 3;
 	defaultErrorHandler = true;
@@ -244,7 +244,7 @@ param [ int context ] returns [ BaseNode res = null ]
 
 	| node=nodeDecl[context]
 	{
-		res = new SingleNodeConnNode(node); 
+		res = new SingleNodeConnNode(node);
 	}
 	;
 
@@ -803,19 +803,17 @@ paramListOfEntIdentUseOrEntIdentDecl[CollectNode<BaseNode> res]
 entIdentUseOrEntIdentDecl returns [BaseNode res = null]
 	{ IdentNode id, type; }
 	:
-	(
-		id=entIdentUse { res = id; }
+		id=entIdentUse { res = id; } // var of node, edge, or basic type
 	|
-		id=entIdentDecl COLON type=typeIdentUse
-			{
-				res = new NodeDeclNode(id, type, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, TypeExprNode.getEmpty());
-			}
-	|
-		MINUS id=entIdentDecl COLON type=typeIdentUse  RARROW
+		id=entIdentDecl COLON type=typeIdentUse // node decl
 		{
-			res = new EdgeDeclNode(id, type, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, TypeExprNode.getEmpty());
+			res = new VarDeclNode(id, type);
 		}
-	)
+	|
+		MINUS id=entIdentDecl COLON type=typeIdentUse  RARROW // edge decl
+		{
+			res = new VarDeclNode(id, type);
+		}
 	;
 
 execStmt[CollectNode<BaseNode> imperativeStmts]
@@ -894,23 +892,44 @@ simpleSequence[ExecNode xg]
 	{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 		IdentNode id;
+		BaseNode lhs;
 	}
 	: LPAREN {xg.append("(");}
 		(
-			(entIdentUse COMMA|entIdentUse RPAREN ASSIGN|entIdentUse COLON) =>
+			(entIdentUse COMMA | entIdentUse RPAREN ASSIGN | entIdentUse COLON typeIdentUse COMMA | entIdentUse COLON typeIdentUse RPAREN | MINUS) =>
 				paramListOfEntIdentUseOrEntIdentDecl[returns]
 					{
 						for(Iterator<BaseNode> i =returns.getChildren().iterator(); i.hasNext();) {
-								BaseNode r = i.next();
+							BaseNode r = i.next();
+							if(r instanceof VarDeclNode) {
+								VarDeclNode decl = (VarDeclNode)r;
+								xg.append(decl.getIdentNode().getIdent());
+								xg.append(':');
+								xg.append(decl.typeUnresolved);
+								xg.addVarDecls(decl);
+							} else
 								xg.append(r);
-								if(i.hasNext()) xg.append(",");
-							}
+							if(i.hasNext()) xg.append(",");
+						}
 					}
 				RPAREN ASSIGN {xg.append(")=");} parallelCallRule[xg, returns]
 			| xgrs[xg] RPAREN {xg.append(")");}
 		)
-	| (entIdentUse ASSIGN | entIdentDecl COLON | MINUS entIdentDecl) =>
-	entIdentUseOrEntIdentDecl ASSIGN
+	| (entIdentUse ASSIGN | entIdentDecl COLON | MINUS) =>
+	lhs=entIdentUseOrEntIdentDecl ASSIGN
+		{
+			if(lhs instanceof VarDeclNode) {
+				VarDeclNode decl = (VarDeclNode)lhs;
+				xg.append(decl.getIdentNode().getIdent());
+				xg.append(':');
+				xg.append(decl.typeUnresolved);
+				xg.addVarDecls(decl);
+			}
+			else {
+				xg.append(((IdentNode)lhs).getIdent());
+			}
+			xg.append('=');
+		}
 		(
 			id=entIdentUse { xg.append(id); }
 		|
@@ -927,7 +946,7 @@ simpleSequence[ExecNode xg]
 	;
 
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
-	: LBRACK {xg.append("[");} callRule[xg, returns] RBRACK {xg.append("]");}
+	: (LBRACK) => LBRACK {xg.append("[");} callRule[xg, returns] RBRACK {xg.append("]");}
 	| callRule[xg, returns]
 	;
 
@@ -936,12 +955,13 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns]
 		CollectNode<IdentNode> params = new CollectNode<IdentNode>();
 		IdentNode id;
 	}
-	: id=actionIdentUse {xg.append(id);}
+	: ( | MOD { xg.append("%"); } | MOD QUESTION { xg.append("%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?%"); } )
+		id=actionIdentUse {xg.append(id);}
 		(LPAREN paramListOfEntIdentUse[params]
 			{
 				xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns));
 				xg.append("(");
-				for(Iterator<IdentNode> i =params.getChildren().iterator(); i.hasNext();) {
+				for(Iterator<IdentNode> i = params.getChildren().iterator(); i.hasNext();) {
 					IdentNode p = i.next();
 					xg.append(p);
 					if(i.hasNext()) xg.append(",");
@@ -969,6 +989,7 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 	| LPAREN res=typeAddExpr RPAREN
 	;
+
 
 
 

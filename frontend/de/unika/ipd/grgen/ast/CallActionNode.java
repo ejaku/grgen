@@ -54,8 +54,8 @@ public class CallActionNode extends BaseNode {
 	private CollectNode<BaseNode> returnsUnresolved;
 
 	private TestDeclNode action;
-	protected CollectNode<ConstraintDeclNode> params;
-	protected CollectNode<ConstraintDeclNode> returns;
+	protected CollectNode<DeclNode> params;
+	protected CollectNode<VarDeclNode> returns;
 
 	/**
 	 * @param    ruleUnresolved      an IdentNode: thr rule/test name
@@ -92,7 +92,7 @@ public class CallActionNode extends BaseNode {
 	 *
 	 * @return    a  CollectNode<IdentNode>
 	 */
-	public CollectNode<ConstraintDeclNode> getParams() {
+	public CollectNode<DeclNode> getParams() {
 		assert isResolved();
 		return params;
 	}
@@ -102,7 +102,7 @@ public class CallActionNode extends BaseNode {
 	 *
 	 * @return    a  CollectNode<IdentNode>
 	 */
-	public CollectNode<ConstraintDeclNode> getReturns() {
+	public CollectNode<VarDeclNode> getReturns() {
 		assert isResolved();
 		return returns;
 	}
@@ -136,8 +136,10 @@ public class CallActionNode extends BaseNode {
 
 	private static final DeclarationResolver<TestDeclNode> actionResolver = new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
 
-	private static final CollectResolver<ConstraintDeclNode> constraintDeclNodeResolver = new CollectResolver<ConstraintDeclNode>(
-		new DeclarationResolver<ConstraintDeclNode>(ConstraintDeclNode.class));
+	private static final CollectResolver<DeclNode> paramNodeResolver = new CollectResolver<DeclNode>(new DeclarationResolver<DeclNode>(DeclNode.class));
+
+		private static final CollectResolver<VarDeclNode> varDeclNodeResolver =
+		new CollectResolver<VarDeclNode>(new DeclarationResolver<VarDeclNode>(VarDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
@@ -148,10 +150,10 @@ public class CallActionNode extends BaseNode {
 
 		//TODO this is wrong!
 
-		params = constraintDeclNodeResolver.resolve(paramsUnresolved, this);
+		params = paramNodeResolver.resolve(paramsUnresolved, this);
 		successfullyResolved = params!=null && successfullyResolved;
 
-		returns = constraintDeclNodeResolver.resolve(returnsUnresolved, this);
+		returns = varDeclNodeResolver.resolve(returnsUnresolved, this);
 		successfullyResolved = returns!=null && successfullyResolved;
 
 		return successfullyResolved;
@@ -217,7 +219,7 @@ public class CallActionNode extends BaseNode {
 	 *
 	 * @return   a  boolean
 	 */
-	private boolean checkReturns(CollectNode<IdentNode> formalReturns, CollectNode<ConstraintDeclNode> actualReturns) {
+	private boolean checkReturns(CollectNode<IdentNode> formalReturns, CollectNode<VarDeclNode> actualReturns) {
 		// TODO
 		boolean res = true;
 		// Its ok to have no actrual returns, but if there are some, then they have to fit.
@@ -237,5 +239,6 @@ public class CallActionNode extends BaseNode {
 		return Bad.getBad(); // TODO fix this
 	}
 }
+
 
 

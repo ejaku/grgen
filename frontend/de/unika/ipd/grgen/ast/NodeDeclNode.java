@@ -62,7 +62,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	/** The TYPE child could be a node in case the type is
 	 *  inherited dynamically via the typeof operator */
 	public TypeNode getDeclType() {
-		assert isResolved();
+		assert isResolved() : "not resolved";
 
 		DeclNode curr = getValidResolvedVersion(typeNodeDecl, typeTypeDecl);
 		return curr.getDeclType();
