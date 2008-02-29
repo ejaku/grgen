@@ -1,10 +1,12 @@
 TODO: exec debugging
+TODO: make exec typesafe
 
-v1.4 (2008-02-08)
+v1.4 (2008-03-01)
  Features:
   - Introduced imperative statements "emit" and "exec" in RHS
   - Introduced abstract members in element types
-   (these members do not have a type, yet)
+    (these members do not have a declared type,
+    hence containing classes are abstract)
   - Introduced "dpo", "induced" and "exact" modifiers for rules
   - Introduced "induced" and "exact" statements in rule patterns
   - "null" is keyword, now. It represents the default object value
