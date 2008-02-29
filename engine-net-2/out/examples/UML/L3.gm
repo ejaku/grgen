@@ -4,17 +4,20 @@
 
 // supertypes of all supported graph elements from CMOF
 abstract node class CMOF_NODE {
-	umlname : string = "UNKNOWN";
+	uuid : string = "UNKNOWN";
 	id : int = -1;
 }
 
 abstract edge class CMOF_EDGE {
-	umlname : string = "UNKNOWN";
+	name : string = "UNKNOWN";
+	isXmiIdReference : boolean = false;
 }
 
 // artificial structuring types
 abstract node class CMOFMember;
-abstract node class CMOFValueType;
+abstract node class CMOFValueType {
+	abstract value;
+}
 
 // supertype of all UNsupported graph elements from CMOF
 abstract node class CMOF_NOT_SUPPORTED;
@@ -27,9 +30,7 @@ abstract node class CMOFComment extends CMOF_NOT_SUPPORTED;
 abstract node class CMOFClass extends CMOF_NODE, CMOFMember;
 
 // mapped to edges
-abstract edge class CMOFProperty extends CMOF_EDGE {
-	isComposite : boolean = false;
-}
+abstract edge class CMOFProperty extends CMOF_EDGE;
 
 // mapped to nothing
 abstract node class CMOFAssociation extends CMOF_NODE, CMOFMember;
@@ -53,284 +54,271 @@ abstract node class CMOFParameter extends CMOF_NOT_SUPPORTED;
 //An integer is a primitive type representing integer values.
 node class Integer extends CMOFPrimitiveType {
 	value : int;
-	umlname = "Integer";
+	uuid = "Integer";
 }
 
 //A Boolean type is used for logical expression, consisting of the predefined values true and false.
 node class Boolean extends CMOFPrimitiveType {
 	value : boolean;
-	umlname = "Boolean";
+	uuid = "Boolean";
 }
 
 //A string is a sequence of characters in some suitable character set used to display information about the model. Character sets may include non-Roman alphabets and characters.
 node class String extends CMOFPrimitiveType {
 	value : string;
-	umlname = "String";
+	uuid = "String";
 }
 
 //An unlimited natural is a primitive type representing unlimited natural values.
 node class UnlimitedNatural extends CMOFPrimitiveType {
 	value : int;
-	umlname = "UnlimitedNatural";
+	uuid = "UnlimitedNatural";
 }
 
 
 //AggregationKind is an enumeration type that specifies the literals for defining the kind of aggregation of a property.
 enum ENUM_AggregationKind {
 	//Indicates that the property has no aggregation.
-	none, 
+	none,
 	//Indicates that the property has a shared aggregation.
-	shared, 
+	shared,
 	//Indicates that the property is aggregated compositely, i.e., the composite object has responsibility for the existence and storage of the composed objects (parts).
 	composite
 }
 
 node class AggregationKind extends CMOFEnumeration {
 	value : ENUM_AggregationKind;
-	umlname = "AggregationKind";
 }
 
 
 //Parameter direction kind is an enumeration type that defines literals used to specify direction of parameters.
 enum ENUM_ParameterDirectionKind {
 	//Indicates that parameter values are passed into the behavioral element by the caller.
-	in, 
+	in,
 	//Indicates that parameter values are passed into a behavioral element by the caller and then back out to the caller from the behavioral element.
-	inout, 
+	inout,
 	//Indicates that parameter values are passed from a behavioral element out to the caller.
-	out, 
+	out,
 	//Indicates that parameter values are passed as return values from a behavioral element back to the caller.
 	return_
 }
 
 node class ParameterDirectionKind extends CMOFEnumeration {
 	value : ENUM_ParameterDirectionKind;
-	umlname = "ParameterDirectionKind";
 }
 
 
 //VisibilityKind is an enumeration type that defines literals to determine the visibility of elements in a model.
 enum ENUM_VisibilityKind {
 	//A public element is visible to all elements that can access the contents of the namespace that owns it.
-	public, 
+	public,
 	//A private element is only visible inside the namespace that owns it.
-	private, 
+	private,
 	//A protected element is visible to elements that have a generalization relationship to the namespace that owns it.
-	protected, 
+	protected,
 	//A package element is owned by a namespace that is not a package, and is visible to elements that are in the same package as its owning namespace. Only named elements that are not owned by packages can be marked as having package visibility. Any element marked as having package visibility is visible to all elements within the nearest enclosing package (given that other owning elements have proper visibility). Outside the nearest enclosing package, an element marked as having package visibility is not visible.
 	package
 }
 
 node class VisibilityKind extends CMOFEnumeration {
 	value : ENUM_VisibilityKind;
-	umlname = "VisibilityKind";
 }
 
 
 //This is an enumerated type that identifies the type of message.
 enum ENUM_MessageKind {
 	//sendEvent and receiveEvent are present
-	complete, 
+	complete,
 	//sendEvent present and receiveEvent absent
-	lost, 
+	lost,
 	//sendEvent absent and receiveEvent present
-	found, 
+	found,
 	//sendEvent and receiveEvent absent (should not appear)
 	unknown
 }
 
 node class MessageKind extends CMOFEnumeration {
 	value : ENUM_MessageKind;
-	umlname = "MessageKind";
 }
 
 
 //This is an enumerated type that identifies the type of communication action that was used to generate the message.
 enum ENUM_MessageSort {
 	//The message was generated by a synchronous call to an operation.
-	synchCall, 
+	synchCall,
 	//The message was generated by an asynchronous call to an operation; i.e., a CallAction with isSynchronous = false.
-	asynchCall, 
+	asynchCall,
 	//The message was generated by an asynchronous send action.
-	asynchSignal, 
+	asynchSignal,
 	//The message designating the creation of another lifeline object.
-	createMessage, 
+	createMessage,
 	//The message designating the termination of another lifeline.
-	deleteMessage, 
+	deleteMessage,
 	//The message is a reply message to an operation call.
 	reply
 }
 
 node class MessageSort extends CMOFEnumeration {
 	value : ENUM_MessageSort;
-	umlname = "MessageSort";
 }
 
 
 //CallConcurrencyKind is an enumeration type.
 enum ENUM_CallConcurrencyKind {
 	//No concurrency management mechanism is associated with the operation and, therefore, concurrency conflicts may occur. Instances that invoke a behavioral feature need to coordinate so that only one invocation to a target on any behavioral feature occurs at once.
-	sequential, 
+	sequential,
 	//Multiple invocations of a behavioral feature may occur simultaneously to one instance, but only one is allowed to commence. The others are blocked until the performance of the first behavioral feature is complete. It is the responsibility of the system designer to ensure that deadlocks do not occur due to simultaneous blocks.
-	guarded, 
+	guarded,
 	//Multiple invocations of a behavioral feature may occur simultaneously to one instance and all of them may proceed concurrently.
 	concurrent
 }
 
 node class CallConcurrencyKind extends CMOFEnumeration {
 	value : ENUM_CallConcurrencyKind;
-	umlname = "CallConcurrencyKind";
 }
 
 
 //ConnectorKind is an enumeration type.
 enum ENUM_ConnectorKind {
 	//Indicates that the connector is an assembly connector.
-	assembly, 
+	assembly,
 	//Indicates that the connector is a delegation connector.
 	delegation
 }
 
 node class ConnectorKind extends CMOFEnumeration {
 	value : ENUM_ConnectorKind;
-	umlname = "ConnectorKind";
 }
 
 
 //InteractionOperatorKind is an enumeration designating the different kinds of operators of combined fragments. The interaction operand defines the type of operator of a combined fragment.
 enum ENUM_InteractionOperatorKind {
 	//The interactionOperator seq designates that the CombinedFragment represents a weak sequencing between the behaviors of the operands.
-	seq, 
+	seq,
 	//The interactionOperator alt designates that the CombinedFragment represents a choice of behavior. At most one of the operands will be chosen. The chosen operand must have an explicit or implicit guard expression that evaluates to true at this point in the interaction. An implicit true guard is implied if the operand has no guard.
-	alt, 
+	alt,
 	//The interactionOperator opt designates that the CombinedFragment represents a choice of behavior where either the (sole) operand happens or nothing happens. An option is semantically equivalent to an alternative CombinedFragment where there is one operand with non-empty content and the second operand is empty.
-	opt, 
+	opt,
 	//The interactionOperator break designates that the CombinedFragment represents a breaking scenario in the sense that the operand is a scenario that is performed instead of the remainder of the enclosing InteractionFragment. A break operator with a guard is chosen when the guard is true and the rest of the enclosing Interaction Fragment is ignored. When the guard of the break operand is false, the break operand is ignored and the rest of the enclosing InteractionFragment is chosen. The choice between a break operand without a guard and the rest of the enclosing InteractionFragment is done non-deterministically.
-	break, 
+	break,
 	//The interactionOperator par designates that the CombinedFragment represents a parallel merge between the behaviors of the operands. The OccurrenceSpecifications of the different operands can be interleaved in any way as long as the ordering imposed by each operand as such is preserved.
-	par, 
+	par,
 	//The interactionOperator strict designates that the CombinedFragment represents a strict sequencing between the behaviors of the operands. The semantics of strict sequencing defines a strict ordering of the operands on the first level within the CombinedFragment with interactionOperator strict. Therefore OccurrenceSpecifications within contained CombinedFragment will not directly be compared with other OccurrenceSpecifications of the enclosing CombinedFragment.
-	strict, 
+	strict,
 	//The interactionOperator loop designates that the CombinedFragment represents a loop. The loop operand will be repeated a number of times.
-	loop, 
+	loop,
 	//The interactionOperator critical designates that the CombinedFragment represents a critical region. A critical region means that the traces of the region cannot be interleaved by other OccurrenceSpecifications (on those Lifelines covered by the region). This means that the region is treated atomically by the enclosing fragment when determining the set of valid traces. Even though enclosing CombinedFragments may imply that some OccurrenceSpecifications may interleave into the region, such as e.g. with par-operator, this is prevented by defining a region.
-	critical, 
+	critical,
 	//The interactionOperator neg designates that the CombinedFragment represents traces that are defined to be invalid.
-	neg, 
+	neg,
 	//The interactionOperator assert designates that the CombinedFragment represents an assertion. The sequences of the operand of the assertion are the only valid continuations. All other continuations result in an invalid trace.
-	assert, 
+	assert,
 	//The interacionOperator ignore designates that there are some message types that are not shown within this combined fragment. These message types can be considered insignificant and are implicitly ignored if they appear in a corresponding execution. Alternatively, one can understand ignore to mean that the message types that are ignored can appear anywhere in the traces.
-	ignore, 
+	ignore,
 	//The interactionOperator consider designates which messages should be considered within this combined fragment. This is equivalent to defining every other message to be ignored.
 	consider
 }
 
 node class InteractionOperatorKind extends CMOFEnumeration {
 	value : ENUM_InteractionOperatorKind;
-	umlname = "InteractionOperatorKind";
 }
 
 
 //PseudostateKind is an enumeration type.
 enum ENUM_PseudostateKind {
 	//An initial pseudostate represents a default vertex that is the source for a single transition to the default state of a composite state. There can be at most one initial vertex in a region. The outgoing transition from the initial vertex may have a behavior, but not a trigger or guard.
-	initial, 
+	initial,
 	//DeepHistory represents the most recent active configuration of the composite state that directly contains this pseudostate; e.g. the state configuration that was active when the composite state was last exited. A composite state can have at most one deep history vertex. At most one transition may originate from the history connector to the default deep history state. This transition is taken in case the composite state had never been active before. Entry actions of states entered on the path to the state represented by a deep history are performed.
-	deepHistory, 
+	deepHistory,
 	//ShallowHistory represents the most recent active substate of its containing state (but not the substates of that substate). A composite state can have at most one shallow history vertex. A transition coming into the shallow history vertex is equivalent to a transition coming into the most recent active substate of a state. At most one transition may originate from the history connector to the default shallow history state. This transition is taken in case the composite state had never been active before. Entry actions of states entered on the path to the state represented by a shallow history are performed.
-	shallowHistory, 
+	shallowHistory,
 	//Join vertices serve to merge several transitions emanating from source vertices in different orthogonal regions. The transitions entering a join vertex cannot have guards or triggers.
-	join, 
+	join,
 	//Fork vertices serve to split an incoming transition into two or more transitions terminating on orthogonal target vertices (i.e. vertices in different regions of a composite state). The segments outgoing from a fork vertex must not have guards or triggers.
-	fork, 
+	fork,
 	//Junction vertices are semantic-free vertices that are used to chain together multiple transitions. They are used to construct compound transition paths between states. For example, a junction can be used to converge multiple incoming transitions into a single outgoing transition representing a shared transition path (this is known as an merge). Conversely, they can be used to split an incoming transition into multiple outgoing transition segments with different guard conditions. This realizes a static conditional branch. (In the latter case, outgoing transitions whose guard conditions evaluate to false are disabled. A predefined guard denoted 'else' may be defined for at most one outgoing transition. This transition is enabled if all the guards labeling the other transitions are false.) Static conditional branches are distinct from dynamic conditional branches that are realized by choice vertices (described below).
-	junction, 
+	junction,
 	//Choice vertices which, when reached, result in the dynamic evaluation of the guards of the triggers of its outgoing transitions. This realizes a dynamic conditional branch. It allows splitting of transitions into multiple outgoing paths such that the decision on which path to take may be a function of the results of prior actions performed in the same run-tocompletion step. If more than one of the guards evaluates to true, an arbitrary one is selected. If none of the guards evaluates to true, then the model is considered ill-formed. (To avoid this, it is recommended to define one outgoing transition with the predefined else guard for every choice vertex.) Choice vertices should be distinguished from static branch points that are based on junction points (described above).
-	choice, 
+	choice,
 	//An entry point pseudostate is an entry point of a state machine or composite state. In each region of the state machine or composite state it has a single transition to a vertex within the same region.
-	entryPoint, 
+	entryPoint,
 	//An exit point pseudostate is an exit point of a state machine or composite state. Entering an exit point within any region of the composite state or state machine referenced by a submachine state implies the exit of this composite state or submachine state and the triggering of the transition that has this exit point as source in the state machine enclosing the submachine or composite state.
-	exitPoint, 
+	exitPoint,
 	//Entering a terminate pseudostate implies that the execution of this state machine by means of its context object is terminated. The state machine does not exit any states nor does it perform any exit actions other than those associated with the transition leading to the terminate pseudostate. Entering a terminate pseudostate is equivalent to invoking a DestroyObjectAction.
 	terminate
 }
 
 node class PseudostateKind extends CMOFEnumeration {
 	value : ENUM_PseudostateKind;
-	umlname = "PseudostateKind";
 }
 
 
 //TransitionKind is an enumeration type.
 enum ENUM_TransitionKind {
 	//Implies that the transition, if triggered, occurs without exiting or entering the source state. Thus, it does not cause a state change. This means that the entry or exit condition of the source state will not be invoked. An internal transition can be taken even if the state machine is in one or more regions nested within this state.
-	internal, 
+	internal,
 	//Implies that the transition, if triggered, will not exit the composite (source) state, but it will apply to any state within the composite state, and these will be exited and entered.
-	local, 
+	local,
 	//Implies that the transition, if triggered, will exit the composite (source) state.
 	external
 }
 
 node class TransitionKind extends CMOFEnumeration {
 	value : ENUM_TransitionKind;
-	umlname = "TransitionKind";
 }
 
 
 //ObjectNodeOrderingKind is an enumeration indicating queuing order within a node.
 enum ENUM_ObjectNodeOrderingKind {
 	//Indicates that object node tokens are unordered.
-	unordered, 
+	unordered,
 	//Indicates that object node tokens are ordered.
-	ordered, 
+	ordered,
 	//Indicates that object node tokens are queued in a last in, first out manner.
-	LIFO, 
+	LIFO,
 	//Indicates that object node tokens are queued in a first in, first out manner.
 	FIFO
 }
 
 node class ObjectNodeOrderingKind extends CMOFEnumeration {
 	value : ENUM_ObjectNodeOrderingKind;
-	umlname = "ObjectNodeOrderingKind";
 }
 
 
 //The datatype ParameterEffectKind is an enumeration that indicates the effect of a behavior on values passed in or out of its parameters.
 enum ENUM_ParameterEffectKind {
 	//Indicates that the behavior creates values.
-	create, 
+	create,
 	//Indicates that the behavior reads values.
-	read, 
+	read,
 	//Indicates that the behavior updates values.
-	update, 
+	update,
 	//Indicates that the behavior deletes values.
 	delete_
 }
 
 node class ParameterEffectKind extends CMOFEnumeration {
 	value : ENUM_ParameterEffectKind;
-	umlname = "ParameterEffectKind";
 }
 
 
 //ExpansionKind is an enumeration type used to specify how multiple executions of an expansion region interact.
 enum ENUM_ExpansionKind {
 	//The executions are independent. They may be executed concurrently.
-	parallel, 
+	parallel,
 	//The executions are dependent and must be executed one at a time, in order of the collection elements.
-	iterative, 
+	iterative,
 	//A stream of collection elements flows into a single execution, in order of the collection elements.
 	stream
 }
 
 node class ExpansionKind extends CMOFEnumeration {
 	value : ENUM_ExpansionKind;
-	umlname = "ExpansionKind";
 }
 
 //A comment is a textual annotation that can be attached to a set of elements.
 node class Comment extends Element {
-	umlname = "Comment";
+	uuid = "Comment";
 }
 
 edge class body extends CMOFProperty
@@ -340,19 +328,19 @@ edge class body extends CMOFProperty
 		OpaqueBehavior[0:*] -> String[*],
 		OpaqueAction[0:*] -> String[*],
 		Clause[0:*] -> ExecutableNode[*] {
-	umlname = "body";
+			name = "body";
 }
 
 edge class annotatedElement extends CMOFProperty
 	connect
 		Comment[0:*] -> Element[*] {
-	umlname = "annotatedElement";
+			name = "annotatedElement";
 }
 
 
 //A directed relationship represents a relationship between a collection of source model elements and a collection of target model elements.
-abstract node class DirectedRelationship extends Relationship {
-	umlname = "DirectedRelationship";
+node class DirectedRelationship extends Relationship {
+	uuid = "DirectedRelationship";
 }
 
 edge class source extends CMOFProperty
@@ -360,7 +348,7 @@ edge class source extends CMOFProperty
 		DirectedRelationship[1:*] -> Element[*],
 		Transition[1:1] -> Vertex[*],
 		ActivityEdge[1:1] -> ActivityNode[*] {
-	umlname = "source";
+			name = "source";
 }
 
 edge class target extends CMOFProperty
@@ -372,19 +360,19 @@ edge class target extends CMOFProperty
 		SendObjectAction[1:1] -> InputPin[*],
 		Transition[1:1] -> Vertex[*],
 		ActivityEdge[1:1] -> ActivityNode[*] {
-	umlname = "target";
+			name = "target";
 }
 
 
 //A literal specification identifies a literal constant being modeled.
-abstract node class LiteralSpecification extends ValueSpecification {
-	umlname = "LiteralSpecification";
+node class LiteralSpecification extends ValueSpecification {
+	uuid = "LiteralSpecification";
 }
 
 
 //A literal integer is a specification of an integer value.
 node class LiteralInteger extends LiteralSpecification {
-	umlname = "LiteralInteger";
+	uuid = "LiteralInteger";
 }
 
 edge class value extends CMOFProperty
@@ -400,37 +388,37 @@ edge class value extends CMOFProperty
 		WriteVariableAction[1:1] -> InputPin[*],
 		QualifierValue[1:1] -> InputPin[*],
 		LinkEndData[0:1] -> InputPin[*] {
-	umlname = "value";
+			name = "value";
 }
 
 
 //A literal string is a specification of a string value.
 node class LiteralString extends LiteralSpecification {
-	umlname = "LiteralString";
+	uuid = "LiteralString";
 }
 
 
 //A literal Boolean is a specification of a Boolean value.
 node class LiteralBoolean extends LiteralSpecification {
-	umlname = "LiteralBoolean";
+	uuid = "LiteralBoolean";
 }
 
 
 //A literal null specifies the lack of a value.
 node class LiteralNull extends LiteralSpecification {
-	umlname = "LiteralNull";
+	uuid = "LiteralNull";
 }
 
 
 //A constraint is a condition or restriction expressed in natural language text or in a machine readable language for the purpose of declaring some of the semantics of an element.
 node class Constraint extends PackageableElement {
-	umlname = "Constraint";
+	uuid = "Constraint";
 }
 
 edge class constrainedElement extends CMOFProperty
 	connect
 		Constraint[0:*] -> Element[*] {
-	umlname = "constrainedElement";
+			name = "constrainedElement";
 }
 
 edge class specification extends CMOFProperty
@@ -441,7 +429,7 @@ edge class specification extends CMOFProperty
 		DurationConstraint[1:1] -> DurationInterval[*],
 		IntervalConstraint[1:1] -> Interval[*],
 		Behavior[0:1] -> BehavioralFeature[*] {
-	umlname = "specification";
+			name = "specification";
 }
 
 edge class context extends CMOFProperty
@@ -449,13 +437,13 @@ edge class context extends CMOFProperty
 		Constraint[0:1] -> Namespace[*],
 		Action[0:1] -> Classifier[*],
 		Behavior[0:1] -> BehavioredClassifier[*] {
-	umlname = "context";
+			name = "context";
 }
 
 
 //An element import identifies an element in another package, and allows the element to be referenced using its name without a qualifier.
 node class ElementImport extends DirectedRelationship {
-	umlname = "ElementImport";
+	uuid = "ElementImport";
 }
 
 edge class visibility extends CMOFProperty
@@ -464,32 +452,32 @@ edge class visibility extends CMOFProperty
 		PackageImport[1:1] -> VisibilityKind[*],
 		NamedElement[0:1] -> VisibilityKind[*],
 		PackageableElement[1:1] -> VisibilityKind[*] {
-	umlname = "visibility";
+			name = "visibility";
 }
 
 edge class alias extends CMOFProperty
 	connect
 		ElementImport[0:1] -> String[*] {
-	umlname = "alias";
+			name = "alias";
 }
 
 edge class importedElement extends CMOFProperty
 	connect
 		ElementImport[1:1] -> PackageableElement[*] {
-	umlname = "importedElement";
+			name = "importedElement";
 }
 
 edge class importingNamespace extends CMOFProperty
 	connect
 		ElementImport[1:1] -> Namespace[*],
 		PackageImport[1:1] -> Namespace[*] {
-	umlname = "importingNamespace";
+			name = "importingNamespace";
 }
 
 
 //A typed element is a kind of named element that represents an element with a type.
-abstract node class TypedElement extends NamedElement {
-	umlname = "TypedElement";
+node class TypedElement extends NamedElement {
+	uuid = "TypedElement";
 }
 
 edge class type_ extends CMOFProperty
@@ -499,43 +487,43 @@ edge class type_ extends CMOFProperty
 		Connector[0:1] -> Association[*],
 		ExtensionEnd[1:1] -> Stereotype[*],
 		Operation[0:1] -> Type[*] {
-	umlname = "type_";
+			name = "type";
 }
 
 
 //A feature declares a behavioral or structural characteristic of instances of classifiers.
-abstract node class Feature extends RedefinableElement {
-	umlname = "Feature";
+node class Feature extends RedefinableElement {
+	uuid = "Feature";
 }
 
 edge class isStatic extends CMOFProperty
 	connect
 		Feature[1:1] -> Boolean[*] {
-	umlname = "isStatic";
+			name = "isStatic";
 }
 
 edge class featuringClassifier extends CMOFProperty
 	connect
 		Feature[0:*] -> Classifier[*] {
-	umlname = "featuringClassifier";
+			name = "featuringClassifier";
 }
 
 
 //A redefinable element is an element that, when defined in the context of a classifier, can be redefined more specifically or differently in the context of another classifier that specializes (directly or indirectly) the context classifier.
-abstract node class RedefinableElement extends NamedElement {
-	umlname = "RedefinableElement";
+node class RedefinableElement extends NamedElement {
+	uuid = "RedefinableElement";
 }
 
 edge class isLeaf extends CMOFProperty
 	connect
 		RedefinableElement[1:1] -> Boolean[*] {
-	umlname = "isLeaf";
+			name = "isLeaf";
 }
 
 edge class redefinedElement extends CMOFProperty
 	connect
 		RedefinableElement[0:*] -> RedefinableElement[*] {
-	umlname = "redefinedElement";
+			name = "redefinedElement";
 }
 
 edge class redefinitionContext extends CMOFProperty
@@ -544,13 +532,13 @@ edge class redefinitionContext extends CMOFProperty
 		Transition[1:1] -> Classifier[*],
 		State[1:1] -> Classifier[*],
 		Region[1:1] -> Classifier[*] {
-	umlname = "redefinitionContext";
+			name = "redefinitionContext";
 }
 
 
 //A structural feature is a typed feature of a classifier that specifies the structure of instances of the classifier.
-abstract node class StructuralFeature extends Feature, TypedElement, MultiplicityElement {
-	umlname = "StructuralFeature";
+node class StructuralFeature extends Feature, TypedElement, MultiplicityElement {
+	uuid = "StructuralFeature";
 }
 
 edge class isReadOnly extends CMOFProperty
@@ -558,43 +546,43 @@ edge class isReadOnly extends CMOFProperty
 		StructuralFeature[1:1] -> Boolean[*],
 		Activity[1:1] -> Boolean[*],
 		Property[1:1] -> Boolean[*] {
-	umlname = "isReadOnly";
+			name = "isReadOnly";
 }
 
 
 //A slot specifies that an entity modeled by an instance specification has a value or values for a specific structural feature.
 node class Slot extends Element {
-	umlname = "Slot";
+	uuid = "Slot";
 }
 
 edge class owningInstance extends CMOFProperty
 	connect
 		Slot[1:1] -> InstanceSpecification[*] {
-	umlname = "owningInstance";
+			name = "owningInstance";
 }
 
 edge class definingFeature extends CMOFProperty
 	connect
 		Slot[1:1] -> StructuralFeature[*] {
-	umlname = "definingFeature";
+			name = "definingFeature";
 }
 
 
 //A package import is a relationship that allows the use of unqualified names to refer to package members from other namespaces.
 node class PackageImport extends DirectedRelationship {
-	umlname = "PackageImport";
+	uuid = "PackageImport";
 }
 
 edge class importedPackage extends CMOFProperty
 	connect
 		PackageImport[1:1] -> Package[*] {
-	umlname = "importedPackage";
+			name = "importedPackage";
 }
 
 
 //A data type is a type whose instances are identified only by their value. A data type may contain attributes to support the modeling of structured data types.
 node class DataType extends Classifier {
-	umlname = "DataType";
+	uuid = "DataType";
 }
 
 edge class ownedAttribute extends CMOFProperty
@@ -605,8 +593,7 @@ edge class ownedAttribute extends CMOFProperty
 		Artifact[0:*] -> Property[*],
 		Class[0:*] -> Property[*],
 		Interface[0:*] -> Property[*] {
-	umlname = "ownedAttribute";
-	isComposite = true;
+			name = "ownedAttribute";
 }
 
 edge class ownedOperation extends CMOFProperty
@@ -615,164 +602,160 @@ edge class ownedOperation extends CMOFProperty
 		Artifact[0:*] -> Operation[*],
 		Class[0:*] -> Operation[*],
 		Interface[0:*] -> Operation[*] {
-	umlname = "ownedOperation";
-	isComposite = true;
+			name = "ownedOperation";
 }
 
 
 //An enumeration is a data type whose values are enumerated in the model as enumeration literals.
 node class Enumeration extends DataType {
-	umlname = "Enumeration";
+	uuid = "Enumeration";
 }
 
 edge class ownedLiteral extends CMOFProperty
 	connect
 		Enumeration[0:*] -> EnumerationLiteral[*] {
-	umlname = "ownedLiteral";
-	isComposite = true;
+			name = "ownedLiteral";
 }
 
 
 //An enumeration literal is a user-defined data value for an enumeration.
 node class EnumerationLiteral extends InstanceSpecification {
-	umlname = "EnumerationLiteral";
+	uuid = "EnumerationLiteral";
 }
 
 edge class enumeration extends CMOFProperty
 	connect
 		EnumerationLiteral[0:1] -> Enumeration[*] {
-	umlname = "enumeration";
+			name = "enumeration";
 }
 
 
 //A primitive type defines a predefined data type, without any relevant substructure (i.e., it has no parts in the context of UML). A primitive datatype may have an algebra and operations defined outside of UML, for example, mathematically.
 node class PrimitiveType extends DataType {
-	umlname = "PrimitiveType";
+	uuid = "PrimitiveType";
 }
 
 
 //An association describes a set of tuples whose values refer to typed instances. An instance of an association is called a link.
 node class Association extends Relationship, Classifier {
-	umlname = "Association";
+	uuid = "Association";
 }
 
 edge class isDerived extends CMOFProperty
 	connect
 		Association[1:1] -> Boolean[*],
 		Property[1:1] -> Boolean[*] {
-	umlname = "isDerived";
+			name = "isDerived";
 }
 
 edge class ownedEnd extends CMOFProperty
 	connect
 		Association[0:*] -> Property[*],
 		Extension[1:1] -> ExtensionEnd[*] {
-	umlname = "ownedEnd";
-	isComposite = true;
+			name = "ownedEnd";
 }
 
 edge class endType extends CMOFProperty
 	connect
 		Association[1:*] -> Type[*] {
-	umlname = "endType";
+			name = "endType";
 }
 
 edge class memberEnd extends CMOFProperty
 	connect
 		Association[2:*] -> Property[*] {
-	umlname = "memberEnd";
+			name = "memberEnd";
 }
 
 edge class navigableOwnedEnd extends CMOFProperty
 	connect
 		Association[0:*] -> Property[*] {
-	umlname = "navigableOwnedEnd";
+			name = "navigableOwnedEnd";
 }
 
 
 //Relationship is an abstract concept that specifies some kind of relationship between elements.
-abstract node class Relationship extends Element {
-	umlname = "Relationship";
+node class Relationship extends Element {
+	uuid = "Relationship";
 }
 
 edge class relatedElement extends CMOFProperty
 	connect
 		Relationship[1:*] -> Element[*] {
-	umlname = "relatedElement";
+			name = "relatedElement";
 }
 
 
 //A package merge defines how the contents of one package are extended by the contents of another package.
 node class PackageMerge extends DirectedRelationship {
-	umlname = "PackageMerge";
+	uuid = "PackageMerge";
 }
 
 edge class receivingPackage extends CMOFProperty
 	connect
 		PackageMerge[1:1] -> Package[*] {
-	umlname = "receivingPackage";
+			name = "receivingPackage";
 }
 
 edge class mergedPackage extends CMOFProperty
 	connect
 		PackageMerge[1:1] -> Package[*] {
-	umlname = "mergedPackage";
+			name = "mergedPackage";
 }
 
 
 //An instance value is a value specification that identifies an instance.
 node class InstanceValue extends ValueSpecification {
-	umlname = "InstanceValue";
+	uuid = "InstanceValue";
 }
 
 edge class instance extends CMOFProperty
 	connect
 		InstanceValue[1:1] -> InstanceSpecification[*] {
-	umlname = "instance";
+			name = "instance";
 }
 
 
 //A literal unlimited natural is a specification of an unlimited natural number.
 node class LiteralUnlimitedNatural extends LiteralSpecification {
-	umlname = "LiteralUnlimitedNatural";
+	uuid = "LiteralUnlimitedNatural";
 }
 
 
 //A type is a named element that is used as the type for a typed element. A type can be contained in a package.
-abstract node class Type extends PackageableElement {
-	umlname = "Type";
+node class Type extends PackageableElement {
+	uuid = "Type";
 }
 
 edge class package extends CMOFProperty
 	connect
 		Type[0:1] -> Package[*] {
-	umlname = "package";
+			name = "package";
 }
 
 
 //An expression is a structured tree of symbols that denotes a (possibly empty) set of values when evaluated in a context.
 node class Expression extends ValueSpecification {
-	umlname = "Expression";
+	uuid = "Expression";
 }
 
 edge class symbol extends CMOFProperty
 	connect
 		Expression[0:1] -> String[*] {
-	umlname = "symbol";
+			name = "symbol";
 }
 
 edge class operand extends CMOFProperty
 	connect
 		Expression[0:*] -> ValueSpecification[*],
 		CombinedFragment[1:*] -> InteractionOperand[*] {
-	umlname = "operand";
-	isComposite = true;
+			name = "operand";
 }
 
 
 //An opaque expression is an uninterpreted textual statement that denotes a (possibly empty) set of values when evaluated in a context.
 node class OpaqueExpression extends ValueSpecification {
-	umlname = "OpaqueExpression";
+	uuid = "OpaqueExpression";
 }
 
 edge class language extends CMOFProperty
@@ -780,8 +763,7 @@ edge class language extends CMOFProperty
 		OpaqueExpression[0:*] -> String[*],
 		OpaqueBehavior[0:*] -> String[*],
 		OpaqueAction[0:*] -> String[*] {
-	umlname = "language";
-	isComposite = true;
+			name = "language";
 }
 
 edge class result extends CMOFProperty
@@ -805,8 +787,7 @@ edge class result extends CMOFProperty
 		ReduceAction[1:1] -> OutputPin[*],
 		ConditionalNode[0:*] -> OutputPin[*],
 		LoopNode[0:*] -> OutputPin[*] {
-	umlname = "result";
-	isComposite = true;
+			name = "result";
 }
 
 edge class behavior extends CMOFProperty
@@ -814,58 +795,56 @@ edge class behavior extends CMOFProperty
 		OpaqueExpression[0:1] -> Behavior[*],
 		CallBehaviorAction[1:1] -> Behavior[*],
 		BehaviorExecutionSpecification[0:1] -> Behavior[*] {
-	umlname = "behavior";
+			name = "behavior";
 }
 
 
 //An behavior with implementation-specific semantics.
 node class OpaqueBehavior extends Behavior {
-	umlname = "OpaqueBehavior";
+	uuid = "OpaqueBehavior";
 }
 
 
 //A function behavior is an opaque behavior that does not access or modify any objects or other external data.
 node class FunctionBehavior extends OpaqueBehavior {
-	umlname = "FunctionBehavior";
+	uuid = "FunctionBehavior";
 }
 
 
 //An action with implementation-specific semantics.
 node class OpaqueAction extends Action {
-	umlname = "OpaqueAction";
+	uuid = "OpaqueAction";
 }
 
 edge class inputValue extends CMOFProperty
 	connect
 		OpaqueAction[0:*] -> InputPin[*],
 		LinkAction[1:*] -> InputPin[*] {
-	umlname = "inputValue";
-	isComposite = true;
+			name = "inputValue";
 }
 
 edge class outputValue extends CMOFProperty
 	connect
 		OpaqueAction[0:*] -> OutputPin[*] {
-	umlname = "outputValue";
-	isComposite = true;
+			name = "outputValue";
 }
 
 
 //CallAction is an abstract class for actions that invoke behavior and receive return values.
-abstract node class CallAction extends InvocationAction {
-	umlname = "CallAction";
+node class CallAction extends InvocationAction {
+	uuid = "CallAction";
 }
 
 edge class isSynchronous extends CMOFProperty
 	connect
 		CallAction[1:1] -> Boolean[*] {
-	umlname = "isSynchronous";
+			name = "isSynchronous";
 }
 
 
 //A send signal action is an action that creates a signal instance from its inputs, and transmits it to the target object, where it may cause the firing of a state machine transition or the execution of an activity. The argument values are available to the execution of associated behaviors. The requestor continues execution immediately. Any reply message is ignored and is not transmitted to the requestor. If the input is already a signal instance, use a send object action.
 node class SendSignalAction extends InvocationAction {
-	umlname = "SendSignalAction";
+	uuid = "SendSignalAction";
 }
 
 edge class signal extends CMOFProperty
@@ -876,13 +855,13 @@ edge class signal extends CMOFProperty
 		Reception[0:1] -> Signal[*],
 		SignalEvent[1:1] -> Signal[*],
 		BroadcastSignalAction[1:1] -> Signal[*] {
-	umlname = "signal";
+			name = "signal";
 }
 
 
 //A call operation action is an action that transmits an operation call request to the target object, where it may cause the invocation of associated behavior. The argument values of the action are available to the execution of the invoked behavior. If the action is marked synchronous, the execution of the call operation action waits until the execution of the invoked behavior completes and a reply transmission is returned to the caller; otherwise execution of the action is complete when the invocation of the operation is established and the execution of the invoked operation proceeds concurrently with the execution of the calling behavior. Any values returned as part of the reply transmission are put on the result output pins of the call operation action. Upon receipt of the reply transmission, execution of the call operation action is complete.
 node class CallOperationAction extends CallAction {
-	umlname = "CallOperationAction";
+	uuid = "CallOperationAction";
 }
 
 edge class operation extends CMOFProperty
@@ -892,19 +871,19 @@ edge class operation extends CMOFProperty
 		ReceiveOperationEvent[1:1] -> Operation[*],
 		CallEvent[1:1] -> Operation[*],
 		Parameter[0:1] -> Operation[*] {
-	umlname = "operation";
+			name = "operation";
 }
 
 
 //A call behavior action is a call action that invokes a behavior directly rather than invoking a behavioral feature that, in turn, results in the invocation of that behavior. The argument values of the action are available to the execution of the invoked behavior. For synchronous calls the execution of the call behavior action waits until the execution of the invoked behavior completes and a result is returned on its output pin. The action completes immediately without a result, if the call is asynchronous. In particular, the invoked behavior may be an activity.
 node class CallBehaviorAction extends CallAction {
-	umlname = "CallBehaviorAction";
+	uuid = "CallBehaviorAction";
 }
 
 
 //A multiplicity is a definition of an inclusive interval of non-negative integers beginning with a lower bound and ending with a (possibly infinite) upper bound. A multiplicity element embeds this information to specify the allowable cardinalities for an instantiation of this element.
-abstract node class MultiplicityElement extends Element {
-	umlname = "MultiplicityElement";
+node class MultiplicityElement extends Element {
+	uuid = "MultiplicityElement";
 }
 
 edge class isOrdered extends CMOFProperty
@@ -912,21 +891,21 @@ edge class isOrdered extends CMOFProperty
 		MultiplicityElement[1:1] -> Boolean[*],
 		ReduceAction[1:1] -> Boolean[*],
 		Operation[1:1] -> Boolean[*] {
-	umlname = "isOrdered";
+			name = "isOrdered";
 }
 
 edge class isUnique extends CMOFProperty
 	connect
 		MultiplicityElement[1:1] -> Boolean[*],
 		Operation[1:1] -> Boolean[*] {
-	umlname = "isUnique";
+			name = "isUnique";
 }
 
 edge class upper extends CMOFProperty
 	connect
 		MultiplicityElement[0:1] -> UnlimitedNatural[*],
 		Operation[0:1] -> UnlimitedNatural[*] {
-	umlname = "upper";
+			name = "upper";
 }
 
 edge class lower extends CMOFProperty
@@ -934,95 +913,91 @@ edge class lower extends CMOFProperty
 		MultiplicityElement[0:1] -> Integer[*],
 		ExtensionEnd[0:1] -> Integer[*],
 		Operation[0:1] -> Integer[*] {
-	umlname = "lower";
+			name = "lower";
 }
 
 edge class upperValue extends CMOFProperty
 	connect
 		MultiplicityElement[0:1] -> ValueSpecification[*] {
-	umlname = "upperValue";
-	isComposite = true;
+			name = "upperValue";
 }
 
 edge class lowerValue extends CMOFProperty
 	connect
 		MultiplicityElement[0:1] -> ValueSpecification[*] {
-	umlname = "lowerValue";
-	isComposite = true;
+			name = "lowerValue";
 }
 
 
 //A sequence node is a structured activity node that executes its actions in order.
 node class SequenceNode extends StructuredActivityNode {
-	umlname = "SequenceNode";
+	uuid = "SequenceNode";
 }
 
 edge class executableNode extends CMOFProperty
 	connect
 		SequenceNode[0:*] -> ExecutableNode[*] {
-	umlname = "executableNode";
-	isComposite = true;
+			name = "executableNode";
 }
 
 
 //An input pin is a pin that holds input values to be consumed by an action.
 node class InputPin extends Pin {
-	umlname = "InputPin";
+	uuid = "InputPin";
 }
 
 
 //An output pin is a pin that holds output values produced by an action.
 node class OutputPin extends Pin {
-	umlname = "OutputPin";
+	uuid = "OutputPin";
 }
 
 
 //A usage is a relationship in which one element requires another element (or set of elements) for its full implementation or operation. A usage is a dependency in which the client requires the presence of the supplier.
 node class Usage extends Dependency {
-	umlname = "Usage";
+	uuid = "Usage";
 }
 
 
 //An abstraction is a relationship that relates two elements or sets of elements that represent the same concept at different levels of abstraction or from different viewpoints.
 node class Abstraction extends Dependency {
-	umlname = "Abstraction";
+	uuid = "Abstraction";
 }
 
 edge class mapping extends CMOFProperty
 	connect
 		Abstraction[0:1] -> OpaqueExpression[*] {
-	umlname = "mapping";
-	isComposite = true;
+			name = "mapping";
 }
 
 
 //A dependency is a relationship that signifies that a single or a set of model elements requires other model elements for their specification or implementation. This means that the complete semantics of the depending elements is either semantically or structurally dependent on the definition of the supplier element(s).
 node class Dependency extends DirectedRelationship, PackageableElement {
-	umlname = "Dependency";
+	uuid = "Dependency";
 }
 
 edge class supplier extends CMOFProperty
 	connect
 		Dependency[1:*] -> NamedElement[*] {
-	umlname = "supplier";
+			name = "supplier";
 }
 
 edge class client extends CMOFProperty
 	connect
 		Dependency[1:*] -> NamedElement[*] {
-	umlname = "client";
+			name = "client";
 }
 
 
 //Realization is a specialized abstraction relationship between two sets of model elements, one representing a specification (the supplier) and the other represents an implementation of the latter (the client). Realization can be used to model stepwise refinement, optimizations, transformations, templates, model synthesis, framework composition, etc.
 node class Realization extends Abstraction {
-	umlname = "Realization";
+	uuid = "Realization";
 }
 
 
 //A substitution is a relationship between two classifiers signifies that the substituting classifier complies with the contract specified by the contract classifier. This implies that instances of the substituting classifier are runtime substitutable where instances of the contract classifier are expected.
 node class Substitution extends Realization {
-	umlname = "Substitution";
+	uuid = "Substitution";
 }
 
 edge class contract extends CMOFProperty
@@ -1030,164 +1005,158 @@ edge class contract extends CMOFProperty
 		Substitution[1:1] -> Classifier[*],
 		InterfaceRealization[1:1] -> Interface[*],
 		Connector[0:*] -> Behavior[*] {
-	umlname = "contract";
+			name = "contract";
 }
 
 edge class substitutingClassifier extends CMOFProperty
 	connect
 		Substitution[1:1] -> Classifier[*] {
-	umlname = "substitutingClassifier";
+			name = "substitutingClassifier";
 }
 
 
 //A namespace is an element in a model that contains a set of named elements that can be identified by name.
-abstract node class Namespace extends NamedElement {
-	umlname = "Namespace";
+node class Namespace extends NamedElement {
+	uuid = "Namespace";
 }
 
 edge class elementImport extends CMOFProperty
 	connect
 		Namespace[0:*] -> ElementImport[*] {
-	umlname = "elementImport";
-	isComposite = true;
+			name = "elementImport";
 }
 
 edge class packageImport extends CMOFProperty
 	connect
 		Namespace[0:*] -> PackageImport[*] {
-	umlname = "packageImport";
-	isComposite = true;
+			name = "packageImport";
 }
 
 edge class ownedRule extends CMOFProperty
 	connect
 		Namespace[0:*] -> Constraint[*] {
-	umlname = "ownedRule";
-	isComposite = true;
+			name = "ownedRule";
 }
 
 edge class member extends CMOFProperty
 	connect
 		Namespace[0:*] -> NamedElement[*] {
-	umlname = "member";
+			name = "member";
 }
 
 edge class importedMember extends CMOFProperty
 	connect
 		Namespace[0:*] -> PackageableElement[*] {
-	umlname = "importedMember";
+			name = "importedMember";
 }
 
 edge class ownedMember extends CMOFProperty
 	connect
 		Namespace[0:*] -> NamedElement[*] {
-	umlname = "ownedMember";
-	isComposite = true;
+			name = "ownedMember";
 }
 
 
 //An interface realization is a specialized realization relationship between a classifier and an interface. This relationship signifies that the realizing classifier conforms to the contract specified by the interface.
 node class InterfaceRealization extends Realization {
-	umlname = "InterfaceRealization";
+	uuid = "InterfaceRealization";
 }
 
 edge class implementingClassifier extends CMOFProperty
 	connect
 		InterfaceRealization[1:1] -> BehavioredClassifier[*] {
-	umlname = "implementingClassifier";
+			name = "implementingClassifier";
 }
 
 
 //A structured classifier is an abstract metaclass that represents any classifier whose behavior can be fully or partly described by the collaboration of owned or referenced instances.
-abstract node class StructuredClassifier extends Classifier {
-	umlname = "StructuredClassifier";
+node class StructuredClassifier extends Classifier {
+	uuid = "StructuredClassifier";
 }
 
 edge class part extends CMOFProperty
 	connect
 		StructuredClassifier[0:*] -> Property[*] {
-	umlname = "part";
+			name = "part";
 }
 
 edge class role extends CMOFProperty
 	connect
 		StructuredClassifier[0:*] -> ConnectableElement[*],
 		ConnectorEnd[1:1] -> ConnectableElement[*] {
-	umlname = "role";
+			name = "role";
 }
 
 edge class ownedConnector extends CMOFProperty
 	connect
 		StructuredClassifier[0:*] -> Connector[*] {
-	umlname = "ownedConnector";
-	isComposite = true;
+			name = "ownedConnector";
 }
 
 
 //Variables are elements for passing data between actions indirectly. A local variable stores values shared by the actions within a structured activity group but not accessible outside it. The output of an action may be written to a variable and read for the input to a subsequent action, which is effectively an indirect data flow path. Because there is no predefined relationship between actions that read and write variables, these actions must be sequenced by control flows to prevent race conditions that may occur between actions that read or write the same variable.
 node class Variable extends MultiplicityElement, ConnectableElement {
-	umlname = "Variable";
+	uuid = "Variable";
 }
 
 edge class scope extends CMOFProperty
 	connect
 		Variable[0:1] -> StructuredActivityNode[*] {
-	umlname = "scope";
+			name = "scope";
 }
 
 edge class activityScope extends CMOFProperty
 	connect
 		Variable[0:1] -> Activity[*] {
-	umlname = "activityScope";
+			name = "activityScope";
 }
 
 
 //A collaboration use represents one particular use of a collaboration to explain the relationships between the properties of a classifier. A collaboration use shows how the pattern described by a collaboration is applied in a given context, by binding specific entities from that context to the roles of the collaboration. Depending on the context, these entities could be structural features of a classifier, instance specifications, or even roles in some containing collaboration. There may be multiple occurrences of a given collaboration within a classifier, each involving a different set of roles and connectors. A given role or connector may be involved in multiple occurrences of the same or different collaborations. Associated dependencies map features of the collaboration type to features in the classifier. These dependencies indicate which role in the classifier plays which role in the collaboration.
 node class CollaborationUse extends NamedElement {
-	umlname = "CollaborationUse";
+	uuid = "CollaborationUse";
 }
 
 edge class roleBinding extends CMOFProperty
 	connect
 		CollaborationUse[0:*] -> Dependency[*] {
-	umlname = "roleBinding";
-	isComposite = true;
+			name = "roleBinding";
 }
 
 
 //A collaboration use represents the application of the pattern described by a collaboration to a specific situation involving specific classes or instances playing the roles of the collaboration.
 node class Collaboration extends StructuredClassifier, BehavioredClassifier {
-	umlname = "Collaboration";
+	uuid = "Collaboration";
 }
 
 edge class collaborationRole extends CMOFProperty
 	connect
 		Collaboration[0:*] -> ConnectableElement[*] {
-	umlname = "collaborationRole";
+			name = "collaborationRole";
 }
 
 
 //A control node is an abstract activity node that coordinates flows in an activity.
-abstract node class ControlNode extends ActivityNode {
-	umlname = "ControlNode";
+node class ControlNode extends ActivityNode {
+	uuid = "ControlNode";
 }
 
 
 //A control flow is an edge that starts an activity node after the previous one is finished.
 node class ControlFlow extends ActivityEdge {
-	umlname = "ControlFlow";
+	uuid = "ControlFlow";
 }
 
 
 //An initial node is a control node at which flow starts when the activity is invoked.
 node class InitialNode extends ControlNode {
-	umlname = "InitialNode";
+	uuid = "InitialNode";
 }
 
 
 //An activity parameter node is an object node for inputs and outputs to activities.
 node class ActivityParameterNode extends ObjectNode {
-	umlname = "ActivityParameterNode";
+	uuid = "ActivityParameterNode";
 }
 
 edge class parameter extends CMOFProperty
@@ -1195,56 +1164,56 @@ edge class parameter extends CMOFProperty
 		ActivityParameterNode[1:1] -> Parameter[*],
 		ParameterSet[1:*] -> Parameter[*],
 		TemplateSignature[1:*] -> TemplateParameter[*] {
-	umlname = "parameter";
+			name = "parameter";
 }
 
 
 //A value pin is an input pin that provides a value by evaluating a value specification.
 node class ValuePin extends InputPin {
-	umlname = "ValuePin";
+	uuid = "ValuePin";
 }
 
 
 //A message defines a particular communication between lifelines of an interaction.
 node class Message extends NamedElement {
-	umlname = "Message";
+	uuid = "Message";
 }
 
 edge class messageKind extends CMOFProperty
 	connect
 		Message[1:1] -> MessageKind[*] {
-	umlname = "messageKind";
+			name = "messageKind";
 }
 
 edge class messageSort extends CMOFProperty
 	connect
 		Message[1:1] -> MessageSort[*] {
-	umlname = "messageSort";
+			name = "messageSort";
 }
 
 edge class receiveEvent extends CMOFProperty
 	connect
 		Message[0:1] -> MessageEnd[*] {
-	umlname = "receiveEvent";
+			name = "receiveEvent";
 }
 
 edge class sendEvent extends CMOFProperty
 	connect
 		Message[0:1] -> MessageEnd[*] {
-	umlname = "sendEvent";
+			name = "sendEvent";
 }
 
 edge class connector extends CMOFProperty
 	connect
 		Message[0:1] -> Connector[*] {
-	umlname = "connector";
+			name = "connector";
 }
 
 edge class interaction extends CMOFProperty
 	connect
 		Message[1:1] -> Interaction[*],
 		Lifeline[1:1] -> Interaction[*] {
-	umlname = "interaction";
+			name = "interaction";
 }
 
 edge class argument extends CMOFProperty
@@ -1252,8 +1221,7 @@ edge class argument extends CMOFProperty
 		Message[0:*] -> ValueSpecification[*],
 		InteractionUse[0:*] -> Action[*],
 		InvocationAction[0:*] -> InputPin[*] {
-	umlname = "argument";
-	isComposite = true;
+			name = "argument";
 }
 
 edge class signature extends CMOFProperty
@@ -1261,49 +1229,49 @@ edge class signature extends CMOFProperty
 		Message[0:1] -> NamedElement[*],
 		TemplateParameter[1:1] -> TemplateSignature[*],
 		TemplateBinding[1:1] -> TemplateSignature[*] {
-	umlname = "signature";
+			name = "signature";
 }
 
 
 //A general ordering represents a binary relation between two occurrence specifications, to describe that one occurrence specification must occur before the other in a valid trace. This mechanism provides the ability to define partial orders of occurrence cpecifications that may otherwise not have a specified order.
 node class GeneralOrdering extends NamedElement {
-	umlname = "GeneralOrdering";
+	uuid = "GeneralOrdering";
 }
 
 edge class before extends CMOFProperty
 	connect
 		GeneralOrdering[1:1] -> OccurrenceSpecification[*] {
-	umlname = "before";
+			name = "before";
 }
 
 edge class after extends CMOFProperty
 	connect
 		GeneralOrdering[1:1] -> OccurrenceSpecification[*] {
-	umlname = "after";
+			name = "after";
 }
 
 
 //An execution specification is a specification of the execution of a unit of behavior or action within the lifeline. The duration of an execution specification is represented by two cccurrence specifications, the start occurrence specification and the finish occurrence specification.
-abstract node class ExecutionSpecification extends InteractionFragment {
-	umlname = "ExecutionSpecification";
+node class ExecutionSpecification extends InteractionFragment {
+	uuid = "ExecutionSpecification";
 }
 
 edge class start extends CMOFProperty
 	connect
 		ExecutionSpecification[1:1] -> OccurrenceSpecification[*] {
-	umlname = "start";
+			name = "start";
 }
 
 edge class finish extends CMOFProperty
 	connect
 		ExecutionSpecification[1:1] -> OccurrenceSpecification[*] {
-	umlname = "finish";
+			name = "finish";
 }
 
 
 //An occurrence specification is the basic semantic unit of interactions. The sequences of occurrences specified by them are the meanings of interactions.
 node class OccurrenceSpecification extends InteractionFragment {
-	umlname = "OccurrenceSpecification";
+	uuid = "OccurrenceSpecification";
 }
 
 edge class covered extends CMOFProperty
@@ -1311,19 +1279,19 @@ edge class covered extends CMOFProperty
 		OccurrenceSpecification[1:1] -> Lifeline[*],
 		StateInvariant[1:1] -> Lifeline[*],
 		InteractionFragment[0:*] -> Lifeline[*] {
-	umlname = "covered";
+			name = "covered";
 }
 
 edge class toAfter extends CMOFProperty
 	connect
 		OccurrenceSpecification[0:*] -> GeneralOrdering[*] {
-	umlname = "toAfter";
+			name = "toAfter";
 }
 
 edge class toBefore extends CMOFProperty
 	connect
 		OccurrenceSpecification[0:*] -> GeneralOrdering[*] {
-	umlname = "toBefore";
+			name = "toBefore";
 }
 
 edge class event extends CMOFProperty
@@ -1333,13 +1301,13 @@ edge class event extends CMOFProperty
 		TimeObservation[1:1] -> NamedElement[*],
 		DurationObservation[1:2] -> NamedElement[*],
 		Trigger[1:1] -> Event[*] {
-	umlname = "event";
+			name = "event";
 }
 
 
 //MessageEnd is an abstract specialization of NamedElement that represents what can occur at the end of a message.
-abstract node class MessageEnd extends NamedElement {
-	umlname = "MessageEnd";
+node class MessageEnd extends NamedElement {
+	uuid = "MessageEnd";
 }
 
 edge class message extends CMOFProperty
@@ -1347,327 +1315,317 @@ edge class message extends CMOFProperty
 		MessageEnd[0:1] -> Message[*],
 		Interaction[0:*] -> Message[*],
 		ConsiderIgnoreFragment[0:*] -> NamedElement[*] {
-	umlname = "message";
+			name = "message";
 }
 
 
 //A state invariant is a runtime constraint on the participants of the interaction. It may be used to specify a variety of different kinds of constraints, such as values of attributes or variables, internal or external states, and so on. A state invariant is an interaction fragment and it is placed on a lifeline.
 node class StateInvariant extends InteractionFragment {
-	umlname = "StateInvariant";
+	uuid = "StateInvariant";
 }
 
 edge class invariant extends CMOFProperty
 	connect
 		StateInvariant[1:1] -> Constraint[*] {
-	umlname = "invariant";
-	isComposite = true;
+			name = "invariant";
 }
 
 
 //An action execution specification is a kind of execution specification representing the execution of an action.
 node class ActionExecutionSpecification extends ExecutionSpecification {
-	umlname = "ActionExecutionSpecification";
+	uuid = "ActionExecutionSpecification";
 }
 
 edge class action extends CMOFProperty
 	connect
 		ActionExecutionSpecification[1:1] -> Action[*],
 		Interaction[0:*] -> Action[*] {
-	umlname = "action";
-	isComposite = true;
+			name = "action";
 }
 
 
 //A behavior execution specification is a kind of execution specification representing the execution of a behavior.
 node class BehaviorExecutionSpecification extends ExecutionSpecification {
-	umlname = "BehaviorExecutionSpecification";
+	uuid = "BehaviorExecutionSpecification";
 }
 
 
 //An execution event models the start or finish of an execution occurrence.
 node class ExecutionEvent extends Event {
-	umlname = "ExecutionEvent";
+	uuid = "ExecutionEvent";
 }
 
 
 //A creation event models the creation of an object.
 node class CreationEvent extends Event {
-	umlname = "CreationEvent";
+	uuid = "CreationEvent";
 }
 
 
 //A destruction event models the destruction of an object.
 node class DestructionEvent extends Event {
-	umlname = "DestructionEvent";
+	uuid = "DestructionEvent";
 }
 
 
 //A send operation event models the invocation of an operation call.
 node class SendOperationEvent extends MessageEvent {
-	umlname = "SendOperationEvent";
+	uuid = "SendOperationEvent";
 }
 
 
 //A send signal event models the sending of a signal.
 node class SendSignalEvent extends MessageEvent {
-	umlname = "SendSignalEvent";
+	uuid = "SendSignalEvent";
 }
 
 
 //A message occurrence specification pecifies the occurrence of message events, such as sending and receiving of signals or invoking or receiving of operation calls. A message occurrence specification is a kind of message end. Messages are generated either by synchronous operation calls or asynchronous signal sends. They are received by the execution of corresponding accept event actions.
 node class MessageOccurrenceSpecification extends MessageEnd, OccurrenceSpecification {
-	umlname = "MessageOccurrenceSpecification";
+	uuid = "MessageOccurrenceSpecification";
 }
 
 
 //An execution occurrence specification represents moments in time at which actions or behaviors start or finish.
 node class ExecutionOccurrenceSpecification extends OccurrenceSpecification {
-	umlname = "ExecutionOccurrenceSpecification";
+	uuid = "ExecutionOccurrenceSpecification";
 }
 
 edge class execution extends CMOFProperty
 	connect
 		ExecutionOccurrenceSpecification[1:1] -> ExecutionSpecification[*] {
-	umlname = "execution";
+			name = "execution";
 }
 
 
 //A receive operation event specifies the event of receiving an operation invocation for a particular operation by the target entity.
 node class ReceiveOperationEvent extends MessageEvent {
-	umlname = "ReceiveOperationEvent";
+	uuid = "ReceiveOperationEvent";
 }
 
 
 //A receive signal event specifies the event of receiving a signal by the target entity.
 node class ReceiveSignalEvent extends MessageEvent {
-	umlname = "ReceiveSignalEvent";
+	uuid = "ReceiveSignalEvent";
 }
 
 
 //An actor specifies a role played by a user or any other system that interacts with the subject.
 node class Actor extends BehavioredClassifier {
-	umlname = "Actor";
+	uuid = "Actor";
 }
 
 
 //A relationship from an extending use case to an extended use case that specifies how and when the behavior defined in the extending use case can be inserted into the behavior defined in the extended use case.
 node class Extend extends DirectedRelationship, NamedElement {
-	umlname = "Extend";
+	uuid = "Extend";
 }
 
 edge class extendedCase extends CMOFProperty
 	connect
 		Extend[1:1] -> UseCase[*] {
-	umlname = "extendedCase";
+			name = "extendedCase";
 }
 
 edge class extension extends CMOFProperty
 	connect
 		Extend[1:1] -> UseCase[*],
 		Class[0:*] -> Extension[*] {
-	umlname = "extension";
+			name = "extension";
 }
 
 edge class condition extends CMOFProperty
 	connect
 		Extend[0:1] -> Constraint[*],
 		ParameterSet[0:*] -> Constraint[*] {
-	umlname = "condition";
-	isComposite = true;
+			name = "condition";
 }
 
 edge class extensionLocation extends CMOFProperty
 	connect
 		Extend[1:*] -> ExtensionPoint[*] {
-	umlname = "extensionLocation";
+			name = "extensionLocation";
 }
 
 
 //An include relationship defines that a use case contains the behavior defined in another use case.
 node class Include extends DirectedRelationship, NamedElement {
-	umlname = "Include";
+	uuid = "Include";
 }
 
 edge class includingCase extends CMOFProperty
 	connect
 		Include[1:1] -> UseCase[*] {
-	umlname = "includingCase";
+			name = "includingCase";
 }
 
 edge class addition extends CMOFProperty
 	connect
 		Include[1:1] -> UseCase[*] {
-	umlname = "addition";
+			name = "addition";
 }
 
 
 //A use case is the specification of a set of actions performed by a system, which yields an observable result that is, typically, of value for one or more actors or other stakeholders of the system.
 node class UseCase extends BehavioredClassifier {
-	umlname = "UseCase";
+	uuid = "UseCase";
 }
 
 edge class include_ extends CMOFProperty
 	connect
 		UseCase[0:*] -> Include[*] {
-	umlname = "include_";
-	isComposite = true;
+			name = "include";
 }
 
 edge class extend extends CMOFProperty
 	connect
 		UseCase[0:*] -> Extend[*] {
-	umlname = "extend";
-	isComposite = true;
+			name = "extend";
 }
 
 edge class extensionPoint extends CMOFProperty
 	connect
 		UseCase[0:*] -> ExtensionPoint[*] {
-	umlname = "extensionPoint";
-	isComposite = true;
+			name = "extensionPoint";
 }
 
 edge class subject extends CMOFProperty
 	connect
 		UseCase[0:*] -> Classifier[*] {
-	umlname = "subject";
+			name = "subject";
 }
 
 
 //An extension point identifies a point in the behavior of a use case where that behavior can be extended by the behavior of some other (extending) use case, as specified by an extend relationship.
 node class ExtensionPoint extends RedefinableElement {
-	umlname = "ExtensionPoint";
+	uuid = "ExtensionPoint";
 }
 
 edge class useCase extends CMOFProperty
 	connect
 		ExtensionPoint[1:1] -> UseCase[*],
 		Classifier[0:*] -> UseCase[*] {
-	umlname = "useCase";
+			name = "useCase";
 }
 
 
 //A call event models the receipt by an object of a message invoking a call of an operation.
 node class CallEvent extends MessageEvent {
-	umlname = "CallEvent";
+	uuid = "CallEvent";
 }
 
 
 //A change event models a change in the system configuration that makes a condition true.
 node class ChangeEvent extends Event {
-	umlname = "ChangeEvent";
+	uuid = "ChangeEvent";
 }
 
 edge class changeExpression extends CMOFProperty
 	connect
 		ChangeEvent[1:1] -> ValueSpecification[*] {
-	umlname = "changeExpression";
-	isComposite = true;
+			name = "changeExpression";
 }
 
 
 //A reception is a declaration stating that a classifier is prepared to react to the receipt of a signal. A reception designates a signal and specifies the expected behavioral response. The details of handling a signal are specified by the behavior associated with the reception or the classifier itself.
 node class Reception extends BehavioralFeature {
-	umlname = "Reception";
+	uuid = "Reception";
 }
 
 
 //A signal is a specification of send request instances communicated between objects. The receiving object handles the received request instances as specified by its receptions. The data carried by a send request (which was passed to it by the send invocation occurrence that caused that request) are represented as attributes of the signal. A signal is defined independently of the classifiers handling the signal occurrence.
 node class Signal extends Classifier {
-	umlname = "Signal";
+	uuid = "Signal";
 }
 
 
 //A signal event represents the receipt of an asynchronous signal instance. A signal event may, for example, cause a state machine to trigger a transition.
 node class SignalEvent extends MessageEvent {
-	umlname = "SignalEvent";
+	uuid = "SignalEvent";
 }
 
 
 //A message event specifies the receipt by an object of either a call or a signal.
-abstract node class MessageEvent extends Event {
-	umlname = "MessageEvent";
+node class MessageEvent extends Event {
+	uuid = "MessageEvent";
 }
 
 
 //A transition trigger associated with an any receive event specifies that the transition is to be triggered by the receipt of any message that is not explicitly referenced in another transition from the same vertex.
 node class AnyReceiveEvent extends MessageEvent {
-	umlname = "AnyReceiveEvent";
+	uuid = "AnyReceiveEvent";
 }
 
 
 //A behaviored classifier may have an interface realization.
-abstract node class BehavioredClassifier extends Classifier {
-	umlname = "BehavioredClassifier";
+node class BehavioredClassifier extends Classifier {
+	uuid = "BehavioredClassifier";
 }
 
 edge class ownedBehavior extends CMOFProperty
 	connect
 		BehavioredClassifier[0:*] -> Behavior[*] {
-	umlname = "ownedBehavior";
-	isComposite = true;
+			name = "ownedBehavior";
 }
 
 edge class classifierBehavior extends CMOFProperty
 	connect
 		BehavioredClassifier[0:1] -> Behavior[*] {
-	umlname = "classifierBehavior";
+			name = "classifierBehavior";
 }
 
 edge class interfaceRealization extends CMOFProperty
 	connect
 		BehavioredClassifier[0:*] -> InterfaceRealization[*] {
-	umlname = "interfaceRealization";
-	isComposite = true;
+			name = "interfaceRealization";
 }
 
 edge class ownedTrigger extends CMOFProperty
 	connect
 		BehavioredClassifier[0:*] -> Trigger[*] {
-	umlname = "ownedTrigger";
-	isComposite = true;
+			name = "ownedTrigger";
 }
 
 
 //An event is the specification of some occurrence that may potentially trigger effects by an object.
-abstract node class Event extends PackageableElement {
-	umlname = "Event";
+node class Event extends PackageableElement {
+	uuid = "Event";
 }
 
 
 //A fork node is a control node that splits a flow into multiple concurrent flows.
 node class ForkNode extends ControlNode {
-	umlname = "ForkNode";
+	uuid = "ForkNode";
 }
 
 
 //A flow final node is a final node that terminates a flow.
 node class FlowFinalNode extends FinalNode {
-	umlname = "FlowFinalNode";
+	uuid = "FlowFinalNode";
 }
 
 
 //A central buffer node is an object node for managing flows from multiple sources and destinations.
 node class CentralBufferNode extends ObjectNode {
-	umlname = "CentralBufferNode";
+	uuid = "CentralBufferNode";
 }
 
 
 //An activity partition is a kind of activity group for identifying actions that have some characteristic in common.
 node class ActivityPartition extends NamedElement, ActivityGroup {
-	umlname = "ActivityPartition";
+	uuid = "ActivityPartition";
 }
 
 edge class isDimension extends CMOFProperty
 	connect
 		ActivityPartition[1:1] -> Boolean[*] {
-	umlname = "isDimension";
+			name = "isDimension";
 }
 
 edge class isExternal extends CMOFProperty
 	connect
 		ActivityPartition[1:1] -> Boolean[*] {
-	umlname = "isExternal";
+			name = "isExternal";
 }
 
 edge class edge_ extends CMOFProperty
@@ -1675,8 +1633,7 @@ edge class edge_ extends CMOFProperty
 		ActivityPartition[0:*] -> ActivityEdge[*],
 		Activity[0:*] -> ActivityEdge[*],
 		StructuredActivityNode[0:*] -> ActivityEdge[*] {
-	umlname = "edge_";
-	isComposite = true;
+			name = "edge";
 }
 
 edge class node_ extends CMOFProperty
@@ -1685,119 +1642,116 @@ edge class node_ extends CMOFProperty
 		Activity[0:*] -> ActivityNode[*],
 		InterruptibleActivityRegion[0:*] -> ActivityNode[*],
 		StructuredActivityNode[0:*] -> ActivityNode[*] {
-	umlname = "node_";
-	isComposite = true;
+			name = "node";
 }
 
 edge class subpartition extends CMOFProperty
 	connect
 		ActivityPartition[0:*] -> ActivityPartition[*] {
-	umlname = "subpartition";
-	isComposite = true;
+			name = "subpartition";
 }
 
 edge class superPartition extends CMOFProperty
 	connect
 		ActivityPartition[0:1] -> ActivityPartition[*] {
-	umlname = "superPartition";
+			name = "superPartition";
 }
 
 edge class represents extends CMOFProperty
 	connect
 		ActivityPartition[0:1] -> Element[*],
 		Lifeline[0:1] -> ConnectableElement[*] {
-	umlname = "represents";
+			name = "represents";
 }
 
 
 //A merge node is a control node that brings together multiple alternate flows. It is not used to synchronize concurrent flows but to accept one among several alternate flows.
 node class MergeNode extends ControlNode {
-	umlname = "MergeNode";
+	uuid = "MergeNode";
 }
 
 
 //A decision node is a control node that chooses between outgoing flows.
 node class DecisionNode extends ControlNode {
-	umlname = "DecisionNode";
+	uuid = "DecisionNode";
 }
 
 edge class decisionInput extends CMOFProperty
 	connect
 		DecisionNode[0:1] -> Behavior[*] {
-	umlname = "decisionInput";
+			name = "decisionInput";
 }
 
 
 //A final node is an abstract control node at which a flow in an activity stops.
-abstract node class FinalNode extends ControlNode {
-	umlname = "FinalNode";
+node class FinalNode extends ControlNode {
+	uuid = "FinalNode";
 }
 
 
 //An activity final node is a final node that stops all flows in an activity.
 node class ActivityFinalNode extends FinalNode {
-	umlname = "ActivityFinalNode";
+	uuid = "ActivityFinalNode";
 }
 
 
 //A classifier has the ability to own ports as specific and type checked interaction points.
-abstract node class EncapsulatedClassifier extends StructuredClassifier {
-	umlname = "EncapsulatedClassifier";
+node class EncapsulatedClassifier extends StructuredClassifier {
+	uuid = "EncapsulatedClassifier";
 }
 
 edge class ownedPort extends CMOFProperty
 	connect
 		EncapsulatedClassifier[0:*] -> Port[*] {
-	umlname = "ownedPort";
-	isComposite = true;
+			name = "ownedPort";
 }
 
 
 //A connector end is an endpoint of a connector, which attaches the connector to a connectable element. Each connector end is part of one connector.
 node class ConnectorEnd extends MultiplicityElement {
-	umlname = "ConnectorEnd";
+	uuid = "ConnectorEnd";
 }
 
 edge class definingEnd extends CMOFProperty
 	connect
 		ConnectorEnd[0:1] -> Property[*] {
-	umlname = "definingEnd";
+			name = "definingEnd";
 }
 
 edge class partWithPort extends CMOFProperty
 	connect
 		ConnectorEnd[0:1] -> Property[*] {
-	umlname = "partWithPort";
+			name = "partWithPort";
 }
 
 
 //The realization concept is specialized to (optionally) define the classifiers that realize the contract offered by a component in terms of its provided and required interfaces. The component forms an abstraction from these various classifiers.
 node class ComponentRealization extends Realization {
-	umlname = "ComponentRealization";
+	uuid = "ComponentRealization";
 }
 
 edge class abstraction extends CMOFProperty
 	connect
 		ComponentRealization[0:1] -> Component[*] {
-	umlname = "abstraction";
+			name = "abstraction";
 }
 
 edge class realizingClassifier extends CMOFProperty
 	connect
 		ComponentRealization[1:1] -> Classifier[*] {
-	umlname = "realizingClassifier";
+			name = "realizingClassifier";
 }
 
 
 //Specifies a link that enables communication between two or more instances. This link may be an instance of an association, or it may represent the possibility of the instances being able to communicate because their identities are known by virtue of being passed in as parameters, held in variables or slots, or because the communicating instances are the same instance. The link may be realized by something as simple as a pointer or by something as complex as a network connection. In contrast to associations, which specify links between any instance of the associated classifiers, connectors specify links between instances playing the connected parts only.
 node class Connector extends Feature {
-	umlname = "Connector";
+	uuid = "Connector";
 }
 
 edge class redefinedConnector extends CMOFProperty
 	connect
 		Connector[0:*] -> Connector[*] {
-	umlname = "redefinedConnector";
+			name = "redefinedConnector";
 }
 
 edge class end extends CMOFProperty
@@ -1806,7 +1760,7 @@ edge class end extends CMOFProperty
 		LinkEndData[1:1] -> Property[*],
 		ReadLinkObjectEndAction[1:1] -> Property[*],
 		ConnectableElement[0:*] -> ConnectorEnd[*] {
-	umlname = "end";
+			name = "end";
 }
 
 edge class kind extends CMOFProperty
@@ -1814,81 +1768,80 @@ edge class kind extends CMOFProperty
 		Connector[0:1] -> ConnectorKind[*],
 		Transition[1:1] -> TransitionKind[*],
 		Pseudostate[1:1] -> PseudostateKind[*] {
-	umlname = "kind";
+			name = "kind";
 }
 
 
 //A manifestation is the concrete physical rendering of one or more model elements by an artifact.
 node class Manifestation extends Abstraction {
-	umlname = "Manifestation";
+	uuid = "Manifestation";
 }
 
 edge class utilizedElement extends CMOFProperty
 	connect
 		Manifestation[1:1] -> PackageableElement[*] {
-	umlname = "utilizedElement";
+			name = "utilizedElement";
 }
 
 
 //A node is computational resource upon which artifacts may be deployed for execution. Nodes can be interconnected through communication paths to define network structures.
 node class Node_ extends Class, DeploymentTarget {
-	umlname = "Node_";
+	uuid = "Node";
 }
 
 edge class nestedNode extends CMOFProperty
 	connect
 		Node_[0:*] -> Node_[*] {
-	umlname = "nestedNode";
-	isComposite = true;
+			name = "nestedNode";
 }
 
 
 //A device is a physical computational resource with processing capability upon which artifacts may be deployed for execution. Devices may be complex (i.e., they may consist of other devices).
 node class Device extends Node_ {
-	umlname = "Device";
+	uuid = "Device";
 }
 
 
 //An execution environment is a node that offers an execution environment for specific types of components that are deployed on it in the form of executable artifacts.
 node class ExecutionEnvironment extends Node_ {
-	umlname = "ExecutionEnvironment";
+	uuid = "ExecutionEnvironment";
 }
 
 
 //A deployment target is the location for a deployed artifact.
-abstract node class DeploymentTarget extends NamedElement {
-	umlname = "DeploymentTarget";
+node class DeploymentTarget extends NamedElement {
+	uuid = "DeploymentTarget";
 }
 
 edge class deployment extends CMOFProperty
 	connect
 		DeploymentTarget[0:*] -> Deployment[*],
 		DeploymentSpecification[0:1] -> Deployment[*] {
-	umlname = "deployment";
+			name = "deployment";
 }
 
 edge class deployedElement extends CMOFProperty
 	connect
 		DeploymentTarget[0:*] -> PackageableElement[*] {
-	umlname = "deployedElement";
+			name = "deployedElement";
 }
 
 
 //A deployed artifact is an artifact or artifact instance that has been deployed to a deployment target.
-abstract node class DeployedArtifact extends NamedElement {
-	umlname = "DeployedArtifact";
+node class DeployedArtifact extends NamedElement {
+	uuid = "DeployedArtifact";
 }
 
 
 //A communication path is an association between two deployment targets, through which they are able to exchange signals and messages.
 node class CommunicationPath extends Association {
-	umlname = "CommunicationPath";
+	uuid = "CommunicationPath";
 }
 
 
 //An instance specification is a model element that represents an instance in a modeled system.
 node class InstanceSpecification extends PackageableElement, DeploymentTarget, DeployedArtifact {
-	umlname = "InstanceSpecification";
+	uuid = "InstanceSpecification";
 }
 
 edge class classifier extends CMOFProperty
@@ -1898,71 +1851,67 @@ edge class classifier extends CMOFProperty
 		ReadExtentAction[1:1] -> Classifier[*],
 		ReadIsClassifiedObjectAction[1:1] -> Classifier[*],
 		RedefinableTemplateSignature[1:1] -> Classifier[*] {
-	umlname = "classifier";
+			name = "classifier";
 }
 
 edge class slot extends CMOFProperty
 	connect
 		InstanceSpecification[0:*] -> Slot[*] {
-	umlname = "slot";
-	isComposite = true;
+			name = "slot";
 }
 
 
 //An artifact is the specification of a physical piece of information that is used or produced by a software development process, or by deployment and operation of a system. Examples of artifacts include model files, source files, scripts, and binary executable files, a table in a database system, a development deliverable, or a word-processing document, a mail message.
 node class Artifact extends Classifier, DeployedArtifact {
-	umlname = "Artifact";
+	uuid = "Artifact";
 }
 
 edge class fileName extends CMOFProperty
 	connect
 		Artifact[0:1] -> String[*] {
-	umlname = "fileName";
+			name = "fileName";
 }
 
 edge class nestedArtifact extends CMOFProperty
 	connect
 		Artifact[0:*] -> Artifact[*] {
-	umlname = "nestedArtifact";
-	isComposite = true;
+			name = "nestedArtifact";
 }
 
 edge class manifestation extends CMOFProperty
 	connect
 		Artifact[0:*] -> Manifestation[*] {
-	umlname = "manifestation";
-	isComposite = true;
+			name = "manifestation";
 }
 
 
 //An interaction use refers to an interaction. The interaction use is a shorthand for copying the contents of the referenced interaction where the interaction use is. To be accurate the copying must take into account substituting parameters with arguments and connect the formal gates with the actual ones.
 node class InteractionUse extends InteractionFragment {
-	umlname = "InteractionUse";
+	uuid = "InteractionUse";
 }
 
 edge class refersTo extends CMOFProperty
 	connect
 		InteractionUse[1:1] -> Interaction[*] {
-	umlname = "refersTo";
+			name = "refersTo";
 }
 
 edge class actualGate extends CMOFProperty
 	connect
 		InteractionUse[0:*] -> Gate[*] {
-	umlname = "actualGate";
-	isComposite = true;
+			name = "actualGate";
 }
 
 
 //A part decomposition is a description of the internal interactions of one lifeline relative to an interaction.
 node class PartDecomposition extends InteractionUse {
-	umlname = "PartDecomposition";
+	uuid = "PartDecomposition";
 }
 
 
 //An interaction operand is contained in a combined fragment. An interaction operand represents one operand of the expression given by the enclosing combined fragment.
 node class InteractionOperand extends InteractionFragment, Namespace {
-	umlname = "InteractionOperand";
+	uuid = "InteractionOperand";
 }
 
 edge class guard extends CMOFProperty
@@ -1970,211 +1919,200 @@ edge class guard extends CMOFProperty
 		InteractionOperand[0:1] -> InteractionConstraint[*],
 		Transition[0:1] -> Constraint[*],
 		ActivityEdge[1:1] -> ValueSpecification[*] {
-	umlname = "guard";
-	isComposite = true;
+			name = "guard";
 }
 
 edge class fragment extends CMOFProperty
 	connect
 		InteractionOperand[0:*] -> InteractionFragment[*],
 		Interaction[0:*] -> InteractionFragment[*] {
-	umlname = "fragment";
-	isComposite = true;
+			name = "fragment";
 }
 
 
 //An interaction constraint is a Boolean expression that guards an operand in a combined fragment.
 node class InteractionConstraint extends Constraint {
-	umlname = "InteractionConstraint";
+	uuid = "InteractionConstraint";
 }
 
 edge class minint extends CMOFProperty
 	connect
 		InteractionConstraint[0:1] -> ValueSpecification[*] {
-	umlname = "minint";
-	isComposite = true;
+			name = "minint";
 }
 
 edge class maxint extends CMOFProperty
 	connect
 		InteractionConstraint[0:1] -> ValueSpecification[*] {
-	umlname = "maxint";
-	isComposite = true;
+			name = "maxint";
 }
 
 
 //A gate is a connection point for relating a message outside an interaction fragment with a message inside the interaction fragment.
 node class Gate extends MessageEnd {
-	umlname = "Gate";
+	uuid = "Gate";
 }
 
 
 //A combined fragment defines an expression of interaction fragments. A combined fragment is defined by an interaction operator and corresponding interaction operands. Through the use of combined fragments the user will be able to describe a number of traces in a compact and concise manner.
 node class CombinedFragment extends InteractionFragment {
-	umlname = "CombinedFragment";
+	uuid = "CombinedFragment";
 }
 
 edge class interactionOperator extends CMOFProperty
 	connect
 		CombinedFragment[1:1] -> InteractionOperatorKind[*] {
-	umlname = "interactionOperator";
+			name = "interactionOperator";
 }
 
 edge class cfragmentGate extends CMOFProperty
 	connect
 		CombinedFragment[0:*] -> Gate[*] {
-	umlname = "cfragmentGate";
-	isComposite = true;
+			name = "cfragmentGate";
 }
 
 
 //An interaction is a unit of behavior that focuses on the observable exchange of information between connectable elements.
 node class Interaction extends InteractionFragment, Behavior {
-	umlname = "Interaction";
+	uuid = "Interaction";
 }
 
 edge class lifeline extends CMOFProperty
 	connect
 		Interaction[0:*] -> Lifeline[*] {
-	umlname = "lifeline";
-	isComposite = true;
+			name = "lifeline";
 }
 
 edge class formalGate extends CMOFProperty
 	connect
 		Interaction[0:*] -> Gate[*] {
-	umlname = "formalGate";
-	isComposite = true;
+			name = "formalGate";
 }
 
 
 //A lifeline represents an individual participant in the interaction. While parts and structural features may have multiplicity greater than 1, lifelines represent only one interacting entity.
 node class Lifeline extends NamedElement {
-	umlname = "Lifeline";
+	uuid = "Lifeline";
 }
 
 edge class coveredBy extends CMOFProperty
 	connect
 		Lifeline[0:*] -> InteractionFragment[*] {
-	umlname = "coveredBy";
+			name = "coveredBy";
 }
 
 edge class selector extends CMOFProperty
 	connect
 		Lifeline[0:1] -> ValueSpecification[*] {
-	umlname = "selector";
-	isComposite = true;
+			name = "selector";
 }
 
 edge class decomposedAs extends CMOFProperty
 	connect
 		Lifeline[0:1] -> PartDecomposition[*] {
-	umlname = "decomposedAs";
+			name = "decomposedAs";
 }
 
 
 //A continuation is a syntactic way to define continuations of different branches of an alternative combined fragment. Continuations is intuitively similar to labels representing intermediate points in a flow of control.
 node class Continuation extends InteractionFragment {
-	umlname = "Continuation";
+	uuid = "Continuation";
 }
 
 edge class setting extends CMOFProperty
 	connect
 		Continuation[1:1] -> Boolean[*] {
-	umlname = "setting";
+			name = "setting";
 }
 
 
 //InteractionFragment is an abstract notion of the most general interaction unit. An interaction fragment is a piece of an interaction. Each interaction fragment is conceptually like an interaction by itself.
-abstract node class InteractionFragment extends NamedElement {
-	umlname = "InteractionFragment";
+node class InteractionFragment extends NamedElement {
+	uuid = "InteractionFragment";
 }
 
 edge class generalOrdering extends CMOFProperty
 	connect
 		InteractionFragment[0:*] -> GeneralOrdering[*] {
-	umlname = "generalOrdering";
-	isComposite = true;
+			name = "generalOrdering";
 }
 
 edge class enclosingInteraction extends CMOFProperty
 	connect
 		InteractionFragment[0:1] -> Interaction[*] {
-	umlname = "enclosingInteraction";
+			name = "enclosingInteraction";
 }
 
 edge class enclosingOperand extends CMOFProperty
 	connect
 		InteractionFragment[0:1] -> InteractionOperand[*] {
-	umlname = "enclosingOperand";
+			name = "enclosingOperand";
 }
 
 
 //A consider ignore fragment is a kind of combined fragment that is used for the consider and ignore cases, which require lists of pertinent messages to be specified.
 node class ConsiderIgnoreFragment extends CombinedFragment {
-	umlname = "ConsiderIgnoreFragment";
+	uuid = "ConsiderIgnoreFragment";
 }
 
 
 //A create object action is an action that creates an object that conforms to a statically specified classifier and puts it on an output pin at runtime.
 node class CreateObjectAction extends Action {
-	umlname = "CreateObjectAction";
+	uuid = "CreateObjectAction";
 }
 
 
 //A destroy object action is an action that destroys objects.
 node class DestroyObjectAction extends Action {
-	umlname = "DestroyObjectAction";
+	uuid = "DestroyObjectAction";
 }
 
 edge class isDestroyLinks extends CMOFProperty
 	connect
 		DestroyObjectAction[1:1] -> Boolean[*] {
-	umlname = "isDestroyLinks";
+			name = "isDestroyLinks";
 }
 
 edge class isDestroyOwnedObjects extends CMOFProperty
 	connect
 		DestroyObjectAction[1:1] -> Boolean[*] {
-	umlname = "isDestroyOwnedObjects";
+			name = "isDestroyOwnedObjects";
 }
 
 
 //A test identity action is an action that tests if two values are identical objects.
 node class TestIdentityAction extends Action {
-	umlname = "TestIdentityAction";
+	uuid = "TestIdentityAction";
 }
 
 edge class first extends CMOFProperty
 	connect
 		TestIdentityAction[1:1] -> InputPin[*] {
-	umlname = "first";
-	isComposite = true;
+			name = "first";
 }
 
 edge class second extends CMOFProperty
 	connect
 		TestIdentityAction[1:1] -> InputPin[*] {
-	umlname = "second";
-	isComposite = true;
+			name = "second";
 }
 
 
 //A read self action is an action that retrieves the host object of an action.
 node class ReadSelfAction extends Action {
-	umlname = "ReadSelfAction";
+	uuid = "ReadSelfAction";
 }
 
 
 //StructuralFeatureAction is an abstract class for all structural feature actions.
-abstract node class StructuralFeatureAction extends Action {
-	umlname = "StructuralFeatureAction";
+node class StructuralFeatureAction extends Action {
+	uuid = "StructuralFeatureAction";
 }
 
 edge class structuralFeature extends CMOFProperty
 	connect
 		StructuralFeatureAction[1:1] -> StructuralFeature[*] {
-	umlname = "structuralFeature";
+			name = "structuralFeature";
 }
 
 edge class object_ extends CMOFProperty
@@ -2187,53 +2125,51 @@ edge class object_ extends CMOFProperty
 		ReadLinkObjectEndAction[1:1] -> InputPin[*],
 		ReadLinkObjectEndQualifierAction[1:1] -> InputPin[*],
 		UnmarshallAction[1:1] -> InputPin[*] {
-	umlname = "object_";
-	isComposite = true;
+			name = "object";
 }
 
 
 //A read structural feature action is a structural feature action that retrieves the values of a structural feature.
 node class ReadStructuralFeatureAction extends StructuralFeatureAction {
-	umlname = "ReadStructuralFeatureAction";
+	uuid = "ReadStructuralFeatureAction";
 }
 
 
 //WriteStructuralFeatureAction is an abstract class for structural feature actions that change structural feature values.
-abstract node class WriteStructuralFeatureAction extends StructuralFeatureAction {
-	umlname = "WriteStructuralFeatureAction";
+node class WriteStructuralFeatureAction extends StructuralFeatureAction {
+	uuid = "WriteStructuralFeatureAction";
 }
 
 
 //A clear structural feature action is a structural feature action that removes all values of a structural feature.
 node class ClearStructuralFeatureAction extends StructuralFeatureAction {
-	umlname = "ClearStructuralFeatureAction";
+	uuid = "ClearStructuralFeatureAction";
 }
 
 
 //A remove structural feature value action is a write structural feature action that removes values from structural features.
 node class RemoveStructuralFeatureValueAction extends WriteStructuralFeatureAction {
-	umlname = "RemoveStructuralFeatureValueAction";
+	uuid = "RemoveStructuralFeatureValueAction";
 }
 
 edge class isRemoveDuplicates extends CMOFProperty
 	connect
 		RemoveStructuralFeatureValueAction[1:1] -> Boolean[*],
 		RemoveVariableValueAction[1:1] -> Boolean[*] {
-	umlname = "isRemoveDuplicates";
+			name = "isRemoveDuplicates";
 }
 
 edge class removeAt extends CMOFProperty
 	connect
 		RemoveStructuralFeatureValueAction[0:1] -> InputPin[*],
 		RemoveVariableValueAction[0:1] -> InputPin[*] {
-	umlname = "removeAt";
-	isComposite = true;
+			name = "removeAt";
 }
 
 
 //An add structural feature value action is a write structural feature action for adding values to a structural feature.
 node class AddStructuralFeatureValueAction extends WriteStructuralFeatureAction {
-	umlname = "AddStructuralFeatureValueAction";
+	uuid = "AddStructuralFeatureValueAction";
 }
 
 edge class isReplaceAll extends CMOFProperty
@@ -2242,7 +2178,7 @@ edge class isReplaceAll extends CMOFProperty
 		LinkEndCreationData[1:1] -> Boolean[*],
 		AddVariableValueAction[1:1] -> Boolean[*],
 		ReclassifyObjectAction[1:1] -> Boolean[*] {
-	umlname = "isReplaceAll";
+			name = "isReplaceAll";
 }
 
 edge class insertAt extends CMOFProperty
@@ -2250,14 +2186,13 @@ edge class insertAt extends CMOFProperty
 		AddStructuralFeatureValueAction[0:1] -> InputPin[*],
 		LinkEndCreationData[0:1] -> InputPin[*],
 		AddVariableValueAction[0:1] -> InputPin[*] {
-	umlname = "insertAt";
-	isComposite = true;
+			name = "insertAt";
 }
 
 
 //LinkAction is an abstract class for all link actions that identify their links by the objects at the ends of the links and by the qualifiers at ends of the links.
-abstract node class LinkAction extends Action {
-	umlname = "LinkAction";
+node class LinkAction extends Action {
+	uuid = "LinkAction";
 }
 
 edge class endData extends CMOFProperty
@@ -2265,126 +2200,124 @@ edge class endData extends CMOFProperty
 		LinkAction[2:*] -> LinkEndData[*],
 		CreateLinkAction[2:*] -> LinkEndCreationData[*],
 		DestroyLinkAction[2:*] -> LinkEndDestructionData[*] {
-	umlname = "endData";
-	isComposite = true;
+			name = "endData";
 }
 
 
 //A read link action is a link action that navigates across associations to retrieve objects on one end.
 node class ReadLinkAction extends LinkAction {
-	umlname = "ReadLinkAction";
+	uuid = "ReadLinkAction";
 }
 
 
 //A link end creation data is not an action. It is an element that identifies links. It identifies one end of a link to be created by a create link action.
 node class LinkEndCreationData extends LinkEndData {
-	umlname = "LinkEndCreationData";
+	uuid = "LinkEndCreationData";
 }
 
 
 //A create link action is a write link action for creating links.
 node class CreateLinkAction extends WriteLinkAction {
-	umlname = "CreateLinkAction";
+	uuid = "CreateLinkAction";
 }
 
 
 //A destroy link action is a write link action that destroys links and link objects.
 node class DestroyLinkAction extends WriteLinkAction {
-	umlname = "DestroyLinkAction";
+	uuid = "DestroyLinkAction";
 }
 
 
 //WriteLinkAction is an abstract class for link actions that create and destroy links.
-abstract node class WriteLinkAction extends LinkAction {
-	umlname = "WriteLinkAction";
+node class WriteLinkAction extends LinkAction {
+	uuid = "WriteLinkAction";
 }
 
 
 //A clear association action is an action that destroys all links of an association in which a particular object participates.
 node class ClearAssociationAction extends Action {
-	umlname = "ClearAssociationAction";
+	uuid = "ClearAssociationAction";
 }
 
 edge class association extends CMOFProperty
 	connect
 		ClearAssociationAction[1:1] -> Association[*],
 		Property[0:1] -> Association[*] {
-	umlname = "association";
+			name = "association";
 }
 
 
 //A broadcast signal action is an action that transmits a signal instance to all the potential target objects in the system, which may cause the firing of a state machine transitions or the execution of associated activities of a target object. The argument values are available to the execution of associated behaviors. The requestor continues execution immediately after the signals are sent out. It does not wait for receipt. Any reply messages are ignored and are not transmitted to the requestor.
 node class BroadcastSignalAction extends InvocationAction {
-	umlname = "BroadcastSignalAction";
+	uuid = "BroadcastSignalAction";
 }
 
 
 //A send object action is an action that transmits an object to the target object, where it may invoke behavior such as the firing of state machine transitions or the execution of an activity. The value of the object is available to the execution of invoked behaviors. The requestor continues execution immediately. Any reply message is ignored and is not transmitted to the requestor.
 node class SendObjectAction extends InvocationAction {
-	umlname = "SendObjectAction";
+	uuid = "SendObjectAction";
 }
 
 edge class request extends CMOFProperty
 	connect
 		SendObjectAction[1:1] -> InputPin[*] {
-	umlname = "request";
-	isComposite = true;
+			name = "request";
 }
 
 
 //A link end destruction data is not an action. It is an element that identifies links. It identifies one end of a link to be destroyed by destroy link action.
 node class LinkEndDestructionData extends LinkEndData {
-	umlname = "LinkEndDestructionData";
+	uuid = "LinkEndDestructionData";
 }
 
 edge class isDestroyDuplicates extends CMOFProperty
 	connect
 		LinkEndDestructionData[1:1] -> Boolean[*] {
-	umlname = "isDestroyDuplicates";
+			name = "isDestroyDuplicates";
 }
 
 edge class destroyAt extends CMOFProperty
 	connect
 		LinkEndDestructionData[0:1] -> InputPin[*] {
-	umlname = "destroyAt";
+			name = "destroyAt";
 }
 
 
 //A value specification action is an action that evaluates a value specification.
 node class ValueSpecificationAction extends Action {
-	umlname = "ValueSpecificationAction";
+	uuid = "ValueSpecificationAction";
 }
 
 
 //A time expression defines a value specification that represents a time value.
 node class TimeExpression extends ValueSpecification {
-	umlname = "TimeExpression";
+	uuid = "TimeExpression";
 }
 
 edge class expr extends CMOFProperty
 	connect
 		TimeExpression[0:1] -> ValueSpecification[*],
 		Duration[0:1] -> ValueSpecification[*] {
-	umlname = "expr";
+			name = "expr";
 }
 
 edge class observation extends CMOFProperty
 	connect
 		TimeExpression[0:*] -> Observation[*],
 		Duration[0:*] -> Observation[*] {
-	umlname = "observation";
+			name = "observation";
 }
 
 
 //Duration defines a value specification that specifies the temporal distance between two time instants.
 node class Duration extends ValueSpecification {
-	umlname = "Duration";
+	uuid = "Duration";
 }
 
 
 //A duration interval defines the range between two durations.
 node class DurationInterval extends Interval {
-	umlname = "DurationInterval";
+	uuid = "DurationInterval";
 }
 
 edge class min extends CMOFProperty
@@ -2392,7 +2325,7 @@ edge class min extends CMOFProperty
 		DurationInterval[1:1] -> Duration[*],
 		TimeInterval[1:1] -> TimeExpression[*],
 		Interval[1:1] -> ValueSpecification[*] {
-	umlname = "min";
+			name = "min";
 }
 
 edge class max extends CMOFProperty
@@ -2400,13 +2333,13 @@ edge class max extends CMOFProperty
 		DurationInterval[1:1] -> Duration[*],
 		TimeInterval[1:1] -> TimeExpression[*],
 		Interval[1:1] -> ValueSpecification[*] {
-	umlname = "max";
+			name = "max";
 }
 
 
 //A time constraint is a constraint that refers to a time interval.
 node class TimeConstraint extends IntervalConstraint {
-	umlname = "TimeConstraint";
+	uuid = "TimeConstraint";
 }
 
 edge class firstEvent extends CMOFProperty
@@ -2415,174 +2348,171 @@ edge class firstEvent extends CMOFProperty
 		DurationConstraint[0:2] -> Boolean[*],
 		TimeObservation[1:1] -> Boolean[*],
 		DurationObservation[0:2] -> Boolean[*] {
-	umlname = "firstEvent";
+			name = "firstEvent";
 }
 
 
 //A time interval defines the range between two time expressions.
 node class TimeInterval extends Interval {
-	umlname = "TimeInterval";
+	uuid = "TimeInterval";
 }
 
 
 //A duration constraint is a constraint that refers to a duration interval.
 node class DurationConstraint extends IntervalConstraint {
-	umlname = "DurationConstraint";
+	uuid = "DurationConstraint";
 }
 
 
 //An interval constraint is a constraint that refers to an interval.
 node class IntervalConstraint extends Constraint {
-	umlname = "IntervalConstraint";
+	uuid = "IntervalConstraint";
 }
 
 
 //An interval defines the range between two value specifications.
 node class Interval extends ValueSpecification {
-	umlname = "Interval";
+	uuid = "Interval";
 }
 
 
 //Observation is a superclass of TimeObservation and DurationObservation in order for TimeExpression and Duration to refer to either in a simple way.
-abstract node class Observation extends PackageableElement {
-	umlname = "Observation";
+node class Observation extends PackageableElement {
+	uuid = "Observation";
 }
 
 
 //A time observation is a reference to a time instant during an execution. It points out the element in the model to observe and whether the observation is when this model element is entered or when it is exited.
 node class TimeObservation extends Observation {
-	umlname = "TimeObservation";
+	uuid = "TimeObservation";
 }
 
 
 //A duration observation is a reference to a duration during an execution. It points out the element(s) in the model to observe and whether the observations are when this model element is entered or when it is exited.
 node class DurationObservation extends Observation {
-	umlname = "DurationObservation";
+	uuid = "DurationObservation";
 }
 
 
 //InvocationAction is an abstract class for the various actions that invoke behavior.
-abstract node class InvocationAction extends Action {
-	umlname = "InvocationAction";
+node class InvocationAction extends Action {
+	uuid = "InvocationAction";
 }
 
 edge class onPort extends CMOFProperty
 	connect
 		InvocationAction[0:1] -> Port[*] {
-	umlname = "onPort";
+			name = "onPort";
 }
 
 
 //A trigger relates an event to a behavior that may affect an instance of the classifier.
 node class Trigger extends NamedElement {
-	umlname = "Trigger";
+	uuid = "Trigger";
 }
 
 edge class port extends CMOFProperty
 	connect
 		Trigger[0:*] -> Port[*] {
-	umlname = "port";
+			name = "port";
 }
 
 
 //State machines can be used to express the behavior of part of a system. Behavior is modeled as a traversal of a graph of state nodes interconnected by one or more joined transition arcs that are triggered by the dispatching of series of (event) occurrences. During this traversal, the state machine executes a series of activities associated with various elements of the state machine.
 node class StateMachine extends Behavior {
-	umlname = "StateMachine";
+	uuid = "StateMachine";
 }
 
 edge class region extends CMOFProperty
 	connect
 		StateMachine[1:*] -> Region[*],
 		State[0:*] -> Region[*] {
-	umlname = "region";
-	isComposite = true;
+			name = "region";
 }
 
 edge class connectionPoint extends CMOFProperty
 	connect
 		StateMachine[0:*] -> Pseudostate[*],
 		State[0:*] -> Pseudostate[*] {
-	umlname = "connectionPoint";
-	isComposite = true;
+			name = "connectionPoint";
 }
 
 edge class extendedStateMachine extends CMOFProperty
 	connect
 		StateMachine[0:*] -> StateMachine[*] {
-	umlname = "extendedStateMachine";
+			name = "extendedStateMachine";
 }
 
 edge class submachineState extends CMOFProperty
 	connect
 		StateMachine[0:*] -> State[*] {
-	umlname = "submachineState";
+			name = "submachineState";
 }
 
 
 //A transition is a directed relationship between a source vertex and a target vertex. It may be part of a compound transition, which takes the state machine from one state configuration to another, representing the complete response of the state machine to an occurrence of an event of a particular type.
 node class Transition extends RedefinableElement, Namespace {
-	umlname = "Transition";
+	uuid = "Transition";
 }
 
 edge class container extends CMOFProperty
 	connect
 		Transition[1:1] -> Region[*],
 		Vertex[0:1] -> Region[*] {
-	umlname = "container";
+			name = "container";
 }
 
 edge class redefinedTransition extends CMOFProperty
 	connect
 		Transition[0:1] -> Transition[*] {
-	umlname = "redefinedTransition";
+			name = "redefinedTransition";
 }
 
 edge class effect extends CMOFProperty
 	connect
 		Transition[0:1] -> Behavior[*],
 		Parameter[0:1] -> ParameterEffectKind[*] {
-	umlname = "effect";
+			name = "effect";
 }
 
 edge class trigger extends CMOFProperty
 	connect
 		Transition[0:*] -> Trigger[*],
 		AcceptEventAction[1:*] -> Trigger[*] {
-	umlname = "trigger";
-	isComposite = true;
+			name = "trigger";
 }
 
 
 //A vertex is an abstraction of a node in a state machine graph. In general, it can be the source or destination of any number of transitions.
-abstract node class Vertex extends NamedElement {
-	umlname = "Vertex";
+node class Vertex extends NamedElement {
+	uuid = "Vertex";
 }
 
 edge class outgoing extends CMOFProperty
 	connect
 		Vertex[0:*] -> Transition[*],
 		ActivityNode[0:*] -> ActivityEdge[*] {
-	umlname = "outgoing";
+			name = "outgoing";
 }
 
 edge class incoming extends CMOFProperty
 	connect
 		Vertex[0:*] -> Transition[*],
 		ActivityNode[0:*] -> ActivityEdge[*] {
-	umlname = "incoming";
+			name = "incoming";
 }
 
 
 //A pseudostate is an abstraction that encompasses different types of transient vertices in the state machine graph.
 node class Pseudostate extends Vertex {
-	umlname = "Pseudostate";
+	uuid = "Pseudostate";
 }
 
 edge class stateMachine extends CMOFProperty
 	connect
 		Pseudostate[0:1] -> StateMachine[*],
 		Region[0:1] -> StateMachine[*] {
-	umlname = "stateMachine";
+			name = "stateMachine";
 }
 
 edge class state extends CMOFProperty
@@ -2590,100 +2520,93 @@ edge class state extends CMOFProperty
 		Pseudostate[0:1] -> State[*],
 		ConnectionPointReference[0:1] -> State[*],
 		Region[0:1] -> State[*] {
-	umlname = "state";
+			name = "state";
 }
 
 
 //A special kind of state signifying that the enclosing region is completed. If the enclosing region is directly contained in a state machine and all other regions in the state machine also are completed, then it means that the entire state machine is completed.
 node class FinalState extends State {
-	umlname = "FinalState";
+	uuid = "FinalState";
 }
 
 
 //A connection point reference represents a usage (as part of a submachine state) of an entry/exit point defined in the statemachine reference by the submachine state.
 node class ConnectionPointReference extends Vertex {
-	umlname = "ConnectionPointReference";
+	uuid = "ConnectionPointReference";
 }
 
 edge class entry extends CMOFProperty
 	connect
 		ConnectionPointReference[0:*] -> Pseudostate[*],
 		State[0:1] -> Behavior[*] {
-	umlname = "entry";
-	isComposite = true;
+			name = "entry";
 }
 
 edge class exit extends CMOFProperty
 	connect
 		ConnectionPointReference[0:*] -> Pseudostate[*],
 		State[0:1] -> Behavior[*] {
-	umlname = "exit";
-	isComposite = true;
+			name = "exit";
 }
 
 
 //A time event specifies a point in time. At the specified time, the event occurs.
 node class TimeEvent extends Event {
-	umlname = "TimeEvent";
+	uuid = "TimeEvent";
 }
 
 edge class isRelative extends CMOFProperty
 	connect
 		TimeEvent[1:1] -> Boolean[*] {
-	umlname = "isRelative";
+			name = "isRelative";
 }
 
 edge class when extends CMOFProperty
 	connect
 		TimeEvent[1:1] -> ValueSpecification[*] {
-	umlname = "when";
-	isComposite = true;
+			name = "when";
 }
 
 
 //A stereotype defines how an existing metaclass may be extended, and enables the use of platform or domain specific terminology or notation in place of, or in addition to, the ones used for the extended metaclass.
 node class Stereotype extends Class {
-	umlname = "Stereotype";
+	uuid = "Stereotype";
 }
 
 edge class icon extends CMOFProperty
 	connect
 		Stereotype[0:*] -> Image[*] {
-	umlname = "icon";
-	isComposite = true;
+			name = "icon";
 }
 
 
 //A profile defines limited extensions to a reference metamodel with the purpose of adapting the metamodel to a specific platform or domain.
 node class Profile extends Package {
-	umlname = "Profile";
+	uuid = "Profile";
 }
 
 edge class ownedStereotype extends CMOFProperty
 	connect
 		Profile[0:*] -> Stereotype[*] {
-	umlname = "ownedStereotype";
-	isComposite = true;
+			name = "ownedStereotype";
 }
 
 edge class metaclassReference extends CMOFProperty
 	connect
 		Profile[0:*] -> ElementImport[*] {
-	umlname = "metaclassReference";
-	isComposite = true;
+			name = "metaclassReference";
 }
 
 edge class metamodelReference extends CMOFProperty
 	connect
 		Profile[0:*] -> PackageImport[*] {
-	umlname = "metamodelReference";
-	isComposite = true;
+			name = "metamodelReference";
 }
 
 
 //A class describes a set of objects that share the same specifications of features, constraints, and semantics.
 node class Class extends BehavioredClassifier, EncapsulatedClassifier {
-	umlname = "Class";
+	uuid = "Class";
 }
 
 edge class isAbstract extends CMOFProperty
@@ -2691,140 +2614,136 @@ edge class isAbstract extends CMOFProperty
 		Class[1:1] -> Boolean[*],
 		BehavioralFeature[1:1] -> Boolean[*],
 		Classifier[1:1] -> Boolean[*] {
-	umlname = "isAbstract";
+			name = "isAbstract";
 }
 
 edge class nestedClassifier extends CMOFProperty
 	connect
 		Class[0:*] -> Classifier[*],
 		Interface[0:*] -> Classifier[*] {
-	umlname = "nestedClassifier";
-	isComposite = true;
+			name = "nestedClassifier";
 }
 
 edge class superClass extends CMOFProperty
 	connect
 		Class[0:*] -> Class[*] {
-	umlname = "superClass";
+			name = "superClass";
 }
 
 edge class isActive extends CMOFProperty
 	connect
 		Class[1:1] -> Boolean[*] {
-	umlname = "isActive";
+			name = "isActive";
 }
 
 edge class ownedReception extends CMOFProperty
 	connect
 		Class[0:*] -> Reception[*],
 		Interface[0:*] -> Reception[*] {
-	umlname = "ownedReception";
-	isComposite = true;
+			name = "ownedReception";
 }
 
 
 //A profile application is used to show which profiles have been applied to a package.
 node class ProfileApplication extends DirectedRelationship {
-	umlname = "ProfileApplication";
+	uuid = "ProfileApplication";
 }
 
 edge class appliedProfile extends CMOFProperty
 	connect
 		ProfileApplication[1:1] -> Profile[*] {
-	umlname = "appliedProfile";
+			name = "appliedProfile";
 }
 
 edge class isStrict extends CMOFProperty
 	connect
 		ProfileApplication[1:1] -> Boolean[*] {
-	umlname = "isStrict";
+			name = "isStrict";
 }
 
 edge class applyingPackage extends CMOFProperty
 	connect
 		ProfileApplication[1:1] -> Package[*] {
-	umlname = "applyingPackage";
+			name = "applyingPackage";
 }
 
 
 //An extension is used to indicate that the properties of a metaclass are extended through a stereotype, and gives the ability to flexibly add (and later remove) stereotypes to classes.
 node class Extension extends Association {
-	umlname = "Extension";
+	uuid = "Extension";
 }
 
 edge class isRequired extends CMOFProperty
 	connect
 		Extension[1:1] -> Boolean[*] {
-	umlname = "isRequired";
+			name = "isRequired";
 }
 
 edge class metaclass extends CMOFProperty
 	connect
 		Extension[1:1] -> Class[*] {
-	umlname = "metaclass";
+			name = "metaclass";
 }
 
 
 //Physical definition of a graphical image.
 node class Image extends Element {
-	umlname = "Image";
+	uuid = "Image";
 }
 
 edge class content extends CMOFProperty
 	connect
 		Image[0:1] -> String[*] {
-	umlname = "content";
+			name = "content";
 }
 
 edge class location extends CMOFProperty
 	connect
 		Image[0:1] -> String[*],
 		Deployment[1:1] -> DeploymentTarget[*] {
-	umlname = "location";
+			name = "location";
 }
 
 edge class format extends CMOFProperty
 	connect
 		Image[0:1] -> String[*] {
-	umlname = "format";
+			name = "format";
 }
 
 
 //An element is a constituent of a model. As such, it has the capability of owning other elements.
-abstract node class Element extends CMOFClass {
-	umlname = "Element";
+node class Element extends CMOFClass {
+	uuid = "Element";
 }
 
 edge class ownedElement extends CMOFProperty
 	connect
 		Element[0:*] -> Element[*] {
-	umlname = "ownedElement";
-	isComposite = true;
+			name = "ownedElement";
 }
 
 edge class owner extends CMOFProperty
 	connect
 		Element[0:1] -> Element[*] {
-	umlname = "owner";
+			name = "owner";
 }
 
 edge class ownedComment extends CMOFProperty
 	connect
 		Element[0:*] -> Comment[*] {
-	umlname = "ownedComment";
-	isComposite = true;
+			name = "ownedComment";
 }
 
 
 //An extension end is used to tie an extension to a stereotype when extending a metaclass.
 node class ExtensionEnd extends Property {
-	umlname = "ExtensionEnd";
+	uuid = "ExtensionEnd";
 }
 
 
 //VariableAction is an abstract class for actions that operate on a statically specified variable.
-abstract node class VariableAction extends Action {
-	umlname = "VariableAction";
+node class VariableAction extends Action {
+	uuid = "VariableAction";
 }
 
 edge class variable extends CMOFProperty
@@ -2832,249 +2751,244 @@ edge class variable extends CMOFProperty
 		VariableAction[1:1] -> Variable[*],
 		Activity[0:*] -> Variable[*],
 		StructuredActivityNode[0:*] -> Variable[*] {
-	umlname = "variable";
-	isComposite = true;
+			name = "variable";
 }
 
 
 //A read variable action is a variable action that retrieves the values of a variable.
 node class ReadVariableAction extends VariableAction {
-	umlname = "ReadVariableAction";
+	uuid = "ReadVariableAction";
 }
 
 
 //WriteVariableAction is an abstract class for variable actions that change variable values.
-abstract node class WriteVariableAction extends VariableAction {
-	umlname = "WriteVariableAction";
+node class WriteVariableAction extends VariableAction {
+	uuid = "WriteVariableAction";
 }
 
 
 //A clear variable action is a variable action that removes all values of a variable.
 node class ClearVariableAction extends VariableAction {
-	umlname = "ClearVariableAction";
+	uuid = "ClearVariableAction";
 }
 
 
 //An add variable value action is a write variable action for adding values to a variable.
 node class AddVariableValueAction extends WriteVariableAction {
-	umlname = "AddVariableValueAction";
+	uuid = "AddVariableValueAction";
 }
 
 
 //A remove variable value action is a write variable action that removes values from variables.
 node class RemoveVariableValueAction extends WriteVariableAction {
-	umlname = "RemoveVariableValueAction";
+	uuid = "RemoveVariableValueAction";
 }
 
 
 //A raise exception action is an action that causes an exception to occur. The input value becomes the exception object.
 node class RaiseExceptionAction extends Action {
-	umlname = "RaiseExceptionAction";
+	uuid = "RaiseExceptionAction";
 }
 
 edge class exception extends CMOFProperty
 	connect
 		RaiseExceptionAction[1:1] -> InputPin[*] {
-	umlname = "exception";
-	isComposite = true;
+			name = "exception";
 }
 
 
 //An action input pin is a kind of pin that executes an action to determine the values to input to another.
 node class ActionInputPin extends InputPin {
-	umlname = "ActionInputPin";
+	uuid = "ActionInputPin";
 }
 
 edge class fromAction extends CMOFProperty
 	connect
 		ActionInputPin[1:1] -> Action[*] {
-	umlname = "fromAction";
-	isComposite = true;
+			name = "fromAction";
 }
 
 
 //A generalization set is a packageable element whose instances define collections of subsets of generalization relationships.
 node class GeneralizationSet extends PackageableElement {
-	umlname = "GeneralizationSet";
+	uuid = "GeneralizationSet";
 }
 
 edge class isCovering extends CMOFProperty
 	connect
 		GeneralizationSet[1:1] -> Boolean[*] {
-	umlname = "isCovering";
+			name = "isCovering";
 }
 
 edge class isDisjoint extends CMOFProperty
 	connect
 		GeneralizationSet[1:1] -> Boolean[*] {
-	umlname = "isDisjoint";
+			name = "isDisjoint";
 }
 
 edge class powertype extends CMOFProperty
 	connect
 		GeneralizationSet[0:1] -> Classifier[*] {
-	umlname = "powertype";
+			name = "powertype";
 }
 
 edge class generalization extends CMOFProperty
 	connect
 		GeneralizationSet[0:*] -> Generalization[*],
 		Classifier[0:*] -> Generalization[*] {
-	umlname = "generalization";
-	isComposite = true;
+			name = "generalization";
 }
 
 
 //A generalization is a taxonomic relationship between a more general classifier and a more specific classifier. Each instance of the specific classifier is also an indirect instance of the general classifier. Thus, the specific classifier inherits the features of the more general classifier.
 node class Generalization extends DirectedRelationship {
-	umlname = "Generalization";
+	uuid = "Generalization";
 }
 
 edge class isSubstitutable extends CMOFProperty
 	connect
 		Generalization[0:1] -> Boolean[*] {
-	umlname = "isSubstitutable";
+			name = "isSubstitutable";
 }
 
 edge class specific extends CMOFProperty
 	connect
 		Generalization[1:1] -> Classifier[*] {
-	umlname = "specific";
+			name = "specific";
 }
 
 edge class general extends CMOFProperty
 	connect
 		Generalization[1:1] -> Classifier[*],
 		Classifier[0:*] -> Classifier[*] {
-	umlname = "general";
+			name = "general";
 }
 
 edge class generalizationSet extends CMOFProperty
 	connect
 		Generalization[0:*] -> GeneralizationSet[*] {
-	umlname = "generalizationSet";
+			name = "generalizationSet";
 }
 
 
 //An information item is an abstraction of all kinds of information that can be exchanged between objects. It is a kind of classifier intended for representing information in a very abstract way, one which cannot be instantiated.
 node class InformationItem extends Classifier {
-	umlname = "InformationItem";
+	uuid = "InformationItem";
 }
 
 edge class represented extends CMOFProperty
 	connect
 		InformationItem[0:*] -> Classifier[*] {
-	umlname = "represented";
+			name = "represented";
 }
 
 
 //An information flow specifies that one or more information items circulates from its sources to its targets. Information flows require some kind of information channel for transmitting information items from the source to the destination. An information channel is represented in various ways depending on the nature of its sources and targets. It may be represented by connectors, links, associations, or even dependencies. For example, if the source and destination are parts in some composite structure such as a collaboration, then the information channel is likely to be represented by a connector between them. Or, if the source and target are objects (which are a kind of instance specification), they may be represented by a link that joins the two, and so on.
 node class InformationFlow extends DirectedRelationship, PackageableElement {
-	umlname = "InformationFlow";
+	uuid = "InformationFlow";
 }
 
 edge class realization extends CMOFProperty
 	connect
 		InformationFlow[0:*] -> Relationship[*],
 		Component[0:*] -> ComponentRealization[*] {
-	umlname = "realization";
-	isComposite = true;
+			name = "realization";
 }
 
 edge class conveyed extends CMOFProperty
 	connect
 		InformationFlow[1:*] -> Classifier[*] {
-	umlname = "conveyed";
+			name = "conveyed";
 }
 
 edge class informationSource extends CMOFProperty
 	connect
 		InformationFlow[1:*] -> NamedElement[*] {
-	umlname = "informationSource";
+			name = "informationSource";
 }
 
 edge class informationTarget extends CMOFProperty
 	connect
 		InformationFlow[1:*] -> NamedElement[*] {
-	umlname = "informationTarget";
+			name = "informationTarget";
 }
 
 edge class realizingActivityEdge extends CMOFProperty
 	connect
 		InformationFlow[0:*] -> ActivityEdge[*] {
-	umlname = "realizingActivityEdge";
+			name = "realizingActivityEdge";
 }
 
 edge class realizingConnector extends CMOFProperty
 	connect
 		InformationFlow[0:*] -> Connector[*] {
-	umlname = "realizingConnector";
+			name = "realizingConnector";
 }
 
 edge class realizingMessage extends CMOFProperty
 	connect
 		InformationFlow[0:*] -> Message[*] {
-	umlname = "realizingMessage";
+			name = "realizingMessage";
 }
 
 
 //A model captures a view of a physical system. It is an abstraction of the physical system, with a certain purpose. This purpose determines what is to be included in the model and what is irrelevant. Thus the model completely describes those aspects of the physical system that are relevant to the purpose of the model, at the appropriate level of detail.
 node class Model extends Package {
-	umlname = "Model";
+	uuid = "Model";
 }
 
 edge class viewpoint extends CMOFProperty
 	connect
 		Model[0:1] -> String[*] {
-	umlname = "viewpoint";
+			name = "viewpoint";
 }
 
 
 //A read extent action is an action that retrieves the current instances of a classifier.
 node class ReadExtentAction extends Action {
-	umlname = "ReadExtentAction";
+	uuid = "ReadExtentAction";
 }
 
 
 //A reclassify object action is an action that changes which classifiers classify an object.
 node class ReclassifyObjectAction extends Action {
-	umlname = "ReclassifyObjectAction";
+	uuid = "ReclassifyObjectAction";
 }
 
 edge class oldClassifier extends CMOFProperty
 	connect
 		ReclassifyObjectAction[0:*] -> Classifier[*] {
-	umlname = "oldClassifier";
+			name = "oldClassifier";
 }
 
 edge class newClassifier extends CMOFProperty
 	connect
 		ReclassifyObjectAction[0:*] -> Classifier[*] {
-	umlname = "newClassifier";
+			name = "newClassifier";
 }
 
 
 //A read is classified object action is an action that determines whether a runtime object is classified by a given classifier.
 node class ReadIsClassifiedObjectAction extends Action {
-	umlname = "ReadIsClassifiedObjectAction";
+	uuid = "ReadIsClassifiedObjectAction";
 }
 
 edge class isDirect extends CMOFProperty
 	connect
 		ReadIsClassifiedObjectAction[1:1] -> Boolean[*] {
-	umlname = "isDirect";
+			name = "isDirect";
 }
 
 
 //A start classifier behavior action is an action that starts the classifier behavior of the input.
 node class StartClassifierBehaviorAction extends Action {
-	umlname = "StartClassifierBehaviorAction";
+	uuid = "StartClassifierBehaviorAction";
 }
 
 
 //A qualifier value is not an action. It is an element that identifies links. It gives a single qualifier within a link end data specification.
 node class QualifierValue extends Element {
-	umlname = "QualifierValue";
+	uuid = "QualifierValue";
 }
 
 edge class qualifier extends CMOFProperty
@@ -3083,245 +2997,237 @@ edge class qualifier extends CMOFProperty
 		LinkEndData[0:*] -> QualifierValue[*],
 		ReadLinkObjectEndQualifierAction[1:1] -> Property[*],
 		Property[0:*] -> Property[*] {
-	umlname = "qualifier";
-	isComposite = true;
+			name = "qualifier";
 }
 
 
 //A link end data is not an action. It is an element that identifies links. It identifies one end of a link to be read or written by the children of a link action. A link cannot be passed as a runtime value to or from an action. Instead, a link is identified by its end objects and qualifier values, if any. This requires more than one piece of data, namely, the statically-specified end in the user model, the object on the end, and the qualifier values for that end, if any. These pieces are brought together around a link end data. Each association end is identified separately with an instance of the LinkEndData class.
 node class LinkEndData extends Element {
-	umlname = "LinkEndData";
+	uuid = "LinkEndData";
 }
 
 
 //A read link object end action is an action that retrieves an end object from a link object.
 node class ReadLinkObjectEndAction extends Action {
-	umlname = "ReadLinkObjectEndAction";
+	uuid = "ReadLinkObjectEndAction";
 }
 
 
 //A read link object end qualifier action is an action that retrieves a qualifier end value from a link object.
 node class ReadLinkObjectEndQualifierAction extends Action {
-	umlname = "ReadLinkObjectEndQualifierAction";
+	uuid = "ReadLinkObjectEndQualifierAction";
 }
 
 
 //A create link object action creates a link object.
 node class CreateLinkObjectAction extends CreateLinkAction {
-	umlname = "CreateLinkObjectAction";
+	uuid = "CreateLinkObjectAction";
 }
 
 
 //A accept event action is an action that waits for the occurrence of an event meeting specified conditions.
 node class AcceptEventAction extends Action {
-	umlname = "AcceptEventAction";
+	uuid = "AcceptEventAction";
 }
 
 edge class isUnmarshall extends CMOFProperty
 	connect
 		AcceptEventAction[1:1] -> Boolean[*] {
-	umlname = "isUnmarshall";
+			name = "isUnmarshall";
 }
 
 
 //An accept call action is an accept event action representing the receipt of a synchronous call request. In addition to the normal operation parameters, the action produces an output that is needed later to supply the information to the reply action necessary to return control to the caller. This action is for synchronous calls. If it is used to handle an asynchronous call, execution of the subsequent reply action will complete immediately with no effects.
 node class AcceptCallAction extends AcceptEventAction {
-	umlname = "AcceptCallAction";
+	uuid = "AcceptCallAction";
 }
 
 edge class returnInformation extends CMOFProperty
 	connect
 		AcceptCallAction[1:1] -> OutputPin[*],
 		ReplyAction[1:1] -> InputPin[*] {
-	umlname = "returnInformation";
-	isComposite = true;
+			name = "returnInformation";
 }
 
 
 //A reply action is an action that accepts a set of return values and a value containing return information produced by a previous accept call action. The reply action returns the values to the caller of the previous call, completing execution of the call.
 node class ReplyAction extends Action {
-	umlname = "ReplyAction";
+	uuid = "ReplyAction";
 }
 
 edge class replyToCall extends CMOFProperty
 	connect
 		ReplyAction[1:1] -> Trigger[*] {
-	umlname = "replyToCall";
+			name = "replyToCall";
 }
 
 edge class replyValue extends CMOFProperty
 	connect
 		ReplyAction[0:*] -> InputPin[*] {
-	umlname = "replyValue";
-	isComposite = true;
+			name = "replyValue";
 }
 
 
 //An unmarshall action is an action that breaks an object of a known type into outputs each of which is equal to a value from a structural feature of the object.
 node class UnmarshallAction extends Action {
-	umlname = "UnmarshallAction";
+	uuid = "UnmarshallAction";
 }
 
 edge class unmarshallType extends CMOFProperty
 	connect
 		UnmarshallAction[1:1] -> Classifier[*] {
-	umlname = "unmarshallType";
+			name = "unmarshallType";
 }
 
 
 //A reduce action is an action that reduces a collection to a single value by combining the elements of the collection.
 node class ReduceAction extends Action {
-	umlname = "ReduceAction";
+	uuid = "ReduceAction";
 }
 
 edge class reducer extends CMOFProperty
 	connect
 		ReduceAction[1:1] -> Behavior[*] {
-	umlname = "reducer";
+			name = "reducer";
 }
 
 edge class collection extends CMOFProperty
 	connect
 		ReduceAction[1:1] -> InputPin[*] {
-	umlname = "collection";
-	isComposite = true;
+			name = "collection";
 }
 
 
 //A join node is a control node that synchronizes multiple flows.
 node class JoinNode extends ControlNode {
-	umlname = "JoinNode";
+	uuid = "JoinNode";
 }
 
 edge class isCombineDuplicate extends CMOFProperty
 	connect
 		JoinNode[1:1] -> Boolean[*] {
-	umlname = "isCombineDuplicate";
+			name = "isCombineDuplicate";
 }
 
 edge class joinSpec extends CMOFProperty
 	connect
 		JoinNode[1:1] -> ValueSpecification[*] {
-	umlname = "joinSpec";
-	isComposite = true;
+			name = "joinSpec";
 }
 
 
 //A data store node is a central buffer node for non-transient information.
 node class DataStoreNode extends CentralBufferNode {
-	umlname = "DataStoreNode";
+	uuid = "DataStoreNode";
 }
 
 
 //An object flow is an activity edge that can have objects or data passing along it.
 node class ObjectFlow extends ActivityEdge {
-	umlname = "ObjectFlow";
+	uuid = "ObjectFlow";
 }
 
 edge class isMulticast extends CMOFProperty
 	connect
 		ObjectFlow[1:1] -> Boolean[*] {
-	umlname = "isMulticast";
+			name = "isMulticast";
 }
 
 edge class isMultireceive extends CMOFProperty
 	connect
 		ObjectFlow[1:1] -> Boolean[*] {
-	umlname = "isMultireceive";
+			name = "isMultireceive";
 }
 
 edge class transformation extends CMOFProperty
 	connect
 		ObjectFlow[0:1] -> Behavior[*] {
-	umlname = "transformation";
+			name = "transformation";
 }
 
 edge class selection extends CMOFProperty
 	connect
 		ObjectFlow[0:1] -> Behavior[*],
 		ObjectNode[0:1] -> Behavior[*] {
-	umlname = "selection";
+			name = "selection";
 }
 
 
 //An object node is an abstract activity node that is part of defining object flow in an activity.
-abstract node class ObjectNode extends ActivityNode, TypedElement {
-	umlname = "ObjectNode";
+node class ObjectNode extends ActivityNode, TypedElement {
+	uuid = "ObjectNode";
 }
 
 edge class ordering extends CMOFProperty
 	connect
 		ObjectNode[1:1] -> ObjectNodeOrderingKind[*] {
-	umlname = "ordering";
+			name = "ordering";
 }
 
 edge class isControlType extends CMOFProperty
 	connect
 		ObjectNode[1:1] -> Boolean[*] {
-	umlname = "isControlType";
+			name = "isControlType";
 }
 
 edge class upperBound extends CMOFProperty
 	connect
 		ObjectNode[1:1] -> ValueSpecification[*] {
-	umlname = "upperBound";
-	isComposite = true;
+			name = "upperBound";
 }
 
 edge class inState extends CMOFProperty
 	connect
 		ObjectNode[0:*] -> State[*] {
-	umlname = "inState";
+			name = "inState";
 }
 
 
 //A parameter set is an element that provides alternative sets of inputs or outputs that a behavior may use.
 node class ParameterSet extends NamedElement {
-	umlname = "ParameterSet";
+	uuid = "ParameterSet";
 }
 
 
 //An activity is the specification of parameterized behavior as the coordinated sequencing of subordinate units whose individual elements are actions.
 node class Activity extends Behavior {
-	umlname = "Activity";
+	uuid = "Activity";
 }
 
 edge class structuredNode extends CMOFProperty
 	connect
 		Activity[0:*] -> StructuredActivityNode[*] {
-	umlname = "structuredNode";
-	isComposite = true;
+			name = "structuredNode";
 }
 
 edge class partition extends CMOFProperty
 	connect
 		Activity[0:*] -> ActivityPartition[*] {
-	umlname = "partition";
+			name = "partition";
 }
 
 edge class group extends CMOFProperty
 	connect
 		Activity[0:*] -> ActivityGroup[*] {
-	umlname = "group";
-	isComposite = true;
+			name = "group";
 }
 
 edge class isSingleExecution extends CMOFProperty
 	connect
 		Activity[1:1] -> Boolean[*] {
-	umlname = "isSingleExecution";
+			name = "isSingleExecution";
 }
 
 
 //A parameter is a specification of an argument used to pass information into or out of an invocation of a behavioral feature.
 node class Parameter extends MultiplicityElement, ConnectableElement {
-	umlname = "Parameter";
+	uuid = "Parameter";
 }
 
 edge class direction extends CMOFProperty
 	connect
 		Parameter[1:1] -> ParameterDirectionKind[*] {
-	umlname = "direction";
+			name = "direction";
 }
 
 edge class default extends CMOFProperty
@@ -3329,92 +3235,87 @@ edge class default extends CMOFProperty
 		Parameter[0:1] -> String[*],
 		TemplateParameter[0:1] -> ParameterableElement[*],
 		Property[0:1] -> String[*] {
-	umlname = "default";
+			name = "default";
 }
 
 edge class defaultValue extends CMOFProperty
 	connect
 		Parameter[0:1] -> ValueSpecification[*],
 		Property[0:1] -> ValueSpecification[*] {
-	umlname = "defaultValue";
-	isComposite = true;
+			name = "defaultValue";
 }
 
 edge class isException extends CMOFProperty
 	connect
 		Parameter[1:1] -> Boolean[*] {
-	umlname = "isException";
+			name = "isException";
 }
 
 edge class isStream extends CMOFProperty
 	connect
 		Parameter[1:1] -> Boolean[*] {
-	umlname = "isStream";
+			name = "isStream";
 }
 
 edge class parameterSet extends CMOFProperty
 	connect
 		Parameter[0:*] -> ParameterSet[*] {
-	umlname = "parameterSet";
+			name = "parameterSet";
 }
 
 
 //An action is a named element that is the fundamental unit of executable functionality. The execution of an action represents some transformation or processing in the modeled system, be it a computer system or otherwise.
-abstract node class Action extends ExecutableNode {
-	umlname = "Action";
+node class Action extends ExecutableNode {
+	uuid = "Action";
 }
 
 edge class output extends CMOFProperty
 	connect
 		Action[0:*] -> OutputPin[*] {
-	umlname = "output";
-	isComposite = true;
+			name = "output";
 }
 
 edge class input extends CMOFProperty
 	connect
 		Action[0:*] -> InputPin[*] {
-	umlname = "input";
-	isComposite = true;
+			name = "input";
 }
 
 edge class localPrecondition extends CMOFProperty
 	connect
 		Action[0:*] -> Constraint[*] {
-	umlname = "localPrecondition";
-	isComposite = true;
+			name = "localPrecondition";
 }
 
 edge class localPostcondition extends CMOFProperty
 	connect
 		Action[0:*] -> Constraint[*] {
-	umlname = "localPostcondition";
-	isComposite = true;
+			name = "localPostcondition";
 }
 
 
 //An interruptible activity region is an activity group that supports termination of tokens flowing in the portions of an activity.
 node class InterruptibleActivityRegion extends ActivityGroup {
-	umlname = "InterruptibleActivityRegion";
+	uuid = "InterruptibleActivityRegion";
 }
 
 edge class interruptingEdge extends CMOFProperty
 	connect
 		InterruptibleActivityRegion[0:*] -> ActivityEdge[*] {
-	umlname = "interruptingEdge";
+			name = "interruptingEdge";
 }
 
 
 //ActivityNode is an abstract class for points in the flow of an activity connected by edges.
-abstract node class ActivityNode extends RedefinableElement {
-	umlname = "ActivityNode";
+node class ActivityNode extends RedefinableElement {
+	uuid = "ActivityNode";
 }
 
 edge class inStructuredNode extends CMOFProperty
 	connect
 		ActivityNode[0:1] -> StructuredActivityNode[*],
 		ActivityEdge[0:1] -> StructuredActivityNode[*] {
-	umlname = "inStructuredNode";
+			name = "inStructuredNode";
 }
 
 edge class activity extends CMOFProperty
@@ -3422,39 +3323,39 @@ edge class activity extends CMOFProperty
 		ActivityNode[0:1] -> Activity[*],
 		StructuredActivityNode[0:1] -> Activity[*],
 		ActivityEdge[0:1] -> Activity[*] {
-	umlname = "activity";
+			name = "activity";
 }
 
 edge class redefinedNode extends CMOFProperty
 	connect
 		ActivityNode[0:*] -> ActivityNode[*] {
-	umlname = "redefinedNode";
+			name = "redefinedNode";
 }
 
 edge class inPartition extends CMOFProperty
 	connect
 		ActivityNode[0:*] -> ActivityPartition[*],
 		ActivityEdge[0:*] -> ActivityPartition[*] {
-	umlname = "inPartition";
+			name = "inPartition";
 }
 
 edge class inInterruptibleRegion extends CMOFProperty
 	connect
 		ActivityNode[0:*] -> InterruptibleActivityRegion[*] {
-	umlname = "inInterruptibleRegion";
+			name = "inInterruptibleRegion";
 }
 
 edge class inGroup extends CMOFProperty
 	connect
 		ActivityNode[0:*] -> ActivityGroup[*],
 		ActivityEdge[0:*] -> ActivityGroup[*] {
-	umlname = "inGroup";
+			name = "inGroup";
 }
 
 
 //A behavioral feature is a feature of a classifier that specifies an aspect of the behavior of its instances.
-abstract node class BehavioralFeature extends Feature, Namespace {
-	umlname = "BehavioralFeature";
+node class BehavioralFeature extends Feature, Namespace {
+	uuid = "BehavioralFeature";
 }
 
 edge class ownedParameter extends CMOFProperty
@@ -3463,670 +3364,649 @@ edge class ownedParameter extends CMOFProperty
 		Behavior[0:*] -> Parameter[*],
 		TemplateSignature[0:*] -> TemplateParameter[*],
 		Operation[0:*] -> Parameter[*] {
-	umlname = "ownedParameter";
-	isComposite = true;
+			name = "ownedParameter";
 }
 
 edge class method extends CMOFProperty
 	connect
 		BehavioralFeature[0:*] -> Behavior[*] {
-	umlname = "method";
+			name = "method";
 }
 
 edge class concurrency extends CMOFProperty
 	connect
 		BehavioralFeature[1:1] -> CallConcurrencyKind[*] {
-	umlname = "concurrency";
+			name = "concurrency";
 }
 
 edge class raisedException extends CMOFProperty
 	connect
 		BehavioralFeature[0:*] -> Type[*],
 		Operation[0:*] -> Type[*] {
-	umlname = "raisedException";
+			name = "raisedException";
 }
 
 edge class ownedParameterSet extends CMOFProperty
 	connect
 		BehavioralFeature[0:*] -> ParameterSet[*],
 		Behavior[0:*] -> ParameterSet[*] {
-	umlname = "ownedParameterSet";
-	isComposite = true;
+			name = "ownedParameterSet";
 }
 
 
 //Behavior is a specification of how its context classifier changes state over time. This specification may be either a definition of possible behavior execution or emergent behavior, or a selective illustration of an interesting subset of possible executions. The latter form is typically used for capturing examples, such as a trace of a particular execution.
-abstract node class Behavior extends Class {
-	umlname = "Behavior";
+node class Behavior extends Class {
+	uuid = "Behavior";
 }
 
 edge class isReentrant extends CMOFProperty
 	connect
 		Behavior[1:1] -> Boolean[*] {
-	umlname = "isReentrant";
+			name = "isReentrant";
 }
 
 edge class redefinedBehavior extends CMOFProperty
 	connect
 		Behavior[0:*] -> Behavior[*] {
-	umlname = "redefinedBehavior";
+			name = "redefinedBehavior";
 }
 
 edge class precondition extends CMOFProperty
 	connect
 		Behavior[0:*] -> Constraint[*],
 		Operation[0:*] -> Constraint[*] {
-	umlname = "precondition";
-	isComposite = true;
+			name = "precondition";
 }
 
 edge class postcondition extends CMOFProperty
 	connect
 		Behavior[0:*] -> Constraint[*],
 		Operation[0:*] -> Constraint[*] {
-	umlname = "postcondition";
-	isComposite = true;
+			name = "postcondition";
 }
 
 
 //A pin is a typed element and multiplicity element that provides values to actions and accept result values from them.
 node class Pin extends MultiplicityElement, ObjectNode {
-	umlname = "Pin";
+	uuid = "Pin";
 }
 
 edge class isControl extends CMOFProperty
 	connect
 		Pin[1:1] -> Boolean[*] {
-	umlname = "isControl";
+			name = "isControl";
 }
 
 
 //A conditional node is a structured activity node that represents an exclusive choice among some number of alternatives.
 node class ConditionalNode extends StructuredActivityNode {
-	umlname = "ConditionalNode";
+	uuid = "ConditionalNode";
 }
 
 edge class isDeterminate extends CMOFProperty
 	connect
 		ConditionalNode[1:1] -> Boolean[*] {
-	umlname = "isDeterminate";
+			name = "isDeterminate";
 }
 
 edge class isAssured extends CMOFProperty
 	connect
 		ConditionalNode[1:1] -> Boolean[*] {
-	umlname = "isAssured";
+			name = "isAssured";
 }
 
 edge class clause extends CMOFProperty
 	connect
 		ConditionalNode[1:*] -> Clause[*] {
-	umlname = "clause";
-	isComposite = true;
+			name = "clause";
 }
 
 
 //A structured activity node is an executable activity node that may have an expansion into subordinate nodes as an activity group. The subordinate nodes must belong to only one structured activity node, although they may be nested.
 node class StructuredActivityNode extends Namespace, Action, ActivityGroup {
-	umlname = "StructuredActivityNode";
+	uuid = "StructuredActivityNode";
 }
 
 edge class mustIsolate extends CMOFProperty
 	connect
 		StructuredActivityNode[1:1] -> Boolean[*] {
-	umlname = "mustIsolate";
+			name = "mustIsolate";
 }
 
 
 //A loop node is a structured activity node that represents a loop with setup, test, and body sections.
 node class LoopNode extends StructuredActivityNode {
-	umlname = "LoopNode";
+	uuid = "LoopNode";
 }
 
 edge class isTestedFirst extends CMOFProperty
 	connect
 		LoopNode[1:1] -> Boolean[*] {
-	umlname = "isTestedFirst";
+			name = "isTestedFirst";
 }
 
 edge class bodyPart extends CMOFProperty
 	connect
 		LoopNode[0:*] -> ExecutableNode[*] {
-	umlname = "bodyPart";
+			name = "bodyPart";
 }
 
 edge class setupPart extends CMOFProperty
 	connect
 		LoopNode[0:*] -> ExecutableNode[*] {
-	umlname = "setupPart";
+			name = "setupPart";
 }
 
 edge class decider extends CMOFProperty
 	connect
 		LoopNode[1:1] -> OutputPin[*],
 		Clause[1:1] -> OutputPin[*] {
-	umlname = "decider";
+			name = "decider";
 }
 
 edge class test_ extends CMOFProperty
 	connect
 		LoopNode[0:*] -> ExecutableNode[*],
 		Clause[0:*] -> ExecutableNode[*] {
-	umlname = "test_";
+			name = "test";
 }
 
 edge class loopVariable extends CMOFProperty
 	connect
 		LoopNode[0:*] -> OutputPin[*] {
-	umlname = "loopVariable";
+			name = "loopVariable";
 }
 
 edge class bodyOutput extends CMOFProperty
 	connect
 		LoopNode[0:*] -> OutputPin[*],
 		Clause[0:*] -> OutputPin[*] {
-	umlname = "bodyOutput";
+			name = "bodyOutput";
 }
 
 edge class loopVariableInput extends CMOFProperty
 	connect
 		LoopNode[0:*] -> InputPin[*] {
-	umlname = "loopVariableInput";
-	isComposite = true;
+			name = "loopVariableInput";
 }
 
 
 //A clause is an element that represents a single branch of a conditional construct, including a test and a body section. The body section is executed only if (but not necessarily if) the test section evaluates true.
 node class Clause extends Element {
-	umlname = "Clause";
+	uuid = "Clause";
 }
 
 edge class predecessorClause extends CMOFProperty
 	connect
 		Clause[0:*] -> Clause[*] {
-	umlname = "predecessorClause";
+			name = "predecessorClause";
 }
 
 edge class successorClause extends CMOFProperty
 	connect
 		Clause[0:*] -> Clause[*] {
-	umlname = "successorClause";
+			name = "successorClause";
 }
 
 
 //An activity edge is an abstract class for directed connections between two activity nodes.
-abstract node class ActivityEdge extends RedefinableElement {
-	umlname = "ActivityEdge";
+node class ActivityEdge extends RedefinableElement {
+	uuid = "ActivityEdge";
 }
 
 edge class redefinedEdge extends CMOFProperty
 	connect
 		ActivityEdge[0:*] -> ActivityEdge[*] {
-	umlname = "redefinedEdge";
+			name = "redefinedEdge";
 }
 
 edge class weight extends CMOFProperty
 	connect
 		ActivityEdge[1:1] -> ValueSpecification[*] {
-	umlname = "weight";
-	isComposite = true;
+			name = "weight";
 }
 
 edge class interrupts extends CMOFProperty
 	connect
 		ActivityEdge[0:1] -> InterruptibleActivityRegion[*] {
-	umlname = "interrupts";
+			name = "interrupts";
 }
 
 
 //ActivityGroup is an abstract class for defining sets of nodes and edges in an activity.
-abstract node class ActivityGroup extends Element {
-	umlname = "ActivityGroup";
+node class ActivityGroup extends Element {
+	uuid = "ActivityGroup";
 }
 
 edge class subgroup extends CMOFProperty
 	connect
 		ActivityGroup[0:*] -> ActivityGroup[*] {
-	umlname = "subgroup";
-	isComposite = true;
+			name = "subgroup";
 }
 
 edge class superGroup extends CMOFProperty
 	connect
 		ActivityGroup[0:1] -> ActivityGroup[*] {
-	umlname = "superGroup";
+			name = "superGroup";
 }
 
 edge class inActivity extends CMOFProperty
 	connect
 		ActivityGroup[0:1] -> Activity[*] {
-	umlname = "inActivity";
+			name = "inActivity";
 }
 
 edge class containedNode extends CMOFProperty
 	connect
 		ActivityGroup[0:*] -> ActivityNode[*] {
-	umlname = "containedNode";
+			name = "containedNode";
 }
 
 edge class containedEdge extends CMOFProperty
 	connect
 		ActivityGroup[0:*] -> ActivityEdge[*] {
-	umlname = "containedEdge";
+			name = "containedEdge";
 }
 
 
 //An expansion node is an object node used to indicate a flow across the boundary of an expansion region. A flow into a region contains a collection that is broken into its individual elements inside the region, which is executed once per element. A flow out of a region combines individual elements into a collection for use outside the region.
 node class ExpansionNode extends ObjectNode {
-	umlname = "ExpansionNode";
+	uuid = "ExpansionNode";
 }
 
 edge class regionAsOutput extends CMOFProperty
 	connect
 		ExpansionNode[0:1] -> ExpansionRegion[*] {
-	umlname = "regionAsOutput";
+			name = "regionAsOutput";
 }
 
 edge class regionAsInput extends CMOFProperty
 	connect
 		ExpansionNode[0:1] -> ExpansionRegion[*] {
-	umlname = "regionAsInput";
+			name = "regionAsInput";
 }
 
 
 //An expansion region is a structured activity region that executes multiple times corresponding to elements of an input collection.
 node class ExpansionRegion extends StructuredActivityNode {
-	umlname = "ExpansionRegion";
+	uuid = "ExpansionRegion";
 }
 
 edge class mode extends CMOFProperty
 	connect
 		ExpansionRegion[1:1] -> ExpansionKind[*] {
-	umlname = "mode";
+			name = "mode";
 }
 
 edge class outputElement extends CMOFProperty
 	connect
 		ExpansionRegion[0:*] -> ExpansionNode[*] {
-	umlname = "outputElement";
+			name = "outputElement";
 }
 
 edge class inputElement extends CMOFProperty
 	connect
 		ExpansionRegion[1:*] -> ExpansionNode[*] {
-	umlname = "inputElement";
+			name = "inputElement";
 }
 
 
 //An executable node is an abstract class for activity nodes that may be executed. It is used as an attachment point for exception handlers.
-abstract node class ExecutableNode extends ActivityNode {
-	umlname = "ExecutableNode";
+node class ExecutableNode extends ActivityNode {
+	uuid = "ExecutableNode";
 }
 
 edge class handler extends CMOFProperty
 	connect
 		ExecutableNode[0:*] -> ExceptionHandler[*] {
-	umlname = "handler";
-	isComposite = true;
+			name = "handler";
 }
 
 
 //An exception handler is an element that specifies a body to execute in case the specified exception occurs during the execution of the protected node.
 node class ExceptionHandler extends Element {
-	umlname = "ExceptionHandler";
+	uuid = "ExceptionHandler";
 }
 
 edge class protectedNode extends CMOFProperty
 	connect
 		ExceptionHandler[1:1] -> ExecutableNode[*] {
-	umlname = "protectedNode";
+			name = "protectedNode";
 }
 
 edge class handlerBody extends CMOFProperty
 	connect
 		ExceptionHandler[1:1] -> ExecutableNode[*] {
-	umlname = "handlerBody";
+			name = "handlerBody";
 }
 
 edge class exceptionInput extends CMOFProperty
 	connect
 		ExceptionHandler[1:1] -> ObjectNode[*] {
-	umlname = "exceptionInput";
+			name = "exceptionInput";
 }
 
 edge class exceptionType extends CMOFProperty
 	connect
 		ExceptionHandler[1:*] -> Classifier[*] {
-	umlname = "exceptionType";
+			name = "exceptionType";
 }
 
 
 //A component represents a modular part of a system that encapsulates its contents and whose manifestation is replaceable within its environment.
 node class Component extends Class, Namespace {
-	umlname = "Component";
+	uuid = "Component";
 }
 
 edge class isIndirectlyInstantiated extends CMOFProperty
 	connect
 		Component[1:1] -> Boolean[*] {
-	umlname = "isIndirectlyInstantiated";
+			name = "isIndirectlyInstantiated";
 }
 
 edge class required extends CMOFProperty
 	connect
 		Component[0:*] -> Interface[*],
 		Port[0:*] -> Interface[*] {
-	umlname = "required";
+			name = "required";
 }
 
 edge class provided extends CMOFProperty
 	connect
 		Component[0:*] -> Interface[*],
 		Port[0:*] -> Interface[*] {
-	umlname = "provided";
+			name = "provided";
 }
 
 edge class packagedElement extends CMOFProperty
 	connect
 		Component[0:*] -> PackageableElement[*],
 		Package[0:*] -> PackageableElement[*] {
-	umlname = "packagedElement";
-	isComposite = true;
+			name = "packagedElement";
 }
 
 
 //A deployment is the allocation of an artifact or artifact instance to a deployment target.
 node class Deployment extends Dependency {
-	umlname = "Deployment";
+	uuid = "Deployment";
 }
 
 edge class deployedArtifact extends CMOFProperty
 	connect
 		Deployment[0:*] -> DeployedArtifact[*] {
-	umlname = "deployedArtifact";
+			name = "deployedArtifact";
 }
 
 edge class configuration extends CMOFProperty
 	connect
 		Deployment[0:*] -> DeploymentSpecification[*] {
-	umlname = "configuration";
-	isComposite = true;
+			name = "configuration";
 }
 
 
 //A deployment specification specifies a set of properties that determine execution parameters of a component artifact that is deployed on a node. A deployment specification can be aimed at a specific type of container. An artifact that reifies or implements deployment specification properties is a deployment descriptor.
 node class DeploymentSpecification extends Artifact {
-	umlname = "DeploymentSpecification";
+	uuid = "DeploymentSpecification";
 }
 
 edge class deploymentLocation extends CMOFProperty
 	connect
 		DeploymentSpecification[0:1] -> String[*] {
-	umlname = "deploymentLocation";
+			name = "deploymentLocation";
 }
 
 edge class executionLocation extends CMOFProperty
 	connect
 		DeploymentSpecification[0:1] -> String[*] {
-	umlname = "executionLocation";
+			name = "executionLocation";
 }
 
 
 //Protocol state machines can be redefined into more specific protocol state machines, or into behavioral state machines. Protocol conformance declares that the specific protocol state machine specifies a protocol that conforms to the general state machine one, or that the specific behavioral state machine abide by the protocol of the general protocol state machine.
 node class ProtocolConformance extends DirectedRelationship {
-	umlname = "ProtocolConformance";
+	uuid = "ProtocolConformance";
 }
 
 edge class specificMachine extends CMOFProperty
 	connect
 		ProtocolConformance[1:1] -> ProtocolStateMachine[*] {
-	umlname = "specificMachine";
+			name = "specificMachine";
 }
 
 edge class generalMachine extends CMOFProperty
 	connect
 		ProtocolConformance[1:1] -> ProtocolStateMachine[*] {
-	umlname = "generalMachine";
+			name = "generalMachine";
 }
 
 
 //An interface is a kind of classifier that represents a declaration of a set of coherent public features and obligations. An interface specifies a contract; any instance of a classifier that realizes the interface must fulfill that contract. The obligations that may be associated with an interface are in the form of various kinds of constraints (such as pre- and post-conditions) or protocol specifications, which may impose ordering restrictions on interactions through the interface.
 node class Interface extends Classifier {
-	umlname = "Interface";
+	uuid = "Interface";
 }
 
 edge class redefinedInterface extends CMOFProperty
 	connect
 		Interface[0:*] -> Interface[*] {
-	umlname = "redefinedInterface";
+			name = "redefinedInterface";
 }
 
 edge class protocol extends CMOFProperty
 	connect
 		Interface[0:1] -> ProtocolStateMachine[*],
 		Port[0:1] -> ProtocolStateMachine[*] {
-	umlname = "protocol";
+			name = "protocol";
 }
 
 
 //A port is a property of a classifier that specifies a distinct interaction point between that classifier and its environment or between the (behavior of the) classifier and its internal parts. Ports are connected to properties of the classifier by connectors through which requests can be made to invoke the behavioral features of a classifier. A Port may specify the services a classifier provides (offers) to its environment as well as the services that a classifier expects (requires) of its environment.
 node class Port extends Property {
-	umlname = "Port";
+	uuid = "Port";
 }
 
 edge class isBehavior extends CMOFProperty
 	connect
 		Port[1:1] -> Boolean[*] {
-	umlname = "isBehavior";
+			name = "isBehavior";
 }
 
 edge class isService extends CMOFProperty
 	connect
 		Port[1:1] -> Boolean[*] {
-	umlname = "isService";
+			name = "isService";
 }
 
 edge class redefinedPort extends CMOFProperty
 	connect
 		Port[0:*] -> Port[*] {
-	umlname = "redefinedPort";
+			name = "redefinedPort";
 }
 
 
 //A protocol transition specifies a legal transition for an operation. Transitions of protocol state machines have the following information: a pre condition (guard), on trigger, and a post condition. Every protocol transition is associated to zero or one operation (referred BehavioralFeature) that belongs to the context classifier of the protocol state machine.
 node class ProtocolTransition extends Transition {
-	umlname = "ProtocolTransition";
+	uuid = "ProtocolTransition";
 }
 
 edge class postCondition extends CMOFProperty
 	connect
 		ProtocolTransition[0:1] -> Constraint[*] {
-	umlname = "postCondition";
-	isComposite = true;
+			name = "postCondition";
 }
 
 edge class referred extends CMOFProperty
 	connect
 		ProtocolTransition[0:*] -> Operation[*] {
-	umlname = "referred";
+			name = "referred";
 }
 
 edge class preCondition extends CMOFProperty
 	connect
 		ProtocolTransition[0:1] -> Constraint[*] {
-	umlname = "preCondition";
-	isComposite = true;
+			name = "preCondition";
 }
 
 
 //A protocol state machine is always defined in the context of a classifier. It specifies which operations of the classifier can be called in which state and under which condition, thus specifying the allowed call sequences on the classifier's operations. A protocol state machine presents the possible and permitted transitions on the instances of its context classifier, together with the operations which carry the transitions. In this manner, an instance lifecycle can be created for a classifier, by specifying the order in which the operations can be activated and the states through which an instance progresses during its existence.
 node class ProtocolStateMachine extends StateMachine {
-	umlname = "ProtocolStateMachine";
+	uuid = "ProtocolStateMachine";
 }
 
 edge class conformance extends CMOFProperty
 	connect
 		ProtocolStateMachine[0:*] -> ProtocolConformance[*] {
-	umlname = "conformance";
-	isComposite = true;
+			name = "conformance";
 }
 
 
 //A state models a situation during which some (usually implicit) invariant condition holds.
 node class State extends Vertex, RedefinableElement, Namespace {
-	umlname = "State";
+	uuid = "State";
 }
 
 edge class isComposite extends CMOFProperty
 	connect
 		State[1:1] -> Boolean[*],
 		Property[1:1] -> Boolean[*] {
-	umlname = "isComposite";
+			name = "isComposite";
 }
 
 edge class isOrthogonal extends CMOFProperty
 	connect
 		State[1:1] -> Boolean[*] {
-	umlname = "isOrthogonal";
+			name = "isOrthogonal";
 }
 
 edge class isSimple extends CMOFProperty
 	connect
 		State[1:1] -> Boolean[*] {
-	umlname = "isSimple";
+			name = "isSimple";
 }
 
 edge class isSubmachineState extends CMOFProperty
 	connect
 		State[1:1] -> Boolean[*] {
-	umlname = "isSubmachineState";
+			name = "isSubmachineState";
 }
 
 edge class submachine extends CMOFProperty
 	connect
 		State[0:1] -> StateMachine[*] {
-	umlname = "submachine";
+			name = "submachine";
 }
 
 edge class connection extends CMOFProperty
 	connect
 		State[0:*] -> ConnectionPointReference[*] {
-	umlname = "connection";
-	isComposite = true;
+			name = "connection";
 }
 
 edge class redefinedState extends CMOFProperty
 	connect
 		State[0:1] -> State[*] {
-	umlname = "redefinedState";
+			name = "redefinedState";
 }
 
 edge class stateInvariant extends CMOFProperty
 	connect
 		State[0:1] -> Constraint[*] {
-	umlname = "stateInvariant";
-	isComposite = true;
+			name = "stateInvariant";
 }
 
 edge class doActivity extends CMOFProperty
 	connect
 		State[0:1] -> Behavior[*] {
-	umlname = "doActivity";
-	isComposite = true;
+			name = "doActivity";
 }
 
 edge class deferrableTrigger extends CMOFProperty
 	connect
 		State[0:*] -> Trigger[*] {
-	umlname = "deferrableTrigger";
-	isComposite = true;
+			name = "deferrableTrigger";
 }
 
 
 //A region is an orthogonal part of either a composite state or a state machine. It contains states and transitions.
 node class Region extends RedefinableElement, Namespace {
-	umlname = "Region";
+	uuid = "Region";
 }
 
 edge class subvertex extends CMOFProperty
 	connect
 		Region[0:*] -> Vertex[*] {
-	umlname = "subvertex";
-	isComposite = true;
+			name = "subvertex";
 }
 
 edge class transition extends CMOFProperty
 	connect
 		Region[0:*] -> Transition[*] {
-	umlname = "transition";
-	isComposite = true;
+			name = "transition";
 }
 
 edge class extendedRegion extends CMOFProperty
 	connect
 		Region[0:1] -> Region[*] {
-	umlname = "extendedRegion";
+			name = "extendedRegion";
 }
 
 
 //A model element that has both association and class properties. An AssociationClass can be seen as an association that also has class properties, or as a class that also has association properties. It not only connects a set of classifiers but also defines a set of features that belong to the relationship itself and not to any of the classifiers.
 node class AssociationClass extends Association, Class {
-	umlname = "AssociationClass";
+	uuid = "AssociationClass";
 }
 
 
 //A template signature bundles the set of formal template parameters for a templated element.
 node class TemplateSignature extends Element {
-	umlname = "TemplateSignature";
+	uuid = "TemplateSignature";
 }
 
 edge class template extends CMOFProperty
 	connect
 		TemplateSignature[1:1] -> TemplateableElement[*] {
-	umlname = "template";
+			name = "template";
 }
 
 
 //A named element is an element in a model that may have a name.
-abstract node class NamedElement extends Element {
-	umlname = "NamedElement";
+node class NamedElement extends Element {
+	uuid = "NamedElement";
 }
 
 edge class name extends CMOFProperty
 	connect
 		NamedElement[0:1] -> String[*] {
-	umlname = "name";
+			name = "name";
 }
 
 edge class qualifiedName extends CMOFProperty
 	connect
 		NamedElement[0:1] -> String[*] {
-	umlname = "qualifiedName";
+			name = "qualifiedName";
 }
 
 edge class clientDependency extends CMOFProperty
 	connect
 		NamedElement[0:*] -> Dependency[*] {
-	umlname = "clientDependency";
+			name = "clientDependency";
 }
 
 edge class namespace extends CMOFProperty
 	connect
 		NamedElement[0:1] -> Namespace[*] {
-	umlname = "namespace";
+			name = "namespace";
 }
 
 edge class nameExpression extends CMOFProperty
 	connect
 		NamedElement[0:1] -> StringExpression[*] {
-	umlname = "nameExpression";
-	isComposite = true;
+			name = "nameExpression";
 }
 
 
 //A template parameter exposes a parameterable element as a formal template parameter of a template.
 node class TemplateParameter extends Element {
-	umlname = "TemplateParameter";
+	uuid = "TemplateParameter";
 }
 
 edge class parameteredElement extends CMOFProperty
@@ -4135,112 +4015,105 @@ edge class parameteredElement extends CMOFProperty
 		OperationTemplateParameter[1:1] -> Operation[*],
 		ClassifierTemplateParameter[1:1] -> Classifier[*],
 		ConnectableElementTemplateParameter[1:1] -> ConnectableElement[*] {
-	umlname = "parameteredElement";
+			name = "parameteredElement";
 }
 
 edge class ownedParameteredElement extends CMOFProperty
 	connect
 		TemplateParameter[0:1] -> ParameterableElement[*] {
-	umlname = "ownedParameteredElement";
-	isComposite = true;
+			name = "ownedParameteredElement";
 }
 
 edge class ownedDefault extends CMOFProperty
 	connect
 		TemplateParameter[0:1] -> ParameterableElement[*] {
-	umlname = "ownedDefault";
-	isComposite = true;
+			name = "ownedDefault";
 }
 
 
 //An expression that specifies a string value that is derived by concatenating a set of sub string expressions, some of which might be template parameters.
 node class StringExpression extends TemplateableElement, Expression {
-	umlname = "StringExpression";
+	uuid = "StringExpression";
 }
 
 edge class subExpression extends CMOFProperty
 	connect
 		StringExpression[0:*] -> StringExpression[*] {
-	umlname = "subExpression";
-	isComposite = true;
+			name = "subExpression";
 }
 
 edge class owningExpression extends CMOFProperty
 	connect
 		StringExpression[0:1] -> StringExpression[*] {
-	umlname = "owningExpression";
+			name = "owningExpression";
 }
 
 
 //A template binding represents a relationship between a templateable element and a template. A template binding specifies the substitutions of actual parameters for the formal parameters of the template.
 node class TemplateBinding extends DirectedRelationship {
-	umlname = "TemplateBinding";
+	uuid = "TemplateBinding";
 }
 
 edge class boundElement extends CMOFProperty
 	connect
 		TemplateBinding[1:1] -> TemplateableElement[*] {
-	umlname = "boundElement";
+			name = "boundElement";
 }
 
 edge class parameterSubstitution extends CMOFProperty
 	connect
 		TemplateBinding[0:*] -> TemplateParameterSubstitution[*] {
-	umlname = "parameterSubstitution";
-	isComposite = true;
+			name = "parameterSubstitution";
 }
 
 
 //A template parameter substitution relates the actual parameter(s) to a formal template parameter as part of a template binding.
 node class TemplateParameterSubstitution extends Element {
-	umlname = "TemplateParameterSubstitution";
+	uuid = "TemplateParameterSubstitution";
 }
 
 edge class formal extends CMOFProperty
 	connect
 		TemplateParameterSubstitution[1:1] -> TemplateParameter[*] {
-	umlname = "formal";
+			name = "formal";
 }
 
 edge class templateBinding extends CMOFProperty
 	connect
 		TemplateParameterSubstitution[1:1] -> TemplateBinding[*],
 		TemplateableElement[0:*] -> TemplateBinding[*] {
-	umlname = "templateBinding";
-	isComposite = true;
+			name = "templateBinding";
 }
 
 edge class actual extends CMOFProperty
 	connect
 		TemplateParameterSubstitution[1:*] -> ParameterableElement[*] {
-	umlname = "actual";
+			name = "actual";
 }
 
 edge class ownedActual extends CMOFProperty
 	connect
 		TemplateParameterSubstitution[0:*] -> ParameterableElement[*] {
-	umlname = "ownedActual";
-	isComposite = true;
+			name = "ownedActual";
 }
 
 
 //A templateable element is an element that can optionally be defined as a template and bound to other templates.
-abstract node class TemplateableElement extends Element {
-	umlname = "TemplateableElement";
+node class TemplateableElement extends Element {
+	uuid = "TemplateableElement";
 }
 
 edge class ownedTemplateSignature extends CMOFProperty
 	connect
 		TemplateableElement[0:1] -> TemplateSignature[*],
 		Classifier[0:1] -> RedefinableTemplateSignature[*] {
-	umlname = "ownedTemplateSignature";
-	isComposite = true;
+			name = "ownedTemplateSignature";
 }
 
 
 //A parameterable element is an element that can be exposed as a formal template parameter for a template, or specified as an actual parameter in a binding of a template.
-abstract node class ParameterableElement extends Element {
-	umlname = "ParameterableElement";
+node class ParameterableElement extends Element {
+	uuid = "ParameterableElement";
 }
 
 edge class templateParameter extends CMOFProperty
@@ -4249,279 +4122,271 @@ edge class templateParameter extends CMOFProperty
 		Operation[0:1] -> OperationTemplateParameter[*],
 		Classifier[0:1] -> ClassifierTemplateParameter[*],
 		ConnectableElement[0:1] -> ConnectableElementTemplateParameter[*] {
-	umlname = "templateParameter";
+			name = "templateParameter";
 }
 
 edge class owningTemplateParameter extends CMOFProperty
 	connect
 		ParameterableElement[0:1] -> TemplateParameter[*] {
-	umlname = "owningTemplateParameter";
+			name = "owningTemplateParameter";
 }
 
 
 //A property is a structural feature of a classifier that characterizes instances of the classifier. A property related by ownedAttribute to a classifier (other than an association) represents an attribute and might also represent an association end. It relates an instance of the class to a value or set of values of the type of the attribute. A property related by memberEnd or its specializations to an association represents an end of the association. The type of the property is the type of the end of the association.
 node class Property extends ConnectableElement, DeploymentTarget, StructuralFeature, TemplateableElement {
-	umlname = "Property";
+	uuid = "Property";
 }
 
 edge class isDerivedUnion extends CMOFProperty
 	connect
 		Property[1:1] -> Boolean[*] {
-	umlname = "isDerivedUnion";
+			name = "isDerivedUnion";
 }
 
 edge class aggregation extends CMOFProperty
 	connect
 		Property[1:1] -> AggregationKind[*] {
-	umlname = "aggregation";
+			name = "aggregation";
 }
 
 edge class class_ extends CMOFProperty
 	connect
 		Property[0:1] -> Class[*],
 		Operation[0:1] -> Class[*] {
-	umlname = "class_";
+			name = "class";
 }
 
 edge class redefinedProperty extends CMOFProperty
 	connect
 		Property[0:*] -> Property[*] {
-	umlname = "redefinedProperty";
+			name = "redefinedProperty";
 }
 
 edge class owningAssociation extends CMOFProperty
 	connect
 		Property[0:1] -> Association[*] {
-	umlname = "owningAssociation";
+			name = "owningAssociation";
 }
 
 edge class datatype extends CMOFProperty
 	connect
 		Property[0:1] -> DataType[*],
 		Operation[0:1] -> DataType[*] {
-	umlname = "datatype";
+			name = "datatype";
 }
 
 edge class opposite extends CMOFProperty
 	connect
 		Property[0:1] -> Property[*] {
-	umlname = "opposite";
+			name = "opposite";
 }
 
 edge class subsettedProperty extends CMOFProperty
 	connect
 		Property[0:*] -> Property[*] {
-	umlname = "subsettedProperty";
+			name = "subsettedProperty";
 }
 
 edge class associationEnd extends CMOFProperty
 	connect
 		Property[0:1] -> Property[*] {
-	umlname = "associationEnd";
+			name = "associationEnd";
 }
 
 
 //A value specification is the specification of a (possibly empty) set of instances, including both objects and data values.
-abstract node class ValueSpecification extends TypedElement, PackageableElement {
-	umlname = "ValueSpecification";
+node class ValueSpecification extends TypedElement, PackageableElement {
+	uuid = "ValueSpecification";
 }
 
 
 //An operation is a behavioral feature of a classifier that specifies the name, type, parameters, and constraints for invoking an associated behavior.
 node class Operation extends BehavioralFeature, ParameterableElement, TemplateableElement {
-	umlname = "Operation";
+	uuid = "Operation";
 }
 
 edge class isQuery extends CMOFProperty
 	connect
 		Operation[1:1] -> Boolean[*] {
-	umlname = "isQuery";
+			name = "isQuery";
 }
 
 edge class redefinedOperation extends CMOFProperty
 	connect
 		Operation[0:*] -> Operation[*] {
-	umlname = "redefinedOperation";
+			name = "redefinedOperation";
 }
 
 edge class bodyCondition extends CMOFProperty
 	connect
 		Operation[0:1] -> Constraint[*] {
-	umlname = "bodyCondition";
-	isComposite = true;
+			name = "bodyCondition";
 }
 
 edge class interface extends CMOFProperty
 	connect
 		Operation[0:1] -> Interface[*] {
-	umlname = "interface";
+			name = "interface";
 }
 
 
 //An operation template parameter exposes an operation as a formal parameter for a template.
 node class OperationTemplateParameter extends TemplateParameter {
-	umlname = "OperationTemplateParameter";
+	uuid = "OperationTemplateParameter";
 }
 
 
 //A packageable element indicates a named element that may be owned directly by a package.
-abstract node class PackageableElement extends NamedElement, ParameterableElement {
-	umlname = "PackageableElement";
+node class PackageableElement extends NamedElement, ParameterableElement {
+	uuid = "PackageableElement";
 }
 
 
 //A classifier is a classification of instances - it describes a set of instances that have features in common. A classifier can specify a generalization hierarchy by referencing its general classifiers.
-abstract node class Classifier extends RedefinableElement, Type, TemplateableElement, Namespace {
-	umlname = "Classifier";
+node class Classifier extends RedefinableElement, Type, TemplateableElement, Namespace {
+	uuid = "Classifier";
 }
 
 edge class feature extends CMOFProperty
 	connect
 		Classifier[0:*] -> Feature[*] {
-	umlname = "feature";
+			name = "feature";
 }
 
 edge class inheritedMember extends CMOFProperty
 	connect
 		Classifier[0:*] -> NamedElement[*] {
-	umlname = "inheritedMember";
+			name = "inheritedMember";
 }
 
 edge class redefinedClassifier extends CMOFProperty
 	connect
 		Classifier[0:*] -> Classifier[*] {
-	umlname = "redefinedClassifier";
+			name = "redefinedClassifier";
 }
 
 edge class substitution extends CMOFProperty
 	connect
 		Classifier[0:*] -> Substitution[*] {
-	umlname = "substitution";
-	isComposite = true;
+			name = "substitution";
 }
 
 edge class attribute extends CMOFProperty
 	connect
 		Classifier[0:*] -> Property[*] {
-	umlname = "attribute";
+			name = "attribute";
 }
 
 edge class representation extends CMOFProperty
 	connect
 		Classifier[0:1] -> CollaborationUse[*] {
-	umlname = "representation";
+			name = "representation";
 }
 
 edge class collaborationUse extends CMOFProperty
 	connect
 		Classifier[0:*] -> CollaborationUse[*] {
-	umlname = "collaborationUse";
-	isComposite = true;
+			name = "collaborationUse";
 }
 
 edge class ownedUseCase extends CMOFProperty
 	connect
 		Classifier[0:*] -> UseCase[*] {
-	umlname = "ownedUseCase";
-	isComposite = true;
+			name = "ownedUseCase";
 }
 
 edge class powertypeExtent extends CMOFProperty
 	connect
 		Classifier[0:*] -> GeneralizationSet[*] {
-	umlname = "powertypeExtent";
+			name = "powertypeExtent";
 }
 
 
 //A classifier template parameter exposes a classifier as a formal template parameter.
 node class ClassifierTemplateParameter extends TemplateParameter {
-	umlname = "ClassifierTemplateParameter";
+	uuid = "ClassifierTemplateParameter";
 }
 
 edge class allowSubstitutable extends CMOFProperty
 	connect
 		ClassifierTemplateParameter[1:1] -> Boolean[*] {
-	umlname = "allowSubstitutable";
+			name = "allowSubstitutable";
 }
 
 edge class defaultClassifier extends CMOFProperty
 	connect
 		ClassifierTemplateParameter[0:1] -> Classifier[*] {
-	umlname = "defaultClassifier";
+			name = "defaultClassifier";
 }
 
 edge class constrainingClassifier extends CMOFProperty
 	connect
 		ClassifierTemplateParameter[0:1] -> Classifier[*] {
-	umlname = "constrainingClassifier";
+			name = "constrainingClassifier";
 }
 
 
 //A redefinable template signature supports the addition of formal template parameters in a specialization of a template classifier.
 node class RedefinableTemplateSignature extends RedefinableElement, TemplateSignature {
-	umlname = "RedefinableTemplateSignature";
+	uuid = "RedefinableTemplateSignature";
 }
 
 edge class extendedSignature extends CMOFProperty
 	connect
 		RedefinableTemplateSignature[0:*] -> RedefinableTemplateSignature[*] {
-	umlname = "extendedSignature";
+			name = "extendedSignature";
 }
 
 edge class inheritedParameter extends CMOFProperty
 	connect
 		RedefinableTemplateSignature[0:*] -> TemplateParameter[*] {
-	umlname = "inheritedParameter";
+			name = "inheritedParameter";
 }
 
 
 //ConnectableElement is an abstract metaclass representing a set of instances that play roles of a classifier. Connectable elements may be joined by attached connectors and specify configurations of linked instances to be created within an instance of the containing classifier.
-abstract node class ConnectableElement extends TypedElement, ParameterableElement {
-	umlname = "ConnectableElement";
+node class ConnectableElement extends TypedElement, ParameterableElement {
+	uuid = "ConnectableElement";
 }
 
 
 //A connectable element template parameter exposes a connectable element as a formal parameter for a template.
 node class ConnectableElementTemplateParameter extends TemplateParameter {
-	umlname = "ConnectableElementTemplateParameter";
+	uuid = "ConnectableElementTemplateParameter";
 }
 
 
 //A package is used to group elements, and provides a namespace for the grouped elements.
 node class Package extends PackageableElement, Namespace, TemplateableElement {
-	umlname = "Package";
+	uuid = "Package";
 }
 
 edge class packageMerge extends CMOFProperty
 	connect
 		Package[0:*] -> PackageMerge[*] {
-	umlname = "packageMerge";
-	isComposite = true;
+			name = "packageMerge";
 }
 
 edge class ownedType extends CMOFProperty
 	connect
 		Package[0:*] -> Type[*] {
-	umlname = "ownedType";
-	isComposite = true;
+			name = "ownedType";
 }
 
 edge class nestedPackage extends CMOFProperty
 	connect
 		Package[0:*] -> Package[*] {
-	umlname = "nestedPackage";
-	isComposite = true;
+			name = "nestedPackage";
 }
 
 edge class nestingPackage extends CMOFProperty
 	connect
 		Package[0:1] -> Package[*] {
-	umlname = "nestingPackage";
+			name = "nestingPackage";
 }
 
 edge class profileApplication extends CMOFProperty
 	connect
 		Package[0:*] -> ProfileApplication[*] {
-	umlname = "profileApplication";
-	isComposite = true;
+			name = "profileApplication";
 }

@@ -1,7 +1,8 @@
 new graph g2x
 
+include L3Metamodel.grs
 include newproject1.grs
 
 xgrs (cntr)=createAUX_Counter && [uniquifyIDs(cntr)] && deleteAUX_Counter(cntr)
 
-xgrs toXMI
+xgrs toXmi

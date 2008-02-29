@@ -1,0 +1,175 @@
+
+  
+// (c) 2008 Bugra Derre, Tom Gelhausen, Rubino Geiss
+// File automatically generated - you probably do not want to edit it!
+
+abstract node class Metamodel_BaseNode {
+	uuid : string = "UNKNOWN";
+}
+
+abstract node class Metamodel_ValueNode {
+	abstract value;
+}
+
+node class Metamodel_Integer extends Metamodel_ValueNode, Metamodel_BaseNode {
+	value : int = -1;
+}
+
+node class Metamodel_Boolean extends Metamodel_ValueNode, Metamodel_BaseNode {
+	value : boolean = false;
+}
+
+node class Metamodel_UnlimitedNatural extends Metamodel_ValueNode, Metamodel_BaseNode {
+	value : string = "UNKNOWN";
+}
+
+node class Metamodel_String extends Metamodel_ValueNode, Metamodel_BaseNode {
+	value : string = "UNKNOWN";
+}
+
+abstract edge class Metamodel_BaseEdge
+	connect
+		Metamodel_BaseNode -> Metamodel_BaseNode;
+
+
+		
+node class Metamodel_Package extends Metamodel_BaseNode;
+
+node class Metamodel_PrimitiveType extends Metamodel_BaseNode;
+
+node class Metamodel_Enumeration extends Metamodel_BaseNode;
+
+node class Metamodel_EnumerationLiteral extends Metamodel_BaseNode;
+
+node class Metamodel_Class extends Metamodel_BaseNode;
+
+node class Metamodel_Operation extends Metamodel_BaseNode;
+
+node class Metamodel_Comment extends Metamodel_BaseNode;
+
+node class Metamodel_Constraint extends Metamodel_BaseNode;
+
+node class Metamodel_OpaqueExpression extends Metamodel_BaseNode;
+
+node class Metamodel_Parameter extends Metamodel_BaseNode;
+
+node class Metamodel_Association extends Metamodel_BaseNode;
+
+node class Metamodel_Property extends Metamodel_BaseNode;
+
+
+edge class Metamodel_ownedLiteral extends Metamodel_BaseEdge
+	connect
+		Metamodel_Enumeration -> Metamodel_EnumerationLiteral;
+
+edge class Metamodel_ownedAttribute extends Metamodel_BaseEdge
+	connect
+		Metamodel_Class -> Metamodel_Property;
+
+edge class Metamodel_ownedOperation extends Metamodel_BaseEdge
+	connect
+		Metamodel_Enumeration -> Metamodel_Operation,
+		Metamodel_Class -> Metamodel_Operation;
+
+edge class Metamodel_ownedComment extends Metamodel_BaseEdge
+	connect
+		Metamodel_PrimitiveType -> Metamodel_Comment,
+		Metamodel_Association -> Metamodel_Comment,
+		Metamodel_Enumeration -> Metamodel_Comment,
+		Metamodel_EnumerationLiteral -> Metamodel_Comment,
+		Metamodel_Class -> Metamodel_Comment,
+		Metamodel_Constraint -> Metamodel_Comment,
+		Metamodel_Property -> Metamodel_Comment,
+		Metamodel_Operation -> Metamodel_Comment;
+
+edge class Metamodel_ownedRule extends Metamodel_BaseEdge
+	connect
+		Metamodel_Enumeration -> Metamodel_Constraint,
+		Metamodel_Class -> Metamodel_Constraint,
+		Metamodel_Operation -> Metamodel_Constraint;
+
+edge class Metamodel_specification extends Metamodel_BaseEdge
+	connect
+		Metamodel_Constraint -> Metamodel_OpaqueExpression;
+
+edge class Metamodel_language extends Metamodel_BaseEdge
+	connect
+		Metamodel_OpaqueExpression -> Metamodel_String;
+
+edge class Metamodel_body extends Metamodel_BaseEdge
+	connect
+		Metamodel_Comment -> Metamodel_String,
+		Metamodel_OpaqueExpression -> Metamodel_String;
+
+edge class Metamodel_ownedParameter extends Metamodel_BaseEdge
+	connect
+		Metamodel_Operation -> Metamodel_Parameter;
+
+edge class Metamodel_ownedMember extends Metamodel_BaseEdge
+	connect
+		Metamodel_Package -> Metamodel_Class,
+		Metamodel_Package -> Metamodel_Package;
+
+edge class Metamodel_ownedEnd extends Metamodel_BaseEdge
+	connect
+		Metamodel_Association -> Metamodel_Property;
+
+edge class Metamodel_uri extends Metamodel_BaseEdge;
+
+edge class Metamodel_isDerivedUnion extends Metamodel_BaseEdge;
+
+edge class Metamodel_postcondition extends Metamodel_BaseEdge;
+
+edge class Metamodel_default extends Metamodel_BaseEdge;
+
+edge class Metamodel_isReadOnly extends Metamodel_BaseEdge;
+
+edge class Metamodel_isAbstract extends Metamodel_BaseEdge;
+
+edge class Metamodel_isOrdered extends Metamodel_BaseEdge;
+
+edge class Metamodel_redefinedProperty extends Metamodel_BaseEdge;
+
+edge class Metamodel_superClass extends Metamodel_BaseEdge;
+
+edge class Metamodel_isDerived extends Metamodel_BaseEdge;
+
+edge class Metamodel_subsettedProperty extends Metamodel_BaseEdge;
+
+edge class Metamodel_isComposite extends Metamodel_BaseEdge;
+
+edge class Metamodel_redefinedOperation extends Metamodel_BaseEdge;
+
+edge class Metamodel_isQuery extends Metamodel_BaseEdge;
+
+edge class Metamodel_precondition extends Metamodel_BaseEdge;
+
+edge class Metamodel_bodyCondition extends Metamodel_BaseEdge;
+
+edge class Metamodel_annotatedElement extends Metamodel_BaseEdge;
+
+edge class Metamodel_constrainedElement extends Metamodel_BaseEdge;
+
+edge class Metamodel_direction extends Metamodel_BaseEdge;
+
+edge class Metamodel_upper extends Metamodel_BaseEdge;
+
+edge class Metamodel_lower extends Metamodel_BaseEdge;
+
+edge class Metamodel_memberEnd extends Metamodel_BaseEdge;
+
+edge class Metamodel_type extends Metamodel_BaseEdge;
+
+edge class Metamodel_association extends Metamodel_BaseEdge;
+
+edge class Metamodel_name extends Metamodel_BaseEdge;
+
+edge class Metamodel_value extends Metamodel_BaseEdge;
+
+edge class Metamodel_element extends Metamodel_BaseEdge;
+
+
+  
+  
+  
+  
