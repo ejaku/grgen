@@ -100,7 +100,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public static void PrintVersion()
         {
-            Console.WriteLine("GrShell version v1.3 ($Revision$)");
+            Console.WriteLine("GrShell version v1.4 ($Revision$)");
         }
 
         private bool BackendExists()
@@ -1532,6 +1532,10 @@ namespace de.unika.ipd.grGen.grShell
             curGRS = null;
 
             if(InDebugMode) debugger.FinishRewriteSequence();
+
+            StreamWriter emitWriter = curShellGraph.Graph.EmitWriter as StreamWriter;
+            if(emitWriter != null)
+                emitWriter.Flush();
             
             if(installedDumpHandlers)
             {
