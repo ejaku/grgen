@@ -859,6 +859,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(type.BaseType == typeof(LGSPRulePattern))
                     {
                         LGSPRulePattern rulePattern = (LGSPRulePattern) initialAssembly.CreateInstance(type.FullName);
+                        rulePattern.initialize();
 
                         GenerateScheduledSearchPlans(rulePattern.patternGraph, matcherGen, rulePattern.isSubpattern, false);
 

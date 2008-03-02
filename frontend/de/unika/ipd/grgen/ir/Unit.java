@@ -27,6 +27,7 @@ package de.unika.ipd.grgen.ir;
 import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -132,11 +133,26 @@ public class Unit extends Identifiable {
 		digestValid = true;
 	}
 
-	/** Get the digest of thia type model. */
+	/** Get the digest of this type model. */
 	public final String getTypeDigest() {
 		if(!digestValid)
 			buildDigest();
 
 		return digest;
+	}
+
+	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern() {
+		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
+		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();
+		for(Action action : actions) {
+			((MatchingAction)action).pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+					alreadyDefinedNodes, alreadyDefinedEdges);
+			alreadyDefinedNodes.clear();
+		}
+		for(Action subpattern : subpatterns) {
+			((MatchingAction)subpattern).pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+					alreadyDefinedNodes, alreadyDefinedEdges);
+			alreadyDefinedEdges.clear();
+		}
 	}
 }

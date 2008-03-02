@@ -546,6 +546,7 @@ public class Main extends Base implements Sys {
 		// Construct the Intermediate representation.
 		buildIR = -System.currentTimeMillis();
 		buildIR();
+		irUnit.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern();
 		buildIR += System.currentTimeMillis();
 
 		GraphDumperFactory factory = new VCGDumperFactory(this);

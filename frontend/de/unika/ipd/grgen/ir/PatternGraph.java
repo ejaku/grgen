@@ -54,10 +54,12 @@ public class PatternGraph extends Graph {
 	/** A list of all potentially homomorphic edge sets. */
 	private final List<Collection<Edge>> homEdges = new LinkedList<Collection<Edge>>();
 
-	/** A set of all pattern nodes, which may be homomorphically matched to any other pattern nodes. */
+	/** A set of nodes which will be matched homomorphically to any other node in the pattern.
+	 *  they appear if they're not referenced within the pattern, but some nested component uses them */
 	private final HashSet<Node> homToAllNodes = new HashSet<Node>();
 
-    /** A set of all pattern edges, which may be homomorphically matched to any other pattern edges. */
+    /** A set of edges which will be matched homomorphically to any other edge in the pattern.
+     *  they appear if they're not referenced within the pattern, but some nested component uses them  */
 	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
 
 	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
@@ -155,46 +157,80 @@ public class PatternGraph extends Graph {
 		return c;
 	}
 
-	public Collection<Node> getElemsHomToAllNodes() {
-		return homToAllNodes;
-	}
-
-	public Collection<Edge> getElemsHomToAllEdges() {
-		return homToAllEdges;
-	}
-
 	public boolean isHomomorphic(Node n1, Node n2) {
-		return getHomomorphic(n1).contains(n2);
+		return homToAllNodes.contains(n1) || homToAllNodes.contains(n2)
+				|| getHomomorphic(n1).contains(n2);
 	}
 
 	public boolean isHomomorphic(Edge e1, Edge e2) {
-		return getHomomorphic(e1).contains(e2);
+		return homToAllEdges.contains(e1) || homToAllEdges.contains(e2)
+				|| getHomomorphic(e1).contains(e2);
 	}
 
-	public boolean isHomToAll(Node node) {
-		return homToAllNodes.contains(node);
-	}
+	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+			HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges) {
+		///////////////////////////////////////////////////////////////////////////////
+		// pre: add locally referenced/defined elements to already referenced/defined elements
 
-	public boolean isHomToAll(Edge edge) {
-		return homToAllEdges.contains(edge);
-	}
+		for(Node node : getNodes()) {
+			alreadyDefinedNodes.add(node);
+		}
+		for(Edge edge : getEdges()) {
+			alreadyDefinedEdges.add(edge);
+		}
 
-	public boolean isIsoToAll(Node node) {
-		for(Collection<? extends GraphEntity> c : homNodes) {
-			if (c.contains(node)) {
-				return false;
+		///////////////////////////////////////////////////////////////////////////////
+		// depth first walk over IR-pattern-graph tree structure
+		for(Alternative alternative : getAlts()) {
+			for(PatternGraph altCase : alternative.getAlternativeCases()) {
+				altCase.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+						(HashSet<Node>)alreadyDefinedNodes.clone(), (HashSet<Edge>)alreadyDefinedEdges.clone());
 			}
 		}
-		return true;
-	}
 
-	public boolean isIsoToAll(Edge edge) {
-		for(Collection<? extends GraphEntity> c : homEdges) {
-			if (c.contains(edge)) {
-				return false;
+		for (PatternGraph negative : getNegs()) {
+			negative.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+					(HashSet<Node>)alreadyDefinedNodes.clone(), (HashSet<Edge>)alreadyDefinedEdges.clone());
+		}
+
+		///////////////////////////////////////////////////////////////////////////////
+		// post: add elements of subpatterns not defined there to our nodes'n'edges
+
+		// add elements needed in alternative cases, which are not defined there and are neither defined nor used here
+		// they must get handed down as preset from the defining nesting pattern to here
+		for(Alternative alternative : getAlts()) {
+			for(PatternGraph altCase : alternative.getAlternativeCases()) {
+				for(Node node : altCase.getNodes()) {
+					if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
+						addSingleNode(node);
+						addHomToAll(node);
+					}
+				}
+				for(Edge edge : altCase.getEdges()) {
+					if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
+						addSingleEdge(edge); // TODO: maybe we loose context here
+						addHomToAll(edge);
+					}
+				}
 			}
 		}
-		return true;
+
+		// add elements needed in nested neg, which are not defined there and are neither defined nor used here
+		// they must get handed down as preset from the defining nesting pattern to here
+		for (PatternGraph negative : getNegs()) {
+			for(Node node : negative.getNodes()) {
+				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
+					addSingleNode(node);
+					addHomToAll(node);
+				}
+			}
+			for(Edge edge : negative.getEdges()) {
+				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
+					addSingleEdge(edge); // TODO: maybe we loose context here
+					addHomToAll(edge);
+				}
+			}
+		}
 	}
 }
 

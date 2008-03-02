@@ -803,20 +803,35 @@ exitSecondLoop: ;
         public void DetermineAndAppendHomomorphyChecks(ScheduledSearchPlan ssp, int j)
         {
             ///////////////////////////////////////////////////////////////////////////
-            // first handle special cases pure homomorphy and pure isomorphy
+            // first handle special case pure homomorphy
 
             SearchPlanNode spn_j = (SearchPlanNode)ssp.Operations[j].Element;
 
-            bool[] homToAll;
-
-            if (spn_j.NodeType == PlanNodeType.Node) {
-                homToAll = ssp.PatternGraph.HomomorphicToAllNodes;
+            bool homToAll = true;
+            if (spn_j.NodeType == PlanNodeType.Node)
+            {
+                for (int i = 0; i < ssp.PatternGraph.nodes.Length; ++i)
+                {
+                    if (!ssp.PatternGraph.homomorphicNodes[spn_j.ElementID - 1, i])
+                    {
+                        homToAll = false;
+                        break;
+                    }
+                }
             }
-            else { // (spn_j.NodeType == PlanNodeType.Edge)
-                homToAll = ssp.PatternGraph.HomomorphicToAllEdges;
+            else // (spn_j.NodeType == PlanNodeType.Edge)
+            {
+                for (int i = 0; i < ssp.PatternGraph.edges.Length; ++i)
+                {
+                    if (!ssp.PatternGraph.homomorphicEdges[spn_j.ElementID - 1, i])
+                    {
+                        homToAll = false;
+                        break;
+                    }
+                }
             }
 
-            if (homToAll[spn_j.ElementID - 1])
+            if (homToAll)
             {
                 // operation is allowed to be homomorph with everything
                 // no checks for isomorphy or restricted homomorphy needed
@@ -1253,7 +1268,7 @@ exitSecondLoop: ;
             // dump built search program for debugging
             SourceBuilder builder = new SourceBuilder(CommentSourceCode);
             searchProgram.Dump(builder);
-            StreamWriter writer = new StreamWriter(rulePattern.name + "_" + searchProgram.Name + "_built_dump.txt");
+            StreamWriter writer = new StreamWriter(rulePattern.name + "_" + alt.name + "_" + searchProgram.Name + "_built_dump.txt");
             writer.Write(builder.ToString());
             writer.Close();
 #endif
@@ -1266,7 +1281,7 @@ exitSecondLoop: ;
             // dump completed search program for debugging
             builder = new SourceBuilder(CommentSourceCode);
             searchProgram.Dump(builder);
-            writer = new StreamWriter(rulePattern.name + "_" + searchProgram.Name + "_completed_dump.txt");
+            writer = new StreamWriter(rulePattern.name + "_" + alt.name + "_" + searchProgram.Name + "_completed_dump.txt");
             writer.Write(builder.ToString());
             writer.Close();
 #endif

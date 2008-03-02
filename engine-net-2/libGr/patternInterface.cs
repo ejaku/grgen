@@ -77,29 +77,6 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         bool[,] HomomorphicEdges { get; }
 
-        // TODO: was haben die hom/iso-to-all dinger in der schnittstelle zu suchen ? 
-        // das sind reine optimierungen
-
-        /// <summary>
-        /// An array specifiying for each pattern node, whether it may be matched non-isomorphic to all other nodes.
-        /// </summary>
-        //bool[] HomomorphicToAllNodes { get; }
-
-        /// <summary>
-        /// An array specifiying for each pattern edge, whether it may be matched non-isomorphic to all other edges.
-        /// </summary>
-        //bool[] HomomorphicToAllEdges { get; }
-
-        /// <summary>
-        /// An array specifiying for each pattern node, whether it must be matched isomorphic to all other nodes.
-        /// </summary>
-        //bool[] IsomorphicToAllNodes { get; }
-
-        /// <summary>
-        /// An array specifiying for each pattern edge, whether it must be matched isomorphic to all other edges.
-        /// </summary>
-        //bool[] IsomorphicToAllEdges { get; }
-
         /// <summary>
         /// An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
         /// </summary>

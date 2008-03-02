@@ -149,7 +149,7 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkSubpatternsFound,
                             null,
-                            enclosingCheckNegative ?? enclosingSearchProgram);
+                            enclosingCheckNegative ?? (enclosingAlternative ?? enclosingSearchProgram));
 
                         // check subpatterns found has a further check maximum matches nested within check failed code
                         // give it its special bit of attention here
@@ -219,7 +219,7 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             tasksLeft,
                             null,
-                            enclosingCheckNegative ?? enclosingSearchProgram);
+                            enclosingCheckNegative ?? (enclosingAlternative ?? enclosingSearchProgram));
 
                         // check tasks left has a further check maximum matches nested within check failed code
                         // give it its special bit of attention here
@@ -360,10 +360,10 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint = insertionPoint.Append(removeIsomorphy);
                 }
                 // insert code to undo subpattern matching initialization if we leave the subpattern matching method
-                if (op is InitalizeSubpatternMatching)
+                if (op is InitializeSubpatternMatching)
                 {
-                    InitalizeSubpatternMatching initialize =
-                        op as InitalizeSubpatternMatching;
+                    InitializeSubpatternMatching initialize =
+                        op as InitializeSubpatternMatching;
                     FinalizeSubpatternMatching finalize =
                         new FinalizeSubpatternMatching();
                     insertionPoint = insertionPoint.Append(finalize);

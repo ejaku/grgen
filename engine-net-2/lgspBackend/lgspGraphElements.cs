@@ -6,6 +6,9 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
 {
+    /// <summary>
+    /// Class implementing nodes in the lib gr search plan backend
+    /// </summary>
     public abstract class LGSPNode : INode
     {
         public NodeType type;
@@ -28,6 +31,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public bool isMatchedByEnclosingPattern = false;
 
+        /// <summary>
+        /// previous and next node in the list containing all the nodes of one type
+        /// </summary>
         public LGSPNode typeNext, typePrev;
 
 #if ELEMENTKNOWSVARIABLES
@@ -39,7 +45,14 @@ namespace de.unika.ipd.grGen.lgsp
         public bool hasVariables;
 #endif
 
+        /// <summary>
+        /// entry node into the outgoing edges list - not of type edge head, real edge or null
+        /// </summary>
         public LGSPEdge outhead;
+
+        /// <summary>
+        /// entry node into the incoming edges list - not of type edge head, real edge or null
+        /// </summary>
         public LGSPEdge inhead;
 
         public LGSPNode(NodeType nodeType)
@@ -294,6 +307,9 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract void Recycle();
     }
 
+    /// <summary>
+    /// Special head node of the lists containing all the nodes of one type
+    /// </summary>
     public class LGSPNodeHead : LGSPNode
     {
         public LGSPNodeHead() : base(null) { }
@@ -324,6 +340,9 @@ namespace de.unika.ipd.grGen.lgsp
         }
     }
 
+    /// <summary>
+    /// Class implementing edges in the lib gr search plan backend
+    /// </summary>
     public abstract class LGSPEdge : IEdge
     {
         public EdgeType type;
@@ -346,6 +365,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public bool isMatchedByEnclosingPattern = false;
 
+        /// <summary>
+        /// previous and next edge in the list containing all the edges of one type
+        /// </summary>
         public LGSPEdge typeNext, typePrev;
 
 #if ELEMENTKNOWSVARIABLES
@@ -357,9 +379,20 @@ namespace de.unika.ipd.grGen.lgsp
         public bool hasVariables;
 #endif
 
+        /// <summary>
+        /// source and target nodes of this edge
+        /// </summary>
         public LGSPNode source, target;
 
-        public LGSPEdge inNext, inPrev, outNext, outPrev;
+        /// <summary>
+        /// previous and next edge in the incoming list of the target node containing all of it's incoming edges
+        /// </summary>
+        public LGSPEdge inNext, inPrev;
+
+        /// <summary>
+        /// previous and next edge in the outgoing list of the source node containing all of it's outgoing edges
+        /// </summary>
+        public LGSPEdge outNext, outPrev;
               
         public LGSPEdge(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
         {
@@ -430,6 +463,9 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract void Recycle();
     }
 
+    /// <summary>
+    /// Special head edge of the lists containing all the edges of one type
+    /// </summary>
     public class LGSPEdgeHead : LGSPEdge
     {
         public LGSPEdgeHead() : base(null, null, null) { }

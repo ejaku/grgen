@@ -104,7 +104,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
             // initialize task/result-pushdown handling in subpattern matcher
-            InitalizeSubpatternMatching initialize = new InitalizeSubpatternMatching();
+            InitializeSubpatternMatching initialize = new InitializeSubpatternMatching();
             insertionPoint = insertionPoint.Append(initialize);
 
             // start building with first operation in scheduled search plan
@@ -140,12 +140,13 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
             // initialize task/result-pushdown handling in subpattern matcher
-            InitalizeSubpatternMatching initialize = new InitalizeSubpatternMatching();
+            InitializeSubpatternMatching initialize = new InitializeSubpatternMatching();
             insertionPoint = insertionPoint.Append(initialize);
 
             // build alternative matching search programs, one per case
-            foreach (PatternGraph altCase in alternative.alternativeCases)
+            for (int i=0; i<alternative.alternativeCases.Length; ++i)
             {
+                PatternGraph altCase = alternative.alternativeCases[i];
                 ScheduledSearchPlan scheduledSearchPlan = altCase.ScheduleIncludingNegatives;
 
                 GetPartialMatchOfAlternative matchAlternative = new GetPartialMatchOfAlternative(
@@ -161,6 +162,14 @@ namespace de.unika.ipd.grGen.lgsp
                 BuildScheduledSearchPlanOperationIntoSearchProgram(
                     0,
                     matchAlternative.OperationsList);
+
+                // save matches found by alternative case to get clean start for matching next alternative case
+                if(i<alternative.alternativeCases.Length-1)
+                {
+                    NewMatchesListForFollowingMatches newMatchesList =
+                        new NewMatchesListForFollowingMatches();
+                    insertionPoint = insertionPoint.Append(newMatchesList);
+                }
             }
             this.patternGraph = null;
 
@@ -1296,17 +1305,28 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertGlobalAccept(SearchProgramOperation insertionPoint)
         {
+            bool isAction = programType == SearchProgramType.Action
+                    || programType == SearchProgramType.MissingPreset;
+
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
             {
-                AcceptCandidateGlobal acceptGlobal =
-                    new AcceptCandidateGlobal(patternGraph.nodes[i].name, true);
-                insertionPoint = insertionPoint.Append(acceptGlobal);
+                if (patternGraph.nodes[i].PointOfDefinition == patternGraph
+                    || patternGraph.nodes[i].PointOfDefinition == null && isAction)
+                {
+                    AcceptCandidateGlobal acceptGlobal =
+                        new AcceptCandidateGlobal(patternGraph.nodes[i].name, true);
+                    insertionPoint = insertionPoint.Append(acceptGlobal);
+                }
             }
             for (int i = 0; i < patternGraph.edges.Length; ++i)
             {
-                AcceptCandidateGlobal acceptGlobal =
-                    new AcceptCandidateGlobal(patternGraph.edges[i].name, false);
-                insertionPoint = insertionPoint.Append(acceptGlobal);
+                if (patternGraph.edges[i].PointOfDefinition == patternGraph
+                    || patternGraph.edges[i].PointOfDefinition == null && isAction)
+                {
+                    AcceptCandidateGlobal acceptGlobal =
+                        new AcceptCandidateGlobal(patternGraph.edges[i].name, false);
+                    insertionPoint = insertionPoint.Append(acceptGlobal);
+                }
             }
 
             return insertionPoint;

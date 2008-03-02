@@ -10,7 +10,7 @@ namespace de.unika.ipd.grGen.Action_test
 	public class Rule_testRule : LGSPRulePattern
 	{
 		private static Rule_testRule instance = null;
-		public static Rule_testRule Instance { get { if (instance==null) instance = new Rule_testRule(); return instance; } }
+		public static Rule_testRule Instance { get { if (instance==null) { instance = new Rule_testRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] testRule_node_a_AllowedTypes = null;
 		public static NodeType[] testRule_node_f_AllowedTypes = null;
@@ -36,6 +36,13 @@ namespace de.unika.ipd.grGen.Action_test
 			name = "testRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_testRule;
 			PatternNode testRule_node_a = new PatternNode((int) NodeTypes.@D231_4121, "testRule_node_a", "a", testRule_node_a_AllowedTypes, testRule_node_a_IsAllowedType, 5.5F, -1);
 			PatternNode testRule_node_f = new PatternNode((int) NodeTypes.@B21, "testRule_node_f", "f", testRule_node_f_AllowedTypes, testRule_node_f_IsAllowedType, 5.5F, -1);
@@ -59,15 +66,7 @@ namespace de.unika.ipd.grGen.Action_test
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
-				},
-				new bool[] {
-					false, false, false, },
-				new bool[] {
-					false, false, },
-				new bool[] {
-					true, true, true, },
-				new bool[] {
-					true, true, }
+				}
 			);
 			testRule_node_a.PointOfDefinition = pat_testRule;
 			testRule_node_f.PointOfDefinition = pat_testRule;
@@ -76,51 +75,52 @@ namespace de.unika.ipd.grGen.Action_test
 			testRule_edge__edge1.PointOfDefinition = pat_testRule;
 
 			patternGraph = pat_testRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_a = match.Nodes[ (int) testRule_NodeNums.@a];
-			LGSPNode node_f = match.Nodes[ (int) testRule_NodeNums.@f];
-			LGSPNode node_m = match.Nodes[ (int) testRule_NodeNums.@m];
-			Node_D2211_2222_31 node_are = (Node_D2211_2222_31) graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
-			Node_D231_4121 node_fre = (Node_D231_4121) graph.Retype(node_f, NodeType_D231_4121.typeVar);
-			Node_D11_2221 node_mre = (Node_D11_2221) graph.Retype(node_m, NodeType_D11_2221.typeVar);
+			LGSPNode node_a = match.Nodes[(int) testRule_NodeNums.@a];
+			LGSPNode node_f = match.Nodes[(int) testRule_NodeNums.@f];
+			LGSPNode node_m = match.Nodes[(int) testRule_NodeNums.@m];
+			LGSPNode node_are = graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
+			INode_D2211_2222_31 inode_are = (INode_D2211_2222_31) node_are;
+			LGSPNode node_fre = graph.Retype(node_f, NodeType_D231_4121.typeVar);
+			INode_D231_4121 inode_fre = (INode_D231_4121) node_fre;
+			LGSPNode node_mre = graph.Retype(node_m, NodeType_D11_2221.typeVar);
+			INode_D11_2221 inode_mre = (INode_D11_2221) node_mre;
 			int var_i = 1234;
-			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, node_are.@d2211_2222_31, var_i);
-			node_are.@d2211_2222_31 = var_i;
+			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, inode_are.@d2211_2222_31, var_i);
+			inode_are.@d2211_2222_31 = var_i;
 			var_i = 5678;
-			graph.ChangingNodeAttribute(node_fre, NodeType_D231_4121.AttributeType_d231_4121, node_fre.@d231_4121, var_i);
-			node_fre.@d231_4121 = var_i;
+			graph.ChangingNodeAttribute(node_fre, NodeType_D231_4121.AttributeType_d231_4121, inode_fre.@d231_4121, var_i);
+			inode_fre.@d231_4121 = var_i;
 			var_i = 9012;
-			graph.ChangingNodeAttribute(node_mre, NodeType_D11_2221.AttributeType_d11_2221, node_mre.@d11_2221, var_i);
-			node_mre.@d11_2221 = var_i;
+			graph.ChangingNodeAttribute(node_mre, NodeType_D11_2221.AttributeType_d11_2221, inode_mre.@d11_2221, var_i);
+			inode_mre.@d11_2221 = var_i;
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_a = match.Nodes[ (int) testRule_NodeNums.@a];
-			LGSPNode node_f = match.Nodes[ (int) testRule_NodeNums.@f];
-			LGSPNode node_m = match.Nodes[ (int) testRule_NodeNums.@m];
-			Node_D2211_2222_31 node_are = (Node_D2211_2222_31) graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
-			Node_D231_4121 node_fre = (Node_D231_4121) graph.Retype(node_f, NodeType_D231_4121.typeVar);
-			Node_D11_2221 node_mre = (Node_D11_2221) graph.Retype(node_m, NodeType_D11_2221.typeVar);
+			LGSPNode node_a = match.Nodes[(int) testRule_NodeNums.@a];
+			LGSPNode node_f = match.Nodes[(int) testRule_NodeNums.@f];
+			LGSPNode node_m = match.Nodes[(int) testRule_NodeNums.@m];
+			LGSPNode node_are = graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
+			INode_D2211_2222_31 inode_are = (INode_D2211_2222_31) node_are;
+			LGSPNode node_fre = graph.Retype(node_f, NodeType_D231_4121.typeVar);
+			INode_D231_4121 inode_fre = (INode_D231_4121) node_fre;
+			LGSPNode node_mre = graph.Retype(node_m, NodeType_D11_2221.typeVar);
+			INode_D11_2221 inode_mre = (INode_D11_2221) node_mre;
 			int var_i = 1234;
-			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, node_are.@d2211_2222_31, var_i);
-			node_are.@d2211_2222_31 = var_i;
+			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, inode_are.@d2211_2222_31, var_i);
+			inode_are.@d2211_2222_31 = var_i;
 			var_i = 5678;
-			graph.ChangingNodeAttribute(node_fre, NodeType_D231_4121.AttributeType_d231_4121, node_fre.@d231_4121, var_i);
-			node_fre.@d231_4121 = var_i;
+			graph.ChangingNodeAttribute(node_fre, NodeType_D231_4121.AttributeType_d231_4121, inode_fre.@d231_4121, var_i);
+			inode_fre.@d231_4121 = var_i;
 			var_i = 9012;
-			graph.ChangingNodeAttribute(node_mre, NodeType_D11_2221.AttributeType_d11_2221, node_mre.@d11_2221, var_i);
-			node_mre.@d11_2221 = var_i;
+			graph.ChangingNodeAttribute(node_mre, NodeType_D11_2221.AttributeType_d11_2221, inode_mre.@d11_2221, var_i);
+			inode_mre.@d11_2221 = var_i;
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {  };

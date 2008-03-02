@@ -394,6 +394,11 @@
             Don't forget to call Commit after a transaction is finished!
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraph.EmitWriter">
+            <summary>
+            The writer used by emit statements. By default this is Console.Out.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraph.ReuseOptimization">
             <summary>
             If true (the default case), elements deleted during a rewrite
@@ -752,6 +757,11 @@
             <param name="oldEdge">The edge to be retyped.</param>
             <param name="newEdge">The new edge with the common attributes, but not fully connected with the adjacent nodes, yet.</param>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.BaseGraph.emitWriter">
+            <summary>
+            The writer used by emit statements. By default this is Console.Out.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.GetNodeType(System.String)">
             <summary>
             Returns the node type with the given name.
@@ -796,11 +806,12 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.DumpMatch(de.unika.ipd.grGen.libGr.IDumper,de.unika.ipd.grGen.libGr.DumpInfo,de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.DumpMatchSpecial)">
             <summary>
-            Dumps one or more matches with a given graph dumper.
+            Dumps the current graph and highlights any given matches.
+            If no match is given, the whole graph is dumped without any changes.
             </summary>
             <param name="dumper">The graph dumper to be used.</param>
             <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
-            <param name="matches">An IMatches object containing the matches.</param>
+            <param name="matches">An IMatches object containing the matches or null, if the graph is to be dumped normally.</param>
             <param name="which">Which match to dump, or AllMatches for dumping all matches
             adding connections between them, or OnlyMatches to dump the matches only</param>
         </member>
@@ -925,9 +936,19 @@
             Enumerates all edges in the graph.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.BaseGraph.EmitWriter">
+            <summary>
+            The writer used by emit statements. By default this is Console.Out.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.BaseGraph.VirtualNodeType">
             <summary>
             Trivial IType implementation for virtual nodes
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.NodeType">
+            <summary>
+            A representation of a GrGen node type.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.GrGenType">
@@ -949,22 +970,50 @@
         <member name="F:de.unika.ipd.grGen.libGr.GrGenType.subOrSameGrGenTypes">
             <summary>
             Array containing this type first and following all sub types.
+            </summary>
+            <remarks>
             Must be assigned the same array as SubOrSameTypes of NodeType/EdgeType.
             It is ugly, but one of the few ways to override a property of
             an abstract class with another return type.
             Not meant to be used by users, but public because of assignments from
             generated code.
+            </remarks>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.GrGenType.directSubGrGenTypes">
+            <summary>
+            Array containing all direct sub types of this type.
             </summary>
+            <remarks>
+            Must be assigned the same array as DirectSubTypes of NodeType/EdgeType.
+            It is ugly, but one of the few ways to override a property of
+            an abstract class with another return type.
+            Not meant to be used by users, but public because of assignments from
+            generated code.
+            </remarks>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.GrGenType.superOrSameGrGenTypes">
             <summary>
             Array containing this type first and following all super types.
+            </summary>
+            <remarks>
             Must be assigned the same array as SubOrSameTypes of NodeType/EdgeType.
             It is ugly, but one of the few ways to override a property of
             an abstract class with another return type.
             Not meant to be used by users, but public because of assignments from
             generated code.
+            </remarks>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.GrGenType.directSuperGrGenTypes">
+            <summary>
+            Array containing all direct super types of this type.
             </summary>
+            <remarks>
+            Must be assigned the same array as DirectSuperTypes of NodeType/EdgeType.
+            It is ugly, but one of the few ways to override a property of
+            an abstract class with another return type.
+            Not meant to be used by users, but public because of assignments from
+            generated code.
+            </remarks>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GrGenType.GetAttributeType(System.String)">
             <summary>
@@ -1024,9 +1073,19 @@
             Array containing this type first and following all sub types.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.DirectSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.GrGenType.SuperOrSameTypes">
             <summary>
             Array containing this type first and following all super types.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.GrGenType.DirectSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.GrGenType.SubTypes">
@@ -1068,6 +1127,12 @@
             Enumerates all attribute types of this type.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NodeType.#ctor(System.Int32)">
+            <summary>
+            Constructs a NodeType instance with the given type ID.
+            </summary>
+            <param name="typeID">The unique type ID.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.NodeType.CreateNode">
             <summary>
             Creates an INode object according to this type.
@@ -1087,9 +1152,19 @@
             Array containing this type first and following all sub types
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.NodeType.directSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.NodeType.superOrSameTypes">
             <summary>
             Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.NodeType.directSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.NodeType.IsNodeType">
@@ -1102,9 +1177,19 @@
             Array containing this type first and following all sub types
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.DirectSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.NodeType.SuperOrSameTypes">
             <summary>
             Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.DirectSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.BaseGraph.VirtualNode">
@@ -1254,6 +1339,14 @@
             <summary>
             Performs the rule specific modifications to the given graph with the given match.
             The graph and match object must have the correct type for the used backend.
+            </summary>
+            <returns>An array of elements returned by the rule.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IAction.ModifyAll(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IMatches)">
+            <summary>
+            Performs the rule specific modifications to the given graph with all of the given matches.
+            The graph and match object must have the correct type for the used backend.
+            No OnRewritingNextMatch events are triggered by this function.
             </summary>
             <returns>An array of elements returned by the rule.</returns>
         </member>
@@ -1782,8 +1875,20 @@
             <summary>
             Parses a given string in xgrs syntax and builds a Sequence object.
             </summary>
-            <param name="sequenceStr">The string representing a xgrs (e.g. "test{7} &amp;&amp; (chicken+ || egg)*")</param>
+            <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
             <param name="actions">The BaseActions object containing the rules used in the string.</param>
+            <returns>The sequence object according to sequenceStr.</returns>
+            <exception cref="T:de.unika.ipd.grGen.libGr.sequenceParser.ParseException">Thrown when a syntax error was found in the string.</exception>
+            <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
+            or return parameters.</exception>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,de.unika.ipd.grGen.libGr.BaseActions,de.unika.ipd.grGen.libGr.NamedGraph)">
+            <summary>
+            Parses a given string in xgrs syntax and builds a Sequence object.
+            </summary>
+            <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
+            <param name="actions">The BaseActions object containing the rules used in the string.</param>
+            <param name="namedGraph">A NamedGraph object to be used for named element access (@-operator).</param>
             <returns>The sequence object according to sequenceStr.</returns>
             <exception cref="T:de.unika.ipd.grGen.libGr.sequenceParser.ParseException">Thrown when a syntax error was found in the string.</exception>
             <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
@@ -2452,6 +2557,11 @@
             Don't forget to call Commit after a transaction is finished!
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NamedGraph.EmitWriter">
+            <summary>
+            The writer used by emit statements. By default this is Console.Out.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.NamedGraph.ReuseOptimization">
             <summary>
             If true (the default case), elements deleted during a rewrite
@@ -2598,6 +2708,11 @@
             The name of the pattern element.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternElement.UnprefixedName">
+            <summary>
+            The pure name of the pattern element as specified in the .grg without any prefixes.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IPatternNode">
             <summary>
             A pattern node of a rule pattern.
@@ -2648,49 +2763,52 @@
             A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.HomomorphicToAllNodes">
-            <summary>
-            An array specifiying for each pattern node, whether it may be matched non-isomorphic to all other nodes.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.HomomorphicToAllEdges">
-            <summary>
-            An array specifiying for each pattern edge, whether it may be matched non-isomorphic to all other edges.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.IsomorphicToAllNodes">
-            <summary>
-            An array specifiying for each pattern node, whether it must be matched isomorphic to all other nodes.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.IsomorphicToAllEdges">
-            <summary>
-            An array specifiying for each pattern edge, whether it must be matched isomorphic to all other edges.
-            </summary>
-        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.EmbeddedGraphs">
             <summary>
-            Not yet implemented...
+            An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.Alternatives">
+            <summary>
+            An array of alternatives, each alternative contains in its cases the subpatterns to choose out of.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.NegativePatternGraphs">
+            <summary>
+            An array of negative pattern graphs which make the search fail if they get matched
+            (NACs - Negative Application Conditions).
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IPatternGraphEmbedding">
             <summary>
-            Not yet implemented...
+            Embedding of a subpattern into it's containing pattern
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraphEmbedding.Name">
             <summary>
-            The name of the usage of the subgraph.
+            The name of the usage of the subpattern.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraphEmbedding.EmbeddedGraph">
             <summary>
-            Not yet implemented...
+            The embedded subpattern
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraphEmbedding.Connections">
             <summary>
-            Not yet implemented...
+            An array with the connections telling how the subpattern is connected to the containing pattern,
+            that are the pattern elements of the containing pattern used for that purpose
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IAlternative">
+            <summary>
+            An alternative is a pattern graph element containing subpatterns
+            of which one must get successfully matched so that the entire pattern gets matched successfully
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IAlternative.AlternativeCases">
+            <summary>
+            Array with the alternative cases
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IRulePattern">
@@ -2710,11 +2828,6 @@
         <member name="P:de.unika.ipd.grGen.libGr.IRulePattern.PatternGraph">
             <summary>
             The main pattern graph.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IRulePattern.NegativePatternGraphs">
-            <summary>
-            An array of pattern graphs of NACs (Negative Application Conditions).
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IRulePattern.Inputs">
@@ -2772,6 +2885,11 @@
             Enumerates all attribute types of this model.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.INodeModel">
+            <summary>
+            A type model for nodes.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.INodeModel.GetType(System.String)">
             <summary>
             Returns the element type with the given type name or null, if no type with this name exists.
@@ -2785,6 +2903,11 @@
         <member name="P:de.unika.ipd.grGen.libGr.INodeModel.Types">
             <summary>
             An array of all types in this type model.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IEdgeModel">
+            <summary>
+            A type model for edges.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IEdgeModel.GetType(System.String)">
@@ -2802,6 +2925,12 @@
             An array of all types in this type model.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ValidateInfo">
+            <summary>
+            A representation of a GrGen connection assertion.
+            Used by BaseGraph.Validate().
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.ValidateInfo.EdgeType">
             <summary>
             The edge type to which this constraint applies.
@@ -2816,6 +2945,38 @@
             <summary>
             The node type to which applicable target nodes must be compatible.
             </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ValidateInfo.SourceLower">
+            <summary>
+            The lower bound on the out-degree of the source node according to edges compatible to EdgeType.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ValidateInfo.SourceUpper">
+            <summary>
+            The upper bound on the out-degree of the source node according to edges compatible to EdgeType.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ValidateInfo.TargetLower">
+            <summary>
+            The lower bound on the in-degree of the target node according to edges compatible to EdgeType.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ValidateInfo.TargetUpper">
+            <summary>
+            The upper bound on the in-degree of the target node according to edges compatible to EdgeType.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ValidateInfo.#ctor(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,de.unika.ipd.grGen.libGr.NodeType,System.Int64,System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Constructs a ValidateInfo instance.
+            </summary>
+            <param name="edgeType">The edge type to which this constraint applies.</param>
+            <param name="sourceType">The node type to which applicable source nodes must be compatible.</param>
+            <param name="targetType">The node type to which applicable target nodes must be compatible.</param>
+            <param name="sourceLower">The lower bound on the out-degree of the source node according to edges compatible to EdgeType.</param>
+            <param name="sourceUpper">The upper bound on the out-degree of the source node according to edges compatible to EdgeType.</param>
+            <param name="targetLower">The lower bound on the in-degree of the target node according to edges compatible to EdgeType.</param>
+            <param name="targetUpper">The upper bound on the in-degree of the target node according to edges compatible to EdgeType.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.CAEType">
             <summary>
@@ -2917,6 +3078,27 @@
             Specifies the kind of a GrGen attribute.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.IntegerAttr">
+            <summary>The attribute is an integer.</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.BooleanAttr">
+            <summary>The attribute is a boolean.</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.StringAttr">
+            <summary>The attribute is a string.</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.EnumAttr">
+            <summary>The attribute is an enum.</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.FloatAttr">
+            <summary>The attribute is a float.</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.DoubleAttr">
+            <summary>The attribute is a double.</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.ObjectAttr">
+            <summary>The attribute is an object.</summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.AttributeType">
             <summary>
             Describes a GrGen attribute.
@@ -2995,6 +3177,17 @@
             Enumerates all enum members.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.EdgeType">
+            <summary>
+            A representation of a GrGen edge type.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EdgeType.#ctor(System.Int32)">
+            <summary>
+            Constructs an EdgeType instance with the given type ID.
+            </summary>
+            <param name="typeID">The unique type ID.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.EdgeType.CreateEdge(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
             <summary>
             Creates an IEdge object according to this type.
@@ -3018,9 +3211,19 @@
             Array containing this type first and following all sub types
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.EdgeType.directSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.EdgeType.superOrSameTypes">
             <summary>
             Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.EdgeType.directSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.EdgeType.IsNodeType">
@@ -3033,9 +3236,19 @@
             Array containing this type first and following all sub types
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.DirectSubTypes">
+            <summary>
+            Array containing all direct sub types of this type.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.EdgeType.SuperOrSameTypes">
             <summary>
             Array containing this type first and following all super types
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.DirectSuperTypes">
+            <summary>
+            Array containing all direct super types of this type.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IAttributes">
@@ -3043,10 +3256,123 @@
             A interface implemented by all GrGen attribute classes.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.GroupMode">
+            <summary>
+            The supported group modes.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.GroupMode.None">
+            <summary>
+            Do not group any nodes.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.GroupMode.GroupIncomingNodes">
+            <summary>
+            Group only source nodes of incoming edges of the group node.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.GroupMode.GroupOutgoingNodes">
+            <summary>
+            Group only target nodes of outgoing edges of the group node.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.GroupMode.GroupAllNodes">
+            <summary>
+            Group all nodes connected to the group node.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.GroupMode.Hidden">
+            <summary>
+            Hide the grouping edges in visualizations of the graph.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.GroupNodeType">
+            <summary>
+            Specifies which nodes are grouped by this group node type.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.GroupNodeType.NodeType">
+            <summary>
+            The node type of this group node type.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.GroupNodeType.Priority">
+            <summary>
+            Groups with lower priorities can be grouped inside groups with higher priorities.
+            For same priorities the behaviour is undefined.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GroupNodeType.#ctor(de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
+            <summary>
+            Initializes a GroupNodeType.
+            </summary>
+            <param name="nodeType">The node type of this group node type.</param>
+            <param name="priority">The priority to be used, when two group node types apply to one edge.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GroupNodeType.GetEdgeGroupMode(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Gets the group mode for this group node with an edge of type edgeType connected to a node of type adjNodeType.
+            </summary>
+            <param name="edgeType">The type of an edge connected to the group node.</param>
+            <param name="adjNodeType">The type of a node connected to the group node.</param>
+            <returns>The group mode for this case. Default is GroupMode.None.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GroupNodeType.SetEdgeGroupMode(de.unika.ipd.grGen.libGr.EdgeType,System.Boolean,de.unika.ipd.grGen.libGr.NodeType,System.Boolean,de.unika.ipd.grGen.libGr.GroupMode)">
+            <summary>
+            Sets the group mode for the given case. Inheritance is handled as specified by the parameters.
+            </summary>
+            <param name="edgeType">The type of an edge connected to the group node.</param>
+            <param name="exactEdgeType">Specifies, whether only the exact given edge type is meant.</param>
+            <param name="adjNodeType">The type of a node connected to the group node.</param>
+            <param name="exactAdjNodeType">Specifies, whether only the exact given node type is meant.</param>
+            <param name="groupMode">The group mode to be applied.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GroupNodeType.CompareTo(de.unika.ipd.grGen.libGr.GroupNodeType)">
+            <summary>
+            Compares this group node type to another given one.
+            </summary>
+            <param name="other">The other group node type.</param>
+            <returns>Priority - other.Priority</returns>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.GroupNodeType.groupEdges">
+            <summary>
+            A map from EdgeTypes to NodeTypes to a GroupMode, specifying which connected nodes are grouped into this node.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.GroupNodeType.GroupEdges">
+            <summary>
+            Enumerates all definitions related to this group node type.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.DumpInfo">
             <summary>
             A description of how to dump a graph.
             </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.DumpInfo.nextGroupID">
+            <summary>
+            Used as priorities for GroupNodeType objects.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.AddOrExtendGroupNodeType(de.unika.ipd.grGen.libGr.NodeType,System.Boolean,de.unika.ipd.grGen.libGr.EdgeType,System.Boolean,de.unika.ipd.grGen.libGr.NodeType,System.Boolean,de.unika.ipd.grGen.libGr.GroupMode)">
+            <summary>
+            Adds or extends a GroupNodeType.
+            All nodes connected via the given edge type and fulfilling the GroupType condition are placed inside a group
+            corresponding to the according group node. The edges which lead to the grouping are not displayed.
+            The group node types are ordered by the time of creation. Groups of group node types created later
+            will be moved into groups of group node types created earlier.
+            </summary>
+            <param name="nodeType">The node type of the group node.</param>
+            <param name="edgeType">An edge type along which nodes are grouped.</param>
+            <param name="adjNodeType">The adjacent node type according to the edge.</param>
+            <param name="groupMode">Specifies how the edge is used for grouping.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.GetGroupNodeType(de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Gets the GroupNodeType for a given node type.
+            </summary>
+            <param name="nodeType">The given node type.</param>
+            <returns>The GroupNodeType of the given node type or null, if it is not a group node type.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.GetTypeInfoTags(de.unika.ipd.grGen.libGr.GrGenType)">
             <summary>
@@ -3141,15 +3467,36 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseActions.EnteringSequence(de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
-            Fires a OnEnteringSequence event.
+            Fires an OnEnteringSequence event.
             </summary>
             <param name="seq">The sequence which is entered.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseActions.ExitingSequence(de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
-            Fires a OnExitingSequence event.
+            Fires an OnExitingSequence event.
             </summary>
             <param name="seq">The sequence which is exited.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseActions.Matched(de.unika.ipd.grGen.libGr.IMatches,System.Boolean)">
+            <summary>
+            Fires an OnMatched event.
+            </summary>
+            <param name="matches">The match result.</param>
+            <param name="special">The "special" flag of this rule application.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseActions.Finishing(de.unika.ipd.grGen.libGr.IMatches,System.Boolean)">
+            <summary>
+            Fires an OnFinishing event.
+            </summary>
+            <param name="matches">The match result.</param>
+            <param name="special">The "special" flag of this rule application.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.BaseActions.Finished(de.unika.ipd.grGen.libGr.IMatches,System.Boolean)">
+            <summary>
+            Fires an OnFinished event.
+            </summary>
+            <param name="matches">The match result.</param>
+            <param name="special">The "special" flag of this rule application.</param>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.BaseActions.MaxMatches">
             <summary>
@@ -3181,6 +3528,8 @@
         <member name="E:de.unika.ipd.grGen.libGr.BaseActions.OnFinished">
             <summary>
             Fired after the rewrite step of a rule.
+            Note, that the given matches object may contain invalid entries,
+            as parts of the match may have been deleted!
             </summary>
         </member>
         <member name="E:de.unika.ipd.grGen.libGr.BaseActions.OnEntereringSequence">

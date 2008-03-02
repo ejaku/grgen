@@ -49,7 +49,6 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
@@ -117,7 +116,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\tpublic class Pattern_" + actionName + " : LGSPRulePattern\n");
 		sb.append("\t{\n");
 		sb.append("\t\tprivate static Pattern_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
-		sb.append("\t\tpublic static Pattern_" + actionName + " Instance { get { if (instance==null) instance = new Pattern_" + actionName + "(); return instance; } }\n");
+		sb.append("\t\tpublic static Pattern_" + actionName + " Instance { get { if (instance==null) { instance = new Pattern_" + actionName + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
 		genTypeConditionsAndEnums(sb, action.getPattern(), action.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
 		sb.append("\n");
@@ -172,7 +171,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\tpublic class Rule_" + actionName + " : LGSPRulePattern\n");
 		sb.append("\t{\n");
 		sb.append("\t\tprivate static Rule_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
-		sb.append("\t\tpublic static Rule_" + actionName + " Instance { get { if (instance==null) instance = new Rule_" + actionName + "(); return instance; } }\n");
+		sb.append("\t\tpublic static Rule_" + actionName + " Instance { get { if (instance==null) { instance = new Rule_" + actionName + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
 		genTypeConditionsAndEnums(sb, action.getPattern(), action.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
 		sb.append("\n");
@@ -392,6 +391,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tname = \"" + formatIdentifiable(action) + "\";\n");
 		sb.append("\t\t\tisSubpattern = " + (isSubpattern ? "true" : "false") + ";\n");
 		sb.append("\n");
+		genRuleParamResult(sb, action);
+		sb.append("\t\t}\n");
 
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 		HashMap<Identifiable, String> alreadyDefinedIdentifiableToName = new HashMap<Identifiable, String>();
@@ -400,15 +401,15 @@ public class ActionsGen extends CSharpBase {
 
 		StringBuilder aux = new StringBuilder();
 		String patGraphVarName = "pat_" + pattern.getNameOfGraph();
+		sb.append("\t\tpublic override void initialize()\n");
+		sb.append("\t\t{\n");
+
 		sb.append("\t\t\tPatternGraph " + patGraphVarName + ";\n");
 		genPatternGraph(sb, aux, pattern, "", pattern.getNameOfGraph(), patGraphVarName, alreadyDefinedEntityToName,
 				alreadyDefinedIdentifiableToName, 0, action.getParameters(), max);
 		sb.append(aux);
 		sb.append("\n");
 		sb.append("\t\t\tpatternGraph = " + patGraphVarName + ";\n");
-		sb.append("\n");
-
-		genRuleParamResult(sb, action);
 
 		sb.append("\t\t}\n");
 	}
@@ -491,49 +492,8 @@ public class ActionsGen extends CSharpBase {
 				}
 				sb.append("},\n");
 			}
-			sb.append("\t\t\t\t}");
+			sb.append("\t\t\t\t}\n");
 		}
-		sb.append(",\n");
-
-		sb.append("\t\t\t\tnew bool[] {");
-		if(pattern.getNodes().size() > 0) {
-			sb.append("\n\t\t\t\t\t");
-			for(Node node : pattern.getNodes()) {
-				sb.append(pattern.isHomToAll(node));
-				sb.append(", ");
-			}
-		}
-		sb.append("},\n");
-
-		sb.append("\t\t\t\tnew bool[] {");
-		if(pattern.getEdges().size() > 0) {
-			sb.append("\n\t\t\t\t\t");
-			for(Edge edge : pattern.getEdges()) {
-				sb.append(pattern.isHomToAll(edge));
-				sb.append(", ");
-			}
-		}
-		sb.append("},\n");
-
-		sb.append("\t\t\t\tnew bool[] {");
-		if(pattern.getNodes().size() > 0) {
-			sb.append("\n\t\t\t\t\t");
-			for(Node node : pattern.getNodes()) {
-				sb.append(pattern.isIsoToAll(node));
-				sb.append(", ");
-			}
-		}
-		sb.append("},\n");
-
-		sb.append("\t\t\t\tnew bool[] {");
-		if(pattern.getEdges().size() > 0) {
-			sb.append("\n\t\t\t\t\t");
-			for(Edge edge : pattern.getEdges()) {
-				sb.append(pattern.isIsoToAll(edge));
-				sb.append(", ");
-			}
-		}
-		sb.append("}\n");
 
 		sb.append("\t\t\t);\n");
 

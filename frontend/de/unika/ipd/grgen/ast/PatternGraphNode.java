@@ -282,12 +282,14 @@ public class PatternGraphNode extends GraphNode {
 					Node neededNode = (Node)connection;
 					if(!gr.hasNode(neededNode)) {
 						gr.addSingleNode(neededNode);
+						gr.addHomToAll(neededNode);
 					}
 				}
 				else if(connection instanceof Edge) {
 					Edge neededEdge = (Edge)connection;
 					if(!gr.hasEdge(neededEdge)) {
 						gr.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
+						gr.addHomToAll(neededEdge);
 					}
 				}
 				else {
@@ -312,6 +314,26 @@ public class PatternGraphNode extends GraphNode {
 		}
 		for (GraphEntity e : gr.getEdges()) {
 			genTypeCondsFromTypeof(gr, e);
+		}
+
+		// add Condition elements only mentioned there to the IR
+		// (they're declared in an enclosing graph and locally only show up in the condition)
+		Set<Node> neededNodes = new LinkedHashSet<Node>();
+		Set<Edge> neededEdges = new LinkedHashSet<Edge>();
+		for(Expression cond : gr.getConditions()) {
+			cond.collectNodesnEdges(neededNodes, neededEdges);
+		}
+		for(Node neededNode : neededNodes) {
+			if(!gr.hasNode(neededNode)) {
+				gr.addSingleNode(neededNode);
+				gr.addHomToAll(neededNode);
+			}
+		}
+		for(Edge neededEdge : neededEdges) {
+			if(!gr.hasEdge(neededEdge)) {
+				gr.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
+				gr.addHomToAll(neededEdge);
+			}
 		}
 
 		for (HomNode hom : getHoms()) {
@@ -339,26 +361,6 @@ public class PatternGraphNode extends GraphNode {
 		// add negative parts to the IR
 		for (PatternGraphNode pgn : negs.getChildren()) {
 			PatternGraph neg = pgn.getPatternGraph();
-
-			// add Condition elements only mentioned in Condition to the IR
-			Set<Node> neededNodes = new LinkedHashSet<Node>();
-			Set<Edge> neededEdges = new LinkedHashSet<Edge>();
-
-			for(Expression cond : neg.getConditions()) {
-				cond.collectNodesnEdges(neededNodes, neededEdges);
-			}
-			for(Node neededNode : neededNodes) {
-				if(!neg.hasNode(neededNode)) {
-					neg.addSingleNode(neededNode);
-					neg.addHomToAll(neededNode);
-				}
-			}
-			for(Edge neededEdge : neededEdges) {
-				if(!neg.hasEdge(neededEdge)) {
-					neg.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
-					neg.addHomToAll(neededEdge);
-				}
-			}
 			gr.addNegGraph(neg);
 		}
 

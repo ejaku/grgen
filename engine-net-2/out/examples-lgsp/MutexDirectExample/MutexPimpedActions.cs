@@ -10,7 +10,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_aux_attachResource : LGSPRulePattern
 	{
 		private static Rule_aux_attachResource instance = null;
-		public static Rule_aux_attachResource Instance { get { if (instance==null) instance = new Rule_aux_attachResource(); return instance; } }
+		public static Rule_aux_attachResource Instance { get { if (instance==null) { instance = new Rule_aux_attachResource(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] aux_attachResource_node_p_AllowedTypes = null;
 		public static bool[] aux_attachResource_node_p_IsAllowedType = null;
@@ -36,6 +36,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "aux_attachResource";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_aux_attachResource;
 			PatternNode aux_attachResource_node_p = new PatternNode((int) NodeTypes.@Process, "aux_attachResource_node_p", "p", aux_attachResource_node_p_AllowedTypes, aux_attachResource_node_p_IsAllowedType, 5.5F, -1);
 			PatternGraph aux_attachResource_neg_0;
@@ -56,15 +63,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			pat_aux_attachResource = new PatternGraph(
 				"aux_attachResource",
@@ -78,30 +77,18 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[1, 1] {
 					{ true, },
 				},
-				new bool[0, 0] ,
-				new bool[] {
-					false, },
-				new bool[] {},
-				new bool[] {
-					true, },
-				new bool[] {}
-			);
+				new bool[0, 0] 			);
 			aux_attachResource_node_p.PointOfDefinition = pat_aux_attachResource;
 			aux_attachResource_neg_0_node_r.PointOfDefinition = aux_attachResource_neg_0;
 			aux_attachResource_neg_0_edge__edge0.PointOfDefinition = aux_attachResource_neg_0;
 
 			patternGraph = pat_aux_attachResource;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[ (int) aux_attachResource_NodeNums.@p];
+			LGSPNode node_p = match.Nodes[(int) aux_attachResource_NodeNums.@p];
 			Node_Resource node_r = Node_Resource.CreateNode(graph);
 			Edge_held_by edge__edge0 = Edge_held_by.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
@@ -109,7 +96,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[ (int) aux_attachResource_NodeNums.@p];
+			LGSPNode node_p = match.Nodes[(int) aux_attachResource_NodeNums.@p];
 			Node_Resource node_r = Node_Resource.CreateNode(graph);
 			Edge_held_by edge__edge0 = Edge_held_by.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
@@ -123,7 +110,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_blockedRule : LGSPRulePattern
 	{
 		private static Rule_blockedRule instance = null;
-		public static Rule_blockedRule Instance { get { if (instance==null) instance = new Rule_blockedRule(); return instance; } }
+		public static Rule_blockedRule Instance { get { if (instance==null) { instance = new Rule_blockedRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] blockedRule_node_r_AllowedTypes = null;
 		public static NodeType[] blockedRule_node_p1_AllowedTypes = null;
@@ -149,6 +136,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "blockedRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_blockedRule;
 			PatternNode blockedRule_node_r = new PatternNode((int) NodeTypes.@Resource, "blockedRule_node_r", "r", blockedRule_node_r_AllowedTypes, blockedRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode blockedRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "blockedRule_node_p1", "p1", blockedRule_node_p1_AllowedTypes, blockedRule_node_p1_IsAllowedType, 5.5F, -1);
@@ -172,15 +166,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
-				},
-				new bool[] {
-					false, false, false, },
-				new bool[] {
-					false, false, },
-				new bool[] {
-					true, true, true, },
-				new bool[] {
-					true, true, }
+				}
 			);
 			blockedRule_node_r.PointOfDefinition = pat_blockedRule;
 			blockedRule_node_p1.PointOfDefinition = pat_blockedRule;
@@ -189,26 +175,21 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			blockedRule_edge_hb.PointOfDefinition = pat_blockedRule;
 
 			patternGraph = pat_blockedRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) blockedRule_NodeNums.@r];
-			LGSPNode node_p1 = match.Nodes[ (int) blockedRule_NodeNums.@p1];
+			LGSPNode node_r = match.Nodes[(int) blockedRule_NodeNums.@r];
+			LGSPNode node_p1 = match.Nodes[(int) blockedRule_NodeNums.@p1];
 			Edge_blocked edge_b = Edge_blocked.CreateEdge(graph, node_r, node_p1);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) blockedRule_NodeNums.@r];
-			LGSPNode node_p1 = match.Nodes[ (int) blockedRule_NodeNums.@p1];
+			LGSPNode node_r = match.Nodes[(int) blockedRule_NodeNums.@r];
+			LGSPNode node_p1 = match.Nodes[(int) blockedRule_NodeNums.@p1];
 			Edge_blocked edge_b = Edge_blocked.CreateEdge(graph, node_r, node_p1);
 			return EmptyReturnElements;
 		}
@@ -221,7 +202,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_giveRule : LGSPRulePattern
 	{
 		private static Rule_giveRule instance = null;
-		public static Rule_giveRule Instance { get { if (instance==null) instance = new Rule_giveRule(); return instance; } }
+		public static Rule_giveRule Instance { get { if (instance==null) { instance = new Rule_giveRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] giveRule_node_r_AllowedTypes = null;
 		public static NodeType[] giveRule_node_p1_AllowedTypes = null;
@@ -247,6 +228,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "giveRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_giveRule;
 			PatternNode giveRule_node_r = new PatternNode((int) NodeTypes.@Resource, "giveRule_node_r", "r", giveRule_node_r_AllowedTypes, giveRule_node_r_IsAllowedType, 5.5F, -1);
 			PatternNode giveRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "giveRule_node_p1", "p1", giveRule_node_p1_AllowedTypes, giveRule_node_p1_IsAllowedType, 5.5F, -1);
@@ -270,15 +258,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
-				},
-				new bool[] {
-					false, false, false, },
-				new bool[] {
-					false, false, },
-				new bool[] {
-					true, true, true, },
-				new bool[] {
-					true, true, }
+				}
 			);
 			giveRule_node_r.PointOfDefinition = pat_giveRule;
 			giveRule_node_p1.PointOfDefinition = pat_giveRule;
@@ -287,19 +267,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			giveRule_edge_n.PointOfDefinition = pat_giveRule;
 
 			patternGraph = pat_giveRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) giveRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[ (int) giveRule_NodeNums.@p2];
-			LGSPEdge edge_rel = match.Edges[ (int) giveRule_EdgeNums.@rel];
+			LGSPNode node_r = match.Nodes[(int) giveRule_NodeNums.@r];
+			LGSPNode node_p2 = match.Nodes[(int) giveRule_NodeNums.@p2];
+			LGSPEdge edge_rel = match.Edges[(int) giveRule_EdgeNums.@rel];
 			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p2);
 			graph.Remove(edge_rel);
 			return EmptyReturnElements;
@@ -307,9 +282,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) giveRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[ (int) giveRule_NodeNums.@p2];
-			LGSPEdge edge_rel = match.Edges[ (int) giveRule_EdgeNums.@rel];
+			LGSPNode node_r = match.Nodes[(int) giveRule_NodeNums.@r];
+			LGSPNode node_p2 = match.Nodes[(int) giveRule_NodeNums.@p2];
+			LGSPEdge edge_rel = match.Edges[(int) giveRule_EdgeNums.@rel];
 			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p2);
 			graph.Remove(edge_rel);
 			return EmptyReturnElements;
@@ -323,7 +298,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_ignoreRule : LGSPRulePattern
 	{
 		private static Rule_ignoreRule instance = null;
-		public static Rule_ignoreRule Instance { get { if (instance==null) instance = new Rule_ignoreRule(); return instance; } }
+		public static Rule_ignoreRule Instance { get { if (instance==null) { instance = new Rule_ignoreRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] ignoreRule_node_r_AllowedTypes = null;
 		public static NodeType[] ignoreRule_node_p_AllowedTypes = null;
@@ -353,6 +328,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "ignoreRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_ignoreRule;
 			PatternNode ignoreRule_node_r = new PatternNode((int) NodeTypes.@Resource, "ignoreRule_node_r", "r", ignoreRule_node_r_AllowedTypes, ignoreRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode ignoreRule_node_p = new PatternNode((int) NodeTypes.@Process, "ignoreRule_node_p", "p", ignoreRule_node_p_AllowedTypes, ignoreRule_node_p_IsAllowedType, 5.5F, -1);
@@ -375,15 +357,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			pat_ignoreRule = new PatternGraph(
 				"ignoreRule",
@@ -400,15 +374,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			ignoreRule_node_r.PointOfDefinition = pat_ignoreRule;
 			ignoreRule_node_p.PointOfDefinition = pat_ignoreRule;
@@ -417,24 +383,19 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			ignoreRule_neg_0_edge_hb.PointOfDefinition = ignoreRule_neg_0;
 
 			patternGraph = pat_ignoreRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPEdge edge_b = match.Edges[ (int) ignoreRule_EdgeNums.@b];
+			LGSPEdge edge_b = match.Edges[(int) ignoreRule_EdgeNums.@b];
 			graph.Remove(edge_b);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPEdge edge_b = match.Edges[ (int) ignoreRule_EdgeNums.@b];
+			LGSPEdge edge_b = match.Edges[(int) ignoreRule_EdgeNums.@b];
 			graph.Remove(edge_b);
 			return EmptyReturnElements;
 		}
@@ -447,7 +408,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_killRule : LGSPRulePattern
 	{
 		private static Rule_killRule instance = null;
-		public static Rule_killRule Instance { get { if (instance==null) instance = new Rule_killRule(); return instance; } }
+		public static Rule_killRule Instance { get { if (instance==null) { instance = new Rule_killRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] killRule_node_p1_AllowedTypes = null;
 		public static NodeType[] killRule_node_p_AllowedTypes = null;
@@ -473,6 +434,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "killRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_killRule;
 			PatternNode killRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "killRule_node_p1", "p1", killRule_node_p1_AllowedTypes, killRule_node_p1_IsAllowedType, 5.5F, -1);
 			PatternNode killRule_node_p = new PatternNode((int) NodeTypes.@Process, "killRule_node_p", "p", killRule_node_p_AllowedTypes, killRule_node_p_IsAllowedType, 5.5F, -1);
@@ -496,15 +464,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
-				},
-				new bool[] {
-					false, false, false, },
-				new bool[] {
-					false, false, },
-				new bool[] {
-					true, true, true, },
-				new bool[] {
-					true, true, }
+				}
 			);
 			killRule_node_p1.PointOfDefinition = pat_killRule;
 			killRule_node_p.PointOfDefinition = pat_killRule;
@@ -513,21 +473,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			killRule_edge_n2.PointOfDefinition = pat_killRule;
 
 			patternGraph = pat_killRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p1 = match.Nodes[ (int) killRule_NodeNums.@p1];
-			LGSPNode node_p2 = match.Nodes[ (int) killRule_NodeNums.@p2];
-			LGSPNode node_p = match.Nodes[ (int) killRule_NodeNums.@p];
-			LGSPEdge edge_n2 = match.Edges[ (int) killRule_EdgeNums.@n2];
-			LGSPEdge edge_n1 = match.Edges[ (int) killRule_EdgeNums.@n1];
+			LGSPNode node_p1 = match.Nodes[(int) killRule_NodeNums.@p1];
+			LGSPNode node_p2 = match.Nodes[(int) killRule_NodeNums.@p2];
+			LGSPNode node_p = match.Nodes[(int) killRule_NodeNums.@p];
+			LGSPEdge edge_n2 = match.Edges[(int) killRule_EdgeNums.@n2];
+			LGSPEdge edge_n1 = match.Edges[(int) killRule_EdgeNums.@n1];
 			Edge_next edge_n;
 			if(edge_n2.type == EdgeType_next.typeVar)
 			{
@@ -536,7 +491,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				graph.ReuseEdge(edge_n2, node_p1, null);
 			}
 			else
+			{
+				graph.Remove(edge_n2);
 				edge_n = Edge_next.CreateEdge(graph, node_p1, node_p2);
+			}
 			graph.Remove(edge_n1);
 			graph.RemoveEdges(node_p);
 			graph.Remove(node_p);
@@ -545,11 +503,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p1 = match.Nodes[ (int) killRule_NodeNums.@p1];
-			LGSPNode node_p2 = match.Nodes[ (int) killRule_NodeNums.@p2];
-			LGSPNode node_p = match.Nodes[ (int) killRule_NodeNums.@p];
-			LGSPEdge edge_n2 = match.Edges[ (int) killRule_EdgeNums.@n2];
-			LGSPEdge edge_n1 = match.Edges[ (int) killRule_EdgeNums.@n1];
+			LGSPNode node_p1 = match.Nodes[(int) killRule_NodeNums.@p1];
+			LGSPNode node_p2 = match.Nodes[(int) killRule_NodeNums.@p2];
+			LGSPNode node_p = match.Nodes[(int) killRule_NodeNums.@p];
+			LGSPEdge edge_n2 = match.Edges[(int) killRule_EdgeNums.@n2];
+			LGSPEdge edge_n1 = match.Edges[(int) killRule_EdgeNums.@n1];
 			Edge_next edge_n = Edge_next.CreateEdge(graph, node_p1, node_p2);
 			graph.Remove(edge_n2);
 			graph.Remove(edge_n1);
@@ -566,7 +524,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_mountRule : LGSPRulePattern
 	{
 		private static Rule_mountRule instance = null;
-		public static Rule_mountRule Instance { get { if (instance==null) instance = new Rule_mountRule(); return instance; } }
+		public static Rule_mountRule Instance { get { if (instance==null) { instance = new Rule_mountRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] mountRule_node_p_AllowedTypes = null;
 		public static bool[] mountRule_node_p_IsAllowedType = null;
@@ -584,6 +542,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "mountRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_mountRule;
 			PatternNode mountRule_node_p = new PatternNode((int) NodeTypes.@Process, "mountRule_node_p", "p", mountRule_node_p_AllowedTypes, mountRule_node_p_IsAllowedType, 5.5F, -1);
 			pat_mountRule = new PatternGraph(
@@ -598,28 +563,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[1, 1] {
 					{ true, },
 				},
-				new bool[0, 0] ,
-				new bool[] {
-					false, },
-				new bool[] {},
-				new bool[] {
-					true, },
-				new bool[] {}
-			);
+				new bool[0, 0] 			);
 			mountRule_node_p.PointOfDefinition = pat_mountRule;
 
 			patternGraph = pat_mountRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[ (int) mountRule_NodeNums.@p];
+			LGSPNode node_p = match.Nodes[(int) mountRule_NodeNums.@p];
 			Node_Resource node_r = Node_Resource.CreateNode(graph);
 			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
@@ -627,7 +580,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[ (int) mountRule_NodeNums.@p];
+			LGSPNode node_p = match.Nodes[(int) mountRule_NodeNums.@p];
 			Node_Resource node_r = Node_Resource.CreateNode(graph);
 			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
@@ -641,7 +594,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_newRule : LGSPRulePattern
 	{
 		private static Rule_newRule instance = null;
-		public static Rule_newRule Instance { get { if (instance==null) instance = new Rule_newRule(); return instance; } }
+		public static Rule_newRule Instance { get { if (instance==null) { instance = new Rule_newRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] newRule_node_p1_AllowedTypes = null;
 		public static NodeType[] newRule_node_p2_AllowedTypes = null;
@@ -663,6 +616,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "newRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_newRule;
 			PatternNode newRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "newRule_node_p1", "p1", newRule_node_p1_AllowedTypes, newRule_node_p1_IsAllowedType, 5.5F, -1);
 			PatternNode newRule_node_p2 = new PatternNode((int) NodeTypes.@Process, "newRule_node_p2", "p2", newRule_node_p2_AllowedTypes, newRule_node_p2_IsAllowedType, 5.5F, -1);
@@ -682,34 +642,21 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			newRule_node_p1.PointOfDefinition = pat_newRule;
 			newRule_node_p2.PointOfDefinition = pat_newRule;
 			newRule_edge_n.PointOfDefinition = pat_newRule;
 
 			patternGraph = pat_newRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p2 = match.Nodes[ (int) newRule_NodeNums.@p2];
-			LGSPNode node_p1 = match.Nodes[ (int) newRule_NodeNums.@p1];
-			LGSPEdge edge_n = match.Edges[ (int) newRule_EdgeNums.@n];
+			LGSPNode node_p2 = match.Nodes[(int) newRule_NodeNums.@p2];
+			LGSPNode node_p1 = match.Nodes[(int) newRule_NodeNums.@p1];
+			LGSPEdge edge_n = match.Edges[(int) newRule_EdgeNums.@n];
 			Node_Process node_p = Node_Process.CreateNode(graph);
 			Edge_next edge_n2;
 			if(edge_n.type == EdgeType_next.typeVar)
@@ -719,16 +666,19 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				graph.ReuseEdge(edge_n, node_p, null);
 			}
 			else
+			{
+				graph.Remove(edge_n);
 				edge_n2 = Edge_next.CreateEdge(graph, node_p, node_p2);
+			}
 			Edge_next edge_n1 = Edge_next.CreateEdge(graph, node_p1, node_p);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p2 = match.Nodes[ (int) newRule_NodeNums.@p2];
-			LGSPNode node_p1 = match.Nodes[ (int) newRule_NodeNums.@p1];
-			LGSPEdge edge_n = match.Edges[ (int) newRule_EdgeNums.@n];
+			LGSPNode node_p2 = match.Nodes[(int) newRule_NodeNums.@p2];
+			LGSPNode node_p1 = match.Nodes[(int) newRule_NodeNums.@p1];
+			LGSPEdge edge_n = match.Edges[(int) newRule_EdgeNums.@n];
 			Node_Process node_p = Node_Process.CreateNode(graph);
 			Edge_next edge_n2 = Edge_next.CreateEdge(graph, node_p, node_p2);
 			Edge_next edge_n1 = Edge_next.CreateEdge(graph, node_p1, node_p);
@@ -744,7 +694,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_passRule : LGSPRulePattern
 	{
 		private static Rule_passRule instance = null;
-		public static Rule_passRule Instance { get { if (instance==null) instance = new Rule_passRule(); return instance; } }
+		public static Rule_passRule Instance { get { if (instance==null) { instance = new Rule_passRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] passRule_node_r_AllowedTypes = null;
 		public static NodeType[] passRule_node_p1_AllowedTypes = null;
@@ -776,6 +726,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "passRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_passRule;
 			PatternNode passRule_node_r = new PatternNode((int) NodeTypes.@Resource, "passRule_node_r", "r", passRule_node_r_AllowedTypes, passRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode passRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "passRule_node_p1", "p1", passRule_node_p1_AllowedTypes, passRule_node_p1_IsAllowedType, 5.5F, -1);
@@ -799,15 +756,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			pat_passRule = new PatternGraph(
 				"passRule",
@@ -826,15 +775,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
-				},
-				new bool[] {
-					false, false, false, },
-				new bool[] {
-					false, false, },
-				new bool[] {
-					true, true, true, },
-				new bool[] {
-					true, true, }
+				}
 			);
 			passRule_node_r.PointOfDefinition = pat_passRule;
 			passRule_node_p1.PointOfDefinition = pat_passRule;
@@ -844,19 +785,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			passRule_neg_0_edge_req.PointOfDefinition = passRule_neg_0;
 
 			patternGraph = pat_passRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) passRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[ (int) passRule_NodeNums.@p2];
-			LGSPEdge edge__edge0 = match.Edges[ (int) passRule_EdgeNums.@_edge0];
+			LGSPNode node_r = match.Nodes[(int) passRule_NodeNums.@r];
+			LGSPNode node_p2 = match.Nodes[(int) passRule_NodeNums.@p2];
+			LGSPEdge edge__edge0 = match.Edges[(int) passRule_EdgeNums.@_edge0];
 			Edge_token edge_t;
 			if(edge__edge0.type == EdgeType_token.typeVar)
 			{
@@ -865,15 +801,18 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				graph.ReuseEdge(edge__edge0, null, node_p2);
 			}
 			else
+			{
+				graph.Remove(edge__edge0);
 				edge_t = Edge_token.CreateEdge(graph, node_r, node_p2);
+			}
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) passRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[ (int) passRule_NodeNums.@p2];
-			LGSPEdge edge__edge0 = match.Edges[ (int) passRule_EdgeNums.@_edge0];
+			LGSPNode node_r = match.Nodes[(int) passRule_NodeNums.@r];
+			LGSPNode node_p2 = match.Nodes[(int) passRule_NodeNums.@p2];
+			LGSPEdge edge__edge0 = match.Edges[(int) passRule_EdgeNums.@_edge0];
 			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p2);
 			graph.Remove(edge__edge0);
 			return EmptyReturnElements;
@@ -887,7 +826,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_releaseRule : LGSPRulePattern
 	{
 		private static Rule_releaseRule instance = null;
-		public static Rule_releaseRule Instance { get { if (instance==null) instance = new Rule_releaseRule(); return instance; } }
+		public static Rule_releaseRule Instance { get { if (instance==null) { instance = new Rule_releaseRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] releaseRule_node_r_AllowedTypes = null;
 		public static NodeType[] releaseRule_node_p_AllowedTypes = null;
@@ -917,6 +856,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "releaseRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_releaseRule;
 			PatternNode releaseRule_node_r = new PatternNode((int) NodeTypes.@Resource, "releaseRule_node_r", "r", releaseRule_node_r_AllowedTypes, releaseRule_node_r_IsAllowedType, 5.5F, -1);
 			PatternNode releaseRule_node_p = new PatternNode((int) NodeTypes.@Process, "releaseRule_node_p", "p", releaseRule_node_p_AllowedTypes, releaseRule_node_p_IsAllowedType, 5.5F, -1);
@@ -939,15 +885,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			pat_releaseRule = new PatternGraph(
 				"releaseRule",
@@ -964,15 +902,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			releaseRule_node_r.PointOfDefinition = pat_releaseRule;
 			releaseRule_node_p.PointOfDefinition = pat_releaseRule;
@@ -981,19 +911,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			releaseRule_neg_0_edge_req.PointOfDefinition = releaseRule_neg_0;
 
 			patternGraph = pat_releaseRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) releaseRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[ (int) releaseRule_NodeNums.@p];
-			LGSPEdge edge_hb = match.Edges[ (int) releaseRule_EdgeNums.@hb];
+			LGSPNode node_r = match.Nodes[(int) releaseRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int) releaseRule_NodeNums.@p];
+			LGSPEdge edge_hb = match.Edges[(int) releaseRule_EdgeNums.@hb];
 			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_hb);
 			return EmptyReturnElements;
@@ -1001,9 +926,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) releaseRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[ (int) releaseRule_NodeNums.@p];
-			LGSPEdge edge_hb = match.Edges[ (int) releaseRule_EdgeNums.@hb];
+			LGSPNode node_r = match.Nodes[(int) releaseRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int) releaseRule_NodeNums.@p];
+			LGSPEdge edge_hb = match.Edges[(int) releaseRule_EdgeNums.@hb];
 			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_hb);
 			return EmptyReturnElements;
@@ -1017,7 +942,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_releaseStarRule : LGSPRulePattern
 	{
 		private static Rule_releaseStarRule instance = null;
-		public static Rule_releaseStarRule Instance { get { if (instance==null) instance = new Rule_releaseStarRule(); return instance; } }
+		public static Rule_releaseStarRule Instance { get { if (instance==null) { instance = new Rule_releaseStarRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] releaseStarRule_node_p1_AllowedTypes = null;
 		public static NodeType[] releaseStarRule_node_r1_AllowedTypes = null;
@@ -1047,6 +972,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "releaseStarRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_releaseStarRule;
 			PatternNode releaseStarRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "releaseStarRule_node_p1", "p1", releaseStarRule_node_p1_AllowedTypes, releaseStarRule_node_p1_IsAllowedType, 5.5F, -1);
 			PatternNode releaseStarRule_node_r1 = new PatternNode((int) NodeTypes.@Resource, "releaseStarRule_node_r1", "r1", releaseStarRule_node_r1_AllowedTypes, releaseStarRule_node_r1_IsAllowedType, 5.5F, -1);
@@ -1074,15 +1006,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					{ true, false, false, },
 					{ false, true, false, },
 					{ false, false, true, },
-				},
-				new bool[] {
-					false, false, false, false, },
-				new bool[] {
-					false, false, false, },
-				new bool[] {
-					true, true, true, true, },
-				new bool[] {
-					true, true, true, }
+				}
 			);
 			releaseStarRule_node_p1.PointOfDefinition = pat_releaseStarRule;
 			releaseStarRule_node_r1.PointOfDefinition = pat_releaseStarRule;
@@ -1093,19 +1017,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			releaseStarRule_edge_h2.PointOfDefinition = pat_releaseStarRule;
 
 			patternGraph = pat_releaseStarRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r1 = match.Nodes[ (int) releaseStarRule_NodeNums.@r1];
-			LGSPNode node_p2 = match.Nodes[ (int) releaseStarRule_NodeNums.@p2];
-			LGSPEdge edge_h1 = match.Edges[ (int) releaseStarRule_EdgeNums.@h1];
+			LGSPNode node_r1 = match.Nodes[(int) releaseStarRule_NodeNums.@r1];
+			LGSPNode node_p2 = match.Nodes[(int) releaseStarRule_NodeNums.@p2];
+			LGSPEdge edge_h1 = match.Edges[(int) releaseStarRule_EdgeNums.@h1];
 			Edge_release edge_rl = Edge_release.CreateEdge(graph, node_r1, node_p2);
 			graph.Remove(edge_h1);
 			return EmptyReturnElements;
@@ -1113,9 +1032,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r1 = match.Nodes[ (int) releaseStarRule_NodeNums.@r1];
-			LGSPNode node_p2 = match.Nodes[ (int) releaseStarRule_NodeNums.@p2];
-			LGSPEdge edge_h1 = match.Edges[ (int) releaseStarRule_EdgeNums.@h1];
+			LGSPNode node_r1 = match.Nodes[(int) releaseStarRule_NodeNums.@r1];
+			LGSPNode node_p2 = match.Nodes[(int) releaseStarRule_NodeNums.@p2];
+			LGSPEdge edge_h1 = match.Edges[(int) releaseStarRule_EdgeNums.@h1];
 			Edge_release edge_rl = Edge_release.CreateEdge(graph, node_r1, node_p2);
 			graph.Remove(edge_h1);
 			return EmptyReturnElements;
@@ -1129,7 +1048,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_requestRule : LGSPRulePattern
 	{
 		private static Rule_requestRule instance = null;
-		public static Rule_requestRule Instance { get { if (instance==null) instance = new Rule_requestRule(); return instance; } }
+		public static Rule_requestRule Instance { get { if (instance==null) { instance = new Rule_requestRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] requestRule_node_p_AllowedTypes = null;
 		public static NodeType[] requestRule_node_r_AllowedTypes = null;
@@ -1163,6 +1082,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "requestRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_requestRule;
 			PatternNode requestRule_node_p = new PatternNode((int) NodeTypes.@Process, "requestRule_node_p", "p", requestRule_node_p_AllowedTypes, requestRule_node_p_IsAllowedType, 5.5F, -1);
 			PatternNode requestRule_node_r = new PatternNode((int) NodeTypes.@Resource, "requestRule_node_r", "r", requestRule_node_r_AllowedTypes, requestRule_node_r_IsAllowedType, 1.0F, -1);
@@ -1183,15 +1109,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			PatternGraph requestRule_neg_1;
 			PatternNode requestRule_neg_1_node_m = new PatternNode((int) NodeTypes.@Resource, "requestRule_neg_1_node_m", "m", requestRule_neg_1_node_m_AllowedTypes, requestRule_neg_1_node_m_IsAllowedType, 5.5F, -1);
@@ -1211,15 +1129,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			pat_requestRule = new PatternGraph(
 				"requestRule",
@@ -1234,14 +1144,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					{ true, false, },
 					{ false, true, },
 				},
-				new bool[0, 0] ,
-				new bool[] {
-					false, false, },
-				new bool[] {},
-				new bool[] {
-					true, true, },
-				new bool[] {}
-			);
+				new bool[0, 0] 			);
 			requestRule_node_p.PointOfDefinition = pat_requestRule;
 			requestRule_node_r.PointOfDefinition = pat_requestRule;
 			requestRule_neg_0_edge_hb.PointOfDefinition = requestRule_neg_0;
@@ -1249,26 +1152,21 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			requestRule_neg_1_edge_req.PointOfDefinition = requestRule_neg_1;
 
 			patternGraph = pat_requestRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[ (int) requestRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[ (int) requestRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int) requestRule_NodeNums.@p];
+			LGSPNode node_r = match.Nodes[(int) requestRule_NodeNums.@r];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[ (int) requestRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[ (int) requestRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int) requestRule_NodeNums.@p];
+			LGSPNode node_r = match.Nodes[(int) requestRule_NodeNums.@r];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
@@ -1281,7 +1179,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_requestSimpleRule : LGSPRulePattern
 	{
 		private static Rule_requestSimpleRule instance = null;
-		public static Rule_requestSimpleRule Instance { get { if (instance==null) instance = new Rule_requestSimpleRule(); return instance; } }
+		public static Rule_requestSimpleRule Instance { get { if (instance==null) { instance = new Rule_requestSimpleRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] requestSimpleRule_node_r_AllowedTypes = null;
 		public static NodeType[] requestSimpleRule_node_p_AllowedTypes = null;
@@ -1309,6 +1207,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "requestSimpleRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_requestSimpleRule;
 			PatternNode requestSimpleRule_node_r = new PatternNode((int) NodeTypes.@Resource, "requestSimpleRule_node_r", "r", requestSimpleRule_node_r_AllowedTypes, requestSimpleRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode requestSimpleRule_node_p = new PatternNode((int) NodeTypes.@Process, "requestSimpleRule_node_p", "p", requestSimpleRule_node_p_AllowedTypes, requestSimpleRule_node_p_IsAllowedType, 5.5F, -1);
@@ -1330,15 +1235,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			pat_requestSimpleRule = new PatternGraph(
 				"requestSimpleRule",
@@ -1355,15 +1252,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			requestSimpleRule_node_r.PointOfDefinition = pat_requestSimpleRule;
 			requestSimpleRule_node_p.PointOfDefinition = pat_requestSimpleRule;
@@ -1371,26 +1260,21 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			requestSimpleRule_neg_0_edge_req.PointOfDefinition = requestSimpleRule_neg_0;
 
 			patternGraph = pat_requestSimpleRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[ (int) requestSimpleRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[ (int) requestSimpleRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int) requestSimpleRule_NodeNums.@p];
+			LGSPNode node_r = match.Nodes[(int) requestSimpleRule_NodeNums.@r];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[ (int) requestSimpleRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[ (int) requestSimpleRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int) requestSimpleRule_NodeNums.@p];
+			LGSPNode node_r = match.Nodes[(int) requestSimpleRule_NodeNums.@r];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
@@ -1403,7 +1287,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_requestStarRule : LGSPRulePattern
 	{
 		private static Rule_requestStarRule instance = null;
-		public static Rule_requestStarRule Instance { get { if (instance==null) instance = new Rule_requestStarRule(); return instance; } }
+		public static Rule_requestStarRule Instance { get { if (instance==null) { instance = new Rule_requestStarRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] requestStarRule_node_r1_AllowedTypes = null;
 		public static NodeType[] requestStarRule_node_p1_AllowedTypes = null;
@@ -1439,6 +1323,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "requestStarRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_requestStarRule;
 			PatternNode requestStarRule_node_r1 = new PatternNode((int) NodeTypes.@Resource, "requestStarRule_node_r1", "r1", requestStarRule_node_r1_AllowedTypes, requestStarRule_node_r1_IsAllowedType, 5.5F, -1);
 			PatternNode requestStarRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "requestStarRule_node_p1", "p1", requestStarRule_node_p1_AllowedTypes, requestStarRule_node_p1_IsAllowedType, 5.5F, -1);
@@ -1464,15 +1355,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			pat_requestStarRule = new PatternGraph(
 				"requestStarRule",
@@ -1493,15 +1376,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					{ true, false, false, },
 					{ false, true, false, },
 					{ false, false, true, },
-				},
-				new bool[] {
-					false, false, false, false, },
-				new bool[] {
-					false, false, false, },
-				new bool[] {
-					true, true, true, true, },
-				new bool[] {
-					true, true, true, }
+				}
 			);
 			requestStarRule_node_r1.PointOfDefinition = pat_requestStarRule;
 			requestStarRule_node_p1.PointOfDefinition = pat_requestStarRule;
@@ -1513,26 +1388,21 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			requestStarRule_neg_0_edge_req.PointOfDefinition = requestStarRule_neg_0;
 
 			patternGraph = pat_requestStarRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p1 = match.Nodes[ (int) requestStarRule_NodeNums.@p1];
-			LGSPNode node_r2 = match.Nodes[ (int) requestStarRule_NodeNums.@r2];
+			LGSPNode node_p1 = match.Nodes[(int) requestStarRule_NodeNums.@p1];
+			LGSPNode node_r2 = match.Nodes[(int) requestStarRule_NodeNums.@r2];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p1, node_r2);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p1 = match.Nodes[ (int) requestStarRule_NodeNums.@p1];
-			LGSPNode node_r2 = match.Nodes[ (int) requestStarRule_NodeNums.@r2];
+			LGSPNode node_p1 = match.Nodes[(int) requestStarRule_NodeNums.@p1];
+			LGSPNode node_r2 = match.Nodes[(int) requestStarRule_NodeNums.@r2];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p1, node_r2);
 			return EmptyReturnElements;
 		}
@@ -1545,7 +1415,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_takeRule : LGSPRulePattern
 	{
 		private static Rule_takeRule instance = null;
-		public static Rule_takeRule Instance { get { if (instance==null) instance = new Rule_takeRule(); return instance; } }
+		public static Rule_takeRule Instance { get { if (instance==null) { instance = new Rule_takeRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] takeRule_node_r_AllowedTypes = null;
 		public static NodeType[] takeRule_node_p_AllowedTypes = null;
@@ -1569,6 +1439,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "takeRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_takeRule;
 			PatternNode takeRule_node_r = new PatternNode((int) NodeTypes.@Resource, "takeRule_node_r", "r", takeRule_node_r_AllowedTypes, takeRule_node_r_IsAllowedType, 5.5F, -1);
 			PatternNode takeRule_node_p = new PatternNode((int) NodeTypes.@Process, "takeRule_node_p", "p", takeRule_node_p_AllowedTypes, takeRule_node_p_IsAllowedType, 5.5F, -1);
@@ -1590,15 +1467,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, true, }
+				}
 			);
 			takeRule_node_r.PointOfDefinition = pat_takeRule;
 			takeRule_node_p.PointOfDefinition = pat_takeRule;
@@ -1606,35 +1475,30 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			takeRule_edge_req.PointOfDefinition = pat_takeRule;
 
 			patternGraph = pat_takeRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) takeRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[ (int) takeRule_NodeNums.@p];
-			LGSPEdge edge_req = match.Edges[ (int) takeRule_EdgeNums.@req];
-			LGSPEdge edge_t = match.Edges[ (int) takeRule_EdgeNums.@t];
+			LGSPNode node_r = match.Nodes[(int) takeRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int) takeRule_NodeNums.@p];
+			LGSPEdge edge_t = match.Edges[(int) takeRule_EdgeNums.@t];
+			LGSPEdge edge_req = match.Edges[(int) takeRule_EdgeNums.@req];
 			Edge_held_by edge_hb = Edge_held_by.CreateEdge(graph, node_r, node_p);
-			graph.Remove(edge_req);
 			graph.Remove(edge_t);
+			graph.Remove(edge_req);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) takeRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[ (int) takeRule_NodeNums.@p];
-			LGSPEdge edge_req = match.Edges[ (int) takeRule_EdgeNums.@req];
-			LGSPEdge edge_t = match.Edges[ (int) takeRule_EdgeNums.@t];
+			LGSPNode node_r = match.Nodes[(int) takeRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int) takeRule_NodeNums.@p];
+			LGSPEdge edge_t = match.Edges[(int) takeRule_EdgeNums.@t];
+			LGSPEdge edge_req = match.Edges[(int) takeRule_EdgeNums.@req];
 			Edge_held_by edge_hb = Edge_held_by.CreateEdge(graph, node_r, node_p);
-			graph.Remove(edge_req);
 			graph.Remove(edge_t);
+			graph.Remove(edge_req);
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {  };
@@ -1646,7 +1510,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_unlockRule : LGSPRulePattern
 	{
 		private static Rule_unlockRule instance = null;
-		public static Rule_unlockRule Instance { get { if (instance==null) instance = new Rule_unlockRule(); return instance; } }
+		public static Rule_unlockRule Instance { get { if (instance==null) { instance = new Rule_unlockRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] unlockRule_node_r_AllowedTypes = null;
 		public static NodeType[] unlockRule_node_p_AllowedTypes = null;
@@ -1670,6 +1534,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "unlockRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_unlockRule;
 			PatternNode unlockRule_node_r = new PatternNode((int) NodeTypes.@Resource, "unlockRule_node_r", "r", unlockRule_node_r_AllowedTypes, unlockRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode unlockRule_node_p = new PatternNode((int) NodeTypes.@Process, "unlockRule_node_p", "p", unlockRule_node_p_AllowedTypes, unlockRule_node_p_IsAllowedType, 5.5F, -1);
@@ -1691,15 +1562,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, true, }
+				}
 			);
 			unlockRule_node_r.PointOfDefinition = pat_unlockRule;
 			unlockRule_node_p.PointOfDefinition = pat_unlockRule;
@@ -1707,20 +1570,15 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			unlockRule_edge_hb.PointOfDefinition = pat_unlockRule;
 
 			patternGraph = pat_unlockRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) unlockRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[ (int) unlockRule_NodeNums.@p];
-			LGSPEdge edge_b = match.Edges[ (int) unlockRule_EdgeNums.@b];
-			LGSPEdge edge_hb = match.Edges[ (int) unlockRule_EdgeNums.@hb];
+			LGSPNode node_r = match.Nodes[(int) unlockRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int) unlockRule_NodeNums.@p];
+			LGSPEdge edge_b = match.Edges[(int) unlockRule_EdgeNums.@b];
+			LGSPEdge edge_hb = match.Edges[(int) unlockRule_EdgeNums.@hb];
 			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_b);
 			graph.Remove(edge_hb);
@@ -1729,10 +1587,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) unlockRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[ (int) unlockRule_NodeNums.@p];
-			LGSPEdge edge_b = match.Edges[ (int) unlockRule_EdgeNums.@b];
-			LGSPEdge edge_hb = match.Edges[ (int) unlockRule_EdgeNums.@hb];
+			LGSPNode node_r = match.Nodes[(int) unlockRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int) unlockRule_NodeNums.@p];
+			LGSPEdge edge_b = match.Edges[(int) unlockRule_EdgeNums.@b];
+			LGSPEdge edge_hb = match.Edges[(int) unlockRule_EdgeNums.@hb];
 			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_b);
 			graph.Remove(edge_hb);
@@ -1747,7 +1605,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_unmountRule : LGSPRulePattern
 	{
 		private static Rule_unmountRule instance = null;
-		public static Rule_unmountRule Instance { get { if (instance==null) instance = new Rule_unmountRule(); return instance; } }
+		public static Rule_unmountRule Instance { get { if (instance==null) { instance = new Rule_unmountRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] unmountRule_node_r_AllowedTypes = null;
 		public static NodeType[] unmountRule_node_p_AllowedTypes = null;
@@ -1769,6 +1627,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "unmountRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_unmountRule;
 			PatternNode unmountRule_node_r = new PatternNode((int) NodeTypes.@Resource, "unmountRule_node_r", "r", unmountRule_node_r_AllowedTypes, unmountRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode unmountRule_node_p = new PatternNode((int) NodeTypes.@Process, "unmountRule_node_p", "p", unmountRule_node_p_AllowedTypes, unmountRule_node_p_IsAllowedType, 5.5F, -1);
@@ -1788,33 +1653,20 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				},
 				new bool[1, 1] {
 					{ true, },
-				},
-				new bool[] {
-					false, false, },
-				new bool[] {
-					false, },
-				new bool[] {
-					true, true, },
-				new bool[] {
-					true, }
+				}
 			);
 			unmountRule_node_r.PointOfDefinition = pat_unmountRule;
 			unmountRule_node_p.PointOfDefinition = pat_unmountRule;
 			unmountRule_edge_t.PointOfDefinition = pat_unmountRule;
 
 			patternGraph = pat_unmountRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) unmountRule_NodeNums.@r];
-			LGSPEdge edge_t = match.Edges[ (int) unmountRule_EdgeNums.@t];
+			LGSPNode node_r = match.Nodes[(int) unmountRule_NodeNums.@r];
+			LGSPEdge edge_t = match.Edges[(int) unmountRule_EdgeNums.@t];
 			graph.Remove(edge_t);
 			graph.RemoveEdges(node_r);
 			graph.Remove(node_r);
@@ -1823,8 +1675,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[ (int) unmountRule_NodeNums.@r];
-			LGSPEdge edge_t = match.Edges[ (int) unmountRule_EdgeNums.@t];
+			LGSPNode node_r = match.Nodes[(int) unmountRule_NodeNums.@r];
+			LGSPEdge edge_t = match.Edges[(int) unmountRule_EdgeNums.@t];
 			graph.Remove(edge_t);
 			graph.RemoveEdges(node_r);
 			graph.Remove(node_r);
@@ -1839,7 +1691,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	public class Rule_waitingRule : LGSPRulePattern
 	{
 		private static Rule_waitingRule instance = null;
-		public static Rule_waitingRule Instance { get { if (instance==null) instance = new Rule_waitingRule(); return instance; } }
+		public static Rule_waitingRule Instance { get { if (instance==null) { instance = new Rule_waitingRule(); instance.initialize(); } return instance; } }
 
 		public static NodeType[] waitingRule_node_r_AllowedTypes = null;
 		public static NodeType[] waitingRule_node_r2_AllowedTypes = null;
@@ -1871,6 +1723,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			name = "waitingRule";
 			isSubpattern = false;
 
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
 			PatternGraph pat_waitingRule;
 			PatternNode waitingRule_node_r = new PatternNode((int) NodeTypes.@Resource, "waitingRule_node_r", "r", waitingRule_node_r_AllowedTypes, waitingRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode waitingRule_node_r2 = new PatternNode((int) NodeTypes.@Resource, "waitingRule_node_r2", "r2", waitingRule_node_r2_AllowedTypes, waitingRule_node_r2_IsAllowedType, 5.5F, -1);
@@ -1900,15 +1759,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					{ true, false, false, },
 					{ false, true, false, },
 					{ false, false, true, },
-				},
-				new bool[] {
-					false, false, false, false, false, },
-				new bool[] {
-					false, false, false, },
-				new bool[] {
-					true, true, true, true, true, },
-				new bool[] {
-					true, true, true, }
+				}
 			);
 			waitingRule_node_r.PointOfDefinition = pat_waitingRule;
 			waitingRule_node_r2.PointOfDefinition = pat_waitingRule;
@@ -1920,20 +1771,15 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			waitingRule_edge_req.PointOfDefinition = pat_waitingRule;
 
 			patternGraph = pat_waitingRule;
-
-			inputs = new GrGenType[] { };
-			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r2 = match.Nodes[ (int) waitingRule_NodeNums.@r2];
-			LGSPNode node_p2 = match.Nodes[ (int) waitingRule_NodeNums.@p2];
-			LGSPNode node_r = match.Nodes[ (int) waitingRule_NodeNums.@r];
-			LGSPEdge edge_b = match.Edges[ (int) waitingRule_EdgeNums.@b];
+			LGSPNode node_r2 = match.Nodes[(int) waitingRule_NodeNums.@r2];
+			LGSPNode node_p2 = match.Nodes[(int) waitingRule_NodeNums.@p2];
+			LGSPNode node_r = match.Nodes[(int) waitingRule_NodeNums.@r];
+			LGSPEdge edge_b = match.Edges[(int) waitingRule_EdgeNums.@b];
 			Edge_blocked edge_bn;
 			if(edge_b.type == EdgeType_blocked.typeVar)
 			{
@@ -1942,7 +1788,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				graph.ReuseEdge(edge_b, null, node_p2);
 			}
 			else
+			{
+				graph.Remove(edge_b);
 				edge_bn = Edge_blocked.CreateEdge(graph, node_r2, node_p2);
+			}
 			graph.RemoveEdges(node_r);
 			graph.Remove(node_r);
 			return EmptyReturnElements;
@@ -1950,10 +1799,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r2 = match.Nodes[ (int) waitingRule_NodeNums.@r2];
-			LGSPNode node_p2 = match.Nodes[ (int) waitingRule_NodeNums.@p2];
-			LGSPNode node_r = match.Nodes[ (int) waitingRule_NodeNums.@r];
-			LGSPEdge edge_b = match.Edges[ (int) waitingRule_EdgeNums.@b];
+			LGSPNode node_r2 = match.Nodes[(int) waitingRule_NodeNums.@r2];
+			LGSPNode node_p2 = match.Nodes[(int) waitingRule_NodeNums.@p2];
+			LGSPNode node_r = match.Nodes[(int) waitingRule_NodeNums.@r];
+			LGSPEdge edge_b = match.Edges[(int) waitingRule_EdgeNums.@b];
 			Edge_blocked edge_bn = Edge_blocked.CreateEdge(graph, node_r2, node_p2);
 			graph.Remove(edge_b);
 			graph.RemoveEdges(node_r);

@@ -151,10 +151,6 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternEdge[] Edges { get { return edges; } }
         public bool[,] HomomorphicNodes { get { return homomorphicNodes; } }
         public bool[,] HomomorphicEdges { get { return homomorphicEdges; } }
-        public bool[] HomomorphicToAllNodes { get { return homToAllNodes; } }
-        public bool[] HomomorphicToAllEdges { get { return homToAllEdges; } }
-        public bool[] IsomorphicToAllNodes { get { return isoToAllNodes; } }
-        public bool[] IsomorphicToAllEdges { get { return isoToAllEdges; } }
         public IPatternGraphEmbedding[] EmbeddedGraphs { get { return embeddedGraphs; } }
         public IAlternative[] Alternatives { get { return alternatives; } }
         public IPatternGraph[] NegativePatternGraphs { get { return negativePatternGraphs; } }
@@ -165,10 +161,6 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternEdge[] edges;
         public bool[,] homomorphicNodes;
         public bool[,] homomorphicEdges;
-        public bool[] homToAllNodes;
-        public bool[] homToAllEdges;
-        public bool[] isoToAllNodes;
-        public bool[] isoToAllEdges;
         public PatternGraphEmbedding[] embeddedGraphs;
         public Alternative[] alternatives;
         public PatternGraph[] negativePatternGraphs;
@@ -181,9 +173,7 @@ namespace de.unika.ipd.grGen.lgsp
             PatternNode[] nodes, PatternEdge[] edges,
             PatternGraphEmbedding[] embeddedGraphs, Alternative[] alternatives, 
             PatternGraph[] negativePatternGraphs, Condition[] conditions,
-            bool[,] homomorphicNodes, bool[,] homomorphicEdges,
-            bool[] homToAllNodes, bool[] homToAllEdges,
-            bool[] isoToAllNodes, bool[] isoToAllEdges)
+            bool[,] homomorphicNodes, bool[,] homomorphicEdges)
         {
             this.name = name;
             this.pathPrefix = pathPrefix;
@@ -195,10 +185,6 @@ namespace de.unika.ipd.grGen.lgsp
             this.Conditions = conditions;
             this.homomorphicNodes = homomorphicNodes;
             this.homomorphicEdges = homomorphicEdges;
-            this.homToAllNodes = homToAllNodes;
-            this.homToAllEdges = homToAllEdges;
-            this.isoToAllNodes = isoToAllNodes;
-            this.isoToAllEdges = isoToAllEdges;
         }
     }
 
@@ -268,5 +254,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public string name;
         public bool isSubpattern; // are we a rule or a subpattern?
+
+        public abstract void initialize();
     }
 }
