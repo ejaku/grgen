@@ -29,7 +29,6 @@ import java.io.File;
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.ir.Unit;
@@ -45,7 +44,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	 * Returns this backend.
 	 * @return This backend.
 	 */
-	public Backend getBackend() throws BackendException {
+	public Backend getBackend() {
 		return this;
 	}
 

@@ -57,7 +57,6 @@ import jargs.gnu.CmdLineParser;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.UnitNode;
 import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.ir.Dumper;
 import de.unika.ipd.grgen.ir.Unit;
@@ -454,8 +453,6 @@ public class Main extends Base implements Sys {
 			System.err.println("no rights to create backend class: " + backend);
 		} catch(InstantiationException e) {
 			System.err.println("cannot create backend class: " + backend);
-		} catch(BackendException e) {
-			System.err.println("backend factory error: " + e.getMessage());
 		} catch(Throwable e) {
 			System.err.println("unexpected exception occurred:");
 			e.printStackTrace();

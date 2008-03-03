@@ -38,7 +38,6 @@ import java.util.TreeSet;
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.be.C.fb.AttrTypeDescriptor;
 import de.unika.ipd.grgen.be.C.fb.EnumDescriptor;
@@ -108,7 +107,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 	 * Create a new backend.
 	 * @return A new backend.
 	 */
-	public Backend getBackend() throws BackendException {
+	public Backend getBackend() {
 		return this;
 	}
 

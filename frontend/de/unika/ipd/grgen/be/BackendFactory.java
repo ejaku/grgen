@@ -33,6 +33,6 @@ public interface BackendFactory {
 	 * Create a new backend.
 	 * @return A new backend.
 	 */
-	Backend getBackend() throws BackendException;
+	Backend getBackend();
 
 }
