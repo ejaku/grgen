@@ -657,13 +657,13 @@ public class ActionsGen extends CSharpBase {
 			} else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
 				sb.append("\t\tpublic static LGSPXGRSInfo XGRSInfo_" + xgrsID + " = new LGSPXGRSInfo(new String[] {");
-				for(GraphEntity param : exec.getArguments()) {
+				for(Entity param : exec.getArguments()) {
 					sb.append("\"" + param.getIdent() + "\", ");
 				}
 				sb.append("},\n");
 				sb.append("\t\t\t\"" + exec.getXGRSString() + "\");\n");
 				sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(LGSPGraph graph");
-				for(GraphEntity param : exec.getArguments()) {
+				for(Entity param : exec.getArguments()) {
 					sb.append(", IGraphElement var_");
 					sb.append(param.getIdent());
 				}
@@ -808,7 +808,7 @@ public class ActionsGen extends CSharpBase {
 			}
 			else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
-				for(GraphEntity param : exec.getArguments()) {
+				for(Entity param : exec.getArguments()) {
 					if(param instanceof Node)
 						nodesNeededAsElements.add((Node) param);
 					else if(param instanceof Edge)
@@ -947,7 +947,7 @@ public class ActionsGen extends CSharpBase {
 			} else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
 				sb3.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
-				for(GraphEntity param : exec.getArguments()) {
+				for(Entity param : exec.getArguments()) {
 					sb3.append(", ");
 					sb3.append(formatEntity(param));
 				}

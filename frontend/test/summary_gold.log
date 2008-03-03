@@ -148,13 +148,13 @@ OK     should_pass/exact_006.grg
 OK     should_pass/exact_007.grg
 OK     should_pass/exact_008.grg
 OK     should_pass/exec_001.grg
-ABEND  should_pass/exec_002.grg
-ABEND  should_pass/exec_003.grg
+FAILED should_pass/exec_002.grg
+FAILED should_pass/exec_003.grg
 ABEND  should_pass/exec_004.grg
 ERROR  should_pass/exec_005.grg
-ABEND  should_pass/exec_006.grg
+FAILED should_pass/exec_006.grg
 OK     should_pass/exec_007.grg
-ABEND  should_pass/exec_008.grg
+FAILED should_pass/exec_008.grg
 OK     should_pass/external_001.grg
 OK     should_pass/hom_001.grg
 OK     should_pass/hom_002.grg

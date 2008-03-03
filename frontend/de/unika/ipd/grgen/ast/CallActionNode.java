@@ -108,7 +108,7 @@ public class CallActionNode extends BaseNode {
 	}
 
 	/*
-	 * This sets the symbol defintion to the right place, if the defintion is behind the actual position.
+	 * This sets the symbol definition to the right place, if the definition is behind the actual position.
 	 * TODO: extract and unify this method to a common place/code duplication
 	 */
 	public static boolean fixupDefinition(IdentNode id, Scope scope) {

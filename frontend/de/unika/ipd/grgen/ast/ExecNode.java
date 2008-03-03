@@ -25,15 +25,16 @@ package de.unika.ipd.grgen.ast;
 
 
 
-import de.unika.ipd.grgen.ir.Exec;
-import de.unika.ipd.grgen.ir.GraphEntity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Exec;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  *
@@ -102,10 +103,10 @@ public class ExecNode extends BaseNode {
 	}
 
 	protected IR constructIR() {
-		Set<GraphEntity> parameters = new LinkedHashSet<GraphEntity>();
+		Set<Entity> parameters = new LinkedHashSet<Entity>();
 		for(CallActionNode callActionNode : callActions.getChildren())
 			for(DeclNode param : callActionNode.getParams().getChildren())
-				parameters.add((GraphEntity) param.getIR());
+				parameters.add((Entity) param.getIR());
 		Exec res= new Exec(getXGRSString(), parameters);
 		return res;
 	}

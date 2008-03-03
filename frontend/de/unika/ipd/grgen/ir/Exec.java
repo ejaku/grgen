@@ -33,11 +33,11 @@ import java.util.Set;
  */
 public class Exec extends IR implements ImperativeStmt {
 
-	private Set<GraphEntity> parameters = new LinkedHashSet<GraphEntity>();
+	private Set<Entity> parameters = new LinkedHashSet<Entity>();
 
 	private String xgrsString;
 
-	public Exec(String xgrsString, Set<GraphEntity> parameters) {
+	public Exec(String xgrsString, Set<Entity> parameters) {
 		super("exec");
 		this.xgrsString = xgrsString;
 		this.parameters = parameters;
@@ -54,7 +54,7 @@ public class Exec extends IR implements ImperativeStmt {
 	/**
 	 * Returns Parameters
 	 */
-	public Set<GraphEntity> getArguments() {
+	public Set<Entity> getArguments() {
 		return Collections.unmodifiableSet(parameters);
 	}
 }

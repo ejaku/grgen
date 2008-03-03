@@ -24,18 +24,19 @@
  */
 package de.unika.ipd.grgen.ast;
 
-
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ir.IR;
+
 /**
- * Decleration of a variable.
+ * Declaration of a variable.
  */
 public class VarDeclNode extends DeclNode {
-	private static final DeclarationResolver<DeclNode> typeResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
+	private static final DeclarationResolver<DeclNode> declOfTypeResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
 
-	private DeclNode type;
+	private TypeNode type;
 
 	public VarDeclNode(IdentNode id, IdentNode type) {
 		super(id, type);
@@ -63,7 +64,7 @@ public class VarDeclNode extends DeclNode {
 	 * false, if there was some error.
 	 */
 	protected boolean resolveLocal() {
-		type = typeResolver.resolve(typeUnresolved, this);
+		type = declOfTypeResolver.resolve(typeUnresolved, this).getDeclType();
 		return type != null;
 	}
 
@@ -79,7 +80,11 @@ public class VarDeclNode extends DeclNode {
 	/** @return The type node of the declaration */
 	public TypeNode getDeclType() {
 		assert isResolved() : this + " was not resolved";
-		return (TypeNode)(Object)type;
+		return type;
+	}
+	
+	protected IR constructIR() {
+		return null;
 	}
 }
 
