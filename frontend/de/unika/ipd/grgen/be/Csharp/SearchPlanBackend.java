@@ -893,8 +893,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 
 		sb.append("\t\t\t\tnew Condition[] { ");
 		condCnt = condCntInit;
-		for(Expression expr : pattern.getConditions()){
-			sb.append("cond_" + condCnt++ + ", ");
+		for(int i = 0; i < pattern.getConditions().size(); i++) {
+			sb.append("cond_" + condCnt + ", ");
+			condCnt++;
 		}
 		sb.append("},\n");
 
@@ -1582,9 +1583,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");
 	}
 
-	private String formatEnum(Entity e) {
+	// TODO use or remove it
+	/* private String formatEnum(Entity e) {
 		return "ENUM_" + formatIdentifiable(e);
-	}
+	}*/
 
 	private String formatAttributeTypeName(Entity e) {
 		return "AttributeType_" + formatAttributeName(e);
@@ -1608,9 +1610,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		return formatEntity(entity, null, 0);
 	}
 
-	private String formatInt(int i) {
+	// TODO use or remove it
+	/*private String formatInt(int i) {
 		return (i==Integer.MAX_VALUE)?"int.MaxValue":new Integer(i).toString();
-	}
+	}*/
 
 	public String formatLong(long l) {
 		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();

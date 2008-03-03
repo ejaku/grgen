@@ -32,10 +32,7 @@ package de.unika.ipd.grgen.be.Csharp;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-
 import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.Cast;
 import de.unika.ipd.grgen.ir.Constant;
@@ -393,7 +390,8 @@ public abstract class CSharpBase {
 			"-", "*", "/", "%", "!", "~", "-", "(cast)"
 	};
 
-	private HashSet<Node> nodesNeededAsAttributes = new LinkedHashSet<Node>();
-	private HashSet<Edge> edgesNeededAsAttributes = new LinkedHashSet<Edge>();
+	// TODO use or remove it
+	// private HashSet<Node> nodesNeededAsAttributes = new LinkedHashSet<Node>();
+	// private HashSet<Edge> edgesNeededAsAttributes = new LinkedHashSet<Edge>();
 }
 

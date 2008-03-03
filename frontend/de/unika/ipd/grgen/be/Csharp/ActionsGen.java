@@ -357,11 +357,10 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append("};\n");
 
-		int i=0;
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "AltNums { ");
-		for(Alternative alt : pattern.getAlts()) {
+
+		for(int i=0; i < pattern.getAlts().size(); i++) {
 			sb.append("@" + "alt_" + i + ", ");
-			++i;
 		}
 		sb.append("};\n");
 	}
@@ -456,9 +455,9 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\t\t\t\tnew Condition[] { ");
 		int condCnt = condCntInit;
-		for(Expression expr : pattern.getConditions()){
+		for (int i = 0; i < pattern.getConditions().size(); i++){
 			sb.append("cond_" + condCnt + ", ");
-			++condCnt;
+			condCnt++;
 		}
 		sb.append(" }, \n");
 
@@ -1093,8 +1092,9 @@ public class ActionsGen extends CSharpBase {
 		//reuseNodeAndEdges = false;							// TODO: reimplement this!!
 
 		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(newNodes);
-		LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
-		/*		if(reuseNodeAndEdges) {
+
+		/* LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
+				if(reuseNodeAndEdges) {
 			NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
 				Node node = i.next();
 				// Can we reuse the node
@@ -1133,9 +1133,10 @@ public class ActionsGen extends CSharpBase {
 		 }
 		NN:*/ for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
 			Node node = i.next();
-			String type = computeGraphEntityType(node);
+
+			/*String type = computeGraphEntityType(node);
 			// Can we reuse the node
-			/*if(reuseNodeAndEdges && !tmpDelNodes.isEmpty()) {
+			if(reuseNodeAndEdges && !tmpDelNodes.isEmpty()) {
 				Node delNode = tmpDelNodes.getFirst();
 				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
 				sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
@@ -1177,7 +1178,8 @@ public class ActionsGen extends CSharpBase {
 		return typeofElem == elem ? null : typeofElem;
 	}
 
-	private String computeGraphEntityType(Node node) {
+	// TODO use or remove it
+	/*private String computeGraphEntityType(Node node) {
 		String type;
 		if(node.inheritsType()) {
 			Node typeofElem = (Node) getConcreteTypeof(node);
@@ -1188,7 +1190,7 @@ public class ActionsGen extends CSharpBase {
 			type = formatTypeClass(node.getType()) + ".typeVar";
 		}
 		return type;
-	}
+	}*/
 
 	private void genRewriteNewEdges(StringBuffer sb2, Rule rule, boolean reuseNodeAndEdges) {
 		PatternGraph leftSide = rule.getLeft();

@@ -25,9 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 
-import de.unika.ipd.grgen.ast.NodeDeclNode;
-import de.unika.ipd.grgen.ast.TypeDeclNode;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import java.util.Collection;
 import java.util.Vector;
