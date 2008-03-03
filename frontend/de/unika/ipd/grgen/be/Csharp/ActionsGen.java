@@ -229,8 +229,9 @@ public class ActionsGen extends CSharpBase {
 
 		int i = 0;
 		for(PatternGraph neg : pattern.getNegs()) {
+			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			genTypeConditionsAndEnums(sb, neg, pathPrefixForElements+"neg_"+i+"_",
-					(HashMap<Entity, String>)alreadyDefinedEntityToName.clone());
+					alreadyDefinedEntityToNameClone);
 			++i;
 		}
 
@@ -238,8 +239,9 @@ public class ActionsGen extends CSharpBase {
 		for(Alternative alt : pattern.getAlts()) {
 			genCaseEnum(sb, alt, pathPrefixForElements+"alt_"+i+"_");
 			for(PatternGraph altCase : alt.getAlternativeCases()) {
+				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 				genTypeConditionsAndEnums(sb, altCase, pathPrefixForElements+"alt_"+i+"_"+altCase.getNameOfGraph()+"_",
-						(HashMap<Entity, String>)alreadyDefinedEntityToName.clone());
+						alreadyDefinedEntityToNameClone);
 			}
 			++i;
 		}
@@ -581,11 +583,13 @@ public class ActionsGen extends CSharpBase {
 			for(PatternGraph altCase : alt.getAlternativeCases()) {
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCase.getNameOfGraph();
 				sb.append("\t\t\tPatternGraph " + altPatGraphVarName + ";\n");
+				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
+				HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 				condCnt = genPatternGraph(sb, aux, altCase,
 						pathPrefixForElements+altName+"_", altCase.getNameOfGraph(),
 						altPatGraphVarName,
-						(HashMap<Entity,String>)alreadyDefinedEntityToName.clone(),
-						(HashMap<Identifiable,String>)alreadyDefinedIdentifiableToName.clone(),
+						alreadyDefinedEntityToNameClone,
+						alreadyDefinedIdentifiableToNameClone,
 						condCnt, parameters, max);
 			}
 			++i;
@@ -607,10 +611,12 @@ public class ActionsGen extends CSharpBase {
 		for(PatternGraph neg : pattern.getNegs()) {
 			String negName = "neg_" + i;
 			sb.append("\t\t\tPatternGraph " + pathPrefixForElements+negName + ";\n");
+			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
+			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 			condCnt = genPatternGraph(sb, aux, neg,
 					pathPrefixForElements, negName, pathPrefixForElements+negName,
-					(HashMap<Entity,String>)alreadyDefinedEntityToName.clone(),
-					(HashMap<Identifiable,String>)alreadyDefinedIdentifiableToName.clone(),
+					alreadyDefinedEntityToNameClone,
+					alreadyDefinedIdentifiableToNameClone,
 					condCnt, parameters, max);
 			++i;
 		}

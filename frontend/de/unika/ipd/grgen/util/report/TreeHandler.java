@@ -99,16 +99,17 @@ public class TreeHandler extends DefaultTreeModel implements Handler {
    */
   private class MsgNode implements TreeNode {
 
-		private TreeNode parent;
+	  	// TODO use or remove it
+	  	// private TreeNode parent;
+		// private int level;
+		// private Location loc;
 		private String msg;
-		private int level;
-		private Location loc;
 
 		public MsgNode(TreeNode parent, int level, Location loc, String msg) {
-			this.level = level;
-			this.loc = loc;
+			// this.level = level;
+			// this.loc = loc;
 			this.msg = msg;
-			this.parent = parent;
+			// this.parent = parent;
 		}
 
     public TreeNode getChildAt(int arg0) {
@@ -135,7 +136,7 @@ public class TreeHandler extends DefaultTreeModel implements Handler {
       return true;
     }
 
-    public Enumeration children() {
+    public Enumeration<?> children() {
       return null;
     }
 
@@ -144,7 +145,10 @@ public class TreeHandler extends DefaultTreeModel implements Handler {
     }
   }
 
-  private EnterNode current, root;
+  private EnterNode current;
+
+  // TODO use or remove it
+  // private EnterNode root;
 
   /**
    *

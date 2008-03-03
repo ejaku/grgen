@@ -78,7 +78,6 @@ import de.unika.ipd.grgen.util.report.NullReporter;
 import de.unika.ipd.grgen.util.report.Reporter;
 import de.unika.ipd.grgen.util.report.StreamHandler;
 import de.unika.ipd.grgen.util.report.TableHandler;
-import de.unika.ipd.grgen.util.report.TreeHandler;
 
 
 /**
@@ -185,7 +184,8 @@ public class Main extends Base implements Sys {
 		System.out.println("  -o, --output=DIRECTORY            write generated files to DIRECTORY");
 	}
 
-	private JPanel getTreePanel(TreeHandler treeHandler) {
+	// TODO use or remove it
+	/*private JPanel getTreePanel(TreeHandler treeHandler) {
 		debugTree = new JTree(treeHandler);
 		debugTree.setEditable(false);
 
@@ -197,7 +197,7 @@ public class Main extends Base implements Sys {
 		panel.add(scrollPane, BorderLayout.CENTER);
 
 		return panel;
-	}
+	}*/
 
 	private JPanel getTablePanel(TableHandler tableHandler) {
 		JComponent table = new JTable(tableHandler);
@@ -212,9 +212,10 @@ public class Main extends Base implements Sys {
 	}
 
 
-	private void editPreferences() {
+	// TODO use or remove it
+	/*private void editPreferences() {
 
-	}
+	}*/
 
 	private JFrame makeMainFrame() {
 		JPanel panel = new JPanel();

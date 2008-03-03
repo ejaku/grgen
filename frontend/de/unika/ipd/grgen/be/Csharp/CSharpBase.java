@@ -104,7 +104,7 @@ public abstract class CSharpBase {
 	}
 
 	public void genSubpatternUsageSet(StringBuffer sb, Collection<? extends SubpatternUsage> set, String pre, String post,
-			boolean brackets, String pathPrefix, HashMap<Identifiable, String> alreadyDefinedIdentifiableToName) {
+			boolean brackets, String pathPrefix, HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName) {
 		if (brackets)
 			sb.append("{ ");
 		for(Iterator<? extends SubpatternUsage> iter = set.iterator(); iter.hasNext();) {
@@ -143,7 +143,7 @@ public abstract class CSharpBase {
 	}
 
 	public String formatIdentifiable(Identifiable id, String pathPrefix,
-			HashMap<Identifiable, String> alreadyDefinedIdentifiableToName)
+			HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName)
 	{
 		if(alreadyDefinedIdentifiableToName!=null && alreadyDefinedIdentifiableToName.get(id)!=null)
 			return alreadyDefinedIdentifiableToName.get(id);

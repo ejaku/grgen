@@ -44,7 +44,8 @@ public class Coords implements Location {
 	 * The default filename for the coordinates
 	 * It should only be changed, if the lexer is switching to another file.
 	 */
-	private static String defaultFilename = null;
+	// TODO use or remove it
+	// private static String defaultFilename = null;
 
 	protected int line, col;
 	protected String filename;
@@ -55,9 +56,10 @@ public class Coords implements Location {
 	 * the coordinates are meant to have no filename (i.e. The filename
 	 * is not printed in the toString() method.
 	 */
-	public static void setDefaultFilename(String filename) {
+	// TODO use or remove it
+	/* public static void setDefaultFilename(String filename) {
 		defaultFilename = filename;
-	}
+	}*/
 
 	/**
 	 * Create empty coordinates.

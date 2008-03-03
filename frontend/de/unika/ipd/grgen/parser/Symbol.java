@@ -184,10 +184,12 @@ public class Symbol {
 	private final SymbolTable symbolTable;
 
 	/** An id counter for assigning ids to symbols*/
-	private static int currId = 0;
+	// TODO use or remove it
+	// private static int currId = 0;
 
 	/** The id for this symbol. */
-	private final int id = currId++;
+	// TODO use or remove it
+	// private final int id = currId++;
 
 	/** The string of the symbol. */
 	private final String text;

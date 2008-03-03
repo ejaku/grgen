@@ -27,9 +27,7 @@
 
 package de.unika.ipd.grgen.be.C;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,8 +59,9 @@ import de.unika.ipd.grgen.ir.Unit;
 
 public class SearchPlanBackend extends MoreInformationCollector implements Backend, BackendFactory {
 
-	private final int OU2T = 0;
-	private final int IN = 1;
+	// TODO use or remove it
+	// private final int OU2T = 0;
+	// private final int IN = 1;
 
 	private final String MODE_EDGE_NAME = "has_mode";
 
@@ -781,7 +780,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * Method genEvals
 	 * --------------- */
 
-	private void genEvals(StringBuffer sb, String indent, Action action)
+	// TODO use or remove it
+	/*private void genEvals(StringBuffer sb, String indent, Action action)
 	{
 		if(evalActions.containsKey(action.getId()))
 		{
@@ -792,7 +792,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 		 * Register eval using func_in and func_out parameters
 	 		 * At some other place:
 	 		 * Generate eval function
-	 		 */
+	 		 *//*
 
 		}
 		else
@@ -801,7 +801,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		}
 
 
-	}
+	}*/
 
 
 
@@ -1019,7 +1019,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
      * Dumps a figlet
      * --------------
      */
-	private void figlet(String indent, StringBuffer sb) {
+	// TODO use or remove it
+	/*private void figlet(String indent, StringBuffer sb) {
 		try {
 			String line;
 			Process p = Runtime.getRuntime().exec
@@ -1034,7 +1035,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		catch (Exception err) {
 			err.printStackTrace();
 		}
-	}
+	}*/
 }
 
 

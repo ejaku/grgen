@@ -68,8 +68,9 @@ import de.unika.ipd.grgen.util.Annotations;
 
 public class FrameBasedBackend extends MoreInformationCollector implements Backend, BackendFactory {
 
-	private final int OUT = 0;
-	private final int IN = 1;
+	// TODO use or remove it
+	// private final int OUT = 0;
+	// private final int IN = 1;
 
 	protected final boolean emit_subgraph_info = true;
 
@@ -330,7 +331,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//get the number of pattern nodes to be removed by the replacement step
 			int n_remove_nodes = 0;
 			String remove_nodes_array = "NULL";
-			Collection<IR> remove_nodes = new HashSet<IR>();
+			Collection<Node> remove_nodes = new HashSet<Node>();
 			if (action instanceof Rule) {
 				Graph replacement = ((Rule) action).getRight();
 				//compute all pattern nodes to be removed  in the replace step.
@@ -340,12 +341,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				//if the set of nodes to be removed is not empty gen a C-array
 				//of their patter nodes numbers
 				if (n_remove_nodes > 0) {
-					int node_counter = 0;
 					sb.append(
 						"static int remove_nodes_of_action_" + act_id +
 							"[" + n_remove_nodes + "] = {\n  ");
-					for (Iterator<IR> it = remove_nodes.iterator(); it.hasNext(); ) {
-						Node node = (Node) it.next();
+					for (Iterator<Node> it = remove_nodes.iterator(); it.hasNext(); ) {
+						Node node = it.next();
 						Integer node_num =
 							(Integer) pattern_node_num[act_id].get(node);
 						sb.append(node_num);
@@ -360,7 +360,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//removed by the replacement step
 			int n_remove_edges = 0;
 			String remove_edges_array = "NULL";
-			Collection<IR> remove_edges = new HashSet<IR>();
+			Collection<Edge> remove_edges = new HashSet<Edge>();
 			if (action instanceof Rule) {
 				Graph replacement = ((Rule) action).getRight();
 				//compute all pattern nodes to be removed  in the replace step.
@@ -370,12 +370,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				//if the set of edges explicitly to be removed is not
 				//empty gen a C-array of their patter nodes numbers
 				if (n_remove_edges > 0) {
-					int edge_counter = 0;
 					sb.append(
 						"static int remove_edges_of_action_" + act_id +
 							"[" + n_remove_edges + "] = {\n  ");
-					for (Iterator<IR> it = remove_edges.iterator(); it.hasNext(); ) {
-						Edge edge = (Edge) it.next();
+					for (Iterator<Edge> it = remove_edges.iterator(); it.hasNext(); ) {
+						Edge edge = it.next();
 						Integer edge_num =
 							(Integer) pattern_edge_num[act_id].get(edge);
 						sb.append(edge_num);
@@ -388,7 +387,10 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//gen the array of replacement edges newly to be inserted by
 			//the current action
 			int n_new_edges = 0;
-			String new_edges_array = "NULL";
+
+			// TODO use or remove it
+			// String new_edges_array = "NULL";
+
 			if (action instanceof Rule) {
 				n_new_edges = newEdgesOfAction[act_id].size();
 				if (n_new_edges > 0) {
@@ -405,7 +407,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 						sb.append("\n");
 					}
 					sb.append(" };\n");
-					new_edges_array = "new_edges_of_action_" + act_id;
+					// new_edges_array = "new_edges_of_action_" + act_id;
 				}
 			}
 
@@ -582,7 +584,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		Collection<IR> nodeNotVisited = new HashSet<IR>();
 		Collection<IR> edgeVisited = new HashSet<IR>();
 		Collection<Entity> currentSubgraph;
-		Collection<Node> currentSubgraphNodes;
+		// TODO use or remove it
+		// Collection<Node> currentSubgraphNodes;
 		Collection<Collection<Node>> subgraphs = new LinkedList<Collection<Node>>();
 
 		int act_id = actionMap.get(action).intValue();
@@ -992,10 +995,13 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				kind = "fb_matcher_op_check_or_extend";
 		}
 
+		// TODO use or remove it
 		//get name indentifier used in the grg-file for the current edge
-		String edgeName = "NULL";
+		/* String edgeName = "NULL";
 		if (edge != null)
 			edgeName = edge.getIdent().toString();
+		*/
+
 		//get the direction of the op
 		String op_direction = null;
 		if (kind.equals("fb_matcher_op_check"))
@@ -1044,7 +1050,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		}
 		else {
 			//edge == null indicates, that a start no op has to be emitted
-			String node_name = node.getIdent().toString();
+			// TODO use or remove it
+			// String node_name = node.getIdent().toString();
+
 			Integer node_num;
 			String node_ptr;
 
@@ -1103,7 +1111,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 
 			//check whether these nodes/edges have been visited already,
 			//but the current node/edge is not yet added to the "visited"-Sets
-			boolean bothempty = involvedNodes.isEmpty() && involvedEdges.isEmpty();
+			// TODO use or remove it
+			// boolean bothempty = involvedNodes.isEmpty() && involvedEdges.isEmpty();
+
 			involvedNodes.remove(node);
 			if  (edge != null)
 				involvedEdges.remove(edge);
@@ -1354,8 +1364,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				for (; attr_id_it.hasNext(); ) {
 
 					Integer attr_id = attr_id_it.next();
-					String kindStr =
-						AttrTypeDescriptor.kindToStr(node_attr_info[attr_id.intValue()]);
+					// TODO use or remove it
+					// String kindStr =
+					//	AttrTypeDescriptor.kindToStr(node_attr_info[attr_id.intValue()]);
 					sb.append(
 						"  int index_a" + attr_id + "_" + pattern_or_repl +  "_node_" + node_num + " = " +
 							"fb_node_attr_index[type_" + pattern_or_repl + "_node_"  + node_num + "][" + attr_id + "];\n" );
@@ -1377,8 +1388,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					involvedEvalEdgeAttrIds[ act_id.intValue() ].get( current_edge ).iterator();
 				for (; attr_id_it.hasNext(); ) {
 					Integer attr_id = attr_id_it.next();
-					String kindStr =
-						AttrTypeDescriptor.kindToStr(edge_attr_info[attr_id.intValue()]);
+					// TODO use or remove it
+					// String kindStr =
+					//	AttrTypeDescriptor.kindToStr(edge_attr_info[attr_id.intValue()]);
 					sb.append(
 						"  int index_a" + attr_id + "_" + pattern_or_repl +  "_edge_" + edge_num + " = " +
 							"fb_edge_attr_index[type_" + pattern_or_repl + "_edge_"  + edge_num + "][" + attr_id + "];\n");
@@ -2428,7 +2440,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"/* all the edges of graph " + graphName + " */\n");
 			Iterator<Edge> edge_it = graph.getEdges().iterator();
 			for ( ; edge_it.hasNext(); ) {
-				Edge edge = (Edge) edge_it.next();
+				Edge edge = edge_it.next();
 				int edge_num = edge_numbers.get(edge).intValue();
 				int edge_type = getId((EdgeType)edge.getType());
 				int src_node_num =
@@ -2566,7 +2578,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//gen the edge ptr array
 			Iterator<Edge> edge_it = graph.getEdges().iterator();
 			for ( ; edge_it.hasNext(); ) {
-				Edge edge = (Edge) edge_it.next();
+				Edge edge = edge_it.next();
 				int edge_num = edge_numbers.get(edge).intValue();
 				sb.append(
 					"    &" + prefix + "edge_" + edge_num + postfix);

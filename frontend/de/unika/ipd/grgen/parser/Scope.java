@@ -43,7 +43,8 @@ public class Scope {
 	 * The id of this scope. It is basically the number of the child of
 	 * the super scope.
 	 */
-	private final int id;
+	// TODO use or remove it
+	// private final int id;
 
 	/** This scope's parent scope. */
 	private final Scope parent;
@@ -87,7 +88,7 @@ public class Scope {
 	 */
 	public Scope(ErrorReporter reporter) {
 		this.parent = null;
-		this.id = 0;
+		// this.id = 0;
 		this.reporter = reporter;
 		this.ident = null;//new IdentNode(new Definition(null, Coords.getBuiltin(), new Symbol("ROOT", SymbolTable.getInvalid())));
 	}
@@ -101,7 +102,7 @@ public class Scope {
 	 */
 	private Scope(Scope parent, int id, IdentNode ident) {
 		this.parent = parent;
-		this.id = id;
+		// this.id = id;
 		this.ident = ident;
 		this.reporter = parent != null ? parent.reporter : null;
 	}

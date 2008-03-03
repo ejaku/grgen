@@ -49,7 +49,9 @@ public class Util
 	 */
 	public static String removePathPrefix(String filename)
 	{
-		String res = filename;
+		// TODO use or remove it
+		// String res = filename;
+
 		int lastSepPos = filename.lastIndexOf(File.separatorChar);
 
 		if (lastSepPos < 0) return filename;
@@ -227,7 +229,9 @@ public class Util
 	public static String getStrListWithOr(Class<?>[] classes, Class<?> sc, String m)
 	{
 		StringBuffer res = new StringBuffer();
-		boolean first = true;
+		// TODO use or remove it
+		// boolean first = true;
+
 		int l = classes.length;
 
 		for (int i = 0; i < l; i++) {

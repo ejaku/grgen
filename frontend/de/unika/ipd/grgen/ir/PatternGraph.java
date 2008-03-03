@@ -183,14 +183,18 @@ public class PatternGraph extends Graph {
 		// depth first walk over IR-pattern-graph tree structure
 		for(Alternative alternative : getAlts()) {
 			for(PatternGraph altCase : alternative.getAlternativeCases()) {
+				HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
+				HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 				altCase.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
-						(HashSet<Node>)alreadyDefinedNodes.clone(), (HashSet<Edge>)alreadyDefinedEdges.clone());
+						alreadyDefinedNodesClone, alreadyDefinedEdgesClone);
 			}
 		}
 
 		for (PatternGraph negative : getNegs()) {
+			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
+			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			negative.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
-					(HashSet<Node>)alreadyDefinedNodes.clone(), (HashSet<Edge>)alreadyDefinedEdges.clone());
+					alreadyDefinedNodesClone, alreadyDefinedEdgesClone);
 		}
 
 		///////////////////////////////////////////////////////////////////////////////

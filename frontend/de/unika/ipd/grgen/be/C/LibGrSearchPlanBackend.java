@@ -51,7 +51,6 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Graph;
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Node;
@@ -68,8 +67,9 @@ import de.unika.ipd.grgen.util.Annotations;
 
 public class LibGrSearchPlanBackend extends MoreInformationCollector implements Backend, BackendFactory {
 
-	private final int OUT = 0;
-	private final int IN = 1;
+	// TODO use or remove it
+	// private final int OUT = 0;
+	// private final int IN = 1;
 
 	protected final boolean emit_subgraph_info = true;
 
@@ -305,7 +305,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 			sb.append(
 				"static const char *pattern_node_names_of_act_" + act_id + "[" + n_pat_nodes + "] = {\n  ");
 			for ( ; pattern_node_it.hasNext(); ) {
-				Node node = (Node) pattern_node_it.next();
+				Node node =  pattern_node_it.next();
 				sb.append("\"" + node.getIdent().toString() + "\"");
 				if (pattern_node_it.hasNext())
 					sb.append(", ");
@@ -320,7 +320,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				sb.append(
 					"static const char *pattern_edge_names_of_act_" + act_id + "[" + n_pat_edges + "] = {\n  ");
 				for ( ; pattern_edge_it.hasNext(); ) {
-					Edge edge = (Edge) pattern_edge_it.next();
+					Edge edge = pattern_edge_it.next();
 					sb.append("\"" + edge.getIdent().toString() + "\"");
 					if (pattern_edge_it.hasNext())
 						sb.append(", ");
@@ -372,7 +372,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 			//get the number of pattern nodes to be removed by the replacement step
 			int n_remove_nodes = 0;
 			String remove_nodes_array = "NULL";
-			Collection<IR> remove_nodes = new HashSet<IR>();
+			Collection<Node> remove_nodes = new HashSet<Node>();
 			if (action instanceof Rule) {
 				Graph replacement = ((Rule) action).getRight();
 				//compute all pattern nodes to be removed  in the replace step.
@@ -382,12 +382,11 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				//if the set of nodes to be removed is not empty gen a C-array
 				//of their patter nodes numbers
 				if (n_remove_nodes > 0) {
-					int node_counter = 0;
 					sb.append(
 						"static int remove_nodes_of_action_" + act_id +
 							"[" + n_remove_nodes + "] = {\n  ");
-					for (Iterator<IR> it = remove_nodes.iterator(); it.hasNext(); ) {
-						Node node = (Node) it.next();
+					for (Iterator<Node> it = remove_nodes.iterator(); it.hasNext(); ) {
+						Node node = it.next();
 						Integer node_num =
 							(Integer) pattern_node_num[act_id].get(node);
 						sb.append(node_num);
@@ -402,7 +401,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 			//removed by the replacement step
 			int n_remove_edges = 0;
 			String remove_edges_array = "NULL";
-			Collection<IR> remove_edges = new HashSet<IR>();
+			Collection<Edge> remove_edges = new HashSet<Edge>();
 			if (action instanceof Rule) {
 				Graph replacement = ((Rule) action).getRight();
 				//compute all pattern nodes to be removed  in the replace step.
@@ -412,12 +411,11 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				//if the set of edges explicitly to be removed is not
 				//empty gen a C-array of their patter nodes numbers
 				if (n_remove_edges > 0) {
-					int edge_counter = 0;
 					sb.append(
 						"static int remove_edges_of_action_" + act_id +
 							"[" + n_remove_edges + "] = {\n  ");
-					for (Iterator<IR> it = remove_edges.iterator(); it.hasNext(); ) {
-						Edge edge = (Edge) it.next();
+					for (Iterator<Edge> it = remove_edges.iterator(); it.hasNext(); ) {
+						Edge edge = it.next();
 						Integer edge_num =
 							(Integer) pattern_edge_num[act_id].get(edge);
 						sb.append(edge_num);
@@ -430,7 +428,9 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 			//gen the array of replacement edges newly to be inserted by
 			//the current action
 			int n_new_edges = 0;
-			String new_edges_array = "NULL";
+
+			// TODO use or remove it
+			// String new_edges_array = "NULL";
 			if (action instanceof Rule) {
 				n_new_edges = newEdgesOfAction[act_id].size();
 				if (n_new_edges > 0) {
@@ -447,7 +447,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 						sb.append("\n");
 					}
 					sb.append(" };\n");
-					new_edges_array = "new_edges_of_action_" + act_id;
+					// new_edges_array = "new_edges_of_action_" + act_id;
 				}
 			}
 
@@ -632,11 +632,12 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 
 	private int genOpSequence(Node startNode, MatchingAction action,
 							  Collection<Expression> alreadyCheckedConditions, Collection<Collection<InheritanceType>> alreadyCheckedTypeConditions, StringBuffer sb) {
-		Collection<IR> nodeVisited = new HashSet<IR>();
-		Collection<IR> nodeNotVisited = new HashSet<IR>();
-		Collection<IR> edgeVisited = new HashSet<IR>();
+		Collection<Node> nodeVisited = new HashSet<Node>();
+		Collection<Node> nodeNotVisited = new HashSet<Node>();
+		Collection<Edge> edgeVisited = new HashSet<Edge>();
 		Collection<Entity> currentSubgraph;
-		Collection<Node> currentSubgraphNodes;
+		// TODO use or remove it
+		// Collection<Node> currentSubgraphNodes;
 		Collection<Collection<Node>> subgraphs = new LinkedList<Collection<Node>>();
 
 		int act_id = actionMap.get(action).intValue();
@@ -657,9 +658,9 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				//pick out the node with the highest priority as start node
 				int max_prio = 0;
 				//get any node as initial node
-				Node max_prio_node = (Node) nodeNotVisited.iterator().next();
-				for (Iterator<IR> node_it = nodeNotVisited.iterator(); node_it.hasNext(); ) {
-					Node node = (Node) node_it.next();
+				Node max_prio_node = nodeNotVisited.iterator().next();
+				for (Iterator<Node> node_it = nodeNotVisited.iterator(); node_it.hasNext(); ) {
+					Node node = node_it.next();
 
 					//get the nodes priority
 					int prio = 0;
@@ -711,9 +712,9 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				//pick out the node with the highest priority as start node
 				int max_prio = 0;
 				//get any node as initial node
-				Node max_prio_node = (Node) nodeNotVisited.iterator().next();
-				for (Iterator<IR> node_it = nodeNotVisited.iterator(); node_it.hasNext(); ) {
-					Node node = (Node) node_it.next();
+				Node max_prio_node = nodeNotVisited.iterator().next();
+				for (Iterator<Node> node_it = nodeNotVisited.iterator(); node_it.hasNext(); ) {
+					Node node = node_it.next();
 
 					//get the nodes priority
 					int prio = 0;
@@ -777,10 +778,10 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 	 */
 	private int genNegOpSequence(MatchingAction action, PatternGraph neg_pattern,
 								 Collection<Expression> alreadyCheckedConditions, Collection<Collection<InheritanceType>> alreadyCheckedTypeConditions, StringBuffer sb) {
-		Collection<IR> nodeVisited = new HashSet<IR>();
-		Collection<IR> nodeNotVisited = new HashSet<IR>();
-		Collection<IR> edgeVisited = new HashSet<IR>();
-		Collection<IR> startNodes = new HashSet<IR>();
+		Collection<Node> nodeVisited = new HashSet<Node>();
+		Collection<Node> nodeNotVisited = new HashSet<Node>();
+		Collection<Edge> edgeVisited = new HashSet<Edge>();
+		Collection<Node> startNodes = new HashSet<Node>();
 
 		int act_id = actionMap.get(action).intValue();
 		int neg_pattern_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
@@ -841,9 +842,9 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 		/* first take all nodes, that are already matched as pattern nodes as
 		 * start nodes and try to find adjacent negative-pattern-only nodes
 		 * for the matcher prog */
-		for( Iterator<IR> start_it = startNodes.iterator(); start_it.hasNext(); ) {
+		for( Iterator<Node> start_it = startNodes.iterator(); start_it.hasNext(); ) {
 
-			Node start_node = (Node)start_it.next();
+			Node start_node = start_it.next();
 
 			//but do not gen op for the start node (it is already matched as pattern node)
 			/*genOp(max_prio_node, null, action,
@@ -863,9 +864,9 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 			//pick out the node with the highest priority as start node
 			int max_prio = 0;
 			//get any node as initial node
-			Node max_prio_node = (Node) nodeNotVisited.iterator().next();
-			for (Iterator<IR> node_it = nodeNotVisited.iterator(); node_it.hasNext(); ) {
-				Node node = (Node) node_it.next();
+			Node max_prio_node = nodeNotVisited.iterator().next();
+			for (Iterator<Node> node_it = nodeNotVisited.iterator(); node_it.hasNext(); ) {
+				Node node = node_it.next();
 
 				//get the nodes priority
 				int prio = 0;
@@ -917,7 +918,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 	 * @param    sb                  the StringBuffer the generated
 	 */
 	private void __deep_first_matcher_op_gen(
-		Collection<IR> nodeVisited, Collection<IR> edgeVisited,
+		Collection<Node> nodeVisited, Collection<Edge> edgeVisited,
 		Collection<Entity> currentSubgraph,
 		Collection<Expression> alreadyCheckedConds,
 		Collection<Collection<InheritanceType>> alreadyCheckedTypeConds,
@@ -1015,7 +1016,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 	private void genOp(Node node, Edge edge, MatchingAction action,
 					   int pattern_num,
 					   final PatternGraph pattern,
-					   Collection<IR> nodeVisited, Collection<IR> edgeVisited,
+					   Collection<Node> nodeVisited, Collection<Edge> edgeVisited,
 					   Collection<Entity> currentSubgraph,
 					   Collection<Expression> alreadyCheckedConds,
 					   Collection<Collection<InheritanceType>> alreadyCheckedTypeConds,
@@ -1047,9 +1048,11 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 		}
 
 		//get name indentifier used in the grg-file for the current edge
-		String edgeName = "NULL";
+		// TODO use or remove it
+		/* String edgeName = "NULL";
 		if (edge != null)
 			edgeName = edge.getIdent().toString();
+		*/
 		//get the direction of the op
 		String op_direction = null;
 		if (kind.equals("sp_matcher_op_check"))
@@ -1098,7 +1101,9 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 		}
 		else {
 			//edge == null indicates, that a start no op has to be emitted
-			String node_name = node.getIdent().toString();
+			// TODO use or remove it
+			// String node_name = node.getIdent().toString();
+
 			Integer node_num;
 			String node_ptr;
 
@@ -1138,7 +1143,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 	 * @param    sb                  a  StringBuffer
 	 *
 	 */
-	private int genConditionOps(Node node, Edge edge, MatchingAction action, int pattern_num, PatternGraph pattern, Collection<IR> nodeVisited, Collection<IR> edgeVisited, Collection<Entity> currentSubgraph, Collection<Expression> alreadyCheckedConds, Collection<Collection<InheritanceType>> alreadyCheckedTypeConds, StringBuffer sb) {
+	private int genConditionOps(Node node, Edge edge, MatchingAction action, int pattern_num, PatternGraph pattern, Collection<Node> nodeVisited, Collection<Edge> edgeVisited, Collection<Entity> currentSubgraph, Collection<Expression> alreadyCheckedConds, Collection<Collection<InheritanceType>> alreadyCheckedTypeConds, StringBuffer sb) {
 		int act_id = actionMap.get(action).intValue();
 
 		//compute the set of conditions evaluatable in the current op
@@ -1157,7 +1162,9 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 
 			//check whether these nodes/edges have been visited already,
 			//but the current node/edge is not yet added to the "visited"-Sets
-			boolean bothempty = involvedNodes.isEmpty() && involvedEdges.isEmpty();
+			// TODO use or remove it
+			// boolean bothempty = involvedNodes.isEmpty() && involvedEdges.isEmpty();
+			
 			involvedNodes.remove(node);
 			if  (edge != null)
 				involvedEdges.remove(edge);
@@ -2558,7 +2565,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 			//for nodes...
 			for ( ; node_it.hasNext(); ) {
 				//...create a C-prototype of type sp_acts_node_t
-				Node node = (Node) node_it.next();
+				Node node = node_it.next();
 				int node_num = node_numbers.get(node).intValue();
 				sb.append(
 					"static sp_acts_node_t " + prefix + "node_" + node_num +
@@ -2573,7 +2580,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				"/* all the edges of graph " + graphName + " */\n");
 			Iterator<Edge> edge_it = graph.getEdges().iterator();
 			for ( ; edge_it.hasNext(); ) {
-				Edge edge = (Edge) edge_it.next();
+				Edge edge = edge_it.next();
 				int edge_num = edge_numbers.get(edge).intValue();
 				int edge_type = getId((EdgeType)edge.getType());
 				int src_node_num =
@@ -2613,7 +2620,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 			Iterator<Node> node_it = graph.getNodes().iterator();
 			//for all nodes...
 			for ( ; node_it.hasNext(); ) {
-				Node node = (Node) node_it.next();
+				Node node = node_it.next();
 				int node_num = node_numbers.get(node).intValue();
 				int n_out_edges = graph.getOutDegree(node);
 				int n_in_edges = graph.getInDegree(node);
@@ -2691,7 +2698,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 			//gen the node ptr array
 			Iterator<Node> node_it = graph.getNodes().iterator();
 			for ( ; node_it.hasNext(); ) {
-				Node node = (Node) node_it.next();
+				Node node = node_it.next();
 				int node_num = node_numbers.get(node).intValue();
 				sb.append(
 					"    &" + prefix + "node_" + node_num + postfix);
@@ -2711,7 +2718,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 			//gen the edge ptr array
 			Iterator<Edge> edge_it = graph.getEdges().iterator();
 			for ( ; edge_it.hasNext(); ) {
-				Edge edge = (Edge) edge_it.next();
+				Edge edge = edge_it.next();
 				int edge_num = edge_numbers.get(edge).intValue();
 				sb.append(
 					"    &" + prefix + "edge_" + edge_num + postfix);

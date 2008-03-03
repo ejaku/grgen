@@ -41,7 +41,8 @@ public class XMLDumper {
 
 	private final String indentString;
 
-	private boolean printingAttributes = false;
+	// TODO use or remove it
+	// private boolean printingAttributes = false;
 
 	private final Collection<XMLDumpable> visited = new HashSet<XMLDumpable>();
 

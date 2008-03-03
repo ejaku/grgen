@@ -478,9 +478,9 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param sb The string buffer to put the XML stuff to.
 	 */
 	protected void writeOverview(PrintStream ps) {
-		Map[] maps = new Map[] {
+		Map<? extends InheritanceType, Integer>[] maps = new Map[] {
 			nodeTypeMap,
-				edgeTypeMap
+			edgeTypeMap
 		};
 
 		ps.print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -488,7 +488,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		ps.print("<unit>\n");
 
 		for(int i = 0; i < maps.length; i++) {
-			for(Iterator<InheritanceType> it = maps[i].keySet().iterator(); it.hasNext();) {
+			for(Iterator<? extends InheritanceType> it = maps[i].keySet().iterator(); it.hasNext();) {
 				InheritanceType type = it.next();
 				dumpXMLTag(1, ps, ">\n", type);
 

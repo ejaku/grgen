@@ -72,7 +72,8 @@ public abstract class ParserEnvironment extends Base {
 
 	private final IntConstNode zero = new IntConstNode(Coords.getBuiltin(), 0);
 
-	private final Scope rootScope;
+	// TODO use or remove it
+	// private final Scope rootScope;
 
 	private Scope currScope;
 
@@ -96,7 +97,8 @@ public abstract class ParserEnvironment extends Base {
 		this.system = system;
 
 		// Make the root scope
-		currScope = rootScope = new Scope(system.getErrorReporter());
+		// currScope = rootScope = new Scope(system.getErrorReporter());
+		currScope = new Scope(system.getErrorReporter());
 		BaseNode.setCurrScope(currScope);
 
 		// Add keywords to the symbol table

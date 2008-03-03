@@ -489,7 +489,8 @@ public class MoreInformationCollector extends InformationCollector {
 			for (Iterator<Expression> cond_it = conditions.get(act_id).iterator(); cond_it.hasNext(); )
 			{
 				Expression cond = cond_it.next();
-				int cond_num = conditionNumbers.get(cond).intValue();
+				// TODO use or remove it
+				// int cond_num = conditionNumbers.get(cond).intValue();
 
 				//descent to the conditions leaves and look for qualifications
 				Map<Node, Collection<Integer>> node_map = new HashMap<Node, Collection<Integer>>();

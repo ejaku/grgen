@@ -36,9 +36,10 @@ public class ErrorReporter extends Reporter {
 	protected static int errCount = 0;
 	protected static int warnCount = 0;
 
-	private static final String[] levelNames = {
+	// TODO use or remove it
+	/*private static final String[] levelNames = {
 		"error", "warning", "note"
-	};
+	};*/
 
 	private static String getMsg(int level, String msg) {
 		//return levelNames[level] + ": " + msg;

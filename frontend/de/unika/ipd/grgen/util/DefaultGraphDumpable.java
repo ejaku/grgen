@@ -67,11 +67,11 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 		this(label, null);
 	}
 
-	protected final void setChildren(Collection children) {
+	protected final void setChildren(Collection<BaseNode> children) {
 		this.children = children;
 	}
 
-	protected final void setChildren(Object[] children) {
+	protected final void setChildren(BaseNode[] children) {
 		setChildren(Arrays.asList(children));
 	}
 
