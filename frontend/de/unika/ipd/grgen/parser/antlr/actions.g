@@ -926,7 +926,7 @@ simpleSequence[ExecNode xg]
 				xg.addVarDecls(decl);
 			}
 			else {
-				xg.append(((IdentNode)lhs).getIdent());
+				xg.append(lhs);
 			}
 			xg.append('=');
 		}

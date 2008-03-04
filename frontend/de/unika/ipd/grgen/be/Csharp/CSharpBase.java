@@ -29,38 +29,14 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
+import de.unika.ipd.grgen.ir.*;
+
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.Util;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import de.unika.ipd.grgen.ir.BooleanType;
-import de.unika.ipd.grgen.ir.Cast;
-import de.unika.ipd.grgen.ir.Constant;
-import de.unika.ipd.grgen.ir.DoubleType;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.EdgeType;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EnumExpression;
-import de.unika.ipd.grgen.ir.EnumType;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.FloatType;
-import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.IntType;
-import de.unika.ipd.grgen.ir.MemberExpression;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.ObjectType;
-import de.unika.ipd.grgen.ir.Operator;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.ir.StringType;
-import de.unika.ipd.grgen.ir.SubpatternUsage;
-import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.ir.Typeof;
-import de.unika.ipd.grgen.ir.VoidType;
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.Util;
 
 public abstract class CSharpBase {
 	/**
@@ -90,7 +66,7 @@ public abstract class CSharpBase {
 	}
 
 	public void genEntitySet(StringBuffer sb, Collection<? extends Entity> set, String pre, String post,
-			boolean brackets, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+							 boolean brackets, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		if (brackets)
 			sb.append("{ ");
 		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
@@ -104,7 +80,7 @@ public abstract class CSharpBase {
 	}
 
 	public void genSubpatternUsageSet(StringBuffer sb, Collection<? extends SubpatternUsage> set, String pre, String post,
-			boolean brackets, String pathPrefix, HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName) {
+									  boolean brackets, String pathPrefix, HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName) {
 		if (brackets)
 			sb.append("{ ");
 		for(Iterator<? extends SubpatternUsage> iter = set.iterator(); iter.hasNext();) {
@@ -118,7 +94,7 @@ public abstract class CSharpBase {
 	}
 
 	public void genAlternativesSet(StringBuffer sb, Collection<? extends PatternGraph> set,
-			String pre, String post, boolean brackets) {
+								   String pre, String post, boolean brackets) {
 		if (brackets)
 			sb.append("{ ");
 		for(Iterator<? extends PatternGraph> iter = set.iterator(); iter.hasNext();) {
@@ -136,15 +112,13 @@ public abstract class CSharpBase {
 		return res.replace('$', '_');
 	}
 
-	public String formatIdentifiable(Identifiable id, String pathPrefix)
-	{
+	public String formatIdentifiable(Identifiable id, String pathPrefix) {
 		String ident = id.getIdent().toString();
 		return pathPrefix+ident.replace('$', '_');
 	}
 
 	public String formatIdentifiable(Identifiable id, String pathPrefix,
-			HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName)
-	{
+									 HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName) {
 		if(alreadyDefinedIdentifiableToName!=null && alreadyDefinedIdentifiableToName.get(id)!=null)
 			return alreadyDefinedIdentifiableToName.get(id);
 		String ident = id.getIdent().toString();
@@ -225,14 +199,18 @@ public abstract class CSharpBase {
 		else if (entity instanceof Edge) {
 			return pathPrefix+"edge_"+formatIdentifiable(entity);
 		}
+		else if (entity instanceof Variable) {
+			//TODO NYI
+			System.err.println("formatEntity(): TODO NYI Variable " + entity +"  TODO");
+			return "/* TODO NYI Variable TODO */";
+		}
 		else {
-			throw new IllegalArgumentException("Unknown entity" + entity + "(" + entity.getClass() + ")");
+			throw new IllegalArgumentException("Unknown entity " + entity + " (" + entity.getClass() + ")");
 		}
 	}
 
 	public String formatEntity(Entity entity, String pathPrefix,
-			HashMap<Entity, String> alreadyDefinedEntityToName)
-	{
+							   HashMap<Entity, String> alreadyDefinedEntityToName) {
 		if(entity instanceof Node) {
 			if(alreadyDefinedEntityToName!=null && alreadyDefinedEntityToName.get(entity)!=null)
 				return alreadyDefinedEntityToName.get(entity);

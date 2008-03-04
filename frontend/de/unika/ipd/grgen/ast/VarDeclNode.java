@@ -24,11 +24,11 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Variable;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * Declaration of a variable.
@@ -82,9 +82,9 @@ public class VarDeclNode extends DeclNode {
 		assert isResolved() : this + " was not resolved";
 		return type;
 	}
-	
+
 	protected IR constructIR() {
-		return null;
+		return new Variable("Var", getIdentNode().getIdent(), type.getType());
 	}
 }
 

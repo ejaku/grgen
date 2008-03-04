@@ -28,41 +28,8 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import de.unika.ipd.grgen.ir.Action;
-import de.unika.ipd.grgen.ir.Alternative;
-import de.unika.ipd.grgen.ir.Assignment;
-import de.unika.ipd.grgen.ir.Cast;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Emit;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EnumType;
-import de.unika.ipd.grgen.ir.Exec;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.GraphEntity;
-import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.ImperativeStmt;
-import de.unika.ipd.grgen.ir.MatchingAction;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.Operator;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.ir.RetypedEdge;
-import de.unika.ipd.grgen.ir.RetypedNode;
-import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.SubpatternUsage;
-import de.unika.ipd.grgen.ir.Test;
-import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.*;
+import java.util.*;
 
 public class ActionsGen extends CSharpBase {
 	public ActionsGen(SearchPlanBackend2 backend) {
@@ -222,8 +189,7 @@ public class ActionsGen extends CSharpBase {
 	////////////////////////////////
 
 	private void genTypeConditionsAndEnums(StringBuffer sb, PatternGraph pattern,
-			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
-	{
+										   String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
 
@@ -231,7 +197,7 @@ public class ActionsGen extends CSharpBase {
 		for(PatternGraph neg : pattern.getNegs()) {
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			genTypeConditionsAndEnums(sb, neg, pathPrefixForElements+"neg_"+i+"_",
-					alreadyDefinedEntityToNameClone);
+									  alreadyDefinedEntityToNameClone);
 			++i;
 		}
 
@@ -241,22 +207,20 @@ public class ActionsGen extends CSharpBase {
 			for(PatternGraph altCase : alt.getAlternativeCases()) {
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 				genTypeConditionsAndEnums(sb, altCase, pathPrefixForElements+"alt_"+i+"_"+altCase.getNameOfGraph()+"_",
-						alreadyDefinedEntityToNameClone);
+										  alreadyDefinedEntityToNameClone);
 			}
 			++i;
 		}
 	}
 
 	private void genAllowedTypeArrays(StringBuffer sb, PatternGraph pattern,
-			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
-	{
+									  String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		genAllowedNodeTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genAllowedEdgeTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 	}
 
 	private void genAllowedNodeTypeArrays(StringBuffer sb, PatternGraph pattern,
-			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
-	{
+										  String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		StringBuilder aux = new StringBuilder();
 		for(Node node : pattern.getNodes()) {
 			if(alreadyDefinedEntityToName.get(node)!=null) {
@@ -296,7 +260,7 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	private void genAllowedEdgeTypeArrays(StringBuffer sb, PatternGraph pattern,
-			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
+										  String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		StringBuilder aux = new StringBuilder();
 		for(Edge edge : pattern.getEdges()) {
 			if(alreadyDefinedEntityToName.get(edge)!=null) {
@@ -339,8 +303,7 @@ public class ActionsGen extends CSharpBase {
 	// Enums generation //
 	//////////////////////
 
-	private void genEnums(StringBuffer sb, PatternGraph pattern, String pathPrefixForElements)
-	{
+	private void genEnums(StringBuffer sb, PatternGraph pattern, String pathPrefixForElements) {
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "NodeNums { ");
 		for(Node node : pattern.getNodes()) {
 			sb.append("@" + formatIdentifiable(node) + ", ");
@@ -367,8 +330,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 	}
 
-	private void genCaseEnum(StringBuffer sb, Alternative alt, String pathPrefixForElements)
-	{
+	private void genCaseEnum(StringBuffer sb, Alternative alt, String pathPrefixForElements) {
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "CaseNums { ");
 		for(PatternGraph altCase : alt.getAlternativeCases()) {
 			sb.append("@" + altCase.getNameOfGraph() + ", ");
@@ -407,7 +369,7 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\t\t\tPatternGraph " + patGraphVarName + ";\n");
 		genPatternGraph(sb, aux, pattern, "", pattern.getNameOfGraph(), patGraphVarName, alreadyDefinedEntityToName,
-				alreadyDefinedIdentifiableToName, 0, action.getParameters(), max);
+						alreadyDefinedIdentifiableToName, 0, action.getParameters(), max);
 		sb.append(aux);
 		sb.append("\n");
 		sb.append("\t\t\tpatternGraph = " + patGraphVarName + ";\n");
@@ -416,14 +378,13 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	private int genPatternGraph(StringBuffer sb, StringBuilder aux, PatternGraph pattern,
-			String pathPrefix, String patternName, // negatives without name, have to compute it and hand it in
-			String patGraphVarName,
-			HashMap<Entity, String> alreadyDefinedEntityToName,
-			HashMap<Identifiable, String> alreadyDefinedIdentifiableToName,
-			int condCntInit, List<Entity> parameters, double max)
-	{
+								String pathPrefix, String patternName, // negatives without name, have to compute it and hand it in
+								String patGraphVarName,
+								HashMap<Entity, String> alreadyDefinedEntityToName,
+								HashMap<Identifiable, String> alreadyDefinedIdentifiableToName,
+								int condCntInit, List<Entity> parameters, double max) {
 		genElementsRequiredByPatternGraph(sb, aux, pattern, pathPrefix, patternName, patGraphVarName,
-				alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, condCntInit, parameters, max);
+										  alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, condCntInit, parameters, max);
 
 		sb.append("\t\t\t" + patGraphVarName + " = new PatternGraph(\n");
 		sb.append("\t\t\t\t\"" + patternName + "\",\n");
@@ -502,11 +463,10 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	private void genElementsRequiredByPatternGraph(StringBuffer sb, StringBuilder aux, PatternGraph pattern,
-			String pathPrefix, String patternName, String patGraphVarName,
-			HashMap<Entity, String> alreadyDefinedEntityToName,
-			HashMap<Identifiable, String> alreadyDefinedIdentifiableToName,
-			int condCntInit, List<Entity> parameters, double max)
-	{
+												   String pathPrefix, String patternName, String patGraphVarName,
+												   HashMap<Entity, String> alreadyDefinedEntityToName,
+												   HashMap<Identifiable, String> alreadyDefinedIdentifiableToName,
+												   int condCntInit, List<Entity> parameters, double max) {
 		String pathPrefixForElements = pathPrefix+patternName+"_";
 
 		for(Node node : pattern.getNodes()) {
@@ -516,7 +476,7 @@ public class ActionsGen extends CSharpBase {
 			String nodeName = formatEntity(node, pathPrefixForElements);
 			sb.append("\t\t\tPatternNode " + nodeName + " = new PatternNode(");
 			sb.append("(int) NodeTypes.@" + formatIdentifiable(node.getType())
-					+ ", \"" + nodeName + "\", \"" + formatIdentifiable(node) + "\", ");
+						  + ", \"" + nodeName + "\", \"" + formatIdentifiable(node) + "\", ");
 			sb.append(nodeName + "_AllowedTypes, ");
 			sb.append(nodeName + "_IsAllowedType, ");
 			appendPrio(sb, node, max);
@@ -540,7 +500,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(sourceName + ", ");
 			sb.append(targetName + ", ");
 			sb.append("(int) EdgeTypes.@" + formatIdentifiable(edge.getType())
-					+ ", \"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");
+						  + ", \"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");
 			sb.append(edgeName + "_AllowedTypes, ");
 			sb.append(edgeName + "_IsAllowedType, ");
 			appendPrio(sb, edge, max);
@@ -586,11 +546,11 @@ public class ActionsGen extends CSharpBase {
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 				HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 				condCnt = genPatternGraph(sb, aux, altCase,
-						pathPrefixForElements+altName+"_", altCase.getNameOfGraph(),
-						altPatGraphVarName,
-						alreadyDefinedEntityToNameClone,
-						alreadyDefinedIdentifiableToNameClone,
-						condCnt, parameters, max);
+										  pathPrefixForElements+altName+"_", altCase.getNameOfGraph(),
+										  altPatGraphVarName,
+										  alreadyDefinedEntityToNameClone,
+										  alreadyDefinedIdentifiableToNameClone,
+										  condCnt, parameters, max);
 			}
 			++i;
 		}
@@ -614,10 +574,10 @@ public class ActionsGen extends CSharpBase {
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 			condCnt = genPatternGraph(sb, aux, neg,
-					pathPrefixForElements, negName, pathPrefixForElements+negName,
-					alreadyDefinedEntityToNameClone,
-					alreadyDefinedIdentifiableToNameClone,
-					condCnt, parameters, max);
+									  pathPrefixForElements, negName, pathPrefixForElements+negName,
+									  alreadyDefinedEntityToNameClone,
+									  alreadyDefinedIdentifiableToNameClone,
+									  condCnt, parameters, max);
 			++i;
 		}
 	}
@@ -725,8 +685,8 @@ public class ActionsGen extends CSharpBase {
 
 		// Emit function header
 		sb.append("\t\tpublic override IGraphElement[] "
-				+ (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
-				+ "(LGSPGraph graph, LGSPMatch match)\n");
+					  + (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
+					  + "(LGSPGraph graph, LGSPMatch match)\n");
 		sb.append("\t\t{\n");
 
 		// The resulting code has the following order:
@@ -819,6 +779,8 @@ public class ActionsGen extends CSharpBase {
 						nodesNeededAsElements.add((Node) param);
 					else if(param instanceof Edge)
 						edgesNeededAsElements.add((Edge) param);
+					else if(param instanceof Variable)
+						System.err.println("genRuleModify(): TODO NYI Variable " + param +"  TODO"); // TODO is it correct to do noting
 					else
 						assert false : "XGRS argument of unknown type: " + param.getClass();
 				}
@@ -870,10 +832,10 @@ public class ActionsGen extends CSharpBase {
 
 			nodesNeededAsElements.add(node);
 			sb2.append("\t\t\tLGSPNode " + formatEntity(rnode) + " = graph.Retype("
-					+ formatEntity(node) + ", " + new_type + ");\n");
+						   + formatEntity(node) + ", " + new_type + ");\n");
 			if(nodesNeededAsAttributes.contains(rnode) && accessViaInterface.contains(rnode)) {
 				sb2.append("\t\t\t" + formatVarDeclWithCast(rnode.getType(), "I", "i" + formatEntity(rnode))
-						+ formatEntity(rnode) + ";\n");
+							   + formatEntity(rnode) + ";\n");
 			}
 		}
 
@@ -897,10 +859,10 @@ public class ActionsGen extends CSharpBase {
 
 			edgesNeededAsElements.add(edge);
 			sb2.append("\t\t\tLGSPEdge " + formatEntity(redge) + " = graph.Retype("
-					+ formatEntity(edge) + ", " + new_type + ");\n");
+						   + formatEntity(edge) + ", " + new_type + ");\n");
 			if(edgesNeededAsAttributes.contains(redge) && accessViaInterface.contains(redge)) {
 				sb2.append("\t\t\t" + formatVarDeclWithCast(redge.getType(), "I", "i" + formatEntity(redge))
-						+ formatEntity(redge) + ";\n");
+							   + formatEntity(redge) + ";\n");
 			}
 		}
 
@@ -1001,8 +963,8 @@ public class ActionsGen extends CSharpBase {
 		for(Node node : nodesNeededAsElements) {
 			if(node.isRetyped()) continue;
 			sb.append("\t\t\tLGSPNode " + formatEntity(node)
-					+ " = match.Nodes[(int) " + patternName + "_NodeNums.@"
-					+ formatIdentifiable(node) + "];\n");
+						  + " = match.Nodes[(int) " + patternName + "_NodeNums.@"
+						  + formatIdentifiable(node) + "];\n");
 		}
 		for(Node node : nodesNeededAsAttributes) {
 			if(node.isRetyped()) continue;
@@ -1011,13 +973,13 @@ public class ActionsGen extends CSharpBase {
 				sb.append(formatEntity(node) + ";\n");
 			else
 				sb.append("match.Nodes[(int) " + patternName + "_NodeNums.@"
-						+ formatIdentifiable(node) + "];\n");
+							  + formatIdentifiable(node) + "];\n");
 		}
 		for(Edge edge : edgesNeededAsElements) {
 			if(edge.isRetyped()) continue;
 			sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
-					+ " = match.Edges[(int) " + patternName + "_EdgeNums.@"
-					+ formatIdentifiable(edge) + "];\n");
+						  + " = match.Edges[(int) " + patternName + "_EdgeNums.@"
+						  + formatIdentifiable(edge) + "];\n");
 		}
 		for(Edge edge : edgesNeededAsAttributes) {
 			if(edge.isRetyped()) continue;
@@ -1026,7 +988,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append(formatEntity(edge) + ";\n");
 			else
 				sb.append("match.Edges[(int) " + patternName + "_EdgeNums.@"
-						+ formatIdentifiable(edge) + "];\n");
+							  + formatIdentifiable(edge) + "];\n");
 		}
 
 		// Generate needed types
@@ -1100,73 +1062,72 @@ public class ActionsGen extends CSharpBase {
 		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(newNodes);
 
 		/* LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
-				if(reuseNodeAndEdges) {
-			NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
-				Node node = i.next();
-				// Can we reuse the node
-				for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
-					Node delNode = j.next();
-					if(delNode.getNodeType() == node.getNodeType()) {
-						sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
-						sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", null);\n");
-						delNodes.remove(delNode);
-						j.remove();
-						i.remove();
-						nodesNeededAsElements.add(delNode);
-						reusedElements.add(delNode);
-						continue NN;
-					}
-				}
-			}
-			NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
-				Node node = i.next();
-				// Can we reuse the node
-				for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
-					Node delNode = j.next();
-					if(!delNode.getNodeType().getAllMembers().isEmpty()) {
-						String type = computeGraphEntityType(node);
-						sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
-						sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
-						delNodes.remove(delNode);
-						j.remove();
-						i.remove();
-						nodesNeededAsElements.add(delNode);
-						reusedElements.add(delNode);
-						continue NN;
-					}
-				}
-			}
+		 if(reuseNodeAndEdges) {
+		 NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
+		 Node node = i.next();
+		 // Can we reuse the node
+		 for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
+		 Node delNode = j.next();
+		 if(delNode.getNodeType() == node.getNodeType()) {
+		 sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
+		 sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", null);\n");
+		 delNodes.remove(delNode);
+		 j.remove();
+		 i.remove();
+		 nodesNeededAsElements.add(delNode);
+		 reusedElements.add(delNode);
+		 continue NN;
 		 }
-		NN:*/ for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
+		 }
+		 }
+		 NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
+		 Node node = i.next();
+		 // Can we reuse the node
+		 for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
+		 Node delNode = j.next();
+		 if(!delNode.getNodeType().getAllMembers().isEmpty()) {
+		 String type = computeGraphEntityType(node);
+		 sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
+		 sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
+		 delNodes.remove(delNode);
+		 j.remove();
+		 i.remove();
+		 nodesNeededAsElements.add(delNode);
+		 reusedElements.add(delNode);
+		 continue NN;
+		 }
+		 }
+		 }
+		 }
+		 NN:*/ for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
 			Node node = i.next();
 
 			/*String type = computeGraphEntityType(node);
-			// Can we reuse the node
-			if(reuseNodeAndEdges && !tmpDelNodes.isEmpty()) {
-				Node delNode = tmpDelNodes.getFirst();
-				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
-				sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
-				delNodes.remove(delNode);
-				tmpDelNodes.removeFirst();
-				i.remove();
-				nodesNeededAsElements.add(delNode);
-				reusedElements.add(delNode);
-				continue NN;
+			 // Can we reuse the node
+			 if(reuseNodeAndEdges && !tmpDelNodes.isEmpty()) {
+			 Node delNode = tmpDelNodes.getFirst();
+			 sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
+			 sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
+			 delNodes.remove(delNode);
+			 tmpDelNodes.removeFirst();
+			 i.remove();
+			 nodesNeededAsElements.add(delNode);
+			 reusedElements.add(delNode);
+			 continue NN;
 			 }*/
 			if(node.inheritsType()) {
 				Node typeofElem = (Node) getConcreteTypeof(node);
 				nodesNeededAsElements.add(typeofElem);
 				nodesNeededAsTypes.add(typeofElem);
 				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) "
-						+ formatEntity(typeofElem) + "_type.CreateNode();\n"
-						+ "\t\t\tgraph.AddNode(" + formatEntity(node) + ");\n");
+							   + formatEntity(typeofElem) + "_type.CreateNode();\n"
+							   + "\t\t\tgraph.AddNode(" + formatEntity(node) + ");\n");
 				if(nodesNeededAsAttributes.contains(node) && accessViaInterface.contains(node)) {
 					sb2.append("\t\t\t" + formatVarDeclWithCast(node.getType(), "I", "i" + formatEntity(node))
-							+ formatEntity(node) + ";\n");
+								   + formatEntity(node) + ";\n");
 				}
 			}
-			else
-			{
+			else {
 				String etype = formatElementClass(node.getType());
 				sb2.append("\t\t\t" + etype + " " + formatEntity(node) + " = " + etype + ".CreateNode(graph);\n");
 			}
@@ -1186,17 +1147,17 @@ public class ActionsGen extends CSharpBase {
 
 	// TODO use or remove it
 	/*private String computeGraphEntityType(Node node) {
-		String type;
-		if(node.inheritsType()) {
-			Node typeofElem = (Node) getConcreteTypeof(node);
-			type = formatEntity(typeofElem) + "_type";
-			nodesNeededAsElements.add(typeofElem);
-			nodesNeededAsTypes.add(typeofElem);
-		} else {
-			type = formatTypeClass(node.getType()) + ".typeVar";
-		}
-		return type;
-	}*/
+	 String type;
+	 if(node.inheritsType()) {
+	 Node typeofElem = (Node) getConcreteTypeof(node);
+	 type = formatEntity(typeofElem) + "_type";
+	 nodesNeededAsElements.add(typeofElem);
+	 nodesNeededAsTypes.add(typeofElem);
+	 } else {
+	 type = formatTypeClass(node.getType()) + ".typeVar";
+	 }
+	 return type;
+	 }*/
 
 	private void genRewriteNewEdges(StringBuffer sb2, Rule rule, boolean reuseNodeAndEdges) {
 		PatternGraph leftSide = rule.getLeft();
@@ -1223,12 +1184,12 @@ public class ActionsGen extends CSharpBase {
 				edgesNeededAsTypes.add(typeofElem);
 
 				sb2.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = (LGSPEdge) "
-						+ formatEntity(typeofElem) + "_type.CreateEdge("
-						+ formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
-						+ "\t\t\tgraph.AddEdge(" + formatEntity(edge) + ");\n");
+							   + formatEntity(typeofElem) + "_type.CreateEdge("
+							   + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
+							   + "\t\t\tgraph.AddEdge(" + formatEntity(edge) + ");\n");
 				if(edgesNeededAsAttributes.contains(edge) && accessViaInterface.contains(edge)) {
 					sb2.append("\t\t\t" + formatVarDeclWithCast(edge.getType(), "I", "i" + formatEntity(edge))
-							+ formatEntity(edge) + ";\n");
+								   + formatEntity(edge) + ";\n");
 				}
 				continue;
 			}
@@ -1264,12 +1225,12 @@ public class ActionsGen extends CSharpBase {
 					String tgt = formatEntity(tgt_node);
 
 					sb2.append("\t\t\t" + etype + " " + newEdgeName + ";\n"
-							+ "\t\t\tif(" + reusedEdgeName + ".type == "
-							+ formatTypeClass(edge.getType()) + ".typeVar)\n"
-							+ "\t\t\t{\n"
-							+ "\t\t\t\t// re-using " + reusedEdgeName + " as " + newEdgeName + "\n"
-							+ "\t\t\t\t" + newEdgeName + " = (" + etype + ") " + reusedEdgeName + ";\n"
-							+ "\t\t\t\tgraph.ReuseEdge(" + reusedEdgeName + ", ");
+								   + "\t\t\tif(" + reusedEdgeName + ".type == "
+								   + formatTypeClass(edge.getType()) + ".typeVar)\n"
+								   + "\t\t\t{\n"
+								   + "\t\t\t\t// re-using " + reusedEdgeName + " as " + newEdgeName + "\n"
+								   + "\t\t\t\t" + newEdgeName + " = (" + etype + ") " + reusedEdgeName + ";\n"
+								   + "\t\t\t\tgraph.ReuseEdge(" + reusedEdgeName + ", ");
 
 					if(leftSide.getSource(bestDelEdge) != src_node)
 						sb2.append(src + ", ");
@@ -1283,13 +1244,13 @@ public class ActionsGen extends CSharpBase {
 
 					// If the runtime type does not match, delete the edge and create a new one
 					sb2.append(");\n"
-							+ "\t\t\t}\n"
-							+ "\t\t\telse\n"
-							+ "\t\t\t{\n"
-							+ "\t\t\t\tgraph.Remove(" + reusedEdgeName + ");\n"
-							+ "\t\t\t\t" + newEdgeName + " = " + etype
-							+ ".CreateEdge(graph, " + src + ", " + tgt + ");\n"
-							+ "\t\t\t}\n");
+								   + "\t\t\t}\n"
+								   + "\t\t\telse\n"
+								   + "\t\t\t{\n"
+								   + "\t\t\t\tgraph.Remove(" + reusedEdgeName + ");\n"
+								   + "\t\t\t\t" + newEdgeName + " = " + etype
+								   + ".CreateEdge(graph, " + src + ", " + tgt + ");\n"
+								   + "\t\t\t}\n");
 
 					edgesNeededAsElements.add(bestDelEdge);
 					reusedElements.add(bestDelEdge);
@@ -1299,8 +1260,8 @@ public class ActionsGen extends CSharpBase {
 
 			// Create the edge
 			sb2.append("\t\t\t" + etype + " " + formatEntity(edge) + " = " + etype
-					+ ".CreateEdge(graph, " + formatEntity(src_node)
-					+ ", " + formatEntity(tgt_node) + ");\n");
+						   + ".CreateEdge(graph, " + formatEntity(src_node)
+						   + ", " + formatEntity(tgt_node) + ");\n");
 		}
 	}
 
@@ -1369,8 +1330,8 @@ public class ActionsGen extends CSharpBase {
 
 			if(!isDeletedElem) {
 				sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
-						", " + kindStr + "Type_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
-						".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
+							  ", " + kindStr + "Type_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
+							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
 				genExpression(sb, ass.getTarget());
 				sb.append(", " + varName + ");\n");
 			}
