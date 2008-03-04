@@ -197,6 +197,7 @@ rule r(p : B) : (B) {
 
 rule r2(-e:Edge->):(Edge) {
   modify {
+    return(e);
     exec( (-x:Edge->)=r2(e) && ( (x)=r2(x) )[*] );
   }
 }
