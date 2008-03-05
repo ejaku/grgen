@@ -1,6 +1,6 @@
 
 // (c) 2008 Bugra Derre, Tom Gelhausen, Rubino Geiss
-// File automatically generated - you probably do not want to edit it!  
+// File automatically generated - you probably do not want to edit it!
 
 // supertypes of all supported graph elements from CMOF
 abstract node class CMOF_NODE {

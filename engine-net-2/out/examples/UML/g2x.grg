@@ -180,37 +180,34 @@ rule writeXmiReferenceAttribute(parent:CMOF_NODE) {
 // *************************************************************************************
 rule findAccurateMetaModelPropertyAndWriteReferenceAttribute(parent:CMOF_NODE, -prop:CMOFProperty->) {
 	
-	mmProp : Metamodel_Property;
 	mmClass : Metamodel_Class;
-	mmPropertyUppervalue : Metamodel_ValueNode;
-	mmPropertyName : Metamodel_ValueNode;
+	mmClass_name : Metamodel_ValueNode;
 	
-	mmProp <-:Metamodel_ownedAttribute- mmClass;
-	mmProp -:Metamodel_upper-> mmPropertyUppervalue;
-	mmProp -:Metamodel_name-> mmPropertyName;
+	mmClass -:Metamodel_name-> mmClass_name;
 	
-	if { prop.isXmiIdReference == false; prop.name == mmPropertyName.value; mmPropertyUppervalue.value == "1"; }
+	// Find the matching pair (of the parent class) in the metamodel.
+	if { mmClass_name.value == parent.uuid; }
 	modify {
-		emit("\n\t\t### findAccurateMetaModelPropertyAndWriteReferenceAttribute()\n");
-		emit("\n\t\t### mmClass.uuid= ", mmClass.uuid, " prop.name = ", prop.name, " mmPropertyName.value = ", mmPropertyName.value, "\n");
 		exec( writeAttributereferenceIfValidMetaModelClass(parent, mmClass, prop) || [findAccurateMetamodelSuperClassWriteReferenceAttribute(mmClass, prop, parent)] );
-		emit("\n\t\t### findAccurateMetaModelPropertyAndWriteReferenceAttribute.\n");
 	}
 }
 
 rule writeAttributereferenceIfValidMetaModelClass(parent:CMOF_NODE, mmClass:Metamodel_Class, -prop:CMOFProperty->) {
+
+	mmClass_property : Metamodel_Property;
+	mmClass_property_name : Metamodel_ValueNode;
+	mmClass_property_upper : Metamodel_ValueNode;
 	
-	mmName : Metamodel_ValueNode;
-	mmClass -:Metamodel_name-> mmName;
+	mmClass -:Metamodel_ownedAttribute-> mmClass_property;
+	mmClass_property -:Metamodel_name-> mmClass_property_name;
+	mmClass_property -:Metamodel_upper-> mmClass_property_upper;
 	
-	-prop-> child:CMOF_NODE;
-	if { parent.uuid == mmName.value; }
+	-prop-> child : CMOF_NODE;
+	
+	if { prop.isXmiIdReference == false; mmClass_property_name.value == prop.name; mmClass_property_upper.value == "1"; }
 	modify {
-		emit("\n\t\t### writeAttributereferenceIfValidMetaModelClass()\n");
-		emit("\n\t\t### parent.uuid = ", parent.uuid, " mmName.value = ", mmName.value, "\n");
-		emit (prop.name, "=\"G-", child.id, "\"");
+		emit (" ", prop.name, "=\"G-", child.id, "\"");
 		delete(prop);
-		emit("\n\t\t### writeAttributereferenceIfValidMetaModelClass.\n");
 	}
 }
 
@@ -225,11 +222,6 @@ rule findAccurateMetamodelSuperClassWriteReferenceAttribute(mmClass:Metamodel_Cl
 	mmSuperClass -:Metamodel_name-> mmSuperClassName;
 	
 	modify {
-		emit("\n\t\t### findAccurateMetamodelSuperClassWriteReferenceAttribute()\n");
-		emit("\n\t\t### mmClassName.value = ", mmClassName.value, " mmSuperClassName.value = ", mmSuperClassName.value, "\n");
 		exec( writeAttributereferenceIfValidMetaModelClass(parent, mmSuperClass, prop) || [findAccurateMetamodelSuperClassWriteReferenceAttribute(mmSuperClass, prop, parent)] );
-		emit("\n\t\t### findAccurateMetamodelSuperClassWriteReferenceAttribute.\n");
 	}
 }
-
-
