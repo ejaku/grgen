@@ -1,0 +1,8 @@
+using deep_model_001;
+
+rule r(y : Bcc) : (B) {
+  modify{
+    exec(c:B=y & (c:B)=r(c) & (c)=r(c));
+    return (y);
+  }
+}

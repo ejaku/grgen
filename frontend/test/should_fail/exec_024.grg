@@ -1,0 +1,8 @@
+using deep_model_001;
+
+rule r(y : Bcc) : (B) {
+  modify{
+    exec( b:boolean = ((b)=r(y)) );
+    return (y);
+  }
+}

@@ -2,7 +2,7 @@ using enum_model_001;
 
 rule r1(x:A) {
   modify{
-    exec((y)=r1(x));
+    exec((y:A)=r1(x));
   }
 }
 

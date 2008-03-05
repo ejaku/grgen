@@ -6,6 +6,6 @@ rule r(y : Acc) {
   b : B;
   modify{
     delete(b);
-    exec(r(b));
+    exec(r(b)); // b is deleted
   }
 }

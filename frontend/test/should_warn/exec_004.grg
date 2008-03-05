@@ -1,0 +1,10 @@
+using deep_model_001;
+
+rule r1(a:A, b:B, acc:Acc) {
+  n:Node;
+  ab:AB;
+  modify{
+    exec(r1(n,n,b));  // b is not compatible with Acc, rule r1 does never match
+  }
+}
+

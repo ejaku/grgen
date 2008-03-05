@@ -4,8 +4,8 @@ rule r(y : Acc) {
   hom(a,b);
   a : A;
   b : B;
-  modify{
+  replace {
     c : AcccAccAcA<b>;
-    exec(r(a));
+    exec(r(a));  // a may have been deleted iff a!=b
   }
 }

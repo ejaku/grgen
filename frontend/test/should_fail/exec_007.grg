@@ -6,6 +6,6 @@ rule r(y : Acc) {
   b : B;
   modify{
     c : AcccAccAcA<b>;
-    exec(r(b));
+    exec(r(b)); // b is a retyped element and cannot leave the modify part
   }
 }
