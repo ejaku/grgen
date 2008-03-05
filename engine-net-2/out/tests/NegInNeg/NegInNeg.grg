@@ -1,0 +1,84 @@
+using NegInNeg;
+
+test negTestWith2Levels {
+	x:IN-e:Edge->y:IN;
+	if{ y.val==0; }
+	negative {
+		y-->z:IN;
+		negative {
+			if{ z.val==3; }
+		}
+	}
+}
+
+rule createGraphForNegTestWith2LevelsMatch
+{
+	modify {
+		x:IN-e:Edge->y:IN;
+		y-->z:IN;
+		eval { z.val = 3; }
+	}
+}
+
+rule createGraphForNegTestWith2LevelsFail
+{
+	modify {
+		x:IN-e:Edge->y:IN;
+		y-->z:IN;
+		eval { z.val = 4; }
+	}
+}
+
+pattern ChainFromCompleteE2(from:Node) {
+	alternative {
+		base {
+			from-:E2->to:Node;
+			negative {
+				to-:E2->.;
+			}
+		}
+		rec {
+			from-:E2->to:Node;
+			:ChainFromCompleteE2(to);
+		}
+	}
+}
+
+pattern ChainFromCompleteE1NoE2(from:Node) {
+	alternative {
+		base {
+			negative {
+				from-:E1->.;
+			}
+			negative {
+				:ChainFromCompleteE2(from);
+			}
+		}
+		rec {
+			from-:E1->to:Node;
+			:ChainFromCompleteE1NoE2(to);
+			negative {
+				:ChainFromCompleteE2(from);
+			}
+		}
+	}
+}
+
+test chainWithNoChainForked(head:Node) {
+	:ChainFromCompleteE1NoE2(head);
+}
+
+rule createChainE1 : (Node) {
+	modify {
+		beg:Node -:E1-> . -:E1-> . -:E1-> .;
+		return(beg);
+	}
+}
+
+rule createChainE1WithE2 : (Node) {
+	modify {
+		beg:Node -:E1-> . -:E1-> i:Node -:E1-> .;
+		i -:E2-> . -:E2 -> .;
+		return(beg);
+	}
+}

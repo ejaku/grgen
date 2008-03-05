@@ -157,6 +157,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public String name;
         public String pathPrefix;
+        public bool isIndependent;
         public PatternNode[] nodes;
         public PatternEdge[] edges;
         public bool[,] homomorphicNodes;
@@ -169,7 +170,7 @@ namespace de.unika.ipd.grGen.lgsp
         public ScheduledSearchPlan Schedule;
         public ScheduledSearchPlan ScheduleIncludingNegatives;
 
-        public PatternGraph(String name, String pathPrefix,
+        public PatternGraph(String name, String pathPrefix, bool isIndependent,
             PatternNode[] nodes, PatternEdge[] edges,
             PatternGraphEmbedding[] embeddedGraphs, Alternative[] alternatives, 
             PatternGraph[] negativePatternGraphs, Condition[] conditions,
@@ -177,6 +178,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             this.name = name;
             this.pathPrefix = pathPrefix;
+            this.isIndependent = isIndependent;
             this.nodes = nodes;
             this.edges = edges;
             this.embeddedGraphs = embeddedGraphs;

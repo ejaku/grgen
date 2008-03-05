@@ -1,0 +1,6 @@
+node class IN {
+  val:int;
+}
+
+edge class E1;
+edge class E2;

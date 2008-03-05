@@ -1,0 +1,13 @@
+new graph NegInNeg/NegInNeg
+
+xgrs createGraphForNegTestWith2LevelsFail
+xgrs [?negTestWith2Levels]
+xgrs createGraphForNegTestWith2LevelsMatch
+xgrs [?negTestWith2Levels]
+
+xgrs (beg)=createChainE1WithE2
+xgrs [?chainWithNoChainForked(beg)]
+xgrs (beg)=createChainE1
+xgrs [?chainWithNoChainForked(beg)]
+
+quit

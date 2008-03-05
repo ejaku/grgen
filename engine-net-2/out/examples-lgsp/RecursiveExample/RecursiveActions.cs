@@ -65,6 +65,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Blowball_alt_0_end_neg_0 = new PatternGraph(
 				"neg_0",
 				"Blowball_alt_0_end_",
+				false,
 				new PatternNode[] { Blowball_node_head, Blowball_alt_0_end_neg_0_node__node0 }, 
 				new PatternEdge[] { Blowball_alt_0_end_neg_0_edge__edge0 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -82,6 +83,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Blowball_alt_0_end = new PatternGraph(
 				"end",
 				"Blowball_alt_0_",
+				false,
 				new PatternNode[] { Blowball_node_head }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -99,6 +101,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Blowball_alt_0_further = new PatternGraph(
 				"further",
 				"Blowball_alt_0_",
+				false,
 				new PatternNode[] { Blowball_node_head, Blowball_alt_0_further_node__node0 }, 
 				new PatternEdge[] { Blowball_alt_0_further_edge__edge0 }, 
 				new PatternGraphEmbedding[] { Blowball_alt_0_further__subpattern0 }, 
@@ -118,6 +121,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_Blowball = new PatternGraph(
 				"Blowball",
 				"",
+				false,
 				new PatternNode[] { Blowball_node_head }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -200,6 +204,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFrom_alt_0_base = new PatternGraph(
 				"base",
 				"ChainFrom_alt_0_",
+				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -215,6 +220,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFrom_alt_0_rec = new PatternGraph(
 				"rec",
 				"ChainFrom_alt_0_",
+				false,
 				new PatternNode[] { ChainFrom_node_from, ChainFrom_alt_0_rec_node_to }, 
 				new PatternEdge[] { ChainFrom_alt_0_rec_edge__edge0 }, 
 				new PatternGraphEmbedding[] { ChainFrom_alt_0_rec__subpattern0 }, 
@@ -234,6 +240,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ChainFrom = new PatternGraph(
 				"ChainFrom",
 				"",
+				false,
 				new PatternNode[] { ChainFrom_node_from }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -325,6 +332,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromComplete_alt_0_base_neg_0 = new PatternGraph(
 				"neg_0",
 				"ChainFromComplete_alt_0_base_",
+				false,
 				new PatternNode[] { ChainFromComplete_node_from, ChainFromComplete_alt_0_base_neg_0_node__node0 }, 
 				new PatternEdge[] { ChainFromComplete_alt_0_base_neg_0_edge__edge0 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -342,6 +350,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromComplete_alt_0_base = new PatternGraph(
 				"base",
 				"ChainFromComplete_alt_0_",
+				false,
 				new PatternNode[] { ChainFromComplete_node_from }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -359,6 +368,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromComplete_alt_0_rec = new PatternGraph(
 				"rec",
 				"ChainFromComplete_alt_0_",
+				false,
 				new PatternNode[] { ChainFromComplete_node_from, ChainFromComplete_alt_0_rec_node_to }, 
 				new PatternEdge[] { ChainFromComplete_alt_0_rec_edge__edge0 }, 
 				new PatternGraphEmbedding[] { ChainFromComplete_alt_0_rec__subpattern0 }, 
@@ -378,6 +388,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ChainFromComplete = new PatternGraph(
 				"ChainFromComplete",
 				"",
+				false,
 				new PatternNode[] { ChainFromComplete_node_from }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -466,6 +477,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromTo_alt_0_base = new PatternGraph(
 				"base",
 				"ChainFromTo_alt_0_",
+				false,
 				new PatternNode[] { ChainFromTo_node_from, ChainFromTo_node_to }, 
 				new PatternEdge[] { ChainFromTo_alt_0_base_edge__edge0 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -487,6 +499,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromTo_alt_0_rec = new PatternGraph(
 				"rec",
 				"ChainFromTo_alt_0_",
+				false,
 				new PatternNode[] { ChainFromTo_node_from, ChainFromTo_alt_0_rec_node_intermediate, ChainFromTo_node_to }, 
 				new PatternEdge[] { ChainFromTo_alt_0_rec_edge__edge0 }, 
 				new PatternGraphEmbedding[] { ChainFromTo_alt_0_rec__subpattern0 }, 
@@ -507,6 +520,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ChainFromTo = new PatternGraph(
 				"ChainFromTo",
 				"",
+				false,
 				new PatternNode[] { ChainFromTo_node_from, ChainFromTo_node_to }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -577,6 +591,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_blowball = new PatternGraph(
 				"blowball",
 				"",
+				false,
 				new PatternNode[] { blowball_node_head }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { blowball__subpattern0 }, 
@@ -642,6 +657,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_chainFrom = new PatternGraph(
 				"chainFrom",
 				"",
+				false,
 				new PatternNode[] { chainFrom_node_beg }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { chainFrom__subpattern0 }, 
@@ -707,6 +723,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_chainFromComplete = new PatternGraph(
 				"chainFromComplete",
 				"",
+				false,
 				new PatternNode[] { chainFromComplete_node_beg }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { chainFromComplete__subpattern0 }, 
@@ -775,6 +792,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_chainFromTo = new PatternGraph(
 				"chainFromTo",
 				"",
+				false,
 				new PatternNode[] { chainFromTo_node_beg, chainFromTo_node_end }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { chainFromTo__subpattern0 }, 
@@ -838,6 +856,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_createBlowball = new PatternGraph(
 				"createBlowball",
 				"",
+				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -854,33 +873,33 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_Node node__node3 = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node2 = Node_Node.CreateNode(graph);
-			Node_Node node_head = Node_Node.CreateNode(graph);
 			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Node_Node node_head = Node_Node.CreateNode(graph);
+			Node_Node node__node2 = Node_Node.CreateNode(graph);
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_head, node__node3);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_head, node__node1);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_head, node__node0);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
 			return new IGraphElement[] { node_head, };
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_Node node__node3 = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node2 = Node_Node.CreateNode(graph);
-			Node_Node node_head = Node_Node.CreateNode(graph);
 			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Node_Node node_head = Node_Node.CreateNode(graph);
+			Node_Node node__node2 = Node_Node.CreateNode(graph);
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_head, node__node3);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_head, node__node1);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_head, node__node0);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
 			return new IGraphElement[] { node_head, };
 		}
-		private static String[] addedNodeNames = new String[] { "_node3", "_node1", "_node2", "head", "_node0" };
+		private static String[] addedNodeNames = new String[] { "_node3", "_node0", "head", "_node2", "_node1" };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0" };
+		private static String[] addedEdgeNames = new String[] { "_edge3", "_edge1", "_edge0", "_edge2" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
@@ -914,6 +933,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_createChain = new PatternGraph(
 				"createChain",
 				"",
+				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -929,30 +949,30 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_Node node_end = Node_Node.CreateNode(graph);
-			Node_Node node_beg = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
 			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
+			Node_Node node_end = Node_Node.CreateNode(graph);
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
+			Node_Node node_beg = Node_Node.CreateNode(graph);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_beg, node__node0);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
 			return new IGraphElement[] { node_beg, node_end, };
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_Node node_end = Node_Node.CreateNode(graph);
-			Node_Node node_beg = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
 			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
+			Node_Node node_end = Node_Node.CreateNode(graph);
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
+			Node_Node node_beg = Node_Node.CreateNode(graph);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_beg, node__node0);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
 			return new IGraphElement[] { node_beg, node_end, };
 		}
-		private static String[] addedNodeNames = new String[] { "end", "beg", "_node1", "_node0" };
+		private static String[] addedNodeNames = new String[] { "_node0", "end", "_node1", "beg" };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
+		private static String[] addedEdgeNames = new String[] { "_edge1", "_edge0", "_edge2" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
@@ -966,19 +986,20 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
         public LGSPNode Blowball_node_head;
         
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            const int MAX_NEG_LEVEL = 5;
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // SubPreset Blowball_node_head 
-            LGSPNode node_cur_Blowball_node_head = Blowball_node_head;
+            LGSPNode candidate_Blowball_node_head = Blowball_node_head;
             // Push alternative matching task for Blowball_alt_0
             AlternativeAction_Blowball_alt_0 taskFor_alt_0 = new AlternativeAction_Blowball_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_Blowball.Blowball_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0.Blowball_node_head = node_cur_Blowball_node_head;
+            taskFor_alt_0.Blowball_node_head = candidate_Blowball_node_head;
             openTasks.Push(taskFor_alt_0);
-            // Match subpatterns
-            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            // Match subpatterns 
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
             // Check whether subpatterns were found 
@@ -988,7 +1009,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
                 {
                     LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+1]);
                     match.patternGraph = patternGraph;
-                    match.Nodes[(int)Pattern_Blowball.Blowball_NodeNums.@head] = node_cur_Blowball_node_head;
+                    match.Nodes[(int)Pattern_Blowball.Blowball_NodeNums.@head] = candidate_Blowball_node_head;
                     match.EmbeddedGraphs[((int)Pattern_Blowball.Blowball_AltNums.@alt_0)+0] = currentFoundPartialMatch.Pop();
                     currentFoundPartialMatch.Push(match);
                 }
@@ -1009,7 +1030,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
                 openTasks.Push(this);
                 return;
             }
-            node_cur_Blowball_node_head.isMatchedByEnclosingPattern = false;
+            candidate_Blowball_node_head.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
             openTasks.Push(this);
             return;
         }
@@ -1024,8 +1045,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
         public LGSPNode Blowball_node_head;
         
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            const int MAX_NEG_LEVEL = 5;
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
@@ -1033,43 +1055,78 @@ namespace de.unika.ipd.grGen.Action_Recursive
             do {
                 patternGraph = patternGraphs[(int)Pattern_Blowball.Blowball_alt_0_CaseNums.@end];
                 // SubPreset Blowball_node_head 
-                LGSPNode node_cur_Blowball_node_head = Blowball_node_head;
+                LGSPNode candidate_Blowball_node_head = Blowball_node_head;
                 // NegativePattern 
                 {
-                    bool node_cur_Blowball_node_head_prevIsMatchedNeg = node_cur_Blowball_node_head.isMatchedNeg;
-                    node_cur_Blowball_node_head.isMatchedNeg = true;
+                    ++negLevel;
+                    if(negLevel > MAX_NEG_LEVEL && negLevel-MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {
+                        graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst = new Dictionary<LGSPNode, LGSPNode>();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd = new Dictionary<LGSPEdge, LGSPEdge>();
+                    }
+                    uint prev_neg_0__candidate_Blowball_node_head;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        prev_neg_0__candidate_Blowball_node_head = candidate_Blowball_node_head.flags & LGSPNode.IS_MATCHED<<negLevel;
+                        candidate_Blowball_node_head.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                    } else {
+                        prev_neg_0__candidate_Blowball_node_head = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Blowball_node_head) ? 1U : 0U;
+                        if(prev_neg_0__candidate_Blowball_node_head==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_Blowball_node_head,candidate_Blowball_node_head);
+                    }
                     // Extend outgoing Blowball_alt_0_end_neg_0_edge__edge0 from Blowball_node_head 
-                    LGSPEdge edge_head_Blowball_alt_0_end_neg_0_edge__edge0 = node_cur_Blowball_node_head.outhead;
-                    if(edge_head_Blowball_alt_0_end_neg_0_edge__edge0 != null)
+                    LGSPEdge head_candidate_Blowball_alt_0_end_neg_0_edge__edge0 = candidate_Blowball_node_head.outhead;
+                    if(head_candidate_Blowball_alt_0_end_neg_0_edge__edge0 != null)
                     {
-                        LGSPEdge edge_cur_Blowball_alt_0_end_neg_0_edge__edge0 = edge_head_Blowball_alt_0_end_neg_0_edge__edge0;
+                        LGSPEdge candidate_Blowball_alt_0_end_neg_0_edge__edge0 = head_candidate_Blowball_alt_0_end_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_Edge.isMyType[edge_cur_Blowball_alt_0_end_neg_0_edge__edge0.type.TypeID]) {
+                            if(!EdgeType_Edge.isMyType[candidate_Blowball_alt_0_end_neg_0_edge__edge0.type.TypeID]) {
                                 continue;
                             }
-                            if(edge_cur_Blowball_alt_0_end_neg_0_edge__edge0.isMatchedByEnclosingPattern)
+                            if((candidate_Blowball_alt_0_end_neg_0_edge__edge0.flags & LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)
                             {
                                 continue;
                             }
                             // Implicit target Blowball_alt_0_end_neg_0_node__node0 from Blowball_alt_0_end_neg_0_edge__edge0 
-                            LGSPNode node_cur_Blowball_alt_0_end_neg_0_node__node0 = edge_cur_Blowball_alt_0_end_neg_0_edge__edge0.target;
-                            if(node_cur_Blowball_alt_0_end_neg_0_node__node0.isMatchedNeg
-                                && node_cur_Blowball_alt_0_end_neg_0_node__node0==node_cur_Blowball_node_head
+                            LGSPNode candidate_Blowball_alt_0_end_neg_0_node__node0 = candidate_Blowball_alt_0_end_neg_0_edge__edge0.target;
+                            if((negLevel<=MAX_NEG_LEVEL ? (candidate_Blowball_alt_0_end_neg_0_node__node0.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Blowball_alt_0_end_neg_0_node__node0))
+                                && candidate_Blowball_alt_0_end_neg_0_node__node0==candidate_Blowball_node_head
                                 )
                             {
                                 continue;
                             }
-                            if(node_cur_Blowball_alt_0_end_neg_0_node__node0.isMatchedByEnclosingPattern)
+                            if((candidate_Blowball_alt_0_end_neg_0_node__node0.flags & LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)
                             {
                                 continue;
                             }
-                            node_cur_Blowball_node_head.isMatchedNeg = node_cur_Blowball_node_head_prevIsMatchedNeg;
+                            // negative pattern found
+                            if(negLevel <= MAX_NEG_LEVEL) {
+                                candidate_Blowball_node_head.flags = candidate_Blowball_node_head.flags & ~prev_neg_0__candidate_Blowball_node_head | prev_neg_0__candidate_Blowball_node_head;
+                            } else { 
+                                if(prev_neg_0__candidate_Blowball_node_head==0) {
+                                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_Blowball_node_head);
+                                }
+                            }
+                            if(negLevel > MAX_NEG_LEVEL) {
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                            }
+                            --negLevel;
                             goto label0;
                         }
-                        while( (edge_cur_Blowball_alt_0_end_neg_0_edge__edge0 = edge_cur_Blowball_alt_0_end_neg_0_edge__edge0.outNext) != edge_head_Blowball_alt_0_end_neg_0_edge__edge0 );
+                        while( (candidate_Blowball_alt_0_end_neg_0_edge__edge0 = candidate_Blowball_alt_0_end_neg_0_edge__edge0.outNext) != head_candidate_Blowball_alt_0_end_neg_0_edge__edge0 );
                     }
-                    node_cur_Blowball_node_head.isMatchedNeg = node_cur_Blowball_node_head_prevIsMatchedNeg;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        candidate_Blowball_node_head.flags = candidate_Blowball_node_head.flags & ~prev_neg_0__candidate_Blowball_node_head | prev_neg_0__candidate_Blowball_node_head;
+                    } else { 
+                        if(prev_neg_0__candidate_Blowball_node_head==0) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_Blowball_node_head);
+                        }
+                    }
+                    if(negLevel > MAX_NEG_LEVEL) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                    }
+                    --negLevel;
                 }
                 // Check whether there are subpattern matching tasks left to execute
                 if(openTasks.Count==0)
@@ -1078,7 +1135,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
                     foundPartialMatches.Add(currentFoundPartialMatch);
                     LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0]);
                     match.patternGraph = patternGraph;
-                    match.Nodes[(int)Pattern_Blowball.Blowball_alt_0_end_NodeNums.@head] = node_cur_Blowball_node_head;
+                    match.Nodes[(int)Pattern_Blowball.Blowball_alt_0_end_NodeNums.@head] = candidate_Blowball_node_head;
                     currentFoundPartialMatch.Push(match);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -1088,8 +1145,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
                     }
                     goto label1;
                 }
-                // Match subpatterns
-                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                // Match subpatterns 
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -1097,7 +1154,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
                     {
                         LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+0]);
                         match.patternGraph = patternGraph;
-                        match.Nodes[(int)Pattern_Blowball.Blowball_alt_0_end_NodeNums.@head] = node_cur_Blowball_node_head;
+                        match.Nodes[(int)Pattern_Blowball.Blowball_alt_0_end_NodeNums.@head] = candidate_Blowball_node_head;
                         currentFoundPartialMatch.Push(match);
                     }
                     if(matchesList==foundPartialMatches) {
@@ -1116,7 +1173,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
                     }
                     goto label2;
                 }
-                node_cur_Blowball_node_head.isMatchedByEnclosingPattern = false;
+                candidate_Blowball_node_head.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
 label0: ;
 label1: ;
 label2: ;
@@ -1133,41 +1190,41 @@ label2: ;
             do {
                 patternGraph = patternGraphs[(int)Pattern_Blowball.Blowball_alt_0_CaseNums.@further];
                 // SubPreset Blowball_node_head 
-                LGSPNode node_cur_Blowball_node_head = Blowball_node_head;
+                LGSPNode candidate_Blowball_node_head = Blowball_node_head;
                 // Extend outgoing Blowball_alt_0_further_edge__edge0 from Blowball_node_head 
-                LGSPEdge edge_head_Blowball_alt_0_further_edge__edge0 = node_cur_Blowball_node_head.outhead;
-                if(edge_head_Blowball_alt_0_further_edge__edge0 != null)
+                LGSPEdge head_candidate_Blowball_alt_0_further_edge__edge0 = candidate_Blowball_node_head.outhead;
+                if(head_candidate_Blowball_alt_0_further_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_Blowball_alt_0_further_edge__edge0 = edge_head_Blowball_alt_0_further_edge__edge0;
+                    LGSPEdge candidate_Blowball_alt_0_further_edge__edge0 = head_candidate_Blowball_alt_0_further_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[edge_cur_Blowball_alt_0_further_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_Edge.isMyType[candidate_Blowball_alt_0_further_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        if(edge_cur_Blowball_alt_0_further_edge__edge0.isMatchedByEnclosingPattern)
+                        if((candidate_Blowball_alt_0_further_edge__edge0.flags & LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)
                         {
                             continue;
                         }
                         // Implicit target Blowball_alt_0_further_node__node0 from Blowball_alt_0_further_edge__edge0 
-                        LGSPNode node_cur_Blowball_alt_0_further_node__node0 = edge_cur_Blowball_alt_0_further_edge__edge0.target;
-                        if(node_cur_Blowball_alt_0_further_node__node0.isMatched
-                            && node_cur_Blowball_alt_0_further_node__node0==node_cur_Blowball_node_head
+                        LGSPNode candidate_Blowball_alt_0_further_node__node0 = candidate_Blowball_alt_0_further_edge__edge0.target;
+                        if((negLevel<=MAX_NEG_LEVEL ? (candidate_Blowball_alt_0_further_node__node0.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Blowball_alt_0_further_node__node0))
+                            && candidate_Blowball_alt_0_further_node__node0==candidate_Blowball_node_head
                             )
                         {
                             continue;
                         }
-                        if(node_cur_Blowball_alt_0_further_node__node0.isMatchedByEnclosingPattern)
+                        if((candidate_Blowball_alt_0_further_node__node0.flags & LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)
                         {
                             continue;
                         }
                         // Push subpattern matching task for _subpattern0
                         PatternAction_Blowball taskFor__subpattern0 = new PatternAction_Blowball(graph, openTasks);
-                        taskFor__subpattern0.Blowball_node_head = node_cur_Blowball_node_head;
+                        taskFor__subpattern0.Blowball_node_head = candidate_Blowball_node_head;
                         openTasks.Push(taskFor__subpattern0);
-                        node_cur_Blowball_alt_0_further_node__node0.isMatchedByEnclosingPattern = true;
-                        edge_cur_Blowball_alt_0_further_edge__edge0.isMatchedByEnclosingPattern = true;
-                        // Match subpatterns
-                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                        candidate_Blowball_alt_0_further_node__node0.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_Blowball_alt_0_further_edge__edge0.flags |= LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        // Match subpatterns 
+                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for _subpattern0
                         openTasks.Pop();
                         // Check whether subpatterns were found 
@@ -1177,9 +1234,9 @@ label2: ;
                             {
                                 LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[1+0]);
                                 match.patternGraph = patternGraph;
-                                match.Nodes[(int)Pattern_Blowball.Blowball_alt_0_further_NodeNums.@head] = node_cur_Blowball_node_head;
-                                match.Nodes[(int)Pattern_Blowball.Blowball_alt_0_further_NodeNums.@_node0] = node_cur_Blowball_alt_0_further_node__node0;
-                                match.Edges[(int)Pattern_Blowball.Blowball_alt_0_further_EdgeNums.@_edge0] = edge_cur_Blowball_alt_0_further_edge__edge0;
+                                match.Nodes[(int)Pattern_Blowball.Blowball_alt_0_further_NodeNums.@head] = candidate_Blowball_node_head;
+                                match.Nodes[(int)Pattern_Blowball.Blowball_alt_0_further_NodeNums.@_node0] = candidate_Blowball_alt_0_further_node__node0;
+                                match.Edges[(int)Pattern_Blowball.Blowball_alt_0_further_EdgeNums.@_edge0] = candidate_Blowball_alt_0_further_edge__edge0;
                                 match.EmbeddedGraphs[(int)Pattern_Blowball.Blowball_alt_0_further_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                                 currentFoundPartialMatch.Push(match);
                             }
@@ -1194,20 +1251,20 @@ label2: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                edge_cur_Blowball_alt_0_further_edge__edge0.isMatchedByEnclosingPattern = false;
-                                node_cur_Blowball_alt_0_further_node__node0.isMatchedByEnclosingPattern = false;
+                                candidate_Blowball_alt_0_further_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                                candidate_Blowball_alt_0_further_node__node0.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                                 openTasks.Push(this);
                                 return;
                             }
-                            edge_cur_Blowball_alt_0_further_edge__edge0.isMatchedByEnclosingPattern = false;
-                            node_cur_Blowball_alt_0_further_node__node0.isMatchedByEnclosingPattern = false;
+                            candidate_Blowball_alt_0_further_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                            candidate_Blowball_alt_0_further_node__node0.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                             continue;
                         }
-                        node_cur_Blowball_node_head.isMatchedByEnclosingPattern = false;
-                        node_cur_Blowball_alt_0_further_node__node0.isMatchedByEnclosingPattern = false;
-                        edge_cur_Blowball_alt_0_further_edge__edge0.isMatchedByEnclosingPattern = false;
+                        candidate_Blowball_node_head.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_Blowball_alt_0_further_node__node0.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_Blowball_alt_0_further_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     }
-                    while( (edge_cur_Blowball_alt_0_further_edge__edge0 = edge_cur_Blowball_alt_0_further_edge__edge0.outNext) != edge_head_Blowball_alt_0_further_edge__edge0 );
+                    while( (candidate_Blowball_alt_0_further_edge__edge0 = candidate_Blowball_alt_0_further_edge__edge0.outNext) != head_candidate_Blowball_alt_0_further_edge__edge0 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -1224,19 +1281,20 @@ label2: ;
 
         public LGSPNode ChainFrom_node_from;
         
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            const int MAX_NEG_LEVEL = 5;
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // SubPreset ChainFrom_node_from 
-            LGSPNode node_cur_ChainFrom_node_from = ChainFrom_node_from;
+            LGSPNode candidate_ChainFrom_node_from = ChainFrom_node_from;
             // Push alternative matching task for ChainFrom_alt_0
             AlternativeAction_ChainFrom_alt_0 taskFor_alt_0 = new AlternativeAction_ChainFrom_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFrom.ChainFrom_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0.ChainFrom_node_from = node_cur_ChainFrom_node_from;
+            taskFor_alt_0.ChainFrom_node_from = candidate_ChainFrom_node_from;
             openTasks.Push(taskFor_alt_0);
-            // Match subpatterns
-            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            // Match subpatterns 
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
             // Check whether subpatterns were found 
@@ -1246,7 +1304,7 @@ label2: ;
                 {
                     LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+1]);
                     match.patternGraph = patternGraph;
-                    match.Nodes[(int)Pattern_ChainFrom.ChainFrom_NodeNums.@from] = node_cur_ChainFrom_node_from;
+                    match.Nodes[(int)Pattern_ChainFrom.ChainFrom_NodeNums.@from] = candidate_ChainFrom_node_from;
                     match.EmbeddedGraphs[((int)Pattern_ChainFrom.ChainFrom_AltNums.@alt_0)+0] = currentFoundPartialMatch.Pop();
                     currentFoundPartialMatch.Push(match);
                 }
@@ -1267,7 +1325,7 @@ label2: ;
                 openTasks.Push(this);
                 return;
             }
-            node_cur_ChainFrom_node_from.isMatchedByEnclosingPattern = false;
+            candidate_ChainFrom_node_from.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
             openTasks.Push(this);
             return;
         }
@@ -1282,8 +1340,9 @@ label2: ;
 
         public LGSPNode ChainFrom_node_from;
         
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            const int MAX_NEG_LEVEL = 5;
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
@@ -1306,8 +1365,8 @@ label2: ;
                     }
                     continue;
                 }
-                // Match subpatterns
-                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                // Match subpatterns 
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -1346,41 +1405,41 @@ label2: ;
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFrom.ChainFrom_alt_0_CaseNums.@rec];
                 // SubPreset ChainFrom_node_from 
-                LGSPNode node_cur_ChainFrom_node_from = ChainFrom_node_from;
+                LGSPNode candidate_ChainFrom_node_from = ChainFrom_node_from;
                 // Extend outgoing ChainFrom_alt_0_rec_edge__edge0 from ChainFrom_node_from 
-                LGSPEdge edge_head_ChainFrom_alt_0_rec_edge__edge0 = node_cur_ChainFrom_node_from.outhead;
-                if(edge_head_ChainFrom_alt_0_rec_edge__edge0 != null)
+                LGSPEdge head_candidate_ChainFrom_alt_0_rec_edge__edge0 = candidate_ChainFrom_node_from.outhead;
+                if(head_candidate_ChainFrom_alt_0_rec_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_ChainFrom_alt_0_rec_edge__edge0 = edge_head_ChainFrom_alt_0_rec_edge__edge0;
+                    LGSPEdge candidate_ChainFrom_alt_0_rec_edge__edge0 = head_candidate_ChainFrom_alt_0_rec_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[edge_cur_ChainFrom_alt_0_rec_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_Edge.isMyType[candidate_ChainFrom_alt_0_rec_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        if(edge_cur_ChainFrom_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern)
+                        if((candidate_ChainFrom_alt_0_rec_edge__edge0.flags & LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)
                         {
                             continue;
                         }
                         // Implicit target ChainFrom_alt_0_rec_node_to from ChainFrom_alt_0_rec_edge__edge0 
-                        LGSPNode node_cur_ChainFrom_alt_0_rec_node_to = edge_cur_ChainFrom_alt_0_rec_edge__edge0.target;
-                        if(node_cur_ChainFrom_alt_0_rec_node_to.isMatched
-                            && node_cur_ChainFrom_alt_0_rec_node_to==node_cur_ChainFrom_node_from
+                        LGSPNode candidate_ChainFrom_alt_0_rec_node_to = candidate_ChainFrom_alt_0_rec_edge__edge0.target;
+                        if((negLevel<=MAX_NEG_LEVEL ? (candidate_ChainFrom_alt_0_rec_node_to.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ChainFrom_alt_0_rec_node_to))
+                            && candidate_ChainFrom_alt_0_rec_node_to==candidate_ChainFrom_node_from
                             )
                         {
                             continue;
                         }
-                        if(node_cur_ChainFrom_alt_0_rec_node_to.isMatchedByEnclosingPattern)
+                        if((candidate_ChainFrom_alt_0_rec_node_to.flags & LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)
                         {
                             continue;
                         }
                         // Push subpattern matching task for _subpattern0
                         PatternAction_ChainFrom taskFor__subpattern0 = new PatternAction_ChainFrom(graph, openTasks);
-                        taskFor__subpattern0.ChainFrom_node_from = node_cur_ChainFrom_alt_0_rec_node_to;
+                        taskFor__subpattern0.ChainFrom_node_from = candidate_ChainFrom_alt_0_rec_node_to;
                         openTasks.Push(taskFor__subpattern0);
-                        node_cur_ChainFrom_alt_0_rec_node_to.isMatchedByEnclosingPattern = true;
-                        edge_cur_ChainFrom_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = true;
-                        // Match subpatterns
-                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                        candidate_ChainFrom_alt_0_rec_node_to.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFrom_alt_0_rec_edge__edge0.flags |= LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        // Match subpatterns 
+                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for _subpattern0
                         openTasks.Pop();
                         // Check whether subpatterns were found 
@@ -1390,9 +1449,9 @@ label2: ;
                             {
                                 LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[1+0]);
                                 match.patternGraph = patternGraph;
-                                match.Nodes[(int)Pattern_ChainFrom.ChainFrom_alt_0_rec_NodeNums.@from] = node_cur_ChainFrom_node_from;
-                                match.Nodes[(int)Pattern_ChainFrom.ChainFrom_alt_0_rec_NodeNums.@to] = node_cur_ChainFrom_alt_0_rec_node_to;
-                                match.Edges[(int)Pattern_ChainFrom.ChainFrom_alt_0_rec_EdgeNums.@_edge0] = edge_cur_ChainFrom_alt_0_rec_edge__edge0;
+                                match.Nodes[(int)Pattern_ChainFrom.ChainFrom_alt_0_rec_NodeNums.@from] = candidate_ChainFrom_node_from;
+                                match.Nodes[(int)Pattern_ChainFrom.ChainFrom_alt_0_rec_NodeNums.@to] = candidate_ChainFrom_alt_0_rec_node_to;
+                                match.Edges[(int)Pattern_ChainFrom.ChainFrom_alt_0_rec_EdgeNums.@_edge0] = candidate_ChainFrom_alt_0_rec_edge__edge0;
                                 match.EmbeddedGraphs[(int)Pattern_ChainFrom.ChainFrom_alt_0_rec_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                                 currentFoundPartialMatch.Push(match);
                             }
@@ -1407,20 +1466,20 @@ label2: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                edge_cur_ChainFrom_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = false;
-                                node_cur_ChainFrom_alt_0_rec_node_to.isMatchedByEnclosingPattern = false;
+                                candidate_ChainFrom_alt_0_rec_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                                candidate_ChainFrom_alt_0_rec_node_to.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                                 openTasks.Push(this);
                                 return;
                             }
-                            edge_cur_ChainFrom_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = false;
-                            node_cur_ChainFrom_alt_0_rec_node_to.isMatchedByEnclosingPattern = false;
+                            candidate_ChainFrom_alt_0_rec_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                            candidate_ChainFrom_alt_0_rec_node_to.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                             continue;
                         }
-                        node_cur_ChainFrom_node_from.isMatchedByEnclosingPattern = false;
-                        node_cur_ChainFrom_alt_0_rec_node_to.isMatchedByEnclosingPattern = false;
-                        edge_cur_ChainFrom_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = false;
+                        candidate_ChainFrom_node_from.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFrom_alt_0_rec_node_to.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFrom_alt_0_rec_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     }
-                    while( (edge_cur_ChainFrom_alt_0_rec_edge__edge0 = edge_cur_ChainFrom_alt_0_rec_edge__edge0.outNext) != edge_head_ChainFrom_alt_0_rec_edge__edge0 );
+                    while( (candidate_ChainFrom_alt_0_rec_edge__edge0 = candidate_ChainFrom_alt_0_rec_edge__edge0.outNext) != head_candidate_ChainFrom_alt_0_rec_edge__edge0 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -1437,19 +1496,20 @@ label2: ;
 
         public LGSPNode ChainFromComplete_node_from;
         
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            const int MAX_NEG_LEVEL = 5;
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // SubPreset ChainFromComplete_node_from 
-            LGSPNode node_cur_ChainFromComplete_node_from = ChainFromComplete_node_from;
+            LGSPNode candidate_ChainFromComplete_node_from = ChainFromComplete_node_from;
             // Push alternative matching task for ChainFromComplete_alt_0
             AlternativeAction_ChainFromComplete_alt_0 taskFor_alt_0 = new AlternativeAction_ChainFromComplete_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromComplete.ChainFromComplete_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0.ChainFromComplete_node_from = node_cur_ChainFromComplete_node_from;
+            taskFor_alt_0.ChainFromComplete_node_from = candidate_ChainFromComplete_node_from;
             openTasks.Push(taskFor_alt_0);
-            // Match subpatterns
-            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            // Match subpatterns 
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
             // Check whether subpatterns were found 
@@ -1459,7 +1519,7 @@ label2: ;
                 {
                     LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+1]);
                     match.patternGraph = patternGraph;
-                    match.Nodes[(int)Pattern_ChainFromComplete.ChainFromComplete_NodeNums.@from] = node_cur_ChainFromComplete_node_from;
+                    match.Nodes[(int)Pattern_ChainFromComplete.ChainFromComplete_NodeNums.@from] = candidate_ChainFromComplete_node_from;
                     match.EmbeddedGraphs[((int)Pattern_ChainFromComplete.ChainFromComplete_AltNums.@alt_0)+0] = currentFoundPartialMatch.Pop();
                     currentFoundPartialMatch.Push(match);
                 }
@@ -1480,7 +1540,7 @@ label2: ;
                 openTasks.Push(this);
                 return;
             }
-            node_cur_ChainFromComplete_node_from.isMatchedByEnclosingPattern = false;
+            candidate_ChainFromComplete_node_from.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
             openTasks.Push(this);
             return;
         }
@@ -1495,8 +1555,9 @@ label2: ;
 
         public LGSPNode ChainFromComplete_node_from;
         
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            const int MAX_NEG_LEVEL = 5;
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
@@ -1504,43 +1565,78 @@ label2: ;
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_CaseNums.@base];
                 // SubPreset ChainFromComplete_node_from 
-                LGSPNode node_cur_ChainFromComplete_node_from = ChainFromComplete_node_from;
+                LGSPNode candidate_ChainFromComplete_node_from = ChainFromComplete_node_from;
                 // NegativePattern 
                 {
-                    bool node_cur_ChainFromComplete_node_from_prevIsMatchedNeg = node_cur_ChainFromComplete_node_from.isMatchedNeg;
-                    node_cur_ChainFromComplete_node_from.isMatchedNeg = true;
+                    ++negLevel;
+                    if(negLevel > MAX_NEG_LEVEL && negLevel-MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {
+                        graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst = new Dictionary<LGSPNode, LGSPNode>();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd = new Dictionary<LGSPEdge, LGSPEdge>();
+                    }
+                    uint prev_neg_0__candidate_ChainFromComplete_node_from;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        prev_neg_0__candidate_ChainFromComplete_node_from = candidate_ChainFromComplete_node_from.flags & LGSPNode.IS_MATCHED<<negLevel;
+                        candidate_ChainFromComplete_node_from.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                    } else {
+                        prev_neg_0__candidate_ChainFromComplete_node_from = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ChainFromComplete_node_from) ? 1U : 0U;
+                        if(prev_neg_0__candidate_ChainFromComplete_node_from==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_ChainFromComplete_node_from,candidate_ChainFromComplete_node_from);
+                    }
                     // Extend outgoing ChainFromComplete_alt_0_base_neg_0_edge__edge0 from ChainFromComplete_node_from 
-                    LGSPEdge edge_head_ChainFromComplete_alt_0_base_neg_0_edge__edge0 = node_cur_ChainFromComplete_node_from.outhead;
-                    if(edge_head_ChainFromComplete_alt_0_base_neg_0_edge__edge0 != null)
+                    LGSPEdge head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0 = candidate_ChainFromComplete_node_from.outhead;
+                    if(head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0 != null)
                     {
-                        LGSPEdge edge_cur_ChainFromComplete_alt_0_base_neg_0_edge__edge0 = edge_head_ChainFromComplete_alt_0_base_neg_0_edge__edge0;
+                        LGSPEdge candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0 = head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_Edge.isMyType[edge_cur_ChainFromComplete_alt_0_base_neg_0_edge__edge0.type.TypeID]) {
+                            if(!EdgeType_Edge.isMyType[candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0.type.TypeID]) {
                                 continue;
                             }
-                            if(edge_cur_ChainFromComplete_alt_0_base_neg_0_edge__edge0.isMatchedByEnclosingPattern)
+                            if((candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0.flags & LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)
                             {
                                 continue;
                             }
                             // Implicit target ChainFromComplete_alt_0_base_neg_0_node__node0 from ChainFromComplete_alt_0_base_neg_0_edge__edge0 
-                            LGSPNode node_cur_ChainFromComplete_alt_0_base_neg_0_node__node0 = edge_cur_ChainFromComplete_alt_0_base_neg_0_edge__edge0.target;
-                            if(node_cur_ChainFromComplete_alt_0_base_neg_0_node__node0.isMatchedNeg
-                                && node_cur_ChainFromComplete_alt_0_base_neg_0_node__node0==node_cur_ChainFromComplete_node_from
+                            LGSPNode candidate_ChainFromComplete_alt_0_base_neg_0_node__node0 = candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0.target;
+                            if((negLevel<=MAX_NEG_LEVEL ? (candidate_ChainFromComplete_alt_0_base_neg_0_node__node0.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ChainFromComplete_alt_0_base_neg_0_node__node0))
+                                && candidate_ChainFromComplete_alt_0_base_neg_0_node__node0==candidate_ChainFromComplete_node_from
                                 )
                             {
                                 continue;
                             }
-                            if(node_cur_ChainFromComplete_alt_0_base_neg_0_node__node0.isMatchedByEnclosingPattern)
+                            if((candidate_ChainFromComplete_alt_0_base_neg_0_node__node0.flags & LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)
                             {
                                 continue;
                             }
-                            node_cur_ChainFromComplete_node_from.isMatchedNeg = node_cur_ChainFromComplete_node_from_prevIsMatchedNeg;
+                            // negative pattern found
+                            if(negLevel <= MAX_NEG_LEVEL) {
+                                candidate_ChainFromComplete_node_from.flags = candidate_ChainFromComplete_node_from.flags & ~prev_neg_0__candidate_ChainFromComplete_node_from | prev_neg_0__candidate_ChainFromComplete_node_from;
+                            } else { 
+                                if(prev_neg_0__candidate_ChainFromComplete_node_from==0) {
+                                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ChainFromComplete_node_from);
+                                }
+                            }
+                            if(negLevel > MAX_NEG_LEVEL) {
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                            }
+                            --negLevel;
                             goto label3;
                         }
-                        while( (edge_cur_ChainFromComplete_alt_0_base_neg_0_edge__edge0 = edge_cur_ChainFromComplete_alt_0_base_neg_0_edge__edge0.outNext) != edge_head_ChainFromComplete_alt_0_base_neg_0_edge__edge0 );
+                        while( (candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0 = candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0.outNext) != head_candidate_ChainFromComplete_alt_0_base_neg_0_edge__edge0 );
                     }
-                    node_cur_ChainFromComplete_node_from.isMatchedNeg = node_cur_ChainFromComplete_node_from_prevIsMatchedNeg;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        candidate_ChainFromComplete_node_from.flags = candidate_ChainFromComplete_node_from.flags & ~prev_neg_0__candidate_ChainFromComplete_node_from | prev_neg_0__candidate_ChainFromComplete_node_from;
+                    } else { 
+                        if(prev_neg_0__candidate_ChainFromComplete_node_from==0) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ChainFromComplete_node_from);
+                        }
+                    }
+                    if(negLevel > MAX_NEG_LEVEL) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                    }
+                    --negLevel;
                 }
                 // Check whether there are subpattern matching tasks left to execute
                 if(openTasks.Count==0)
@@ -1549,7 +1645,7 @@ label2: ;
                     foundPartialMatches.Add(currentFoundPartialMatch);
                     LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0]);
                     match.patternGraph = patternGraph;
-                    match.Nodes[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_base_NodeNums.@from] = node_cur_ChainFromComplete_node_from;
+                    match.Nodes[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_base_NodeNums.@from] = candidate_ChainFromComplete_node_from;
                     currentFoundPartialMatch.Push(match);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -1559,8 +1655,8 @@ label2: ;
                     }
                     goto label4;
                 }
-                // Match subpatterns
-                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                // Match subpatterns 
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -1568,7 +1664,7 @@ label2: ;
                     {
                         LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+0]);
                         match.patternGraph = patternGraph;
-                        match.Nodes[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_base_NodeNums.@from] = node_cur_ChainFromComplete_node_from;
+                        match.Nodes[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_base_NodeNums.@from] = candidate_ChainFromComplete_node_from;
                         currentFoundPartialMatch.Push(match);
                     }
                     if(matchesList==foundPartialMatches) {
@@ -1587,7 +1683,7 @@ label2: ;
                     }
                     goto label5;
                 }
-                node_cur_ChainFromComplete_node_from.isMatchedByEnclosingPattern = false;
+                candidate_ChainFromComplete_node_from.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
 label3: ;
 label4: ;
 label5: ;
@@ -1604,41 +1700,41 @@ label5: ;
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_CaseNums.@rec];
                 // SubPreset ChainFromComplete_node_from 
-                LGSPNode node_cur_ChainFromComplete_node_from = ChainFromComplete_node_from;
+                LGSPNode candidate_ChainFromComplete_node_from = ChainFromComplete_node_from;
                 // Extend outgoing ChainFromComplete_alt_0_rec_edge__edge0 from ChainFromComplete_node_from 
-                LGSPEdge edge_head_ChainFromComplete_alt_0_rec_edge__edge0 = node_cur_ChainFromComplete_node_from.outhead;
-                if(edge_head_ChainFromComplete_alt_0_rec_edge__edge0 != null)
+                LGSPEdge head_candidate_ChainFromComplete_alt_0_rec_edge__edge0 = candidate_ChainFromComplete_node_from.outhead;
+                if(head_candidate_ChainFromComplete_alt_0_rec_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_ChainFromComplete_alt_0_rec_edge__edge0 = edge_head_ChainFromComplete_alt_0_rec_edge__edge0;
+                    LGSPEdge candidate_ChainFromComplete_alt_0_rec_edge__edge0 = head_candidate_ChainFromComplete_alt_0_rec_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[edge_cur_ChainFromComplete_alt_0_rec_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_Edge.isMyType[candidate_ChainFromComplete_alt_0_rec_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        if(edge_cur_ChainFromComplete_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern)
+                        if((candidate_ChainFromComplete_alt_0_rec_edge__edge0.flags & LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)
                         {
                             continue;
                         }
                         // Implicit target ChainFromComplete_alt_0_rec_node_to from ChainFromComplete_alt_0_rec_edge__edge0 
-                        LGSPNode node_cur_ChainFromComplete_alt_0_rec_node_to = edge_cur_ChainFromComplete_alt_0_rec_edge__edge0.target;
-                        if(node_cur_ChainFromComplete_alt_0_rec_node_to.isMatched
-                            && node_cur_ChainFromComplete_alt_0_rec_node_to==node_cur_ChainFromComplete_node_from
+                        LGSPNode candidate_ChainFromComplete_alt_0_rec_node_to = candidate_ChainFromComplete_alt_0_rec_edge__edge0.target;
+                        if((negLevel<=MAX_NEG_LEVEL ? (candidate_ChainFromComplete_alt_0_rec_node_to.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ChainFromComplete_alt_0_rec_node_to))
+                            && candidate_ChainFromComplete_alt_0_rec_node_to==candidate_ChainFromComplete_node_from
                             )
                         {
                             continue;
                         }
-                        if(node_cur_ChainFromComplete_alt_0_rec_node_to.isMatchedByEnclosingPattern)
+                        if((candidate_ChainFromComplete_alt_0_rec_node_to.flags & LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)
                         {
                             continue;
                         }
                         // Push subpattern matching task for _subpattern0
                         PatternAction_ChainFromComplete taskFor__subpattern0 = new PatternAction_ChainFromComplete(graph, openTasks);
-                        taskFor__subpattern0.ChainFromComplete_node_from = node_cur_ChainFromComplete_alt_0_rec_node_to;
+                        taskFor__subpattern0.ChainFromComplete_node_from = candidate_ChainFromComplete_alt_0_rec_node_to;
                         openTasks.Push(taskFor__subpattern0);
-                        node_cur_ChainFromComplete_alt_0_rec_node_to.isMatchedByEnclosingPattern = true;
-                        edge_cur_ChainFromComplete_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = true;
-                        // Match subpatterns
-                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                        candidate_ChainFromComplete_alt_0_rec_node_to.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFromComplete_alt_0_rec_edge__edge0.flags |= LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        // Match subpatterns 
+                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for _subpattern0
                         openTasks.Pop();
                         // Check whether subpatterns were found 
@@ -1648,9 +1744,9 @@ label5: ;
                             {
                                 LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[1+0]);
                                 match.patternGraph = patternGraph;
-                                match.Nodes[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_rec_NodeNums.@from] = node_cur_ChainFromComplete_node_from;
-                                match.Nodes[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_rec_NodeNums.@to] = node_cur_ChainFromComplete_alt_0_rec_node_to;
-                                match.Edges[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_rec_EdgeNums.@_edge0] = edge_cur_ChainFromComplete_alt_0_rec_edge__edge0;
+                                match.Nodes[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_rec_NodeNums.@from] = candidate_ChainFromComplete_node_from;
+                                match.Nodes[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_rec_NodeNums.@to] = candidate_ChainFromComplete_alt_0_rec_node_to;
+                                match.Edges[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_rec_EdgeNums.@_edge0] = candidate_ChainFromComplete_alt_0_rec_edge__edge0;
                                 match.EmbeddedGraphs[(int)Pattern_ChainFromComplete.ChainFromComplete_alt_0_rec_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                                 currentFoundPartialMatch.Push(match);
                             }
@@ -1665,20 +1761,20 @@ label5: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                edge_cur_ChainFromComplete_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = false;
-                                node_cur_ChainFromComplete_alt_0_rec_node_to.isMatchedByEnclosingPattern = false;
+                                candidate_ChainFromComplete_alt_0_rec_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                                candidate_ChainFromComplete_alt_0_rec_node_to.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                                 openTasks.Push(this);
                                 return;
                             }
-                            edge_cur_ChainFromComplete_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = false;
-                            node_cur_ChainFromComplete_alt_0_rec_node_to.isMatchedByEnclosingPattern = false;
+                            candidate_ChainFromComplete_alt_0_rec_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                            candidate_ChainFromComplete_alt_0_rec_node_to.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                             continue;
                         }
-                        node_cur_ChainFromComplete_node_from.isMatchedByEnclosingPattern = false;
-                        node_cur_ChainFromComplete_alt_0_rec_node_to.isMatchedByEnclosingPattern = false;
-                        edge_cur_ChainFromComplete_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = false;
+                        candidate_ChainFromComplete_node_from.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFromComplete_alt_0_rec_node_to.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFromComplete_alt_0_rec_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     }
-                    while( (edge_cur_ChainFromComplete_alt_0_rec_edge__edge0 = edge_cur_ChainFromComplete_alt_0_rec_edge__edge0.outNext) != edge_head_ChainFromComplete_alt_0_rec_edge__edge0 );
+                    while( (candidate_ChainFromComplete_alt_0_rec_edge__edge0 = candidate_ChainFromComplete_alt_0_rec_edge__edge0.outNext) != head_candidate_ChainFromComplete_alt_0_rec_edge__edge0 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -1696,22 +1792,23 @@ label5: ;
         public LGSPNode ChainFromTo_node_from;
         public LGSPNode ChainFromTo_node_to;
         
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            const int MAX_NEG_LEVEL = 5;
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // SubPreset ChainFromTo_node_from 
-            LGSPNode node_cur_ChainFromTo_node_from = ChainFromTo_node_from;
+            LGSPNode candidate_ChainFromTo_node_from = ChainFromTo_node_from;
             // SubPreset ChainFromTo_node_to 
-            LGSPNode node_cur_ChainFromTo_node_to = ChainFromTo_node_to;
+            LGSPNode candidate_ChainFromTo_node_to = ChainFromTo_node_to;
             // Push alternative matching task for ChainFromTo_alt_0
             AlternativeAction_ChainFromTo_alt_0 taskFor_alt_0 = new AlternativeAction_ChainFromTo_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromTo.ChainFromTo_AltNums.@alt_0].alternativeCases);
-            taskFor_alt_0.ChainFromTo_node_from = node_cur_ChainFromTo_node_from;
-            taskFor_alt_0.ChainFromTo_node_to = node_cur_ChainFromTo_node_to;
+            taskFor_alt_0.ChainFromTo_node_from = candidate_ChainFromTo_node_from;
+            taskFor_alt_0.ChainFromTo_node_to = candidate_ChainFromTo_node_to;
             openTasks.Push(taskFor_alt_0);
-            // Match subpatterns
-            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            // Match subpatterns 
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
             // Check whether subpatterns were found 
@@ -1721,8 +1818,8 @@ label5: ;
                 {
                     LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[0], new LGSPMatch[0+1]);
                     match.patternGraph = patternGraph;
-                    match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_NodeNums.@from] = node_cur_ChainFromTo_node_from;
-                    match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_NodeNums.@to] = node_cur_ChainFromTo_node_to;
+                    match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_NodeNums.@from] = candidate_ChainFromTo_node_from;
+                    match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_NodeNums.@to] = candidate_ChainFromTo_node_to;
                     match.EmbeddedGraphs[((int)Pattern_ChainFromTo.ChainFromTo_AltNums.@alt_0)+0] = currentFoundPartialMatch.Pop();
                     currentFoundPartialMatch.Push(match);
                 }
@@ -1743,8 +1840,8 @@ label5: ;
                 openTasks.Push(this);
                 return;
             }
-            node_cur_ChainFromTo_node_from.isMatchedByEnclosingPattern = false;
-            node_cur_ChainFromTo_node_to.isMatchedByEnclosingPattern = false;
+            candidate_ChainFromTo_node_from.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+            candidate_ChainFromTo_node_to.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
             openTasks.Push(this);
             return;
         }
@@ -1760,8 +1857,9 @@ label5: ;
         public LGSPNode ChainFromTo_node_from;
         public LGSPNode ChainFromTo_node_to;
         
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            const int MAX_NEG_LEVEL = 5;
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
@@ -1769,23 +1867,23 @@ label5: ;
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_CaseNums.@base];
                 // SubPreset ChainFromTo_node_from 
-                LGSPNode node_cur_ChainFromTo_node_from = ChainFromTo_node_from;
+                LGSPNode candidate_ChainFromTo_node_from = ChainFromTo_node_from;
                 // SubPreset ChainFromTo_node_to 
-                LGSPNode node_cur_ChainFromTo_node_to = ChainFromTo_node_to;
+                LGSPNode candidate_ChainFromTo_node_to = ChainFromTo_node_to;
                 // Extend outgoing ChainFromTo_alt_0_base_edge__edge0 from ChainFromTo_node_from 
-                LGSPEdge edge_head_ChainFromTo_alt_0_base_edge__edge0 = node_cur_ChainFromTo_node_from.outhead;
-                if(edge_head_ChainFromTo_alt_0_base_edge__edge0 != null)
+                LGSPEdge head_candidate_ChainFromTo_alt_0_base_edge__edge0 = candidate_ChainFromTo_node_from.outhead;
+                if(head_candidate_ChainFromTo_alt_0_base_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_ChainFromTo_alt_0_base_edge__edge0 = edge_head_ChainFromTo_alt_0_base_edge__edge0;
+                    LGSPEdge candidate_ChainFromTo_alt_0_base_edge__edge0 = head_candidate_ChainFromTo_alt_0_base_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[edge_cur_ChainFromTo_alt_0_base_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_Edge.isMyType[candidate_ChainFromTo_alt_0_base_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        if(edge_cur_ChainFromTo_alt_0_base_edge__edge0.target != node_cur_ChainFromTo_node_to) {
+                        if(candidate_ChainFromTo_alt_0_base_edge__edge0.target != candidate_ChainFromTo_node_to) {
                             continue;
                         }
-                        if(edge_cur_ChainFromTo_alt_0_base_edge__edge0.isMatchedByEnclosingPattern)
+                        if((candidate_ChainFromTo_alt_0_base_edge__edge0.flags & LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)
                         {
                             continue;
                         }
@@ -1796,9 +1894,9 @@ label5: ;
                             foundPartialMatches.Add(currentFoundPartialMatch);
                             LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0]);
                             match.patternGraph = patternGraph;
-                            match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_NodeNums.@from] = node_cur_ChainFromTo_node_from;
-                            match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_NodeNums.@to] = node_cur_ChainFromTo_node_to;
-                            match.Edges[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_EdgeNums.@_edge0] = edge_cur_ChainFromTo_alt_0_base_edge__edge0;
+                            match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_NodeNums.@from] = candidate_ChainFromTo_node_from;
+                            match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_NodeNums.@to] = candidate_ChainFromTo_node_to;
+                            match.Edges[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_EdgeNums.@_edge0] = candidate_ChainFromTo_alt_0_base_edge__edge0;
                             currentFoundPartialMatch.Push(match);
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
@@ -1808,9 +1906,9 @@ label5: ;
                             }
                             continue;
                         }
-                        edge_cur_ChainFromTo_alt_0_base_edge__edge0.isMatchedByEnclosingPattern = true;
-                        // Match subpatterns
-                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                        candidate_ChainFromTo_alt_0_base_edge__edge0.flags |= LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        // Match subpatterns 
+                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -1818,9 +1916,9 @@ label5: ;
                             {
                                 LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0+0]);
                                 match.patternGraph = patternGraph;
-                                match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_NodeNums.@from] = node_cur_ChainFromTo_node_from;
-                                match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_NodeNums.@to] = node_cur_ChainFromTo_node_to;
-                                match.Edges[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_EdgeNums.@_edge0] = edge_cur_ChainFromTo_alt_0_base_edge__edge0;
+                                match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_NodeNums.@from] = candidate_ChainFromTo_node_from;
+                                match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_NodeNums.@to] = candidate_ChainFromTo_node_to;
+                                match.Edges[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_base_EdgeNums.@_edge0] = candidate_ChainFromTo_alt_0_base_edge__edge0;
                                 currentFoundPartialMatch.Push(match);
                             }
                             if(matchesList==foundPartialMatches) {
@@ -1834,18 +1932,18 @@ label5: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                edge_cur_ChainFromTo_alt_0_base_edge__edge0.isMatchedByEnclosingPattern = false;
+                                candidate_ChainFromTo_alt_0_base_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
                                 openTasks.Push(this);
                                 return;
                             }
-                            edge_cur_ChainFromTo_alt_0_base_edge__edge0.isMatchedByEnclosingPattern = false;
+                            candidate_ChainFromTo_alt_0_base_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
                             continue;
                         }
-                        node_cur_ChainFromTo_node_from.isMatchedByEnclosingPattern = false;
-                        node_cur_ChainFromTo_node_to.isMatchedByEnclosingPattern = false;
-                        edge_cur_ChainFromTo_alt_0_base_edge__edge0.isMatchedByEnclosingPattern = false;
+                        candidate_ChainFromTo_node_from.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFromTo_node_to.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFromTo_alt_0_base_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     }
-                    while( (edge_cur_ChainFromTo_alt_0_base_edge__edge0 = edge_cur_ChainFromTo_alt_0_base_edge__edge0.outNext) != edge_head_ChainFromTo_alt_0_base_edge__edge0 );
+                    while( (candidate_ChainFromTo_alt_0_base_edge__edge0 = candidate_ChainFromTo_alt_0_base_edge__edge0.outNext) != head_candidate_ChainFromTo_alt_0_base_edge__edge0 );
                 }
             } while(false);
             if(matchesList==foundPartialMatches) {
@@ -1860,44 +1958,44 @@ label5: ;
             do {
                 patternGraph = patternGraphs[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_CaseNums.@rec];
                 // SubPreset ChainFromTo_node_from 
-                LGSPNode node_cur_ChainFromTo_node_from = ChainFromTo_node_from;
+                LGSPNode candidate_ChainFromTo_node_from = ChainFromTo_node_from;
                 // SubPreset ChainFromTo_node_to 
-                LGSPNode node_cur_ChainFromTo_node_to = ChainFromTo_node_to;
+                LGSPNode candidate_ChainFromTo_node_to = ChainFromTo_node_to;
                 // Extend outgoing ChainFromTo_alt_0_rec_edge__edge0 from ChainFromTo_node_from 
-                LGSPEdge edge_head_ChainFromTo_alt_0_rec_edge__edge0 = node_cur_ChainFromTo_node_from.outhead;
-                if(edge_head_ChainFromTo_alt_0_rec_edge__edge0 != null)
+                LGSPEdge head_candidate_ChainFromTo_alt_0_rec_edge__edge0 = candidate_ChainFromTo_node_from.outhead;
+                if(head_candidate_ChainFromTo_alt_0_rec_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_ChainFromTo_alt_0_rec_edge__edge0 = edge_head_ChainFromTo_alt_0_rec_edge__edge0;
+                    LGSPEdge candidate_ChainFromTo_alt_0_rec_edge__edge0 = head_candidate_ChainFromTo_alt_0_rec_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[edge_cur_ChainFromTo_alt_0_rec_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_Edge.isMyType[candidate_ChainFromTo_alt_0_rec_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        if(edge_cur_ChainFromTo_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern)
+                        if((candidate_ChainFromTo_alt_0_rec_edge__edge0.flags & LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN)
                         {
                             continue;
                         }
                         // Implicit target ChainFromTo_alt_0_rec_node_intermediate from ChainFromTo_alt_0_rec_edge__edge0 
-                        LGSPNode node_cur_ChainFromTo_alt_0_rec_node_intermediate = edge_cur_ChainFromTo_alt_0_rec_edge__edge0.target;
-                        if(node_cur_ChainFromTo_alt_0_rec_node_intermediate.isMatched
-                            && node_cur_ChainFromTo_alt_0_rec_node_intermediate==node_cur_ChainFromTo_node_from
+                        LGSPNode candidate_ChainFromTo_alt_0_rec_node_intermediate = candidate_ChainFromTo_alt_0_rec_edge__edge0.target;
+                        if((negLevel<=MAX_NEG_LEVEL ? (candidate_ChainFromTo_alt_0_rec_node_intermediate.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ChainFromTo_alt_0_rec_node_intermediate))
+                            && candidate_ChainFromTo_alt_0_rec_node_intermediate==candidate_ChainFromTo_node_from
                             )
                         {
                             continue;
                         }
-                        if(node_cur_ChainFromTo_alt_0_rec_node_intermediate.isMatchedByEnclosingPattern)
+                        if((candidate_ChainFromTo_alt_0_rec_node_intermediate.flags & LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)==LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN)
                         {
                             continue;
                         }
                         // Push subpattern matching task for _subpattern0
                         PatternAction_ChainFromTo taskFor__subpattern0 = new PatternAction_ChainFromTo(graph, openTasks);
-                        taskFor__subpattern0.ChainFromTo_node_from = node_cur_ChainFromTo_alt_0_rec_node_intermediate;
-                        taskFor__subpattern0.ChainFromTo_node_to = node_cur_ChainFromTo_node_to;
+                        taskFor__subpattern0.ChainFromTo_node_from = candidate_ChainFromTo_alt_0_rec_node_intermediate;
+                        taskFor__subpattern0.ChainFromTo_node_to = candidate_ChainFromTo_node_to;
                         openTasks.Push(taskFor__subpattern0);
-                        node_cur_ChainFromTo_alt_0_rec_node_intermediate.isMatchedByEnclosingPattern = true;
-                        edge_cur_ChainFromTo_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = true;
-                        // Match subpatterns
-                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                        candidate_ChainFromTo_alt_0_rec_node_intermediate.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFromTo_alt_0_rec_edge__edge0.flags |= LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        // Match subpatterns 
+                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for _subpattern0
                         openTasks.Pop();
                         // Check whether subpatterns were found 
@@ -1907,10 +2005,10 @@ label5: ;
                             {
                                 LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[1], new LGSPMatch[1+0]);
                                 match.patternGraph = patternGraph;
-                                match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_rec_NodeNums.@from] = node_cur_ChainFromTo_node_from;
-                                match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_rec_NodeNums.@intermediate] = node_cur_ChainFromTo_alt_0_rec_node_intermediate;
-                                match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_rec_NodeNums.@to] = node_cur_ChainFromTo_node_to;
-                                match.Edges[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_rec_EdgeNums.@_edge0] = edge_cur_ChainFromTo_alt_0_rec_edge__edge0;
+                                match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_rec_NodeNums.@from] = candidate_ChainFromTo_node_from;
+                                match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_rec_NodeNums.@intermediate] = candidate_ChainFromTo_alt_0_rec_node_intermediate;
+                                match.Nodes[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_rec_NodeNums.@to] = candidate_ChainFromTo_node_to;
+                                match.Edges[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_rec_EdgeNums.@_edge0] = candidate_ChainFromTo_alt_0_rec_edge__edge0;
                                 match.EmbeddedGraphs[(int)Pattern_ChainFromTo.ChainFromTo_alt_0_rec_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                                 currentFoundPartialMatch.Push(match);
                             }
@@ -1925,21 +2023,21 @@ label5: ;
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
-                                edge_cur_ChainFromTo_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = false;
-                                node_cur_ChainFromTo_alt_0_rec_node_intermediate.isMatchedByEnclosingPattern = false;
+                                candidate_ChainFromTo_alt_0_rec_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                                candidate_ChainFromTo_alt_0_rec_node_intermediate.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                                 openTasks.Push(this);
                                 return;
                             }
-                            edge_cur_ChainFromTo_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = false;
-                            node_cur_ChainFromTo_alt_0_rec_node_intermediate.isMatchedByEnclosingPattern = false;
+                            candidate_ChainFromTo_alt_0_rec_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                            candidate_ChainFromTo_alt_0_rec_node_intermediate.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                             continue;
                         }
-                        node_cur_ChainFromTo_node_from.isMatchedByEnclosingPattern = false;
-                        node_cur_ChainFromTo_alt_0_rec_node_intermediate.isMatchedByEnclosingPattern = false;
-                        node_cur_ChainFromTo_node_to.isMatchedByEnclosingPattern = false;
-                        edge_cur_ChainFromTo_alt_0_rec_edge__edge0.isMatchedByEnclosingPattern = false;
+                        candidate_ChainFromTo_node_from.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFromTo_alt_0_rec_node_intermediate.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFromTo_node_to.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_ChainFromTo_alt_0_rec_edge__edge0.flags &= ~LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     }
-                    while( (edge_cur_ChainFromTo_alt_0_rec_edge__edge0 = edge_cur_ChainFromTo_alt_0_rec_edge__edge0.outNext) != edge_head_ChainFromTo_alt_0_rec_edge__edge0 );
+                    while( (candidate_ChainFromTo_alt_0_rec_edge__edge0 = candidate_ChainFromTo_alt_0_rec_edge__edge0.outNext) != head_candidate_ChainFromTo_alt_0_rec_edge__edge0 );
                 }
             } while(false);
             openTasks.Push(this);
@@ -1964,12 +2062,14 @@ label5: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Preset blowball_node_head 
-            LGSPNode node_cur_blowball_node_head = (LGSPNode) parameters[0];
-            if(node_cur_blowball_node_head == null) {
+            LGSPNode candidate_blowball_node_head = (LGSPNode) parameters[0];
+            if(candidate_blowball_node_head == null) {
                 MissingPreset_blowball_node_head(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -1980,11 +2080,11 @@ label5: ;
             }
             // Push subpattern matching task for _subpattern0
             PatternAction_Blowball taskFor__subpattern0 = new PatternAction_Blowball(graph, openTasks);
-            taskFor__subpattern0.Blowball_node_head = node_cur_blowball_node_head;
+            taskFor__subpattern0.Blowball_node_head = candidate_blowball_node_head;
             openTasks.Push(taskFor__subpattern0);
-            node_cur_blowball_node_head.isMatchedByEnclosingPattern = true;
-            // Match subpatterns
-            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            candidate_blowball_node_head.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+            // Match subpatterns 
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
             // Check whether subpatterns were found 
@@ -1994,7 +2094,7 @@ label5: ;
                 {
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_blowball.blowball_NodeNums.@head] = node_cur_blowball_node_head;
+                    match.Nodes[(int)Rule_blowball.blowball_NodeNums.@head] = candidate_blowball_node_head;
                     match.EmbeddedGraphs[(int)Rule_blowball.blowball_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                     matches.matchesList.PositionWasFilledFixIt();
                 }
@@ -2002,28 +2102,30 @@ label5: ;
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
-                    node_cur_blowball_node_head.isMatchedByEnclosingPattern = false;
+                    candidate_blowball_node_head.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     return matches;
                 }
-                node_cur_blowball_node_head.isMatchedByEnclosingPattern = false;
+                candidate_blowball_node_head.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                 return matches;
             }
-            node_cur_blowball_node_head.isMatchedByEnclosingPattern = false;
+            candidate_blowball_node_head.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
             return matches;
         }
         public void MissingPreset_blowball_node_head(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup blowball_node_head 
-            int node_type_id_blowball_node_head = 0;
-            for(LGSPNode node_head_blowball_node_head = graph.nodesByTypeHeads[node_type_id_blowball_node_head], node_cur_blowball_node_head = node_head_blowball_node_head.typeNext; node_cur_blowball_node_head != node_head_blowball_node_head; node_cur_blowball_node_head = node_cur_blowball_node_head.typeNext)
+            int type_id_candidate_blowball_node_head = 0;
+            for(LGSPNode head_candidate_blowball_node_head = graph.nodesByTypeHeads[type_id_candidate_blowball_node_head], candidate_blowball_node_head = head_candidate_blowball_node_head.typeNext; candidate_blowball_node_head != head_candidate_blowball_node_head; candidate_blowball_node_head = candidate_blowball_node_head.typeNext)
             {
                 // Push subpattern matching task for _subpattern0
                 PatternAction_Blowball taskFor__subpattern0 = new PatternAction_Blowball(graph, openTasks);
-                taskFor__subpattern0.Blowball_node_head = node_cur_blowball_node_head;
+                taskFor__subpattern0.Blowball_node_head = candidate_blowball_node_head;
                 openTasks.Push(taskFor__subpattern0);
-                node_cur_blowball_node_head.isMatchedByEnclosingPattern = true;
-                // Match subpatterns
-                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                candidate_blowball_node_head.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                // Match subpatterns 
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
                 // Check whether subpatterns were found 
@@ -2033,7 +2135,7 @@ label5: ;
                     {
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_blowball.blowball_NodeNums.@head] = node_cur_blowball_node_head;
+                        match.Nodes[(int)Rule_blowball.blowball_NodeNums.@head] = candidate_blowball_node_head;
                         match.EmbeddedGraphs[(int)Rule_blowball.blowball_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                         matches.matchesList.PositionWasFilledFixIt();
                     }
@@ -2041,13 +2143,13 @@ label5: ;
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
-                        node_cur_blowball_node_head.isMatchedByEnclosingPattern = false;
+                        candidate_blowball_node_head.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                         return;
                     }
-                    node_cur_blowball_node_head.isMatchedByEnclosingPattern = false;
+                    candidate_blowball_node_head.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     continue;
                 }
-                node_cur_blowball_node_head.isMatchedByEnclosingPattern = false;
+                candidate_blowball_node_head.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
             }
             return;
         }
@@ -2070,12 +2172,14 @@ label5: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Preset chainFrom_node_beg 
-            LGSPNode node_cur_chainFrom_node_beg = (LGSPNode) parameters[0];
-            if(node_cur_chainFrom_node_beg == null) {
+            LGSPNode candidate_chainFrom_node_beg = (LGSPNode) parameters[0];
+            if(candidate_chainFrom_node_beg == null) {
                 MissingPreset_chainFrom_node_beg(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -2086,11 +2190,11 @@ label5: ;
             }
             // Push subpattern matching task for _subpattern0
             PatternAction_ChainFrom taskFor__subpattern0 = new PatternAction_ChainFrom(graph, openTasks);
-            taskFor__subpattern0.ChainFrom_node_from = node_cur_chainFrom_node_beg;
+            taskFor__subpattern0.ChainFrom_node_from = candidate_chainFrom_node_beg;
             openTasks.Push(taskFor__subpattern0);
-            node_cur_chainFrom_node_beg.isMatchedByEnclosingPattern = true;
-            // Match subpatterns
-            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            candidate_chainFrom_node_beg.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+            // Match subpatterns 
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
             // Check whether subpatterns were found 
@@ -2100,7 +2204,7 @@ label5: ;
                 {
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_chainFrom.chainFrom_NodeNums.@beg] = node_cur_chainFrom_node_beg;
+                    match.Nodes[(int)Rule_chainFrom.chainFrom_NodeNums.@beg] = candidate_chainFrom_node_beg;
                     match.EmbeddedGraphs[(int)Rule_chainFrom.chainFrom_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                     matches.matchesList.PositionWasFilledFixIt();
                 }
@@ -2108,28 +2212,30 @@ label5: ;
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
-                    node_cur_chainFrom_node_beg.isMatchedByEnclosingPattern = false;
+                    candidate_chainFrom_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     return matches;
                 }
-                node_cur_chainFrom_node_beg.isMatchedByEnclosingPattern = false;
+                candidate_chainFrom_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                 return matches;
             }
-            node_cur_chainFrom_node_beg.isMatchedByEnclosingPattern = false;
+            candidate_chainFrom_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
             return matches;
         }
         public void MissingPreset_chainFrom_node_beg(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup chainFrom_node_beg 
-            int node_type_id_chainFrom_node_beg = 0;
-            for(LGSPNode node_head_chainFrom_node_beg = graph.nodesByTypeHeads[node_type_id_chainFrom_node_beg], node_cur_chainFrom_node_beg = node_head_chainFrom_node_beg.typeNext; node_cur_chainFrom_node_beg != node_head_chainFrom_node_beg; node_cur_chainFrom_node_beg = node_cur_chainFrom_node_beg.typeNext)
+            int type_id_candidate_chainFrom_node_beg = 0;
+            for(LGSPNode head_candidate_chainFrom_node_beg = graph.nodesByTypeHeads[type_id_candidate_chainFrom_node_beg], candidate_chainFrom_node_beg = head_candidate_chainFrom_node_beg.typeNext; candidate_chainFrom_node_beg != head_candidate_chainFrom_node_beg; candidate_chainFrom_node_beg = candidate_chainFrom_node_beg.typeNext)
             {
                 // Push subpattern matching task for _subpattern0
                 PatternAction_ChainFrom taskFor__subpattern0 = new PatternAction_ChainFrom(graph, openTasks);
-                taskFor__subpattern0.ChainFrom_node_from = node_cur_chainFrom_node_beg;
+                taskFor__subpattern0.ChainFrom_node_from = candidate_chainFrom_node_beg;
                 openTasks.Push(taskFor__subpattern0);
-                node_cur_chainFrom_node_beg.isMatchedByEnclosingPattern = true;
-                // Match subpatterns
-                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                candidate_chainFrom_node_beg.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                // Match subpatterns 
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
                 // Check whether subpatterns were found 
@@ -2139,7 +2245,7 @@ label5: ;
                     {
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_chainFrom.chainFrom_NodeNums.@beg] = node_cur_chainFrom_node_beg;
+                        match.Nodes[(int)Rule_chainFrom.chainFrom_NodeNums.@beg] = candidate_chainFrom_node_beg;
                         match.EmbeddedGraphs[(int)Rule_chainFrom.chainFrom_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                         matches.matchesList.PositionWasFilledFixIt();
                     }
@@ -2147,13 +2253,13 @@ label5: ;
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
-                        node_cur_chainFrom_node_beg.isMatchedByEnclosingPattern = false;
+                        candidate_chainFrom_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                         return;
                     }
-                    node_cur_chainFrom_node_beg.isMatchedByEnclosingPattern = false;
+                    candidate_chainFrom_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     continue;
                 }
-                node_cur_chainFrom_node_beg.isMatchedByEnclosingPattern = false;
+                candidate_chainFrom_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
             }
             return;
         }
@@ -2176,12 +2282,14 @@ label5: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Preset chainFromComplete_node_beg 
-            LGSPNode node_cur_chainFromComplete_node_beg = (LGSPNode) parameters[0];
-            if(node_cur_chainFromComplete_node_beg == null) {
+            LGSPNode candidate_chainFromComplete_node_beg = (LGSPNode) parameters[0];
+            if(candidate_chainFromComplete_node_beg == null) {
                 MissingPreset_chainFromComplete_node_beg(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -2192,11 +2300,11 @@ label5: ;
             }
             // Push subpattern matching task for _subpattern0
             PatternAction_ChainFromComplete taskFor__subpattern0 = new PatternAction_ChainFromComplete(graph, openTasks);
-            taskFor__subpattern0.ChainFromComplete_node_from = node_cur_chainFromComplete_node_beg;
+            taskFor__subpattern0.ChainFromComplete_node_from = candidate_chainFromComplete_node_beg;
             openTasks.Push(taskFor__subpattern0);
-            node_cur_chainFromComplete_node_beg.isMatchedByEnclosingPattern = true;
-            // Match subpatterns
-            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            candidate_chainFromComplete_node_beg.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+            // Match subpatterns 
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
             // Check whether subpatterns were found 
@@ -2206,7 +2314,7 @@ label5: ;
                 {
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_chainFromComplete.chainFromComplete_NodeNums.@beg] = node_cur_chainFromComplete_node_beg;
+                    match.Nodes[(int)Rule_chainFromComplete.chainFromComplete_NodeNums.@beg] = candidate_chainFromComplete_node_beg;
                     match.EmbeddedGraphs[(int)Rule_chainFromComplete.chainFromComplete_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                     matches.matchesList.PositionWasFilledFixIt();
                 }
@@ -2214,28 +2322,30 @@ label5: ;
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
-                    node_cur_chainFromComplete_node_beg.isMatchedByEnclosingPattern = false;
+                    candidate_chainFromComplete_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     return matches;
                 }
-                node_cur_chainFromComplete_node_beg.isMatchedByEnclosingPattern = false;
+                candidate_chainFromComplete_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                 return matches;
             }
-            node_cur_chainFromComplete_node_beg.isMatchedByEnclosingPattern = false;
+            candidate_chainFromComplete_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
             return matches;
         }
         public void MissingPreset_chainFromComplete_node_beg(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup chainFromComplete_node_beg 
-            int node_type_id_chainFromComplete_node_beg = 0;
-            for(LGSPNode node_head_chainFromComplete_node_beg = graph.nodesByTypeHeads[node_type_id_chainFromComplete_node_beg], node_cur_chainFromComplete_node_beg = node_head_chainFromComplete_node_beg.typeNext; node_cur_chainFromComplete_node_beg != node_head_chainFromComplete_node_beg; node_cur_chainFromComplete_node_beg = node_cur_chainFromComplete_node_beg.typeNext)
+            int type_id_candidate_chainFromComplete_node_beg = 0;
+            for(LGSPNode head_candidate_chainFromComplete_node_beg = graph.nodesByTypeHeads[type_id_candidate_chainFromComplete_node_beg], candidate_chainFromComplete_node_beg = head_candidate_chainFromComplete_node_beg.typeNext; candidate_chainFromComplete_node_beg != head_candidate_chainFromComplete_node_beg; candidate_chainFromComplete_node_beg = candidate_chainFromComplete_node_beg.typeNext)
             {
                 // Push subpattern matching task for _subpattern0
                 PatternAction_ChainFromComplete taskFor__subpattern0 = new PatternAction_ChainFromComplete(graph, openTasks);
-                taskFor__subpattern0.ChainFromComplete_node_from = node_cur_chainFromComplete_node_beg;
+                taskFor__subpattern0.ChainFromComplete_node_from = candidate_chainFromComplete_node_beg;
                 openTasks.Push(taskFor__subpattern0);
-                node_cur_chainFromComplete_node_beg.isMatchedByEnclosingPattern = true;
-                // Match subpatterns
-                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                candidate_chainFromComplete_node_beg.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                // Match subpatterns 
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
                 // Check whether subpatterns were found 
@@ -2245,7 +2355,7 @@ label5: ;
                     {
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_chainFromComplete.chainFromComplete_NodeNums.@beg] = node_cur_chainFromComplete_node_beg;
+                        match.Nodes[(int)Rule_chainFromComplete.chainFromComplete_NodeNums.@beg] = candidate_chainFromComplete_node_beg;
                         match.EmbeddedGraphs[(int)Rule_chainFromComplete.chainFromComplete_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                         matches.matchesList.PositionWasFilledFixIt();
                     }
@@ -2253,13 +2363,13 @@ label5: ;
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
-                        node_cur_chainFromComplete_node_beg.isMatchedByEnclosingPattern = false;
+                        candidate_chainFromComplete_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                         return;
                     }
-                    node_cur_chainFromComplete_node_beg.isMatchedByEnclosingPattern = false;
+                    candidate_chainFromComplete_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     continue;
                 }
-                node_cur_chainFromComplete_node_beg.isMatchedByEnclosingPattern = false;
+                candidate_chainFromComplete_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
             }
             return;
         }
@@ -2282,12 +2392,14 @@ label5: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Preset chainFromTo_node_beg 
-            LGSPNode node_cur_chainFromTo_node_beg = (LGSPNode) parameters[0];
-            if(node_cur_chainFromTo_node_beg == null) {
+            LGSPNode candidate_chainFromTo_node_beg = (LGSPNode) parameters[0];
+            if(candidate_chainFromTo_node_beg == null) {
                 MissingPreset_chainFromTo_node_beg(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -2296,37 +2408,61 @@ label5: ;
                 }
                 return matches;
             }
-            bool node_cur_chainFromTo_node_beg_prevIsMatched = node_cur_chainFromTo_node_beg.isMatched;
-            node_cur_chainFromTo_node_beg.isMatched = true;
+            uint prev__candidate_chainFromTo_node_beg;
+            if(negLevel <= MAX_NEG_LEVEL) {
+                prev__candidate_chainFromTo_node_beg = candidate_chainFromTo_node_beg.flags & LGSPNode.IS_MATCHED<<negLevel;
+                candidate_chainFromTo_node_beg.flags |= LGSPNode.IS_MATCHED<<negLevel;
+            } else {
+                prev__candidate_chainFromTo_node_beg = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_chainFromTo_node_beg) ? 1U : 0U;
+                if(prev__candidate_chainFromTo_node_beg==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_chainFromTo_node_beg,candidate_chainFromTo_node_beg);
+            }
             // Preset chainFromTo_node_end 
-            LGSPNode node_cur_chainFromTo_node_end = (LGSPNode) parameters[1];
-            if(node_cur_chainFromTo_node_end == null) {
-                MissingPreset_chainFromTo_node_end(graph, maxMatches, parameters, null, null, null, node_cur_chainFromTo_node_beg);
+            LGSPNode candidate_chainFromTo_node_end = (LGSPNode) parameters[1];
+            if(candidate_chainFromTo_node_end == null) {
+                MissingPreset_chainFromTo_node_end(graph, maxMatches, parameters, null, null, null, candidate_chainFromTo_node_beg);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
-                    node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+                    } else { 
+                        if(prev__candidate_chainFromTo_node_beg==0) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                        }
+                    }
                     return matches;
                 }
-                node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+                } else { 
+                    if(prev__candidate_chainFromTo_node_beg==0) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                    }
+                }
                 return matches;
             }
-            if(node_cur_chainFromTo_node_end.isMatched
-                && node_cur_chainFromTo_node_end==node_cur_chainFromTo_node_beg
+            if((negLevel<=MAX_NEG_LEVEL ? (candidate_chainFromTo_node_end.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_chainFromTo_node_end))
+                && candidate_chainFromTo_node_end==candidate_chainFromTo_node_beg
                 )
             {
-                node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+                } else { 
+                    if(prev__candidate_chainFromTo_node_beg==0) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                    }
+                }
                 return matches;
             }
             // Push subpattern matching task for _subpattern0
             PatternAction_ChainFromTo taskFor__subpattern0 = new PatternAction_ChainFromTo(graph, openTasks);
-            taskFor__subpattern0.ChainFromTo_node_from = node_cur_chainFromTo_node_beg;
-            taskFor__subpattern0.ChainFromTo_node_to = node_cur_chainFromTo_node_end;
+            taskFor__subpattern0.ChainFromTo_node_from = candidate_chainFromTo_node_beg;
+            taskFor__subpattern0.ChainFromTo_node_to = candidate_chainFromTo_node_end;
             openTasks.Push(taskFor__subpattern0);
-            node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = true;
-            node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = true;
-            // Match subpatterns
-            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            candidate_chainFromTo_node_beg.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+            candidate_chainFromTo_node_end.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+            // Match subpatterns 
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
             // Check whether subpatterns were found 
@@ -2336,8 +2472,8 @@ label5: ;
                 {
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@beg] = node_cur_chainFromTo_node_beg;
-                    match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@end] = node_cur_chainFromTo_node_end;
+                    match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@beg] = candidate_chainFromTo_node_beg;
+                    match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@end] = candidate_chainFromTo_node_end;
                     match.EmbeddedGraphs[(int)Rule_chainFromTo.chainFromTo_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                     matches.matchesList.PositionWasFilledFixIt();
                 }
@@ -2345,58 +2481,102 @@ label5: ;
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
-                    node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = false;
-                    node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = false;
-                    node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+                    candidate_chainFromTo_node_end.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                    candidate_chainFromTo_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+                    } else { 
+                        if(prev__candidate_chainFromTo_node_beg==0) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                        }
+                    }
                     return matches;
                 }
-                node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = false;
-                node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = false;
-                node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+                candidate_chainFromTo_node_end.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                candidate_chainFromTo_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+                } else { 
+                    if(prev__candidate_chainFromTo_node_beg==0) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                    }
+                }
                 return matches;
             }
-            node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = false;
-            node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = false;
-            node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+            candidate_chainFromTo_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+            candidate_chainFromTo_node_end.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+            if(negLevel <= MAX_NEG_LEVEL) {
+                candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+            } else { 
+                if(prev__candidate_chainFromTo_node_beg==0) {
+                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                }
+            }
             return matches;
         }
         public void MissingPreset_chainFromTo_node_beg(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup chainFromTo_node_beg 
-            int node_type_id_chainFromTo_node_beg = 0;
-            for(LGSPNode node_head_chainFromTo_node_beg = graph.nodesByTypeHeads[node_type_id_chainFromTo_node_beg], node_cur_chainFromTo_node_beg = node_head_chainFromTo_node_beg.typeNext; node_cur_chainFromTo_node_beg != node_head_chainFromTo_node_beg; node_cur_chainFromTo_node_beg = node_cur_chainFromTo_node_beg.typeNext)
+            int type_id_candidate_chainFromTo_node_beg = 0;
+            for(LGSPNode head_candidate_chainFromTo_node_beg = graph.nodesByTypeHeads[type_id_candidate_chainFromTo_node_beg], candidate_chainFromTo_node_beg = head_candidate_chainFromTo_node_beg.typeNext; candidate_chainFromTo_node_beg != head_candidate_chainFromTo_node_beg; candidate_chainFromTo_node_beg = candidate_chainFromTo_node_beg.typeNext)
             {
-                bool node_cur_chainFromTo_node_beg_prevIsMatched = node_cur_chainFromTo_node_beg.isMatched;
-                node_cur_chainFromTo_node_beg.isMatched = true;
+                uint prev__candidate_chainFromTo_node_beg;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    prev__candidate_chainFromTo_node_beg = candidate_chainFromTo_node_beg.flags & LGSPNode.IS_MATCHED<<negLevel;
+                    candidate_chainFromTo_node_beg.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                } else {
+                    prev__candidate_chainFromTo_node_beg = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_chainFromTo_node_beg) ? 1U : 0U;
+                    if(prev__candidate_chainFromTo_node_beg==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_chainFromTo_node_beg,candidate_chainFromTo_node_beg);
+                }
                 // Preset chainFromTo_node_end 
-                LGSPNode node_cur_chainFromTo_node_end = (LGSPNode) parameters[1];
-                if(node_cur_chainFromTo_node_end == null) {
-                    MissingPreset_chainFromTo_node_end(graph, maxMatches, parameters, null, null, null, node_cur_chainFromTo_node_beg);
+                LGSPNode candidate_chainFromTo_node_end = (LGSPNode) parameters[1];
+                if(candidate_chainFromTo_node_end == null) {
+                    MissingPreset_chainFromTo_node_end(graph, maxMatches, parameters, null, null, null, candidate_chainFromTo_node_beg);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
-                        node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+                        if(negLevel <= MAX_NEG_LEVEL) {
+                            candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+                        } else { 
+                            if(prev__candidate_chainFromTo_node_beg==0) {
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                            }
+                        }
                         return;
                     }
-                    node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+                    } else { 
+                        if(prev__candidate_chainFromTo_node_beg==0) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                        }
+                    }
                     continue;
                 }
-                if(node_cur_chainFromTo_node_end.isMatched
-                    && node_cur_chainFromTo_node_end==node_cur_chainFromTo_node_beg
+                if((negLevel<=MAX_NEG_LEVEL ? (candidate_chainFromTo_node_end.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_chainFromTo_node_end))
+                    && candidate_chainFromTo_node_end==candidate_chainFromTo_node_beg
                     )
                 {
-                    node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+                    } else { 
+                        if(prev__candidate_chainFromTo_node_beg==0) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                        }
+                    }
                     continue;
                 }
                 // Push subpattern matching task for _subpattern0
                 PatternAction_ChainFromTo taskFor__subpattern0 = new PatternAction_ChainFromTo(graph, openTasks);
-                taskFor__subpattern0.ChainFromTo_node_from = node_cur_chainFromTo_node_beg;
-                taskFor__subpattern0.ChainFromTo_node_to = node_cur_chainFromTo_node_end;
+                taskFor__subpattern0.ChainFromTo_node_from = candidate_chainFromTo_node_beg;
+                taskFor__subpattern0.ChainFromTo_node_to = candidate_chainFromTo_node_end;
                 openTasks.Push(taskFor__subpattern0);
-                node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = true;
-                node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = true;
-                // Match subpatterns
-                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                candidate_chainFromTo_node_beg.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                candidate_chainFromTo_node_end.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                // Match subpatterns 
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
                 // Check whether subpatterns were found 
@@ -2406,8 +2586,8 @@ label5: ;
                     {
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@beg] = node_cur_chainFromTo_node_beg;
-                        match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@end] = node_cur_chainFromTo_node_end;
+                        match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@beg] = candidate_chainFromTo_node_beg;
+                        match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@end] = candidate_chainFromTo_node_end;
                         match.EmbeddedGraphs[(int)Rule_chainFromTo.chainFromTo_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                         matches.matchesList.PositionWasFilledFixIt();
                     }
@@ -2415,43 +2595,63 @@ label5: ;
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
-                        node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = false;
-                        node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = false;
-                        node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+                        candidate_chainFromTo_node_end.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_chainFromTo_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        if(negLevel <= MAX_NEG_LEVEL) {
+                            candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+                        } else { 
+                            if(prev__candidate_chainFromTo_node_beg==0) {
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                            }
+                        }
                         return;
                     }
-                    node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = false;
-                    node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = false;
-                    node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+                    candidate_chainFromTo_node_end.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                    candidate_chainFromTo_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+                    } else { 
+                        if(prev__candidate_chainFromTo_node_beg==0) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                        }
+                    }
                     continue;
                 }
-                node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = false;
-                node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = false;
-                node_cur_chainFromTo_node_beg.isMatched = node_cur_chainFromTo_node_beg_prevIsMatched;
+                candidate_chainFromTo_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                candidate_chainFromTo_node_end.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    candidate_chainFromTo_node_beg.flags = candidate_chainFromTo_node_beg.flags & ~prev__candidate_chainFromTo_node_beg | prev__candidate_chainFromTo_node_beg;
+                } else { 
+                    if(prev__candidate_chainFromTo_node_beg==0) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_chainFromTo_node_beg);
+                    }
+                }
             }
             return;
         }
-        public void MissingPreset_chainFromTo_node_end(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode node_cur_chainFromTo_node_beg)
+        public void MissingPreset_chainFromTo_node_end(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_chainFromTo_node_beg)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup chainFromTo_node_end 
-            int node_type_id_chainFromTo_node_end = 0;
-            for(LGSPNode node_head_chainFromTo_node_end = graph.nodesByTypeHeads[node_type_id_chainFromTo_node_end], node_cur_chainFromTo_node_end = node_head_chainFromTo_node_end.typeNext; node_cur_chainFromTo_node_end != node_head_chainFromTo_node_end; node_cur_chainFromTo_node_end = node_cur_chainFromTo_node_end.typeNext)
+            int type_id_candidate_chainFromTo_node_end = 0;
+            for(LGSPNode head_candidate_chainFromTo_node_end = graph.nodesByTypeHeads[type_id_candidate_chainFromTo_node_end], candidate_chainFromTo_node_end = head_candidate_chainFromTo_node_end.typeNext; candidate_chainFromTo_node_end != head_candidate_chainFromTo_node_end; candidate_chainFromTo_node_end = candidate_chainFromTo_node_end.typeNext)
             {
-                if(node_cur_chainFromTo_node_end.isMatched
-                    && node_cur_chainFromTo_node_end==node_cur_chainFromTo_node_beg
+                if((negLevel<=MAX_NEG_LEVEL ? (candidate_chainFromTo_node_end.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_chainFromTo_node_end))
+                    && candidate_chainFromTo_node_end==candidate_chainFromTo_node_beg
                     )
                 {
                     continue;
                 }
                 // Push subpattern matching task for _subpattern0
                 PatternAction_ChainFromTo taskFor__subpattern0 = new PatternAction_ChainFromTo(graph, openTasks);
-                taskFor__subpattern0.ChainFromTo_node_from = node_cur_chainFromTo_node_beg;
-                taskFor__subpattern0.ChainFromTo_node_to = node_cur_chainFromTo_node_end;
+                taskFor__subpattern0.ChainFromTo_node_from = candidate_chainFromTo_node_beg;
+                taskFor__subpattern0.ChainFromTo_node_to = candidate_chainFromTo_node_end;
                 openTasks.Push(taskFor__subpattern0);
-                node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = true;
-                node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = true;
-                // Match subpatterns
-                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                candidate_chainFromTo_node_beg.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                candidate_chainFromTo_node_end.flags |= LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                // Match subpatterns 
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
                 // Check whether subpatterns were found 
@@ -2461,8 +2661,8 @@ label5: ;
                     {
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@beg] = node_cur_chainFromTo_node_beg;
-                        match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@end] = node_cur_chainFromTo_node_end;
+                        match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@beg] = candidate_chainFromTo_node_beg;
+                        match.Nodes[(int)Rule_chainFromTo.chainFromTo_NodeNums.@end] = candidate_chainFromTo_node_end;
                         match.EmbeddedGraphs[(int)Rule_chainFromTo.chainFromTo_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                         matches.matchesList.PositionWasFilledFixIt();
                     }
@@ -2470,16 +2670,16 @@ label5: ;
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
-                        node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = false;
-                        node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = false;
+                        candidate_chainFromTo_node_end.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                        candidate_chainFromTo_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                         return;
                     }
-                    node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = false;
-                    node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = false;
+                    candidate_chainFromTo_node_end.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                    candidate_chainFromTo_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
                     continue;
                 }
-                node_cur_chainFromTo_node_beg.isMatchedByEnclosingPattern = false;
-                node_cur_chainFromTo_node_end.isMatchedByEnclosingPattern = false;
+                candidate_chainFromTo_node_beg.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
+                candidate_chainFromTo_node_end.flags &= ~LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN;
             }
             return;
         }
@@ -2502,6 +2702,8 @@ label5: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
             match.patternGraph = rulePattern.patternGraph;
             matches.matchesList.PositionWasFilledFixIt();
@@ -2531,6 +2733,8 @@ label5: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
             match.patternGraph = rulePattern.patternGraph;
             matches.matchesList.PositionWasFilledFixIt();

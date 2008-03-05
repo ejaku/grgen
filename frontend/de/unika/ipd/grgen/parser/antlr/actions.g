@@ -143,6 +143,11 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 	              }
 	              res = mod | PatternGraphNode.MOD_DPO;
 	        }
+	| t:INDEPENDENT { if((mod & PatternGraphNode.MOD_INDEPENDENT)!=0) {
+	                    reportError(getCoords(t), "\"independent\" modifier already declared");
+	                    }
+	                    res = mod | PatternGraphNode.MOD_INDEPENDENT;
+	                }
 	;
 
 patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, int mod ]
@@ -322,7 +327,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, Col
 		int altCounter = 0;
 		PatternGraphNode neg;
 		int negCounter = 0;
-		int mod = 0; // TODO: insert mod=patternModifiers iff nesting of negative parts is allowed
+		int mod = 0; // TODO: insert mod=actionModifiers iff nesting of negative parts is allowed
 		ExprNode e;
 		HomNode hom;
 		ExactNode exa;
@@ -375,7 +380,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpat
 	: id=entIdentUse firstEdgeContinuation[id, conn, context] // use of already declared node, continue looking for first edge
 	| id=entIdentUse l:LPAREN subpatternConnections[subpatternReplConn] RPAREN // use of already declared subpattern
 		{ subpatterns.addChild(new SubpatternReplNode(id, subpatternReplConn)); }
-		{ reportError(getCoords(l), "subpatterns not yet supported"); }
+		{ reportError(getCoords(l), "subpattern replacements not yet supported"); }
 	| id=entIdentDecl cc:COLON // node or subpattern declaration
 		( // node declaration
 			type=typeIdentUse
@@ -757,8 +762,9 @@ negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
 	{
 		int mod = 0;
 	}
-	: n:NEGATIVE LBRACE pushScopeStr["neg"+negCount, getCoords(n)]
-		res=patternBody[getCoords(n), mod, context, "negative"+negCount]
+	: ( i:INDEPENDENT { mod = PatternGraphNode.MOD_INDEPENDENT; } ) ?
+        n:NEGATIVE LBRACE pushScopeStr["neg"+negCount, getCoords(n)]
+	  	res=patternBody[getCoords(n), mod, context, "negative"+negCount]
 		RBRACE popScope
 	;
 

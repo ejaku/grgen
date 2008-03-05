@@ -13,37 +13,39 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public NodeType type;
 
-        /// <summary>
-        /// Tells during the matching process whether the element 
-        /// is already matched within the local pattern
-        /// </summary>
-        public bool isMatched = false;
-
-        /// <summary>
-        /// Tells during the matching process whether the element 
-        /// is already matched within the local nested negative pattern
-        /// </summary>
-        public bool isMatchedNeg = false;
-
-        /// <summary>
-        /// Tells during the matching process whether the element 
-        /// is already matched within an enclosing pattern
-        /// </summary>
-        public bool isMatchedByEnclosingPattern = false;
-
-        /// <summary>
-        /// previous and next node in the list containing all the nodes of one type
-        /// </summary>
-        public LGSPNode typeNext, typePrev;
-
 #if ELEMENTKNOWSVARIABLES
         /// <summary>
         /// List of variables pointing to this element or null if there is no such variable
         /// </summary>
         public LinkedList<Variable> variableList;
-#else
-        public bool hasVariables;
 #endif
+
+        /// <summary>
+        /// Bit within flags at this position tells whether some variable contains this element
+        /// </summary>
+        public const uint HAS_VARIABLES = 1 << 0;
+
+        /// <summary>
+        /// Bit within flags at this position tells during the matching process whether the element 
+        /// is already matched within some enclosing pattern
+        /// </summary>
+        public const uint IS_MATCHED_BY_ENCLOSING_PATTERN = 1 << 1;
+
+        /// <summary>
+        /// Bit within flags at this position tells during the matching process whether the element 
+        /// is already matched within the local pattern, shifted by current neg level
+        /// </summary>
+        public const uint IS_MATCHED = 1 << 2;
+
+        /// <summary>
+        /// contains some booleans coded as bitvector
+        /// </summary>
+        public uint flags;
+
+        /// <summary>
+        /// previous and next node in the list containing all the nodes of one type
+        /// </summary>
+        public LGSPNode typeNext, typePrev;
 
         /// <summary>
         /// entry node into the outgoing edges list - not of type edge head, real edge or null
@@ -54,6 +56,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// entry node into the incoming edges list - not of type edge head, real edge or null
         /// </summary>
         public LGSPEdge inhead;
+
 
         public LGSPNode(NodeType nodeType)
         {
@@ -347,37 +350,39 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public EdgeType type;
 
-        /// <summary>
-        /// Tells during the matching process whether the element 
-        /// is already matched within the local pattern
-        /// </summary>
-        public bool isMatched = false;
-
-        /// <summary>
-        /// Tells during the matching process whether the element 
-        /// is already matched within the local nested negative pattern
-        /// </summary>
-        public bool isMatchedNeg = false;
-
-        /// <summary>
-        /// Tells during the matching process whether the element 
-        /// is already matched within an enclosing pattern
-        /// </summary>
-        public bool isMatchedByEnclosingPattern = false;
-
-        /// <summary>
-        /// previous and next edge in the list containing all the edges of one type
-        /// </summary>
-        public LGSPEdge typeNext, typePrev;
-
 #if ELEMENTKNOWSVARIABLES
         /// <summary>
         /// List of variables pointing to this element or null if there is no such variable
         /// </summary>
         public LinkedList<Variable> variableList;
-#else
-        public bool hasVariables;
 #endif
+
+        /// <summary>
+        /// Bit within flags at this position tells whether some variable contains this element
+        /// </summary>
+        public const uint HAS_VARIABLES = 1 << 0;
+
+        /// <summary>
+        /// Bit within flags at this position tells during the matching process whether the element 
+        /// is already matched within some enclosing pattern
+        /// </summary>
+        public const uint IS_MATCHED_BY_ENCLOSING_PATTERN = 1 << 1;
+
+        /// <summary>
+        /// Bit within flags at this position tells during the matching process whether the element 
+        /// is already matched within the local pattern, shifted by current neg level
+        /// </summary>
+        public const uint IS_MATCHED = 1 << 2;
+
+        /// <summary>
+        /// contains some booleans coded as bitvector
+        /// </summary>
+        public uint flags;
+
+        /// <summary>
+        /// previous and next edge in the list containing all the edges of one type
+        /// </summary>
+        public LGSPEdge typeNext, typePrev;
 
         /// <summary>
         /// source and target nodes of this edge
@@ -393,6 +398,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// previous and next edge in the outgoing list of the source node containing all of it's outgoing edges
         /// </summary>
         public LGSPEdge outNext, outPrev;
+
               
         public LGSPEdge(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
         {

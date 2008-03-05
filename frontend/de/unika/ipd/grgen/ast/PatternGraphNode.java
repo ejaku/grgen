@@ -61,6 +61,7 @@ public class PatternGraphNode extends GraphNode {
 	public static final int MOD_DPO = 1;
 	public static final int MOD_EXACT = 2;
 	public static final int MOD_INDUCED = 4;
+	public static final int MOD_INDEPENDENT = 8;
 
 	/** The modifiers for this type. An ORed combination of the constants above. */
 	private int modifiers = 0;
@@ -209,16 +210,7 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		return childs && expr && homcheck && checkNoNestedNegatives();
-	}
-
-	protected boolean checkNoNestedNegatives() {
-		for (PatternGraphNode neg : negs.getChildren()) {
-			if(!neg.negs.getChildren().isEmpty())
-				return false;
-		}
-
-		return true;
+		return childs && expr && homcheck;
 	}
 
 	/**
@@ -259,7 +251,7 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	protected IR constructIR() {
-		PatternGraph gr = new PatternGraph(nameOfGraph);
+		PatternGraph gr = new PatternGraph(nameOfGraph, (modifiers&MOD_INDEPENDENT)==MOD_INDEPENDENT);
 
 		// mark this node as already visited
 		setIR(gr);
@@ -697,7 +689,7 @@ public class PatternGraphNode extends GraphNode {
 				Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
 				Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 				Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getCorrespondentHomSet(singleNodeNegNode));
-				PatternGraph neg = new PatternGraph(nameOfGraph);
+				PatternGraph neg = new PatternGraph(nameOfGraph, false);
 
 				// add edges to NAC
 				for (ConnectionNode conn : edgeSet) {
@@ -849,7 +841,7 @@ public class PatternGraphNode extends GraphNode {
 			Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 			Set<ConnectionNode> edgeSet = doubleNodeNegMap.get(key);
 
-			PatternGraph neg = new PatternGraph(nameOfGraph);
+			PatternGraph neg = new PatternGraph(nameOfGraph, false);
 
 			// add edges to the NAC
 			for (ConnectionNode conn : edgeSet) {

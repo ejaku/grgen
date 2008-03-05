@@ -912,13 +912,13 @@ invalidCommand:
         /// The inheriting class contains the preset subpattern connection elements
         /// </summary>
         protected Stack<LGSPSubpatternAction> openTasks;
-        
+
         /// <summary>
         /// Searches for the subpattern as specified by RulePattern.
-        /// Takes care of search state as given by found partial matches 
+        /// Takes care of search state as given by found partial matches, negLevel to search at
         /// and maximum number of matches to search for (zero = find all matches) 
         /// (and open tasks via this).
         /// </summary>
-        public abstract void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches);
+        public abstract void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel);
     }
 }

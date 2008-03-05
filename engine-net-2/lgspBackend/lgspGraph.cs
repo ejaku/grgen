@@ -349,12 +349,19 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPEdge[] edgesByTypeHeads;
         public int[] edgesByTypeCounts;
 
-        public LGSPGraph(IGraphModel grmodel) : this(grmodel, "lgspGraph_" + graphID++) { }
+        public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> atNegLevelMatchedElements;
+
+
+        public LGSPGraph(IGraphModel grmodel) : this(grmodel, "lgspGraph_" + graphID++)
+        {
+        }
 
         public LGSPGraph(IGraphModel grmodel, String grname)
         {
             model = grmodel;
             name = grname;
+
+            atNegLevelMatchedElements = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
 
             modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
 
@@ -923,12 +930,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             RemovingNode(node);
 
-            if(lnode.hasVariables)
+            if((lnode.flags & LGSPNode.HAS_VARIABLES) == LGSPNode.HAS_VARIABLES)
             {
                 foreach(Variable var in ElementMap[lnode])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(lnode);
-                lnode.hasVariables = false;
+                lnode.flags &= ~LGSPNode.HAS_VARIABLES;
             }
             RemoveNodeWithoutEvents(lnode, lnode.type.TypeID);
         }
@@ -955,12 +962,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             RemovingEdge(edge);
 
-            if(ledge.hasVariables)
+            if((ledge.flags & LGSPEdge.HAS_VARIABLES) == LGSPEdge.HAS_VARIABLES)
             {
                 foreach(Variable var in ElementMap[ledge])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(ledge);
-                ledge.hasVariables = false;
+                ledge.flags &= ~LGSPEdge.HAS_VARIABLES;
             }
             ledge.source.RemoveOutgoing(ledge);
             ledge.target.RemoveIncoming(ledge);
@@ -992,12 +999,12 @@ namespace de.unika.ipd.grGen.lgsp
             RemoveEdges(node);
             RemovingNode(node);
 
-            if(node.hasVariables)
+            if((node.flags & LGSPNode.HAS_VARIABLES) == LGSPNode.HAS_VARIABLES)
             {
                 foreach(Variable var in ElementMap[node])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(node);
-                node.hasVariables = false;
+                node.flags &= ~LGSPNode.HAS_VARIABLES;
             }
 
             node.ResetAllAttributes();
@@ -1016,12 +1023,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             RemovingEdge(edge);
 
-            if(edge.hasVariables)
+            if((edge.flags & LGSPEdge.HAS_VARIABLES) == LGSPEdge.HAS_VARIABLES)
             {
                 foreach(Variable var in ElementMap[edge])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(edge);
-                edge.hasVariables = false;
+                edge.flags &= ~LGSPEdge.HAS_VARIABLES;
             }
 
             if(newSource != null)
@@ -1165,14 +1172,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newNode">The replacement for the node.</param>
         public void ReplaceNode(LGSPNode oldNode, LGSPNode newNode)
         {
-            if(oldNode.hasVariables)
+            if((oldNode.flags & LGSPNode.HAS_VARIABLES) == LGSPNode.HAS_VARIABLES)
             {
                 LinkedList<Variable> varList = ElementMap[oldNode];
                 foreach(Variable var in varList)
                     var.Element = newNode;
                 ElementMap.Remove(oldNode);
                 ElementMap[newNode] = varList;
-                newNode.hasVariables = true;
+                newNode.flags |= LGSPNode.HAS_VARIABLES;
             }
 
             if(oldNode.type != newNode.type)
@@ -1235,14 +1242,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newEdge">The replacement for the edge.</param>
         public void ReplaceEdge(LGSPEdge oldEdge, LGSPEdge newEdge)
         {
-            if(oldEdge.hasVariables)
+            if((oldEdge.flags & LGSPEdge.HAS_VARIABLES) == LGSPEdge.HAS_VARIABLES)
             {
                 LinkedList<Variable> varList = ElementMap[oldEdge];
                 foreach(Variable var in varList)
                     var.Element = newEdge;
                 ElementMap.Remove(oldEdge);
                 ElementMap[newEdge] = varList;
-                newEdge.hasVariables = true;
+                newEdge.flags |= LGSPEdge.HAS_VARIABLES;
             }
 
             if(oldEdge.type != newEdge.type)
@@ -1402,11 +1409,11 @@ namespace de.unika.ipd.grGen.lgsp
                 ElementMap.Remove(var.Element);
 
                 LGSPNode oldNode = var.Element as LGSPNode;
-                if(oldNode != null) oldNode.hasVariables = false;
+                if(oldNode != null) oldNode.flags &= ~LGSPNode.HAS_VARIABLES;
                 else
                 {
                     LGSPEdge oldEdge = (LGSPEdge) var.Element;
-                    oldEdge.hasVariables = false;
+                    oldEdge.flags &= ~LGSPEdge.HAS_VARIABLES;
                 }
             }
         }
@@ -1455,11 +1462,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             LGSPNode node = elem as LGSPNode;
             if(node != null)
-                node.hasVariables = true;
+                node.flags |= LGSPNode.HAS_VARIABLES;
             else
             {
                 LGSPEdge edge = (LGSPEdge) elem;
-                edge.hasVariables = true;
+                edge.flags |= LGSPEdge.HAS_VARIABLES;
             }
         }
 

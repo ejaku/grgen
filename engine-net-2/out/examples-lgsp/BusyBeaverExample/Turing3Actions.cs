@@ -60,6 +60,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			ensureMoveLeftValidRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"ensureMoveLeftValidRule_",
+				false,
 				new PatternNode[] { ensureMoveLeftValidRule_neg_0_node__node0, ensureMoveLeftValidRule_node_bp }, 
 				new PatternEdge[] { ensureMoveLeftValidRule_neg_0_edge__edge0 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -77,6 +78,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_ensureMoveLeftValidRule = new PatternGraph(
 				"ensureMoveLeftValidRule",
 				"",
+				false,
 				new PatternNode[] { ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node__node0, ensureMoveLeftValidRule_node_bp }, 
 				new PatternEdge[] { ensureMoveLeftValidRule_edge__edge0 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -177,6 +179,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			ensureMoveRightValidRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"ensureMoveRightValidRule_",
+				false,
 				new PatternNode[] { ensureMoveRightValidRule_node_bp, ensureMoveRightValidRule_neg_0_node__node0 }, 
 				new PatternEdge[] { ensureMoveRightValidRule_neg_0_edge__edge0 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -194,6 +197,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_ensureMoveRightValidRule = new PatternGraph(
 				"ensureMoveRightValidRule",
 				"",
+				false,
 				new PatternNode[] { ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node__node0, ensureMoveRightValidRule_node_bp }, 
 				new PatternEdge[] { ensureMoveRightValidRule_edge__edge0 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -289,6 +293,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_moveLeftRule = new PatternGraph(
 				"moveLeftRule",
 				"",
+				false,
 				new PatternNode[] { moveLeftRule_node_wv, moveLeftRule_node_s, moveLeftRule_node_lbp, moveLeftRule_node_bp }, 
 				new PatternEdge[] { moveLeftRule_edge__edge0, moveLeftRule_edge__edge1 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -384,6 +389,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_moveRightRule = new PatternGraph(
 				"moveRightRule",
 				"",
+				false,
 				new PatternNode[] { moveRightRule_node_wv, moveRightRule_node_s, moveRightRule_node_bp, moveRightRule_node_rbp }, 
 				new PatternEdge[] { moveRightRule_edge__edge0, moveRightRule_edge__edge1 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -474,6 +480,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_readOneRule = new PatternGraph(
 				"readOneRule",
 				"",
+				false,
 				new PatternNode[] { readOneRule_node_s, readOneRule_node_wv, readOneRule_node_bp }, 
 				new PatternEdge[] { readOneRule_edge_rv }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -574,6 +581,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_readZeroRule = new PatternGraph(
 				"readZeroRule",
 				"",
+				false,
 				new PatternNode[] { readZeroRule_node_bp, readZeroRule_node_s, readZeroRule_node_wv }, 
 				new PatternEdge[] { readZeroRule_edge_rv }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -649,9 +657,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Preset ensureMoveLeftValidRule_node_wv 
-            LGSPNode node_cur_ensureMoveLeftValidRule_node_wv = (LGSPNode) parameters[0];
-            if(node_cur_ensureMoveLeftValidRule_node_wv == null) {
+            LGSPNode candidate_ensureMoveLeftValidRule_node_wv = (LGSPNode) parameters[0];
+            if(candidate_ensureMoveLeftValidRule_node_wv == null) {
                 MissingPreset_ensureMoveLeftValidRule_node_wv(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -660,13 +670,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(!NodeType_WriteValue.isMyType[node_cur_ensureMoveLeftValidRule_node_wv.type.TypeID]) {
+            if(!NodeType_WriteValue.isMyType[candidate_ensureMoveLeftValidRule_node_wv.type.TypeID]) {
                 return matches;
             }
             // Preset ensureMoveLeftValidRule_node_bp 
-            LGSPNode node_cur_ensureMoveLeftValidRule_node_bp = (LGSPNode) parameters[1];
-            if(node_cur_ensureMoveLeftValidRule_node_bp == null) {
-                MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, parameters, null, null, null, node_cur_ensureMoveLeftValidRule_node_wv);
+            LGSPNode candidate_ensureMoveLeftValidRule_node_bp = (LGSPNode) parameters[1];
+            if(candidate_ensureMoveLeftValidRule_node_bp == null) {
+                MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveLeftValidRule_node_wv);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
@@ -674,84 +684,121 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[node_cur_ensureMoveLeftValidRule_node_bp.type.TypeID]) {
+            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_node_bp.type.TypeID]) {
                 return matches;
             }
             // NegativePattern 
             {
-                bool node_cur_ensureMoveLeftValidRule_node_bp_prevIsMatchedNeg = node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg;
-                node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg = true;
+                ++negLevel;
+                if(negLevel > MAX_NEG_LEVEL && negLevel-MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {
+                    graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());
+                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst = new Dictionary<LGSPNode, LGSPNode>();
+                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd = new Dictionary<LGSPEdge, LGSPEdge>();
+                }
+                uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                    candidate_ensureMoveLeftValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                } else {
+                    prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveLeftValidRule_node_bp) ? 1U : 0U;
+                    if(prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_ensureMoveLeftValidRule_node_bp,candidate_ensureMoveLeftValidRule_node_bp);
+                }
                 // Extend incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
-                LGSPEdge edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0 = node_cur_ensureMoveLeftValidRule_node_bp.inhead;
-                if(edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
+                LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.inhead;
+                if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0 = edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0;
+                    LGSPEdge candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0;
                     do
                     {
-                        if(!EdgeType_right.isMyType[edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_right.isMyType[candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
                             continue;
                         }
                         // Implicit source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
-                        LGSPNode node_cur_ensureMoveLeftValidRule_neg_0_node__node0 = edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
-                        if(!NodeType_BandPosition.isMyType[node_cur_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
+                        LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
+                        if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
                             continue;
                         }
-                        if(node_cur_ensureMoveLeftValidRule_neg_0_node__node0.isMatchedNeg
-                            && node_cur_ensureMoveLeftValidRule_neg_0_node__node0==node_cur_ensureMoveLeftValidRule_node_bp
+                        if((negLevel<=MAX_NEG_LEVEL ? (candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveLeftValidRule_neg_0_node__node0))
+                            && candidate_ensureMoveLeftValidRule_neg_0_node__node0==candidate_ensureMoveLeftValidRule_node_bp
                             )
                         {
                             continue;
                         }
-                        node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveLeftValidRule_node_bp_prevIsMatchedNeg;
+                        // negative pattern found
+                        if(negLevel <= MAX_NEG_LEVEL) {
+                            candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                        } else { 
+                            if(prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp==0) {
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveLeftValidRule_node_bp);
+                            }
+                        }
+                        if(negLevel > MAX_NEG_LEVEL) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                        }
+                        --negLevel;
                         return matches;
                     }
-                    while( (edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0 = edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0 );
+                    while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
                 }
-                node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveLeftValidRule_node_bp_prevIsMatchedNeg;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                } else { 
+                    if(prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp==0) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveLeftValidRule_node_bp);
+                    }
+                }
+                if(negLevel > MAX_NEG_LEVEL) {
+                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                }
+                --negLevel;
             }
             // Extend outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
-            LGSPEdge edge_head_ensureMoveLeftValidRule_edge__edge0 = node_cur_ensureMoveLeftValidRule_node_wv.outhead;
-            if(edge_head_ensureMoveLeftValidRule_edge__edge0 != null)
+            LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.outhead;
+            if(head_candidate_ensureMoveLeftValidRule_edge__edge0 != null)
             {
-                LGSPEdge edge_cur_ensureMoveLeftValidRule_edge__edge0 = edge_head_ensureMoveLeftValidRule_edge__edge0;
+                LGSPEdge candidate_ensureMoveLeftValidRule_edge__edge0 = head_candidate_ensureMoveLeftValidRule_edge__edge0;
                 do
                 {
-                    if(!EdgeType_moveLeft.isMyType[edge_cur_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
+                    if(!EdgeType_moveLeft.isMyType[candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
                         continue;
                     }
                     // Implicit target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
-                    LGSPNode node_cur_ensureMoveLeftValidRule_node__node0 = edge_cur_ensureMoveLeftValidRule_edge__edge0.target;
-                    if(!NodeType_State.isMyType[node_cur_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
+                    LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
+                    if(!NodeType_State.isMyType[candidate_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
                         continue;
                     }
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@wv] = node_cur_ensureMoveLeftValidRule_node_wv;
-                    match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@_node0] = node_cur_ensureMoveLeftValidRule_node__node0;
-                    match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@bp] = node_cur_ensureMoveLeftValidRule_node_bp;
-                    match.Edges[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_EdgeNums.@_edge0] = edge_cur_ensureMoveLeftValidRule_edge__edge0;
+                    match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@wv] = candidate_ensureMoveLeftValidRule_node_wv;
+                    match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@_node0] = candidate_ensureMoveLeftValidRule_node__node0;
+                    match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@bp] = candidate_ensureMoveLeftValidRule_node_bp;
+                    match.Edges[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_EdgeNums.@_edge0] = candidate_ensureMoveLeftValidRule_edge__edge0;
                     matches.matchesList.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
-                        node_cur_ensureMoveLeftValidRule_node_wv.MoveOutHeadAfter(edge_cur_ensureMoveLeftValidRule_edge__edge0);
+                        candidate_ensureMoveLeftValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveLeftValidRule_edge__edge0);
                         return matches;
                     }
                 }
-                while( (edge_cur_ensureMoveLeftValidRule_edge__edge0 = edge_cur_ensureMoveLeftValidRule_edge__edge0.outNext) != edge_head_ensureMoveLeftValidRule_edge__edge0 );
+                while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.outNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
             }
             return matches;
         }
         public void MissingPreset_ensureMoveLeftValidRule_node_wv(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup ensureMoveLeftValidRule_node_wv 
-            int node_type_id_ensureMoveLeftValidRule_node_wv = 3;
-            for(LGSPNode node_head_ensureMoveLeftValidRule_node_wv = graph.nodesByTypeHeads[node_type_id_ensureMoveLeftValidRule_node_wv], node_cur_ensureMoveLeftValidRule_node_wv = node_head_ensureMoveLeftValidRule_node_wv.typeNext; node_cur_ensureMoveLeftValidRule_node_wv != node_head_ensureMoveLeftValidRule_node_wv; node_cur_ensureMoveLeftValidRule_node_wv = node_cur_ensureMoveLeftValidRule_node_wv.typeNext)
+            int type_id_candidate_ensureMoveLeftValidRule_node_wv = 3;
+            for(LGSPNode head_candidate_ensureMoveLeftValidRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_ensureMoveLeftValidRule_node_wv], candidate_ensureMoveLeftValidRule_node_wv = head_candidate_ensureMoveLeftValidRule_node_wv.typeNext; candidate_ensureMoveLeftValidRule_node_wv != head_candidate_ensureMoveLeftValidRule_node_wv; candidate_ensureMoveLeftValidRule_node_wv = candidate_ensureMoveLeftValidRule_node_wv.typeNext)
             {
                 // Preset ensureMoveLeftValidRule_node_bp 
-                LGSPNode node_cur_ensureMoveLeftValidRule_node_bp = (LGSPNode) parameters[1];
-                if(node_cur_ensureMoveLeftValidRule_node_bp == null) {
-                    MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, parameters, null, null, null, node_cur_ensureMoveLeftValidRule_node_wv);
+                LGSPNode candidate_ensureMoveLeftValidRule_node_bp = (LGSPNode) parameters[1];
+                if(candidate_ensureMoveLeftValidRule_node_bp == null) {
+                    MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveLeftValidRule_node_wv);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
@@ -759,146 +806,218 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     }
                     continue;
                 }
-                if(!NodeType_BandPosition.isMyType[node_cur_ensureMoveLeftValidRule_node_bp.type.TypeID]) {
+                if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_node_bp.type.TypeID]) {
                     continue;
                 }
                 // NegativePattern 
                 {
-                    bool node_cur_ensureMoveLeftValidRule_node_bp_prevIsMatchedNeg = node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg;
-                    node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg = true;
+                    ++negLevel;
+                    if(negLevel > MAX_NEG_LEVEL && negLevel-MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {
+                        graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst = new Dictionary<LGSPNode, LGSPNode>();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd = new Dictionary<LGSPEdge, LGSPEdge>();
+                    }
+                    uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                        candidate_ensureMoveLeftValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                    } else {
+                        prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveLeftValidRule_node_bp) ? 1U : 0U;
+                        if(prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_ensureMoveLeftValidRule_node_bp,candidate_ensureMoveLeftValidRule_node_bp);
+                    }
                     // Extend incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
-                    LGSPEdge edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0 = node_cur_ensureMoveLeftValidRule_node_bp.inhead;
-                    if(edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
+                    LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.inhead;
+                    if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
                     {
-                        LGSPEdge edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0 = edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0;
+                        LGSPEdge candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_right.isMyType[edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
+                            if(!EdgeType_right.isMyType[candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
                                 continue;
                             }
                             // Implicit source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
-                            LGSPNode node_cur_ensureMoveLeftValidRule_neg_0_node__node0 = edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
-                            if(!NodeType_BandPosition.isMyType[node_cur_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
+                            LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
+                            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
                                 continue;
                             }
-                            if(node_cur_ensureMoveLeftValidRule_neg_0_node__node0.isMatchedNeg
-                                && node_cur_ensureMoveLeftValidRule_neg_0_node__node0==node_cur_ensureMoveLeftValidRule_node_bp
+                            if((negLevel<=MAX_NEG_LEVEL ? (candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveLeftValidRule_neg_0_node__node0))
+                                && candidate_ensureMoveLeftValidRule_neg_0_node__node0==candidate_ensureMoveLeftValidRule_node_bp
                                 )
                             {
                                 continue;
                             }
-                            node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveLeftValidRule_node_bp_prevIsMatchedNeg;
+                            // negative pattern found
+                            if(negLevel <= MAX_NEG_LEVEL) {
+                                candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                            } else { 
+                                if(prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp==0) {
+                                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveLeftValidRule_node_bp);
+                                }
+                            }
+                            if(negLevel > MAX_NEG_LEVEL) {
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                            }
+                            --negLevel;
                             goto label0;
                         }
-                        while( (edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0 = edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0 );
+                        while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
                     }
-                    node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveLeftValidRule_node_bp_prevIsMatchedNeg;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                    } else { 
+                        if(prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp==0) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveLeftValidRule_node_bp);
+                        }
+                    }
+                    if(negLevel > MAX_NEG_LEVEL) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                    }
+                    --negLevel;
                 }
                 // Extend outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
-                LGSPEdge edge_head_ensureMoveLeftValidRule_edge__edge0 = node_cur_ensureMoveLeftValidRule_node_wv.outhead;
-                if(edge_head_ensureMoveLeftValidRule_edge__edge0 != null)
+                LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.outhead;
+                if(head_candidate_ensureMoveLeftValidRule_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_ensureMoveLeftValidRule_edge__edge0 = edge_head_ensureMoveLeftValidRule_edge__edge0;
+                    LGSPEdge candidate_ensureMoveLeftValidRule_edge__edge0 = head_candidate_ensureMoveLeftValidRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveLeft.isMyType[edge_cur_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_moveLeft.isMyType[candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
                         // Implicit target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
-                        LGSPNode node_cur_ensureMoveLeftValidRule_node__node0 = edge_cur_ensureMoveLeftValidRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[node_cur_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
+                        LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
+                        if(!NodeType_State.isMyType[candidate_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@wv] = node_cur_ensureMoveLeftValidRule_node_wv;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@_node0] = node_cur_ensureMoveLeftValidRule_node__node0;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@bp] = node_cur_ensureMoveLeftValidRule_node_bp;
-                        match.Edges[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_EdgeNums.@_edge0] = edge_cur_ensureMoveLeftValidRule_edge__edge0;
+                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@wv] = candidate_ensureMoveLeftValidRule_node_wv;
+                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@_node0] = candidate_ensureMoveLeftValidRule_node__node0;
+                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@bp] = candidate_ensureMoveLeftValidRule_node_bp;
+                        match.Edges[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_EdgeNums.@_edge0] = candidate_ensureMoveLeftValidRule_edge__edge0;
                         matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
-                            node_cur_ensureMoveLeftValidRule_node_wv.MoveOutHeadAfter(edge_cur_ensureMoveLeftValidRule_edge__edge0);
-                            graph.MoveHeadAfter(node_cur_ensureMoveLeftValidRule_node_wv);
+                            candidate_ensureMoveLeftValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveLeftValidRule_edge__edge0);
+                            graph.MoveHeadAfter(candidate_ensureMoveLeftValidRule_node_wv);
                             return;
                         }
                     }
-                    while( (edge_cur_ensureMoveLeftValidRule_edge__edge0 = edge_cur_ensureMoveLeftValidRule_edge__edge0.outNext) != edge_head_ensureMoveLeftValidRule_edge__edge0 );
+                    while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.outNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
                 }
 label0: ;
             }
             return;
         }
-        public void MissingPreset_ensureMoveLeftValidRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode node_cur_ensureMoveLeftValidRule_node_wv)
+        public void MissingPreset_ensureMoveLeftValidRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_ensureMoveLeftValidRule_node_wv)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup ensureMoveLeftValidRule_node_bp 
-            int node_type_id_ensureMoveLeftValidRule_node_bp = 1;
-            for(LGSPNode node_head_ensureMoveLeftValidRule_node_bp = graph.nodesByTypeHeads[node_type_id_ensureMoveLeftValidRule_node_bp], node_cur_ensureMoveLeftValidRule_node_bp = node_head_ensureMoveLeftValidRule_node_bp.typeNext; node_cur_ensureMoveLeftValidRule_node_bp != node_head_ensureMoveLeftValidRule_node_bp; node_cur_ensureMoveLeftValidRule_node_bp = node_cur_ensureMoveLeftValidRule_node_bp.typeNext)
+            int type_id_candidate_ensureMoveLeftValidRule_node_bp = 1;
+            for(LGSPNode head_candidate_ensureMoveLeftValidRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_ensureMoveLeftValidRule_node_bp], candidate_ensureMoveLeftValidRule_node_bp = head_candidate_ensureMoveLeftValidRule_node_bp.typeNext; candidate_ensureMoveLeftValidRule_node_bp != head_candidate_ensureMoveLeftValidRule_node_bp; candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.typeNext)
             {
                 // NegativePattern 
                 {
-                    bool node_cur_ensureMoveLeftValidRule_node_bp_prevIsMatchedNeg = node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg;
-                    node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg = true;
+                    ++negLevel;
+                    if(negLevel > MAX_NEG_LEVEL && negLevel-MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {
+                        graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst = new Dictionary<LGSPNode, LGSPNode>();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd = new Dictionary<LGSPEdge, LGSPEdge>();
+                    }
+                    uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                        candidate_ensureMoveLeftValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                    } else {
+                        prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveLeftValidRule_node_bp) ? 1U : 0U;
+                        if(prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_ensureMoveLeftValidRule_node_bp,candidate_ensureMoveLeftValidRule_node_bp);
+                    }
                     // Extend incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
-                    LGSPEdge edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0 = node_cur_ensureMoveLeftValidRule_node_bp.inhead;
-                    if(edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
+                    LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.inhead;
+                    if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
                     {
-                        LGSPEdge edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0 = edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0;
+                        LGSPEdge candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_right.isMyType[edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
+                            if(!EdgeType_right.isMyType[candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
                                 continue;
                             }
                             // Implicit source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
-                            LGSPNode node_cur_ensureMoveLeftValidRule_neg_0_node__node0 = edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
-                            if(!NodeType_BandPosition.isMyType[node_cur_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
+                            LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
+                            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
                                 continue;
                             }
-                            if(node_cur_ensureMoveLeftValidRule_neg_0_node__node0.isMatchedNeg
-                                && node_cur_ensureMoveLeftValidRule_neg_0_node__node0==node_cur_ensureMoveLeftValidRule_node_bp
+                            if((negLevel<=MAX_NEG_LEVEL ? (candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveLeftValidRule_neg_0_node__node0))
+                                && candidate_ensureMoveLeftValidRule_neg_0_node__node0==candidate_ensureMoveLeftValidRule_node_bp
                                 )
                             {
                                 continue;
                             }
-                            node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveLeftValidRule_node_bp_prevIsMatchedNeg;
+                            // negative pattern found
+                            if(negLevel <= MAX_NEG_LEVEL) {
+                                candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                            } else { 
+                                if(prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp==0) {
+                                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveLeftValidRule_node_bp);
+                                }
+                            }
+                            if(negLevel > MAX_NEG_LEVEL) {
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                            }
+                            --negLevel;
                             goto label1;
                         }
-                        while( (edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0 = edge_cur_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != edge_head_ensureMoveLeftValidRule_neg_0_edge__edge0 );
+                        while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
                     }
-                    node_cur_ensureMoveLeftValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveLeftValidRule_node_bp_prevIsMatchedNeg;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                    } else { 
+                        if(prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp==0) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveLeftValidRule_node_bp);
+                        }
+                    }
+                    if(negLevel > MAX_NEG_LEVEL) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                    }
+                    --negLevel;
                 }
                 // Extend outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
-                LGSPEdge edge_head_ensureMoveLeftValidRule_edge__edge0 = node_cur_ensureMoveLeftValidRule_node_wv.outhead;
-                if(edge_head_ensureMoveLeftValidRule_edge__edge0 != null)
+                LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.outhead;
+                if(head_candidate_ensureMoveLeftValidRule_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_ensureMoveLeftValidRule_edge__edge0 = edge_head_ensureMoveLeftValidRule_edge__edge0;
+                    LGSPEdge candidate_ensureMoveLeftValidRule_edge__edge0 = head_candidate_ensureMoveLeftValidRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveLeft.isMyType[edge_cur_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_moveLeft.isMyType[candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
                         // Implicit target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
-                        LGSPNode node_cur_ensureMoveLeftValidRule_node__node0 = edge_cur_ensureMoveLeftValidRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[node_cur_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
+                        LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
+                        if(!NodeType_State.isMyType[candidate_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@wv] = node_cur_ensureMoveLeftValidRule_node_wv;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@_node0] = node_cur_ensureMoveLeftValidRule_node__node0;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@bp] = node_cur_ensureMoveLeftValidRule_node_bp;
-                        match.Edges[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_EdgeNums.@_edge0] = edge_cur_ensureMoveLeftValidRule_edge__edge0;
+                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@wv] = candidate_ensureMoveLeftValidRule_node_wv;
+                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@_node0] = candidate_ensureMoveLeftValidRule_node__node0;
+                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@bp] = candidate_ensureMoveLeftValidRule_node_bp;
+                        match.Edges[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_EdgeNums.@_edge0] = candidate_ensureMoveLeftValidRule_edge__edge0;
                         matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
-                            node_cur_ensureMoveLeftValidRule_node_wv.MoveOutHeadAfter(edge_cur_ensureMoveLeftValidRule_edge__edge0);
-                            graph.MoveHeadAfter(node_cur_ensureMoveLeftValidRule_node_bp);
+                            candidate_ensureMoveLeftValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveLeftValidRule_edge__edge0);
+                            graph.MoveHeadAfter(candidate_ensureMoveLeftValidRule_node_bp);
                             return;
                         }
                     }
-                    while( (edge_cur_ensureMoveLeftValidRule_edge__edge0 = edge_cur_ensureMoveLeftValidRule_edge__edge0.outNext) != edge_head_ensureMoveLeftValidRule_edge__edge0 );
+                    while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.outNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
                 }
 label1: ;
             }
@@ -923,9 +1042,11 @@ label1: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Preset ensureMoveRightValidRule_node_wv 
-            LGSPNode node_cur_ensureMoveRightValidRule_node_wv = (LGSPNode) parameters[0];
-            if(node_cur_ensureMoveRightValidRule_node_wv == null) {
+            LGSPNode candidate_ensureMoveRightValidRule_node_wv = (LGSPNode) parameters[0];
+            if(candidate_ensureMoveRightValidRule_node_wv == null) {
                 MissingPreset_ensureMoveRightValidRule_node_wv(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -934,13 +1055,13 @@ label1: ;
                 }
                 return matches;
             }
-            if(!NodeType_WriteValue.isMyType[node_cur_ensureMoveRightValidRule_node_wv.type.TypeID]) {
+            if(!NodeType_WriteValue.isMyType[candidate_ensureMoveRightValidRule_node_wv.type.TypeID]) {
                 return matches;
             }
             // Preset ensureMoveRightValidRule_node_bp 
-            LGSPNode node_cur_ensureMoveRightValidRule_node_bp = (LGSPNode) parameters[1];
-            if(node_cur_ensureMoveRightValidRule_node_bp == null) {
-                MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, parameters, null, null, null, node_cur_ensureMoveRightValidRule_node_wv);
+            LGSPNode candidate_ensureMoveRightValidRule_node_bp = (LGSPNode) parameters[1];
+            if(candidate_ensureMoveRightValidRule_node_bp == null) {
+                MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveRightValidRule_node_wv);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
@@ -948,84 +1069,121 @@ label1: ;
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[node_cur_ensureMoveRightValidRule_node_bp.type.TypeID]) {
+            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_node_bp.type.TypeID]) {
                 return matches;
             }
             // NegativePattern 
             {
-                bool node_cur_ensureMoveRightValidRule_node_bp_prevIsMatchedNeg = node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg;
-                node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg = true;
+                ++negLevel;
+                if(negLevel > MAX_NEG_LEVEL && negLevel-MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {
+                    graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());
+                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst = new Dictionary<LGSPNode, LGSPNode>();
+                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd = new Dictionary<LGSPEdge, LGSPEdge>();
+                }
+                uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                    candidate_ensureMoveRightValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                } else {
+                    prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveRightValidRule_node_bp) ? 1U : 0U;
+                    if(prev_neg_0__candidate_ensureMoveRightValidRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_ensureMoveRightValidRule_node_bp,candidate_ensureMoveRightValidRule_node_bp);
+                }
                 // Extend outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
-                LGSPEdge edge_head_ensureMoveRightValidRule_neg_0_edge__edge0 = node_cur_ensureMoveRightValidRule_node_bp.outhead;
-                if(edge_head_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
+                LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.outhead;
+                if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0 = edge_head_ensureMoveRightValidRule_neg_0_edge__edge0;
+                    LGSPEdge candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0;
                     do
                     {
-                        if(!EdgeType_right.isMyType[edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_right.isMyType[candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
                             continue;
                         }
                         // Implicit target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
-                        LGSPNode node_cur_ensureMoveRightValidRule_neg_0_node__node0 = edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0.target;
-                        if(!NodeType_BandPosition.isMyType[node_cur_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
+                        LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
+                        if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
                             continue;
                         }
-                        if(node_cur_ensureMoveRightValidRule_neg_0_node__node0.isMatchedNeg
-                            && node_cur_ensureMoveRightValidRule_neg_0_node__node0==node_cur_ensureMoveRightValidRule_node_bp
+                        if((negLevel<=MAX_NEG_LEVEL ? (candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveRightValidRule_neg_0_node__node0))
+                            && candidate_ensureMoveRightValidRule_neg_0_node__node0==candidate_ensureMoveRightValidRule_node_bp
                             )
                         {
                             continue;
                         }
-                        node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveRightValidRule_node_bp_prevIsMatchedNeg;
+                        // negative pattern found
+                        if(negLevel <= MAX_NEG_LEVEL) {
+                            candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                        } else { 
+                            if(prev_neg_0__candidate_ensureMoveRightValidRule_node_bp==0) {
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveRightValidRule_node_bp);
+                            }
+                        }
+                        if(negLevel > MAX_NEG_LEVEL) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                        }
+                        --negLevel;
                         return matches;
                     }
-                    while( (edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0 = edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != edge_head_ensureMoveRightValidRule_neg_0_edge__edge0 );
+                    while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
                 }
-                node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveRightValidRule_node_bp_prevIsMatchedNeg;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                } else { 
+                    if(prev_neg_0__candidate_ensureMoveRightValidRule_node_bp==0) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveRightValidRule_node_bp);
+                    }
+                }
+                if(negLevel > MAX_NEG_LEVEL) {
+                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                }
+                --negLevel;
             }
             // Extend outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
-            LGSPEdge edge_head_ensureMoveRightValidRule_edge__edge0 = node_cur_ensureMoveRightValidRule_node_wv.outhead;
-            if(edge_head_ensureMoveRightValidRule_edge__edge0 != null)
+            LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.outhead;
+            if(head_candidate_ensureMoveRightValidRule_edge__edge0 != null)
             {
-                LGSPEdge edge_cur_ensureMoveRightValidRule_edge__edge0 = edge_head_ensureMoveRightValidRule_edge__edge0;
+                LGSPEdge candidate_ensureMoveRightValidRule_edge__edge0 = head_candidate_ensureMoveRightValidRule_edge__edge0;
                 do
                 {
-                    if(!EdgeType_moveRight.isMyType[edge_cur_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
+                    if(!EdgeType_moveRight.isMyType[candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
                         continue;
                     }
                     // Implicit target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
-                    LGSPNode node_cur_ensureMoveRightValidRule_node__node0 = edge_cur_ensureMoveRightValidRule_edge__edge0.target;
-                    if(!NodeType_State.isMyType[node_cur_ensureMoveRightValidRule_node__node0.type.TypeID]) {
+                    LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
+                    if(!NodeType_State.isMyType[candidate_ensureMoveRightValidRule_node__node0.type.TypeID]) {
                         continue;
                     }
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@wv] = node_cur_ensureMoveRightValidRule_node_wv;
-                    match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@_node0] = node_cur_ensureMoveRightValidRule_node__node0;
-                    match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@bp] = node_cur_ensureMoveRightValidRule_node_bp;
-                    match.Edges[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_EdgeNums.@_edge0] = edge_cur_ensureMoveRightValidRule_edge__edge0;
+                    match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@wv] = candidate_ensureMoveRightValidRule_node_wv;
+                    match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@_node0] = candidate_ensureMoveRightValidRule_node__node0;
+                    match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@bp] = candidate_ensureMoveRightValidRule_node_bp;
+                    match.Edges[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_EdgeNums.@_edge0] = candidate_ensureMoveRightValidRule_edge__edge0;
                     matches.matchesList.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
-                        node_cur_ensureMoveRightValidRule_node_wv.MoveOutHeadAfter(edge_cur_ensureMoveRightValidRule_edge__edge0);
+                        candidate_ensureMoveRightValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveRightValidRule_edge__edge0);
                         return matches;
                     }
                 }
-                while( (edge_cur_ensureMoveRightValidRule_edge__edge0 = edge_cur_ensureMoveRightValidRule_edge__edge0.outNext) != edge_head_ensureMoveRightValidRule_edge__edge0 );
+                while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
             }
             return matches;
         }
         public void MissingPreset_ensureMoveRightValidRule_node_wv(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup ensureMoveRightValidRule_node_wv 
-            int node_type_id_ensureMoveRightValidRule_node_wv = 3;
-            for(LGSPNode node_head_ensureMoveRightValidRule_node_wv = graph.nodesByTypeHeads[node_type_id_ensureMoveRightValidRule_node_wv], node_cur_ensureMoveRightValidRule_node_wv = node_head_ensureMoveRightValidRule_node_wv.typeNext; node_cur_ensureMoveRightValidRule_node_wv != node_head_ensureMoveRightValidRule_node_wv; node_cur_ensureMoveRightValidRule_node_wv = node_cur_ensureMoveRightValidRule_node_wv.typeNext)
+            int type_id_candidate_ensureMoveRightValidRule_node_wv = 3;
+            for(LGSPNode head_candidate_ensureMoveRightValidRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_ensureMoveRightValidRule_node_wv], candidate_ensureMoveRightValidRule_node_wv = head_candidate_ensureMoveRightValidRule_node_wv.typeNext; candidate_ensureMoveRightValidRule_node_wv != head_candidate_ensureMoveRightValidRule_node_wv; candidate_ensureMoveRightValidRule_node_wv = candidate_ensureMoveRightValidRule_node_wv.typeNext)
             {
                 // Preset ensureMoveRightValidRule_node_bp 
-                LGSPNode node_cur_ensureMoveRightValidRule_node_bp = (LGSPNode) parameters[1];
-                if(node_cur_ensureMoveRightValidRule_node_bp == null) {
-                    MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, parameters, null, null, null, node_cur_ensureMoveRightValidRule_node_wv);
+                LGSPNode candidate_ensureMoveRightValidRule_node_bp = (LGSPNode) parameters[1];
+                if(candidate_ensureMoveRightValidRule_node_bp == null) {
+                    MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveRightValidRule_node_wv);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
@@ -1033,146 +1191,218 @@ label1: ;
                     }
                     continue;
                 }
-                if(!NodeType_BandPosition.isMyType[node_cur_ensureMoveRightValidRule_node_bp.type.TypeID]) {
+                if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_node_bp.type.TypeID]) {
                     continue;
                 }
                 // NegativePattern 
                 {
-                    bool node_cur_ensureMoveRightValidRule_node_bp_prevIsMatchedNeg = node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg;
-                    node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg = true;
+                    ++negLevel;
+                    if(negLevel > MAX_NEG_LEVEL && negLevel-MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {
+                        graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst = new Dictionary<LGSPNode, LGSPNode>();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd = new Dictionary<LGSPEdge, LGSPEdge>();
+                    }
+                    uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                        candidate_ensureMoveRightValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                    } else {
+                        prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveRightValidRule_node_bp) ? 1U : 0U;
+                        if(prev_neg_0__candidate_ensureMoveRightValidRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_ensureMoveRightValidRule_node_bp,candidate_ensureMoveRightValidRule_node_bp);
+                    }
                     // Extend outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
-                    LGSPEdge edge_head_ensureMoveRightValidRule_neg_0_edge__edge0 = node_cur_ensureMoveRightValidRule_node_bp.outhead;
-                    if(edge_head_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
+                    LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.outhead;
+                    if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
                     {
-                        LGSPEdge edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0 = edge_head_ensureMoveRightValidRule_neg_0_edge__edge0;
+                        LGSPEdge candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_right.isMyType[edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
+                            if(!EdgeType_right.isMyType[candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
                                 continue;
                             }
                             // Implicit target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
-                            LGSPNode node_cur_ensureMoveRightValidRule_neg_0_node__node0 = edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0.target;
-                            if(!NodeType_BandPosition.isMyType[node_cur_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
+                            LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
+                            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
                                 continue;
                             }
-                            if(node_cur_ensureMoveRightValidRule_neg_0_node__node0.isMatchedNeg
-                                && node_cur_ensureMoveRightValidRule_neg_0_node__node0==node_cur_ensureMoveRightValidRule_node_bp
+                            if((negLevel<=MAX_NEG_LEVEL ? (candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveRightValidRule_neg_0_node__node0))
+                                && candidate_ensureMoveRightValidRule_neg_0_node__node0==candidate_ensureMoveRightValidRule_node_bp
                                 )
                             {
                                 continue;
                             }
-                            node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveRightValidRule_node_bp_prevIsMatchedNeg;
+                            // negative pattern found
+                            if(negLevel <= MAX_NEG_LEVEL) {
+                                candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                            } else { 
+                                if(prev_neg_0__candidate_ensureMoveRightValidRule_node_bp==0) {
+                                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveRightValidRule_node_bp);
+                                }
+                            }
+                            if(negLevel > MAX_NEG_LEVEL) {
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                            }
+                            --negLevel;
                             goto label2;
                         }
-                        while( (edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0 = edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != edge_head_ensureMoveRightValidRule_neg_0_edge__edge0 );
+                        while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
                     }
-                    node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveRightValidRule_node_bp_prevIsMatchedNeg;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                    } else { 
+                        if(prev_neg_0__candidate_ensureMoveRightValidRule_node_bp==0) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveRightValidRule_node_bp);
+                        }
+                    }
+                    if(negLevel > MAX_NEG_LEVEL) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                    }
+                    --negLevel;
                 }
                 // Extend outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
-                LGSPEdge edge_head_ensureMoveRightValidRule_edge__edge0 = node_cur_ensureMoveRightValidRule_node_wv.outhead;
-                if(edge_head_ensureMoveRightValidRule_edge__edge0 != null)
+                LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.outhead;
+                if(head_candidate_ensureMoveRightValidRule_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_ensureMoveRightValidRule_edge__edge0 = edge_head_ensureMoveRightValidRule_edge__edge0;
+                    LGSPEdge candidate_ensureMoveRightValidRule_edge__edge0 = head_candidate_ensureMoveRightValidRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveRight.isMyType[edge_cur_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_moveRight.isMyType[candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
                         // Implicit target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
-                        LGSPNode node_cur_ensureMoveRightValidRule_node__node0 = edge_cur_ensureMoveRightValidRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[node_cur_ensureMoveRightValidRule_node__node0.type.TypeID]) {
+                        LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
+                        if(!NodeType_State.isMyType[candidate_ensureMoveRightValidRule_node__node0.type.TypeID]) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@wv] = node_cur_ensureMoveRightValidRule_node_wv;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@_node0] = node_cur_ensureMoveRightValidRule_node__node0;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@bp] = node_cur_ensureMoveRightValidRule_node_bp;
-                        match.Edges[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_EdgeNums.@_edge0] = edge_cur_ensureMoveRightValidRule_edge__edge0;
+                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@wv] = candidate_ensureMoveRightValidRule_node_wv;
+                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@_node0] = candidate_ensureMoveRightValidRule_node__node0;
+                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@bp] = candidate_ensureMoveRightValidRule_node_bp;
+                        match.Edges[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_EdgeNums.@_edge0] = candidate_ensureMoveRightValidRule_edge__edge0;
                         matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
-                            node_cur_ensureMoveRightValidRule_node_wv.MoveOutHeadAfter(edge_cur_ensureMoveRightValidRule_edge__edge0);
-                            graph.MoveHeadAfter(node_cur_ensureMoveRightValidRule_node_wv);
+                            candidate_ensureMoveRightValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveRightValidRule_edge__edge0);
+                            graph.MoveHeadAfter(candidate_ensureMoveRightValidRule_node_wv);
                             return;
                         }
                     }
-                    while( (edge_cur_ensureMoveRightValidRule_edge__edge0 = edge_cur_ensureMoveRightValidRule_edge__edge0.outNext) != edge_head_ensureMoveRightValidRule_edge__edge0 );
+                    while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
                 }
 label2: ;
             }
             return;
         }
-        public void MissingPreset_ensureMoveRightValidRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode node_cur_ensureMoveRightValidRule_node_wv)
+        public void MissingPreset_ensureMoveRightValidRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_ensureMoveRightValidRule_node_wv)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup ensureMoveRightValidRule_node_bp 
-            int node_type_id_ensureMoveRightValidRule_node_bp = 1;
-            for(LGSPNode node_head_ensureMoveRightValidRule_node_bp = graph.nodesByTypeHeads[node_type_id_ensureMoveRightValidRule_node_bp], node_cur_ensureMoveRightValidRule_node_bp = node_head_ensureMoveRightValidRule_node_bp.typeNext; node_cur_ensureMoveRightValidRule_node_bp != node_head_ensureMoveRightValidRule_node_bp; node_cur_ensureMoveRightValidRule_node_bp = node_cur_ensureMoveRightValidRule_node_bp.typeNext)
+            int type_id_candidate_ensureMoveRightValidRule_node_bp = 1;
+            for(LGSPNode head_candidate_ensureMoveRightValidRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_ensureMoveRightValidRule_node_bp], candidate_ensureMoveRightValidRule_node_bp = head_candidate_ensureMoveRightValidRule_node_bp.typeNext; candidate_ensureMoveRightValidRule_node_bp != head_candidate_ensureMoveRightValidRule_node_bp; candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.typeNext)
             {
                 // NegativePattern 
                 {
-                    bool node_cur_ensureMoveRightValidRule_node_bp_prevIsMatchedNeg = node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg;
-                    node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg = true;
+                    ++negLevel;
+                    if(negLevel > MAX_NEG_LEVEL && negLevel-MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {
+                        graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst = new Dictionary<LGSPNode, LGSPNode>();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd = new Dictionary<LGSPEdge, LGSPEdge>();
+                    }
+                    uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                        candidate_ensureMoveRightValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                    } else {
+                        prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveRightValidRule_node_bp) ? 1U : 0U;
+                        if(prev_neg_0__candidate_ensureMoveRightValidRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_ensureMoveRightValidRule_node_bp,candidate_ensureMoveRightValidRule_node_bp);
+                    }
                     // Extend outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
-                    LGSPEdge edge_head_ensureMoveRightValidRule_neg_0_edge__edge0 = node_cur_ensureMoveRightValidRule_node_bp.outhead;
-                    if(edge_head_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
+                    LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.outhead;
+                    if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
                     {
-                        LGSPEdge edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0 = edge_head_ensureMoveRightValidRule_neg_0_edge__edge0;
+                        LGSPEdge candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_right.isMyType[edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
+                            if(!EdgeType_right.isMyType[candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
                                 continue;
                             }
                             // Implicit target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
-                            LGSPNode node_cur_ensureMoveRightValidRule_neg_0_node__node0 = edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0.target;
-                            if(!NodeType_BandPosition.isMyType[node_cur_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
+                            LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
+                            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
                                 continue;
                             }
-                            if(node_cur_ensureMoveRightValidRule_neg_0_node__node0.isMatchedNeg
-                                && node_cur_ensureMoveRightValidRule_neg_0_node__node0==node_cur_ensureMoveRightValidRule_node_bp
+                            if((negLevel<=MAX_NEG_LEVEL ? (candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ensureMoveRightValidRule_neg_0_node__node0))
+                                && candidate_ensureMoveRightValidRule_neg_0_node__node0==candidate_ensureMoveRightValidRule_node_bp
                                 )
                             {
                                 continue;
                             }
-                            node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveRightValidRule_node_bp_prevIsMatchedNeg;
+                            // negative pattern found
+                            if(negLevel <= MAX_NEG_LEVEL) {
+                                candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                            } else { 
+                                if(prev_neg_0__candidate_ensureMoveRightValidRule_node_bp==0) {
+                                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveRightValidRule_node_bp);
+                                }
+                            }
+                            if(negLevel > MAX_NEG_LEVEL) {
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                                graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                            }
+                            --negLevel;
                             goto label3;
                         }
-                        while( (edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0 = edge_cur_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != edge_head_ensureMoveRightValidRule_neg_0_edge__edge0 );
+                        while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
                     }
-                    node_cur_ensureMoveRightValidRule_node_bp.isMatchedNeg = node_cur_ensureMoveRightValidRule_node_bp_prevIsMatchedNeg;
+                    if(negLevel <= MAX_NEG_LEVEL) {
+                        candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                    } else { 
+                        if(prev_neg_0__candidate_ensureMoveRightValidRule_node_bp==0) {
+                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_ensureMoveRightValidRule_node_bp);
+                        }
+                    }
+                    if(negLevel > MAX_NEG_LEVEL) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();
+                    }
+                    --negLevel;
                 }
                 // Extend outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
-                LGSPEdge edge_head_ensureMoveRightValidRule_edge__edge0 = node_cur_ensureMoveRightValidRule_node_wv.outhead;
-                if(edge_head_ensureMoveRightValidRule_edge__edge0 != null)
+                LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.outhead;
+                if(head_candidate_ensureMoveRightValidRule_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_ensureMoveRightValidRule_edge__edge0 = edge_head_ensureMoveRightValidRule_edge__edge0;
+                    LGSPEdge candidate_ensureMoveRightValidRule_edge__edge0 = head_candidate_ensureMoveRightValidRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveRight.isMyType[edge_cur_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_moveRight.isMyType[candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
                         // Implicit target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
-                        LGSPNode node_cur_ensureMoveRightValidRule_node__node0 = edge_cur_ensureMoveRightValidRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[node_cur_ensureMoveRightValidRule_node__node0.type.TypeID]) {
+                        LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
+                        if(!NodeType_State.isMyType[candidate_ensureMoveRightValidRule_node__node0.type.TypeID]) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@wv] = node_cur_ensureMoveRightValidRule_node_wv;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@_node0] = node_cur_ensureMoveRightValidRule_node__node0;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@bp] = node_cur_ensureMoveRightValidRule_node_bp;
-                        match.Edges[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_EdgeNums.@_edge0] = edge_cur_ensureMoveRightValidRule_edge__edge0;
+                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@wv] = candidate_ensureMoveRightValidRule_node_wv;
+                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@_node0] = candidate_ensureMoveRightValidRule_node__node0;
+                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@bp] = candidate_ensureMoveRightValidRule_node_bp;
+                        match.Edges[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_EdgeNums.@_edge0] = candidate_ensureMoveRightValidRule_edge__edge0;
                         matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
-                            node_cur_ensureMoveRightValidRule_node_wv.MoveOutHeadAfter(edge_cur_ensureMoveRightValidRule_edge__edge0);
-                            graph.MoveHeadAfter(node_cur_ensureMoveRightValidRule_node_bp);
+                            candidate_ensureMoveRightValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveRightValidRule_edge__edge0);
+                            graph.MoveHeadAfter(candidate_ensureMoveRightValidRule_node_bp);
                             return;
                         }
                     }
-                    while( (edge_cur_ensureMoveRightValidRule_edge__edge0 = edge_cur_ensureMoveRightValidRule_edge__edge0.outNext) != edge_head_ensureMoveRightValidRule_edge__edge0 );
+                    while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
                 }
 label3: ;
             }
@@ -1197,9 +1427,11 @@ label3: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Preset moveLeftRule_node_wv 
-            LGSPNode node_cur_moveLeftRule_node_wv = (LGSPNode) parameters[0];
-            if(node_cur_moveLeftRule_node_wv == null) {
+            LGSPNode candidate_moveLeftRule_node_wv = (LGSPNode) parameters[0];
+            if(candidate_moveLeftRule_node_wv == null) {
                 MissingPreset_moveLeftRule_node_wv(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -1208,13 +1440,13 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_WriteValue.isMyType[node_cur_moveLeftRule_node_wv.type.TypeID]) {
+            if(!NodeType_WriteValue.isMyType[candidate_moveLeftRule_node_wv.type.TypeID]) {
                 return matches;
             }
             // Preset moveLeftRule_node_bp 
-            LGSPNode node_cur_moveLeftRule_node_bp = (LGSPNode) parameters[1];
-            if(node_cur_moveLeftRule_node_bp == null) {
-                MissingPreset_moveLeftRule_node_bp(graph, maxMatches, parameters, null, null, null, node_cur_moveLeftRule_node_wv);
+            LGSPNode candidate_moveLeftRule_node_bp = (LGSPNode) parameters[1];
+            if(candidate_moveLeftRule_node_bp == null) {
+                MissingPreset_moveLeftRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveLeftRule_node_wv);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
@@ -1222,83 +1454,103 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[node_cur_moveLeftRule_node_bp.type.TypeID]) {
+            if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_bp.type.TypeID]) {
                 return matches;
             }
-            bool node_cur_moveLeftRule_node_bp_prevIsMatched = node_cur_moveLeftRule_node_bp.isMatched;
-            node_cur_moveLeftRule_node_bp.isMatched = true;
+            uint prev__candidate_moveLeftRule_node_bp;
+            if(negLevel <= MAX_NEG_LEVEL) {
+                prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                candidate_moveLeftRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+            } else {
+                prev__candidate_moveLeftRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveLeftRule_node_bp) ? 1U : 0U;
+                if(prev__candidate_moveLeftRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_moveLeftRule_node_bp,candidate_moveLeftRule_node_bp);
+            }
             // Extend outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
-            LGSPEdge edge_head_moveLeftRule_edge__edge0 = node_cur_moveLeftRule_node_wv.outhead;
-            if(edge_head_moveLeftRule_edge__edge0 != null)
+            LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.outhead;
+            if(head_candidate_moveLeftRule_edge__edge0 != null)
             {
-                LGSPEdge edge_cur_moveLeftRule_edge__edge0 = edge_head_moveLeftRule_edge__edge0;
+                LGSPEdge candidate_moveLeftRule_edge__edge0 = head_candidate_moveLeftRule_edge__edge0;
                 do
                 {
-                    if(!EdgeType_moveLeft.isMyType[edge_cur_moveLeftRule_edge__edge0.type.TypeID]) {
+                    if(!EdgeType_moveLeft.isMyType[candidate_moveLeftRule_edge__edge0.type.TypeID]) {
                         continue;
                     }
                     // Implicit target moveLeftRule_node_s from moveLeftRule_edge__edge0 
-                    LGSPNode node_cur_moveLeftRule_node_s = edge_cur_moveLeftRule_edge__edge0.target;
-                    if(!NodeType_State.isMyType[node_cur_moveLeftRule_node_s.type.TypeID]) {
+                    LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
+                    if(!NodeType_State.isMyType[candidate_moveLeftRule_node_s.type.TypeID]) {
                         continue;
                     }
                     // Extend incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
-                    LGSPEdge edge_head_moveLeftRule_edge__edge1 = node_cur_moveLeftRule_node_bp.inhead;
-                    if(edge_head_moveLeftRule_edge__edge1 != null)
+                    LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.inhead;
+                    if(head_candidate_moveLeftRule_edge__edge1 != null)
                     {
-                        LGSPEdge edge_cur_moveLeftRule_edge__edge1 = edge_head_moveLeftRule_edge__edge1;
+                        LGSPEdge candidate_moveLeftRule_edge__edge1 = head_candidate_moveLeftRule_edge__edge1;
                         do
                         {
-                            if(!EdgeType_right.isMyType[edge_cur_moveLeftRule_edge__edge1.type.TypeID]) {
+                            if(!EdgeType_right.isMyType[candidate_moveLeftRule_edge__edge1.type.TypeID]) {
                                 continue;
                             }
                             // Implicit source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
-                            LGSPNode node_cur_moveLeftRule_node_lbp = edge_cur_moveLeftRule_edge__edge1.source;
-                            if(!NodeType_BandPosition.isMyType[node_cur_moveLeftRule_node_lbp.type.TypeID]) {
+                            LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
+                            if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_lbp.type.TypeID]) {
                                 continue;
                             }
-                            if(node_cur_moveLeftRule_node_lbp.isMatched
-                                && node_cur_moveLeftRule_node_lbp==node_cur_moveLeftRule_node_bp
+                            if((negLevel<=MAX_NEG_LEVEL ? (candidate_moveLeftRule_node_lbp.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveLeftRule_node_lbp))
+                                && candidate_moveLeftRule_node_lbp==candidate_moveLeftRule_node_bp
                                 )
                             {
                                 continue;
                             }
                             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                             match.patternGraph = rulePattern.patternGraph;
-                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@wv] = node_cur_moveLeftRule_node_wv;
-                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@s] = node_cur_moveLeftRule_node_s;
-                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@lbp] = node_cur_moveLeftRule_node_lbp;
-                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@bp] = node_cur_moveLeftRule_node_bp;
-                            match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge0] = edge_cur_moveLeftRule_edge__edge0;
-                            match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge1] = edge_cur_moveLeftRule_edge__edge1;
+                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@wv] = candidate_moveLeftRule_node_wv;
+                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@s] = candidate_moveLeftRule_node_s;
+                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@lbp] = candidate_moveLeftRule_node_lbp;
+                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@bp] = candidate_moveLeftRule_node_bp;
+                            match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge0] = candidate_moveLeftRule_edge__edge0;
+                            match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge1] = candidate_moveLeftRule_edge__edge1;
                             matches.matchesList.PositionWasFilledFixIt();
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                             {
-                                node_cur_moveLeftRule_node_bp.MoveInHeadAfter(edge_cur_moveLeftRule_edge__edge1);
-                                node_cur_moveLeftRule_node_wv.MoveOutHeadAfter(edge_cur_moveLeftRule_edge__edge0);
-                                node_cur_moveLeftRule_node_bp.isMatched = node_cur_moveLeftRule_node_bp_prevIsMatched;
+                                candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
+                                candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
+                                if(negLevel <= MAX_NEG_LEVEL) {
+                                    candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+                                } else { 
+                                    if(prev__candidate_moveLeftRule_node_bp==0) {
+                                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveLeftRule_node_bp);
+                                    }
+                                }
                                 return matches;
                             }
                         }
-                        while( (edge_cur_moveLeftRule_edge__edge1 = edge_cur_moveLeftRule_edge__edge1.inNext) != edge_head_moveLeftRule_edge__edge1 );
+                        while( (candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_edge__edge1.inNext) != head_candidate_moveLeftRule_edge__edge1 );
                     }
                 }
-                while( (edge_cur_moveLeftRule_edge__edge0 = edge_cur_moveLeftRule_edge__edge0.outNext) != edge_head_moveLeftRule_edge__edge0 );
+                while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.outNext) != head_candidate_moveLeftRule_edge__edge0 );
             }
-            node_cur_moveLeftRule_node_bp.isMatched = node_cur_moveLeftRule_node_bp_prevIsMatched;
+            if(negLevel <= MAX_NEG_LEVEL) {
+                candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+            } else { 
+                if(prev__candidate_moveLeftRule_node_bp==0) {
+                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveLeftRule_node_bp);
+                }
+            }
             return matches;
         }
         public void MissingPreset_moveLeftRule_node_wv(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup moveLeftRule_node_wv 
-            int node_type_id_moveLeftRule_node_wv = 3;
-            for(LGSPNode node_head_moveLeftRule_node_wv = graph.nodesByTypeHeads[node_type_id_moveLeftRule_node_wv], node_cur_moveLeftRule_node_wv = node_head_moveLeftRule_node_wv.typeNext; node_cur_moveLeftRule_node_wv != node_head_moveLeftRule_node_wv; node_cur_moveLeftRule_node_wv = node_cur_moveLeftRule_node_wv.typeNext)
+            int type_id_candidate_moveLeftRule_node_wv = 3;
+            for(LGSPNode head_candidate_moveLeftRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_moveLeftRule_node_wv], candidate_moveLeftRule_node_wv = head_candidate_moveLeftRule_node_wv.typeNext; candidate_moveLeftRule_node_wv != head_candidate_moveLeftRule_node_wv; candidate_moveLeftRule_node_wv = candidate_moveLeftRule_node_wv.typeNext)
             {
                 // Preset moveLeftRule_node_bp 
-                LGSPNode node_cur_moveLeftRule_node_bp = (LGSPNode) parameters[1];
-                if(node_cur_moveLeftRule_node_bp == null) {
-                    MissingPreset_moveLeftRule_node_bp(graph, maxMatches, parameters, null, null, null, node_cur_moveLeftRule_node_wv);
+                LGSPNode candidate_moveLeftRule_node_bp = (LGSPNode) parameters[1];
+                if(candidate_moveLeftRule_node_bp == null) {
+                    MissingPreset_moveLeftRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveLeftRule_node_wv);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
@@ -1306,144 +1558,182 @@ label3: ;
                     }
                     continue;
                 }
-                if(!NodeType_BandPosition.isMyType[node_cur_moveLeftRule_node_bp.type.TypeID]) {
+                if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_bp.type.TypeID]) {
                     continue;
                 }
-                bool node_cur_moveLeftRule_node_bp_prevIsMatched = node_cur_moveLeftRule_node_bp.isMatched;
-                node_cur_moveLeftRule_node_bp.isMatched = true;
+                uint prev__candidate_moveLeftRule_node_bp;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                    candidate_moveLeftRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                } else {
+                    prev__candidate_moveLeftRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveLeftRule_node_bp) ? 1U : 0U;
+                    if(prev__candidate_moveLeftRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_moveLeftRule_node_bp,candidate_moveLeftRule_node_bp);
+                }
                 // Extend outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
-                LGSPEdge edge_head_moveLeftRule_edge__edge0 = node_cur_moveLeftRule_node_wv.outhead;
-                if(edge_head_moveLeftRule_edge__edge0 != null)
+                LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.outhead;
+                if(head_candidate_moveLeftRule_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_moveLeftRule_edge__edge0 = edge_head_moveLeftRule_edge__edge0;
+                    LGSPEdge candidate_moveLeftRule_edge__edge0 = head_candidate_moveLeftRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveLeft.isMyType[edge_cur_moveLeftRule_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_moveLeft.isMyType[candidate_moveLeftRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
                         // Implicit target moveLeftRule_node_s from moveLeftRule_edge__edge0 
-                        LGSPNode node_cur_moveLeftRule_node_s = edge_cur_moveLeftRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[node_cur_moveLeftRule_node_s.type.TypeID]) {
+                        LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
+                        if(!NodeType_State.isMyType[candidate_moveLeftRule_node_s.type.TypeID]) {
                             continue;
                         }
                         // Extend incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
-                        LGSPEdge edge_head_moveLeftRule_edge__edge1 = node_cur_moveLeftRule_node_bp.inhead;
-                        if(edge_head_moveLeftRule_edge__edge1 != null)
+                        LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.inhead;
+                        if(head_candidate_moveLeftRule_edge__edge1 != null)
                         {
-                            LGSPEdge edge_cur_moveLeftRule_edge__edge1 = edge_head_moveLeftRule_edge__edge1;
+                            LGSPEdge candidate_moveLeftRule_edge__edge1 = head_candidate_moveLeftRule_edge__edge1;
                             do
                             {
-                                if(!EdgeType_right.isMyType[edge_cur_moveLeftRule_edge__edge1.type.TypeID]) {
+                                if(!EdgeType_right.isMyType[candidate_moveLeftRule_edge__edge1.type.TypeID]) {
                                     continue;
                                 }
                                 // Implicit source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
-                                LGSPNode node_cur_moveLeftRule_node_lbp = edge_cur_moveLeftRule_edge__edge1.source;
-                                if(!NodeType_BandPosition.isMyType[node_cur_moveLeftRule_node_lbp.type.TypeID]) {
+                                LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
+                                if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_lbp.type.TypeID]) {
                                     continue;
                                 }
-                                if(node_cur_moveLeftRule_node_lbp.isMatched
-                                    && node_cur_moveLeftRule_node_lbp==node_cur_moveLeftRule_node_bp
+                                if((negLevel<=MAX_NEG_LEVEL ? (candidate_moveLeftRule_node_lbp.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveLeftRule_node_lbp))
+                                    && candidate_moveLeftRule_node_lbp==candidate_moveLeftRule_node_bp
                                     )
                                 {
                                     continue;
                                 }
                                 LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                 match.patternGraph = rulePattern.patternGraph;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@wv] = node_cur_moveLeftRule_node_wv;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@s] = node_cur_moveLeftRule_node_s;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@lbp] = node_cur_moveLeftRule_node_lbp;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@bp] = node_cur_moveLeftRule_node_bp;
-                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge0] = edge_cur_moveLeftRule_edge__edge0;
-                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge1] = edge_cur_moveLeftRule_edge__edge1;
+                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@wv] = candidate_moveLeftRule_node_wv;
+                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@s] = candidate_moveLeftRule_node_s;
+                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@lbp] = candidate_moveLeftRule_node_lbp;
+                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@bp] = candidate_moveLeftRule_node_bp;
+                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge0] = candidate_moveLeftRule_edge__edge0;
+                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge1] = candidate_moveLeftRule_edge__edge1;
                                 matches.matchesList.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                 {
-                                    node_cur_moveLeftRule_node_bp.MoveInHeadAfter(edge_cur_moveLeftRule_edge__edge1);
-                                    node_cur_moveLeftRule_node_wv.MoveOutHeadAfter(edge_cur_moveLeftRule_edge__edge0);
-                                    graph.MoveHeadAfter(node_cur_moveLeftRule_node_wv);
-                                    node_cur_moveLeftRule_node_bp.isMatched = node_cur_moveLeftRule_node_bp_prevIsMatched;
+                                    candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
+                                    candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
+                                    graph.MoveHeadAfter(candidate_moveLeftRule_node_wv);
+                                    if(negLevel <= MAX_NEG_LEVEL) {
+                                        candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+                                    } else { 
+                                        if(prev__candidate_moveLeftRule_node_bp==0) {
+                                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveLeftRule_node_bp);
+                                        }
+                                    }
                                     return;
                                 }
                             }
-                            while( (edge_cur_moveLeftRule_edge__edge1 = edge_cur_moveLeftRule_edge__edge1.inNext) != edge_head_moveLeftRule_edge__edge1 );
+                            while( (candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_edge__edge1.inNext) != head_candidate_moveLeftRule_edge__edge1 );
                         }
                     }
-                    while( (edge_cur_moveLeftRule_edge__edge0 = edge_cur_moveLeftRule_edge__edge0.outNext) != edge_head_moveLeftRule_edge__edge0 );
+                    while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.outNext) != head_candidate_moveLeftRule_edge__edge0 );
                 }
-                node_cur_moveLeftRule_node_bp.isMatched = node_cur_moveLeftRule_node_bp_prevIsMatched;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+                } else { 
+                    if(prev__candidate_moveLeftRule_node_bp==0) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveLeftRule_node_bp);
+                    }
+                }
             }
             return;
         }
-        public void MissingPreset_moveLeftRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode node_cur_moveLeftRule_node_wv)
+        public void MissingPreset_moveLeftRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_moveLeftRule_node_wv)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup moveLeftRule_node_bp 
-            int node_type_id_moveLeftRule_node_bp = 1;
-            for(LGSPNode node_head_moveLeftRule_node_bp = graph.nodesByTypeHeads[node_type_id_moveLeftRule_node_bp], node_cur_moveLeftRule_node_bp = node_head_moveLeftRule_node_bp.typeNext; node_cur_moveLeftRule_node_bp != node_head_moveLeftRule_node_bp; node_cur_moveLeftRule_node_bp = node_cur_moveLeftRule_node_bp.typeNext)
+            int type_id_candidate_moveLeftRule_node_bp = 1;
+            for(LGSPNode head_candidate_moveLeftRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_moveLeftRule_node_bp], candidate_moveLeftRule_node_bp = head_candidate_moveLeftRule_node_bp.typeNext; candidate_moveLeftRule_node_bp != head_candidate_moveLeftRule_node_bp; candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.typeNext)
             {
-                bool node_cur_moveLeftRule_node_bp_prevIsMatched = node_cur_moveLeftRule_node_bp.isMatched;
-                node_cur_moveLeftRule_node_bp.isMatched = true;
+                uint prev__candidate_moveLeftRule_node_bp;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                    candidate_moveLeftRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                } else {
+                    prev__candidate_moveLeftRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveLeftRule_node_bp) ? 1U : 0U;
+                    if(prev__candidate_moveLeftRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_moveLeftRule_node_bp,candidate_moveLeftRule_node_bp);
+                }
                 // Extend outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
-                LGSPEdge edge_head_moveLeftRule_edge__edge0 = node_cur_moveLeftRule_node_wv.outhead;
-                if(edge_head_moveLeftRule_edge__edge0 != null)
+                LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.outhead;
+                if(head_candidate_moveLeftRule_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_moveLeftRule_edge__edge0 = edge_head_moveLeftRule_edge__edge0;
+                    LGSPEdge candidate_moveLeftRule_edge__edge0 = head_candidate_moveLeftRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveLeft.isMyType[edge_cur_moveLeftRule_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_moveLeft.isMyType[candidate_moveLeftRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
                         // Implicit target moveLeftRule_node_s from moveLeftRule_edge__edge0 
-                        LGSPNode node_cur_moveLeftRule_node_s = edge_cur_moveLeftRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[node_cur_moveLeftRule_node_s.type.TypeID]) {
+                        LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
+                        if(!NodeType_State.isMyType[candidate_moveLeftRule_node_s.type.TypeID]) {
                             continue;
                         }
                         // Extend incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
-                        LGSPEdge edge_head_moveLeftRule_edge__edge1 = node_cur_moveLeftRule_node_bp.inhead;
-                        if(edge_head_moveLeftRule_edge__edge1 != null)
+                        LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.inhead;
+                        if(head_candidate_moveLeftRule_edge__edge1 != null)
                         {
-                            LGSPEdge edge_cur_moveLeftRule_edge__edge1 = edge_head_moveLeftRule_edge__edge1;
+                            LGSPEdge candidate_moveLeftRule_edge__edge1 = head_candidate_moveLeftRule_edge__edge1;
                             do
                             {
-                                if(!EdgeType_right.isMyType[edge_cur_moveLeftRule_edge__edge1.type.TypeID]) {
+                                if(!EdgeType_right.isMyType[candidate_moveLeftRule_edge__edge1.type.TypeID]) {
                                     continue;
                                 }
                                 // Implicit source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
-                                LGSPNode node_cur_moveLeftRule_node_lbp = edge_cur_moveLeftRule_edge__edge1.source;
-                                if(!NodeType_BandPosition.isMyType[node_cur_moveLeftRule_node_lbp.type.TypeID]) {
+                                LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
+                                if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_lbp.type.TypeID]) {
                                     continue;
                                 }
-                                if(node_cur_moveLeftRule_node_lbp.isMatched
-                                    && node_cur_moveLeftRule_node_lbp==node_cur_moveLeftRule_node_bp
+                                if((negLevel<=MAX_NEG_LEVEL ? (candidate_moveLeftRule_node_lbp.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveLeftRule_node_lbp))
+                                    && candidate_moveLeftRule_node_lbp==candidate_moveLeftRule_node_bp
                                     )
                                 {
                                     continue;
                                 }
                                 LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                 match.patternGraph = rulePattern.patternGraph;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@wv] = node_cur_moveLeftRule_node_wv;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@s] = node_cur_moveLeftRule_node_s;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@lbp] = node_cur_moveLeftRule_node_lbp;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@bp] = node_cur_moveLeftRule_node_bp;
-                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge0] = edge_cur_moveLeftRule_edge__edge0;
-                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge1] = edge_cur_moveLeftRule_edge__edge1;
+                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@wv] = candidate_moveLeftRule_node_wv;
+                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@s] = candidate_moveLeftRule_node_s;
+                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@lbp] = candidate_moveLeftRule_node_lbp;
+                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@bp] = candidate_moveLeftRule_node_bp;
+                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge0] = candidate_moveLeftRule_edge__edge0;
+                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge1] = candidate_moveLeftRule_edge__edge1;
                                 matches.matchesList.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                 {
-                                    node_cur_moveLeftRule_node_bp.MoveInHeadAfter(edge_cur_moveLeftRule_edge__edge1);
-                                    node_cur_moveLeftRule_node_wv.MoveOutHeadAfter(edge_cur_moveLeftRule_edge__edge0);
-                                    graph.MoveHeadAfter(node_cur_moveLeftRule_node_bp);
-                                    node_cur_moveLeftRule_node_bp.isMatched = node_cur_moveLeftRule_node_bp_prevIsMatched;
+                                    candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
+                                    candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
+                                    graph.MoveHeadAfter(candidate_moveLeftRule_node_bp);
+                                    if(negLevel <= MAX_NEG_LEVEL) {
+                                        candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+                                    } else { 
+                                        if(prev__candidate_moveLeftRule_node_bp==0) {
+                                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveLeftRule_node_bp);
+                                        }
+                                    }
                                     return;
                                 }
                             }
-                            while( (edge_cur_moveLeftRule_edge__edge1 = edge_cur_moveLeftRule_edge__edge1.inNext) != edge_head_moveLeftRule_edge__edge1 );
+                            while( (candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_edge__edge1.inNext) != head_candidate_moveLeftRule_edge__edge1 );
                         }
                     }
-                    while( (edge_cur_moveLeftRule_edge__edge0 = edge_cur_moveLeftRule_edge__edge0.outNext) != edge_head_moveLeftRule_edge__edge0 );
+                    while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.outNext) != head_candidate_moveLeftRule_edge__edge0 );
                 }
-                node_cur_moveLeftRule_node_bp.isMatched = node_cur_moveLeftRule_node_bp_prevIsMatched;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+                } else { 
+                    if(prev__candidate_moveLeftRule_node_bp==0) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveLeftRule_node_bp);
+                    }
+                }
             }
             return;
         }
@@ -1466,9 +1756,11 @@ label3: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Preset moveRightRule_node_wv 
-            LGSPNode node_cur_moveRightRule_node_wv = (LGSPNode) parameters[0];
-            if(node_cur_moveRightRule_node_wv == null) {
+            LGSPNode candidate_moveRightRule_node_wv = (LGSPNode) parameters[0];
+            if(candidate_moveRightRule_node_wv == null) {
                 MissingPreset_moveRightRule_node_wv(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -1477,13 +1769,13 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_WriteValue.isMyType[node_cur_moveRightRule_node_wv.type.TypeID]) {
+            if(!NodeType_WriteValue.isMyType[candidate_moveRightRule_node_wv.type.TypeID]) {
                 return matches;
             }
             // Preset moveRightRule_node_bp 
-            LGSPNode node_cur_moveRightRule_node_bp = (LGSPNode) parameters[1];
-            if(node_cur_moveRightRule_node_bp == null) {
-                MissingPreset_moveRightRule_node_bp(graph, maxMatches, parameters, null, null, null, node_cur_moveRightRule_node_wv);
+            LGSPNode candidate_moveRightRule_node_bp = (LGSPNode) parameters[1];
+            if(candidate_moveRightRule_node_bp == null) {
+                MissingPreset_moveRightRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveRightRule_node_wv);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
@@ -1491,83 +1783,103 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[node_cur_moveRightRule_node_bp.type.TypeID]) {
+            if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_bp.type.TypeID]) {
                 return matches;
             }
-            bool node_cur_moveRightRule_node_bp_prevIsMatched = node_cur_moveRightRule_node_bp.isMatched;
-            node_cur_moveRightRule_node_bp.isMatched = true;
+            uint prev__candidate_moveRightRule_node_bp;
+            if(negLevel <= MAX_NEG_LEVEL) {
+                prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                candidate_moveRightRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+            } else {
+                prev__candidate_moveRightRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveRightRule_node_bp) ? 1U : 0U;
+                if(prev__candidate_moveRightRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_moveRightRule_node_bp,candidate_moveRightRule_node_bp);
+            }
             // Extend outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
-            LGSPEdge edge_head_moveRightRule_edge__edge0 = node_cur_moveRightRule_node_wv.outhead;
-            if(edge_head_moveRightRule_edge__edge0 != null)
+            LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.outhead;
+            if(head_candidate_moveRightRule_edge__edge0 != null)
             {
-                LGSPEdge edge_cur_moveRightRule_edge__edge0 = edge_head_moveRightRule_edge__edge0;
+                LGSPEdge candidate_moveRightRule_edge__edge0 = head_candidate_moveRightRule_edge__edge0;
                 do
                 {
-                    if(!EdgeType_moveRight.isMyType[edge_cur_moveRightRule_edge__edge0.type.TypeID]) {
+                    if(!EdgeType_moveRight.isMyType[candidate_moveRightRule_edge__edge0.type.TypeID]) {
                         continue;
                     }
                     // Implicit target moveRightRule_node_s from moveRightRule_edge__edge0 
-                    LGSPNode node_cur_moveRightRule_node_s = edge_cur_moveRightRule_edge__edge0.target;
-                    if(!NodeType_State.isMyType[node_cur_moveRightRule_node_s.type.TypeID]) {
+                    LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
+                    if(!NodeType_State.isMyType[candidate_moveRightRule_node_s.type.TypeID]) {
                         continue;
                     }
                     // Extend outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
-                    LGSPEdge edge_head_moveRightRule_edge__edge1 = node_cur_moveRightRule_node_bp.outhead;
-                    if(edge_head_moveRightRule_edge__edge1 != null)
+                    LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.outhead;
+                    if(head_candidate_moveRightRule_edge__edge1 != null)
                     {
-                        LGSPEdge edge_cur_moveRightRule_edge__edge1 = edge_head_moveRightRule_edge__edge1;
+                        LGSPEdge candidate_moveRightRule_edge__edge1 = head_candidate_moveRightRule_edge__edge1;
                         do
                         {
-                            if(!EdgeType_right.isMyType[edge_cur_moveRightRule_edge__edge1.type.TypeID]) {
+                            if(!EdgeType_right.isMyType[candidate_moveRightRule_edge__edge1.type.TypeID]) {
                                 continue;
                             }
                             // Implicit target moveRightRule_node_rbp from moveRightRule_edge__edge1 
-                            LGSPNode node_cur_moveRightRule_node_rbp = edge_cur_moveRightRule_edge__edge1.target;
-                            if(!NodeType_BandPosition.isMyType[node_cur_moveRightRule_node_rbp.type.TypeID]) {
+                            LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
+                            if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_rbp.type.TypeID]) {
                                 continue;
                             }
-                            if(node_cur_moveRightRule_node_rbp.isMatched
-                                && node_cur_moveRightRule_node_rbp==node_cur_moveRightRule_node_bp
+                            if((negLevel<=MAX_NEG_LEVEL ? (candidate_moveRightRule_node_rbp.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveRightRule_node_rbp))
+                                && candidate_moveRightRule_node_rbp==candidate_moveRightRule_node_bp
                                 )
                             {
                                 continue;
                             }
                             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                             match.patternGraph = rulePattern.patternGraph;
-                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@wv] = node_cur_moveRightRule_node_wv;
-                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@s] = node_cur_moveRightRule_node_s;
-                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@bp] = node_cur_moveRightRule_node_bp;
-                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@rbp] = node_cur_moveRightRule_node_rbp;
-                            match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge0] = edge_cur_moveRightRule_edge__edge0;
-                            match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge1] = edge_cur_moveRightRule_edge__edge1;
+                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@wv] = candidate_moveRightRule_node_wv;
+                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@s] = candidate_moveRightRule_node_s;
+                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@bp] = candidate_moveRightRule_node_bp;
+                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@rbp] = candidate_moveRightRule_node_rbp;
+                            match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge0] = candidate_moveRightRule_edge__edge0;
+                            match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge1] = candidate_moveRightRule_edge__edge1;
                             matches.matchesList.PositionWasFilledFixIt();
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                             {
-                                node_cur_moveRightRule_node_bp.MoveOutHeadAfter(edge_cur_moveRightRule_edge__edge1);
-                                node_cur_moveRightRule_node_wv.MoveOutHeadAfter(edge_cur_moveRightRule_edge__edge0);
-                                node_cur_moveRightRule_node_bp.isMatched = node_cur_moveRightRule_node_bp_prevIsMatched;
+                                candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
+                                candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
+                                if(negLevel <= MAX_NEG_LEVEL) {
+                                    candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
+                                } else { 
+                                    if(prev__candidate_moveRightRule_node_bp==0) {
+                                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveRightRule_node_bp);
+                                    }
+                                }
                                 return matches;
                             }
                         }
-                        while( (edge_cur_moveRightRule_edge__edge1 = edge_cur_moveRightRule_edge__edge1.outNext) != edge_head_moveRightRule_edge__edge1 );
+                        while( (candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_edge__edge1.outNext) != head_candidate_moveRightRule_edge__edge1 );
                     }
                 }
-                while( (edge_cur_moveRightRule_edge__edge0 = edge_cur_moveRightRule_edge__edge0.outNext) != edge_head_moveRightRule_edge__edge0 );
+                while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.outNext) != head_candidate_moveRightRule_edge__edge0 );
             }
-            node_cur_moveRightRule_node_bp.isMatched = node_cur_moveRightRule_node_bp_prevIsMatched;
+            if(negLevel <= MAX_NEG_LEVEL) {
+                candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
+            } else { 
+                if(prev__candidate_moveRightRule_node_bp==0) {
+                    graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveRightRule_node_bp);
+                }
+            }
             return matches;
         }
         public void MissingPreset_moveRightRule_node_wv(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup moveRightRule_node_wv 
-            int node_type_id_moveRightRule_node_wv = 3;
-            for(LGSPNode node_head_moveRightRule_node_wv = graph.nodesByTypeHeads[node_type_id_moveRightRule_node_wv], node_cur_moveRightRule_node_wv = node_head_moveRightRule_node_wv.typeNext; node_cur_moveRightRule_node_wv != node_head_moveRightRule_node_wv; node_cur_moveRightRule_node_wv = node_cur_moveRightRule_node_wv.typeNext)
+            int type_id_candidate_moveRightRule_node_wv = 3;
+            for(LGSPNode head_candidate_moveRightRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_moveRightRule_node_wv], candidate_moveRightRule_node_wv = head_candidate_moveRightRule_node_wv.typeNext; candidate_moveRightRule_node_wv != head_candidate_moveRightRule_node_wv; candidate_moveRightRule_node_wv = candidate_moveRightRule_node_wv.typeNext)
             {
                 // Preset moveRightRule_node_bp 
-                LGSPNode node_cur_moveRightRule_node_bp = (LGSPNode) parameters[1];
-                if(node_cur_moveRightRule_node_bp == null) {
-                    MissingPreset_moveRightRule_node_bp(graph, maxMatches, parameters, null, null, null, node_cur_moveRightRule_node_wv);
+                LGSPNode candidate_moveRightRule_node_bp = (LGSPNode) parameters[1];
+                if(candidate_moveRightRule_node_bp == null) {
+                    MissingPreset_moveRightRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveRightRule_node_wv);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
@@ -1575,144 +1887,182 @@ label3: ;
                     }
                     continue;
                 }
-                if(!NodeType_BandPosition.isMyType[node_cur_moveRightRule_node_bp.type.TypeID]) {
+                if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_bp.type.TypeID]) {
                     continue;
                 }
-                bool node_cur_moveRightRule_node_bp_prevIsMatched = node_cur_moveRightRule_node_bp.isMatched;
-                node_cur_moveRightRule_node_bp.isMatched = true;
+                uint prev__candidate_moveRightRule_node_bp;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                    candidate_moveRightRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                } else {
+                    prev__candidate_moveRightRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveRightRule_node_bp) ? 1U : 0U;
+                    if(prev__candidate_moveRightRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_moveRightRule_node_bp,candidate_moveRightRule_node_bp);
+                }
                 // Extend outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
-                LGSPEdge edge_head_moveRightRule_edge__edge0 = node_cur_moveRightRule_node_wv.outhead;
-                if(edge_head_moveRightRule_edge__edge0 != null)
+                LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.outhead;
+                if(head_candidate_moveRightRule_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_moveRightRule_edge__edge0 = edge_head_moveRightRule_edge__edge0;
+                    LGSPEdge candidate_moveRightRule_edge__edge0 = head_candidate_moveRightRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveRight.isMyType[edge_cur_moveRightRule_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_moveRight.isMyType[candidate_moveRightRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
                         // Implicit target moveRightRule_node_s from moveRightRule_edge__edge0 
-                        LGSPNode node_cur_moveRightRule_node_s = edge_cur_moveRightRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[node_cur_moveRightRule_node_s.type.TypeID]) {
+                        LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
+                        if(!NodeType_State.isMyType[candidate_moveRightRule_node_s.type.TypeID]) {
                             continue;
                         }
                         // Extend outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
-                        LGSPEdge edge_head_moveRightRule_edge__edge1 = node_cur_moveRightRule_node_bp.outhead;
-                        if(edge_head_moveRightRule_edge__edge1 != null)
+                        LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.outhead;
+                        if(head_candidate_moveRightRule_edge__edge1 != null)
                         {
-                            LGSPEdge edge_cur_moveRightRule_edge__edge1 = edge_head_moveRightRule_edge__edge1;
+                            LGSPEdge candidate_moveRightRule_edge__edge1 = head_candidate_moveRightRule_edge__edge1;
                             do
                             {
-                                if(!EdgeType_right.isMyType[edge_cur_moveRightRule_edge__edge1.type.TypeID]) {
+                                if(!EdgeType_right.isMyType[candidate_moveRightRule_edge__edge1.type.TypeID]) {
                                     continue;
                                 }
                                 // Implicit target moveRightRule_node_rbp from moveRightRule_edge__edge1 
-                                LGSPNode node_cur_moveRightRule_node_rbp = edge_cur_moveRightRule_edge__edge1.target;
-                                if(!NodeType_BandPosition.isMyType[node_cur_moveRightRule_node_rbp.type.TypeID]) {
+                                LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
+                                if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_rbp.type.TypeID]) {
                                     continue;
                                 }
-                                if(node_cur_moveRightRule_node_rbp.isMatched
-                                    && node_cur_moveRightRule_node_rbp==node_cur_moveRightRule_node_bp
+                                if((negLevel<=MAX_NEG_LEVEL ? (candidate_moveRightRule_node_rbp.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveRightRule_node_rbp))
+                                    && candidate_moveRightRule_node_rbp==candidate_moveRightRule_node_bp
                                     )
                                 {
                                     continue;
                                 }
                                 LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                 match.patternGraph = rulePattern.patternGraph;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@wv] = node_cur_moveRightRule_node_wv;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@s] = node_cur_moveRightRule_node_s;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@bp] = node_cur_moveRightRule_node_bp;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@rbp] = node_cur_moveRightRule_node_rbp;
-                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge0] = edge_cur_moveRightRule_edge__edge0;
-                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge1] = edge_cur_moveRightRule_edge__edge1;
+                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@wv] = candidate_moveRightRule_node_wv;
+                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@s] = candidate_moveRightRule_node_s;
+                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@bp] = candidate_moveRightRule_node_bp;
+                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@rbp] = candidate_moveRightRule_node_rbp;
+                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge0] = candidate_moveRightRule_edge__edge0;
+                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge1] = candidate_moveRightRule_edge__edge1;
                                 matches.matchesList.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                 {
-                                    node_cur_moveRightRule_node_bp.MoveOutHeadAfter(edge_cur_moveRightRule_edge__edge1);
-                                    node_cur_moveRightRule_node_wv.MoveOutHeadAfter(edge_cur_moveRightRule_edge__edge0);
-                                    graph.MoveHeadAfter(node_cur_moveRightRule_node_wv);
-                                    node_cur_moveRightRule_node_bp.isMatched = node_cur_moveRightRule_node_bp_prevIsMatched;
+                                    candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
+                                    candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
+                                    graph.MoveHeadAfter(candidate_moveRightRule_node_wv);
+                                    if(negLevel <= MAX_NEG_LEVEL) {
+                                        candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
+                                    } else { 
+                                        if(prev__candidate_moveRightRule_node_bp==0) {
+                                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveRightRule_node_bp);
+                                        }
+                                    }
                                     return;
                                 }
                             }
-                            while( (edge_cur_moveRightRule_edge__edge1 = edge_cur_moveRightRule_edge__edge1.outNext) != edge_head_moveRightRule_edge__edge1 );
+                            while( (candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_edge__edge1.outNext) != head_candidate_moveRightRule_edge__edge1 );
                         }
                     }
-                    while( (edge_cur_moveRightRule_edge__edge0 = edge_cur_moveRightRule_edge__edge0.outNext) != edge_head_moveRightRule_edge__edge0 );
+                    while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.outNext) != head_candidate_moveRightRule_edge__edge0 );
                 }
-                node_cur_moveRightRule_node_bp.isMatched = node_cur_moveRightRule_node_bp_prevIsMatched;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
+                } else { 
+                    if(prev__candidate_moveRightRule_node_bp==0) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveRightRule_node_bp);
+                    }
+                }
             }
             return;
         }
-        public void MissingPreset_moveRightRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode node_cur_moveRightRule_node_wv)
+        public void MissingPreset_moveRightRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_moveRightRule_node_wv)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup moveRightRule_node_bp 
-            int node_type_id_moveRightRule_node_bp = 1;
-            for(LGSPNode node_head_moveRightRule_node_bp = graph.nodesByTypeHeads[node_type_id_moveRightRule_node_bp], node_cur_moveRightRule_node_bp = node_head_moveRightRule_node_bp.typeNext; node_cur_moveRightRule_node_bp != node_head_moveRightRule_node_bp; node_cur_moveRightRule_node_bp = node_cur_moveRightRule_node_bp.typeNext)
+            int type_id_candidate_moveRightRule_node_bp = 1;
+            for(LGSPNode head_candidate_moveRightRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_moveRightRule_node_bp], candidate_moveRightRule_node_bp = head_candidate_moveRightRule_node_bp.typeNext; candidate_moveRightRule_node_bp != head_candidate_moveRightRule_node_bp; candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.typeNext)
             {
-                bool node_cur_moveRightRule_node_bp_prevIsMatched = node_cur_moveRightRule_node_bp.isMatched;
-                node_cur_moveRightRule_node_bp.isMatched = true;
+                uint prev__candidate_moveRightRule_node_bp;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
+                    candidate_moveRightRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                } else {
+                    prev__candidate_moveRightRule_node_bp = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveRightRule_node_bp) ? 1U : 0U;
+                    if(prev__candidate_moveRightRule_node_bp==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Add(candidate_moveRightRule_node_bp,candidate_moveRightRule_node_bp);
+                }
                 // Extend outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
-                LGSPEdge edge_head_moveRightRule_edge__edge0 = node_cur_moveRightRule_node_wv.outhead;
-                if(edge_head_moveRightRule_edge__edge0 != null)
+                LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.outhead;
+                if(head_candidate_moveRightRule_edge__edge0 != null)
                 {
-                    LGSPEdge edge_cur_moveRightRule_edge__edge0 = edge_head_moveRightRule_edge__edge0;
+                    LGSPEdge candidate_moveRightRule_edge__edge0 = head_candidate_moveRightRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveRight.isMyType[edge_cur_moveRightRule_edge__edge0.type.TypeID]) {
+                        if(!EdgeType_moveRight.isMyType[candidate_moveRightRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
                         // Implicit target moveRightRule_node_s from moveRightRule_edge__edge0 
-                        LGSPNode node_cur_moveRightRule_node_s = edge_cur_moveRightRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[node_cur_moveRightRule_node_s.type.TypeID]) {
+                        LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
+                        if(!NodeType_State.isMyType[candidate_moveRightRule_node_s.type.TypeID]) {
                             continue;
                         }
                         // Extend outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
-                        LGSPEdge edge_head_moveRightRule_edge__edge1 = node_cur_moveRightRule_node_bp.outhead;
-                        if(edge_head_moveRightRule_edge__edge1 != null)
+                        LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.outhead;
+                        if(head_candidate_moveRightRule_edge__edge1 != null)
                         {
-                            LGSPEdge edge_cur_moveRightRule_edge__edge1 = edge_head_moveRightRule_edge__edge1;
+                            LGSPEdge candidate_moveRightRule_edge__edge1 = head_candidate_moveRightRule_edge__edge1;
                             do
                             {
-                                if(!EdgeType_right.isMyType[edge_cur_moveRightRule_edge__edge1.type.TypeID]) {
+                                if(!EdgeType_right.isMyType[candidate_moveRightRule_edge__edge1.type.TypeID]) {
                                     continue;
                                 }
                                 // Implicit target moveRightRule_node_rbp from moveRightRule_edge__edge1 
-                                LGSPNode node_cur_moveRightRule_node_rbp = edge_cur_moveRightRule_edge__edge1.target;
-                                if(!NodeType_BandPosition.isMyType[node_cur_moveRightRule_node_rbp.type.TypeID]) {
+                                LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
+                                if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_rbp.type.TypeID]) {
                                     continue;
                                 }
-                                if(node_cur_moveRightRule_node_rbp.isMatched
-                                    && node_cur_moveRightRule_node_rbp==node_cur_moveRightRule_node_bp
+                                if((negLevel<=MAX_NEG_LEVEL ? (candidate_moveRightRule_node_rbp.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel : graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_moveRightRule_node_rbp))
+                                    && candidate_moveRightRule_node_rbp==candidate_moveRightRule_node_bp
                                     )
                                 {
                                     continue;
                                 }
                                 LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                 match.patternGraph = rulePattern.patternGraph;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@wv] = node_cur_moveRightRule_node_wv;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@s] = node_cur_moveRightRule_node_s;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@bp] = node_cur_moveRightRule_node_bp;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@rbp] = node_cur_moveRightRule_node_rbp;
-                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge0] = edge_cur_moveRightRule_edge__edge0;
-                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge1] = edge_cur_moveRightRule_edge__edge1;
+                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@wv] = candidate_moveRightRule_node_wv;
+                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@s] = candidate_moveRightRule_node_s;
+                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@bp] = candidate_moveRightRule_node_bp;
+                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@rbp] = candidate_moveRightRule_node_rbp;
+                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge0] = candidate_moveRightRule_edge__edge0;
+                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge1] = candidate_moveRightRule_edge__edge1;
                                 matches.matchesList.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                 {
-                                    node_cur_moveRightRule_node_bp.MoveOutHeadAfter(edge_cur_moveRightRule_edge__edge1);
-                                    node_cur_moveRightRule_node_wv.MoveOutHeadAfter(edge_cur_moveRightRule_edge__edge0);
-                                    graph.MoveHeadAfter(node_cur_moveRightRule_node_bp);
-                                    node_cur_moveRightRule_node_bp.isMatched = node_cur_moveRightRule_node_bp_prevIsMatched;
+                                    candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
+                                    candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
+                                    graph.MoveHeadAfter(candidate_moveRightRule_node_bp);
+                                    if(negLevel <= MAX_NEG_LEVEL) {
+                                        candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
+                                    } else { 
+                                        if(prev__candidate_moveRightRule_node_bp==0) {
+                                            graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveRightRule_node_bp);
+                                        }
+                                    }
                                     return;
                                 }
                             }
-                            while( (edge_cur_moveRightRule_edge__edge1 = edge_cur_moveRightRule_edge__edge1.outNext) != edge_head_moveRightRule_edge__edge1 );
+                            while( (candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_edge__edge1.outNext) != head_candidate_moveRightRule_edge__edge1 );
                         }
                     }
-                    while( (edge_cur_moveRightRule_edge__edge0 = edge_cur_moveRightRule_edge__edge0.outNext) != edge_head_moveRightRule_edge__edge0 );
+                    while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.outNext) != head_candidate_moveRightRule_edge__edge0 );
                 }
-                node_cur_moveRightRule_node_bp.isMatched = node_cur_moveRightRule_node_bp_prevIsMatched;
+                if(negLevel <= MAX_NEG_LEVEL) {
+                    candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
+                } else { 
+                    if(prev__candidate_moveRightRule_node_bp==0) {
+                        graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Remove(candidate_moveRightRule_node_bp);
+                    }
+                }
             }
             return;
         }
@@ -1735,9 +2085,11 @@ label3: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Preset readOneRule_node_s 
-            LGSPNode node_cur_readOneRule_node_s = (LGSPNode) parameters[0];
-            if(node_cur_readOneRule_node_s == null) {
+            LGSPNode candidate_readOneRule_node_s = (LGSPNode) parameters[0];
+            if(candidate_readOneRule_node_s == null) {
                 MissingPreset_readOneRule_node_s(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -1746,13 +2098,13 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_State.isMyType[node_cur_readOneRule_node_s.type.TypeID]) {
+            if(!NodeType_State.isMyType[candidate_readOneRule_node_s.type.TypeID]) {
                 return matches;
             }
             // Preset readOneRule_node_bp 
-            LGSPNode node_cur_readOneRule_node_bp = (LGSPNode) parameters[1];
-            if(node_cur_readOneRule_node_bp == null) {
-                MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, node_cur_readOneRule_node_s);
+            LGSPNode candidate_readOneRule_node_bp = (LGSPNode) parameters[1];
+            if(candidate_readOneRule_node_bp == null) {
+                MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readOneRule_node_s);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
@@ -1760,56 +2112,58 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[node_cur_readOneRule_node_bp.type.TypeID]) {
+            if(!NodeType_BandPosition.isMyType[candidate_readOneRule_node_bp.type.TypeID]) {
                 return matches;
             }
             // Condition 
-            if(!Rule_readOneRule.Condition_0(node_cur_readOneRule_node_bp)) {
+            if(!Rule_readOneRule.Condition_0(candidate_readOneRule_node_bp)) {
                 return matches;
             }
             // Extend outgoing readOneRule_edge_rv from readOneRule_node_s 
-            LGSPEdge edge_head_readOneRule_edge_rv = node_cur_readOneRule_node_s.outhead;
-            if(edge_head_readOneRule_edge_rv != null)
+            LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
+            if(head_candidate_readOneRule_edge_rv != null)
             {
-                LGSPEdge edge_cur_readOneRule_edge_rv = edge_head_readOneRule_edge_rv;
+                LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
                 do
                 {
-                    if(!EdgeType_readOne.isMyType[edge_cur_readOneRule_edge_rv.type.TypeID]) {
+                    if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
                         continue;
                     }
                     // Implicit target readOneRule_node_wv from readOneRule_edge_rv 
-                    LGSPNode node_cur_readOneRule_node_wv = edge_cur_readOneRule_edge_rv.target;
-                    if(!NodeType_WriteValue.isMyType[node_cur_readOneRule_node_wv.type.TypeID]) {
+                    LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
+                    if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
                         continue;
                     }
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = node_cur_readOneRule_node_s;
-                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = node_cur_readOneRule_node_wv;
-                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = node_cur_readOneRule_node_bp;
-                    match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = edge_cur_readOneRule_edge_rv;
+                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
+                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
+                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
+                    match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
                     matches.matchesList.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
-                        node_cur_readOneRule_node_s.MoveOutHeadAfter(edge_cur_readOneRule_edge_rv);
+                        candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
                         return matches;
                     }
                 }
-                while( (edge_cur_readOneRule_edge_rv = edge_cur_readOneRule_edge_rv.outNext) != edge_head_readOneRule_edge_rv );
+                while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
             }
             return matches;
         }
         public void MissingPreset_readOneRule_node_s(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup readOneRule_node_s 
-            int node_type_id_readOneRule_node_s = 2;
-            for(LGSPNode node_head_readOneRule_node_s = graph.nodesByTypeHeads[node_type_id_readOneRule_node_s], node_cur_readOneRule_node_s = node_head_readOneRule_node_s.typeNext; node_cur_readOneRule_node_s != node_head_readOneRule_node_s; node_cur_readOneRule_node_s = node_cur_readOneRule_node_s.typeNext)
+            int type_id_candidate_readOneRule_node_s = 2;
+            for(LGSPNode head_candidate_readOneRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_s], candidate_readOneRule_node_s = head_candidate_readOneRule_node_s.typeNext; candidate_readOneRule_node_s != head_candidate_readOneRule_node_s; candidate_readOneRule_node_s = candidate_readOneRule_node_s.typeNext)
             {
                 // Preset readOneRule_node_bp 
-                LGSPNode node_cur_readOneRule_node_bp = (LGSPNode) parameters[1];
-                if(node_cur_readOneRule_node_bp == null) {
-                    MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, node_cur_readOneRule_node_s);
+                LGSPNode candidate_readOneRule_node_bp = (LGSPNode) parameters[1];
+                if(candidate_readOneRule_node_bp == null) {
+                    MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readOneRule_node_s);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
@@ -1817,89 +2171,91 @@ label3: ;
                     }
                     continue;
                 }
-                if(!NodeType_BandPosition.isMyType[node_cur_readOneRule_node_bp.type.TypeID]) {
+                if(!NodeType_BandPosition.isMyType[candidate_readOneRule_node_bp.type.TypeID]) {
                     continue;
                 }
                 // Condition 
-                if(!Rule_readOneRule.Condition_0(node_cur_readOneRule_node_bp)) {
+                if(!Rule_readOneRule.Condition_0(candidate_readOneRule_node_bp)) {
                     continue;
                 }
                 // Extend outgoing readOneRule_edge_rv from readOneRule_node_s 
-                LGSPEdge edge_head_readOneRule_edge_rv = node_cur_readOneRule_node_s.outhead;
-                if(edge_head_readOneRule_edge_rv != null)
+                LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
+                if(head_candidate_readOneRule_edge_rv != null)
                 {
-                    LGSPEdge edge_cur_readOneRule_edge_rv = edge_head_readOneRule_edge_rv;
+                    LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
                     do
                     {
-                        if(!EdgeType_readOne.isMyType[edge_cur_readOneRule_edge_rv.type.TypeID]) {
+                        if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
                             continue;
                         }
                         // Implicit target readOneRule_node_wv from readOneRule_edge_rv 
-                        LGSPNode node_cur_readOneRule_node_wv = edge_cur_readOneRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[node_cur_readOneRule_node_wv.type.TypeID]) {
+                        LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
+                        if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = node_cur_readOneRule_node_s;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = node_cur_readOneRule_node_wv;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = node_cur_readOneRule_node_bp;
-                        match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = edge_cur_readOneRule_edge_rv;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
+                        match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
                         matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
-                            node_cur_readOneRule_node_s.MoveOutHeadAfter(edge_cur_readOneRule_edge_rv);
-                            graph.MoveHeadAfter(node_cur_readOneRule_node_s);
+                            candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
+                            graph.MoveHeadAfter(candidate_readOneRule_node_s);
                             return;
                         }
                     }
-                    while( (edge_cur_readOneRule_edge_rv = edge_cur_readOneRule_edge_rv.outNext) != edge_head_readOneRule_edge_rv );
+                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
                 }
             }
             return;
         }
-        public void MissingPreset_readOneRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode node_cur_readOneRule_node_s)
+        public void MissingPreset_readOneRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_readOneRule_node_s)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup readOneRule_node_bp 
-            int node_type_id_readOneRule_node_bp = 1;
-            for(LGSPNode node_head_readOneRule_node_bp = graph.nodesByTypeHeads[node_type_id_readOneRule_node_bp], node_cur_readOneRule_node_bp = node_head_readOneRule_node_bp.typeNext; node_cur_readOneRule_node_bp != node_head_readOneRule_node_bp; node_cur_readOneRule_node_bp = node_cur_readOneRule_node_bp.typeNext)
+            int type_id_candidate_readOneRule_node_bp = 1;
+            for(LGSPNode head_candidate_readOneRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_bp], candidate_readOneRule_node_bp = head_candidate_readOneRule_node_bp.typeNext; candidate_readOneRule_node_bp != head_candidate_readOneRule_node_bp; candidate_readOneRule_node_bp = candidate_readOneRule_node_bp.typeNext)
             {
                 // Condition 
-                if(!Rule_readOneRule.Condition_0(node_cur_readOneRule_node_bp)) {
+                if(!Rule_readOneRule.Condition_0(candidate_readOneRule_node_bp)) {
                     continue;
                 }
                 // Extend outgoing readOneRule_edge_rv from readOneRule_node_s 
-                LGSPEdge edge_head_readOneRule_edge_rv = node_cur_readOneRule_node_s.outhead;
-                if(edge_head_readOneRule_edge_rv != null)
+                LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
+                if(head_candidate_readOneRule_edge_rv != null)
                 {
-                    LGSPEdge edge_cur_readOneRule_edge_rv = edge_head_readOneRule_edge_rv;
+                    LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
                     do
                     {
-                        if(!EdgeType_readOne.isMyType[edge_cur_readOneRule_edge_rv.type.TypeID]) {
+                        if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
                             continue;
                         }
                         // Implicit target readOneRule_node_wv from readOneRule_edge_rv 
-                        LGSPNode node_cur_readOneRule_node_wv = edge_cur_readOneRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[node_cur_readOneRule_node_wv.type.TypeID]) {
+                        LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
+                        if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = node_cur_readOneRule_node_s;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = node_cur_readOneRule_node_wv;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = node_cur_readOneRule_node_bp;
-                        match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = edge_cur_readOneRule_edge_rv;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
+                        match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
                         matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
-                            node_cur_readOneRule_node_s.MoveOutHeadAfter(edge_cur_readOneRule_edge_rv);
-                            graph.MoveHeadAfter(node_cur_readOneRule_node_bp);
+                            candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
+                            graph.MoveHeadAfter(candidate_readOneRule_node_bp);
                             return;
                         }
                     }
-                    while( (edge_cur_readOneRule_edge_rv = edge_cur_readOneRule_edge_rv.outNext) != edge_head_readOneRule_edge_rv );
+                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
                 }
             }
             return;
@@ -1923,9 +2279,11 @@ label3: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Preset readZeroRule_node_bp 
-            LGSPNode node_cur_readZeroRule_node_bp = (LGSPNode) parameters[1];
-            if(node_cur_readZeroRule_node_bp == null) {
+            LGSPNode candidate_readZeroRule_node_bp = (LGSPNode) parameters[1];
+            if(candidate_readZeroRule_node_bp == null) {
                 MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -1934,17 +2292,17 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[node_cur_readZeroRule_node_bp.type.TypeID]) {
+            if(!NodeType_BandPosition.isMyType[candidate_readZeroRule_node_bp.type.TypeID]) {
                 return matches;
             }
             // Condition 
-            if(!Rule_readZeroRule.Condition_0(node_cur_readZeroRule_node_bp)) {
+            if(!Rule_readZeroRule.Condition_0(candidate_readZeroRule_node_bp)) {
                 return matches;
             }
             // Preset readZeroRule_node_s 
-            LGSPNode node_cur_readZeroRule_node_s = (LGSPNode) parameters[0];
-            if(node_cur_readZeroRule_node_s == null) {
-                MissingPreset_readZeroRule_node_s(graph, maxMatches, parameters, null, null, null, node_cur_readZeroRule_node_bp);
+            LGSPNode candidate_readZeroRule_node_s = (LGSPNode) parameters[0];
+            if(candidate_readZeroRule_node_s == null) {
+                MissingPreset_readZeroRule_node_s(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_bp);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
@@ -1952,56 +2310,58 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_State.isMyType[node_cur_readZeroRule_node_s.type.TypeID]) {
+            if(!NodeType_State.isMyType[candidate_readZeroRule_node_s.type.TypeID]) {
                 return matches;
             }
             // Extend outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-            LGSPEdge edge_head_readZeroRule_edge_rv = node_cur_readZeroRule_node_s.outhead;
-            if(edge_head_readZeroRule_edge_rv != null)
+            LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
+            if(head_candidate_readZeroRule_edge_rv != null)
             {
-                LGSPEdge edge_cur_readZeroRule_edge_rv = edge_head_readZeroRule_edge_rv;
+                LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
                 do
                 {
-                    if(!EdgeType_readZero.isMyType[edge_cur_readZeroRule_edge_rv.type.TypeID]) {
+                    if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
                         continue;
                     }
                     // Implicit target readZeroRule_node_wv from readZeroRule_edge_rv 
-                    LGSPNode node_cur_readZeroRule_node_wv = edge_cur_readZeroRule_edge_rv.target;
-                    if(!NodeType_WriteValue.isMyType[node_cur_readZeroRule_node_wv.type.TypeID]) {
+                    LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
+                    if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
                         continue;
                     }
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = node_cur_readZeroRule_node_bp;
-                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = node_cur_readZeroRule_node_s;
-                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = node_cur_readZeroRule_node_wv;
-                    match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = edge_cur_readZeroRule_edge_rv;
+                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
+                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
+                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
+                    match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
                     matches.matchesList.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
-                        node_cur_readZeroRule_node_s.MoveOutHeadAfter(edge_cur_readZeroRule_edge_rv);
+                        candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
                         return matches;
                     }
                 }
-                while( (edge_cur_readZeroRule_edge_rv = edge_cur_readZeroRule_edge_rv.outNext) != edge_head_readZeroRule_edge_rv );
+                while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
             }
             return matches;
         }
         public void MissingPreset_readZeroRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup readZeroRule_node_bp 
-            int node_type_id_readZeroRule_node_bp = 1;
-            for(LGSPNode node_head_readZeroRule_node_bp = graph.nodesByTypeHeads[node_type_id_readZeroRule_node_bp], node_cur_readZeroRule_node_bp = node_head_readZeroRule_node_bp.typeNext; node_cur_readZeroRule_node_bp != node_head_readZeroRule_node_bp; node_cur_readZeroRule_node_bp = node_cur_readZeroRule_node_bp.typeNext)
+            int type_id_candidate_readZeroRule_node_bp = 1;
+            for(LGSPNode head_candidate_readZeroRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_bp], candidate_readZeroRule_node_bp = head_candidate_readZeroRule_node_bp.typeNext; candidate_readZeroRule_node_bp != head_candidate_readZeroRule_node_bp; candidate_readZeroRule_node_bp = candidate_readZeroRule_node_bp.typeNext)
             {
                 // Condition 
-                if(!Rule_readZeroRule.Condition_0(node_cur_readZeroRule_node_bp)) {
+                if(!Rule_readZeroRule.Condition_0(candidate_readZeroRule_node_bp)) {
                     continue;
                 }
                 // Preset readZeroRule_node_s 
-                LGSPNode node_cur_readZeroRule_node_s = (LGSPNode) parameters[0];
-                if(node_cur_readZeroRule_node_s == null) {
-                    MissingPreset_readZeroRule_node_s(graph, maxMatches, parameters, null, null, null, node_cur_readZeroRule_node_bp);
+                LGSPNode candidate_readZeroRule_node_s = (LGSPNode) parameters[0];
+                if(candidate_readZeroRule_node_s == null) {
+                    MissingPreset_readZeroRule_node_s(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_bp);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
@@ -2009,81 +2369,83 @@ label3: ;
                     }
                     continue;
                 }
-                if(!NodeType_State.isMyType[node_cur_readZeroRule_node_s.type.TypeID]) {
+                if(!NodeType_State.isMyType[candidate_readZeroRule_node_s.type.TypeID]) {
                     continue;
                 }
                 // Extend outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-                LGSPEdge edge_head_readZeroRule_edge_rv = node_cur_readZeroRule_node_s.outhead;
-                if(edge_head_readZeroRule_edge_rv != null)
+                LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
+                if(head_candidate_readZeroRule_edge_rv != null)
                 {
-                    LGSPEdge edge_cur_readZeroRule_edge_rv = edge_head_readZeroRule_edge_rv;
+                    LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
                     do
                     {
-                        if(!EdgeType_readZero.isMyType[edge_cur_readZeroRule_edge_rv.type.TypeID]) {
+                        if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
                             continue;
                         }
                         // Implicit target readZeroRule_node_wv from readZeroRule_edge_rv 
-                        LGSPNode node_cur_readZeroRule_node_wv = edge_cur_readZeroRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[node_cur_readZeroRule_node_wv.type.TypeID]) {
+                        LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
+                        if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = node_cur_readZeroRule_node_bp;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = node_cur_readZeroRule_node_s;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = node_cur_readZeroRule_node_wv;
-                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = edge_cur_readZeroRule_edge_rv;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
+                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
                         matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
-                            node_cur_readZeroRule_node_s.MoveOutHeadAfter(edge_cur_readZeroRule_edge_rv);
-                            graph.MoveHeadAfter(node_cur_readZeroRule_node_bp);
+                            candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
+                            graph.MoveHeadAfter(candidate_readZeroRule_node_bp);
                             return;
                         }
                     }
-                    while( (edge_cur_readZeroRule_edge_rv = edge_cur_readZeroRule_edge_rv.outNext) != edge_head_readZeroRule_edge_rv );
+                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
                 }
             }
             return;
         }
-        public void MissingPreset_readZeroRule_node_s(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode node_cur_readZeroRule_node_bp)
+        public void MissingPreset_readZeroRule_node_s(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_readZeroRule_node_bp)
         {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
             // Lookup readZeroRule_node_s 
-            int node_type_id_readZeroRule_node_s = 2;
-            for(LGSPNode node_head_readZeroRule_node_s = graph.nodesByTypeHeads[node_type_id_readZeroRule_node_s], node_cur_readZeroRule_node_s = node_head_readZeroRule_node_s.typeNext; node_cur_readZeroRule_node_s != node_head_readZeroRule_node_s; node_cur_readZeroRule_node_s = node_cur_readZeroRule_node_s.typeNext)
+            int type_id_candidate_readZeroRule_node_s = 2;
+            for(LGSPNode head_candidate_readZeroRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_s], candidate_readZeroRule_node_s = head_candidate_readZeroRule_node_s.typeNext; candidate_readZeroRule_node_s != head_candidate_readZeroRule_node_s; candidate_readZeroRule_node_s = candidate_readZeroRule_node_s.typeNext)
             {
                 // Extend outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-                LGSPEdge edge_head_readZeroRule_edge_rv = node_cur_readZeroRule_node_s.outhead;
-                if(edge_head_readZeroRule_edge_rv != null)
+                LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
+                if(head_candidate_readZeroRule_edge_rv != null)
                 {
-                    LGSPEdge edge_cur_readZeroRule_edge_rv = edge_head_readZeroRule_edge_rv;
+                    LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
                     do
                     {
-                        if(!EdgeType_readZero.isMyType[edge_cur_readZeroRule_edge_rv.type.TypeID]) {
+                        if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
                             continue;
                         }
                         // Implicit target readZeroRule_node_wv from readZeroRule_edge_rv 
-                        LGSPNode node_cur_readZeroRule_node_wv = edge_cur_readZeroRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[node_cur_readZeroRule_node_wv.type.TypeID]) {
+                        LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
+                        if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = node_cur_readZeroRule_node_bp;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = node_cur_readZeroRule_node_s;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = node_cur_readZeroRule_node_wv;
-                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = edge_cur_readZeroRule_edge_rv;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
+                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
                         matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
-                            node_cur_readZeroRule_node_s.MoveOutHeadAfter(edge_cur_readZeroRule_edge_rv);
-                            graph.MoveHeadAfter(node_cur_readZeroRule_node_s);
+                            candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
+                            graph.MoveHeadAfter(candidate_readZeroRule_node_s);
                             return;
                         }
                     }
-                    while( (edge_cur_readZeroRule_edge_rv = edge_cur_readZeroRule_edge_rv.outNext) != edge_head_readZeroRule_edge_rv );
+                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
                 }
             }
             return;

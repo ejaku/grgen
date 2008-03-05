@@ -39,12 +39,13 @@ namespace de.unika.ipd.grGen.lgsp
         private void CompleteCheckOperations(
             SearchProgramOperation currentOperation,
             SearchProgramOperation enclosingSearchProgram,
-            CheckPartialMatchByNegative enclosingCheckNegative,
-            GetPartialMatchOfAlternative enclosingAlternative)
+            GetPartialMatchOfAlternative enclosingAlternative,
+            CheckPartialMatchByNegative enclosingCheckNegative)
         {
             // mainly dispatching and iteration method, traverses search program
             // real completion done in MoveOutwardsAppendingRemoveIsomorphyAndJump
             // outermost operation for that function is computed here, regarding negative patterns
+            // program nesting structure: search program - [alternative] - [negative]*
 
             // complete check operations by inserting failure code
             // find them in depth first search of search program
@@ -56,6 +57,9 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if (currentOperation is CheckCandidateForPreset)
                     {
+                        Debug.Assert(enclosingAlternative == null);
+                        Debug.Assert(enclosingCheckNegative == null);
+
                         // when the call to the preset handling returns
                         // it might be because it found all available matches from the given parameters on
                         //   then we want to continue the matching
@@ -75,14 +79,15 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkPreset,
                             neededElementsForCheckOperation,
-                            enclosingCheckNegative ?? enclosingSearchProgram);
+                            enclosingSearchProgram);
 
                         // check preset has a further check maximum matches nested within check failed code
                         // give it its special bit of attention here
-                        CompleteCheckOperations(checkPreset.CheckFailedOperations,
+                        CompleteCheckOperations(
+                            checkPreset.CheckFailedOperations,
                             enclosingSearchProgram,
-                            enclosingCheckNegative,
-                            enclosingAlternative);
+                            enclosingAlternative,
+                            enclosingCheckNegative);
                     }
                     else
                     {
@@ -95,7 +100,7 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkCandidate,
                             neededElementsForCheckOperation,
-                            enclosingCheckNegative ?? enclosingSearchProgram);
+                            enclosingCheckNegative ?? (enclosingAlternative ?? enclosingSearchProgram));
                     }
                 }
                 //////////////////////////////////////////////////////////
@@ -111,7 +116,7 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkCondition,
                             checkCondition.NeededElements,
-                            enclosingCheckNegative ?? enclosingSearchProgram);
+                            enclosingCheckNegative ?? (enclosingAlternative ?? enclosingSearchProgram));
                     }
                     else if (currentOperation is CheckPartialMatchByNegative)
                     {
@@ -120,43 +125,49 @@ namespace de.unika.ipd.grGen.lgsp
 
                         // ByNegative is handled in CheckContinueMatchingFailed 
                         // of the negative case - enter negative case
-                        CompleteCheckOperations(checkNegative.NestedOperationsList,
+                        CompleteCheckOperations(
+                            checkNegative.NestedOperationsList,
                             enclosingCheckNegative ?? enclosingSearchProgram,
-                            checkNegative,
-                            enclosingAlternative);
+                            enclosingCheckNegative!=null ? null : enclosingAlternative,
+                            checkNegative);
                     }
                     else if (currentOperation is CheckPartialMatchForSubpatternsFound)
                     {
                         CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
                             (CheckPartialMatchForSubpatternsFound)currentOperation;
 
-                        // determine insertion point within check failed operations
-                        // to append the nested check maximum matches
-                        SearchProgramOperation insertionPoint =
-                            checkSubpatternsFound.CheckFailedOperations;
-                        while (insertionPoint.Next != null)
+                        if (enclosingCheckNegative == null)
                         {
-                            insertionPoint = insertionPoint.Next;
+                            // determine insertion point within check failed operations
+                            // to append the nested check maximum matches
+                            SearchProgramOperation insertionPoint =
+                                checkSubpatternsFound.CheckFailedOperations;
+                            while (insertionPoint.Next != null)
+                            {
+                                insertionPoint = insertionPoint.Next;
+                            }
+
+                            // append nested check maximum matches
+                            bool atSubpatternLevel = enclosingSearchProgram is SearchProgramOfSubpattern
+                                || enclosingSearchProgram is SearchProgramOfAlternative;
+                            CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
+                                new CheckContinueMatchingMaximumMatchesReached(atSubpatternLevel, false);
+                            insertionPoint.Append(checkMaximumMatches);
+
+                            MoveOutwardsAppendingRemoveIsomorphyAndJump(
+                                checkSubpatternsFound,
+                                null,
+                                enclosingCheckNegative ?? (enclosingAlternative ?? enclosingSearchProgram));
                         }
 
-                        // append nested check maximum matches
-                        bool atSubpatternLevel = enclosingSearchProgram is SearchProgramOfSubpattern
-                            || enclosingSearchProgram is SearchProgramOfAlternative;
-                        CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
-                            new CheckContinueMatchingMaximumMatchesReached(atSubpatternLevel, false);
-                        insertionPoint.Append(checkMaximumMatches);
-
-                        MoveOutwardsAppendingRemoveIsomorphyAndJump(
-                            checkSubpatternsFound,
-                            null,
-                            enclosingCheckNegative ?? (enclosingAlternative ?? enclosingSearchProgram));
-
-                        // check subpatterns found has a further check maximum matches nested within check failed code
+                        // check subpatterns found has a further check maximum matches 
+                        // or check continue matching of negative failed nested within check failed code
                         // give it its special bit of attention here
-                        CompleteCheckOperations(checkSubpatternsFound.CheckFailedOperations,
+                        CompleteCheckOperations(
+                            checkSubpatternsFound.CheckFailedOperations,
                             enclosingSearchProgram,
-                            enclosingCheckNegative,
-                            enclosingAlternative);
+                            enclosingAlternative,
+                            enclosingCheckNegative);
                     }
                     else
                     {
@@ -223,10 +234,11 @@ namespace de.unika.ipd.grGen.lgsp
 
                         // check tasks left has a further check maximum matches nested within check failed code
                         // give it its special bit of attention here
-                        CompleteCheckOperations(tasksLeft.CheckFailedOperations,
+                        CompleteCheckOperations(
+                            tasksLeft.CheckFailedOperations,
                             enclosingSearchProgram,
-                            enclosingCheckNegative,
-                            enclosingAlternative);
+                            enclosingAlternative,
+                            enclosingCheckNegative);
                     }
                     else
                     {
@@ -241,8 +253,8 @@ namespace de.unika.ipd.grGen.lgsp
                     CompleteCheckOperations(
                         currentOperation.GetNestedSearchOperationsList(),
                         enclosingSearchProgram,
-                        null,
-                        (GetPartialMatchOfAlternative)currentOperation);
+                        (GetPartialMatchOfAlternative)currentOperation,
+                        null);
                 }
                 //////////////////////////////////////////////////////////
                 else if (currentOperation.IsSearchNestingOperation())
@@ -252,8 +264,8 @@ namespace de.unika.ipd.grGen.lgsp
                     CompleteCheckOperations(
                         currentOperation.GetNestedSearchOperationsList(),
                         enclosingSearchProgram,
-                        enclosingCheckNegative,
-                        enclosingAlternative);
+                        enclosingAlternative,
+                        enclosingCheckNegative);
                 }
 
                 // breadth
@@ -343,7 +355,7 @@ namespace de.unika.ipd.grGen.lgsp
                     AbandonCandidate restoreIsomorphy =
                         new AbandonCandidate(
                             writeIsomorphy.PatternElementName,
-                            writeIsomorphy.Positive,
+                            writeIsomorphy.NegativeNamePrefix,
                             writeIsomorphy.IsNode);
                     insertionPoint = insertionPoint.Append(restoreIsomorphy);
                 }
@@ -366,6 +378,15 @@ namespace de.unika.ipd.grGen.lgsp
                         op as InitializeSubpatternMatching;
                     FinalizeSubpatternMatching finalize =
                         new FinalizeSubpatternMatching();
+                    insertionPoint = insertionPoint.Append(finalize);
+                }
+                // insert code to undo negative matching initialization if we leave the negative matching method
+                if (op is InitializeNegativeMatching)
+                {
+                    InitializeNegativeMatching initialize =
+                        op as InitializeNegativeMatching;
+                    FinalizeNegativeMatching finalize =
+                        new FinalizeNegativeMatching();
                     insertionPoint = insertionPoint.Append(finalize);
                 }
 

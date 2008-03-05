@@ -65,6 +65,7 @@
     <None Include="MonoILReader.cs" />
     <Compile Include="lgspPattern.cs" />
     <Compile Include="NamesOfEntities.cs" />
+    <Compile Include="Pair.cs" />
     <Compile Include="PlanGraph.cs" />
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

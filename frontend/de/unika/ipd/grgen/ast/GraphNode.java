@@ -190,7 +190,7 @@ public class GraphNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		PatternGraph gr = new PatternGraph(nameOfGraph);
+		PatternGraph gr = new PatternGraph(nameOfGraph, false);
 
 		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;

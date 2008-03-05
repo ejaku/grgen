@@ -11,9 +11,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// Returns name of the candidate variable which will be created within the seach program
         /// holding over time the candidates for the given pattern element
         /// </summary>
-        public static string CandidateVariable(string patternElementName, bool isNode)
+        public static string CandidateVariable(string patternElementName)
         {
-            return (isNode ? "node" : "edge") + "_cur_" + patternElementName;
+            return "candidate_" + patternElementName;
         }
 
         /// <summary>
@@ -21,9 +21,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// holding the type object which will be used for determining the candidates
         /// for the given pattern element
         /// </summary>
-        public static string TypeForCandidateVariable(string patternElementName, bool isNode)
+        public static string TypeForCandidateVariable(string patternElementName)
         {
-            return (isNode ? "node" : "edge") + "_type_" + patternElementName;
+            return "type_candidate_" + patternElementName;
         }
 
         /// <summary>
@@ -39,9 +39,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// holding the type id which will be used for determining the candidates
         /// for the given pattern element   (determined out of type object in iteration)
         /// </summary>
-        public static string TypeIdForCandidateVariable(string patternElementName, bool isNode)
+        public static string TypeIdForCandidateVariable(string patternElementName)
         {
-            return (isNode ? "node" : "edge") + "_type_id_" + patternElementName;
+            return "type_id_candidate_" + patternElementName;
         }
 
         /// <summary>
@@ -49,9 +49,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// holding the list head of the list accessed by type id with the graph elements of that type
         /// for finding out when iteration of the candidates for the given pattern element has finished
         /// </summary>
-        public static string CandidateIterationListHead(string patternElementName, bool isNode)
+        public static string CandidateIterationListHead(string patternElementName)
         {
-            return (isNode ? "node" : "edge") + "_head_" + patternElementName;
+            return "head_candidate_" + patternElementName;
         }
 
         /// <summary>
@@ -66,9 +66,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// Returns name of the variable which will be created within the seach program
         /// backing up the value of the isMatched-Bit of the graph element before assigning to it
         /// </summary>
-        public static string VariableWithBackupOfIsMatchedBit(string patternElementName, bool isNode, bool isPositive)
+        public static string VariableWithBackupOfIsMatchedBit(string patternElementName, string negativeNamePrefix)
         {
-            return CandidateVariable(patternElementName, isNode) + "_prev" + (isPositive ? "IsMatched" : "IsMatchedNeg");
+            return "prev_" + negativeNamePrefix + "_" + CandidateVariable(patternElementName);
         }
 
         /// <summary>

@@ -389,6 +389,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t" + patGraphVarName + " = new PatternGraph(\n");
 		sb.append("\t\t\t\t\"" + patternName + "\",\n");
 		sb.append("\t\t\t\t\"" + pathPrefix + "\",\n");
+		sb.append("\t\t\t\t" + (pattern.isIndependent() ? "true" : "false") + ",\n" );
 
 		String pathPrefixForElements = pathPrefix+patternName+"_";
 
@@ -644,18 +645,28 @@ public class ActionsGen extends CSharpBase {
 	//////////////////////////
 
 	private void genActionConditions(StringBuffer sb, MatchingAction action) {
-		int condCnt = genConditions(sb, action.getPattern().getConditions(), 0);
-		for(PatternGraph neg : action.getPattern().getNegs())
-			condCnt = genConditions(sb, neg.getConditions(), condCnt);
+		genPatternConditions(sb, action.getPattern(), 0);
 	}
 
-	private int genConditions(StringBuffer sb, Collection<Expression> conditions, int condCntInit) {
-		int i = condCntInit;
+	private int genPatternConditions(StringBuffer sb, PatternGraph pattern, int condCnt) {
+		condCnt = genConditions(sb, pattern.getConditions(), condCnt);
+		for(Alternative alt : pattern.getAlts()) {
+			for(PatternGraph altCase : alt.getAlternativeCases()) {
+				condCnt = genPatternConditions(sb, altCase, condCnt);
+			}
+		}
+		for(PatternGraph neg : pattern.getNegs()) {
+			condCnt = genPatternConditions(sb, neg, condCnt);
+		}
+		return condCnt;
+	}
+
+	private int genConditions(StringBuffer sb, Collection<Expression> conditions, int condCnt) {
 		for(Expression expr : conditions) {
 			Set<Node> nodes = new LinkedHashSet<Node>();
 			Set<Edge> edges = new LinkedHashSet<Edge>();
 			expr.collectNodesnEdges(nodes, edges);
-			sb.append("\t\tpublic static bool Condition_" + i + "(");
+			sb.append("\t\tpublic static bool Condition_" + condCnt + "(");
 			genSet(sb, nodes, "LGSPNode node_", "", false);
 			if(!nodes.isEmpty() && !edges.isEmpty())
 				sb.append(", ");
@@ -666,9 +677,9 @@ public class ActionsGen extends CSharpBase {
 			genExpression(sb, expr);
 			sb.append(";\n");
 			sb.append("\t\t}\n");
-			i++;
+			++condCnt;
 		}
-		return i;
+		return condCnt;
 	}
 
 	//////////////////////////////////

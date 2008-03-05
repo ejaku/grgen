@@ -64,9 +64,15 @@ public class PatternGraph extends Graph {
 
 	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
 
+	/** if graph is a subpattern or a negative this member tells us whether 
+	 *  it should be matched independent from already matched enclosing subpatterns*/
+	boolean isIndependent;
+	
+	
 	/** Make a new pattern graph. */
-	public PatternGraph(String nameOfGraph) {
+	public PatternGraph(String nameOfGraph, boolean isIndependent) {
 		super(nameOfGraph);
+		this.isIndependent = isIndependent;
 	}
 
 	public void addImperativeStmt(ImperativeStmt emit) {
@@ -165,6 +171,10 @@ public class PatternGraph extends Graph {
 	public boolean isHomomorphic(Edge e1, Edge e2) {
 		return homToAllEdges.contains(e1) || homToAllEdges.contains(e2)
 				|| getHomomorphic(e1).contains(e2);
+	}
+	
+	public boolean isIndependent() {
+		return isIndependent;
 	}
 
 	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(

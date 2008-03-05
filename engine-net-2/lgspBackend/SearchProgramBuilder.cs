@@ -39,7 +39,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraph = rulePattern.patternGraph;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, false);
-            enclosingPositiveOperation = null;
+            negativeNames = new List<string>();
 
             SearchProgram searchProgram;
             if (parametersList != null)
@@ -96,7 +96,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraph = rulePattern.patternGraph;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, true);
-            enclosingPositiveOperation = null;
+            negativeNames = new List<string>();
 
             // build outermost search program operation, create the list anchor starting it's program
             SearchProgram searchProgram = new SearchProgramOfSubpattern("myMatch");
@@ -132,7 +132,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             this.alternative = alternative;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.isSubpattern);
-            enclosingPositiveOperation = null;
+            negativeNames = new List<string>();
 
             // build outermost search program operation, create the list anchor starting it's program
             SearchProgram searchProgram = new SearchProgramOfAlternative("myMatch");
@@ -295,11 +295,10 @@ namespace de.unika.ipd.grGen.lgsp
         string rulePatternClassName;
 
         /// <summary>
-        /// the innermost enclosing positive candidate iteration operation 
-        /// at the current insertion point of the nested negative pattern
-        /// not null if negative pattern is currently built, null otherwise
+        /// stack of negative names representing the nesting of negative patterns
+        /// the top of stack is the name of the negative pattern whose buildup is currently underway
         /// </summary>
-        private SearchProgramOperation enclosingPositiveOperation;
+        private List<string> negativeNames;
 
         ///////////////////////////////////////////////////////////////////////////////////
 
@@ -415,8 +414,8 @@ namespace de.unika.ipd.grGen.lgsp
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            bool positive = enclosingPositiveOperation == null;
-            Debug.Assert(positive, "Positive maybe preset in negative search plan");
+            string negativeNamePrefix = NegativeNamePrefix();
+            Debug.Assert(negativeNamePrefix == "", "Positive maybe preset in negative search plan");
             Debug.Assert(programType != SearchProgramType.Subpattern, "Maybe preset in subpattern");
             Debug.Assert(programType != SearchProgramType.AlternativeCase, "Maybe preset in alternative");
 
@@ -446,7 +445,7 @@ namespace de.unika.ipd.grGen.lgsp
                     new CheckCandidateForIsomorphy(
                         target.PatternElement.Name,
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
-                        positive,
+                        negativeNamePrefix,
                         isNode);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
@@ -457,7 +456,7 @@ namespace de.unika.ipd.grGen.lgsp
                 AcceptCandidate acceptCandidate =
                     new AcceptCandidate(
                         target.PatternElement.Name,
-                        positive,
+                        negativeNamePrefix,
                         isNode);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
@@ -481,7 +480,7 @@ namespace de.unika.ipd.grGen.lgsp
                 AbandonCandidate abandonCandidate =
                     new AbandonCandidate(
                         target.PatternElement.Name,
-                        positive,
+                        negativeNamePrefix,
                         isNode);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
@@ -501,8 +500,8 @@ namespace de.unika.ipd.grGen.lgsp
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            bool positive = enclosingPositiveOperation == null;
-            Debug.Assert(!positive, "Negative preset in positive search plan");
+            string negativeNamePrefix = NegativeNamePrefix();
+            Debug.Assert(negativeNamePrefix != "", "Negative preset in positive search plan");
 
             // check candidate for isomorphy 
             if (isomorphy.CheckIsMatchedBit)
@@ -511,7 +510,7 @@ namespace de.unika.ipd.grGen.lgsp
                     new CheckCandidateForIsomorphy(
                         target.PatternElement.Name,
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
-                        positive,
+                        negativeNamePrefix,
                         isNode);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
@@ -522,7 +521,7 @@ namespace de.unika.ipd.grGen.lgsp
                 AcceptCandidate acceptCandidate =
                     new AcceptCandidate(
                         target.PatternElement.Name,
-                        positive,
+                        negativeNamePrefix,
                         isNode);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
@@ -546,7 +545,7 @@ namespace de.unika.ipd.grGen.lgsp
                 AbandonCandidate abandonCandidate =
                     new AbandonCandidate(
                         target.PatternElement.Name,
-                        positive,
+                        negativeNamePrefix,
                         isNode);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
@@ -566,8 +565,8 @@ namespace de.unika.ipd.grGen.lgsp
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            bool positive = enclosingPositiveOperation == null;
-            Debug.Assert(positive, "Positive subpattern preset in negative search plan");
+            string negativeNamePrefix = NegativeNamePrefix(); 
+            Debug.Assert(negativeNamePrefix == "", "Positive subpattern preset in negative search plan");
 
             // get candidate from inputs
             GetCandidateByDrawing fromInputs =
@@ -605,7 +604,7 @@ namespace de.unika.ipd.grGen.lgsp
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            bool positive = enclosingPositiveOperation == null;
+            string negativeNamePrefix = NegativeNamePrefix();
 
             // decide on and insert operation determining type of candidate
             SearchProgramOperation continuationPointAfterTypeIteration;
@@ -656,7 +655,7 @@ namespace de.unika.ipd.grGen.lgsp
                     new CheckCandidateForIsomorphy(
                         target.PatternElement.Name,
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
-                        positive,
+                        negativeNamePrefix,
                         isNode);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
@@ -677,7 +676,7 @@ namespace de.unika.ipd.grGen.lgsp
                 AcceptCandidate acceptCandidate =
                     new AcceptCandidate(
                         target.PatternElement.Name,
-                        positive,
+                        negativeNamePrefix,
                         isNode);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
@@ -701,7 +700,7 @@ namespace de.unika.ipd.grGen.lgsp
                 AbandonCandidate abandonCandidate =
                     new AbandonCandidate(
                         target.PatternElement.Name,
-                        positive,
+                        negativeNamePrefix,
                         isNode);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
@@ -756,14 +755,14 @@ namespace de.unika.ipd.grGen.lgsp
                 getSource ? source.PatternEdgeTarget : source.PatternEdgeSource);
 
             // check candidate for isomorphy 
-            bool positive = enclosingPositiveOperation == null;
+            string negativeNamePrefix = NegativeNamePrefix();
             if (isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
                     new CheckCandidateForIsomorphy(
                         target.PatternElement.Name,
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
-                        positive,
+                        negativeNamePrefix,
                         true);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
@@ -784,7 +783,7 @@ namespace de.unika.ipd.grGen.lgsp
                 AcceptCandidate acceptCandidate =
                     new AcceptCandidate(
                         target.PatternElement.Name,
-                        positive,
+                        negativeNamePrefix,
                         true);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
@@ -808,7 +807,7 @@ namespace de.unika.ipd.grGen.lgsp
                 AbandonCandidate abandonCandidate =
                     new AbandonCandidate(
                         target.PatternElement.Name,
-                        positive,
+                        negativeNamePrefix,
                         true);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
@@ -861,14 +860,14 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint, target, source, getIncoming);
 
             // check candidate for isomorphy 
-            bool positive = enclosingPositiveOperation == null;
+            string negativeNamePrefix = NegativeNamePrefix();
             if (isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
                     new CheckCandidateForIsomorphy(
                         target.PatternElement.Name,
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
-                        positive,
+                        negativeNamePrefix,
                         false);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
@@ -889,7 +888,7 @@ namespace de.unika.ipd.grGen.lgsp
                 AcceptCandidate acceptCandidate =
                     new AcceptCandidate(
                         target.PatternElement.Name,
-                        positive,
+                        negativeNamePrefix,
                         false);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
@@ -913,7 +912,7 @@ namespace de.unika.ipd.grGen.lgsp
                 AbandonCandidate abandonCandidate =
                     new AbandonCandidate(
                         target.PatternElement.Name,
-                        positive,
+                        negativeNamePrefix,
                         false);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
@@ -935,9 +934,6 @@ namespace de.unika.ipd.grGen.lgsp
             int currentOperationIndex,
             PatternGraph negativePatternGraph)
         {
-            bool positive = enclosingPositiveOperation == null;
-            Debug.Assert(positive, "Nested negative");
-
             // fill needed elements array for CheckPartialMatchByNegative
             int numberOfNeededElements = 0;
             foreach (SearchOperation op in negativePatternGraph.ScheduleIncludingNegatives.Operations)
@@ -963,14 +959,21 @@ namespace de.unika.ipd.grGen.lgsp
                new CheckPartialMatchByNegative(neededElements);
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(checkNegative);
-
             checkNegative.NestedOperationsList =
                 new SearchProgramList(checkNegative);
             insertionPoint = checkNegative.NestedOperationsList;
 
-            enclosingPositiveOperation = checkNegative.GetEnclosingSearchOperation();
             PatternGraph positivePatternGraph = patternGraph;
             patternGraph = negativePatternGraph;
+            negativeNames.Add(negativePatternGraph.name);
+
+            string negativeNamePrefix = NegativeNamePrefix();
+            bool negativeContainsSubpatterns = negativePatternGraph.EmbeddedGraphs.Length >= 1
+                || negativePatternGraph.Alternatives.Length >= 1;
+            InitializeNegativeMatching initNeg = 
+                new InitializeNegativeMatching(negativeContainsSubpatterns, negativeNamePrefix);
+            insertionPoint = insertionPoint.Append(initNeg);
+
 
             //---------------------------------------------------------------------------
             // build negative pattern
@@ -979,10 +982,13 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint);
             //---------------------------------------------------------------------------
 
+            FinalizeNegativeMatching finalize = new FinalizeNegativeMatching();
+            insertionPoint = insertionPoint.Append(finalize);
+
             // negative pattern built by now
             // continue at the end of the list handed in
             insertionPoint = continuationPoint;
-            enclosingPositiveOperation = null;
+            negativeNames.RemoveAt(negativeNames.Count-1);
             patternGraph = positivePatternGraph;
 
             //---------------------------------------------------------------------------
@@ -1030,64 +1036,59 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation buildMatchComplete(
             SearchProgramOperation insertionPoint)
         {
-            bool positive = enclosingPositiveOperation == null;
+            string negativeNamePrefix = NegativeNamePrefix();
 
-            if (positive)
+            // may be a top-level-pattern with/-out subpatterns, may be a subpattern with/-out subpatterns
+            bool isSubpattern = programType == SearchProgramType.Subpattern
+                || programType == SearchProgramType.AlternativeCase;
+            bool containsSubpatterns = patternGraph.embeddedGraphs.Length >= 1
+                || patternGraph.alternatives.Length >= 1;
+
+            // push subpattern tasks (in case there are some)
+            if (containsSubpatterns)
+                insertionPoint = insertPushSubpatternTasks(insertionPoint);
+
+            // if this is a subpattern without subpatterns
+            // it may be the last to be matched - handle that case
+            if (!containsSubpatterns && isSubpattern && negativeNamePrefix=="")
+                insertionPoint = insertCheckForTasksLeft(insertionPoint);
+
+            // if this is a subpattern or a top-level pattern which contains subpatterns
+            if (containsSubpatterns || isSubpattern && negativeNamePrefix=="")
             {
-                // may be a top-level-pattern with/out subpatterns, may be a subpattern with/out subpatterns
-                bool isSubpattern = programType == SearchProgramType.Subpattern
-                    || programType == SearchProgramType.AlternativeCase;
-                bool containsSubpatterns = patternGraph.embeddedGraphs.Length >= 1
-                    || patternGraph.alternatives.Length >= 1;
+                // we do the global accept of all candidate elements (write isomorphy information)
+                insertionPoint = insertGlobalAccept(insertionPoint);
 
-                // push subpattern tasks (in case there are some)
-                if (containsSubpatterns)
-                    insertionPoint = insertPushSubpatternTasks(insertionPoint);
+                // and execute the open subpattern matching tasks
+                MatchSubpatterns matchSubpatterns = new MatchSubpatterns(negativeNamePrefix);
+                insertionPoint = insertionPoint.Append(matchSubpatterns);
+            }
 
-                // if this is a subpattern without subpatterns
-                // it may be the last to be matched - handle that case
-                if (isSubpattern && !containsSubpatterns)
-                    insertionPoint = insertCheckForTasksLeft(insertionPoint);
+            // pop subpattern tasks (in case there are/were some)
+            if (containsSubpatterns)
+                insertionPoint = insertPopSubpatternTasks(insertionPoint);
 
-                // if this is a subpattern or a top-level pattern which contains subpatterns
-                if (isSubpattern || containsSubpatterns)
-                {
-                    // we do the global accept of all candidate elements (write isomorphy information)
-                    insertionPoint = insertGlobalAccept(insertionPoint);
-
-                    // and execute the open subpattern matching tasks
-                    MatchSubpatterns matchSubpatterns = new MatchSubpatterns();
-                    insertionPoint = insertionPoint.Append(matchSubpatterns);
-                }
-
-                // pop subpattern tasks (in case there are/were some)
-                if (containsSubpatterns)
-                    insertionPoint = insertPopSubpatternTasks(insertionPoint);
-
+            // handle matched or not matched subpatterns, matched local pattern
+            if(negativeNamePrefix == "")
+            {
                 // subpattern or top-level pattern which contains subpatterns
-                if (isSubpattern || containsSubpatterns)
+                if (containsSubpatterns || isSubpattern)
                     insertionPoint = insertCheckForSubpatternsFound(insertionPoint);
                 else // top-level-pattern without subpatterns
                     insertionPoint = insertPatternFound(insertionPoint);
-
-                // global abandon of all accepted candidate elements (remove isomorphy information)
-                if (isSubpattern || containsSubpatterns)
-                    insertionPoint = insertGlobalAbandon(insertionPoint);
             }
             else
             {
-                // todo: changes to negative if used in subpattern, if using subpatterns
-
-                // build the negative pattern was matched operation
-                NegativePatternMatched patternMatched =
-                    new NegativePatternMatched();
-                insertionPoint = insertionPoint.Append(patternMatched);
-
-                // abort the matching process
-                CheckContinueMatchingOfNegativeFailed abortMatching =
-                    new CheckContinueMatchingOfNegativeFailed();
-                insertionPoint = insertionPoint.Append(abortMatching);
+                // negative contains subpatterns
+                if (containsSubpatterns)
+                    insertionPoint = insertCheckForSubpatternsFoundNegative(insertionPoint);
+                else
+                    insertionPoint = insertPatternFoundNegative(insertionPoint);
             }
+
+            // global abandon of all accepted candidate elements (remove isomorphy information)
+            if (containsSubpatterns || isSubpattern && negativeNamePrefix=="")
+                insertionPoint = insertGlobalAbandon(insertionPoint);
 
             return insertionPoint;
         }
@@ -1159,7 +1160,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// at the given position, returns position after inserted operations
         /// </summary>
         private SearchProgramOperation insertPushSubpatternTasks(SearchProgramOperation insertionPoint)
-        {            
+        {
+            string negativeNamePrefix = NegativeNamePrefix();
+
             // first alternatives, so that they get processed last
             // to handle subpatterns in linear order we've to push them in reverse order on the stack
             for (int i = patternGraph.alternatives.Length - 1; i >= 0; --i)
@@ -1200,7 +1203,8 @@ namespace de.unika.ipd.grGen.lgsp
                         rulePatternClassName,
                         connectionName,
                         patternElementBoundToConnectionName,
-                        patternElementBoundToConnectionIsNode
+                        patternElementBoundToConnectionIsNode,
+                        negativeNamePrefix
                     );
                 insertionPoint = insertionPoint.Append(pushTask);
             }
@@ -1226,7 +1230,8 @@ namespace de.unika.ipd.grGen.lgsp
                         subpattern.name,
                         connectionName,
                         patternElementBoundToConnectionName,
-                        patternElementBoundToConnectionIsNode
+                        patternElementBoundToConnectionIsNode,
+                        negativeNamePrefix
                     );
                 insertionPoint = insertionPoint.Append(pushTask);
             }
@@ -1240,11 +1245,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertPopSubpatternTasks(SearchProgramOperation insertionPoint)
         {
+            string negativeNamePrefix = NegativeNamePrefix();
+
             foreach (PatternGraphEmbedding subpattern in patternGraph.embeddedGraphs)
             {
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
-                        subpattern.name
+                        subpattern.name,
+                        negativeNamePrefix
                     );
                 insertionPoint = insertionPoint.Append(popTask);
             }
@@ -1253,7 +1261,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
-                        alternative.name
+                        alternative.name,
+                        negativeNamePrefix
                     );
                 insertionPoint = insertionPoint.Append(popTask);
             }
@@ -1361,9 +1370,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertCheckForSubpatternsFound(SearchProgramOperation insertionPoint)
         {
+            string negativeNamePrefix = NegativeNamePrefix();
+
             // check whether there were no subpattern matches found
             CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
-                new CheckPartialMatchForSubpatternsFound();
+                new CheckPartialMatchForSubpatternsFound(negativeNamePrefix);
             SearchProgramOperation continuationPointAfterSubpatternsFound =
                    insertionPoint.Append(checkSubpatternsFound);
             checkSubpatternsFound.CheckFailedOperations =
@@ -1445,6 +1456,61 @@ namespace de.unika.ipd.grGen.lgsp
             new CheckContinueMatchingMaximumMatchesReached(false, true);
 #endif
             insertionPoint = insertionPoint.Append(checkMaximumMatches);
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to check whether the subpatterns were found and code for case there were some
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertCheckForSubpatternsFoundNegative(SearchProgramOperation insertionPoint)
+        {
+            string negativeNamePrefix = NegativeNamePrefix();
+
+            // check whether there were no subpattern matches found
+            CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
+                new CheckPartialMatchForSubpatternsFound(negativeNamePrefix);
+            SearchProgramOperation continuationPointAfterSubpatternsFound =
+                   insertionPoint.Append(checkSubpatternsFound);
+            checkSubpatternsFound.CheckFailedOperations =
+                new SearchProgramList(checkSubpatternsFound);
+            insertionPoint = checkSubpatternsFound.CheckFailedOperations;
+
+            // ---- check failed, some subpattern matches found, negative pattern and subpatterns were matched
+            // build the negative pattern was matched operation
+            NegativePatternMatched patternMatched =
+                new NegativePatternMatched(NegativePatternMatchedType.ContainingSubpatterns, negativeNamePrefix);
+            insertionPoint = insertionPoint.Append(patternMatched);
+
+            // ---- abort the matching process
+            CheckContinueMatchingOfNegativeFailed abortMatching =
+                new CheckContinueMatchingOfNegativeFailed();
+            insertionPoint = insertionPoint.Append(abortMatching);
+
+            // nesting level up
+            insertionPoint = continuationPointAfterSubpatternsFound;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to handle case negative pattern was found
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertPatternFoundNegative(SearchProgramOperation insertionPoint)
+        {
+            string negativeNamePrefix = NegativeNamePrefix();
+
+            // build the negative pattern was matched operation
+            NegativePatternMatched patternMatched =
+                new NegativePatternMatched(NegativePatternMatchedType.WithoutSubpatterns, negativeNamePrefix);
+            insertionPoint = insertionPoint.Append(patternMatched);
+
+            // abort the matching process
+            CheckContinueMatchingOfNegativeFailed abortMatching =
+                new CheckContinueMatchingOfNegativeFailed();
+            insertionPoint = insertionPoint.Append(abortMatching);
 
             return insertionPoint;
         }
@@ -1757,6 +1823,24 @@ namespace de.unika.ipd.grGen.lgsp
                 // breadth
                 searchProgramOperation = searchProgramOperation.Next;
             }
+        }
+
+        /// <summary>
+        /// returns name prefix for candidate variables computed from current negative pattern nesting
+        /// </summary>
+        private string NegativeNamePrefix()
+        {
+            string negativeNamePrefix = "";
+            foreach (string negativeName in negativeNames)
+            {
+                negativeNamePrefix += negativeName;
+            }
+
+            if (negativeNamePrefix != "") {
+                negativeNamePrefix += "_";
+            }
+
+            return negativeNamePrefix;
         }
     }
 }

@@ -57,6 +57,7 @@ tokens {
   EXTENDS = "extends";
   FALSE = "false";
   HOM = "hom";
+  INDEPENDENT = "independent";
   INDUCED = "induced";
   MODEL = "model";
   MODIFY = "modify";
