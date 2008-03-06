@@ -480,7 +480,15 @@ firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context ]
 		MutableInteger direction = new MutableInteger(ConnectionNode.ARBITRARY);
 	}
 
-	:   { conn.addChild(new SingleNodeConnNode(n)); } // nothing following? -> one single node
+	: // nothing following? -> one single node
+	{ 
+		if (n instanceof IdentNode) {
+			conn.addChild(new SingleGraphEntityNode((IdentNode)n));
+		}
+		else {
+			conn.addChild(new SingleNodeConnNode(n));
+		} 
+	} 
 	|   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; }
 		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
 		| e=arbitraryEdgeOcc[context] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}

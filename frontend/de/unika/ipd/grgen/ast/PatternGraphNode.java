@@ -136,7 +136,7 @@ public class PatternGraphNode extends GraphNode {
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(connections);
+		children.add(getValidVersion(connectionsUnresolved, connections));
 		children.add(subpatterns);
 		children.add(alts);
 		children.add(negs);
@@ -165,7 +165,7 @@ public class PatternGraphNode extends GraphNode {
 
 	protected void addParams(CollectNode<BaseNode> params) {
 		for (BaseNode n : params.getChildren()) {
-	        connections.addChild(n);
+	        connectionsUnresolved.addChild(n);
         }
 	}
 
@@ -175,7 +175,7 @@ public class PatternGraphNode extends GraphNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		return true;
+		return super.resolveLocal();
 	}
 
 	protected boolean checkLocal() {
@@ -619,6 +619,7 @@ public class PatternGraphNode extends GraphNode {
 
 	/** Return all nodes of the pattern. */
 	private Set<NodeDeclNode> getAllPatternNodes() {
+		assert isResolved();
 
 		Set<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
 		for (BaseNode n : connections.getChildren()) {
@@ -659,6 +660,8 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	private void addSingleNodeNegGraphs(Collection<PatternGraph> ret) {
+		assert isResolved();
+
 		// add existing edges to the corresponding sets
 		for (BaseNode n : connections.getChildren()) {
 			if (n instanceof ConnectionNode) {
@@ -809,6 +812,8 @@ public class PatternGraphNode extends GraphNode {
 	 * @param negs
 	 */
 	private void addDoubleNodeNegGraphs(Collection<PatternGraph> ret) {
+		assert isResolved();
+
 		// add existing edges to the corresponding pattern graph
 		for (BaseNode n : connections.getChildren()) {
 			if (n instanceof ConnectionNode) {

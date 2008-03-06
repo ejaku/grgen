@@ -32,7 +32,10 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.util.CollectTripelResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTripelResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ast.util.Tripel;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -50,7 +53,8 @@ public class GraphNode extends BaseNode {
 		setName(GraphNode.class, "graph");
 	}
 
-	CollectNode<BaseNode> connections;
+	CollectNode<BaseNode> connectionsUnresolved;
+	CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 	CollectNode<BaseNode> subpatterns;
 	CollectNode<IdentNode> returns;
 	CollectNode<BaseNode> imperativeStmts;
@@ -69,8 +73,8 @@ public class GraphNode extends BaseNode {
 			CollectNode<IdentNode> returns, CollectNode<BaseNode> imperativeStmts, int context) {
 		super(coords);
 		this.nameOfGraph = nameOfGraph;
-		this.connections = connections;
-		becomeParent(this.connections);
+		this.connectionsUnresolved = connections;
+		becomeParent(this.connectionsUnresolved);
 		this.subpatterns = subpatterns;
 		becomeParent(this.subpatterns);
 		this.returns = returns;
@@ -83,7 +87,7 @@ public class GraphNode extends BaseNode {
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(connections);
+		children.add(getValidVersion(connectionsUnresolved, connections));
 		children.add(subpatterns);
 		children.add(returns);
 		children.add(imperativeStmts);
@@ -100,9 +104,47 @@ public class GraphNode extends BaseNode {
 		return childrenNames;
 	}
 
+	private static final CollectTripelResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode> connectionsResolver =
+		new CollectTripelResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(new DeclarationTripelResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(ConnectionNode.class, SingleNodeConnNode.class,  SingleGraphEntityNode.class));;
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		return true;
+		Tripel<CollectNode<ConnectionNode>, CollectNode<SingleNodeConnNode>, CollectNode<SingleGraphEntityNode>> resolve = connectionsResolver.resolve(connectionsUnresolved);
+
+		if (resolve != null) {
+			if (resolve.first != null) {
+    			for (ConnectionNode conn : resolve.first.getChildren()) {
+                    connections.addChild(conn);
+                }
+			}
+
+        	if (resolve.second != null) {
+            	for (SingleNodeConnNode conn : resolve.second.getChildren()) {
+                    connections.addChild(conn);
+                }
+			}
+
+        	if (resolve.third != null) {
+        		for (SingleGraphEntityNode ent : resolve.third.getChildren()) {
+        			// resolve the entity
+        			if (!ent.resolve()) {
+        				return false;
+        			}
+
+        			// add reused single node to connections
+        			if (ent.getEntityNode() != null) {
+        				connections.addChild(new SingleNodeConnNode(ent.getEntityNode()));
+        			}
+
+        			// add reused subpattern to subpatterns
+        			if (ent.getEntitySubpattern() != null) {
+        				subpatterns.addChild(ent.getEntitySubpattern());
+        			}
+                }
+    		}
+        }
+
+		return resolve != null;
 	}
 
 	private static final Checker connectionsChecker = new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
@@ -144,6 +186,8 @@ public class GraphNode extends BaseNode {
 	 * @return The iterator.
 	 */
 	protected Collection<BaseNode> getConnections() {
+		assert isResolved();
+
 		return connections.getChildren();
 	}
 
@@ -155,6 +199,8 @@ public class GraphNode extends BaseNode {
 	 * in this graph pattern.
 	 */
 	protected Set<BaseNode> getNodes() {
+		assert isResolved();
+
 		Set<BaseNode> res = new LinkedHashSet<BaseNode>();
 
 		for(BaseNode n : connections.getChildren()) {
@@ -166,6 +212,8 @@ public class GraphNode extends BaseNode {
 	}
 
 	protected Set<BaseNode> getEdges() {
+		assert isResolved();
+
 		Set<BaseNode> res = new LinkedHashSet<BaseNode>();
 
 		for(BaseNode n : connections.getChildren()) {
