@@ -940,18 +940,6 @@ namespace de.unika.ipd.grGen.lgsp
             RemoveNodeWithoutEvents(lnode, lnode.type.TypeID);
         }
 
-        internal void RemoveEdgeWithoutEvents(LGSPEdge edge, int typeid)
-        {
-            edge.typePrev.typeNext = edge.typeNext;
-            edge.typeNext.typePrev = edge.typePrev;
-            edge.typeNext = null;
-            edge.typePrev = null;
-
-            edgesByTypeCounts[typeid]--;
-            if(reuseOptimization)
-                edge.Recycle();
-        }
-
         /// <summary>
         /// Removes the given edge from the graph.
         /// </summary>
@@ -971,7 +959,15 @@ namespace de.unika.ipd.grGen.lgsp
             }
             ledge.source.RemoveOutgoing(ledge);
             ledge.target.RemoveIncoming(ledge);
-            RemoveEdgeWithoutEvents(ledge, ledge.type.TypeID);
+
+            ledge.typePrev.typeNext = ledge.typeNext;
+            ledge.typeNext.typePrev = ledge.typePrev;
+            ledge.typeNext = null;
+            ledge.typePrev = null;
+
+            edgesByTypeCounts[ledge.type.TypeID]--;
+            if(reuseOptimization)
+                ledge.Recycle();
         }
 
         /// <summary>
@@ -1229,6 +1225,40 @@ namespace de.unika.ipd.grGen.lgsp
                 oldNode.Recycle();
         }
 
+/*        /// <summary>
+        /// Checks whether the incoming or outgoing lists of the given node are broken.
+        /// Use for debugging purposes.
+        /// </summary>
+        /// <param name="node">The node to be checked.</param>
+        private void CheckLists(LGSPNode node)
+        {
+            LGSPEdge inHead = node.inhead;
+            if(inHead != null)
+            {
+                LGSPEdge inCur = inHead;
+                do
+                {
+                    if(inCur.inNext.inPrev != inCur) throw new Exception("ARGH1");
+                    if(inCur.inPrev.inNext != inCur) throw new Exception("ARGH2");
+                    inCur = inCur.inNext;
+                }
+                while(inCur != inHead);
+            }
+
+            LGSPEdge outHead = node.outhead;
+            if(outHead != null)
+            {
+                LGSPEdge outCur = outHead;
+                do
+                {
+                    if(outCur.outNext.outPrev != outCur) throw new Exception("ARGH3");
+                    if(outCur.outPrev.outNext != outCur) throw new Exception("ARGH4");
+                    outCur = outCur.outNext;
+                }
+                while(outCur != outHead);
+            }
+        }*/
+
         /// <summary>
         /// Replaces a given edge by another one.
         /// Source and target node are transferred to the new edge,
@@ -1254,8 +1284,18 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(oldEdge.type != newEdge.type)
             {
-                RemoveEdgeWithoutEvents(oldEdge, oldEdge.type.TypeID);
-                AddEdgeWithoutEvents(newEdge, newEdge.type.TypeID);
+                oldEdge.typePrev.typeNext = oldEdge.typeNext;
+                oldEdge.typeNext.typePrev = oldEdge.typePrev;
+
+                edgesByTypeCounts[oldEdge.type.TypeID]--;
+
+                LGSPEdge head = edgesByTypeHeads[newEdge.type.TypeID];
+                head.typeNext.typePrev = newEdge;
+                newEdge.typeNext = head.typeNext;
+                newEdge.typePrev = head;
+                head.typeNext = newEdge;
+
+                edgesByTypeCounts[newEdge.type.TypeID]++;
             }
             else
             {
@@ -1263,18 +1303,29 @@ namespace de.unika.ipd.grGen.lgsp
                 newEdge.typePrev = oldEdge.typePrev;
                 oldEdge.typeNext.typePrev = newEdge;
                 oldEdge.typePrev.typeNext = newEdge;
-                oldEdge.typeNext = null;
-                oldEdge.typePrev = null;
             }
+            oldEdge.typeNext = null;
+            oldEdge.typePrev = null;
 
             // Reassign source node
             LGSPNode src = oldEdge.source;
             if(src.outhead == oldEdge)
                 src.outhead = newEdge;
-            oldEdge.outNext.outPrev = newEdge;
-            oldEdge.outPrev.outNext = newEdge;
-            newEdge.outNext = oldEdge.outNext;
-            newEdge.outPrev = oldEdge.outPrev;
+
+            if(oldEdge.outNext == oldEdge)  // the only outgoing edge?
+            {
+                newEdge.outNext = newEdge;
+                newEdge.outPrev = newEdge;
+            }
+            else
+            {
+                LGSPEdge oldOutNext = oldEdge.outNext;
+                LGSPEdge oldOutPrev = oldEdge.outPrev;
+                oldOutNext.outPrev = newEdge;
+                oldOutPrev.outNext = newEdge;
+                newEdge.outNext = oldOutNext;
+                newEdge.outPrev = oldOutPrev;
+            }
             oldEdge.outNext = null;
             oldEdge.outPrev = null;
 
@@ -1282,10 +1333,21 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPNode tgt = oldEdge.target;
             if(tgt.inhead == oldEdge)
                 tgt.inhead = newEdge;
-            oldEdge.inNext.inPrev = newEdge;
-            oldEdge.inPrev.inNext = newEdge;
-            newEdge.inNext = oldEdge.inNext;
-            newEdge.inPrev = oldEdge.inPrev;
+
+            if(oldEdge.inNext == oldEdge)   // the only incoming edge?
+            {
+                newEdge.inNext = newEdge;
+                newEdge.inPrev = newEdge;
+            }
+            else
+            {
+                LGSPEdge oldInNext = oldEdge.inNext;
+                LGSPEdge oldInPrev = oldEdge.inPrev;
+                oldInNext.inPrev = newEdge;
+                oldInPrev.inNext = newEdge;
+                newEdge.inNext = oldInNext;
+                newEdge.inPrev = oldInPrev;
+            }
             oldEdge.inNext = null;
             oldEdge.inPrev = null;
 
