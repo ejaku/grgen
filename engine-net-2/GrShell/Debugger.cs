@@ -30,14 +30,16 @@ namespace de.unika.ipd.grGen.grShell
         int nextAddedNodeIndex = 0;
         int nextAddedEdgeIndex = 0;
 
-        Dictionary<INode, bool> markedNodes = new Dictionary<INode, bool>();
-        Dictionary<IEdge, bool> markedEdges = new Dictionary<IEdge, bool>();
+        Dictionary<INode, String> markedNodes = new Dictionary<INode, String>();
+        Dictionary<IEdge, String> markedEdges = new Dictionary<IEdge, String>();
 
         LinkedList<Sequence> loopList = new LinkedList<Sequence>();
         Dictionary<INode, bool> addedNodes = new Dictionary<INode, bool>();
         LinkedList<String> deletedNodes = new LinkedList<String>();
         Dictionary<IEdge, bool> addedEdges = new Dictionary<IEdge, bool>();
         LinkedList<String> deletedEdges = new LinkedList<String>();
+        Dictionary<INode, bool> retypedNodes = new Dictionary<INode, bool>();
+        Dictionary<IEdge, bool> retypedEdges = new Dictionary<IEdge, bool>();
 
         public Debugger(GrShellImpl grShellImpl) : this(grShellImpl, "Orthogonal", null) {}
         public Debugger(GrShellImpl grShellImpl, String debugLayout) : this(grShellImpl, debugLayout, null) {}
@@ -506,17 +508,19 @@ namespace de.unika.ipd.grGen.grShell
                 int i = 0;
                 foreach(INode node in match.Nodes)
                 {
+                    String name = curRulePattern.PatternGraph.Nodes[i].UnprefixedName;
                     ycompClient.ChangeNode(node, ycompClient.MatchedNodeRealizer);
-                    ycompClient.AnnotateElement(node, curRulePattern.PatternGraph.Nodes[i].UnprefixedName);
-                    markedNodes[node] = true;
+                    ycompClient.AnnotateElement(node, name);
+                    markedNodes[node] = name;
                     i++;
                 }
                 i = 0;
                 foreach(IEdge edge in match.Edges)
                 {
+                    String name = curRulePattern.PatternGraph.Edges[i].UnprefixedName;
                     ycompClient.ChangeEdge(edge, ycompClient.MatchedEdgeRealizer);
-                    ycompClient.AnnotateElement(edge, curRulePattern.PatternGraph.Edges[i].UnprefixedName);
-                    markedEdges[edge] = true;
+                    ycompClient.AnnotateElement(edge, name);
+                    markedEdges[edge] = name;
                     i++;
                 }
             }
@@ -630,6 +634,36 @@ namespace de.unika.ipd.grGen.grShell
         void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
             ycompClient.RetypingElement(oldElem, newElem);
+            if(!recordMode) return;
+            
+            if(oldElem is INode)
+            {
+                INode oldNode = (INode) oldElem;
+                INode newNode = (INode) newElem;
+                String name;
+                if(markedNodes.TryGetValue(oldNode, out name))
+                {
+                    markedNodes.Remove(oldNode);
+                    markedNodes[newNode] = name;
+                    ycompClient.AnnotateElement(newElem, name);
+                }
+                ycompClient.ChangeNode(newNode, ycompClient.RetypedNodeRealizer);
+                retypedNodes[newNode] = true;
+            }
+            else
+            {
+                IEdge oldEdge = (IEdge) oldElem;
+                IEdge newEdge = (IEdge) newElem;
+                String name;
+                if(markedEdges.TryGetValue(oldEdge, out name))
+                {
+                    markedEdges.Remove(oldEdge);
+                    markedEdges[newEdge] = name;
+                    ycompClient.AnnotateElement(newElem, name);
+                }
+                ycompClient.ChangeEdge(newEdge, ycompClient.RetypedEdgeRealizer);
+                retypedEdges[newEdge] = true;
+            }
         }
 
         void DebugFinished(IMatches matches, bool special)
@@ -651,22 +685,22 @@ namespace de.unika.ipd.grGen.grShell
                 ycompClient.ChangeEdge(edge, null);
                 ycompClient.AnnotateElement(edge, null);
             }
+
             foreach(String edgeName in deletedEdges)
-            {
                 ycompClient.DeleteEdge(edgeName);
-            }
             foreach(String nodeName in deletedNodes)
-            {
                 ycompClient.DeleteNode(nodeName);
-            }
+
+            foreach(INode node in retypedNodes.Keys)
+                ycompClient.ChangeNode(node, null);
+            foreach(IEdge edge in retypedEdges.Keys)
+                ycompClient.ChangeEdge(edge, null);
+
             foreach(INode node in markedNodes.Keys)
-            {
                 ycompClient.AnnotateElement(node, null);
-            }
             foreach(IEdge edge in markedEdges.Keys)
-            {
                 ycompClient.AnnotateElement(edge, null);
-            }
+
             ycompClient.NodeRealizer = null;
             ycompClient.EdgeRealizer = null;
 

@@ -86,8 +86,8 @@ namespace de.unika.ipd.grGen.grShell
         Dictionary<EdgeRealizer, EdgeRealizer> edgeRealizers = new Dictionary<EdgeRealizer, EdgeRealizer>();
         int nextEdgeRealizerID = 5;
 
-        public readonly String NormalNodeRealizer, MatchedNodeRealizer, NewNodeRealizer, DeletedNodeRealizer;
-        public readonly String NormalEdgeRealizer, MatchedEdgeRealizer, NewEdgeRealizer, DeletedEdgeRealizer;
+        public readonly String NormalNodeRealizer, MatchedNodeRealizer, NewNodeRealizer, DeletedNodeRealizer, RetypedNodeRealizer;
+        public readonly String NormalEdgeRealizer, MatchedEdgeRealizer, NewEdgeRealizer, DeletedEdgeRealizer, RetypedEdgeRealizer;
 
         private static Dictionary<String, bool> availableLayouts;
 
@@ -219,11 +219,13 @@ namespace de.unika.ipd.grGen.grShell
             MatchedNodeRealizer = GetNodeRealizer(GrColor.Khaki, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
             NewNodeRealizer = GetNodeRealizer(GrColor.LightRed, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
             DeletedNodeRealizer = GetNodeRealizer(GrColor.LightGrey, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
+            RetypedNodeRealizer = GetNodeRealizer(GrColor.Cyan, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
 
             NormalEdgeRealizer = GetEdgeRealizer(GrColor.DarkYellow, GrColor.Black, 1, GrLineStyle.Solid);
             MatchedEdgeRealizer = GetEdgeRealizer(GrColor.DarkYellow, GrColor.Black, 2, GrLineStyle.Solid);
             NewEdgeRealizer = GetEdgeRealizer(GrColor.LightRed, GrColor.Black, 2, GrLineStyle.Solid);
             DeletedEdgeRealizer = GetEdgeRealizer(GrColor.LightGrey, GrColor.Black, 2, GrLineStyle.Solid);
+            RetypedEdgeRealizer = GetEdgeRealizer(GrColor.Cyan, GrColor.Black, 2, GrLineStyle.Solid);
 
             dumpInfo.OnNodeTypeAppearanceChanged += new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
             dumpInfo.OnEdgeTypeAppearanceChanged += new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
