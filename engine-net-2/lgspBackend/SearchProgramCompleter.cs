@@ -356,7 +356,8 @@ namespace de.unika.ipd.grGen.lgsp
                         new AbandonCandidate(
                             writeIsomorphy.PatternElementName,
                             writeIsomorphy.NegativeNamePrefix,
-                            writeIsomorphy.IsNode);
+                            writeIsomorphy.IsNode,
+                            writeIsomorphy.NeverAboveMaxNegLevel);
                     insertionPoint = insertionPoint.Append(restoreIsomorphy);
                 }
                 // insert code to clean up isomorphy information written by global candidate acceptance
@@ -386,7 +387,7 @@ namespace de.unika.ipd.grGen.lgsp
                     InitializeNegativeMatching initialize =
                         op as InitializeNegativeMatching;
                     FinalizeNegativeMatching finalize =
-                        new FinalizeNegativeMatching();
+                        new FinalizeNegativeMatching(initialize.NeverAboveMaxNegLevel);
                     insertionPoint = insertionPoint.Append(finalize);
                 }
 

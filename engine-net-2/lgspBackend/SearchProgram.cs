@@ -1220,12 +1220,14 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             List<string> namesOfPatternElementsToCheckAgainst,
             string negativeNamePrefix,
-            bool isNode)
+            bool isNode,
+            bool neverAboveMaxNegLevel)
         {
             PatternElementName = patternElementName;
             NamesOfPatternElementsToCheckAgainst = namesOfPatternElementsToCheckAgainst;
             NegativeNamePrefix = negativeNamePrefix;
             IsNode = isNode;
+            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1260,13 +1262,20 @@ namespace de.unika.ipd.grGen.lgsp
             // fail if graph element contained within candidate was already matched
             // (to another pattern element)
             // as this would cause a homomorphic match
-            sourceCode.Append("(negLevel<=MAX_NEG_LEVEL ? ");
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.Append("(negLevel<=MAX_NEG_LEVEL ? ");
+            }
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
             string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED<<negLevel" : "LGSPEdge.IS_MATCHED<<negLevel";
             sourceCode.AppendFormat("({0}.flags & {1}) == {1}", variableContainingCandidate, isMatchedBit);
-            sourceCode.Append(" : ");
-            sourceCode.AppendFormat("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{0}.ContainsKey({1}))",
-                IsNode ? "fst" : "snd", variableContainingCandidate);
+
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.Append(" : ");
+                sourceCode.AppendFormat("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{0}.ContainsKey({1}))",
+                    IsNode ? "fst" : "snd", variableContainingCandidate);
+            }
 
             // but only if isomorphy is demanded (NamesOfPatternElementsToCheckAgainst empty)
             // otherwise homomorphy to certain elements is allowed, 
@@ -1328,6 +1337,7 @@ namespace de.unika.ipd.grGen.lgsp
         public List<string> NamesOfPatternElementsToCheckAgainst;
         public string NegativeNamePrefix; // "" if positive
         public bool IsNode; // node|edge
+        public bool NeverAboveMaxNegLevel;
     }
 
     /// <summary>
@@ -1696,11 +1706,13 @@ namespace de.unika.ipd.grGen.lgsp
         public AcceptCandidate(
             string patternElementName,
             string negativeNamePrefix,
-            bool isNode)
+            bool isNode,
+            bool neverAboveMaxNegLevel)
         {
             PatternElementName = patternElementName;
             NegativeNamePrefix = negativeNamePrefix;
             IsNode = isNode;
+            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1718,8 +1730,12 @@ namespace de.unika.ipd.grGen.lgsp
                 NamesOfEntities.CandidateVariable(PatternElementName);
 
             sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMember);
-            sourceCode.AppendFront("if(negLevel <= MAX_NEG_LEVEL) {\n");
-            sourceCode.Indent();
+
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.AppendFront("if(negLevel <= MAX_NEG_LEVEL) {\n");
+                sourceCode.Indent();
+            }
 
             string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED<<negLevel" : "LGSPEdge.IS_MATCHED<<negLevel";
             sourceCode.AppendFrontFormat("{0} = {1}.flags & {2};\n",
@@ -1727,22 +1743,26 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFrontFormat("{0}.flags |= {1};\n",
                 variableContainingCandidate, isMatchedBit);
 
-            sourceCode.Unindent();
-            sourceCode.AppendFront("} else {\n");
-            sourceCode.Indent();
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.Unindent();
+                sourceCode.AppendFront("} else {\n");
+                sourceCode.Indent();
 
-            sourceCode.AppendFrontFormat("{0} = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
-                variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
-            sourceCode.AppendFrontFormat("if({0}==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{1}.Add({2},{2});\n",
-                variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
+                sourceCode.AppendFrontFormat("{0} = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
+                    variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
+                sourceCode.AppendFrontFormat("if({0}==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{1}.Add({2},{2});\n",
+                    variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
 
-            sourceCode.Unindent();
-            sourceCode.AppendFront("}\n");
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
         }
 
         public string PatternElementName;
         public string NegativeNamePrefix; // "" if positive
         public bool IsNode; // node|edge
+        public bool NeverAboveMaxNegLevel;
     }
 
     /// <summary>
@@ -1790,11 +1810,13 @@ namespace de.unika.ipd.grGen.lgsp
         public AbandonCandidate(
             string patternElementName,
             string negativeNamePrefix,
-            bool isNode)
+            bool isNode,
+            bool neverAboveMaxNegLevel)
         {
             PatternElementName = patternElementName;
             NegativeNamePrefix = negativeNamePrefix;
             IsNode = isNode;
+            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1811,31 +1833,38 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingCandidate =
                 NamesOfEntities.CandidateVariable(PatternElementName);
 
-            sourceCode.AppendFront("if(negLevel <= MAX_NEG_LEVEL) {\n");
-            sourceCode.Indent();
-            
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.AppendFront("if(negLevel <= MAX_NEG_LEVEL) {\n");
+                sourceCode.Indent();
+            }
+   
             sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~{1} | {1};\n",
                 variableContainingCandidate, variableContainingBackupOfMappedMember);
 
-            sourceCode.Unindent();
-            sourceCode.AppendFront("} else { \n");
-            sourceCode.Indent();
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.Unindent();
+                sourceCode.AppendFront("} else { \n");
+                sourceCode.Indent();
 
-            sourceCode.AppendFrontFormat("if({0}==0)", variableContainingBackupOfMappedMember);
-            sourceCode.Append(" {\n"); // wtf? appending this string directly to string above throws exception
-            sourceCode.Indent();
-            sourceCode.AppendFrontFormat("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{0}.Remove({1});\n",
-                IsNode ? "fst" : "snd", variableContainingCandidate);
-            sourceCode.Unindent();
-            sourceCode.AppendFront("}\n");
+                sourceCode.AppendFrontFormat("if({0}==0)", variableContainingBackupOfMappedMember);
+                sourceCode.Append(" {\n"); // wtf? appending this string directly to string above throws exception
+                sourceCode.Indent();
+                sourceCode.AppendFrontFormat("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{0}.Remove({1});\n",
+                    IsNode ? "fst" : "snd", variableContainingCandidate);
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
 
-            sourceCode.Unindent();
-            sourceCode.AppendFront("}\n");
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
         }
 
         public string PatternElementName;
         public string NegativeNamePrefix; // "" if positive
         public bool IsNode; // node|edge
+        public bool NeverAboveMaxNegLevel;
     }
 
     /// <summary>
@@ -2902,10 +2931,14 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class InitializeNegativeMatching : SearchProgramOperation
     {
-        public InitializeNegativeMatching(bool containsSubpatterns, string negativePrefix)
+        public InitializeNegativeMatching(
+            bool containsSubpatterns,
+            string negativePrefix,
+            bool neverAboveMaxNegLevel)
         {
             SetupSubpatternMatching = containsSubpatterns;
             NegativePrefix = negativePrefix;
+            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2917,13 +2950,16 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFront("++negLevel;\n");
-            sourceCode.AppendFront("if(negLevel > MAX_NEG_LEVEL && negLevel-MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {\n");
-            sourceCode.Indent();
-            sourceCode.AppendFront("graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());\n");
-            sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst = new Dictionary<LGSPNode, LGSPNode>();\n");
-            sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd = new Dictionary<LGSPEdge, LGSPEdge>();\n");
-            sourceCode.Unindent();
-            sourceCode.AppendFront("}\n");
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.AppendFront("if(negLevel > MAX_NEG_LEVEL && negLevel-MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {\n");
+                sourceCode.Indent();
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst = new Dictionary<LGSPNode, LGSPNode>();\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd = new Dictionary<LGSPEdge, LGSPEdge>();\n");
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
             if (SetupSubpatternMatching)
             {
                 sourceCode.AppendFrontFormat("Stack<LGSPSubpatternAction> {0}openTasks ="
@@ -2937,6 +2973,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public bool SetupSubpatternMatching;
         public string NegativePrefix;
+        public bool NeverAboveMaxNegLevel;
     }
 
     /// <summary>
@@ -2944,8 +2981,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class FinalizeNegativeMatching : SearchProgramOperation
     {
-        public FinalizeNegativeMatching()
+        public FinalizeNegativeMatching(bool neverAboveMaxNegLevel)
         {
+            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2955,13 +2993,18 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("if(negLevel > MAX_NEG_LEVEL) {\n");
-            sourceCode.Indent();
-            sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();\n");
-            sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();\n");
-            sourceCode.Unindent();
-            sourceCode.AppendFront("}\n");
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.AppendFront("if(negLevel > MAX_NEG_LEVEL) {\n");
+                sourceCode.Indent();
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();\n");
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
             sourceCode.AppendFront("--negLevel;\n");
         }
+
+        public bool NeverAboveMaxNegLevel;
     }
 }

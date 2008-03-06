@@ -40,6 +40,7 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraph = rulePattern.patternGraph;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, false);
             negativeNames = new List<string>();
+            negLevelNeverAboveMaxNegLevel = computeMaxNegLevel(rulePattern.patternGraph) <= MAX_NEG_LEVEL;
 
             SearchProgram searchProgram;
             if (parametersList != null)
@@ -97,6 +98,7 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraph = rulePattern.patternGraph;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, true);
             negativeNames = new List<string>();
+            negLevelNeverAboveMaxNegLevel = false;
 
             // build outermost search program operation, create the list anchor starting it's program
             SearchProgram searchProgram = new SearchProgramOfSubpattern("myMatch");
@@ -133,6 +135,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.alternative = alternative;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.isSubpattern);
             negativeNames = new List<string>();
+            negLevelNeverAboveMaxNegLevel = false;
 
             // build outermost search program operation, create the list anchor starting it's program
             SearchProgram searchProgram = new SearchProgramOfAlternative("myMatch");
@@ -300,6 +303,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private List<string> negativeNames;
 
+        /// <summary>
+        /// maximum neg level which can be handled by flags
+        /// </summary>
+        private const int MAX_NEG_LEVEL = 5;
+
+        /// <summary>
+        /// true if statically determined that the neg level of the pattern getting constructed 
+        /// is always below the maximum neg level
+        /// </summary>
+        private bool negLevelNeverAboveMaxNegLevel;
+
         ///////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -446,7 +460,8 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeNamePrefix,
-                        isNode);
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -457,7 +472,8 @@ namespace de.unika.ipd.grGen.lgsp
                     new AcceptCandidate(
                         target.PatternElement.Name,
                         negativeNamePrefix,
-                        isNode);
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -481,7 +497,8 @@ namespace de.unika.ipd.grGen.lgsp
                     new AbandonCandidate(
                         target.PatternElement.Name,
                         negativeNamePrefix,
-                        isNode);
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -511,7 +528,8 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeNamePrefix,
-                        isNode);
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -522,7 +540,8 @@ namespace de.unika.ipd.grGen.lgsp
                     new AcceptCandidate(
                         target.PatternElement.Name,
                         negativeNamePrefix,
-                        isNode);
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -546,7 +565,8 @@ namespace de.unika.ipd.grGen.lgsp
                     new AbandonCandidate(
                         target.PatternElement.Name,
                         negativeNamePrefix,
-                        isNode);
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -656,7 +676,8 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeNamePrefix,
-                        isNode);
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -677,7 +698,8 @@ namespace de.unika.ipd.grGen.lgsp
                     new AcceptCandidate(
                         target.PatternElement.Name,
                         negativeNamePrefix,
-                        isNode);
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -701,7 +723,8 @@ namespace de.unika.ipd.grGen.lgsp
                     new AbandonCandidate(
                         target.PatternElement.Name,
                         negativeNamePrefix,
-                        isNode);
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -763,7 +786,8 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeNamePrefix,
-                        true);
+                        true,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -784,7 +808,8 @@ namespace de.unika.ipd.grGen.lgsp
                     new AcceptCandidate(
                         target.PatternElement.Name,
                         negativeNamePrefix,
-                        true);
+                        true,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -808,7 +833,8 @@ namespace de.unika.ipd.grGen.lgsp
                     new AbandonCandidate(
                         target.PatternElement.Name,
                         negativeNamePrefix,
-                        true);
+                        true,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -868,7 +894,8 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         negativeNamePrefix,
-                        false);
+                        false,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
@@ -889,7 +916,8 @@ namespace de.unika.ipd.grGen.lgsp
                     new AcceptCandidate(
                         target.PatternElement.Name,
                         negativeNamePrefix,
-                        false);
+                        false,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
@@ -913,7 +941,8 @@ namespace de.unika.ipd.grGen.lgsp
                     new AbandonCandidate(
                         target.PatternElement.Name,
                         negativeNamePrefix,
-                        false);
+                        false,
+                        negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
@@ -970,8 +999,10 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeNamePrefix = NegativeNamePrefix();
             bool negativeContainsSubpatterns = negativePatternGraph.EmbeddedGraphs.Length >= 1
                 || negativePatternGraph.Alternatives.Length >= 1;
-            InitializeNegativeMatching initNeg = 
-                new InitializeNegativeMatching(negativeContainsSubpatterns, negativeNamePrefix);
+            InitializeNegativeMatching initNeg = new InitializeNegativeMatching(
+                negativeContainsSubpatterns, 
+                negativeNamePrefix, 
+                negLevelNeverAboveMaxNegLevel);
             insertionPoint = insertionPoint.Append(initNeg);
 
 
@@ -982,7 +1013,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint);
             //---------------------------------------------------------------------------
 
-            FinalizeNegativeMatching finalize = new FinalizeNegativeMatching();
+            FinalizeNegativeMatching finalize = new FinalizeNegativeMatching(negLevelNeverAboveMaxNegLevel);
             insertionPoint = insertionPoint.Append(finalize);
 
             // negative pattern built by now
@@ -1841,6 +1872,52 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             return negativeNamePrefix;
+        }
+
+        /// <summary>
+        /// computes maximum neg level of the given positive pattern graph 
+        /// if it can be easily determined statically
+        /// </summary>
+        private int computeMaxNegLevel(PatternGraph patternGraph)
+        {
+            int maxNegLevel = 0;
+
+            if (patternGraph.alternatives.Length > 0) return MAX_NEG_LEVEL + 1;
+            if (patternGraph.embeddedGraphs.Length > 0) return MAX_NEG_LEVEL + 1;
+
+            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                int level = computeMaxNegLevelNegative(neg);
+                if(level > maxNegLevel)
+                {
+                    maxNegLevel = level;
+                }
+            }
+
+            return maxNegLevel;
+        }
+
+        /// <summary>
+        /// computes maximum neg level of the given negative pattern graph 
+        /// if it can be easily determined statically
+        /// </summary>
+        private int computeMaxNegLevelNegative(PatternGraph patternGraph)
+        {
+            int maxNegLevel = 1;
+
+            if (patternGraph.alternatives.Length > 0) return MAX_NEG_LEVEL + 1;
+            if (patternGraph.embeddedGraphs.Length > 0) return MAX_NEG_LEVEL + 1;
+
+            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                int level = 1 + computeMaxNegLevel(neg);
+                if (level > maxNegLevel)
+                {
+                    maxNegLevel = level;
+                }
+            }
+
+            return maxNegLevel;
         }
     }
 }

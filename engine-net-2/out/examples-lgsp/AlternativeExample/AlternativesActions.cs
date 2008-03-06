@@ -1363,8 +1363,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_B node__node0 = Node_B.CreateNode(graph);
 			Node_A node_a = Node_A.CreateNode(graph);
+			Node_B node__node0 = Node_B.CreateNode(graph);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node_a);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node__node0);
 			return EmptyReturnElements;
@@ -1372,13 +1372,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_B node__node0 = Node_B.CreateNode(graph);
 			Node_A node_a = Node_A.CreateNode(graph);
+			Node_B node__node0 = Node_B.CreateNode(graph);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node_a);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node__node0);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "_node0", "a" };
+		private static String[] addedNodeNames = new String[] { "a", "_node0" };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] { "_edge1", "_edge0" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
@@ -1430,20 +1430,20 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_A node__node0 = Node_A.CreateNode(graph);
 			Node_B node__node1 = Node_B.CreateNode(graph);
+			Node_A node__node0 = Node_A.CreateNode(graph);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_A node__node0 = Node_A.CreateNode(graph);
 			Node_B node__node1 = Node_B.CreateNode(graph);
+			Node_A node__node0 = Node_A.CreateNode(graph);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "_node0", "_node1" };
+		private static String[] addedNodeNames = new String[] { "_node1", "_node0" };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] { "_edge0" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
@@ -1617,42 +1617,42 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_C node__node0 = Node_C.CreateNode(graph);
-			Node_C node__node2 = Node_C.CreateNode(graph);
 			Node_B node_b2 = Node_B.CreateNode(graph);
-			Node_C node__node1 = Node_C.CreateNode(graph);
-			Node_B node_b = Node_B.CreateNode(graph);
 			Node_A node_a = Node_A.CreateNode(graph);
+			Node_B node_b = Node_B.CreateNode(graph);
+			Node_C node__node1 = Node_C.CreateNode(graph);
+			Node_C node__node2 = Node_C.CreateNode(graph);
+			Node_C node__node0 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node__node1, node__node2);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_b, node__node0);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_C node__node0 = Node_C.CreateNode(graph);
-			Node_C node__node2 = Node_C.CreateNode(graph);
 			Node_B node_b2 = Node_B.CreateNode(graph);
-			Node_C node__node1 = Node_C.CreateNode(graph);
-			Node_B node_b = Node_B.CreateNode(graph);
 			Node_A node_a = Node_A.CreateNode(graph);
+			Node_B node_b = Node_B.CreateNode(graph);
+			Node_C node__node1 = Node_C.CreateNode(graph);
+			Node_C node__node2 = Node_C.CreateNode(graph);
+			Node_C node__node0 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node__node1, node__node2);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_b, node__node0);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "_node0", "_node2", "b2", "_node1", "b", "a" };
+		private static String[] addedNodeNames = new String[] { "b2", "a", "b", "_node1", "_node2", "_node0" };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge3", "_edge5", "_edge1", "_edge0", "_edge6", "_edge2", "_edge4" };
+		private static String[] addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0", "_edge6", "_edge5", "_edge4" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
