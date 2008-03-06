@@ -1,5 +1,4 @@
 TODO: make exec typesafe
-TODO: Debug: Retyping
 
 v1.4 (2008-03-01)
  Features:
@@ -20,10 +19,11 @@ v1.4 (2008-03-01)
   - Fixed dependency calculation for includes in grg-files
   - GrShell "save graph" command
   - GrShell debugging of sequences containing "[SomeRule]"
+  - GrShell debugging of element retyping
   - GrShell "dump (node|edge) only <nodeType> exclude" command
   - Problems with edge parameters
   - Handling of abstract element classes
-
+  
  Examples:
   - Added Sierpinksi3 (with parallel rewrite semantics)
   - Added UML example
