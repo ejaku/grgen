@@ -625,12 +625,14 @@ public class ActionsGen extends CSharpBase {
 				Exec exec = (Exec) istmt;
 				sb.append("\t\tpublic static LGSPXGRSInfo XGRSInfo_" + xgrsID + " = new LGSPXGRSInfo(new String[] {");
 				for(Entity param : exec.getArguments()) {
+					if(param instanceof Variable) continue;
 					sb.append("\"" + param.getIdent() + "\", ");
 				}
 				sb.append("},\n");
 				sb.append("\t\t\t\"" + exec.getXGRSString() + "\");\n");
 				sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(LGSPGraph graph");
 				for(Entity param : exec.getArguments()) {
+					if(param instanceof Variable) continue;
 					sb.append(", IGraphElement var_");
 					sb.append(param.getIdent());
 				}
@@ -833,7 +835,7 @@ public class ActionsGen extends CSharpBase {
 			RetypedNode rnode = node.getRetypedNode();
 
 			if(rnode.inheritsType()) {
-				Node typeofElem = (Node) getConcreteTypeof(rnode);
+				Node typeofElem = (Node) getConcreteTypeofElem(rnode);
 				new_type = formatEntity(typeofElem) + "_type";
 				nodesNeededAsElements.add(typeofElem);
 				nodesNeededAsTypes.add(typeofElem);
@@ -860,7 +862,7 @@ public class ActionsGen extends CSharpBase {
 			RetypedEdge redge = edge.getRetypedEdge();
 
 			if(redge.inheritsType()) {
-				Edge typeofElem = (Edge) getConcreteTypeof(redge);
+				Edge typeofElem = (Edge) getConcreteTypeofElem(redge);
 				new_type = formatEntity(typeofElem) + "_type";
 				edgesNeededAsElements.add(typeofElem);
 				edgesNeededAsTypes.add(typeofElem);
@@ -927,6 +929,7 @@ public class ActionsGen extends CSharpBase {
 				Exec exec = (Exec) istmt;
 				sb3.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
 				for(Entity param : exec.getArguments()) {
+					if(param instanceof Variable) continue;
 					sb3.append(", ");
 					sb3.append(formatEntity(param));
 				}
@@ -1127,7 +1130,7 @@ public class ActionsGen extends CSharpBase {
 			 continue NN;
 			 }*/
 			if(node.inheritsType()) {
-				Node typeofElem = (Node) getConcreteTypeof(node);
+				Node typeofElem = (Node) getConcreteTypeofElem(node);
 				nodesNeededAsElements.add(typeofElem);
 				nodesNeededAsTypes.add(typeofElem);
 				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) "
@@ -1149,7 +1152,7 @@ public class ActionsGen extends CSharpBase {
 	 * Returns the iterated inherited type element for a given element
 	 * or null, if the given element does not inherit its type from another element.
 	 */
-	private GraphEntity getConcreteTypeof(GraphEntity elem) {
+	private GraphEntity getConcreteTypeofElem(GraphEntity elem) {
 		GraphEntity typeofElem = elem;
 		while(typeofElem.inheritsType())
 			typeofElem = typeofElem.getTypeof();
@@ -1190,7 +1193,7 @@ public class ActionsGen extends CSharpBase {
 				nodesNeededAsElements.add(tgt_node);
 
 			if(edge.inheritsType()) {
-				Edge typeofElem = (Edge) getConcreteTypeof(edge);
+				Edge typeofElem = (Edge) getConcreteTypeofElem(edge);
 				edgesNeededAsElements.add(typeofElem);
 				edgesNeededAsTypes.add(typeofElem);
 
@@ -1512,5 +1515,6 @@ public class ActionsGen extends CSharpBase {
 
 	private HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 }
+
 
 
