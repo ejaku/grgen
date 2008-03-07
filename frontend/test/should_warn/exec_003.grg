@@ -1,4 +1,4 @@
-using deep_model_001;
+using deep_model_002;
 
 rule r1(a:A, b:B, acc:Acc) {
   n:Node;

@@ -1,0 +1,12 @@
+node class A;
+
+node class B;
+
+node class Ac extends A;
+
+node class AAc extends Ac;
+
+node class Acc extends A;
+
+node class AB extends A, B;
+
