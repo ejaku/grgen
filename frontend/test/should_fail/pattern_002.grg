@@ -1,0 +1,8 @@
+pattern Foo(x:Node)
+{
+	x;
+	
+	modify {
+		delete(x);
+	}
+}
