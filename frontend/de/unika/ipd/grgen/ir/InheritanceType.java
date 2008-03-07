@@ -50,6 +50,7 @@ public abstract class InheritanceType extends CompoundType {
 	private final Set<InheritanceType> directSubTypes = new LinkedHashSet<InheritanceType>();
 
 	private Set<InheritanceType> allSuperTypes = null;
+	private Set<InheritanceType> allSubTypes = null;
 
 	/** The list of member initializers */
 	private List<MemberInit> memberInitializers = new LinkedList<MemberInit>();
@@ -98,6 +99,7 @@ public abstract class InheritanceType extends CompoundType {
 
 	/** Adds a supertype, this type should inherit from. */
 	public void addDirectSuperType(InheritanceType t) {
+		assert allSubTypes == null && allSuperTypes == null: "wrong order of calls";
 		directSuperTypes.add(t);
 		t.directSubTypes.add(this);
 	}
@@ -120,6 +122,20 @@ public abstract class InheritanceType extends CompoundType {
 		return Collections.unmodifiableCollection(allSuperTypes);
 	}
 
+	/** @return Collection of all sub types this type inherits from (including itself). */
+	public Collection<InheritanceType> getAllSubTypes() {
+		if(allSubTypes==null) {
+			allSubTypes = new LinkedHashSet<InheritanceType>();
+			allSubTypes.add(this);
+
+			for(InheritanceType type : directSubTypes) {
+				allSubTypes.addAll(type.getAllSubTypes());
+				allSubTypes.add(type);
+			}
+		}
+		return Collections.unmodifiableCollection(allSubTypes);
+	}
+
 	/** Get all subtypes of this type. */
 	public Collection<InheritanceType> getDirectSubTypes() {
 		return Collections.unmodifiableCollection(directSubTypes);
@@ -140,9 +156,9 @@ public abstract class InheritanceType extends CompoundType {
 				}
 				else {
 					error.error(member.getIdent().getCoords(), member.toString()
-							+ " of " + member.getOwner()
-							+ " already defined. It is also declared in "
-							+ curMember.getOwner() + ".");
+									+ " of " + member.getOwner()
+									+ " already defined. It is also declared in "
+									+ curMember.getOwner() + ".");
 				}
 			}
 			allMembers.put(memberName, member);

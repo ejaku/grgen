@@ -104,9 +104,11 @@ public class ExecNode extends BaseNode {
 
 	protected IR constructIR() {
 		Set<Entity> parameters = new LinkedHashSet<Entity>();
-		for(CallActionNode callActionNode : callActions.getChildren())
+		for(CallActionNode callActionNode : callActions.getChildren()) {
+			callActionNode.checkPost();
 			for(DeclNode param : callActionNode.getParams().getChildren())
 				parameters.add((Entity) param.getIR());
+		}
 		Exec res= new Exec(getXGRSString(), parameters);
 		return res;
 	}

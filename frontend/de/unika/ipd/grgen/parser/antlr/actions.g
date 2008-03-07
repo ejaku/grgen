@@ -1004,11 +1004,3 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 	| LPAREN res=typeAddExpr RPAREN
 	;
 
-
-
-
-
-
-
-
-

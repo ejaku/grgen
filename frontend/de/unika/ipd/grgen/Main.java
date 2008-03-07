@@ -186,18 +186,18 @@ public class Main extends Base implements Sys {
 
 	// TODO use or remove it
 	/*private JPanel getTreePanel(TreeHandler treeHandler) {
-		debugTree = new JTree(treeHandler);
-		debugTree.setEditable(false);
+	 debugTree = new JTree(treeHandler);
+	 debugTree.setEditable(false);
 
-		JPanel panel = new JPanel();
+	 JPanel panel = new JPanel();
 
-		JScrollPane scrollPane = new JScrollPane(debugTree);
-		panel.setLayout(new BorderLayout());
-		panel.setPreferredSize(new Dimension(800, 600));
-		panel.add(scrollPane, BorderLayout.CENTER);
+	 JScrollPane scrollPane = new JScrollPane(debugTree);
+	 panel.setLayout(new BorderLayout());
+	 panel.setPreferredSize(new Dimension(800, 600));
+	 panel.add(scrollPane, BorderLayout.CENTER);
 
-		return panel;
-	}*/
+	 return panel;
+	 }*/
 
 	private JPanel getTablePanel(TableHandler tableHandler) {
 		JComponent table = new JTable(tableHandler);
@@ -215,7 +215,7 @@ public class Main extends Base implements Sys {
 	// TODO use or remove it
 	/*private void editPreferences() {
 
-	}*/
+	 }*/
 
 	private JFrame makeMainFrame() {
 		JPanel panel = new JPanel();
@@ -570,6 +570,12 @@ public class Main extends Base implements Sys {
 			debugTree.expandRow(0);
 			debugTree.expandRow(1);
 		}
+
+		if(error.getErrorCount()>0) {
+			debug.report(NOTE, "### ERROR during IR build. Exiting! ###");
+			System.exit(1);
+		}
+
 
 		debug.report(NOTE, "### Generate Code ###");
 		codeGen = -System.currentTimeMillis();

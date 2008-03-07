@@ -25,20 +25,17 @@
 package de.unika.ipd.grgen.ast;
 
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Vector;
+import de.unika.ipd.grgen.ir.*;
 
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.Bad;
-import de.unika.ipd.grgen.ir.EdgeType;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Vector;
 
 /**
  * Call of an action with parameters and returns.
@@ -138,7 +135,7 @@ public class CallActionNode extends BaseNode {
 
 	private static final CollectResolver<DeclNode> paramNodeResolver = new CollectResolver<DeclNode>(new DeclarationResolver<DeclNode>(DeclNode.class));
 
-		private static final CollectResolver<VarDeclNode> varDeclNodeResolver =
+	private static final CollectResolver<VarDeclNode> varDeclNodeResolver =
 		new CollectResolver<VarDeclNode>(new DeclarationResolver<VarDeclNode>(VarDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -163,6 +160,18 @@ public class CallActionNode extends BaseNode {
 	protected boolean checkLocal() {
 		boolean res = true;
 
+		/* cannot be chekced here, because type info is not yet computed
+		 res &= checkParams(action.getParamDecls(), params.getChildren());
+		 res &= checkReturns(action.returnFormalParameters, returns);
+		 */
+
+		return res;
+	}
+
+	/** check after the IR is built */
+	protected boolean checkPost() {
+		boolean res = true;
+
 		res &= checkParams(action.getParamDecls(), params.getChildren());
 		res &= checkReturns(action.returnFormalParameters, returns);
 
@@ -183,28 +192,28 @@ public class CallActionNode extends BaseNode {
 			error.error(getCoords(), "Formal and actual parameter(s) of action " + this.getUseString() + " mismatch in number (" +
 							formalParams.size() + " vs. " + actualParams.size() +")");
 			res = false;
-		} else {
-			if(actualParams.iterator().next() instanceof ConstraintDeclNode) {
-				Iterator<? extends DeclNode> iterAP = actualParams.iterator();
-				for(DeclNode formalParam : formalParams) {
-					InheritanceType    formalParamType = (InheritanceType)formalParam.getDecl().getDeclType().checkIR(InheritanceType.class);
+		} else if(actualParams.size() >0) {
+			Iterator<? extends DeclNode> iterAP = actualParams.iterator();
+			for(DeclNode formalParam : formalParams) {
+				Type     formalParamType = formalParam.getDecl().getDeclType().getType();
 
-					DeclNode actualParam     = iterAP.next();
-					InheritanceType    actualParamType = (InheritanceType)actualParam.getDecl().getDeclType().checkIR(InheritanceType.class);
+				DeclNode actualParam     = iterAP.next();
+				Type     actualParamType = actualParam.getDecl().getDeclType().getType();
 
-					if(actualParamType instanceof EdgeType && formalParamType instanceof NodeType ||
-					   actualParamType instanceof NodeType && formalParamType instanceof EdgeType){
-						reportError("Actual \"" + actualParamType + "\" and formal \"" + formalParamType +
-										"\" parameter types are incommensurable, because nodes and edges are distinct.");
-						res = false;
+				if(actualParamType.classify()!=formalParamType.classify() ||
+				   !(actualParamType instanceof EdgeType && formalParamType instanceof EdgeType ||
+						 actualParamType instanceof NodeType && formalParamType instanceof NodeType
+					)){
+					reportError("Actual param type \"" + actualParamType + "\" and formal param type \"" + formalParamType +
+									"\" are incommensurable.");
+					res = false;
 
-					}
-					/* TODO: Maybe we want to warn: but diamond inheritace makes this not trivial
-					 else if(!actualParamType.isCastableTo(formalParamType) && !formalParamType.isCastableTo(actualParamType) ) {
-					 reportWarning("Actual \"" + actualParamType + "\" and formal \"" + formalParamType +
-					 "\" parameter types are incommensurable. The called rule might never match.");
-					 }
-					 */
+				}
+				if(actualParamType instanceof InheritanceType) {
+					InheritanceType fpt = (InheritanceType)formalParamType;
+					InheritanceType apt = (InheritanceType)actualParamType;
+					if(fpt!=apt && !fpt.isRoot() && !apt.isRoot() && Collections.disjoint(fpt.getAllSubTypes(), apt.getAllSubTypes()))
+						reportWarning("Formal param type \"" + formalParamType + "\" will never match to actual param type \"" + actualParamType +  "\".");
 				}
 			}
 		}
@@ -227,8 +236,38 @@ public class CallActionNode extends BaseNode {
 			error.error(getCoords(), "Formal and actual return-parameter(s) of action " + this.getUseString() + " mismatch in number (" +
 							formalReturns.children.size() + " vs. " + actualReturns.children.size() +")");
 			res = false;
-		} else {
+		} else if(actualReturns.children.size() >0) {
+			Iterator<VarDeclNode> iterAR = actualReturns.getChildren().iterator();
+			for(IdentNode formalReturn : formalReturns.getChildren()) {
+				Type     formalReturnType = formalReturn.getDecl().getDeclType().getType();
 
+				DeclNode actualReturn     = iterAR.next();
+				Type     actualReturnType = actualReturn.getDecl().getDeclType().getType();
+
+				if(actualReturnType.classify()!=formalReturnType.classify() ||
+				   !(actualReturnType instanceof EdgeType && formalReturnType instanceof EdgeType ||
+						 actualReturnType instanceof NodeType && formalReturnType instanceof NodeType
+					)){
+					reportError("Actual return type \"" + actualReturnType + "\" and formal return type \"" + formalReturnType +
+									"\" are incommensurable.");
+					res = false;
+
+				}
+				/*
+				if(actualReturnType instanceof InheritanceType) {
+					InheritanceType frt = (InheritanceType)formalReturnType;
+					InheritanceType art = (InheritanceType)actualReturnType;
+					if(frt.isCastableTo(art))
+						reportWarning("Formal return type \"" + formalReturnType + "\" will never match to actual param type \"" + actualReturnType +  "\".");
+				}
+				 */
+				/* TODO: Maybe we want to warn: but diamond inheritace makes this not trivial
+				 else if(!actualParamType.isCastableTo(formalParamType) && !formalParamType.isCastableTo(actualParamType) ) {
+				 reportWarning("Actual \"" + actualParamType + "\" and formal \"" + formalParamType +
+				 "\" parameter types are incommensurable. The called rule might never match.");
+				 }
+				 */
+			}
 		}
 		return res;
 	}
