@@ -1,0 +1,23 @@
+pattern Foo
+{
+	x: Node;
+}
+
+pattern Bar
+{
+	x: Node;
+	
+	replace
+	{
+	}
+}
+
+rule r
+{
+	foo:Foo();
+
+	modify
+	{
+		bar:Bar();
+	}
+}
