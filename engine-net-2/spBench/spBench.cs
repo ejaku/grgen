@@ -1,4 +1,4 @@
-﻿//#define DUMP_MATCHERPROGRAMS
+﻿#define DUMP_MATCHERPROGRAMS
 //#define DUMP_INITIALGRAPH
 #define NEWCOSTMODEL
 //#define OPCOST_WITH_GEO_MEAN
@@ -115,7 +115,9 @@ namespace spBench
         public SearchPlanID SearchPlanID = new SearchPlanID();
         public LinkedList<SearchOperation> Schedule = new LinkedList<SearchOperation>();
         public int NumElements;
+        public PatternGraph PatternGraph;
         public SearchPlanGraph SearchPlanGraph;
+        public PatternGraph[] NegPatternGraphs;
         public SearchPlanGraph[] NegSPGraphs;
         public Dictionary<String, List<int>> ElemToNegs;
         public Dictionary<String, bool>[] NegRemainingNeededElements;
@@ -153,10 +155,10 @@ namespace spBench
             Actions = actions;
             MatchGen = new LGSPMatcherGenerator(graph.Model);
             Action = action;
-            SearchPlanGraph = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(graph, (PatternGraph) action.RulePattern.PatternGraph, false, false),
-                action.RulePattern.PatternGraph.HomomorphicNodes);
+            PatternGraph = (PatternGraph) action.RulePattern.PatternGraph;
+            SearchPlanGraph = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(graph, PatternGraph, false, false));
 
-            DumpSearchPlanGraph(GenerateSearchPlanGraphNewCost(graph, (PatternGraph) action.RulePattern.PatternGraph, false), action.Name, "initial");
+//            DumpSearchPlanGraph(GenerateSearchPlanGraphNewCost(graph, (PatternGraph) action.RulePattern.PatternGraph, false), action.Name, "initial");
 
             LGSPSSP = GenerateLibGrSearchPlan();
 
@@ -168,11 +170,14 @@ namespace spBench
 
         private ScheduledSearchPlan GenerateLibGrSearchPlan()
         {
-            LGSPRulePattern rulePattern = Action.rulePattern;
+/*            LGSPRulePattern rulePattern = Action.rulePattern;
             PatternGraph patternGraph = rulePattern.patternGraph;
             PlanGraph planGraph = MatchGen.GeneratePlanGraph(Graph, patternGraph, false, false);
             MatchGen.MarkMinimumSpanningArborescence(planGraph, Action.Name);
             SearchPlanGraph searchPlanGraph = MatchGen.GenerateSearchPlanGraph(planGraph);
+            ScheduledSearchPlan scheduledSearchPlan = MatchGen.ScheduleSearchPlan(searchPlanGraph, patternGraph, false);
+            MatchGen.AppendHomomorphyInformation(scheduledSearchPlan);
+            patternGraph.Schedule = scheduledSearchPlan;
 
             SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[patternGraph.negativePatternGraphs.Length];
             for(int i = 0; i < patternGraph.negativePatternGraphs.Length; i++)
@@ -183,12 +188,15 @@ namespace spBench
                 negSearchPlanGraphs[i] = MatchGen.GenerateSearchPlanGraph(negPlanGraph);
             }
 
-            ScheduledSearchPlan scheduledSearchPlan = MatchGen.ScheduleSearchPlan(searchPlanGraph, negSearchPlanGraphs);
-            MatchGen.AppendHomomorphyInformation(scheduledSearchPlan);
-            return scheduledSearchPlan;
+            MatchGen.MergeNegativeSchedulesIntoPositiveSchedules(patternGraph);
+
+            return scheduledSearchPlan;*/
+
+            MatchGen.GenerateScheduledSearchPlans(Action.rulePattern.patternGraph, Graph, false, false);
+            return Action.rulePattern.patternGraph.Schedule;
         }
 
-        private SearchPlanGraph GenerateSearchPlanGraphNewCost(LGSPGraph graph, PatternGraph patternGraph, bool negativePatternGraph)
+/*        private SearchPlanGraph GenerateSearchPlanGraphNewCost(LGSPGraph graph, PatternGraph patternGraph, bool negativePatternGraph)
         {
             SearchPlanNode[] nodes = new SearchPlanNode[patternGraph.Nodes.Length + patternGraph.Edges.Length];
             // upper bound for num of edges (lookup nodes + lookup edges + impl. tgt + impl. src + incoming + outgoing)
@@ -354,7 +362,7 @@ namespace spBench
                 nodesIndex++;
             }
             return new SearchPlanGraph(root, nodes, edges.ToArray(), patternGraph);
-        }
+        }*/
 
         private String GetDumpName(SearchPlanNode node)
         {
@@ -414,7 +422,7 @@ namespace spBench
                 markRed ? " color:red" : "");
         }
 
-        private SearchPlanGraph GenSPGraphFromPlanGraph(PlanGraph planGraph, bool[,] homomorphicNodes) //, bool negGraph)
+        private SearchPlanGraph GenSPGraphFromPlanGraph(PlanGraph planGraph)
         {
             MatchGen.DumpPlanGraph(planGraph, Action.Name, "spBench");
 
@@ -456,7 +464,7 @@ namespace spBench
                 spedgenode.PatternEdgeSource.OutgoingPatternEdges.AddLast(spedgenode);
                 spedgenode.PatternEdgeTarget.IncomingPatternEdges.AddLast(spedgenode);
             }
-            return new SearchPlanGraph(root, nodes, edges, planGraph.PatternGraph);
+            return new SearchPlanGraph(root, nodes, edges);
         }
 
         /// <summary>
@@ -465,15 +473,15 @@ namespace spBench
         private void InitNegativePatterns()
         {
             PatternGraph patternGraph = Action.rulePattern.patternGraph;
+            NegPatternGraphs = new PatternGraph[patternGraph.negativePatternGraphs.Length];
             NegSPGraphs = new SearchPlanGraph[patternGraph.negativePatternGraphs.Length];
             NegRemainingNeededElements = new Dictionary<String, bool>[patternGraph.negativePatternGraphs.Length];
             NegEdges = new SearchPlanEdge[patternGraph.negativePatternGraphs.Length];
             for(int i = 0; i < patternGraph.negativePatternGraphs.Length; i++)
             {
                 PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
-                NegSPGraphs[i] = GenSPGraphFromPlanGraph(
-                    MatchGen.GeneratePlanGraph(Graph, negPatternGraph, true, false),
-                    negPatternGraph.HomomorphicNodes);
+                NegPatternGraphs[i] = negPatternGraph;
+                NegSPGraphs[i] = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(Graph, negPatternGraph, true, false));
                 NegSPGraphs[i].Root.ElementID = i;
                 Dictionary<String, bool> neededElemNames = new Dictionary<String, bool>();
                 foreach(PatternNode node in negPatternGraph.Nodes)
@@ -617,6 +625,7 @@ namespace spBench
     class NegContext
     {
         public List<SearchPlanEdge> AvailEdgesBeforeNegPattern;
+        public PatternGraph PatternGraph;
         public SearchPlanGraph SP;
         public int NumElements;
         public int VisitedElements;
@@ -629,12 +638,14 @@ namespace spBench
         public int NextLGSPIndex;
         public GenSPContext Context;
 
-        public NegContext(List<SearchPlanEdge> availEdgesBeforeNegPattern, SearchPlanGraph sp, int numElements, SearchPlanEdge spEdge,
+        public NegContext(List<SearchPlanEdge> availEdgesBeforeNegPattern, PatternGraph pg, SearchPlanGraph sp,
+                int numElements, SearchPlanEdge spEdge,
                 ScheduledSearchPlan lgspSSP, Dictionary<String, bool>[] negCondNeededNegElementVisitedArray,
                 Dictionary<String, List<int>> elemToNegConds, int nextLGSPIndex, GenSPContext context)
         {
             AvailEdgesBeforeNegPattern = availEdgesBeforeNegPattern;
             SP = sp;
+            PatternGraph = pg;
             NumElements = numElements;
             SPEdge = spEdge;
             LGSPSSP = lgspSSP;
@@ -659,6 +670,8 @@ namespace spBench
         static int numLookups = 0;
         static int allowedLookups = -1;     // unlimited
 
+        static int foundMatches = -1;       // currently unknown
+
         static String testActionName = "InductionVar";
         static bool noBench = false;
         static bool justCount = false;
@@ -676,6 +689,12 @@ namespace spBench
             PerformanceInfo perfInfo = new PerformanceInfo();
             actions.PerformanceInfo = perfInfo;
             actions.ApplyGraphRewriteSequence(seq);
+            if(foundMatches != -1)
+            {
+                if(perfInfo.MatchesFound != foundMatches)
+                    Console.WriteLine("INTERNAL ERROR: Expected " + foundMatches + " matches, but found " + perfInfo.MatchesFound);
+            }
+            else foundMatches = perfInfo.MatchesFound;
             return perfInfo.TotalTimeMS;
         }
 
@@ -884,8 +903,12 @@ namespace spBench
 
             Console.Write("{0,4}. ", num);
 
+/*            SearchOperation[] ops = new SearchOperation[ctx.Schedule.Count];
+            ctx.Schedule.CopyTo(ops, 0);*/
             SearchOperation[] ops = new SearchOperation[ctx.Schedule.Count];
-            ctx.Schedule.CopyTo(ops, 0);
+            int opind = 0;
+            foreach(SearchOperation op in ctx.Schedule)
+                ops[opind++] = new SearchOperation(op.Type, op.Element, op.SourceSPNode, op.CostToEnd);
 
             float costflat, costbatz, spcostproduct, spcostimplproduct, spcostsum;
             CalcScheduleCost(ctx, ops, out costflat, out costbatz, out spcostproduct, out spcostimplproduct, out spcostsum);
@@ -913,6 +936,8 @@ namespace spBench
                     (PatternGraph)ctx.Action.RulePattern.PatternGraph, ops, spcostproduct);
 
                 ctx.MatchGen.AppendHomomorphyInformation(ssp);
+                ((PatternGraph) ctx.Action.RulePattern.PatternGraph).Schedule = ssp;
+                ctx.MatchGen.MergeNegativeSchedulesIntoPositiveSchedules(ctx.Action.patternGraph);
 
 #if DUMP_MATCHERPROGRAMS
                 String outputName = "test.cs";
@@ -1031,7 +1056,7 @@ namespace spBench
                         // curNode is last needed element for condition => add Condition operation
 
                         SearchOperation newCondOp = new SearchOperation(SearchOperationType.Condition,
-                            negCtx.SP.PatternGraph.Conditions[condIndex], null, 0);
+                            negCtx.PatternGraph.Conditions[condIndex], null, 0);
                         negCtx.Schedule.AddLast(newCondOp);
 
                         ScheduledSearchPlan dummy;
@@ -1050,7 +1075,7 @@ namespace spBench
                 CalcScheduleCost(negCtx.Context, ops, out costflat, out costbatz, out spcostproduct,
                     out spcostimplproduct, out spcostsum);          // TODO: spcostsum is not used, yet
 
-                ScheduledSearchPlan negssp = new ScheduledSearchPlan(negCtx.SP.PatternGraph, ops, spcostproduct);
+                ScheduledSearchPlan negssp = new ScheduledSearchPlan(negCtx.PatternGraph, ops, spcostproduct);
 
                 SearchOperation newOp = new SearchOperation(SearchOperationType.NegativePattern, negssp, null, costflat);
                 negCtx.Context.Schedule.AddLast(newOp);
@@ -1122,7 +1147,7 @@ namespace spBench
                         // curNode is last needed element for condition => add Condition operation
 
                         SearchOperation newCondOp = new SearchOperation(SearchOperationType.Condition,
-                            ctx.SearchPlanGraph.PatternGraph.Conditions[condIndex], null, 0);
+                            ctx.PatternGraph.Conditions[condIndex], null, 0);
                         ctx.Schedule.AddLast(newCondOp);
 
                         ScheduledSearchPlan dummy;
@@ -1214,7 +1239,7 @@ namespace spBench
                     {
                         int negIndex = availableEdges[i].Target.ElementID;
                         SearchPlanGraph negSPG = ctx.NegSPGraphs[negIndex];
-                        NegContext negCtx = new NegContext(availableEdges, negSPG,
+                        NegContext negCtx = new NegContext(availableEdges, ctx.NegPatternGraphs[negIndex], negSPG,
                             negSPG.Nodes.Length + 1 - ctx.NegNumNeededElements[negIndex], availableEdges[i], negLGSPSSP,
                             ctx.NegCondNeededNegElementVisitedArray[negIndex], ctx.ElemToNegCondsArray[negIndex], newLGSPIndex, ctx);
 

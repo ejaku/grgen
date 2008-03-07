@@ -1489,12 +1489,7 @@ exitSecondLoop: ;
             // can't generate new subpattern matchers due to missing scheduled search plans for them / missing graph analyze data
             Debug.Assert(action.rulePattern.patternGraph.embeddedGraphs.Length == 0);
 
-            // todo: wieder einbauen
-            /*String matcherSourceCode = GenerateMatcherSourceCode(
-                scheduledSearchPlan, action.Name, action.rulePattern);
-
-            GenerateMatcherClass(sourceCode, matcherSourceCode,
-                action.rulePattern, false);*/
+            GenerateMatcherSourceCode(sourceCode, action.rulePattern, false);
 
             // close namespace
             sourceCode.Append("}");
