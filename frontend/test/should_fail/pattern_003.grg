@@ -1,0 +1,9 @@
+pattern Foo(x:Node)
+{
+	x;
+	modify {}
+}
+
+test r {
+	foo:Foo();
+}
