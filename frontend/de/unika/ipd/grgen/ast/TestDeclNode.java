@@ -200,11 +200,9 @@ public class TestDeclNode extends ActionDeclNode {
 	 *
 	 */
 	protected boolean checkLocal() {
-
-
 		boolean childs = retDeclarationChecker.check(returnFormalParameters, error);
 
-		//Check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
+		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
 		boolean edgeReUse = false;
 		if (childs) {
 			edgeReUse = true;

@@ -43,7 +43,7 @@ public class SubpatternReplNode extends BaseNode {
 	}
 
 	@Override
-		public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(subpattern);
 		children.add(replConnections);
@@ -51,21 +51,31 @@ public class SubpatternReplNode extends BaseNode {
 	}
 
 	@Override
-		public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("subpattern");
 		childrenNames.add("replConnections");
 		return childrenNames;
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-		/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-		protected boolean resolveLocal() {
+	protected boolean resolveLocal() {
 		return true;
 	}
 
 	@Override
-		protected boolean checkLocal() {
+	protected boolean checkLocal() {
 		return true;
 	}
+
+	// FIXME neue IR Klasse einbauen
+	/*@Override
+	protected IR constructIR() {
+		List<GraphEntity> subpatternConnections = new LinkedList<GraphEntity>();
+    	for (ConstraintDeclNode c : replConnections.getChildren()) {
+    		subpatternConnections.add((GraphEntity) c.checkIR(GraphEntity.class));
+    	}
+		return new SubpatternUsage("subpattern", getIdentNode().getIdent(), (MatchingAction)type.getIR(), subpatternConnections);
+	}*/
 }

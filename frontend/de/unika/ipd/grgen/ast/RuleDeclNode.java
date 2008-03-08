@@ -48,6 +48,8 @@ public class RuleDeclNode extends TestDeclNode {
 		setName(RuleDeclNode.class, "rule declaration");
 	}
 
+	private boolean isPattern;
+
 	GraphNode right;
 	CollectNode<AssignNode> eval;
 	RuleTypeNode type;
@@ -64,12 +66,14 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param eval The evaluations.
 	 */
 	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode<AssignNode> eval,
-			CollectNode<BaseNode> params, CollectNode<IdentNode> rets) {
+			CollectNode<BaseNode> params, CollectNode<IdentNode> rets, boolean isPattern) {
 		super(id, ruleType, left, params, rets);
 		this.right = right;
 		becomeParent(this.right);
 		this.eval = eval;
 		becomeParent(this.eval);
+
+		this.isPattern = isPattern;
 	}
 
 	/** returns children of this node */
@@ -454,6 +458,18 @@ public class RuleDeclNode extends TestDeclNode {
 		PatternGraphNode left = pattern;
 		GraphNode right = this.right;
 
+		// check if parameters of patterns are deleted
+		boolean noDeleteOfPatternParameters = true;
+		if (isPattern) {
+			Collection<DeclNode> deletedEnities = getDelete();
+			for (DeclNode p : getParamDecls()) {
+				if (deletedEnities.contains(p)) {
+					error.error(getCoords(), "Deletion of parameters in patterns are not allowed");
+					noDeleteOfPatternParameters = false;
+				}
+	        }
+		}
+
 		boolean noReturnInPatternOk = true;
 		if(pattern.returns.children.size() > 0) {
 			error.error(getCoords(), "No return statements in pattern parts of rules allowed");
@@ -478,7 +494,8 @@ public class RuleDeclNode extends TestDeclNode {
 			}
 		}
 
-		return leftHandGraphsOk & checkRhsReuse(left, right) & noReturnInPatternOk & abstr
+		return leftHandGraphsOk & noDeleteOfPatternParameters
+			& checkRhsReuse(left, right) & noReturnInPatternOk & abstr
 			& checkReturnedElemsNotDeleted(left, right)
 			& checkRetSignatureAdhered(left, right);
 	}

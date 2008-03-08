@@ -177,12 +177,12 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		left=patternPart[getCoords(r), mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 		( right=replacePart[eval, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id.toString()]
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, eval, params, ret));
+				id.setDecl(new RuleDeclNode(id, left, right, eval, params, ret, false));
 				actionChilds.addChild(id);
 			}
 		| right=modifyPart[eval, dels, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id.toString()]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, params, ret, dels));
+				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, params, ret, dels, false));
 				actionChilds.addChild(id);
 			}
 		)
@@ -199,12 +199,12 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			}
 		| right=replacePart[eval, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id.toString()]
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, eval, params, new CollectNode<IdentNode>()));
+				id.setDecl(new RuleDeclNode(id, left, right, eval, params, new CollectNode<IdentNode>(), true));
 				patternChilds.addChild(id);
 			}
 		| right=modifyPart[eval, dels, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id.toString()]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, params, new CollectNode<IdentNode>(), dels));
+				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, params, new CollectNode<IdentNode>(), dels, true));
 				patternChilds.addChild(id);
 			}
 		)
@@ -380,7 +380,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpat
 	: id=entIdentUse firstEdgeContinuation[id, conn, context] // use of already declared node, continue looking for first edge
 	| id=entIdentUse l:LPAREN subpatternConnections[subpatternReplConn] RPAREN // use of already declared subpattern
 		{ subpatterns.addChild(new SubpatternReplNode(id, subpatternReplConn)); }
-		{ reportError(getCoords(l), "subpattern replacements not yet supported"); }
+		//{ reportError(getCoords(l), "subpattern replacements not yet supported"); }
 	| id=entIdentDecl cc:COLON // node or subpattern declaration
 		( // node declaration
 			type=typeIdentUse

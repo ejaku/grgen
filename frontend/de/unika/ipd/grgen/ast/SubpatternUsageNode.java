@@ -45,7 +45,7 @@ public class SubpatternUsageNode extends DeclNode {
 	CollectNode<ConstraintDeclNode> connections;
 	CollectNode<IdentNode> connectionsUnresolved;
 
-	protected ActionDeclNode type = null;
+	protected TestDeclNode type = null;
 
 
 	public SubpatternUsageNode(IdentNode n, BaseNode t, CollectNode<IdentNode> c) {
@@ -62,7 +62,7 @@ public class SubpatternUsageNode extends DeclNode {
 	}
 
 	@Override
-		public Collection<BaseNode> getChildren() {
+	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -71,7 +71,7 @@ public class SubpatternUsageNode extends DeclNode {
 	}
 
 	@Override
-		public Collection<String> getChildrenNames() {
+	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -79,7 +79,7 @@ public class SubpatternUsageNode extends DeclNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<ActionDeclNode> actionResolver = new DeclarationResolver<ActionDeclNode>(ActionDeclNode.class);
+	private static final DeclarationResolver<TestDeclNode> actionResolver = new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
 	private static final CollectPairResolver<ConstraintDeclNode> connectionsResolver =
 		new CollectPairResolver<ConstraintDeclNode>(new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
 
@@ -91,12 +91,25 @@ public class SubpatternUsageNode extends DeclNode {
 	}
 
 	@Override
-		protected boolean checkLocal() {
-		return true;
+	protected boolean checkLocal() {
+		// check if the number of parameters are correct
+		int expected = type.param.getChildren().size();
+		int actual = connections.getChildren().size();
+
+		boolean res = (expected == actual);
+
+		if (!res) {
+			String patternName = type.ident.toString();
+
+			error.error(getCoords(), "The pattern \"" + patternName + "\" need "
+			        + expected + " parameters");
+		}
+
+		return res;
 	}
 
 	@Override
-		protected IR constructIR() {
+	protected IR constructIR() {
 		List<GraphEntity> subpatternConnections = new LinkedList<GraphEntity>();
 		for (ConstraintDeclNode c : connections.getChildren()) {
 			subpatternConnections.add((GraphEntity) c.checkIR(GraphEntity.class));

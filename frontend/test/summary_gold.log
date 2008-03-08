@@ -547,7 +547,7 @@ ERROR  should_fail/param_011.grg
 ERROR  should_fail/param_012.grg
 ERROR  should_fail/pattern_001.grg
 ERROR  should_fail/pattern_002.grg
-FAILED should_fail/pattern_003.grg
+ERROR  should_fail/pattern_003.grg
 ERROR  should_fail/range_001.grg
 ERROR  should_fail/ret_001.grg
 ERROR  should_fail/ret_002.grg
