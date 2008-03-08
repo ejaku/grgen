@@ -571,7 +571,7 @@ public class Main extends Base implements Sys {
 			debugTree.expandRow(1);
 		}
 
-		if(error.getErrorCount()>0) {
+		if(ErrorReporter.getErrorCount()>0) {
 			debug.report(NOTE, "### ERROR during IR build. Exiting! ###");
 			System.exit(1);
 		}

@@ -114,10 +114,11 @@ public class PatternGraphNode extends GraphNode {
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns,
-			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> conditions,
+			CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<AlternativeNode> alts,
+			CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> conditions,
 			CollectNode<IdentNode> returns, CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
 			CollectNode<InducedNode> induced, int modifiers, int context) {
-		super(nameOfGraph, coords, connections, subpatterns, returns, null, context);
+		super(nameOfGraph, coords, connections, subpatterns, subpatternReplacements, returns, null, context);
 		this.alts = alts;
 		becomeParent(this.alts);
 		this.negs = negs;
@@ -138,6 +139,7 @@ public class PatternGraphNode extends GraphNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(connectionsUnresolved, connections));
 		children.add(subpatterns);
+		children.add(subpatternReplacements);
 		children.add(alts);
 		children.add(negs);
 		children.add(returns);
@@ -153,6 +155,7 @@ public class PatternGraphNode extends GraphNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
 		childrenNames.add("subpatterns");
+		childrenNames.add("subpatternReplacements");
 		childrenNames.add("alternatives");
 		childrenNames.add("negatives");
 		childrenNames.add("return");

@@ -303,6 +303,7 @@ patternBody [ Coords coords, int mod, int context, String nameOfGraph ] returns 
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
+		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
 		CollectNode<AlternativeNode> alts = new CollectNode<AlternativeNode>();
 		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
 		CollectNode<ExprNode> conditions = new CollectNode<ExprNode>();
@@ -310,16 +311,16 @@ patternBody [ Coords coords, int mod, int context, String nameOfGraph ] returns 
 		CollectNode<HomNode> homs = new CollectNode<HomNode>();
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
-		res = new PatternGraphNode(nameOfGraph, coords, connections, subpatterns, alts, negs, conditions,
+		res = new PatternGraphNode(nameOfGraph, coords, connections, subpatterns, subpatternReplacements, alts, negs, conditions,
 				returnz, homs, exact, induced, mod, context);
 	}
 
-	: ( patternStmt[connections, subpatterns, alts, negs, conditions,
+	: ( patternStmt[connections, subpatterns, subpatternReplacements, alts, negs, conditions,
 			 returnz, homs, exact, induced, context] )*
 	;
 
-patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<AlternativeNode> alts,
-			CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> cond,
+patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
+			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> cond,
 			CollectNode<IdentNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context]
 	{
@@ -334,7 +335,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, Col
 		InducedNode ind;
 	}
 
-	: connectionsOrSubpattern[conn, subpatterns, context] SEMI
+	: connectionsOrSubpattern[conn, subpatterns, subpatternReplacements, context] SEMI
 	| a:ALTERNATIVE LBRACE alt=alternative[getCoords(a), altCounter, context] { alts.addChild(alt); ++altCounter; } RBRACE
 	| neg=negative[negCounter, context] { negs.addChild(neg); ++negCounter; }
 	| COND e=expr[false] { cond.addChild(e); } SEMI //'false' means that expr is not an enum item initializer
@@ -345,9 +346,9 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, Col
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
 
-connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, int context ]
+connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context ]
 	: firstEdge[conn, context] // connection starts with an edge which dangles on the left
-	| firstNodeOrSubpattern[conn, subpatterns, context] // there's a subpattern or a connection that starts with a node
+	| firstNodeOrSubpattern[conn, subpatterns, subpatternReplacements, context] // there's a subpattern or a connection that starts with a node
 	;
 
 firstEdge [ CollectNode<BaseNode> conn, int context ]
@@ -364,7 +365,7 @@ firstEdge [ CollectNode<BaseNode> conn, int context ]
 		nodeContinuation[e, env.getDummyNodeDecl(context), forward, direction, conn, context] // and continue looking for node
 	;
 
-firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, int context ]
+firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context ]
 	{
 		IdentNode id = env.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
@@ -379,7 +380,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpat
 
 	: id=entIdentUse firstEdgeContinuation[id, conn, context] // use of already declared node, continue looking for first edge
 	| id=entIdentUse l:LPAREN subpatternConnections[subpatternReplConn] RPAREN // use of already declared subpattern
-		{ subpatterns.addChild(new SubpatternReplNode(id, subpatternReplConn)); }
+		{ subpatternReplacements.addChild(new SubpatternReplNode(id, subpatternReplConn)); }
 		//{ reportError(getCoords(l), "subpattern replacements not yet supported"); }
 	| id=entIdentDecl cc:COLON // node or subpattern declaration
 		( // node declaration
@@ -712,18 +713,20 @@ replaceBody [ Coords coords, CollectNode<AssignNode> eval, int context, String n
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
+		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
 		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 
-		res = new GraphNode(nameOfGraph, coords, connections, subpatterns, returnz, imperativeStmts, context);
+		res = new GraphNode(nameOfGraph, coords, connections, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
 	}
 
-	: ( replaceStmt[coords, connections, subpatterns, returnz, eval, imperativeStmts, context] )*
+	: ( replaceStmt[coords, connections, subpatterns, subpatternReplacements, returnz, eval, imperativeStmts, context] )*
 	;
 
-replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns, CollectNode<IdentNode> returnz,
+replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns,
+ 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<IdentNode> returnz,
 		CollectNode<AssignNode> eval, CollectNode<BaseNode> imperativeStmts, int context ]
-	: connectionsOrSubpattern[connections, subpatterns, context] SEMI
+	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
 	| rets[returnz, context] SEMI
 	| evalPart[eval]
 	| execStmt[imperativeStmts] SEMI
@@ -734,19 +737,21 @@ modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode>
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
+		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
 		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 
 		EmitNode es = null;
-		res = new GraphNode(nameOfGraph, coords, connections, subpatterns, returnz, imperativeStmts, context);
+		res = new GraphNode(nameOfGraph, coords, connections, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
 	}
 
-	: ( modifyStmt[coords, connections, subpatterns, returnz, eval, dels, imperativeStmts, context] )*
+	: ( modifyStmt[coords, connections, subpatterns, subpatternReplacements, returnz, eval, dels, imperativeStmts, context] )*
 	;
 
-modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns, CollectNode<IdentNode> returnz,
+modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns,
+ 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<IdentNode> returnz,
 		CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> imperativeStmts, int context ]
-	: connectionsOrSubpattern[connections, subpatterns, context] SEMI
+	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
 	| rets[returnz, context] SEMI
 	| deleteStmt[dels] SEMI
 	| evalPart[eval]

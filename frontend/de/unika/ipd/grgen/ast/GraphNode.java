@@ -56,6 +56,7 @@ public class GraphNode extends BaseNode {
 	CollectNode<BaseNode> connectionsUnresolved;
 	CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 	CollectNode<BaseNode> subpatterns;
+	CollectNode<SubpatternReplNode> subpatternReplacements;
 	CollectNode<IdentNode> returns;
 	CollectNode<BaseNode> imperativeStmts;
 
@@ -70,13 +71,17 @@ public class GraphNode extends BaseNode {
 	 */
 	public GraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns,
-			CollectNode<IdentNode> returns, CollectNode<BaseNode> imperativeStmts, int context) {
+			CollectNode<SubpatternReplNode> subpatternReplacements,
+			CollectNode<IdentNode> returns, CollectNode<BaseNode> imperativeStmts,
+			int context) {
 		super(coords);
 		this.nameOfGraph = nameOfGraph;
 		this.connectionsUnresolved = connections;
 		becomeParent(this.connectionsUnresolved);
 		this.subpatterns = subpatterns;
 		becomeParent(this.subpatterns);
+		this.subpatternReplacements = subpatternReplacements;
+		becomeParent(this.subpatternReplacements);
 		this.returns = returns;
 		becomeParent(this.returns);
 		this.imperativeStmts = imperativeStmts;
@@ -89,6 +94,7 @@ public class GraphNode extends BaseNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(connectionsUnresolved, connections));
 		children.add(subpatterns);
+		children.add(subpatternReplacements);
 		children.add(returns);
 		children.add(imperativeStmts);
 		return children;
@@ -99,6 +105,7 @@ public class GraphNode extends BaseNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
 		childrenNames.add("subpatterns");
+		childrenNames.add("subpatternReplacements");
 		childrenNames.add("returns");
 		childrenNames.add("imperativeStmts");
 		return childrenNames;
