@@ -1,0 +1,19 @@
+pattern Foo
+{
+	x: Node;
+	
+	modify(y:Node)
+	{
+	}
+}
+
+rule r
+{
+	x: Node;
+	foo:Foo();
+
+	modify
+	{
+		foo(x);
+	}
+}
