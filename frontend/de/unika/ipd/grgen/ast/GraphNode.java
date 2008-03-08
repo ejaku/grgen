@@ -55,7 +55,7 @@ public class GraphNode extends BaseNode {
 
 	CollectNode<BaseNode> connectionsUnresolved;
 	CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
-	CollectNode<BaseNode> subpatterns;
+	CollectNode<SubpatternUsageNode> subpatterns;
 	CollectNode<SubpatternReplNode> subpatternReplacements;
 	CollectNode<IdentNode> returns;
 	CollectNode<BaseNode> imperativeStmts;
@@ -70,7 +70,7 @@ public class GraphNode extends BaseNode {
 	 * @param connections A collection containing connection nodes
 	 */
 	public GraphNode(String nameOfGraph, Coords coords,
-			CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns,
+			CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
 			CollectNode<SubpatternReplNode> subpatternReplacements,
 			CollectNode<IdentNode> returns, CollectNode<BaseNode> imperativeStmts,
 			int context) {

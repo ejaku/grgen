@@ -302,7 +302,7 @@ evalBody [ CollectNode<AssignNode> n  ]
 patternBody [ Coords coords, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
-		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
+		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
 		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
 		CollectNode<AlternativeNode> alts = new CollectNode<AlternativeNode>();
 		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
@@ -319,7 +319,7 @@ patternBody [ Coords coords, int mod, int context, String nameOfGraph ] returns 
 			 returnz, homs, exact, induced, context] )*
 	;
 
-patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
+patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> cond,
 			CollectNode<IdentNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context]
@@ -346,7 +346,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, Col
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
 
-connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context ]
+connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context ]
 	: firstEdge[conn, context] // connection starts with an edge which dangles on the left
 	| firstNodeOrSubpattern[conn, subpatterns, subpatternReplacements, context] // there's a subpattern or a connection that starts with a node
 	;
@@ -365,7 +365,7 @@ firstEdge [ CollectNode<BaseNode> conn, int context ]
 		nodeContinuation[e, env.getDummyNodeDecl(context), forward, direction, conn, context] // and continue looking for node
 	;
 
-firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context ]
+firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context ]
 	{
 		IdentNode id = env.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
@@ -712,7 +712,7 @@ inducedStatement returns [ InducedNode res = null ]
 replaceBody [ Coords coords, CollectNode<AssignNode> eval, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
-		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
+		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
 		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
 		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
@@ -723,7 +723,7 @@ replaceBody [ Coords coords, CollectNode<AssignNode> eval, int context, String n
 	: ( replaceStmt[coords, connections, subpatterns, subpatternReplacements, returnz, eval, imperativeStmts, context] )*
 	;
 
-replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns,
+replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
  		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<IdentNode> returnz,
 		CollectNode<AssignNode> eval, CollectNode<BaseNode> imperativeStmts, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
@@ -736,7 +736,7 @@ replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<Base
 modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
-		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
+		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
 		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
 		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
@@ -748,7 +748,7 @@ modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode>
 	: ( modifyStmt[coords, connections, subpatterns, subpatternReplacements, returnz, eval, dels, imperativeStmts, context] )*
 	;
 
-modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns,
+modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
  		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<IdentNode> returnz,
 		CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> imperativeStmts, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
