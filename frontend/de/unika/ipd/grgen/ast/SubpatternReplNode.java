@@ -27,17 +27,20 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+
 public class SubpatternReplNode extends BaseNode {
 	static {
 		setName(SubpatternReplNode.class, "subpattern repl node");
 	}
 
-	IdentNode subpattern;
+	IdentNode subpatternUnresolved;
+	SubpatternUsageNode subpattern;
 	CollectNode<IdentNode> replConnections;
 
 	public SubpatternReplNode(IdentNode n, CollectNode<IdentNode> c) {
-		this.subpattern = n;
-		becomeParent(this.subpattern);
+		this.subpatternUnresolved = n;
+		becomeParent(this.subpatternUnresolved);
 		this.replConnections = c;
 		becomeParent(this.replConnections);
 	}
@@ -45,7 +48,7 @@ public class SubpatternReplNode extends BaseNode {
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(subpattern);
+		children.add(getValidVersion(subpatternUnresolved, subpattern));
 		children.add(replConnections);
 		return children;
 	}
@@ -58,10 +61,14 @@ public class SubpatternReplNode extends BaseNode {
 		return childrenNames;
 	}
 
+	private static final DeclarationResolver<SubpatternUsageNode> subpatternResolver = new DeclarationResolver<SubpatternUsageNode>(SubpatternUsageNode.class);
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		return true;
+		subpattern = subpatternResolver.resolve(subpatternUnresolved, this);
+
+		return subpattern != null;
 	}
 
 	@Override
