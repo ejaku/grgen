@@ -7,8 +7,5 @@ rule r
 {
 	foo:Foo();
 
-	modify
-	{
-		foo;
-	}
+	modify {}
 }
