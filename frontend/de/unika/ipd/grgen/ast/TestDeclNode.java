@@ -51,7 +51,6 @@ public class TestDeclNode extends ActionDeclNode {
 		setName(TestDeclNode.class, "test declaration");
 	}
 
-	CollectNode<BaseNode> param;
 	CollectNode<IdentNode> returnFormalParameters;
 	TestTypeNode type;
 	PatternGraphNode pattern;
@@ -59,23 +58,17 @@ public class TestDeclNode extends ActionDeclNode {
 	private static final TypeNode testType = new TestTypeNode();
 
 	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern,
-			CollectNode<BaseNode> params, CollectNode<IdentNode> rets) {
+			CollectNode<IdentNode> rets) {
 		super(id, type);
-		this.param = params;
-		becomeParent(this.param);
 		this.returnFormalParameters = rets;
 		becomeParent(this.returnFormalParameters);
 		this.pattern = pattern;
 		becomeParent(this.pattern);
-
-		if (this.pattern != null) {
-			this.pattern.addParams(this.param);
-		}
 	}
 
 	public TestDeclNode(IdentNode id, PatternGraphNode pattern,
-			CollectNode<BaseNode> params, CollectNode<IdentNode> rets) {
-		this(id, testType, pattern, params, rets);
+			CollectNode<IdentNode> rets) {
+		this(id, testType, pattern, rets);
 	}
 
 	/** returns children of this node */
@@ -83,7 +76,6 @@ public class TestDeclNode extends ActionDeclNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		children.add(param);
 		children.add(returnFormalParameters);
 		children.add(pattern);
 		return children;
@@ -94,7 +86,6 @@ public class TestDeclNode extends ActionDeclNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
-		childrenNames.add("param");
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
 		return childrenNames;
@@ -112,7 +103,7 @@ public class TestDeclNode extends ActionDeclNode {
 	public Collection<DeclNode> getParamDecls() {
 		Collection<DeclNode> res = new Vector<DeclNode>();
 
-		for (BaseNode para : param.getChildren()) {
+		for (BaseNode para : pattern.params.getChildren()) {
 	        if (para instanceof ConnectionNode) {
 	        	ConnectionNode conn = (ConnectionNode) para;
 	        	res.add(conn.getEdge().getDecl());

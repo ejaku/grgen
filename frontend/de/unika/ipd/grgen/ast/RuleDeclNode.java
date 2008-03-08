@@ -66,8 +66,8 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param eval The evaluations.
 	 */
 	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode<AssignNode> eval,
-			CollectNode<BaseNode> params, CollectNode<IdentNode> rets, boolean isPattern) {
-		super(id, ruleType, left, params, rets);
+			CollectNode<IdentNode> rets, boolean isPattern) {
+		super(id, ruleType, left, rets);
 		this.right = right;
 		becomeParent(this.right);
 		this.eval = eval;
@@ -81,7 +81,6 @@ public class RuleDeclNode extends TestDeclNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		children.add(param);
 		children.add(returnFormalParameters);
 		children.add(pattern);
 		children.add(right);
@@ -94,7 +93,6 @@ public class RuleDeclNode extends TestDeclNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
-		childrenNames.add("param");
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
 		childrenNames.add("right");

@@ -113,12 +113,13 @@ public class PatternGraphNode extends GraphNode {
 		new LinkedHashMap<List<Set<NodeDeclNode>>, Set<ConnectionNode>>();
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
-			CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
+			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
+			CollectNode<SubpatternUsageNode> subpatterns,
 			CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<AlternativeNode> alts,
 			CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> conditions,
 			CollectNode<IdentNode> returns, CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
 			CollectNode<InducedNode> induced, int modifiers, int context) {
-		super(nameOfGraph, coords, connections, subpatterns, subpatternReplacements, returns, null, context);
+		super(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, returns, null, context);
 		this.alts = alts;
 		becomeParent(this.alts);
 		this.negs = negs;
@@ -164,12 +165,6 @@ public class PatternGraphNode extends GraphNode {
 		childrenNames.add("exact");
 		childrenNames.add("induced");
 		return childrenNames;
-	}
-
-	protected void addParams(CollectNode<BaseNode> params) {
-		for (BaseNode n : params.getChildren()) {
-	        connectionsUnresolved.addChild(n);
-        }
 	}
 
 	public Collection<HomNode> getHoms() {

@@ -93,7 +93,7 @@ public class SubpatternUsageNode extends DeclNode {
 	@Override
 	protected boolean checkLocal() {
 		// check if the number of parameters are correct
-		int expected = type.param.getChildren().size();
+		int expected = type.pattern.params.getChildren().size();
 		int actual = connections.getChildren().size();
 
 		boolean res = (expected == actual);

@@ -59,6 +59,7 @@ public class GraphNode extends BaseNode {
 	CollectNode<SubpatternReplNode> subpatternReplacements;
 	CollectNode<IdentNode> returns;
 	CollectNode<BaseNode> imperativeStmts;
+	CollectNode<BaseNode> params;
 
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	int context = 0;
@@ -70,7 +71,8 @@ public class GraphNode extends BaseNode {
 	 * @param connections A collection containing connection nodes
 	 */
 	public GraphNode(String nameOfGraph, Coords coords,
-			CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
+			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
+			CollectNode<SubpatternUsageNode> subpatterns,
 			CollectNode<SubpatternReplNode> subpatternReplacements,
 			CollectNode<IdentNode> returns, CollectNode<BaseNode> imperativeStmts,
 			int context) {
@@ -86,7 +88,12 @@ public class GraphNode extends BaseNode {
 		becomeParent(this.returns);
 		this.imperativeStmts = imperativeStmts;
 		becomeParent(imperativeStmts);
+		this.params = params;
+		becomeParent(this.params);
 		this.context = context;
+
+		// treat parameters like connections
+		addParamsToConnections(params);
 	}
 
 	/** returns children of this node */
@@ -263,5 +270,12 @@ public class GraphNode extends BaseNode {
 
 		return gr;
 	}
+
+	private void addParamsToConnections(CollectNode<BaseNode> params)
+    {
+    	for (BaseNode n : params.getChildren()) {
+            connectionsUnresolved.addChild(n);
+        }
+    }
 }
 

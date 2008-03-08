@@ -49,8 +49,8 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 
 
 	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode<AssignNode> eval,
-			CollectNode<BaseNode> params, CollectNode<IdentNode> rets, CollectNode<IdentNode> dels, boolean isPattern) {
-		super(id, left, right, eval, params, rets, isPattern);
+			CollectNode<IdentNode> rets, CollectNode<IdentNode> dels, boolean isPattern) {
+		super(id, left, right, eval, rets, isPattern);
 		this.deleteUnresolved = dels;
 		becomeParent(this.deleteUnresolved);
 	}
@@ -60,7 +60,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		children.add(param);
 		children.add(returnFormalParameters);
 		children.add(pattern);
 		children.add(right);
@@ -74,7 +73,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
-		childrenNames.add("param");
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
 		childrenNames.add("right");

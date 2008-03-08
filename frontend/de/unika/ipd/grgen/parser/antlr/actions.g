@@ -162,9 +162,9 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 	}
 
 	: t:TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
-		left=patternPart[getCoords(t), mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+		left=patternPart[getCoords(t), params, mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 			{
-				id.setDecl(new TestDeclNode(id, left, params, ret));
+				id.setDecl(new TestDeclNode(id, left, ret));
 				actionChilds.addChild(id);
 			}
 		RBRACE popScope
@@ -174,37 +174,37 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			}
 		}
 	| r:RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
-		left=patternPart[getCoords(r), mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
-		( right=replacePart[eval, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id.toString()]
+		left=patternPart[getCoords(r), params, mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+		( right=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id.toString()]
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, eval, params, ret, false));
+				id.setDecl(new RuleDeclNode(id, left, right, eval, ret, false));
 				actionChilds.addChild(id);
 			}
-		| right=modifyPart[eval, dels, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id.toString()]
+		| right=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id.toString()]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, params, ret, dels, false));
+				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, ret, dels, false));
 				actionChilds.addChild(id);
 			}
 		)
 		RBRACE popScope
 	| p:PATTERN id=typeIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS] LBRACE
-		left=patternPart[getCoords(p), mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
+		left=patternPart[getCoords(p), params, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
 		(
 			{
-				id.setDecl(new TestDeclNode(id, left, params, new CollectNode<IdentNode>()));
+				id.setDecl(new TestDeclNode(id, left, new CollectNode<IdentNode>()));
 				patternChilds.addChild(id);
 				if((mod & PatternGraphNode.MOD_DPO)!=0) {
 					reportError(getCoords(t), "no \"dpo\" modifier allowed");
 				}
 			}
-		| right=replacePart[eval, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id.toString()]
+		| right=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id.toString()]
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, eval, params, new CollectNode<IdentNode>(), true));
+				id.setDecl(new RuleDeclNode(id, left, right, eval, new CollectNode<IdentNode>(), true));
 				patternChilds.addChild(id);
 			}
-		| right=modifyPart[eval, dels, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id.toString()]
+		| right=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id.toString()]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, params, new CollectNode<IdentNode>(), dels, true));
+				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, new CollectNode<IdentNode>(), dels, true));
 				patternChilds.addChild(id);
 			}
 		)
@@ -267,23 +267,23 @@ returnTypes returns [ CollectNode<IdentNode> res = new CollectNode<IdentNode>() 
 	|
 	;
 
-patternPart [ Coords pattern_coords, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
+patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
 	: p:PATTERN LBRACE
-		res=patternBody[getCoords(p), mod, context, nameOfGraph]
+		res=patternBody[getCoords(p), params, mod, context, nameOfGraph]
 		RBRACE
 			{ reportWarning(getCoords(p), "separate pattern part deprecated, just merge content directly into rule/test-body"); }
-	| res=patternBody[pattern_coords, mod, context, nameOfGraph]
+	| res=patternBody[pattern_coords, params, mod, context, nameOfGraph]
 	;
 
-replacePart [ CollectNode<AssignNode> eval, int context, String nameOfGraph ] returns [ GraphNode res = null ]
+replacePart [ CollectNode<AssignNode> eval, CollectNode<BaseNode> params, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	: r:REPLACE LBRACE
-		res=replaceBody[getCoords(r), eval, context, nameOfGraph]
+		res=replaceBody[getCoords(r), params, eval, context, nameOfGraph]
 		RBRACE
 	;
 
-modifyPart [ CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, int context, String nameOfGraph ] returns [ GraphNode res = null ]
+modifyPart [ CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	: r:MODIFY LBRACE
-		res=modifyBody[getCoords(r), eval, dels, context, nameOfGraph]
+		res=modifyBody[getCoords(r), eval, dels, params, context, nameOfGraph]
 		RBRACE
 	;
 
@@ -299,7 +299,7 @@ evalBody [ CollectNode<AssignNode> n  ]
 	: ( a=assignment { n.addChild(a); } SEMI )*
 	;
 
-patternBody [ Coords coords, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
+patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -311,7 +311,7 @@ patternBody [ Coords coords, int mod, int context, String nameOfGraph ] returns 
 		CollectNode<HomNode> homs = new CollectNode<HomNode>();
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
-		res = new PatternGraphNode(nameOfGraph, coords, connections, subpatterns, subpatternReplacements, alts, negs, conditions,
+		res = new PatternGraphNode(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, alts, negs, conditions,
 				returnz, homs, exact, induced, mod, context);
 	}
 
@@ -709,7 +709,7 @@ inducedStatement returns [ InducedNode res = null ]
 		RPAREN
 	;
 
-replaceBody [ Coords coords, CollectNode<AssignNode> eval, int context, String nameOfGraph ] returns [ GraphNode res = null ]
+replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<AssignNode> eval, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -717,7 +717,7 @@ replaceBody [ Coords coords, CollectNode<AssignNode> eval, int context, String n
 		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 
-		res = new GraphNode(nameOfGraph, coords, connections, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
+		res = new GraphNode(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
 	}
 
 	: ( replaceStmt[coords, connections, subpatterns, subpatternReplacements, returnz, eval, imperativeStmts, context] )*
@@ -733,7 +733,7 @@ replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<Subp
 	| emitStmt[imperativeStmts] SEMI
 	;
 
-modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, int context, String nameOfGraph ] returns [ GraphNode res = null ]
+modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -742,7 +742,7 @@ modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode>
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 
 		EmitNode es = null;
-		res = new GraphNode(nameOfGraph, coords, connections, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
+		res = new GraphNode(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
 	}
 
 	: ( modifyStmt[coords, connections, subpatterns, subpatternReplacements, returnz, eval, dels, imperativeStmts, context] )*
@@ -766,7 +766,7 @@ alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNo
 		int mod = 0;
 	}
 	: ( id=entIdentDecl l:LBRACE pushScopeStr["alt"+altCount, getCoords(l)]
-		left=patternBody[getCoords(l), mod, context, id.toString()]
+		left=patternBody[getCoords(l), new CollectNode<BaseNode>(), mod, context, id.toString()]
 		RBRACE popScope	{ alt.addChild(left); }
 	  ) *
 	;
@@ -777,7 +777,7 @@ negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
 	}
 	: ( i:INDEPENDENT { mod = PatternGraphNode.MOD_INDEPENDENT; } ) ?
         n:NEGATIVE LBRACE pushScopeStr["neg"+negCount, getCoords(n)]
-	  	res=patternBody[getCoords(n), mod, context, "negative"+negCount]
+	  	res=patternBody[getCoords(n), new CollectNode<BaseNode>(), mod, context, "negative"+negCount]
 		RBRACE popScope
 	;
 
