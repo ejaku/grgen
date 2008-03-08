@@ -206,6 +206,8 @@ OK     should_pass/pattern_005.grg
 OK     should_pass/pattern_006.grg
 OK     should_pass/pattern_007.grg
 OK     should_pass/pattern_008.grg
+ERROR  should_pass/pattern_009.grg
+ERROR  should_pass/pattern_010.grg
 OK     should_pass/ret_001.grg
 OK     should_pass/ret_002.grg
 OK     should_pass/ret_003.grg
