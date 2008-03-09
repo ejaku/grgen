@@ -100,6 +100,7 @@ public class GraphNode extends BaseNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(connectionsUnresolved, connections));
+		children.add(params);
 		children.add(subpatterns);
 		children.add(subpatternReplacements);
 		children.add(returns);
@@ -111,6 +112,7 @@ public class GraphNode extends BaseNode {
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
+		childrenNames.add("params");
 		childrenNames.add("subpatterns");
 		childrenNames.add("subpatternReplacements");
 		childrenNames.add("returns");
