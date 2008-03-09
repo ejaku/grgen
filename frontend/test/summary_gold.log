@@ -597,6 +597,8 @@ ERROR  should_fail/reuse_007.grg
 ERROR  should_fail/reuse_008.grg
 ERROR  should_fail/rhs_001.grg
 ERROR  should_fail/rhs_002.grg
+ERROR  should_fail/rhs_003.grg
+ERROR  should_fail/rhs_004.grg
 ERROR  should_fail/test_001.grg
 ERROR  should_fail/typeof_001.grg
 ABEND  should_fail/typeof_002.grg

@@ -465,6 +465,13 @@ public class RuleDeclNode extends TestDeclNode {
 			}
 		}
 
+		// check if parameters only exists for subpatterns
+		if (!isPattern) {
+			if (right.params.getChildren().size() > 0) {
+				error.error(right.getCoords(), "Parameters for the replace/modify part are only allowed in subpatterns");
+			}
+		}
+
 		// check if parameters of patterns are deleted
 		boolean noDeleteOfPatternParameters = true;
 		if (isPattern) {
