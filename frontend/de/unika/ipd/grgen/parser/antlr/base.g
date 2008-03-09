@@ -168,6 +168,10 @@ typeIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: res=identDecl[ParserEnvironment.TYPES]
 	;
 
+replIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+	: res=identDecl[ParserEnvironment.REPLACES]
+	;
+
 entIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: res=identDecl[ParserEnvironment.ENTITIES]
 	;
@@ -182,6 +186,10 @@ altIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	
 typeIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: res=identUse[ParserEnvironment.TYPES]
+	;
+	
+replIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+	: res=identUse[ParserEnvironment.REPLACES]
 	;
 
 entIdentUse returns [ IdentNode res = env.getDummyIdent() ]

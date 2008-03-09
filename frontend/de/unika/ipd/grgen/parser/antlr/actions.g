@@ -276,13 +276,17 @@ patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, int mod, int 
 	;
 
 replacePart [ CollectNode<AssignNode> eval, CollectNode<BaseNode> params, int context, String nameOfGraph ] returns [ GraphNode res = null ]
-	: r:REPLACE LBRACE
+	{ IdentNode id; }
+	: r:REPLACE (id = replIdentDecl { nameOfGraph = id.toString(); } )?
+		LBRACE
 		res=replaceBody[getCoords(r), params, eval, context, nameOfGraph]
 		RBRACE
 	;
 
 modifyPart [ CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, String nameOfGraph ] returns [ GraphNode res = null ]
-	: r:MODIFY LBRACE
+	{ IdentNode id; }
+	: r:MODIFY (id = replIdentDecl { nameOfGraph = id.toString(); } )?
+		LBRACE
 		res=modifyBody[getCoords(r), eval, dels, params, context, nameOfGraph]
 		RBRACE
 	;
