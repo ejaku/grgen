@@ -48,7 +48,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	RuleTypeNode type;
 
 
-	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, RHSDeclNode right, CollectNode<AssignNode> eval,
+	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right, CollectNode<AssignNode> eval,
 			CollectNode<IdentNode> rets, CollectNode<IdentNode> dels, boolean isPattern) {
 		super(id, left, right, eval, rets, isPattern);
 		this.deleteUnresolved = dels;

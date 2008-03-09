@@ -50,7 +50,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 	private boolean isPattern;
 
-	RHSDeclNode right;
+	RhsDeclNode right;
 	CollectNode<AssignNode> eval;
 	RuleTypeNode type;
 
@@ -65,7 +65,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param neg The context preventing the rule to match.
 	 * @param eval The evaluations.
 	 */
-	public RuleDeclNode(IdentNode id, PatternGraphNode left, RHSDeclNode right, CollectNode<AssignNode> eval,
+	public RuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right, CollectNode<AssignNode> eval,
 			CollectNode<IdentNode> rets, boolean isPattern) {
 		super(id, ruleType, left, rets);
 		this.right = right;
