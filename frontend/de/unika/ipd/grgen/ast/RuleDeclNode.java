@@ -456,6 +456,15 @@ public class RuleDeclNode extends TestDeclNode {
 		PatternGraphNode left = pattern;
 		GraphNode right = this.right;
 
+		// check if the pattern name equals the rule name
+		// named replace/modify parts are only allowed in subpatterns
+		if (!isPattern) {
+			String ruleName = ident.toString();
+			if (!right.nameOfGraph.equals(ruleName)) {
+				error.error(right.getCoords(), "Named replace/modify parts in rules are not allowed");
+			}
+		}
+
 		// check if parameters of patterns are deleted
 		boolean noDeleteOfPatternParameters = true;
 		if (isPattern) {
