@@ -48,9 +48,9 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	RuleTypeNode type;
 
 
-	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right, CollectNode<AssignNode> eval,
+	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right,
 			CollectNode<IdentNode> rets, CollectNode<IdentNode> dels, boolean isPattern) {
-		super(id, left, right, eval, rets, isPattern);
+		super(id, left, right, rets, isPattern);
 		this.deleteUnresolved = dels;
 		becomeParent(this.deleteUnresolved);
 	}
@@ -63,7 +63,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		children.add(returnFormalParameters);
 		children.add(pattern);
 		children.add(right);
-		children.add(eval);
 		children.add(getValidVersion(deleteUnresolved, delete));
 		return children;
 	}
@@ -76,7 +75,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
 		childrenNames.add("right");
-		childrenNames.add("eval");
 		childrenNames.add("delete");
 		return childrenNames;
 	}
@@ -331,7 +329,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		}
 
 		// add Eval statements to the IR
-		for(AssignNode n : eval.getChildren()) {
+		for(AssignNode n : this.right.eval.getChildren()) {
 			rule.addEval((Assignment) n.checkIR(Assignment.class));
 		}
 

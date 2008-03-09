@@ -177,12 +177,12 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		left=patternPart[getCoords(r), params, mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 		( right=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, eval, ret, false));
+				id.setDecl(new RuleDeclNode(id, left, right, ret, false));
 				actionChilds.addChild(id);
 			}
 		| right=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, ret, dels, false));
+				id.setDecl(new ModifyRuleDeclNode(id, left, right, ret, dels, false));
 				actionChilds.addChild(id);
 			}
 		)
@@ -199,12 +199,12 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			}
 		| right=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, eval, new CollectNode<IdentNode>(), true));
+				id.setDecl(new RuleDeclNode(id, left, right, new CollectNode<IdentNode>(), true));
 				patternChilds.addChild(id);
 			}
 		| right=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, new CollectNode<IdentNode>(), dels, true));
+				id.setDecl(new ModifyRuleDeclNode(id, left, right, new CollectNode<IdentNode>(), dels, true));
 				patternChilds.addChild(id);
 			}
 		)

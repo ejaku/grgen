@@ -51,7 +51,6 @@ public class RuleDeclNode extends TestDeclNode {
 	private boolean isPattern;
 
 	RhsDeclNode right;
-	CollectNode<AssignNode> eval;
 	RuleTypeNode type;
 
 	/** Type for this declaration. */
@@ -63,15 +62,12 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
 	 * @param neg The context preventing the rule to match.
-	 * @param eval The evaluations.
 	 */
-	public RuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right, CollectNode<AssignNode> eval,
+	public RuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right,
 			CollectNode<IdentNode> rets, boolean isPattern) {
 		super(id, ruleType, left, rets);
 		this.right = right;
 		becomeParent(this.right);
-		this.eval = eval;
-		becomeParent(this.eval);
 
 		this.isPattern = isPattern;
 	}
@@ -84,7 +80,6 @@ public class RuleDeclNode extends TestDeclNode {
 		children.add(returnFormalParameters);
 		children.add(pattern);
 		children.add(right);
-		children.add(eval);
 		return children;
 	}
 
@@ -96,7 +91,6 @@ public class RuleDeclNode extends TestDeclNode {
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
 		childrenNames.add("right");
-		childrenNames.add("eval");
 		return childrenNames;
 	}
 
@@ -540,7 +534,7 @@ public class RuleDeclNode extends TestDeclNode {
 		constructIRaux(rule, this.right.graph.returns);
 
 		// add Eval statements to the IR
-		for (AssignNode n : eval.getChildren()) {
+		for (AssignNode n : this.right.eval.getChildren()) {
 			rule.addEval((Assignment) n.checkIR(Assignment.class));
 		}
 
