@@ -48,7 +48,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	RuleTypeNode type;
 
 
-	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode<AssignNode> eval,
+	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, RHSDeclNode right, CollectNode<AssignNode> eval,
 			CollectNode<IdentNode> rets, CollectNode<IdentNode> dels, boolean isPattern) {
 		super(id, left, right, eval, rets, isPattern);
 		this.deleteUnresolved = dels;
@@ -240,7 +240,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 
 	private void warnElemAppearsInsideAndOutsideDelete() {
 		Set<DeclNode> deletes = getDelete();
-		GraphNode right = this.right;
+		GraphNode right = this.right.graph;
 
 		Set<BaseNode> alreadyReported = new HashSet<BaseNode>();
 		for (BaseNode x : right.getConnections()) {
@@ -280,7 +280,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 			return getIR();
 		}
 
-		PatternGraph right = this.right.getGraph();
+		PatternGraph right = this.right.graph.getGraph();
 
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
@@ -309,7 +309,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 
 		constructImplicitNegs(left);
-		constructIRaux(rule, this.right.returns);
+		constructIRaux(rule, this.right.graph.returns);
 
 		// add Params to the IR
 		for(DeclNode decl : getParamDecls()) {

@@ -50,7 +50,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 	private boolean isPattern;
 
-	GraphNode right;
+	RHSDeclNode right;
 	CollectNode<AssignNode> eval;
 	RuleTypeNode type;
 
@@ -65,7 +65,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param neg The context preventing the rule to match.
 	 * @param eval The evaluations.
 	 */
-	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode<AssignNode> eval,
+	public RuleDeclNode(IdentNode id, PatternGraphNode left, RHSDeclNode right, CollectNode<AssignNode> eval,
 			CollectNode<IdentNode> rets, boolean isPattern) {
 		super(id, ruleType, left, rets);
 		this.right = right;
@@ -114,19 +114,19 @@ public class RuleDeclNode extends TestDeclNode {
 
 		for (BaseNode x : pattern.getEdges()) {
 			assert (x instanceof DeclNode);
-			if ( ! right.getEdges().contains(x) ) {
+			if ( ! right.graph.getEdges().contains(x) ) {
 				res.add((DeclNode)x);
 			}
 		}
 		for (BaseNode x : pattern.getNodes()) {
 			assert (x instanceof DeclNode);
-			if ( ! right.getNodes().contains(x) ) {
+			if ( ! right.graph.getNodes().contains(x) ) {
 				res.add((DeclNode)x);
 			}
 		}
 		for (BaseNode x : getParamDecls()) {
 			assert (x instanceof DeclNode);
-			if ( !( right.getNodes().contains(x) || right.getEdges().contains(x)) ) {
+			if ( !( right.graph.getNodes().contains(x) || right.graph.getEdges().contains(x)) ) {
 				res.add((DeclNode)x);
 			}
 		}
@@ -394,7 +394,7 @@ public class RuleDeclNode extends TestDeclNode {
 		Set<DeclNode> delSet = getDelete();
 		Set<IdentNode> retSet = new HashSet<IdentNode>();
 
-		Collection<IdentNode> rets = right.returns.getChildren();
+		Collection<IdentNode> rets = right.graph.returns.getChildren();
 
 		for (IdentNode x : rets) {
 			retSet.add(x);
@@ -454,7 +454,7 @@ public class RuleDeclNode extends TestDeclNode {
 		boolean leftHandGraphsOk = super.checkLocal();
 
 		PatternGraphNode left = pattern;
-		GraphNode right = this.right;
+		GraphNode right = this.right.graph;
 
 		// check if the pattern name equals the rule name
 		// named replace/modify parts are only allowed in subpatterns
@@ -526,7 +526,7 @@ public class RuleDeclNode extends TestDeclNode {
 			return getIR();
 		}
 
-		PatternGraph right = this.right.getGraph();
+		PatternGraph right = this.right.graph.getGraph();
 
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
@@ -537,7 +537,7 @@ public class RuleDeclNode extends TestDeclNode {
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 
 		constructImplicitNegs(left);
-		constructIRaux(rule, this.right.returns);
+		constructIRaux(rule, this.right.graph.returns);
 
 		// add Eval statements to the IR
 		for (AssignNode n : eval.getChildren()) {
