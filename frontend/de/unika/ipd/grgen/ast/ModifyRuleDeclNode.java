@@ -28,8 +28,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.CollectPairResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
@@ -43,16 +41,14 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	static {
 		setName(RuleDeclNode.class, "modify rule declaration");
 	}
-	CollectNode<IdentNode> deleteUnresolved;
-	CollectNode<ConstraintDeclNode> delete;
-	RuleTypeNode type;
 
+	private ModifyRhsDeclNode right;
 
-	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right,
-			CollectNode<IdentNode> rets, CollectNode<IdentNode> dels, boolean isPattern) {
+	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, ModifyRhsDeclNode right,
+			CollectNode<IdentNode> rets, boolean isPattern) {
 		super(id, left, right, rets, isPattern);
-		this.deleteUnresolved = dels;
-		becomeParent(this.deleteUnresolved);
+		this.right = right;
+		becomeParent(getRight());
 	}
 
 	/** returns children of this node */
@@ -63,7 +59,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		children.add(returnFormalParameters);
 		children.add(pattern);
 		children.add(right);
-		children.add(getValidVersion(deleteUnresolved, delete));
 		return children;
 	}
 
@@ -75,19 +70,14 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
 		childrenNames.add("right");
-		childrenNames.add("delete");
 		return childrenNames;
 	}
 
-	private static final CollectPairResolver<ConstraintDeclNode> deleteResolver = new CollectPairResolver<ConstraintDeclNode>(
-		new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		delete = deleteResolver.resolve(deleteUnresolved);
 		type = typeResolver.resolve(typeUnresolved, this);
 
-		return delete != null && type != null;
+		return type != null;
 	}
 
 	protected Set<DeclNode> getDelete() {
@@ -95,7 +85,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 
 		Set<DeclNode> res = new HashSet<DeclNode>();
 
-		for (ConstraintDeclNode x : delete.getChildren()) {
+		for (ConstraintDeclNode x : right.delete.getChildren()) {
 			res.add(x);
 		}
 		return res;
@@ -107,7 +97,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		boolean res = true;
 
 		Collection<DeclNode> deletedElems = new HashSet<DeclNode>();
-		for (ConstraintDeclNode x: delete.getChildren()) {
+		for (ConstraintDeclNode x: this.right.delete.getChildren()) {
 			deletedElems.add(x);
 		}
 
@@ -287,7 +277,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		}
 
 		Collection<Entity> deleteSet = new HashSet<Entity>();
-		for(BaseNode n : delete.getChildren()) {
+		for(BaseNode n : this.right.delete.getChildren()) {
 			deleteSet.add((Entity)n.checkIR(Entity.class));
 		}
 
@@ -337,10 +327,9 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	}
 
 	@Override
-	public RuleTypeNode getDeclType() {
-		assert isResolved();
-
-		return type;
-	}
+	protected ModifyRhsDeclNode getRight()
+    {
+    	return right;
+    }
 }
 

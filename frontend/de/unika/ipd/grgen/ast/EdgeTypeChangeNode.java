@@ -114,7 +114,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 			// doesn't matter which parent you choose, in the end you reach RuleDeclNode
 			curr = curr.getParents().iterator().next();
 		}
-		if (prev == ((RuleDeclNode)curr).right) {
+		if (prev == ((RuleDeclNode)curr).getRight()) {
 			reportError("Source edge of retype may not be declared in replace/modify part");
 			res = false;
 		}

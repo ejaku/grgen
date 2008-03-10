@@ -154,7 +154,8 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 	{
 		IdentNode id;
 		PatternGraphNode left;
-		RhsDeclNode right;
+		RhsDeclNode rightReplace;
+		ModifyRhsDeclNode rightModify;
 		CollectNode<BaseNode> params;
 		CollectNode<IdentNode> ret;
 		CollectNode<AssignNode> eval = new CollectNode<AssignNode>();
@@ -175,14 +176,14 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		}
 	| r:RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
 		left=patternPart[getCoords(r), params, mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
-		( right=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
+		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, ret, false));
+				id.setDecl(new RuleDeclNode(id, left, rightReplace, ret, false));
 				actionChilds.addChild(id);
 			}
-		| right=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
+		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, ret, dels, false));
+				id.setDecl(new ModifyRuleDeclNode(id, left, rightModify, ret, false));
 				actionChilds.addChild(id);
 			}
 		)
@@ -197,14 +198,14 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 					reportError(getCoords(t), "no \"dpo\" modifier allowed");
 				}
 			}
-		| right=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
+		| rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, new CollectNode<IdentNode>(), true));
+				id.setDecl(new RuleDeclNode(id, left, rightReplace, new CollectNode<IdentNode>(), true));
 				patternChilds.addChild(id);
 			}
-		| right=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
+		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, new CollectNode<IdentNode>(), dels, true));
+				id.setDecl(new ModifyRuleDeclNode(id, left, rightModify, new CollectNode<IdentNode>(), true));
 				patternChilds.addChild(id);
 			}
 		)
@@ -283,7 +284,7 @@ replacePart [ CollectNode<AssignNode> eval, CollectNode<BaseNode> params, int co
 		RBRACE
 	;
 
-modifyPart [ CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ RhsDeclNode res = null ]
+modifyPart [ CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ModifyRhsDeclNode res = null ]
 	: m:MODIFY ( nameOfRHS = rhsIdentDecl )?
 		params=parameters[context]
 		LBRACE
@@ -737,7 +738,7 @@ replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<Subp
 	| emitStmt[imperativeStmts] SEMI
 	;
 
-modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ RhsDeclNode res = null ]
+modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ModifyRhsDeclNode res = null ]
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -746,7 +747,7 @@ modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode>
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
 		EmitNode es = null;
-		res = new RhsDeclNode(nameOfRHS, graph, eval);
+		res = new ModifyRhsDeclNode(nameOfRHS, graph, eval, dels);
 	}
 
 	: ( modifyStmt[coords, connections, subpatterns, subpatternReplacements, returnz, eval, dels, imperativeStmts, context] )*

@@ -26,29 +26,23 @@ package de.unika.ipd.grgen.ast;
 
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ast.util.CollectPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.PatternGraph;
 
 
 /**
  * AST node for a replacement right-hand side.
  */
-public class RhsDeclNode extends DeclNode {
+public class ModifyRhsDeclNode extends RhsDeclNode {
 	static {
-		setName(RhsDeclNode.class, "right-hand side declaration");
+		setName(ModifyRhsDeclNode.class, "right-hand side declaration");
 	}
 
-	GraphNode graph;
-	CollectNode<AssignNode> eval;
-	RhsTypeNode type;
-
-	/** Type for this declaration. */
-	protected static final TypeNode rhsType = new RhsTypeNode();
+	CollectNode<IdentNode> deleteUnresolved;
+	CollectNode<ConstraintDeclNode> delete;
 
 	/**
 	 * Make a new right-hand side.
@@ -56,12 +50,11 @@ public class RhsDeclNode extends DeclNode {
 	 * @param graph The right hand side graph.
 	 * @param eval The evaluations.
 	 */
-	public RhsDeclNode(IdentNode id, GraphNode graph, CollectNode<AssignNode> eval) {
-		super(id, rhsType);
-		this.graph = graph;
-		becomeParent(this.graph);
-		this.eval = eval;
-		becomeParent(this.eval);
+	public ModifyRhsDeclNode(IdentNode id, GraphNode graph, CollectNode<AssignNode> eval,
+			CollectNode<IdentNode> dels) {
+		super(id, graph, eval);
+		this.deleteUnresolved = dels;
+		becomeParent(this.deleteUnresolved);
 	}
 
 	/** returns children of this node */
@@ -71,6 +64,7 @@ public class RhsDeclNode extends DeclNode {
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(graph);
 		children.add(eval);
+		children.add(getValidVersion(deleteUnresolved, delete));
 		return children;
 	}
 
@@ -81,16 +75,19 @@ public class RhsDeclNode extends DeclNode {
 		childrenNames.add("type");
 		childrenNames.add("right");
 		childrenNames.add("eval");
+		childrenNames.add("delete");
 		return childrenNames;
 	}
 
-	protected static final DeclarationTypeResolver<RhsTypeNode> typeResolver =	new DeclarationTypeResolver<RhsTypeNode>(RhsTypeNode.class);
+	private static final CollectPairResolver<ConstraintDeclNode> deleteResolver = new CollectPairResolver<ConstraintDeclNode>(
+			new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
+		delete = deleteResolver.resolve(deleteUnresolved);
 		type = typeResolver.resolve(typeUnresolved, this);
 
-		return type != null;
+		return delete != null && type != null;
 	}
 
 	/**
@@ -107,27 +104,6 @@ public class RhsDeclNode extends DeclNode {
 		assert false;
 
 		return null;
-	}
-
-	protected Collection<Assignment> getAssignments() {
-		Collection<Assignment> ret = new LinkedHashSet<Assignment>();
-
-		for (AssignNode n : eval.getChildren()) {
-			ret.add((Assignment) n.checkIR(Assignment.class));
-		}
-
-		return ret;
-	}
-
-	protected PatternGraph getPatternGraph() {
-		return graph.getGraph();
-	}
-
-	@Override
-	public RhsTypeNode getDeclType() {
-		assert isResolved();
-
-		return type;
 	}
 }
 
