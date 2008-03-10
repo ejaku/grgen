@@ -210,6 +210,9 @@ OK     should_pass/pattern_009.grg
 OK     should_pass/pattern_010.grg
 OK     should_pass/pattern_011.grg
 OK     should_pass/pattern_012.grg
+ERROR  should_pass/pattern_013.grg
+ERROR  should_pass/pattern_014.grg
+ERROR  should_pass/pattern_015.grg
 OK     should_pass/ret_001.grg
 OK     should_pass/ret_002.grg
 OK     should_pass/ret_003.grg
@@ -595,6 +598,8 @@ ERROR  should_fail/reuse_005.grg
 ERROR  should_fail/reuse_006.grg
 ERROR  should_fail/reuse_007.grg
 ERROR  should_fail/reuse_008.grg
+ERROR  should_fail/reuse_009.grg
+OK     should_fail/reuse_010.grg
 ERROR  should_fail/rhs_001.grg
 ERROR  should_fail/rhs_002.grg
 ERROR  should_fail/rhs_003.grg
