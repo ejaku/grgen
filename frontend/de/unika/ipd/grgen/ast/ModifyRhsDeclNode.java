@@ -26,7 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
@@ -112,11 +112,106 @@ public class ModifyRhsDeclNode extends RhsDeclNode {
 	protected Set<DeclNode> getDelete(PatternGraphNode pattern) {
 		assert isResolved();
 
-		Set<DeclNode> res = new HashSet<DeclNode>();
+		Set<DeclNode> res = new LinkedHashSet<DeclNode>();
 
 		for (ConstraintDeclNode x : delete.getChildren()) {
 			res.add(x);
 		}
+
+		// add edges with deleted source or target
+		for (BaseNode n : pattern.getConnections()) {
+	        if (n instanceof ConnectionNode) {
+	        	ConnectionNode conn = (ConnectionNode) n;
+	        	if (res.contains(conn.getSrc()) || res.contains(conn.getTgt())) {
+	        		res.add(conn.getEdge());
+	        	}
+	        }
+        }
+		for (BaseNode n : graph.getConnections()) {
+	        if (n instanceof ConnectionNode) {
+	        	ConnectionNode conn = (ConnectionNode) n;
+	        	if (res.contains(conn.getSrc()) || res.contains(conn.getTgt())) {
+	        		res.add(conn.getEdge());
+	        	}
+	        }
+        }
+
+		return res;
+	}
+
+	/**
+	 * Return all reused edges (with their nodes), that excludes new edges of
+	 * the right-hand side.
+	 */
+	protected Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern) {
+		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
+		Collection<BaseNode> lhs = pattern.getEdges();
+
+		for (BaseNode node : graph.getConnections()) {
+			if (node instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode) node;
+				EdgeDeclNode edge = conn.getEdge();
+				while (edge instanceof EdgeTypeChangeNode) {
+					edge = ((EdgeTypeChangeNode) edge).getOldEdge();
+				}
+
+				// add connection only if source and target are reused
+				if (lhs.contains(edge) && !sourceOrTargetNodeDeleted(pattern, edge)) {
+					res.add(conn);
+				}
+			}
+        }
+
+		for (BaseNode node : pattern.getConnections()) {
+			if (node instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode) node;
+				EdgeDeclNode edge = conn.getEdge();
+				while (edge instanceof EdgeTypeChangeNode) {
+					edge = ((EdgeTypeChangeNode) edge).getOldEdge();
+				}
+
+				// add connection only if source and target are reused
+				if (!delete.getChildren().contains(edge) && !sourceOrTargetNodeDeleted(pattern, edge)) {
+					res.add(conn);
+				}
+			}
+        }
+
+		return res;
+	}
+
+	private boolean sourceOrTargetNodeDeleted(PatternGraphNode pattern, EdgeDeclNode edgeDecl) {
+		for (BaseNode n : pattern.getConnections()) {
+	        if (n instanceof ConnectionNode) {
+	        	ConnectionNode conn = (ConnectionNode) n;
+	        	if (conn.getEdge().equals(edgeDecl)) {
+	        		if (delete.getChildren().contains(conn.getSrc())
+	        				|| delete.getChildren().contains(conn.getTgt())) {
+	        			return true;
+	        		}
+	        	}
+	        }
+        }
+		return false;
+	}
+
+	/**
+	 * Return all reused nodes, that excludes new nodes of the right-hand side.
+	 */
+	protected Set<BaseNode> getReusedNodes(PatternGraphNode pattern) {
+		Set<BaseNode> res = new LinkedHashSet<BaseNode>();
+		Set<BaseNode> patternNodes = pattern.getNodes();
+		Set<BaseNode> rhsNodes = graph.getNodes();
+
+		for (BaseNode node : patternNodes) {
+			if ( rhsNodes.contains(node) ) {
+				res.add(node);
+			}
+			if (!delete.getChildren().contains(node)) {
+				res.add(node);
+			}
+		}
+
 		return res;
 	}
 }

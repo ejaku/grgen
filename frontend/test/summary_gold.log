@@ -255,6 +255,7 @@ OK     should_pass/unary_001.grg
 WARNED should_warn/del_001.grg
 WARNED should_warn/del_002.grg
 WARNED should_warn/del_003.grg
+WARNED should_warn/del_004.grg
 WARNED should_warn/dpo_001.grg
 WARNED should_warn/edge_001.grg
 WARNED should_warn/edge_002.grg
@@ -599,11 +600,11 @@ ERROR  should_fail/reuse_006.grg
 ERROR  should_fail/reuse_007.grg
 ERROR  should_fail/reuse_008.grg
 ERROR  should_fail/reuse_009.grg
-OK     should_fail/reuse_010.grg
 ERROR  should_fail/rhs_001.grg
 ERROR  should_fail/rhs_002.grg
 ERROR  should_fail/rhs_003.grg
 ERROR  should_fail/rhs_004.grg
+WARNED should_fail/rhs_005.grg
 ERROR  should_fail/test_001.grg
 ERROR  should_fail/typeof_001.grg
 ABEND  should_fail/typeof_002.grg

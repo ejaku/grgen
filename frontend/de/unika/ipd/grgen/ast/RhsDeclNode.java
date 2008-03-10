@@ -146,10 +146,47 @@ public class RhsDeclNode extends DeclNode {
 				res.add((DeclNode)x);
 			}
 		}
-		for (BaseNode x : pattern.getParamDecls()) {
-			assert (x instanceof DeclNode);
-			if ( !( graph.getNodes().contains(x) || graph.getEdges().contains(x)) ) {
-				res.add((DeclNode)x);
+		// parameters are no special case, since they are treat like normal
+		// graph elements
+
+		return res;
+	}
+
+	/**
+	 * Return all reused edges (with their nodes), that excludes new edges of
+	 * the right-hand side.
+	 */
+	protected Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern) {
+		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
+		Collection<BaseNode> lhs = pattern.getEdges();
+
+		for (BaseNode node : graph.getConnections()) {
+			if (node instanceof ConnectionNode) {
+				ConnectionNode conn = (ConnectionNode) node;
+				EdgeDeclNode edge = conn.getEdge();
+				while (edge instanceof EdgeTypeChangeNode) {
+					edge = ((EdgeTypeChangeNode) edge).getOldEdge();
+				}
+				if (lhs.contains(edge)) {
+					res.add(conn);
+				}
+			}
+        }
+
+		return res;
+	}
+
+	/**
+	 * Return all reused nodes, that excludes new nodes of the right-hand side.
+	 */
+	protected Set<BaseNode> getReusedNodes(PatternGraphNode pattern) {
+		Set<BaseNode> res = new LinkedHashSet<BaseNode>();
+		Set<BaseNode> patternNodes = pattern.getNodes();
+		Set<BaseNode> rhsNodes = graph.getNodes();
+
+		for (BaseNode node : patternNodes) {
+			if ( rhsNodes.contains(node) ) {
+				res.add(node);
 			}
 		}
 

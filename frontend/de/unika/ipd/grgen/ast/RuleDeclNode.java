@@ -234,15 +234,11 @@ public class RuleDeclNode extends TestDeclNode {
 	/* Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
 	 * If consistent, replace the dummy nodes with the nodes the pattern edge is
 	 * incident to (if these aren't dummy nodes themselves, of course). */
-	protected boolean checkRhsReuse(PatternGraphNode left, GraphNode right) {
+	protected boolean checkRhsReuse(PatternGraphNode left, RhsDeclNode right) {
 		boolean res = true;
 		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-		for (BaseNode rc : right.getConnections()) {
-			if (!(rc instanceof ConnectionNode)) {
-				continue;
-			}
+		for (ConnectionNode rConn : right.getReusedConnections(left)) {
 			boolean occursInLHS = false;
-			ConnectionNode rConn = (ConnectionNode) rc;
 			EdgeDeclNode re = rConn.getEdge();
 
 			if (re instanceof EdgeTypeChangeNode) {
@@ -276,7 +272,7 @@ public class RuleDeclNode extends TestDeclNode {
 				NodeDeclNode rSrc = rConn.getSrc();
 				NodeDeclNode rTgt = rConn.getTgt();
 
-				Collection<BaseNode> rhsNodes = right.getNodes();
+				Collection<BaseNode> rhsNodes = right.getReusedNodes(left);
 
 				if (rSrc instanceof NodeTypeChangeNode) {
 					rSrc = ((NodeTypeChangeNode)rSrc).getOldNode();
@@ -481,7 +477,7 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 
 		return leftHandGraphsOk & noDeleteOfPatternParameters
-			& checkRhsReuse(left, right) & noReturnInPatternOk & abstr
+			& checkRhsReuse(left, this.right) & noReturnInPatternOk & abstr
 			& checkReturnedElemsNotDeleted(left, right)
 			& checkRetSignatureAdhered(left, right);
 	}
