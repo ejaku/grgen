@@ -8,6 +8,7 @@ PARSER_BEGIN(SequenceParser)
 	using System;
 	using System.IO;
 	using System.Collections;
+	using System.Collections.Generic;
 	using de.unika.ipd.grGen.libGr;
 	
 	/// <summary>
@@ -17,6 +18,13 @@ PARSER_BEGIN(SequenceParser)
 	{
 		BaseActions actions;
 		NamedGraph namedGraph;
+		
+		/// <summary>
+		/// Maps variable names to type names.
+		/// Variable usages before declaration create a map entry with a null type.
+		/// If varDecls is null, no variable declarations are allowed.
+		/// </summary>
+		Dictionary<String, String> varDecls;
 		
         /// <summary>
         /// Parses a given string in xgrs syntax and builds a Sequence object.
@@ -31,6 +39,26 @@ PARSER_BEGIN(SequenceParser)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
+			return parser.RewriteSequence();
+		}		
+
+        /// <summary>
+        /// Parses a given string in xgrs syntax and builds a Sequence object.
+        /// </summary>
+        /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
+        /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
+        /// <param name="varDecls">A map from variables to types which will be filled for the
+        /// given sequence. It may already contain predefined variables.</param>
+        /// <returns>The sequence object according to sequenceStr.</returns>
+        /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
+        /// <exception cref="SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
+        /// or return parameters.</exception>
+		public static Sequence ParseSequence(String sequenceStr, BaseActions actions,
+		        Dictionary<String, String> varDecls)
+		{
+			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
+			parser.actions = actions;
+			parser.varDecls = varDecls;
 			return parser.RewriteSequence();
 		}		
 
@@ -94,8 +122,8 @@ TOKEN: {
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
 |	< SINGLEQUOTEDTEXT : "\'" (~["\'", "\n", "\r"])* "\'" >
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
-|	< WORD : ~["0"-"9", "=", ":", ";", ".", ",", "+", "-", "&", "%", "?", "$", "|", "<", ">", "(", ")", "{", "}", "[", "]", "*", "!", "#", " ", "@", "\n", "\r"]
-	     (~["\'", "\"", "=", ":", ";", ".", ",", "+", "-", "&", "%", "?", "$", "|", "<", ">", "(", ")", "{", "}", "[", "]", "*", "!", "#", " ", "@", "\n", "\r"])*	>
+|	< WORD : ~["0"-"9", "=", ":", ";", ".", ",", "+", "-", "*", "/", "&", "%", "?", "$", "|", "^", "<", ">", "(", ")", "{", "}", "[", "]", "*", "!", "#", " ", "@", "\n", "\r"]
+	     (~["\'", "\"", "=", ":", ";", ".", ",", "+", "-", "*", "/", "&", "%", "?", "$", "|", "^", "<", ">", "(", ")", "{", "}", "[", "]", "*", "!", "#", " ", "@", "\n", "\r"])*	>
 }
 
 
@@ -124,12 +152,47 @@ long Number():
 	}
 }
 
-void Parameters(ArrayList parameters):
+void Parameters(List<String> parameters):
 {
 	String str;
 }
 {
 	str=Text() { parameters.Add(str); } ("," str=Text() { parameters.Add(str); })*
+}
+
+String Variable():
+{
+	String toVarName, typeName = null;
+}
+{
+	toVarName=Text() (":" typeName=Text())?
+	{
+		if(varDecls != null)
+		{
+			String oldTypeName;
+			if(varDecls.TryGetValue(toVarName, out oldTypeName))
+			{
+				if(typeName != null)
+				{
+					if(oldTypeName != null)
+						throw new ParseException("The variable \"" + toVarName + "\" has already been declared!");
+					varDecls[toVarName] = typeName;
+				}
+			}
+			else varDecls[toVarName] = typeName;
+		}
+		else if(typeName != null)
+			throw new ParseException("Variable types are not supported here!");
+		return toVarName;
+	}
+}
+
+void VariableList(List<String> variables):
+{
+	String str;
+}
+{
+	str=Variable() { variables.Add(str); } ("," str=Variable() { variables.Add(str); })*
 }
 
 
@@ -296,14 +359,30 @@ Sequence SingleSequence():
 
 Sequence SimpleSequence():
 {
-    bool special = false;
+	bool special = false;
 	Sequence seq;
-	ArrayList defParamVars = new ArrayList();
-	String toVarName, fromName;
+	List<String> defParamVars = new List<String>();
+	String toVarName, typeName = null, fromName;
 	IGraphElement elem;
 }
 {
-	LOOKAHEAD(2) toVarName=Text() "="
+	LOOKAHEAD(2) toVarName=Text() (":" typeName=Text())? "="
+	{
+		if(varDecls != null)
+		{
+			String oldTypeName;
+			if(varDecls.TryGetValue(toVarName, out oldTypeName))
+			{
+				if(typeName != null)
+				{
+					if(oldTypeName != null)
+					throw new ParseException("The variable \"" + toVarName + "\" has already been declared!");
+					varDecls[toVarName] = typeName;
+				}
+			}
+			else varDecls[toVarName] = typeName;
+		}
+	}
     (
         fromName=Text()
         {
@@ -332,7 +411,7 @@ Sequence SimpleSequence():
 |
 	"def" "(" Parameters(defParamVars) ")"
 	{
-		return new SequenceDef((String[]) defParamVars.ToArray(typeof(String)));
+		return new SequenceDef(defParamVars.ToArray());
 	}
 |
     LOOKAHEAD(2) ("%" { special = true; })? "true"
@@ -363,11 +442,11 @@ Sequence Rule():
 	String str;
 	IAction action = null;
 	bool retSpecified = false;
-	ArrayList paramVars = new ArrayList();
-	ArrayList returnVars = new ArrayList();
+	List<String> paramVars = new List<String>();
+	List<String> returnVars = new List<String>();
 }
 {
-	("(" Parameters(returnVars) ")" "=" { retSpecified = true; })? 
+	("(" VariableList(returnVars) ")" "=" { retSpecified = true; })? 
 	(
 	    "[" ("%" { special = true; } | "?" { test = true; })* str=Text() ("(" Parameters(paramVars) ")")? "]"
 	    {
@@ -382,7 +461,7 @@ Sequence Rule():
 }
 
 CSHARPCODE
-RuleObject CreateRuleObject(String ruleName, ArrayList paramVars, ArrayList returnVars, bool retSpecified)
+RuleObject CreateRuleObject(String ruleName, List<String> paramVars, List<String> returnVars, bool retSpecified)
 {
     IAction action = null;
     if(actions != null)
@@ -392,10 +471,12 @@ RuleObject CreateRuleObject(String ruleName, ArrayList paramVars, ArrayList retu
                           || retSpecified && action.RulePattern.Outputs.Length != returnVars.Count)
 	        throw new SequenceParserRuleException(ruleName, action, paramVars.Count, returnVars.Count);
         if(!retSpecified && action.RulePattern.Outputs.Length > 0)
-		    returnVars = ArrayList.Repeat(null, action.RulePattern.Outputs.Length);
+        {
+            for(int i = action.RulePattern.Outputs.Length; i > 0; i--)
+                returnVars.Add(null);
+        }
     }
-    RuleObject ruleObj = new RuleObject(action, (String[]) paramVars.ToArray(typeof(String)),
-                                                (String[]) returnVars.ToArray(typeof(String)));
+    RuleObject ruleObj = new RuleObject(action, paramVars.ToArray(), returnVars.ToArray());
     if(actions == null)
         ruleObj.RuleName = ruleName;
         

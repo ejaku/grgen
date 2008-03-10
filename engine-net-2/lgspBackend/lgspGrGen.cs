@@ -364,11 +364,11 @@ namespace de.unika.ipd.grGen.lgsp
 						source.AppendFront("LGSPAction rule_");
 						source.Append(ruleName);
 						source.Append(" = actions.GetAction(\"" + ruleName + "\");\n");
-						foreach(String varName in seqRule.RuleObj.ParamVars)
-							EmitElementVarIfNew(varName, source);
-						foreach(String varName in seqRule.RuleObj.ReturnVars)
-							EmitElementVarIfNew(varName, source);
 					}
+					foreach(String varName in seqRule.RuleObj.ParamVars)
+						EmitElementVarIfNew(varName, source);
+					foreach(String varName in seqRule.RuleObj.ReturnVars)
+						EmitElementVarIfNew(varName, source);
 					break;
 				}
 
@@ -601,9 +601,22 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
-		public void GenerateXGRSCode(String xgrsName, String xgrsStr, String[] paramNames, SourceBuilder source)
+		public bool GenerateXGRSCode(String xgrsName, String xgrsStr, String[] paramNames, SourceBuilder source)
 		{
-			Sequence seq = SequenceParser.ParseSequence(xgrsStr, null);
+			Dictionary<String, String> varDecls = new Dictionary<String, String>();
+
+			Sequence seq;
+			try
+			{
+				seq = SequenceParser.ParseSequence(xgrsStr, null, varDecls);
+			}
+			catch(ParseException ex)
+			{
+				Console.Error.WriteLine("The exec statement \"" + xgrsStr
+					+ "\" caused the following error:\n" + ex.Message);
+				return false;
+			}
+
 			source.AppendFront("public static bool ApplyXGRS_" + xgrsName + "(LGSPGraph graph");
 			for(int i = 0; i < paramNames.Length; i++)
 			{
@@ -629,6 +642,8 @@ namespace de.unika.ipd.grGen.lgsp
 			source.AppendFront("return res_" + xgrsSequenceIDs[seq] + ";\n");
 			source.Unindent();
 			source.AppendFront("}\n");
+
+			return true;
 		}
 
 		enum ErrorType { NoError, GrGenJavaError, GrGenNetError };
@@ -789,7 +804,9 @@ namespace de.unika.ipd.grGen.lgsp
 								FieldInfo fieldInfo = ruleType.GetField("XGRSInfo_" + xgrsID);
 								if(fieldInfo == null) break;
 								LGSPXGRSInfo xgrsInfo = (LGSPXGRSInfo) fieldInfo.GetValue(null);
-								GenerateXGRSCode(xgrsID.ToString(), xgrsInfo.XGRS, xgrsInfo.Parameters, source);
+								if(!GenerateXGRSCode(xgrsID.ToString(), xgrsInfo.XGRS,
+										xgrsInfo.Parameters, source))
+									return ErrorType.GrGenNetError;
 								xgrsID++;
 							}
 							while((line = sr.ReadLine()) != null)
