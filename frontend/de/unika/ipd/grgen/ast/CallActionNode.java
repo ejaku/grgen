@@ -229,9 +229,8 @@ public class CallActionNode extends BaseNode {
 	 * @return   a  boolean
 	 */
 	private boolean checkReturns(CollectNode<IdentNode> formalReturns, CollectNode<VarDeclNode> actualReturns) {
-		// TODO
 		boolean res = true;
-		// Its ok to have no actrual returns, but if there are some, then they have to fit.
+		// Its ok to have no actual returns, but if there are some, then they have to fit.
 		if(actualReturns.children.size() >0 && formalReturns.children.size() != actualReturns.children.size()) {
 			error.error(getCoords(), "Formal and actual return-parameter(s) of action " + this.getUseString() + " mismatch in number (" +
 							formalReturns.children.size() + " vs. " + actualReturns.children.size() +")");
@@ -253,20 +252,15 @@ public class CallActionNode extends BaseNode {
 					res = false;
 
 				}
-				/*
 				if(actualReturnType instanceof InheritanceType) {
 					InheritanceType frt = (InheritanceType)formalReturnType;
 					InheritanceType art = (InheritanceType)actualReturnType;
-					if(frt.isCastableTo(art))
-						reportWarning("Formal return type \"" + formalReturnType + "\" will never match to actual param type \"" + actualReturnType +  "\".");
+					if(!frt.isCastableTo(art)) {
+						reportError("Instances of formal return type \"" + formalReturnType + "\" cannot be assigned to a variable \"" +
+								actualReturn + "\" of type \"" + actualReturnType +  "\".");
+						res = false;
+					}
 				}
-				 */
-				/* TODO: Maybe we want to warn: but diamond inheritace makes this not trivial
-				 else if(!actualParamType.isCastableTo(formalParamType) && !formalParamType.isCastableTo(actualParamType) ) {
-				 reportWarning("Actual \"" + actualParamType + "\" and formal \"" + formalParamType +
-				 "\" parameter types are incommensurable. The called rule might never match.");
-				 }
-				 */
 			}
 		}
 		return res;

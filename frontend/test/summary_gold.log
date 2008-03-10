@@ -486,10 +486,10 @@ ERROR  should_fail/exec_010.grg
 ERROR  should_fail/exec_011.grg
 ERROR  should_fail/exec_012.grg
 ERROR  should_fail/exec_013.grg
-FAILED should_fail/exec_014.grg
-FAILED should_fail/exec_015.grg
-OK     should_fail/exec_016.grg
-OK     should_fail/exec_017.grg
+ERROR  should_fail/exec_014.grg
+ERROR  should_fail/exec_015.grg
+ERROR  should_fail/exec_016.grg
+ERROR  should_fail/exec_017.grg
 ERROR  should_fail/exec_018.grg
 ERROR  should_fail/exec_019.grg
 ERROR  should_fail/exec_020.grg
