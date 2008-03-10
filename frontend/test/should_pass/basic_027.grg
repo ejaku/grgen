@@ -3,6 +3,6 @@ rule r {
 
 	modify {
 		delete(x); //e and y are implicitly deleted too, of course...
-		x -e-> y;  //...even if they reused here, but that does not matter!
+		// x -e-> y;  ...even if they reused here, but that does not matter!
 	}
 }
