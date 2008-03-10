@@ -100,23 +100,6 @@ public class TestDeclNode extends ActionDeclNode {
 		return type != null;
 	}
 
-	public Collection<DeclNode> getParamDecls() {
-		Collection<DeclNode> res = new Vector<DeclNode>();
-
-		for (BaseNode para : pattern.params.getChildren()) {
-	        if (para instanceof ConnectionNode) {
-	        	ConnectionNode conn = (ConnectionNode) para;
-	        	res.add(conn.getEdge().getDecl());
-	        }
-	        if (para instanceof SingleNodeConnNode) {
-	        	NodeDeclNode node = ((SingleNodeConnNode) para).getNode();
-	        	res.add(node);
-	        }
-        }
-
-		return res;
-	}
-
 	/**
 	 * check if actual return entities are conformant
 	 * to the formal return parameters.
@@ -283,7 +266,7 @@ public class TestDeclNode extends ActionDeclNode {
 		PatternGraph patternGraph = ma.getPattern();
 
 		// add Params to the IR
-		for(DeclNode decl : getParamDecls()) {
+		for(DeclNode decl : pattern.getParamDecls()) {
 			ma.addParameter((Entity) decl.checkIR(Entity.class));
 			if(decl instanceof NodeCharacter) {
 				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());

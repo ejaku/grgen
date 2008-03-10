@@ -80,17 +80,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		return type != null;
 	}
 
-	protected Set<DeclNode> getDelete() {
-		assert isResolved();
-
-		Set<DeclNode> res = new HashSet<DeclNode>();
-
-		for (ConstraintDeclNode x : right.delete.getChildren()) {
-			res.add(x);
-		}
-		return res;
-	}
-
 	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right) {
 		assert isResolved();
 
@@ -118,7 +107,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 					nodeOrEdge = "element";
 				}
 
-				if (left.getNodes().contains(retElem) || getParamDecls().contains(retElem)) {
+				if (left.getNodes().contains(retElem) || pattern.getParamDecls().contains(retElem)) {
 					ident.reportError("The deleted " + nodeOrEdge + " \"" + ident + "\" must not be returned");
 				} else {
 					assert false: "the " + nodeOrEdge + " \"" + ident + "\", that is" +
@@ -300,7 +289,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		constructIRaux(rule, this.right.graph.returns);
 
 		// add Params to the IR
-		for(DeclNode decl : getParamDecls()) {
+		for(DeclNode decl : pattern.getParamDecls()) {
 			if(!deleteSet.contains(decl.getIR())) {
 				if(decl instanceof NodeCharacter) {
 					right.addSingleNode(((NodeCharacter)decl).getNode());

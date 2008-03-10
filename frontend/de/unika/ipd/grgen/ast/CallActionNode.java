@@ -172,7 +172,7 @@ public class CallActionNode extends BaseNode {
 	protected boolean checkPost() {
 		boolean res = true;
 
-		res &= checkParams(action.getParamDecls(), params.getChildren());
+		res &= checkParams(action.pattern.getParamDecls(), params.getChildren());
 		res &= checkReturns(action.returnFormalParameters, returns);
 
 		return res;

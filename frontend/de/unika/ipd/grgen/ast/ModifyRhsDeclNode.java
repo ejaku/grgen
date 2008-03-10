@@ -26,6 +26,8 @@ package de.unika.ipd.grgen.ast;
 
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
@@ -104,6 +106,18 @@ public class ModifyRhsDeclNode extends RhsDeclNode {
 		assert false;
 
 		return null;
+	}
+
+	@Override
+	protected Set<DeclNode> getDelete(PatternGraphNode pattern) {
+		assert isResolved();
+
+		Set<DeclNode> res = new HashSet<DeclNode>();
+
+		for (ConstraintDeclNode x : delete.getChildren()) {
+			res.add(x);
+		}
+		return res;
 	}
 }
 

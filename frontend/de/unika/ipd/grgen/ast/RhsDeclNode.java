@@ -27,6 +27,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -128,6 +129,31 @@ public class RhsDeclNode extends DeclNode {
 		assert isResolved();
 
 		return type;
+	}
+
+	protected Set<DeclNode> getDelete(PatternGraphNode pattern) {
+		Set<DeclNode> res = new LinkedHashSet<DeclNode>();
+
+		for (BaseNode x : pattern.getEdges()) {
+			assert (x instanceof DeclNode);
+			if ( ! graph.getEdges().contains(x) ) {
+				res.add((DeclNode)x);
+			}
+		}
+		for (BaseNode x : pattern.getNodes()) {
+			assert (x instanceof DeclNode);
+			if ( ! graph.getNodes().contains(x) ) {
+				res.add((DeclNode)x);
+			}
+		}
+		for (BaseNode x : pattern.getParamDecls()) {
+			assert (x instanceof DeclNode);
+			if ( !( graph.getNodes().contains(x) || graph.getEdges().contains(x)) ) {
+				res.add((DeclNode)x);
+			}
+		}
+
+		return res;
 	}
 }
 

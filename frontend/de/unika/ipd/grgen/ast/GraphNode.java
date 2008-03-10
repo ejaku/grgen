@@ -279,5 +279,22 @@ public class GraphNode extends BaseNode {
             connectionsUnresolved.addChild(n);
         }
     }
+
+	public Collection<DeclNode> getParamDecls() {
+		Collection<DeclNode> res = new Vector<DeclNode>();
+
+		for (BaseNode para : params.getChildren()) {
+	        if (para instanceof ConnectionNode) {
+	        	ConnectionNode conn = (ConnectionNode) para;
+	        	res.add(conn.getEdge().getDecl());
+	        }
+	        if (para instanceof SingleNodeConnNode) {
+	        	NodeDeclNode node = ((SingleNodeConnNode) para).getNode();
+	        	res.add(node);
+	        }
+        }
+
+		return res;
+	}
 }
 

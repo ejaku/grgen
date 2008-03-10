@@ -28,7 +28,6 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -104,28 +103,7 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	protected Set<DeclNode> getDelete() {
-		Set<DeclNode> res = new LinkedHashSet<DeclNode>();
-
-		for (BaseNode x : pattern.getEdges()) {
-			assert (x instanceof DeclNode);
-			if ( ! getRight().graph.getEdges().contains(x) ) {
-				res.add((DeclNode)x);
-			}
-		}
-		for (BaseNode x : pattern.getNodes()) {
-			assert (x instanceof DeclNode);
-			if ( ! getRight().graph.getNodes().contains(x) ) {
-				res.add((DeclNode)x);
-			}
-		}
-		for (BaseNode x : getParamDecls()) {
-			assert (x instanceof DeclNode);
-			if ( !( getRight().graph.getNodes().contains(x) || getRight().graph.getEdges().contains(x)) ) {
-				res.add((DeclNode)x);
-			}
-		}
-
-		return res;
+		return getRight().getDelete(pattern);
 	}
 
 	/** Check that only graph elements are returned, that are not deleted. */
@@ -174,7 +152,7 @@ public class RuleDeclNode extends TestDeclNode {
 				//		NodeDeclNode or EdgeDevleNode respectively.
 				if ( ! (left.getNodes().contains(oldElem)
 							|| left.getEdges().contains(oldElem)
-							|| getParamDecls().contains(retElem))) {
+							|| pattern.getParamDecls().contains(retElem))) {
 					ident.reportError(
 						"\"" + ident + "\", that is neither a parameter, " +
 							"nor contained in LHS, nor in RHS, occurs in a return");
@@ -470,7 +448,7 @@ public class RuleDeclNode extends TestDeclNode {
 		boolean noDeleteOfPatternParameters = true;
 		if (isPattern) {
 			Collection<DeclNode> deletedEnities = getDelete();
-			for (DeclNode p : getParamDecls()) {
+			for (DeclNode p : pattern.getParamDecls()) {
 				if (deletedEnities.contains(p)) {
 					error.error(getCoords(), "Deletion of parameters in patterns are not allowed");
 					noDeleteOfPatternParameters = false;
