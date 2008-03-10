@@ -149,12 +149,12 @@ OK     should_pass/exact_007.grg
 OK     should_pass/exact_008.grg
 OK     should_pass/exec_001.grg
 FAILED should_pass/exec_002.grg
-FAILED should_pass/exec_003.grg
+OK     should_pass/exec_003.grg
 FAILED should_pass/exec_004.grg
-FAILED should_pass/exec_005.grg
-FAILED should_pass/exec_006.grg
+OK     should_pass/exec_005.grg
+OK     should_pass/exec_006.grg
 OK     should_pass/exec_007.grg
-FAILED should_pass/exec_008.grg
+OK     should_pass/exec_008.grg
 FAILED should_pass/exec_009.grg
 FAILED should_pass/exec_010.grg
 OK     should_pass/exec_011.grg
