@@ -1,0 +1,11 @@
+pattern Foo
+{
+	x: Node;
+	
+	replace bla
+	{
+	}
+	replace blub
+	{
+	}
+}
