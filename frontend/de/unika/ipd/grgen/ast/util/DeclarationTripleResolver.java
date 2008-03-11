@@ -49,16 +49,16 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 	 *  returns null if n's declaration or n can't be cast to R, S or T */
 	public Triple<R, S, T> resolve(BaseNode n, BaseNode parent) {
 		if(n instanceof IdentNode) {
-			Triple<R, S, T> tripel = resolve((IdentNode)n);
-			if (tripel != null) {
-				assert (tripel.first == null && tripel.second == null)
-					|| (tripel.first == null && tripel.third == null)
-					|| (tripel.second == null && tripel.third == null);
-				parent.becomeParent(tripel.first);
-				parent.becomeParent(tripel.second);
-				parent.becomeParent(tripel.third);
+			Triple<R, S, T> triple = resolve((IdentNode)n);
+			if (triple != null) {
+				assert (triple.first == null && triple.second == null)
+					|| (triple.first == null && triple.third == null)
+					|| (triple.second == null && triple.third == null);
+				parent.becomeParent(triple.first);
+				parent.becomeParent(triple.second);
+				parent.becomeParent(triple.third);
 			}
-			return tripel;
+			return triple;
 		}
 
 		Triple<R, S, T> tripel = new Triple<R, S, T>();
@@ -87,19 +87,19 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 	/** resolves n to node of type R, S or T, via declaration
 	 *  returns null if n's declaration can't be cast to R/S/T */
 	private Triple<R, S, T> resolve(IdentNode n) {
-		Triple<R, S, T> tripel = new Triple<R, S, T>();
+		Triple<R, S, T> triple = new Triple<R, S, T>();
 		DeclNode resolved = n.getDecl();
 		if(clsR.isInstance(resolved)) {
-			tripel.first = clsR.cast(resolved);
+			triple.first = clsR.cast(resolved);
 		}
 		if(clsS.isInstance(resolved)) {
-			tripel.second = clsS.cast(resolved);
+			triple.second = clsS.cast(resolved);
 		}
 		if(clsT.isInstance(resolved)) {
-			tripel.third = clsT.cast(resolved);
+			triple.third = clsT.cast(resolved);
 		}
-		if(tripel.first != null || tripel.second != null || tripel.third != null) {
-			return tripel;
+		if(triple.first != null || triple.second != null || triple.third != null) {
+			return triple;
 		}
 
 		n.reportError("\"" + n + "\" is a " + resolved.getUseString() +

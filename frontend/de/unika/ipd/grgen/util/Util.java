@@ -237,8 +237,8 @@ public class Util
 		for (int i = 0; i < l; i++) {
 			try {
 				Class<?> c = classes[i];
-				if ( i > 0 && l > 2 ) res.append(", ");
 				if ( i == l - 1 && l > 1 ) res.append(" or ");
+				else if ( i > 0 && l > 2 ) res.append(", ");
 
 				if ( isSubClass(c, sc) && containsMethod(c, m) )
 					if ( c.getMethod(m).getReturnType() == String.class ) {

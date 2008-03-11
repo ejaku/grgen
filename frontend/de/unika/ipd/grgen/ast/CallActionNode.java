@@ -27,8 +27,12 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.*;
 
+import de.unika.ipd.grgen.ast.TestDeclNode;
+import de.unika.ipd.grgen.ast.VarDeclNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
@@ -51,6 +55,7 @@ public class CallActionNode extends BaseNode {
 	private CollectNode<BaseNode> returnsUnresolved;
 
 	private TestDeclNode action;
+	private VarDeclNode booleVar;
 	protected CollectNode<DeclNode> params;
 	protected CollectNode<VarDeclNode> returns;
 
@@ -69,7 +74,7 @@ public class CallActionNode extends BaseNode {
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(actionUnresolved,action));
+		children.add(getValidVersion(actionUnresolved,action,booleVar));
 		children.add(getValidVersion(paramsUnresolved,params));
 		children.add(getValidVersion(returnsUnresolved,returns));
 		return children;
@@ -112,7 +117,7 @@ public class CallActionNode extends BaseNode {
 		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
 
 		// Get the definition of the ident's symbol local to the owned scope.
-		Symbol.Definition def = scope.getLocalDef(id.getSymbol());
+		Symbol.Definition def = scope.getCurrDef(id.getSymbol());
 		debug.report(NOTE, "definition is: " + def);
 
 		// The result is true, if the definition's valid.
@@ -131,7 +136,8 @@ public class CallActionNode extends BaseNode {
 		return res;
 	}
 
-	private static final DeclarationResolver<TestDeclNode> actionResolver = new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
+	private static final DeclarationPairResolver<TestDeclNode, VarDeclNode> actionResolver =
+		new DeclarationPairResolver<TestDeclNode, VarDeclNode>(TestDeclNode.class, VarDeclNode.class);
 
 	private static final CollectResolver<DeclNode> paramNodeResolver = new CollectResolver<DeclNode>(new DeclarationResolver<DeclNode>(DeclNode.class));
 
@@ -141,9 +147,15 @@ public class CallActionNode extends BaseNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		fixupDefinition(actionUnresolved, actionUnresolved.getScope().getIdentNode().getScope().getIdentNode().getScope());
-		action = actionResolver.resolve(actionUnresolved);
-		successfullyResolved = action!=null && successfullyResolved;
+		fixupDefinition(actionUnresolved, actionUnresolved.getScope());
+		Pair<TestDeclNode, VarDeclNode> resolved = actionResolver.resolve(actionUnresolved, this);
+		if(resolved!=null)
+			if(resolved.fst!=null)
+				action = resolved.fst;
+			else
+				booleVar = resolved.snd;
+
+		successfullyResolved = resolved!=null && (action!=null || booleVar!=null) && successfullyResolved;
 
 		params = paramNodeResolver.resolve(paramsUnresolved, this);
 		successfullyResolved = params!=null && successfullyResolved;
@@ -170,8 +182,10 @@ public class CallActionNode extends BaseNode {
 	protected boolean checkPost() {
 		boolean res = true;
 
-		res &= checkParams(action.pattern.getParamDecls(), params.getChildren());
-		res &= checkReturns(action.returnFormalParameters, returns);
+		if(action!=null) {
+			res &= checkParams(action.pattern.getParamDecls(), params.getChildren());
+			res &= checkReturns(action.returnFormalParameters, returns);
+		}
 
 		return res;
 	}
@@ -209,8 +223,8 @@ public class CallActionNode extends BaseNode {
 				if(actualParamType instanceof InheritanceType) {
 					InheritanceType fpt = (InheritanceType)formalParamType;
 					InheritanceType apt = (InheritanceType)actualParamType;
-					if(fpt!=apt && !fpt.isRoot() && !apt.isRoot() && 
-							Collections.disjoint(fpt.getAllSubTypes(), apt.getAllSubTypes()))
+					if(fpt!=apt && !fpt.isRoot() && !apt.isRoot() &&
+					   Collections.disjoint(fpt.getAllSubTypes(), apt.getAllSubTypes()))
 						reportWarning("Formal param type \"" + formalParamType + "\" will never match to actual param type \"" + actualParamType +  "\".");
 				}
 			}
@@ -254,7 +268,7 @@ public class CallActionNode extends BaseNode {
 					InheritanceType art = (InheritanceType)actualReturnType;
 					if(!frt.isCastableTo(art)) {
 						reportError("Instances of formal return type \"" + formalReturnType + "\" cannot be assigned to a variable \"" +
-								actualReturn + "\" of type \"" + actualReturnType +  "\".");
+										actualReturn + "\" of type \"" + actualReturnType +  "\".");
 						res = false;
 					}
 				}

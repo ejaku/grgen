@@ -56,7 +56,7 @@ public class ExecNode extends BaseNode {
 	protected CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
 	private CollectNode<VarDeclNode> varDecls = new CollectNode<VarDeclNode>();
 	private CollectNode<IdentNode> graphElementUsageOutsideOfCallUnresolved = new CollectNode<IdentNode>();
-	private CollectNode<DeclNode> graphElementUsageOutsideOfCall;
+	private CollectNode<DeclNode> graphElementUsageOutsideOfCall = new CollectNode<DeclNode>();
 
 	public ExecNode(Coords coords) {
 		super(coords);
@@ -158,4 +158,5 @@ public class ExecNode extends BaseNode {
 		return res;
 	}
 }
+
 

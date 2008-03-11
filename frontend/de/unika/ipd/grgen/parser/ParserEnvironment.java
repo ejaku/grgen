@@ -27,45 +27,28 @@
 
 package de.unika.ipd.grgen.parser;
 
-import java.io.File;
-import java.util.Hashtable;
+import de.unika.ipd.grgen.ast.*;
 
 import antlr.TokenStreamException;
-
 import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.ast.ArbitraryEdgeTypeNode;
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.BasicTypeNode;
-import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.ConnAssertNode;
-import de.unika.ipd.grgen.ast.DirectedEdgeTypeNode;
-import de.unika.ipd.grgen.ast.ExprNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.IntConstNode;
-import de.unika.ipd.grgen.ast.ModelNode;
-import de.unika.ipd.grgen.ast.NodeDeclNode;
-import de.unika.ipd.grgen.ast.NodeTypeNode;
-import de.unika.ipd.grgen.ast.TypeDeclNode;
-import de.unika.ipd.grgen.ast.TypeNode;
-import de.unika.ipd.grgen.ast.UndirectedEdgeTypeNode;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
+import java.io.File;
+import java.util.Hashtable;
 
 public abstract class ParserEnvironment extends Base {
 	public static final String MODEL_SUFFIX = ".gm";
 
 	public static final int TYPES = 0;
 	public static final int ENTITIES = 1;
-	public static final int ACTIONS = 2;
-	public static final int ALTERNATIVES = 3;
-	public static final int REPLACES = 4;
+	public static final int ACTIONS = ENTITIES; // actions are also entities to get exec working
+	public static final int ALTERNATIVES = 2;
+	public static final int REPLACES = 3;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types"),
-		new SymbolTable("entities"),
-		new SymbolTable("actions"),
+		new SymbolTable("entities"), // actions are also entities
 		new SymbolTable("alternatives"),
 		new SymbolTable("replaces")
 	};

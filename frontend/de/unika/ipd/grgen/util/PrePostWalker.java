@@ -32,8 +32,7 @@ import java.util.Set;
  * pre before descending to the first child
  * post after ascending from the last child.
  */
-public class PrePostWalker extends Base implements Walker
-{
+public class PrePostWalker extends Base implements Walker {
 	private Set<Walkable> visited;
 	private Visitor pre, post;
 
@@ -42,35 +41,35 @@ public class PrePostWalker extends Base implements Walker
 	 * @param pre Visitor called before descending to the first child
 	 * @param post Visitor called after ascending from the last child
 	 */
-	public PrePostWalker(Visitor pre, Visitor post)
-	{
+	public PrePostWalker(Visitor pre, Visitor post) {
 		this.pre = pre;
 		this.post = post;
 		visited = new HashSet<Walkable>();
 	}
 
-	public void reset()
-	{
+	public void reset() {
 		visited.clear();
 	}
 
-	public void walk(Walkable node)
-	{
+	public void walk(Walkable node) {
 
 		if (!visited.contains(node)) {
-			visited.add(node);
+			if(node!=null) {
+				visited.add(node);
 
-			if (pre != null) {
-				pre.visit(node);
-			}
+				if (pre != null) {
+					pre.visit(node);
+				}
 
-			for (Walkable p : node.getWalkableChildren()) {
-				walk(p);
-			}
+				for (Walkable p : node.getWalkableChildren()) {
+					walk(p);
+				}
 
-			if (post != null) {
-				post.visit(node);
-			}
+				if (post != null) {
+					post.visit(node);
+				}
+			} else
+				Base.error.error("Node was null, while walking");
 		}
 	}
 }

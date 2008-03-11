@@ -24,23 +24,17 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ir.*;
+
+import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
-
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.MatchingAction;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Test;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 
 /**
@@ -58,7 +52,7 @@ public class TestDeclNode extends ActionDeclNode {
 	private static final TypeNode testType = new TestTypeNode();
 
 	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern,
-			CollectNode<IdentNode> rets) {
+						   CollectNode<IdentNode> rets) {
 		super(id, type);
 		this.returnFormalParameters = rets;
 		becomeParent(this.returnFormalParameters);
@@ -67,7 +61,7 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	public TestDeclNode(IdentNode id, PatternGraphNode pattern,
-			CollectNode<IdentNode> rets) {
+						CollectNode<IdentNode> rets) {
 		this(id, testType, pattern, rets);
 	}
 
@@ -143,29 +137,29 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	private static final Checker retDeclarationChecker = new CollectChecker(
-			new Checker() {
-				public boolean check(BaseNode node, ErrorReporter reporter) {
-					boolean res = true;
+		new Checker() {
+			public boolean check(BaseNode node, ErrorReporter reporter) {
+				boolean res = true;
 
-					if ( ! (node instanceof IdentNode) ) {
-						//this should never be reached
-						node.reportError("Not an identifier");
-						return false;
-					}
-					if ( ((IdentNode)node).getDecl().equals(DeclNode.getInvalid()) ) {
-						res = false;
-						node.reportError("\"" + node + "\" is undeclared");
-					} else {
-						TypeNode type = ((IdentNode)node).getDecl().getDeclType();
-						res = (type instanceof NodeTypeNode) || (type instanceof EdgeTypeNode);
-						if (!res) {
-							node.reportError("\"" + node + "\" is neither a node nor an edge type");
-						}
-					}
-					return res;
+				if ( ! (node instanceof IdentNode) ) {
+					//this should never be reached
+					node.reportError("Not an identifier");
+					return false;
 				}
+				if ( ((IdentNode)node).getDecl().equals(DeclNode.getInvalid()) ) {
+					res = false;
+					node.reportError("\"" + node + "\" is undeclared");
+				} else {
+					TypeNode type = ((IdentNode)node).getDecl().getDeclType();
+					res = (type instanceof NodeTypeNode) || (type instanceof EdgeTypeNode);
+					if (!res) {
+						node.reportError("\"" + node + "\" is neither a node nor an edge type");
+					}
+				}
+				return res;
 			}
-		);
+		}
+	);
 
 	/**
 	 * Method check
@@ -224,8 +218,8 @@ public class TestDeclNode extends ActionDeclNode {
 
 								//check only if there's no dangling edge
 								if ( !((iSrc instanceof NodeDeclNode) && ((NodeDeclNode)iSrc).isDummy())
-										&& !((oSrc instanceof NodeDeclNode) && ((NodeDeclNode)oSrc).isDummy())
-										&& iSrc != oSrc ) {
+									&& !((oSrc instanceof NodeDeclNode) && ((NodeDeclNode)oSrc).isDummy())
+									&& iSrc != oSrc ) {
 									alreadyReported.add(iConn.getEdge());
 									iConn.reportError("Reused edge does not connect the same nodes");
 									edgeReUse = false;
@@ -233,8 +227,8 @@ public class TestDeclNode extends ActionDeclNode {
 
 								//check only if there's no dangling edge
 								if ( !((iTgt instanceof NodeDeclNode) && ((NodeDeclNode)iTgt).isDummy())
-										&& !((oTgt instanceof NodeDeclNode) && ((NodeDeclNode)oTgt).isDummy())
-										&& iTgt != oTgt && !alreadyReported.contains(iConn.getEdge())) {
+									&& !((oTgt instanceof NodeDeclNode) && ((NodeDeclNode)oTgt).isDummy())
+									&& iTgt != oTgt && !alreadyReported.contains(iConn.getEdge())) {
 									alreadyReported.add(iConn.getEdge());
 									iConn.reportError("Reused edge does not connect the same nodes");
 									edgeReUse = false;
@@ -286,6 +280,21 @@ public class TestDeclNode extends ActionDeclNode {
 		}
 	}
 
+	@Override
+		public TypeNode getDeclType() {
+		assert isResolved();
+
+		return type;
+	}
+
+	public static String getKindStr() {
+		return "action declaration";
+	}
+
+	public static String getUseStr() {
+		return "action";
+	}
+
 	protected IR constructIR() {
 		PatternGraph left = pattern.getPatternGraph();
 
@@ -300,13 +309,6 @@ public class TestDeclNode extends ActionDeclNode {
 		constructIRaux(test, pattern.returns);
 
 		return test;
-	}
-
-	@Override
-	public TypeNode getDeclType() {
-		assert isResolved();
-
-		return type;
 	}
 }
 

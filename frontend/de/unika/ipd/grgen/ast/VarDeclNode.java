@@ -83,6 +83,14 @@ public class VarDeclNode extends DeclNode {
 		return type;
 	}
 
+	public static String getKindStr() {
+		return "variable declaration";
+	}
+
+	public static String getUseStr() {
+		return "variable";
+	}
+
 	protected IR constructIR() {
 		return new Variable("Var", getIdentNode().getIdent(), type.getType());
 	}

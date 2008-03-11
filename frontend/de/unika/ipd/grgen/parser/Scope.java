@@ -152,7 +152,7 @@ public class Scope {
 	 * or an invalid definition, if the symbol's definition is not visible
 	 * in this scope.
 	 */
-	private Definition getCurrDef(Symbol symbol) {
+	public Definition getCurrDef(Symbol symbol) {
 		Symbol.Definition def = getLocalDef(symbol);
 
 		if(!(def.isValid() || isRoot()))

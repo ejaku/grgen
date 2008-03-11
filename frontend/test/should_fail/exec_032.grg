@@ -1,0 +1,7 @@
+rule r : (Node) {
+  modify{
+    y : Node;
+    exec( y=r ); // y may not be assigned and r is not a variable, but rule calls look like: (y)=r
+    return (y);
+  }
+}

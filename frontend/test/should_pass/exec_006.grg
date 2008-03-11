@@ -14,7 +14,7 @@ rule r2 : (Node) {
   modify {
     delete(x);
     return(y);
-    exec((x)=r1 && r2);
+    exec((z:Node)=r1 && r2);
     exec(r2);
   }
 }
@@ -24,7 +24,7 @@ rule r3(x:Node) {
   modify {
     delete(x);
     exec(r3(y));
-    exec((y)=r1 && r2 && r3(y));
+    exec((z:NINT)=r1 && r2 && r3(y));
     exec((h:Node)=r1 && r2 && r3(y));
     exec((h:Node)=r1 && r2 && r3(h));
     exec(r2);
