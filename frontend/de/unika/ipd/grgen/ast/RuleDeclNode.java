@@ -180,6 +180,7 @@ public class RuleDeclNode extends TestDeclNode {
 					if(!Collections.disjoint(callAction.params.getChildren(), dels)) {
 						// FIXME error message
 						callAction.reportError("Parameter of call \"" + callAction.getName() + "\"");
+						// TODO ...
 						res = false;
 					}
 

@@ -3,6 +3,7 @@ using enum_model_001;
 rule r1(x:A) {
   y:Node;
   replace {
+    y;
     exec(r1(y));
   }
 }

@@ -23,10 +23,9 @@ rule r3(x:Node) {
   x -e:ESTRING-> y:NINT;
   modify {
     delete(x);
-    exec(r3(x));
     exec(r3(y));
-    exec((x)=r1 && r2 && r3(x));
-    exec((h:Node)=r1 && r2 && r3(x));
+    exec((y)=r1 && r2 && r3(y));
+    exec((h:Node)=r1 && r2 && r3(y));
     exec((h:Node)=r1 && r2 && r3(h));
     exec(r2);
   }
