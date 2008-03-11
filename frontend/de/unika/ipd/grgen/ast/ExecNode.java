@@ -25,16 +25,19 @@ package de.unika.ipd.grgen.ast;
 
 
 
+import de.unika.ipd.grgen.ast.ConstraintDeclNode;
+import de.unika.ipd.grgen.ast.DeclNode;
+import de.unika.ipd.grgen.ast.util.CollectResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Exec;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
-
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Exec;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
 
 /**
  *
@@ -44,10 +47,14 @@ public class ExecNode extends BaseNode {
 		setName(ExecNode.class, "exec");
 	}
 
-	private StringBuilder sb = new StringBuilder();
+	private static final CollectResolver<DeclNode> graphElementUsageOutsideOfCallResolver =
+		new CollectResolver<DeclNode>(new DeclarationResolver<DeclNode>(DeclNode.class));
 
+	private StringBuilder sb = new StringBuilder();
 	protected CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
 	private CollectNode<VarDeclNode> varDecls = new CollectNode<VarDeclNode>();
+	private CollectNode<IdentNode> graphElementUsageOutsideOfCallUnresolved = new CollectNode<IdentNode>();
+	private CollectNode<DeclNode> graphElementUsageOutsideOfCall;
 
 	public ExecNode(Coords coords) {
 		super(coords);
@@ -55,7 +62,7 @@ public class ExecNode extends BaseNode {
 	}
 
 	public void append(Object n) {
-		assert(!isResolved());
+		assert !isResolved();
 		sb.append(n);
 	}
 
@@ -64,13 +71,19 @@ public class ExecNode extends BaseNode {
 	}
 
 	public void addCallAction(CallActionNode n) {
-		assert(!isResolved());
+		assert !isResolved();
 		becomeParent(n);
 		callActions.addChild(n);
 	}
 
 	public void addVarDecls(VarDeclNode varDecl) {
+		assert !isResolved();
 		varDecls.addChild(varDecl);
+	}
+
+	public void addGraphElementUsageOutsideOfCall(IdentNode id) {
+		assert !isResolved();
+		graphElementUsageOutsideOfCallUnresolved.addChild(id);
 	}
 
 	/** returns children of this node */
@@ -78,6 +91,7 @@ public class ExecNode extends BaseNode {
 		Vector<BaseNode> res = new Vector<BaseNode>();
 		res.add(callActions);
 		res.add(varDecls);
+		res.add(getValidVersion(graphElementUsageOutsideOfCallUnresolved, graphElementUsageOutsideOfCall));
 		return res;
 	}
 
@@ -86,12 +100,14 @@ public class ExecNode extends BaseNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("actions");
 		childrenNames.add("var decls");
+		childrenNames.add("graph element usage outside of a call");
 		return childrenNames;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		return true;
+		graphElementUsageOutsideOfCall = graphElementUsageOutsideOfCallResolver.resolve(graphElementUsageOutsideOfCallUnresolved, this);
+		return graphElementUsageOutsideOfCall != null;
 	}
 
 	protected boolean checkLocal() {
@@ -104,6 +120,9 @@ public class ExecNode extends BaseNode {
 
 	protected IR constructIR() {
 		Set<Entity> parameters = new LinkedHashSet<Entity>();
+		for(DeclNode dn : graphElementUsageOutsideOfCall.getChildren())
+			if(dn instanceof ConstraintDeclNode)
+				parameters.add((Entity)dn.getIR());
 		for(CallActionNode callActionNode : callActions.getChildren()) {
 			callActionNode.checkPost();
 			for(DeclNode param : callActionNode.getParams().getChildren())
