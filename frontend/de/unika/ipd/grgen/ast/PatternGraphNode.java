@@ -144,7 +144,7 @@ public class PatternGraphNode extends GraphNode {
 		children.add(subpatternReplacements);
 		children.add(alts);
 		children.add(negs);
-		children.add(returns);
+		children.add(getValidVersion(returnsUnresolved, returns));
 		children.add(conditions);
 		children.add(homs);
 		children.add(exact);

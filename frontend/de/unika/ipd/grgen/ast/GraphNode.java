@@ -32,7 +32,9 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Triple;
@@ -57,7 +59,8 @@ public class GraphNode extends BaseNode {
 	CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 	CollectNode<SubpatternUsageNode> subpatterns;
 	CollectNode<SubpatternReplNode> subpatternReplacements;
-	CollectNode<IdentNode> returns;
+	CollectNode<IdentNode> returnsUnresolved;
+	CollectNode<ConstraintDeclNode> returns;
 	CollectNode<BaseNode> imperativeStmts;
 	CollectNode<BaseNode> params;
 
@@ -84,8 +87,8 @@ public class GraphNode extends BaseNode {
 		becomeParent(this.subpatterns);
 		this.subpatternReplacements = subpatternReplacements;
 		becomeParent(this.subpatternReplacements);
-		this.returns = returns;
-		becomeParent(this.returns);
+		this.returnsUnresolved = returns;
+		becomeParent(this.returnsUnresolved);
 		this.imperativeStmts = imperativeStmts;
 		becomeParent(imperativeStmts);
 		this.params = params;
@@ -103,7 +106,7 @@ public class GraphNode extends BaseNode {
 		children.add(params);
 		children.add(subpatterns);
 		children.add(subpatternReplacements);
-		children.add(returns);
+		children.add(getValidVersion(returnsUnresolved, returns));
 		children.add(imperativeStmts);
 		return children;
 	}
@@ -122,6 +125,10 @@ public class GraphNode extends BaseNode {
 
 	private static final CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode> connectionsResolver =
 		new CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(new DeclarationTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(ConnectionNode.class, SingleNodeConnNode.class,  SingleGraphEntityNode.class));;
+
+	private static final CollectPairResolver<ConstraintDeclNode> returnsResolver = new CollectPairResolver<ConstraintDeclNode>(
+			new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
+
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
@@ -160,7 +167,9 @@ public class GraphNode extends BaseNode {
     		}
         }
 
-		return resolve != null;
+		returns = returnsResolver.resolve(returnsUnresolved);
+
+		return resolve != null && returns != null;
 	}
 
 	private static final Checker connectionsChecker = new CollectChecker(new SimpleChecker(ConnectionCharacter.class));

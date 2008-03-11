@@ -105,7 +105,7 @@ public class TestDeclNode extends ActionDeclNode {
 	 * to the formal return parameters.
 	 */
 	// TODO: check types
-	protected boolean checkReturnParams(CollectNode<IdentNode> typeReturns, CollectNode<IdentNode> actualReturns) {
+	protected boolean checkReturnParams(CollectNode<IdentNode> typeReturns, CollectNode<ConstraintDeclNode> actualReturns) {
 		boolean returnTypes = true;
 
 		/*
@@ -122,14 +122,14 @@ public class TestDeclNode extends ActionDeclNode {
 							actualReturns.children.size() + " vs. " + typeReturns.children.size() +")");
 			returnTypes = false;
 		} else {
-			Iterator<IdentNode> itAR = actualReturns.children.iterator();
+			Iterator<ConstraintDeclNode> itAR = actualReturns.children.iterator();
 
 			for(BaseNode n : typeReturns.getChildren()) {
 				IdentNode       tReturnAST  = (IdentNode)n;
 				InheritanceType tReturn     = (InheritanceType)tReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
 
-				IdentNode       aReturnAST  = itAR.next();
-				InheritanceType aReturnType = (InheritanceType)aReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
+				ConstraintDeclNode aReturnAST  = itAR.next();
+				InheritanceType    aReturnType = (InheritanceType)aReturnAST.getDeclType().checkIR(InheritanceType.class);
 
 				if(!aReturnType.isCastableTo(tReturn)) {
 					error.error(aReturnAST.getCoords(), "Actual return-parameter is not conformant to formal parameter (" +
@@ -262,7 +262,7 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 
-	protected void constructIRaux(MatchingAction ma, CollectNode<IdentNode> aReturns) {
+	protected void constructIRaux(MatchingAction ma, CollectNode<ConstraintDeclNode> aReturns) {
 		PatternGraph patternGraph = ma.getPattern();
 
 		// add Params to the IR
@@ -279,8 +279,8 @@ public class TestDeclNode extends ActionDeclNode {
 		}
 
 		// add Return-Params to the IR
-		for(IdentNode aReturnAST : aReturns.getChildren()) {
-			Entity aReturn = (Entity)aReturnAST.getDecl().checkIR(Entity.class);
+		for(ConstraintDeclNode aReturnAST : aReturns.getChildren()) {
+			Entity aReturn = (Entity)aReturnAST.checkIR(Entity.class);
 			// actual return-parameter
 			ma.addReturn(aReturn);
 		}

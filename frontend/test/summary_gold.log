@@ -148,14 +148,14 @@ OK     should_pass/exact_006.grg
 OK     should_pass/exact_007.grg
 OK     should_pass/exact_008.grg
 OK     should_pass/exec_001.grg
-FAILED should_pass/exec_002.grg
+OK     should_pass/exec_002.grg
 OK     should_pass/exec_003.grg
-FAILED should_pass/exec_004.grg
+OK     should_pass/exec_004.grg
 OK     should_pass/exec_005.grg
 OK     should_pass/exec_006.grg
 OK     should_pass/exec_007.grg
 OK     should_pass/exec_008.grg
-FAILED should_pass/exec_009.grg
+OK     should_pass/exec_009.grg
 OK     should_pass/exec_010.grg
 OK     should_pass/exec_011.grg
 OK     should_pass/external_001.grg
@@ -590,7 +590,7 @@ ERROR  should_fail/ret_018.grg
 ERROR  should_fail/ret_019.grg
 ERROR  should_fail/ret_020.grg
 ERROR  should_fail/ret_021.grg
-ABEND  should_fail/ret_022.grg
+ERROR  should_fail/ret_022.grg
 ERROR  should_fail/ret_023.grg
 WARNED should_fail/ret_025.grg
 OK     should_fail/ret_026.grg

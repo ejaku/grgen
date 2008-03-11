@@ -108,61 +108,19 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	/** Check that only graph elements are returned, that are not deleted. */
-	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right) {
+	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, RhsDeclNode right) {
+		assert isResolved();
+
 		boolean res = true;
-		for (BaseNode x : right.returns.getChildren()) {
-			IdentNode ident = (IdentNode) x;
-			DeclNode retElem = ident.getDecl();
-			DeclNode oldElem = retElem;
 
-			// get original elem if return elem is a retyped one
-			if (retElem instanceof NodeTypeChangeNode) {
-				oldElem = (NodeDeclNode) ((NodeTypeChangeNode)retElem).getOldNode();
-			} else if (retElem instanceof EdgeTypeChangeNode) {
-				oldElem = (EdgeDeclNode) ((EdgeTypeChangeNode)retElem).getOldEdge();
-			}
+		for (ConstraintDeclNode retElem : right.graph.returns.getChildren()) {
+			Set<DeclNode> delete = right.getDelete(left);
 
-			// rhsElems contains all elems of the RHS except for the old nodes
-			// and edges (in case of retyping)
-			Collection<BaseNode> rhsElems = right.getNodes();
-			rhsElems.addAll(right.getEdges());
-
-			// nodeOrEdge is used in error messages
-			String nodeOrEdge = "";
-			if (retElem instanceof NodeDeclNode) {
-				nodeOrEdge = "node";
-			} else if (retElem instanceof EdgeDeclNode) {
-				nodeOrEdge = "edge";
-			} else {
-				nodeOrEdge = "entity";
-			}
-
-			//TODO:	The job of the following should be done by a resolver resolving
-			//		the childs of the return node from identifiers to instances of
-			//		NodeDeclNode or EdgeDevleNode respectively.
-			if ( ! ((retElem instanceof NodeDeclNode) || (retElem instanceof EdgeDeclNode))) {
-				res = false;
-				ident.reportError("The element \"" + ident + "\" is neither a node nor an edge");
-			}
-
-			if ( ! rhsElems.contains(retElem) ) {
+			if (delete.contains(retElem)) {
 				res = false;
 
-				//TODO:	The job of the following should be done by a resolver resolving
-				//		the childs of the return nore from identifiers to instances of
-				//		NodeDeclNode or EdgeDevleNode respectively.
-				if ( ! (left.getNodes().contains(oldElem)
-							|| left.getEdges().contains(oldElem)
-							|| pattern.getParamDecls().contains(retElem))) {
-					ident.reportError(
-						"\"" + ident + "\", that is neither a parameter, " +
-							"nor contained in LHS, nor in RHS, occurs in a return");
-
-					continue;
-				}
-
-				ident.reportError("The deleted " + nodeOrEdge +
-									  " \"" + ident + "\" must not be returned");
+				ident.reportError("The deleted " + retElem.getUseString() +
+									  " \"" + retElem.ident + "\" must not be returned");
 			}
 		}
 		return res;
@@ -202,8 +160,7 @@ public class RuleDeclNode extends TestDeclNode {
 		int actualNumRets = right.returns.getChildren().size();
 
 		for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
-			IdentNode ident = right.returns.children.get(i);
-			DeclNode retElem = ident.getDecl();
+			ConstraintDeclNode retElem = right.returns.children.get(i);
 
 			if (retElem.equals(DeclNode.getInvalid())) {
 				res = false;
@@ -378,27 +335,21 @@ public class RuleDeclNode extends TestDeclNode {
 	 *        non-transitive homomorphism is invented.
 	 * */
 	private void warnHomDeleteReturnConflict() {
+		assert isResolved();
+
 		// No warnings for DPO
 		if (pattern.isDPO()) {
 			return;
 		}
 
 		Set<DeclNode> delSet = getDelete();
-		Set<IdentNode> retSet = new HashSet<IdentNode>();
-
-		Collection<IdentNode> rets = getRight().graph.returns.getChildren();
-
-		for (IdentNode x : rets) {
-			retSet.add(x);
-		}
+		Collection<ConstraintDeclNode> retSet = getRight().graph.returns.getChildren();
 
 		Map<DeclNode, Set<BaseNode>> elemToHomElems = new HashMap<DeclNode, Set<BaseNode>>();
 
 		// represent homomorphism cliques and map each elem to the clique
 		// it belong to
-		for (BaseNode x : pattern.getHoms()) {
-			HomNode hn = (HomNode) x;
-
+		for (HomNode hn : pattern.getHoms()) {
 			Set<BaseNode> homSet;
 			for (BaseNode y : hn.getChildren()) {
 				DeclNode elem = (DeclNode) y;
@@ -416,7 +367,7 @@ public class RuleDeclNode extends TestDeclNode {
 		// homomorphic matching is allowed
 		HashSet<BaseNode> alreadyReported = new HashSet<BaseNode>();
 		for (DeclNode d : delSet) {
-			for (IdentNode r : retSet) {
+			for (ConstraintDeclNode r : retSet) {
 				if ( alreadyReported.contains(r) ) {
 					continue;
 				}
@@ -426,10 +377,10 @@ public class RuleDeclNode extends TestDeclNode {
 					continue;
 				}
 
-				if (homSet.contains(r.getDecl())) {
+				if (homSet.contains(r)) {
 					alreadyReported.add(r);
-					r.reportWarning("returning \"" + r + "\" that may be " +
-										"matched homomorphically with deleted \"" + d + "\"");
+					r.reportWarning("returning \"" + r.ident + "\" that may be " +
+										"matched homomorphically with deleted \"" + d.ident + "\"");
 				}
 			}
 		}
@@ -502,7 +453,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 		return leftHandGraphsOk & noDeleteOfPatternParameters
 			& checkRhsReuse(left, this.right) & noReturnInPatternOk & abstr
-			& checkReturnedElemsNotDeleted(left, right)
+			& checkReturnedElemsNotDeleted(left, this.right)
 			& checkExecParamsNotDeleted(left, right)
 			& checkRetSignatureAdhered(left, right);
 	}

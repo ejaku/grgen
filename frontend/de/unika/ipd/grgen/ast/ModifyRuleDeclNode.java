@@ -79,47 +79,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		return type != null;
 	}
 
-	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right) {
-		assert isResolved();
-
-		boolean res = true;
-
-		Collection<DeclNode> deletedElems = new HashSet<DeclNode>();
-		for (ConstraintDeclNode x: this.right.delete.getChildren()) {
-			deletedElems.add(x);
-		}
-
-		for (BaseNode x : right.returns.getChildren()) {
-			IdentNode ident = (IdentNode) x;
-			DeclNode retElem = ident.getDecl();
-
-			if (((retElem instanceof NodeDeclNode) || (retElem instanceof EdgeDeclNode))
-				&& deletedElems.contains(retElem)) {
-				res = false;
-
-				String nodeOrEdge = "";
-				if (retElem instanceof NodeDeclNode) {
-					nodeOrEdge = "node";
-				} else if (retElem instanceof NodeDeclNode) {
-					nodeOrEdge = "edge";
-				} else {
-					nodeOrEdge = "element";
-				}
-
-				if (left.getNodes().contains(retElem) || pattern.getParamDecls().contains(retElem)) {
-					ident.reportError("The deleted " + nodeOrEdge + " \"" + ident + "\" must not be returned");
-				} else {
-					assert false: "the " + nodeOrEdge + " \"" + ident + "\", that is" +
-						"neither a parameter, nor contained in LHS, nor in " +
-						"RHS, occurs in a return";
-				}
-			}
-		}
-		return res;
-	}
-
-
-
 	@Override
 	protected boolean checkLocal() {
 		right.warnElemAppearsInsideAndOutsideDelete(pattern);
