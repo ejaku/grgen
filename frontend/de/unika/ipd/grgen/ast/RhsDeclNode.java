@@ -121,7 +121,7 @@ public class RhsDeclNode extends DeclNode {
 		return ret;
 	}
 
-	protected PatternGraph getPatternGraph() {
+	protected PatternGraph getPatternGraph(PatternGraph left) {
 		return graph.getGraph();
 	}
 

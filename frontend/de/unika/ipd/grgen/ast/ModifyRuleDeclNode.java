@@ -23,18 +23,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Vector;
-
-import de.unika.ipd.grgen.ir.Assignment;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Rule;
-
 
 public class ModifyRuleDeclNode extends RuleDeclNode {
 	static {
@@ -50,107 +38,10 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		becomeParent(getRight());
 	}
 
-	/** returns children of this node */
-	public Collection<BaseNode> getChildren() {
-		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
-		children.add(returnFormalParameters);
-		children.add(pattern);
-		children.add(right);
-		return children;
-	}
-
-	/** returns names of the children, same order as in getChildren */
-	public Collection<String> getChildrenNames() {
-		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("ret");
-		childrenNames.add("pattern");
-		childrenNames.add("right");
-		return childrenNames;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	protected boolean resolveLocal() {
-		type = typeResolver.resolve(typeUnresolved, this);
-
-		return type != null;
-	}
-
 	@Override
 	protected boolean checkLocal() {
 		right.warnElemAppearsInsideAndOutsideDelete(pattern);
 		return super.checkLocal();
-	}
-
-	@Override
-	protected IR constructIR() {
-		PatternGraph left = pattern.getPatternGraph();
-
-		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			return getIR();
-		}
-
-		PatternGraph right = this.right.graph.getGraph();
-
-		// return if the pattern graph already constructed the IR object
-		// that may happens in recursive patterns
-		if (isIRAlreadySet()) {
-			return getIR();
-		}
-
-		Collection<Entity> deleteSet = new HashSet<Entity>();
-		for(BaseNode n : this.right.delete.getChildren()) {
-			deleteSet.add((Entity)n.checkIR(Entity.class));
-		}
-
-		for(Node n : left.getNodes()) {
-			if(!deleteSet.contains(n)) {
-				right.addSingleNode(n);
-			}
-		}
-		for(Edge e : left.getEdges()) {
-			if(!deleteSet.contains(e)
-			   && !deleteSet.contains(left.getSource(e))
-			   && !deleteSet.contains(left.getTarget(e))) {
-				right.addConnection(left.getSource(e), e, left.getTarget(e));
-			}
-		}
-
-		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
-
-		constructImplicitNegs(left);
-		constructIRaux(rule, this.right.graph.returns);
-
-		// add Params to the IR
-		for(DeclNode decl : pattern.getParamDecls()) {
-			if(!deleteSet.contains(decl.getIR())) {
-				if(decl instanceof NodeCharacter) {
-					right.addSingleNode(((NodeCharacter)decl).getNode());
-				} else if (decl instanceof EdgeCharacter) {
-					Edge e = ((EdgeCharacter)decl).getEdge();
-					if(!deleteSet.contains(e)
-					   && !deleteSet.contains(left.getSource(e))
-					   && !deleteSet.contains(left.getTarget(e))) {
-						right.addSingleEdge(e); //TODO
-						//right.addConnection(left.getSource(e),e, left.getTarget((e)));
-					}
-				} else {
-					throw new IllegalArgumentException("unknown Class: " + decl);
-				}
-			}
-		}
-
-		// add Eval statements to the IR
-		for(AssignNode n : this.right.eval.getChildren()) {
-			rule.addEval((Assignment) n.checkIR(Assignment.class));
-		}
-
-		return rule;
 	}
 
 	@Override

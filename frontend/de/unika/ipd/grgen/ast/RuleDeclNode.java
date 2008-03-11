@@ -470,7 +470,7 @@ public class RuleDeclNode extends TestDeclNode {
 			return getIR();
 		}
 
-		PatternGraph right = this.getRight().graph.getGraph();
+		PatternGraph right = this.getRight().getPatternGraph(left);
 
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
@@ -484,8 +484,8 @@ public class RuleDeclNode extends TestDeclNode {
 		constructIRaux(rule, this.getRight().graph.returns);
 
 		// add Eval statements to the IR
-		for (AssignNode n : this.getRight().eval.getChildren()) {
-			rule.addEval((Assignment) n.checkIR(Assignment.class));
+		for (Assignment n : this.getRight().getAssignments()) {
+			rule.addEval(n);
 		}
 
 		return rule;

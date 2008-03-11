@@ -26,13 +26,18 @@ package de.unika.ipd.grgen.ast;
 
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.PatternGraph;
 
 
 /**
@@ -106,6 +111,32 @@ public class ModifyRhsDeclNode extends RhsDeclNode {
 		assert false;
 
 		return null;
+	}
+
+	@Override
+	protected PatternGraph getPatternGraph(PatternGraph left)
+	{
+	    PatternGraph right = graph.getGraph();
+
+		Collection<Entity> deleteSet = new HashSet<Entity>();
+		for(BaseNode n : delete.getChildren()) {
+			deleteSet.add((Entity)n.checkIR(Entity.class));
+		}
+
+		for(Node n : left.getNodes()) {
+			if(!deleteSet.contains(n)) {
+				right.addSingleNode(n);
+			}
+		}
+		for(Edge e : left.getEdges()) {
+			if(!deleteSet.contains(e)
+			   && !deleteSet.contains(left.getSource(e))
+			   && !deleteSet.contains(left.getTarget(e))) {
+				right.addConnection(left.getSource(e), e, left.getTarget(e));
+			}
+		}
+
+	    return right;
 	}
 
 	@Override
