@@ -47,7 +47,7 @@ public class ExecNode extends BaseNode {
 		setName(ExecNode.class, "exec");
 	}
 
-	private static final CollectResolver<DeclNode> graphElementUsageOutsideOfCallResolver =
+	private static final CollectTripleResolver<VarDeclNode, NodeDeclNode, EdgeDeclNode> graphElementUsageOutsideOfCallResolver =
 		new CollectResolver<DeclNode>(new DeclarationResolver<DeclNode>(DeclNode.class));
 
 	private StringBuilder sb = new StringBuilder();
@@ -78,11 +78,13 @@ public class ExecNode extends BaseNode {
 
 	public void addVarDecls(VarDeclNode varDecl) {
 		assert !isResolved();
+		becomeParent(varDecl);
 		varDecls.addChild(varDecl);
 	}
 
 	public void addGraphElementUsageOutsideOfCall(IdentNode id) {
 		assert !isResolved();
+		becomeParent(id);
 		graphElementUsageOutsideOfCallUnresolved.addChild(id);
 	}
 
@@ -98,7 +100,7 @@ public class ExecNode extends BaseNode {
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("actions");
+		childrenNames.add("call actions");
 		childrenNames.add("var decls");
 		childrenNames.add("graph element usage outside of a call");
 		return childrenNames;
@@ -132,6 +134,7 @@ public class ExecNode extends BaseNode {
 		return res;
 	}
 }
+
 
 
 

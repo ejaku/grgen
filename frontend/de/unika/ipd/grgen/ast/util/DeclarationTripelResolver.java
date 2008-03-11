@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.util.Util;
  * by drawing the declaration node out of the source node if it is an identifier node,
  * or by simply casting source to R/S/T otherwise
  */
-public class DeclarationTripelResolver<R extends BaseNode, S extends BaseNode, T extends BaseNode> extends Resolver<Tripel<R, S, T>>
+public class DeclarationTripelResolver<R extends BaseNode, S extends BaseNode, T extends BaseNode> extends Resolver<Triple<R, S, T>>
 {
 	private Class<R> clsR;
 	private Class<S> clsS;
@@ -47,9 +47,9 @@ public class DeclarationTripelResolver<R extends BaseNode, S extends BaseNode, T
 
 	/** resolves n to node of type R, S or T, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R, S or T */
-	public Tripel<R, S, T> resolve(BaseNode n, BaseNode parent) {
+	public Triple<R, S, T> resolve(BaseNode n, BaseNode parent) {
 		if(n instanceof IdentNode) {
-			Tripel<R, S, T> tripel = resolve((IdentNode)n);
+			Triple<R, S, T> tripel = resolve((IdentNode)n);
 			if (tripel != null) {
 				assert (tripel.first == null && tripel.second == null)
 					|| (tripel.first == null && tripel.third == null)
@@ -61,7 +61,7 @@ public class DeclarationTripelResolver<R extends BaseNode, S extends BaseNode, T
 			return tripel;
 		}
 
-		Tripel<R, S, T> tripel = new Tripel<R, S, T>();
+		Triple<R, S, T> tripel = new Triple<R, S, T>();
 		if(clsR.isInstance(n)) {
 			tripel.first = clsR.cast(n);
 		}
@@ -86,8 +86,8 @@ public class DeclarationTripelResolver<R extends BaseNode, S extends BaseNode, T
 
 	/** resolves n to node of type R, S or T, via declaration
 	 *  returns null if n's declaration can't be cast to R/S/T */
-	private Tripel<R, S, T> resolve(IdentNode n) {
-		Tripel<R, S, T> tripel = new Tripel<R, S, T>();
+	private Triple<R, S, T> resolve(IdentNode n) {
+		Triple<R, S, T> tripel = new Triple<R, S, T>();
 		DeclNode resolved = n.getDecl();
 		if(clsR.isInstance(resolved)) {
 			tripel.first = clsR.cast(resolved);

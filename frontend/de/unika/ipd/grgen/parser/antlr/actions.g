@@ -984,18 +984,19 @@ callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	}
 	: ( | MOD { xg.append("%"); } | MOD QUESTION { xg.append("%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?%"); } )
 		id=actionIdentUse {xg.append(id);}
-		(LPAREN paramListOfEntIdentUse[params]
+		(LPAREN paramListOfEntIdentUse[params] RPAREN)?
 			{
 				xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns));
-				xg.append("(");
-				for(Iterator<IdentNode> i = params.getChildren().iterator(); i.hasNext();) {
-					IdentNode p = i.next();
-					xg.append(p);
-					if(i.hasNext()) xg.append(",");
+				if(params.getChildren().iterator().hasNext()) {
+					xg.append("(");
+					for(Iterator<IdentNode> i = params.getChildren().iterator(); i.hasNext();) {
+						IdentNode p = i.next();
+						xg.append(p);
+						if(i.hasNext()) xg.append(",");
+					}
+					xg.append(")");
 				}
-				xg.append(")");
 			}
-		RPAREN)?
 	;
 
 typeConstraint returns [ TypeExprNode constr = null ]
@@ -1016,4 +1017,5 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 	| LPAREN res=typeAddExpr RPAREN
 	;
+
 

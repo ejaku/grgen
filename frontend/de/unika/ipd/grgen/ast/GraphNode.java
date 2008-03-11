@@ -32,10 +32,10 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.CollectTripelResolver;
+import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripelResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ast.util.Tripel;
+import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -120,12 +120,12 @@ public class GraphNode extends BaseNode {
 		return childrenNames;
 	}
 
-	private static final CollectTripelResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode> connectionsResolver =
-		new CollectTripelResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(new DeclarationTripelResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(ConnectionNode.class, SingleNodeConnNode.class,  SingleGraphEntityNode.class));;
+	private static final CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode> connectionsResolver =
+		new CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(new DeclarationTripelResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(ConnectionNode.class, SingleNodeConnNode.class,  SingleGraphEntityNode.class));;
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		Tripel<CollectNode<ConnectionNode>, CollectNode<SingleNodeConnNode>, CollectNode<SingleGraphEntityNode>> resolve = connectionsResolver.resolve(connectionsUnresolved);
+		Triple<CollectNode<ConnectionNode>, CollectNode<SingleNodeConnNode>, CollectNode<SingleGraphEntityNode>> resolve = connectionsResolver.resolve(connectionsUnresolved);
 
 		if (resolve != null) {
 			if (resolve.first != null) {
