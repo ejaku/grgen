@@ -333,6 +333,15 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
+		void EmitBoolVarIfNew(String varName, SourceBuilder source)
+		{
+			if(!xgrsVars.ContainsKey(varName))
+			{
+				xgrsVars.Add(varName, null);
+				source.AppendFront("bool varbool_" + varName + " = false;\n");
+			}
+		}
+
 		void EmitNeededVars(Sequence seq, SourceBuilder source)
 		{
 			source.AppendFront("bool res_" + xgrsNextSequenceID + ";\n");
@@ -350,6 +359,13 @@ namespace de.unika.ipd.grGen.lgsp
 				{
 					SequenceAssignVarToVar seqToVar = (SequenceAssignVarToVar) seq;
 					EmitElementVarIfNew(seqToVar.DestVar, source);
+					break;
+				}
+				case SequenceType.AssignSequenceResultToVar:
+				{
+					SequenceAssignSequenceResultToVar seqToVar = (SequenceAssignSequenceResultToVar) seq;
+					EmitBoolVarIfNew(seqToVar.DestVar, source);
+					EmitNeededVars(seqToVar.Seq, source);
 					break;
 				}
 
@@ -583,6 +599,16 @@ namespace de.unika.ipd.grGen.lgsp
 
 				case SequenceType.AssignElemToVar:
 					throw new Exception("AssignElemToVar not supported, yet");
+
+				case SequenceType.AssignSequenceResultToVar:
+				{
+					SequenceAssignSequenceResultToVar seqToVar = (SequenceAssignSequenceResultToVar) seq;
+					int seqSubID = xgrsSequenceIDs[seqToVar.Seq];
+					EmitSequence(seqToVar.Seq, source);
+					source.AppendFront("res_" + seqID + " = varbool_" + seqToVar.DestVar
+						+ " = res_" + seqSubID + ";\n");
+					break;
+				}
 
 				case SequenceType.Transaction:
 				{

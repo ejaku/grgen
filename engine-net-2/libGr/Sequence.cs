@@ -9,7 +9,9 @@ namespace de.unika.ipd.grGen.libGr
     public enum SequenceType
     {
         LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, Min, MinMax,
-        Rule, RuleAll, Def, True, False, AssignVarToVar, AssignElemToVar, Transaction
+        Rule, RuleAll, Def, True, False,
+        AssignVarToVar, AssignElemToVar, AssignSequenceResultToVar,
+        Transaction
     }
 
     /// <summary>
@@ -459,6 +461,29 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 7; } }
         public override string Symbol { get { return DestVar + "=[<someelem>]"; } }
+    }
+
+    public class SequenceAssignSequenceResultToVar : Sequence
+    {
+        public String DestVar;
+        public Sequence Seq;
+
+        public SequenceAssignSequenceResultToVar(String destVar, Sequence sequence)
+            : base(SequenceType.AssignSequenceResultToVar)
+        {
+            DestVar = destVar;
+            Seq = sequence;
+        }
+
+        protected override bool ApplyImpl(BaseActions actions)
+        {
+            // TODO: Do any assignment!
+            return Seq.Apply(actions);
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield return Seq; } }
+        public override int Precedence { get { return 7; } }
+        public override string Symbol { get { return DestVar + "="; } }
     }
 
     public class SequenceTransaction : Sequence

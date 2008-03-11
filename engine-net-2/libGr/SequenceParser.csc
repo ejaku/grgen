@@ -401,10 +401,24 @@ Sequence SimpleSequence():
                 throw new ParseException("Graph element does not exist: \"" + fromName + "\"!");
             return new SequenceAssignElemToVar(toVarName, elem);
         }
+    |
+		"true"
+		{
+			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceTrue(false));
+		}
+    |
+		"false"
+		{
+			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceFalse(false));
+		}
+    |
+		"(" seq=RewriteSequence() ")"
+		{
+			return new SequenceAssignSequenceResultToVar(toVarName, seq);
+		}
     )
 |
-    // 4 tokens lookahead: "(" <TEXT> ")" ("=" => next is Rule() | (<NL> | operator) => parentheses around RewriteSequence)
-	LOOKAHEAD(4) seq=Rule()
+	LOOKAHEAD(RuleLookahead()) seq=Rule()
 	{
 		return seq;
 	}
@@ -435,6 +449,17 @@ Sequence SimpleSequence():
     }
 }
 
+void RuleLookahead():
+{
+}
+{
+	("(" Text() (":" Text())? ("," Text() (":" Text())?)* ")" "=")?
+	(
+	    "["
+	|
+	    ("%" | "?")* Text()
+	)
+}
 
 Sequence Rule():
 {
