@@ -27,8 +27,8 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.DeclNode;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.IR;
@@ -48,7 +48,8 @@ public class ExecNode extends BaseNode {
 	}
 
 	private static final CollectTripleResolver<VarDeclNode, NodeDeclNode, EdgeDeclNode> graphElementUsageOutsideOfCallResolver =
-		new CollectResolver<DeclNode>(new DeclarationResolver<DeclNode>(DeclNode.class));
+		new CollectTripleResolver<VarDeclNode, NodeDeclNode, EdgeDeclNode>(
+		new DeclarationTripleResolver<VarDeclNode, NodeDeclNode, EdgeDeclNode>(VarDeclNode.class, NodeDeclNode.class, EdgeDeclNode.class));
 
 	private StringBuilder sb = new StringBuilder();
 	protected CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
@@ -108,7 +109,7 @@ public class ExecNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		graphElementUsageOutsideOfCall = graphElementUsageOutsideOfCallResolver.resolve(graphElementUsageOutsideOfCallUnresolved, this);
+		//graphElementUsageOutsideOfCall = graphElementUsageOutsideOfCallResolver.resolve(graphElementUsageOutsideOfCallUnresolved, this);
 		return graphElementUsageOutsideOfCall != null;
 	}
 
@@ -134,6 +135,7 @@ public class ExecNode extends BaseNode {
 		return res;
 	}
 }
+
 
 
 

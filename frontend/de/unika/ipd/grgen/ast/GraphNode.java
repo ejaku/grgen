@@ -33,7 +33,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTripelResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.IR;
@@ -121,7 +121,7 @@ public class GraphNode extends BaseNode {
 	}
 
 	private static final CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode> connectionsResolver =
-		new CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(new DeclarationTripelResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(ConnectionNode.class, SingleNodeConnNode.class,  SingleGraphEntityNode.class));;
+		new CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(new DeclarationTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(ConnectionNode.class, SingleNodeConnNode.class,  SingleGraphEntityNode.class));;
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {

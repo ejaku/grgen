@@ -30,14 +30,14 @@ import de.unika.ipd.grgen.util.Util;
  * by drawing the declaration node out of the source node if it is an identifier node,
  * or by simply casting source to R/S/T otherwise
  */
-public class DeclarationTripelResolver<R extends BaseNode, S extends BaseNode, T extends BaseNode> extends Resolver<Triple<R, S, T>>
+public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T extends BaseNode> extends Resolver<Triple<R, S, T>>
 {
 	private Class<R> clsR;
 	private Class<S> clsS;
 	private Class<T> clsT;
 	private Class<?>[] classes;
 
-	public DeclarationTripelResolver(Class<R> clsR, Class<S> clsS, Class<T> clsT) {
+	public DeclarationTripleResolver(Class<R> clsR, Class<S> clsS, Class<T> clsT) {
 		this.clsR = clsR;
 		this.clsS = clsS;
 		this.clsT = clsT;
