@@ -174,6 +174,8 @@ OK     should_pass/hom_012.grg
 OK     should_pass/hom_013.grg
 OK     should_pass/hom_014.grg
 OK     should_pass/hom_015.grg
+OK     should_pass/hom_016.grg
+OK     should_pass/hom_017.grg
 OK     should_pass/hom_ret_001.grg
 OK     should_pass/induced_001.grg
 OK     should_pass/induced_002.grg
@@ -218,6 +220,8 @@ OK     should_pass/ret_002.grg
 OK     should_pass/ret_003.grg
 OK     should_pass/ret_004.grg
 OK     should_pass/ret_005.grg
+OK     should_pass/ret_006.grg
+OK     should_pass/ret_007.grg
 OK     should_pass/retype_001.grg
 OK     should_pass/retype_002.grg
 OK     should_pass/retype_003.grg
@@ -253,8 +257,6 @@ OK     should_pass/to_009.grg
 OK     should_pass/typeof_001.grg
 OK     should_pass/unary_001.grg
 WARNED should_warn/del_001.grg
-WARNED should_warn/del_002.grg
-WARNED should_warn/del_003.grg
 WARNED should_warn/del_004.grg
 WARNED should_warn/dpo_001.grg
 WARNED should_warn/edge_001.grg
@@ -269,10 +271,6 @@ WARNED should_warn/exec_003.grg
 WARNED should_warn/exec_004.grg
 OK     should_warn/hom_001.grg
 WARNED should_warn/hom_010.grg
-WARNED should_warn/hom_ret_001.grg
-WARNED should_warn/hom_ret_002.grg
-WARNED should_warn/hom_ret_003.grg
-WARNED should_warn/hom_ret_004.grg
 WARNED should_warn/induced_001.grg
 WARNED should_warn/induced_002.grg
 WARNED should_warn/induced_003.grg
@@ -442,6 +440,8 @@ ERROR  should_fail/dangle_011.grg
 ERROR  should_fail/dangle_012.grg
 ERROR  should_fail/dangle_013.grg
 ERROR  should_fail/dangle_014.grg
+WARNED should_fail/del_002.grg
+WARNED should_fail/del_003.grg
 ERROR  should_fail/dpo_001.grg
 ERROR  should_fail/dpo_002.grg
 ERROR  should_fail/edge_001.grg
@@ -512,6 +512,10 @@ ERROR  should_fail/hom_001.grg
 ERROR  should_fail/hom_002.grg
 ERROR  should_fail/hom_003.grg
 ERROR  should_fail/hom_004.grg
+WARNED should_fail/hom_ret_001.grg
+WARNED should_fail/hom_ret_002.grg
+WARNED should_fail/hom_ret_003.grg
+WARNED should_fail/hom_ret_004.grg
 ERROR  should_fail/induced_001.grg
 ERROR  should_fail/induced_002.grg
 ERROR  should_fail/induced_003.grg
@@ -585,6 +589,12 @@ ERROR  should_fail/ret_017.grg
 ERROR  should_fail/ret_018.grg
 ERROR  should_fail/ret_019.grg
 ERROR  should_fail/ret_020.grg
+ERROR  should_fail/ret_021.grg
+ABEND  should_fail/ret_022.grg
+ERROR  should_fail/ret_023.grg
+WARNED should_fail/ret_025.grg
+OK     should_fail/ret_026.grg
+OK     should_fail/ret_027.grg
 ERROR  should_fail/retype_001.grg
 ERROR  should_fail/retype_002.grg
 ERROR  should_fail/retype_003.grg
@@ -593,6 +603,8 @@ ERROR  should_fail/retype_005.grg
 ERROR  should_fail/retype_006.grg
 ERROR  should_fail/retype_010.grg
 ERROR  should_fail/retype_011.grg
+OK     should_fail/retype_012.grg
+OK     should_fail/retype_013.grg
 ERROR  should_fail/retype_101.grg
 ERROR  should_fail/retype_102.grg
 ERROR  should_fail/retype_103.grg
@@ -612,6 +624,8 @@ ERROR  should_fail/rhs_002.grg
 ERROR  should_fail/rhs_003.grg
 ERROR  should_fail/rhs_004.grg
 WARNED should_fail/rhs_005.grg
+WARNED should_fail/rhs_006.grg
+OK     should_fail/rhs_007.grg
 ERROR  should_fail/test_001.grg
 ERROR  should_fail/typeof_001.grg
 ABEND  should_fail/typeof_002.grg
