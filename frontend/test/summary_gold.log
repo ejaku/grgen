@@ -502,6 +502,12 @@ ERROR  should_fail/exec_022.grg
 ERROR  should_fail/exec_023.grg
 ERROR  should_fail/exec_024.grg
 ERROR  should_fail/exec_025.grg
+ERROR  should_fail/exec_026.grg
+OK     should_fail/exec_027.grg
+OK     should_fail/exec_028.grg
+ERROR  should_fail/exec_029.grg
+ERROR  should_fail/exec_030.grg
+ERROR  should_fail/exec_031.grg
 ERROR  should_fail/hom_001.grg
 ERROR  should_fail/hom_002.grg
 ERROR  should_fail/hom_003.grg
