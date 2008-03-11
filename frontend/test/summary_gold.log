@@ -158,6 +158,7 @@ OK     should_pass/exec_008.grg
 OK     should_pass/exec_009.grg
 OK     should_pass/exec_010.grg
 OK     should_pass/exec_011.grg
+OK     should_pass/exec_012.grg
 OK     should_pass/external_001.grg
 OK     should_pass/hom_001.grg
 OK     should_pass/hom_002.grg
@@ -269,6 +270,7 @@ WARNED should_warn/exec_001.grg
 WARNED should_warn/exec_002.grg
 WARNED should_warn/exec_003.grg
 WARNED should_warn/exec_004.grg
+OK     should_warn/exec_005.grg
 OK     should_warn/hom_001.grg
 WARNED should_warn/hom_010.grg
 WARNED should_warn/induced_001.grg
@@ -503,11 +505,13 @@ ERROR  should_fail/exec_023.grg
 ERROR  should_fail/exec_024.grg
 ERROR  should_fail/exec_025.grg
 ERROR  should_fail/exec_026.grg
-OK     should_fail/exec_027.grg
-OK     should_fail/exec_028.grg
+ERROR  should_fail/exec_027.grg
+ERROR  should_fail/exec_028.grg
 ERROR  should_fail/exec_029.grg
 ERROR  should_fail/exec_030.grg
 ERROR  should_fail/exec_031.grg
+ERROR  should_fail/exec_032.grg
+ERROR  should_fail/exec_033.grg
 ERROR  should_fail/hom_001.grg
 ERROR  should_fail/hom_002.grg
 ERROR  should_fail/hom_003.grg
