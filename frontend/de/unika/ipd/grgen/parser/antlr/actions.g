@@ -961,7 +961,7 @@ simpleSequence[ExecNode xg]
 		|
 			FALSE { xg.append("false"); }
 		|
-			LPAREN xgrs[xg] RPAREN
+			LPAREN { xg.append('('); } xgrs[xg] RPAREN { xg.append(')'); }
 		)
 	| parallelCallRule[xg, returns]
 	| TRUE { xg.append("true"); }
