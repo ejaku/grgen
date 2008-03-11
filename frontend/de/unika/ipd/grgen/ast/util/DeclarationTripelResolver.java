@@ -35,12 +35,14 @@ public class DeclarationTripelResolver<R extends BaseNode, S extends BaseNode, T
 	private Class<R> clsR;
 	private Class<S> clsS;
 	private Class<T> clsT;
-	private Class<?>[] classes = new Class[] { clsR, clsS, clsT };
+	private Class<?>[] classes;
 
 	public DeclarationTripelResolver(Class<R> clsR, Class<S> clsS, Class<T> clsT) {
 		this.clsR = clsR;
 		this.clsS = clsS;
 		this.clsT = clsT;
+
+		classes = new Class[] { this.clsR, this.clsS, this.clsT };
 	}
 
 	/** resolves n to node of type R, S or T, via declaration if n is an identifier, via simple cast otherwise

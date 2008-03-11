@@ -39,7 +39,7 @@ public class MemberPairResolver<S extends BaseNode, T extends BaseNode> extends 
 {
 	private Class<S> clsS;
 	private Class<T> clsT;
-	private Class<?>[] classes = new Class[] { clsS, clsT };
+	private Class<?>[] classes;
 
 	/**
  	 * Make a new member pair resolver.
@@ -49,6 +49,8 @@ public class MemberPairResolver<S extends BaseNode, T extends BaseNode> extends 
 	public MemberPairResolver(Class<S> clsS, Class<T> clsT) {
 		this.clsS = clsS;
 		this.clsT = clsT;
+
+		classes = new Class[] { this.clsS, this.clsT };
 	}
 
 	/**

@@ -69,7 +69,7 @@ public class InvalidExprNode extends ExprNode {
 		return "invalid expression";
 	}
 
-	public String getKindString() {
+	public static String getKindStr() {
 		return "invalid expression";
 	}
 };

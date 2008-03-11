@@ -34,11 +34,13 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode> ext
 {
 	private Class<R> clsR;
 	private Class<S> clsS;
-	private Class<?>[] classes = new Class[] { clsR, clsS };
+	private Class<?>[] classes;
 
 	public DeclarationPairResolver(Class<R> clsR, Class<S> clsS) {
 		this.clsR = clsR;
 		this.clsS = clsS;
+
+		classes = new Class[] { this.clsR, this.clsS };
 	}
 
 	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise

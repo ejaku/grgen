@@ -73,11 +73,11 @@ public class InvalidDeclNode extends DeclNode {
 		return true;
 	}
 
-	public String getKindString() {
+	public static String getKindStr() {
 		return "undeclared identifier";
 	}
 
-	public String getUseString() {
+	public static String getUseStr() {
 		return "undeclared identifier";
 	}
 

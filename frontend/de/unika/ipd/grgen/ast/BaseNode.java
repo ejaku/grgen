@@ -196,10 +196,14 @@ public abstract class BaseNode extends Base
 		names.put(getClass(), name);
 	}
 
-	public String getKindString() {
+	public final String getKindString() {
 		String res = "<unknown>";
-		try { res = (String) getClass().getMethod("getKindStr").invoke(null); }
-		catch (Exception e) {}
+		try {
+			res = (String) getClass().getMethod("getKindStr").invoke(null);
+		}
+		catch (Exception e) {
+			assert false : e.toString();
+		}
 		return res;
 	}
 
@@ -211,10 +215,14 @@ public abstract class BaseNode extends Base
 		return "base node";
 	}
 
-	public String getUseString() {
+	public final String getUseString() {
 		String res = "<unknown>";
-		try { res = (String) getClass().getMethod("getUseStr").invoke(null); }
-		catch (Exception e) {}
+		try {
+			res = (String) getClass().getMethod("getUseStr").invoke(null);
+		}
+		catch (Exception e) {
+			assert false : e.toString();
+		}
 		return res;
 	}
 

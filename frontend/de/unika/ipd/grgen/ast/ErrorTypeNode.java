@@ -60,7 +60,7 @@ class ErrorTypeNode extends TypeNode {
 		return new VoidType(id.getIdent());
 	}
 
-	public String getUseString() {
+	public static String getUseStr() {
 		return "error type";
 	}
 
