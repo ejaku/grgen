@@ -29,6 +29,7 @@ import de.unika.ipd.grgen.ast.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
+import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.IR;
@@ -109,8 +110,30 @@ public class ExecNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		//graphElementUsageOutsideOfCall = graphElementUsageOutsideOfCallResolver.resolve(graphElementUsageOutsideOfCallUnresolved, this);
-		return graphElementUsageOutsideOfCall != null;
+		Triple<CollectNode<VarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>> resolve =
+			graphElementUsageOutsideOfCallResolver.resolve(graphElementUsageOutsideOfCallUnresolved);
+
+		if (resolve != null) {
+			if (resolve.first != null) {
+				for (VarDeclNode c : resolve.first.getChildren()) {
+					graphElementUsageOutsideOfCall.addChild(c);
+				}
+			}
+
+			if (resolve.second != null) {
+				for (NodeDeclNode c : resolve.second.getChildren()) {
+					graphElementUsageOutsideOfCall.addChild(c);
+				}
+			}
+
+			if (resolve.third != null) {
+				for (EdgeDeclNode c : resolve.third.getChildren()) {
+					graphElementUsageOutsideOfCall.addChild(c);
+				}
+			}
+		}
+
+		return resolve != null;
 	}
 
 	protected boolean checkLocal() {
@@ -135,9 +158,4 @@ public class ExecNode extends BaseNode {
 		return res;
 	}
 }
-
-
-
-
-
 
