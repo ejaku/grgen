@@ -145,8 +145,6 @@ public class CallActionNode extends BaseNode {
 		action = actionResolver.resolve(actionUnresolved);
 		successfullyResolved = action!=null && successfullyResolved;
 
-		//TODO this is wrong!
-
 		params = paramNodeResolver.resolve(paramsUnresolved, this);
 		successfullyResolved = params!=null && successfullyResolved;
 
@@ -160,7 +158,7 @@ public class CallActionNode extends BaseNode {
 	protected boolean checkLocal() {
 		boolean res = true;
 
-		/* cannot be chekced here, because type info is not yet computed
+		/* cannot be checked here, because type info is not yet computed
 		 res &= checkParams(action.getParamDecls(), params.getChildren());
 		 res &= checkReturns(action.returnFormalParameters, returns);
 		 */
@@ -181,8 +179,8 @@ public class CallActionNode extends BaseNode {
 	/**
 	 * Method checkParams
 	 *
-	 * @param    param               a  CollectNode<ConstraintDeclNode>
-	 * @param    params              a  CollectNode<ConstraintDeclNode>
+	 * @param    formalParams        a  Collection<? extends DeclNode>
+	 * @param    actualParams        a  Collection<? extends DeclNode>
 	 *
 	 * @return   a  boolean
 	 */
@@ -200,19 +198,19 @@ public class CallActionNode extends BaseNode {
 				DeclNode actualParam     = iterAP.next();
 				Type     actualParamType = actualParam.getDecl().getDeclType().getType();
 
-				if(actualParamType.classify()!=formalParamType.classify() ||
+				if(actualParamType.classify() != formalParamType.classify() ||
 				   !(actualParamType instanceof EdgeType && formalParamType instanceof EdgeType ||
 						 actualParamType instanceof NodeType && formalParamType instanceof NodeType
 					)){
 					reportError("Actual param type \"" + actualParamType + "\" and formal param type \"" + formalParamType +
 									"\" are incommensurable.");
 					res = false;
-
 				}
 				if(actualParamType instanceof InheritanceType) {
 					InheritanceType fpt = (InheritanceType)formalParamType;
 					InheritanceType apt = (InheritanceType)actualParamType;
-					if(fpt!=apt && !fpt.isRoot() && !apt.isRoot() && Collections.disjoint(fpt.getAllSubTypes(), apt.getAllSubTypes()))
+					if(fpt!=apt && !fpt.isRoot() && !apt.isRoot() && 
+							Collections.disjoint(fpt.getAllSubTypes(), apt.getAllSubTypes()))
 						reportWarning("Formal param type \"" + formalParamType + "\" will never match to actual param type \"" + actualParamType +  "\".");
 				}
 			}
@@ -223,8 +221,8 @@ public class CallActionNode extends BaseNode {
 	/**
 	 * Method checkReturns
 	 *
-	 * @param    returnFormalParameters a  CollectNode<IdentNode>
-	 * @param    returns                a  CollectNode<ConstraintDeclNode>
+	 * @param    formalReturns a  CollectNode<IdentNode>
+	 * @param    actualReturns a  CollectNode<VarDeclNode>
 	 *
 	 * @return   a  boolean
 	 */
@@ -250,7 +248,6 @@ public class CallActionNode extends BaseNode {
 					reportError("Actual return type \"" + actualReturnType + "\" and formal return type \"" + formalReturnType +
 									"\" are incommensurable.");
 					res = false;
-
 				}
 				if(actualReturnType instanceof InheritanceType) {
 					InheritanceType frt = (InheritanceType)formalReturnType;

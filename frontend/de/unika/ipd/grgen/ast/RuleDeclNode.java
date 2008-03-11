@@ -26,6 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -166,6 +167,28 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 		return res;
 	}
+	
+
+	/** Check that only graph elements are returned, that are not deleted. */
+	protected boolean checkExecParamsNotDeleted(PatternGraphNode left, GraphNode right) {
+		boolean res = true;
+		Set<DeclNode> dels = getDelete();
+		for (BaseNode x : right.imperativeStmts.getChildren()) {
+			if(x instanceof ExecNode) {
+				ExecNode exec = (ExecNode)x;
+				CollectNode<CallActionNode> callActions = (CollectNode<CallActionNode>)exec.getChildren().iterator().next();
+				for(CallActionNode callAction : callActions.getChildren())
+					if(!Collections.disjoint(callAction.params.getChildren(), dels)) {
+						callAction.reportError("Parameter of call \"" + callAction.getName() + "\"");
+						res = false;
+					}
+
+				
+			}
+		}
+		return res;
+	}
+
 
 	/** Check whether the returned elements are valid and
 	 *  whether the number of returned elements is right. */
@@ -479,6 +502,7 @@ public class RuleDeclNode extends TestDeclNode {
 		return leftHandGraphsOk & noDeleteOfPatternParameters
 			& checkRhsReuse(left, this.right) & noReturnInPatternOk & abstr
 			& checkReturnedElemsNotDeleted(left, right)
+			& checkExecParamsNotDeleted(left, right)
 			& checkRetSignatureAdhered(left, right);
 	}
 

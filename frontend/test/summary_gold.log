@@ -152,11 +152,11 @@ FAILED should_pass/exec_002.grg
 OK     should_pass/exec_003.grg
 FAILED should_pass/exec_004.grg
 OK     should_pass/exec_005.grg
-OK     should_pass/exec_006.grg
-OK     should_pass/exec_007.grg
+ERROR  should_pass/exec_006.grg
+ERROR  should_pass/exec_007.grg
 OK     should_pass/exec_008.grg
 FAILED should_pass/exec_009.grg
-FAILED should_pass/exec_010.grg
+OK     should_pass/exec_010.grg
 OK     should_pass/exec_011.grg
 OK     should_pass/external_001.grg
 OK     should_pass/hom_001.grg
@@ -482,10 +482,10 @@ ERROR  should_fail/exec_002.grg
 ERROR  should_fail/exec_003.grg
 ERROR  should_fail/exec_004.grg
 ERROR  should_fail/exec_005.grg
-OK     should_fail/exec_006.grg
+ERROR  should_fail/exec_006.grg
 WARNED should_fail/exec_007.grg
 OK     should_fail/exec_008.grg
-WARNED should_fail/exec_009.grg
+ERROR  should_fail/exec_009.grg
 ERROR  should_fail/exec_010.grg
 ERROR  should_fail/exec_011.grg
 ERROR  should_fail/exec_012.grg
@@ -578,6 +578,7 @@ ERROR  should_fail/ret_016.grg
 ERROR  should_fail/ret_017.grg
 ERROR  should_fail/ret_018.grg
 ERROR  should_fail/ret_019.grg
+ERROR  should_fail/ret_020.grg
 ERROR  should_fail/retype_001.grg
 ERROR  should_fail/retype_002.grg
 ERROR  should_fail/retype_003.grg

@@ -1,0 +1,7 @@
+rule r : (Node)
+{
+    x:Node;
+    replace {
+        return (x);
+    }
+}

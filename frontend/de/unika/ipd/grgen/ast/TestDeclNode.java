@@ -303,7 +303,7 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	@Override
-		public TypeNode getDeclType() {
+	public TypeNode getDeclType() {
 		assert isResolved();
 
 		return type;

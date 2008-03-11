@@ -141,8 +141,6 @@ public class HomNode extends BaseNode {
 		if (isDirectedEdge && isUndirectedEdge) {
 			reportWarning("Hom statement may only contain directed or undirected edges at a time");
 		}
-
-	    return;
     }
 
 	public Color getNodeColor() {
