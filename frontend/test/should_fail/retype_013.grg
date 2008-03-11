@@ -1,0 +1,12 @@
+using retype_model_002;
+
+rule HomRetypeEdge
+{
+    hom(e, f);
+    -e:TYPE1->; -f:TYPE2->;
+
+    modify {
+        -:TYPE2<e>->;
+        -:TYPE1<f>->;
+    }
+}

@@ -1,0 +1,12 @@
+using retype_model_001;
+
+rule HomRetypeNode
+{
+    hom(a, b);
+    a:TYPE1; b:TYPE2;
+
+    modify {
+        :TYPE2<a>;
+        :TYPE1<b>;
+    }
+}
