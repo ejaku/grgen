@@ -26,7 +26,6 @@ package de.unika.ipd.grgen.ast;
 
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -195,28 +194,7 @@ public class RhsDeclNode extends DeclNode {
 	}
 
 	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern) {
-		Set<DeclNode> deletes = getDelete(pattern);
-
-		Set<BaseNode> alreadyReported = new HashSet<BaseNode>();
-		for (BaseNode x : graph.getConnections()) {
-			BaseNode elem = BaseNode.getErrorNode();
-			if (x instanceof SingleNodeConnNode) {
-				elem = ((SingleNodeConnNode)x).getNode();
-			} else if (x instanceof ConnectionNode) {
-				elem = (BaseNode) ((ConnectionNode)x).getEdge();
-			}
-
-			if (alreadyReported.contains(elem)) {
-				continue;
-			}
-
-			for (BaseNode y : deletes) {
-				if (elem.equals(y)) {
-					x.reportWarning("\"" + y + "\" appears inside as well as outside a delete statement");
-					alreadyReported.add(elem);
-				}
-			}
-		}
+		// nothing to do
 	}
 }
 

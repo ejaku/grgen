@@ -114,7 +114,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 			// doesn't matter which parent you choose, in the end you reach RuleDeclNode
 			curr = curr.getParents().iterator().next();
 		}
-		if (prev == ((RuleDeclNode)curr).getRight()) {
+		if (prev == ((RuleDeclNode)curr).right) {
 			reportError("Source node of retype may not be declared in replace/modify part");
 			res = false;
 		}

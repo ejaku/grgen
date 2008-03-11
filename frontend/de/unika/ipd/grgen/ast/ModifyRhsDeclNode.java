@@ -245,5 +245,30 @@ public class ModifyRhsDeclNode extends RhsDeclNode {
 
 		return res;
 	}
+
+	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern) {
+		Set<DeclNode> deletes = getDelete(pattern);
+
+		Set<BaseNode> alreadyReported = new HashSet<BaseNode>();
+		for (BaseNode x : graph.getConnections()) {
+			BaseNode elem = BaseNode.getErrorNode();
+			if (x instanceof SingleNodeConnNode) {
+				elem = ((SingleNodeConnNode)x).getNode();
+			} else if (x instanceof ConnectionNode) {
+				elem = (BaseNode) ((ConnectionNode)x).getEdge();
+			}
+
+			if (alreadyReported.contains(elem)) {
+				continue;
+			}
+
+			for (BaseNode y : deletes) {
+				if (elem.equals(y)) {
+					x.reportWarning("\"" + y + "\" appears inside as well as outside a delete statement");
+					alreadyReported.add(elem);
+				}
+			}
+		}
+	}
 }
 

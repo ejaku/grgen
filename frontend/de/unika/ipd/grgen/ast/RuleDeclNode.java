@@ -50,7 +50,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 	private boolean isPattern;
 
-	private RhsDeclNode right;
+	protected RhsDeclNode right;
 	protected RuleTypeNode type;
 
 	/** Type for this declaration. */
@@ -67,7 +67,7 @@ public class RuleDeclNode extends TestDeclNode {
 			CollectNode<IdentNode> rets, boolean isPattern) {
 		super(id, ruleType, left, rets);
 		this.right = right;
-		becomeParent(getRight());
+		becomeParent(this.right);
 
 		this.isPattern = isPattern;
 	}
@@ -79,7 +79,7 @@ public class RuleDeclNode extends TestDeclNode {
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(returnFormalParameters);
 		children.add(pattern);
-		children.add(getRight());
+		children.add(right);
 		return children;
 	}
 
@@ -104,7 +104,7 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	protected Set<DeclNode> getDelete() {
-		return getRight().getDelete(pattern);
+		return right.getDelete(pattern);
 	}
 
 	/** Check that only graph elements are returned, that are not deleted. */
@@ -343,7 +343,7 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 
 		Set<DeclNode> delSet = getDelete();
-		Collection<ConstraintDeclNode> retSet = getRight().graph.returns.getChildren();
+		Collection<ConstraintDeclNode> retSet = right.graph.returns.getChildren();
 
 		Map<DeclNode, Set<BaseNode>> elemToHomElems = new HashMap<DeclNode, Set<BaseNode>>();
 
@@ -394,24 +394,26 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
+		right.warnElemAppearsInsideAndOutsideDelete(pattern);
+
 		boolean leftHandGraphsOk = super.checkLocal();
 
 		PatternGraphNode left = pattern;
-		GraphNode right = getRight().graph;
+		GraphNode right = this.right.graph;
 
 		// check if the pattern name equals the rule name
 		// named replace/modify parts are only allowed in subpatterns
 		if (!isPattern) {
 			String ruleName = ident.toString();
 			if (!right.nameOfGraph.equals(ruleName)) {
-				error.error(getRight().getCoords(), "Named replace/modify parts in rules are not allowed");
+				error.error(this.right.getCoords(), "Named replace/modify parts in rules are not allowed");
 			}
 		}
 
 		// check if parameters only exists for subpatterns
 		if (!isPattern) {
 			if (right.params.getChildren().size() > 0) {
-				error.error(getRight().getCoords(), "Parameters for the replace/modify part are only allowed in subpatterns");
+				error.error(this.right.getCoords(), "Parameters for the replace/modify part are only allowed in subpatterns");
 			}
 		}
 
@@ -470,7 +472,7 @@ public class RuleDeclNode extends TestDeclNode {
 			return getIR();
 		}
 
-		PatternGraph right = this.getRight().getPatternGraph(left);
+		PatternGraph right = this.right.getPatternGraph(left);
 
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
@@ -481,10 +483,10 @@ public class RuleDeclNode extends TestDeclNode {
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 
 		constructImplicitNegs(left);
-		constructIRaux(rule, this.getRight().graph.returns);
+		constructIRaux(rule, this.right.graph.returns);
 
 		// add Eval statements to the IR
-		for (Assignment n : this.getRight().getAssignments()) {
+		for (Assignment n : this.right.getAssignments()) {
 			rule.addEval(n);
 		}
 
@@ -507,10 +509,5 @@ public class RuleDeclNode extends TestDeclNode {
 
 		return type;
 	}
-
-	protected RhsDeclNode getRight()
-    {
-    	return right;
-    }
 }
 
