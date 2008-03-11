@@ -39,7 +39,7 @@ import de.unika.ipd.grgen.ir.PatternGraph;
 /**
  * AST node for a replacement right-hand side.
  */
-public class RhsDeclNode extends DeclNode {
+public abstract class RhsDeclNode extends DeclNode {
 	static {
 		setName(RhsDeclNode.class, "right-hand side declaration");
 	}
@@ -120,9 +120,7 @@ public class RhsDeclNode extends DeclNode {
 		return ret;
 	}
 
-	protected PatternGraph getPatternGraph(PatternGraph left) {
-		return graph.getGraph();
-	}
+	protected abstract PatternGraph getPatternGraph(PatternGraph left);
 
 	@Override
 	public RhsTypeNode getDeclType() {
@@ -131,70 +129,19 @@ public class RhsDeclNode extends DeclNode {
 		return type;
 	}
 
-	protected Set<DeclNode> getDelete(PatternGraphNode pattern) {
-		Set<DeclNode> res = new LinkedHashSet<DeclNode>();
-
-		for (BaseNode x : pattern.getEdges()) {
-			assert (x instanceof DeclNode);
-			if ( ! graph.getEdges().contains(x) ) {
-				res.add((DeclNode)x);
-			}
-		}
-		for (BaseNode x : pattern.getNodes()) {
-			assert (x instanceof DeclNode);
-			if ( ! graph.getNodes().contains(x) ) {
-				res.add((DeclNode)x);
-			}
-		}
-		// parameters are no special case, since they are treat like normal
-		// graph elements
-
-		return res;
-	}
+	protected abstract Set<DeclNode> getDelete(PatternGraphNode pattern);
 
 	/**
 	 * Return all reused edges (with their nodes), that excludes new edges of
 	 * the right-hand side.
 	 */
-	protected Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern) {
-		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
-		Collection<BaseNode> lhs = pattern.getEdges();
-
-		for (BaseNode node : graph.getConnections()) {
-			if (node instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) node;
-				EdgeDeclNode edge = conn.getEdge();
-				while (edge instanceof EdgeTypeChangeNode) {
-					edge = ((EdgeTypeChangeNode) edge).getOldEdge();
-				}
-				if (lhs.contains(edge)) {
-					res.add(conn);
-				}
-			}
-        }
-
-		return res;
-	}
+	protected abstract Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern);
 
 	/**
 	 * Return all reused nodes, that excludes new nodes of the right-hand side.
 	 */
-	protected Set<BaseNode> getReusedNodes(PatternGraphNode pattern) {
-		Set<BaseNode> res = new LinkedHashSet<BaseNode>();
-		Set<BaseNode> patternNodes = pattern.getNodes();
-		Set<BaseNode> rhsNodes = graph.getNodes();
+	protected abstract Set<BaseNode> getReusedNodes(PatternGraphNode pattern);
 
-		for (BaseNode node : patternNodes) {
-			if ( rhsNodes.contains(node) ) {
-				res.add(node);
-			}
-		}
-
-		return res;
-	}
-
-	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern) {
-		// nothing to do
-	}
+	protected abstract void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern);
 }
 

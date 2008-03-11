@@ -154,8 +154,8 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 	{
 		IdentNode id;
 		PatternGraphNode left;
-		RhsDeclNode rightReplace;
-		ModifyRhsDeclNode rightModify;
+		ReplaceDeclNode rightReplace;
+		ModifyDeclNode rightModify;
 		CollectNode<BaseNode> params;
 		CollectNode<IdentNode> ret;
 		CollectNode<AssignNode> eval = new CollectNode<AssignNode>();
@@ -276,7 +276,7 @@ patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, int mod, int 
 	| res=patternBody[pattern_coords, params, mod, context, nameOfGraph]
 	;
 
-replacePart [ CollectNode<AssignNode> eval, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ RhsDeclNode res = null ]
+replacePart [ CollectNode<AssignNode> eval, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ReplaceDeclNode res = null ]
 	: r:REPLACE ( nameOfRHS = rhsIdentDecl )?
 		params=parameters[context]
 		LBRACE
@@ -284,7 +284,7 @@ replacePart [ CollectNode<AssignNode> eval, CollectNode<BaseNode> params, int co
 		RBRACE
 	;
 
-modifyPart [ CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ModifyRhsDeclNode res = null ]
+modifyPart [ CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ModifyDeclNode res = null ]
 	: m:MODIFY ( nameOfRHS = rhsIdentDecl )?
 		params=parameters[context]
 		LBRACE
@@ -714,7 +714,7 @@ inducedStatement returns [ InducedNode res = null ]
 		RPAREN
 	;
 
-replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<AssignNode> eval, int context, IdentNode nameOfRHS ] returns [ RhsDeclNode res = null ]
+replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<AssignNode> eval, int context, IdentNode nameOfRHS ] returns [ ReplaceDeclNode res = null ]
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -722,7 +722,7 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<AssignNod
 		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
-		res = new RhsDeclNode(nameOfRHS, graph, eval);
+		res = new ReplaceDeclNode(nameOfRHS, graph, eval);
 	}
 
 	: ( replaceStmt[coords, connections, subpatterns, subpatternReplacements, returnz, eval, imperativeStmts, context] )*
@@ -738,7 +738,7 @@ replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<Subp
 	| emitStmt[imperativeStmts] SEMI
 	;
 
-modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ModifyRhsDeclNode res = null ]
+modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ModifyDeclNode res = null ]
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -747,7 +747,7 @@ modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode>
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
 		EmitNode es = null;
-		res = new ModifyRhsDeclNode(nameOfRHS, graph, eval, dels);
+		res = new ModifyDeclNode(nameOfRHS, graph, eval, dels);
 	}
 
 	: ( modifyStmt[coords, connections, subpatterns, subpatternReplacements, returnz, eval, dels, imperativeStmts, context] )*
