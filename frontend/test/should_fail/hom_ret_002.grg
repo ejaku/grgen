@@ -1,5 +1,5 @@
 
-// should warn, that x is hom with y, and y is deleted, so returned
+// should fail, because x is homomorphic with y, and y is deleted, so returned
 // node x might be a deleted one
 
 rule r:(Node) {

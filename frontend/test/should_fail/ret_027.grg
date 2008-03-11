@@ -1,0 +1,12 @@
+rule r : (Edge)
+{
+    x:Node;
+    y:Node;
+    
+    x -e:Edge-> y;
+    
+    modify {
+    	-f:Edge<e>-> ;
+        return(e);
+    }
+}

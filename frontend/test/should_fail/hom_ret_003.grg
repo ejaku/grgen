@@ -1,5 +1,5 @@
 
-// should warn, that there's a hom-delete-return conflict for x and y
+// should fail, because there's a hom-delete-return conflict for x and y
 
 rule r (x: Node, y: Node) : (Node) {
 	hom(x, y);

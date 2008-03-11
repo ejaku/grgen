@@ -1,0 +1,11 @@
+rule r {
+	x:Node;
+	y:Node;
+	
+	x -e:Edge-> y;
+	
+	modify {
+		x -f:Edge<e>-> y;
+		delete(e);
+	}
+}

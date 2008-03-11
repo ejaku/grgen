@@ -1,0 +1,12 @@
+rule r {
+	x: Node;
+	y: Node;
+	
+	hom(x,y);
+
+	modify {
+		delete(x);
+		delete(y);
+	}
+}
+
