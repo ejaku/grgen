@@ -167,7 +167,7 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 		return res;
 	}
-	
+
 
 	/** Check that only graph elements are returned, that are not deleted. */
 	protected boolean checkExecParamsNotDeleted(PatternGraphNode left, GraphNode right) {
@@ -176,14 +176,14 @@ public class RuleDeclNode extends TestDeclNode {
 		for (BaseNode x : right.imperativeStmts.getChildren()) {
 			if(x instanceof ExecNode) {
 				ExecNode exec = (ExecNode)x;
-				CollectNode<CallActionNode> callActions = (CollectNode<CallActionNode>)exec.getChildren().iterator().next();
-				for(CallActionNode callAction : callActions.getChildren())
+				for(CallActionNode callAction : exec.callActions.getChildren())
 					if(!Collections.disjoint(callAction.params.getChildren(), dels)) {
+						// FIXME error message
 						callAction.reportError("Parameter of call \"" + callAction.getName() + "\"");
 						res = false;
 					}
 
-				
+
 			}
 		}
 		return res;

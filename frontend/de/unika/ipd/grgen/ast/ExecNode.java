@@ -46,7 +46,7 @@ public class ExecNode extends BaseNode {
 
 	private StringBuilder sb = new StringBuilder();
 
-	private CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
+	protected CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
 	private CollectNode<VarDeclNode> varDecls = new CollectNode<VarDeclNode>();
 
 	public ExecNode(Coords coords) {
