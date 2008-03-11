@@ -25,7 +25,6 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Assignment;
@@ -119,35 +118,11 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		return res;
 	}
 
-	private void warnElemAppearsInsideAndOutsideDelete() {
-		Set<DeclNode> deletes = getDelete();
-		GraphNode right = this.right.graph;
 
-		Set<BaseNode> alreadyReported = new HashSet<BaseNode>();
-		for (BaseNode x : right.getConnections()) {
-			BaseNode elem = BaseNode.getErrorNode();
-			if (x instanceof SingleNodeConnNode) {
-				elem = ((SingleNodeConnNode)x).getNode();
-			} else if (x instanceof ConnectionNode) {
-				elem = (BaseNode) ((ConnectionNode)x).getEdge();
-			}
-
-			if (alreadyReported.contains(elem)) {
-				continue;
-			}
-
-			for (BaseNode y : deletes) {
-				if (elem.equals(y)) {
-					x.reportWarning("\"" + y + "\" appears inside as well as outside a delete statement");
-					alreadyReported.add(elem);
-				}
-			}
-		}
-	}
 
 	@Override
 	protected boolean checkLocal() {
-		warnElemAppearsInsideAndOutsideDelete();
+		right.warnElemAppearsInsideAndOutsideDelete(pattern);
 		return super.checkLocal();
 	}
 
