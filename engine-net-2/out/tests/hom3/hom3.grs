@@ -1,0 +1,511 @@
+new graph "hom3/hom3.grg"
+
+echo ""
+echo "hom + delete"
+echo ""
+
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs Init1
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs HomDelNodeModify
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+
+clear graph
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs HomDelEdgeModify
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+
+clear graph
+
+xgrs Init1
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs HomDelNodeReplace
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+
+clear graph
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs HomDelEdgeReplace
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+
+clear graph
+
+echo ""
+echo "hom + delete + return"
+echo ""
+
+xgrs Init1
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomDelRetNodeModify
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show node x
+
+clear graph
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomDelRetEdgeModify
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show edge x
+
+clear graph
+
+xgrs Init1
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomDelRetNodeReplace
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show node x
+
+clear graph
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomDelRetEdgeReplace
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show edge x
+
+clear graph
+
+echo ""
+echo "hom + retype + return"
+echo ""
+
+xgrs Init1
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomRetypeReturnNodeModify
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show node x
+
+clear graph
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomRetypeReturnEdgeModify
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show edge x
+
+clear graph
+
+xgrs Init1
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomRetypeReturnNodeReplace
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show node x
+
+clear graph
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomRetypeReturnEdgeReplace
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show edge x
+
+clear graph
+
+echo ""
+echo "hom + retype + delete"
+echo ""
+
+xgrs Init1
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs HomRetypeDeleteNodeModify
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+
+clear graph
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs HomRetypeDeleteEdgeModify
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+
+clear graph
+
+xgrs Init1
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs HomRetypeDeleteNodeReplace
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+
+clear graph
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs HomRetypeDeleteEdgeReplace
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+
+clear graph
+
+echo ""
+echo "hom + retype + delete + return"
+echo ""
+
+xgrs Init1
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomRetypeDeleteReturnNodeModify
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show node x
+
+clear graph
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomRetypeDeleteReturnEdgeModify
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show edge x
+
+clear graph
+
+xgrs Init1
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomRetypeDeleteReturnNodeReplace
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show node x
+
+clear graph
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=HomRetypeDeleteReturnEdgeReplace
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show edge x
+
+clear graph
+
+echo ""
+echo "delete node + return edge"
+echo ""
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=DeleteNodeReturnEdgeModify
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show edge x
+
+clear graph
+
+xgrs Init2
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs (x)=DeleteNodeReturnEdgeReplace
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show edge x
+
+clear graph
+
+quit

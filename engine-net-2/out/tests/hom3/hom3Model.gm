@@ -1,0 +1,7 @@
+node class A { a:int = 1; }
+node class B { b:int = 2; }
+node class AB extends A, B { a = 20; b = 30; ab:int = 4; }
+
+edge class E { e:int = 1; }
+edge class F { f:int = 2; }
+edge class EF extends E, F { e = 20; f = 30; ef:int = 4; }

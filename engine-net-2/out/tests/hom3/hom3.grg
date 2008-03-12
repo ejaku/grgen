@@ -1,0 +1,295 @@
+using hom3Model;
+
+rule Init1
+{
+    modify {
+        :AB;
+    }
+}
+
+rule Init2
+{
+    modify {
+        n:Node -:EF-> n;
+    }
+}
+
+//
+// hom + delete
+//
+// If elements are the same, element must be deleted
+// (nothing special here)
+//
+
+rule HomDelNodeModify
+{
+    hom(a, b);
+    a:A; b:B;
+    
+    modify {
+        delete(a);
+        delete(b);
+    }
+}
+
+rule HomDelEdgeModify
+{
+    hom(e, f);
+    -e:E->; -f:F->;
+    
+    modify {
+        delete(e);
+        delete(f);
+    }
+}
+
+rule HomDelNodeReplace
+{
+    hom(a, b);
+    a:A; b:B;
+    
+    replace {}
+}
+
+rule HomDelEdgeReplace
+{
+    hom(e, f);
+    -e:E->; -f:F->;
+    
+    replace {}
+}
+
+//
+// hom + delete + return
+//
+// If elements are the same, element must be deleted
+// and a null must be returned
+//
+
+rule HomDelRetNodeModify : (B)
+{
+    hom(a, b);
+    a:A; b:B;
+    
+    modify {
+        delete(a);
+        return(b);
+    }
+}
+
+rule HomDelRetEdgeModify : (F)
+{
+    hom(e, f);
+    -e:E->; -f:F->;
+    
+    modify {
+        delete(e);
+        return(f);
+    }
+}
+
+rule HomDelRetNodeReplace : (B)
+{
+    hom(a, b);
+    a:A; b:B;
+    
+    replace {
+        b;
+        return(b);
+    }
+}
+
+rule HomDelRetEdgeReplace : (F)
+{
+    hom(e, f);
+    -e:E->; -f:F->;
+        
+    replace {
+        -f->;
+        return(f);
+    }
+}
+
+//
+// hom + retype + return
+//
+// If elements are the same, retyped element must be returned
+//
+
+
+rule HomRetypeReturnNodeModify : (B)
+{
+    hom(a, b);
+    a:A; b:B;
+    
+    modify {
+        :A<a>;
+        return(b);
+    }
+}
+
+rule HomRetypeReturnEdgeModify : (F)
+{
+    hom(e, f);
+    -e:E->; -f:F->;
+    
+    modify {
+        -:E<e>->;
+        return(f);
+    }
+}
+
+rule HomRetypeReturnNodeReplace : (B)
+{
+    hom(a, b);
+    a:A; b:B;
+    
+    replace {
+        :A<a>;
+        b;
+        return(b);
+    }
+}
+
+rule HomRetypeReturnEdgeReplace : (F)
+{
+    hom(e, f);
+    -e:E->; -f:F->;
+    
+    replace {
+        -e->;
+        -:E<e>->;
+        -f->;
+        return(f);
+    }
+}
+
+//
+// hom + retype + delete
+//
+// If elements are same, element must be deleted after retyping
+//
+
+rule HomRetypeDeleteNodeModify
+{
+    hom(a, b);
+    a:A; b:B;
+    
+    modify {
+        :A<a>;
+        delete(b);
+    }
+}
+
+rule HomRetypeDeleteEdgeModify
+{
+    hom(e, f);
+    -e:E->; -f:F->;
+    
+    modify {
+        -:E<e>->;
+        delete(f);
+    }
+}
+
+rule HomRetypeDeleteNodeReplace
+{
+    hom(a, b);
+    a:A; b:B;
+    
+    replace {
+        :A<a>;
+    }
+}
+
+rule HomRetypeDeleteEdgeReplace
+{
+    hom(e, f);
+    -e:E->; -f:F->;
+    
+    replace {
+        -:E<e>->;
+    }
+}
+
+//
+// hom + retype + delete + return
+//
+// If elements are the same, element must be deleted after retyped
+// and a null must be returned
+//
+
+rule HomRetypeDeleteReturnNodeModify : (A)
+{
+    hom(a, b, c);
+    a:A; b:B; c:A;
+    
+    modify {
+        :A<a>;
+        delete(b);
+        return(c);
+    }
+}
+
+rule HomRetypeDeleteReturnEdgeModify : (E)
+{
+    hom(e, f, g);
+    -e:E->; -f:F->; -g:E->;
+    
+    modify {
+        -:E<e>->;
+        delete(f);
+        return(g);
+    }
+}
+
+rule HomRetypeDeleteReturnNodeReplace : (A)
+{
+    hom(a, b, c);
+    a:A; b:B; c:A;
+    
+    replace {
+        :A<a>;
+        c;
+        return(c);
+    }
+}
+
+rule HomRetypeDeleteReturnEdgeReplace : (E)
+{
+    hom(e, f, g);
+    -e:E->; -f:F->; -g:E->;
+    
+    replace {
+        -:E<e>->;
+        -g->;
+        return(g);
+    }
+}
+
+//
+// delete node + return edge
+//
+// If the edge is adjacent to the node,
+// null must be returned
+//
+
+rule DeleteNodeReturnEdgeModify : (E)
+{
+    n:Node;
+    -e:E->;
+    modify {
+        delete(n);
+        return(e);
+    }
+}
+
+rule DeleteNodeReturnEdgeReplace : (E)
+{
+    :Node;
+    -e:E->;
+    replace {
+        -e->;
+        return(e);
+    }
+}
