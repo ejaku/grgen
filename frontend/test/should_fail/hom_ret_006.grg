@@ -1,0 +1,15 @@
+using deep_model_002;
+
+// should fail, as f might be retyped to E
+// which is not compatible to the return type F
+
+rule HomRetypeReturnEdgeModify : (F)
+{
+    hom(e, f);
+    -e:E->; -f:F->;
+    
+    modify {
+        -:E<e>->;
+        return(f);
+    }
+}

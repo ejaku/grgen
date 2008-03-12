@@ -1,0 +1,30 @@
+edge class E;
+
+edge class F;
+
+edge class Ec extends E;
+
+edge class Fc extends F;
+
+edge class Ecc extends Ec;
+
+edge class Fcc extends Fc;
+
+edge class Eccc extends Ecc;
+
+edge class Fccc extends Fcc;
+
+edge class EF extends E, F;
+
+edge class EcFc extends Ec, Fc;
+
+edge class EcE extends E, Ec;
+
+edge class EccE extends E, Ecc;
+
+edge class EcccE extends E, Eccc;
+
+edge class EcccEccEcE extends E, Eccc, Ecc, Ec;
+
+edge class EcEEF extends EcE, EF;
+

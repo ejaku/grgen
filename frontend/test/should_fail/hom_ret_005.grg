@@ -1,0 +1,15 @@
+using deep_model_001;
+
+// should fail, as b might be retyped to A
+// which is not compatible to the return type B
+
+rule HomRetypeReturnNodeModify : (B)
+{
+    hom(a, b);
+    a:A; b:B;
+    
+    modify {
+        :A<a>;
+        return(b);
+    }
+}
