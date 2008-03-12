@@ -462,6 +462,13 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
 				}
 
+				case SequenceType.VarPredicate:
+				{
+					SequenceVarPredicate seqPred = (SequenceVarPredicate) seq;
+					source.AppendFront("res_" + seqID + " = varbool_" + seqPred.PredicateVar + ";\n");
+					break;
+				}
+
 				case SequenceType.Not:
 				{
 					SequenceNot seqNot = (SequenceNot) seq;

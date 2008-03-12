@@ -59,7 +59,9 @@ PARSER_BEGIN(SequenceParser)
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
 			parser.varDecls = varDecls;
-			return parser.RewriteSequence();
+			Sequence seq = parser.RewriteSequence();
+			parser.ResolveVars(ref seq);
+			return seq;
 		}		
 
         /// <summary>
@@ -78,7 +80,71 @@ PARSER_BEGIN(SequenceParser)
 			parser.actions = actions;
 			parser.namedGraph = namedGraph;
 			return parser.RewriteSequence();
-		}		
+		}
+		
+		private void ResolveVars(ref Sequence seq)
+		{
+			switch(seq.SequenceType)
+			{
+				case SequenceType.LazyOr:
+				case SequenceType.LazyAnd:
+				case SequenceType.StrictOr:
+				case SequenceType.Xor:
+				case SequenceType.StrictAnd:
+				{
+					SequenceBinary binSeq = (SequenceBinary) seq;
+					ResolveVars(ref binSeq.Left);
+					ResolveVars(ref binSeq.Right);
+					break;
+				}
+				
+				case SequenceType.Not:
+				case SequenceType.Min:
+				case SequenceType.MinMax:
+				case SequenceType.Transaction:
+				{
+					SequenceUnary unSeq = (SequenceUnary) seq;
+					ResolveVars(ref unSeq.Seq);
+					break;
+				}
+				
+				case SequenceType.Rule:
+				{
+					SequenceRule ruleSeq = (SequenceRule) seq;
+					RuleObject ruleObj = ruleSeq.RuleObj;
+					
+					// This can only be a predicate, if this "rule" has neither parameters nor returns
+					if(ruleObj.ParamVars.Length != 0 || ruleObj.ReturnVars.Length != 0) break;
+					
+					// Does a boolean variable exist with the "rule" name?
+					String typeName;
+					if(!varDecls.TryGetValue(ruleObj.RuleName, out typeName) || typeName != "boolean") break;
+					
+					// Yes, so transform this SequenceRule into a SequenceVarPredicate
+					seq = new SequenceVarPredicate(ruleObj.RuleName, ruleSeq.Special);
+					break;
+				}
+
+				case SequenceType.AssignSequenceResultToVar:
+				{
+					SequenceAssignSequenceResultToVar assignSeq = (SequenceAssignSequenceResultToVar) seq;
+					ResolveVars(ref assignSeq.Seq);
+					break;
+				}
+				
+				case SequenceType.RuleAll:
+				case SequenceType.Def:
+				case SequenceType.True:
+				case SequenceType.False:
+				case SequenceType.AssignVarToVar:
+				case SequenceType.AssignElemToVar:
+					// Nothing to be done here
+					break;
+
+				default:
+					throw new Exception("Unknown sequence type: " + seq.SequenceType);
+			}			
+		}
 	}
 PARSER_END(SequenceParser)
 
