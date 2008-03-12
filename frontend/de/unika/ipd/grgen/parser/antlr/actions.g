@@ -174,12 +174,12 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		left=patternPart[getCoords(r), params, mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new RuleDeclNode(id, left, rightReplace, ret, false));
+				id.setDecl(new RuleDeclNode(id, left, rightReplace, ret));
 				actionChilds.addChild(id);
 			}
 		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new RuleDeclNode(id, left, rightModify, ret, false));
+				id.setDecl(new RuleDeclNode(id, left, rightModify, ret));
 				actionChilds.addChild(id);
 			}
 		)
@@ -188,7 +188,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		left=patternPart[getCoords(p), params, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
 		(
 			{
-				id.setDecl(new TestDeclNode(id, left, new CollectNode<IdentNode>()));
+				id.setDecl(new PatternTestDeclNode(id, left));
 				patternChilds.addChild(id);
 				if((mod & PatternGraphNode.MOD_DPO)!=0) {
 					reportError(getCoords(t), "no \"dpo\" modifier allowed");
@@ -196,12 +196,12 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			}
 		| rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new RuleDeclNode(id, left, rightReplace, new CollectNode<IdentNode>(), true));
+				id.setDecl(new PatternRuleDeclNode(id, left, rightReplace));
 				patternChilds.addChild(id);
 			}
 		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
 			{
-				id.setDecl(new RuleDeclNode(id, left, rightModify, new CollectNode<IdentNode>(), true));
+				id.setDecl(new PatternRuleDeclNode(id, left, rightModify));
 				patternChilds.addChild(id);
 			}
 		)

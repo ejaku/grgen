@@ -31,11 +31,9 @@ import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Unit;
 
@@ -49,8 +47,8 @@ public class UnitNode extends BaseNode {
 
 	CollectNode<BaseNode> models;
 
-	// of type TestDeclNode or RuleDeclNode
-	CollectNode<TestDeclNode> subpatterns;
+	// of type PatternTestDeclNode or PatternRuleDeclNode
+	CollectNode<PatternTestDeclNode> subpatterns;
 	CollectNode<IdentNode> subpatternsUnresolved;
 
 	// of type TestDeclNode or RuleDeclNode
@@ -96,13 +94,16 @@ public class UnitNode extends BaseNode {
 		return childrenNames;
 	}
 
-	private static final CollectResolver<TestDeclNode> declsResolver = new CollectResolver<TestDeclNode>(
+	private static final CollectResolver<TestDeclNode> actionsResolver = new CollectResolver<TestDeclNode>(
 			new DeclarationResolver<TestDeclNode>(TestDeclNode.class));
+
+	private static final CollectResolver<PatternTestDeclNode> subpatternsResolver = new CollectResolver<PatternTestDeclNode>(
+			new DeclarationResolver<PatternTestDeclNode>(PatternTestDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		actions     = declsResolver.resolve(actionsUnresolved, this);
-		subpatterns = declsResolver.resolve(subpatternsUnresolved, this);
+		actions     = actionsResolver.resolve(actionsUnresolved, this);
+		subpatterns = subpatternsResolver.resolve(subpatternsUnresolved, this);
 
 		return actions != null && subpatterns != null;
 	}
@@ -135,7 +136,7 @@ public class UnitNode extends BaseNode {
 			res.addModel(model);
 		}
 
-		for(TestDeclNode n : subpatterns.getChildren()) {
+		for(PatternTestDeclNode n : subpatterns.getChildren()) {
 			Action act = n.getAction();
 			res.addSubpattern(act);
 		}

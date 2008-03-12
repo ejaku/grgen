@@ -48,8 +48,6 @@ public class RuleDeclNode extends TestDeclNode {
 		setName(RuleDeclNode.class, "rule declaration");
 	}
 
-	private boolean isPattern;
-
 	protected RhsDeclNode right;
 	protected RuleTypeNode type;
 
@@ -64,12 +62,10 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param neg The context preventing the rule to match.
 	 */
 	public RuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right,
-			CollectNode<IdentNode> rets, boolean isPattern) {
+			CollectNode<IdentNode> rets) {
 		super(id, ruleType, left, rets);
 		this.right = right;
 		becomeParent(this.right);
-
-		this.isPattern = isPattern;
 	}
 
 	/** returns children of this node */
@@ -403,30 +399,14 @@ public class RuleDeclNode extends TestDeclNode {
 
 		// check if the pattern name equals the rule name
 		// named replace/modify parts are only allowed in subpatterns
-		if (!isPattern) {
-			String ruleName = ident.toString();
-			if (!right.nameOfGraph.equals(ruleName)) {
-				error.error(this.right.getCoords(), "Named replace/modify parts in rules are not allowed");
-			}
+		String ruleName = ident.toString();
+		if (!right.nameOfGraph.equals(ruleName)) {
+			error.error(this.right.getCoords(), "Named replace/modify parts in rules are not allowed");
 		}
 
 		// check if parameters only exists for subpatterns
-		if (!isPattern) {
-			if (right.params.getChildren().size() > 0) {
-				error.error(this.right.getCoords(), "Parameters for the replace/modify part are only allowed in subpatterns");
-			}
-		}
-
-		// check if parameters of patterns are deleted
-		boolean noDeleteOfPatternParameters = true;
-		if (isPattern) {
-			Collection<DeclNode> deletedEnities = getDelete();
-			for (DeclNode p : pattern.getParamDecls()) {
-				if (deletedEnities.contains(p)) {
-					error.error(getCoords(), "Deletion of parameters in patterns are not allowed");
-					noDeleteOfPatternParameters = false;
-				}
-	        }
+		if (right.params.getChildren().size() > 0) {
+			error.error(this.right.getCoords(), "Parameters for the replace/modify part are only allowed in subpatterns");
 		}
 
 		boolean noReturnInPatternOk = true;
@@ -453,7 +433,7 @@ public class RuleDeclNode extends TestDeclNode {
 			}
 		}
 
-		return leftHandGraphsOk & noDeleteOfPatternParameters
+		return leftHandGraphsOk
 			& checkRhsReuse(left, this.right) & noReturnInPatternOk & abstr
 			& checkReturnedElemsNotDeleted(left, this.right)
 			& checkExecParamsNotDeleted(left, right)

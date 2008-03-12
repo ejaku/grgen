@@ -45,7 +45,7 @@ public class SubpatternUsageNode extends DeclNode {
 	CollectNode<ConstraintDeclNode> connections;
 	CollectNode<IdentNode> connectionsUnresolved;
 
-	protected TestDeclNode type = null;
+	protected PatternTestDeclNode type = null;
 
 
 	public SubpatternUsageNode(IdentNode n, BaseNode t, CollectNode<IdentNode> c) {
@@ -79,7 +79,7 @@ public class SubpatternUsageNode extends DeclNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<TestDeclNode> actionResolver = new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
+	private static final DeclarationResolver<PatternTestDeclNode> actionResolver = new DeclarationResolver<PatternTestDeclNode>(PatternTestDeclNode.class);
 	private static final CollectPairResolver<ConstraintDeclNode> connectionsResolver =
 		new CollectPairResolver<ConstraintDeclNode>(new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
 
