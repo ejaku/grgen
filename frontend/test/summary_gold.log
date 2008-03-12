@@ -177,6 +177,7 @@ OK     should_pass/hom_014.grg
 OK     should_pass/hom_015.grg
 OK     should_pass/hom_016.grg
 OK     should_pass/hom_017.grg
+OK     should_pass/hom_018.grg
 OK     should_pass/hom_ret_001.grg
 OK     should_pass/induced_001.grg
 OK     should_pass/induced_002.grg
@@ -520,6 +521,8 @@ WARNED should_fail/hom_ret_001.grg
 WARNED should_fail/hom_ret_002.grg
 WARNED should_fail/hom_ret_003.grg
 WARNED should_fail/hom_ret_004.grg
+OK     should_fail/hom_ret_005.grg
+OK     should_fail/hom_ret_006.grg
 ERROR  should_fail/induced_001.grg
 ERROR  should_fail/induced_002.grg
 ERROR  should_fail/induced_003.grg
