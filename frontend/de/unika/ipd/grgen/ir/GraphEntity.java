@@ -49,18 +49,21 @@ public abstract class GraphEntity extends Entity {
 
 	protected Collection<? extends InheritanceType> constraints = Collections.emptySet();
 
+	boolean maybeDeleted;
 
 	/**
 	 * Make a new graph entity of a given type
 	 * @param name The name of the entity.
 	 * @param ident The declaring identifier.
 	 * @param type The type used in the declaration.
+	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy
 	 */
-	protected GraphEntity(String name, Ident ident, InheritanceType type, Annotations annots) {
+	protected GraphEntity(String name, Ident ident, InheritanceType type, Annotations annots, boolean maybeDeleted) {
 		super(name, ident, type);
 		setChildrenNames(childrenNames);
 		this.type = type;
 		this.annotations = annots;
+		this.maybeDeleted = maybeDeleted;
 	}
 
 	public InheritanceType getInheritanceType() {
@@ -80,6 +83,10 @@ public abstract class GraphEntity extends Entity {
 	/** @return The annotations. */
 	public Annotations getAnnotations() {
 		return annotations;
+	}
+
+	public boolean isMaybeDeleted() {
+		return maybeDeleted;
 	}
 
 	public void addFields(Map<String, Object> fields) {

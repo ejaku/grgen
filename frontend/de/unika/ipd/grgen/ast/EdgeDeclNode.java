@@ -158,7 +158,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		EdgeType et = (EdgeType) tn.checkIR(EdgeType.class);
 		IdentNode ident = getIdentNode();
 
-		Edge edge = new Edge(ident.getIdent(), et, ident.getAnnotations());
+		Edge edge = new Edge(ident.getIdent(), et, ident.getAnnotations(), maybeDeleted);
 		edge.setConstraints(getConstraints());
 
 		if(inheritsType()) {

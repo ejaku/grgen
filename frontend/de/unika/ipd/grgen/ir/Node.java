@@ -39,9 +39,11 @@ public class Node extends GraphEntity {
 	 * Make a new node.
 	 * @param ident The identifier for the node.
 	 * @param type The type of the node.
+	 * @param annots The annotations of this node.
+	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy.
 	 */
-	public Node(Ident ident, NodeType type, Annotations annots) {
-		super("node", ident, type, annots);
+	public Node(Ident ident, NodeType type, Annotations annots, boolean maybeDeleted) {
+		super("node", ident, type, annots, maybeDeleted);
 		this.type = type;
 	}
 
@@ -49,9 +51,10 @@ public class Node extends GraphEntity {
 	 * Make a new node.
 	 * @param ident The identifier for the node.
 	 * @param type The type of the node.
+	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy.
 	 */
-	public Node(Ident ident, NodeType type) {
-		this(ident, type, EmptyAnnotations.get());
+	public Node(Ident ident, NodeType type, boolean maybeDeleted) {
+		this(ident, type, EmptyAnnotations.get(), maybeDeleted);
 	}
 
 	/** @return The type of the node. */

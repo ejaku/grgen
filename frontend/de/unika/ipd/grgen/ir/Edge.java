@@ -41,9 +41,11 @@ public class Edge extends GraphEntity {
 	 * Make a new edge.
 	 * @param ident The identifier for the edge.
 	 * @param type The type of the edge.
+	 * @param annots The annotations of this edge.
+	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy.
 	 */
-	public Edge(Ident ident, EdgeType type, Annotations annots) {
-		super("edge", ident, type, annots);
+	public Edge(Ident ident, EdgeType type, Annotations annots, boolean maybeDeleted) {
+		super("edge", ident, type, annots, maybeDeleted);
 		this.type = type;
 	}
 
@@ -51,9 +53,10 @@ public class Edge extends GraphEntity {
 	 * Make a new edge.
 	 * @param ident The identifier for the edge.
 	 * @param type The type of the edge.
+	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy
 	 */
-	public Edge(Ident ident, EdgeType type) {
-		this(ident, type, EmptyAnnotations.get());
+	public Edge(Ident ident, EdgeType type, boolean maybeDeleted) {
+		this(ident, type, EmptyAnnotations.get(), maybeDeleted);
 	}
 
 	/** @return The type of the edge. */

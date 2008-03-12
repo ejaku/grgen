@@ -62,8 +62,8 @@ public abstract class ConstraintDeclNode extends DeclNode
 		return (TypeExpr) constraints.checkIR(TypeExpr.class);
 	}
 
-	/** @returns True, if this element might be deleted due to homomorphy */
-	public boolean getMaybeDeleted() {
+	/** @returns True, if this element has eventually been deleted due to homomorphy */
+	public boolean isMaybeDeleted() {
 		return maybeDeleted;
 	}
 }

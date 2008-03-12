@@ -157,7 +157,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		EdgeType et = etn.getEdgeType();
 		IdentNode ident = getIdentNode();
 
-		RetypedEdge res = new RetypedEdge(ident.getIdent(), et, ident.getAnnotations());
+		RetypedEdge res = new RetypedEdge(ident.getIdent(), et, ident.getAnnotations(), isMaybeDeleted());
 
 		Edge oldEdge = old.getEdge();
 		oldEdge.setRetypedEdge(res);
