@@ -20,7 +20,7 @@
 
 /**
  * @author Sebastian Hack, Daniel Grund
- * @version $Id: RuleDeclNode.java 18082 2008-03-11 20:27:46Z buchwald $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 

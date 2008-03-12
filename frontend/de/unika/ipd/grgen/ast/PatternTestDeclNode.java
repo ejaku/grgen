@@ -20,7 +20,7 @@
 
 /**
  * @author shack
- * @version $Id: TestDeclNode.java 18086 2008-03-11 21:22:29Z rubino $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
