@@ -169,7 +169,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 				}
 
 				// add connection only if source and target are reused
-				if (lhs.contains(edge) && !sourceOrTargetNodeDeleted(pattern, edge)) {
+				if (lhs.contains(edge) && !sourceOrTargetNodeIncluded(pattern, delete.getChildren(), edge)) {
 					res.add(conn);
 				}
 			}
@@ -184,28 +184,13 @@ public class ModifyDeclNode extends RhsDeclNode {
 				}
 
 				// add connection only if source and target are reused
-				if (!delete.getChildren().contains(edge) && !sourceOrTargetNodeDeleted(pattern, edge)) {
+				if (!delete.getChildren().contains(edge) && !sourceOrTargetNodeIncluded(pattern, delete.getChildren(), edge)) {
 					res.add(conn);
 				}
 			}
         }
 
 		return res;
-	}
-
-	private boolean sourceOrTargetNodeDeleted(PatternGraphNode pattern, EdgeDeclNode edgeDecl) {
-		for (BaseNode n : pattern.getConnections()) {
-	        if (n instanceof ConnectionNode) {
-	        	ConnectionNode conn = (ConnectionNode) n;
-	        	if (conn.getEdge().equals(edgeDecl)) {
-	        		if (delete.getChildren().contains(conn.getSrc())
-	        				|| delete.getChildren().contains(conn.getTgt())) {
-	        			return true;
-	        		}
-	        	}
-	        }
-        }
-		return false;
 	}
 
 	/**
@@ -252,5 +237,26 @@ public class ModifyDeclNode extends RhsDeclNode {
 			}
 		}
 	}
+
+	@Override
+    protected Collection<ConnectionNode> getResultingConnections(PatternGraphNode pattern)
+    {
+	    Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
+
+	    Collection<DeclNode> delete = getDelete(pattern);
+
+	    for (BaseNode n : pattern.getConnections()) {
+	        if (n instanceof ConnectionNode) {
+	        	ConnectionNode conn = (ConnectionNode) n;
+	        	if (!delete.contains(conn.getEdge())
+	        			&& !delete.contains(conn.getSrc())
+	        			&& !delete.contains(conn.getTgt())) {
+	        		res.add(conn);
+	        	}
+	        }
+        }
+
+	    return res;
+    }
 }
 

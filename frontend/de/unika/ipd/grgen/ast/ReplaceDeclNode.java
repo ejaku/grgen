@@ -20,7 +20,7 @@
 
 /**
  * @author Sebastian Buchwald
- * @version $Id: RhsDeclNode.java 18021 2008-03-09 12:13:04Z buchwald $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -160,5 +160,18 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern) {
 		// nothing to do
 	}
+
+	@Override
+    protected Collection<ConnectionNode> getResultingConnections(PatternGraphNode pattern)
+    {
+	    Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
+
+		for (BaseNode conn : graph.getConnections()) {
+	        if (conn instanceof ConnectionNode) {
+	        	res.add((ConnectionNode) conn);
+	        }
+        }
+	    return res;
+    }
 }
 

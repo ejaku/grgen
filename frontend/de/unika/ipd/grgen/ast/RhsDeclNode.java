@@ -20,7 +20,7 @@
 
 /**
  * @author Sebastian Buchwald
- * @version $Id: RhsDeclNode.java 18021 2008-03-09 12:13:04Z buchwald $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -64,6 +64,51 @@ public abstract class RhsDeclNode extends DeclNode {
 		this.eval = eval;
 		becomeParent(this.eval);
 	}
+
+	protected Collection<DeclNode> getMaybeDeleted(PatternGraphNode pattern) {
+		Collection<DeclNode> ret = getDelete(pattern);
+
+		// check if a deleted node exists
+		boolean deletedNodeExists = false;
+		for (DeclNode declNode : ret) {
+	        if (declNode instanceof NodeDeclNode) {
+	        	deletedNodeExists = true;
+	        }
+        }
+
+		if (deletedNodeExists) {
+    		// add homomorphic nodes
+    		for (HomNode hom : pattern.getHoms()) {
+    	        for (DeclNode homElem : hom.childrenNode) {
+    	        	if (ret.contains(homElem)) {
+    	        		ret.addAll(hom.childrenNode);
+    	        	}
+    	        }
+            }
+
+    		Collection<ConnectionNode> conns = getResultingConnections(pattern);
+    		for (ConnectionNode conn : conns) {
+    			if (sourceOrTargetNodeIncluded(pattern, ret, conn.getEdge())) {
+    				ret.add(conn.getEdge());
+    			}
+            }
+
+			// TODO dangling edges (the right way)
+		}
+
+		// add homomorphic edges
+		for (HomNode hom : pattern.getHoms()) {
+	        for (DeclNode homElem : hom.childrenEdge) {
+	        	if (ret.contains(homElem)) {
+	        		ret.addAll(hom.childrenEdge);
+	        	}
+	        }
+        }
+
+		return ret;
+	}
+
+	protected abstract Collection<ConnectionNode> getResultingConnections(PatternGraphNode pattern);
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
@@ -143,5 +188,22 @@ public abstract class RhsDeclNode extends DeclNode {
 	protected abstract Set<BaseNode> getReusedNodes(PatternGraphNode pattern);
 
 	protected abstract void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern);
+
+	protected boolean sourceOrTargetNodeIncluded(PatternGraphNode pattern, Collection<? extends BaseNode> coll,
+            EdgeDeclNode edgeDecl)
+    {
+    	for (BaseNode n : pattern.getConnections()) {
+            if (n instanceof ConnectionNode) {
+            	ConnectionNode conn = (ConnectionNode) n;
+            	if (conn.getEdge().equals(edgeDecl)) {
+            		if (coll.contains(conn.getSrc())
+            				|| coll.contains(conn.getTgt())) {
+            			return true;
+            		}
+            	}
+            }
+        }
+    	return false;
+    }
 }
 
