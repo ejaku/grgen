@@ -1,0 +1,11 @@
+// should fail, because there's a delete-return conflict for x and the dangling edge e
+
+dpo rule dpoIsBad : (Edge) {
+	x:Node;
+	-e:Edge->;
+
+	modify {
+		delete(x);
+		return(e);
+	}
+}
