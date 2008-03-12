@@ -16,6 +16,7 @@ TESTS="should_pass/*.grg should_warn/*.grg should_fail/*.grg"
 OUTPUTSUFF=_out
 
 APPEND=""
+ONLY_FRONTEND=""
 ONLY_NEW=""
 VERBOSE=""
 
@@ -30,11 +31,14 @@ while [ "$1" ]; do
 		-a) shift; APPEND="TRUE";;
 		-c) rm -fr */*$OUTPUTSUFF; exit 0;;
 		-d) do_diff; exit 0;;
+        -f) shift; ONLY_FRONTEND="TRUE";;
 		-n) shift; ONLY_NEW="TRUE";;
 		-v) shift; VERBOSE="TRUE";;
 		* ) break;;
 	esac
 done
+
+if [ "$ONLY_FRONTEND" ]; then LOG=summary_fe.log; fi
 
 [ "$APPEND" ] || rm -f $LOG
 touch $LOG
@@ -60,17 +64,22 @@ do_test()
 	echo -n "===> TEST $FILE"
 	if java $JAVA_ARGS -o "$DIR" "$FILE" > "$DIR/log" 2>&1; then
 		echo -n " ... OK"
-		if $MONO "$GRGENNET/GrGen.exe" -keep -use "$DIR" -o "$DIR" "$FILE" >> "$DIR/log" 2>&1; then
-			if grep -q "WARNING" < "$DIR/log"; then
-				echo " ... WARNED"
-				echo "WARNED $FILE" >> "$LOG"
-			else
-				echo " ... OK(C#)"
-				echo "OK     $FILE" >> "$LOG"
-			fi
-		else
-			echo " ... FAILED(C#)"
-			echo "FAILED $FILE" >> "$LOG"
+        if [ "$ONLY_FRONTEND" ]; then
+            echo
+    		echo "OK     $FILE" >> "$LOG"
+        else
+    		if $MONO "$GRGENNET/GrGen.exe" -keep -use "$DIR" -o "$DIR" "$FILE" >> "$DIR/log" 2>&1; then
+	    		if grep -q "WARNING" < "$DIR/log"; then
+		    		echo " ... WARNED"
+			    	echo "WARNED $FILE" >> "$LOG"
+    			else
+	    			echo " ... OK(C#)"
+		    		echo "OK     $FILE" >> "$LOG"
+			    fi
+    		else
+	    		echo " ... FAILED(C#)"
+		    	echo "FAILED $FILE" >> "$LOG"
+            fi
 		fi
 	elif grep -q -v "ERROR\|WARNING" < "$DIR/log"; then
 		echo " ... ABEND"
