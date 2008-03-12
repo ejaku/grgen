@@ -42,15 +42,12 @@ import de.unika.ipd.grgen.ir.Unit;
 /**
  * The main node of the text. It is the root of the AST.
  */
-public class UnitNode extends DeclNode {
+public class UnitNode extends BaseNode {
 	static {
 		setName(UnitNode.class, "unit declaration");
 	}
 
-	protected static final TypeNode mainType = new MainTypeNode();
-
 	CollectNode<BaseNode> models;
-	MainTypeNode type;
 
 	// of type TestDeclNode or RuleDeclNode
 	CollectNode<TestDeclNode> subpatterns;
@@ -61,26 +58,29 @@ public class UnitNode extends DeclNode {
 	CollectNode<IdentNode> actionsUnresolved;
 
 	/**
+	 * The name for this unit node
+	 */
+	private String unitname;
+
+	/**
 	 * The filename for this main node.
 	 */
 	private String filename;
 
-	public UnitNode(IdentNode id, String filename, CollectNode<BaseNode> models, CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions) {
-		super(id, mainType);
+	public UnitNode(String unitname, String filename, CollectNode<BaseNode> models, CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions) {
 		this.models = models;
 		becomeParent(this.models);
 		this.subpatternsUnresolved = subpatterns;
 		becomeParent(this.subpatternsUnresolved);
 		this.actionsUnresolved = actions;
 		becomeParent(this.actionsUnresolved);
+		this.unitname = unitname;
 		this.filename = filename;
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
 		children.add(models);
 		children.add(getValidVersion(subpatternsUnresolved, subpatterns));
 		children.add(getValidVersion(actionsUnresolved, actions));
@@ -90,8 +90,6 @@ public class UnitNode extends DeclNode {
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
 		childrenNames.add("models");
 		childrenNames.add("subpatterns");
 		childrenNames.add("actions");
@@ -101,15 +99,12 @@ public class UnitNode extends DeclNode {
 	private static final CollectResolver<TestDeclNode> declsResolver = new CollectResolver<TestDeclNode>(
 			new DeclarationResolver<TestDeclNode>(TestDeclNode.class));
 
-	private static final DeclarationTypeResolver<MainTypeNode> typeResolver = new DeclarationTypeResolver<MainTypeNode>(MainTypeNode.class);
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		type        = typeResolver.resolve(typeUnresolved, this);
 		actions     = declsResolver.resolve(actionsUnresolved, this);
 		subpatterns = declsResolver.resolve(subpatternsUnresolved, this);
 
-		return type != null && actions != null && subpatterns != null;
+		return actions != null && subpatterns != null;
 	}
 
 	/** Check the collect nodes containing the model declarations, subpattern declarations, action declarations
@@ -133,8 +128,7 @@ public class UnitNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		Ident id = (Ident) ident.checkIR(Ident.class);
-		Unit res = new Unit(id, filename);
+		Unit res = new Unit(unitname, filename);
 
 		for(BaseNode n : models.getChildren()) {
 			Model model = ((ModelNode)n).getModel();
@@ -152,12 +146,5 @@ public class UnitNode extends DeclNode {
 		}
 
 		return res;
-	}
-
-	@Override
-	public MainTypeNode getDeclType() {
-		assert isResolved();
-
-		return type;
 	}
 }

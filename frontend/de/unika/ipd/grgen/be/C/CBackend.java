@@ -653,7 +653,7 @@ public abstract class CBackend extends IDBase implements Backend {
 	 */
 	public void generate() {
 
-		String unitName = formatString(unit.getIdent().toString());
+		String unitName = formatString(unit.getUnitName());
 
 		// Emit the C types file
 		PrintStream ps = openFile("types" + incExtension);

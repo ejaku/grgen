@@ -57,16 +57,12 @@ options {
  * Build a main node.
  * It has a collect node with the decls as child
  */
-text returns [ BaseNode main = env.initNode() ]
+text returns [ UnitNode main = null ]
 	{
 		CollectNode<BaseNode> modelChilds = new CollectNode<BaseNode>();
 		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
-		IdentNode id;
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
-		id = new IdentNode(
-			env.define(ParserEnvironment.ENTITIES, actionsName,
-				new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
 		modelChilds.addChild(env.getStdModel());
 	}
 
@@ -87,7 +83,7 @@ text returns [ BaseNode main = env.initNode() ]
 
 	( patternOrActionDecls[patternChilds, actionChilds] EOF )?
 		{
-			main = new UnitNode(id, getFilename(), modelChilds, patternChilds, actionChilds);
+			main = new UnitNode(actionsName, getFilename(), modelChilds, patternChilds, actionChilds);
 			env.getCurrScope().leaveScope();
 		}
 	;

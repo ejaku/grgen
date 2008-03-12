@@ -72,7 +72,7 @@ public class ModelGen extends CSharpBase {
 		sb = new StringBuffer();
 		stubsb = null;
 
-		String filename = formatIdentifiable(be.unit) + "Model.cs";
+		String filename = be.unit.getUnitName() + "Model.cs";
 
 		System.out.println("  generating the " + filename + " file...");
 
@@ -82,7 +82,7 @@ public class ModelGen extends CSharpBase {
 		sb.append("using de.unika.ipd.grGen.lgsp;\n");
 		sb.append("\n");
 
-		sb.append("namespace de.unika.ipd.grGen.Model_" + formatIdentifiable(be.unit) + "\n");
+		sb.append("namespace de.unika.ipd.grGen.Model_" + be.unit.getUnitName() + "\n");
 		sb.append("{\n");
 
 		System.out.println("    generating enums...");
@@ -112,7 +112,7 @@ public class ModelGen extends CSharpBase {
 
 		writeFile(be.path, filename, sb);
 		if(stubsb != null) {
-			String stubFilename = formatIdentifiable(be.unit) + "ModelStub.cs";
+			String stubFilename = be.unit.getUnitName() + "ModelStub.cs";
 			System.out.println("  writing the " + stubFilename + " stub file...");
 			writeFile(be.path, stubFilename, stubsb);
 		}
@@ -130,7 +130,7 @@ public class ModelGen extends CSharpBase {
 					+ "using System.Collections.Generic;\n"
 					+ "using de.unika.ipd.grGen.libGr;\n"
 					+ "using de.unika.ipd.grGen.lgsp;\n"
-					+ "using de.unika.ipd.grGen.Model_" + formatIdentifiable(be.unit) + ";\n");
+					+ "using de.unika.ipd.grGen.Model_" + be.unit.getUnitName() + ";\n");
 		}
 		return stubsb;
 	}
@@ -918,7 +918,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t// " + formatNodeOrEdge(isNode) + " model\n");
 		sb.append("\t//\n");
 		sb.append("\n");
-		sb.append("\tpublic sealed class " + formatIdentifiable(be.unit) + formatNodeOrEdge(isNode)
+		sb.append("\tpublic sealed class " + be.unit.getUnitName() + formatNodeOrEdge(isNode)
 				+ "Model : I" + (isNode ? "Node" : "Edge") + "Model\n");
 		sb.append("\t{\n");
 
@@ -971,7 +971,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private InheritanceType genModelConstructor(boolean isNode, Set<? extends InheritanceType> types) {
 		InheritanceType rootType = null;
 
-		sb.append("\t\tpublic " + formatIdentifiable(be.unit) + formatNodeOrEdge(isNode) + "Model()\n");
+		sb.append("\t\tpublic " + be.unit.getUnitName() + formatNodeOrEdge(isNode) + "Model()\n");
 		sb.append("\t\t{\n");
 		for(InheritanceType type : types) {
 			String ctype = formatTypeClass(type);
@@ -1025,7 +1025,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	 * Generates the graph model class.
 	 */
 	private void genGraphModel() {
-		String unitName = formatIdentifiable(be.unit);
+		String unitName = be.unit.getUnitName();
 		sb.append("\t//\n");
 		sb.append("\t// IGraphModel implementation\n");
 		sb.append("\t//\n");
@@ -1077,4 +1077,5 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private String curMemberOwner = null;
 	private String nsIndent = "\t";
 }
+
 

@@ -150,7 +150,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 
 	private void genModel() {
 		StringBuffer sb = new StringBuffer();
-		String filename = formatIdentifiable(unit) + "Model.cs";
+		String filename = unit.getUnitName() + "Model.cs";
 
 		System.out.println("  generating the "+filename+" file...");
 
@@ -158,7 +158,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("using System.Collections.Generic;\n");
 		sb.append("using de.unika.ipd.grGen.libGr;\n");
 		sb.append("\n");
-		sb.append("namespace de.unika.ipd.grGen.models." + formatIdentifiable(unit) + "\n");
+		sb.append("namespace de.unika.ipd.grGen.models." + unit.getUnitName() + "\n");
 		sb.append("{\n");
 
 		System.out.println("    generating enums...");
@@ -192,7 +192,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	private void genRules() {
 		StringBuffer sb = new StringBuffer();
 //		String filename = Util.removePathPrefix(unit.getFilename() + ".cs");
-		String filename = formatIdentifiable(unit) + "Actions_intermediate.cs";
+		String filename = unit.getUnitName() + "Actions_intermediate.cs";
 
 
 		System.out.println("  generating the "+filename+" file...");
@@ -203,9 +203,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("using System.Text;\n");
 		sb.append("using de.unika.ipd.grGen.libGr;\n");
 		sb.append("using de.unika.ipd.grGen.lgsp;\n");
-		sb.append("using de.unika.ipd.grGen.models." + formatIdentifiable(unit) + ";\n");
+		sb.append("using de.unika.ipd.grGen.models." + unit.getUnitName() + ";\n");
 		sb.append("\n");
-		sb.append("namespace de.unika.ipd.grGen.actions." + formatIdentifiable(unit) + "\n");
+		sb.append("namespace de.unika.ipd.grGen.actions." + unit.getUnitName() + "\n");
 		sb.append("{\n");
 
 		for(Action action : actionMap.keySet())
@@ -1073,7 +1073,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\t// " + formatNodeOrEdge(isNode) + " model\n");
 		sb.append("\t//\n");
 		sb.append("\n");
-		sb.append("\tpublic sealed class " + formatIdentifiable(unit) + formatNodeOrEdge(isNode) + "Model : ITypeModel\n");
+		sb.append("\tpublic sealed class " + unit.getUnitName() + formatNodeOrEdge(isNode) + "Model : ITypeModel\n");
 		sb.append("\t{\n");
 
 		InheritanceType rootType = genModelModel1(sb, isNode, types);
@@ -1088,7 +1088,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	private InheritanceType genModelModel1(StringBuffer sb, boolean isNode, Set<? extends InheritanceType> types) {
 		InheritanceType rootType = null;
 
-		sb.append("\t\tpublic " + formatIdentifiable(unit) + formatNodeOrEdge(isNode) + "Model()\n");
+		sb.append("\t\tpublic " + unit.getUnitName() + formatNodeOrEdge(isNode) + "Model()\n");
 		sb.append("\t\t{\n");
 		for(InheritanceType type : types) {
 			sb.append("\t\t\t" + formatType(type) + ".typeVar.subOrSameTypes = new ITypeFramework[] {\n");
@@ -1150,19 +1150,20 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	}
 
 	private void genModelGraph(StringBuffer sb, Set<? extends InheritanceType> keySet, boolean p2) {
+		String unitName = unit.getUnitName();
 		sb.append("\t//\n");
 		sb.append("\t// IGraphModel implementation\n");
 		sb.append("\t//\n");
 		sb.append("\n");
 
-		sb.append("\tpublic sealed class " + formatIdentifiable(unit) + "GraphModel : IGraphModel\n");
+		sb.append("\tpublic sealed class " + unitName + "GraphModel : IGraphModel\n");
 		sb.append("\t{\n");
-		sb.append("\t\tprivate " + formatIdentifiable(unit) + "NodeModel nodeModel = new " + formatIdentifiable(unit) + "NodeModel();\n");
-		sb.append("\t\tprivate " + formatIdentifiable(unit) + "EdgeModel edgeModel = new " + formatIdentifiable(unit) + "EdgeModel();\n");
+		sb.append("\t\tprivate " + unitName + "NodeModel nodeModel = new " + unitName + "NodeModel();\n");
+		sb.append("\t\tprivate " + unitName + "EdgeModel edgeModel = new " + unitName + "EdgeModel();\n");
 		genValidate(sb);
 		sb.append("\n");
 
-		sb.append("\t\tpublic String Name { get { return \"" + formatIdentifiable(unit) + "\"; } }\n");
+		sb.append("\t\tpublic String Name { get { return \"" + unitName + "\"; } }\n");
 		sb.append("\t\tpublic ITypeModel NodeModel { get { return nodeModel; } }\n");
 		sb.append("\t\tpublic ITypeModel EdgeModel { get { return edgeModel; } }\n");
 		sb.append("\t\tpublic IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }\n");

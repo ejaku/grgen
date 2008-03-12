@@ -41,7 +41,7 @@ public class ActionsGen extends CSharpBase {
 	 */
 	public void genRulesAndSubpatterns() {
 		StringBuffer sb = new StringBuffer();
-		String filename = formatIdentifiable(be.unit) + "Actions_intermediate.cs";
+		String filename = be.unit.getUnitName() + "Actions_intermediate.cs";
 
 		System.out.println("  generating the " + filename + " file...");
 
@@ -50,10 +50,10 @@ public class ActionsGen extends CSharpBase {
 		sb.append("using System.Text;\n");
 		sb.append("using de.unika.ipd.grGen.libGr;\n");
 		sb.append("using de.unika.ipd.grGen.lgsp;\n");
-		sb.append("using de.unika.ipd.grGen.Model_" + formatIdentifiable(be.unit) + ";\n");
+		sb.append("using de.unika.ipd.grGen.Model_" + be.unit.getUnitName() + ";\n");
 		sb.append("\n");
 
-		sb.append("namespace de.unika.ipd.grGen.Action_" + formatIdentifiable(be.unit) + "\n");
+		sb.append("namespace de.unika.ipd.grGen.Action_" + be.unit.getUnitName() + "\n");
 		sb.append("{\n");
 
 		for(Action action : be.patternMap.keySet())
@@ -1515,6 +1515,7 @@ public class ActionsGen extends CSharpBase {
 
 	private HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 }
+
 
 
 

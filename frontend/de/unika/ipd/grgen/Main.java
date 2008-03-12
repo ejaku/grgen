@@ -93,7 +93,7 @@ public class Main extends Base implements Sys {
 
 	private String[] args;
 	private File inputFile;
-	private BaseNode root;
+	private UnitNode root;
 	private Unit irUnit;
 	private ErrorReporter errorReporter;
 	private Reporter debugReporter;
@@ -433,7 +433,7 @@ public class Main extends Base implements Sys {
 
 
 	private void buildIR() {
-		irUnit = ((UnitNode) root).getUnit();
+		irUnit = root.getUnit();
 	}
 
 	private void generateCode() {
@@ -517,6 +517,8 @@ public class Main extends Base implements Sys {
 			if(dumpAST)
 				dumpVCG(root, new GraphDumpVisitor(), "error-ast");
 			debug.report(NOTE, "### ERROR in Manifest AST. Exiting! ###");
+			if(ErrorReporter.getErrorCount() == 0)
+				error.error("Unknown error occurred in \"Manifest AST\"!");
 			System.exit(1);
 		}
 
@@ -645,6 +647,7 @@ public class Main extends Base implements Sys {
 	}
 
 }
+
 
 
 

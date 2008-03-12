@@ -38,7 +38,7 @@ import de.unika.ipd.grgen.util.Util;
 /**
  * A unit with all declared entities
  */
-public class Unit extends Identifiable {
+public class Unit extends IR {
 
 	private final List<Action> actions = new LinkedList<Action>();
 
@@ -50,11 +50,15 @@ public class Unit extends Identifiable {
 
 	private boolean digestValid = false;
 
+	/** The unit name of this unit. */
+	private String unitName;
+
 	/** The source filename of this unit. */
 	private String filename;
 
-	public Unit(Ident ident, String filename) {
-		super("unit", ident);
+	public Unit(String unitName, String filename) {
+		super("unit");
+		this.unitName = unitName;
 		this.filename = filename;
 	}
 
@@ -85,6 +89,11 @@ public class Unit extends Identifiable {
 	/** @return The type model of this unit. */
 	public Collection<Model> getModels() {
 		return Collections.unmodifiableCollection(models);
+	}
+
+	/** @return The unit name of this unit. */
+	public String getUnitName() {
+		return unitName;
 	}
 
 	/** @return The source filename corresponding to this unit. */
