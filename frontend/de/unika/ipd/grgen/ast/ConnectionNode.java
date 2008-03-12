@@ -235,7 +235,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 * @param gr The IR graph.
 	 */
 	public void addToGraph(Graph gr) {
-		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode());
+		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode(), connectionKind == DIRECTED);
 	}
 
 	/**

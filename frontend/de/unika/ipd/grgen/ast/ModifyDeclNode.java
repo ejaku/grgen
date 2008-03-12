@@ -114,7 +114,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 			if(!deleteSet.contains(e)
 			   && !deleteSet.contains(left.getSource(e))
 			   && !deleteSet.contains(left.getTarget(e))) {
-				right.addConnection(left.getSource(e), e, left.getTarget(e));
+				right.addConnection(left.getSource(e), e, left.getTarget(e), e.hasFixedDirection());
 			}
 		}
 

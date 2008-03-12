@@ -90,6 +90,7 @@ public abstract class Graph extends IR {
 			super(e.getIdent(), e.getEdgeType());
 			this.edge = e;
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
+			this.fixedDirection = e.fixedDirection;
 		}
 
 		public String getNodeId() {
@@ -303,10 +304,11 @@ public abstract class Graph extends IR {
 	 * @param edge The edge connecting the left and the right node.
 	 * @param right The right node.
 	 */
-	public void addConnection(Node left, Edge edge, Node right) {
+	public void addConnection(Node left, Edge edge, Node right, boolean fixedDirection) {
 		// Get the nodes and edges from the map.
 		GraphNode l = getOrSetNode(left);
 		GraphNode r = getOrSetNode(right);
+		edge.fixedDirection = fixedDirection;
 		GraphEdge e = getOrSetEdge(edge);
 
 		// Update outgoing and incoming of the nodes.

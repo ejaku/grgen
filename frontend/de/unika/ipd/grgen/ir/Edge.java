@@ -35,6 +35,8 @@ public class Edge extends GraphEntity {
 	/** Type of the edge. */
 	protected final EdgeType type;
 
+	protected boolean fixedDirection;
+
 	/**
 	 * Make a new edge.
 	 * @param ident The identifier for the edge.
@@ -78,5 +80,13 @@ public class Edge extends GraphEntity {
 	 */
 	public RetypedEdge getRetypedEdge() {
 		return (RetypedEdge)this.retyped;
+	}
+
+	/**
+	 * @return whether the edge has a fixed direction (i.e. directed Edge) or
+	 * not (all other edge kinds)
+	 */
+	public boolean hasFixedDirection() {
+		return fixedDirection;
 	}
 }
