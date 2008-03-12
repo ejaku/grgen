@@ -491,9 +491,21 @@ namespace de.unika.ipd.grGen.lgsp
             meanOutDegree = null;
         }
 
+		/// <summary>
+		/// A name associated with the graph.
+		/// </summary>
         public override String Name { get { return name; } }
+
+		/// <summary>
+		/// The model associated with the graph.
+		/// </summary>
         public override IGraphModel Model { get { return model; } }
 
+		/// <summary>
+		/// Returns the graph's transaction manager.
+		/// For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
+		/// Don't forget to call Commit after a transaction is finished!
+		/// </summary>
         public override ITransactionManager TransactionManager { get { return transactionManager; } }
 
         /// <summary>
@@ -926,7 +938,7 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPNode lnode = (LGSPNode) node;
             if(lnode.HasOutgoing || lnode.HasIncoming)
                 throw new ArgumentException("The given node still has edges left!");
-            if(lnode.typeNext == null) return;          // node not in graph (anymore)
+            if(!lnode.Valid) return;          // node not in graph (anymore)
 
             RemovingNode(node);
 
@@ -946,7 +958,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Remove(IEdge edge)
         {
             LGSPEdge ledge = (LGSPEdge) edge;
-            if(ledge.typeNext == null) return;          // edge not in graph (anymore)
+            if(!ledge.Valid) return;          // edge not in graph (anymore)
 
             RemovingEdge(edge);
 
@@ -1180,7 +1192,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(oldNode.type != newNode.type)
             {
-                RemoveNodeWithoutEvents(oldNode, oldNode.type.TypeID);
+				oldNode.typePrev.typeNext = oldNode.typeNext;
+				oldNode.typeNext.typePrev = oldNode.typePrev;
+				nodesByTypeCounts[oldNode.type.TypeID]--;
+
                 AddNodeWithoutEvents(newNode, newNode.type.TypeID);
             }
             else
@@ -1189,9 +1204,9 @@ namespace de.unika.ipd.grGen.lgsp
                 newNode.typePrev = oldNode.typePrev;
                 oldNode.typeNext.typePrev = newNode;
                 oldNode.typePrev.typeNext = newNode;
-                oldNode.typeNext = null;
-                oldNode.typePrev = null;
             }
+			oldNode.typeNext = newNode;			// indicate replacement
+			oldNode.typePrev = null;			// indicate node is node valid anymore
 
             // Reassign all outgoing edges
             LGSPEdge outHead = oldNode.outhead;
@@ -1221,7 +1236,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             newNode.inhead = inHead;
 
-            if(oldNode.type == newNode.type && reuseOptimization)
+            if(reuseOptimization)
                 oldNode.Recycle();
         }
 
@@ -1304,8 +1319,8 @@ namespace de.unika.ipd.grGen.lgsp
                 oldEdge.typeNext.typePrev = newEdge;
                 oldEdge.typePrev.typeNext = newEdge;
             }
-            oldEdge.typeNext = null;
-            oldEdge.typePrev = null;
+			oldEdge.typeNext = newEdge;			// indicate replacement
+			oldEdge.typePrev = null;			// indicate node is node valid anymore
 
             // Reassign source node
             LGSPNode src = oldEdge.source;

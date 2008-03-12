@@ -9,9 +9,14 @@ namespace de.unika.ipd.grGen.libGr
     public interface IGraphElement
     {
         /// <summary>
-        /// Returns the GrGenType of the graph element
+        /// The GrGenType of the graph element
         /// </summary>
         GrGenType Type { get; }
+
+        /// <summary>
+        /// This is true, if the element is a valid graph element, i.e. it is part of a graph.
+        /// </summary>
+        bool Valid { get; }
 
         /// <summary>
         /// Returns true, if the graph element is compatible to the given type
@@ -45,9 +50,15 @@ namespace de.unika.ipd.grGen.libGr
     public interface INode : IGraphElement
     {
         /// <summary>
-        /// Returns the NodeType of the node
+        /// The NodeType of the node
         /// </summary>
         new NodeType Type { get; }
+
+        /// <summary>
+        /// The node which replaced this node (Valid is false in this case)
+        /// or null, if this node has not been replaced or is still a valid member of a graph.
+        /// </summary>
+        INode ReplacedByNode { get; }
 
         /// <summary>
         /// Returns an IEnumerable&lt;IEdge&gt; over all outgoing edges
@@ -98,6 +109,12 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns the EdgeType of the edge
         /// </summary>
         new EdgeType Type { get; }
+
+		/// <summary>
+		/// The edge which replaced this edge (Valid is false in this case)
+		/// or null, if this edge has not been replaced or is still a valid member of a graph.
+		/// </summary>
+        IEdge ReplacedByEdge { get; }
 
         /// <summary>
         /// The source node of the edge.

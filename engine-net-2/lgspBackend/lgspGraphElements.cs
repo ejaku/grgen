@@ -11,6 +11,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class LGSPNode : INode
     {
+        /// <summary>
+        /// The node type of the node.
+        /// </summary>
         public NodeType type;
 
 #if ELEMENTKNOWSVARIABLES
@@ -43,25 +46,61 @@ namespace de.unika.ipd.grGen.lgsp
         public uint flags;
 
         /// <summary>
-        /// previous and next node in the list containing all the nodes of one type
+        /// Previous and next node in the list containing all the nodes of one type.
+        /// The node is not part of a graph, iff typePrev is null.
+        /// If typePrev is null and typeNext is not null, this node has been retyped and typeNext
+        /// points to the new node.
+        /// These special cases are neccessary to handle the following situations:
+        /// "delete node + return edge", "hom + delete + return", "hom + retype + return", "hom + retype + delete",
+        /// "hom + retype + delete + return".
         /// </summary>
-        public LGSPNode typeNext, typePrev;
+        public LGSPNode typePrev, typeNext;
 
         /// <summary>
-        /// entry node into the outgoing edges list - not of type edge head, real edge or null
+        /// Entry node into the outgoing edges list - not of type edge head, real edge or null
         /// </summary>
         public LGSPEdge outhead;
 
         /// <summary>
-        /// entry node into the incoming edges list - not of type edge head, real edge or null
+        /// Entry node into the incoming edges list - not of type edge head, real edge or null
         /// </summary>
         public LGSPEdge inhead;
 
-
+        /// <summary>
+        /// Instantiates an LGSPNode object.
+        /// </summary>
+        /// <param name="nodeType">The node type.</param>
         public LGSPNode(NodeType nodeType)
         {
             type = nodeType;
         }
+
+        /// <summary>
+        /// This is true, if this node is a valid graph element, i.e. it is part of a graph.
+        /// </summary>
+        public bool Valid
+        {
+            get { return typePrev != null; }
+        }
+
+		/// <summary>
+		/// The node which replaced this node (Valid is false in this case)
+		/// or null, if this node has not been replaced or is still a valid member of a graph.
+		/// </summary>
+		public LGSPNode ReplacedByNode
+        {
+            get { return typePrev != null ? null : typeNext; }
+        }
+
+		/// <summary>
+		/// The node which replaced this node (Valid is false in this case)
+		/// or null, if this node has not been replaced or is still a valid member of a graph.
+		/// </summary>
+        INode INode.ReplacedByNode
+        {
+            get { return typePrev != null ? null : typeNext; }
+        }
+    
 
         /// <summary>
         /// Returns an IEnumerable&lt;IEdge&gt; over all outgoing edges with the same type or a subtype of the given type
@@ -258,12 +297,12 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns the NodeType of the graph element.
+        /// The NodeType of the node.
         /// </summary>
         public NodeType Type { get { return type; } }
 
         /// <summary>
-        /// Returns the GrGenType of the graph element.
+        /// The GrGenType of the node.
         /// </summary>
         GrGenType IGraphElement.Type { get { return type; } }
 
@@ -348,6 +387,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class LGSPEdge : IEdge
     {
+        /// <summary>
+        /// The EdgeType of the edge.
+        /// </summary>
         public EdgeType type;
 
 #if ELEMENTKNOWSVARIABLES
@@ -380,7 +422,13 @@ namespace de.unika.ipd.grGen.lgsp
         public uint flags;
 
         /// <summary>
-        /// previous and next edge in the list containing all the edges of one type
+        /// Previous and next edge in the list containing all the edges of one type.
+        /// The node is not part of a graph, iff typePrev is null.
+        /// If typePrev is null and typeNext is not null, this node has been retyped and typeNext
+        /// points to the new node.
+        /// These special cases are neccessary to handle the following situations:
+        /// "delete node + return edge", "hom + delete + return", "hom + retype + return", "hom + retype + delete",
+        /// "hom + retype + delete + return".
         /// </summary>
         public LGSPEdge typeNext, typePrev;
 
@@ -399,12 +447,43 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public LGSPEdge outNext, outPrev;
 
-              
+        /// <summary>
+        /// Instantiates an LGSPEdge object.
+        /// </summary>
+        /// <param name="edgeType">The edge type.</param>
+        /// <param name="sourceNode">The source node.</param>
+        /// <param name="targetNode">The target node.</param>
         public LGSPEdge(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
         {
             type = edgeType;
             source = sourceNode;
             target = targetNode;
+        }
+
+        /// <summary>
+        /// This is true, if this edge is a valid graph element, i.e. it is part of a graph.
+        /// </summary>
+        public bool Valid
+        {
+            get { return typePrev != null; }
+        }
+
+		/// <summary>
+		/// The edge which replaced this edge (Valid is false in this case)
+		/// or null, if this edge has not been replaced or is still a valid member of a graph.
+		/// </summary>
+        public LGSPEdge ReplacedByEdge
+        {
+            get { return typePrev != null ? null : typeNext; }
+        }
+
+		/// <summary>
+		/// The edge which replaced this edge (Valid is false in this case)
+		/// or null, if this edge has not been replaced or is still a valid member of a graph.
+		/// </summary>
+		IEdge IEdge.ReplacedByEdge
+        {
+            get { return typePrev != null ? null : typeNext; }
         }
 
         /// <summary>
@@ -418,15 +497,18 @@ namespace de.unika.ipd.grGen.lgsp
         public INode Target { get { return target; } }
 
         /// <summary>
-        /// Returns the EdgeType of the edge.
+        /// The EdgeType of the edge.
         /// </summary>
         public EdgeType Type { get { return type; } }
 
         /// <summary>
-        /// Returns the GrGenType of the edge.
+        /// The GrGenType of the edge.
         /// </summary>
         GrGenType IGraphElement.Type { get { return type; } }
 
+        /// <summary>
+        /// Returns true, if the graph element is compatible to the given type
+        /// </summary>
         public bool InstanceOf(GrGenType otherType)
         {
             return type.IsA(otherType);

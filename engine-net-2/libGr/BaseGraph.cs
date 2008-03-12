@@ -823,6 +823,16 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new Exception("The method or operation is not implemented.");
             }
+
+            public INode ReplacedByNode
+            {
+                get { throw new Exception("The method or operation is not implemented."); }
+            }
+
+            public bool Valid
+            {
+                get { throw new Exception("The method or operation is not implemented."); }
+            }
         }
 
         /// <summary>
