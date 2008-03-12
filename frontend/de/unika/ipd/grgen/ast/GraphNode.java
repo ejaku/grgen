@@ -165,9 +165,12 @@ public class GraphNode extends BaseNode {
         			}
                 }
     		}
+
+        	becomeParent(connections);
+        	becomeParent(subpatterns);
         }
 
-		returns = returnsResolver.resolve(returnsUnresolved);
+		returns = returnsResolver.resolve(returnsUnresolved, this);
 
 		return resolve != null && returns != null;
 	}

@@ -90,7 +90,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		delete = deleteResolver.resolve(deleteUnresolved);
+		delete = deleteResolver.resolve(deleteUnresolved, this);
 
 		return super.resolveLocal() && delete != null;
 	}

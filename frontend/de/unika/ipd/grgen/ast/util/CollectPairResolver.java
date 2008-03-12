@@ -37,7 +37,7 @@ public class CollectPairResolver<T extends BaseNode>
 
 	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R */
-	public CollectNode<T> resolve(CollectNode<?> collect) {
+	public CollectNode<T> resolve(CollectNode<?> collect, BaseNode parent) {
 		CollectNode<T> res = new CollectNode<T>();
 		for (BaseNode elem : collect.getChildren()) {
 	        Pair<? extends T, ? extends T> pair = resolver.resolve(elem, collect);
@@ -51,6 +51,7 @@ public class CollectPairResolver<T extends BaseNode>
 	        	res.addChild(pair.snd);
 	        }
         }
+		parent.becomeParent(res);
 		return res;
 	}
 }

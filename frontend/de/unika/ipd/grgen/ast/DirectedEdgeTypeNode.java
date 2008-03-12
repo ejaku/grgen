@@ -79,7 +79,7 @@ public class DirectedEdgeTypeNode extends EdgeTypeNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		body = bodyResolver.resolve(bodyUnresolved);
+		body = bodyResolver.resolve(bodyUnresolved, this);
 		extend = extendResolver.resolve(extendUnresolved, this);
 
 		return body != null && extend != null;

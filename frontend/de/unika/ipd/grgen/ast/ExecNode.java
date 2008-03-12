@@ -131,6 +131,8 @@ public class ExecNode extends BaseNode {
 					graphElementUsageOutsideOfCall.addChild(c);
 				}
 			}
+
+			becomeParent(graphElementUsageOutsideOfCall);
 		}
 
 		return resolve != null;
