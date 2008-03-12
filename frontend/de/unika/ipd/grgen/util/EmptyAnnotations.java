@@ -79,4 +79,7 @@ public class EmptyAnnotations implements Annotations {
 		return false;
 	}
 
+	public boolean isFlagSet(String key) {
+		return false;
+	}
 }

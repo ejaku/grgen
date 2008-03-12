@@ -307,9 +307,12 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 				}
 
 				if (homSet.contains(r)) {
-					alreadyReported.add(r);
-					r.reportWarning("returning \"" + r.ident + "\" that may be " +
-										"matched homomorphically with deleted \"" + d.ident + "\"");
+					r.maybeDeleted = true;
+					if(!r.getIdentNode().getAnnotations().isFlagSet("mayBeDeleted")) {
+						alreadyReported.add(r);
+						r.reportWarning("returning \"" + r.ident + "\" that may be " +
+								"matched homomorphically with deleted \"" + d.ident + "\"");
+					}
 				}
 			}
 		}

@@ -183,11 +183,11 @@ actionIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 altIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: res=identDecl[ParserEnvironment.ALTERNATIVES]
 	;
-	
+
 typeIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: res=identUse[ParserEnvironment.TYPES]
 	;
-	
+
 rhsIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: res=identUse[ParserEnvironment.REPLACES]
 	;
@@ -226,8 +226,13 @@ keyValuePairs [ DefaultAnnotations annots ]
 keyValuePair [ DefaultAnnotations annots ]
 	{ BaseNode c; }
 
-	: id:IDENT ASSIGN c=constant
-		{ annots.put(id.getText(), ((ConstNode) c).getValue()); }
+	: id:IDENT
+		(
+			ASSIGN c=constant
+			{ annots.put(id.getText(), ((ConstNode) c).getValue()); }
+		|
+			{ annots.put(id.getText(), true); }
+		)
 	;
 
 /**

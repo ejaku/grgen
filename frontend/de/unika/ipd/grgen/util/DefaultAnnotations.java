@@ -72,6 +72,12 @@ public class DefaultAnnotations implements Annotations {
 		return containsKey(key) && get(key) instanceof String;
 	}
 
+	public boolean isFlagSet(String key) {
+		if(!containsKey(key)) return false;
+		Object val = get(key);
+		return val instanceof Boolean && ((Boolean) val).booleanValue();
+	}
+
 	/**
 	 * @see de.unika.ipd.grgen.util.Annotations#put(java.lang.String, java.lang.Object)
 	 */

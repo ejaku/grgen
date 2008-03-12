@@ -41,4 +41,5 @@ public interface Annotations {
 
 	boolean isString(String key);
 
+	boolean isFlagSet(String key);
 }

@@ -35,6 +35,8 @@ public abstract class ConstraintDeclNode extends DeclNode
 	int context; // context of declaration, contains CONTEXT_LHS if declaration is located on left hand side,
 				 // or CONTEXT_RHS if declaration is located on right hand side
 
+	boolean maybeDeleted = false;
+
 	ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints) {
 		super(id, type);
 		this.constraints = constraints;
@@ -58,6 +60,11 @@ public abstract class ConstraintDeclNode extends DeclNode
 
 	protected final TypeExpr getConstraints() {
 		return (TypeExpr) constraints.checkIR(TypeExpr.class);
+	}
+
+	/** @returns True, if this element might be deleted due to homomorphy */
+	public boolean getMaybeDeleted() {
+		return maybeDeleted;
 	}
 }
 
