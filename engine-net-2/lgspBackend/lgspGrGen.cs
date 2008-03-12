@@ -707,9 +707,6 @@ namespace de.unika.ipd.grGen.lgsp
                     startInfo.CreateNoWindow = true;
                     Process grGenJava = Process.Start(startInfo);
                     grGenJava.WaitForExit();
-
-/*                    using(StreamReader sr = new StreamReader(tmpDir + Path.DirectorySeparatorChar + "printOutput.txt"))
-                        Console.WriteLine(sr.ReadToEnd());*/
                 }
                 catch(Exception e)
                 {
@@ -743,15 +740,12 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String output;
                 using(StreamReader sr = new StreamReader(tmpDir + Path.DirectorySeparatorChar + "printOutput.txt"))
-                {
                     output = sr.ReadToEnd();
-                }
+
                 if(output.Contains("ERROR"))
                     return ErrorType.GrGenJavaError;
-                if(output.Contains(" warning(s)"))
-                {
-                    Console.WriteLine(output);
-                }
+                if(output.Contains("WARNING"))
+                    Console.Error.WriteLine(output);
             }
 
             ///////////////////////////////////////////////
