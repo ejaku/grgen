@@ -78,15 +78,35 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	protected Set<DeclNode> getDelete(PatternGraphNode pattern) {
 		Set<DeclNode> res = new LinkedHashSet<DeclNode>();
 
+		Set<EdgeDeclNode> rhsEdges = new LinkedHashSet<EdgeDeclNode>();
+		Set<NodeDeclNode> rhsNodes = new LinkedHashSet<NodeDeclNode>();
+
+		for (BaseNode x : graph.getEdges()) {
+			EdgeDeclNode decl = (EdgeDeclNode) x;
+
+			while (decl instanceof EdgeTypeChangeNode) {
+				decl = ((EdgeTypeChangeNode) decl).getOldEdge();
+			}
+			rhsEdges.add(decl);
+		}
 		for (BaseNode x : pattern.getEdges()) {
 			assert (x instanceof DeclNode);
-			if ( ! graph.getEdges().contains(x) ) {
+			if ( ! rhsEdges.contains(x) ) {
 				res.add((DeclNode)x);
 			}
 		}
+
+		for (BaseNode x : graph.getNodes()) {
+			NodeDeclNode decl = (NodeDeclNode) x;
+
+			while (decl instanceof NodeTypeChangeNode) {
+				decl = ((NodeTypeChangeNode) decl).getOldNode();
+			}
+			rhsNodes.add(decl);
+		}
 		for (BaseNode x : pattern.getNodes()) {
 			assert (x instanceof DeclNode);
-			if ( ! graph.getNodes().contains(x) ) {
+			if ( ! rhsNodes.contains(x) ) {
 				res.add((DeclNode)x);
 			}
 		}
