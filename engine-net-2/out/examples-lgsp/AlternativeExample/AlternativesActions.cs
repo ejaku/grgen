@@ -52,7 +52,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		{
 			PatternGraph pat_toAorB;
 			PatternNode toAorB_node_x = new PatternNode((int) NodeTypes.@Node, "toAorB_node_x", "x", toAorB_node_x_AllowedTypes, toAorB_node_x_IsAllowedType, 5.5F, 0);
-			PatternEdge toAorB_edge_y = new PatternEdge(toAorB_node_x, null, (int) EdgeTypes.@Edge, "toAorB_edge_y", "y", toAorB_edge_y_AllowedTypes, toAorB_edge_y_IsAllowedType, 5.5F, -1);
+			PatternEdge toAorB_edge_y = new PatternEdge(toAorB_node_x, null, true, (int) EdgeTypes.@Edge, "toAorB_edge_y", "y", toAorB_edge_y_AllowedTypes, toAorB_edge_y_IsAllowedType, 5.5F, -1);
 			PatternGraph toAorB_alt_0_toA;
 			PatternNode toAorB_alt_0_toA_node_a = new PatternNode((int) NodeTypes.@A, "toAorB_alt_0_toA_node_a", "a", toAorB_alt_0_toA_node_a_AllowedTypes, toAorB_alt_0_toA_node_a_IsAllowedType, 5.5F, -1);
 			toAorB_alt_0_toA = new PatternGraph(
@@ -549,7 +549,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternNode AtoAorB_node_a = new PatternNode((int) NodeTypes.@A, "AtoAorB_node_a", "a", AtoAorB_node_a_AllowedTypes, AtoAorB_node_a_IsAllowedType, 5.5F, -1);
 			PatternGraph AtoAorB_alt_0_toA;
 			PatternNode AtoAorB_alt_0_toA_node__node0 = new PatternNode((int) NodeTypes.@A, "AtoAorB_alt_0_toA_node__node0", "_node0", AtoAorB_alt_0_toA_node__node0_AllowedTypes, AtoAorB_alt_0_toA_node__node0_IsAllowedType, 5.5F, -1);
-			PatternEdge AtoAorB_alt_0_toA_edge__edge0 = new PatternEdge(AtoAorB_node_a, AtoAorB_alt_0_toA_node__node0, (int) EdgeTypes.@Edge, "AtoAorB_alt_0_toA_edge__edge0", "_edge0", AtoAorB_alt_0_toA_edge__edge0_AllowedTypes, AtoAorB_alt_0_toA_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge AtoAorB_alt_0_toA_edge__edge0 = new PatternEdge(AtoAorB_node_a, AtoAorB_alt_0_toA_node__node0, true, (int) EdgeTypes.@Edge, "AtoAorB_alt_0_toA_edge__edge0", "_edge0", AtoAorB_alt_0_toA_edge__edge0_AllowedTypes, AtoAorB_alt_0_toA_edge__edge0_IsAllowedType, 5.5F, -1);
 			AtoAorB_alt_0_toA = new PatternGraph(
 				"toA",
 				"AtoAorB_alt_0_",
@@ -570,7 +570,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 			PatternGraph AtoAorB_alt_0_toB;
 			PatternNode AtoAorB_alt_0_toB_node__node0 = new PatternNode((int) NodeTypes.@B, "AtoAorB_alt_0_toB_node__node0", "_node0", AtoAorB_alt_0_toB_node__node0_AllowedTypes, AtoAorB_alt_0_toB_node__node0_IsAllowedType, 5.5F, -1);
-			PatternEdge AtoAorB_alt_0_toB_edge__edge0 = new PatternEdge(AtoAorB_node_a, AtoAorB_alt_0_toB_node__node0, (int) EdgeTypes.@Edge, "AtoAorB_alt_0_toB_edge__edge0", "_edge0", AtoAorB_alt_0_toB_edge__edge0_AllowedTypes, AtoAorB_alt_0_toB_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge AtoAorB_alt_0_toB_edge__edge0 = new PatternEdge(AtoAorB_node_a, AtoAorB_alt_0_toB_node__node0, true, (int) EdgeTypes.@Edge, "AtoAorB_alt_0_toB_edge__edge0", "_edge0", AtoAorB_alt_0_toB_edge__edge0_AllowedTypes, AtoAorB_alt_0_toB_edge__edge0_IsAllowedType, 5.5F, -1);
 			AtoAorB_alt_0_toB = new PatternGraph(
 				"toB",
 				"AtoAorB_alt_0_",
@@ -725,16 +725,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternGraph pat_Complex;
 			PatternNode Complex_node_a = new PatternNode((int) NodeTypes.@A, "Complex_node_a", "a", Complex_node_a_AllowedTypes, Complex_node_a_IsAllowedType, 5.5F, -1);
 			PatternNode Complex_node_b = new PatternNode((int) NodeTypes.@B, "Complex_node_b", "b", Complex_node_b_AllowedTypes, Complex_node_b_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_edge__edge0 = new PatternEdge(Complex_node_a, Complex_node_b, (int) EdgeTypes.@Edge, "Complex_edge__edge0", "_edge0", Complex_edge__edge0_AllowedTypes, Complex_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_edge__edge1 = new PatternEdge(Complex_node_b, Complex_node_a, (int) EdgeTypes.@Edge, "Complex_edge__edge1", "_edge1", Complex_edge__edge1_AllowedTypes, Complex_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_edge__edge0 = new PatternEdge(Complex_node_a, Complex_node_b, true, (int) EdgeTypes.@Edge, "Complex_edge__edge0", "_edge0", Complex_edge__edge0_AllowedTypes, Complex_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_edge__edge1 = new PatternEdge(Complex_node_b, Complex_node_a, true, (int) EdgeTypes.@Edge, "Complex_edge__edge1", "_edge1", Complex_edge__edge1_AllowedTypes, Complex_edge__edge1_IsAllowedType, 5.5F, -1);
 			PatternGraph Complex_alt_0_ExtendAv;
 			PatternNode Complex_alt_0_ExtendAv_node_b2 = new PatternNode((int) NodeTypes.@B, "Complex_alt_0_ExtendAv_node_b2", "b2", Complex_alt_0_ExtendAv_node_b2_AllowedTypes, Complex_alt_0_ExtendAv_node_b2_IsAllowedType, 5.5F, -1);
 			PatternNode Complex_alt_0_ExtendAv_node__node0 = new PatternNode((int) NodeTypes.@C, "Complex_alt_0_ExtendAv_node__node0", "_node0", Complex_alt_0_ExtendAv_node__node0_AllowedTypes, Complex_alt_0_ExtendAv_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode Complex_alt_0_ExtendAv_node__node1 = new PatternNode((int) NodeTypes.@C, "Complex_alt_0_ExtendAv_node__node1", "_node1", Complex_alt_0_ExtendAv_node__node1_AllowedTypes, Complex_alt_0_ExtendAv_node__node1_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendAv_edge__edge0 = new PatternEdge(Complex_node_a, Complex_alt_0_ExtendAv_node_b2, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv_edge__edge0", "_edge0", Complex_alt_0_ExtendAv_edge__edge0_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendAv_edge__edge1 = new PatternEdge(Complex_alt_0_ExtendAv_node_b2, Complex_node_a, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv_edge__edge1", "_edge1", Complex_alt_0_ExtendAv_edge__edge1_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge1_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendAv_edge__edge2 = new PatternEdge(Complex_node_b, Complex_alt_0_ExtendAv_node__node0, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv_edge__edge2", "_edge2", Complex_alt_0_ExtendAv_edge__edge2_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge2_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendAv_edge__edge3 = new PatternEdge(Complex_alt_0_ExtendAv_node__node0, Complex_alt_0_ExtendAv_node__node1, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv_edge__edge3", "_edge3", Complex_alt_0_ExtendAv_edge__edge3_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge3_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendAv_edge__edge0 = new PatternEdge(Complex_node_a, Complex_alt_0_ExtendAv_node_b2, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv_edge__edge0", "_edge0", Complex_alt_0_ExtendAv_edge__edge0_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendAv_edge__edge1 = new PatternEdge(Complex_alt_0_ExtendAv_node_b2, Complex_node_a, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv_edge__edge1", "_edge1", Complex_alt_0_ExtendAv_edge__edge1_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendAv_edge__edge2 = new PatternEdge(Complex_node_b, Complex_alt_0_ExtendAv_node__node0, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv_edge__edge2", "_edge2", Complex_alt_0_ExtendAv_edge__edge2_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge2_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendAv_edge__edge3 = new PatternEdge(Complex_alt_0_ExtendAv_node__node0, Complex_alt_0_ExtendAv_node__node1, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv_edge__edge3", "_edge3", Complex_alt_0_ExtendAv_edge__edge3_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge3_IsAllowedType, 5.5F, -1);
 			Complex_alt_0_ExtendAv = new PatternGraph(
 				"ExtendAv",
 				"Complex_alt_0_",
@@ -764,11 +764,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternNode Complex_alt_0_ExtendAv2_node__node0 = new PatternNode((int) NodeTypes.@C, "Complex_alt_0_ExtendAv2_node__node0", "_node0", Complex_alt_0_ExtendAv2_node__node0_AllowedTypes, Complex_alt_0_ExtendAv2_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode Complex_alt_0_ExtendAv2_node__node1 = new PatternNode((int) NodeTypes.@C, "Complex_alt_0_ExtendAv2_node__node1", "_node1", Complex_alt_0_ExtendAv2_node__node1_AllowedTypes, Complex_alt_0_ExtendAv2_node__node1_IsAllowedType, 5.5F, -1);
 			PatternNode Complex_alt_0_ExtendAv2_node__node2 = new PatternNode((int) NodeTypes.@C, "Complex_alt_0_ExtendAv2_node__node2", "_node2", Complex_alt_0_ExtendAv2_node__node2_AllowedTypes, Complex_alt_0_ExtendAv2_node__node2_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendAv2_edge__edge0 = new PatternEdge(Complex_node_a, Complex_alt_0_ExtendAv2_node_b2, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv2_edge__edge0", "_edge0", Complex_alt_0_ExtendAv2_edge__edge0_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendAv2_edge__edge1 = new PatternEdge(Complex_alt_0_ExtendAv2_node_b2, Complex_node_a, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv2_edge__edge1", "_edge1", Complex_alt_0_ExtendAv2_edge__edge1_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge1_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendAv2_edge__edge2 = new PatternEdge(Complex_node_b, Complex_alt_0_ExtendAv2_node__node0, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv2_edge__edge2", "_edge2", Complex_alt_0_ExtendAv2_edge__edge2_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge2_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendAv2_edge__edge3 = new PatternEdge(Complex_alt_0_ExtendAv2_node__node0, Complex_alt_0_ExtendAv2_node__node1, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv2_edge__edge3", "_edge3", Complex_alt_0_ExtendAv2_edge__edge3_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge3_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendAv2_edge__edge4 = new PatternEdge(Complex_alt_0_ExtendAv2_node__node1, Complex_alt_0_ExtendAv2_node__node2, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv2_edge__edge4", "_edge4", Complex_alt_0_ExtendAv2_edge__edge4_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge4_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendAv2_edge__edge0 = new PatternEdge(Complex_node_a, Complex_alt_0_ExtendAv2_node_b2, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv2_edge__edge0", "_edge0", Complex_alt_0_ExtendAv2_edge__edge0_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendAv2_edge__edge1 = new PatternEdge(Complex_alt_0_ExtendAv2_node_b2, Complex_node_a, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv2_edge__edge1", "_edge1", Complex_alt_0_ExtendAv2_edge__edge1_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendAv2_edge__edge2 = new PatternEdge(Complex_node_b, Complex_alt_0_ExtendAv2_node__node0, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv2_edge__edge2", "_edge2", Complex_alt_0_ExtendAv2_edge__edge2_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge2_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendAv2_edge__edge3 = new PatternEdge(Complex_alt_0_ExtendAv2_node__node0, Complex_alt_0_ExtendAv2_node__node1, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv2_edge__edge3", "_edge3", Complex_alt_0_ExtendAv2_edge__edge3_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge3_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendAv2_edge__edge4 = new PatternEdge(Complex_alt_0_ExtendAv2_node__node1, Complex_alt_0_ExtendAv2_node__node2, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendAv2_edge__edge4", "_edge4", Complex_alt_0_ExtendAv2_edge__edge4_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge4_IsAllowedType, 5.5F, -1);
 			Complex_alt_0_ExtendAv2 = new PatternGraph(
 				"ExtendAv2",
 				"Complex_alt_0_",
@@ -799,10 +799,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternNode Complex_alt_0_ExtendNA2_node__node0 = new PatternNode((int) NodeTypes.@C, "Complex_alt_0_ExtendNA2_node__node0", "_node0", Complex_alt_0_ExtendNA2_node__node0_AllowedTypes, Complex_alt_0_ExtendNA2_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode Complex_alt_0_ExtendNA2_node__node1 = new PatternNode((int) NodeTypes.@C, "Complex_alt_0_ExtendNA2_node__node1", "_node1", Complex_alt_0_ExtendNA2_node__node1_AllowedTypes, Complex_alt_0_ExtendNA2_node__node1_IsAllowedType, 5.5F, -1);
 			PatternNode Complex_alt_0_ExtendNA2_node_b2 = new PatternNode((int) NodeTypes.@B, "Complex_alt_0_ExtendNA2_node_b2", "b2", Complex_alt_0_ExtendNA2_node_b2_AllowedTypes, Complex_alt_0_ExtendNA2_node_b2_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendNA2_edge__edge0 = new PatternEdge(Complex_node_a, Complex_alt_0_ExtendNA2_node__node0, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendNA2_edge__edge0", "_edge0", Complex_alt_0_ExtendNA2_edge__edge0_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendNA2_edge__edge1 = new PatternEdge(Complex_alt_0_ExtendNA2_node__node0, Complex_alt_0_ExtendNA2_node__node1, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendNA2_edge__edge1", "_edge1", Complex_alt_0_ExtendNA2_edge__edge1_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge1_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendNA2_edge__edge2 = new PatternEdge(Complex_node_b, Complex_alt_0_ExtendNA2_node_b2, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendNA2_edge__edge2", "_edge2", Complex_alt_0_ExtendNA2_edge__edge2_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge2_IsAllowedType, 5.5F, -1);
-			PatternEdge Complex_alt_0_ExtendNA2_edge__edge3 = new PatternEdge(Complex_alt_0_ExtendNA2_node_b2, Complex_node_b, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendNA2_edge__edge3", "_edge3", Complex_alt_0_ExtendNA2_edge__edge3_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge3_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendNA2_edge__edge0 = new PatternEdge(Complex_node_a, Complex_alt_0_ExtendNA2_node__node0, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendNA2_edge__edge0", "_edge0", Complex_alt_0_ExtendNA2_edge__edge0_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendNA2_edge__edge1 = new PatternEdge(Complex_alt_0_ExtendNA2_node__node0, Complex_alt_0_ExtendNA2_node__node1, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendNA2_edge__edge1", "_edge1", Complex_alt_0_ExtendNA2_edge__edge1_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendNA2_edge__edge2 = new PatternEdge(Complex_node_b, Complex_alt_0_ExtendNA2_node_b2, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendNA2_edge__edge2", "_edge2", Complex_alt_0_ExtendNA2_edge__edge2_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge2_IsAllowedType, 5.5F, -1);
+			PatternEdge Complex_alt_0_ExtendNA2_edge__edge3 = new PatternEdge(Complex_alt_0_ExtendNA2_node_b2, Complex_node_b, true, (int) EdgeTypes.@Edge, "Complex_alt_0_ExtendNA2_edge__edge3", "_edge3", Complex_alt_0_ExtendNA2_edge__edge3_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge3_IsAllowedType, 5.5F, -1);
 			Complex_alt_0_ExtendNA2 = new PatternGraph(
 				"ExtendNA2",
 				"Complex_alt_0_",
@@ -998,19 +998,19 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternGraph pat_ComplexMax;
 			PatternNode ComplexMax_node_a = new PatternNode((int) NodeTypes.@A, "ComplexMax_node_a", "a", ComplexMax_node_a_AllowedTypes, ComplexMax_node_a_IsAllowedType, 5.5F, -1);
 			PatternNode ComplexMax_node_b = new PatternNode((int) NodeTypes.@B, "ComplexMax_node_b", "b", ComplexMax_node_b_AllowedTypes, ComplexMax_node_b_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_edge__edge0 = new PatternEdge(ComplexMax_node_a, ComplexMax_node_b, (int) EdgeTypes.@Edge, "ComplexMax_edge__edge0", "_edge0", ComplexMax_edge__edge0_AllowedTypes, ComplexMax_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_edge__edge1 = new PatternEdge(ComplexMax_node_b, ComplexMax_node_a, (int) EdgeTypes.@Edge, "ComplexMax_edge__edge1", "_edge1", ComplexMax_edge__edge1_AllowedTypes, ComplexMax_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_edge__edge0 = new PatternEdge(ComplexMax_node_a, ComplexMax_node_b, true, (int) EdgeTypes.@Edge, "ComplexMax_edge__edge0", "_edge0", ComplexMax_edge__edge0_AllowedTypes, ComplexMax_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_edge__edge1 = new PatternEdge(ComplexMax_node_b, ComplexMax_node_a, true, (int) EdgeTypes.@Edge, "ComplexMax_edge__edge1", "_edge1", ComplexMax_edge__edge1_AllowedTypes, ComplexMax_edge__edge1_IsAllowedType, 5.5F, -1);
 			PatternGraph ComplexMax_alt_0_ExtendAv;
 			PatternNode ComplexMax_alt_0_ExtendAv_node_b2 = new PatternNode((int) NodeTypes.@B, "ComplexMax_alt_0_ExtendAv_node_b2", "b2", ComplexMax_alt_0_ExtendAv_node_b2_AllowedTypes, ComplexMax_alt_0_ExtendAv_node_b2_IsAllowedType, 5.5F, -1);
 			PatternNode ComplexMax_alt_0_ExtendAv_node__node0 = new PatternNode((int) NodeTypes.@C, "ComplexMax_alt_0_ExtendAv_node__node0", "_node0", ComplexMax_alt_0_ExtendAv_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendAv_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode ComplexMax_alt_0_ExtendAv_node_c = new PatternNode((int) NodeTypes.@C, "ComplexMax_alt_0_ExtendAv_node_c", "c", ComplexMax_alt_0_ExtendAv_node_c_AllowedTypes, ComplexMax_alt_0_ExtendAv_node_c_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge0 = new PatternEdge(ComplexMax_node_a, ComplexMax_alt_0_ExtendAv_node_b2, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge1 = new PatternEdge(ComplexMax_alt_0_ExtendAv_node_b2, ComplexMax_node_a, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendAv_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge1_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge2 = new PatternEdge(ComplexMax_node_b, ComplexMax_alt_0_ExtendAv_node__node0, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendAv_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge2_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge3 = new PatternEdge(ComplexMax_alt_0_ExtendAv_node__node0, ComplexMax_alt_0_ExtendAv_node_c, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendAv_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge3_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge0 = new PatternEdge(ComplexMax_node_a, ComplexMax_alt_0_ExtendAv_node_b2, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge1 = new PatternEdge(ComplexMax_alt_0_ExtendAv_node_b2, ComplexMax_node_a, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendAv_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge2 = new PatternEdge(ComplexMax_node_b, ComplexMax_alt_0_ExtendAv_node__node0, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendAv_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge2_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge3 = new PatternEdge(ComplexMax_alt_0_ExtendAv_node__node0, ComplexMax_alt_0_ExtendAv_node_c, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendAv_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge3_IsAllowedType, 5.5F, -1);
 			PatternGraph ComplexMax_alt_0_ExtendAv_neg_0;
 			PatternNode ComplexMax_alt_0_ExtendAv_neg_0_node__node0 = new PatternNode((int) NodeTypes.@C, "ComplexMax_alt_0_ExtendAv_neg_0_node__node0", "_node0", ComplexMax_alt_0_ExtendAv_neg_0_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendAv_neg_0_node__node0_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0 = new PatternEdge(ComplexMax_alt_0_ExtendAv_node_c, ComplexMax_alt_0_ExtendAv_neg_0_node__node0, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0 = new PatternEdge(ComplexMax_alt_0_ExtendAv_node_c, ComplexMax_alt_0_ExtendAv_neg_0_node__node0, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			ComplexMax_alt_0_ExtendAv_neg_0 = new PatternGraph(
 				"neg_0",
 				"ComplexMax_alt_0_ExtendAv_",
@@ -1058,11 +1058,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternNode ComplexMax_alt_0_ExtendAv2_node__node0 = new PatternNode((int) NodeTypes.@C, "ComplexMax_alt_0_ExtendAv2_node__node0", "_node0", ComplexMax_alt_0_ExtendAv2_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendAv2_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode ComplexMax_alt_0_ExtendAv2_node__node1 = new PatternNode((int) NodeTypes.@C, "ComplexMax_alt_0_ExtendAv2_node__node1", "_node1", ComplexMax_alt_0_ExtendAv2_node__node1_AllowedTypes, ComplexMax_alt_0_ExtendAv2_node__node1_IsAllowedType, 5.5F, -1);
 			PatternNode ComplexMax_alt_0_ExtendAv2_node__node2 = new PatternNode((int) NodeTypes.@C, "ComplexMax_alt_0_ExtendAv2_node__node2", "_node2", ComplexMax_alt_0_ExtendAv2_node__node2_AllowedTypes, ComplexMax_alt_0_ExtendAv2_node__node2_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge0 = new PatternEdge(ComplexMax_node_a, ComplexMax_alt_0_ExtendAv2_node_b2, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv2_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv2_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge1 = new PatternEdge(ComplexMax_alt_0_ExtendAv2_node_b2, ComplexMax_node_a, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv2_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendAv2_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge1_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge2 = new PatternEdge(ComplexMax_node_b, ComplexMax_alt_0_ExtendAv2_node__node0, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv2_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendAv2_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge2_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge3 = new PatternEdge(ComplexMax_alt_0_ExtendAv2_node__node0, ComplexMax_alt_0_ExtendAv2_node__node1, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv2_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendAv2_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge3_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge4 = new PatternEdge(ComplexMax_alt_0_ExtendAv2_node__node1, ComplexMax_alt_0_ExtendAv2_node__node2, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv2_edge__edge4", "_edge4", ComplexMax_alt_0_ExtendAv2_edge__edge4_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge4_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge0 = new PatternEdge(ComplexMax_node_a, ComplexMax_alt_0_ExtendAv2_node_b2, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv2_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv2_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge1 = new PatternEdge(ComplexMax_alt_0_ExtendAv2_node_b2, ComplexMax_node_a, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv2_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendAv2_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge2 = new PatternEdge(ComplexMax_node_b, ComplexMax_alt_0_ExtendAv2_node__node0, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv2_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendAv2_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge2_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge3 = new PatternEdge(ComplexMax_alt_0_ExtendAv2_node__node0, ComplexMax_alt_0_ExtendAv2_node__node1, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv2_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendAv2_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge3_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge4 = new PatternEdge(ComplexMax_alt_0_ExtendAv2_node__node1, ComplexMax_alt_0_ExtendAv2_node__node2, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv2_edge__edge4", "_edge4", ComplexMax_alt_0_ExtendAv2_edge__edge4_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge4_IsAllowedType, 5.5F, -1);
 			ComplexMax_alt_0_ExtendAv2 = new PatternGraph(
 				"ExtendAv2",
 				"ComplexMax_alt_0_",
@@ -1093,10 +1093,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternNode ComplexMax_alt_0_ExtendNA2_node__node0 = new PatternNode((int) NodeTypes.@C, "ComplexMax_alt_0_ExtendNA2_node__node0", "_node0", ComplexMax_alt_0_ExtendNA2_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendNA2_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode ComplexMax_alt_0_ExtendNA2_node__node1 = new PatternNode((int) NodeTypes.@C, "ComplexMax_alt_0_ExtendNA2_node__node1", "_node1", ComplexMax_alt_0_ExtendNA2_node__node1_AllowedTypes, ComplexMax_alt_0_ExtendNA2_node__node1_IsAllowedType, 5.5F, -1);
 			PatternNode ComplexMax_alt_0_ExtendNA2_node_b2 = new PatternNode((int) NodeTypes.@B, "ComplexMax_alt_0_ExtendNA2_node_b2", "b2", ComplexMax_alt_0_ExtendNA2_node_b2_AllowedTypes, ComplexMax_alt_0_ExtendNA2_node_b2_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge0 = new PatternEdge(ComplexMax_node_a, ComplexMax_alt_0_ExtendNA2_node__node0, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendNA2_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendNA2_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge1 = new PatternEdge(ComplexMax_alt_0_ExtendNA2_node__node0, ComplexMax_alt_0_ExtendNA2_node__node1, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendNA2_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendNA2_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge1_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge2 = new PatternEdge(ComplexMax_node_b, ComplexMax_alt_0_ExtendNA2_node_b2, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendNA2_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendNA2_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge2_IsAllowedType, 5.5F, -1);
-			PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge3 = new PatternEdge(ComplexMax_alt_0_ExtendNA2_node_b2, ComplexMax_node_b, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendNA2_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendNA2_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge3_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge0 = new PatternEdge(ComplexMax_node_a, ComplexMax_alt_0_ExtendNA2_node__node0, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendNA2_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendNA2_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge1 = new PatternEdge(ComplexMax_alt_0_ExtendNA2_node__node0, ComplexMax_alt_0_ExtendNA2_node__node1, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendNA2_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendNA2_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge2 = new PatternEdge(ComplexMax_node_b, ComplexMax_alt_0_ExtendNA2_node_b2, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendNA2_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendNA2_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge2_IsAllowedType, 5.5F, -1);
+			PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge3 = new PatternEdge(ComplexMax_alt_0_ExtendNA2_node_b2, ComplexMax_node_b, true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendNA2_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendNA2_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge3_IsAllowedType, 5.5F, -1);
 			ComplexMax_alt_0_ExtendNA2 = new PatternGraph(
 				"ExtendNA2",
 				"ComplexMax_alt_0_",
@@ -1714,12 +1714,12 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternGraph pat_homm;
 			PatternNode homm_node_a = new PatternNode((int) NodeTypes.@A, "homm_node_a", "a", homm_node_a_AllowedTypes, homm_node_a_IsAllowedType, 5.5F, -1);
 			PatternNode homm_node_b = new PatternNode((int) NodeTypes.@B, "homm_node_b", "b", homm_node_b_AllowedTypes, homm_node_b_IsAllowedType, 5.5F, -1);
-			PatternEdge homm_edge__edge0 = new PatternEdge(homm_node_a, homm_node_b, (int) EdgeTypes.@Edge, "homm_edge__edge0", "_edge0", homm_edge__edge0_AllowedTypes, homm_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge homm_edge__edge1 = new PatternEdge(homm_node_b, homm_node_a, (int) EdgeTypes.@Edge, "homm_edge__edge1", "_edge1", homm_edge__edge1_AllowedTypes, homm_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge homm_edge__edge0 = new PatternEdge(homm_node_a, homm_node_b, true, (int) EdgeTypes.@Edge, "homm_edge__edge0", "_edge0", homm_edge__edge0_AllowedTypes, homm_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge homm_edge__edge1 = new PatternEdge(homm_node_b, homm_node_a, true, (int) EdgeTypes.@Edge, "homm_edge__edge1", "_edge1", homm_edge__edge1_AllowedTypes, homm_edge__edge1_IsAllowedType, 5.5F, -1);
 			PatternGraph homm_alt_0_case1;
 			PatternNode homm_alt_0_case1_node_b2 = new PatternNode((int) NodeTypes.@B, "homm_alt_0_case1_node_b2", "b2", homm_alt_0_case1_node_b2_AllowedTypes, homm_alt_0_case1_node_b2_IsAllowedType, 5.5F, -1);
-			PatternEdge homm_alt_0_case1_edge__edge0 = new PatternEdge(homm_node_a, homm_alt_0_case1_node_b2, (int) EdgeTypes.@Edge, "homm_alt_0_case1_edge__edge0", "_edge0", homm_alt_0_case1_edge__edge0_AllowedTypes, homm_alt_0_case1_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge homm_alt_0_case1_edge__edge1 = new PatternEdge(homm_alt_0_case1_node_b2, homm_node_a, (int) EdgeTypes.@Edge, "homm_alt_0_case1_edge__edge1", "_edge1", homm_alt_0_case1_edge__edge1_AllowedTypes, homm_alt_0_case1_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge homm_alt_0_case1_edge__edge0 = new PatternEdge(homm_node_a, homm_alt_0_case1_node_b2, true, (int) EdgeTypes.@Edge, "homm_alt_0_case1_edge__edge0", "_edge0", homm_alt_0_case1_edge__edge0_AllowedTypes, homm_alt_0_case1_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge homm_alt_0_case1_edge__edge1 = new PatternEdge(homm_alt_0_case1_node_b2, homm_node_a, true, (int) EdgeTypes.@Edge, "homm_alt_0_case1_edge__edge1", "_edge1", homm_alt_0_case1_edge__edge1_AllowedTypes, homm_alt_0_case1_edge__edge1_IsAllowedType, 5.5F, -1);
 			homm_alt_0_case1 = new PatternGraph(
 				"case1",
 				"homm_alt_0_",
@@ -1741,8 +1741,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 			PatternGraph homm_alt_0_case2;
 			PatternNode homm_alt_0_case2_node_b2 = new PatternNode((int) NodeTypes.@B, "homm_alt_0_case2_node_b2", "b2", homm_alt_0_case2_node_b2_AllowedTypes, homm_alt_0_case2_node_b2_IsAllowedType, 5.5F, -1);
-			PatternEdge homm_alt_0_case2_edge__edge0 = new PatternEdge(homm_node_a, homm_alt_0_case2_node_b2, (int) EdgeTypes.@Edge, "homm_alt_0_case2_edge__edge0", "_edge0", homm_alt_0_case2_edge__edge0_AllowedTypes, homm_alt_0_case2_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge homm_alt_0_case2_edge__edge1 = new PatternEdge(homm_alt_0_case2_node_b2, homm_node_a, (int) EdgeTypes.@Edge, "homm_alt_0_case2_edge__edge1", "_edge1", homm_alt_0_case2_edge__edge1_AllowedTypes, homm_alt_0_case2_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge homm_alt_0_case2_edge__edge0 = new PatternEdge(homm_node_a, homm_alt_0_case2_node_b2, true, (int) EdgeTypes.@Edge, "homm_alt_0_case2_edge__edge0", "_edge0", homm_alt_0_case2_edge__edge0_AllowedTypes, homm_alt_0_case2_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge homm_alt_0_case2_edge__edge1 = new PatternEdge(homm_alt_0_case2_node_b2, homm_node_a, true, (int) EdgeTypes.@Edge, "homm_alt_0_case2_edge__edge1", "_edge1", homm_alt_0_case2_edge__edge1_AllowedTypes, homm_alt_0_case2_edge__edge1_IsAllowedType, 5.5F, -1);
 			homm_alt_0_case2 = new PatternGraph(
 				"case2",
 				"homm_alt_0_",
@@ -1821,11 +1821,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum leer_EdgeNums { };
 		public enum leer_SubNums { };
 		public enum leer_AltNums { @alt_0, };
-		public enum leer_alt_0_CaseNums { @leer, };
-		public enum leer_alt_0_leer_NodeNums { };
-		public enum leer_alt_0_leer_EdgeNums { };
-		public enum leer_alt_0_leer_SubNums { };
-		public enum leer_alt_0_leer_AltNums { };
+		public enum leer_alt_0_CaseNums { @altleer, };
+		public enum leer_alt_0_altleer_NodeNums { };
+		public enum leer_alt_0_altleer_EdgeNums { };
+		public enum leer_alt_0_altleer_SubNums { };
+		public enum leer_alt_0_altleer_AltNums { };
 
 #if INITIAL_WARMUP
 		public Rule_leer()
@@ -1844,9 +1844,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override void initialize()
 		{
 			PatternGraph pat_leer;
-			PatternGraph leer_alt_0_leer;
-			leer_alt_0_leer = new PatternGraph(
-				"leer",
+			PatternGraph leer_alt_0_altleer;
+			leer_alt_0_altleer = new PatternGraph(
+				"altleer",
 				"leer_alt_0_",
 				false,
 				new PatternNode[] {  }, 
@@ -1857,7 +1857,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new Condition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] 			);
-			Alternative leer_alt_0 = new Alternative( "alt_0", "leer_", new PatternGraph[] { leer_alt_0_leer } );
+			Alternative leer_alt_0 = new Alternative( "alt_0", "leer_", new PatternGraph[] { leer_alt_0_altleer } );
 
 			pat_leer = new PatternGraph(
 				"leer",
@@ -6989,9 +6989,9 @@ label3: ;
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // Alternative case leer_alt_0_leer 
+            // Alternative case leer_alt_0_altleer 
             do {
-                patternGraph = patternGraphs[(int)Rule_leer.leer_alt_0_CaseNums.@leer];
+                patternGraph = patternGraphs[(int)Rule_leer.leer_alt_0_CaseNums.@altleer];
                 // Check whether there are subpattern matching tasks left to execute
                 if(openTasks.Count==0)
                 {

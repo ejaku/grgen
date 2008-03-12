@@ -47,7 +47,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternNode aux_attachResource_node_p = new PatternNode((int) NodeTypes.@Process, "aux_attachResource_node_p", "p", aux_attachResource_node_p_AllowedTypes, aux_attachResource_node_p_IsAllowedType, 5.5F, -1);
 			PatternGraph aux_attachResource_neg_0;
 			PatternNode aux_attachResource_neg_0_node_r = new PatternNode((int) NodeTypes.@Resource, "aux_attachResource_neg_0_node_r", "r", aux_attachResource_neg_0_node_r_AllowedTypes, aux_attachResource_neg_0_node_r_IsAllowedType, 5.5F, -1);
-			PatternEdge aux_attachResource_neg_0_edge__edge0 = new PatternEdge(aux_attachResource_neg_0_node_r, aux_attachResource_node_p, (int) EdgeTypes.@held_by, "aux_attachResource_neg_0_edge__edge0", "_edge0", aux_attachResource_neg_0_edge__edge0_AllowedTypes, aux_attachResource_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge aux_attachResource_neg_0_edge__edge0 = new PatternEdge(aux_attachResource_neg_0_node_r, aux_attachResource_node_p, true, (int) EdgeTypes.@held_by, "aux_attachResource_neg_0_edge__edge0", "_edge0", aux_attachResource_neg_0_edge__edge0_AllowedTypes, aux_attachResource_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			aux_attachResource_neg_0 = new PatternGraph(
 				"neg_0",
 				"aux_attachResource_",
@@ -114,17 +114,17 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static Rule_blockedRule instance = null;
 		public static Rule_blockedRule Instance { get { if (instance==null) { instance = new Rule_blockedRule(); instance.initialize(); } return instance; } }
 
-		public static NodeType[] blockedRule_node_r_AllowedTypes = null;
 		public static NodeType[] blockedRule_node_p1_AllowedTypes = null;
+		public static NodeType[] blockedRule_node_r_AllowedTypes = null;
 		public static NodeType[] blockedRule_node_p2_AllowedTypes = null;
-		public static bool[] blockedRule_node_r_IsAllowedType = null;
 		public static bool[] blockedRule_node_p1_IsAllowedType = null;
+		public static bool[] blockedRule_node_r_IsAllowedType = null;
 		public static bool[] blockedRule_node_p2_IsAllowedType = null;
 		public static EdgeType[] blockedRule_edge_req_AllowedTypes = null;
 		public static EdgeType[] blockedRule_edge_hb_AllowedTypes = null;
 		public static bool[] blockedRule_edge_req_IsAllowedType = null;
 		public static bool[] blockedRule_edge_hb_IsAllowedType = null;
-		public enum blockedRule_NodeNums { @r, @p1, @p2, };
+		public enum blockedRule_NodeNums { @p1, @r, @p2, };
 		public enum blockedRule_EdgeNums { @req, @hb, };
 		public enum blockedRule_SubNums { };
 		public enum blockedRule_AltNums { };
@@ -146,16 +146,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override void initialize()
 		{
 			PatternGraph pat_blockedRule;
-			PatternNode blockedRule_node_r = new PatternNode((int) NodeTypes.@Resource, "blockedRule_node_r", "r", blockedRule_node_r_AllowedTypes, blockedRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode blockedRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "blockedRule_node_p1", "p1", blockedRule_node_p1_AllowedTypes, blockedRule_node_p1_IsAllowedType, 5.5F, -1);
+			PatternNode blockedRule_node_r = new PatternNode((int) NodeTypes.@Resource, "blockedRule_node_r", "r", blockedRule_node_r_AllowedTypes, blockedRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode blockedRule_node_p2 = new PatternNode((int) NodeTypes.@Process, "blockedRule_node_p2", "p2", blockedRule_node_p2_AllowedTypes, blockedRule_node_p2_IsAllowedType, 5.5F, -1);
-			PatternEdge blockedRule_edge_req = new PatternEdge(blockedRule_node_p1, blockedRule_node_r, (int) EdgeTypes.@request, "blockedRule_edge_req", "req", blockedRule_edge_req_AllowedTypes, blockedRule_edge_req_IsAllowedType, 5.5F, -1);
-			PatternEdge blockedRule_edge_hb = new PatternEdge(blockedRule_node_r, blockedRule_node_p2, (int) EdgeTypes.@held_by, "blockedRule_edge_hb", "hb", blockedRule_edge_hb_AllowedTypes, blockedRule_edge_hb_IsAllowedType, 5.5F, -1);
+			PatternEdge blockedRule_edge_req = new PatternEdge(blockedRule_node_p1, blockedRule_node_r, true, (int) EdgeTypes.@request, "blockedRule_edge_req", "req", blockedRule_edge_req_AllowedTypes, blockedRule_edge_req_IsAllowedType, 5.5F, -1);
+			PatternEdge blockedRule_edge_hb = new PatternEdge(blockedRule_node_r, blockedRule_node_p2, true, (int) EdgeTypes.@held_by, "blockedRule_edge_hb", "hb", blockedRule_edge_hb_AllowedTypes, blockedRule_edge_hb_IsAllowedType, 5.5F, -1);
 			pat_blockedRule = new PatternGraph(
 				"blockedRule",
 				"",
 				false,
-				new PatternNode[] { blockedRule_node_r, blockedRule_node_p1, blockedRule_node_p2 }, 
+				new PatternNode[] { blockedRule_node_p1, blockedRule_node_r, blockedRule_node_p2 }, 
 				new PatternEdge[] { blockedRule_edge_req, blockedRule_edge_hb }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
@@ -171,8 +171,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					{ false, true, },
 				}
 			);
-			blockedRule_node_r.PointOfDefinition = pat_blockedRule;
 			blockedRule_node_p1.PointOfDefinition = pat_blockedRule;
+			blockedRule_node_r.PointOfDefinition = pat_blockedRule;
 			blockedRule_node_p2.PointOfDefinition = pat_blockedRule;
 			blockedRule_edge_req.PointOfDefinition = pat_blockedRule;
 			blockedRule_edge_hb.PointOfDefinition = pat_blockedRule;
@@ -242,8 +242,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternNode giveRule_node_r = new PatternNode((int) NodeTypes.@Resource, "giveRule_node_r", "r", giveRule_node_r_AllowedTypes, giveRule_node_r_IsAllowedType, 5.5F, -1);
 			PatternNode giveRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "giveRule_node_p1", "p1", giveRule_node_p1_AllowedTypes, giveRule_node_p1_IsAllowedType, 5.5F, -1);
 			PatternNode giveRule_node_p2 = new PatternNode((int) NodeTypes.@Process, "giveRule_node_p2", "p2", giveRule_node_p2_AllowedTypes, giveRule_node_p2_IsAllowedType, 5.5F, -1);
-			PatternEdge giveRule_edge_rel = new PatternEdge(giveRule_node_r, giveRule_node_p1, (int) EdgeTypes.@release, "giveRule_edge_rel", "rel", giveRule_edge_rel_AllowedTypes, giveRule_edge_rel_IsAllowedType, 1.0F, -1);
-			PatternEdge giveRule_edge_n = new PatternEdge(giveRule_node_p1, giveRule_node_p2, (int) EdgeTypes.@next, "giveRule_edge_n", "n", giveRule_edge_n_AllowedTypes, giveRule_edge_n_IsAllowedType, 5.5F, -1);
+			PatternEdge giveRule_edge_rel = new PatternEdge(giveRule_node_r, giveRule_node_p1, true, (int) EdgeTypes.@release, "giveRule_edge_rel", "rel", giveRule_edge_rel_AllowedTypes, giveRule_edge_rel_IsAllowedType, 1.0F, -1);
+			PatternEdge giveRule_edge_n = new PatternEdge(giveRule_node_p1, giveRule_node_p2, true, (int) EdgeTypes.@next, "giveRule_edge_n", "n", giveRule_edge_n_AllowedTypes, giveRule_edge_n_IsAllowedType, 5.5F, -1);
 			pat_giveRule = new PatternGraph(
 				"giveRule",
 				"",
@@ -342,10 +342,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternGraph pat_ignoreRule;
 			PatternNode ignoreRule_node_r = new PatternNode((int) NodeTypes.@Resource, "ignoreRule_node_r", "r", ignoreRule_node_r_AllowedTypes, ignoreRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode ignoreRule_node_p = new PatternNode((int) NodeTypes.@Process, "ignoreRule_node_p", "p", ignoreRule_node_p_AllowedTypes, ignoreRule_node_p_IsAllowedType, 5.5F, -1);
-			PatternEdge ignoreRule_edge_b = new PatternEdge(ignoreRule_node_r, ignoreRule_node_p, (int) EdgeTypes.@blocked, "ignoreRule_edge_b", "b", ignoreRule_edge_b_AllowedTypes, ignoreRule_edge_b_IsAllowedType, 5.5F, -1);
+			PatternEdge ignoreRule_edge_b = new PatternEdge(ignoreRule_node_r, ignoreRule_node_p, true, (int) EdgeTypes.@blocked, "ignoreRule_edge_b", "b", ignoreRule_edge_b_AllowedTypes, ignoreRule_edge_b_IsAllowedType, 5.5F, -1);
 			PatternGraph ignoreRule_neg_0;
 			PatternNode ignoreRule_neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "ignoreRule_neg_0_node_m", "m", ignoreRule_neg_0_node_m_AllowedTypes, ignoreRule_neg_0_node_m_IsAllowedType, 5.5F, -1);
-			PatternEdge ignoreRule_neg_0_edge_hb = new PatternEdge(ignoreRule_neg_0_node_m, ignoreRule_node_p, (int) EdgeTypes.@held_by, "ignoreRule_neg_0_edge_hb", "hb", ignoreRule_neg_0_edge_hb_AllowedTypes, ignoreRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1);
+			PatternEdge ignoreRule_neg_0_edge_hb = new PatternEdge(ignoreRule_neg_0_node_m, ignoreRule_node_p, true, (int) EdgeTypes.@held_by, "ignoreRule_neg_0_edge_hb", "hb", ignoreRule_neg_0_edge_hb_AllowedTypes, ignoreRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1);
 			ignoreRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"ignoreRule_",
@@ -451,8 +451,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternNode killRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "killRule_node_p1", "p1", killRule_node_p1_AllowedTypes, killRule_node_p1_IsAllowedType, 5.5F, -1);
 			PatternNode killRule_node_p = new PatternNode((int) NodeTypes.@Process, "killRule_node_p", "p", killRule_node_p_AllowedTypes, killRule_node_p_IsAllowedType, 5.5F, -1);
 			PatternNode killRule_node_p2 = new PatternNode((int) NodeTypes.@Process, "killRule_node_p2", "p2", killRule_node_p2_AllowedTypes, killRule_node_p2_IsAllowedType, 5.5F, -1);
-			PatternEdge killRule_edge_n1 = new PatternEdge(killRule_node_p1, killRule_node_p, (int) EdgeTypes.@next, "killRule_edge_n1", "n1", killRule_edge_n1_AllowedTypes, killRule_edge_n1_IsAllowedType, 5.5F, -1);
-			PatternEdge killRule_edge_n2 = new PatternEdge(killRule_node_p, killRule_node_p2, (int) EdgeTypes.@next, "killRule_edge_n2", "n2", killRule_edge_n2_AllowedTypes, killRule_edge_n2_IsAllowedType, 5.5F, -1);
+			PatternEdge killRule_edge_n1 = new PatternEdge(killRule_node_p1, killRule_node_p, true, (int) EdgeTypes.@next, "killRule_edge_n1", "n1", killRule_edge_n1_AllowedTypes, killRule_edge_n1_IsAllowedType, 5.5F, -1);
+			PatternEdge killRule_edge_n2 = new PatternEdge(killRule_node_p, killRule_node_p2, true, (int) EdgeTypes.@next, "killRule_edge_n2", "n2", killRule_edge_n2_AllowedTypes, killRule_edge_n2_IsAllowedType, 5.5F, -1);
 			pat_killRule = new PatternGraph(
 				"killRule",
 				"",
@@ -634,7 +634,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternGraph pat_newRule;
 			PatternNode newRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "newRule_node_p1", "p1", newRule_node_p1_AllowedTypes, newRule_node_p1_IsAllowedType, 5.5F, -1);
 			PatternNode newRule_node_p2 = new PatternNode((int) NodeTypes.@Process, "newRule_node_p2", "p2", newRule_node_p2_AllowedTypes, newRule_node_p2_IsAllowedType, 5.5F, -1);
-			PatternEdge newRule_edge_n = new PatternEdge(newRule_node_p1, newRule_node_p2, (int) EdgeTypes.@next, "newRule_edge_n", "n", newRule_edge_n_AllowedTypes, newRule_edge_n_IsAllowedType, 1.0F, -1);
+			PatternEdge newRule_edge_n = new PatternEdge(newRule_node_p1, newRule_node_p2, true, (int) EdgeTypes.@next, "newRule_edge_n", "n", newRule_edge_n_AllowedTypes, newRule_edge_n_IsAllowedType, 1.0F, -1);
 			pat_newRule = new PatternGraph(
 				"newRule",
 				"",
@@ -746,10 +746,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternNode passRule_node_r = new PatternNode((int) NodeTypes.@Resource, "passRule_node_r", "r", passRule_node_r_AllowedTypes, passRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode passRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "passRule_node_p1", "p1", passRule_node_p1_AllowedTypes, passRule_node_p1_IsAllowedType, 5.5F, -1);
 			PatternNode passRule_node_p2 = new PatternNode((int) NodeTypes.@Process, "passRule_node_p2", "p2", passRule_node_p2_AllowedTypes, passRule_node_p2_IsAllowedType, 5.5F, -1);
-			PatternEdge passRule_edge__edge0 = new PatternEdge(passRule_node_r, passRule_node_p1, (int) EdgeTypes.@token, "passRule_edge__edge0", "_edge0", passRule_edge__edge0_AllowedTypes, passRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge passRule_edge_n = new PatternEdge(passRule_node_p1, passRule_node_p2, (int) EdgeTypes.@next, "passRule_edge_n", "n", passRule_edge_n_AllowedTypes, passRule_edge_n_IsAllowedType, 5.5F, -1);
+			PatternEdge passRule_edge__edge0 = new PatternEdge(passRule_node_r, passRule_node_p1, true, (int) EdgeTypes.@token, "passRule_edge__edge0", "_edge0", passRule_edge__edge0_AllowedTypes, passRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge passRule_edge_n = new PatternEdge(passRule_node_p1, passRule_node_p2, true, (int) EdgeTypes.@next, "passRule_edge_n", "n", passRule_edge_n_AllowedTypes, passRule_edge_n_IsAllowedType, 5.5F, -1);
 			PatternGraph passRule_neg_0;
-			PatternEdge passRule_neg_0_edge_req = new PatternEdge(passRule_node_p1, passRule_node_r, (int) EdgeTypes.@request, "passRule_neg_0_edge_req", "req", passRule_neg_0_edge_req_AllowedTypes, passRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
+			PatternEdge passRule_neg_0_edge_req = new PatternEdge(passRule_node_p1, passRule_node_r, true, (int) EdgeTypes.@request, "passRule_neg_0_edge_req", "req", passRule_neg_0_edge_req_AllowedTypes, passRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			passRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"passRule_",
@@ -877,10 +877,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternGraph pat_releaseRule;
 			PatternNode releaseRule_node_r = new PatternNode((int) NodeTypes.@Resource, "releaseRule_node_r", "r", releaseRule_node_r_AllowedTypes, releaseRule_node_r_IsAllowedType, 5.5F, -1);
 			PatternNode releaseRule_node_p = new PatternNode((int) NodeTypes.@Process, "releaseRule_node_p", "p", releaseRule_node_p_AllowedTypes, releaseRule_node_p_IsAllowedType, 5.5F, -1);
-			PatternEdge releaseRule_edge_hb = new PatternEdge(releaseRule_node_r, releaseRule_node_p, (int) EdgeTypes.@held_by, "releaseRule_edge_hb", "hb", releaseRule_edge_hb_AllowedTypes, releaseRule_edge_hb_IsAllowedType, 1.0F, -1);
+			PatternEdge releaseRule_edge_hb = new PatternEdge(releaseRule_node_r, releaseRule_node_p, true, (int) EdgeTypes.@held_by, "releaseRule_edge_hb", "hb", releaseRule_edge_hb_AllowedTypes, releaseRule_edge_hb_IsAllowedType, 1.0F, -1);
 			PatternGraph releaseRule_neg_0;
 			PatternNode releaseRule_neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "releaseRule_neg_0_node_m", "m", releaseRule_neg_0_node_m_AllowedTypes, releaseRule_neg_0_node_m_IsAllowedType, 5.5F, -1);
-			PatternEdge releaseRule_neg_0_edge_req = new PatternEdge(releaseRule_node_p, releaseRule_neg_0_node_m, (int) EdgeTypes.@request, "releaseRule_neg_0_edge_req", "req", releaseRule_neg_0_edge_req_AllowedTypes, releaseRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
+			PatternEdge releaseRule_neg_0_edge_req = new PatternEdge(releaseRule_node_p, releaseRule_neg_0_node_m, true, (int) EdgeTypes.@request, "releaseRule_neg_0_edge_req", "req", releaseRule_neg_0_edge_req_AllowedTypes, releaseRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			releaseRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"releaseRule_",
@@ -997,9 +997,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternNode releaseStarRule_node_r1 = new PatternNode((int) NodeTypes.@Resource, "releaseStarRule_node_r1", "r1", releaseStarRule_node_r1_AllowedTypes, releaseStarRule_node_r1_IsAllowedType, 5.5F, -1);
 			PatternNode releaseStarRule_node_p2 = new PatternNode((int) NodeTypes.@Process, "releaseStarRule_node_p2", "p2", releaseStarRule_node_p2_AllowedTypes, releaseStarRule_node_p2_IsAllowedType, 5.5F, -1);
 			PatternNode releaseStarRule_node_r2 = new PatternNode((int) NodeTypes.@Resource, "releaseStarRule_node_r2", "r2", releaseStarRule_node_r2_AllowedTypes, releaseStarRule_node_r2_IsAllowedType, 5.5F, -1);
-			PatternEdge releaseStarRule_edge_rq = new PatternEdge(releaseStarRule_node_p1, releaseStarRule_node_r1, (int) EdgeTypes.@request, "releaseStarRule_edge_rq", "rq", releaseStarRule_edge_rq_AllowedTypes, releaseStarRule_edge_rq_IsAllowedType, 5.5F, -1);
-			PatternEdge releaseStarRule_edge_h1 = new PatternEdge(releaseStarRule_node_r1, releaseStarRule_node_p2, (int) EdgeTypes.@held_by, "releaseStarRule_edge_h1", "h1", releaseStarRule_edge_h1_AllowedTypes, releaseStarRule_edge_h1_IsAllowedType, 5.5F, -1);
-			PatternEdge releaseStarRule_edge_h2 = new PatternEdge(releaseStarRule_node_r2, releaseStarRule_node_p2, (int) EdgeTypes.@held_by, "releaseStarRule_edge_h2", "h2", releaseStarRule_edge_h2_AllowedTypes, releaseStarRule_edge_h2_IsAllowedType, 5.5F, -1);
+			PatternEdge releaseStarRule_edge_rq = new PatternEdge(releaseStarRule_node_p1, releaseStarRule_node_r1, true, (int) EdgeTypes.@request, "releaseStarRule_edge_rq", "rq", releaseStarRule_edge_rq_AllowedTypes, releaseStarRule_edge_rq_IsAllowedType, 5.5F, -1);
+			PatternEdge releaseStarRule_edge_h1 = new PatternEdge(releaseStarRule_node_r1, releaseStarRule_node_p2, true, (int) EdgeTypes.@held_by, "releaseStarRule_edge_h1", "h1", releaseStarRule_edge_h1_AllowedTypes, releaseStarRule_edge_h1_IsAllowedType, 5.5F, -1);
+			PatternEdge releaseStarRule_edge_h2 = new PatternEdge(releaseStarRule_node_r2, releaseStarRule_node_p2, true, (int) EdgeTypes.@held_by, "releaseStarRule_edge_h2", "h2", releaseStarRule_edge_h2_AllowedTypes, releaseStarRule_edge_h2_IsAllowedType, 5.5F, -1);
 			pat_releaseStarRule = new PatternGraph(
 				"releaseStarRule",
 				"",
@@ -1107,7 +1107,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternNode requestRule_node_p = new PatternNode((int) NodeTypes.@Process, "requestRule_node_p", "p", requestRule_node_p_AllowedTypes, requestRule_node_p_IsAllowedType, 5.5F, -1);
 			PatternNode requestRule_node_r = new PatternNode((int) NodeTypes.@Resource, "requestRule_node_r", "r", requestRule_node_r_AllowedTypes, requestRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternGraph requestRule_neg_0;
-			PatternEdge requestRule_neg_0_edge_hb = new PatternEdge(requestRule_node_r, requestRule_node_p, (int) EdgeTypes.@held_by, "requestRule_neg_0_edge_hb", "hb", requestRule_neg_0_edge_hb_AllowedTypes, requestRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1);
+			PatternEdge requestRule_neg_0_edge_hb = new PatternEdge(requestRule_node_r, requestRule_node_p, true, (int) EdgeTypes.@held_by, "requestRule_neg_0_edge_hb", "hb", requestRule_neg_0_edge_hb_AllowedTypes, requestRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1);
 			requestRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"requestRule_",
@@ -1128,7 +1128,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			PatternGraph requestRule_neg_1;
 			PatternNode requestRule_neg_1_node_m = new PatternNode((int) NodeTypes.@Resource, "requestRule_neg_1_node_m", "m", requestRule_neg_1_node_m_AllowedTypes, requestRule_neg_1_node_m_IsAllowedType, 5.5F, -1);
-			PatternEdge requestRule_neg_1_edge_req = new PatternEdge(requestRule_node_p, requestRule_neg_1_node_m, (int) EdgeTypes.@request, "requestRule_neg_1_edge_req", "req", requestRule_neg_1_edge_req_AllowedTypes, requestRule_neg_1_edge_req_IsAllowedType, 5.5F, -1);
+			PatternEdge requestRule_neg_1_edge_req = new PatternEdge(requestRule_node_p, requestRule_neg_1_node_m, true, (int) EdgeTypes.@request, "requestRule_neg_1_edge_req", "req", requestRule_neg_1_edge_req_AllowedTypes, requestRule_neg_1_edge_req_IsAllowedType, 5.5F, -1);
 			requestRule_neg_1 = new PatternGraph(
 				"neg_1",
 				"requestRule_",
@@ -1234,9 +1234,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternGraph pat_requestSimpleRule;
 			PatternNode requestSimpleRule_node_r = new PatternNode((int) NodeTypes.@Resource, "requestSimpleRule_node_r", "r", requestSimpleRule_node_r_AllowedTypes, requestSimpleRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode requestSimpleRule_node_p = new PatternNode((int) NodeTypes.@Process, "requestSimpleRule_node_p", "p", requestSimpleRule_node_p_AllowedTypes, requestSimpleRule_node_p_IsAllowedType, 5.5F, -1);
-			PatternEdge requestSimpleRule_edge_t = new PatternEdge(requestSimpleRule_node_r, requestSimpleRule_node_p, (int) EdgeTypes.@token, "requestSimpleRule_edge_t", "t", requestSimpleRule_edge_t_AllowedTypes, requestSimpleRule_edge_t_IsAllowedType, 5.5F, -1);
+			PatternEdge requestSimpleRule_edge_t = new PatternEdge(requestSimpleRule_node_r, requestSimpleRule_node_p, true, (int) EdgeTypes.@token, "requestSimpleRule_edge_t", "t", requestSimpleRule_edge_t_AllowedTypes, requestSimpleRule_edge_t_IsAllowedType, 5.5F, -1);
 			PatternGraph requestSimpleRule_neg_0;
-			PatternEdge requestSimpleRule_neg_0_edge_req = new PatternEdge(requestSimpleRule_node_p, requestSimpleRule_node_r, (int) EdgeTypes.@request, "requestSimpleRule_neg_0_edge_req", "req", requestSimpleRule_neg_0_edge_req_AllowedTypes, requestSimpleRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
+			PatternEdge requestSimpleRule_neg_0_edge_req = new PatternEdge(requestSimpleRule_node_p, requestSimpleRule_node_r, true, (int) EdgeTypes.@request, "requestSimpleRule_neg_0_edge_req", "req", requestSimpleRule_neg_0_edge_req_AllowedTypes, requestSimpleRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			requestSimpleRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"requestSimpleRule_",
@@ -1354,11 +1354,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternNode requestStarRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "requestStarRule_node_p1", "p1", requestStarRule_node_p1_AllowedTypes, requestStarRule_node_p1_IsAllowedType, 5.5F, -1);
 			PatternNode requestStarRule_node_p2 = new PatternNode((int) NodeTypes.@Process, "requestStarRule_node_p2", "p2", requestStarRule_node_p2_AllowedTypes, requestStarRule_node_p2_IsAllowedType, 5.5F, -1);
 			PatternNode requestStarRule_node_r2 = new PatternNode((int) NodeTypes.@Resource, "requestStarRule_node_r2", "r2", requestStarRule_node_r2_AllowedTypes, requestStarRule_node_r2_IsAllowedType, 5.5F, -1);
-			PatternEdge requestStarRule_edge_h1 = new PatternEdge(requestStarRule_node_r1, requestStarRule_node_p1, (int) EdgeTypes.@held_by, "requestStarRule_edge_h1", "h1", requestStarRule_edge_h1_AllowedTypes, requestStarRule_edge_h1_IsAllowedType, 5.5F, -1);
-			PatternEdge requestStarRule_edge_n = new PatternEdge(requestStarRule_node_p2, requestStarRule_node_p1, (int) EdgeTypes.@next, "requestStarRule_edge_n", "n", requestStarRule_edge_n_AllowedTypes, requestStarRule_edge_n_IsAllowedType, 5.5F, -1);
-			PatternEdge requestStarRule_edge_h2 = new PatternEdge(requestStarRule_node_r2, requestStarRule_node_p2, (int) EdgeTypes.@held_by, "requestStarRule_edge_h2", "h2", requestStarRule_edge_h2_AllowedTypes, requestStarRule_edge_h2_IsAllowedType, 5.5F, -1);
+			PatternEdge requestStarRule_edge_h1 = new PatternEdge(requestStarRule_node_r1, requestStarRule_node_p1, true, (int) EdgeTypes.@held_by, "requestStarRule_edge_h1", "h1", requestStarRule_edge_h1_AllowedTypes, requestStarRule_edge_h1_IsAllowedType, 5.5F, -1);
+			PatternEdge requestStarRule_edge_n = new PatternEdge(requestStarRule_node_p2, requestStarRule_node_p1, true, (int) EdgeTypes.@next, "requestStarRule_edge_n", "n", requestStarRule_edge_n_AllowedTypes, requestStarRule_edge_n_IsAllowedType, 5.5F, -1);
+			PatternEdge requestStarRule_edge_h2 = new PatternEdge(requestStarRule_node_r2, requestStarRule_node_p2, true, (int) EdgeTypes.@held_by, "requestStarRule_edge_h2", "h2", requestStarRule_edge_h2_AllowedTypes, requestStarRule_edge_h2_IsAllowedType, 5.5F, -1);
 			PatternGraph requestStarRule_neg_0;
-			PatternEdge requestStarRule_neg_0_edge_req = new PatternEdge(requestStarRule_node_p1, requestStarRule_node_r2, (int) EdgeTypes.@request, "requestStarRule_neg_0_edge_req", "req", requestStarRule_neg_0_edge_req_AllowedTypes, requestStarRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
+			PatternEdge requestStarRule_neg_0_edge_req = new PatternEdge(requestStarRule_node_p1, requestStarRule_node_r2, true, (int) EdgeTypes.@request, "requestStarRule_neg_0_edge_req", "req", requestStarRule_neg_0_edge_req_AllowedTypes, requestStarRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			requestStarRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"requestStarRule_",
@@ -1470,8 +1470,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternGraph pat_takeRule;
 			PatternNode takeRule_node_r = new PatternNode((int) NodeTypes.@Resource, "takeRule_node_r", "r", takeRule_node_r_AllowedTypes, takeRule_node_r_IsAllowedType, 5.5F, -1);
 			PatternNode takeRule_node_p = new PatternNode((int) NodeTypes.@Process, "takeRule_node_p", "p", takeRule_node_p_AllowedTypes, takeRule_node_p_IsAllowedType, 5.5F, -1);
-			PatternEdge takeRule_edge_t = new PatternEdge(takeRule_node_r, takeRule_node_p, (int) EdgeTypes.@token, "takeRule_edge_t", "t", takeRule_edge_t_AllowedTypes, takeRule_edge_t_IsAllowedType, 1.0F, -1);
-			PatternEdge takeRule_edge_req = new PatternEdge(takeRule_node_p, takeRule_node_r, (int) EdgeTypes.@request, "takeRule_edge_req", "req", takeRule_edge_req_AllowedTypes, takeRule_edge_req_IsAllowedType, 5.5F, -1);
+			PatternEdge takeRule_edge_t = new PatternEdge(takeRule_node_r, takeRule_node_p, true, (int) EdgeTypes.@token, "takeRule_edge_t", "t", takeRule_edge_t_AllowedTypes, takeRule_edge_t_IsAllowedType, 1.0F, -1);
+			PatternEdge takeRule_edge_req = new PatternEdge(takeRule_node_p, takeRule_node_r, true, (int) EdgeTypes.@request, "takeRule_edge_req", "req", takeRule_edge_req_AllowedTypes, takeRule_edge_req_IsAllowedType, 5.5F, -1);
 			pat_takeRule = new PatternGraph(
 				"takeRule",
 				"",
@@ -1566,8 +1566,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternGraph pat_unlockRule;
 			PatternNode unlockRule_node_r = new PatternNode((int) NodeTypes.@Resource, "unlockRule_node_r", "r", unlockRule_node_r_AllowedTypes, unlockRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode unlockRule_node_p = new PatternNode((int) NodeTypes.@Process, "unlockRule_node_p", "p", unlockRule_node_p_AllowedTypes, unlockRule_node_p_IsAllowedType, 5.5F, -1);
-			PatternEdge unlockRule_edge_b = new PatternEdge(unlockRule_node_r, unlockRule_node_p, (int) EdgeTypes.@blocked, "unlockRule_edge_b", "b", unlockRule_edge_b_AllowedTypes, unlockRule_edge_b_IsAllowedType, 5.5F, -1);
-			PatternEdge unlockRule_edge_hb = new PatternEdge(unlockRule_node_r, unlockRule_node_p, (int) EdgeTypes.@held_by, "unlockRule_edge_hb", "hb", unlockRule_edge_hb_AllowedTypes, unlockRule_edge_hb_IsAllowedType, 5.5F, -1);
+			PatternEdge unlockRule_edge_b = new PatternEdge(unlockRule_node_r, unlockRule_node_p, true, (int) EdgeTypes.@blocked, "unlockRule_edge_b", "b", unlockRule_edge_b_AllowedTypes, unlockRule_edge_b_IsAllowedType, 5.5F, -1);
+			PatternEdge unlockRule_edge_hb = new PatternEdge(unlockRule_node_r, unlockRule_node_p, true, (int) EdgeTypes.@held_by, "unlockRule_edge_hb", "hb", unlockRule_edge_hb_AllowedTypes, unlockRule_edge_hb_IsAllowedType, 5.5F, -1);
 			pat_unlockRule = new PatternGraph(
 				"unlockRule",
 				"",
@@ -1660,7 +1660,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternGraph pat_unmountRule;
 			PatternNode unmountRule_node_r = new PatternNode((int) NodeTypes.@Resource, "unmountRule_node_r", "r", unmountRule_node_r_AllowedTypes, unmountRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode unmountRule_node_p = new PatternNode((int) NodeTypes.@Process, "unmountRule_node_p", "p", unmountRule_node_p_AllowedTypes, unmountRule_node_p_IsAllowedType, 5.5F, -1);
-			PatternEdge unmountRule_edge_t = new PatternEdge(unmountRule_node_r, unmountRule_node_p, (int) EdgeTypes.@token, "unmountRule_edge_t", "t", unmountRule_edge_t_AllowedTypes, unmountRule_edge_t_IsAllowedType, 5.5F, -1);
+			PatternEdge unmountRule_edge_t = new PatternEdge(unmountRule_node_r, unmountRule_node_p, true, (int) EdgeTypes.@token, "unmountRule_edge_t", "t", unmountRule_edge_t_AllowedTypes, unmountRule_edge_t_IsAllowedType, 5.5F, -1);
 			pat_unmountRule = new PatternGraph(
 				"unmountRule",
 				"",
@@ -1717,23 +1717,23 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static Rule_waitingRule instance = null;
 		public static Rule_waitingRule Instance { get { if (instance==null) { instance = new Rule_waitingRule(); instance.initialize(); } return instance; } }
 
-		public static NodeType[] waitingRule_node_r_AllowedTypes = null;
 		public static NodeType[] waitingRule_node_r2_AllowedTypes = null;
 		public static NodeType[] waitingRule_node_p1_AllowedTypes = null;
 		public static NodeType[] waitingRule_node_r1_AllowedTypes = null;
 		public static NodeType[] waitingRule_node_p2_AllowedTypes = null;
-		public static bool[] waitingRule_node_r_IsAllowedType = null;
+		public static NodeType[] waitingRule_node_r_AllowedTypes = null;
 		public static bool[] waitingRule_node_r2_IsAllowedType = null;
 		public static bool[] waitingRule_node_p1_IsAllowedType = null;
 		public static bool[] waitingRule_node_r1_IsAllowedType = null;
 		public static bool[] waitingRule_node_p2_IsAllowedType = null;
+		public static bool[] waitingRule_node_r_IsAllowedType = null;
 		public static EdgeType[] waitingRule_edge_b_AllowedTypes = null;
 		public static EdgeType[] waitingRule_edge_hb_AllowedTypes = null;
 		public static EdgeType[] waitingRule_edge_req_AllowedTypes = null;
 		public static bool[] waitingRule_edge_b_IsAllowedType = null;
 		public static bool[] waitingRule_edge_hb_IsAllowedType = null;
 		public static bool[] waitingRule_edge_req_IsAllowedType = null;
-		public enum waitingRule_NodeNums { @r, @r2, @p1, @r1, @p2, };
+		public enum waitingRule_NodeNums { @r2, @p1, @r1, @p2, @r, };
 		public enum waitingRule_EdgeNums { @b, @hb, @req, };
 		public enum waitingRule_SubNums { };
 		public enum waitingRule_AltNums { };
@@ -1755,19 +1755,19 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override void initialize()
 		{
 			PatternGraph pat_waitingRule;
-			PatternNode waitingRule_node_r = new PatternNode((int) NodeTypes.@Resource, "waitingRule_node_r", "r", waitingRule_node_r_AllowedTypes, waitingRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode waitingRule_node_r2 = new PatternNode((int) NodeTypes.@Resource, "waitingRule_node_r2", "r2", waitingRule_node_r2_AllowedTypes, waitingRule_node_r2_IsAllowedType, 5.5F, -1);
 			PatternNode waitingRule_node_p1 = new PatternNode((int) NodeTypes.@Process, "waitingRule_node_p1", "p1", waitingRule_node_p1_AllowedTypes, waitingRule_node_p1_IsAllowedType, 5.5F, -1);
 			PatternNode waitingRule_node_r1 = new PatternNode((int) NodeTypes.@Resource, "waitingRule_node_r1", "r1", waitingRule_node_r1_AllowedTypes, waitingRule_node_r1_IsAllowedType, 5.5F, -1);
 			PatternNode waitingRule_node_p2 = new PatternNode((int) NodeTypes.@Process, "waitingRule_node_p2", "p2", waitingRule_node_p2_AllowedTypes, waitingRule_node_p2_IsAllowedType, 5.5F, -1);
-			PatternEdge waitingRule_edge_b = new PatternEdge(waitingRule_node_r2, waitingRule_node_p1, (int) EdgeTypes.@blocked, "waitingRule_edge_b", "b", waitingRule_edge_b_AllowedTypes, waitingRule_edge_b_IsAllowedType, 5.5F, -1);
-			PatternEdge waitingRule_edge_hb = new PatternEdge(waitingRule_node_r1, waitingRule_node_p1, (int) EdgeTypes.@held_by, "waitingRule_edge_hb", "hb", waitingRule_edge_hb_AllowedTypes, waitingRule_edge_hb_IsAllowedType, 5.5F, -1);
-			PatternEdge waitingRule_edge_req = new PatternEdge(waitingRule_node_p2, waitingRule_node_r1, (int) EdgeTypes.@request, "waitingRule_edge_req", "req", waitingRule_edge_req_AllowedTypes, waitingRule_edge_req_IsAllowedType, 5.5F, -1);
+			PatternNode waitingRule_node_r = new PatternNode((int) NodeTypes.@Resource, "waitingRule_node_r", "r", waitingRule_node_r_AllowedTypes, waitingRule_node_r_IsAllowedType, 1.0F, -1);
+			PatternEdge waitingRule_edge_b = new PatternEdge(waitingRule_node_r2, waitingRule_node_p1, true, (int) EdgeTypes.@blocked, "waitingRule_edge_b", "b", waitingRule_edge_b_AllowedTypes, waitingRule_edge_b_IsAllowedType, 5.5F, -1);
+			PatternEdge waitingRule_edge_hb = new PatternEdge(waitingRule_node_r1, waitingRule_node_p1, true, (int) EdgeTypes.@held_by, "waitingRule_edge_hb", "hb", waitingRule_edge_hb_AllowedTypes, waitingRule_edge_hb_IsAllowedType, 5.5F, -1);
+			PatternEdge waitingRule_edge_req = new PatternEdge(waitingRule_node_p2, waitingRule_node_r1, true, (int) EdgeTypes.@request, "waitingRule_edge_req", "req", waitingRule_edge_req_AllowedTypes, waitingRule_edge_req_IsAllowedType, 5.5F, -1);
 			pat_waitingRule = new PatternGraph(
 				"waitingRule",
 				"",
 				false,
-				new PatternNode[] { waitingRule_node_r, waitingRule_node_r2, waitingRule_node_p1, waitingRule_node_r1, waitingRule_node_p2 }, 
+				new PatternNode[] { waitingRule_node_r2, waitingRule_node_p1, waitingRule_node_r1, waitingRule_node_p2, waitingRule_node_r }, 
 				new PatternEdge[] { waitingRule_edge_b, waitingRule_edge_hb, waitingRule_edge_req }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
@@ -1786,11 +1786,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					{ false, false, true, },
 				}
 			);
-			waitingRule_node_r.PointOfDefinition = pat_waitingRule;
 			waitingRule_node_r2.PointOfDefinition = pat_waitingRule;
 			waitingRule_node_p1.PointOfDefinition = pat_waitingRule;
 			waitingRule_node_r1.PointOfDefinition = pat_waitingRule;
 			waitingRule_node_p2.PointOfDefinition = pat_waitingRule;
+			waitingRule_node_r.PointOfDefinition = pat_waitingRule;
 			waitingRule_edge_b.PointOfDefinition = pat_waitingRule;
 			waitingRule_edge_hb.PointOfDefinition = pat_waitingRule;
 			waitingRule_edge_req.PointOfDefinition = pat_waitingRule;
@@ -1965,8 +1965,8 @@ label0: ;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_blockedRule.blockedRule_NodeNums.@r] = candidate_blockedRule_node_r;
                         match.Nodes[(int)Rule_blockedRule.blockedRule_NodeNums.@p1] = candidate_blockedRule_node_p1;
+                        match.Nodes[(int)Rule_blockedRule.blockedRule_NodeNums.@r] = candidate_blockedRule_node_r;
                         match.Nodes[(int)Rule_blockedRule.blockedRule_NodeNums.@p2] = candidate_blockedRule_node_p2;
                         match.Edges[(int)Rule_blockedRule.blockedRule_EdgeNums.@req] = candidate_blockedRule_edge_req;
                         match.Edges[(int)Rule_blockedRule.blockedRule_EdgeNums.@hb] = candidate_blockedRule_edge_hb;
@@ -3285,11 +3285,11 @@ label7: ;
                                     }
                                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                     match.patternGraph = rulePattern.patternGraph;
-                                    match.Nodes[(int)Rule_waitingRule.waitingRule_NodeNums.@r] = candidate_waitingRule_node_r;
                                     match.Nodes[(int)Rule_waitingRule.waitingRule_NodeNums.@r2] = candidate_waitingRule_node_r2;
                                     match.Nodes[(int)Rule_waitingRule.waitingRule_NodeNums.@p1] = candidate_waitingRule_node_p1;
                                     match.Nodes[(int)Rule_waitingRule.waitingRule_NodeNums.@r1] = candidate_waitingRule_node_r1;
                                     match.Nodes[(int)Rule_waitingRule.waitingRule_NodeNums.@p2] = candidate_waitingRule_node_p2;
+                                    match.Nodes[(int)Rule_waitingRule.waitingRule_NodeNums.@r] = candidate_waitingRule_node_r;
                                     match.Edges[(int)Rule_waitingRule.waitingRule_EdgeNums.@b] = candidate_waitingRule_edge_b;
                                     match.Edges[(int)Rule_waitingRule.waitingRule_EdgeNums.@hb] = candidate_waitingRule_edge_hb;
                                     match.Edges[(int)Rule_waitingRule.waitingRule_EdgeNums.@req] = candidate_waitingRule_edge_req;

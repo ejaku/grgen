@@ -53,10 +53,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			PatternNode ensureMoveLeftValidRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "ensureMoveLeftValidRule_node_wv", "wv", ensureMoveLeftValidRule_node_wv_AllowedTypes, ensureMoveLeftValidRule_node_wv_IsAllowedType, 5.5F, 0);
 			PatternNode ensureMoveLeftValidRule_node__node0 = new PatternNode((int) NodeTypes.@State, "ensureMoveLeftValidRule_node__node0", "_node0", ensureMoveLeftValidRule_node__node0_AllowedTypes, ensureMoveLeftValidRule_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode ensureMoveLeftValidRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "ensureMoveLeftValidRule_node_bp", "bp", ensureMoveLeftValidRule_node_bp_AllowedTypes, ensureMoveLeftValidRule_node_bp_IsAllowedType, 5.5F, 1);
-			PatternEdge ensureMoveLeftValidRule_edge__edge0 = new PatternEdge(ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node__node0, (int) EdgeTypes.@moveLeft, "ensureMoveLeftValidRule_edge__edge0", "_edge0", ensureMoveLeftValidRule_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ensureMoveLeftValidRule_edge__edge0 = new PatternEdge(ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node__node0, true, (int) EdgeTypes.@moveLeft, "ensureMoveLeftValidRule_edge__edge0", "_edge0", ensureMoveLeftValidRule_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternGraph ensureMoveLeftValidRule_neg_0;
 			PatternNode ensureMoveLeftValidRule_neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "ensureMoveLeftValidRule_neg_0_node__node0", "_node0", ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes, ensureMoveLeftValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1);
-			PatternEdge ensureMoveLeftValidRule_neg_0_edge__edge0 = new PatternEdge(ensureMoveLeftValidRule_neg_0_node__node0, ensureMoveLeftValidRule_node_bp, (int) EdgeTypes.@right, "ensureMoveLeftValidRule_neg_0_edge__edge0", "_edge0", ensureMoveLeftValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ensureMoveLeftValidRule_neg_0_edge__edge0 = new PatternEdge(ensureMoveLeftValidRule_neg_0_node__node0, ensureMoveLeftValidRule_node_bp, true, (int) EdgeTypes.@right, "ensureMoveLeftValidRule_neg_0_edge__edge0", "_edge0", ensureMoveLeftValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			ensureMoveLeftValidRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"ensureMoveLeftValidRule_",
@@ -172,10 +172,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			PatternNode ensureMoveRightValidRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "ensureMoveRightValidRule_node_wv", "wv", ensureMoveRightValidRule_node_wv_AllowedTypes, ensureMoveRightValidRule_node_wv_IsAllowedType, 5.5F, 0);
 			PatternNode ensureMoveRightValidRule_node__node0 = new PatternNode((int) NodeTypes.@State, "ensureMoveRightValidRule_node__node0", "_node0", ensureMoveRightValidRule_node__node0_AllowedTypes, ensureMoveRightValidRule_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode ensureMoveRightValidRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "ensureMoveRightValidRule_node_bp", "bp", ensureMoveRightValidRule_node_bp_AllowedTypes, ensureMoveRightValidRule_node_bp_IsAllowedType, 5.5F, 1);
-			PatternEdge ensureMoveRightValidRule_edge__edge0 = new PatternEdge(ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node__node0, (int) EdgeTypes.@moveRight, "ensureMoveRightValidRule_edge__edge0", "_edge0", ensureMoveRightValidRule_edge__edge0_AllowedTypes, ensureMoveRightValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ensureMoveRightValidRule_edge__edge0 = new PatternEdge(ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node__node0, true, (int) EdgeTypes.@moveRight, "ensureMoveRightValidRule_edge__edge0", "_edge0", ensureMoveRightValidRule_edge__edge0_AllowedTypes, ensureMoveRightValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternGraph ensureMoveRightValidRule_neg_0;
 			PatternNode ensureMoveRightValidRule_neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "ensureMoveRightValidRule_neg_0_node__node0", "_node0", ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes, ensureMoveRightValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1);
-			PatternEdge ensureMoveRightValidRule_neg_0_edge__edge0 = new PatternEdge(ensureMoveRightValidRule_node_bp, ensureMoveRightValidRule_neg_0_node__node0, (int) EdgeTypes.@right, "ensureMoveRightValidRule_neg_0_edge__edge0", "_edge0", ensureMoveRightValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveRightValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ensureMoveRightValidRule_neg_0_edge__edge0 = new PatternEdge(ensureMoveRightValidRule_node_bp, ensureMoveRightValidRule_neg_0_node__node0, true, (int) EdgeTypes.@right, "ensureMoveRightValidRule_neg_0_edge__edge0", "_edge0", ensureMoveRightValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveRightValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			ensureMoveRightValidRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"ensureMoveRightValidRule_",
@@ -288,8 +288,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			PatternNode moveLeftRule_node_s = new PatternNode((int) NodeTypes.@State, "moveLeftRule_node_s", "s", moveLeftRule_node_s_AllowedTypes, moveLeftRule_node_s_IsAllowedType, 5.5F, -1);
 			PatternNode moveLeftRule_node_lbp = new PatternNode((int) NodeTypes.@BandPosition, "moveLeftRule_node_lbp", "lbp", moveLeftRule_node_lbp_AllowedTypes, moveLeftRule_node_lbp_IsAllowedType, 5.5F, -1);
 			PatternNode moveLeftRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "moveLeftRule_node_bp", "bp", moveLeftRule_node_bp_AllowedTypes, moveLeftRule_node_bp_IsAllowedType, 5.5F, 1);
-			PatternEdge moveLeftRule_edge__edge0 = new PatternEdge(moveLeftRule_node_wv, moveLeftRule_node_s, (int) EdgeTypes.@moveLeft, "moveLeftRule_edge__edge0", "_edge0", moveLeftRule_edge__edge0_AllowedTypes, moveLeftRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge moveLeftRule_edge__edge1 = new PatternEdge(moveLeftRule_node_lbp, moveLeftRule_node_bp, (int) EdgeTypes.@right, "moveLeftRule_edge__edge1", "_edge1", moveLeftRule_edge__edge1_AllowedTypes, moveLeftRule_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge moveLeftRule_edge__edge0 = new PatternEdge(moveLeftRule_node_wv, moveLeftRule_node_s, true, (int) EdgeTypes.@moveLeft, "moveLeftRule_edge__edge0", "_edge0", moveLeftRule_edge__edge0_AllowedTypes, moveLeftRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge moveLeftRule_edge__edge1 = new PatternEdge(moveLeftRule_node_lbp, moveLeftRule_node_bp, true, (int) EdgeTypes.@right, "moveLeftRule_edge__edge1", "_edge1", moveLeftRule_edge__edge1_AllowedTypes, moveLeftRule_edge__edge1_IsAllowedType, 5.5F, -1);
 			pat_moveLeftRule = new PatternGraph(
 				"moveLeftRule",
 				"",
@@ -384,8 +384,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			PatternNode moveRightRule_node_s = new PatternNode((int) NodeTypes.@State, "moveRightRule_node_s", "s", moveRightRule_node_s_AllowedTypes, moveRightRule_node_s_IsAllowedType, 5.5F, -1);
 			PatternNode moveRightRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "moveRightRule_node_bp", "bp", moveRightRule_node_bp_AllowedTypes, moveRightRule_node_bp_IsAllowedType, 5.5F, 1);
 			PatternNode moveRightRule_node_rbp = new PatternNode((int) NodeTypes.@BandPosition, "moveRightRule_node_rbp", "rbp", moveRightRule_node_rbp_AllowedTypes, moveRightRule_node_rbp_IsAllowedType, 5.5F, -1);
-			PatternEdge moveRightRule_edge__edge0 = new PatternEdge(moveRightRule_node_wv, moveRightRule_node_s, (int) EdgeTypes.@moveRight, "moveRightRule_edge__edge0", "_edge0", moveRightRule_edge__edge0_AllowedTypes, moveRightRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge moveRightRule_edge__edge1 = new PatternEdge(moveRightRule_node_bp, moveRightRule_node_rbp, (int) EdgeTypes.@right, "moveRightRule_edge__edge1", "_edge1", moveRightRule_edge__edge1_AllowedTypes, moveRightRule_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge moveRightRule_edge__edge0 = new PatternEdge(moveRightRule_node_wv, moveRightRule_node_s, true, (int) EdgeTypes.@moveRight, "moveRightRule_edge__edge0", "_edge0", moveRightRule_edge__edge0_AllowedTypes, moveRightRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge moveRightRule_edge__edge1 = new PatternEdge(moveRightRule_node_bp, moveRightRule_node_rbp, true, (int) EdgeTypes.@right, "moveRightRule_edge__edge1", "_edge1", moveRightRule_edge__edge1_AllowedTypes, moveRightRule_edge__edge1_IsAllowedType, 5.5F, -1);
 			pat_moveRightRule = new PatternGraph(
 				"moveRightRule",
 				"",
@@ -475,7 +475,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			PatternNode readOneRule_node_s = new PatternNode((int) NodeTypes.@State, "readOneRule_node_s", "s", readOneRule_node_s_AllowedTypes, readOneRule_node_s_IsAllowedType, 5.5F, 0);
 			PatternNode readOneRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1);
 			PatternNode readOneRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1);
-			PatternEdge readOneRule_edge_rv = new PatternEdge(readOneRule_node_s, readOneRule_node_wv, (int) EdgeTypes.@readOne, "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1);
+			PatternEdge readOneRule_edge_rv = new PatternEdge(readOneRule_node_s, readOneRule_node_wv, true, (int) EdgeTypes.@readOne, "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1);
 			Condition cond_0 = new Condition(0, new String[] { "readOneRule_node_bp" }, new String[] {  });
 			pat_readOneRule = new PatternGraph(
 				"readOneRule",
@@ -543,15 +543,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private static Rule_readZeroRule instance = null;
 		public static Rule_readZeroRule Instance { get { if (instance==null) { instance = new Rule_readZeroRule(); instance.initialize(); } return instance; } }
 
-		public static NodeType[] readZeroRule_node_bp_AllowedTypes = null;
 		public static NodeType[] readZeroRule_node_s_AllowedTypes = null;
 		public static NodeType[] readZeroRule_node_wv_AllowedTypes = null;
-		public static bool[] readZeroRule_node_bp_IsAllowedType = null;
+		public static NodeType[] readZeroRule_node_bp_AllowedTypes = null;
 		public static bool[] readZeroRule_node_s_IsAllowedType = null;
 		public static bool[] readZeroRule_node_wv_IsAllowedType = null;
+		public static bool[] readZeroRule_node_bp_IsAllowedType = null;
 		public static EdgeType[] readZeroRule_edge_rv_AllowedTypes = null;
 		public static bool[] readZeroRule_edge_rv_IsAllowedType = null;
-		public enum readZeroRule_NodeNums { @bp, @s, @wv, };
+		public enum readZeroRule_NodeNums { @s, @wv, @bp, };
 		public enum readZeroRule_EdgeNums { @rv, };
 		public enum readZeroRule_SubNums { };
 		public enum readZeroRule_AltNums { };
@@ -573,16 +573,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public override void initialize()
 		{
 			PatternGraph pat_readZeroRule;
-			PatternNode readZeroRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1);
 			PatternNode readZeroRule_node_s = new PatternNode((int) NodeTypes.@State, "readZeroRule_node_s", "s", readZeroRule_node_s_AllowedTypes, readZeroRule_node_s_IsAllowedType, 5.5F, 0);
 			PatternNode readZeroRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1);
-			PatternEdge readZeroRule_edge_rv = new PatternEdge(readZeroRule_node_s, readZeroRule_node_wv, (int) EdgeTypes.@readZero, "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1);
+			PatternNode readZeroRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1);
+			PatternEdge readZeroRule_edge_rv = new PatternEdge(readZeroRule_node_s, readZeroRule_node_wv, true, (int) EdgeTypes.@readZero, "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1);
 			Condition cond_0 = new Condition(0, new String[] { "readZeroRule_node_bp" }, new String[] {  });
 			pat_readZeroRule = new PatternGraph(
 				"readZeroRule",
 				"",
 				false,
-				new PatternNode[] { readZeroRule_node_bp, readZeroRule_node_s, readZeroRule_node_wv }, 
+				new PatternNode[] { readZeroRule_node_s, readZeroRule_node_wv, readZeroRule_node_bp }, 
 				new PatternEdge[] { readZeroRule_edge_rv }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
@@ -597,9 +597,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 					{ true, },
 				}
 			);
-			readZeroRule_node_bp.PointOfDefinition = null;
 			readZeroRule_node_s.PointOfDefinition = null;
 			readZeroRule_node_wv.PointOfDefinition = pat_readZeroRule;
+			readZeroRule_node_bp.PointOfDefinition = null;
 			readZeroRule_edge_rv.PointOfDefinition = pat_readZeroRule;
 
 			patternGraph = pat_readZeroRule;
@@ -1999,10 +1999,24 @@ label3: ;
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
+            // Preset readZeroRule_node_s 
+            LGSPNode candidate_readZeroRule_node_s = (LGSPNode) parameters[0];
+            if(candidate_readZeroRule_node_s == null) {
+                MissingPreset_readZeroRule_node_s(graph, maxMatches, parameters, null, null, null);
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                {
+                    return matches;
+                }
+                return matches;
+            }
+            if(!NodeType_State.isMyType[candidate_readZeroRule_node_s.type.TypeID]) {
+                return matches;
+            }
             // Preset readZeroRule_node_bp 
             LGSPNode candidate_readZeroRule_node_bp = (LGSPNode) parameters[1];
             if(candidate_readZeroRule_node_bp == null) {
-                MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null);
+                MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_s);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
@@ -2015,20 +2029,6 @@ label3: ;
             }
             // Condition 
             if(!Rule_readZeroRule.Condition_0(candidate_readZeroRule_node_bp)) {
-                return matches;
-            }
-            // Preset readZeroRule_node_s 
-            LGSPNode candidate_readZeroRule_node_s = (LGSPNode) parameters[0];
-            if(candidate_readZeroRule_node_s == null) {
-                MissingPreset_readZeroRule_node_s(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_bp);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
-            if(!NodeType_State.isMyType[candidate_readZeroRule_node_s.type.TypeID]) {
                 return matches;
             }
             // Extend outgoing readZeroRule_edge_rv from readZeroRule_node_s 
@@ -2048,9 +2048,9 @@ label3: ;
                     }
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
                     match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
                     match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
+                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
                     match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
                     matches.matchesList.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
@@ -2064,7 +2064,68 @@ label3: ;
             }
             return matches;
         }
-        public void MissingPreset_readZeroRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
+        public void MissingPreset_readZeroRule_node_s(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
+        {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            // Lookup readZeroRule_node_s 
+            int type_id_candidate_readZeroRule_node_s = 2;
+            for(LGSPNode head_candidate_readZeroRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_s], candidate_readZeroRule_node_s = head_candidate_readZeroRule_node_s.typeNext; candidate_readZeroRule_node_s != head_candidate_readZeroRule_node_s; candidate_readZeroRule_node_s = candidate_readZeroRule_node_s.typeNext)
+            {
+                // Preset readZeroRule_node_bp 
+                LGSPNode candidate_readZeroRule_node_bp = (LGSPNode) parameters[1];
+                if(candidate_readZeroRule_node_bp == null) {
+                    MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_s);
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    {
+                        return;
+                    }
+                    continue;
+                }
+                if(!NodeType_BandPosition.isMyType[candidate_readZeroRule_node_bp.type.TypeID]) {
+                    continue;
+                }
+                // Condition 
+                if(!Rule_readZeroRule.Condition_0(candidate_readZeroRule_node_bp)) {
+                    continue;
+                }
+                // Extend outgoing readZeroRule_edge_rv from readZeroRule_node_s 
+                LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
+                if(head_candidate_readZeroRule_edge_rv != null)
+                {
+                    LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
+                    do
+                    {
+                        if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
+                            continue;
+                        }
+                        // Implicit target readZeroRule_node_wv from readZeroRule_edge_rv 
+                        LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
+                        if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
+                            continue;
+                        }
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                        match.patternGraph = rulePattern.patternGraph;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
+                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
+                        matches.matchesList.PositionWasFilledFixIt();
+                        // if enough matches were found, we leave
+                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        {
+                            candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
+                            graph.MoveHeadAfter(candidate_readZeroRule_node_s);
+                            return;
+                        }
+                    }
+                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
+                }
+            }
+            return;
+        }
+        public void MissingPreset_readZeroRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_readZeroRule_node_s)
         {
             const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
@@ -2076,20 +2137,6 @@ label3: ;
                 if(!Rule_readZeroRule.Condition_0(candidate_readZeroRule_node_bp)) {
                     continue;
                 }
-                // Preset readZeroRule_node_s 
-                LGSPNode candidate_readZeroRule_node_s = (LGSPNode) parameters[0];
-                if(candidate_readZeroRule_node_s == null) {
-                    MissingPreset_readZeroRule_node_s(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_bp);
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                    {
-                        return;
-                    }
-                    continue;
-                }
-                if(!NodeType_State.isMyType[candidate_readZeroRule_node_s.type.TypeID]) {
-                    continue;
-                }
                 // Extend outgoing readZeroRule_edge_rv from readZeroRule_node_s 
                 LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
                 if(head_candidate_readZeroRule_edge_rv != null)
@@ -2107,9 +2154,9 @@ label3: ;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
                         match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
                         match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
                         match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
                         matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
@@ -2117,49 +2164,6 @@ label3: ;
                         {
                             candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
                             graph.MoveHeadAfter(candidate_readZeroRule_node_bp);
-                            return;
-                        }
-                    }
-                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
-                }
-            }
-            return;
-        }
-        public void MissingPreset_readZeroRule_node_s(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_readZeroRule_node_bp)
-        {
-            const int MAX_NEG_LEVEL = 5;
-            int negLevel = 0;
-            // Lookup readZeroRule_node_s 
-            int type_id_candidate_readZeroRule_node_s = 2;
-            for(LGSPNode head_candidate_readZeroRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_s], candidate_readZeroRule_node_s = head_candidate_readZeroRule_node_s.typeNext; candidate_readZeroRule_node_s != head_candidate_readZeroRule_node_s; candidate_readZeroRule_node_s = candidate_readZeroRule_node_s.typeNext)
-            {
-                // Extend outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-                LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
-                if(head_candidate_readZeroRule_edge_rv != null)
-                {
-                    LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
-                    do
-                    {
-                        if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
-                            continue;
-                        }
-                        // Implicit target readZeroRule_node_wv from readZeroRule_edge_rv 
-                        LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
-                            continue;
-                        }
-                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
-                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
-                        matches.matchesList.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                        {
-                            candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
-                            graph.MoveHeadAfter(candidate_readZeroRule_node_s);
                             return;
                         }
                     }

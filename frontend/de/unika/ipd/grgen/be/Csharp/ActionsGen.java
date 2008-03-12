@@ -500,6 +500,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\tPatternEdge " + edgeName + " = new PatternEdge(");
 			sb.append(sourceName + ", ");
 			sb.append(targetName + ", ");
+			sb.append("true" + ", "); // fixed direction
 			sb.append("(int) EdgeTypes.@" + formatIdentifiable(edge.getType())
 						  + ", \"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");
 			sb.append(edgeName + "_AllowedTypes, ");

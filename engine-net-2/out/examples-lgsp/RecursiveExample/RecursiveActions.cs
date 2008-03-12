@@ -61,7 +61,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			PatternGraph Blowball_alt_0_end;
 			PatternGraph Blowball_alt_0_end_neg_0;
 			PatternNode Blowball_alt_0_end_neg_0_node__node0 = new PatternNode((int) NodeTypes.@Node, "Blowball_alt_0_end_neg_0_node__node0", "_node0", Blowball_alt_0_end_neg_0_node__node0_AllowedTypes, Blowball_alt_0_end_neg_0_node__node0_IsAllowedType, 5.5F, -1);
-			PatternEdge Blowball_alt_0_end_neg_0_edge__edge0 = new PatternEdge(Blowball_node_head, Blowball_alt_0_end_neg_0_node__node0, (int) EdgeTypes.@Edge, "Blowball_alt_0_end_neg_0_edge__edge0", "_edge0", Blowball_alt_0_end_neg_0_edge__edge0_AllowedTypes, Blowball_alt_0_end_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge Blowball_alt_0_end_neg_0_edge__edge0 = new PatternEdge(Blowball_node_head, Blowball_alt_0_end_neg_0_node__node0, true, (int) EdgeTypes.@Edge, "Blowball_alt_0_end_neg_0_edge__edge0", "_edge0", Blowball_alt_0_end_neg_0_edge__edge0_AllowedTypes, Blowball_alt_0_end_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			Blowball_alt_0_end_neg_0 = new PatternGraph(
 				"neg_0",
 				"Blowball_alt_0_end_",
@@ -96,7 +96,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new bool[0, 0] 			);
 			PatternGraph Blowball_alt_0_further;
 			PatternNode Blowball_alt_0_further_node__node0 = new PatternNode((int) NodeTypes.@Node, "Blowball_alt_0_further_node__node0", "_node0", Blowball_alt_0_further_node__node0_AllowedTypes, Blowball_alt_0_further_node__node0_IsAllowedType, 5.5F, -1);
-			PatternEdge Blowball_alt_0_further_edge__edge0 = new PatternEdge(Blowball_node_head, Blowball_alt_0_further_node__node0, (int) EdgeTypes.@Edge, "Blowball_alt_0_further_edge__edge0", "_edge0", Blowball_alt_0_further_edge__edge0_AllowedTypes, Blowball_alt_0_further_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge Blowball_alt_0_further_edge__edge0 = new PatternEdge(Blowball_node_head, Blowball_alt_0_further_node__node0, true, (int) EdgeTypes.@Edge, "Blowball_alt_0_further_edge__edge0", "_edge0", Blowball_alt_0_further_edge__edge0_AllowedTypes, Blowball_alt_0_further_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternGraphEmbedding Blowball_alt_0_further__subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_Blowball.Instance, new PatternElement[] { Blowball_node_head });
 			Blowball_alt_0_further = new PatternGraph(
 				"further",
@@ -215,7 +215,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new bool[0, 0] 			);
 			PatternGraph ChainFrom_alt_0_rec;
 			PatternNode ChainFrom_alt_0_rec_node_to = new PatternNode((int) NodeTypes.@Node, "ChainFrom_alt_0_rec_node_to", "to", ChainFrom_alt_0_rec_node_to_AllowedTypes, ChainFrom_alt_0_rec_node_to_IsAllowedType, 5.5F, -1);
-			PatternEdge ChainFrom_alt_0_rec_edge__edge0 = new PatternEdge(ChainFrom_node_from, ChainFrom_alt_0_rec_node_to, (int) EdgeTypes.@Edge, "ChainFrom_alt_0_rec_edge__edge0", "_edge0", ChainFrom_alt_0_rec_edge__edge0_AllowedTypes, ChainFrom_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ChainFrom_alt_0_rec_edge__edge0 = new PatternEdge(ChainFrom_node_from, ChainFrom_alt_0_rec_node_to, true, (int) EdgeTypes.@Edge, "ChainFrom_alt_0_rec_edge__edge0", "_edge0", ChainFrom_alt_0_rec_edge__edge0_AllowedTypes, ChainFrom_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternGraphEmbedding ChainFrom_alt_0_rec__subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_ChainFrom.Instance, new PatternElement[] { ChainFrom_alt_0_rec_node_to });
 			ChainFrom_alt_0_rec = new PatternGraph(
 				"rec",
@@ -328,7 +328,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			PatternGraph ChainFromComplete_alt_0_base;
 			PatternGraph ChainFromComplete_alt_0_base_neg_0;
 			PatternNode ChainFromComplete_alt_0_base_neg_0_node__node0 = new PatternNode((int) NodeTypes.@Node, "ChainFromComplete_alt_0_base_neg_0_node__node0", "_node0", ChainFromComplete_alt_0_base_neg_0_node__node0_AllowedTypes, ChainFromComplete_alt_0_base_neg_0_node__node0_IsAllowedType, 5.5F, -1);
-			PatternEdge ChainFromComplete_alt_0_base_neg_0_edge__edge0 = new PatternEdge(ChainFromComplete_node_from, ChainFromComplete_alt_0_base_neg_0_node__node0, (int) EdgeTypes.@Edge, "ChainFromComplete_alt_0_base_neg_0_edge__edge0", "_edge0", ChainFromComplete_alt_0_base_neg_0_edge__edge0_AllowedTypes, ChainFromComplete_alt_0_base_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ChainFromComplete_alt_0_base_neg_0_edge__edge0 = new PatternEdge(ChainFromComplete_node_from, ChainFromComplete_alt_0_base_neg_0_node__node0, true, (int) EdgeTypes.@Edge, "ChainFromComplete_alt_0_base_neg_0_edge__edge0", "_edge0", ChainFromComplete_alt_0_base_neg_0_edge__edge0_AllowedTypes, ChainFromComplete_alt_0_base_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			ChainFromComplete_alt_0_base_neg_0 = new PatternGraph(
 				"neg_0",
 				"ChainFromComplete_alt_0_base_",
@@ -363,7 +363,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new bool[0, 0] 			);
 			PatternGraph ChainFromComplete_alt_0_rec;
 			PatternNode ChainFromComplete_alt_0_rec_node_to = new PatternNode((int) NodeTypes.@Node, "ChainFromComplete_alt_0_rec_node_to", "to", ChainFromComplete_alt_0_rec_node_to_AllowedTypes, ChainFromComplete_alt_0_rec_node_to_IsAllowedType, 5.5F, -1);
-			PatternEdge ChainFromComplete_alt_0_rec_edge__edge0 = new PatternEdge(ChainFromComplete_node_from, ChainFromComplete_alt_0_rec_node_to, (int) EdgeTypes.@Edge, "ChainFromComplete_alt_0_rec_edge__edge0", "_edge0", ChainFromComplete_alt_0_rec_edge__edge0_AllowedTypes, ChainFromComplete_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ChainFromComplete_alt_0_rec_edge__edge0 = new PatternEdge(ChainFromComplete_node_from, ChainFromComplete_alt_0_rec_node_to, true, (int) EdgeTypes.@Edge, "ChainFromComplete_alt_0_rec_edge__edge0", "_edge0", ChainFromComplete_alt_0_rec_edge__edge0_AllowedTypes, ChainFromComplete_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternGraphEmbedding ChainFromComplete_alt_0_rec__subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_ChainFromComplete.Instance, new PatternElement[] { ChainFromComplete_alt_0_rec_node_to });
 			ChainFromComplete_alt_0_rec = new PatternGraph(
 				"rec",
@@ -473,7 +473,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			PatternNode ChainFromTo_node_from = new PatternNode((int) NodeTypes.@Node, "ChainFromTo_node_from", "from", ChainFromTo_node_from_AllowedTypes, ChainFromTo_node_from_IsAllowedType, 5.5F, 0);
 			PatternNode ChainFromTo_node_to = new PatternNode((int) NodeTypes.@Node, "ChainFromTo_node_to", "to", ChainFromTo_node_to_AllowedTypes, ChainFromTo_node_to_IsAllowedType, 5.5F, 1);
 			PatternGraph ChainFromTo_alt_0_base;
-			PatternEdge ChainFromTo_alt_0_base_edge__edge0 = new PatternEdge(ChainFromTo_node_from, ChainFromTo_node_to, (int) EdgeTypes.@Edge, "ChainFromTo_alt_0_base_edge__edge0", "_edge0", ChainFromTo_alt_0_base_edge__edge0_AllowedTypes, ChainFromTo_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ChainFromTo_alt_0_base_edge__edge0 = new PatternEdge(ChainFromTo_node_from, ChainFromTo_node_to, true, (int) EdgeTypes.@Edge, "ChainFromTo_alt_0_base_edge__edge0", "_edge0", ChainFromTo_alt_0_base_edge__edge0_AllowedTypes, ChainFromTo_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1);
 			ChainFromTo_alt_0_base = new PatternGraph(
 				"base",
 				"ChainFromTo_alt_0_",
@@ -494,7 +494,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			);
 			PatternGraph ChainFromTo_alt_0_rec;
 			PatternNode ChainFromTo_alt_0_rec_node_intermediate = new PatternNode((int) NodeTypes.@Node, "ChainFromTo_alt_0_rec_node_intermediate", "intermediate", ChainFromTo_alt_0_rec_node_intermediate_AllowedTypes, ChainFromTo_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1);
-			PatternEdge ChainFromTo_alt_0_rec_edge__edge0 = new PatternEdge(ChainFromTo_node_from, ChainFromTo_alt_0_rec_node_intermediate, (int) EdgeTypes.@Edge, "ChainFromTo_alt_0_rec_edge__edge0", "_edge0", ChainFromTo_alt_0_rec_edge__edge0_AllowedTypes, ChainFromTo_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ChainFromTo_alt_0_rec_edge__edge0 = new PatternEdge(ChainFromTo_node_from, ChainFromTo_alt_0_rec_node_intermediate, true, (int) EdgeTypes.@Edge, "ChainFromTo_alt_0_rec_edge__edge0", "_edge0", ChainFromTo_alt_0_rec_edge__edge0_AllowedTypes, ChainFromTo_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternGraphEmbedding ChainFromTo_alt_0_rec__subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_ChainFromTo.Instance, new PatternElement[] { ChainFromTo_alt_0_rec_node_intermediate, ChainFromTo_node_to });
 			ChainFromTo_alt_0_rec = new PatternGraph(
 				"rec",

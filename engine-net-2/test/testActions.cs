@@ -47,8 +47,8 @@ namespace de.unika.ipd.grGen.Action_test
 			PatternNode testRule_node_a = new PatternNode((int) NodeTypes.@D231_4121, "testRule_node_a", "a", testRule_node_a_AllowedTypes, testRule_node_a_IsAllowedType, 5.5F, -1);
 			PatternNode testRule_node_f = new PatternNode((int) NodeTypes.@B21, "testRule_node_f", "f", testRule_node_f_AllowedTypes, testRule_node_f_IsAllowedType, 5.5F, -1);
 			PatternNode testRule_node_m = new PatternNode((int) NodeTypes.@D2211_2222_31, "testRule_node_m", "m", testRule_node_m_AllowedTypes, testRule_node_m_IsAllowedType, 5.5F, -1);
-			PatternEdge testRule_edge__edge0 = new PatternEdge(testRule_node_a, testRule_node_f, (int) EdgeTypes.@Edge, "testRule_edge__edge0", "_edge0", testRule_edge__edge0_AllowedTypes, testRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge testRule_edge__edge1 = new PatternEdge(testRule_node_f, testRule_node_m, (int) EdgeTypes.@Edge, "testRule_edge__edge1", "_edge1", testRule_edge__edge1_AllowedTypes, testRule_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge testRule_edge__edge0 = new PatternEdge(testRule_node_a, testRule_node_f, true, (int) EdgeTypes.@Edge, "testRule_edge__edge0", "_edge0", testRule_edge__edge0_AllowedTypes, testRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge testRule_edge__edge1 = new PatternEdge(testRule_node_f, testRule_node_m, true, (int) EdgeTypes.@Edge, "testRule_edge__edge1", "_edge1", testRule_edge__edge1_AllowedTypes, testRule_edge__edge1_IsAllowedType, 5.5F, -1);
 			pat_testRule = new PatternGraph(
 				"testRule",
 				"",

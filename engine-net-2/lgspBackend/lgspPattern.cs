@@ -89,12 +89,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         public PatternNode source;
         public PatternNode target;
+        public bool fixedDirection;
 
         /// <summary>
         /// Instantiates a new PatternEdge object
         /// </summary>
         /// <param name="source">The source pattern node for this edge.</param>
         /// <param name="target">The target pattern node for this edge.</param>
+        /// <param name="fixedDirection">Whether this pattern edge should be matched with a fixed direction or not.</param>
         /// <param name="typeID">The type ID of the pattern edge.</param>
         /// <param name="name">The name of the pattern edge.</param>
         /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
@@ -107,7 +109,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="patternElementType">Specifies what kind of pattern element this is.</param>
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
-        public PatternEdge(PatternNode source, PatternNode target, 
+        public PatternEdge(PatternNode source, PatternNode target, bool fixedDirection,
             int typeID, String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType,
             float cost, int parameterIndex)
@@ -115,6 +117,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             this.source = source;
             this.target = target;
+            this.fixedDirection = fixedDirection;
         }
 
         public override string ToString()
