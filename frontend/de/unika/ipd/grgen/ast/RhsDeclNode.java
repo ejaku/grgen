@@ -93,7 +93,26 @@ public abstract class RhsDeclNode extends DeclNode {
     			}
             }
 
-			// TODO dangling edges (the right way)
+			// nodes of dangling edges are homomorphic to all other nodes,
+    		// especially the deleted ones :-)
+    		for (ConnectionNode conn : conns) {
+    			EdgeDeclNode edge = conn.getEdge();
+    			while (edge instanceof EdgeTypeChangeNode) {
+    				edge = ((EdgeTypeChangeNode) edge).getOldEdge();
+    			}
+    			boolean srcIsDummy = true;
+    			boolean tgtIsDummy = true;
+    			for (ConnectionNode innerConn : conns) {
+        			if (edge.equals(innerConn.getEdge())) {
+        				srcIsDummy &= innerConn.getSrc().isDummy();
+        				tgtIsDummy &= innerConn.getTgt().isDummy();
+        			}
+                }
+
+    			if (srcIsDummy || tgtIsDummy) {
+    				ret.add(edge);
+    			}
+            }
 		}
 
 		// add homomorphic edges

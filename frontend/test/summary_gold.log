@@ -523,6 +523,7 @@ WARNED should_fail/hom_ret_003.grg
 WARNED should_fail/hom_ret_004.grg
 OK     should_fail/hom_ret_005.grg
 OK     should_fail/hom_ret_006.grg
+OK     should_fail/hom_ret_007.grg
 ERROR  should_fail/induced_001.grg
 ERROR  should_fail/induced_002.grg
 ERROR  should_fail/induced_003.grg
