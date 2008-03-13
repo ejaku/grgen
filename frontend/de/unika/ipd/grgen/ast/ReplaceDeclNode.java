@@ -105,9 +105,10 @@ public class ReplaceDeclNode extends RhsDeclNode {
 			rhsNodes.add(decl);
 		}
 		for (BaseNode x : pattern.getNodes()) {
-			assert (x instanceof DeclNode);
-			if ( ! rhsNodes.contains(x) ) {
-				res.add((DeclNode)x);
+			assert (x instanceof NodeDeclNode);
+			NodeDeclNode node = (NodeDeclNode) x;
+			if ( ! rhsNodes.contains(node) && !node.isDummy()) {
+				res.add(node);
 			}
 		}
 		// parameters are no special case, since they are treat like normal

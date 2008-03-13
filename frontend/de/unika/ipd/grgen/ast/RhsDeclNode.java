@@ -69,21 +69,19 @@ public abstract class RhsDeclNode extends DeclNode {
 		Collection<DeclNode> ret = getDelete(pattern);
 
 		// check if a deleted node exists
-		boolean deletedNodeExists = false;
+		Collection<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
 		for (DeclNode declNode : ret) {
-	        if (declNode instanceof NodeDeclNode) {
-	        	deletedNodeExists = true;
+
+			if (declNode instanceof NodeDeclNode) {
+	        	nodes.add((NodeDeclNode) declNode);
 	        }
         }
 
-		if (deletedNodeExists) {
-    		// add homomorphic nodes
-    		for (HomNode hom : pattern.getHoms()) {
-    	        for (DeclNode homElem : hom.childrenNode) {
-    	        	if (ret.contains(homElem)) {
-    	        		ret.addAll(hom.childrenNode);
-    	        	}
-    	        }
+
+		if (nodes.size() > 0) {
+			// add homomorphic nodes
+			for (NodeDeclNode node : nodes) {
+				ret.addAll(pattern.getCorrespondentHomSet(node));
             }
 
     		Collection<ConnectionNode> conns = getResultingConnections(pattern);
@@ -116,12 +114,14 @@ public abstract class RhsDeclNode extends DeclNode {
 		}
 
 		// add homomorphic edges
-		for (HomNode hom : pattern.getHoms()) {
-	        for (DeclNode homElem : hom.childrenEdge) {
-	        	if (ret.contains(homElem)) {
-	        		ret.addAll(hom.childrenEdge);
-	        	}
+		Collection<EdgeDeclNode> edges = new LinkedHashSet<EdgeDeclNode>();
+		for (DeclNode declNode : ret) {
+	        if (declNode instanceof EdgeDeclNode) {
+	        	edges.add((EdgeDeclNode) declNode);
 	        }
+        }
+		for (EdgeDeclNode edge : edges) {
+			ret.addAll(pattern.getCorrespondentHomSet(edge));
         }
 
 		return ret;

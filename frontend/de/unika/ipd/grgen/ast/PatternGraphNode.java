@@ -739,14 +739,16 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	/** Return the correspondent homomorphic set. */
-	private Set<NodeDeclNode> getCorrespondentHomSet(NodeDeclNode node)
+	protected Set<NodeDeclNode> getCorrespondentHomSet(NodeDeclNode node)
     {
-	    if (nodeHomMap.containsKey(node)) {
+		if (nodeHomMap.containsKey(node)) {
 	    	return nodeHomMap.get(node);
 	    }
 		Set<NodeDeclNode> ret = new LinkedHashSet<NodeDeclNode>();
 		for (HomNode homNode : homs.getChildren()) {
-	        if (homNode.getChildren().contains(node)) {
+			assert homNode.isChecked();
+
+			if (homNode.getChildren().contains(node)) {
 	        	Set<Set<DeclNode>> homSets = splitHoms(homNode.getChildren());
 	        	for (Set<DeclNode> homSet : homSets) {
 		        	if (homSet.contains(node)) {
@@ -767,14 +769,16 @@ public class PatternGraphNode extends GraphNode {
     }
 
 	/** Return the correspondent homomorphic set. */
-	private Set<EdgeDeclNode> getCorrespondentHomSet(EdgeDeclNode edge)
+	protected Set<EdgeDeclNode> getCorrespondentHomSet(EdgeDeclNode edge)
     {
 		if (edgeHomMap.containsKey(edge)) {
 			return edgeHomMap.get(edge);
 		}
 	    Set<EdgeDeclNode> ret = new LinkedHashSet<EdgeDeclNode>();
 		for (HomNode homNode : homs.getChildren()) {
-	        if (homNode.getChildren().contains(edge)) {
+			assert homNode.isChecked();
+
+			if (homNode.getChildren().contains(edge)) {
 	        	Set<Set<DeclNode>> homSets = splitHoms(homNode.getChildren());
 	        	for (Set<DeclNode> homSet : homSets) {
 		        	if (homSet.contains(edge)) {

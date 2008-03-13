@@ -27,9 +27,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -333,53 +331,24 @@ public class RuleDeclNode extends TestDeclNode {
 	private void warnHomDeleteReturnConflict() {
 		assert isResolved();
 
-		// No warnings for DPO
-		if (pattern.isDPO()) {
-			return;
-		}
-
-		Set<DeclNode> delSet = getDelete();
+		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
 		Collection<ConstraintDeclNode> retSet = right.graph.returns.getChildren();
-
-		Map<DeclNode, Set<BaseNode>> elemToHomElems = new HashMap<DeclNode, Set<BaseNode>>();
-
-		// represent homomorphism cliques and map each elem to the clique
-		// it belong to
-		for (HomNode hn : pattern.getHoms()) {
-			Set<BaseNode> homSet;
-			for (BaseNode y : hn.getChildren()) {
-				DeclNode elem = (DeclNode) y;
-
-				homSet = elemToHomElems.get(elem);
-				if (homSet == null) {
-					homSet = new HashSet<BaseNode>();
-					elemToHomElems.put(elem, homSet);
-				}
-				homSet.addAll(hn.getChildren());
-			}
-		}
 
 		// for all pairs of deleted and returned elems check whether
 		// homomorphic matching is allowed
 		HashSet<BaseNode> alreadyReported = new HashSet<BaseNode>();
-		for (DeclNode d : delSet) {
-			for (ConstraintDeclNode r : retSet) {
-				if ( alreadyReported.contains(r) ) {
-					continue;
-				}
-
-				Set<BaseNode> homSet = elemToHomElems.get(d);
-				if (homSet == null) {
-					continue;
-				}
-
-				if (homSet.contains(r)) {
-					r.maybeDeleted = true;
-					if(!r.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-						alreadyReported.add(r);
-						r.reportWarning("returning \"" + r.ident + "\" that may be " +
-								"matched homomorphically with deleted \"" + d.ident + "\"");
+		for (ConstraintDeclNode r : retSet) {
+			if (maybeDeleted.contains(r)) {
+				r.maybeDeleted = true;
+				if(!r.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+					alreadyReported.add(r);
+					String warning = "Returning \"" + r.ident + "\" that may be deleted"
+					+ ", possibly it's homomorphic with a deleted " + r.getUseString();
+					if (r instanceof EdgeDeclNode) {
+						warning += " or \"" + r.ident + "\" is a dangling " + r.getUseString()
+							+ " and a deleted node exists";
 					}
+					r.reportWarning(warning);
 				}
 			}
 		}
