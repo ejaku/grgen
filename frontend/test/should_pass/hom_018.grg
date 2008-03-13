@@ -277,7 +277,7 @@ rule HomRetypeDeleteReturnEdgeReplace : (E)
 rule DeleteNodeReturnEdgeModify : (E)
 {
     n:Node;
-    -e:E->;
+    -e[maybeDeleted]:E->;
     modify {
         delete(n);
         return(e);
@@ -287,7 +287,7 @@ rule DeleteNodeReturnEdgeModify : (E)
 rule DeleteNodeReturnEdgeReplace : (E)
 {
     :Node;
-    -e:E->;
+    -e[maybeDeleted]:E->;
     replace {
         -e->;
         return(e);
