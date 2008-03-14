@@ -34,6 +34,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Pattern;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
 
@@ -349,6 +350,44 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 		}
 
 		return rule;
+	}
+
+
+	// TODO use this to create IR patterns, that is currently not supported by
+	//      any backend
+	private IR constructPatternIR() {
+		PatternGraph left = pattern.getPatternGraph();
+
+		// return if the pattern graph already constructed the IR object
+		// that may happens in recursive patterns
+		if (isIRAlreadySet()) {
+			return getIR();
+		}
+
+		Vector<PatternGraph> right = new Vector<PatternGraph>();
+		for (int i = 0; i < this.right.children.size(); i++) {
+			right.add(this.right.children.get(i).getPatternGraph(left));
+		}
+
+		// return if the pattern graph already constructed the IR object
+		// that may happens in recursive patterns
+		if (isIRAlreadySet()) {
+			return getIR();
+		}
+
+		Pattern pattern = new Pattern(getIdentNode().getIdent(), left, right);
+
+		constructImplicitNegs(left);
+		constructIRaux(pattern);
+
+		// add Eval statements to the IR
+		for (int i = 0; i < this.right.children.size(); i++) {
+    		for (Assignment n : this.right.children.get(i).getAssignments()) {
+    			pattern.addEval(i,n);
+    		}
+		}
+
+		return pattern;
 	}
 
 	/**
