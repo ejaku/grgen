@@ -156,6 +156,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		CollectNode<IdentNode> ret;
 		CollectNode<AssignNode> eval = new CollectNode<AssignNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
+		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>(); 
 	}
 
 	: t:TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
@@ -194,14 +195,18 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 					reportError(getCoords(t), "no \"dpo\" modifier allowed");
 				}
 			}
-		| rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
+		|	( 
+				rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
+					{
+						rightHandSides.addChild(rightReplace);
+					}
+				| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
+					{
+						rightHandSides.addChild(rightModify);
+					}
+			)+
 			{
-				id.setDecl(new PatternRuleDeclNode(id, left, rightReplace));
-				patternChilds.addChild(id);
-			}
-		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
-			{
-				id.setDecl(new PatternRuleDeclNode(id, left, rightModify));
+				id.setDecl(new PatternRuleDeclNode(id, left, rightHandSides));
 				patternChilds.addChild(id);
 			}
 		)

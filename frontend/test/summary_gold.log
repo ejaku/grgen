@@ -214,9 +214,9 @@ OK     should_pass/pattern_009.grg
 OK     should_pass/pattern_010.grg
 OK     should_pass/pattern_011.grg
 OK     should_pass/pattern_012.grg
-ERROR  should_pass/pattern_013.grg
-ERROR  should_pass/pattern_014.grg
-ERROR  should_pass/pattern_015.grg
+OK     should_pass/pattern_013.grg
+OK     should_pass/pattern_014.grg
+OK     should_pass/pattern_015.grg
 OK     should_pass/ret_001.grg
 OK     should_pass/ret_002.grg
 OK     should_pass/ret_003.grg

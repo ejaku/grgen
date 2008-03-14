@@ -27,9 +27,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -48,7 +46,7 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 		setName(PatternRuleDeclNode.class, "pattern rule declaration");
 	}
 
-	protected RhsDeclNode right;
+	protected CollectNode<RhsDeclNode> right;
 	protected PatternRuleTypeNode type;
 
 	/** Type for this declaration. */
@@ -61,7 +59,7 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 	 * @param right The right hand side.
 	 * @param neg The context preventing the rule to match.
 	 */
-	public PatternRuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right) {
+	public PatternRuleDeclNode(IdentNode id, PatternGraphNode left, CollectNode<RhsDeclNode> right) {
 		super(id, patternType, left);
 		this.right = right;
 		becomeParent(this.right);
@@ -96,8 +94,8 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 		return type != null;
 	}
 
-	protected Set<DeclNode> getDelete() {
-		return right.getDelete(pattern);
+	protected Set<DeclNode> getDelete(int index) {
+		return right.children.get(index).getDelete(pattern);
 	}
 
 	/** Check that only graph elements are returned, that are not deleted. */
@@ -121,22 +119,25 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 
 
 	/** Check that only graph elements are returned, that are not deleted. */
-	protected boolean checkExecParamsNotDeleted(PatternGraphNode left, GraphNode right) {
+	protected boolean checkExecParamsNotDeleted() {
 		boolean res = true;
-		Set<DeclNode> dels = getDelete();
-		for (BaseNode x : right.imperativeStmts.getChildren()) {
-			if(x instanceof ExecNode) {
-				ExecNode exec = (ExecNode)x;
-				for(CallActionNode callAction : exec.callActions.getChildren())
-					if(!Collections.disjoint(callAction.params.getChildren(), dels)) {
-						// FIXME error message
-						callAction.reportError("Parameter of call \"" + callAction.getName() + "\"");
-						// TODO ...
-						res = false;
-					}
+
+		for (int i = 0; i < right.getChildren().size(); i++) {
+    		Set<DeclNode> dels = getDelete(i);
+    		for (BaseNode x : right.children.get(i).graph.imperativeStmts.getChildren()) {
+    			if(x instanceof ExecNode) {
+    				ExecNode exec = (ExecNode)x;
+    				for(CallActionNode callAction : exec.callActions.getChildren())
+    					if(!Collections.disjoint(callAction.params.getChildren(), dels)) {
+    						// FIXME error message
+    						callAction.reportError("Parameter of call \"" + callAction.getName() + "\"");
+    						// TODO ...
+    						res = false;
+    					}
 
 
-			}
+    			}
+    		}
 		}
 		return res;
 	}
@@ -144,178 +145,118 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 	/* Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
 	 * If consistent, replace the dummy nodes with the nodes the pattern edge is
 	 * incident to (if these aren't dummy nodes themselves, of course). */
-	protected boolean checkRhsReuse(PatternGraphNode left, RhsDeclNode right) {
+	protected boolean checkRhsReuse() {
 		boolean res = true;
-		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-		for (ConnectionNode rConn : right.getReusedConnections(left)) {
-			boolean occursInLHS = false;
-			EdgeDeclNode re = rConn.getEdge();
+		for (int i = 0; i < right.getChildren().size(); i++) {
+    		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
+    		for (ConnectionNode rConn : right.children.get(i).getReusedConnections(pattern)) {
+    			boolean occursInLHS = false;
+    			EdgeDeclNode re = rConn.getEdge();
 
-			if (re instanceof EdgeTypeChangeNode) {
-				re = ((EdgeTypeChangeNode)re).getOldEdge();
-			}
+    			if (re instanceof EdgeTypeChangeNode) {
+    				re = ((EdgeTypeChangeNode)re).getOldEdge();
+    			}
 
-			for (BaseNode lc : left.getConnections()) {
-				if (!(lc instanceof ConnectionNode)) {
-					continue;
-				}
+    			for (BaseNode lc : pattern.getConnections()) {
+    				if (!(lc instanceof ConnectionNode)) {
+    					continue;
+    				}
 
-				ConnectionNode lConn = (ConnectionNode) lc;
+    				ConnectionNode lConn = (ConnectionNode) lc;
 
-				EdgeDeclNode le = lConn.getEdge();
+    				EdgeDeclNode le = lConn.getEdge();
 
-				if ( ! le.equals(re) ) {
-					continue;
-				}
-				occursInLHS = true;
+    				if ( ! le.equals(re) ) {
+    					continue;
+    				}
+    				occursInLHS = true;
 
-				if (lConn.getConnectionKind() != rConn.getConnectionKind()) {
-					res = false;
-					rConn.reportError("Reused edge does not have the same connection kind");
-					// if you don't add to alreadyReported erroneous errors can occur,
-					// e.g. lhs=x-e->y, rhs=y-e-x
-					alreadyReported.add(re);
-				}
+    				if (lConn.getConnectionKind() != rConn.getConnectionKind()) {
+    					res = false;
+    					rConn.reportError("Reused edge does not have the same connection kind");
+    					// if you don't add to alreadyReported erroneous errors can occur,
+    					// e.g. lhs=x-e->y, rhs=y-e-x
+    					alreadyReported.add(re);
+    				}
 
-				NodeDeclNode lSrc = lConn.getSrc();
-				NodeDeclNode lTgt = lConn.getTgt();
-				NodeDeclNode rSrc = rConn.getSrc();
-				NodeDeclNode rTgt = rConn.getTgt();
+    				NodeDeclNode lSrc = lConn.getSrc();
+    				NodeDeclNode lTgt = lConn.getTgt();
+    				NodeDeclNode rSrc = rConn.getSrc();
+    				NodeDeclNode rTgt = rConn.getTgt();
 
-				Collection<BaseNode> rhsNodes = right.getReusedNodes(left);
+    				Collection<BaseNode> rhsNodes = right.children.get(i).getReusedNodes(pattern);
 
-				if (rSrc instanceof NodeTypeChangeNode) {
-					rSrc = ((NodeTypeChangeNode)rSrc).getOldNode();
-					rhsNodes.add(rSrc);
-				}
-				if (rTgt instanceof NodeTypeChangeNode) {
-					rTgt = ((NodeTypeChangeNode)rTgt).getOldNode();
-					rhsNodes.add(rTgt);
-				}
+    				if (rSrc instanceof NodeTypeChangeNode) {
+    					rSrc = ((NodeTypeChangeNode)rSrc).getOldNode();
+    					rhsNodes.add(rSrc);
+    				}
+    				if (rTgt instanceof NodeTypeChangeNode) {
+    					rTgt = ((NodeTypeChangeNode)rTgt).getOldNode();
+    					rhsNodes.add(rTgt);
+    				}
 
-				if ( ! lSrc.isDummy() ) {
-					if ( rSrc.isDummy() ) {
-						if ( rhsNodes.contains(lSrc) ) {
-							//replace the dummy src node by the src node of the pattern connection
-							rConn.setSrc(lSrc);
-						} else if ( ! alreadyReported.contains(re) ) {
-							res = false;
-							rConn.reportError("The source node of reused edge \"" + le + "\" must be reused, too");
-							alreadyReported.add(re);
-						}
-					} else if (lSrc != rSrc && ! alreadyReported.contains(re)) {
-						res = false;
-						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
-						alreadyReported.add(re);
-					}
-				}
+    				if ( ! lSrc.isDummy() ) {
+    					if ( rSrc.isDummy() ) {
+    						if ( rhsNodes.contains(lSrc) ) {
+    							//replace the dummy src node by the src node of the pattern connection
+    							rConn.setSrc(lSrc);
+    						} else if ( ! alreadyReported.contains(re) ) {
+    							res = false;
+    							rConn.reportError("The source node of reused edge \"" + le + "\" must be reused, too");
+    							alreadyReported.add(re);
+    						}
+    					} else if (lSrc != rSrc && ! alreadyReported.contains(re)) {
+    						res = false;
+    						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
+    						alreadyReported.add(re);
+    					}
+    				}
 
-				if ( ! lTgt.isDummy() ) {
-					if ( rTgt.isDummy() ) {
-						if ( rhsNodes.contains(lTgt) ) {
-							//replace the dummy tgt node by the tgt node of the pattern connection
-							rConn.setTgt(lTgt);
-						} else if ( ! alreadyReported.contains(re) ) {
-							res = false;
-							rConn.reportError("The target node of reused edge \"" + le + "\" must be reused, too");
-							alreadyReported.add(re);
-						}
-					} else if ( lTgt != rTgt && ! alreadyReported.contains(re)) {
-						res = false;
-						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
-						alreadyReported.add(re);
-					}
-				}
+    				if ( ! lTgt.isDummy() ) {
+    					if ( rTgt.isDummy() ) {
+    						if ( rhsNodes.contains(lTgt) ) {
+    							//replace the dummy tgt node by the tgt node of the pattern connection
+    							rConn.setTgt(lTgt);
+    						} else if ( ! alreadyReported.contains(re) ) {
+    							res = false;
+    							rConn.reportError("The target node of reused edge \"" + le + "\" must be reused, too");
+    							alreadyReported.add(re);
+    						}
+    					} else if ( lTgt != rTgt && ! alreadyReported.contains(re)) {
+    						res = false;
+    						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
+    						alreadyReported.add(re);
+    					}
+    				}
 
-				//check, whether RHS "adds" a node to a dangling end of a edge
-				if ( ! alreadyReported.contains(re) ) {
-					if ( lSrc.isDummy() && ! rSrc.isDummy() ) {
-						res = false;
-						rConn.reportError("Reused edge dangles on LHS, but has a source node on RHS");
-						alreadyReported.add(re);
-					}
-					if ( lTgt.isDummy() && ! rTgt.isDummy() ) {
-						res = false;
-						rConn.reportError("Reused edge dangles on LHS, but has a target node on RHS");
-						alreadyReported.add(re);
-					}
-				}
-			}
-			if (!occursInLHS) {
-				// alreadyReported can not be set here
-				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY) {
-					res = false;
-					rConn.reportError("New instances of ?--? are not allowed in RHS");
-				}
-				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY_DIRECTED) {
-					res = false;
-					rConn.reportError("New instances of <--> are not allowed in RHS");
-				}
-			}
+    				//check, whether RHS "adds" a node to a dangling end of a edge
+    				if ( ! alreadyReported.contains(re) ) {
+    					if ( lSrc.isDummy() && ! rSrc.isDummy() ) {
+    						res = false;
+    						rConn.reportError("Reused edge dangles on LHS, but has a source node on RHS");
+    						alreadyReported.add(re);
+    					}
+    					if ( lTgt.isDummy() && ! rTgt.isDummy() ) {
+    						res = false;
+    						rConn.reportError("Reused edge dangles on LHS, but has a target node on RHS");
+    						alreadyReported.add(re);
+    					}
+    				}
+    			}
+    			if (!occursInLHS) {
+    				// alreadyReported can not be set here
+    				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY) {
+    					res = false;
+    					rConn.reportError("New instances of ?--? are not allowed in RHS");
+    				}
+    				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY_DIRECTED) {
+    					res = false;
+    					rConn.reportError("New instances of <--> are not allowed in RHS");
+    				}
+    			}
+    		}
 		}
 		return res;
-	}
-
-	/** Raises a warning if a "delete-return-conflict" for potentially
-	 *  homomorphic nodes is detected or---more precisely---if a node is
-	 *  returned such that homomorphic matching is allowed with a deleted node.
-	 *
-	 *  NOTE: The implementation of this method must be changed when
-	 *        non-transitive homomorphism is invented.
-	 * */
-	private void warnHomDeleteReturnConflict() {
-		assert isResolved();
-
-		// No warnings for DPO
-		if (pattern.isDPO()) {
-			return;
-		}
-
-		Set<DeclNode> delSet = getDelete();
-		Collection<ConstraintDeclNode> retSet = right.graph.returns.getChildren();
-
-		Map<DeclNode, Set<BaseNode>> elemToHomElems = new HashMap<DeclNode, Set<BaseNode>>();
-
-		// represent homomorphism cliques and map each elem to the clique
-		// it belong to
-		for (HomNode hn : pattern.getHoms()) {
-			Set<BaseNode> homSet;
-			for (BaseNode y : hn.getChildren()) {
-				DeclNode elem = (DeclNode) y;
-
-				homSet = elemToHomElems.get(elem);
-				if (homSet == null) {
-					homSet = new HashSet<BaseNode>();
-					elemToHomElems.put(elem, homSet);
-				}
-				homSet.addAll(hn.getChildren());
-			}
-		}
-
-		// for all pairs of deleted and returned elems check whether
-		// homomorphic matching is allowed
-		HashSet<BaseNode> alreadyReported = new HashSet<BaseNode>();
-		for (DeclNode d : delSet) {
-			for (ConstraintDeclNode r : retSet) {
-				if ( alreadyReported.contains(r) ) {
-					continue;
-				}
-
-				Set<BaseNode> homSet = elemToHomElems.get(d);
-				if (homSet == null) {
-					continue;
-				}
-
-				if (homSet.contains(r)) {
-					r.maybeDeleted = true;
-					if(!r.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-						alreadyReported.add(r);
-						r.reportWarning("returning \"" + r.ident + "\" that may be " +
-								"matched homomorphically with deleted \"" + d.ident + "\"");
-					}
-				}
-			}
-		}
 	}
 
 	/**
@@ -326,22 +267,11 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		right.warnElemAppearsInsideAndOutsideDelete(pattern);
+		for (int i = 0; i < right.getChildren().size(); i++) {
+			right.children.get(i).warnElemAppearsInsideAndOutsideDelete(pattern);
+		}
 
 		boolean leftHandGraphsOk = super.checkLocal();
-
-		PatternGraphNode left = pattern;
-		GraphNode right = this.right.graph;
-
-		// check if parameters of patterns are deleted
-		boolean noDeleteOfPatternParameters = true;
-		Collection<DeclNode> deletedEnities = getDelete();
-		for (DeclNode p : pattern.getParamDecls()) {
-			if (deletedEnities.contains(p)) {
-				error.error(getCoords(), "Deletion of parameters in patterns are not allowed");
-				noDeleteOfPatternParameters = false;
-			}
-        }
 
 		boolean noReturnInPatternOk = true;
 		if(pattern.returns.children.size() > 0) {
@@ -349,33 +279,46 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 			noReturnInPatternOk = false;
 		}
 
-		warnHomDeleteReturnConflict();
-
+		boolean noDeleteOfPatternParameters = true;
 		boolean abstr = true;
-		for(BaseNode n : right.getNodes()) {
-			NodeDeclNode node = (NodeDeclNode)n;
-			if(!node.hasTypeof() && ((InheritanceTypeNode)node.getDeclType()).isAbstract() && !left.getNodes().contains(node)) {
-				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
-				abstr = false;
-			}
-		}
-		for(BaseNode e : right.getEdges()) {
-			EdgeDeclNode edge = (EdgeDeclNode) e;
-			if(!edge.hasTypeof() && ((InheritanceTypeNode)edge.getDeclType()).isAbstract() && !left.getEdges().contains(edge)) {
-				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
-				abstr = false;
-			}
+
+		for (int i = 0; i < right.getChildren().size(); i++) {
+    		GraphNode right = this.right.children.get(i).graph;
+
+    		// check if parameters of patterns are deleted
+    		Collection<DeclNode> deletedEnities = getDelete(i);
+    		for (DeclNode p : pattern.getParamDecls()) {
+    			if (deletedEnities.contains(p)) {
+    				error.error(getCoords(), "Deletion of parameters in patterns are not allowed");
+    				noDeleteOfPatternParameters = false;
+    			}
+            }
+
+    		for(BaseNode n : right.getNodes()) {
+    			NodeDeclNode node = (NodeDeclNode)n;
+    			if(!node.hasTypeof() && ((InheritanceTypeNode)node.getDeclType()).isAbstract() && !pattern.getNodes().contains(node)) {
+    				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
+    				abstr = false;
+    			}
+    		}
+    		for(BaseNode e : right.getEdges()) {
+    			EdgeDeclNode edge = (EdgeDeclNode) e;
+    			if(!edge.hasTypeof() && ((InheritanceTypeNode)edge.getDeclType()).isAbstract() && !pattern.getEdges().contains(edge)) {
+    				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
+    				abstr = false;
+    			}
+    		}
 		}
 
 		return leftHandGraphsOk & noDeleteOfPatternParameters
-			& checkRhsReuse(left, this.right) & noReturnInPatternOk & abstr
-			& checkReturnedElemsNotDeleted(left, this.right)
-			& checkExecParamsNotDeleted(left, right);
+			& checkRhsReuse() & noReturnInPatternOk & abstr
+			& checkExecParamsNotDeleted();
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	// TODO support only one rhs
 	protected IR constructIR() {
 		PatternGraph left = pattern.getPatternGraph();
 
@@ -385,7 +328,8 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 			return getIR();
 		}
 
-		PatternGraph right = this.right.getPatternGraph(left);
+		// TODO choose the right one
+		PatternGraph right = this.right.children.get(0).getPatternGraph(left);
 
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
@@ -399,7 +343,8 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 		constructIRaux(rule);
 
 		// add Eval statements to the IR
-		for (Assignment n : this.right.getAssignments()) {
+		// TODO choose the right one
+		for (Assignment n : this.right.children.get(0).getAssignments()) {
 			rule.addEval(n);
 		}
 
