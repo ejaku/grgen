@@ -15943,8 +15943,8 @@ label0: ;
 
     public class TNTActions : LGSPActions
     {
-        public TNTActions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
-            : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)
+        public TNTActions(LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
+            : base(lgspgraph, modelAsmName, actionsAsmName)
         {
             InitActions();
         }

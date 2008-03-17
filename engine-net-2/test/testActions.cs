@@ -218,8 +218,8 @@ namespace de.unika.ipd.grGen.Action_test
 
     public class testActions : LGSPActions
     {
-        public testActions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
-            : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)
+        public testActions(LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
+            : base(lgspgraph, modelAsmName, actionsAsmName)
         {
             InitActions();
         }

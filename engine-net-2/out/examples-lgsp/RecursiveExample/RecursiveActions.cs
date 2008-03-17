@@ -2750,8 +2750,8 @@ label5: ;
 
     public class RecursiveActions : LGSPActions
     {
-        public RecursiveActions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
-            : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)
+        public RecursiveActions(LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
+            : base(lgspgraph, modelAsmName, actionsAsmName)
         {
             InitActions();
         }

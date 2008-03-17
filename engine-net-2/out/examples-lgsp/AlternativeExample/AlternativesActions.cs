@@ -7044,8 +7044,8 @@ label3: ;
 
     public class AlternativesActions : LGSPActions
     {
-        public AlternativesActions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
-            : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)
+        public AlternativesActions(LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
+            : base(lgspgraph, modelAsmName, actionsAsmName)
         {
             InitActions();
         }

@@ -3324,8 +3324,8 @@ label7: ;
 
     public class MutexPimpedActions : LGSPActions
     {
-        public MutexPimpedActions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
-            : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)
+        public MutexPimpedActions(LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
+            : base(lgspgraph, modelAsmName, actionsAsmName)
         {
             InitActions();
         }
