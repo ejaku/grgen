@@ -677,7 +677,6 @@ namespace de.unika.ipd.grGen.lgsp
     public abstract class LGSPActions : BaseActions
     {
         private LGSPGraph graph;
-        private IDumperFactory dumperFactory;
         private LGSPMatcherGenerator matcherGenerator;
         private String modelAssemblyName, actionsAssemblyName;
         int maxMatches = 0;
@@ -699,11 +698,10 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
         }
 
-        public LGSPActions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
+        public LGSPActions(LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
         {
             graph = lgspgraph;
             graph.curActions = this;
-            dumperFactory = dumperfactory;
             modelAssemblyName = modelAsmName;
             actionsAssemblyName = actionsAsmName;
             matcherGenerator = new LGSPMatcherGenerator(graph.Model);

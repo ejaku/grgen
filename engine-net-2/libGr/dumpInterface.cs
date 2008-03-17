@@ -55,7 +55,7 @@ namespace de.unika.ipd.grGen.libGr
     public interface IDumper : IDisposable
     {
         /// <summary>
-        /// Dump a node
+        /// Dump a node.
         /// </summary>
         /// <param name="node">The node to be dumped</param>
         /// <param name="label">The label to use for the node</param>
@@ -63,6 +63,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="textColor">The color of the text</param>
         /// <param name="nodeColor">The color of the node</param>
         /// <param name="borderColor">The color of the node border</param>
+		/// <param name="nodeShape">The shape of the node</param>
         void DumpNode(INode node, String label, IEnumerable<String> attributes,
             GrColor textColor, GrColor nodeColor, GrColor borderColor, GrNodeShape nodeShape);
 
@@ -540,10 +541,10 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Maps an IAttributeType to an IType or unmaps the IType, if attrType is null
+        /// Maps an AttributeType to a GrGenType or unmaps the GrGenType, if attrType is null
         /// </summary>
-        /// <param name="nodeType">The IType to be mapped/unmapped</param>
-        /// <param name="attrType">The IAttributeType</param>
+        /// <param name="type">The GrGenType to be mapped/unmapped</param>
+        /// <param name="attrType">The AttributeType</param>
         public void AddTypeInfoTag(GrGenType type, AttributeType attrType)
         {
             List<AttributeType> attrTypes;
@@ -555,6 +556,12 @@ namespace de.unika.ipd.grGen.libGr
             TypeInfotagsChanged(type);
         }
 
+		/// <summary>
+		/// Gets the element name of the given graph element according
+		/// to the element name getter given to the constructor of DumpInfo.
+		/// </summary>
+		/// <param name="elem">The element.</param>
+		/// <returns>The name of the element.</returns>
         public String GetElementName(IGraphElement elem)
         {
             return elementNameGetter(elem);

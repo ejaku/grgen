@@ -84,6 +84,15 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
 		/// <summary>
+		/// The element which replaced this element (Valid is false in this case)
+		/// or null, if this element has not been replaced or is still a valid member of a graph.
+		/// </summary>
+		public IGraphElement ReplacedByElement
+		{
+			get { return ReplacedByNode; }
+		}
+
+		/// <summary>
 		/// The node which replaced this node (Valid is false in this case)
 		/// or null, if this node has not been replaced or is still a valid member of a graph.
 		/// </summary>
@@ -98,7 +107,7 @@ namespace de.unika.ipd.grGen.lgsp
 		/// </summary>
         INode INode.ReplacedByNode
         {
-            get { return typePrev != null ? null : typeNext; }
+			get { return ReplacedByNode; }
         }
     
 
@@ -469,6 +478,15 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
 		/// <summary>
+		/// The element which replaced this element (Valid is false in this case)
+		/// or null, if this element has not been replaced or is still a valid member of a graph.
+		/// </summary>
+		public IGraphElement ReplacedByElement
+		{
+			get { return ReplacedByEdge; }
+		}
+
+		/// <summary>
 		/// The edge which replaced this edge (Valid is false in this case)
 		/// or null, if this edge has not been replaced or is still a valid member of a graph.
 		/// </summary>
@@ -483,7 +501,7 @@ namespace de.unika.ipd.grGen.lgsp
 		/// </summary>
 		IEdge IEdge.ReplacedByEdge
         {
-            get { return typePrev != null ? null : typeNext; }
+			get { return ReplacedByEdge; }
         }
 
         /// <summary>

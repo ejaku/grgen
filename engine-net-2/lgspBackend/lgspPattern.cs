@@ -106,7 +106,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="isAllowedType">An array containing a bool for each edge type (order defined by the TypeIDs)
         ///     which is true iff the corresponding type is allowed for this pattern element.
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
-        /// <param name="patternElementType">Specifies what kind of pattern element this is.</param>
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
         public PatternEdge(PatternNode source, PatternNode target, bool fixedDirection,

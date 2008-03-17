@@ -59,11 +59,10 @@ namespace de.unika.ipd.grGen.libGr
         public abstract void DestroyGraph();
 
         /// <summary>
-        /// Loads a BaseActions instance from the given file, which becomes initialized with the given dumpInfo.
+        /// Loads a BaseActions instance from the given file.
         /// If the file is a ".cs" file it will be compiled first.
-        /// If dumpInfo is null, a standard dumpInfo will be used
         /// </summary>
-        public abstract BaseActions LoadActions(String actionFilename, DumpInfo dumpInfo);
+        public abstract BaseActions LoadActions(String actionFilename);
 
         /// <summary>
         /// Returns the number of nodes with the exact given node type.
@@ -833,7 +832,12 @@ namespace de.unika.ipd.grGen.libGr
             {
                 get { throw new Exception("The method or operation is not implemented."); }
             }
-        }
+
+			public IGraphElement ReplacedByElement
+			{
+				get { throw new Exception("The method or operation is not implemented."); }
+			}
+		}
 
         /// <summary>
         /// Returns the name of the kind of the given attribute

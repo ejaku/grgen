@@ -532,7 +532,7 @@ namespace de.unika.ipd.grGen.lgsp
                 LGSPGrGen.ProcessSpecification(grgFilename);
 
             LGSPGraph graph = (LGSPGraph) CreateGraph(modelFilename, graphName);
-            newActions = (LGSPActions) graph.LoadActions(actionsFilename, new DumpInfo(graph.GetElementName));
+            newActions = (LGSPActions) graph.LoadActions(actionsFilename);
             newGraph = graph;
         }
 

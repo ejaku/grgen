@@ -1802,10 +1802,10 @@ namespace de.unika.ipd.grGen.lgsp
             List<string> arguments,
             List<bool> argumentIsNode)
         {
-            /// Iterate all search programs 
-            /// search for calls to missing preset handling methods 
-            /// within check preset opertions which are the only ones utilizing them
-            /// and complete them with the arguments given
+            // Iterate all search programs 
+            // search for calls to missing preset handling methods 
+            // within check preset opertions which are the only ones utilizing them
+            // and complete them with the arguments given
             do
             {
                 CompleteCallsToMissingPresetHandlingMethod(

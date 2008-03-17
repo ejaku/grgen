@@ -520,7 +520,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="actionFilename">Filename of a action file. This can be either a library (.dll) or source code (.cs)</param>
         /// <returns>A LGSPActions object as BaseActions</returns>
-        public override BaseActions LoadActions(String actionFilename, DumpInfo dumpInfo)
+        public override BaseActions LoadActions(String actionFilename)
         {
             Assembly assembly;
             String assemblyName;
@@ -588,16 +588,11 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new ArgumentException(errorMsg);
             }
             if(actionsType == null)
-            {
                 throw new ArgumentException("The given action file doesn't contain an LGSPActions implementation!");
-            }
-
-            if(dumpInfo == null) dumpInfo = new DumpInfo(GetElementName);
 
             LGSPActions actions = (LGSPActions) assembly.CreateInstance(
                 actionsType.FullName, false, BindingFlags.CreateInstance, null,
-                new Object[] { this, new VCGDumperFactory(VCGFlags.OrientTopToBottom, dumpInfo),
-                    modelAssemblyName, assemblyName },
+                new Object[] { this, modelAssemblyName, assemblyName },
                 null, null);
 
             if(Model.MD5Hash != actions.ModelMD5Hash)
@@ -809,7 +804,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// TODO: Slow but provides a better interface...
         /// </summary>
         /// <param name="nodeType">The node type for the new node.</param>
-        /// <returns>The newly created node.</returns>
+		/// <param name="varName">The name of the variable.</param>
+		/// <returns>The newly created node.</returns>
         protected override INode AddINode(NodeType nodeType, String varName)
         {
             return AddNode(nodeType, varName);

@@ -623,7 +623,7 @@ namespace de.unika.ipd.grGen.grShell
 
             try
             {
-                curShellGraph.Actions = curShellGraph.Graph.LoadActions(actionFilename, curShellGraph.DumpInfo);
+                curShellGraph.Actions = curShellGraph.Graph.LoadActions(actionFilename);
                 curShellGraph.ActionsFilename = actionFilename;
             }
             catch(Exception ex)

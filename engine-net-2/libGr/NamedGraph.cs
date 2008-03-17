@@ -416,11 +416,10 @@ namespace de.unika.ipd.grGen.libGr
         public void DestroyGraph() { graph.DestroyGraph(); }
 
         /// <summary>
-        /// Loads a BaseActions instance from the given file, which becomes initialized with the given dumpInfo.
+        /// Loads a BaseActions instance from the given file.
         /// If the file is a ".cs" file it will be compiled first.
-        /// If dumpInfo is null, a standard dumpInfo will be used.
         /// </summary>
-        public BaseActions LoadActions(String actionFilename, DumpInfo dumpInfo) { return graph.LoadActions(actionFilename, dumpInfo); }
+        public BaseActions LoadActions(String actionFilename) { return graph.LoadActions(actionFilename); }
 
 
         /// <summary>

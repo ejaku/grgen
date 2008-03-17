@@ -66,23 +66,23 @@ namespace de.unika.ipd.grGen.lgsp
         /// providing statistical information about its structure </param>
         public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool negPatternGraph, bool isSubpattern)
         {
-            /// 
-            /// If you change this method, chances are high you also want to change GenerateStaticPlanGraph in LGSPGrGen
-            /// look there for version without ifdef junk
-            /// todo: unify it with GenerateStaticPlanGraph in LGSPGrGen
-            /// 
+            // 
+            // If you change this method, chances are high you also want to change GenerateStaticPlanGraph in LGSPGrGen
+            // look there for version without ifdef junk
+            // todo: unify it with GenerateStaticPlanGraph in LGSPGrGen
+            // 
 
-            /// Create root node
-            /// Create plan graph nodes for all pattern graph nodes and all pattern graph edges
-            /// Create "lookup" plan graph edge from root node to each plan graph node
-            /// Create "implicit source" plan graph edge from each plan graph node originating with a pattern edge 
-            ///     to the plan graph node created by the source node of the pattern graph edge
-            /// Create "implicit target" plan graph edge from each plan graph node originating with a pattern edge 
-            ///     to the plan graph node created by the target node of the pattern graph edge
-            /// Create "incoming" plan graph edge from each plan graph node originating with a pattern node
-            ///     to a plan graph node created by one of the incoming edges of the pattern node
-            /// Create "outgoing" plan graph edge from each plan graph node originating with a pattern node
-            ///     to a plan graph node created by one of the outgoing edges of the pattern node
+            // Create root node
+            // Create plan graph nodes for all pattern graph nodes and all pattern graph edges
+            // Create "lookup" plan graph edge from root node to each plan graph node
+            // Create "implicit source" plan graph edge from each plan graph node originating with a pattern edge 
+            //     to the plan graph node created by the source node of the pattern graph edge
+            // Create "implicit target" plan graph edge from each plan graph node originating with a pattern edge 
+            //     to the plan graph node created by the target node of the pattern graph edge
+            // Create "incoming" plan graph edge from each plan graph node originating with a pattern node
+            //     to a plan graph node created by one of the incoming edges of the pattern node
+            // Create "outgoing" plan graph edge from each plan graph node originating with a pattern node
+            //     to a plan graph node created by one of the outgoing edges of the pattern node
 
             PlanNode[] planNodes = new PlanNode[patternGraph.Nodes.Length + patternGraph.Edges.Length];
             // upper bound for num of edges (lookup nodes + lookup edges + impl. tgt + impl. src + incoming + outgoing)

@@ -147,22 +147,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, bool negPatternGraph, bool isSubpattern)
         {
-            ///
-            /// If you change this method, chances are high you also want to change GeneratePlanGraph in LGSPMatcherGenerator
-            /// todo: unify it with GeneratePlanGraph in LGSPMatcherGenerator
-            ///
+            //
+            // If you change this method, chances are high you also want to change GeneratePlanGraph in LGSPMatcherGenerator
+            // todo: unify it with GeneratePlanGraph in LGSPMatcherGenerator
+            //
 
-            /// Create root node
-            /// Create plan graph nodes for all pattern graph nodes and all pattern graph edges
-            /// Create "lookup" plan graph edge from root node to each plan graph node
-            /// Create "implicit source" plan graph edge from each plan graph node originating with a pattern edge 
-            ///     to the plan graph node created by the source node of the pattern graph edge
-            /// Create "implicit target" plan graph edge from each plan graph node originating with a pattern edge 
-            ///     to the plan graph node created by the target node of the pattern graph edge
-            /// Create "incoming" plan graph edge from each plan graph node originating with a pattern node
-            ///     to a plan graph node created by one of the incoming edges of the pattern node
-            /// Create "outgoing" plan graph edge from each plan graph node originating with a pattern node
-            ///     to a plan graph node created by one of the outgoing edges of the pattern node
+            // Create root node
+            // Create plan graph nodes for all pattern graph nodes and all pattern graph edges
+            // Create "lookup" plan graph edge from root node to each plan graph node
+            // Create "implicit source" plan graph edge from each plan graph node originating with a pattern edge 
+            //     to the plan graph node created by the source node of the pattern graph edge
+            // Create "implicit target" plan graph edge from each plan graph node originating with a pattern edge 
+            //     to the plan graph node created by the target node of the pattern graph edge
+            // Create "incoming" plan graph edge from each plan graph node originating with a pattern node
+            //     to a plan graph node created by one of the incoming edges of the pattern node
+            // Create "outgoing" plan graph edge from each plan graph node originating with a pattern node
+            //     to a plan graph node created by one of the outgoing edges of the pattern node
 
             PlanNode[] planNodes = new PlanNode[patternGraph.nodes.Length + patternGraph.edges.Length];
             List<PlanEdge> planEdges = new List<PlanEdge>(patternGraph.nodes.Length + 5 * patternGraph.edges.Length);   // upper bound for num of edges
@@ -883,8 +883,8 @@ namespace de.unika.ipd.grGen.lgsp
                 endSource.AppendFront("public class " + unitName + "Actions : LGSPActions\n");
                 endSource.AppendFront("{\n");
                 endSource.Indent();
-                endSource.AppendFront("public " + unitName + "Actions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)\n");
-                endSource.AppendFront("    : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)\n");
+                endSource.AppendFront("public " + unitName + "Actions(LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)\n");
+                endSource.AppendFront("    : base(lgspgraph, modelAsmName, actionsAsmName)\n");
                 endSource.AppendFront("{\n");
                 endSource.AppendFront("    InitActions();\n");
                 endSource.AppendFront("}\n\n");

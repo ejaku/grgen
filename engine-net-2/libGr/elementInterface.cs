@@ -18,6 +18,12 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         bool Valid { get; }
 
+		/// <summary>
+		/// The element which replaced this element (Valid is false in this case)
+		/// or null, if this element has not been replaced or is still a valid member of a graph.
+		/// </summary>
+		IGraphElement ReplacedByElement { get; }
+
         /// <summary>
         /// Returns true, if the graph element is compatible to the given type
         /// </summary>
