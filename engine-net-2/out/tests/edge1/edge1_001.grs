@@ -1,0 +1,13 @@
+new graph "lib\lgsp-edge1Model.dll" "Graph with undirected edges"
+select actions "lib\lgsp-edge1Actions.dll"
+
+show num nodes
+show num edges
+xgrs init
+show num nodes
+show num edges
+xgrs [findUndirectedEdge]
+xgrs [findArbitraryEdge]
+xgrs [findArbitraryDirectedEdge]
+
+quit

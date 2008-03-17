@@ -1,0 +1,38 @@
+rule init {
+	replace {
+		x:Node;
+		y:Node;
+		z:Node;
+		
+		x -- y -- z;
+		y --> y;
+	}
+}
+
+test findUndirectedEdge {
+	x:Node;
+	y:Node;
+	
+	x -- y;
+}
+
+test findArbitraryEdge {
+	x:Node;
+	y:Node;
+	
+	x ?--? y;
+}
+
+test findArbitraryDirectedEdge {
+	x:Node;
+	y:Node;
+	
+	x <--> y;
+}
+
+test findDirectedEdge {
+	x:Node;
+	y:Node;
+	
+	x --> y;
+}
