@@ -512,4 +512,46 @@ show edge x
 
 clear graph
 
+xgrs (ab)=Init1 && (b)=Init3
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs HomRetypeEvalNode
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show node ab
+show node b
+
+xgrs (n1, ef)=Init2 && (n2, f)=Init4
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+xgrs HomRetypeEvalEdge
+show num nodes
+show num edges
+show num nodes "A"
+show num nodes "B"
+show num nodes "AB"
+show num edges "E"
+show num edges "F"
+show num edges "EF"
+show edge ef
+show edge f
+
 quit

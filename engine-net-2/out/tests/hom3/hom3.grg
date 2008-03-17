@@ -1,16 +1,34 @@
 using hom3Model;
 
-rule Init1
+rule Init1 : (AB)
 {
     modify {
-        :AB;
+        ab:AB;
+        return (ab);
     }
 }
 
-rule Init2
+rule Init2 : (Node, EF)
 {
     modify {
-        n:Node -:EF-> n;
+        n:Node -ef:EF-> n;
+        return (n, ef); 
+    }
+}
+
+rule Init3 : (B)
+{
+    modify {
+        b:B;
+        return (b);
+    }
+}
+
+rule Init4 : (Node, F)
+{
+    modify {
+        n:Node -f:F-> n;
+        return (n, f); 
     }
 }
 
@@ -69,7 +87,7 @@ rule HomDelEdgeReplace
 rule HomDelRetNodeModify : (B)
 {
     hom(a, b);
-    a:A; b:B;
+    a:A; b[maybeDeleted]:B;
     
     modify {
         delete(a);
@@ -80,7 +98,7 @@ rule HomDelRetNodeModify : (B)
 rule HomDelRetEdgeModify : (F)
 {
     hom(e, f);
-    -e:E->; -f:F->;
+    -e:E->; -f[maybeDeleted]:F->;
     
     modify {
         delete(e);
@@ -91,7 +109,7 @@ rule HomDelRetEdgeModify : (F)
 rule HomDelRetNodeReplace : (B)
 {
     hom(a, b);
-    a:A; b:B;
+    a:A; b[maybeDeleted]:B;
     
     replace {
         b;
@@ -102,7 +120,7 @@ rule HomDelRetNodeReplace : (B)
 rule HomDelRetEdgeReplace : (F)
 {
     hom(e, f);
-    -e:E->; -f:F->;
+    -e:E->; -f[maybeDeleted]:F->;
         
     replace {
         -f->;
@@ -222,7 +240,7 @@ rule HomRetypeDeleteEdgeReplace
 rule HomRetypeDeleteReturnNodeModify : (A)
 {
     hom(a, b, c);
-    a:A; b:B; c:A;
+    a:A; b:B; c[maybeDeleted]:A;
     
     modify {
         :A<a>;
@@ -234,7 +252,7 @@ rule HomRetypeDeleteReturnNodeModify : (A)
 rule HomRetypeDeleteReturnEdgeModify : (E)
 {
     hom(e, f, g);
-    -e:E->; -f:F->; -g:E->;
+    -e:E->; -f:F->; -g[maybeDeleted]:E->;
     
     modify {
         -:E<e>->;
@@ -246,7 +264,7 @@ rule HomRetypeDeleteReturnEdgeModify : (E)
 rule HomRetypeDeleteReturnNodeReplace : (A)
 {
     hom(a, b, c);
-    a:A; b:B; c:A;
+    a:A; b:B; c[maybeDeleted]:A;
     
     replace {
         :A<a>;
@@ -258,7 +276,7 @@ rule HomRetypeDeleteReturnNodeReplace : (A)
 rule HomRetypeDeleteReturnEdgeReplace : (E)
 {
     hom(e, f, g);
-    -e:E->; -f:F->; -g:E->;
+    -e:E->; -f:F->; -g[maybeDeleted]:E->;
     
     replace {
         -:E<e>->;
@@ -277,7 +295,7 @@ rule HomRetypeDeleteReturnEdgeReplace : (E)
 rule DeleteNodeReturnEdgeModify : (E)
 {
     n:Node;
-    -e:E->;
+    -e[maybeDeleted]:E->;
     modify {
         delete(n);
         return(e);
@@ -287,9 +305,47 @@ rule DeleteNodeReturnEdgeModify : (E)
 rule DeleteNodeReturnEdgeReplace : (E)
 {
     :Node;
-    -e:E->;
+    -e[maybeDeleted]:E->;
     replace {
         -e->;
         return(e);
+    }
+}
+
+//
+// hom + retype + eval
+//
+
+rule HomRetypeEvalNode
+{
+    hom(a1, a2);
+    a1:A; a2:A;
+    b:B;
+
+    modify {
+        c:A<a1>;
+        d:A<b>;
+        eval {
+            c.a = 4;
+            a2.a = a2.a + 2;
+            c.a = c.a - 6 + a2.a + a1.a;
+        }
+    }
+}
+
+rule HomRetypeEvalEdge
+{
+    hom(e1, e2);
+    -e1:E->; -e2:E->;
+    -f:F->;
+
+    modify {
+        -g:E<e1>->;
+        -h:E<f>->;
+        eval {
+            g.e = 4;
+            e2.e = e2.e + 2;
+            g.e = g.e - 6 + e2.e + e1.e;
+        }
     }
 }
