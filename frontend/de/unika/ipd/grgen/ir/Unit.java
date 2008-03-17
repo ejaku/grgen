@@ -107,9 +107,9 @@ public class Unit extends IR {
 	}
 
 	protected void canonicalizeLocal() {
-		Collections.sort(models, Identifiable.COMPARATOR);
-		Collections.sort(actions, Identifiable.COMPARATOR);
-		Collections.sort(subpatterns, Identifiable.COMPARATOR);
+//		Collections.sort(models, Identifiable.COMPARATOR);
+//		Collections.sort(actions, Identifiable.COMPARATOR);
+//		Collections.sort(subpatterns, Identifiable.COMPARATOR);
 
 		for(Iterator<Model> it = models.iterator(); it.hasNext();) {
 			Model model = it.next();
