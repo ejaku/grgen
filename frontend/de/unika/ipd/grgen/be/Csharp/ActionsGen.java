@@ -942,6 +942,14 @@ public class ActionsGen extends CSharpBase {
 		if(rule.getReturns().isEmpty())
 			sb3.append("\t\t\treturn EmptyReturnElements;\n");
 		else {
+			for(Entity ent : rule.getReturns()) {
+				if(ent instanceof GraphEntity) {
+					GraphEntity grEnt = (GraphEntity) ent;
+					if(grEnt.isMaybeDeleted())
+						sb3.append("\t\t\tif(!" + formatEntity(ent) + ".Valid) " + formatEntity(ent) + " = null;\n");
+				}
+			}
+
 			sb3.append("\t\t\treturn new IGraphElement[] { ");
 			for(Entity ent : rule.getReturns()) {
 				if(ent instanceof Node)
