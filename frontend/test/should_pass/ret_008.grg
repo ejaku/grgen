@@ -1,0 +1,52 @@
+using basic_model_002, inh_attrib_model_002;
+
+test t1 : (A)
+{
+    return (null);
+}
+
+test t2 : (Type1)
+{
+    return (null);
+}
+
+test t3 : (A, Type1, A)
+{
+    return (null, null, null);
+}
+
+test t4 : (Type1, Type1, A)
+{
+    -t:Type1->;
+    return (t, null, null);
+}
+
+rule r1 : (A)
+{
+    modify {
+        return (null);
+    }
+}
+
+rule r2 : (Type1)
+{
+    modify {
+        return (null);
+    }
+}
+
+rule t3 : (A, Type1, A)
+{
+    modify {
+        return (null, null, null);
+    }
+}
+
+rule t4 : (Type1, Type1, A)
+{
+    modify {
+        -t:Type1->;
+        return (t, null, null);
+    }
+}
+
