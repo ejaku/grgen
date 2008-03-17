@@ -123,7 +123,7 @@ rule HomRetypeReturnNodeModify : (B)
     a:A; b:B;
     
     modify {
-        :A<a>;
+        :AAB<a>;
         return(b);
     }
 }
@@ -134,7 +134,7 @@ rule HomRetypeReturnEdgeModify : (F)
     -e:E->; -f:F->;
     
     modify {
-        -:E<e>->;
+        -:EEF<e>->;
         return(f);
     }
 }
@@ -145,7 +145,7 @@ rule HomRetypeReturnNodeReplace : (B)
     a:A; b:B;
     
     replace {
-        :A<a>;
+        :AAB<a>;
         b;
         return(b);
     }
@@ -158,7 +158,7 @@ rule HomRetypeReturnEdgeReplace : (F)
     
     replace {
         -e->;
-        -:E<e>->;
+        -:EEF<e>->;
         -f->;
         return(f);
     }

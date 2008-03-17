@@ -207,6 +207,7 @@ show num edges
 show num nodes "A"
 show num nodes "B"
 show num nodes "AB"
+show num nodes "AAB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
@@ -232,6 +233,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
+show num edges "EEF"
 show edge x
 
 clear graph
@@ -251,6 +253,7 @@ show num edges
 show num nodes "A"
 show num nodes "B"
 show num nodes "AB"
+show num nodes "AAB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
@@ -276,6 +279,7 @@ show num nodes "AB"
 show num edges "E"
 show num edges "F"
 show num edges "EF"
+show num edges "EEF"
 show edge x
 
 clear graph
