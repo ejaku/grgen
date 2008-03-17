@@ -72,12 +72,11 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 
 	/** The TYPE child could be an edge in case the type is
 	 *  inherited dynamically via the typeof operator */
-	// TODO this should return a EdgeTypeNode
-	public TypeNode getDeclType() {
+	public EdgeTypeNode getDeclType() {
 		assert isResolved();
 
 		DeclNode curr = getValidResolvedVersion(typeEdgeDecl, typeTypeDecl);
-		return curr.getDeclType();
+		return (EdgeTypeNode) curr.getDeclType();
 	}
 
 	/** returns children of this node */
@@ -158,7 +157,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		EdgeType et = (EdgeType) tn.checkIR(EdgeType.class);
 		IdentNode ident = getIdentNode();
 
-		Edge edge = new Edge(ident.getIdent(), et, ident.getAnnotations(), maybeDeleted);
+		Edge edge = new Edge(ident.getIdent(), et, ident.getAnnotations(), isMaybeDeleted(), isMaybeRetyped());
 		edge.setConstraints(getConstraints());
 
 		if(inheritsType()) {

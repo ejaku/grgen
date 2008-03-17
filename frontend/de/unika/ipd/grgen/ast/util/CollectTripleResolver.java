@@ -45,27 +45,30 @@ public class CollectTripleResolver<R extends BaseNode, S extends BaseNode, T ext
 		CollectNode<T> third = null;
 
 		for (BaseNode elem : collect.getChildren()) {
-	        Triple<R, S, T> tripel = resolver.resolve(elem, collect);
-	        if (tripel == null) {
+	        Triple<R, S, T> triple = resolver.resolve(elem, collect);
+	        if (triple == null) {
 	        	return null;
 	        }
-	        if (tripel.first != null) {
+	        if (triple.first != null) {
 	        	if (first == null) {
 	        		first = new CollectNode<R>();
+					first.setCoords(collect.getCoords());
 	        	}
-	        	first.addChild(tripel.first);
+	        	first.addChild(triple.first);
 	        }
-	        if (tripel.second != null) {
+	        if (triple.second != null) {
 	        	if (second == null) {
 	        		second = new CollectNode<S>();
+					second.setCoords(collect.getCoords());
 	        	}
-	        	second.addChild(tripel.second);
+	        	second.addChild(triple.second);
 	        }
-	        if (tripel.third != null) {
+	        if (triple.third != null) {
 	        	if (third == null) {
 	        		third = new CollectNode<T>();
+					third.setCoords(collect.getCoords());
 	        	}
-	        	third.addChild(tripel.third);
+	        	third.addChild(triple.third);
 	        }
         }
 

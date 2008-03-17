@@ -82,6 +82,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 			typeTypeDecl = resolved.snd;
 		}
 		old = nodeResolver.resolve(oldUnresolved, this);
+		if(old != null)
+			old.retypedElem = this;
 
 		return resolved != null && old != null;
 	}
@@ -156,7 +158,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 
-		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAnnotations(), isMaybeDeleted());
+		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAnnotations(),
+				isMaybeDeleted(), isMaybeRetyped());
 
 		Node node = old.getNode();
 		node.setRetypedNode(res);

@@ -39,6 +39,8 @@ public class CollectPairResolver<T extends BaseNode>
 	 *  returns null if n's declaration or n can't be cast to R */
 	public CollectNode<T> resolve(CollectNode<?> collect, BaseNode parent) {
 		CollectNode<T> res = new CollectNode<T>();
+		res.setCoords(collect.getCoords());
+
 		for (BaseNode elem : collect.getChildren()) {
 	        Pair<? extends T, ? extends T> pair = resolver.resolve(elem, collect);
 	        if (pair == null) {

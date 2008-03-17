@@ -153,7 +153,7 @@ public class RuleDeclNode extends TestDeclNode {
 		int declaredNumRets = retSignature.size();
 		int actualNumRets = right.returns.getChildren().size();
 
-		for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
+retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 			ConstraintDeclNode retElem = right.returns.children.get(i);
 
 			if (retElem.equals(DeclNode.getInvalid())) {
@@ -174,7 +174,7 @@ public class RuleDeclNode extends TestDeclNode {
 				continue;
 			}
 
-			IdentNode retIdent = (IdentNode) retSignature.get(i);
+			IdentNode retIdent = retSignature.get(i);
 			TypeNode retDeclType = retIdent.getDecl().getDeclType();
 			if(!(retDeclType instanceof InheritanceTypeNode)) {
 				res = false;
@@ -183,12 +183,33 @@ public class RuleDeclNode extends TestDeclNode {
 			}
 
 			InheritanceTypeNode declaredRetType = (InheritanceTypeNode)	retDeclType;
-			InheritanceTypeNode actualRetType =	(InheritanceTypeNode) retElem.getDeclType();
-
-			if ( ! actualRetType.isA(declaredRetType) ) {
+			InheritanceTypeNode actualRetType =	retElem.getDeclType();
+			if(!actualRetType.isA(declaredRetType)) {
 				res = false;
 				ident.reportError("Return parameter \"" + ident + "\" has wrong type");
 				continue;
+			}
+
+			Set<? extends ConstraintDeclNode> homSet;
+			if(retElem instanceof NodeDeclNode)
+				homSet = pattern.getCorrespondentHomSet((NodeDeclNode) retElem);
+			else
+				homSet = pattern.getCorrespondentHomSet((EdgeDeclNode) retElem);
+
+			for(ConstraintDeclNode homElem : homSet) {
+				if(homElem == retElem) continue;
+
+				ConstraintDeclNode retypedElem = homElem.getRetypedElement();
+				if(retypedElem == null) continue;
+
+				InheritanceTypeNode retypedElemType = retypedElem.getDeclType();
+				if(retypedElemType.isA(declaredRetType)) continue;
+
+				res = false;
+				right.returns.reportError("Return parameter \"" + retElem.getIdentNode() + "\" is homomorphic to \""
+						+ homElem.getIdentNode() + "\", which gets retyped to the incompatible type \""
+						+ retypedElemType.getIdentNode() + "\"");
+				continue retLoop;
 			}
 		}
 
@@ -343,12 +364,36 @@ public class RuleDeclNode extends TestDeclNode {
 				if(!r.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
 					alreadyReported.add(r);
 					String warning = "Returning \"" + r.ident + "\" that may be deleted"
-					+ ", possibly it's homomorphic with a deleted " + r.getUseString();
+							+ ", possibly it's homomorphic with a deleted " + r.getUseString();
 					if (r instanceof EdgeDeclNode) {
 						warning += " or \"" + r.ident + "\" is a dangling " + r.getUseString()
-							+ " and a deleted node exists";
+								+ " and a deleted node exists";
 					}
 					r.reportWarning(warning);
+				}
+			}
+		}
+	}
+
+	private void calcMaybeRetyped() {
+		for(HomNode hom : pattern.getHoms()) {
+			boolean containsRetypedElem = false;
+			for(BaseNode e : hom.getChildren()) {
+				ConstraintDeclNode elem = (ConstraintDeclNode) e;
+				if(elem.getRetypedElement() != null) {
+					containsRetypedElem = true;
+					break;
+				}
+			}
+
+			// If there was one homomorphic element, which is retyped,
+			// all non-retyped elements in the same hom group are marked
+			// as maybeRetyped.
+			if(containsRetypedElem) {
+				for(BaseNode e : hom.getChildren()) {
+					ConstraintDeclNode elem = (ConstraintDeclNode) e;
+					if(elem.getRetypedElement() == null)
+						elem.maybeRetyped = true;
 				}
 			}
 		}
@@ -386,6 +431,8 @@ public class RuleDeclNode extends TestDeclNode {
 			error.error(getCoords(), "No return statements in pattern parts of rules allowed");
 			noReturnInPatternOk = false;
 		}
+
+		calcMaybeRetyped();
 
 		warnHomDeleteReturnConflict();
 

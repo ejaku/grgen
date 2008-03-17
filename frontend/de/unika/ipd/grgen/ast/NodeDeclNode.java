@@ -61,11 +61,11 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 	/** The TYPE child could be a node in case the type is
 	 *  inherited dynamically via the typeof operator */
-	public TypeNode getDeclType() {
+	public NodeTypeNode getDeclType() {
 		assert isResolved() : "not resolved";
 
 		DeclNode curr = getValidResolvedVersion(typeNodeDecl, typeTypeDecl);
-		return curr.getDeclType();
+		return (NodeTypeNode) curr.getDeclType();
 	}
 
 	/** returns children of this node */
@@ -146,7 +146,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 
-		Node res = new Node(ident.getIdent(), nt, ident.getAnnotations(), isMaybeDeleted());
+		Node res = new Node(ident.getIdent(), nt, ident.getAnnotations(), isMaybeDeleted(), isMaybeRetyped());
 		res.setConstraints(getConstraints());
 
 		if( res.getConstraints().contains(res.getType()) ) {

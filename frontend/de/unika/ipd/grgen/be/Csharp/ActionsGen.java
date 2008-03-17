@@ -717,9 +717,11 @@ public class ActionsGen extends CSharpBase {
 		//  - Retype edges
 		//  - Attribute reevaluation
 		//  - Create variables for used attributes of non-reusees needed for emits
+		//  - Check deleted elements for retyping due to homomorphy
 		//  - Remove edges
 		//  - Remove nodes
 		//  - Emit
+		//  - Check returned elements for deletion and retyping due to homomorphy
 		//  - Return
 
 		// Initialize used data structures
@@ -902,6 +904,22 @@ public class ActionsGen extends CSharpBase {
 			}
 		}
 
+		// Check deleted elements for retyping through homomorphy
+		for(Edge edge : delEdges) {
+			if(!edge.isMaybeRetyped()) continue;
+
+			String edgeName = formatEntity(edge);
+			sb3.append("\t\t\tif(" + edgeName + ".ReplacedByEdge != null) "
+					+ edgeName + " = " + edgeName + ".ReplacedByEdge;\n");
+		}
+		for(Node node : delNodes) {
+			if(!node.isMaybeRetyped()) continue;
+
+			String nodeName = formatEntity(node);
+			sb3.append("\t\t\tif(" + nodeName + ".ReplacedByNode != null) "
+					+ nodeName + " = " + nodeName + ".ReplacedByNode;\n");
+		}
+
 		// Remove edges
 		for(Edge edge : delEdges) {
 			if(reusedElements.contains(edge)) continue;
@@ -938,18 +956,26 @@ public class ActionsGen extends CSharpBase {
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;
 		}
 
+		// Check returned elements for deletion or retyping due to homomorphy
+		for(Entity ent : rule.getReturns()) {
+			if(!(ent instanceof GraphEntity)) continue;
+
+			GraphEntity grEnt = (GraphEntity) ent;
+			if(grEnt.isMaybeRetyped()) {
+				String elemName = formatEntity(grEnt);
+				String kind = formatNodeOrEdge(grEnt);
+				sb3.append("\t\t\tif(" + elemName + ".ReplacedBy" + kind + " != null) "
+					+ elemName + " = " + elemName + ".ReplacedBy" + kind + ";\n");
+			}
+			if(grEnt.isMaybeDeleted())
+				sb3.append("\t\t\tif(!" + formatEntity(ent) + ".Valid) " + formatEntity(ent) + " = null;\n");
+		}
+
+
 		// Generate return statement
 		if(rule.getReturns().isEmpty())
 			sb3.append("\t\t\treturn EmptyReturnElements;\n");
 		else {
-			for(Entity ent : rule.getReturns()) {
-				if(ent instanceof GraphEntity) {
-					GraphEntity grEnt = (GraphEntity) ent;
-					if(grEnt.isMaybeDeleted())
-						sb3.append("\t\t\tif(!" + formatEntity(ent) + ".Valid) " + formatEntity(ent) + " = null;\n");
-				}
-			}
-
 			sb3.append("\t\t\treturn new IGraphElement[] { ");
 			for(Entity ent : rule.getReturns()) {
 				if(ent instanceof Node)
@@ -1524,7 +1550,4 @@ public class ActionsGen extends CSharpBase {
 
 	private HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 }
-
-
-
 

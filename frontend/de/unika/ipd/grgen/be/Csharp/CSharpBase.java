@@ -138,6 +138,15 @@ public abstract class CSharpBase {
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
 
+	public String formatNodeOrEdge(Entity ent) {
+		if (ent instanceof Node)
+			return "Node";
+		else if (ent instanceof Edge)
+			return "Edge";
+		else
+			throw new IllegalArgumentException("Illegal entity type" + ent + "(" + ent.getClass() + ")");
+	}
+
 	public String formatTypeClass(Type type) {
 		return formatNodeOrEdge(type) + "Type_" + formatIdentifiable(type);
 	}

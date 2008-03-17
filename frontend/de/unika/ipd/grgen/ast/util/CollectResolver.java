@@ -39,6 +39,8 @@ public class CollectResolver<T extends BaseNode>
 	 *  returns null if n's declaration or n can't be cast to R */
 	public CollectNode<T> resolve(CollectNode<?> collect, BaseNode parent) {
 		CollectNode<T> res = new CollectNode<T>();
+		res.setCoords(collect.getCoords());
+
 		for (BaseNode elem : collect.getChildren()) {
 	        T resolved = resolver.resolve(elem, collect);
 	        if (resolved == null) {

@@ -85,6 +85,8 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 			typeTypeDecl = resolved.snd;
 		}
 		old = edgeResolver.resolve(oldUnresolved, this);
+		if(old != null)
+			old.retypedElem = this;
 		successfullyResolved = old != null && successfullyResolved;
 
 		return successfullyResolved;
@@ -157,7 +159,8 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		EdgeType et = etn.getEdgeType();
 		IdentNode ident = getIdentNode();
 
-		RetypedEdge res = new RetypedEdge(ident.getIdent(), et, ident.getAnnotations(), isMaybeDeleted());
+		RetypedEdge res = new RetypedEdge(ident.getIdent(), et, ident.getAnnotations(),
+				isMaybeDeleted(), isMaybeRetyped());
 
 		Edge oldEdge = old.getEdge();
 		oldEdge.setRetypedEdge(res);
