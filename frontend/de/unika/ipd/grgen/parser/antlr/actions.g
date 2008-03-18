@@ -156,7 +156,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		CollectNode<IdentNode> ret;
 		CollectNode<AssignNode> eval = new CollectNode<AssignNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
-		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>(); 
+		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
 
 	: t:TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
@@ -195,7 +195,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 					reportError(getCoords(t), "no \"dpo\" modifier allowed");
 				}
 			}
-		|	( 
+		|	(
 				rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
 					{
 						rightHandSides.addChild(rightReplace);
@@ -796,7 +796,7 @@ rets[CollectNode<IdentNode> res, int context]
 	: r:RETURN
 		{
 			if ( multipleReturns ) {
-				reportError(getCoords(r), "multiple occurence of return statement in one rule");
+				reportError(getCoords(r), "multiple occurrence of return statement in one rule");
 			}
 			if ( (context & BaseNode.CONTEXT_ACTION_OR_PATTERN) == BaseNode.CONTEXT_PATTERN) {
 				reportError(getCoords(r), "return statement only allowed in actions, not in pattern type declarations");

@@ -161,14 +161,23 @@ public class ActionsGen extends CSharpBase {
 			genEmit(sb, rule, false);
 		}
 		else if(action instanceof Test) {
+			nodesNeededAsElements.clear();
+			nodesNeededAsAttributes.clear();
+			edgesNeededAsElements.clear();
+			edgesNeededAsAttributes.clear();
+
+			collectReturnElements(action);
+
 			sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
 			sb.append("\t\t{  // test does not have modifications\n");
-			sb.append("\t\t\treturn EmptyReturnElements;\n");
+			extractElementsFromMatch(sb, action.getPattern().getNameOfGraph());
+			emitReturnStatement(sb, action);
 			sb.append("\t\t}\n");
 
 			sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
 			sb.append("\t\t{  // test does not have modifications\n");
-			sb.append("\t\t\treturn EmptyReturnElements;\n");
+			extractElementsFromMatch(sb, action.getPattern().getNameOfGraph());
+			emitReturnStatement(sb, action);
 			sb.append("\t\t}\n");
 
 			sb.append("\t\tprivate static String[] addedNodeNames = new String[] {};\n");
@@ -971,36 +980,12 @@ public class ActionsGen extends CSharpBase {
 				sb3.append("\t\t\tif(!" + formatEntity(ent) + ".Valid) " + formatEntity(ent) + " = null;\n");
 		}
 
-
-		// Generate return statement
-		if(rule.getReturns().isEmpty())
-			sb3.append("\t\t\treturn EmptyReturnElements;\n");
-		else {
-			sb3.append("\t\t\treturn new IGraphElement[] { ");
-			for(Entity ent : rule.getReturns()) {
-				if(ent instanceof Node)
-					nodesNeededAsElements.add((Node) ent);
-				else if(ent instanceof Edge)
-					edgesNeededAsElements.add((Edge) ent);
-				else
-					throw new IllegalArgumentException("unknown Entity: " + ent);
-				sb3.append(formatEntity(ent) + ", ");
-			}
-			sb3.append("};\n");
-		}
+		// Emit return
+		collectReturnElements(rule);
+		emitReturnStatement(sb3, rule);
 
 		// Emit end of function
 		sb3.append("\t\t}\n");
-
-		// Collect elements needed by return
-		for(Entity ent : rule.getReturns()) {
-			if(ent instanceof Node)
-				nodesNeededAsElements.add((Node) ent);
-			else if(ent instanceof Edge)
-				edgesNeededAsElements.add((Edge) ent);
-			else
-				throw new IllegalArgumentException("unknown Entity: " + ent);
-		}
 
 		// nodes/edges needed from match, but not the new nodes
 		nodesNeededAsElements.removeAll(newNodes);
@@ -1008,37 +993,11 @@ public class ActionsGen extends CSharpBase {
 		edgesNeededAsElements.removeAll(newEdges);
 		edgesNeededAsAttributes.removeAll(newEdges);
 
-		// Extract nodes/edges from match
-		for(Node node : nodesNeededAsElements) {
-			if(node.isRetyped()) continue;
-			sb.append("\t\t\tLGSPNode " + formatEntity(node)
-						  + " = match.Nodes[(int) " + patternName + "_NodeNums.@"
-						  + formatIdentifiable(node) + "];\n");
-		}
-		for(Node node : nodesNeededAsAttributes) {
-			if(node.isRetyped()) continue;
-			sb.append("\t\t\t" + formatVarDeclWithCast(node.getType(), "I", "i" + formatEntity(node)));
-			if(nodesNeededAsElements.contains(node))
-				sb.append(formatEntity(node) + ";\n");
-			else
-				sb.append("match.Nodes[(int) " + patternName + "_NodeNums.@"
-							  + formatIdentifiable(node) + "];\n");
-		}
-		for(Edge edge : edgesNeededAsElements) {
-			if(edge.isRetyped()) continue;
-			sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
-						  + " = match.Edges[(int) " + patternName + "_EdgeNums.@"
-						  + formatIdentifiable(edge) + "];\n");
-		}
-		for(Edge edge : edgesNeededAsAttributes) {
-			if(edge.isRetyped()) continue;
-			sb.append("\t\t\t" + formatVarDeclWithCast(edge.getType(), "I", "i" + formatEntity(edge)));
-			if(edgesNeededAsElements.contains(edge))
-				sb.append(formatEntity(edge) + ";\n");
-			else
-				sb.append("match.Edges[(int) " + patternName + "_EdgeNums.@"
-							  + formatIdentifiable(edge) + "];\n");
-		}
+		//
+		// Finalize method using the infos collected and the already generated code
+		//
+
+		extractElementsFromMatch(sb, patternName);
 
 		// Generate needed types
 		for(Node node : nodesNeededAsTypes) {
@@ -1067,6 +1026,61 @@ public class ActionsGen extends CSharpBase {
 
 		// Attribute re-calc, attr vars for emit, remove, emit, return
 		sb.append(sb3);
+	}
+
+	private void emitReturnStatement(StringBuffer sb, MatchingAction rule) {
+		if(rule.getReturns().isEmpty())
+			sb.append("\t\t\treturn EmptyReturnElements;\n");
+		else {
+			sb.append("\t\t\treturn new IGraphElement[] { ");
+			for(Entity ent : rule.getReturns())
+				sb.append(formatEntity(ent) + ", ");
+			sb.append("};\n");
+		}
+	}
+
+	private void extractElementsFromMatch(StringBuffer sb, String patternName) {
+		for(Node node : nodesNeededAsElements) {
+			if(node.isRetyped()) continue;
+			sb.append("\t\t\tLGSPNode " + formatEntity(node)
+					+ " = match.Nodes[(int) " + patternName + "_NodeNums.@"
+					+ formatIdentifiable(node) + "];\n");
+		}
+		for(Node node : nodesNeededAsAttributes) {
+			if(node.isRetyped()) continue;
+			sb.append("\t\t\t" + formatVarDeclWithCast(node.getType(), "I", "i" + formatEntity(node)));
+			if(nodesNeededAsElements.contains(node))
+				sb.append(formatEntity(node) + ";\n");
+			else
+				sb.append("match.Nodes[(int) " + patternName + "_NodeNums.@"
+						+ formatIdentifiable(node) + "];\n");
+		}
+		for(Edge edge : edgesNeededAsElements) {
+			if(edge.isRetyped()) continue;
+			sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
+					+ " = match.Edges[(int) " + patternName + "_EdgeNums.@"
+					+ formatIdentifiable(edge) + "];\n");
+		}
+		for(Edge edge : edgesNeededAsAttributes) {
+			if(edge.isRetyped()) continue;
+			sb.append("\t\t\t" + formatVarDeclWithCast(edge.getType(), "I", "i" + formatEntity(edge)));
+			if(edgesNeededAsElements.contains(edge))
+				sb.append(formatEntity(edge) + ";\n");
+			else
+				sb.append("match.Edges[(int) " + patternName + "_EdgeNums.@"
+						+ formatIdentifiable(edge) + "];\n");
+		}
+	}
+
+	private void collectReturnElements(MatchingAction action) {
+		for(Entity ent : action.getReturns()) {
+			if(ent instanceof Node)
+				nodesNeededAsElements.add((Node) ent);
+			else if(ent instanceof Edge)
+				edgesNeededAsElements.add((Edge) ent);
+			else
+				throw new IllegalArgumentException("unknown Entity: " + ent);
+		}
 	}
 
 	/**
