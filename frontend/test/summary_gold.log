@@ -408,7 +408,7 @@ ERROR  should_fail/basic_023.grg
 ERROR  should_fail/basic_024.grg
 ERROR  should_fail/basic_060.grg
 ERROR  should_fail/basic_061.grg
-ABEND  should_fail/basic_062.grg
+ERROR  should_fail/basic_062.grg
 ABEND  should_fail/basic_100.grg
 ERROR  should_fail/basic_101.grg
 ABEND  should_fail/basic_102.grg

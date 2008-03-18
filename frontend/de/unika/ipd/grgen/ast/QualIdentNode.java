@@ -87,8 +87,14 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		boolean successfullyResolved = true;
 		owner = ownerResolver.resolve(ownerUnresolved, this);
 		successfullyResolved = owner!=null && successfullyResolved;
+		boolean ownerResolveResult = owner.resolve();
 
-		if (owner != null && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
+		if (!ownerResolveResult) {
+			// member can not be resolved due to inaccessible owner
+			return false;
+		}
+
+		if (ownerResolveResult && owner != null && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
 			TypeNode ownerType = owner.getDeclType();
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner) ownerType;
@@ -103,6 +109,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 			reportError("Left hand side of '.' is neither a node nor an edge");
 			successfullyResolved = false;
 		}
+
 		return successfullyResolved;
 	}
 
