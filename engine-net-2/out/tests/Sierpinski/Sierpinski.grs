@@ -1,5 +1,4 @@
-new graph "lib\lgsp-SierpinskiModel.dll" "Sierpinski-Triangle"
-select actions "lib\lgsp-SierpinskiActions.dll"
+new graph "Sierpinski\Sierpinski" "Sierpinski-Triangle"
 
 show num nodes
 show num edges

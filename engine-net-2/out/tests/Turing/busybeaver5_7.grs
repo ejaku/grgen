@@ -1,5 +1,4 @@
-new graph "lib\lgsp-TuringModel.dll" "Busy beaver 5 No. 7 (http://drb9.drb.insel.de/~heiner/BB/bb-list)"
-select actions "lib\lgsp-TuringActions.dll"
+new graph "Turing\Turing" "Busy beaver 5 No. 7 (http://drb9.drb.insel.de/~heiner/BB/bb-list)"
 
 new bp:BandPosition($="Startposition")
 new bp-:empty->bp

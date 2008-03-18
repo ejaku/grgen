@@ -32,15 +32,6 @@ for filename in $targets; do
     echo "No data files found in subdirectory!"
     continue
   fi
-
-  echo -n "- Building libraries:"
-  $exeprefix ../bin/GrGen.exe -o lib "$filename"/*.grg > /dev/null
-  if [ $? -ne 0 ]; then
-    echo -e "\n    GrGen-Processing failed!"
-    continue
-  fi
-  
-  echo " Success!"
   
   for grs in "$filename"/*.grs; do
     echo -n "- $grs:"

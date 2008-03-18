@@ -1,5 +1,4 @@
-new graph "lib\lgsp-induced1Model.dll" "Nice Graph"
-select actions "lib\lgsp-induced1Actions.dll"
+new graph "induced1\induced1" "Nice Graph"
 
 xgrs init1
 xgrs [makeUndirected]

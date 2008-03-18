@@ -1,5 +1,4 @@
-new graph "lib\lgsp-CliqueModel.dll" "Clique graph"
-select actions "lib\lgsp-CliqueActions.dll"
+new graph "Clique\Clique" "Clique graph"
 
 dump add node State infotag rand1
 dump add node State infotag rand2

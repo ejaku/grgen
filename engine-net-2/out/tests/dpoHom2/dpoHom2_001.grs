@@ -1,5 +1,4 @@
-new graph "lib\lgsp-dpoHom2Model.dll" "DpoHom graph"
-select actions "lib\lgsp-dpoHom2Actions.dll"
+new graph "dpoHom2\dpoHom2" "DpoHom graph"
 
 show num nodes
 show num edges

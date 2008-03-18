@@ -1,5 +1,4 @@
-new graph "lib\lgsp-SnowflakeModel.dll" "Koch snowflake"
-select actions "lib\lgsp-SnowflakeActions.dll"
+new graph "Snowflake\Snowflake" "Koch snowflake"
 
 new a:Node1
 new b:Node1

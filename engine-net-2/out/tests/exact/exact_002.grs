@@ -1,5 +1,4 @@
-new graph "lib\lgsp-exactModel.dll" "Exact graph"
-select actions "lib\lgsp-exactActions.dll"
+new graph "exact\exact" "Exact graph"
 
 show num nodes
 show num edges

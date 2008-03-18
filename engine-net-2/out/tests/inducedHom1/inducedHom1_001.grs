@@ -1,5 +1,4 @@
-new graph "lib\lgsp-inducedHom1Model.dll" "InducedHom graph"
-select actions "lib\lgsp-inducedHom1Actions.dll"
+new graph "inducedHom1\inducedHom1" "InducedHom graph"
 
 show num nodes
 show num edges

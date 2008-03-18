@@ -1,5 +1,4 @@
-new graph "lib\lgsp-dpoModel.dll" "Clique graph"
-select actions "lib\lgsp-dpoActions.dll"
+new graph "dpo\dpo"
 
 show num nodes
 show num edges

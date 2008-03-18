@@ -1,5 +1,4 @@
-new graph "lib\lgsp-induced3Model.dll" "Nice Graph"
-select actions "lib\lgsp-induced3Actions.dll"
+new graph "induced3\induced3" "Nice Graph"
 
 
 show num nodes

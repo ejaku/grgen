@@ -1,5 +1,4 @@
-new graph "lib\lgsp-Ludo2Model.dll" "The Ludo Game"
-select actions "lib\lgsp-Ludo2Actions.dll"
+new graph "Ludo2\Ludo2" "The Ludo Game"
 
 debug set layout Organic
 

@@ -1,5 +1,4 @@
-new graph "lib/lgsp-PatternHomNegModel.dll" "graph"
-select actions "lib/lgsp-PatternHomNegActions.dll"
+new graph "PatternHomNeg/PatternHomNeg"
 
 new n1:N
 show num nodes

@@ -1,5 +1,4 @@
-new graph "lib\lgsp-MutexModel.dll" "mutex graph"
-select actions "lib\lgsp-MutexActions.dll"
+new graph "Mutex\Mutex" "mutex graph"
 
 new p1:Process
 new p2:Process

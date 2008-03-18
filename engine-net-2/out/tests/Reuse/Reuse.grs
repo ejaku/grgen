@@ -1,5 +1,4 @@
-new graph "lib/lgsp-ReuseModel.dll" "graph"
-select actions "lib/lgsp-ReuseActions.dll"
+new graph "Reuse/Reuse"
 
 show num nodes
 show num edges

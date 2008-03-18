@@ -1,0 +1,11 @@
+new graph "edge1/edge1" "Graph with undirected edges"
+
+show num nodes
+show num edges
+xgrs init3
+show num nodes
+show num edges
+
+xgrs [findTripleCircle]
+
+quit

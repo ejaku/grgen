@@ -2,7 +2,7 @@ new graph "edge1/edge1" "Graph with undirected edges"
 
 show num nodes
 show num edges
-xgrs init
+xgrs init2
 show num nodes
 show num edges
 
@@ -10,6 +10,7 @@ xgrs [findUndirectedEdge]
 xgrs [findArbitraryEdge]
 xgrs [findArbitraryDirectedEdge]
 xgrs [findArbitraryDirectedReflexiveEdge]
-xgrs [findArbitraryDirectedReflexiveEdgeAfterUndirectedOne]
+xgrs [findArbitraryDirectedTriple]
+xgrs [findDirectedEdge]
 
 quit
