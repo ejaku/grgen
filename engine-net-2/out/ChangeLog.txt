@@ -1,8 +1,13 @@
 TODO: make exec typesafe
+TODO: circular typeof crash
 
-v1.4 (2008-03-01)
+MOF v1.0 Suite?
+
+v1.4 (2008-03-18)
  Features:
-  - Introduced imperative statements "emit" and "exec" in RHS
+  - Introduced the imperative statement "emit" in RHS printing text
+    to the console or to files (see UML2CSP2 example)
+  - Introduced the imperative statement "exec" in RHS executing xgrs'
   - Introduced abstract members in element types
     (these members do not have a declared type,
     hence containing classes are abstract)
@@ -12,28 +17,56 @@ v1.4 (2008-03-01)
   - Member initializers in model specification
   - Added support for external implementations of element types
   - Updated implicit and explicit casts (see user manual section 5.1)
-  - Several API improvements like direct access to element attributes
+  - Nested negative patterns
+  - Undirected edges
+  - Directed "-->" or "<--", undirected "--", arbitrary directed "<-->"
+    and arbitrary "?--?" edges in patterns
+  - Added "maybeDeleted" element annotation to ignore warnings claiming
+    that a returned element could be deleted due to a hom statement
+
+ Features for GrShell:
+  - Enhanced grouping support:
+    "dump add node [only] <NodeType> group [by [hidden] <GroupMode>
+    [[only] <EdgeType> [with [only] <NodeType>]]]",
+    where <GroupMode> can be "no", "incoming", "outgoing", or "any".
+  - Allow setting layout options without starting the debugger first
+  - Remember layout options during a session
+  - Save layout options when using "save graph"
+
+ API changes:
+  - Redesign of type architecture
+  - Direct access to element attributes
+  - Changed namespaces of generated code
+  - Introduced IGraphElement.Valid, IGraphElement.ReplacedByElement,
+    INode.ReplacedByNode, and IEdge.ReplacedByEdge to check, whether
+    elements were deleted or retyped during a rewrite
+  - Removed unused dump fields from BaseActions
  
  Fixes:
+  - Returns for test actions
   - Enums are now allowed as values in '?:'-operators
   - Fixed dependency calculation for includes in grg-files
   - GrShell "save graph" command
   - GrShell debugging of sequences containing "[SomeRule]"
   - GrShell debugging of element retyping
   - GrShell "dump (node|edge) only <nodeType> exclude" command
+  - GrShell debugging with grouped nodes
   - Problems with edge parameters
   - Handling of abstract element classes
+  - Several cases involving combinations of hom, retype, delete, and return
+  - Output compile warnings also when compilation did not fail
   
  Examples:
   - Added Sierpinksi3 (with parallel rewrite semantics)
   - Added UML example
   - Added FiniteStateMachine example
   - Added UML2CSP2 example using the new emit statement
+  - Added DebugExec example
  
  Other changes:
   - "pattern" part is now directly embedded in rules and tests
   - Added XML documentation files for Intellisense help in IDEs
-  - Replaced 'include "<grg-file>";' by '#include "<grg-file>'
+  - Replaced 'include "<grg-file>";' by '#include "<grg-file>"'
   - ycomp.bat does not need to be edited anymore
   - Changed syntax for rule application in xgrs:
     e.g. "%?[(a,b)=R(a,c)]" to "(a,b)=[?%R(a,c)]"
