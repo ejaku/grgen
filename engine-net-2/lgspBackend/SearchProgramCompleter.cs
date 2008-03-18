@@ -511,7 +511,7 @@ namespace de.unika.ipd.grGen.lgsp
                 CheckPartialMatchByNegative checkNegative =
                     continuationPoint as CheckPartialMatchByNegative;
                 gotoLabel = new GotoLabel();
-                op.Insert(gotoLabel);
+                checkNegative.Insert(gotoLabel);
             }
 
             ContinueOperation continueByGoto =

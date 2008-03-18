@@ -2729,7 +2729,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("Goto Label ");
+            builder.AppendFront("GotoLabel ");
             builder.AppendFormat("{0}\n", LabelName);
         }
 
