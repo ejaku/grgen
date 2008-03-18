@@ -37,6 +37,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         Incoming,
         /// <summary>
+        /// Follow outgoing and incoming edges of given node.
+        /// </summary>
+        Incident,
+        /// <summary>
         /// Get source node from given edge.
         /// </summary>
         ImplicitSource,
@@ -44,6 +48,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// Get target node from given edge.
         /// </summary>
         ImplicitTarget,
+        /// <summary>
+        /// Get source and target node from given edge.
+        /// </summary>
+        Implicit,
         /// <summary>
         /// Try to match negative pattern.
         /// </summary>

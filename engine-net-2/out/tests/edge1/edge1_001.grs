@@ -6,8 +6,26 @@ show num edges
 xgrs init
 show num nodes
 show num edges
+
 xgrs [findUndirectedEdge]
 xgrs [findArbitraryEdge]
 xgrs [findArbitraryDirectedEdge]
+xgrs [findArbitraryDirectedReflexiveEdge]
+xgrs [findArbitraryDirectedReflexiveEdgeAfterUndirectedOne]
+
+clear graph
+
+show num nodes
+show num edges
+xgrs init2
+show num nodes
+show num edges
+
+xgrs [findUndirectedEdge]
+xgrs [findArbitraryEdge]
+xgrs [findArbitraryDirectedEdge]
+xgrs [findArbitraryDirectedReflexiveEdge]
+xgrs [findArbitraryDirectedTriple]
+xgrs [findDirectedEdge]
 
 quit

@@ -710,6 +710,17 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// The different possibilites an edge might be incident to some node
+    /// incoming; outgoing; incoming or outgoing if arbitrary directed, undirected, arbitrary
+    /// </summary>
+    enum IncidentEdgeType
+    {
+        Incoming,
+        Outgoing,
+        IncomingOrOutgoing
+    }
+
+    /// <summary>
     /// Class representing "get candidate by iteration" operations,
     /// setting current candidate for following check candidate operation
     /// </summary>
@@ -730,13 +741,13 @@ namespace de.unika.ipd.grGen.lgsp
             GetCandidateByIterationType type,
             string patternElementName,
             string startingPointNodeName,
-            bool getIncoming)
+            IncidentEdgeType edgeType)
         {
             Debug.Assert(type == GetCandidateByIterationType.IncidentEdges);
             Type = type;
             PatternElementName = patternElementName;
             StartingPointNodeName = startingPointNodeName;
-            GetIncoming = getIncoming;
+            EdgeType = edgeType;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -749,8 +760,8 @@ namespace de.unika.ipd.grGen.lgsp
                     PatternElementName, IsNode);
             } else { //Type==GetCandidateByIterationType.IncidentEdges
                 builder.Append("IncidentEdges ");
-                builder.AppendFormat("on {0} from {1} incoming:{2}\n",
-                    PatternElementName, StartingPointNodeName, GetIncoming);
+                builder.AppendFormat("on {0} from {1} edge type:{2}\n",
+                    PatternElementName, StartingPointNodeName, EdgeType.ToString());
             }
             // then nested content
             if (NestedOperationsList != null)
@@ -809,62 +820,121 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else //Type==GetCandidateByIterationType.IncidentEdges
             {
-                if(sourceCode.CommentSourceCode)
+                if (sourceCode.CommentSourceCode)
+                {
                     sourceCode.AppendFrontFormat("// Extend {0} {1} from {2} \n",
-                            GetIncoming ? "incoming" : "outgoing",
-                            PatternElementName, StartingPointNodeName);
+                            EdgeType.ToString(), PatternElementName, StartingPointNodeName);
+                }
 
-                // emit declaration of variable containing incident edges list head
-                string typeOfVariableContainingListHead = "LGSPEdge";
-                string variableContainingListHead =
-                    NamesOfEntities.CandidateIterationListHead(PatternElementName);
-                sourceCode.AppendFrontFormat("{0} {1}",
-                    typeOfVariableContainingListHead, variableContainingListHead);
-                // emit initialization of variable containing incident edges list head
-                string variableContainingStartingPointNode = 
-                    NamesOfEntities.CandidateVariable(StartingPointNodeName);
-                string memberOfNodeContainingListHead =
-                    GetIncoming ? "inhead" : "outhead";
-                sourceCode.AppendFormat(" = {0}.{1};\n",
-                    variableContainingStartingPointNode, memberOfNodeContainingListHead);
+                if (EdgeType != IncidentEdgeType.IncomingOrOutgoing)
+                {
+                    // emit declaration of variable containing incident edges list head
+                    string typeOfVariableContainingListHead = "LGSPEdge";
+                    string variableContainingListHead =
+                        NamesOfEntities.CandidateIterationListHead(PatternElementName);
+                    sourceCode.AppendFrontFormat("{0} {1}",
+                        typeOfVariableContainingListHead, variableContainingListHead);
+                    // emit initialization of variable containing incident edges list head
+                    string variableContainingStartingPointNode =
+                        NamesOfEntities.CandidateVariable(StartingPointNodeName);
+                    string memberOfNodeContainingListHead =
+                        EdgeType == IncidentEdgeType.Incoming ? "inhead" : "outhead";
+                    sourceCode.AppendFormat(" = {0}.{1};\n",
+                        variableContainingStartingPointNode, memberOfNodeContainingListHead);
 
-                // emit execute the following code only if head != null
-                // todo: replace by check == null and continue
-                sourceCode.AppendFrontFormat("if({0} != null)\n", variableContainingListHead);
-                sourceCode.AppendFront("{\n");
-                sourceCode.Indent();
+                    // emit execute the following code only if head != null
+                    // todo: replace by check == null and continue
+                    sourceCode.AppendFrontFormat("if({0} != null)\n", variableContainingListHead);
+                    sourceCode.AppendFront("{\n");
+                    sourceCode.Indent();
 
-                // emit declaration and initialization of variable containing candidates
-                string typeOfVariableContainingCandidate = "LGSPEdge";
-                string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-                sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
-                    typeOfVariableContainingCandidate, variableContainingCandidate,
-                    variableContainingListHead);
-                // open loop
-                sourceCode.AppendFront("do\n");
-                sourceCode.AppendFront("{\n");
-                sourceCode.Indent();
+                    // emit declaration and initialization of variable containing candidates
+                    string typeOfVariableContainingCandidate = "LGSPEdge";
+                    string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+                    sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
+                        typeOfVariableContainingCandidate, variableContainingCandidate,
+                        variableContainingListHead);
+                    // open loop
+                    sourceCode.AppendFront("do\n");
+                    sourceCode.AppendFront("{\n");
+                    sourceCode.Indent();
 
-                // emit loop body
-                NestedOperationsList.Emit(sourceCode);
+                    // emit loop body
+                    NestedOperationsList.Emit(sourceCode);
 
-                // close loop
-                sourceCode.Unindent();
-                sourceCode.AppendFront("}\n");
+                    // close loop
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
 
-                // emit loop tail
-                // - emit switch to next edge in list within assignment expression
-                string memberOfEdgeContainingNextEdge =
-                    GetIncoming ? "inNext" : "outNext";
-                sourceCode.AppendFrontFormat("while( ({0} = {0}.{1})",
-                    variableContainingCandidate, memberOfEdgeContainingNextEdge);
-                // - check condition that head has been reached again (compare with assignment value)
-                sourceCode.AppendFormat(" != {0} );\n", variableContainingListHead);
+                    // emit loop tail
+                    // - emit switch to next edge in list within assignment expression
+                    string memberOfEdgeContainingNextEdge =
+                        EdgeType == IncidentEdgeType.Incoming ? "inNext" : "outNext";
+                    sourceCode.AppendFrontFormat("while( ({0} = {0}.{1})",
+                        variableContainingCandidate, memberOfEdgeContainingNextEdge);
+                    // - check condition that head has been reached again (compare with assignment value)
+                    sourceCode.AppendFormat(" != {0} );\n", variableContainingListHead);
 
-                // close the head != null check
-                sourceCode.Unindent();
-                sourceCode.AppendFront("}\n");
-            }
+                    // close the head != null check
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                }
+                else //EdgeType == IncidentEdgeType.IncomingOrOutgoing
+                {
+                    // we've to search both lists, we do so by first searching incoming, then outgoing
+                    // we need a variable remembering which run is currently underway
+                    string incomingRunUnderway = NamesOfEntities.WhichRunUnderwayVariable(PatternElementName);
+                    sourceCode.AppendFrontFormat("bool {0} = true;\n", incomingRunUnderway);
+                    sourceCode.Append(NamesOfEntities.OtherDirectionRunGotoLabel(PatternElementName) + ":\n");
+
+                    // emit declaration of variable containing incident edges list head
+                    string typeOfVariableContainingListHead = "LGSPEdge";
+                    string variableContainingListHead =
+                        NamesOfEntities.CandidateIterationListHead(PatternElementName);
+                    sourceCode.AppendFrontFormat("{0} {1}",
+                        typeOfVariableContainingListHead, variableContainingListHead);
+                    // emit initialization of variable containing incident edges list head
+                    string variableContainingStartingPointNode =
+                        NamesOfEntities.CandidateVariable(StartingPointNodeName);
+                    sourceCode.AppendFormat(" = {0} ? {1}.inhead : {1}.outhead;\n",
+                        incomingRunUnderway, variableContainingStartingPointNode);
+
+                    // emit execute the following code only if head != null
+                    // todo: replace by check == null and continue
+                    sourceCode.AppendFrontFormat("if({0} != null)\n", variableContainingListHead);
+                    sourceCode.AppendFront("{\n");
+                    sourceCode.Indent();
+
+                    // emit declaration and initialization of variable containing candidates
+                    string typeOfVariableContainingCandidate = "LGSPEdge";
+                    string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+                    sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
+                        typeOfVariableContainingCandidate, variableContainingCandidate,
+                        variableContainingListHead);
+                    // open loop
+                    sourceCode.AppendFront("do\n");
+                    sourceCode.AppendFront("{\n");
+                    sourceCode.Indent();
+
+                    // emit loop body
+                    NestedOperationsList.Emit(sourceCode);
+
+                    // close loop
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+
+                    // emit loop tail
+                    // - emit switch to next edge in list within assignment expression
+                    sourceCode.AppendFrontFormat("while( ({0} ? {1} = {1}.inNext : {1} = {1}.outNext)",
+                        incomingRunUnderway, variableContainingCandidate);
+                    // - check condition that head has been reached again (compare with assignment value)
+                    sourceCode.AppendFormat(" != {0} );\n", variableContainingListHead);
+
+                    // close the head != null check
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
+                } //EdgeType 
+            } //Type
         }
 
         public override bool IsSearchNestingOperation()
@@ -880,7 +950,7 @@ namespace de.unika.ipd.grGen.lgsp
         public GetCandidateByIterationType Type;
         public bool IsNode; // node|edge - only available if GraphElements
         public string StartingPointNodeName; // from pattern - only available if IncidentEdges
-        public bool GetIncoming; // incoming|outgoing - only available if IncidentEdges
+        public IncidentEdgeType EdgeType; // only available if IncidentEdges
 
         public SearchProgramList NestedOperationsList;
     }
@@ -896,6 +966,19 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// The different possibilites of drawing an implicit node from an edge
+    /// if directed edge: source, target
+    /// if arbitrary directed, undirected, arbitrary: source-or-target for first node, the-other for second node
+    /// </summary>
+    enum ImplicitNodeType
+    {
+        Source,
+        Target,
+        SourceOrTarget,
+        TheOther
+    }
+
+    /// <summary>
     /// Class representing "get node by drawing" operation,
     /// setting current candidate for following check candidate operations
     /// </summary>
@@ -906,14 +989,35 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName,
             string patternElementTypeName,
             string startingPointEdgeName,
-            bool getSource)
+            ImplicitNodeType nodeType)
         {
             Debug.Assert(type == GetCandidateByDrawingType.NodeFromEdge);
+            Debug.Assert(nodeType != ImplicitNodeType.TheOther);
+
             Type = type;
             PatternElementName = patternElementName;
             PatternElementTypeName = patternElementTypeName;
             StartingPointEdgeName = startingPointEdgeName;
-            GetSource = getSource;
+            NodeType = nodeType;
+        }
+
+        public GetCandidateByDrawing(
+            GetCandidateByDrawingType type,
+            string patternElementName,
+            string patternElementTypeName,
+            string startingPointEdgeName,
+            string theOtherPatternElementName,
+            ImplicitNodeType nodeType)
+        {
+            Debug.Assert(type == GetCandidateByDrawingType.NodeFromEdge);
+            Debug.Assert(nodeType == ImplicitNodeType.TheOther);
+
+            Type = type;
+            PatternElementName = patternElementName;
+            PatternElementTypeName = patternElementTypeName;
+            StartingPointEdgeName = startingPointEdgeName;
+            TheOtherPatternElementName = theOtherPatternElementName;
+            NodeType = nodeType;
         }
 
         public GetCandidateByDrawing(
@@ -923,6 +1027,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode)
         {
             Debug.Assert(type == GetCandidateByDrawingType.FromInputs);
+            
             Type = type;
             PatternElementName = patternElementName;
             InputIndex = inputIndex;
@@ -935,6 +1040,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode)
         {
             Debug.Assert(type == GetCandidateByDrawingType.FromSubpatternConnections);
+            
             Type = type;
             PatternElementName = patternElementName;
             IsNode = isNode;
@@ -945,9 +1051,9 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFront("GetCandidate ByDrawing ");
             if(Type==GetCandidateByDrawingType.NodeFromEdge) {
                 builder.Append("NodeFromEdge ");
-                builder.AppendFormat("on {0} of {1} from {2} source:{3}\n",
+                builder.AppendFormat("on {0} of {1} from {2} implicit node type:{3}\n",
                     PatternElementName, PatternElementTypeName, 
-                    StartingPointEdgeName, GetSource);
+                    StartingPointEdgeName, NodeType.ToString());
             } else if(Type==GetCandidateByDrawingType.FromInputs) {
                 builder.Append("FromInputs ");
                 builder.AppendFormat("on {0} index:{1} node:{2}\n",
@@ -965,22 +1071,58 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(sourceCode.CommentSourceCode)
                     sourceCode.AppendFrontFormat("// Implicit {0} {1} from {2} \n",
-                            GetSource ? "source" : "target",
-                            PatternElementName, StartingPointEdgeName);
+                            NodeType.ToString(), PatternElementName, StartingPointEdgeName);
 
-                // emit declaration of variable containing candidate node
-                string typeOfVariableContainingCandidate = "LGSPNode";
-                string variableContainingCandidate =
-                    NamesOfEntities.CandidateVariable(PatternElementName);
-                sourceCode.AppendFrontFormat("{0} {1}",
-                    typeOfVariableContainingCandidate, variableContainingCandidate);
-                // emit initialization with demanded node from variable containing edge
-                string variableContainingStartingPointEdge =
-                    NamesOfEntities.CandidateVariable(StartingPointEdgeName);
-                string whichImplicitNode = 
-                    GetSource ? "source" : "target";
-                sourceCode.AppendFormat(" = {0}.{1};\n",
-                    variableContainingStartingPointEdge, whichImplicitNode);
+                if (NodeType == ImplicitNodeType.Source || NodeType == ImplicitNodeType.Target)
+                {
+                    // emit declaration of variable containing candidate node
+                    string typeOfVariableContainingCandidate = "LGSPNode";
+                    string variableContainingCandidate =
+                        NamesOfEntities.CandidateVariable(PatternElementName);
+                    sourceCode.AppendFrontFormat("{0} {1}",
+                        typeOfVariableContainingCandidate, variableContainingCandidate);
+                    // emit initialization with demanded node from variable containing edge
+                    string variableContainingStartingPointEdge =
+                        NamesOfEntities.CandidateVariable(StartingPointEdgeName);
+                    string whichImplicitNode =
+                        NodeType==ImplicitNodeType.Source ? "source" : "target";
+                    sourceCode.AppendFormat(" = {0}.{1};\n",
+                        variableContainingStartingPointEdge, whichImplicitNode);
+                }
+                else if (NodeType == ImplicitNodeType.SourceOrTarget)
+                {
+                    // we've to look at both nodes, we do so by first handling source, then target
+                    // we need a variable remembering which run is currently underway
+                    string sourceRunUnderway = NamesOfEntities.WhichRunUnderwayVariable(StartingPointEdgeName);
+                    sourceCode.AppendFrontFormat("bool {0} = true;\n", sourceRunUnderway);
+                    sourceCode.Append(NamesOfEntities.OtherDirectionRunGotoLabel(StartingPointEdgeName) + ":\n");
+                    // emit declaration of variable containing candidate node
+                    string typeOfVariableContainingCandidate = "LGSPNode";
+                    string variableContainingCandidate =
+                        NamesOfEntities.CandidateVariable(PatternElementName);
+                    sourceCode.AppendFrontFormat("{0} {1}",
+                        typeOfVariableContainingCandidate, variableContainingCandidate);
+                    // emit initialization with demanded node from variable containing edge
+                    string variableContainingStartingPointEdge =
+                        NamesOfEntities.CandidateVariable(StartingPointEdgeName);
+                    sourceCode.AppendFormat(" = {0} ? {1}.source : {1}.target;\n",
+                        sourceRunUnderway, variableContainingStartingPointEdge);
+                }
+                else // NodeType == ImplicitNodeType.TheOther
+                {
+                    // emit declaration of variable containing candidate node
+                    string typeOfVariableContainingCandidate = "LGSPNode";
+                    string variableContainingCandidate =
+                        NamesOfEntities.CandidateVariable(PatternElementName);
+                    sourceCode.AppendFrontFormat("{0} {1}",
+                        typeOfVariableContainingCandidate, variableContainingCandidate);
+                    // emit initialization with other node from edge
+                    string variableContainingStartingPointEdge =
+                        NamesOfEntities.CandidateVariable(StartingPointEdgeName);
+                    sourceCode.AppendFormat(" = {0}=={1}.source ? {1}.target : {1}.source;\n",
+                        NamesOfEntities.CandidateVariable(TheOtherPatternElementName),
+                        variableContainingStartingPointEdge);
+                }
             }
             else if(Type==GetCandidateByDrawingType.FromInputs)
             {
@@ -1014,11 +1156,46 @@ namespace de.unika.ipd.grGen.lgsp
 
         public GetCandidateByDrawingType Type;
         public string PatternElementTypeName; // only valid if NodeFromEdge
+        public string TheOtherPatternElementName; // only valid if NodeFromEdge and TheOther
         public string StartingPointEdgeName; // from pattern - only valid if NodeFromEdge
-        public bool GetSource; // source|target - only valid if NodeFromEdge
+        ImplicitNodeType NodeType; // only valid if NodeFromEdge
         public string InputIndex; // only valid if FromInputs
-        public bool IsNode; // node|edge - only valid if FromInputs
+        public bool IsNode; // node|edge - only valid if FromInputs, FromSubpatternConnections
+    }
 
+    /// <summary>
+    /// Class representing operation starting the run of the other direction 
+    /// of a get candidate by drawing node from edge of an edge of a not fixed direction
+    /// </summary>
+    class OtherDirection : SearchProgramOperation
+    {
+        public OtherDirection(string patternElementName)
+        {
+            PatternElementName = patternElementName;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("OtherDirection on {0}\n", PatternElementName);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if (sourceCode.CommentSourceCode)
+                sourceCode.AppendFrontFormat("// other direction of {0}\n", PatternElementName);
+
+            string firstRunUnderway = NamesOfEntities.WhichRunUnderwayVariable(PatternElementName);
+            sourceCode.AppendFrontFormat("if({0})", firstRunUnderway);
+            sourceCode.Append(" {\n"); // wtf? appending this string directly to string above throws exception
+            sourceCode.Indent();
+            sourceCode.AppendFrontFormat("{0} = false;\n", firstRunUnderway);
+            sourceCode.AppendFrontFormat("goto {0};\n",
+                NamesOfEntities.OtherDirectionRunGotoLabel(PatternElementName));
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public string PatternElementName;
     }
 
     /// <summary>
@@ -1155,6 +1332,19 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// The different positions of some edge to check the candidate node against
+    /// if directed edge: source, target
+    /// if arbitrary directed, undirected, arbitrary edge: source-or-target for first node, the-other for second node
+    /// </summary>
+    enum CheckCandidateForConnectednessType
+    {
+        Source,
+        Target,
+        SourceOrTarget,
+        TheOther
+    }
+
+    /// <summary>
     /// Class representing "check whether candidate is connected to the elements
     ///   it should be connected to, according to the pattern" operation
     /// </summary>
@@ -1164,13 +1354,32 @@ namespace de.unika.ipd.grGen.lgsp
             string patternElementName, 
             string patternNodeName,
             string patternEdgeName,
-            bool checkSource)
+            CheckCandidateForConnectednessType connectednessType)
         {
+            Debug.Assert(connectednessType != CheckCandidateForConnectednessType.TheOther);
+
             // pattern element is the candidate to check, either node or edge
             PatternElementName = patternElementName;
             PatternNodeName = patternNodeName;
             PatternEdgeName = patternEdgeName;
-            CheckSource = checkSource; 
+            ConnectednessType = connectednessType;
+        }
+
+        public CheckCandidateForConnectedness(
+            string patternElementName,
+            string patternNodeName,
+            string patternEdgeName,
+            string theOtherPatternNodeName,
+            CheckCandidateForConnectednessType connectednessType)
+        {
+            Debug.Assert(connectednessType == CheckCandidateForConnectednessType.TheOther);
+
+            // pattern element is the candidate to check, either node or edge
+            PatternElementName = patternElementName;
+            PatternNodeName = patternNodeName;
+            PatternEdgeName = patternEdgeName;
+            TheOtherPatternNodeName = theOtherPatternNodeName;
+            ConnectednessType = connectednessType;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1178,7 +1387,7 @@ namespace de.unika.ipd.grGen.lgsp
             // first dump check
             builder.AppendFront("CheckCandidate ForConnectedness ");
             builder.AppendFormat("{0}=={1}.{2}\n",
-                PatternNodeName, PatternEdgeName, CheckSource ? "source" : "target");
+                PatternNodeName, PatternEdgeName, ConnectednessType.ToString());
             // then operations for case check failed
             if (CheckFailedOperations != null)
             {
@@ -1190,12 +1399,41 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            // emit check decision for is candidate connected to already found partial match
-            // i.e. edge source/target equals node
-            sourceCode.AppendFrontFormat("if({0}.{1} != {2}) ",
-                NamesOfEntities.CandidateVariable(PatternEdgeName),
-                CheckSource ? "source" : "target",
-                NamesOfEntities.CandidateVariable(PatternNodeName));
+            if (ConnectednessType == CheckCandidateForConnectednessType.Source)
+            {
+                // emit check decision for is candidate connected to already found partial match, i.e. edge source equals node
+                sourceCode.AppendFrontFormat("if({0}.source != {1}) ",
+                    NamesOfEntities.CandidateVariable(PatternEdgeName),
+                    NamesOfEntities.CandidateVariable(PatternNodeName));
+            }
+            else if (ConnectednessType == CheckCandidateForConnectednessType.Target)
+            {
+                // emit check decision for is candidate connected to already found partial match, i.e. edge target equals node
+                sourceCode.AppendFrontFormat("if({0}.target != {1}) ",
+                    NamesOfEntities.CandidateVariable(PatternEdgeName),
+                    NamesOfEntities.CandidateVariable(PatternNodeName));
+            }
+            else if(ConnectednessType == CheckCandidateForConnectednessType.SourceOrTarget)
+            {
+                // we've to check both node positions of the edge, we do so by first checking source, then target
+                // we need a variable remembering which run is currently underway
+                string sourceRunUnderway = NamesOfEntities.WhichRunUnderwayVariable(PatternEdgeName);
+                sourceCode.AppendFrontFormat("bool {0} = true;\n", sourceRunUnderway);
+                sourceCode.Append(NamesOfEntities.OtherDirectionRunGotoLabel(PatternEdgeName) + ":\n");
+                sourceCode.AppendFrontFormat("if( ({0} ? {1}.source : {1}.target) != {2}) ",
+                    sourceRunUnderway, 
+                    NamesOfEntities.CandidateVariable(PatternEdgeName),
+                    NamesOfEntities.CandidateVariable(PatternNodeName));
+            }
+            else //ConnectednessType == CheckCandidateForConnectednessType.TheOther
+            {
+                // we've to check the node position of the edge the first node is not assigned to
+                sourceCode.AppendFrontFormat("if( ({0}=={1}.source ? {1}.target : {1}.source) != {2}) ",
+                    NamesOfEntities.CandidateVariable(TheOtherPatternNodeName),
+                    NamesOfEntities.CandidateVariable(PatternEdgeName),
+                    NamesOfEntities.CandidateVariable(PatternNodeName));
+            }
+
             // emit check failed code
             sourceCode.Append("{\n");
             sourceCode.Indent();
@@ -1206,7 +1444,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public string PatternNodeName;
         public string PatternEdgeName;
-        public bool CheckSource; // source|target
+        public string TheOtherPatternNodeName; // only valid if ConnectednessType==TheOther
+        public CheckCandidateForConnectednessType ConnectednessType;
     }
 
     /// <summary>

@@ -163,6 +163,8 @@ namespace de.unika.ipd.grGen.lgsp
             //     to a plan graph node created by one of the incoming edges of the pattern node
             // Create "outgoing" plan graph edge from each plan graph node originating with a pattern node
             //     to a plan graph node created by one of the outgoing edges of the pattern node
+            /// Ensured: there's no plan graph edge with a preset element as target besides the lookup,
+            ///     so presets are only search operation sources
 
             PlanNode[] planNodes = new PlanNode[patternGraph.nodes.Length + patternGraph.edges.Length];
             List<PlanEdge> planEdges = new List<PlanEdge>(patternGraph.nodes.Length + 5 * patternGraph.edges.Length);   // upper bound for num of edges
@@ -251,14 +253,20 @@ namespace de.unika.ipd.grGen.lgsp
                 // only add implicit source operation if edge source is needed and the edge source is not a preset node
                 if(edge.source != null && !edge.source.TempPlanMapping.IsPreset)
                 {
-                    PlanEdge implSrcPlanEdge = new PlanEdge(SearchOperationType.ImplicitSource, planNodes[nodesIndex], edge.source.TempPlanMapping, 0);
+                    SearchOperationType operation = edge.fixedDirection ? 
+                        SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
+                    PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
+                        edge.source.TempPlanMapping, 0);
                     planEdges.Add(implSrcPlanEdge);
                     edge.source.TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
                 }
                 // only add implicit target operation if edge target is needed and the edge target is not a preset node
                 if(edge.target != null && !edge.target.TempPlanMapping.IsPreset)
                 {
-                    PlanEdge implTgtPlanEdge = new PlanEdge(SearchOperationType.ImplicitTarget, planNodes[nodesIndex], edge.target.TempPlanMapping, 0);
+                    SearchOperationType operation = edge.fixedDirection ?
+                        SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
+                    PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
+                        edge.target.TempPlanMapping, 0);
                     planEdges.Add(implTgtPlanEdge);
                     edge.target.TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
                 }
@@ -269,14 +277,20 @@ namespace de.unika.ipd.grGen.lgsp
                     // no outgoing if no source
                     if(edge.source != null)
                     {
-                        PlanEdge outPlanEdge = new PlanEdge(SearchOperationType.Outgoing, edge.source.TempPlanMapping, planNodes[nodesIndex], edge.Cost);
+                        SearchOperationType operation = edge.fixedDirection ?
+                            SearchOperationType.Outgoing : SearchOperationType.Incident;
+                        PlanEdge outPlanEdge = new PlanEdge(operation, edge.source.TempPlanMapping,
+                            planNodes[nodesIndex], edge.Cost);
                         planEdges.Add(outPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(outPlanEdge);
                     }
                     // no incoming if no target
                     if(edge.target != null)
                     {
-                        PlanEdge inPlanEdge = new PlanEdge(SearchOperationType.Incoming, edge.target.TempPlanMapping, planNodes[nodesIndex], edge.Cost);
+                        SearchOperationType operation = edge.fixedDirection ?
+                            SearchOperationType.Incoming: SearchOperationType.Incident;
+                        PlanEdge inPlanEdge = new PlanEdge(operation, edge.target.TempPlanMapping,
+                            planNodes[nodesIndex], edge.Cost);
                         planEdges.Add(inPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(inPlanEdge);
                     }

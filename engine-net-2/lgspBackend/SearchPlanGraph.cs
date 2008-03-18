@@ -56,11 +56,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// IncomingPatternEdges are the search plan nodes which originate from the incoming pattern edges of the pattern node this node represents
         /// </summary>
-        public LinkedList<SearchPlanEdgeNode> IncomingPatternEdges = new LinkedList<SearchPlanEdgeNode>();
+        public List<SearchPlanEdgeNode> IncomingPatternEdges = new List<SearchPlanEdgeNode>();
         /// <summary>
         /// OutgoingPatternEdges are the search plan nodes which originate from the outgoing pattern edges of the pattern node this node represents
         /// </summary>
-        public LinkedList<SearchPlanEdgeNode> OutgoingPatternEdges = new LinkedList<SearchPlanEdgeNode>();
+        public List<SearchPlanEdgeNode> OutgoingPatternEdges = new List<SearchPlanEdgeNode>();
 
         public SearchPlanNodeNode(PlanNode planNode) : base(planNode) { }
 

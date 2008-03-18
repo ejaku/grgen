@@ -9,6 +9,12 @@ rule init {
 	}
 }
 
+rule init2 {
+	replace {
+		. --> . <-- .;
+	}
+}
+
 test findUndirectedEdge {
 	x:Node;
 	y:Node;
@@ -28,6 +34,23 @@ test findArbitraryDirectedEdge {
 	y:Node;
 	
 	x <--> y;
+}
+
+test findArbitraryDirectedReflexiveEdge {
+	x:Node;
+	
+	x <--> x;
+}
+
+test findArbitraryDirectedReflexiveEdgeAfterUndirectedOne {
+	x:Node;
+	y:Node;
+	
+	x -- y <--> y;
+}
+
+test findArbitraryDirectedTriple {	
+	. <--> . <--> .;
 }
 
 test findDirectedEdge {

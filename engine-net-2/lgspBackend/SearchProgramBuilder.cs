@@ -209,8 +209,10 @@ namespace de.unika.ipd.grGen.lgsp
                     case SearchOperationType.Lookup:
                     case SearchOperationType.Outgoing:
                     case SearchOperationType.Incoming:
+                    case SearchOperationType.Incident:
                     case SearchOperationType.ImplicitSource:
                     case SearchOperationType.ImplicitTarget:
+                    case SearchOperationType.Implicit:
                         // don't search
                         op.Type = SearchOperationType.Void;
                         // make parameter in remainder program
@@ -374,7 +376,7 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanEdgeNode)op.SourceSPNode,
                         (SearchPlanNodeNode)op.Element,
                         op.Isomorphy,
-                        true);
+                        ImplicitNodeType.Source);
 
                 case SearchOperationType.ImplicitTarget:
                     return buildImplicit(insertionPointWithinSearchProgram,
@@ -382,7 +384,15 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanEdgeNode)op.SourceSPNode,
                         (SearchPlanNodeNode)op.Element,
                         op.Isomorphy,
-                        false);
+                        ImplicitNodeType.Target);
+
+                case SearchOperationType.Implicit:
+                    return buildImplicit(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanEdgeNode)op.SourceSPNode,
+                        (SearchPlanNodeNode)op.Element,
+                        op.Isomorphy,
+                        ImplicitNodeType.SourceOrTarget);
 
                 case SearchOperationType.Incoming:
                     return buildIncident(insertionPointWithinSearchProgram,
@@ -390,7 +400,7 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNodeNode)op.SourceSPNode,
                         (SearchPlanEdgeNode)op.Element,
                         op.Isomorphy,
-                        true);
+                        IncidentEdgeType.Incoming);
 
                 case SearchOperationType.Outgoing:
                     return buildIncident(insertionPointWithinSearchProgram,
@@ -398,7 +408,15 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNodeNode)op.SourceSPNode,
                         (SearchPlanEdgeNode)op.Element,
                         op.Isomorphy,
-                        false);
+                        IncidentEdgeType.Outgoing);
+
+                case SearchOperationType.Incident:
+                    return buildIncident(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNodeNode)op.SourceSPNode,
+                        (SearchPlanEdgeNode)op.Element,
+                        op.Isomorphy,
+                        IncidentEdgeType.IncomingOrOutgoing);
 
                 case SearchOperationType.NegativePattern:
                     return buildNegative(insertionPointWithinSearchProgram,
@@ -728,6 +746,38 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
+            // switch to run of other direction if edge without fixed direction connects to first other node
+            if (isNode)
+            {
+                SearchPlanNodeNode currentNode = (SearchPlanNodeNode)target;
+                for (int i = currentNode.IncomingPatternEdges.Count-1; i >= 0; --i)
+                {
+                    SearchPlanEdgeNode edge = currentNode.IncomingPatternEdges[i];
+                    if (!((PatternEdge)edge.PatternElement).fixedDirection)
+                    {
+                        if (edgeConnectsToFirstIncidentNode(currentNode, edge)
+                            && edge.PatternEdgeTarget!=edge.PatternEdgeSource) // reflexive doesn't switch
+                        {
+                            OtherDirection otherDirection = new OtherDirection(edge.PatternElement.Name);
+                            insertionPoint = insertionPoint.Append(otherDirection);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (!((PatternEdge)target.PatternElement).fixedDirection)
+                {
+                    SearchPlanEdgeNode currentEdge = (SearchPlanEdgeNode)target;
+                    if (edgeConnectsToFirstAndMaybeSecondIncidentNode(currentEdge)
+                        && currentEdge.PatternEdgeSource!=currentEdge.PatternEdgeTarget) // reflexive doesn't switch
+                    {
+                        OtherDirection otherDirection = new OtherDirection(target.PatternElement.Name);
+                        insertionPoint = insertionPoint.Append(otherDirection);
+                    }
+                }
+            }
+
             // everything nested within candidate iteration built by now -
             // continue at the end of the list at type iteration nesting level
             insertionPoint = continuationPoint;
@@ -748,7 +798,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Search program operations implementing the
-        /// Implicit source|target search plan operation
+        /// Implicit Source|Target|SourceOrTarget search plan operation
         /// are created and inserted into search program
         /// </summary>
         private SearchProgramOperation buildImplicit(
@@ -757,25 +807,64 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanEdgeNode source,
             SearchPlanNodeNode target,
             IsomorphyInformation isomorphy,
-            bool getSource)
+            ImplicitNodeType nodeType)
         {
             // get candidate = demanded node from edge
-            GetCandidateByDrawing nodeFromEdge =
-                new GetCandidateByDrawing(
+            GetCandidateByDrawing nodeFromEdge;
+            if (nodeType == ImplicitNodeType.Source || nodeType == ImplicitNodeType.Target)
+            {
+                nodeFromEdge = new GetCandidateByDrawing(
                     GetCandidateByDrawingType.NodeFromEdge,
                     target.PatternElement.Name,
                     model.NodeModel.Types[target.PatternElement.TypeID].Name,
                     source.PatternElement.Name,
-                    getSource);
+                    nodeType);
+            }
+            else
+            {
+                Debug.Assert(nodeType != ImplicitNodeType.TheOther);
+
+                if (edgeConnectsToSecondIncidentNode(target, source))
+                {
+                    nodeFromEdge = new GetCandidateByDrawing(
+                        GetCandidateByDrawingType.NodeFromEdge,
+                        target.PatternElement.Name,
+                        model.NodeModel.Types[target.PatternElement.TypeID].Name,
+                        source.PatternElement.Name,
+                        source.PatternEdgeSource==target ? source.PatternEdgeTarget.PatternElement.Name 
+                            : source.PatternEdgeSource.PatternElement.Name,
+                        ImplicitNodeType.TheOther);
+                }
+                else // edge connects to first incident node
+                {
+                    ImplicitNodeType implicitType =
+                        ImplicitNodeType.SourceOrTarget;
+                    // don't want 2 matches per reflexive edge
+                    if (source.PatternEdgeSource == source.PatternEdgeTarget)
+                        implicitType = ImplicitNodeType.Source;
+                    nodeFromEdge = new GetCandidateByDrawing(
+                        GetCandidateByDrawingType.NodeFromEdge,
+                        target.PatternElement.Name,
+                        model.NodeModel.Types[target.PatternElement.TypeID].Name,
+                        source.PatternElement.Name,
+                        implicitType);
+                }
+            }
             insertionPoint = insertionPoint.Append(nodeFromEdge);
 
             // check type of candidate
             insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
 
             // check connectedness of candidate
+            target.Visited = true; // mark as visited needed for first/second-check if edge of unfixed direction
+            SearchPlanNodeNode otherNodeOfOriginatingEdge = null;
+            if (nodeType == ImplicitNodeType.Source) otherNodeOfOriginatingEdge = source.PatternEdgeTarget;
+            if (nodeType == ImplicitNodeType.Target) otherNodeOfOriginatingEdge = source.PatternEdgeSource;
+            if (source.PatternEdgeTarget == source.PatternEdgeSource) // reflexive sign needed in unfixed direction case, too
+                otherNodeOfOriginatingEdge = source.PatternEdgeSource;
             insertionPoint = decideOnAndInsertCheckConnectednessOfNode(
-                insertionPoint, target, source,
-                getSource ? source.PatternEdgeTarget : source.PatternEdgeSource);
+                insertionPoint, target, source, otherNodeOfOriginatingEdge);
+            target.Visited = false;
 
             // check candidate for isomorphy 
             string negativeNamePrefix = NegativeNamePrefix();
@@ -838,12 +927,23 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
+            // switch to run of other direction if edge without fixed direction
+            if (nodeType == ImplicitNodeType.SourceOrTarget)
+            {
+                if (!edgeConnectsToSecondIncidentNode(target, source)
+                    && source.PatternEdgeSource!=source.PatternEdgeTarget) // reflexive doesn't switch
+                {
+                    OtherDirection otherDirection = new OtherDirection(source.PatternElement.Name);
+                    insertionPoint = insertionPoint.Append(otherDirection);
+                }
+            }
+
             return insertionPoint;
         }
 
         /// <summary>
         /// Search program operations implementing the
-        /// Extend Incoming|Outgoing search plan operation
+        /// Extend Incoming|Outgoing|IncomingOrOutgoing search plan operation
         /// are created and inserted into search program
         /// </summary>
         private SearchProgramOperation buildIncident(
@@ -852,7 +952,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNodeNode source,
             SearchPlanEdgeNode target,
             IsomorphyInformation isomorphy,
-            bool getIncoming)
+            IncidentEdgeType edgeType)
         {
 #if RANDOM_LOOKUP_LIST_START
             // insert list heads randomization, thus randomized extend
@@ -866,12 +966,19 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
             // iterate available incident edges
+            IncidentEdgeType incidentType = edgeType;
+            // don't want 2 matches per reflexive edge
+            if (incidentType == IncidentEdgeType.IncomingOrOutgoing
+                && target.PatternEdgeSource == target.PatternEdgeTarget)
+            {
+                incidentType = IncidentEdgeType.Incoming;
+            }
             GetCandidateByIteration incidentIteration =
                 new GetCandidateByIteration(
                     GetCandidateByIterationType.IncidentEdges,
                     target.PatternElement.Name,
                     source.PatternElement.Name,
-                    getIncoming);
+                    incidentType);
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(incidentIteration);
             incidentIteration.NestedOperationsList =
@@ -883,7 +990,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check connectedness of candidate
             insertionPoint = decideOnAndInsertCheckConnectednessOfEdge(
-                insertionPoint, target, source, getIncoming);
+                insertionPoint, target, source, edgeType==IncidentEdgeType.Incoming);
 
             // check candidate for isomorphy 
             string negativeNamePrefix = NegativeNamePrefix();
@@ -944,6 +1051,14 @@ namespace de.unika.ipd.grGen.lgsp
                         false,
                         negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(abandonCandidate);
+            }
+
+            // switch to run of other direction if edge without fixed direction
+            if (edgeType == IncidentEdgeType.IncomingOrOutgoing
+                && target.PatternEdgeSource!=target.PatternEdgeTarget) // reflexive doesn't switch
+            {
+                OtherDirection otherDirection = new OtherDirection(target.PatternElement.Name);
+                insertionPoint = insertionPoint.Append(otherDirection);
             }
 
             // everything nested within incident iteration built by now -
@@ -1693,41 +1808,112 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanEdgeNode originatingEdge,
             SearchPlanNodeNode otherNodeOfOriginatingEdge)
         {
-            // check whether incoming/outgoing-edges of the candidate node 
-            // are the same as the already found edges to which the node must be incident
-            // only for the edges required by the pattern to be incident with the node
-            // only if edge is already matched by now (signaled by visited)
+            // check whether the pattern edges which must be incident to the candidate node (according to the pattern)
+            // are really incident to it (i.e. the candidate node is their source/target)
+            // only if edge is already matched by now (signaled by visited) and is of fixed direction
             // only if the node was not taken from the given originating edge
             //   with the exception of reflexive edges, as these won't get checked thereafter
             foreach (SearchPlanEdgeNode edge in node.OutgoingPatternEdges)
             {
-                if (edge.Visited)
+                if (((PatternEdge)edge.PatternElement).fixedDirection)
+                {
+                    if (edge.Visited)
+                    {
+                        if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
+                        {
+                            CheckCandidateForConnectedness checkConnectedness =
+                                new CheckCandidateForConnectedness(
+                                    node.PatternElement.Name,
+                                    node.PatternElement.Name,
+                                    edge.PatternElement.Name,
+                                    CheckCandidateForConnectednessType.Source); 
+                            insertionPoint = insertionPoint.Append(checkConnectedness);
+                        }
+                    }
+                }
+                else
                 {
                     if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
-                        CheckCandidateForConnectedness checkConnectedness =
-                            new CheckCandidateForConnectedness(
-                                node.PatternElement.Name,
-                                node.PatternElement.Name,
-                                edge.PatternElement.Name,
-                                true);
-                        insertionPoint = insertionPoint.Append(checkConnectedness);
+                        if (edgeConnectsToFirstIncidentNode(node, edge))
+                        {
+                            CheckCandidateForConnectednessType connectednessType =
+                                CheckCandidateForConnectednessType.SourceOrTarget;
+                            // don't want 2 matches per reflexive edge
+                            if (edge.PatternEdgeSource == edge.PatternEdgeTarget)
+                                connectednessType = CheckCandidateForConnectednessType.Source;
+                            CheckCandidateForConnectedness checkConnectedness =
+                                new CheckCandidateForConnectedness(
+                                    node.PatternElement.Name,
+                                    node.PatternElement.Name,
+                                    edge.PatternElement.Name,
+                                    connectednessType);
+                            insertionPoint = insertionPoint.Append(checkConnectedness);
+                        }
+                        if (edgeConnectsToSecondIncidentNode(node, edge))
+                        {
+                            CheckCandidateForConnectedness checkConnectedness =
+                                new CheckCandidateForConnectedness(
+                                    node.PatternElement.Name,
+                                    node.PatternElement.Name,
+                                    edge.PatternElement.Name,
+                                    edge.PatternEdgeSource == node ? edge.PatternEdgeTarget.PatternElement.Name
+                                        : edge.PatternEdgeSource.PatternElement.Name,
+                                    CheckCandidateForConnectednessType.TheOther);
+                            insertionPoint = insertionPoint.Append(checkConnectedness);
+                        }
                     }
                 }
             }
             foreach (SearchPlanEdgeNode edge in node.IncomingPatternEdges)
             {
-                if (edge.Visited)
+                if (((PatternEdge)edge.PatternElement).fixedDirection)
+                {
+                    if (edge.Visited)
+                    {
+                        if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
+                        {
+                            CheckCandidateForConnectedness checkConnectedness =
+                                new CheckCandidateForConnectedness(
+                                    node.PatternElement.Name,
+                                    node.PatternElement.Name,
+                                    edge.PatternElement.Name,
+                                    CheckCandidateForConnectednessType.Target);
+                            insertionPoint = insertionPoint.Append(checkConnectedness);
+                        }
+                    }
+                }
+                else
                 {
                     if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
-                        CheckCandidateForConnectedness checkConnectedness =
-                            new CheckCandidateForConnectedness(
-                                node.PatternElement.Name,
-                                node.PatternElement.Name,
-                                edge.PatternElement.Name,
-                                false);
-                        insertionPoint = insertionPoint.Append(checkConnectedness);
+                        if (edgeConnectsToFirstIncidentNode(node, edge))
+                        {
+                            CheckCandidateForConnectednessType connectednessType =
+                                CheckCandidateForConnectednessType.SourceOrTarget;
+                            // don't want 2 matches per reflexive edge
+                            if (edge.PatternEdgeSource == edge.PatternEdgeTarget)
+                                connectednessType = CheckCandidateForConnectednessType.Source;
+                            CheckCandidateForConnectedness checkConnectedness =
+                                new CheckCandidateForConnectedness(
+                                    node.PatternElement.Name,
+                                    node.PatternElement.Name,
+                                    edge.PatternElement.Name,
+                                    connectednessType);
+                            insertionPoint = insertionPoint.Append(checkConnectedness);
+                        }
+                        if (edgeConnectsToSecondIncidentNode(node, edge))
+                        {
+                            CheckCandidateForConnectedness checkConnectedness =
+                                new CheckCandidateForConnectedness(
+                                    node.PatternElement.Name,
+                                    node.PatternElement.Name,
+                                    edge.PatternElement.Name,
+                                    edge.PatternEdgeSource == node ? edge.PatternEdgeTarget.PatternElement.Name
+                                        : edge.PatternEdgeSource.PatternElement.Name,
+                                    CheckCandidateForConnectednessType.TheOther);
+                            insertionPoint = insertionPoint.Append(checkConnectedness);
+                        }
                     }
                 }
             }
@@ -1751,39 +1937,70 @@ namespace de.unika.ipd.grGen.lgsp
             //  to be incident to some given node
             // or that node is not matched by now (signaled by visited)
             // or if the edge was taken from the given originating node
-            if (edge.PatternEdgeSource != null)
+            if (((PatternEdge)edge.PatternElement).fixedDirection)
             {
-                if (edge.PatternEdgeSource.Visited)
+                if (edge.PatternEdgeSource != null)
                 {
-                    if (!(!edgeIncomingAtOriginatingNode
-                            && edge.PatternEdgeSource == originatingNode))
+                    if (edge.PatternEdgeSource.Visited)
                     {
-                        CheckCandidateForConnectedness checkConnectedness =
-                            new CheckCandidateForConnectedness(
-                                edge.PatternElement.Name,
-                                edge.PatternEdgeSource.PatternElement.Name,
-                                edge.PatternElement.Name,
-                                true);
-                        insertionPoint = insertionPoint.Append(checkConnectedness);
+                        if (!(!edgeIncomingAtOriginatingNode
+                                && edge.PatternEdgeSource == originatingNode))
+                        {
+                            CheckCandidateForConnectedness checkConnectedness =
+                                new CheckCandidateForConnectedness(
+                                    edge.PatternElement.Name,
+                                    edge.PatternEdgeSource.PatternElement.Name,
+                                    edge.PatternElement.Name,
+                                    CheckCandidateForConnectednessType.Source);
+                            insertionPoint = insertionPoint.Append(checkConnectedness);
+                        }
+                    }
+                }
+                if (edge.PatternEdgeTarget != null)
+                {
+                    if (edge.PatternEdgeTarget.Visited)
+                    {
+                        if (!(edgeIncomingAtOriginatingNode
+                                && edge.PatternEdgeTarget == originatingNode))
+                        {
+                            CheckCandidateForConnectedness checkConnectedness =
+                                new CheckCandidateForConnectedness(
+                                    edge.PatternElement.Name,
+                                    edge.PatternEdgeTarget.PatternElement.Name,
+                                    edge.PatternElement.Name,
+                                    CheckCandidateForConnectednessType.Target);
+                            insertionPoint = insertionPoint.Append(checkConnectedness);
+                        }
                     }
                 }
             }
-
-            if (edge.PatternEdgeTarget != null)
+            else
             {
-                if (edge.PatternEdgeTarget.Visited)
+                if (originatingNode == null && edgeConnectsToFirstAndMaybeSecondIncidentNode(edge))
                 {
-                    if (!(edgeIncomingAtOriginatingNode
-                            && edge.PatternEdgeTarget == originatingNode))
-                    {
-                        CheckCandidateForConnectedness checkConnectedness =
-                            new CheckCandidateForConnectedness(
-                                edge.PatternElement.Name,
-                                edge.PatternEdgeTarget.PatternElement.Name,
-                                edge.PatternElement.Name,
-                                false);
-                        insertionPoint = insertionPoint.Append(checkConnectedness);
-                    }
+                    CheckCandidateForConnectednessType connectednessType =
+                        CheckCandidateForConnectednessType.SourceOrTarget;
+                    // don't want 2 matches per reflexive edge
+                    if (edge.PatternEdgeSource == edge.PatternEdgeTarget)
+                        connectednessType = CheckCandidateForConnectednessType.Source;
+                    CheckCandidateForConnectedness checkConnectedness =
+                        new CheckCandidateForConnectedness(
+                            edge.PatternElement.Name,
+                            edge.PatternEdgeSource!=null ? edge.PatternEdgeSource.PatternElement.Name : edge.PatternEdgeTarget.PatternElement.Name,
+                            edge.PatternElement.Name,
+                            CheckCandidateForConnectednessType.SourceOrTarget);
+                    insertionPoint = insertionPoint.Append(checkConnectedness);
+                }
+                if (edgeConnectsToSecondIncidentNode(edge))
+                {
+                    CheckCandidateForConnectedness checkConnectedness =
+                        new CheckCandidateForConnectedness(
+                            edge.PatternElement.Name,
+                            edge.PatternEdgeTarget.PatternElement.Name,
+                            edge.PatternElement.Name,
+                            edge.PatternEdgeSource.PatternElement.Name,
+                            CheckCandidateForConnectednessType.TheOther);
+                    insertionPoint = insertionPoint.Append(checkConnectedness);
                 }
             }
 
@@ -1918,6 +2135,105 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             return maxNegLevel;
+        }
+
+        /// <summary>
+        /// returns true if the node which gets currently determined in the schedule
+        /// is the first incident node of the edge which gets connected to it
+        /// only of interest for edges of unfixed direction
+        /// </summary>
+        private bool edgeConnectsToFirstIncidentNode(
+            SearchPlanNodeNode currentNode, SearchPlanEdgeNode edge)
+        {
+            //Debug.Assert(!currentNode.Visited);
+            Debug.Assert(!((PatternEdge)edge.PatternElement).fixedDirection);
+
+            if (!edge.Visited) return false;
+
+            if (currentNode == edge.PatternEdgeSource)
+                return edge.PatternEdgeTarget==null || !edge.PatternEdgeTarget.Visited;
+            else
+                return edge.PatternEdgeSource==null || !edge.PatternEdgeSource.Visited;
+        }
+
+        /// <summary>
+        /// returns true if only one incident node of the edge which gets currently determined in the schedule
+        /// was already computed; only of interest for edges of unfixed direction
+        /// </summary>
+        private bool edgeConnectsToFirstIncidentNode(SearchPlanEdgeNode currentEdge)
+        {
+            //Debug.Assert(!currentEdge.Visited);
+            Debug.Assert(!((PatternEdge)currentEdge.PatternElement).fixedDirection);
+
+            if (currentEdge.PatternEdgeSource != null && currentEdge.PatternEdgeSource.Visited
+                && (currentEdge.PatternEdgeTarget == null || !currentEdge.PatternEdgeTarget.Visited))
+            {
+                return true;
+            }
+            if (currentEdge.PatternEdgeTarget != null && currentEdge.PatternEdgeTarget.Visited
+                && (currentEdge.PatternEdgeSource == null || !currentEdge.PatternEdgeSource.Visited))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// returns true if at least one incident node of the edge which gets currently determined in the schedule
+        /// was already computed; only of interest for edges of unfixed direction
+        /// </summary>
+        private bool edgeConnectsToFirstAndMaybeSecondIncidentNode(SearchPlanEdgeNode currentEdge)
+        {
+            //Debug.Assert(!currentEdge.Visited);
+            Debug.Assert(!((PatternEdge)currentEdge.PatternElement).fixedDirection);
+
+            if (currentEdge.PatternEdgeSource != null && currentEdge.PatternEdgeSource.Visited)
+                return true;
+            if (currentEdge.PatternEdgeTarget != null && currentEdge.PatternEdgeTarget.Visited)
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// returns true if the node which gets currently determined in the schedule
+        /// is the second incident node of the edge which gets connected to it
+        /// only of interest for edges of unfixed direction
+        /// </summary>
+        private bool edgeConnectsToSecondIncidentNode(
+            SearchPlanNodeNode currentNode, SearchPlanEdgeNode edge)
+        {
+            //Debug.Assert(!currentNode.Visited);
+            Debug.Assert(!((PatternEdge)edge.PatternElement).fixedDirection);
+
+            if (!edge.Visited) return false;
+
+            if (edge.PatternEdgeSource == null || edge.PatternEdgeTarget == null)
+                return false;
+
+            if (currentNode == edge.PatternEdgeSource)
+                return edge.PatternEdgeTarget.Visited;
+            else
+                return edge.PatternEdgeSource.Visited;
+        }
+
+        /// <summary>
+        /// returns true if both incident nodes of the edge which gets currently determined in the schedule
+        /// were already computed; only of interest for edges of unfixed direction
+        /// </summary>
+        private bool edgeConnectsToSecondIncidentNode(SearchPlanEdgeNode currentEdge)
+        {
+            //Debug.Assert(!currentEdge.Visited);
+            Debug.Assert(!((PatternEdge)currentEdge.PatternElement).fixedDirection);
+
+            if (currentEdge.PatternEdgeSource == null || currentEdge.PatternEdgeTarget == null)
+                return false;
+
+            if (currentEdge.PatternEdgeSource.Visited && currentEdge.PatternEdgeTarget.Visited)
+                return true;
+
+            return false;
         }
     }
 }

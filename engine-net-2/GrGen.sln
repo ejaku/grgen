@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlternativeExample", "out\e
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecursiveExample", "out\examples-lgsp\RecursiveExample\RecursiveExample.csproj", "{F3CACF35-E9C7-4836-9D6C-9B04AAD0BBEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "edge1Example", "out\examples-lgsp\edge1Example\edge1Example.csproj", "{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -169,6 +171,12 @@ Global
 		{F3CACF35-E9C7-4836-9D6C-9B04AAD0BBEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3CACF35-E9C7-4836-9D6C-9B04AAD0BBEB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F3CACF35-E9C7-4836-9D6C-9B04AAD0BBEB}.Release|x86.ActiveCfg = Release|Any CPU
+		{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,5 +192,6 @@ Global
 		{70206EDB-B613-4D8B-9A4E-870FB5DAE1D5} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 		{BA28BE01-2982-484B-9086-E6A7FA7C3E47} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 		{F3CACF35-E9C7-4836-9D6C-9B04AAD0BBEB} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
+		{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 	EndGlobalSection
 EndGlobal

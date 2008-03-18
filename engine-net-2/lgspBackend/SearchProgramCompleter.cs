@@ -310,7 +310,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 AdjustListHeadsTypes.IncidentEdges,
                                 candidateByIteration.PatternElementName,
                                 candidateByIteration.StartingPointNodeName,
-                                candidateByIteration.GetIncoming);
+                                candidateByIteration.EdgeType == IncidentEdgeType.Incoming);
                         insertionPoint = insertionPoint.Append(adjustIncident);
                     }
                 }

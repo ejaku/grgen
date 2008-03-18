@@ -83,6 +83,9 @@ namespace de.unika.ipd.grGen.lgsp
             //     to a plan graph node created by one of the incoming edges of the pattern node
             // Create "outgoing" plan graph edge from each plan graph node originating with a pattern node
             //     to a plan graph node created by one of the outgoing edges of the pattern node
+            /// Ensured: there's no plan graph edge with a preset element as target besides the lookup,
+            ///     so presets are only search operation sources
+
 
             PlanNode[] planNodes = new PlanNode[patternGraph.Nodes.Length + patternGraph.Edges.Length];
             // upper bound for num of edges (lookup nodes + lookup edges + impl. tgt + impl. src + incoming + outgoing)
@@ -231,10 +234,15 @@ namespace de.unika.ipd.grGen.lgsp
                 // only add implicit source operation if edge source is needed and the edge source is not a preset node
                 if(edge.source != null && !edge.source.TempPlanMapping.IsPreset)
                 {
+                    SearchOperationType operation = edge.fixedDirection ?
+                        SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
+
 #if OPCOST_WITH_GEO_MEAN 
-                    PlanEdge implSrcPlanEdge = new PlanEdge(SearchOperationType.ImplicitSource, planNodes[nodesIndex], edge.source.TempPlanMapping, 0);
+                    PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
+                        edge.source.TempPlanMapping, 0);
 #else
-                    PlanEdge implSrcPlanEdge = new PlanEdge(SearchOperationType.ImplicitSource, planNodes[nodesIndex], edge.source.TempPlanMapping, 1);
+                    PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
+                        edge.source.TempPlanMapping, 1);
 #endif
                     planEdges.Add(implSrcPlanEdge);
                     edge.source.TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
@@ -242,10 +250,14 @@ namespace de.unika.ipd.grGen.lgsp
                 // only add implicit target operation if edge target is needed and the edge target is not a preset node
                 if(edge.target != null && !edge.target.TempPlanMapping.IsPreset)
                 {
+                    SearchOperationType operation = edge.fixedDirection ?
+                        SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
 #if OPCOST_WITH_GEO_MEAN 
-                    PlanEdge implTgtPlanEdge = new PlanEdge(SearchOperationType.ImplicitTarget, planNodes[nodesIndex], edge.target.TempPlanMapping, 0);
+                    PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
+                        edge.target.TempPlanMapping, 0);
 #else
-                    PlanEdge implTgtPlanEdge = new PlanEdge(SearchOperationType.ImplicitTarget, planNodes[nodesIndex], edge.target.TempPlanMapping, 1);
+                    PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
+                        edge.target.TempPlanMapping, 1);
 #endif
                     planEdges.Add(implTgtPlanEdge);
                     edge.target.TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
@@ -260,15 +272,26 @@ namespace de.unika.ipd.grGen.lgsp
                         int targetTypeID;
                         if(edge.target != null) targetTypeID = edge.target.TypeID;
                         else targetTypeID = model.NodeModel.RootType.TypeID;
+                        // cost of walking along edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
                         float normCost = graph.vstructs[((edge.source.TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
                             + targetTypeID) * 2 + (int) LGSPDir.Out];
+                        if (!edge.fixedDirection) {
+                            normCost += graph.vstructs[((edge.source.TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                                + targetTypeID) * 2 + (int)LGSPDir.In];
+                        }
 #else
                         float normCost = graph.vstructs[edge.source.TypeID, edge.TypeID, targetTypeID, (int) LGSPDir.Out];
+                        if (!edge.fixedDirection) {
+                            normCost += graph.vstructs[edge.source.TypeID, edge.TypeID, targetTypeID, (int) LGSPDir.In];
+                        }
 #endif
-                        if(graph.nodeCounts[edge.source.TypeID] != 0)
+                        if (graph.nodeCounts[edge.source.TypeID] != 0)
                             normCost /= graph.nodeCounts[edge.source.TypeID];
-                        PlanEdge outPlanEdge = new PlanEdge(SearchOperationType.Outgoing, edge.source.TempPlanMapping, planNodes[nodesIndex], normCost);
+                        SearchOperationType operation = edge.fixedDirection ?
+                            SearchOperationType.Outgoing : SearchOperationType.Incident;
+                        PlanEdge outPlanEdge = new PlanEdge(operation, edge.source.TempPlanMapping, 
+                            planNodes[nodesIndex], normCost);
                         planEdges.Add(outPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(outPlanEdge);
                     }
@@ -279,15 +302,26 @@ namespace de.unika.ipd.grGen.lgsp
                         int sourceTypeID;
                         if(edge.source != null) sourceTypeID = edge.source.TypeID;
                         else sourceTypeID = model.NodeModel.RootType.TypeID;
+                        // cost of walking in opposite direction of edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
                         float revCost = graph.vstructs[((edge.target.TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
                             + sourceTypeID) * 2 + (int) LGSPDir.In];
+                        if (!edge.fixedDirection) {
+                            revCost += graph.vstructs[((edge.target.TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                                + sourceTypeID) * 2 + (int)LGSPDir.Out];
+                        }
 #else
                         float revCost = graph.vstructs[edge.target.TypeID, edge.TypeID, sourceTypeID, (int) LGSPDir.In];
+                        if (!edge.fixedDirection) {
+                            revCost += graph.vstructs[edge.target.TypeID, edge.TypeID, sourceTypeID, (int) LGSPDir.Out];
+                        }
 #endif
-                        if(graph.nodeCounts[edge.target.TypeID] != 0)
+                        if (graph.nodeCounts[edge.target.TypeID] != 0)
                             revCost /= graph.nodeCounts[edge.target.TypeID];
-                        PlanEdge inPlanEdge = new PlanEdge(SearchOperationType.Incoming, edge.target.TempPlanMapping, planNodes[nodesIndex], revCost);
+                        SearchOperationType operation = edge.fixedDirection ?
+                            SearchOperationType.Incoming : SearchOperationType.Incident;
+                        PlanEdge inPlanEdge = new PlanEdge(operation, edge.target.TempPlanMapping,
+                            planNodes[nodesIndex], revCost);
                         planEdges.Add(inPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(inPlanEdge);
                     }
@@ -430,8 +464,10 @@ exitSecondLoop: ;
             {
                 case SearchOperationType.Outgoing: typeStr = "--"; break;
                 case SearchOperationType.Incoming: typeStr = "->"; break;
+                case SearchOperationType.Incident: typeStr = "<->"; break;
                 case SearchOperationType.ImplicitSource: typeStr = "IS"; break;
                 case SearchOperationType.ImplicitTarget: typeStr = "IT"; break;
+                case SearchOperationType.Implicit: typeStr = "IM"; break;
                 case SearchOperationType.Lookup: typeStr = " *"; break;
                 case SearchOperationType.MaybePreset: typeStr = " p"; break;
                 case SearchOperationType.NegPreset: typeStr = "np"; break;
@@ -544,8 +580,10 @@ exitSecondLoop: ;
             {
                 case SearchOperationType.Outgoing: typeStr = "--"; break;
                 case SearchOperationType.Incoming: typeStr = "->"; break;
+                case SearchOperationType.Incident: typeStr = "<->"; break;
                 case SearchOperationType.ImplicitSource: typeStr = "IS"; break;
                 case SearchOperationType.ImplicitTarget: typeStr = "IT"; break;
+                case SearchOperationType.Implicit: typeStr = "IM"; break;
                 case SearchOperationType.Lookup: typeStr = " *"; break;
                 case SearchOperationType.MaybePreset: typeStr = " p"; break;
                 case SearchOperationType.NegPreset: typeStr = "np"; break;
@@ -565,8 +603,10 @@ exitSecondLoop: ;
             {
                 case SearchOperationType.Outgoing: typeStr = src.PatternElement.Name + "-" + tgt.PatternElement.Name + "->"; break;
                 case SearchOperationType.Incoming: typeStr = src.PatternElement.Name + "<-" + tgt.PatternElement.Name + "-"; break;
+                case SearchOperationType.Incident: typeStr = src.PatternElement.Name + "<-" + tgt.PatternElement.Name + "->"; break;
                 case SearchOperationType.ImplicitSource: typeStr = "<-" + src.PatternElement.Name + "-" + tgt.PatternElement.Name; break;
                 case SearchOperationType.ImplicitTarget: typeStr = "-" + src.PatternElement.Name + "->" + tgt.PatternElement.Name; break;
+                case SearchOperationType.Implicit: typeStr = "<-" + src.PatternElement.Name + "->" + tgt.PatternElement.Name; break;
                 case SearchOperationType.Lookup: typeStr = "*" + tgt.PatternElement.Name; break;
                 case SearchOperationType.MaybePreset: typeStr = "p" + tgt.PatternElement.Name; break;
                 case SearchOperationType.NegPreset: typeStr = "np" + tgt.PatternElement.Name; break;
@@ -694,13 +734,13 @@ exitSecondLoop: ;
                         && planToSearchPlanNode.TryGetValue(planEdge.Target.PatternEdgeSource, out patElem))
                     {
                         searchPlanEdgeNode.PatternEdgeSource = (SearchPlanNodeNode) patElem;
-                        searchPlanEdgeNode.PatternEdgeSource.OutgoingPatternEdges.AddLast(searchPlanEdgeNode);
+                        searchPlanEdgeNode.PatternEdgeSource.OutgoingPatternEdges.Add(searchPlanEdgeNode);
                     }
                     if(planEdge.Target.PatternEdgeTarget != null 
                         && planToSearchPlanNode.TryGetValue(planEdge.Target.PatternEdgeTarget, out patElem))
                     {
                         searchPlanEdgeNode.PatternEdgeTarget = (SearchPlanNodeNode) patElem;
-                        searchPlanEdgeNode.PatternEdgeTarget.IncomingPatternEdges.AddLast(searchPlanEdgeNode);
+                        searchPlanEdgeNode.PatternEdgeTarget.IncomingPatternEdges.Add(searchPlanEdgeNode);
                     }
                 }
 
@@ -925,6 +965,10 @@ exitSecondLoop: ;
             }
         }
 
+        /// <summary>
+        /// Negative schedules are merged as an operation into their enclosing schedules,
+        /// at a position determined by their costs but not before all of their needed elements were computed
+        /// </summary>
         public void MergeNegativeSchedulesIntoPositiveSchedules(PatternGraph patternGraph)
         {
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
