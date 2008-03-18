@@ -147,6 +147,77 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
+	public class Rule_init3 : LGSPRulePattern
+	{
+		private static Rule_init3 instance = null;
+		public static Rule_init3 Instance { get { if (instance==null) { instance = new Rule_init3(); instance.initialize(); } return instance; } }
+
+		public enum init3_NodeNums { };
+		public enum init3_EdgeNums { };
+		public enum init3_SubNums { };
+		public enum init3_AltNums { };
+
+#if INITIAL_WARMUP
+		public Rule_init3()
+#else
+		private Rule_init3()
+#endif
+		{
+			name = "init3";
+			isSubpattern = false;
+
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
+			PatternGraph pat_init3;
+			pat_init3 = new PatternGraph(
+				"init3",
+				"",
+				false,
+				new PatternNode[] {  }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] {  }, 
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
+				new bool[0, 0] ,
+				new bool[0, 0] 			);
+
+			patternGraph = pat_init3;
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
+			Node_Node node_x = Node_Node.CreateNode(graph);
+			Node_Node node_z = Node_Node.CreateNode(graph);
+			Node_Node node_y = Node_Node.CreateNode(graph);
+			Edge_UEdge edge__edge2 = Edge_UEdge.CreateEdge(graph, node_z, node_x);
+			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
+			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
+			return EmptyReturnElements;
+		}
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			Node_Node node_x = Node_Node.CreateNode(graph);
+			Node_Node node_z = Node_Node.CreateNode(graph);
+			Node_Node node_y = Node_Node.CreateNode(graph);
+			Edge_UEdge edge__edge2 = Edge_UEdge.CreateEdge(graph, node_z, node_x);
+			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
+			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] { "x", "z", "y" };
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
 	public class Rule_findUndirectedEdge : LGSPRulePattern
 	{
 		private static Rule_findUndirectedEdge instance = null;
@@ -689,6 +760,97 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
+	public class Rule_findTripleCircle : LGSPRulePattern
+	{
+		private static Rule_findTripleCircle instance = null;
+		public static Rule_findTripleCircle Instance { get { if (instance==null) { instance = new Rule_findTripleCircle(); instance.initialize(); } return instance; } }
+
+		public static NodeType[] findTripleCircle_node_x_AllowedTypes = null;
+		public static NodeType[] findTripleCircle_node_y_AllowedTypes = null;
+		public static NodeType[] findTripleCircle_node_z_AllowedTypes = null;
+		public static bool[] findTripleCircle_node_x_IsAllowedType = null;
+		public static bool[] findTripleCircle_node_y_IsAllowedType = null;
+		public static bool[] findTripleCircle_node_z_IsAllowedType = null;
+		public static EdgeType[] findTripleCircle_edge__edge0_AllowedTypes = null;
+		public static EdgeType[] findTripleCircle_edge__edge1_AllowedTypes = null;
+		public static EdgeType[] findTripleCircle_edge__edge2_AllowedTypes = null;
+		public static bool[] findTripleCircle_edge__edge0_IsAllowedType = null;
+		public static bool[] findTripleCircle_edge__edge1_IsAllowedType = null;
+		public static bool[] findTripleCircle_edge__edge2_IsAllowedType = null;
+		public enum findTripleCircle_NodeNums { @x, @y, @z, };
+		public enum findTripleCircle_EdgeNums { @_edge0, @_edge1, @_edge2, };
+		public enum findTripleCircle_SubNums { };
+		public enum findTripleCircle_AltNums { };
+
+#if INITIAL_WARMUP
+		public Rule_findTripleCircle()
+#else
+		private Rule_findTripleCircle()
+#endif
+		{
+			name = "findTripleCircle";
+			isSubpattern = false;
+
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
+			PatternGraph pat_findTripleCircle;
+			PatternNode findTripleCircle_node_x = new PatternNode((int) NodeTypes.@Node, "findTripleCircle_node_x", "x", findTripleCircle_node_x_AllowedTypes, findTripleCircle_node_x_IsAllowedType, 5.5F, -1);
+			PatternNode findTripleCircle_node_y = new PatternNode((int) NodeTypes.@Node, "findTripleCircle_node_y", "y", findTripleCircle_node_y_AllowedTypes, findTripleCircle_node_y_IsAllowedType, 5.5F, -1);
+			PatternNode findTripleCircle_node_z = new PatternNode((int) NodeTypes.@Node, "findTripleCircle_node_z", "z", findTripleCircle_node_z_AllowedTypes, findTripleCircle_node_z_IsAllowedType, 5.5F, -1);
+			PatternEdge findTripleCircle_edge__edge0 = new PatternEdge(findTripleCircle_node_x, findTripleCircle_node_y, false, (int) EdgeTypes.@UEdge, "findTripleCircle_edge__edge0", "_edge0", findTripleCircle_edge__edge0_AllowedTypes, findTripleCircle_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge findTripleCircle_edge__edge1 = new PatternEdge(findTripleCircle_node_y, findTripleCircle_node_z, false, (int) EdgeTypes.@UEdge, "findTripleCircle_edge__edge1", "_edge1", findTripleCircle_edge__edge1_AllowedTypes, findTripleCircle_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge findTripleCircle_edge__edge2 = new PatternEdge(findTripleCircle_node_z, findTripleCircle_node_x, false, (int) EdgeTypes.@UEdge, "findTripleCircle_edge__edge2", "_edge2", findTripleCircle_edge__edge2_AllowedTypes, findTripleCircle_edge__edge2_IsAllowedType, 5.5F, -1);
+			pat_findTripleCircle = new PatternGraph(
+				"findTripleCircle",
+				"",
+				false,
+				new PatternNode[] { findTripleCircle_node_x, findTripleCircle_node_y, findTripleCircle_node_z }, 
+				new PatternEdge[] { findTripleCircle_edge__edge0, findTripleCircle_edge__edge1, findTripleCircle_edge__edge2 }, 
+				new PatternGraphEmbedding[] {  }, 
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
+				new bool[3, 3] {
+					{ true, false, false, },
+					{ false, true, false, },
+					{ false, false, true, },
+				},
+				new bool[3, 3] {
+					{ true, false, false, },
+					{ false, true, false, },
+					{ false, false, true, },
+				}
+			);
+			findTripleCircle_node_x.PointOfDefinition = pat_findTripleCircle;
+			findTripleCircle_node_y.PointOfDefinition = pat_findTripleCircle;
+			findTripleCircle_node_z.PointOfDefinition = pat_findTripleCircle;
+			findTripleCircle_edge__edge0.PointOfDefinition = pat_findTripleCircle;
+			findTripleCircle_edge__edge1.PointOfDefinition = pat_findTripleCircle;
+			findTripleCircle_edge__edge2.PointOfDefinition = pat_findTripleCircle;
+
+			patternGraph = pat_findTripleCircle;
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
 
     public class Action_init : LGSPAction
     {
@@ -734,6 +896,37 @@ namespace de.unika.ipd.grGen.Action_edge1
 
         public static LGSPAction Instance { get { return instance; } }
         private static Action_init2 instance = new Action_init2();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+            match.patternGraph = rulePattern.patternGraph;
+            matches.matchesList.PositionWasFilledFixIt();
+            // if enough matches were found, we leave
+            if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+            {
+                return matches;
+            }
+            return matches;
+        }
+    }
+
+    public class Action_init3 : LGSPAction
+    {
+        public Action_init3() {
+            rulePattern = Rule_init3.Instance;
+            patternGraph = rulePattern.patternGraph;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
+        }
+
+        public override string Name { get { return "init3"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_init3 instance = new Action_init3();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -1241,6 +1434,158 @@ runOfOtherDirectionOf_findArbitraryDirectedTriple_edge__edge0_label:
         }
     }
 
+    public class Action_findTripleCircle : LGSPAction
+    {
+        public Action_findTripleCircle() {
+            rulePattern = Rule_findTripleCircle.Instance;
+            patternGraph = rulePattern.patternGraph;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 3, 3, 0+0);
+        }
+
+        public override string Name { get { return "findTripleCircle"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_findTripleCircle instance = new Action_findTripleCircle();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            // Lookup findTripleCircle_edge__edge0 
+            int type_id_candidate_findTripleCircle_edge__edge0 = 2;
+            for(LGSPEdge head_candidate_findTripleCircle_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_findTripleCircle_edge__edge0], candidate_findTripleCircle_edge__edge0 = head_candidate_findTripleCircle_edge__edge0.typeNext; candidate_findTripleCircle_edge__edge0 != head_candidate_findTripleCircle_edge__edge0; candidate_findTripleCircle_edge__edge0 = candidate_findTripleCircle_edge__edge0.typeNext)
+            {
+                uint prev__candidate_findTripleCircle_edge__edge0;
+                prev__candidate_findTripleCircle_edge__edge0 = candidate_findTripleCircle_edge__edge0.flags & LGSPEdge.IS_MATCHED<<negLevel;
+                candidate_findTripleCircle_edge__edge0.flags |= LGSPEdge.IS_MATCHED<<negLevel;
+                // Implicit SourceOrTarget findTripleCircle_node_y from findTripleCircle_edge__edge0 
+                bool runOfOtherDirectionOf_findTripleCircle_edge__edge0_Underway = true;
+runOfOtherDirectionOf_findTripleCircle_edge__edge0_label:
+                LGSPNode candidate_findTripleCircle_node_y = runOfOtherDirectionOf_findTripleCircle_edge__edge0_Underway ? candidate_findTripleCircle_edge__edge0.source : candidate_findTripleCircle_edge__edge0.target;
+                uint prev__candidate_findTripleCircle_node_y;
+                prev__candidate_findTripleCircle_node_y = candidate_findTripleCircle_node_y.flags & LGSPNode.IS_MATCHED<<negLevel;
+                candidate_findTripleCircle_node_y.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                // Implicit TheOther findTripleCircle_node_x from findTripleCircle_edge__edge0 
+                LGSPNode candidate_findTripleCircle_node_x = candidate_findTripleCircle_node_y==candidate_findTripleCircle_edge__edge0.source ? candidate_findTripleCircle_edge__edge0.target : candidate_findTripleCircle_edge__edge0.source;
+                if((candidate_findTripleCircle_node_x.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                    && candidate_findTripleCircle_node_x==candidate_findTripleCircle_node_y
+                    )
+                {
+                    candidate_findTripleCircle_node_y.flags = candidate_findTripleCircle_node_y.flags & ~prev__candidate_findTripleCircle_node_y | prev__candidate_findTripleCircle_node_y;
+                    candidate_findTripleCircle_edge__edge0.flags = candidate_findTripleCircle_edge__edge0.flags & ~prev__candidate_findTripleCircle_edge__edge0 | prev__candidate_findTripleCircle_edge__edge0;
+                    continue;
+                }
+                uint prev__candidate_findTripleCircle_node_x;
+                prev__candidate_findTripleCircle_node_x = candidate_findTripleCircle_node_x.flags & LGSPNode.IS_MATCHED<<negLevel;
+                candidate_findTripleCircle_node_x.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                // Extend IncomingOrOutgoing findTripleCircle_edge__edge1 from findTripleCircle_node_y 
+                bool runOfOtherDirectionOf_findTripleCircle_edge__edge1_Underway = true;
+runOfOtherDirectionOf_findTripleCircle_edge__edge1_label:
+                LGSPEdge head_candidate_findTripleCircle_edge__edge1 = runOfOtherDirectionOf_findTripleCircle_edge__edge1_Underway ? candidate_findTripleCircle_node_y.inhead : candidate_findTripleCircle_node_y.outhead;
+                if(head_candidate_findTripleCircle_edge__edge1 != null)
+                {
+                    LGSPEdge candidate_findTripleCircle_edge__edge1 = head_candidate_findTripleCircle_edge__edge1;
+                    do
+                    {
+                        if(!EdgeType_UEdge.isMyType[candidate_findTripleCircle_edge__edge1.type.TypeID]) {
+                            continue;
+                        }
+                        if((candidate_findTripleCircle_edge__edge1.flags & LGSPEdge.IS_MATCHED<<negLevel) == LGSPEdge.IS_MATCHED<<negLevel
+                            && candidate_findTripleCircle_edge__edge1==candidate_findTripleCircle_edge__edge0
+                            )
+                        {
+                            continue;
+                        }
+                        uint prev__candidate_findTripleCircle_edge__edge1;
+                        prev__candidate_findTripleCircle_edge__edge1 = candidate_findTripleCircle_edge__edge1.flags & LGSPEdge.IS_MATCHED<<negLevel;
+                        candidate_findTripleCircle_edge__edge1.flags |= LGSPEdge.IS_MATCHED<<negLevel;
+                        // Implicit TheOther findTripleCircle_node_z from findTripleCircle_edge__edge1 
+                        LGSPNode candidate_findTripleCircle_node_z = candidate_findTripleCircle_node_y==candidate_findTripleCircle_edge__edge1.source ? candidate_findTripleCircle_edge__edge1.target : candidate_findTripleCircle_edge__edge1.source;
+                        if((candidate_findTripleCircle_node_z.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                            && (candidate_findTripleCircle_node_z==candidate_findTripleCircle_node_y
+                                || candidate_findTripleCircle_node_z==candidate_findTripleCircle_node_x
+                                )
+                            )
+                        {
+                            candidate_findTripleCircle_edge__edge1.flags = candidate_findTripleCircle_edge__edge1.flags & ~prev__candidate_findTripleCircle_edge__edge1 | prev__candidate_findTripleCircle_edge__edge1;
+                            continue;
+                        }
+                        // Extend IncomingOrOutgoing findTripleCircle_edge__edge2 from findTripleCircle_node_z 
+                        bool runOfOtherDirectionOf_findTripleCircle_edge__edge2_Underway = true;
+runOfOtherDirectionOf_findTripleCircle_edge__edge2_label:
+                        LGSPEdge head_candidate_findTripleCircle_edge__edge2 = runOfOtherDirectionOf_findTripleCircle_edge__edge2_Underway ? candidate_findTripleCircle_node_z.inhead : candidate_findTripleCircle_node_z.outhead;
+                        if(head_candidate_findTripleCircle_edge__edge2 != null)
+                        {
+                            LGSPEdge candidate_findTripleCircle_edge__edge2 = head_candidate_findTripleCircle_edge__edge2;
+                            do
+                            {
+                                if(!EdgeType_UEdge.isMyType[candidate_findTripleCircle_edge__edge2.type.TypeID]) {
+                                    continue;
+                                }
+                                if( (candidate_findTripleCircle_node_z==candidate_findTripleCircle_edge__edge2.source ? candidate_findTripleCircle_edge__edge2.target : candidate_findTripleCircle_edge__edge2.source) != candidate_findTripleCircle_node_x) {
+                                    continue;
+                                }
+                                if((candidate_findTripleCircle_edge__edge2.flags & LGSPEdge.IS_MATCHED<<negLevel) == LGSPEdge.IS_MATCHED<<negLevel
+                                    && (candidate_findTripleCircle_edge__edge2==candidate_findTripleCircle_edge__edge0
+                                        || candidate_findTripleCircle_edge__edge2==candidate_findTripleCircle_edge__edge1
+                                        )
+                                    )
+                                {
+                                    continue;
+                                }
+                                LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                                match.patternGraph = rulePattern.patternGraph;
+                                match.Nodes[(int)Rule_findTripleCircle.findTripleCircle_NodeNums.@x] = candidate_findTripleCircle_node_x;
+                                match.Nodes[(int)Rule_findTripleCircle.findTripleCircle_NodeNums.@y] = candidate_findTripleCircle_node_y;
+                                match.Nodes[(int)Rule_findTripleCircle.findTripleCircle_NodeNums.@z] = candidate_findTripleCircle_node_z;
+                                match.Edges[(int)Rule_findTripleCircle.findTripleCircle_EdgeNums.@_edge0] = candidate_findTripleCircle_edge__edge0;
+                                match.Edges[(int)Rule_findTripleCircle.findTripleCircle_EdgeNums.@_edge1] = candidate_findTripleCircle_edge__edge1;
+                                match.Edges[(int)Rule_findTripleCircle.findTripleCircle_EdgeNums.@_edge2] = candidate_findTripleCircle_edge__edge2;
+                                matches.matchesList.PositionWasFilledFixIt();
+                                // if enough matches were found, we leave
+                                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                                {
+                                    candidate_findTripleCircle_node_z.MoveOutHeadAfter(candidate_findTripleCircle_edge__edge2);
+                                    candidate_findTripleCircle_node_y.MoveOutHeadAfter(candidate_findTripleCircle_edge__edge1);
+                                    graph.MoveHeadAfter(candidate_findTripleCircle_edge__edge0);
+                                    candidate_findTripleCircle_edge__edge1.flags = candidate_findTripleCircle_edge__edge1.flags & ~prev__candidate_findTripleCircle_edge__edge1 | prev__candidate_findTripleCircle_edge__edge1;
+                                    candidate_findTripleCircle_node_x.flags = candidate_findTripleCircle_node_x.flags & ~prev__candidate_findTripleCircle_node_x | prev__candidate_findTripleCircle_node_x;
+                                    candidate_findTripleCircle_node_y.flags = candidate_findTripleCircle_node_y.flags & ~prev__candidate_findTripleCircle_node_y | prev__candidate_findTripleCircle_node_y;
+                                    candidate_findTripleCircle_edge__edge0.flags = candidate_findTripleCircle_edge__edge0.flags & ~prev__candidate_findTripleCircle_edge__edge0 | prev__candidate_findTripleCircle_edge__edge0;
+                                    return matches;
+                                }
+                                // other direction of findTripleCircle_edge__edge2
+                                if(runOfOtherDirectionOf_findTripleCircle_edge__edge2_Underway) {
+                                    runOfOtherDirectionOf_findTripleCircle_edge__edge2_Underway = false;
+                                    goto runOfOtherDirectionOf_findTripleCircle_edge__edge2_label;
+                                }
+                            }
+                            while( (runOfOtherDirectionOf_findTripleCircle_edge__edge2_Underway ? candidate_findTripleCircle_edge__edge2 = candidate_findTripleCircle_edge__edge2.inNext : candidate_findTripleCircle_edge__edge2 = candidate_findTripleCircle_edge__edge2.outNext) != head_candidate_findTripleCircle_edge__edge2 );
+                        }
+                        candidate_findTripleCircle_edge__edge1.flags = candidate_findTripleCircle_edge__edge1.flags & ~prev__candidate_findTripleCircle_edge__edge1 | prev__candidate_findTripleCircle_edge__edge1;
+                        // other direction of findTripleCircle_edge__edge1
+                        if(runOfOtherDirectionOf_findTripleCircle_edge__edge1_Underway) {
+                            runOfOtherDirectionOf_findTripleCircle_edge__edge1_Underway = false;
+                            goto runOfOtherDirectionOf_findTripleCircle_edge__edge1_label;
+                        }
+                    }
+                    while( (runOfOtherDirectionOf_findTripleCircle_edge__edge1_Underway ? candidate_findTripleCircle_edge__edge1 = candidate_findTripleCircle_edge__edge1.inNext : candidate_findTripleCircle_edge__edge1 = candidate_findTripleCircle_edge__edge1.outNext) != head_candidate_findTripleCircle_edge__edge1 );
+                }
+                candidate_findTripleCircle_node_x.flags = candidate_findTripleCircle_node_x.flags & ~prev__candidate_findTripleCircle_node_x | prev__candidate_findTripleCircle_node_x;
+                candidate_findTripleCircle_node_y.flags = candidate_findTripleCircle_node_y.flags & ~prev__candidate_findTripleCircle_node_y | prev__candidate_findTripleCircle_node_y;
+                // other direction of findTripleCircle_edge__edge0
+                if(runOfOtherDirectionOf_findTripleCircle_edge__edge0_Underway) {
+                    runOfOtherDirectionOf_findTripleCircle_edge__edge0_Underway = false;
+                    goto runOfOtherDirectionOf_findTripleCircle_edge__edge0_label;
+                }
+                candidate_findTripleCircle_edge__edge0.flags = candidate_findTripleCircle_edge__edge0.flags & ~prev__candidate_findTripleCircle_edge__edge0 | prev__candidate_findTripleCircle_edge__edge0;
+            }
+            return matches;
+        }
+    }
+
 
     public class edge1Actions : LGSPActions
     {
@@ -1260,6 +1605,7 @@ runOfOtherDirectionOf_findArbitraryDirectedTriple_edge__edge0_label:
         {
             actions.Add("init", (LGSPAction) Action_init.Instance);
             actions.Add("init2", (LGSPAction) Action_init2.Instance);
+            actions.Add("init3", (LGSPAction) Action_init3.Instance);
             actions.Add("findUndirectedEdge", (LGSPAction) Action_findUndirectedEdge.Instance);
             actions.Add("findArbitraryEdge", (LGSPAction) Action_findArbitraryEdge.Instance);
             actions.Add("findArbitraryDirectedEdge", (LGSPAction) Action_findArbitraryDirectedEdge.Instance);
@@ -1267,6 +1613,7 @@ runOfOtherDirectionOf_findArbitraryDirectedTriple_edge__edge0_label:
             actions.Add("findArbitraryDirectedReflexiveEdgeAfterUndirectedOne", (LGSPAction) Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Instance);
             actions.Add("findArbitraryDirectedTriple", (LGSPAction) Action_findArbitraryDirectedTriple.Instance);
             actions.Add("findDirectedEdge", (LGSPAction) Action_findDirectedEdge.Instance);
+            actions.Add("findTripleCircle", (LGSPAction) Action_findTripleCircle.Instance);
         }
 
         public override String Name { get { return "edge1Actions"; } }

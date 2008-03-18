@@ -18,13 +18,13 @@ namespace edge1
 
             actions.PerformanceInfo = new PerformanceInfo();
 
-            actions.ApplyGraphRewriteSequence("init");
+            actions.ApplyGraphRewriteSequence("init3");
 
             Console.WriteLine(actions.PerformanceInfo.MatchesFound + " matches found.");
             Console.WriteLine(actions.PerformanceInfo.RewritesPerformed + " rewrites performed.");
             actions.PerformanceInfo.Reset();
 
-            LGSPMatches matches = actions.GetAction("findArbitraryDirectedEdge").Match(graph, 0, null);
+            LGSPMatches matches = actions.GetAction("findTripleCircle").Match(graph, 0, null);
             Console.WriteLine(matches.Count + " matches found.");
         }
 

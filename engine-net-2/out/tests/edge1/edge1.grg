@@ -15,6 +15,16 @@ rule init2 {
 	}
 }
 
+rule init3 {
+	replace {
+		x:Node;
+		y:Node;
+		z:Node;
+		
+		x -- y -- z -- x;
+	}
+}
+
 test findUndirectedEdge {
 	x:Node;
 	y:Node;
@@ -58,4 +68,12 @@ test findDirectedEdge {
 	y:Node;
 	
 	x --> y;
+}
+
+test findTripleCircle {
+	x:Node;
+	y:Node;
+	z:Node;
+		
+	x -- y -- z -- x;
 }
