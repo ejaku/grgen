@@ -1,0 +1,4 @@
+new graph NegInNeg2\NegInNeg2.grg
+
+xgrs init
+xgrs [neginneg]
