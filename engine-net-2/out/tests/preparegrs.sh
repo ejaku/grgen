@@ -18,7 +18,7 @@ for grs in "$1"/*.grs; do
     exit 1
   fi
   echo "Prepare $grs"
-  < $grs sed -e "s/\\.\\.\\\\bin/\\.\\.\\\\\\.\\.\\\\bin/" -e "s/new graph \"/new graph \"lib\//" -e "s/select actions \"/select actions \"lib\//" -e "s/debug grs/grs/" -e "s/debug xgrs/xgrs/" | awk "BEGIN {
+  < $grs sed -e "s/\\.\\.\\\\bin/\\.\\.\\\\\\.\\.\\\\bin/" -e "s/debug grs/grs/" -e "s/debug xgrs/xgrs/" | awk "BEGIN {
       # Collect all node and edge types from the model file
       i = 1
       j = 1
