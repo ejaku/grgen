@@ -1,0 +1,26 @@
+new graph "exec1/exec1.grg"
+
+show num nodes
+show num edges
+show num nodes "AB"
+show num nodes "Center"
+show num nodes "A"
+show num nodes "B"
+show num edges "eee"
+xgrs Init
+show num nodes
+show num edges
+show num nodes "AB"
+show num nodes "Center"
+show num nodes "A"
+show num nodes "B"
+show num edges "eee"
+xgrs [R1]
+show num nodes
+show num edges
+show num nodes "AB"
+show num nodes "Center"
+show num nodes "A"
+show num nodes "B"
+show num edges "eee"
+quit

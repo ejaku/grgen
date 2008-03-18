@@ -1,4 +1,4 @@
-actions Turing using TuringModel;
+using TuringModel;
 
 rule readZeroRule {
 	s:State -:rwhead-> bp:BandPosition -zv:zero-> bp;

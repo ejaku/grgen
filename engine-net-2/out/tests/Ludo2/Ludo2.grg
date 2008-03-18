@@ -1,7 +1,6 @@
-actions Ludo2 using Ludo2Model;
+using Ludo2Model;
 
 rule init {
-
 	replace {
 		// init board
 
@@ -83,12 +82,9 @@ rule init {
 	}
 }
 
-rule getDice : (Dice) {
+test getDice : (Dice) {
 	d:Dice;
-
-	modify  {
-		return (d);
-	}
+  return (d);
 }
 
 rule nextRandom {

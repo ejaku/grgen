@@ -1,7 +1,6 @@
 using ReuseModel;
 
 rule init1:(A) {
-
 	replace {
 		a:A;
 		eval {
@@ -12,7 +11,6 @@ rule init1:(A) {
 }
 
 rule init2:(A,A) {
-
 	replace {
 		a:A;
 		b:A;
@@ -25,7 +23,6 @@ rule init2:(A,A) {
 }
 
 rule init3:(A,A,E) {
-
 	replace {
 		a:A -e:E-> b:A;
 		eval {
@@ -38,7 +35,6 @@ rule init3:(A,A,E) {
 }
 
 rule init4:(A,E) {
-	
 	replace {
 		a:A -e:E-> a;
 		eval {
@@ -50,7 +46,6 @@ rule init4:(A,E) {
 }
 
 rule init5:(A,E,E) {
-	pattern {}
 	replace {
 		a:A -e:E-> a -f:E-> a;
 		eval {
@@ -63,7 +58,6 @@ rule init5:(A,E,E) {
 }
 
 rule init6:(A,A,E,E) {
-	
 	replace {
 		a:A -e:E-> b:A -f:E-> a;
 		eval {

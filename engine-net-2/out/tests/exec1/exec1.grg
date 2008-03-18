@@ -1,0 +1,34 @@
+using execModel;
+
+rule Init
+{
+    replace {
+        c:Center --> :A --> :B;
+        c --> a2:A --> :B --> a2;
+        c --> :B;
+        c --> ab4:AB --> :A --> ab4;
+    }
+}
+
+rule R1 {
+    :Center --> a:A;
+    modify {
+        exec(b:boolean=(R2(a)) | R3(a) | (b && R4(a)));
+    }
+}
+
+test R2(a:A) {
+    a <-- :Node \ (Center);
+}
+
+rule R3(a:A) {
+    replace {
+        a --> a;
+    }
+}
+
+rule R4(a:A) {
+    modify {
+        a -:eee-> a;
+    }
+}

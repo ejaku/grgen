@@ -1,5 +1,3 @@
-model TuringModel;
-
 node class BandPosition;
 
 node class State;
