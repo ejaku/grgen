@@ -1,5 +1,3 @@
-model DragonModel;
-
 node class Command;
 node class F extends Command;
 node class L extends Command;

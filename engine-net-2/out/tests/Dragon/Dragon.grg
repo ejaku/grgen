@@ -1,4 +1,4 @@
-actions Dragon using DragonModel;
+using DragonModel;
 
 //////////////////////////////
 // Lindenmayer system rules //
@@ -6,7 +6,6 @@ actions Dragon using DragonModel;
 
 rule init
 {
-
 	replace {
 		:Command --> :F --> :X1 --> :Command;
 	}
@@ -503,7 +502,7 @@ rule removeUnnecDown
 rule removeInterpreterRest
 {
 	:Command;
-	gamme:Node -:CurDir-> lig:Node;
+	-:CurDir->;
 
-	replace { gamme;lig; }
+	replace { }
 }

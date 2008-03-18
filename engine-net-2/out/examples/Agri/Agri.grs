@@ -25,5 +25,5 @@ new hill -:AntTrail-> apple2
 new hill2 -:AntTrail-> apple3
 new hill2 -:AntTrail-> apple2
 
-debug xgrs repRule(farmer2)* | %?[repRule(farmer3)] | repRule(farmer3) & repRule(farmer1)
+debug xgrs repRule(farmer2)* | [%?repRule(farmer3)] | repRule(farmer3) & repRule(farmer1)
 

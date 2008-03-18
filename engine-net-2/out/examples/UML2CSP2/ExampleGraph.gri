@@ -4,7 +4,6 @@
 
 rule InitExample
 {
-  pattern { }
   replace {
     :InitialNode -s1:ActivityEdge-> sra:Action -s2:ActivityEdge-> gdpd:Action
       -s3:ActivityEdge-> cd:Action -s4:ActivityEdge-> dn1:DecisionNode;

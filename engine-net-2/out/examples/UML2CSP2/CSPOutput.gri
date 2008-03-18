@@ -4,19 +4,18 @@
 
 rule InitOutput
 {
-  pattern {
-    :CspContainer -:processAssignments-> curPa:ProcessAssignment;
-    lastPa:ProcessAssignment;
-    negative { lastPa -:processAssignments->; }
-  }
+  :CspContainer -:processAssignments-> curPa:ProcessAssignment;
+  lastPa:ProcessAssignment;
+  negative { lastPa -:processAssignments->; }
+
   modify {
     counter:Counter;
     lastPa -:processAssignments-> dummyPa:ProcessAssignment;
     
-    exec(((curPa)=PAWriteProcess(curPa)[+]
-        | (curPa)=PAWritePrefix(curPa)[+]
-        | (curPa)=PAWriteConditionStart(curPa)
-        | (curPa)=PAWriteConcurrencyStart(curPa)
+    exec(x:ProcessAssignment=curPa && ((x)=PAWriteProcess(x)[+]
+        | (x)=PAWritePrefix(x)[+]
+        | (x)=PAWriteConditionStart(x)
+        | (x)=PAWriteConcurrencyStart(x)
         )[*] | FinishOutput(dummyPa));
   }
 }
@@ -27,10 +26,9 @@ rule InitOutput
 
 rule PAWriteProcess(curPa:ProcessAssignment) : (ProcessAssignment)
 {
-  pattern {
-    procID:Process <-:processIdentifier- curPa -:process-> proc:Process;
-    curPa -:processAssignments-> nextPa:ProcessAssignment;
-  }
+  procID:Process <-:processIdentifier- curPa -:process-> proc:Process;
+  curPa -:processAssignments-> nextPa:ProcessAssignment;
+
   modify {
     emit(procID.name, " = ", proc.name, "\n");
     return (nextPa);
@@ -43,12 +41,11 @@ rule PAWriteProcess(curPa:ProcessAssignment) : (ProcessAssignment)
 
 rule PAWritePrefix(curPa:ProcessAssignment) : (ProcessAssignment)
 {
-  pattern {
-    procID:Process <-:processIdentifier- curPa -:process-> pre:Prefix;
-    pre -:targetProcess-> tgt:Process;
-    pre -:event-> ev:Event;
-    curPa -:processAssignments-> nextPa:ProcessAssignment;
-  }
+  procID:Process <-:processIdentifier- curPa -:process-> pre:Prefix;
+  pre -:targetProcess-> tgt:Process;
+  pre -:event-> ev:Event;
+  curPa -:processAssignments-> nextPa:ProcessAssignment;
+
   modify {
     emit(procID.name, " = ", ev.name, " -> ", tgt.name, "\n");
     return (nextPa);
@@ -61,10 +58,9 @@ rule PAWritePrefix(curPa:ProcessAssignment) : (ProcessAssignment)
 
 rule PAWriteConditionStart(curPa:ProcessAssignment) : (ProcessAssignment)
 {
-  pattern {
-    procID:Process <-:processIdentifier- curPa -:process-> cond:Condition;
-    curPa -:processAssignments-> nextPa:ProcessAssignment;
-  }
+  procID:Process <-:processIdentifier- curPa -:process-> cond:Condition;
+  curPa -:processAssignments-> nextPa:ProcessAssignment;
+
   modify {
     emit(procID.name, " = ");
     exec((PAWriteConditionNext(cond) || PAWriteConditionLast(cond)) | PAWriteConditionEnd[*]);
@@ -75,10 +71,9 @@ rule PAWriteConditionStart(curPa:ProcessAssignment) : (ProcessAssignment)
 
 rule PAWriteConditionNext(curCond:Condition)
 {
-  pattern {
-    thenProc:Process <-:leftHandSide- curCond -:rightHandSide-> nextCond:Condition;
-    counter:Counter;
-  }
+  thenProc:Process <-:leftHandSide- curCond -:rightHandSide-> nextCond:Condition;
+  counter:Counter;
+
   modify {
     eval {
       counter.value = counter.value + 1;
@@ -90,10 +85,9 @@ rule PAWriteConditionNext(curCond:Condition)
 
 rule PAWriteConditionLast(curCond:Condition)
 {
-  pattern {
-    thenProc:Process <-:leftHandSide- curCond -:rightHandSide-> elseProc:Process;
-    counter:Counter;
-  }
+  thenProc:Process <-:leftHandSide- curCond -:rightHandSide-> elseProc:Process;
+  counter:Counter;
+
   modify {
     emit((counter.value > 1 ? "(" : "") + thenProc.name + " <| " + curCond.expression + " |> " + elseProc.name);
   }
@@ -101,10 +95,9 @@ rule PAWriteConditionLast(curCond:Condition)
 
 rule PAWriteConditionEnd
 {
-  pattern {
-    counter:Counter;
-    if { counter.value > 0; }
-  }
+  counter:Counter;
+  if { counter.value > 0; }
+
   modify {
     eval {
       counter.value = counter.value - 1;
@@ -119,11 +112,10 @@ rule PAWriteConditionEnd
 
 rule PAWriteConcurrencyStart(curPa:ProcessAssignment) : (ProcessAssignment)
 {
-  pattern {
-    procID:Process <-:processIdentifier- curPa -:process-> conc:Concurrency
-      -:leftHandSide-> forkProc:Process;
-    curPa -:processAssignments-> nextPa:ProcessAssignment;
-  }
+  procID:Process <-:processIdentifier- curPa -:process-> conc:Concurrency
+    -:leftHandSide-> forkProc:Process;
+  curPa -:processAssignments-> nextPa:ProcessAssignment;
+
   modify {
     emit(procID.name, " = ", forkProc.name);
     exec(PAWriteConcurrencyNext(conc) || PAWriteConcurrencyLast(conc));
@@ -134,9 +126,8 @@ rule PAWriteConcurrencyStart(curPa:ProcessAssignment) : (ProcessAssignment)
 
 rule PAWriteConcurrencyNext(curConc:Concurrency)
 {
-  pattern {
-    curConc -:rightHandSide-> nextConc:Concurrency -:leftHandSide-> forkProc:Process;
-  }
+  curConc -:rightHandSide-> nextConc:Concurrency -:leftHandSide-> forkProc:Process;
+
   modify {
     emit(" || ", forkProc.name);
     exec(PAWriteConcurrencyNext(nextConc) || PAWriteConcurrencyLast(nextConc));
@@ -145,9 +136,8 @@ rule PAWriteConcurrencyNext(curConc:Concurrency)
 
 rule PAWriteConcurrencyLast(curConc:Concurrency)
 {
-  pattern {
-    curConc -:rightHandSide-> forkProc:Process;
-  }
+  curConc -:rightHandSide-> forkProc:Process;
+
   modify {
     emit(" || ", forkProc.name);
   }
@@ -159,9 +149,8 @@ rule PAWriteConcurrencyLast(curConc:Concurrency)
 
 rule FinishOutput(dummyPa:ProcessAssignment)
 {
-  pattern {
-    counter:Counter;
-  }
+  counter:Counter;
+
   modify {
     delete(dummyPa);
     delete(counter);

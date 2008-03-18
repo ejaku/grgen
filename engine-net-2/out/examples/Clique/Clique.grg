@@ -1,7 +1,6 @@
 using CliqueModel;
 
 rule init : (State) {
-  pattern {}
   modify {
     s:State;
     eval {
@@ -15,9 +14,8 @@ rule init : (State) {
 }
 
 rule nextRandom {
-  pattern {
-    s:State;
-  }
+  s:State;
+
   modify {
     eval {
       s.rand1 = 1664525 * s.rand1 + 1013904223;
@@ -27,11 +25,10 @@ rule nextRandom {
 }
 
 rule trimRandom {
-  pattern {
-    s:State;
-    if { s.rand1 >= 0 && (s.rand1 >> 8) < (0x7fffffff / s.maxNodeID) * s.maxNodeID;
-         s.rand2 >= 0 && (s.rand2 >> 8) < (0x7fffffff / s.maxNodeID) * s.maxNodeID; }
-  }
+  s:State;
+  if { s.rand1 >= 0 && (s.rand1 >> 8) < (0x7fffffff / s.maxNodeID) * s.maxNodeID;
+       s.rand2 >= 0 && (s.rand2 >> 8) < (0x7fffffff / s.maxNodeID) * s.maxNodeID; }
+
   modify {
     eval {
       s.randRes1 = (s.rand1 >> 8) % s.maxNodeID;
@@ -41,10 +38,9 @@ rule trimRandom {
 }
 
 rule newNode {
-  pattern {
-    s:State;
-    if { s.nextNodeID < s.maxNodeID; }
-  }
+  s:State;
+  if { s.nextNodeID < s.maxNodeID; }
+
   modify {
     n:N;
     eval {
@@ -55,72 +51,56 @@ rule newNode {
 }
 
 rule newEdge {
-  pattern {
-    s:State;
-    src:N;
-    tgt:N;
-    if { src.id == s.randRes1 && tgt.id == s.randRes2; }
-  }
+  s:State;
+  src:N;
+  tgt:N;
+  if { src.id == s.randRes1 && tgt.id == s.randRes2; }
+
   modify {
     src --> tgt;
   }
 }
 
-rule C3Dir {
-  pattern {
-    n1:N --> :N --> :N --> n1;
-  }
-  modify {
-  }
+test C3Dir {
+  n1:N --> :N --> :N --> n1;
 }
 
-rule C4Dir {
-  pattern {
-    n1:N --> :N --> :N --> :N --> n1;
-  }
-  modify {
-  }
+test C4Dir {
+  n1:N --> :N --> :N --> :N --> n1;
 }
 
-rule K4Dir {
-  pattern {
-    n1:N --> n2:N --> n3:N --> n4:N --> n1 --> n3;
-    n2 --> n4;
-  }
-  modify {
-  }
+test K4Dir {
+  n1:N --> n2:N --> n3:N --> n4:N --> n1 --> n3;
+  n2 --> n4;
 }
 
 // Optimization rules
 
 rule optN2_2 {
-  pattern {
-    --> n1:N -->;
-    --> n1 -->;
-    if { typeof(n1) == N; }
-  }
+  --> n1:N -->;
+  --> n1 -->;
+  if { typeof(n1) == N; }
+
   modify {
     n:N2_2<n1>;
   }
 }
 
 rule optN1_2 {
-  pattern {
-    --> n1:N -->;
-    n1 -->;
-    if { typeof(n1) == N; }
-  }
+  --> n1:N -->;
+  n1 -->;
+  if { typeof(n1) == N; }
+
   modify {
     n:N1_2<n1>;
   }
 }
 
 rule optN2_1 {
-  pattern {
-    --> n1:N -->;
-    --> n1;
-    if { typeof(n1) == N; }
-  }
+  --> n1:N -->;
+  --> n1;
+  if { typeof(n1) == N; }
+
   modify {
     n:N2_1<n1>;
   }

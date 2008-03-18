@@ -1,4 +1,4 @@
-actions Mutex using MutexModel;
+using MutexModel;
 
 rule newRule {
 	p1:Process -n [prio=10000] : next-> p2:Process;

@@ -1,7 +1,5 @@
 /*** PART OF VARRO BENCHMARK ***/
 
-model MutexModel;
-
 node class Process;
 
 node class Resource;

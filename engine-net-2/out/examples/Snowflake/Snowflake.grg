@@ -1,17 +1,14 @@
 using SnowflakeModel;
 
 rule init {
- pattern {
- }
  replace {
   a:Node1 -:Edge1-> b:Node1 -:Edge1-> c:Node1 -:Edge1-> a;
  }
 }
 
 rule makeFlake1 {
- pattern {
-  a:Node -:Edge1-> b:Node;
- }
+ a:Node -:Edge1-> b:Node;
+
  replace {
   a -:Edge2-> c:Node -:Edge2-> d:Node1 -:Edge2-> e:Node -:Edge2-> b;
   c -:EdgeSperr-> e;
@@ -19,9 +16,8 @@ rule makeFlake1 {
 }
 
 rule makeFlake2 {
- pattern {
-  a:Node -:Edge2-> b:Node;
- }
+ a:Node -:Edge2-> b:Node;
+
  replace {
   a -:Edge1-> c:Node -:Edge1-> d:Node1 -:Edge1-> e:Node -:Edge1-> b;
   c -:EdgeSperr-> e;
@@ -29,20 +25,19 @@ rule makeFlake2 {
 }
 
 rule beautify {
- pattern {
-  a:Node --> b:Node1 --> c:Node;
-  negative {
-    a --> c;
-  }
-  negative {
-    c;
-    b --> x:Node;
-  }
-  negative {
-    a;
-    b <-- y:Node;
-  }
+ a:Node --> b:Node1 --> c:Node;
+ negative {
+  a --> c;
  }
+ negative {
+  c;
+  b --> x:Node;
+ }
+ negative {
+  a;
+  b <-- y:Node;
+ }
+
  modify {
   a -:EdgeSperr-> c;
  }

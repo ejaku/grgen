@@ -1,4 +1,4 @@
-actions hom2 using hom2Model;
+using hom2Model;
 
 rule homtest1 {
 	hom(a,b);

@@ -1,5 +1,3 @@
-model SierpinskiModel;
-
 node class A;
 node class B;
 node class C;

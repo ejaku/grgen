@@ -2,9 +2,13 @@ new graph IFConv
 
 debug set layout Compilergraph
 debug set layout option CREATE_LOOP_TREE false
+dump set node Block textcolor white
+dump set node IR_node color lightgreen
+dump set node Block color yellow
 dump set edge pdom color blue
 dump set edge cdep color green
-dump add node Block group by hidden incoming df
+#dump add node Block group by hidden incoming df
+dump add node Block group by incoming df
 dump add node Mode exclude
 dump add edge df infotag pos
 
@@ -12,6 +16,7 @@ dump add edge df infotag pos
 #xgrs InitDiamond
 xgrs g
 
+debug xgrs testRetype*
 xgrs CreateEndBlock && InitPDom*
 
 xgrs InitPDomEnd && CalcPDom*

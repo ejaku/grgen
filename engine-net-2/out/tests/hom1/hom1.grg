@@ -1,5 +1,3 @@
-actions hom1;
-
 rule homtest1 {
 	hom(a,b);
 	a:Node;

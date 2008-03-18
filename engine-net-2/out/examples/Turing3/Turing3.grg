@@ -1,11 +1,10 @@
 using Turing3Model;
 
 rule readZeroRule(s:State, bp:BandPosition) : (WriteValue) {
-	pattern {
-		bp;
-		s -rv:readZero-> wv:WriteValue;
-		if{bp.value == 0;}
-	}
+  bp;
+  s -rv:readZero-> wv:WriteValue;
+  if{bp.value == 0;}
+
 	modify {
 		eval {
 			bp.value = wv.value;
@@ -15,10 +14,9 @@ rule readZeroRule(s:State, bp:BandPosition) : (WriteValue) {
 }
 
 rule readOneRule(s:State, bp:BandPosition) : (WriteValue) {
-	pattern {
-		s -rv:readOne-> wv:WriteValue;
-		if{bp.value == 1;}
-	}
+  s -rv:readOne-> wv:WriteValue;
+  if{bp.value == 1;}
+
 	modify {
 		eval {
 			bp.value = wv.value;
@@ -28,44 +26,40 @@ rule readOneRule(s:State, bp:BandPosition) : (WriteValue) {
 }
 
 rule ensureMoveLeftValidRule(wv:WriteValue, bp:BandPosition) {
-	pattern {
-		wv -:moveLeft-> :State;
-		negative {
-			bp <-:right- :BandPosition;
-		}
-	}
+  wv -:moveLeft-> :State;
+  negative {
+    bp <-:right- :BandPosition;
+  }
+
 	modify {
 		bp <-:right- :BandPosition;
 	}
 }
 
 rule ensureMoveRightValidRule(wv:WriteValue, bp:BandPosition) {
-	pattern {
-		wv -:moveRight-> :State;
-		negative {
-			bp -:right-> :BandPosition;
-		}
-	}
+  wv -:moveRight-> :State;
+  negative {
+    bp -:right-> :BandPosition;
+  }
+
 	modify {
 		bp -:right-> :BandPosition;
 	}
 }
 
 rule moveLeftRule(wv:WriteValue, bp:BandPosition) : (State, BandPosition) {
-	pattern {
-		wv -:moveLeft-> s:State;
-		bp <-:right- lbp:BandPosition;
-	}
+  wv -:moveLeft-> s:State;
+  bp <-:right- lbp:BandPosition;
+
 	modify {
 		return (s, lbp);
 	}
 }
 
 rule moveRightRule(wv:WriteValue, bp:BandPosition) : (State, BandPosition) {
-	pattern {
-		wv -:moveRight-> s:State;
-		bp -:right-> rbp:BandPosition;
-	}
+  wv -:moveRight-> s:State;
+  bp -:right-> rbp:BandPosition;
+
 	modify {
 		return (s, rbp);
 	}

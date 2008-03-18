@@ -1,4 +1,4 @@
-actions NegPresetInCondition using NegPresetInConditionModel;
+using NegPresetInConditionModel;
 
 rule test1 {
 	:N -e1:E-> :N;

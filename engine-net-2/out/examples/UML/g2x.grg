@@ -37,8 +37,7 @@ rule toXmi {
 	
 		// Calculate unique ids for all CMOF_NODEs
 		cntr:AUX_Counter;
-		exec([uniquifyIDs(cntr)]); // simultaneous match operator "[...]"
-		delete(cntr);
+		exec([uniquifyIDs(cntr)] | deleteAUX_Counter(cntr)); // simultaneous match operator "[...]"
 		
 		// Print the XML & XMI header
 		emit (

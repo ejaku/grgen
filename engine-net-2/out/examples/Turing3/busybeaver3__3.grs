@@ -36,4 +36,6 @@ dump add node WriteValue infotag value
 curState = s1
 curPos = bp
 
-debug xgrs (((curValue)=readOneRule(curState, curPos)||(curValue)=readZeroRule(curState,curPos)) && (ensureMoveLeftValidRule(curValue, curPos) || ensureMoveRightValidRule(curValue, curPos) || true) && ((curState, curPos)=moveLeftRule(curValue, curPos) || (curState, curPos)=moveRightRule(curValue, curPos)))*
+debug xgrs (((curValue)=readOneRule(curState, curPos) || (curValue)=readZeroRule(curState,curPos)) \
+        && (ensureMoveLeftValidRule(curValue, curPos) || ensureMoveRightValidRule(curValue, curPos) || true) \
+        && ((curState, curPos)=moveLeftRule(curValue, curPos) || (curState, curPos)=moveRightRule(curValue, curPos)))*

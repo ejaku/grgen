@@ -1,4 +1,4 @@
-actions PatternHomNeg using PatternHomNeg;
+using PatternHomNeg;
 
 rule test1 {
 	a:N;

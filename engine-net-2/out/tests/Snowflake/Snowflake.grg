@@ -1,7 +1,6 @@
-actions Snowflake using SnowflakeModel;
+using SnowflakeModel;
 
 rule init {
-
 	replace {
 		a:Node1 -:Edge1-> b:Node1 -:Edge1-> c:Node1 -:Edge1-> a;
 	}

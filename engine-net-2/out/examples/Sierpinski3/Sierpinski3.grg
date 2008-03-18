@@ -1,8 +1,6 @@
 using Sierpinski3Model;
 
 rule init {
- pattern { }
- 
  replace {
             a:A;
             
@@ -13,7 +11,6 @@ rule init {
 }
 
 rule gen {
- pattern {
                       a:A;
          
          
@@ -23,7 +20,6 @@ rule gen {
          
             
    c:C;              c<--b;               b:B;
- }
  
  replace {
                        a;

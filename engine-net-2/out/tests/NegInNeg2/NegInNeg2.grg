@@ -26,6 +26,12 @@ test neginneg
             a -->;
             a -->;
             a -->;
+            negative {
+                a -->;
+                a -->;
+                a -->;
+                a -->;
+            }
         }
     }
 }

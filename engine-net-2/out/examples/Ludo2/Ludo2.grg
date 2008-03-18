@@ -1,7 +1,6 @@
 using Ludo2Model;
 
 rule init {
-  pattern {}
   replace {
     // init board
     
@@ -86,19 +85,14 @@ rule init {
   }
 }
 
-rule getDice : (Dice) {
-  pattern {
-    d:Dice;
-  }
-  modify  {
-    return (d);
-  }
+test getDice : (Dice) {
+  d:Dice;
+  return (d);
 }
 
 rule nextRandom {
-  pattern {
-    d:Dice;
-  }
+  d:Dice;
+
   modify {
     eval {
       d.rand = 1664525 * d.rand + 1013904223;
@@ -107,10 +101,9 @@ rule nextRandom {
 }
 
 rule trimRandom {
-  pattern {
-    d:Dice;
-    if { d.rand >= 0 && (d.rand >> 8) < 0x7ffffe; }  // (0x7fffff / 6) * 6; }
-  }
+  d:Dice;
+  if { d.rand >= 0 && (d.rand >> 8) < 0x7ffffe; }  // (0x7fffff / 6) * 6; }
+
   modify {
     eval {
       d.dots = (d.rand >> 8) % 6 + 1;
@@ -120,98 +113,90 @@ rule trimRandom {
 }
 
 rule put {
-  pattern {
-    startField:Field <-:start- p:Player -:holds-> d:Dice;
-    if { d.dots == 6; }
-    p -:color-> fig:Figure;
-    p -:current-> fig;
-    negative { fig -:occupies->; }
-  }
+  startField:Field <-:start- p:Player -:holds-> d:Dice;
+  if { d.dots == 6; }
+  p -:color-> fig:Figure;
+  p -:current-> fig;
+  negative { fig -:occupies->; }
+
   modify {
     fig -:intends-> startField;
   }
 }
 
 rule move1 {
-  pattern {
-    p:Player -:holds-> d:Dice;
-    if { d.dots == 1; }
-    p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> field1:Field;
-    p -:current-> fig;
-  }
+  p:Player -:holds-> d:Dice;
+  if { d.dots == 1; }
+  p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> field1:Field;
+  p -:current-> fig;
+
   modify {
     fig -:intends-> field1;
   }
 }
 
 rule move2 {
-  pattern {
-    p:Player -:holds-> d:Dice;
-    if { d.dots == 2; }
-    p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> field2:Field;
-    p -:current-> fig;
-  }
+  p:Player -:holds-> d:Dice;
+  if { d.dots == 2; }
+  p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> field2:Field;
+  p -:current-> fig;
+
   modify {
     fig -:intends-> field2;
   }
 }
 
 rule move3 {
-  pattern {
-    p:Player -:holds-> d:Dice;
-    if { d.dots == 3; }
-    p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> field3:Field;
-    p -:current-> fig;
-  }
+  p:Player -:holds-> d:Dice;
+  if { d.dots == 3; }
+  p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> field3:Field;
+  p -:current-> fig;
+
   modify {
     fig -:intends-> field3;
   }
 }
 
 rule move4 {
-  pattern {
-    p:Player -:holds-> d:Dice;
-    if { d.dots == 4; }
-    p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> field4:Field;
-    p -:current-> fig;
-  }
+  p:Player -:holds-> d:Dice;
+  if { d.dots == 4; }
+  p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> field4:Field;
+  p -:current-> fig;
+
   modify {
     fig -:intends-> field4;
   }
 }
 
 rule move5 {
-  pattern {
-    p:Player -:holds-> d:Dice;
-    if { d.dots == 5; }
-    p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> field5:Field;
-    p -:current-> fig;
-  }
+  p:Player -:holds-> d:Dice;
+  if { d.dots == 5; }
+  p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> field5:Field;
+  p -:current-> fig;
+
   modify {
     fig -:intends-> field5;
   }
 }
 
 rule move6 {
-  pattern {
-    p:Player -:holds-> d:Dice;
-    if { d.dots == 6; }
-    p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> field6:Field;
-    p -:current-> fig;
-  }
+  p:Player -:holds-> d:Dice;
+  if { d.dots == 6; }
+  p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> field6:Field;
+  p -:current-> fig;
+
   modify {
     fig -:intends-> field6;
   }
 }
 
 rule knockout {
-  pattern {
-    fig:Figure -:intends-> field:Field;
-    victim :Figure -victimOccupies:occupies-> field;
-    negative {
-      fig <-:color- :Player -:color-> victim;
-    }
+  fig:Figure -:intends-> field:Field;
+  victim :Figure -victimOccupies:occupies-> field;
+  negative {
+    fig <-:color- :Player -:color-> victim;
   }
+
   modify {
     delete(victimOccupies);
     fig -:occupies-> field;
@@ -219,12 +204,11 @@ rule knockout {
 }
 
 rule noKnockout {
-  pattern {
-    fig:Figure -:intends-> field:Field;
-    negative {
-      fig; :Figure -:occupies-> field;      // no other figure may occupy the field yet (fig may "occupy" this because of put rule)
-    }
+  fig:Figure -:intends-> field:Field;
+  negative {
+    fig; :Figure -:occupies-> field;      // no other figure may occupy the field yet (fig may "occupy" this because of put rule)
   }
+
   replace {
     fig -:occupies-> field;
     fig -:intends-> field;
@@ -232,27 +216,24 @@ rule noKnockout {
 }
 
 rule removeOldOccupies {
-  pattern {
-    <-oldOccupies:occupies- fig:Figure -:intends-> field:Field;
-    fig -:occupies-> field;
-  }
+  <-oldOccupies:occupies- fig:Figure -:intends-> field:Field;
+  fig -:occupies-> field;
+
   modify {
     delete(oldOccupies);
   }
 }
 
 rule removeIntends {
-  pattern {
-    -:intends->;
-  }
+  -:intends->;
+  
   replace {}
 }
 
 rule resetFigureChoice {
-  pattern {
-    p:Player -:holds-> :Dice;
-    nextFig:Figure <-:nextFigure- fig:Figure <-c:current- p -l:last->;
-  }
+  p:Player -:holds-> :Dice;
+  nextFig:Figure <-:nextFigure- fig:Figure <-c:current- p -l:last->;
+  
   modify {
     delete(c, l);
     p -:current-> nextFig;
@@ -261,12 +242,11 @@ rule resetFigureChoice {
 }
 
 rule chooseNextFigure {
-  pattern {
-    nextFig:Figure <-:nextFigure- fig:Figure <-c:current- p:Player -:holds-> :Dice;
-    negative {
-       p -l:last-> fig;
-    }
+  nextFig:Figure <-:nextFigure- fig:Figure <-c:current- p:Player -:holds-> :Dice;
+  negative {
+     p -l:last-> fig;
   }
+
   modify {
     delete(c);
     p -:current-> nextFig;
@@ -274,24 +254,19 @@ rule chooseNextFigure {
 }
 
 rule nextPlayer {
-  pattern {
-    next:Player <-:nextPlayer- old:Player -h:holds-> d:Dice;
-    if { d.dots != 6; }
-  }
+  next:Player <-:nextPlayer- old:Player -h:holds-> d:Dice;
+  if { d.dots != 6; }
+
   modify {
     delete(h);
     next -:holds-> d;
   }
 }
 
-rule won {
-  pattern {
-    -sta[prio=10000]:start-> :Field <-:path- :Field -:path\(anyPath)-> goal1:Field -:path-> goal2:Field -:path-> goal3:Field -:path-> goal4:Field;
-    goal1 <-:occupies-;
-    goal2 <-:occupies-;
-    goal3 <-:occupies-;
-    goal4 <-:occupies-;
-  }
-  modify {
-  }
+test won {
+  -sta[prio=10000]:start-> :Field <-:path- :Field -:path\(anyPath)-> goal1:Field -:path-> goal2:Field -:path-> goal3:Field -:path-> goal4:Field;
+  goal1 <-:occupies-;
+  goal2 <-:occupies-;
+  goal3 <-:occupies-;
+  goal4 <-:occupies-;
 }

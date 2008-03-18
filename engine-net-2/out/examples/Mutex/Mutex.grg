@@ -1,120 +1,109 @@
 using MutexModel;
 
 rule initRule {
-  pattern {}
   replace {
     p1:Process -:next-> :Process -:next-> p1;
   }
 }
 
 rule newRule {
-	pattern {
-		p1:Process -n [prio=10000] : next-> p2:Process;
-	}
+	p1:Process -n [prio=10000] : next-> p2:Process;
+
 	replace {
 		p1 -n1:next-> p:Process -n2:next-> p2;
 	}
 }
 
 rule killRule {
-	pattern {
-		p1:Process -n1:next-> p:Process -n2:next-> p2:Process;
-	}
+	p1:Process -n1:next-> p:Process -n2:next-> p2:Process;
+
 	replace {
 		p1 -n:next-> p2;
 	}
 }
 
 rule mountRule {
-	pattern {
-		p:Process;
-	}
+	p:Process;
+
 	replace {
 		p <-t:token- r:Resource;
 	}
 }
 
 rule unmountRule {
-	pattern {
-		r [prio=5000] : Resource;
-		p:Process <-t:token- r;
-	}
+	r [prio=5000] : Resource;
+	p:Process <-t:token- r;
+
 	replace {
 		p;
 	}
 }
 
 rule passRule {
-	pattern {
-		r [prio=5000] : Resource;
-		r -:token-> p1:Process -n:next-> p2:Process;
-		negative {
-			r <-req:request- p1;
-		}	
-	}
+	r [prio=5000] : Resource;
+	r -:token-> p1:Process -n:next-> p2:Process;
+	negative {
+		r <-req:request- p1;
+	}	
+
 	replace {
 		p1 -n-> p2 <-t:token- r;
 	}
 }
 
 rule requestRule {
-	pattern {
-		p:Process;
-		r [prio=10000] : Resource;
-		negative {
-			r -hb:held_by-> p;
-		}
-/*		negative {
-			p -req:request-> r;
-		}
-		*/
-		negative {
-			p -req:request-> m:Resource;
-		}
+  p:Process;
+  r [prio=10000] : Resource;
+  negative {
+    r -hb:held_by-> p;
+  }
+/*	negative {
+		p -req:request-> r;
 	}
+	*/
+  negative {
+    p -req:request-> m:Resource;
+  }
+
 	replace {
 		p -req:request-> r;
 	}
 }
 
 rule takeRule {
-	pattern {
-		r [prio=5000] : Resource;
-		r -t:token-> p:Process -req:request-> r;
-	}
+  r [prio=5000] : Resource;
+  r -t:token-> p:Process -req:request-> r;
+
 	replace {
 		r -hb:held_by-> p;
 	}
 }
 
 rule releaseRule {
-	pattern {
-		r [prio=5000] : Resource;
-		r -hb:held_by-> p:Process;
-		negative {
-			p -req:request-> m:Resource;
-		}
-	}
+  r [prio=5000] : Resource;
+  r -hb:held_by-> p:Process;
+  negative {
+    p -req:request-> m:Resource;
+  }
+
 	replace {
 		r -rel:release-> p;
 	}
 }
 
 rule giveRule {
-	pattern {
-		r [prio=5000] : Resource;
-		r -rel:release-> p1:Process -n:next-> p2:Process;
-	}
+  r [prio=5000] : Resource;
+  r -rel:release-> p1:Process -n:next-> p2:Process;
+
 	replace {
 		p1 -n-> p2 <-t:token- r;
 	}
 }
 
 rule blockedRule {
-	pattern {
-		r [prio=5000] : Resource;
-		p1:Process -req:request-> r -hb:held_by-> p2:Process;
-	}
+  r [prio=5000] : Resource;
+  p1:Process -req:request-> r -hb:held_by-> p2:Process;
+
 	replace {
 		p1 -req-> r -hb-> p2;
 		p1 <-b:blocked- r;
@@ -122,33 +111,30 @@ rule blockedRule {
 }
 
 rule waitingRule {
-	pattern {
-		r [prio=5000] : Resource;
-		r2:Resource -b:blocked-> p1:Process <-hb:held_by- r1:Resource <-req:request- p2:Process;
-	}
+	r [prio=5000] : Resource;
+	r2:Resource -b:blocked-> p1:Process <-hb:held_by- r1:Resource <-req:request- p2:Process;
+
 	replace {
 		p1 <-hb- r1 <-req- p2 <-bn:blocked- r2;
 	}
 }
 
 rule ignoreRule {
-	pattern {
-		r [prio=5000] : Resource;
-		p:Process <-b:blocked- r;
-		negative {
-			p <-hb:held_by- m:Resource;
-		}
-	}
+  r [prio=5000] : Resource;
+  p:Process <-b:blocked- r;
+  negative {
+    p <-hb:held_by- m:Resource;
+  }
+
 	replace {
 		p; r;
 	}
 }
 
 rule unlockRule {
-	pattern {
-		r [prio=5000] : Resource;
-		p:Process <-b:blocked- r -hb:held_by->p;
-	}
+  r [prio=5000] : Resource;
+  p:Process <-b:blocked- r -hb:held_by->p;
+
 	replace {
 		p <-rel:release- r;
 	}
@@ -158,12 +144,11 @@ rule unlockRule {
 // Mutex*
 
 rule requestStarRule {
-	pattern {
-		r1:Resource -h1:held_by-> p1:Process <-n:next- p2:Process <-h2:held_by- r2:Resource;
-		negative {
-			p1 -req:request-> r2;
-		}
+	r1:Resource -h1:held_by-> p1:Process <-n:next- p2:Process <-h2:held_by- r2:Resource;
+	negative {
+		p1 -req:request-> r2;
 	}
+
 	replace {
 		r1 -h1-> p1 <-n- p2 <-h2- r2;
 		p1 -req:request-> r2;
@@ -171,9 +156,8 @@ rule requestStarRule {
 }
 
 rule releaseStarRule {
-	pattern {
-		p1:Process -rq:request-> r1:Resource -h1:held_by-> p2:Process <-h2:held_by- r2:Resource;
-	}
+	p1:Process -rq:request-> r1:Resource -h1:held_by-> p2:Process <-h2:held_by- r2:Resource;
+
 	replace {
 		p1 -rq-> r1 -rl:release-> p2 <-h2- r2;
 	}
@@ -183,13 +167,12 @@ rule releaseStarRule {
 // Mutex'
 
 rule requestSimpleRule {
-	pattern {
-		r [prio=5000] : Resource;
-		p:Process <-t:token- r;
-		negative {
-			p -req:request-> r;
-		}
-	}
+	r [prio=5000] : Resource;
+	p:Process <-t:token- r;
+	negative {
+    p -req:request-> r;
+  }
+
 	replace {
 		p <-t- r;
 		p -req:request-> r;
@@ -201,12 +184,11 @@ rule requestSimpleRule {
 // Mutex* aux func.
 
 rule aux_attachResource {
-	pattern {
-		p:Process;
-		negative {
-			p <-:held_by- r:Resource;
-		}
-	}
+  p:Process;
+  negative {
+    p <-:held_by- r:Resource;
+  }
+
 	replace {
 		p <-:held_by- r:Resource;
 	}

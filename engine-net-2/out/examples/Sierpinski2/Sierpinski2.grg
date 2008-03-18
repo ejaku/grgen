@@ -1,17 +1,14 @@
 using Sierpinski2Model;
 
 rule init {
- pattern {
- }
  replace {
   a:Node -:ab0-> b:Node -:bc0-> c:Node -:ca0-> a;
  }
 }
 
 rule gen0 {
- pattern {
-  a:Node -:ab0-> b:Node -:bc0-> c:Node -:ca0-> a;
- }
+ a:Node -:ab0-> b:Node -:bc0-> c:Node -:ca0-> a;
+
  replace {
   a -:ab1-> ab:Node -:ab1-> b -:bc1-> bc:Node -:bc1-> c -:ca1-> ca:Node -:ca1-> a;
   ab -:bc1-> ca -:ab1-> bc -:ca1-> ab;
@@ -19,9 +16,8 @@ rule gen0 {
 }
 
 rule gen1 {
- pattern {
-  a:Node -:ab1-> b:Node -:bc1-> c:Node -:ca1-> a;
- }
+ a:Node -:ab1-> b:Node -:bc1-> c:Node -:ca1-> a;
+
  replace {
   a -:ab0-> ab:Node -:ab0-> b -:bc0-> bc:Node -:bc0-> c -:ca0-> ca:Node -:ca0-> a;
   ab -:bc0-> ca -:ab0-> bc -:ca0-> ab;

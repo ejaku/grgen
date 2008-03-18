@@ -5,4 +5,5 @@ include newproject1.grs
 
 xgrs (cntr)=createAUX_Counter && [uniquifyIDs(cntr)] && deleteAUX_Counter(cntr)
 
+redirect emit result.xmi
 xgrs toXmi

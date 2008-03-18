@@ -9,6 +9,13 @@ rule InitDiamond
         a:Block -:df-> :Jmp -:df-> b:Block -:df-> :Proj -:df-> d:Block;
         a       -:df-> :Jmp -:df-> c:Block -:df-> :Proj -:df-> d;
         a <-:df- :End;
+        
+        add:Add -:df-> b;
+        sub:Sub -:df-> c;
+        
+        phi:Phi -:df-> a;
+        phi -:df-> add;
+        phi -:df-> sub;
     }
 }
 
@@ -167,3 +174,16 @@ test IFConvRightEnd(cur:Block, top:Block)
 {
     cur -:df-> :Proj -:df-> top;
 }*/
+
+rule testRetype
+{
+    a:Proj;
+    -b:df->;
+    c:Block;
+//    c:Block <-b:df-;
+    modify {
+        :Jmp<a>;
+        -:cdep<b>->;
+        :EndBlock<c>;
+    }
+}

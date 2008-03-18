@@ -13,9 +13,8 @@ using UMLModel, CSPModel, HelperModel, GrIO;
 
 rule TFInitial : (ProcessAssignment, Process)
 {
-  pattern {
-    :InitialNode -a:ActivityEdge-> tgt:Node;
-  }
+  :InitialNode -a:ActivityEdge-> tgt:Node;
+
   replace {
     :CspContainer -:processAssignments-> pa:ProcessAssignment
       -:processIdentifier-> proc:Process;
@@ -35,9 +34,8 @@ rule TFInitial : (ProcessAssignment, Process)
 
 rule TFDelUnused(unused:Node)
 {
-  pattern {
-    negative { unused <--; }
-  }
+  negative { unused <--; }
+
   modify {
     delete(unused);
   }
@@ -49,12 +47,11 @@ rule TFDelUnused(unused:Node)
 
 rule TFAction(lastPa:ProcessAssignment) : (ProcessAssignment)
 {
-  pattern {
-    hom(lastPa, pa);
-    pa:ProcessAssignment -tmp:tempProcess-> action:Action;
+  hom(lastPa, pa);
+  pa:ProcessAssignment -tmp:tempProcess-> action:Action;
       
-    action -b:ActivityEdge-> tgt:Node;
-  }
+  action -b:ActivityEdge-> tgt:Node;
+
   modify {
     delete(tmp);
     delete(action);
@@ -81,13 +78,12 @@ rule TFAction(lastPa:ProcessAssignment) : (ProcessAssignment)
 
 rule TFDecisionFirst(lastPa:ProcessAssignment) : (ProcessAssignment, Condition, DecisionNode)
 {
-  pattern {
-    hom(lastPa, pa);
-    pa:ProcessAssignment -tmp:tempProcess-> dn:DecisionNode;
-    
-    dn -then:ActivityEdge-> tgtThen:Node;
-    if { then.guard != "else"; }
-  }
+  hom(lastPa, pa);
+  pa:ProcessAssignment -tmp:tempProcess-> dn:DecisionNode;
+  
+  dn -then:ActivityEdge-> tgtThen:Node;
+  if { then.guard != "else"; }
+
   modify {
     delete(tmp);
     delete(then);
@@ -111,10 +107,9 @@ rule TFDecisionFirst(lastPa:ProcessAssignment) : (ProcessAssignment, Condition, 
 rule TFDecisionNext(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNode)
     : (ProcessAssignment, Condition, DecisionNode)
 {
-  pattern {
-    dn -then:ActivityEdge-> tgtThen:Node;
-    negative { if { then.guard == "else"; } }
-  }
+  dn -then:ActivityEdge-> tgtThen:Node;
+  negative { if { then.guard == "else"; } }
+
   modify {
     delete(then);
     
@@ -136,10 +131,9 @@ rule TFDecisionNext(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNod
 rule TFDecisionLast(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNode)
     : (ProcessAssignment)
 {
-  pattern {
-    dn -else:ActivityEdge-> tgtElse:Node;
-    if { else.guard == "else"; }
-  }
+  dn -else:ActivityEdge-> tgtElse:Node;
+  if { else.guard == "else"; }
+
   modify {
     delete(else);
     delete(dn);
@@ -162,10 +156,9 @@ rule TFDecisionLast(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNod
 rule TFMergeInit(lastPa:ProcessAssignment)
     : (ProcessAssignment, MergeNode, Process)
 {
-  pattern {
-    mn:MergeNode -a:ActivityEdge-> tgt:Node;
-    negative { mn <-:ActivityEdge-; }
-  }
+  mn:MergeNode -a:ActivityEdge-> tgt:Node;
+  negative { mn <-:ActivityEdge-; }
+
   modify {
     newProc:Process <-:processIdentifier-
         newPa:ProcessAssignment -:tempProcess-> tgt;
@@ -177,9 +170,8 @@ rule TFMergeInit(lastPa:ProcessAssignment)
 
 rule TFMergeNext(mn:MergeNode, tgtProc:Process)
 {
-  pattern {
-    pa:ProcessAssignment -tmp:tempProcess-> mn;
-  }
+  pa:ProcessAssignment -tmp:tempProcess-> mn;
+
   modify {
     delete(tmp);
     pa -:process-> tgtProc;
@@ -192,12 +184,11 @@ rule TFMergeNext(mn:MergeNode, tgtProc:Process)
 
 rule TFForkFirst(lastPa:ProcessAssignment) : (ProcessAssignment, Concurrency, ForkNode)
 {
-  pattern {
-    hom(lastPa, pa);
-    pa:ProcessAssignment -tmp:tempProcess-> fn:ForkNode;
-    
-    fn -fork:ActivityEdge-> tgt:Node;
-  }
+  hom(lastPa, pa);
+  pa:ProcessAssignment -tmp:tempProcess-> fn:ForkNode;
+  
+  fn -fork:ActivityEdge-> tgt:Node;
+
   modify {
     delete(tmp);
     delete(fork);
@@ -220,9 +211,8 @@ rule TFForkFirst(lastPa:ProcessAssignment) : (ProcessAssignment, Concurrency, Fo
 rule TFForkNext(lastPa:ProcessAssignment, lastConc:Concurrency, fn:ForkNode)
     : (ProcessAssignment, Concurrency, ForkNode)
 {
-  pattern {
-    fn -fork:ActivityEdge-> tgt:Node;
-  }
+  fn -fork:ActivityEdge-> tgt:Node;
+
   modify {
     delete(fork);
     
@@ -246,11 +236,10 @@ rule TFForkNext(lastPa:ProcessAssignment, lastConc:Concurrency, fn:ForkNode)
 
 rule TFJoinFirst(lastPa:ProcessAssignment) : (ProcessAssignment, JoinNode, Process, Event)
 {
-  pattern {
-    hom(lastPa, pa);
-    pa:ProcessAssignment -tmp:tempProcess-> jn:JoinNode -a:ActivityEdge-> tgt:Node;
-    negative { jn <-:ActivityEdge-; }
-  }
+  hom(lastPa, pa);
+  pa:ProcessAssignment -tmp:tempProcess-> jn:JoinNode -a:ActivityEdge-> tgt:Node;
+  negative { jn <-:ActivityEdge-; }
+
   modify {
     delete(tmp);
     
@@ -273,9 +262,8 @@ rule TFJoinFirst(lastPa:ProcessAssignment) : (ProcessAssignment, JoinNode, Proce
 
 rule TFJoinNext(jn:JoinNode, skip:Process, joinEv:Event)
 {
-  pattern {
-    pa:ProcessAssignment -tmp:tempProcess-> jn;
-  }
+  pa:ProcessAssignment -tmp:tempProcess-> jn;
+
   modify {
     delete(tmp);
     
@@ -291,9 +279,8 @@ rule TFJoinNext(jn:JoinNode, skip:Process, joinEv:Event)
 
 rule TFFinal(skip:Process)
 {
-  pattern {
-    pa:ProcessAssignment -tmp:tempProcess-> fn:FinalNode;
-  }
+  pa:ProcessAssignment -tmp:tempProcess-> fn:FinalNode;
+
   modify {
     delete(fn);
     pa -:process-> skip;

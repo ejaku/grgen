@@ -4,11 +4,10 @@
 
 rule InitOutput : (grIO_File, grIO_File_Line, ProcessAssignment, ProcessAssignment)
 {
-  pattern {
-    :CspContainer -:processAssignments-> firstPa:ProcessAssignment;
-    lastPa:ProcessAssignment;
-    negative { lastPa -:processAssignments->; }
-  }
+  :CspContainer -:processAssignments-> firstPa:ProcessAssignment;
+  lastPa:ProcessAssignment;
+  negative { lastPa -:processAssignments->; }
+
   modify {
     :grIO_OUTPUT -:grIO_CreateOrOverwrite-> file:grIO_File;
     file -:grIO_File_ContainsLine-> dummyLine:grIO_File_Line;
@@ -30,10 +29,9 @@ rule InitOutput : (grIO_File, grIO_File_Line, ProcessAssignment, ProcessAssignme
 rule PAWriteProcess(file:grIO_File, lastLine:grIO_File_Line, curPa:ProcessAssignment)
     : (grIO_File_Line, ProcessAssignment)
 {
-  pattern {
-    procID:Process <-:processIdentifier- curPa -:process-> proc:Process;
-    curPa -:processAssignments-> nextPa:ProcessAssignment;
-  }
+  procID:Process <-:processIdentifier- curPa -:process-> proc:Process;
+  curPa -:processAssignments-> nextPa:ProcessAssignment;
+
   modify {
     file -:grIO_File_ContainsLine-> newLine:grIO_File_Line <-:grIO_File_NextLine- lastLine;
   
@@ -52,12 +50,11 @@ rule PAWriteProcess(file:grIO_File, lastLine:grIO_File_Line, curPa:ProcessAssign
 rule PAWritePrefix(file:grIO_File, lastLine:grIO_File_Line, curPa:ProcessAssignment)
     : (grIO_File_Line, ProcessAssignment)
 {
-  pattern {
-    procID:Process <-:processIdentifier- curPa -:process-> pre:Prefix;
-    pre -:targetProcess-> tgt:Process;
-    pre -:event-> ev:Event;
-    curPa -:processAssignments-> nextPa:ProcessAssignment;
-  }
+  procID:Process <-:processIdentifier- curPa -:process-> pre:Prefix;
+  pre -:targetProcess-> tgt:Process;
+  pre -:event-> ev:Event;
+  curPa -:processAssignments-> nextPa:ProcessAssignment;
+
   modify {
     file -:grIO_File_ContainsLine-> newLine:grIO_File_Line <-:grIO_File_NextLine- lastLine;
   
@@ -76,10 +73,9 @@ rule PAWritePrefix(file:grIO_File, lastLine:grIO_File_Line, curPa:ProcessAssignm
 rule PAWriteConditionStart(file:grIO_File, lastLine:grIO_File_Line, curPa:ProcessAssignment)
     : (grIO_File_Line, Condition, ProcessAssignment)
 {
-  pattern {
-    procID:Process <-:processIdentifier- curPa -:process-> cond:Condition;
-    curPa -:processAssignments-> nextPa:ProcessAssignment;
-  }
+  procID:Process <-:processIdentifier- curPa -:process-> cond:Condition;
+  curPa -:processAssignments-> nextPa:ProcessAssignment;
+
   modify {
     file -:grIO_File_ContainsLine-> newLine:grIO_File_Line <-:grIO_File_NextLine- lastLine;
     
@@ -93,10 +89,9 @@ rule PAWriteConditionStart(file:grIO_File, lastLine:grIO_File_Line, curPa:Proces
 
 rule PAWriteConditionNext(curLine:grIO_File_Line, curCond:Condition) : (Condition)
 {
-  pattern {
-    thenProc:Process <-:leftHandSide- curCond -:rightHandSide-> nextCond:Condition;
-    counter:Counter;
-  }
+  thenProc:Process <-:leftHandSide- curCond -:rightHandSide-> nextCond:Condition;
+  counter:Counter;
+
   modify {
     eval {
       curLine.content = curLine.content + (counter.value > 0 ? "(" : "") + thenProc.name
@@ -109,10 +104,9 @@ rule PAWriteConditionNext(curLine:grIO_File_Line, curCond:Condition) : (Conditio
 
 rule PAWriteConditionLast(curLine:grIO_File_Line, curCond:Condition)
 {
-  pattern {
-    thenProc:Process <-:leftHandSide- curCond -:rightHandSide-> elseProc:Process;
-    counter:Counter;
-  }
+  thenProc:Process <-:leftHandSide- curCond -:rightHandSide-> elseProc:Process;
+  counter:Counter;
+
   modify {
     eval {
       curLine.content = curLine.content + (counter.value > 0 ? "(" : "") + thenProc.name
@@ -123,10 +117,9 @@ rule PAWriteConditionLast(curLine:grIO_File_Line, curCond:Condition)
 
 rule PAWriteConditionEnd(curLine:grIO_File_Line)
 {
-  pattern {
-    counter:Counter;
-    if { counter.value > 0; }
-  }
+  counter:Counter;
+  if { counter.value > 0; }
+
   modify {
     eval {
       curLine.content = curLine.content + ")";
@@ -142,11 +135,10 @@ rule PAWriteConditionEnd(curLine:grIO_File_Line)
 rule PAWriteConcurrencyStart(file:grIO_File, lastLine:grIO_File_Line, curPa:ProcessAssignment)
     : (grIO_File_Line, Concurrency, ProcessAssignment)
 {
-  pattern {
-    procID:Process <-:processIdentifier- curPa -:process-> conc:Concurrency
-      -:leftHandSide-> forkProc:Process;
-    curPa -:processAssignments-> nextPa:ProcessAssignment;
-  }
+  procID:Process <-:processIdentifier- curPa -:process-> conc:Concurrency
+    -:leftHandSide-> forkProc:Process;
+  curPa -:processAssignments-> nextPa:ProcessAssignment;
+
   modify {
     file -:grIO_File_ContainsLine-> newLine:grIO_File_Line <-:grIO_File_NextLine- lastLine;
     
@@ -160,9 +152,8 @@ rule PAWriteConcurrencyStart(file:grIO_File, lastLine:grIO_File_Line, curPa:Proc
 
 rule PAWriteConcurrencyNext(curLine:grIO_File_Line, curConc:Concurrency) : (Concurrency)
 {
-  pattern {
-    curConc -:rightHandSide-> nextConc:Concurrency -:leftHandSide-> forkProc:Process;
-  }
+  curConc -:rightHandSide-> nextConc:Concurrency -:leftHandSide-> forkProc:Process;
+
   modify {
     eval {
       curLine.content = curLine.content + " || " + forkProc.name;
@@ -173,9 +164,8 @@ rule PAWriteConcurrencyNext(curLine:grIO_File_Line, curConc:Concurrency) : (Conc
 
 rule PAWriteConcurrencyLast(curLine:grIO_File_Line, curConc:Concurrency)
 {
-  pattern {
-    curConc -:rightHandSide-> forkProc:Process;
-  }
+  curConc -:rightHandSide-> forkProc:Process;
+
   modify {
     eval {
       curLine.content = curLine.content + " || " + forkProc.name;
@@ -189,9 +179,8 @@ rule PAWriteConcurrencyLast(curLine:grIO_File_Line, curConc:Concurrency)
 
 rule FinishOutput(dummyLine:grIO_File_Line, dummyPa:ProcessAssignment)
 {
-  pattern {
-    counter:Counter;
-  }
+  counter:Counter;
+
   modify {
     delete(dummyLine);
     delete(dummyPa);
