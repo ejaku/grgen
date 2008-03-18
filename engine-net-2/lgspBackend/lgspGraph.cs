@@ -1127,7 +1127,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Retypes a node by creating a new node of the given type.
         /// All adjacent edges as well as all attributes from common super classes are kept.
-        /// WARNING: GetElementName will probably not return the same element name for the new edge, yet! (TODO)
+        /// WARNING: GetElementName will probably not return the same element name for the new node, yet! (TODO)
         /// </summary>
         /// <param name="node">The node to be retyped.</param>
         /// <param name="newNodeType">The new type for the node.</param>
@@ -1140,6 +1140,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Retypes an edge by replacing it by a new edge of the given type.
         /// Source and target node as well as all attributes from common super classes are kept.
+        /// WARNING: GetElementName will probably not return the same element name for the new edge, yet! (TODO)
         /// </summary>
         /// <param name="edge">The edge to be retyped.</param>
         /// <param name="newEdgeType">The new type for the edge.</param>
@@ -1157,6 +1158,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Retypes an edge by replacing it by a new edge of the given type.
         /// Source and target node as well as all attributes from common super classes are kept.
+        /// WARNING: GetElementName will probably not return the same element name for the new edge, yet! (TODO)
         /// </summary>
         /// <param name="edge">The edge to be retyped.</param>
         /// <param name="newEdgeType">The new type for the edge.</param>

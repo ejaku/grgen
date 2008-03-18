@@ -164,7 +164,7 @@ namespace de.unika.ipd.grGen.lgsp
                     foundStar = curChar == '*';
                 }
             }
-            else throw new Exception("Unexpected character '/' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
+            // otherwise its just not a comment
         }
 
         private void IgnoreSpace(SimpleCharStream charStream)
