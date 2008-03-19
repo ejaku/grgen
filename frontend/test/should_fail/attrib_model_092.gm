@@ -3,7 +3,7 @@ enum AAA {
 	e2
 }
 
-node class AAB {
+node class AAA {
   value:AAA;
 }
 

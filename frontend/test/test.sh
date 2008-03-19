@@ -63,13 +63,23 @@ do_test()
 	mkdir  -- "$DIR"
 	echo -n "===> TEST $FILE"
 	if java $JAVA_ARGS -o "$DIR" "$FILE" > "$DIR/log" 2>&1; then
-		echo -n " ... OK"
+        if grep -q "WARNING" < "$DIR/log"; then
+            echo -n " ... WARNED"
+            local WARNED="TRUE";
+        else
+      	    echo -n " ... OK"
+            local WARNED="";
+        fi
         if [ "$ONLY_FRONTEND" ]; then
             echo
-    		echo "OK     $FILE" >> "$LOG"
+            if [ "$WARNED" ]; then
+                echo "WARNED $FILE" >> "$LOG"
+            else
+        		echo "OK     $FILE" >> "$LOG"
+            fi
         else
     		if $MONO "$GRGENNET/GrGen.exe" -keep -use "$DIR" -o "$DIR" "$FILE" >> "$DIR/log" 2>&1; then
-	    		if grep -q "WARNING" < "$DIR/log"; then
+	    		if [ "$WARNED" ]; then
 		    		echo " ... WARNED"
 			    	echo "WARNED $FILE" >> "$LOG"
     			else
