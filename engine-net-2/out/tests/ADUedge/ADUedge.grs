@@ -1,0 +1,37 @@
+new graph "ADUedge\ADUedge"
+
+xgrs initDirected
+xgrs [Clique4Directed]
+xgrs [Clique4ArbitraryDirected]
+xgrs [Clique4Arbitrary]
+
+clear graph 
+
+xgrs initDirectedAndReverse
+xgrs [Clique4DirectedAndReverse]
+
+clear graph
+
+xgrs initUndirected
+xgrs [Clique4Undirected]
+xgrs [Clique4Arbitrary]
+
+clear graph 
+
+xgrs initDirected2
+xgrs [Clique4Directed]
+xgrs [Clique4ArbitraryDirected]
+xgrs [Clique4Arbitrary]
+
+clear graph 
+
+xgrs initDirectedAndReverse2
+xgrs [Clique4DirectedAndReverse]
+
+clear graph
+
+xgrs initUndirected2
+xgrs [Clique4Undirected]
+xgrs [Clique4Arbitrary]
+
+quit
