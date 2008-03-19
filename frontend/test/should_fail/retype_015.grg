@@ -1,0 +1,8 @@
+using attrib_model_001;
+
+rule r {
+    a:Node;
+    replace {
+        -:Edge<a>->;
+    }
+}
