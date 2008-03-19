@@ -41,7 +41,7 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class CastNode extends ExprNode {
 	static {
-		setName(DeclExprNode.class, "cast expression");
+		setName(CastNode.class, "cast expression");
 	}
 
 	// target type of the cast

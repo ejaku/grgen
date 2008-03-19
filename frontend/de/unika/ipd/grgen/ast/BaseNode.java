@@ -531,15 +531,15 @@ public abstract class BaseNode extends Base
 			return getChecked();
 		}
 
-		boolean sucessfullyChecked = true;
+		boolean successfullyChecked = true;
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 
 			for(BaseNode child : getChildren())
-				sucessfullyChecked = child.check() && sucessfullyChecked;
+				successfullyChecked = child.check() && successfullyChecked;
 		}
 
-		if(!sucessfullyChecked)
+		if(!successfullyChecked)
 			debug.report(NOTE, getCoords(), "child check ERROR in " + this);
 
 		boolean locallyChecked = checkLocal();
@@ -548,7 +548,7 @@ public abstract class BaseNode extends Base
 		if(!locallyChecked)
 			debug.report(NOTE, getCoords(), "local check ERROR in " + this);
 
-		return sucessfullyChecked && locallyChecked;
+		return successfullyChecked && locallyChecked;
 	}
 
 	/**
