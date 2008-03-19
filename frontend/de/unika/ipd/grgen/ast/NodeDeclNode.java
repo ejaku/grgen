@@ -100,6 +100,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 			HashSet<NodeDeclNode> visited = new HashSet<NodeDeclNode>();
 			NodeDeclNode prev = typeNodeDecl;
 			NodeDeclNode cur = typeNodeDecl.typeNodeDecl;
+
 			while(cur != null) {
 				if(visited.contains(cur)) {
 					reportError("Circular typeofs are not allowed");
@@ -109,6 +110,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 				prev = cur;
 				cur = cur.typeNodeDecl;
 			}
+
+			if(prev.typeTypeDecl == null && !prev.resolve()) return false;
 			typeDecl = prev.typeTypeDecl;
 		}
 		else typeDecl = typeTypeDecl;
