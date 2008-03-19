@@ -35,6 +35,6 @@ show num nodes "N3"
 show num nodes "N4"
 show num nodes "State"
 show num nodes "N"
-xgrs C4Dir
+xgrs [C4Dir]
 
 quit
