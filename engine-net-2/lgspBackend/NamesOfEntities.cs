@@ -97,25 +97,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns name of the state variable remembering whether 
-        /// - the incoming or the outgoing edge iteration is underway
-        /// - the implicit node drawn first was the source or the target
-        /// - the edge node position checked first was the source or the target
+        /// Returns name of the state variable storing which direction run is currently underway
         /// </summary>
-        public static string WhichRunUnderwayVariable(string patternElementName)
+        public static string DirectionRunCounterVariable(string patternElementName)
         {
-            return "runOfOtherDirectionOf_" + patternElementName + "_Underway";
-        }
-
-        /// <summary>
-        /// Returns label where to jump to when 
-        /// - switching from incoming to outgoing run
-        /// - switching from draw implicit source to implicit target run
-        /// - switching from check source to target run
-        /// </summary>
-        public static string OtherDirectionRunGotoLabel(string patternElementName)
-        {
-            return "runOfOtherDirectionOf_" + patternElementName + "_label";
+            return "directionRunCounterOf_" + patternElementName;
         }
     }
 }
