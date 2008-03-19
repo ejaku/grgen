@@ -76,16 +76,13 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		Pair<NodeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
-		if (resolved != null) {
-			typeNodeDecl = resolved.fst;
-			typeTypeDecl = resolved.snd;
-		}
+		boolean successfullyResolved = super.resolveLocal();
+
 		old = nodeResolver.resolve(oldUnresolved, this);
 		if(old != null)
 			old.retypedElem = this;
 
-		return resolved != null && old != null;
+		return successfullyResolved && old != null;
 	}
 
 	/**
@@ -172,3 +169,4 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		return res;
 	}
 }
+

@@ -77,19 +77,13 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-		Pair<EdgeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
-		successfullyResolved = (resolved != null) && successfullyResolved;
-		if (resolved != null) {
-			typeEdgeDecl = resolved.fst;
-			typeTypeDecl = resolved.snd;
-		}
+		boolean successfullyResolved = super.resolveLocal();
+
 		old = edgeResolver.resolve(oldUnresolved, this);
 		if(old != null)
 			old.retypedElem = this;
-		successfullyResolved = old != null && successfullyResolved;
 
-		return successfullyResolved;
+		return successfullyResolved && old != null;
 	}
 
 	/** @return the original edge for this retyped edge */
@@ -173,3 +167,4 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		return res;
 	}
 }
+

@@ -24,10 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.awt.Color;
-import java.util.Collection;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
@@ -35,6 +31,10 @@ import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
+import java.awt.Color;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Vector;
 
 public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	static {
@@ -99,15 +99,38 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
 		Pair<EdgeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
-		successfullyResolved = (resolved != null) && successfullyResolved;
-		if (resolved != null) {
-			typeEdgeDecl = resolved.fst;
-			typeTypeDecl = resolved.snd;
+		if(resolved == null) return false;
+
+		typeEdgeDecl = resolved.fst;
+		typeTypeDecl = resolved.snd;
+
+		TypeDeclNode typeDecl;
+
+		if(typeEdgeDecl != null) {
+			HashSet<EdgeDeclNode> visited = new HashSet<EdgeDeclNode>();
+			EdgeDeclNode prev = typeEdgeDecl;
+			EdgeDeclNode cur = typeEdgeDecl.typeEdgeDecl;
+			while(cur != null) {
+				if(visited.contains(cur)) {
+					reportError("Circular typeofs are not allowed");
+					return false;
+				}
+				visited.add(cur);
+				prev = cur;
+				cur = cur.typeEdgeDecl;
+			}
+			typeDecl = prev.typeTypeDecl;
+		}
+		else typeDecl = typeTypeDecl;
+
+		if(!typeDecl.resolve()) return false;
+		if(!(typeDecl.getDeclType() instanceof EdgeTypeNode)) {
+			typeUnresolved.reportError("Type of edge \"" + getIdentNode() + "\" must be a edge type");
+			return false;
 		}
 
-		return successfullyResolved;
+		return true;
 	}
 
 	protected boolean checkLocal() {

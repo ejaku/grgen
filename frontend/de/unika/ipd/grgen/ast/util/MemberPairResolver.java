@@ -23,14 +23,10 @@
  */
 package de.unika.ipd.grgen.ast.util;
 
-import java.util.Map;
+import de.unika.ipd.grgen.ast.*;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.DeclNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.InheritanceTypeNode;
-import de.unika.ipd.grgen.ast.InvalidDeclNode;
 import de.unika.ipd.grgen.util.Util;
+import java.util.Map;
 
 /**
  * A resolver, that resolves a declaration node from an identifier (used in a member init).
@@ -93,14 +89,22 @@ public class MemberPairResolver<S extends BaseNode, T extends BaseNode> extends 
 		DeclNode res = n.getDecl();
 
 		if (res instanceof InvalidDeclNode) {
-			InheritanceTypeNode typeNode = (InheritanceTypeNode)n.getScope().getIdentNode().getDecl().getDeclType();
-			Map<String, DeclNode> allMembers = typeNode.getAllMembers();
-			res = allMembers.get(n.toString());
-			if(res==null) {
-				n.reportError("Undefined member " + n.toString() + " of "+ typeNode.getDecl().getIdentNode());
+			DeclNode scopeDecl = n.getScope().getIdentNode().getDecl();
+			if(scopeDecl instanceof RuleDeclNode) {
+				n.reportError("Undefined identifier \"" + n.toString() + "\"");
 				return null;
 			}
+			else {
+				InheritanceTypeNode typeNode = (InheritanceTypeNode) scopeDecl.getDeclType();
+				Map<String, DeclNode> allMembers = typeNode.getAllMembers();
+				res = allMembers.get(n.toString());
+				if(res == null) {
+					n.reportError("Undefined member " + n.toString() + " of " + typeNode.getDecl().getIdentNode());
+					return null;
+				}
+			}
 		}
+
 		Pair<S,T> pair = new Pair<S,T>();
 		if (clsS.isInstance(res)) {
 			pair.fst = clsS.cast(res);

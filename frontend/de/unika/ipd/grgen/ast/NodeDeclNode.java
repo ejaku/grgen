@@ -24,10 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.awt.Color;
-import java.util.Collection;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
@@ -35,6 +31,10 @@ import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
+import java.awt.Color;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Vector;
 
 /**
  * Declaration of a node.
@@ -89,12 +89,37 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		Pair<NodeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
-		if (resolved != null) {
-			typeNodeDecl = resolved.fst;
-			typeTypeDecl = resolved.snd;
+		if(resolved == null) return false;
+
+		typeNodeDecl = resolved.fst;
+		typeTypeDecl = resolved.snd;
+
+		TypeDeclNode typeDecl;
+
+		if(typeNodeDecl != null) {
+			HashSet<NodeDeclNode> visited = new HashSet<NodeDeclNode>();
+			NodeDeclNode prev = typeNodeDecl;
+			NodeDeclNode cur = typeNodeDecl.typeNodeDecl;
+			while(cur != null) {
+				if(visited.contains(cur)) {
+					reportError("Circular typeofs are not allowed");
+					return false;
+				}
+				visited.add(cur);
+				prev = cur;
+				cur = cur.typeNodeDecl;
+			}
+			typeDecl = prev.typeTypeDecl;
+		}
+		else typeDecl = typeTypeDecl;
+
+		if(!typeDecl.resolve()) return false;
+		if(!(typeDecl.getDeclType() instanceof NodeTypeNode)) {
+			typeUnresolved.reportError("Type of node \"" + getIdentNode() + "\" must be a node type");
+			return false;
 		}
 
-		return resolved != null;
+		return true;
 	}
 
 	/** Returns whether the node type is a typeof statement. */
@@ -168,3 +193,4 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		return "node";
 	}
 }
+

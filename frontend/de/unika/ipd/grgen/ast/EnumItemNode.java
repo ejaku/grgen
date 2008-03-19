@@ -24,16 +24,13 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.util.BooleanResultVisitor;
-import de.unika.ipd.grgen.util.PostWalker;
 import de.unika.ipd.grgen.util.Walkable;
-import de.unika.ipd.grgen.util.Walker;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Vector;
 
 /**
  * A class for enum items.
@@ -43,7 +40,7 @@ public class EnumItemNode extends MemberDeclNode {
 		setName(EnumItemNode.class, "enum item");
 	}
 
-	ExprNode value;
+	private ExprNode value;
 	private EnumTypeNode type;
 
 	/** Position of this item in the enum. */
@@ -85,38 +82,16 @@ public class EnumItemNode extends MemberDeclNode {
 		return type != null;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	protected boolean checkLocal() {
-		return true;
-	}
-
 	/**
 	 * Check the validity of the initialisation expression.
 	 * @return true, if the init expression is ok, false if not.
 	 */
-	protected boolean checkType() {
-		final EnumItemNode thisOne = this;
-
+	protected boolean checkLocal() {
 		// Check, if this enum item was defined with a latter one.
 		// This may not be.
-		BooleanResultVisitor v = new BooleanResultVisitor(true) {
-			public void visit(Walkable w) {
-				if(w instanceof EnumItemNode) {
-					EnumItemNode item = (EnumItemNode) w;
-					if(item.pos <= pos) {
-						thisOne.reportError("Enum item must not be defined with a previous one");
-						setResult(false);
-					}
-				}
-			}
-		};
-
-		Walker w = new PostWalker(v);
-		w.walk(this.value);
-
-		if(!v.booleanResult()) {
+		HashSet<EnumItemNode> visitedEnumItems = new HashSet<EnumItemNode>();
+		if(!checkValue(value, visitedEnumItems))
 			return false;
-		}
 
 		if(!value.isConst()) {
 			reportError("Initialization of enum item is not constant");
@@ -129,9 +104,49 @@ public class EnumItemNode extends MemberDeclNode {
 			becomeParent(adjusted);
 			value = adjusted;
 		} else {
-			reportError("The type of the initializator must be integer");
+			reportError("The type of the initializer must be integer");
 			return false;
 		}
+
+		return true;
+	}
+
+	/**
+	 * Used to check the value of an EnumItemNode for circular dependencies
+	 * and accesses to enum item declared after use
+	 * @returns false, if an illegal use has been found
+	 */
+	private boolean checkValue(Walkable cur, HashSet<EnumItemNode> visitedEnumItems) {
+		EnumItemNode enumItem = null;
+		if(cur instanceof EnumItemNode) {
+			enumItem = (EnumItemNode) cur;
+			if(pos == enumItem.pos) {
+				reportError("Enum item must not depend on its own value");
+				return false;
+			}
+			else if(pos < enumItem.pos) {
+				reportError("Enum item must not depend on a following one");
+				return false;
+			}
+			else if(visitedEnumItems.contains(enumItem)) {
+				reportError("Circular dependency found on value of enum item \"" + enumItem.getIdentNode() + "\"");
+				return false;
+			}
+			visitedEnumItems.add(enumItem);
+		}
+		else if(cur instanceof EnumTypeNode)	// EnumTypeNode has all EnumItemNodes as children => don't check them
+			return true;
+		else if(cur instanceof EnumExprNode)	// Enum item from another, already declared enum => skip it
+			return true;
+
+		for (Walkable child : cur.getWalkableChildren()) {
+			if(!checkValue(child, visitedEnumItems))
+				return false;
+		}
+
+		// If cur is an EnumItemNode, mark it as unvisited again
+		// (needed for "a, b, c = a * b")
+		if(enumItem != null) visitedEnumItems.remove(enumItem);
 
 		return true;
 	}
@@ -168,14 +183,14 @@ public class EnumItemNode extends MemberDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		IdentNode id = (IdentNode) ident;
+		IdentNode id = ident;
 		ConstNode c = getValue();
 
 		assert ( ! c.equals(ConstNode.getInvalid()) ):
 			"an error should have been reported in an earlier phase";
 
 		c.castTo(BasicTypeNode.intType);
-		return new EnumItem(id.getIdent(), getValue().getConstant());
+		return new EnumItem(id.getIdent(), c.getConstant());
 	}
 
 	public static String getUseStr() {
