@@ -461,8 +461,8 @@ namespace spBench
                 SearchPlanEdgeNode spedgenode = (SearchPlanEdgeNode) planMap[node];
                 spedgenode.PatternEdgeSource = (SearchPlanNodeNode) planMap[node.PatternEdgeSource];
                 spedgenode.PatternEdgeTarget = (SearchPlanNodeNode) planMap[node.PatternEdgeTarget];
-                spedgenode.PatternEdgeSource.OutgoingPatternEdges.AddLast(spedgenode);
-                spedgenode.PatternEdgeTarget.IncomingPatternEdges.AddLast(spedgenode);
+                spedgenode.PatternEdgeSource.OutgoingPatternEdges.Add(spedgenode);
+                spedgenode.PatternEdgeTarget.IncomingPatternEdges.Add(spedgenode);
             }
             return new SearchPlanGraph(root, nodes, edges);
         }
