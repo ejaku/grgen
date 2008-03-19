@@ -1,0 +1,100 @@
+new graph "Clique2\Clique2"
+
+dump add node State infotag rand1
+dump add node State infotag rand2
+
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+xgrs (state)=init
+# state.maxNodeID = 100
+# state.rand1 = 1231579
+# state.rand2 = 165031
+
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[200]
+
+echo "C3 exists"
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+xgrs C3Dir
+echo "C4 exists"
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+xgrs C4Dir
+echo "K4 exists"
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+xgrs K4Dir
+
+echo "Number of C3s"
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+xgrs [C3Dir]
+echo "Number of C4s"
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+xgrs [C4Dir]
+echo "Number of K4s"
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+xgrs [K4Dir]
+
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+quit
+quit

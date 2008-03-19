@@ -1,0 +1,136 @@
+actions Clique using Clique2Model;
+
+rule init : (State) {
+
+	modify {
+		s:State;
+		eval {
+			s.rand1 = 123456789;
+			s.rand2 = 987654321;
+			s.nextNodeID = 0;   // just for fun...
+			s.maxNodeID = 100;
+		}
+		return (s);
+	}
+}
+
+rule nextRandom {
+	s:State;
+
+	modify {
+		eval {
+			s.rand1 = 1664525 * s.rand1 + 1013904223;
+			s.rand2 = 1664525 * s.rand2 + 1013904223;
+		}
+	}
+}
+
+rule trimRandom {
+	s:State;
+	if { s.rand1 >= 0 && (s.rand1 >> 8) < (0x7fffffff / s.maxNodeID) * s.maxNodeID;
+		s.rand2 >= 0 && (s.rand2 >> 8) < (0x7fffffff / s.maxNodeID) * s.maxNodeID; }
+
+	modify {
+		eval {
+			s.randRes1 = (s.rand1 >> 8) % s.maxNodeID;
+			s.randRes2 = (s.rand2 >> 8) % s.maxNodeID;
+		}
+	}
+}
+
+rule newNode {
+	s:State;
+	if { s.nextNodeID < s.maxNodeID; }
+
+	modify {
+		n:N;
+		eval {
+			n.id = s.nextNodeID;
+			s.nextNodeID = s.nextNodeID + 1;
+		}
+	}
+}
+
+rule newEdge {
+	s:State;
+	src:N;
+	tgt:N;
+	if { src.id == s.randRes1 && tgt.id == s.randRes2 && src.id != tgt.id; }
+
+	modify {
+		src --> tgt --> src;
+	}
+}
+
+rule C3Dir {
+	n1:N --> n2:N --> n3:N --> n1;
+
+	modify {
+	}
+}
+
+induced rule C3Ind {
+	n1:N --> n2:N --> n3:N --> n1;
+	n1   <-- n2   <-- n3   <-- n1;
+
+	modify {
+	}
+}
+
+rule C4Dir {
+	n1:N --> n2:N --> n3:N --> n4:N --> n1;
+
+	modify {
+	}
+}
+
+induced rule C4Ind {
+	n1:N --> n2:N --> n3:N --> n4:N --> n1;
+	n1   <-- n2   <-- n3   <-- n4   <-- n1;
+
+	modify {
+	}
+}
+
+rule K4Dir {
+	n1:N --> n2:N --> n3:N --> n4:N --> n1 --> n3;
+	n2 --> n4;
+
+	modify {
+	}
+}
+
+induced rule K4Ind {
+	n1:N --> n2:N --> n3:N --> n4:N --> n1  --> n3;
+	n1  <--  n2  <--  n3  <--  n4  <--  n1 <-- n3;
+	n2  --> n4;
+	n2 <--  n4;
+
+	modify {
+	}
+}
+
+// Optimization rules
+
+rule optN4 {
+	n1:N -->;
+	n1 -->;
+	n1 -->;
+	n1 -->;
+	if { typeof(n1) == N; }
+
+	modify {
+		n:N4<n1>;
+	}
+}
+
+rule optN3 {
+	n1:N -->;
+	n1 -->;
+	n1 -->;
+	if { typeof(n1) == N; }
+
+	modify {
+		n:N3<n1>;
+	}
+}

@@ -1,0 +1,40 @@
+new graph "Clique3\Clique3"
+
+dump add node State infotag rand1
+dump add node State infotag rand2
+
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+xgrs (state)=init
+state.maxNodeID = 10
+state.rand1 = 131579589
+state.rand2 = 582872378
+
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[20]
+
+echo "C4 exists"
+show num nodes
+show num edges
+show num nodes "N1"
+show num nodes "N2"
+show num nodes "N3"
+show num nodes "N4"
+show num nodes "State"
+show num nodes "N"
+xgrs C4Dir
+
+quit
