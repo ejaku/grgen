@@ -31,14 +31,12 @@ while [ "$1" ]; do
 		-a) shift; APPEND="TRUE";;
 		-c) rm -fr */*$OUTPUTSUFF; exit 0;;
 		-d) do_diff; exit 0;;
-        -f) shift; ONLY_FRONTEND="TRUE";;
+        -f) shift; ONLY_FRONTEND="TRUE"; LOG=summary_fe.log;;
 		-n) shift; ONLY_NEW="TRUE";;
 		-v) shift; VERBOSE="TRUE";;
 		* ) break;;
 	esac
 done
-
-if [ "$ONLY_FRONTEND" ]; then LOG=summary_fe.log; fi
 
 [ "$APPEND" ] || rm -f $LOG
 touch $LOG
@@ -52,7 +50,7 @@ else
 fi
 CLASSPATH=$JARGS$SEP$ANTLR$SEP$GRGENNET/grgen.jar
 
-JAVA_ARGS="-Xmx256M -cp $CLASSPATH -ea de.unika.ipd.grgen.Main -b $BE_CSC"
+JAVA_ARGS="-Xmx256M -cp $CLASSPATH -ea de.unika.ipd.grgen.Main -b $BE_CSC -t"
 
 do_test()
 {
