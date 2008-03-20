@@ -306,10 +306,22 @@ public class TestDeclNode extends ActionDeclNode {
 
 		Test test = new Test(getIdentNode().getIdent(), left);
 
+		constructImplicitNegs(left);
 		constructIRaux(test, pattern.returns);
 
 		return test;
 	}
+
+	/**
+     * add NACs for induced- or DPO-semantic
+     */
+    protected void constructImplicitNegs(PatternGraph left)
+    {
+    	PatternGraphNode leftNode = pattern;
+    	for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
+    		left.addNegGraph(neg);
+    	}
+    }
 }
 
 

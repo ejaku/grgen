@@ -147,6 +147,7 @@ OK     should_pass/exact_005.grg
 OK     should_pass/exact_006.grg
 OK     should_pass/exact_007.grg
 OK     should_pass/exact_008.grg
+OK     should_pass/exact_009.grg
 OK     should_pass/exec_001.grg
 OK     should_pass/exec_002.grg
 OK     should_pass/exec_003.grg
@@ -641,7 +642,6 @@ ERROR  should_fail/rhs_004.grg
 WARNED should_fail/rhs_005.grg
 WARNED should_fail/rhs_006.grg
 OK     should_fail/rhs_007.grg
-ERROR  should_fail/test_001.grg
 ERROR  should_fail/typeof_001.grg
 ERROR  should_fail/typeof_002.grg
 ERROR  should_fail/typeof_003.grg

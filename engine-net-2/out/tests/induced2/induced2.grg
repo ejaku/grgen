@@ -24,7 +24,7 @@ rule init2
     }
 }
 
-induced rule inducedTest1
+induced rule inducedRule1
 {
 
     a:Node;
@@ -40,7 +40,7 @@ induced rule inducedTest1
     }    
 }
 
-induced rule inducedTest2
+induced rule inducedRule2
 {
     a:Node;
     b:Node;
@@ -54,7 +54,7 @@ induced rule inducedTest2
     }    
 }
 
-induced rule inducedTest3
+induced rule inducedRule3
 {
     a:Node;
     b:Node;
@@ -65,4 +65,32 @@ induced rule inducedTest3
     {
         delete(e);
     }    
+}
+
+induced test inducedTest1
+{
+
+    a:Node;
+    b:Node;
+    
+    a -e:Edge-> b;
+    a -f:Edge-> b;
+    a -g:Edge-> b;
+}
+
+induced test inducedTest2
+{
+    a:Node;
+    b:Node;
+    
+    a -e:Edge-> b;
+    a -f:Edge-> b;
+}
+
+induced test inducedTest3
+{
+    a:Node;
+    b:Node;
+    
+    a -e:Edge-> b;
 }

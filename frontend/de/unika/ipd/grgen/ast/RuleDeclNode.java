@@ -492,16 +492,6 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		return rule;
 	}
 
-	/**
-	 * add NACs for induced- or DPO-semantic
-	 */
-	protected void constructImplicitNegs(PatternGraph left) {
-		PatternGraphNode leftNode = pattern;
-		for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
-			left.addNegGraph(neg);
-		}
-	}
-
 	@Override
 		public RuleTypeNode getDeclType() {
 		assert isResolved();

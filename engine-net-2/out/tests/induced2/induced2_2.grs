@@ -1,6 +1,6 @@
 new graph "induced2\induced2" "Nice Graph"
 
 xgrs init2
-xgrs [?inducedTest3]
+xgrs [?inducedRule3]
 
 quit

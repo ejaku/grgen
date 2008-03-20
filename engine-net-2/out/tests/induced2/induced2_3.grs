@@ -1,0 +1,8 @@
+new graph "induced2\induced2" "Nice Graph"
+
+xgrs init1
+xgrs [?inducedTest1]
+xgrs [?inducedTest2]
+xgrs [?inducedTest3]
+
+quit
