@@ -828,18 +828,26 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		BaseNode edgeRoot = getDirectedEdgeRootType();
+		BaseNode edgeRoot = getArbitraryEdgeRootType();
 
 		for (List<NodeDeclNode> pair : doubleNodeNegPairs) {
 			NodeDeclNode src = pair.get(0);
 			NodeDeclNode tgt = pair.get(1);
 
+			if (src.getId().compareTo(tgt.getId()) > 0) {
+				continue;
+			}
+
 			List<Set<NodeDeclNode>> key = new LinkedList<Set<NodeDeclNode>>();
 			key.add(getCorrespondentHomSet(src));
 			key.add(getCorrespondentHomSet(tgt));
+			List<Set<NodeDeclNode>> key2 = new LinkedList<Set<NodeDeclNode>>();
+			key2.add(getCorrespondentHomSet(tgt));
+			key2.add(getCorrespondentHomSet(src));
 			Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
 			Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 			Set<ConnectionNode> edgeSet = doubleNodeNegMap.get(key);
+			edgeSet.addAll(doubleNodeNegMap.get(key2));
 
 			PatternGraph neg = new PatternGraph(nameOfGraph, false);
 
@@ -857,7 +865,7 @@ public class PatternGraphNode extends GraphNode {
 			// add another edge of type edgeRoot to the NAC
 			EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot, context);
 
-			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt, ConnectionNode.DIRECTED, this);
+			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt, ConnectionNode.ARBITRARY, this);
 
 			conn.addToGraph(neg);
 
