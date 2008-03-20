@@ -974,10 +974,19 @@ namespace de.unika.ipd.grGen.lgsp
             ///////////////////////////////////////////////
 
             compParams.GenerateInMemory = false;
+            compParams.IncludeDebugInformation = compileWithDebug;
             compParams.CompilerOptions = compileWithDebug ? "/debug" : "/optimize";
             compParams.OutputAssembly = destDir + "lgsp-" + actionsName + ".dll";
 
-            CompilerResults compResults = compiler.CompileAssemblyFromSource(compParams, actionsOutputSource);
+            CompilerResults compResults;
+            if (keepGeneratedFiles)
+            {
+                compResults = compiler.CompileAssemblyFromFile(compParams, actionsOutputFilename);
+            }
+            else
+            {
+                compResults = compiler.CompileAssemblyFromSource(compParams, actionsOutputSource);
+            }
             if(compResults.Errors.HasErrors)
             {
                 String errorMsg = compResults.Errors.Count + " Errors:";

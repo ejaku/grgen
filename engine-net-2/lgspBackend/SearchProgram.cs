@@ -1,3 +1,5 @@
+//#define ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
+
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -240,6 +242,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             OperationsList.Emit(sourceCode);
 
+#if ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
+            sourceCode.AppendFront("graph.EnsureEmptyFlags();\n");
+#endif
             sourceCode.AppendFront("return matches;\n");
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
@@ -1179,7 +1184,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit loop header of loop iterating both directions of an edge of not fixed direction
             string directionRunCounter = NamesOfEntities.DirectionRunCounterVariable(PatternElementName);
             sourceCode.AppendFrontFormat("for(");
-            sourceCode.AppendFormat("int {0} = 0;", directionRunCounter);
+            sourceCode.AppendFormat("int {0} = 0; ", directionRunCounter);
             sourceCode.AppendFormat("{0} < 2; ", directionRunCounter);
             sourceCode.AppendFormat("++{0}", directionRunCounter);
             sourceCode.Append(")\n");
@@ -2086,9 +2091,10 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("if(negLevel <= MAX_NEG_LEVEL) {\n");
                 sourceCode.Indent();
             }
-   
-            sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~{1} | {1};\n",
-                variableContainingCandidate, variableContainingBackupOfMappedMember);
+
+            string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED<<negLevel" : "LGSPEdge.IS_MATCHED<<negLevel";
+            sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~({1}) | {2};\n",
+                variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
 
             if (!NeverAboveMaxNegLevel)
             {
@@ -2702,6 +2708,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if (ReturnMatches)
                 {
+#if ENSURE_FLAGS_IN_GRAPH_ARE_EMPTY_AT_LEAVING_TOP_LEVEL_MATCHING_ACTION
+                    sourceCode.AppendFront("graph.EnsureEmptyFlags();\n");
+#endif
                     sourceCode.AppendFront("return matches;\n");
                 }
                 else

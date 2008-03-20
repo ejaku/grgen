@@ -1,6 +1,5 @@
 ﻿#define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
 //#define NO_EDGE_LOOKUP
-//#define NO_ADJUST_LIST_HEADS
 //#define RANDOM_LOOKUP_LIST_START      // currently broken
 //#define DUMP_SEARCHPROGRAMS
 #define OLDMAPPEDFIELDS

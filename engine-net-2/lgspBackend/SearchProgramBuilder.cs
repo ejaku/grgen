@@ -1,3 +1,5 @@
+//#define NO_ADJUST_LIST_HEADS
+
 using System.Collections.Generic;
 using System.Diagnostics;
 using de.unika.ipd.grGen.libGr;

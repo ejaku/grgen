@@ -2,6 +2,7 @@
 //#define OPCOST_WITH_GEO_MEAN
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
 using Microsoft.CSharp;
@@ -2093,6 +2094,31 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 #endif
+
+        public void EnsureEmptyFlags()
+        {
+            foreach (NodeType nodeType in Model.NodeModel.Types)
+            {
+                for (LGSPNode nodeHead = nodesByTypeHeads[nodeType.TypeID], node = nodeHead.typeNext; node != nodeHead; node = node.typeNext)
+                {
+                    if (node.flags != 0 && node.flags != 1)
+                    {
+                        Debug.Assert(false); // no matching underway, but matching state still in graph
+                    }
+                }
+            }
+
+            foreach (EdgeType edgeType in Model.EdgeModel.Types)
+            {
+                for (LGSPEdge edgeHead = edgesByTypeHeads[edgeType.TypeID], edge = edgeHead.typeNext; edge != edgeHead; edge = edge.typeNext)
+                {
+                    if (edge.flags != 0 && edge.flags != 1)
+                    {
+                        Debug.Assert(false); // no matching underway, but matching state still in graph
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Mature a graph.
