@@ -305,16 +305,13 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else //candidateByIteration.Type==GetCandidateByIterationType.IncidentEdges
                     {
-                        if (candidateByIteration.EdgeType != IncidentEdgeType.IncomingOrOutgoing)
-                        {
-                            AdjustListHeads adjustIncident =
-                                new AdjustListHeads(
-                                    AdjustListHeadsTypes.IncidentEdges,
-                                    candidateByIteration.PatternElementName,
-                                    candidateByIteration.StartingPointNodeName,
-                                    candidateByIteration.EdgeType == IncidentEdgeType.Incoming);
-                            insertionPoint = insertionPoint.Append(adjustIncident);
-                        }
+                        AdjustListHeads adjustIncident =
+                            new AdjustListHeads(
+                                AdjustListHeadsTypes.IncidentEdges,
+                                candidateByIteration.PatternElementName,
+                                candidateByIteration.StartingPointNodeName,
+                                candidateByIteration.EdgeType);
+                        insertionPoint = insertionPoint.Append(adjustIncident);
                     }
                 }
 

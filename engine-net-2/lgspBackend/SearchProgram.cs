@@ -2466,13 +2466,13 @@ namespace de.unika.ipd.grGen.lgsp
             AdjustListHeadsTypes type,
             string patternElementName,
             string startingPointNodeName,
-            bool isIncoming)
+            IncidentEdgeType incidentType)
         {
             Debug.Assert(type == AdjustListHeadsTypes.IncidentEdges);
             Type = type;
             PatternElementName = patternElementName;
             StartingPointNodeName = startingPointNodeName;
-            IsIncoming = isIncoming;
+            IncidentType = incidentType;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2484,8 +2484,8 @@ namespace de.unika.ipd.grGen.lgsp
                     PatternElementName, IsNode);
             } else { // Type==AdjustListHeadsTypes.IncidentEdges
                 builder.Append("IncidentEdges ");
-                builder.AppendFormat("on {0} from:{1} incoming:{2}\n",
-                    PatternElementName, StartingPointNodeName, IsIncoming);
+                builder.AppendFormat("on {0} from:{1} incident type:{2}\n",
+                    PatternElementName, StartingPointNodeName, IncidentType.ToString());
             }
         }
 
@@ -2498,17 +2498,35 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else //Type == AdjustListHeadsTypes.IncidentEdges
             {
-                if (IsIncoming)
+                if (IncidentType == IncidentEdgeType.Incoming)
                 {
                     sourceCode.AppendFrontFormat("{0}.MoveInHeadAfter({1});\n",
                         NamesOfEntities.CandidateVariable(StartingPointNodeName),
                         NamesOfEntities.CandidateVariable(PatternElementName));
                 }
-                else
+                else if (IncidentType == IncidentEdgeType.Outgoing)
                 {
                     sourceCode.AppendFrontFormat("{0}.MoveOutHeadAfter({1});\n",
                         NamesOfEntities.CandidateVariable(StartingPointNodeName),
                         NamesOfEntities.CandidateVariable(PatternElementName));
+                }
+                else // IncidentType == IncidentEdgeType.IncomingOrOutgoing
+                {
+                    sourceCode.AppendFrontFormat("if({0}==0)",
+                        NamesOfEntities.DirectionRunCounterVariable(PatternElementName));
+                    sourceCode.Append(" {\n");
+                    sourceCode.Indent();
+                    sourceCode.AppendFrontFormat("{0}.MoveInHeadAfter({1});\n",
+                         NamesOfEntities.CandidateVariable(StartingPointNodeName),
+                         NamesOfEntities.CandidateVariable(PatternElementName));
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("} else {\n");
+                    sourceCode.Indent();
+                    sourceCode.AppendFrontFormat("{0}.MoveOutHeadAfter({1});\n",
+                        NamesOfEntities.CandidateVariable(StartingPointNodeName),
+                        NamesOfEntities.CandidateVariable(PatternElementName));
+                    sourceCode.Unindent();
+                    sourceCode.AppendFront("}\n");
                 }
             }
         }
@@ -2517,7 +2535,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string PatternElementName;
         public bool IsNode; // node|edge - only valid if GraphElements
         public string StartingPointNodeName; // only valid if IncidentEdges
-        public bool IsIncoming; // only valid if IncidentEdges
+        public IncidentEdgeType IncidentType; // only valid if IncidentEdges
     }
 
     /// <summary>

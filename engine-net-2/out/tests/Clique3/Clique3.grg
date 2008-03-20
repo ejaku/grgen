@@ -1,4 +1,4 @@
-actions Clique using Clique3Model;
+using Clique3Model;
 
 rule init : (State) {
 
