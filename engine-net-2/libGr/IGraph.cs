@@ -268,7 +268,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Enumerates all edges compatible to the given edge type.
         /// </summary>
-        IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType);                       // this is NOT supported in original libGr!
+        IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType);
 
         /// <summary>
         /// Adds a new node to the graph and assigns it to the given variable.

@@ -104,6 +104,12 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public abstract IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType);
 
+        /// <summary>
+        /// Adds a new node to the graph and assigns it to the given variable.
+        /// </summary>
+        /// <param name="nodeType">The node type for the new node.</param>
+        /// <param name="varName">The name of the variable.</param>
+        /// <returns>The newly created node.</returns>
         protected abstract INode AddINode(NodeType nodeType, String varName);
 
         /// <summary>
@@ -119,7 +125,6 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Adds a new node to the graph.
-        /// TODO: Slow but provides a better interface...
         /// </summary>
         /// <param name="nodeType">The node type for the new node.</param>
         /// <returns>The newly created node.</returns>

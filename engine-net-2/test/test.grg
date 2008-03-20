@@ -2,9 +2,8 @@ using complModel;
 
 rule testRule
 {
-    pattern {
-        a:D231_4121 --> f:B21 --> m:D2211_2222_31;
-    }
+    a:D231_4121 --> f:B21 --> m:D2211_2222_31;
+    
     modify {
         are:D2211_2222_31<a>;
         fre:D231_4121<f>;

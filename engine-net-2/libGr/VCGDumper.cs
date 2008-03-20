@@ -73,6 +73,9 @@ namespace de.unika.ipd.grGen.libGr
         SuppressNodes = unchecked((int) 0x80000000)
     }
 
+    /// <summary>
+    /// Deprecated...
+    /// </summary>
     public class VCGDumperFactory : IDumperFactory
     {
         private VCGFlags flags;

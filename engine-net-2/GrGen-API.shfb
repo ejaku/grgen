@@ -1,7 +1,7 @@
 ﻿<project schemaVersion="1.6.0.1">
     <assemblies>
-        <assembly assemblyPath="..\out\bin\lgspBackend.dll" xmlCommentsPath="..\lgspBackend\lgspBackend.XML" commentsOnly="False" />
-        <assembly assemblyPath="..\out\bin\libGr.dll" xmlCommentsPath=".\libGr.XML" commentsOnly="False" />
+        <assembly assemblyPath=".\out\bin\lgspBackend.dll" xmlCommentsPath=".\out\bin\lgspBackend.XML" commentsOnly="False" />
+        <assembly assemblyPath=".\out\bin\libGr.dll" xmlCommentsPath=".\out\bin\libGr.XML" commentsOnly="False" />
     </assemblies>
     <namespaceSummaries>
         <namespaceSummaryItem name="" isDocumented="False" />
@@ -27,7 +27,7 @@
     <Preliminary>True</Preliminary>
     <RootNamespaceContainer>False</RootNamespaceContainer>
     <RootNamespaceTitle />
-    <HelpTitle>The libGr Class Library v1.3</HelpTitle>
+    <HelpTitle>The libGr Class Library v1.4</HelpTitle>
     <HtmlHelpName>Documentation</HtmlHelpName>
     <Language>en-US</Language>
     <CopyrightHref />

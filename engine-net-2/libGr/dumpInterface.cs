@@ -46,6 +46,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IDumper CreateDumper(String name);
 
+        /// <summary>
+        /// The DumpInfo associated with this dumper factory.
+        /// </summary>
         DumpInfo DumpInfo { get; set; }
     }
 
@@ -343,8 +346,11 @@ namespace de.unika.ipd.grGen.libGr
         /// will be moved into groups of group node types created earlier.
         /// </summary>
         /// <param name="nodeType">The node type of the group node.</param>
+        /// <param name="exactNodeType">True, if the node type must be exact, false, if also subtypes are allowed.</param>
         /// <param name="edgeType">An edge type along which nodes are grouped.</param>
+        /// <param name="exactEdgeType">True, if the edge type must be exact, false, if also subtypes are allowed.</param>
         /// <param name="adjNodeType">The adjacent node type according to the edge.</param>
+        /// <param name="exactAdjNodeType">True, if the adjacent node type must be exact, false, if also subtypes are allowed.</param>
         /// <param name="groupMode">Specifies how the edge is used for grouping.</param>
         public void AddOrExtendGroupNodeType(NodeType nodeType, bool exactNodeType, EdgeType edgeType, bool exactEdgeType,
                 NodeType adjNodeType, bool exactAdjNodeType, GroupMode groupMode)

@@ -674,6 +674,9 @@ namespace de.unika.ipd.grGen.lgsp
         }
     }
 
+    /// <summary>
+    /// A container of rules also managing some parts of rule application with sequences.
+    /// </summary>
     public abstract class LGSPActions : BaseActions
     {
         private LGSPGraph graph;
@@ -744,6 +747,9 @@ namespace de.unika.ipd.grGen.lgsp
         }
 #endif
 
+        /// <summary>
+        /// The associated graph.
+        /// </summary>
         public override IGraph Graph { get { return graph; } set { graph = (LGSPGraph) value; } }
 
         public LGSPAction GenerateAction(LGSPAction action)
@@ -789,6 +795,10 @@ namespace de.unika.ipd.grGen.lgsp
             actions[actionName] = newAction;
         }
 
+        /// <summary>
+        /// Does action-backend dependent stuff.
+        /// </summary>
+        /// <param name="args">Any kind of paramteres for the stuff to do</param>
         public override void Custom(params object[] args)
         {
             if(args.Length == 0) goto invalidCommand;
@@ -864,10 +874,22 @@ invalidCommand:
                 + "     searchplans (with some intermediate steps)");
         }
 
+        /// <summary>
+        /// The maximum number of matches to be returned for a RuleAll sequence element.
+        /// If it is zero or less, the number of matches is unlimited.
+        /// </summary>
         public override int MaxMatches { get { return maxMatches; } set { maxMatches = value; } }
 
+        /// <summary>
+        /// Enumerates all actions managed by this LGSPActions instance.
+        /// </summary>
         public override IEnumerable<IAction> Actions { get { foreach(IAction action in actions.Values) yield return action; } }
 
+        /// <summary>
+        /// Gets the action with the given name.
+        /// </summary>
+        /// <param name="name">The name of the action.</param>
+        /// <returns>The action with the given name, or null, if no such action exists.</returns>
         public new LGSPAction GetAction(string name)
         {
             LGSPAction action;
@@ -875,6 +897,11 @@ invalidCommand:
             return action;
         }
 
+        /// <summary>
+        /// Gets the action with the given name.
+        /// </summary>
+        /// <param name="name">The name of the action.</param>
+        /// <returns>The action with the given name, or null, if no such action exists.</returns>
         protected override IAction GetIAction(string name)
         {
             return GetAction(name);

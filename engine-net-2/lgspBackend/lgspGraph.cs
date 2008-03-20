@@ -154,6 +154,9 @@ namespace de.unika.ipd.grGen.lgsp
         }
     }
 
+    /// <summary>
+    /// A class for managing graph transactions.
+    /// </summary>
     public class LGSPTransactionManager : ITransactionManager
     {
         private LinkedList<IUndoItem> undoItems = new LinkedList<IUndoItem>();
@@ -279,6 +282,9 @@ namespace de.unika.ipd.grGen.lgsp
     
     public enum LGSPDir { In, Out };
 
+    /// <summary>
+    /// An implementation of the IGraph interface.
+    /// </summary>
     public class LGSPGraph : BaseGraph
     {
         private static int actionID = 0;
@@ -291,6 +297,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         private LGSPTransactionManager transactionManager;
 
+        /// <summary>
+        /// Currently associated LGSPActions object.
+        /// This is needed to the current matchers while executing an exec statement on the RHS of a rule.
+        /// </summary>
 		public LGSPActions curActions = null;
 
         private bool reuseOptimization = true;
@@ -345,9 +355,24 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public float[] meanInDegree;
        
+        /// <summary>
+        /// An array containing one head of a doubly-linked ring-list for each node type indexed by the type ID.
+        /// </summary>
         public LGSPNode[] nodesByTypeHeads;
+
+        /// <summary>
+        /// The number of nodes for each node type indexed by the type ID.
+        /// </summary>
         public int[] nodesByTypeCounts;
+
+        /// <summary>
+        /// An array containing one head of a doubly-linked ring-list for each edge type indexed by the type ID.
+        /// </summary>
         public LGSPEdge[] edgesByTypeHeads;
+
+        /// <summary>
+        /// The number of edges for each edge type indexed by the type ID.
+        /// </summary>
         public int[] edgesByTypeCounts;
 
         public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> atNegLevelMatchedElements;
@@ -602,16 +627,25 @@ namespace de.unika.ipd.grGen.lgsp
             return actions;
         }
 
+        /// <summary>
+        /// Returns the number of nodes with the exact given node type.
+        /// </summary>
         public override int GetNumExactNodes(NodeType nodeType)
         {
             return nodesByTypeCounts[nodeType.TypeID];
         }
 
+        /// <summary>
+        /// Returns the number of edges with the exact given edge type.
+        /// </summary>
         public override int GetNumExactEdges(EdgeType edgeType)
         {
             return edgesByTypeCounts[edgeType.TypeID];
         }
 
+        /// <summary>
+        /// Enumerates all nodes with the exact given node type.
+        /// </summary>
         public override IEnumerable<INode> GetExactNodes(NodeType nodeType)
         {
             LGSPNode head = nodesByTypeHeads[nodeType.TypeID];
@@ -625,6 +659,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        /// <summary>
+        /// Enumerates all edges with the exact given edge type.
+        /// </summary>
         public override IEnumerable<IEdge> GetExactEdges(EdgeType edgeType)
         {
             LGSPEdge head = edgesByTypeHeads[edgeType.TypeID];
@@ -638,6 +675,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        /// <summary>
+        /// Returns the number of nodes compatible to the given node type.
+        /// </summary>
         public override int GetNumCompatibleNodes(NodeType nodeType)
         {
             int num = 0;
@@ -647,6 +687,9 @@ namespace de.unika.ipd.grGen.lgsp
             return num;
         }
 
+        /// <summary>
+        /// Returns the number of edges compatible to the given edge type.
+        /// </summary>
         public override int GetNumCompatibleEdges(EdgeType edgeType)
         {
             int num = 0;
@@ -656,6 +699,9 @@ namespace de.unika.ipd.grGen.lgsp
             return num;
         }
 
+        /// <summary>
+        /// Enumerates all nodes compatible to the given node type.
+        /// </summary>
         public override IEnumerable<INode> GetCompatibleNodes(NodeType nodeType)
         {
             foreach(NodeType type in nodeType.SubOrSameTypes)
@@ -672,6 +718,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        /// <summary>
+        /// Enumerates all edges compatible to the given edge type.
+        /// </summary>
         public override IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType)
         {
             foreach(EdgeType type in edgeType.SubOrSameTypes)
@@ -688,6 +737,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        /// <summary>
+        /// Moves the type list head of the given node after the given node.
+        /// Part of the "list trick".
+        /// </summary>
+        /// <param name="elem">The node.</param>
         public void MoveHeadAfter(LGSPNode elem)
         {
             if(elem.type == null) return;       // elem is head
@@ -702,6 +756,11 @@ namespace de.unika.ipd.grGen.lgsp
             elem.typeNext = head;
         }
 
+        /// <summary>
+        /// Moves the type list head of the given edge after the given edge.
+        /// Part of the "list trick".
+        /// </summary>
+        /// <param name="elem">The edge.</param>
         public void MoveHeadAfter(LGSPEdge elem)
         {
             if(elem.type == null) return;       // elem is head
@@ -765,7 +824,11 @@ namespace de.unika.ipd.grGen.lgsp
             NodeAdded(node);
         }
 
-        // TODO: Slow but provides a better interface...
+        /// <summary>
+        /// Adds a new node to the graph.
+        /// </summary>
+        /// <param name="nodeType">The node type for the new node.</param>
+        /// <returns>The newly created node.</returns>
         protected override INode AddINode(NodeType nodeType)
         {
             return AddNode(nodeType);
@@ -1101,6 +1164,9 @@ namespace de.unika.ipd.grGen.lgsp
             EdgeAdded(edge);
         }
 
+        /// <summary>
+        /// Removes all nodes and edges (including any variables pointing to them) from the graph.
+        /// </summary>
         public override void Clear()
         {
             ClearingGraph();
@@ -1888,6 +1954,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 #else
+        /// <summary>
+        /// Analyzes the graph.
+        /// The calculated data is used to generate good searchplans for the current graph.
+        /// </summary>
         public void AnalyzeGraph()
         {
             int numNodeTypes = Model.NodeModel.Types.Length;

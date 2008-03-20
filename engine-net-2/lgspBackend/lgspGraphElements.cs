@@ -295,11 +295,21 @@ namespace de.unika.ipd.grGen.lgsp
             edge.inPrev = null;
         }
 
+        /// <summary>
+        /// Moves the head of the outgoing list after the given edge.
+        /// Part of the "list trick".
+        /// </summary>
+        /// <param name="edge">The edge.</param>
         public void MoveOutHeadAfter(LGSPEdge edge)
         {
             outhead = edge.outNext;
         }
 
+        /// <summary>
+        /// Moves the head of the incoming list after the given edge.
+        /// Part of the "list trick".
+        /// </summary>
+        /// <param name="edge">The edge.</param>
         public void MoveInHeadAfter(LGSPEdge edge)
         {
             inhead = edge.inNext;

@@ -11,6 +11,9 @@ using System.Text;
 
 namespace de.unika.ipd.grGen.lgsp
 {
+    /// <summary>
+    /// A helper class for backend independent graph and rule handling.
+    /// </summary>
     public class LGSPBackend : IBackend
     {
         private static int modelID = 0;

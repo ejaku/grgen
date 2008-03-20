@@ -352,7 +352,16 @@ namespace de.unika.ipd.grGen.libGr
         public long LastMatchTime;
         public long LastRewriteTime;
 
+        /// <summary>
+        /// The total time needed for matching.
+        /// Due to timer resolution, this should not be used, except for very difficult patterns.
+        /// </summary>
         public int TotalMatchTimeMS { get { return totalMatchTime; } }
+
+        /// <summary>
+        /// The total time needed for rewriting.
+        /// Due to timer resolution, this should not be used, except for very big rewrites.
+        /// </summary>
         public int TotalRewriteTimeMS { get { return totalRewriteTime; } }
 
         /// <summary>

@@ -46,17 +46,48 @@ namespace de.unika.ipd.grGen.libGr
 
         #region Abstract members
 
+        /// <summary>
+        /// An associated name.
+        /// </summary>
         public abstract String Name { get; }
+
+        /// <summary>
+        /// An MD5 hash of the used IGraphModel.
+        /// Probably useless...
+        /// </summary>
         public abstract String ModelMD5Hash { get; }
+
+        /// <summary>
+        /// The associated graph.
+        /// </summary>
         public abstract IGraph Graph { get; set; }
 
+        /// <summary>
+        /// Enumerates all actions managed by this BaseActions instance.
+        /// </summary>
         public abstract IEnumerable<IAction> Actions { get; }
+
+        /// <summary>
+        /// Gets the action with the given name.
+        /// </summary>
+        /// <param name="name">The name of the action.</param>
+        /// <returns>The action with the given name, or null, if no such action exists.</returns>
         protected abstract IAction GetIAction(String name);
+
+        /// <summary>
+        /// Gets the action with the given name.
+        /// </summary>
+        /// <param name="name">The name of the action.</param>
+        /// <returns>The action with the given name, or null, if no such action exists.</returns>
         public IAction GetAction(String name)
         {
             return GetIAction(name);
         }
 
+        /// <summary>
+        /// Does action-backend dependent stuff.
+        /// </summary>
+        /// <param name="args">Any kind of paramteres for the stuff to do</param>
         public abstract void Custom(params object[] args);
 
         /// <summary>
@@ -77,6 +108,14 @@ namespace de.unika.ipd.grGen.libGr
 
         #endregion Abstract members
 
+        /// <summary>
+        /// Executes the modifications of the according rule to the given match/matches.
+        /// </summary>
+        /// <param name="matches">The matches object returned by a previous matcher call.</param>
+        /// <param name="which">The index of the match in the matches object to be applied,
+        /// or -1, if all matches are to be applied.</param>
+        /// <param name="perfInfo">A PerformanceInfo object accumulating the number of rewrites performed, or null.</param>
+        /// <returns>A possibly empty array of graph elements returned by the last applied rewrite.</returns>
         public IGraphElement[] Replace(IMatches matches, int which, PerformanceInfo perfInfo)
         {
             IGraphElement[] retElems = null;

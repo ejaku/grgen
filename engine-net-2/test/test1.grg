@@ -1,9 +1,8 @@
 using testModel;
 
 rule testRule {
-   pattern {
-      p1:Process -c1:bigspeedcon-> p2:Process;
-   }
+   p1:Process -c1:bigspeedcon-> p2:Process;
+
    replace {
       p1 -c2:fluffway<c1>-> p2 -c3:connection-> p3:Process;
       

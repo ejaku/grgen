@@ -163,8 +163,8 @@ namespace de.unika.ipd.grGen.lgsp
             //     to a plan graph node created by one of the incoming edges of the pattern node
             // Create "outgoing" plan graph edge from each plan graph node originating with a pattern node
             //     to a plan graph node created by one of the outgoing edges of the pattern node
-            /// Ensured: there's no plan graph edge with a preset element as target besides the lookup,
-            ///     so presets are only search operation sources
+            // Ensured: there's no plan graph edge with a preset element as target besides the lookup,
+            //     so presets are only search operation sources
 
             PlanNode[] planNodes = new PlanNode[patternGraph.nodes.Length + patternGraph.edges.Length];
             List<PlanEdge> planEdges = new List<PlanEdge>(patternGraph.nodes.Length + 5 * patternGraph.edges.Length);   // upper bound for num of edges

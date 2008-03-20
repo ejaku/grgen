@@ -30,6 +30,10 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public SequenceType SequenceType;
 
+        /// <summary>
+        /// Initializes a new Sequence object with the given sequence type.
+        /// </summary>
+        /// <param name="seqType">The sequence type.</param>
         public Sequence(SequenceType seqType)
         {
             SequenceType = seqType;
@@ -90,6 +94,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Initializes a new instance of the SequenceSpecial class.
         /// </summary>
         /// <param name="special">The initial value for the "Special" flag.</param>
+        /// <param name="seqType">The sequence type.</param>
         public SequenceSpecial(bool special, SequenceType seqType)
             : base(seqType)
         {
@@ -97,6 +102,9 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    /// <summary>
+    /// A sequence consisting of a unary operator and another sequence.
+    /// </summary>
     public abstract class SequenceUnary : Sequence
     {
         public Sequence Seq;
@@ -112,6 +120,9 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    /// <summary>
+    /// A sequence consisting of a binary operator and two sequences.
+    /// </summary>
     public abstract class SequenceBinary : Sequence
     {
         public Sequence Left, Right;
