@@ -12,15 +12,21 @@ rm -rf $GRGENDIRSRC/doc
 mkdir $GRGENDIRSRC/doc
 mv $GRGENDIRSRC/grgen.pdf $GRGENDIRSRC/doc/grgen.pdf
 
-# delete new GrGen.NET 2.0 engine
-rm -rf $GRGENDIRSRC/engine-net-2
+# delete old GrGen.NET 1.0 engine
+rm -rf $GRGENDIRSRC/engine-net
+
+rm -rf  $GRGENDIRSRC/engine-net-2/out/examples/UML
+rm -rf  $GRGENDIRSRC/engine-net-2/out/examples/Firm-IFConv
 
 # make tar
 tar cjf $GRGENDIRSRC.tar.bz2 $GRGENDIRSRC
 
 
 # export binaries and examples
-svn export file:///ben/firm/svn/trunk/grgen/engine-net/out/ $GRGENDIR
+svn export file:///ben/firm/svn/trunk/grgen/engine-net-2/out/ $GRGENDIR
+
+rm -rf  $GRGENDIR/examples/UML
+rm -rf  $GRGENDIR/examples/Firm-IFConv
 
 # make tar
 tar cjf $GRGENDIR.tar.bz2 $GRGENDIR
