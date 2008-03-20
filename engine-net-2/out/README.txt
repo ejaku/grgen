@@ -1,4 +1,4 @@
-GrGen.NET v1.3 (2007-11-06)
+GrGen.NET v1.4 (2008-03-20)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -14,7 +14,7 @@ INSTALL
 
 You need the following system setup for GrGen.NET:
   - Microsoft .NET 2.0 or above
-    OR Mono 1.2.2 or above
+    OR Mono 1.2.5 or above
   - Java 1.5 or above
 
 For Linux:
@@ -85,7 +85,7 @@ Please try to avoid them until they are fixed.
 
   - GrShell does not handle tabs correctly.
   - The BaseGraph.Validate function is buggy.
-  - The Mono compiler seems to hang on rules with very large patterns
+  - The Mono runtime crashes on rules with very large patterns
     (~1000 graph elements).
 
 
@@ -120,7 +120,7 @@ Adam Szalkowski
 COPYING
 -------
 
-Copyright (C) 2007  IPD Goos, Universit"at Karlsruhe, Germany
+Copyright (C) 2008  IPD Goos, Universit"at Karlsruhe, Germany
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public

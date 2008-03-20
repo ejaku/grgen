@@ -1,9 +1,4 @@
-TODO: make exec typesafe
-TODO: circular typeof crash
-
-MOF v1.0 Suite?
-
-v1.4 (2008-03-18)
+v1.4 (2008-03-20)
  Features:
   - Introduced the imperative statement "emit" in RHS printing text
     to the console or to files (see UML2CSP2 example)
@@ -58,7 +53,6 @@ v1.4 (2008-03-18)
   
  Examples:
   - Added Sierpinksi3 (with parallel rewrite semantics)
-  - Added UML example
   - Added FiniteStateMachine example
   - Added UML2CSP2 example using the new emit statement
   - Added DebugExec example
