@@ -66,10 +66,6 @@ public class PatternGraphNode extends GraphNode {
 	/** The modifiers for this type. An ORed combination of the constants above. */
 	private int modifiers = 0;
 
-	/** used to add a dangling edge to a NAC. */
-	private static final int INCOMING = 0;
-	private static final int OUTGOING = 1;
-
 	CollectNode<ExprNode> conditions;
 	CollectNode<AlternativeNode> alts;
 	CollectNode<PatternGraphNode> negs;
@@ -683,12 +679,12 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		BaseNode edgeRoot = getDirectedEdgeRootType();
+		BaseNode edgeRoot = getArbitraryEdgeRootType();
 		BaseNode nodeRoot = getNodeRootType();
 
 		// generate and add pattern graphs
 		for (NodeDeclNode singleNodeNegNode : singleNodeNegNodes) {
-			for (int direction = INCOMING; direction <= OUTGOING; direction++) {
+//			for (int direction = INCOMING; direction <= OUTGOING; direction++) {
 				Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
 				Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 				Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getCorrespondentHomSet(singleNodeNegNode));
@@ -709,16 +705,11 @@ public class PatternGraphNode extends GraphNode {
 				EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot, context);
 				NodeDeclNode dummyNode = getAnonymousDummyNode(nodeRoot, context);
 
-				ConnectionCharacter conn = null;
-				if (direction == INCOMING) {
-					conn = new ConnectionNode(dummyNode, edge, singleNodeNegNode, ConnectionNode.DIRECTED, this);
-				} else {
-					conn = new ConnectionNode(singleNodeNegNode, edge, dummyNode, ConnectionNode.DIRECTED, this);
-				}
+				ConnectionNode conn = new ConnectionNode(singleNodeNegNode, edge, dummyNode, ConnectionNode.ARBITRARY, this);
 				conn.addToGraph(neg);
 
 				ret.add(neg);
-			}
+//			}
 		}
 	}
 
