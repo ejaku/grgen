@@ -1,0 +1,55 @@
+using NegAndPartialEdge;
+
+rule init
+{
+	modify
+	{
+		ln:NN --> rn:NN;
+		fn1:NN;
+		fn2:NN;
+		eval
+		{
+			ln.val = 1;
+			rn.val = 1;
+			fn1.val = 42;
+			fn2.val = 42;
+		}
+	}
+}
+
+test negAndPartialEdgeNoNodeTwoNodes
+{
+	-e:Edge->;
+	negative
+	{
+		ln:NN -e-> rn:NN;
+		if { ln.val==42 || rn.val==42; }
+	}
+}
+
+test negAndPartialEdgeNoNodeOneNodeTwoNodes
+{
+	-e:Edge->;
+	negative
+	{
+		ln:NN -e->;
+		if { ln.val==42; }
+
+		negative
+		{
+			-e-> rn:NN;
+			if { rn.val==0; }
+		}
+	}
+}
+
+test negAndPartialEdgeOneNodeTwoNodes
+{
+	ln:NN -e:Edge->;
+	negative
+	{
+		-e-> rn:NN;
+		if { rn.val==42; }
+	}
+}
+
