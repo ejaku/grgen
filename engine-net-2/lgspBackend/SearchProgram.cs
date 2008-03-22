@@ -1602,9 +1602,11 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public CheckCandidateForIsomorphyGlobal(
             string patternElementName,
+            List<string> globallyHomomorphElements,
             bool isNode)
         {
             PatternElementName = patternElementName;
+            GloballyHomomorphElements = globallyHomomorphElements;
             IsNode = isNode;
         }
 
@@ -1612,8 +1614,17 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // first dump check
             builder.AppendFront("CheckCandidate ForIsomorphyGlobal ");
-            builder.AppendFormat("on {0} node:{1} \n",
+            builder.AppendFormat("on {0} node:{1} ",
                 PatternElementName, IsNode);
+            if (GloballyHomomorphElements != null)
+            {
+                builder.Append("but accept if ");
+                foreach (string name in GloballyHomomorphElements)
+                {
+                    builder.AppendFormat("{0} ", name);
+                }
+            }
+            builder.Append("\n");
             // then operations for case check failed
             if (CheckFailedOperations != null)
             {
@@ -1631,8 +1642,20 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
             string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN" 
                 : "LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN";
-            sourceCode.AppendFrontFormat("if(({0}.flags & {1})=={1})\n",
+            sourceCode.AppendFrontFormat("if(({0}.flags & {1})=={1}",
                 variableContainingCandidate, isMatchedBit);
+            if (GloballyHomomorphElements != null)
+            {
+                // don't fail if candidate was globally matched by an element
+                // it is allowed to be globally homomorph to 
+                // (element from alternative case declared to be non-isomorph to element from enclosing pattern)
+                foreach (string name in GloballyHomomorphElements)
+                {
+                    sourceCode.AppendFormat(" && {0}!={1}",
+                        variableContainingCandidate, NamesOfEntities.CandidateVariable(name));
+                }
+            }
+            sourceCode.Append(")\n");
 
             // emit check failed code
             sourceCode.AppendFront("{\n");
@@ -1642,6 +1665,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
+        public List<string> GloballyHomomorphElements;
         public bool IsNode; // node|edge
     }
 
@@ -2026,29 +2050,39 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public AcceptCandidateGlobal(
             string patternElementName,
-             bool isNode)
+            string negativeNamePrefix,
+            bool isNode)
         {
             PatternElementName = patternElementName;
-             IsNode = isNode;
+            NegativeNamePrefix = negativeNamePrefix;
+            IsNode = isNode;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("AcceptCandidateGlobal ");
-            builder.AppendFormat("on {0} node:{1}\n",
-                PatternElementName, IsNode);
+            builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}\n",
+                PatternElementName, NegativeNamePrefix, IsNode);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            string variableContainingBackupOfMappedMember =
+                NamesOfEntities.VariableWithBackupOfIsMatchedBitGlobal(PatternElementName, NegativeNamePrefix);
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+
+            sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMember);
+
             string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN"
                 : "LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN";
+            sourceCode.AppendFrontFormat("{0} = {1}.flags & {2};\n",
+                variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
             sourceCode.AppendFrontFormat("{0}.flags |= {1};\n",
                 variableContainingCandidate, isMatchedBit);
         }
 
         public string PatternElementName;
+        public string NegativeNamePrefix; // "" if positive
         public bool IsNode; // node|edge
     }
 
@@ -2129,28 +2163,35 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public AbandonCandidateGlobal(
             string patternElementName,
+            string negativeNamePrefix,
             bool isNode)
         {
             PatternElementName = patternElementName;
+            NegativeNamePrefix = negativeNamePrefix;
             IsNode = isNode;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("AbandonCandidateGlobal ");
-            builder.AppendFormat("on {0} node:{1}\n",
-                PatternElementName, IsNode);
+            builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}\n",
+                PatternElementName, NegativeNamePrefix, IsNode);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            string variableContainingBackupOfMappedMember =
+                NamesOfEntities.VariableWithBackupOfIsMatchedBitGlobal(PatternElementName, NegativeNamePrefix);
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+
             string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN" 
                 : "LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN";
-            sourceCode.AppendFrontFormat("{0}.flags &= ~{1};\n", variableContainingCandidate, isMatchedBit);
+            sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~({1}) | {2};\n",
+                variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
         }
 
         public string PatternElementName;
+        public string NegativeNamePrefix; // "" if positive
         public bool IsNode; // node|edge
     }
 

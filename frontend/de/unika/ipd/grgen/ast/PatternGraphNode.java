@@ -346,6 +346,28 @@ public class PatternGraphNode extends GraphNode {
             }
 		}
 
+		// add elements only mentioned in hom-declaration to the IR
+		// (they're declared in an enclosing graph and locally only show up in the hom-declaration)
+		Collection<Collection<? extends GraphEntity>> homSets = gr.getHomomorphic();
+		for(Collection<? extends GraphEntity> homSet : homSets)	{
+			for(GraphEntity entity : homSet) {
+				if(entity instanceof Node) {
+					Node neededNode = (Node)entity;
+					if(!gr.hasNode(neededNode)) {
+						gr.addSingleNode(neededNode);
+						gr.addHomToAll(neededNode);
+					}
+				}
+				else {
+					Edge neededEdge = (Edge)entity;
+					if(!gr.hasEdge(neededEdge)) {
+						gr.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
+						gr.addHomToAll(neededEdge);
+					}
+				}
+			}
+		}
+		
 		// add negative parts to the IR
 		for (PatternGraphNode pgn : negs.getChildren()) {
 			PatternGraph neg = pgn.getPatternGraph();

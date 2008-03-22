@@ -72,6 +72,15 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns name of the variable which will be created within the seach program
+        /// backing up the value of the isMatched-Bit of the graph element before assigning to it
+        /// </summary>
+        public static string VariableWithBackupOfIsMatchedBitGlobal(string patternElementName, string negativeNamePrefix)
+        {
+            return "prevGlobal_" + negativeNamePrefix + "_" + CandidateVariable(patternElementName);
+        }
+
+        /// <summary>
         /// Returns name of the task variable which will be created within the seach program
         /// holding the task object whose connections need to be filled before being pushed on the open tasks stack
         /// </summary>

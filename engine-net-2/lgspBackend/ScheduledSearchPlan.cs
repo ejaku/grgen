@@ -6,12 +6,26 @@ namespace de.unika.ipd.grGen.lgsp
 {
     public class IsomorphyInformation
     {
-        // if true, the graph element's is-matched-bit must be checked
+        /// <summary>
+        /// if true, the graph element's is-matched-bit must be checked
+        /// </summary>
         public bool CheckIsMatchedBit = false;
-        // if true, the graph element's is-matched-bit must be set
+
+        /// <summary>
+        /// if true, the graph element's is-matched-bit must be set
+        /// </summary>
         public bool SetIsMatchedBit = false;
-        // pattern elements the current element is not allowed to be homomorph to
+
+        /// <summary>
+        /// pattern elements the current element is not allowed to be homomorph to
+        /// </summary>
         public List<SearchPlanNode> PatternElementsToCheckAgainst = null;
+
+        /// <summary>
+        /// pattern elements the current element is allowed to be globally homomorph to
+        /// </summary>
+        public List<SearchPlanNode> GloballyHomomorphPatternElements = null;
+
 
         public List<string> PatternElementsToCheckAgainstAsListOfStrings()
         {
@@ -22,6 +36,22 @@ namespace de.unika.ipd.grGen.lgsp
 
             List<string> result = new List<string>(PatternElementsToCheckAgainst.Count);
             foreach (SearchPlanNode spn in PatternElementsToCheckAgainst)
+            {
+                result.Add(spn.PatternElement.Name);
+            }
+
+            return result;
+        }
+
+        public List<string> GloballyHomomorphPatternElementsAsListOfStrings()
+        {
+            if (GloballyHomomorphPatternElements == null)
+            {
+                return null;
+            }
+
+            List<string> result = new List<string>(GloballyHomomorphPatternElements.Count);
+            foreach (SearchPlanNode spn in GloballyHomomorphPatternElements)
             {
                 result.Add(spn.PatternElement.Name);
             }

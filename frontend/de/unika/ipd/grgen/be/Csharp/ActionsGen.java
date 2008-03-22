@@ -464,11 +464,51 @@ public class ActionsGen extends CSharpBase {
 				}
 				sb.append("},\n");
 			}
-			sb.append("\t\t\t\t}\n");
+			sb.append("\t\t\t\t}");
 		}
+		sb.append(",\n");
+
+		sb.append("\t\t\t\t");
+		sb.append(pathPrefixForElements + "isNodeHomomorphicGlobal,\n");
+
+		sb.append("\t\t\t\t");
+		sb.append(pathPrefixForElements + "isEdgeHomomorphicGlobal\n");
 
 		sb.append("\t\t\t);\n");
 
+		// link edges to nodes
+		for(Edge edge : pattern.getEdges()) {
+			String edgeName = alreadyDefinedEntityToName.get(edge)!=null ? 
+					alreadyDefinedEntityToName.get(edge) : formatEntity(edge, pathPrefixForElements);
+			
+			if(pattern.getSource(edge)!=null) {
+				String sourceName = formatEntity(pattern.getSource(edge), pathPrefixForElements, alreadyDefinedEntityToName);
+				sb.append("\t\t\t" + patGraphVarName + ".edgeToSourceNode.Add("+edgeName+", "+sourceName+");\n");
+			}
+
+			if(pattern.getTarget(edge)!=null) {
+				String targetName = formatEntity(pattern.getTarget(edge), pathPrefixForElements, alreadyDefinedEntityToName);
+				sb.append("\t\t\t" + patGraphVarName + ".edgeToTargetNode.Add("+edgeName+", "+targetName+");\n");
+			}
+		}
+		
+		// set embedding-member of contained graphs
+		int i = 0;
+		for(Alternative alt : pattern.getAlts()) {
+			String altName = "alt_" + i;
+			for(PatternGraph altCase : alt.getAlternativeCases()) {
+				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCase.getNameOfGraph();
+				sb.append("\t\t\t" + altPatGraphVarName + ".embeddingGraph = " + patGraphVarName + ";\n");
+			}
+			++i;
+		}
+		i = 0;
+		for(PatternGraph neg : pattern.getNegs()) {
+			String negName = "neg_" + i;
+			sb.append("\t\t\t" + pathPrefixForElements+negName + ".embeddingGraph = " + patGraphVarName + ";\n");
+			++i;
+		}
+		
 		return condCnt;
 	}
 
@@ -478,6 +518,42 @@ public class ActionsGen extends CSharpBase {
 												   HashMap<Identifiable, String> alreadyDefinedIdentifiableToName,
 												   int condCntInit, List<Entity> parameters, double max) {
 		String pathPrefixForElements = pathPrefix+patternName+"_";
+
+		sb.append("\t\t\tbool[,] " + pathPrefixForElements + "isNodeHomomorphicGlobal = "
+				+ "new bool[" + pattern.getNodes().size() + ", " + pattern.getNodes().size() + "] ");
+		if(pattern.getNodes().size() > 0) {
+			sb.append("{\n");
+			for(Node node1 : pattern.getNodes()) {
+				sb.append("\t\t\t\t{ ");
+				for(Node node2 : pattern.getNodes()) {
+					if(pattern.isHomomorphicGlobal(alreadyDefinedEntityToName, node1, node2))
+						sb.append("true, ");
+					else
+						sb.append("false, ");
+				}
+				sb.append("},\n");
+			}
+			sb.append("\t\t\t}");
+		}
+		sb.append(";\n");
+
+		sb.append("\t\t\tbool[,] " + pathPrefixForElements + "isEdgeHomomorphicGlobal = "
+				+ "new bool[" + pattern.getEdges().size() + ", " + pattern.getEdges().size() + "] ");
+		if(pattern.getEdges().size() > 0) {
+			sb.append("{\n");
+			for(Edge edge1 : pattern.getEdges()) {
+				sb.append("\t\t\t\t{ ");
+				for(Edge edge2 : pattern.getEdges()) {
+					if(pattern.isHomomorphicGlobal(alreadyDefinedEntityToName, edge1, edge2))
+						sb.append("true, ");
+					else
+						sb.append("false, ");
+				}
+				sb.append("},\n");
+			}
+			sb.append("\t\t\t}");
+		}
+		sb.append(";\n");
 
 		for(Node node : pattern.getNodes()) {
 			if(alreadyDefinedEntityToName.get(node)!=null) {
@@ -500,15 +576,7 @@ public class ActionsGen extends CSharpBase {
 				continue;
 			}
 			String edgeName = formatEntity(edge, pathPrefixForElements);
-			String sourceName = "null";
-			if(pattern.getSource(edge)!=null)
-				sourceName = formatEntity(pattern.getSource(edge), pathPrefixForElements, alreadyDefinedEntityToName);
-			String targetName = "null";
-			if(pattern.getTarget(edge)!=null)
-				targetName = formatEntity(pattern.getTarget(edge), pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append("\t\t\tPatternEdge " + edgeName + " = new PatternEdge(");
-			sb.append(sourceName + ", ");
-			sb.append(targetName + ", ");
 			sb.append((edge.hasFixedDirection() ? "true" : "false") + ", ");
 			sb.append("(int) EdgeTypes.@" + formatIdentifiable(edge.getType())
 						  + ", \"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");

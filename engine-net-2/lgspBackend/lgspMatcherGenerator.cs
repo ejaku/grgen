@@ -177,10 +177,10 @@ namespace de.unika.ipd.grGen.lgsp
                 {
 #if VSTRUCT_VAL_FOR_EDGE_LOOKUP
                     int sourceTypeID;
-                    if(edge.source != null) sourceTypeID = edge.source.TypeID;
+                    if(patternGraph.GetSource(edge) != null) sourceTypeID = patternGraph.GetSource(edge).TypeID;
                     else sourceTypeID = model.NodeModel.RootType.TypeID;
                     int targetTypeID;
-                    if(edge.target != null) targetTypeID = edge.target.TypeID;
+                    if(patternGraph.GetTarget(edge) != null) targetTypeID = patternGraph.GetTarget(edge).TypeID;
                     else targetTypeID = model.NodeModel.RootType.TypeID;
   #if MONO_MULTIDIMARRAY_WORKAROUND
                     cost = graph.vstructs[((sourceTypeID * graph.dim1size + edge.TypeID) * graph.dim2size
@@ -198,8 +198,8 @@ namespace de.unika.ipd.grGen.lgsp
                     searchOperationType = SearchOperationType.Lookup;
                 }
                 planNodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
-                    edge.source!=null ? edge.source.TempPlanMapping : null,
-                    edge.target!=null ? edge.target.TempPlanMapping : null);
+                    patternGraph.GetSource(edge)!=null ? patternGraph.GetSource(edge).TempPlanMapping : null,
+                    patternGraph.GetTarget(edge)!=null ? patternGraph.GetTarget(edge).TempPlanMapping : null);
 
                 PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], cost);
                 planEdges.Add(rootToNodePlanEdge);
@@ -221,8 +221,8 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = false;
                 }
                 planNodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
-                    edge.source!=null ? edge.source.TempPlanMapping : null,
-                    edge.target!=null ? edge.target.TempPlanMapping : null);
+                    patternGraph.GetSource(edge)!=null ? patternGraph.GetSource(edge).TempPlanMapping : null,
+                    patternGraph.GetTarget(edge)!=null ? patternGraph.GetTarget(edge).TempPlanMapping : null);
                 if(isPreset)
                 {
                     PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], 0);
@@ -231,95 +231,95 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 #endif
                 // only add implicit source operation if edge source is needed and the edge source is not a preset node
-                if(edge.source != null && !edge.source.TempPlanMapping.IsPreset)
+                if(patternGraph.GetSource(edge) != null && !patternGraph.GetSource(edge).TempPlanMapping.IsPreset)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
 
 #if OPCOST_WITH_GEO_MEAN 
                     PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        edge.source.TempPlanMapping, 0);
+                        patternGraph.GetSource(edge).TempPlanMapping, 0);
 #else
                     PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        edge.source.TempPlanMapping, 1);
+                        patternGraph.GetSource(edge).TempPlanMapping, 1);
 #endif
                     planEdges.Add(implSrcPlanEdge);
-                    edge.source.TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
+                    patternGraph.GetSource(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
                 }
                 // only add implicit target operation if edge target is needed and the edge target is not a preset node
-                if(edge.target != null && !edge.target.TempPlanMapping.IsPreset)
+                if(patternGraph.GetTarget(edge) != null && !patternGraph.GetTarget(edge).TempPlanMapping.IsPreset)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
 #if OPCOST_WITH_GEO_MEAN 
                     PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        edge.target.TempPlanMapping, 0);
+                        patternGraph.GetTarget(edge).TempPlanMapping, 0);
 #else
                     PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        edge.target.TempPlanMapping, 1);
+                        patternGraph.GetTarget(edge).TempPlanMapping, 1);
 #endif
                     planEdges.Add(implTgtPlanEdge);
-                    edge.target.TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
+                    patternGraph.GetTarget(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
                 }
 
                 // edge must only be reachable from other nodes if it's not a preset
                 if(!isPreset)
                 {
                     // no outgoing if no source
-                    if(edge.source != null)
+                    if(patternGraph.GetSource(edge) != null)
                     {
                         int targetTypeID;
-                        if(edge.target != null) targetTypeID = edge.target.TypeID;
+                        if(patternGraph.GetTarget(edge) != null) targetTypeID = patternGraph.GetTarget(edge).TypeID;
                         else targetTypeID = model.NodeModel.RootType.TypeID;
                         // cost of walking along edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
-                        float normCost = graph.vstructs[((edge.source.TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                        float normCost = graph.vstructs[((patternGraph.GetSource(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
                             + targetTypeID) * 2 + (int) LGSPDir.Out];
                         if (!edge.fixedDirection) {
-                            normCost += graph.vstructs[((edge.source.TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                            normCost += graph.vstructs[((patternGraph.GetSource(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
                                 + targetTypeID) * 2 + (int)LGSPDir.In];
                         }
 #else
-                        float normCost = graph.vstructs[edge.source.TypeID, edge.TypeID, targetTypeID, (int) LGSPDir.Out];
+                        float normCost = graph.vstructs[patternGraph.GetSource(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDir.Out];
                         if (!edge.fixedDirection) {
-                            normCost += graph.vstructs[edge.source.TypeID, edge.TypeID, targetTypeID, (int) LGSPDir.In];
+                            normCost += graph.vstructs[patternGraph.GetSource(edge).TypeID, edge.TypeID, targetTypeID, (int) LGSPDir.In];
                         }
 #endif
-                        if (graph.nodeCounts[edge.source.TypeID] != 0)
-                            normCost /= graph.nodeCounts[edge.source.TypeID];
+                        if (graph.nodeCounts[patternGraph.GetSource(edge).TypeID] != 0)
+                            normCost /= graph.nodeCounts[patternGraph.GetSource(edge).TypeID];
                         SearchOperationType operation = edge.fixedDirection ?
                             SearchOperationType.Outgoing : SearchOperationType.Incident;
-                        PlanEdge outPlanEdge = new PlanEdge(operation, edge.source.TempPlanMapping, 
+                        PlanEdge outPlanEdge = new PlanEdge(operation, patternGraph.GetSource(edge).TempPlanMapping, 
                             planNodes[nodesIndex], normCost);
                         planEdges.Add(outPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(outPlanEdge);
                     }
 
                     // no incoming if no target
-                    if(edge.target != null)
+                    if(patternGraph.GetTarget(edge) != null)
                     {
                         int sourceTypeID;
-                        if(edge.source != null) sourceTypeID = edge.source.TypeID;
+                        if(patternGraph.GetSource(edge) != null) sourceTypeID = patternGraph.GetSource(edge).TypeID;
                         else sourceTypeID = model.NodeModel.RootType.TypeID;
                         // cost of walking in opposite direction of edge
 #if MONO_MULTIDIMARRAY_WORKAROUND
-                        float revCost = graph.vstructs[((edge.target.TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                        float revCost = graph.vstructs[((patternGraph.GetTarget(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
                             + sourceTypeID) * 2 + (int) LGSPDir.In];
                         if (!edge.fixedDirection) {
-                            revCost += graph.vstructs[((edge.target.TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
+                            revCost += graph.vstructs[((patternGraph.GetTarget(edge).TypeID * graph.dim1size + edge.TypeID) * graph.dim2size
                                 + sourceTypeID) * 2 + (int)LGSPDir.Out];
                         }
 #else
-                        float revCost = graph.vstructs[edge.target.TypeID, edge.TypeID, sourceTypeID, (int) LGSPDir.In];
+                        float revCost = graph.vstructs[patternGraph.GetTarget(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDir.In];
                         if (!edge.fixedDirection) {
-                            revCost += graph.vstructs[edge.target.TypeID, edge.TypeID, sourceTypeID, (int) LGSPDir.Out];
+                            revCost += graph.vstructs[patternGraph.GetTarget(edge).TypeID, edge.TypeID, sourceTypeID, (int) LGSPDir.Out];
                         }
 #endif
-                        if (graph.nodeCounts[edge.target.TypeID] != 0)
-                            revCost /= graph.nodeCounts[edge.target.TypeID];
+                        if (graph.nodeCounts[patternGraph.GetTarget(edge).TypeID] != 0)
+                            revCost /= graph.nodeCounts[patternGraph.GetTarget(edge).TypeID];
                         SearchOperationType operation = edge.fixedDirection ?
                             SearchOperationType.Incoming : SearchOperationType.Incident;
-                        PlanEdge inPlanEdge = new PlanEdge(operation, edge.target.TempPlanMapping,
+                        PlanEdge inPlanEdge = new PlanEdge(operation, patternGraph.GetTarget(edge).TempPlanMapping,
                             planNodes[nodesIndex], revCost);
                         planEdges.Add(inPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(inPlanEdge);
@@ -841,6 +841,9 @@ exitSecondLoop: ;
         /// </summary>
         public void DetermineAndAppendHomomorphyChecks(ScheduledSearchPlan ssp, int j)
         {
+            // take care of global homomorphy
+            FillInGlobalHomomorphyPatternElements(ssp, j);
+        
             ///////////////////////////////////////////////////////////////////////////
             // first handle special case pure homomorphy
 
@@ -878,8 +881,8 @@ exitSecondLoop: ;
             }
 
             ///////////////////////////////////////////////////////////////////////////
-            // no pure homomorphy or isomorphy, so we have restricted homomorphy
-            // and need to inspect the operations before together with the homomorphy matrix 
+            // no pure homomorphy, so we have restricted homomorphy or isomorphy
+            // and need to inspect the operations before, together with the homomorphy matrix 
             // for determining the necessary homomorphy checks
 
             GrGenType[] types;
@@ -961,6 +964,53 @@ exitSecondLoop: ;
             {
                 // order operation to check whether the is-matched-bit is set
                 ssp.Operations[j].Isomorphy.CheckIsMatchedBit = true;
+            }
+        }
+
+        /// <summary>
+        /// fill in globally homomorphic elements as exception to global isomorphy check
+        /// </summary>
+        public void FillInGlobalHomomorphyPatternElements(ScheduledSearchPlan ssp, int j)
+        {
+            SearchPlanNode spn_j = (SearchPlanNode)ssp.Operations[j].Element;
+
+            bool[,] homGlobal;
+            if (spn_j.NodeType == PlanNodeType.Node) {
+                homGlobal = ssp.PatternGraph.HomomorphicNodesGlobal;
+            }
+            else { // (spn_j.NodeType == PlanNodeType.Edge)
+                homGlobal = ssp.PatternGraph.HomomorphicEdgesGlobal;
+            }
+
+            // iterate through the operations before our position
+            for (int i = 0; i < j; ++i)
+            {
+                // only check operations computing nodes or edges
+                if (ssp.Operations[i].Type == SearchOperationType.Condition
+                    || ssp.Operations[i].Type == SearchOperationType.NegativePattern)
+                {
+                    continue;
+                }
+
+                SearchPlanNode spn_i = (SearchPlanNode)ssp.Operations[i].Element;
+
+                // don't compare nodes with edges
+                if (spn_i.NodeType != spn_j.NodeType)
+                {
+                    continue;
+                }
+           
+                // in global isomorphy check at current position 
+                // allow globally homomorphic elements as exception
+                // if they were already defined(preset)
+                if (homGlobal[spn_j.ElementID - 1, spn_i.ElementID - 1])
+                {
+                    if (ssp.Operations[j].Isomorphy.GloballyHomomorphPatternElements == null)
+                    {
+                        ssp.Operations[j].Isomorphy.GloballyHomomorphPatternElements = new List<SearchPlanNode>();
+                    }
+                    ssp.Operations[j].Isomorphy.GloballyHomomorphPatternElements.Add(spn_i);
+                }
             }
         }
 

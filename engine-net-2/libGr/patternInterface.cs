@@ -36,17 +36,9 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public interface IPatternEdge : IPatternElement
     {
-        /// <summary>
-        /// The source pattern node of the edge.
-        /// </summary>
-        IPatternNode Source { get; }
-        
-        /// <summary>
-        /// The target pattern node of the edge.
-        /// </summary>
-        IPatternNode Target { get; }
+        // currently empty
     }
-    
+
     /// <summary>
     /// A pattern graph.
     /// </summary>
@@ -68,6 +60,16 @@ namespace de.unika.ipd.grGen.libGr
         IPatternEdge[] Edges { get; }
 
         /// <summary>
+        /// Returns the source pattern node of the given edge, null if edge dangles to the left
+        /// </summary>
+        IPatternNode GetSource(IPatternEdge edge);
+
+        /// <summary>
+        /// Returns the target pattern node of the given edge, null if edge dangles to the right
+        /// </summary>
+        IPatternNode GetTarget(IPatternEdge edge);
+
+        /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node.
         /// </summary>
         bool[,] HomomorphicNodes { get; }
@@ -76,6 +78,18 @@ namespace de.unika.ipd.grGen.libGr
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge.
         /// </summary>
         bool[,] HomomorphicEdges { get; }
+
+        /// <summary>
+        /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
+        /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases).
+        /// </summary>
+        bool[,] HomomorphicNodesGlobal { get; }
+
+        /// <summary>
+        /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
+        /// i.e. the edges are contained in different, but locally nested patterns (alternative cases).
+        /// </summary>
+        bool[,] HomomorphicEdgesGlobal { get; }
 
         /// <summary>
         /// An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
@@ -92,6 +106,11 @@ namespace de.unika.ipd.grGen.libGr
         /// (NACs - Negative Application Conditions).
         /// </summary>
         IPatternGraph[] NegativePatternGraphs { get; }
+
+        /// <summary>
+        /// The pattern graph which contains this pattern graph, null if this is a top-level-graph
+        /// </summary>
+        IPatternGraph EmbeddingGraph { get; }
     }
 
     /// <summary>

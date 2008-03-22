@@ -131,7 +131,8 @@ test ComplexMax {
 
 rule createABA {
 	modify {
-		a:A-->:B-->a;
+		a:A-->b:B-->a;
+		a-->b-->a;
 	}
 }
 

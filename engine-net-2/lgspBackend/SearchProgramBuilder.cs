@@ -707,6 +707,7 @@ namespace de.unika.ipd.grGen.lgsp
                 CheckCandidateForIsomorphyGlobal checkIsomorphy =
                     new CheckCandidateForIsomorphyGlobal(
                         target.PatternElement.Name,
+                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                         isNode);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
@@ -821,6 +822,7 @@ namespace de.unika.ipd.grGen.lgsp
                 CheckCandidateForIsomorphyGlobal checkIsomorphy =
                     new CheckCandidateForIsomorphyGlobal(
                         target.PatternElement.Name,
+                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                         true);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
@@ -926,6 +928,7 @@ namespace de.unika.ipd.grGen.lgsp
                 CheckCandidateForIsomorphyGlobal checkIsomorphy =
                     new CheckCandidateForIsomorphyGlobal(
                         target.PatternElement.Name,
+                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
                         false);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
@@ -1503,6 +1506,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertGlobalAccept(SearchProgramOperation insertionPoint)
         {
+            string negativeNamePrefix = NegativeNamePrefix();
+
             bool isAction = programType == SearchProgramType.Action
                     || programType == SearchProgramType.MissingPreset;
 
@@ -1512,7 +1517,7 @@ namespace de.unika.ipd.grGen.lgsp
                     || patternGraph.nodes[i].PointOfDefinition == null && isAction)
                 {
                     AcceptCandidateGlobal acceptGlobal =
-                        new AcceptCandidateGlobal(patternGraph.nodes[i].name, true);
+                        new AcceptCandidateGlobal(patternGraph.nodes[i].name, negativeNamePrefix, true);
                     insertionPoint = insertionPoint.Append(acceptGlobal);
                 }
             }
@@ -1522,7 +1527,7 @@ namespace de.unika.ipd.grGen.lgsp
                     || patternGraph.edges[i].PointOfDefinition == null && isAction)
                 {
                     AcceptCandidateGlobal acceptGlobal =
-                        new AcceptCandidateGlobal(patternGraph.edges[i].name, false);
+                        new AcceptCandidateGlobal(patternGraph.edges[i].name, negativeNamePrefix, false);
                     insertionPoint = insertionPoint.Append(acceptGlobal);
                 }
             }
@@ -1536,18 +1541,31 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertGlobalAbandon(SearchProgramOperation insertionPoint)
         {
+            string negativeNamePrefix = NegativeNamePrefix();
+
+            bool isAction = programType == SearchProgramType.Action
+                    || programType == SearchProgramType.MissingPreset;
+
             // global abandon of all candidate elements (remove isomorphy information)
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
             {
-                AbandonCandidateGlobal abandonGlobal =
-                    new AbandonCandidateGlobal(patternGraph.nodes[i].name, true);
-                insertionPoint = insertionPoint.Append(abandonGlobal);
+                if (patternGraph.nodes[i].PointOfDefinition == patternGraph
+                    || patternGraph.nodes[i].PointOfDefinition == null && isAction)
+                {
+                    AbandonCandidateGlobal abandonGlobal =
+                        new AbandonCandidateGlobal(patternGraph.nodes[i].name, negativeNamePrefix, true);
+                    insertionPoint = insertionPoint.Append(abandonGlobal);
+                }
             }
             for (int i = 0; i < patternGraph.edges.Length; ++i)
             {
-                AbandonCandidateGlobal abandonGlobal =
-                    new AbandonCandidateGlobal(patternGraph.edges[i].name, false);
-                insertionPoint = insertionPoint.Append(abandonGlobal);
+                if (patternGraph.edges[i].PointOfDefinition == patternGraph
+                    || patternGraph.edges[i].PointOfDefinition == null && isAction)
+                {
+                    AbandonCandidateGlobal abandonGlobal =
+                        new AbandonCandidateGlobal(patternGraph.edges[i].name, negativeNamePrefix, false);
+                    insertionPoint = insertionPoint.Append(abandonGlobal);
+                }
             }
 
             return insertionPoint;

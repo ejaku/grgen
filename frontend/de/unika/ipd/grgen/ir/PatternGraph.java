@@ -29,6 +29,7 @@ package de.unika.ipd.grgen.ir;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -172,7 +173,21 @@ public class PatternGraph extends Graph {
 		return homToAllEdges.contains(e1) || homToAllEdges.contains(e2)
 				|| getHomomorphic(e1).contains(e2);
 	}
-	
+
+	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Node n1, Node n2) {
+		if(!getHomomorphic(n1).contains(n2)) {
+			return false;
+		}
+		return alreadyDefinedEntityToName.containsKey(n1) != alreadyDefinedEntityToName.containsKey(n2);
+	}
+
+	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Edge e1, Edge e2) {
+		if(!getHomomorphic(e1).contains(e2)) {
+			return false;
+		}
+		return alreadyDefinedEntityToName.containsKey(e1) != alreadyDefinedEntityToName.containsKey(e2);
+	}
+
 	public boolean isIndependent() {
 		return isIndependent;
 	}

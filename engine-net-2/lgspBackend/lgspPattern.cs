@@ -10,7 +10,6 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// An element of a rule pattern.
     /// </summary>
-    [DebuggerDisplay("PatternElement ({name}:{TypeID})")]
     public abstract class PatternElement : IPatternElement
     {
         /// <summary>
@@ -23,7 +22,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public String UnprefixedName { get { return unprefixedName; } }
 
-        public PatternGraph PointOfDefinition; // the pattern this element gets matched (null if rule parameter)
+        /// <summary>
+        /// the pattern this element gets matched (null if rule parameter)
+        /// </summary>
+        public PatternGraph PointOfDefinition;
 
         public int TypeID;
         public String name;
@@ -59,12 +61,20 @@ namespace de.unika.ipd.grGen.lgsp
             this.Cost = cost;
             this.ParameterIndex = parameterIndex;
         }
+
+        /// <summary>
+        /// Converts this instance into a string representation.
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
+        public override string ToString()
+        {
+            return Name + ":" + TypeID;
+        }
     }
 
     /// <summary>
     /// A pattern node of a rule pattern.
     /// </summary>
-    [DebuggerDisplay("PatternNode ({name}:{TypeID})")]
     public class PatternNode : PatternElement, IPatternNode
     {
         /// <summary>
@@ -92,34 +102,22 @@ namespace de.unika.ipd.grGen.lgsp
             : base(typeID, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
         {
         }
+
+        /// <summary>
+        /// Converts this instance into a string representation.
+        /// </summary>
+        /// <returns>The string representation of this instance.</returns>
+        public override string ToString()
+        {
+            return Name + ":" + TypeID;
+        }
     }
 
     /// <summary>
     /// A pattern edge of a rule pattern.
     /// </summary>
-    [DebuggerDisplay("PatternEdge ({ToString()})")]
     public class PatternEdge : PatternElement, IPatternEdge
     {
-        /// <summary>
-        /// The source pattern node of the edge.
-        /// </summary>
-        public IPatternNode Source { get { return source; } }
-
-        /// <summary>
-        /// The target pattern node of the edge.
-        /// </summary>
-        public IPatternNode Target { get { return target; } }
-
-        /// <summary>
-        /// The source pattern node of the edge.
-        /// </summary>
-        public PatternNode source;
-
-        /// <summary>
-        /// The target pattern node of the edge.
-        /// </summary>
-        public PatternNode target;
-
         /// <summary>
         /// Indicates, whether this pattern edge should be matched with a fixed direction or not.
         /// </summary>
@@ -142,14 +140,12 @@ namespace de.unika.ipd.grGen.lgsp
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
-        public PatternEdge(PatternNode source, PatternNode target, bool fixedDirection,
+        public PatternEdge(bool fixedDirection,
             int typeID, String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType,
             float cost, int parameterIndex)
             : base(typeID, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
         {
-            this.source = source;
-            this.target = target;
             this.fixedDirection = fixedDirection;
         }
 
@@ -159,10 +155,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The string representation of this instance.</returns>
         public override string ToString()
         {
-            return source.Name + " -" + Name + ":" + TypeID + "-> " + target.Name;
+            if(fixedDirection)
+                return "-" + Name + ":" + TypeID + "->";
+            else
+                return "<-" + Name + ":" + TypeID + "->";
         }
     }
 
+    /// <summary>
+    /// Representation of some condition which must be true for the pattern containing it to be matched
+    /// </summary>
     public class Condition
     {
         public int ID;
@@ -202,6 +204,22 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternEdge[] Edges { get { return edges; } }
 
         /// <summary>
+        /// Returns the source pattern node of the given edge, null if edge dangles to the left
+        /// </summary>
+        public IPatternNode GetSource(IPatternEdge edge)
+        {
+            return GetSource((PatternEdge)edge);
+        }
+
+        /// <summary>
+        /// Returns the target pattern node of the given edge, null if edge dangles to the right
+        /// </summary>
+        public IPatternNode GetTarget(IPatternEdge edge)
+        {
+            return GetTarget((PatternEdge)edge);
+        }
+
+        /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node.
         /// </summary>
         public bool[,] HomomorphicNodes { get { return homomorphicNodes; } }
@@ -210,6 +228,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge.
         /// </summary>
         public bool[,] HomomorphicEdges { get { return homomorphicEdges; } }
+
+        /// <summary>
+        /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
+        /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases).
+        /// </summary>
+        public bool[,] HomomorphicNodesGlobal { get { return homomorphicNodesGlobal; } }
+
+        /// <summary>
+        /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
+        /// i.e. the edges are contained in different, but locally nested patterns (alternative cases).
+        /// </summary>
+        public bool[,] HomomorphicEdgesGlobal { get { return homomorphicEdgesGlobal; } }
 
         /// <summary>
         /// An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
@@ -228,11 +258,23 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternGraph[] NegativePatternGraphs { get { return negativePatternGraphs; } }
 
         /// <summary>
+        /// The pattern graph which contains this pattern graph, null if this is a top-level-graph
+        /// </summary>
+        public IPatternGraph EmbeddingGraph { get { return embeddingGraph; } }
+
+        /// <summary>
         /// The name of the pattern graph
         /// </summary>
         public String name;
 
+        /// <summary>
+        /// Prefix for name from nesting path
+        /// </summary>
         public String pathPrefix;
+
+        /// <summary>
+        /// NIY
+        /// </summary>
         public bool isIndependent;
 
         /// <summary>
@@ -246,6 +288,54 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternEdge[] edges;
 
         /// <summary>
+        /// Returns the source pattern node of the given edge, null if edge dangles to the left
+        /// </summary>
+        public PatternNode GetSource(PatternEdge edge)
+        {
+            if (edgeToSourceNode.ContainsKey(edge))
+            {
+                return edgeToSourceNode[edge];
+            }
+
+            if (edge.PointOfDefinition != this
+                && embeddingGraph != null)
+            {
+                return embeddingGraph.GetSource(edge);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the target pattern node of the given edge, null if edge dangles to the right
+        /// </summary>
+        public PatternNode GetTarget(PatternEdge edge)
+        {
+            if (edgeToTargetNode.ContainsKey(edge))
+            {
+                return edgeToTargetNode[edge];
+            }
+
+            if (edge.PointOfDefinition != this
+                && embeddingGraph != null)
+            {
+                return embeddingGraph.GetTarget(edge);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// contains the source node of the pattern edges in this graph if specified 
+        /// </summary>
+        public Dictionary<PatternEdge, PatternNode> edgeToSourceNode = new Dictionary<PatternEdge,PatternNode>();
+        
+        /// <summary>
+        /// contains the target node of the pattern edges in this graph if specified 
+        /// </summary>
+        public Dictionary<PatternEdge, PatternNode> edgeToTargetNode = new Dictionary<PatternEdge,PatternNode>();
+
+        /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node.
         /// </summary>
         public bool[,] homomorphicNodes;
@@ -254,6 +344,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge.
         /// </summary>
         public bool[,] homomorphicEdges;
+
+        /// <summary>
+        /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
+        /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases).
+        /// </summary>
+        public bool[,] homomorphicNodesGlobal;
+
+        /// <summary>
+        /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
+        /// i.e. the edges are contained in different, but locally nested patterns (alternative cases).
+        /// </summary>
+        public bool[,] homomorphicEdgesGlobal;
 
         /// <summary>
         /// An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
@@ -271,6 +373,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PatternGraph[] negativePatternGraphs;
 
+        /// <summary>
+        /// The pattern graph which contains this pattern graph, null if this is a top-level-graph 
+        /// </summary>
+        public PatternGraph embeddingGraph;
+
+        /// <summary>
+        /// The conditions used in this pattern graph or it's nested graphs
+        /// </summary>
         public Condition[] Conditions;
 
         public ScheduledSearchPlan Schedule;
@@ -280,7 +390,8 @@ namespace de.unika.ipd.grGen.lgsp
             PatternNode[] nodes, PatternEdge[] edges,
             PatternGraphEmbedding[] embeddedGraphs, Alternative[] alternatives, 
             PatternGraph[] negativePatternGraphs, Condition[] conditions,
-            bool[,] homomorphicNodes, bool[,] homomorphicEdges)
+            bool[,] homomorphicNodes, bool[,] homomorphicEdges,
+            bool[,] homomorphicNodesGlobal, bool[,] homomorphicEdgesGlobal)
         {
             this.name = name;
             this.pathPrefix = pathPrefix;
@@ -293,6 +404,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.Conditions = conditions;
             this.homomorphicNodes = homomorphicNodes;
             this.homomorphicEdges = homomorphicEdges;
+            this.homomorphicNodesGlobal = homomorphicNodesGlobal;
+            this.homomorphicEdgesGlobal = homomorphicEdgesGlobal;
         }
     }
 
@@ -317,7 +430,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IPatternElement[] Connections { get { return connections; } }
 
-        public PatternGraph PointOfDefinition; // the pattern this complex subpattern element gets matched
+        /// <summary>
+        /// the pattern this complex subpattern element gets matched
+        /// </summary>
+        public PatternGraph PointOfDefinition;
 
         /// <summary>
         /// The name of the usage of the subpattern.
@@ -354,7 +470,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IPatternGraph[] AlternativeCases { get { return alternativeCases; } }
 
+        /// <summary>
+        /// Name of the alternative
+        /// </summary>
         public String name;
+
+        /// <summary>
+        /// Prefix for name from nesting path
+        /// </summary>
         public String pathPrefix;
 
         /// <summary>
@@ -445,6 +568,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public GrGenType[] inputs; // redundant convenience, information already given by/within the PatternElements
 
+        /// <summary>
+        /// Names of the rule parameter elements
+        /// </summary>
         public string[] inputNames;
 
         /// <summary>
@@ -452,10 +578,20 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public GrGenType[] outputs;
 
+        /// <summary>
+        /// Names of the rule return elements
+        /// </summary>
         public string[] outputNames;
 
+        /// <summary>
+        /// Our name
+        /// </summary>
         public string name;
-        public bool isSubpattern; // are we a rule or a subpattern?
+        
+        /// <summary>
+        /// Are we a rule or a subpattern?
+        /// </summary>
+        public bool isSubpattern;
 
         public abstract void initialize();
     }

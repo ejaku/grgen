@@ -7,6 +7,232 @@ using de.unika.ipd.grGen.Model_Turing3;
 
 namespace de.unika.ipd.grGen.Action_Turing3
 {
+	public class Rule_readZeroRule : LGSPRulePattern
+	{
+		private static Rule_readZeroRule instance = null;
+		public static Rule_readZeroRule Instance { get { if (instance==null) { instance = new Rule_readZeroRule(); instance.initialize(); } return instance; } }
+
+		public static NodeType[] readZeroRule_node_s_AllowedTypes = null;
+		public static NodeType[] readZeroRule_node_wv_AllowedTypes = null;
+		public static NodeType[] readZeroRule_node_bp_AllowedTypes = null;
+		public static bool[] readZeroRule_node_s_IsAllowedType = null;
+		public static bool[] readZeroRule_node_wv_IsAllowedType = null;
+		public static bool[] readZeroRule_node_bp_IsAllowedType = null;
+		public static EdgeType[] readZeroRule_edge_rv_AllowedTypes = null;
+		public static bool[] readZeroRule_edge_rv_IsAllowedType = null;
+		public enum readZeroRule_NodeNums { @s, @wv, @bp, };
+		public enum readZeroRule_EdgeNums { @rv, };
+		public enum readZeroRule_SubNums { };
+		public enum readZeroRule_AltNums { };
+
+#if INITIAL_WARMUP
+		public Rule_readZeroRule()
+#else
+		private Rule_readZeroRule()
+#endif
+		{
+			name = "readZeroRule";
+			isSubpattern = false;
+
+			inputs = new GrGenType[] { NodeType_State.typeVar, NodeType_BandPosition.typeVar, };
+			inputNames = new string[] { "readZeroRule_node_s", "readZeroRule_node_bp", };
+			outputs = new GrGenType[] { NodeType_WriteValue.typeVar, };
+			outputNames = new string[] { "readZeroRule_node_wv", };
+		}
+		public override void initialize()
+		{
+			PatternGraph pat_readZeroRule;
+			bool[,] readZeroRule_isNodeHomomorphicGlobal = new bool[3, 3] {
+				{ false, false, false, },
+				{ false, false, false, },
+				{ false, false, false, },
+			};
+			bool[,] readZeroRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
+				{ false, },
+			};
+			PatternNode readZeroRule_node_s = new PatternNode((int) NodeTypes.@State, "readZeroRule_node_s", "s", readZeroRule_node_s_AllowedTypes, readZeroRule_node_s_IsAllowedType, 5.5F, 0);
+			PatternNode readZeroRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1);
+			PatternNode readZeroRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1);
+			PatternEdge readZeroRule_edge_rv = new PatternEdge(true, (int) EdgeTypes.@readZero, "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1);
+			Condition cond_0 = new Condition(0, new String[] { "readZeroRule_node_bp" }, new String[] {  });
+			pat_readZeroRule = new PatternGraph(
+				"readZeroRule",
+				"",
+				false,
+				new PatternNode[] { readZeroRule_node_s, readZeroRule_node_wv, readZeroRule_node_bp }, 
+				new PatternEdge[] { readZeroRule_edge_rv }, 
+				new PatternGraphEmbedding[] {  }, 
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] { cond_0,  }, 
+				new bool[3, 3] {
+					{ true, false, false, },
+					{ false, true, false, },
+					{ false, false, true, },
+				},
+				new bool[1, 1] {
+					{ true, },
+				},
+				readZeroRule_isNodeHomomorphicGlobal,
+				readZeroRule_isEdgeHomomorphicGlobal
+			);
+			pat_readZeroRule.edgeToSourceNode.Add(readZeroRule_edge_rv, readZeroRule_node_s);
+			pat_readZeroRule.edgeToTargetNode.Add(readZeroRule_edge_rv, readZeroRule_node_wv);
+			readZeroRule_node_s.PointOfDefinition = null;
+			readZeroRule_node_wv.PointOfDefinition = pat_readZeroRule;
+			readZeroRule_node_bp.PointOfDefinition = null;
+			readZeroRule_edge_rv.PointOfDefinition = pat_readZeroRule;
+
+			patternGraph = pat_readZeroRule;
+		}
+
+		public static bool Condition_0(LGSPNode node_bp)
+		{
+			return (((INode_BandPosition) node_bp).@value == 0);
+		}
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_bp = match.Nodes[(int) readZeroRule_NodeNums.@bp];
+			LGSPNode node_wv = match.Nodes[(int) readZeroRule_NodeNums.@wv];
+			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
+			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			int var_i = inode_wv.@value;
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
+			inode_bp.@value = var_i;
+			return new IGraphElement[] { node_wv, };
+		}
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_bp = match.Nodes[(int) readZeroRule_NodeNums.@bp];
+			LGSPNode node_wv = match.Nodes[(int) readZeroRule_NodeNums.@wv];
+			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
+			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			int var_i = inode_wv.@value;
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
+			inode_bp.@value = var_i;
+			return new IGraphElement[] { node_wv, };
+		}
+		private static String[] addedNodeNames = new String[] {  };
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {  };
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+	public class Rule_readOneRule : LGSPRulePattern
+	{
+		private static Rule_readOneRule instance = null;
+		public static Rule_readOneRule Instance { get { if (instance==null) { instance = new Rule_readOneRule(); instance.initialize(); } return instance; } }
+
+		public static NodeType[] readOneRule_node_s_AllowedTypes = null;
+		public static NodeType[] readOneRule_node_wv_AllowedTypes = null;
+		public static NodeType[] readOneRule_node_bp_AllowedTypes = null;
+		public static bool[] readOneRule_node_s_IsAllowedType = null;
+		public static bool[] readOneRule_node_wv_IsAllowedType = null;
+		public static bool[] readOneRule_node_bp_IsAllowedType = null;
+		public static EdgeType[] readOneRule_edge_rv_AllowedTypes = null;
+		public static bool[] readOneRule_edge_rv_IsAllowedType = null;
+		public enum readOneRule_NodeNums { @s, @wv, @bp, };
+		public enum readOneRule_EdgeNums { @rv, };
+		public enum readOneRule_SubNums { };
+		public enum readOneRule_AltNums { };
+
+#if INITIAL_WARMUP
+		public Rule_readOneRule()
+#else
+		private Rule_readOneRule()
+#endif
+		{
+			name = "readOneRule";
+			isSubpattern = false;
+
+			inputs = new GrGenType[] { NodeType_State.typeVar, NodeType_BandPosition.typeVar, };
+			inputNames = new string[] { "readOneRule_node_s", "readOneRule_node_bp", };
+			outputs = new GrGenType[] { NodeType_WriteValue.typeVar, };
+			outputNames = new string[] { "readOneRule_node_wv", };
+		}
+		public override void initialize()
+		{
+			PatternGraph pat_readOneRule;
+			bool[,] readOneRule_isNodeHomomorphicGlobal = new bool[3, 3] {
+				{ false, false, false, },
+				{ false, false, false, },
+				{ false, false, false, },
+			};
+			bool[,] readOneRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
+				{ false, },
+			};
+			PatternNode readOneRule_node_s = new PatternNode((int) NodeTypes.@State, "readOneRule_node_s", "s", readOneRule_node_s_AllowedTypes, readOneRule_node_s_IsAllowedType, 5.5F, 0);
+			PatternNode readOneRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1);
+			PatternNode readOneRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1);
+			PatternEdge readOneRule_edge_rv = new PatternEdge(true, (int) EdgeTypes.@readOne, "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1);
+			Condition cond_0 = new Condition(0, new String[] { "readOneRule_node_bp" }, new String[] {  });
+			pat_readOneRule = new PatternGraph(
+				"readOneRule",
+				"",
+				false,
+				new PatternNode[] { readOneRule_node_s, readOneRule_node_wv, readOneRule_node_bp }, 
+				new PatternEdge[] { readOneRule_edge_rv }, 
+				new PatternGraphEmbedding[] {  }, 
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] { cond_0,  }, 
+				new bool[3, 3] {
+					{ true, false, false, },
+					{ false, true, false, },
+					{ false, false, true, },
+				},
+				new bool[1, 1] {
+					{ true, },
+				},
+				readOneRule_isNodeHomomorphicGlobal,
+				readOneRule_isEdgeHomomorphicGlobal
+			);
+			pat_readOneRule.edgeToSourceNode.Add(readOneRule_edge_rv, readOneRule_node_s);
+			pat_readOneRule.edgeToTargetNode.Add(readOneRule_edge_rv, readOneRule_node_wv);
+			readOneRule_node_s.PointOfDefinition = null;
+			readOneRule_node_wv.PointOfDefinition = pat_readOneRule;
+			readOneRule_node_bp.PointOfDefinition = null;
+			readOneRule_edge_rv.PointOfDefinition = pat_readOneRule;
+
+			patternGraph = pat_readOneRule;
+		}
+
+		public static bool Condition_0(LGSPNode node_bp)
+		{
+			return (((INode_BandPosition) node_bp).@value == 1);
+		}
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_bp = match.Nodes[(int) readOneRule_NodeNums.@bp];
+			LGSPNode node_wv = match.Nodes[(int) readOneRule_NodeNums.@wv];
+			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
+			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			int var_i = inode_wv.@value;
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
+			inode_bp.@value = var_i;
+			return new IGraphElement[] { node_wv, };
+		}
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_bp = match.Nodes[(int) readOneRule_NodeNums.@bp];
+			LGSPNode node_wv = match.Nodes[(int) readOneRule_NodeNums.@wv];
+			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
+			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			int var_i = inode_wv.@value;
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
+			inode_bp.@value = var_i;
+			return new IGraphElement[] { node_wv, };
+		}
+		private static String[] addedNodeNames = new String[] {  };
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {  };
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
 	public class Rule_ensureMoveLeftValidRule : LGSPRulePattern
 	{
 		private static Rule_ensureMoveLeftValidRule instance = null;
@@ -50,13 +276,28 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public override void initialize()
 		{
 			PatternGraph pat_ensureMoveLeftValidRule;
+			bool[,] ensureMoveLeftValidRule_isNodeHomomorphicGlobal = new bool[3, 3] {
+				{ false, false, false, },
+				{ false, false, false, },
+				{ false, false, false, },
+			};
+			bool[,] ensureMoveLeftValidRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
+				{ false, },
+			};
 			PatternNode ensureMoveLeftValidRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "ensureMoveLeftValidRule_node_wv", "wv", ensureMoveLeftValidRule_node_wv_AllowedTypes, ensureMoveLeftValidRule_node_wv_IsAllowedType, 5.5F, 0);
 			PatternNode ensureMoveLeftValidRule_node__node0 = new PatternNode((int) NodeTypes.@State, "ensureMoveLeftValidRule_node__node0", "_node0", ensureMoveLeftValidRule_node__node0_AllowedTypes, ensureMoveLeftValidRule_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode ensureMoveLeftValidRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "ensureMoveLeftValidRule_node_bp", "bp", ensureMoveLeftValidRule_node_bp_AllowedTypes, ensureMoveLeftValidRule_node_bp_IsAllowedType, 5.5F, 1);
-			PatternEdge ensureMoveLeftValidRule_edge__edge0 = new PatternEdge(ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node__node0, true, (int) EdgeTypes.@moveLeft, "ensureMoveLeftValidRule_edge__edge0", "_edge0", ensureMoveLeftValidRule_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ensureMoveLeftValidRule_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@moveLeft, "ensureMoveLeftValidRule_edge__edge0", "_edge0", ensureMoveLeftValidRule_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternGraph ensureMoveLeftValidRule_neg_0;
+			bool[,] ensureMoveLeftValidRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
+				{ false, false, },
+				{ false, false, },
+			};
+			bool[,] ensureMoveLeftValidRule_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
+				{ false, },
+			};
 			PatternNode ensureMoveLeftValidRule_neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "ensureMoveLeftValidRule_neg_0_node__node0", "_node0", ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes, ensureMoveLeftValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1);
-			PatternEdge ensureMoveLeftValidRule_neg_0_edge__edge0 = new PatternEdge(ensureMoveLeftValidRule_neg_0_node__node0, ensureMoveLeftValidRule_node_bp, true, (int) EdgeTypes.@right, "ensureMoveLeftValidRule_neg_0_edge__edge0", "_edge0", ensureMoveLeftValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ensureMoveLeftValidRule_neg_0_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@right, "ensureMoveLeftValidRule_neg_0_edge__edge0", "_edge0", ensureMoveLeftValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			ensureMoveLeftValidRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"ensureMoveLeftValidRule_",
@@ -73,8 +314,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				},
 				new bool[1, 1] {
 					{ true, },
-				}
+				},
+				ensureMoveLeftValidRule_neg_0_isNodeHomomorphicGlobal,
+				ensureMoveLeftValidRule_neg_0_isEdgeHomomorphicGlobal
 			);
+			ensureMoveLeftValidRule_neg_0.edgeToSourceNode.Add(ensureMoveLeftValidRule_neg_0_edge__edge0, ensureMoveLeftValidRule_neg_0_node__node0);
+			ensureMoveLeftValidRule_neg_0.edgeToTargetNode.Add(ensureMoveLeftValidRule_neg_0_edge__edge0, ensureMoveLeftValidRule_node_bp);
 			pat_ensureMoveLeftValidRule = new PatternGraph(
 				"ensureMoveLeftValidRule",
 				"",
@@ -92,8 +337,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				},
 				new bool[1, 1] {
 					{ true, },
-				}
+				},
+				ensureMoveLeftValidRule_isNodeHomomorphicGlobal,
+				ensureMoveLeftValidRule_isEdgeHomomorphicGlobal
 			);
+			pat_ensureMoveLeftValidRule.edgeToSourceNode.Add(ensureMoveLeftValidRule_edge__edge0, ensureMoveLeftValidRule_node_wv);
+			pat_ensureMoveLeftValidRule.edgeToTargetNode.Add(ensureMoveLeftValidRule_edge__edge0, ensureMoveLeftValidRule_node__node0);
+			ensureMoveLeftValidRule_neg_0.embeddingGraph = pat_ensureMoveLeftValidRule;
 			ensureMoveLeftValidRule_node_wv.PointOfDefinition = null;
 			ensureMoveLeftValidRule_node__node0.PointOfDefinition = pat_ensureMoveLeftValidRule;
 			ensureMoveLeftValidRule_node_bp.PointOfDefinition = null;
@@ -169,13 +419,28 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public override void initialize()
 		{
 			PatternGraph pat_ensureMoveRightValidRule;
+			bool[,] ensureMoveRightValidRule_isNodeHomomorphicGlobal = new bool[3, 3] {
+				{ false, false, false, },
+				{ false, false, false, },
+				{ false, false, false, },
+			};
+			bool[,] ensureMoveRightValidRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
+				{ false, },
+			};
 			PatternNode ensureMoveRightValidRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "ensureMoveRightValidRule_node_wv", "wv", ensureMoveRightValidRule_node_wv_AllowedTypes, ensureMoveRightValidRule_node_wv_IsAllowedType, 5.5F, 0);
 			PatternNode ensureMoveRightValidRule_node__node0 = new PatternNode((int) NodeTypes.@State, "ensureMoveRightValidRule_node__node0", "_node0", ensureMoveRightValidRule_node__node0_AllowedTypes, ensureMoveRightValidRule_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode ensureMoveRightValidRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "ensureMoveRightValidRule_node_bp", "bp", ensureMoveRightValidRule_node_bp_AllowedTypes, ensureMoveRightValidRule_node_bp_IsAllowedType, 5.5F, 1);
-			PatternEdge ensureMoveRightValidRule_edge__edge0 = new PatternEdge(ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node__node0, true, (int) EdgeTypes.@moveRight, "ensureMoveRightValidRule_edge__edge0", "_edge0", ensureMoveRightValidRule_edge__edge0_AllowedTypes, ensureMoveRightValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ensureMoveRightValidRule_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@moveRight, "ensureMoveRightValidRule_edge__edge0", "_edge0", ensureMoveRightValidRule_edge__edge0_AllowedTypes, ensureMoveRightValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternGraph ensureMoveRightValidRule_neg_0;
+			bool[,] ensureMoveRightValidRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
+				{ false, false, },
+				{ false, false, },
+			};
+			bool[,] ensureMoveRightValidRule_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
+				{ false, },
+			};
 			PatternNode ensureMoveRightValidRule_neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "ensureMoveRightValidRule_neg_0_node__node0", "_node0", ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes, ensureMoveRightValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1);
-			PatternEdge ensureMoveRightValidRule_neg_0_edge__edge0 = new PatternEdge(ensureMoveRightValidRule_node_bp, ensureMoveRightValidRule_neg_0_node__node0, true, (int) EdgeTypes.@right, "ensureMoveRightValidRule_neg_0_edge__edge0", "_edge0", ensureMoveRightValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveRightValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge ensureMoveRightValidRule_neg_0_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@right, "ensureMoveRightValidRule_neg_0_edge__edge0", "_edge0", ensureMoveRightValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveRightValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			ensureMoveRightValidRule_neg_0 = new PatternGraph(
 				"neg_0",
 				"ensureMoveRightValidRule_",
@@ -192,8 +457,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				},
 				new bool[1, 1] {
 					{ true, },
-				}
+				},
+				ensureMoveRightValidRule_neg_0_isNodeHomomorphicGlobal,
+				ensureMoveRightValidRule_neg_0_isEdgeHomomorphicGlobal
 			);
+			ensureMoveRightValidRule_neg_0.edgeToSourceNode.Add(ensureMoveRightValidRule_neg_0_edge__edge0, ensureMoveRightValidRule_node_bp);
+			ensureMoveRightValidRule_neg_0.edgeToTargetNode.Add(ensureMoveRightValidRule_neg_0_edge__edge0, ensureMoveRightValidRule_neg_0_node__node0);
 			pat_ensureMoveRightValidRule = new PatternGraph(
 				"ensureMoveRightValidRule",
 				"",
@@ -211,8 +480,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				},
 				new bool[1, 1] {
 					{ true, },
-				}
+				},
+				ensureMoveRightValidRule_isNodeHomomorphicGlobal,
+				ensureMoveRightValidRule_isEdgeHomomorphicGlobal
 			);
+			pat_ensureMoveRightValidRule.edgeToSourceNode.Add(ensureMoveRightValidRule_edge__edge0, ensureMoveRightValidRule_node_wv);
+			pat_ensureMoveRightValidRule.edgeToTargetNode.Add(ensureMoveRightValidRule_edge__edge0, ensureMoveRightValidRule_node__node0);
+			ensureMoveRightValidRule_neg_0.embeddingGraph = pat_ensureMoveRightValidRule;
 			ensureMoveRightValidRule_node_wv.PointOfDefinition = null;
 			ensureMoveRightValidRule_node__node0.PointOfDefinition = pat_ensureMoveRightValidRule;
 			ensureMoveRightValidRule_node_bp.PointOfDefinition = null;
@@ -284,12 +558,22 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public override void initialize()
 		{
 			PatternGraph pat_moveLeftRule;
+			bool[,] moveLeftRule_isNodeHomomorphicGlobal = new bool[4, 4] {
+				{ false, false, false, false, },
+				{ false, false, false, false, },
+				{ false, false, false, false, },
+				{ false, false, false, false, },
+			};
+			bool[,] moveLeftRule_isEdgeHomomorphicGlobal = new bool[2, 2] {
+				{ false, false, },
+				{ false, false, },
+			};
 			PatternNode moveLeftRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "moveLeftRule_node_wv", "wv", moveLeftRule_node_wv_AllowedTypes, moveLeftRule_node_wv_IsAllowedType, 5.5F, 0);
 			PatternNode moveLeftRule_node_s = new PatternNode((int) NodeTypes.@State, "moveLeftRule_node_s", "s", moveLeftRule_node_s_AllowedTypes, moveLeftRule_node_s_IsAllowedType, 5.5F, -1);
 			PatternNode moveLeftRule_node_lbp = new PatternNode((int) NodeTypes.@BandPosition, "moveLeftRule_node_lbp", "lbp", moveLeftRule_node_lbp_AllowedTypes, moveLeftRule_node_lbp_IsAllowedType, 5.5F, -1);
 			PatternNode moveLeftRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "moveLeftRule_node_bp", "bp", moveLeftRule_node_bp_AllowedTypes, moveLeftRule_node_bp_IsAllowedType, 5.5F, 1);
-			PatternEdge moveLeftRule_edge__edge0 = new PatternEdge(moveLeftRule_node_wv, moveLeftRule_node_s, true, (int) EdgeTypes.@moveLeft, "moveLeftRule_edge__edge0", "_edge0", moveLeftRule_edge__edge0_AllowedTypes, moveLeftRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge moveLeftRule_edge__edge1 = new PatternEdge(moveLeftRule_node_lbp, moveLeftRule_node_bp, true, (int) EdgeTypes.@right, "moveLeftRule_edge__edge1", "_edge1", moveLeftRule_edge__edge1_AllowedTypes, moveLeftRule_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge moveLeftRule_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@moveLeft, "moveLeftRule_edge__edge0", "_edge0", moveLeftRule_edge__edge0_AllowedTypes, moveLeftRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge moveLeftRule_edge__edge1 = new PatternEdge(true, (int) EdgeTypes.@right, "moveLeftRule_edge__edge1", "_edge1", moveLeftRule_edge__edge1_AllowedTypes, moveLeftRule_edge__edge1_IsAllowedType, 5.5F, -1);
 			pat_moveLeftRule = new PatternGraph(
 				"moveLeftRule",
 				"",
@@ -309,8 +593,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
-				}
+				},
+				moveLeftRule_isNodeHomomorphicGlobal,
+				moveLeftRule_isEdgeHomomorphicGlobal
 			);
+			pat_moveLeftRule.edgeToSourceNode.Add(moveLeftRule_edge__edge0, moveLeftRule_node_wv);
+			pat_moveLeftRule.edgeToTargetNode.Add(moveLeftRule_edge__edge0, moveLeftRule_node_s);
+			pat_moveLeftRule.edgeToSourceNode.Add(moveLeftRule_edge__edge1, moveLeftRule_node_lbp);
+			pat_moveLeftRule.edgeToTargetNode.Add(moveLeftRule_edge__edge1, moveLeftRule_node_bp);
 			moveLeftRule_node_wv.PointOfDefinition = null;
 			moveLeftRule_node_s.PointOfDefinition = pat_moveLeftRule;
 			moveLeftRule_node_lbp.PointOfDefinition = pat_moveLeftRule;
@@ -380,12 +670,22 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public override void initialize()
 		{
 			PatternGraph pat_moveRightRule;
+			bool[,] moveRightRule_isNodeHomomorphicGlobal = new bool[4, 4] {
+				{ false, false, false, false, },
+				{ false, false, false, false, },
+				{ false, false, false, false, },
+				{ false, false, false, false, },
+			};
+			bool[,] moveRightRule_isEdgeHomomorphicGlobal = new bool[2, 2] {
+				{ false, false, },
+				{ false, false, },
+			};
 			PatternNode moveRightRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "moveRightRule_node_wv", "wv", moveRightRule_node_wv_AllowedTypes, moveRightRule_node_wv_IsAllowedType, 5.5F, 0);
 			PatternNode moveRightRule_node_s = new PatternNode((int) NodeTypes.@State, "moveRightRule_node_s", "s", moveRightRule_node_s_AllowedTypes, moveRightRule_node_s_IsAllowedType, 5.5F, -1);
 			PatternNode moveRightRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "moveRightRule_node_bp", "bp", moveRightRule_node_bp_AllowedTypes, moveRightRule_node_bp_IsAllowedType, 5.5F, 1);
 			PatternNode moveRightRule_node_rbp = new PatternNode((int) NodeTypes.@BandPosition, "moveRightRule_node_rbp", "rbp", moveRightRule_node_rbp_AllowedTypes, moveRightRule_node_rbp_IsAllowedType, 5.5F, -1);
-			PatternEdge moveRightRule_edge__edge0 = new PatternEdge(moveRightRule_node_wv, moveRightRule_node_s, true, (int) EdgeTypes.@moveRight, "moveRightRule_edge__edge0", "_edge0", moveRightRule_edge__edge0_AllowedTypes, moveRightRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge moveRightRule_edge__edge1 = new PatternEdge(moveRightRule_node_bp, moveRightRule_node_rbp, true, (int) EdgeTypes.@right, "moveRightRule_edge__edge1", "_edge1", moveRightRule_edge__edge1_AllowedTypes, moveRightRule_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge moveRightRule_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@moveRight, "moveRightRule_edge__edge0", "_edge0", moveRightRule_edge__edge0_AllowedTypes, moveRightRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge moveRightRule_edge__edge1 = new PatternEdge(true, (int) EdgeTypes.@right, "moveRightRule_edge__edge1", "_edge1", moveRightRule_edge__edge1_AllowedTypes, moveRightRule_edge__edge1_IsAllowedType, 5.5F, -1);
 			pat_moveRightRule = new PatternGraph(
 				"moveRightRule",
 				"",
@@ -405,8 +705,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
-				}
+				},
+				moveRightRule_isNodeHomomorphicGlobal,
+				moveRightRule_isEdgeHomomorphicGlobal
 			);
+			pat_moveRightRule.edgeToSourceNode.Add(moveRightRule_edge__edge0, moveRightRule_node_wv);
+			pat_moveRightRule.edgeToTargetNode.Add(moveRightRule_edge__edge0, moveRightRule_node_s);
+			pat_moveRightRule.edgeToSourceNode.Add(moveRightRule_edge__edge1, moveRightRule_node_bp);
+			pat_moveRightRule.edgeToTargetNode.Add(moveRightRule_edge__edge1, moveRightRule_node_rbp);
 			moveRightRule_node_wv.PointOfDefinition = null;
 			moveRightRule_node_s.PointOfDefinition = pat_moveRightRule;
 			moveRightRule_node_bp.PointOfDefinition = null;
@@ -437,208 +743,394 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-	public class Rule_readOneRule : LGSPRulePattern
-	{
-		private static Rule_readOneRule instance = null;
-		public static Rule_readOneRule Instance { get { if (instance==null) { instance = new Rule_readOneRule(); instance.initialize(); } return instance; } }
 
-		public static NodeType[] readOneRule_node_s_AllowedTypes = null;
-		public static NodeType[] readOneRule_node_wv_AllowedTypes = null;
-		public static NodeType[] readOneRule_node_bp_AllowedTypes = null;
-		public static bool[] readOneRule_node_s_IsAllowedType = null;
-		public static bool[] readOneRule_node_wv_IsAllowedType = null;
-		public static bool[] readOneRule_node_bp_IsAllowedType = null;
-		public static EdgeType[] readOneRule_edge_rv_AllowedTypes = null;
-		public static bool[] readOneRule_edge_rv_IsAllowedType = null;
-		public enum readOneRule_NodeNums { @s, @wv, @bp, };
-		public enum readOneRule_EdgeNums { @rv, };
-		public enum readOneRule_SubNums { };
-		public enum readOneRule_AltNums { };
+    public class Action_readZeroRule : LGSPAction
+    {
+        public Action_readZeroRule() {
+            rulePattern = Rule_readZeroRule.Instance;
+            patternGraph = rulePattern.patternGraph;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 3, 1, 0+0);
+        }
 
-#if INITIAL_WARMUP
-		public Rule_readOneRule()
-#else
-		private Rule_readOneRule()
-#endif
-		{
-			name = "readOneRule";
-			isSubpattern = false;
+        public override string Name { get { return "readZeroRule"; } }
+        private LGSPMatches matches;
 
-			inputs = new GrGenType[] { NodeType_State.typeVar, NodeType_BandPosition.typeVar, };
-			inputNames = new string[] { "readOneRule_node_s", "readOneRule_node_bp", };
-			outputs = new GrGenType[] { NodeType_WriteValue.typeVar, };
-			outputNames = new string[] { "readOneRule_node_wv", };
-		}
-		public override void initialize()
-		{
-			PatternGraph pat_readOneRule;
-			PatternNode readOneRule_node_s = new PatternNode((int) NodeTypes.@State, "readOneRule_node_s", "s", readOneRule_node_s_AllowedTypes, readOneRule_node_s_IsAllowedType, 5.5F, 0);
-			PatternNode readOneRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1);
-			PatternNode readOneRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1);
-			PatternEdge readOneRule_edge_rv = new PatternEdge(readOneRule_node_s, readOneRule_node_wv, true, (int) EdgeTypes.@readOne, "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1);
-			Condition cond_0 = new Condition(0, new String[] { "readOneRule_node_bp" }, new String[] {  });
-			pat_readOneRule = new PatternGraph(
-				"readOneRule",
-				"",
-				false,
-				new PatternNode[] { readOneRule_node_s, readOneRule_node_wv, readOneRule_node_bp }, 
-				new PatternEdge[] { readOneRule_edge_rv }, 
-				new PatternGraphEmbedding[] {  }, 
-				new Alternative[] {  }, 
-				new PatternGraph[] {  }, 
-				new Condition[] { cond_0,  }, 
-				new bool[3, 3] {
-					{ true, false, false, },
-					{ false, true, false, },
-					{ false, false, true, },
-				},
-				new bool[1, 1] {
-					{ true, },
-				}
-			);
-			readOneRule_node_s.PointOfDefinition = null;
-			readOneRule_node_wv.PointOfDefinition = pat_readOneRule;
-			readOneRule_node_bp.PointOfDefinition = null;
-			readOneRule_edge_rv.PointOfDefinition = pat_readOneRule;
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_readZeroRule instance = new Action_readZeroRule();
 
-			patternGraph = pat_readOneRule;
-		}
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            // Preset readZeroRule_node_s 
+            LGSPNode candidate_readZeroRule_node_s = (LGSPNode) parameters[0];
+            if(candidate_readZeroRule_node_s == null) {
+                MissingPreset_readZeroRule_node_s(graph, maxMatches, parameters, null, null, null);
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                {
+                    return matches;
+                }
+                return matches;
+            }
+            if(!NodeType_State.isMyType[candidate_readZeroRule_node_s.type.TypeID]) {
+                return matches;
+            }
+            // Preset readZeroRule_node_bp 
+            LGSPNode candidate_readZeroRule_node_bp = (LGSPNode) parameters[1];
+            if(candidate_readZeroRule_node_bp == null) {
+                MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_s);
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                {
+                    return matches;
+                }
+                return matches;
+            }
+            if(!NodeType_BandPosition.isMyType[candidate_readZeroRule_node_bp.type.TypeID]) {
+                return matches;
+            }
+            // Condition 
+            if(!Rule_readZeroRule.Condition_0(candidate_readZeroRule_node_bp)) {
+                return matches;
+            }
+            // Extend Outgoing readZeroRule_edge_rv from readZeroRule_node_s 
+            LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
+            if(head_candidate_readZeroRule_edge_rv != null)
+            {
+                LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
+                do
+                {
+                    if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
+                        continue;
+                    }
+                    // Implicit Target readZeroRule_node_wv from readZeroRule_edge_rv 
+                    LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
+                    if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
+                        continue;
+                    }
+                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                    match.patternGraph = rulePattern.patternGraph;
+                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
+                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
+                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
+                    match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
+                    matches.matchesList.PositionWasFilledFixIt();
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    {
+                        candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
+                        return matches;
+                    }
+                }
+                while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
+            }
+            return matches;
+        }
+        public void MissingPreset_readZeroRule_node_s(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
+        {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            // Lookup readZeroRule_node_s 
+            int type_id_candidate_readZeroRule_node_s = 2;
+            for(LGSPNode head_candidate_readZeroRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_s], candidate_readZeroRule_node_s = head_candidate_readZeroRule_node_s.typeNext; candidate_readZeroRule_node_s != head_candidate_readZeroRule_node_s; candidate_readZeroRule_node_s = candidate_readZeroRule_node_s.typeNext)
+            {
+                // Preset readZeroRule_node_bp 
+                LGSPNode candidate_readZeroRule_node_bp = (LGSPNode) parameters[1];
+                if(candidate_readZeroRule_node_bp == null) {
+                    MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_s);
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    {
+                        return;
+                    }
+                    continue;
+                }
+                if(!NodeType_BandPosition.isMyType[candidate_readZeroRule_node_bp.type.TypeID]) {
+                    continue;
+                }
+                // Condition 
+                if(!Rule_readZeroRule.Condition_0(candidate_readZeroRule_node_bp)) {
+                    continue;
+                }
+                // Extend Outgoing readZeroRule_edge_rv from readZeroRule_node_s 
+                LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
+                if(head_candidate_readZeroRule_edge_rv != null)
+                {
+                    LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
+                    do
+                    {
+                        if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
+                            continue;
+                        }
+                        // Implicit Target readZeroRule_node_wv from readZeroRule_edge_rv 
+                        LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
+                        if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
+                            continue;
+                        }
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                        match.patternGraph = rulePattern.patternGraph;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
+                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
+                        matches.matchesList.PositionWasFilledFixIt();
+                        // if enough matches were found, we leave
+                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        {
+                            candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
+                            graph.MoveHeadAfter(candidate_readZeroRule_node_s);
+                            return;
+                        }
+                    }
+                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
+                }
+            }
+            return;
+        }
+        public void MissingPreset_readZeroRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_readZeroRule_node_s)
+        {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            // Lookup readZeroRule_node_bp 
+            int type_id_candidate_readZeroRule_node_bp = 1;
+            for(LGSPNode head_candidate_readZeroRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_bp], candidate_readZeroRule_node_bp = head_candidate_readZeroRule_node_bp.typeNext; candidate_readZeroRule_node_bp != head_candidate_readZeroRule_node_bp; candidate_readZeroRule_node_bp = candidate_readZeroRule_node_bp.typeNext)
+            {
+                // Condition 
+                if(!Rule_readZeroRule.Condition_0(candidate_readZeroRule_node_bp)) {
+                    continue;
+                }
+                // Extend Outgoing readZeroRule_edge_rv from readZeroRule_node_s 
+                LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
+                if(head_candidate_readZeroRule_edge_rv != null)
+                {
+                    LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
+                    do
+                    {
+                        if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
+                            continue;
+                        }
+                        // Implicit Target readZeroRule_node_wv from readZeroRule_edge_rv 
+                        LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
+                        if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
+                            continue;
+                        }
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                        match.patternGraph = rulePattern.patternGraph;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
+                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
+                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
+                        matches.matchesList.PositionWasFilledFixIt();
+                        // if enough matches were found, we leave
+                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        {
+                            candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
+                            graph.MoveHeadAfter(candidate_readZeroRule_node_bp);
+                            return;
+                        }
+                    }
+                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
+                }
+            }
+            return;
+        }
+    }
 
-		public static bool Condition_0(LGSPNode node_bp)
-		{
-			return (((INode_BandPosition) node_bp).@value == 1);
-		}
+    public class Action_readOneRule : LGSPAction
+    {
+        public Action_readOneRule() {
+            rulePattern = Rule_readOneRule.Instance;
+            patternGraph = rulePattern.patternGraph;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 3, 1, 0+0);
+        }
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			LGSPNode node_bp = match.Nodes[(int) readOneRule_NodeNums.@bp];
-			LGSPNode node_wv = match.Nodes[(int) readOneRule_NodeNums.@wv];
-			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
-			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
-			int var_i = inode_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
-			inode_bp.@value = var_i;
-			return new IGraphElement[] { node_wv, };
-		}
+        public override string Name { get { return "readOneRule"; } }
+        private LGSPMatches matches;
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{
-			LGSPNode node_bp = match.Nodes[(int) readOneRule_NodeNums.@bp];
-			LGSPNode node_wv = match.Nodes[(int) readOneRule_NodeNums.@wv];
-			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
-			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
-			int var_i = inode_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
-			inode_bp.@value = var_i;
-			return new IGraphElement[] { node_wv, };
-		}
-		private static String[] addedNodeNames = new String[] {  };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {  };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
-	}
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_readOneRule instance = new Action_readOneRule();
 
-	public class Rule_readZeroRule : LGSPRulePattern
-	{
-		private static Rule_readZeroRule instance = null;
-		public static Rule_readZeroRule Instance { get { if (instance==null) { instance = new Rule_readZeroRule(); instance.initialize(); } return instance; } }
-
-		public static NodeType[] readZeroRule_node_s_AllowedTypes = null;
-		public static NodeType[] readZeroRule_node_wv_AllowedTypes = null;
-		public static NodeType[] readZeroRule_node_bp_AllowedTypes = null;
-		public static bool[] readZeroRule_node_s_IsAllowedType = null;
-		public static bool[] readZeroRule_node_wv_IsAllowedType = null;
-		public static bool[] readZeroRule_node_bp_IsAllowedType = null;
-		public static EdgeType[] readZeroRule_edge_rv_AllowedTypes = null;
-		public static bool[] readZeroRule_edge_rv_IsAllowedType = null;
-		public enum readZeroRule_NodeNums { @s, @wv, @bp, };
-		public enum readZeroRule_EdgeNums { @rv, };
-		public enum readZeroRule_SubNums { };
-		public enum readZeroRule_AltNums { };
-
-#if INITIAL_WARMUP
-		public Rule_readZeroRule()
-#else
-		private Rule_readZeroRule()
-#endif
-		{
-			name = "readZeroRule";
-			isSubpattern = false;
-
-			inputs = new GrGenType[] { NodeType_State.typeVar, NodeType_BandPosition.typeVar, };
-			inputNames = new string[] { "readZeroRule_node_s", "readZeroRule_node_bp", };
-			outputs = new GrGenType[] { NodeType_WriteValue.typeVar, };
-			outputNames = new string[] { "readZeroRule_node_wv", };
-		}
-		public override void initialize()
-		{
-			PatternGraph pat_readZeroRule;
-			PatternNode readZeroRule_node_s = new PatternNode((int) NodeTypes.@State, "readZeroRule_node_s", "s", readZeroRule_node_s_AllowedTypes, readZeroRule_node_s_IsAllowedType, 5.5F, 0);
-			PatternNode readZeroRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1);
-			PatternNode readZeroRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1);
-			PatternEdge readZeroRule_edge_rv = new PatternEdge(readZeroRule_node_s, readZeroRule_node_wv, true, (int) EdgeTypes.@readZero, "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1);
-			Condition cond_0 = new Condition(0, new String[] { "readZeroRule_node_bp" }, new String[] {  });
-			pat_readZeroRule = new PatternGraph(
-				"readZeroRule",
-				"",
-				false,
-				new PatternNode[] { readZeroRule_node_s, readZeroRule_node_wv, readZeroRule_node_bp }, 
-				new PatternEdge[] { readZeroRule_edge_rv }, 
-				new PatternGraphEmbedding[] {  }, 
-				new Alternative[] {  }, 
-				new PatternGraph[] {  }, 
-				new Condition[] { cond_0,  }, 
-				new bool[3, 3] {
-					{ true, false, false, },
-					{ false, true, false, },
-					{ false, false, true, },
-				},
-				new bool[1, 1] {
-					{ true, },
-				}
-			);
-			readZeroRule_node_s.PointOfDefinition = null;
-			readZeroRule_node_wv.PointOfDefinition = pat_readZeroRule;
-			readZeroRule_node_bp.PointOfDefinition = null;
-			readZeroRule_edge_rv.PointOfDefinition = pat_readZeroRule;
-
-			patternGraph = pat_readZeroRule;
-		}
-
-		public static bool Condition_0(LGSPNode node_bp)
-		{
-			return (((INode_BandPosition) node_bp).@value == 0);
-		}
-
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			LGSPNode node_bp = match.Nodes[(int) readZeroRule_NodeNums.@bp];
-			LGSPNode node_wv = match.Nodes[(int) readZeroRule_NodeNums.@wv];
-			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
-			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
-			int var_i = inode_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
-			inode_bp.@value = var_i;
-			return new IGraphElement[] { node_wv, };
-		}
-
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{
-			LGSPNode node_bp = match.Nodes[(int) readZeroRule_NodeNums.@bp];
-			LGSPNode node_wv = match.Nodes[(int) readZeroRule_NodeNums.@wv];
-			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
-			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
-			int var_i = inode_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
-			inode_bp.@value = var_i;
-			return new IGraphElement[] { node_wv, };
-		}
-		private static String[] addedNodeNames = new String[] {  };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {  };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
-	}
-
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            // Preset readOneRule_node_s 
+            LGSPNode candidate_readOneRule_node_s = (LGSPNode) parameters[0];
+            if(candidate_readOneRule_node_s == null) {
+                MissingPreset_readOneRule_node_s(graph, maxMatches, parameters, null, null, null);
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                {
+                    return matches;
+                }
+                return matches;
+            }
+            if(!NodeType_State.isMyType[candidate_readOneRule_node_s.type.TypeID]) {
+                return matches;
+            }
+            // Preset readOneRule_node_bp 
+            LGSPNode candidate_readOneRule_node_bp = (LGSPNode) parameters[1];
+            if(candidate_readOneRule_node_bp == null) {
+                MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readOneRule_node_s);
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                {
+                    return matches;
+                }
+                return matches;
+            }
+            if(!NodeType_BandPosition.isMyType[candidate_readOneRule_node_bp.type.TypeID]) {
+                return matches;
+            }
+            // Condition 
+            if(!Rule_readOneRule.Condition_0(candidate_readOneRule_node_bp)) {
+                return matches;
+            }
+            // Extend Outgoing readOneRule_edge_rv from readOneRule_node_s 
+            LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
+            if(head_candidate_readOneRule_edge_rv != null)
+            {
+                LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
+                do
+                {
+                    if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
+                        continue;
+                    }
+                    // Implicit Target readOneRule_node_wv from readOneRule_edge_rv 
+                    LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
+                    if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
+                        continue;
+                    }
+                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                    match.patternGraph = rulePattern.patternGraph;
+                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
+                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
+                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
+                    match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
+                    matches.matchesList.PositionWasFilledFixIt();
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    {
+                        candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
+                        return matches;
+                    }
+                }
+                while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
+            }
+            return matches;
+        }
+        public void MissingPreset_readOneRule_node_s(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
+        {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            // Lookup readOneRule_node_s 
+            int type_id_candidate_readOneRule_node_s = 2;
+            for(LGSPNode head_candidate_readOneRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_s], candidate_readOneRule_node_s = head_candidate_readOneRule_node_s.typeNext; candidate_readOneRule_node_s != head_candidate_readOneRule_node_s; candidate_readOneRule_node_s = candidate_readOneRule_node_s.typeNext)
+            {
+                // Preset readOneRule_node_bp 
+                LGSPNode candidate_readOneRule_node_bp = (LGSPNode) parameters[1];
+                if(candidate_readOneRule_node_bp == null) {
+                    MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readOneRule_node_s);
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    {
+                        return;
+                    }
+                    continue;
+                }
+                if(!NodeType_BandPosition.isMyType[candidate_readOneRule_node_bp.type.TypeID]) {
+                    continue;
+                }
+                // Condition 
+                if(!Rule_readOneRule.Condition_0(candidate_readOneRule_node_bp)) {
+                    continue;
+                }
+                // Extend Outgoing readOneRule_edge_rv from readOneRule_node_s 
+                LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
+                if(head_candidate_readOneRule_edge_rv != null)
+                {
+                    LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
+                    do
+                    {
+                        if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
+                            continue;
+                        }
+                        // Implicit Target readOneRule_node_wv from readOneRule_edge_rv 
+                        LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
+                        if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
+                            continue;
+                        }
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                        match.patternGraph = rulePattern.patternGraph;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
+                        match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
+                        matches.matchesList.PositionWasFilledFixIt();
+                        // if enough matches were found, we leave
+                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        {
+                            candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
+                            graph.MoveHeadAfter(candidate_readOneRule_node_s);
+                            return;
+                        }
+                    }
+                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
+                }
+            }
+            return;
+        }
+        public void MissingPreset_readOneRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_readOneRule_node_s)
+        {
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            // Lookup readOneRule_node_bp 
+            int type_id_candidate_readOneRule_node_bp = 1;
+            for(LGSPNode head_candidate_readOneRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_bp], candidate_readOneRule_node_bp = head_candidate_readOneRule_node_bp.typeNext; candidate_readOneRule_node_bp != head_candidate_readOneRule_node_bp; candidate_readOneRule_node_bp = candidate_readOneRule_node_bp.typeNext)
+            {
+                // Condition 
+                if(!Rule_readOneRule.Condition_0(candidate_readOneRule_node_bp)) {
+                    continue;
+                }
+                // Extend Outgoing readOneRule_edge_rv from readOneRule_node_s 
+                LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
+                if(head_candidate_readOneRule_edge_rv != null)
+                {
+                    LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
+                    do
+                    {
+                        if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
+                            continue;
+                        }
+                        // Implicit Target readOneRule_node_wv from readOneRule_edge_rv 
+                        LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
+                        if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
+                            continue;
+                        }
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                        match.patternGraph = rulePattern.patternGraph;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
+                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
+                        match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
+                        matches.matchesList.PositionWasFilledFixIt();
+                        // if enough matches were found, we leave
+                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        {
+                            candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
+                            graph.MoveHeadAfter(candidate_readOneRule_node_bp);
+                            return;
+                        }
+                    }
+                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
+                }
+            }
+            return;
+        }
+    }
 
     public class Action_ensureMoveLeftValidRule : LGSPAction
     {
@@ -693,7 +1185,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                 prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
                 candidate_ensureMoveLeftValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-                // Extend incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
+                // Extend Incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
                 LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.inhead;
                 if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
                 {
@@ -703,7 +1195,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         if(!EdgeType_right.isMyType[candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        // Implicit source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
+                        // Implicit Source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
                         LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
                         if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
                             continue;
@@ -715,16 +1207,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
                             continue;
                         }
                         // negative pattern found
-                        candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                        candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                         --negLevel;
                         return matches;
                     }
                     while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
                 }
-                candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                 --negLevel;
             }
-            // Extend outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
+            // Extend Outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
             LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.outhead;
             if(head_candidate_ensureMoveLeftValidRule_edge__edge0 != null)
             {
@@ -734,7 +1226,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     if(!EdgeType_moveLeft.isMyType[candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
                         continue;
                     }
-                    // Implicit target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
+                    // Implicit Target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
                     LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
                     if(!NodeType_State.isMyType[candidate_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
                         continue;
@@ -785,7 +1277,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                     prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
                     candidate_ensureMoveLeftValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-                    // Extend incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
+                    // Extend Incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
                     LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.inhead;
                     if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
                     {
@@ -795,7 +1287,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                             if(!EdgeType_right.isMyType[candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
                                 continue;
                             }
-                            // Implicit source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
+                            // Implicit Source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
                             LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
                             if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
                                 continue;
@@ -807,16 +1299,16 @@ namespace de.unika.ipd.grGen.Action_Turing3
                                 continue;
                             }
                             // negative pattern found
-                            candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                            candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                             --negLevel;
                             goto label0;
                         }
                         while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
                     }
-                    candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                    candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                     --negLevel;
                 }
-                // Extend outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
+                // Extend Outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
                 LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.outhead;
                 if(head_candidate_ensureMoveLeftValidRule_edge__edge0 != null)
                 {
@@ -826,7 +1318,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         if(!EdgeType_moveLeft.isMyType[candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        // Implicit target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
+                        // Implicit Target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
                         LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
                         if(!NodeType_State.isMyType[candidate_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
                             continue;
@@ -866,7 +1358,7 @@ label0: ;
                     uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                     prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
                     candidate_ensureMoveLeftValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-                    // Extend incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
+                    // Extend Incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
                     LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.inhead;
                     if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
                     {
@@ -876,7 +1368,7 @@ label0: ;
                             if(!EdgeType_right.isMyType[candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
                                 continue;
                             }
-                            // Implicit source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
+                            // Implicit Source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
                             LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
                             if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
                                 continue;
@@ -888,16 +1380,16 @@ label0: ;
                                 continue;
                             }
                             // negative pattern found
-                            candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                            candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                             --negLevel;
                             goto label1;
                         }
                         while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
                     }
-                    candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                    candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                     --negLevel;
                 }
-                // Extend outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
+                // Extend Outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
                 LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.outhead;
                 if(head_candidate_ensureMoveLeftValidRule_edge__edge0 != null)
                 {
@@ -907,7 +1399,7 @@ label0: ;
                         if(!EdgeType_moveLeft.isMyType[candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        // Implicit target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
+                        // Implicit Target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
                         LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
                         if(!NodeType_State.isMyType[candidate_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
                             continue;
@@ -988,7 +1480,7 @@ label1: ;
                 uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                 prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
                 candidate_ensureMoveRightValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-                // Extend outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
+                // Extend Outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
                 LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.outhead;
                 if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
                 {
@@ -998,7 +1490,7 @@ label1: ;
                         if(!EdgeType_right.isMyType[candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        // Implicit target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
+                        // Implicit Target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
                         LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
                         if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
                             continue;
@@ -1010,16 +1502,16 @@ label1: ;
                             continue;
                         }
                         // negative pattern found
-                        candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                        candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                         --negLevel;
                         return matches;
                     }
                     while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
                 }
-                candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                 --negLevel;
             }
-            // Extend outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
+            // Extend Outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
             LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.outhead;
             if(head_candidate_ensureMoveRightValidRule_edge__edge0 != null)
             {
@@ -1029,7 +1521,7 @@ label1: ;
                     if(!EdgeType_moveRight.isMyType[candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
                         continue;
                     }
-                    // Implicit target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
+                    // Implicit Target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
                     LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
                     if(!NodeType_State.isMyType[candidate_ensureMoveRightValidRule_node__node0.type.TypeID]) {
                         continue;
@@ -1080,7 +1572,7 @@ label1: ;
                     uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                     prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
                     candidate_ensureMoveRightValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-                    // Extend outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
+                    // Extend Outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
                     LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.outhead;
                     if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
                     {
@@ -1090,7 +1582,7 @@ label1: ;
                             if(!EdgeType_right.isMyType[candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
                                 continue;
                             }
-                            // Implicit target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
+                            // Implicit Target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
                             LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
                             if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
                                 continue;
@@ -1102,16 +1594,16 @@ label1: ;
                                 continue;
                             }
                             // negative pattern found
-                            candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                            candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                             --negLevel;
                             goto label2;
                         }
                         while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
                     }
-                    candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                    candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                     --negLevel;
                 }
-                // Extend outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
+                // Extend Outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
                 LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.outhead;
                 if(head_candidate_ensureMoveRightValidRule_edge__edge0 != null)
                 {
@@ -1121,7 +1613,7 @@ label1: ;
                         if(!EdgeType_moveRight.isMyType[candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        // Implicit target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
+                        // Implicit Target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
                         LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
                         if(!NodeType_State.isMyType[candidate_ensureMoveRightValidRule_node__node0.type.TypeID]) {
                             continue;
@@ -1161,7 +1653,7 @@ label2: ;
                     uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                     prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
                     candidate_ensureMoveRightValidRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-                    // Extend outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
+                    // Extend Outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
                     LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.outhead;
                     if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
                     {
@@ -1171,7 +1663,7 @@ label2: ;
                             if(!EdgeType_right.isMyType[candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
                                 continue;
                             }
-                            // Implicit target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
+                            // Implicit Target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
                             LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
                             if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
                                 continue;
@@ -1183,16 +1675,16 @@ label2: ;
                                 continue;
                             }
                             // negative pattern found
-                            candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                            candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                             --negLevel;
                             goto label3;
                         }
                         while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
                     }
-                    candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~prev_neg_0__candidate_ensureMoveRightValidRule_node_bp | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                    candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                     --negLevel;
                 }
-                // Extend outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
+                // Extend Outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
                 LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.outhead;
                 if(head_candidate_ensureMoveRightValidRule_edge__edge0 != null)
                 {
@@ -1202,7 +1694,7 @@ label2: ;
                         if(!EdgeType_moveRight.isMyType[candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        // Implicit target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
+                        // Implicit Target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
                         LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
                         if(!NodeType_State.isMyType[candidate_ensureMoveRightValidRule_node__node0.type.TypeID]) {
                             continue;
@@ -1280,7 +1772,7 @@ label3: ;
             uint prev__candidate_moveLeftRule_node_bp;
             prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
             candidate_moveLeftRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-            // Extend outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
+            // Extend Outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
             LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.outhead;
             if(head_candidate_moveLeftRule_edge__edge0 != null)
             {
@@ -1290,12 +1782,12 @@ label3: ;
                     if(!EdgeType_moveLeft.isMyType[candidate_moveLeftRule_edge__edge0.type.TypeID]) {
                         continue;
                     }
-                    // Implicit target moveLeftRule_node_s from moveLeftRule_edge__edge0 
+                    // Implicit Target moveLeftRule_node_s from moveLeftRule_edge__edge0 
                     LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
                     if(!NodeType_State.isMyType[candidate_moveLeftRule_node_s.type.TypeID]) {
                         continue;
                     }
-                    // Extend incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
+                    // Extend Incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
                     LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.inhead;
                     if(head_candidate_moveLeftRule_edge__edge1 != null)
                     {
@@ -1305,7 +1797,7 @@ label3: ;
                             if(!EdgeType_right.isMyType[candidate_moveLeftRule_edge__edge1.type.TypeID]) {
                                 continue;
                             }
-                            // Implicit source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
+                            // Implicit Source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
                             LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
                             if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_lbp.type.TypeID]) {
                                 continue;
@@ -1330,7 +1822,7 @@ label3: ;
                             {
                                 candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
                                 candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
-                                candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+                                candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveLeftRule_node_bp;
                                 return matches;
                             }
                         }
@@ -1339,7 +1831,7 @@ label3: ;
                 }
                 while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.outNext) != head_candidate_moveLeftRule_edge__edge0 );
             }
-            candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+            candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveLeftRule_node_bp;
             return matches;
         }
         public void MissingPreset_moveLeftRule_node_wv(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
@@ -1367,7 +1859,7 @@ label3: ;
                 uint prev__candidate_moveLeftRule_node_bp;
                 prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
                 candidate_moveLeftRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-                // Extend outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
+                // Extend Outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
                 LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.outhead;
                 if(head_candidate_moveLeftRule_edge__edge0 != null)
                 {
@@ -1377,12 +1869,12 @@ label3: ;
                         if(!EdgeType_moveLeft.isMyType[candidate_moveLeftRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        // Implicit target moveLeftRule_node_s from moveLeftRule_edge__edge0 
+                        // Implicit Target moveLeftRule_node_s from moveLeftRule_edge__edge0 
                         LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
                         if(!NodeType_State.isMyType[candidate_moveLeftRule_node_s.type.TypeID]) {
                             continue;
                         }
-                        // Extend incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
+                        // Extend Incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
                         LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.inhead;
                         if(head_candidate_moveLeftRule_edge__edge1 != null)
                         {
@@ -1392,7 +1884,7 @@ label3: ;
                                 if(!EdgeType_right.isMyType[candidate_moveLeftRule_edge__edge1.type.TypeID]) {
                                     continue;
                                 }
-                                // Implicit source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
+                                // Implicit Source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
                                 LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
                                 if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_lbp.type.TypeID]) {
                                     continue;
@@ -1418,7 +1910,7 @@ label3: ;
                                     candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
                                     candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
                                     graph.MoveHeadAfter(candidate_moveLeftRule_node_wv);
-                                    candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+                                    candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveLeftRule_node_bp;
                                     return;
                                 }
                             }
@@ -1427,7 +1919,7 @@ label3: ;
                     }
                     while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.outNext) != head_candidate_moveLeftRule_edge__edge0 );
                 }
-                candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+                candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveLeftRule_node_bp;
             }
             return;
         }
@@ -1442,7 +1934,7 @@ label3: ;
                 uint prev__candidate_moveLeftRule_node_bp;
                 prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
                 candidate_moveLeftRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-                // Extend outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
+                // Extend Outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
                 LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.outhead;
                 if(head_candidate_moveLeftRule_edge__edge0 != null)
                 {
@@ -1452,12 +1944,12 @@ label3: ;
                         if(!EdgeType_moveLeft.isMyType[candidate_moveLeftRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        // Implicit target moveLeftRule_node_s from moveLeftRule_edge__edge0 
+                        // Implicit Target moveLeftRule_node_s from moveLeftRule_edge__edge0 
                         LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
                         if(!NodeType_State.isMyType[candidate_moveLeftRule_node_s.type.TypeID]) {
                             continue;
                         }
-                        // Extend incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
+                        // Extend Incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
                         LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.inhead;
                         if(head_candidate_moveLeftRule_edge__edge1 != null)
                         {
@@ -1467,7 +1959,7 @@ label3: ;
                                 if(!EdgeType_right.isMyType[candidate_moveLeftRule_edge__edge1.type.TypeID]) {
                                     continue;
                                 }
-                                // Implicit source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
+                                // Implicit Source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
                                 LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
                                 if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_lbp.type.TypeID]) {
                                     continue;
@@ -1493,7 +1985,7 @@ label3: ;
                                     candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
                                     candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
                                     graph.MoveHeadAfter(candidate_moveLeftRule_node_bp);
-                                    candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+                                    candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveLeftRule_node_bp;
                                     return;
                                 }
                             }
@@ -1502,7 +1994,7 @@ label3: ;
                     }
                     while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.outNext) != head_candidate_moveLeftRule_edge__edge0 );
                 }
-                candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~prev__candidate_moveLeftRule_node_bp | prev__candidate_moveLeftRule_node_bp;
+                candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveLeftRule_node_bp;
             }
             return;
         }
@@ -1558,7 +2050,7 @@ label3: ;
             uint prev__candidate_moveRightRule_node_bp;
             prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
             candidate_moveRightRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-            // Extend outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
+            // Extend Outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
             LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.outhead;
             if(head_candidate_moveRightRule_edge__edge0 != null)
             {
@@ -1568,12 +2060,12 @@ label3: ;
                     if(!EdgeType_moveRight.isMyType[candidate_moveRightRule_edge__edge0.type.TypeID]) {
                         continue;
                     }
-                    // Implicit target moveRightRule_node_s from moveRightRule_edge__edge0 
+                    // Implicit Target moveRightRule_node_s from moveRightRule_edge__edge0 
                     LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
                     if(!NodeType_State.isMyType[candidate_moveRightRule_node_s.type.TypeID]) {
                         continue;
                     }
-                    // Extend outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
+                    // Extend Outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
                     LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.outhead;
                     if(head_candidate_moveRightRule_edge__edge1 != null)
                     {
@@ -1583,7 +2075,7 @@ label3: ;
                             if(!EdgeType_right.isMyType[candidate_moveRightRule_edge__edge1.type.TypeID]) {
                                 continue;
                             }
-                            // Implicit target moveRightRule_node_rbp from moveRightRule_edge__edge1 
+                            // Implicit Target moveRightRule_node_rbp from moveRightRule_edge__edge1 
                             LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
                             if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_rbp.type.TypeID]) {
                                 continue;
@@ -1608,7 +2100,7 @@ label3: ;
                             {
                                 candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
                                 candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
-                                candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
+                                candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveRightRule_node_bp;
                                 return matches;
                             }
                         }
@@ -1617,7 +2109,7 @@ label3: ;
                 }
                 while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.outNext) != head_candidate_moveRightRule_edge__edge0 );
             }
-            candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
+            candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveRightRule_node_bp;
             return matches;
         }
         public void MissingPreset_moveRightRule_node_wv(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
@@ -1645,7 +2137,7 @@ label3: ;
                 uint prev__candidate_moveRightRule_node_bp;
                 prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
                 candidate_moveRightRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-                // Extend outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
+                // Extend Outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
                 LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.outhead;
                 if(head_candidate_moveRightRule_edge__edge0 != null)
                 {
@@ -1655,12 +2147,12 @@ label3: ;
                         if(!EdgeType_moveRight.isMyType[candidate_moveRightRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        // Implicit target moveRightRule_node_s from moveRightRule_edge__edge0 
+                        // Implicit Target moveRightRule_node_s from moveRightRule_edge__edge0 
                         LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
                         if(!NodeType_State.isMyType[candidate_moveRightRule_node_s.type.TypeID]) {
                             continue;
                         }
-                        // Extend outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
+                        // Extend Outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
                         LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.outhead;
                         if(head_candidate_moveRightRule_edge__edge1 != null)
                         {
@@ -1670,7 +2162,7 @@ label3: ;
                                 if(!EdgeType_right.isMyType[candidate_moveRightRule_edge__edge1.type.TypeID]) {
                                     continue;
                                 }
-                                // Implicit target moveRightRule_node_rbp from moveRightRule_edge__edge1 
+                                // Implicit Target moveRightRule_node_rbp from moveRightRule_edge__edge1 
                                 LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
                                 if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_rbp.type.TypeID]) {
                                     continue;
@@ -1696,7 +2188,7 @@ label3: ;
                                     candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
                                     candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
                                     graph.MoveHeadAfter(candidate_moveRightRule_node_wv);
-                                    candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
+                                    candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveRightRule_node_bp;
                                     return;
                                 }
                             }
@@ -1705,7 +2197,7 @@ label3: ;
                     }
                     while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.outNext) != head_candidate_moveRightRule_edge__edge0 );
                 }
-                candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
+                candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveRightRule_node_bp;
             }
             return;
         }
@@ -1720,7 +2212,7 @@ label3: ;
                 uint prev__candidate_moveRightRule_node_bp;
                 prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.flags & LGSPNode.IS_MATCHED<<negLevel;
                 candidate_moveRightRule_node_bp.flags |= LGSPNode.IS_MATCHED<<negLevel;
-                // Extend outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
+                // Extend Outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
                 LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.outhead;
                 if(head_candidate_moveRightRule_edge__edge0 != null)
                 {
@@ -1730,12 +2222,12 @@ label3: ;
                         if(!EdgeType_moveRight.isMyType[candidate_moveRightRule_edge__edge0.type.TypeID]) {
                             continue;
                         }
-                        // Implicit target moveRightRule_node_s from moveRightRule_edge__edge0 
+                        // Implicit Target moveRightRule_node_s from moveRightRule_edge__edge0 
                         LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
                         if(!NodeType_State.isMyType[candidate_moveRightRule_node_s.type.TypeID]) {
                             continue;
                         }
-                        // Extend outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
+                        // Extend Outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
                         LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.outhead;
                         if(head_candidate_moveRightRule_edge__edge1 != null)
                         {
@@ -1745,7 +2237,7 @@ label3: ;
                                 if(!EdgeType_right.isMyType[candidate_moveRightRule_edge__edge1.type.TypeID]) {
                                     continue;
                                 }
-                                // Implicit target moveRightRule_node_rbp from moveRightRule_edge__edge1 
+                                // Implicit Target moveRightRule_node_rbp from moveRightRule_edge__edge1 
                                 LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
                                 if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_rbp.type.TypeID]) {
                                     continue;
@@ -1771,7 +2263,7 @@ label3: ;
                                     candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
                                     candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
                                     graph.MoveHeadAfter(candidate_moveRightRule_node_bp);
-                                    candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
+                                    candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveRightRule_node_bp;
                                     return;
                                 }
                             }
@@ -1780,395 +2272,7 @@ label3: ;
                     }
                     while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.outNext) != head_candidate_moveRightRule_edge__edge0 );
                 }
-                candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~prev__candidate_moveRightRule_node_bp | prev__candidate_moveRightRule_node_bp;
-            }
-            return;
-        }
-    }
-
-    public class Action_readOneRule : LGSPAction
-    {
-        public Action_readOneRule() {
-            rulePattern = Rule_readOneRule.Instance;
-            patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 3, 1, 0+0);
-        }
-
-        public override string Name { get { return "readOneRule"; } }
-        private LGSPMatches matches;
-
-        public static LGSPAction Instance { get { return instance; } }
-        private static Action_readOneRule instance = new Action_readOneRule();
-
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
-        {
-            matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
-            int negLevel = 0;
-            // Preset readOneRule_node_s 
-            LGSPNode candidate_readOneRule_node_s = (LGSPNode) parameters[0];
-            if(candidate_readOneRule_node_s == null) {
-                MissingPreset_readOneRule_node_s(graph, maxMatches, parameters, null, null, null);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
-            if(!NodeType_State.isMyType[candidate_readOneRule_node_s.type.TypeID]) {
-                return matches;
-            }
-            // Preset readOneRule_node_bp 
-            LGSPNode candidate_readOneRule_node_bp = (LGSPNode) parameters[1];
-            if(candidate_readOneRule_node_bp == null) {
-                MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readOneRule_node_s);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
-            if(!NodeType_BandPosition.isMyType[candidate_readOneRule_node_bp.type.TypeID]) {
-                return matches;
-            }
-            // Condition 
-            if(!Rule_readOneRule.Condition_0(candidate_readOneRule_node_bp)) {
-                return matches;
-            }
-            // Extend outgoing readOneRule_edge_rv from readOneRule_node_s 
-            LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
-            if(head_candidate_readOneRule_edge_rv != null)
-            {
-                LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
-                do
-                {
-                    if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
-                        continue;
-                    }
-                    // Implicit target readOneRule_node_wv from readOneRule_edge_rv 
-                    LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
-                    if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
-                        continue;
-                    }
-                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                    match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
-                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
-                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
-                    match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
-                    matches.matchesList.PositionWasFilledFixIt();
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                    {
-                        candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
-                        return matches;
-                    }
-                }
-                while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
-            }
-            return matches;
-        }
-        public void MissingPreset_readOneRule_node_s(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
-        {
-            const int MAX_NEG_LEVEL = 5;
-            int negLevel = 0;
-            // Lookup readOneRule_node_s 
-            int type_id_candidate_readOneRule_node_s = 2;
-            for(LGSPNode head_candidate_readOneRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_s], candidate_readOneRule_node_s = head_candidate_readOneRule_node_s.typeNext; candidate_readOneRule_node_s != head_candidate_readOneRule_node_s; candidate_readOneRule_node_s = candidate_readOneRule_node_s.typeNext)
-            {
-                // Preset readOneRule_node_bp 
-                LGSPNode candidate_readOneRule_node_bp = (LGSPNode) parameters[1];
-                if(candidate_readOneRule_node_bp == null) {
-                    MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readOneRule_node_s);
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                    {
-                        return;
-                    }
-                    continue;
-                }
-                if(!NodeType_BandPosition.isMyType[candidate_readOneRule_node_bp.type.TypeID]) {
-                    continue;
-                }
-                // Condition 
-                if(!Rule_readOneRule.Condition_0(candidate_readOneRule_node_bp)) {
-                    continue;
-                }
-                // Extend outgoing readOneRule_edge_rv from readOneRule_node_s 
-                LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
-                if(head_candidate_readOneRule_edge_rv != null)
-                {
-                    LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
-                    do
-                    {
-                        if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
-                            continue;
-                        }
-                        // Implicit target readOneRule_node_wv from readOneRule_edge_rv 
-                        LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
-                            continue;
-                        }
-                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
-                        match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
-                        matches.matchesList.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                        {
-                            candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
-                            graph.MoveHeadAfter(candidate_readOneRule_node_s);
-                            return;
-                        }
-                    }
-                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
-                }
-            }
-            return;
-        }
-        public void MissingPreset_readOneRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_readOneRule_node_s)
-        {
-            const int MAX_NEG_LEVEL = 5;
-            int negLevel = 0;
-            // Lookup readOneRule_node_bp 
-            int type_id_candidate_readOneRule_node_bp = 1;
-            for(LGSPNode head_candidate_readOneRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_bp], candidate_readOneRule_node_bp = head_candidate_readOneRule_node_bp.typeNext; candidate_readOneRule_node_bp != head_candidate_readOneRule_node_bp; candidate_readOneRule_node_bp = candidate_readOneRule_node_bp.typeNext)
-            {
-                // Condition 
-                if(!Rule_readOneRule.Condition_0(candidate_readOneRule_node_bp)) {
-                    continue;
-                }
-                // Extend outgoing readOneRule_edge_rv from readOneRule_node_s 
-                LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
-                if(head_candidate_readOneRule_edge_rv != null)
-                {
-                    LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
-                    do
-                    {
-                        if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
-                            continue;
-                        }
-                        // Implicit target readOneRule_node_wv from readOneRule_edge_rv 
-                        LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
-                            continue;
-                        }
-                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
-                        match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
-                        matches.matchesList.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                        {
-                            candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
-                            graph.MoveHeadAfter(candidate_readOneRule_node_bp);
-                            return;
-                        }
-                    }
-                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
-                }
-            }
-            return;
-        }
-    }
-
-    public class Action_readZeroRule : LGSPAction
-    {
-        public Action_readZeroRule() {
-            rulePattern = Rule_readZeroRule.Instance;
-            patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 3, 1, 0+0);
-        }
-
-        public override string Name { get { return "readZeroRule"; } }
-        private LGSPMatches matches;
-
-        public static LGSPAction Instance { get { return instance; } }
-        private static Action_readZeroRule instance = new Action_readZeroRule();
-
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
-        {
-            matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
-            int negLevel = 0;
-            // Preset readZeroRule_node_s 
-            LGSPNode candidate_readZeroRule_node_s = (LGSPNode) parameters[0];
-            if(candidate_readZeroRule_node_s == null) {
-                MissingPreset_readZeroRule_node_s(graph, maxMatches, parameters, null, null, null);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
-            if(!NodeType_State.isMyType[candidate_readZeroRule_node_s.type.TypeID]) {
-                return matches;
-            }
-            // Preset readZeroRule_node_bp 
-            LGSPNode candidate_readZeroRule_node_bp = (LGSPNode) parameters[1];
-            if(candidate_readZeroRule_node_bp == null) {
-                MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_s);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
-            if(!NodeType_BandPosition.isMyType[candidate_readZeroRule_node_bp.type.TypeID]) {
-                return matches;
-            }
-            // Condition 
-            if(!Rule_readZeroRule.Condition_0(candidate_readZeroRule_node_bp)) {
-                return matches;
-            }
-            // Extend outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-            LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
-            if(head_candidate_readZeroRule_edge_rv != null)
-            {
-                LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
-                do
-                {
-                    if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
-                        continue;
-                    }
-                    // Implicit target readZeroRule_node_wv from readZeroRule_edge_rv 
-                    LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
-                    if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
-                        continue;
-                    }
-                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                    match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
-                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
-                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
-                    match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
-                    matches.matchesList.PositionWasFilledFixIt();
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                    {
-                        candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
-                        return matches;
-                    }
-                }
-                while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
-            }
-            return matches;
-        }
-        public void MissingPreset_readZeroRule_node_s(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList)
-        {
-            const int MAX_NEG_LEVEL = 5;
-            int negLevel = 0;
-            // Lookup readZeroRule_node_s 
-            int type_id_candidate_readZeroRule_node_s = 2;
-            for(LGSPNode head_candidate_readZeroRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_s], candidate_readZeroRule_node_s = head_candidate_readZeroRule_node_s.typeNext; candidate_readZeroRule_node_s != head_candidate_readZeroRule_node_s; candidate_readZeroRule_node_s = candidate_readZeroRule_node_s.typeNext)
-            {
-                // Preset readZeroRule_node_bp 
-                LGSPNode candidate_readZeroRule_node_bp = (LGSPNode) parameters[1];
-                if(candidate_readZeroRule_node_bp == null) {
-                    MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_s);
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                    {
-                        return;
-                    }
-                    continue;
-                }
-                if(!NodeType_BandPosition.isMyType[candidate_readZeroRule_node_bp.type.TypeID]) {
-                    continue;
-                }
-                // Condition 
-                if(!Rule_readZeroRule.Condition_0(candidate_readZeroRule_node_bp)) {
-                    continue;
-                }
-                // Extend outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-                LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
-                if(head_candidate_readZeroRule_edge_rv != null)
-                {
-                    LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
-                    do
-                    {
-                        if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
-                            continue;
-                        }
-                        // Implicit target readZeroRule_node_wv from readZeroRule_edge_rv 
-                        LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
-                            continue;
-                        }
-                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
-                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
-                        matches.matchesList.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                        {
-                            candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
-                            graph.MoveHeadAfter(candidate_readZeroRule_node_s);
-                            return;
-                        }
-                    }
-                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
-                }
-            }
-            return;
-        }
-        public void MissingPreset_readZeroRule_node_bp(LGSPGraph graph, int maxMatches, IGraphElement[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList, LGSPNode candidate_readZeroRule_node_s)
-        {
-            const int MAX_NEG_LEVEL = 5;
-            int negLevel = 0;
-            // Lookup readZeroRule_node_bp 
-            int type_id_candidate_readZeroRule_node_bp = 1;
-            for(LGSPNode head_candidate_readZeroRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_bp], candidate_readZeroRule_node_bp = head_candidate_readZeroRule_node_bp.typeNext; candidate_readZeroRule_node_bp != head_candidate_readZeroRule_node_bp; candidate_readZeroRule_node_bp = candidate_readZeroRule_node_bp.typeNext)
-            {
-                // Condition 
-                if(!Rule_readZeroRule.Condition_0(candidate_readZeroRule_node_bp)) {
-                    continue;
-                }
-                // Extend outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-                LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
-                if(head_candidate_readZeroRule_edge_rv != null)
-                {
-                    LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
-                    do
-                    {
-                        if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
-                            continue;
-                        }
-                        // Implicit target readZeroRule_node_wv from readZeroRule_edge_rv 
-                        LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
-                            continue;
-                        }
-                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
-                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
-                        matches.matchesList.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
-                        {
-                            candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
-                            graph.MoveHeadAfter(candidate_readZeroRule_node_bp);
-                            return;
-                        }
-                    }
-                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
-                }
+                candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_moveRightRule_node_bp;
             }
             return;
         }
@@ -2191,12 +2295,12 @@ label3: ;
 
         private void InitActions()
         {
+            actions.Add("readZeroRule", (LGSPAction) Action_readZeroRule.Instance);
+            actions.Add("readOneRule", (LGSPAction) Action_readOneRule.Instance);
             actions.Add("ensureMoveLeftValidRule", (LGSPAction) Action_ensureMoveLeftValidRule.Instance);
             actions.Add("ensureMoveRightValidRule", (LGSPAction) Action_ensureMoveRightValidRule.Instance);
             actions.Add("moveLeftRule", (LGSPAction) Action_moveLeftRule.Instance);
             actions.Add("moveRightRule", (LGSPAction) Action_moveRightRule.Instance);
-            actions.Add("readOneRule", (LGSPAction) Action_readOneRule.Instance);
-            actions.Add("readZeroRule", (LGSPAction) Action_readZeroRule.Instance);
         }
 
         public override String Name { get { return "Turing3Actions"; } }

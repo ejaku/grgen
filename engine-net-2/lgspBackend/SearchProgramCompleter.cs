@@ -369,6 +369,7 @@ namespace de.unika.ipd.grGen.lgsp
                     AbandonCandidateGlobal removeIsomorphy =
                         new AbandonCandidateGlobal(
                             writeIsomorphy.PatternElementName,
+                            writeIsomorphy.NegativeNamePrefix,
                             writeIsomorphy.IsNode);
                     insertionPoint = insertionPoint.Append(removeIsomorphy);
                 }

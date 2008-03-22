@@ -44,11 +44,20 @@ namespace de.unika.ipd.grGen.Action_test
 		public override void initialize()
 		{
 			PatternGraph pat_testRule;
+			bool[,] testRule_isNodeHomomorphicGlobal = new bool[3, 3] {
+				{ false, false, false, },
+				{ false, false, false, },
+				{ false, false, false, },
+			};
+			bool[,] testRule_isEdgeHomomorphicGlobal = new bool[2, 2] {
+				{ false, false, },
+				{ false, false, },
+			};
 			PatternNode testRule_node_a = new PatternNode((int) NodeTypes.@D231_4121, "testRule_node_a", "a", testRule_node_a_AllowedTypes, testRule_node_a_IsAllowedType, 5.5F, -1);
 			PatternNode testRule_node_f = new PatternNode((int) NodeTypes.@B21, "testRule_node_f", "f", testRule_node_f_AllowedTypes, testRule_node_f_IsAllowedType, 5.5F, -1);
 			PatternNode testRule_node_m = new PatternNode((int) NodeTypes.@D2211_2222_31, "testRule_node_m", "m", testRule_node_m_AllowedTypes, testRule_node_m_IsAllowedType, 5.5F, -1);
-			PatternEdge testRule_edge__edge0 = new PatternEdge(testRule_node_a, testRule_node_f, true, (int) EdgeTypes.@Edge, "testRule_edge__edge0", "_edge0", testRule_edge__edge0_AllowedTypes, testRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternEdge testRule_edge__edge1 = new PatternEdge(testRule_node_f, testRule_node_m, true, (int) EdgeTypes.@Edge, "testRule_edge__edge1", "_edge1", testRule_edge__edge1_AllowedTypes, testRule_edge__edge1_IsAllowedType, 5.5F, -1);
+			PatternEdge testRule_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@Edge, "testRule_edge__edge0", "_edge0", testRule_edge__edge0_AllowedTypes, testRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge testRule_edge__edge1 = new PatternEdge(true, (int) EdgeTypes.@Edge, "testRule_edge__edge1", "_edge1", testRule_edge__edge1_AllowedTypes, testRule_edge__edge1_IsAllowedType, 5.5F, -1);
 			pat_testRule = new PatternGraph(
 				"testRule",
 				"",
@@ -67,8 +76,14 @@ namespace de.unika.ipd.grGen.Action_test
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
-				}
+				},
+				testRule_isNodeHomomorphicGlobal,
+				testRule_isEdgeHomomorphicGlobal
 			);
+			pat_testRule.edgeToSourceNode.Add(testRule_edge__edge0, testRule_node_a);
+			pat_testRule.edgeToTargetNode.Add(testRule_edge__edge0, testRule_node_f);
+			pat_testRule.edgeToSourceNode.Add(testRule_edge__edge1, testRule_node_f);
+			pat_testRule.edgeToTargetNode.Add(testRule_edge__edge1, testRule_node_m);
 			testRule_node_a.PointOfDefinition = pat_testRule;
 			testRule_node_f.PointOfDefinition = pat_testRule;
 			testRule_node_m.PointOfDefinition = pat_testRule;
@@ -157,19 +172,19 @@ namespace de.unika.ipd.grGen.Action_test
                 uint prev__candidate_testRule_edge__edge1;
                 prev__candidate_testRule_edge__edge1 = candidate_testRule_edge__edge1.flags & LGSPEdge.IS_MATCHED<<negLevel;
                 candidate_testRule_edge__edge1.flags |= LGSPEdge.IS_MATCHED<<negLevel;
-                // Implicit source testRule_node_f from testRule_edge__edge1 
+                // Implicit Source testRule_node_f from testRule_edge__edge1 
                 LGSPNode candidate_testRule_node_f = candidate_testRule_edge__edge1.source;
                 if(!NodeType_B21.isMyType[candidate_testRule_node_f.type.TypeID]) {
-                    candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~prev__candidate_testRule_edge__edge1 | prev__candidate_testRule_edge__edge1;
+                    candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_testRule_edge__edge1;
                     continue;
                 }
-                // Implicit target testRule_node_m from testRule_edge__edge1 
+                // Implicit Target testRule_node_m from testRule_edge__edge1 
                 LGSPNode candidate_testRule_node_m = candidate_testRule_edge__edge1.target;
                 if(!NodeType_D2211_2222_31.isMyType[candidate_testRule_node_m.type.TypeID]) {
-                    candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~prev__candidate_testRule_edge__edge1 | prev__candidate_testRule_edge__edge1;
+                    candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_testRule_edge__edge1;
                     continue;
                 }
-                // Extend incoming testRule_edge__edge0 from testRule_node_f 
+                // Extend Incoming testRule_edge__edge0 from testRule_node_f 
                 LGSPEdge head_candidate_testRule_edge__edge0 = candidate_testRule_node_f.inhead;
                 if(head_candidate_testRule_edge__edge0 != null)
                 {
@@ -185,7 +200,7 @@ namespace de.unika.ipd.grGen.Action_test
                         {
                             continue;
                         }
-                        // Implicit source testRule_node_a from testRule_edge__edge0 
+                        // Implicit Source testRule_node_a from testRule_edge__edge0 
                         LGSPNode candidate_testRule_node_a = candidate_testRule_edge__edge0.source;
                         if(!NodeType_D231_4121.isMyType[candidate_testRule_node_a.type.TypeID]) {
                             continue;
@@ -203,13 +218,13 @@ namespace de.unika.ipd.grGen.Action_test
                         {
                             candidate_testRule_node_f.MoveInHeadAfter(candidate_testRule_edge__edge0);
                             graph.MoveHeadAfter(candidate_testRule_edge__edge1);
-                            candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~prev__candidate_testRule_edge__edge1 | prev__candidate_testRule_edge__edge1;
+                            candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_testRule_edge__edge1;
                             return matches;
                         }
                     }
                     while( (candidate_testRule_edge__edge0 = candidate_testRule_edge__edge0.inNext) != head_candidate_testRule_edge__edge0 );
                 }
-                candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~prev__candidate_testRule_edge__edge1 | prev__candidate_testRule_edge__edge1;
+                candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_testRule_edge__edge1;
             }
             return matches;
         }

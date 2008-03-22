@@ -236,8 +236,8 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 planNodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
-                    edge.source!=null ? edge.source.TempPlanMapping : null,
-                    edge.target!=null ? edge.target.TempPlanMapping : null);
+                    patternGraph.GetSource(edge)!=null ? patternGraph.GetSource(edge).TempPlanMapping : null,
+                    patternGraph.GetTarget(edge)!=null ? patternGraph.GetTarget(edge).TempPlanMapping : null);
 
 #if NO_EDGE_LOOKUP
                 if(isPreset)
@@ -251,45 +251,45 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
                 // only add implicit source operation if edge source is needed and the edge source is not a preset node
-                if(edge.source != null && !edge.source.TempPlanMapping.IsPreset)
+                if(patternGraph.GetSource(edge) != null && !patternGraph.GetSource(edge).TempPlanMapping.IsPreset)
                 {
                     SearchOperationType operation = edge.fixedDirection ? 
                         SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
                     PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        edge.source.TempPlanMapping, 0);
+                        patternGraph.GetSource(edge).TempPlanMapping, 0);
                     planEdges.Add(implSrcPlanEdge);
-                    edge.source.TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
+                    patternGraph.GetSource(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
                 }
                 // only add implicit target operation if edge target is needed and the edge target is not a preset node
-                if(edge.target != null && !edge.target.TempPlanMapping.IsPreset)
+                if(patternGraph.GetTarget(edge) != null && !patternGraph.GetTarget(edge).TempPlanMapping.IsPreset)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
                     PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
-                        edge.target.TempPlanMapping, 0);
+                        patternGraph.GetTarget(edge).TempPlanMapping, 0);
                     planEdges.Add(implTgtPlanEdge);
-                    edge.target.TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
+                    patternGraph.GetTarget(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
                 }
 
                 // edge must only be reachable from other nodes if it's not a preset
                 if(!isPreset)
                 {
                     // no outgoing if no source
-                    if(edge.source != null)
+                    if(patternGraph.GetSource(edge) != null)
                     {
                         SearchOperationType operation = edge.fixedDirection ?
                             SearchOperationType.Outgoing : SearchOperationType.Incident;
-                        PlanEdge outPlanEdge = new PlanEdge(operation, edge.source.TempPlanMapping,
+                        PlanEdge outPlanEdge = new PlanEdge(operation, patternGraph.GetSource(edge).TempPlanMapping,
                             planNodes[nodesIndex], edge.Cost);
                         planEdges.Add(outPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(outPlanEdge);
                     }
                     // no incoming if no target
-                    if(edge.target != null)
+                    if(patternGraph.GetTarget(edge) != null)
                     {
                         SearchOperationType operation = edge.fixedDirection ?
                             SearchOperationType.Incoming: SearchOperationType.Incident;
-                        PlanEdge inPlanEdge = new PlanEdge(operation, edge.target.TempPlanMapping,
+                        PlanEdge inPlanEdge = new PlanEdge(operation, patternGraph.GetTarget(edge).TempPlanMapping,
                             planNodes[nodesIndex], edge.Cost);
                         planEdges.Add(inPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(inPlanEdge);
