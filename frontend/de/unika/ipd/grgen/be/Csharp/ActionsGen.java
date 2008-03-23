@@ -40,7 +40,7 @@ public class ActionsGen extends CSharpBase {
 	/**
 	 * Generates the subpatterns and actions sourcecode for this unit.
 	 */
-	public void genRulesAndSubpatterns() {
+	public void genActionsAndSubpatterns() {
 		StringBuffer sb = new StringBuffer();
 		String filename = be.unit.getUnitName() + "Actions_intermediate.cs";
 
@@ -65,7 +65,7 @@ public class ActionsGen extends CSharpBase {
 
 		for(Action action : be.actionMap.keySet())
 			if(action instanceof MatchingAction)
-				genRule(sb, (MatchingAction) action);
+				genAction(sb, (MatchingAction) action);
 			else
 				throw new IllegalArgumentException("Unknown Action: " + action);
 
@@ -95,22 +95,14 @@ public class ActionsGen extends CSharpBase {
 
 		if(action instanceof Rule) {
 			Rule rule = (Rule) action;
-			mg.genRuleModify(sb, rule, true, true);
-			sb.append("\n");
-			mg.genRuleModify(sb, rule, false, true);
+			mg.genSubpatternModify(sb, rule);
 
-			mg.genAddedGraphElementsArray(sb, true);
+			mg.genAddedGraphElementsArray(sb, rule.getRight()!=null);
 
-			genEmit(sb, rule, true);
-		}
-		else if(action instanceof Test) {
-			Test test = (Test) action;
-			mg.genTestModify(sb, test, true);
-			
-			mg.genAddedGraphElementsArray(sb, false);
+			//genEmit(sb, rule, true);
 		}
 		else {
-			throw new IllegalArgumentException("Unknown action type: " + action);
+			throw new IllegalArgumentException("Unknown subpattern action type: " + action);
 		}
 
 		sb.append("\t}\n");
@@ -120,7 +112,7 @@ public class ActionsGen extends CSharpBase {
 	/**
 	 * Generates the actions sourcecode for the given matching-action
 	 */
-	private void genRule(StringBuffer sb, MatchingAction action) {
+	private void genAction(StringBuffer sb, MatchingAction action) {
 		String actionName = formatIdentifiable(action);
 
 		sb.append("\tpublic class Rule_" + actionName + " : LGSPRulePattern\n");
@@ -137,9 +129,9 @@ public class ActionsGen extends CSharpBase {
 
 		if(action instanceof Rule) {
 			Rule rule = (Rule) action;
-			mg.genRuleModify(sb, rule, true, false);
+			mg.genRuleModify(sb, rule, true);
 			sb.append("\n");
-			mg.genRuleModify(sb, rule, false, false);
+			mg.genRuleModify(sb, rule, false);
 
 			mg.genAddedGraphElementsArray(sb, true);
 
@@ -147,7 +139,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if(action instanceof Test) {
 			Test test = (Test) action;
-			mg.genTestModify(sb, test, false);
+			mg.genTestModify(sb, test);
 			
 			mg.genAddedGraphElementsArray(sb, false);
 		}

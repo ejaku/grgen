@@ -26,9 +26,9 @@ import java.util.Vector;
 /**
  * Type of pattern decl node declaration.
  */
-class PatternTestTypeNode extends TypeNode {
+class SubpatternTypeNode extends TypeNode {
 	static {
-		setName(PatternTestTypeNode.class, "pattern type");
+		setName(SubpatternTypeNode.class, "subpattern type");
 	}
 
 	/** returns children of this node */

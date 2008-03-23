@@ -40,41 +40,28 @@ public class ModifyGen extends CSharpBase {
 	// Modification part generation //
 	//////////////////////////////////
 
-	public void genTestModify(StringBuffer sb, Test test, boolean isSubpattern) {
-		if(!isSubpattern) {
-			nodesNeededAsElements.clear();
-			nodesNeededAsAttributes.clear();
-			edgesNeededAsElements.clear();
-			edgesNeededAsAttributes.clear();
-	
-			collectReturnElements(test);
-	
-			sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
-			sb.append("\t\t{  // test does not have modifications\n");
-			extractElementsFromMatch(sb, test.getPattern().getNameOfGraph());
-			emitReturnStatement(sb, test);
-			sb.append("\t\t}\n");
-	
-			sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
-			sb.append("\t\t{  // test does not have modifications\n");
-			extractElementsFromMatch(sb, test.getPattern().getNameOfGraph());
-			emitReturnStatement(sb, test);
-			sb.append("\t\t}\n");
-		}
-		else {
-			sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
-			sb.append("\t\t{  // currently empty\n");
-			sb.append("\t\t\treturn EmptyReturnElements;\n");
-			sb.append("\t\t}\n");
-	
-			sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
-			sb.append("\t\t{  // currently empty\n");
-			sb.append("\t\t\treturn EmptyReturnElements;\n");
-			sb.append("\t\t}\n");
-		}
+	public void genTestModify(StringBuffer sb, Test test) {
+		nodesNeededAsElements.clear();
+		nodesNeededAsAttributes.clear();
+		edgesNeededAsElements.clear();
+		edgesNeededAsAttributes.clear();
+
+		collectReturnElements(test);
+
+		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
+		sb.append("\t\t{  // test does not have modifications\n");
+		extractElementsFromMatch(sb, test.getPattern().getNameOfGraph());
+		emitReturnStatement(sb, test);
+		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
+		sb.append("\t\t{  // test does not have modifications\n");
+		extractElementsFromMatch(sb, test.getPattern().getNameOfGraph());
+		emitReturnStatement(sb, test);
+		sb.append("\t\t}\n");
 	}
 	
-	public void genRuleModify(StringBuffer sb, Rule rule, boolean reuseNodeAndEdges, boolean isSubpattern) {
+	public void genRuleModify(StringBuffer sb, Rule rule, boolean reuseNodeAndEdges) {
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
 
@@ -404,8 +391,20 @@ public class ModifyGen extends CSharpBase {
 		sb.append(sb3);
 	}
 
-	public void genAddedGraphElementsArray(StringBuffer sb, boolean isRule) {
-		if(isRule) {
+	public void genSubpatternModify(StringBuffer sb, Rule subpattern) {
+		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
+		sb.append("\t\t{  // currently empty\n");
+		sb.append("\t\t\treturn EmptyReturnElements;\n");
+		sb.append("\t\t}\n");
+	
+		sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
+		sb.append("\t\t{  // currently empty\n");
+		sb.append("\t\t\treturn EmptyReturnElements;\n");
+		sb.append("\t\t}\n");
+	}
+	
+	public void genAddedGraphElementsArray(StringBuffer sb, boolean hasRightHandSide) {
+		if(hasRightHandSide) {
 			genAddedGraphElementsArray(sb, true, newNodes);
 			genAddedGraphElementsArray(sb, false, newEdges);
 		} 
@@ -416,7 +415,7 @@ public class ModifyGen extends CSharpBase {
 			sb.append("\t\tpublic override String[] AddedEdgeNames { get { return addedEdgeNames; } }\n");
 		}
 	}
-	
+
 	private void genAddedGraphElementsArray(StringBuffer sb, boolean isNode, Collection<? extends GraphEntity> set) {
 		String NodesOrEdges = isNode?"Node":"Edge";
 		sb.append("\t\tprivate static String[] added" + NodesOrEdges + "Names = new String[] ");

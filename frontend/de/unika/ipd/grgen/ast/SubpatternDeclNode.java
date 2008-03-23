@@ -19,7 +19,7 @@
 
 
 /**
- * @author Sebastian Hack, Daniel Grund
+ * @author Sebastian Hack, Daniel Grund, Edgar Jakumeit
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
+import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Assignment;
@@ -37,21 +38,25 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Pattern;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Edge;
 
 
 /**
  * AST node for a pattern with replacements.
  */
-public class PatternRuleDeclNode extends PatternTestDeclNode {
+public class SubpatternDeclNode extends ActionDeclNode  {
 	static {
-		setName(PatternRuleDeclNode.class, "pattern rule declaration");
+		setName(SubpatternDeclNode.class, "subpattern declaration");
 	}
 
+	protected PatternGraphNode pattern;
 	protected CollectNode<RhsDeclNode> right;
-	protected PatternRuleTypeNode type;
+	protected SubpatternTypeNode type;
 
 	/** Type for this declaration. */
-	private static final TypeNode patternType = new PatternRuleTypeNode();
+	private static final TypeNode subpatternType = new SubpatternTypeNode();
 
 	/**
 	 * Make a new rule.
@@ -60,8 +65,10 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 	 * @param right The right hand side.
 	 * @param neg The context preventing the rule to match.
 	 */
-	public PatternRuleDeclNode(IdentNode id, PatternGraphNode left, CollectNode<RhsDeclNode> right) {
-		super(id, patternType, left);
+	public SubpatternDeclNode(IdentNode id, PatternGraphNode left, CollectNode<RhsDeclNode> right) {
+		super(id, subpatternType);
+		this.pattern = left;
+		becomeParent(this.pattern);
 		this.right = right;
 		becomeParent(this.right);
 	}
@@ -86,7 +93,8 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 		return childrenNames;
 	}
 
-	protected static final DeclarationTypeResolver<PatternRuleTypeNode> typeResolver =	new DeclarationTypeResolver<PatternRuleTypeNode>(PatternRuleTypeNode.class);
+	protected static final DeclarationTypeResolver<SubpatternTypeNode> typeResolver = 
+		new DeclarationTypeResolver<SubpatternTypeNode>(SubpatternTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
@@ -117,7 +125,6 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 		}
 		return res;
 	}
-
 
 	/** Check that only graph elements are returned, that are not deleted. */
 	protected boolean checkExecParamsNotDeleted() {
@@ -260,6 +267,85 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 		return res;
 	}
 
+	protected boolean checkLeft() {
+		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
+		boolean edgeReUse = false;
+		edgeReUse = true;
+
+		//get the negative graphs and the pattern of this TestDeclNode
+		// NOTE: the order affect the error coords
+		Collection<PatternGraphNode> leftHandGraphs = new LinkedList<PatternGraphNode>();
+		leftHandGraphs.add(pattern);
+		for (PatternGraphNode pgn : pattern.negs.getChildren()) {
+			leftHandGraphs.add(pgn);
+		}
+
+		GraphNode[] graphs = leftHandGraphs.toArray(new GraphNode[0]);
+		Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
+
+		for (int i=0; i<graphs.length; i++) {
+			for (int o=i+1; o<graphs.length; o++) {
+				for (BaseNode iBN : graphs[i].getConnections()) {
+					if (! (iBN instanceof ConnectionNode)) {
+						continue;
+					}
+					ConnectionNode iConn = (ConnectionNode)iBN;
+
+					for (BaseNode oBN : graphs[o].getConnections()) {
+						if (! (oBN instanceof ConnectionNode)) {
+							continue;
+						}
+						ConnectionNode oConn = (ConnectionNode)oBN;
+
+						if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
+							NodeCharacter oSrc, oTgt, iSrc, iTgt;
+							oSrc = oConn.getSrc();
+							oTgt = oConn.getTgt();
+							iSrc = iConn.getSrc();
+							iTgt = iConn.getTgt();
+
+							assert ! (oSrc instanceof NodeTypeChangeNode):
+								"no type changes in test actions";
+							assert ! (oTgt instanceof NodeTypeChangeNode):
+								"no type changes in test actions";
+							assert ! (iSrc instanceof NodeTypeChangeNode):
+								"no type changes in test actions";
+							assert ! (iTgt instanceof NodeTypeChangeNode):
+								"no type changes in test actions";
+
+							//check only if there's no dangling edge
+							if ( !((iSrc instanceof NodeDeclNode) && ((NodeDeclNode)iSrc).isDummy())
+								&& !((oSrc instanceof NodeDeclNode) && ((NodeDeclNode)oSrc).isDummy())
+								&& iSrc != oSrc ) {
+								alreadyReported.add(iConn.getEdge());
+								iConn.reportError("Reused edge does not connect the same nodes");
+								edgeReUse = false;
+							}
+
+							//check only if there's no dangling edge
+							if ( !((iTgt instanceof NodeDeclNode) && ((NodeDeclNode)iTgt).isDummy())
+								&& !((oTgt instanceof NodeDeclNode) && ((NodeDeclNode)oTgt).isDummy())
+								&& iTgt != oTgt && !alreadyReported.contains(iConn.getEdge())) {
+								alreadyReported.add(iConn.getEdge());
+								iConn.reportError("Reused edge does not connect the same nodes");
+								edgeReUse = false;
+							}
+
+
+							if (iConn.getConnectionKind() != oConn.getConnectionKind()) {
+								alreadyReported.add(iConn.getEdge());
+								iConn.reportError("Reused edge does not have the same connection kind");
+								edgeReUse = false;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return edgeReUse;
+	}
+	
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -272,7 +358,7 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 			right.children.get(i).warnElemAppearsInsideAndOutsideDelete(pattern);
 		}
 
-		boolean leftHandGraphsOk = super.checkLocal();
+		boolean leftHandGraphsOk = checkLeft();
 
 		boolean noReturnInPatternOk = true;
 		if(pattern.returns.children.size() > 0) {
@@ -316,6 +402,23 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 			& checkExecParamsNotDeleted();
 	}
 
+	protected void constructIRaux(MatchingAction ma) {
+		PatternGraph patternGraph = ma.getPattern();
+
+		// add Params to the IR
+		for(DeclNode decl : pattern.getParamDecls()) {
+			ma.addParameter((Entity) decl.checkIR(Entity.class));
+			if(decl instanceof NodeCharacter) {
+				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
+			} else if (decl instanceof EdgeCharacter) {
+				Edge e = ((EdgeCharacter)decl).getEdge();
+				patternGraph.addSingleEdge(e);
+			} else {
+				throw new IllegalArgumentException("unknown Class: " + decl);
+			}
+		}
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
@@ -330,8 +433,11 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 		}
 
 		// TODO choose the right one
-		PatternGraph right = this.right.children.get(0).getPatternGraph(left);
-
+		PatternGraph right = null;
+		if(this.right.children.size() > 0) {
+			right = this.right.children.get(0).getPatternGraph(left);
+		}
+		
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
 		if (isIRAlreadySet()) {
@@ -345,10 +451,12 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 
 		// add Eval statements to the IR
 		// TODO choose the right one
-		for (Assignment n : this.right.children.get(0).getAssignments()) {
-			rule.addEval(n);
+		if(this.right.children.size() > 0) {
+			for (Assignment n : this.right.children.get(0).getAssignments()) {
+				rule.addEval(n);
+			}
 		}
-
+		
 		return rule;
 	}
 
@@ -401,14 +509,17 @@ public class PatternRuleDeclNode extends PatternTestDeclNode {
 	}
 
 	@Override
-	public PatternRuleTypeNode getDeclType() {
+	public SubpatternTypeNode getDeclType() {
 		assert isResolved();
 
 		return type;
 	}
 
 	public static String getKindStr() {
-		return "pattern rule declaration";
+		return "subpattern declaration";
+	}
+	
+	public static String getUseStr() {
+		return "subpattern";
 	}
 }
-

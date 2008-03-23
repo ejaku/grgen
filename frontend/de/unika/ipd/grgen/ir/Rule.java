@@ -55,7 +55,9 @@ public class Rule extends MatchingAction {
 		setChildrenNames(childrenNames);
 		this.right = right;
 		left.setName("L");
-		right.setName("R");
+		if(right!=null) {
+			right.setName("R");
+		}
 	}
 
 	/** @return A collection containing all eval assignments of this rule. */

@@ -68,7 +68,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		System.out.println("The " + this.getClass() + " GrGen backend...");
 
 		new ModelGen(this).genModel();
-		new ActionsGen(this).genRulesAndSubpatterns();
+		new ActionsGen(this).genActionsAndSubpatterns();
 
 		System.out.println("done!");
 	}

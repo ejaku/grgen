@@ -48,7 +48,7 @@ public class UnitNode extends BaseNode {
 	CollectNode<BaseNode> models;
 
 	// of type PatternTestDeclNode or PatternRuleDeclNode
-	CollectNode<PatternTestDeclNode> subpatterns;
+	CollectNode<SubpatternDeclNode> subpatterns;
 	CollectNode<IdentNode> subpatternsUnresolved;
 
 	// of type TestDeclNode or RuleDeclNode
@@ -97,8 +97,8 @@ public class UnitNode extends BaseNode {
 	private static final CollectResolver<TestDeclNode> actionsResolver = new CollectResolver<TestDeclNode>(
 			new DeclarationResolver<TestDeclNode>(TestDeclNode.class));
 
-	private static final CollectResolver<PatternTestDeclNode> subpatternsResolver = new CollectResolver<PatternTestDeclNode>(
-			new DeclarationResolver<PatternTestDeclNode>(PatternTestDeclNode.class));
+	private static final CollectResolver<SubpatternDeclNode> subpatternsResolver = new CollectResolver<SubpatternDeclNode>(
+			new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
@@ -136,7 +136,7 @@ public class UnitNode extends BaseNode {
 			res.addModel(model);
 		}
 
-		for(PatternTestDeclNode n : subpatterns.getChildren()) {
+		for(SubpatternDeclNode n : subpatterns.getChildren()) {
 			Action act = n.getAction();
 			res.addSubpattern(act);
 		}
