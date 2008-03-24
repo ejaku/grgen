@@ -159,8 +159,8 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
 
-	: t:TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
-		left=patternPart[getCoords(t), params, mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+	: t:TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
+		left=patternPart[getCoords(t), params, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 			{
 				id.setDecl(new TestDeclNode(id, left, ret));
 				actionChilds.addChild(id);
@@ -171,14 +171,14 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 				reportError(getCoords(t), "no \"dpo\" modifier allowed");
 			}
 		}
-	| r:RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
-		left=patternPart[getCoords(r), params, mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
-		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
+	| r:RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
+		left=patternPart[getCoords(r), params, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
 			{
 				id.setDecl(new RuleDeclNode(id, left, rightReplace, ret));
 				actionChilds.addChild(id);
 			}
-		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
+		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
 			{
 				id.setDecl(new RuleDeclNode(id, left, rightModify, ret));
 				actionChilds.addChild(id);
@@ -761,10 +761,25 @@ alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNo
 		IdentNode id;
 		PatternGraphNode left;
 		int mod = 0;
+		ReplaceDeclNode rightReplace;
+		ModifyDeclNode rightModify;
+		CollectNode<AssignNode> eval = new CollectNode<AssignNode>();
+		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
+		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
 	: ( id=entIdentDecl l:LBRACE pushScopeStr["alt"+altCount, getCoords(l)]
 		left=patternBody[getCoords(l), new CollectNode<BaseNode>(), mod, context, id.toString()]
-		RBRACE popScope	{ alt.addChild(left); }
+		(
+			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, id]
+				{
+					rightHandSides.addChild(rightReplace);
+				}
+			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, id]
+				{
+					rightHandSides.addChild(rightModify);
+				}
+		) ?
+		RBRACE popScope	{ alt.addChild(new AlternativeCaseNode(id, left, rightHandSides)); }
 	  ) *
 	;
 

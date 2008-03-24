@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.AlternativeCase;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -39,20 +39,20 @@ public class AlternativeNode extends BaseNode {
 		setName(AlternativeNode.class, "alternative");
 	}
 
-	Vector<PatternGraphNode> children = new Vector<PatternGraphNode>();
+	Vector<AlternativeCaseNode> children = new Vector<AlternativeCaseNode>();
 
 	public AlternativeNode(Coords coords) {
 		super(coords);
 	}
 
-	public void addChild(PatternGraphNode n) {
+	public void addChild(AlternativeCaseNode n) {
 		assert(!isResolved());
 		becomeParent(n);
 		children.add(n);
 	}
 
 	/** returns children of this node */
-	public Collection<PatternGraphNode> getChildren() {
+	public Collection<AlternativeCaseNode> getChildren() {
 		return children;
 	}
 
@@ -81,8 +81,8 @@ public class AlternativeNode extends BaseNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
 		Alternative alternative = new Alternative();
-		for (PatternGraphNode alternativeCaseNode : children) {
-			PatternGraph alternativeCase = alternativeCaseNode.getPatternGraph();
+		for (AlternativeCaseNode alternativeCaseNode : children) {
+			AlternativeCase alternativeCase = (AlternativeCase)alternativeCaseNode.getIR();
 			alternative.addAlternativeCase(alternativeCase);
 		}
 		return alternative;

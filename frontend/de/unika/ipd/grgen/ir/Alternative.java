@@ -36,13 +36,13 @@ public class Alternative extends IR {
 		super("alternative");
 	}
 
-	Vector<PatternGraph> alternativeCases = new Vector<PatternGraph>();
+	Vector<AlternativeCase> alternativeCases = new Vector<AlternativeCase>();
 
-	public Collection<PatternGraph> getAlternativeCases() {
+	public Collection<AlternativeCase> getAlternativeCases() {
 		return alternativeCases;
 	}
 
-	public void addAlternativeCase(PatternGraph alternativeCase)
+	public void addAlternativeCase(AlternativeCase alternativeCase)
 	{
 		alternativeCases.add(alternativeCase);
 	}

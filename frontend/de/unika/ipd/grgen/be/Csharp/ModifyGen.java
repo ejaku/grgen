@@ -50,13 +50,13 @@ public class ModifyGen extends CSharpBase {
 
 		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
 		sb.append("\t\t{  // test does not have modifications\n");
-		extractElementsFromMatch(sb, test.getPattern().getNameOfGraph());
+		genExtractElementsFromMatch(sb, test.getPattern().getNameOfGraph());
 		emitReturnStatement(sb, test);
 		sb.append("\t\t}\n");
 
 		sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
 		sb.append("\t\t{  // test does not have modifications\n");
-		extractElementsFromMatch(sb, test.getPattern().getNameOfGraph());
+		genExtractElementsFromMatch(sb, test.getPattern().getNameOfGraph());
 		emitReturnStatement(sb, test);
 		sb.append("\t\t}\n");
 	}
@@ -76,10 +76,14 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t{\n");
 
 		// The resulting code has the following order:
+		// (but this is not the order in which it is computed)
 		//  - Extract nodes from match as LGSPNode instances
 		//  - Extract nodes from match or from already extracted nodes as interface instances
 		//  - Extract edges from match as LGSPEdge instances
 		//  - Extract edges from match or from already extracted edges as interface instances
+		//  - Extract subpattern submatches from match as LGSPMatch instances
+		//  - Extract alternative submatches from match as LGSPMatch instances
+		//  - Call modification code of nested subpatterns and alternatives
 		//  - Extract node types
 		//  - Extract edge types
 		//  - Create variables for used attributes of reusee
@@ -360,7 +364,11 @@ public class ModifyGen extends CSharpBase {
 		// Finalize method using the infos collected and the already generated code
 		//
 
-		extractElementsFromMatch(sb, patternName);
+		genExtractElementsFromMatch(sb, patternName);
+		
+		genExtractSubmatchesFromMatch(sb, rule.getPattern());
+
+		genNestedPatternModificationCalls(sb, rule.getPattern());
 
 		// Generate needed types
 		for(Node node : nodesNeededAsTypes) {
@@ -402,7 +410,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\treturn EmptyReturnElements;\n");
 		sb.append("\t\t}\n");
 	}
-	
+
 	public void genAddedGraphElementsArray(StringBuffer sb, boolean hasRightHandSide) {
 		if(hasRightHandSide) {
 			genAddedGraphElementsArray(sb, true, newNodes);
@@ -413,6 +421,22 @@ public class ModifyGen extends CSharpBase {
 			sb.append("\t\tpublic override String[] AddedNodeNames { get { return addedNodeNames; } }\n");
 			sb.append("\t\tprivate static String[] addedEdgeNames = new String[] {};\n");
 			sb.append("\t\tpublic override String[] AddedEdgeNames { get { return addedEdgeNames; } }\n");
+		}
+	}
+
+	private void genNestedPatternModificationCalls(StringBuffer sb, PatternGraph pattern) {
+		// generate calls to the modifications, first of the subpatterns, then of the alternatives
+		// nested alternatives are handled in their enclosing alternative
+		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+			String subName = formatIdentifiable(sub);
+			sb.append("\t\t\tPattern_" + formatIdentifiable(sub.getSubpatternAction())
+					+ ".Instance.Modify(graph, subpattern_" + subName + ");\n");
+		}
+		int i = 0;
+		for(Alternative alt : pattern.getAlts()) {
+			String altName = "alt_" + i;
+			sb.append("\t\t\tModify_" + altName + "(graph, alternative_" + altName + ");\n");
+			++i;
 		}
 	}
 
@@ -436,7 +460,7 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void extractElementsFromMatch(StringBuffer sb, String patternName) {
+	private void genExtractElementsFromMatch(StringBuffer sb, String patternName) {
 		for(Node node : nodesNeededAsElements) {
 			if(node.isRetyped()) continue;
 			sb.append("\t\t\tLGSPNode " + formatEntity(node)
@@ -467,6 +491,25 @@ public class ModifyGen extends CSharpBase {
 				sb.append("match.Edges[(int) " + patternName + "_EdgeNums.@"
 						+ formatIdentifiable(edge) + "];\n");
 		}
+	}
+	
+	private void genExtractSubmatchesFromMatch(StringBuffer sb, PatternGraph pattern) {
+		String patternName = pattern.getNameOfGraph();
+		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+			String subName = formatIdentifiable(sub);
+			sb.append("\t\t\tLGSPMatch subpattern_" + subName
+					+ " = match.EmbeddedGraphs[(int) " + patternName + "_SubNums.@"
+					+ formatIdentifiable(sub) + "];\n");
+		}
+		int i = 0;
+		for(Alternative alt : pattern.getAlts()) {
+			String altName = "alt_" + i;
+			sb.append("\t\t\tLGSPMatch alternative_" + altName
+					+ " = match.EmbeddedGraphs[(int) " + patternName + "_AltNums.@"
+					+ altName + " + " + pattern.getSubpatternUsages().size() + "];\n");
+			++i;
+		}
+
 	}
 
 	private void collectReturnElements(MatchingAction action) {

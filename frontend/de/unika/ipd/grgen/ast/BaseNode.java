@@ -58,6 +58,9 @@ public abstract class BaseNode extends Base
 	public static final int CONTEXT_ACTION_OR_PATTERN = 1<<1;
 	public static final int CONTEXT_ACTION = 0<<1;
 	public static final int CONTEXT_PATTERN = 1<<1;
+	public static final int CONTEXT_TEST_OR_RULE = 1<<2; // only valid if CONTEXT_ACTION 
+	public static final int CONTEXT_TEST = 0<<2;
+	public static final int CONTEXT_RULE = 1<<2;
 
 	/**
 	 * AST global name map, that maps from Class to String.

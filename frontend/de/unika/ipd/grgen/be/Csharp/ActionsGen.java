@@ -171,9 +171,10 @@ public class ActionsGen extends CSharpBase {
 		i = 0;
 		for(Alternative alt : pattern.getAlts()) {
 			genCaseEnum(sb, alt, pathPrefixForElements+"alt_"+i+"_");
-			for(PatternGraph altCase : alt.getAlternativeCases()) {
+			for(AlternativeCase altCase : alt.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
-				genTypeConditionsAndEnums(sb, altCase, pathPrefixForElements+"alt_"+i+"_"+altCase.getNameOfGraph()+"_",
+				genTypeConditionsAndEnums(sb, altCasePattern, pathPrefixForElements+"alt_"+i+"_"+altCasePattern.getNameOfGraph()+"_",
 										  alreadyDefinedEntityToNameClone);
 			}
 			++i;
@@ -299,8 +300,9 @@ public class ActionsGen extends CSharpBase {
 
 	private void genCaseEnum(StringBuffer sb, Alternative alt, String pathPrefixForElements) {
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "CaseNums { ");
-		for(PatternGraph altCase : alt.getAlternativeCases()) {
-			sb.append("@" + altCase.getNameOfGraph() + ", ");
+		for(AlternativeCase altCase : alt.getAlternativeCases()) {
+			PatternGraph altCasePattern = altCase.getLeft();
+			sb.append("@" + altCasePattern.getNameOfGraph() + ", ");
 		}
 		sb.append("};\n");
 	}
@@ -454,8 +456,9 @@ public class ActionsGen extends CSharpBase {
 		int i = 0;
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = "alt_" + i;
-			for(PatternGraph altCase : alt.getAlternativeCases()) {
-				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCase.getNameOfGraph();
+			for(AlternativeCase altCase : alt.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				sb.append("\t\t\t" + altPatGraphVarName + ".embeddingGraph = " + patGraphVarName + ";\n");
 			}
 			++i;
@@ -577,13 +580,14 @@ public class ActionsGen extends CSharpBase {
 		int i = 0;
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = "alt_" + i;
-			for(PatternGraph altCase : alt.getAlternativeCases()) {
-				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCase.getNameOfGraph();
+			for(AlternativeCase altCase : alt.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				sb.append("\t\t\tPatternGraph " + altPatGraphVarName + ";\n");
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 				HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
-				condCnt = genPatternGraph(sb, aux, altCase,
-										  pathPrefixForElements+altName+"_", altCase.getNameOfGraph(),
+				condCnt = genPatternGraph(sb, aux, altCasePattern,
+										  pathPrefixForElements+altName+"_", altCasePattern.getNameOfGraph(),
 										  altPatGraphVarName,
 										  alreadyDefinedEntityToNameClone,
 										  alreadyDefinedIdentifiableToNameClone,
@@ -680,8 +684,9 @@ public class ActionsGen extends CSharpBase {
 	private int genPatternConditions(StringBuffer sb, PatternGraph pattern, int condCnt) {
 		condCnt = genConditions(sb, pattern.getConditions(), condCnt);
 		for(Alternative alt : pattern.getAlts()) {
-			for(PatternGraph altCase : alt.getAlternativeCases()) {
-				condCnt = genPatternConditions(sb, altCase, condCnt);
+			for(AlternativeCase altCase : alt.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				condCnt = genPatternConditions(sb, altCasePattern, condCnt);
 			}
 		}
 		for(PatternGraph neg : pattern.getNegs()) {
@@ -722,8 +727,9 @@ public class ActionsGen extends CSharpBase {
 			max = computePriosMax(max, neg);
 		}
 		for(Alternative alt : pattern.getAlts()) {
-			for(PatternGraph altCase : alt.getAlternativeCases()) {
-				max = computePriosMax(max, altCase);
+			for(AlternativeCase altCase : alt.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				max = computePriosMax(max, altCasePattern);
 			}
 		}
 		return max;

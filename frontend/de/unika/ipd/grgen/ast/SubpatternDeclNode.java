@@ -62,8 +62,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	 * Make a new rule.
 	 * @param id The identifier of this rule.
 	 * @param left The left hand side (The pattern to match).
-	 * @param right The right hand side.
-	 * @param neg The context preventing the rule to match.
+	 * @param right The right hand side(s).
 	 */
 	public SubpatternDeclNode(IdentNode id, PatternGraphNode left, CollectNode<RhsDeclNode> right) {
 		super(id, subpatternType);

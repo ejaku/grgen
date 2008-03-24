@@ -207,10 +207,11 @@ public class PatternGraph extends Graph {
 		///////////////////////////////////////////////////////////////////////////////
 		// depth first walk over IR-pattern-graph tree structure
 		for(Alternative alternative : getAlts()) {
-			for(PatternGraph altCase : alternative.getAlternativeCases()) {
+			for(AlternativeCase altCase : alternative.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
 				HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 				HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
-				altCase.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+				altCasePattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 						alreadyDefinedNodesClone, alreadyDefinedEdgesClone);
 			}
 		}
@@ -228,17 +229,28 @@ public class PatternGraph extends Graph {
 		// add elements needed in alternative cases, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
 		for(Alternative alternative : getAlts()) {
-			for(PatternGraph altCase : alternative.getAlternativeCases()) {
-				for(Node node : altCase.getNodes()) {
+			for(AlternativeCase altCase : alternative.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				for(Node node : altCasePattern.getNodes()) {
 					if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 						addSingleNode(node);
 						addHomToAll(node);
+						PatternGraph altCaseReplacement = altCase.getRight();
+						if(altCaseReplacement!=null && !altCaseReplacement.hasNode(node)) {
+							// prevent deletion of elements inserted for pattern completion 
+							altCaseReplacement.addSingleNode(node);
+						}
 					}
 				}
-				for(Edge edge : altCase.getEdges()) {
+				for(Edge edge : altCasePattern.getEdges()) {
 					if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 						addSingleEdge(edge); // TODO: maybe we loose context here
 						addHomToAll(edge);
+						PatternGraph altCaseReplacement = altCase.getRight();
+						if(altCaseReplacement!=null && !altCaseReplacement.hasEdge(edge)) {
+							// prevent deletion of elements inserted for pattern completion 
+							altCaseReplacement.addSingleEdge(edge);
+						}
 					}
 				}
 			}
