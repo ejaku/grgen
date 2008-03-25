@@ -718,11 +718,4 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public new EdgeType[] DirectSuperTypes { get { return directSuperTypes; } }
     }
-
-    /// <summary>
-    /// A interface implemented by all GrGen attribute classes.
-    /// </summary>
-    public interface IAttributes
-    {
-    }
 }

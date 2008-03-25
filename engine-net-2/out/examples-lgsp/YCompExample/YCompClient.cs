@@ -551,24 +551,6 @@ namespace de.unika.ipd.grGen.grShell
             return dumpInfo.GetElementName(elem) + ":" + elem.Type.Name + infoTag;
         }
 
-
-        private String GetRetypedElemLabel(IGraphElement elem, GrGenType type, IAttributes attrs)
-        {
-            List<AttributeType> infoTagTypes = dumpInfo.GetTypeInfoTags(type);
-            String infoTag = "";
-            if(infoTagTypes != null)
-            {
-                foreach(AttributeType attrType in infoTagTypes)
-                {
-                    object attr = attrs.GetType().GetProperty(attrType.Name).GetValue(attrs, null);
-                    if(attr == null) continue;
-                    infoTag += "\\n" + attrType.Name + " = " + attr.ToString();
-                }
-            }
-
-            return dumpInfo.GetElementName(elem) + ":" + type.Name + infoTag;
-        }
-
         public void AddNode(INode node)
         {
             if(dumpInfo.IsExcludedNodeType(node.Type)) return;

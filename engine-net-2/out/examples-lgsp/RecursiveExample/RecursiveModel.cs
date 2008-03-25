@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.Model_Recursive
 
 	// *** Node Node ***
 
-	public interface INode_Node : IAttributes
+	public interface INode_Node : INode
 	{
 	}
 
@@ -173,7 +173,7 @@ namespace de.unika.ipd.grGen.Model_Recursive
 
 	// *** Edge AEdge ***
 
-	public interface IEdge_AEdge : IAttributes
+	public interface IEdge_AEdge : IEdge
 	{
 	}
 

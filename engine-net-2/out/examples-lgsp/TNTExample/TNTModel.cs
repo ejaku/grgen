@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 
 	// *** Node Node ***
 
-	public interface INode_Node : IAttributes
+	public interface INode_Node : INode
 	{
 	}
 
@@ -863,7 +863,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 
 	// *** Edge AEdge ***
 
-	public interface IEdge_AEdge : IAttributes
+	public interface IEdge_AEdge : IEdge
 	{
 	}
 

@@ -1435,44 +1435,6 @@ namespace de.unika.ipd.grGen.lgsp
                 oldEdge.Recycle();
         }
 
-#if OLD
-        // TODO: NYI
-        public override IAttributes SetNodeType(INode node, NodeType newNodeType)
-        {
-            throw new Exception("Not implemented yet!");
-
-/*            LGSPNode lnode = (LGSPNode) node;
-            IAttributes oldAttrs = lnode.attributes;
-            int oldtypeid = lnode.type.TypeID;
-
-            RetypeWithCopyCommons(lnode, newNodeType);
-
-            // Update node type array
-            RemoveNode(lnode, oldtypeid);
-            AddNode(lnode, newNodeType.TypeID);
-
-            return oldAttrs;*/
-        }
-
-        // TODO: NYI
-        public override IAttributes SetEdgeType(IEdge edge, EdgeType newEdgeType)
-        {
-            throw new Exception("Not implemented yet!");
-
-/*            LGSPEdge ledge = (LGSPEdge) edge;
-            IAttributes oldAttrs = ledge.attributes;
-            int oldtypeid = ledge.type.TypeID;
-
-            RetypeWithCopyCommons(ledge, newEdgeType);
-
-            // Update edge type array
-            RemoveEdge(ledge, oldtypeid);
-            AddEdge(ledge, newEdgeType.TypeID);
-
-            return oldAttrs;*/
-        }
-#endif
-
         #region Variables management
 
         protected Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
