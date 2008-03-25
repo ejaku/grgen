@@ -400,6 +400,15 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	public void genSubpatternModify(StringBuffer sb, Rule subpattern) {
+		newNodes = new HashSet<Node>();
+		newEdges = new HashSet<Edge>();
+		delNodes = new HashSet<Node>();
+		delEdges = new HashSet<Edge>();
+		commonNodes = new HashSet<Node>();
+		commonEdges = new HashSet<Edge>();
+		newOrRetypedNodes = new HashSet<Node>();
+		newOrRetypedEdges = new HashSet<Edge>();
+		
 		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
 		sb.append("\t\t{  // currently empty\n");
 		sb.append("\t\t\treturn EmptyReturnElements;\n");
