@@ -142,6 +142,26 @@ public class DirectedEdgeTypeNode extends EdgeTypeNode {
 		inhType.getAllMembers();
     }
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal()
+	{
+		boolean res = super.checkLocal();
+
+		BaseNode p = getParents().iterator().next();
+		assert p instanceof TypeDeclNode;
+		TypeDeclNode typeDecl = (TypeDeclNode) p;
+
+
+		for (EdgeTypeNode type : extend.getChildren()) {
+	        if (type instanceof UndirectedEdgeTypeNode) {
+	        	error.error(typeDecl.getCoords(), getKindString() + " " + typeDecl.ident + " must not extend an " + type.getUseString());
+	        	res = false;
+	        }
+        }
+
+		return res;
+	}
+
 	public static String getKindStr() {
 		return "directed edge type";
 	}

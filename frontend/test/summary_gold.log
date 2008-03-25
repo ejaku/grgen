@@ -461,6 +461,7 @@ ERROR  should_fail/edge_007.grg
 ERROR  should_fail/edge_008.grg
 ERROR  should_fail/edge_010.grg
 ERROR  should_fail/edge_011.grg
+ERROR  should_fail/edge_012.grg
 ERROR  should_fail/edge_into_neg_001.grg
 ERROR  should_fail/edge_into_neg_002.grg
 ERROR  should_fail/edge_into_neg_003.grg

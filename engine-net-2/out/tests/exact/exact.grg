@@ -157,3 +157,12 @@ exact rule exactParamEdgeWithNodes(-e:Edge->)
 
 	modify {}
 }
+
+exact test exactParamNodeTest(a:Node){}
+
+exact test exactParamEdgeTest(-e:Edge->){}
+
+exact test exactParamEdgeWithNodesTest(-e:Edge->)
+{
+	.-e->.;
+}
