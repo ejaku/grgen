@@ -40,12 +40,12 @@ import de.unika.ipd.grgen.ir.Type;
 public abstract class TypeNode extends BaseNode {
 	/** A map, that maps each basic type to a set of all other basic types,
 	 *  that are compatible to the type. */
-	protected static final Map<TypeNode, HashSet<TypeNode>> compatibleMap =
+	private static final Map<TypeNode, HashSet<TypeNode>> compatibleMap =
 		new HashMap<TypeNode, HashSet<TypeNode>>();
 
 	/** A map, that maps each type to a set of all other types,
 	 * that are castable to the type. */
-	protected static final Map<TypeNode, HashSet<TypeNode>> castableMap =
+	private static final Map<TypeNode, HashSet<TypeNode>> castableMap =
 		new HashMap<TypeNode, HashSet<TypeNode>>();
 
 	public static String getUseStr() {
@@ -101,9 +101,11 @@ public abstract class TypeNode extends BaseNode {
 	 * @return true, if this type is compatible or equal to <code>t</code>
 	 */
 	public boolean isCompatibleTo(TypeNode t) {
+		if(isEqual(t)) return true;
+
 		Set<TypeNode> compat = new HashSet<TypeNode>();
 		getCompatibleToTypes(compat);
-		return (this.isEqual(t)) || compat.contains(t);
+		return compat.contains(t);
 	}
 
 	/**
@@ -137,7 +139,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @return true, if this and <code>t</code> are of the same type.
 	 */
 	public boolean isEqual(TypeNode t) {
-		return getClass().equals(t.getClass());
+		return t == this;
 	}
 
 	/**
@@ -157,13 +159,13 @@ public abstract class TypeNode extends BaseNode {
 		doGetCompatibleToTypes(coll);
 	}
 
-	protected static void addTypeToMap(Map<TypeNode, HashSet<TypeNode>> map,
+	private static void addTypeToMap(Map<TypeNode, HashSet<TypeNode>> map,
 									   TypeNode index, TypeNode target) {
-		if(!map.containsKey(index)) {
-			map.put(index, new HashSet<TypeNode>());
-		}
+		HashSet<TypeNode> s = map.get(index);
 
-		Set<TypeNode> s = map.get(index);
+		if(s == null)
+			map.put(index, s = new HashSet<TypeNode>());
+
 		s.add(target);
 	}
 
@@ -174,23 +176,6 @@ public abstract class TypeNode extends BaseNode {
 	 */
 	protected static void addCompatibility(TypeNode a, TypeNode b) {
 		addTypeToMap(compatibleMap, a, b);
-	}
-
-	/**
-	 * Checks, if two types are compatible
-	 * @param a The first type.
-	 * @param b The second type.
-	 * @return true, if the two types are compatible.
-	 */
-	protected static boolean isCompatible(TypeNode a, TypeNode b) {
-		boolean res = false;
-
-		if(compatibleMap.containsKey(a)) {
-			Set<TypeNode> s = compatibleMap.get(a);
-			res = s.contains(b);
-		}
-
-		return res;
 	}
 
 	public static void addCastability(TypeNode from, TypeNode to) {
@@ -204,14 +189,14 @@ public abstract class TypeNode extends BaseNode {
 		debug.report(NOTE, "compatible types to " + getName() + ":");
 
 		Collection<TypeNode> compat = compatibleMap.get(this);
-		if(compat != null) {
-			if (debug.willReport(NOTE)) {
-				for(BaseNode curNode :compat) {
-					debug.report(NOTE, "" + curNode.getName());
-				}
+		if(compat == null) return;
+
+		if (debug.willReport(NOTE)) {
+			for(BaseNode curNode : compat) {
+				debug.report(NOTE, "" + curNode.getName());
 			}
-			coll.addAll(compat);
 		}
+		coll.addAll(compat);
 	}
 
 	/**
@@ -226,42 +211,8 @@ public abstract class TypeNode extends BaseNode {
 
 	private void doGetCastableToTypes(Collection<TypeNode> coll) {
 		Collection<TypeNode> castable = castableMap.get(this);
-		if(castable != null) {
+		if(castable != null)
 			coll.addAll(castable);
-		}
-	}
-
-	/**
-	 * Cast a constant of this type to another type.
-	 * @param constant The constant. Its type must be equal to this.
-	 * @return A new constant, that represents <code>constant</code> in a new
-	 * type.
-	 */
-	protected final ConstNode cast(TypeNode newType, ConstNode constant) {
-		TypeNode constType = constant.getType();
-		ConstNode res = ConstNode.getInvalid();
-
-		if(isEqual(constType)) {
-			if(newType.isEqual(constType)) {
-				res = constant;
-			} else if(isCastableTo(newType)) {
-				res = doCast(newType, constant);
-			} else {
-				res = ConstNode.getInvalid();
-			}
-		}
-
-		return res;
-	}
-
-	/**
-	 * Implement this method for your types to implement casts
-	 * of constants.
-	 * @param constant A constant.
-	 * @return The type casted constant.
-	 */
-	protected ConstNode doCast(TypeNode newType, ConstNode constant) {
-		return ConstNode.getInvalid();
 	}
 }
 

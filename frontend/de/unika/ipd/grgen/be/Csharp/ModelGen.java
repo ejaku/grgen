@@ -216,14 +216,15 @@ public class ModelGen extends CSharpBase {
 	 * Generate a list of direct supertypes of the given type.
 	 */
 	private void genDirectSuperTypeList(InheritanceType type) {
+		String iprefix = "I" + formatNodeOrEdge(type);
 		Collection<InheritanceType> directSuperTypes = type.getDirectSuperTypes();
 
 		if(directSuperTypes.isEmpty())
-			sb.append("IAttributes");
+			sb.append(iprefix);		// INode or IEdge
 
 		for(Iterator<InheritanceType> i = directSuperTypes.iterator(); i.hasNext(); ) {
 			InheritanceType superType = i.next();
-			sb.append("I" + formatNodeOrEdge(type) + "_" + formatIdentifiable(superType));
+			sb.append(iprefix + "_" + formatIdentifiable(superType));
 			if(i.hasNext())
 				sb.append(", ");
 		}

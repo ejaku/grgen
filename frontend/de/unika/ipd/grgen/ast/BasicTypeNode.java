@@ -129,11 +129,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		}
 	}
 
-	/** @see de.unika.ipd.grgen.ast.TypeNode#isEqual(de.unika.ipd.grgen.ast.TypeNode) */
-	public boolean isEqual(TypeNode t) {
-		return t == this;
-	}
-
 	public static String getKindStr() {
 		return "basic type";
 	}
