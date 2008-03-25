@@ -40,25 +40,32 @@ public class ModifyGen extends CSharpBase {
 	// Modification part generation //
 	//////////////////////////////////
 
-	public void genTestModify(StringBuffer sb, Test test) {
-		nodesNeededAsElements.clear();
-		nodesNeededAsAttributes.clear();
-		edgesNeededAsElements.clear();
-		edgesNeededAsAttributes.clear();
+	public void genRuleOrTestModify(StringBuffer sb, Rule rule) {
+		if(rule.getRight()==null) {
+			nodesNeededAsElements.clear();
+			nodesNeededAsAttributes.clear();
+			edgesNeededAsElements.clear();
+			edgesNeededAsAttributes.clear();
 
-		collectReturnElements(test);
+			collectReturnElements(rule);
 
-		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
-		sb.append("\t\t{  // test does not have modifications\n");
-		genExtractElementsFromMatch(sb, test.getPattern().getNameOfGraph());
-		emitReturnStatement(sb, test);
-		sb.append("\t\t}\n");
+			sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
+			sb.append("\t\t{  // test does not have modifications\n");
+			genExtractElementsFromMatch(sb, rule.getPattern().getNameOfGraph());
+			emitReturnStatement(sb, rule);
+			sb.append("\t\t}\n");
 
-		sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
-		sb.append("\t\t{  // test does not have modifications\n");
-		genExtractElementsFromMatch(sb, test.getPattern().getNameOfGraph());
-		emitReturnStatement(sb, test);
-		sb.append("\t\t}\n");
+			sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
+			sb.append("\t\t{  // test does not have modifications\n");
+			genExtractElementsFromMatch(sb, rule.getPattern().getNameOfGraph());
+			emitReturnStatement(sb, rule);
+			sb.append("\t\t}\n");
+		}
+		else {
+			genRuleModify(sb, rule, true);
+			sb.append("\n");
+			genRuleModify(sb, rule, false);
+		}
 	}
 	
 	public void genRuleModify(StringBuffer sb, Rule rule, boolean reuseNodeAndEdges) {

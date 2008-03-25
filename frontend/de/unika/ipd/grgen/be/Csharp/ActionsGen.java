@@ -86,7 +86,9 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate static Pattern_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
 		sb.append("\t\tpublic static Pattern_" + actionName + " Instance { get { if (instance==null) { instance = new Pattern_" + actionName + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
-		genTypeConditionsAndEnums(sb, action.getPattern(), action.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
+		String patGraphVarName = "pat_" + action.getPattern().getNameOfGraph();
+		genTypeConditionsAndEnums(sb, action.getPattern(), patGraphVarName,
+				action.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
 		sb.append("\n");
 		genRuleOrSubpatternInit(sb, action, true);
 		sb.append("\n");
@@ -95,6 +97,7 @@ public class ActionsGen extends CSharpBase {
 
 		if(action instanceof Rule) {
 			Rule rule = (Rule) action;
+
 			mg.genSubpatternModify(sb, rule);
 
 			mg.genAddedGraphElementsArray(sb, rule.getRight()!=null);
@@ -120,7 +123,9 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate static Rule_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
 		sb.append("\t\tpublic static Rule_" + actionName + " Instance { get { if (instance==null) { instance = new Rule_" + actionName + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
-		genTypeConditionsAndEnums(sb, action.getPattern(), action.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
+		String patGraphVarName = "pat_" + action.getPattern().getNameOfGraph();
+		genTypeConditionsAndEnums(sb, action.getPattern(), patGraphVarName,
+				action.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
 		sb.append("\n");
 		genRuleOrSubpatternInit(sb, action, false);
 		sb.append("\n");
@@ -129,19 +134,14 @@ public class ActionsGen extends CSharpBase {
 
 		if(action instanceof Rule) {
 			Rule rule = (Rule) action;
-			mg.genRuleModify(sb, rule, true);
-			sb.append("\n");
-			mg.genRuleModify(sb, rule, false);
-
-			mg.genAddedGraphElementsArray(sb, true);
-
-			genEmit(sb, rule, false);
-		}
-		else if(action instanceof Test) {
-			Test test = (Test) action;
-			mg.genTestModify(sb, test);
 			
-			mg.genAddedGraphElementsArray(sb, false);
+			mg.genRuleOrTestModify(sb, rule);
+
+			mg.genAddedGraphElementsArray(sb, rule.getRight()!=null);				
+
+			if(rule.getRight()!=null) {
+				genEmit(sb, rule, false);
+			}
 		}
 		else {
 			throw new IllegalArgumentException("Unknown action type: " + action);
@@ -155,27 +155,34 @@ public class ActionsGen extends CSharpBase {
 	// Type conditions generation //
 	////////////////////////////////
 
-	private void genTypeConditionsAndEnums(StringBuffer sb, PatternGraph pattern,
+	private void genTypeConditionsAndEnums(StringBuffer sb, PatternGraph pattern, String patGraphVarName,
 										   String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
+		sb.append("\t\tPatternGraph " + patGraphVarName + ";\n");
+		sb.append("\n");
 
 		int i = 0;
 		for(PatternGraph neg : pattern.getNegs()) {
+			String negName = "neg_" + i;
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
-			genTypeConditionsAndEnums(sb, neg, pathPrefixForElements+"neg_"+i+"_",
-									  alreadyDefinedEntityToNameClone);
+			genTypeConditionsAndEnums(sb, neg, pathPrefixForElements+negName,
+					pathPrefixForElements + negName + "_",
+					alreadyDefinedEntityToNameClone);
 			++i;
 		}
 
 		i = 0;
 		for(Alternative alt : pattern.getAlts()) {
-			genCaseEnum(sb, alt, pathPrefixForElements+"alt_"+i+"_");
+			String altName = "alt_" + i;
+			genCaseEnum(sb, alt, pathPrefixForElements+altName+"_");
 			for(AlternativeCase altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
+				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
-				genTypeConditionsAndEnums(sb, altCasePattern, pathPrefixForElements+"alt_"+i+"_"+altCasePattern.getNameOfGraph()+"_",
-										  alreadyDefinedEntityToNameClone);
+				genTypeConditionsAndEnums(sb, altCasePattern, altPatGraphVarName,
+						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_",
+						alreadyDefinedEntityToNameClone);
 			}
 			++i;
 		}
@@ -336,7 +343,6 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tpublic override void initialize()\n");
 		sb.append("\t\t{\n");
 
-		sb.append("\t\t\tPatternGraph " + patGraphVarName + ";\n");
 		genPatternGraph(sb, aux, pattern, "", pattern.getNameOfGraph(), patGraphVarName, alreadyDefinedEntityToName,
 						alreadyDefinedIdentifiableToName, 0, action.getParameters(), max);
 		sb.append(aux);
@@ -470,6 +476,8 @@ public class ActionsGen extends CSharpBase {
 			++i;
 		}
 		
+		sb.append("\n");
+		
 		return condCnt;
 	}
 
@@ -583,7 +591,6 @@ public class ActionsGen extends CSharpBase {
 			for(AlternativeCase altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
-				sb.append("\t\t\tPatternGraph " + altPatGraphVarName + ";\n");
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 				HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 				condCnt = genPatternGraph(sb, aux, altCasePattern,
@@ -611,7 +618,6 @@ public class ActionsGen extends CSharpBase {
 		i = 0;
 		for(PatternGraph neg : pattern.getNegs()) {
 			String negName = "neg_" + i;
-			sb.append("\t\t\tPatternGraph " + pathPrefixForElements+negName + ";\n");
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 			condCnt = genPatternGraph(sb, aux, neg,

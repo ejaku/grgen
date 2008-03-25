@@ -54,8 +54,11 @@ public class Rule extends MatchingAction {
 		super("rule", ident, left);
 		setChildrenNames(childrenNames);
 		this.right = right;
-		left.setName("L");
-		if(right!=null) {
+		if(right==null) {
+			left.setNameSuffix("test");
+		}
+		else {
+			left.setName("L");
 			right.setName("R");
 		}
 	}

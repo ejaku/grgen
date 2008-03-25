@@ -304,12 +304,12 @@ public class TestDeclNode extends ActionDeclNode {
 			return getIR();
 		}
 
-		Test test = new Test(getIdentNode().getIdent(), left);
+		Rule testRule = new Rule(getIdentNode().getIdent(), left, null);
 
 		constructImplicitNegs(left);
-		constructIRaux(test, pattern.returns);
+		constructIRaux(testRule, pattern.returns);
 
-		return test;
+		return testRule;
 	}
 
 	/**

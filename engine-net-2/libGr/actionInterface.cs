@@ -208,9 +208,9 @@ namespace de.unika.ipd.grGen.libGr
     public interface IMatch
     {
         /// <summary>
-        /// Not implemented yet
+        /// The match object represents a match of the pattern given by this member.
         /// </summary>
-        IPatternGraph Pattern { get; } // niy
+        IPatternGraph Pattern { get; }
 
         /// <summary>
         /// An array of all nodes in the match.
@@ -225,9 +225,12 @@ namespace de.unika.ipd.grGen.libGr
         IEdge[] Edges { get; }
 
         /// <summary>
-        /// Not implemented yet
+        /// An array of all submatches due to subpatterns and alternatives. 
+        /// First subpatterns in order of EmbeddedGraphs array of the according IPatternGraph,
+        /// then alternatives in order of Alternatives array of the according IPatternGraph.
+        /// You can find out which alternative case was matched by inspecting the Pattern member of the submatch.
         /// </summary>
-        IMatch[] EmbeddedGraphs { get; } // niy
+        IMatch[] EmbeddedGraphs { get; }
     }
 
     /// <summary>

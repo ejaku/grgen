@@ -132,14 +132,13 @@ public class DumpVisitor extends GraphDumpVisitor
 			return;
 		}
 
-		if (n instanceof Test) {
-			Test test = (Test) n;
-			dumper.beginSubgraph(test);
-			dumpGraph(test.getPattern(), "");
-			dumper.endSubgraph();
-		} else if (n instanceof Rule) {
+		if (n instanceof Rule) {
 			Rule r = (Rule) n;
 			dumper.beginSubgraph(r);
+			if(r.getRight()==null) {
+				dumpGraph(r.getPattern(), "");
+				dumper.endSubgraph();				
+			}
 			dumpGraph(r.getLeft(), "l");
 			dumpGraph(r.getRight(), "r");
 

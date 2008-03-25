@@ -22,12 +22,12 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPMatch : IMatch
     {
         /// <summary>
-        /// Not implemented yet
+        /// The match object represents a match of the pattern given in this member
         /// </summary>
         public PatternGraph Pattern { get { return patternGraph; } }
 
         /// <summary>
-        /// Not implemented yet
+        /// member for pattern propertie representing the pattern graph which was matched
         /// </summary>
         public PatternGraph patternGraph;
 
@@ -44,7 +44,10 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPEdge[] Edges;
 
         /// <summary>
-        /// Not implemented yet
+        /// An array of all submatches due to subpatterns and alternatives. 
+        /// First subpatterns in order of EmbeddedGraphs array of the according IPatternGraph,
+        /// then alternatives in order of Alternatives array of the according IPatternGraph.
+        /// You can find out which alternative case was matched by inspecting the Pattern member of the submatch.
         /// </summary>
         public LGSPMatch[] EmbeddedGraphs;
 
