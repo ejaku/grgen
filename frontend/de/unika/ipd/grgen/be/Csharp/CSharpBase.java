@@ -93,12 +93,12 @@ public abstract class CSharpBase {
 			sb.append(" }");
 	}
 
-	public void genAlternativesSet(StringBuffer sb, Collection<? extends AlternativeCase> set,
+	public void genAlternativesSet(StringBuffer sb, Collection<? extends Rule> set,
 								   String pre, String post, boolean brackets) {
 		if (brackets)
 			sb.append("{ ");
-		for(Iterator<? extends AlternativeCase> iter = set.iterator(); iter.hasNext();) {
-			AlternativeCase altCase = iter.next();
+		for(Iterator<? extends Rule> iter = set.iterator(); iter.hasNext();) {
+			Rule altCase = iter.next();
 			PatternGraph altCasePattern = altCase.getLeft();
 			sb.append(pre + altCasePattern.getNameOfGraph() + post);
 			if(iter.hasNext())

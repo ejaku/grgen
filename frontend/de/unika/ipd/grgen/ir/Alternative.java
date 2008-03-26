@@ -36,14 +36,14 @@ public class Alternative extends IR {
 		super("alternative");
 	}
 
-	Vector<AlternativeCase> alternativeCases = new Vector<AlternativeCase>();
+	Vector<Rule> alternativeCases = new Vector<Rule>();
 
-	public Collection<AlternativeCase> getAlternativeCases() {
+	public Collection<Rule> getAlternativeCases() {
 		return alternativeCases;
 	}
 
-	public void addAlternativeCase(AlternativeCase alternativeCase)
+	public void addAlternativeCase(Rule alternativeCaseRule)
 	{
-		alternativeCases.add(alternativeCase);
+		alternativeCases.add(alternativeCaseRule);
 	}
 }

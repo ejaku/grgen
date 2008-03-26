@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.AlternativeCase;
+import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -82,8 +82,8 @@ public class AlternativeNode extends BaseNode {
 	protected IR constructIR() {
 		Alternative alternative = new Alternative();
 		for (AlternativeCaseNode alternativeCaseNode : children) {
-			AlternativeCase alternativeCase = (AlternativeCase)alternativeCaseNode.getIR();
-			alternative.addAlternativeCase(alternativeCase);
+			Rule alternativeCaseRule = (Rule)alternativeCaseNode.getIR();
+			alternative.addAlternativeCase(alternativeCaseRule);
 		}
 		return alternative;
 	}

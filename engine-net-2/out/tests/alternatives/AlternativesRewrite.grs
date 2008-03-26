@@ -1,0 +1,19 @@
+new graph "alternatives\AlternativesRewrite"
+
+debug set layout Organic
+
+xgrs createA
+xgrs testA
+xgrs testC
+xgrs AandBtoC
+xgrs [?testA]
+xgrs [?testC]
+
+xgrs createB
+xgrs [?testB]
+xgrs [?testC]
+xgrs AandBtoC
+xgrs [?testB]
+xgrs [?testC]
+
+quit

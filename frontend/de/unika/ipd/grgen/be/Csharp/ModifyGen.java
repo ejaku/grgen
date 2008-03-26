@@ -51,35 +51,115 @@ public class ModifyGen extends CSharpBase {
 
 			sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
 			sb.append("\t\t{  // test does not have modifications\n");
-			genExtractElementsFromMatch(sb, rule.getPattern().getNameOfGraph());
+			genExtractElementsFromMatch(sb, "", rule.getLeft().getNameOfGraph());
 			emitReturnStatement(sb, rule);
 			sb.append("\t\t}\n");
 
 			sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
 			sb.append("\t\t{  // test does not have modifications\n");
-			genExtractElementsFromMatch(sb, rule.getPattern().getNameOfGraph());
+			genExtractElementsFromMatch(sb, "", rule.getLeft().getNameOfGraph());
 			emitReturnStatement(sb, rule);
 			sb.append("\t\t}\n");
 		}
 		else {
-			genRuleModify(sb, rule, true);
+			genModify(sb, rule, "", "pat_"+rule.getLeft().getNameOfGraph(), true);
 			sb.append("\n");
-			genRuleModify(sb, rule, false);
+			genModify(sb, rule, "", "pat_"+rule.getLeft().getNameOfGraph(), false);
 		}
 	}
-	
-	public void genRuleModify(StringBuffer sb, Rule rule, boolean reuseNodeAndEdges) {
+
+	public void genSubpatternModify(StringBuffer sb, Rule subpattern) {
+		newNodes = new HashSet<Node>();
+		newEdges = new HashSet<Edge>();
+		delNodes = new HashSet<Node>();
+		delEdges = new HashSet<Edge>();
+		commonNodes = new HashSet<Node>();
+		commonEdges = new HashSet<Edge>();
+		newOrRetypedNodes = new HashSet<Node>();
+		newOrRetypedEdges = new HashSet<Edge>();
+
+		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
+		sb.append("\t\t{  // currently empty\n");
+		sb.append("\t\t\treturn EmptyReturnElements;\n");
+		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
+		sb.append("\t\t{  // currently empty\n");
+		sb.append("\t\t\treturn EmptyReturnElements;\n");
+		sb.append("\t\t}\n");
+	}
+
+	private void genModify(StringBuffer sb, Rule rule, String pathPrefix, String patGraphVarName, boolean reuseNodeAndEdges)
+	{
+		genRuleOrSubruleModify(sb, rule, pathPrefix, reuseNodeAndEdges);
+
+		int i = 0;
+		for(Alternative alt : rule.getLeft().getAlts()) {
+			String altName = "alt_" + i;
+
+			genAlternativeModify(sb, rule, alt, pathPrefix+rule.getLeft().getNameOfGraph()+"_", altName, reuseNodeAndEdges);
+
+			for(Rule altCase : alt.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				String altCasePatGraphVarName = pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_"+altCasePattern.getNameOfGraph();
+				genModify(sb, altCase, pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_", altCasePatGraphVarName, reuseNodeAndEdges);
+			}
+			++i;
+		}
+	}
+
+	public void genAlternativeModify(StringBuffer sb, Rule rule, Alternative alt,
+			String pathPrefix, String altName, boolean reuseNodeAndEdges) {
+		// Emit function header
+		sb.append("\t\tpublic void "
+					  + pathPrefix+altName+"_" + (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
+					  + "(LGSPGraph graph, LGSPMatch match)\n");
+		sb.append("\t\t{\n");
+
+		// Emit dispatcher calling the modify-method of the alternative case which was matched
+		boolean firstCase = true;
+		for(Rule altCase : alt.getAlternativeCases()) {
+			if(firstCase) {
+				sb.append("\t\t\tif(match.patternGraph == "
+						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
+				firstCase = false;
+			}
+			else
+			{
+				sb.append("\t\t\telse if(match.patternGraph == "
+						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
+			}
+			sb.append("\t\t\t\t" + pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+"_"
+					+ (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
+					+ "(graph, match);\n");
+			sb.append("\t\t\t\t return;\n");
+			sb.append("\t\t\t}\n");
+		}
+		sb.append("\t\t\tthrow new ApplicationException(); //debug assert\n");
+
+		// Emit end of function
+		sb.append("\t\t}\n");
+	}
+
+	public void genRuleOrSubruleModify(StringBuffer sb, Rule rule, String pathPrefix, boolean reuseNodeAndEdges) {
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
 
 		PatternGraph patternGraph = rule.getLeft();
 		PatternGraph replaceGraph = rule.getRight();
-		String patternName = patternGraph.getNameOfGraph();
 
 		// Emit function header
-		sb.append("\t\tpublic override IGraphElement[] "
-					  + (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
-					  + "(LGSPGraph graph, LGSPMatch match)\n");
+		if(pathPrefix=="") {
+			sb.append("\t\tpublic override IGraphElement[] "
+					+ (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
+					+ "(LGSPGraph graph, LGSPMatch match)\n");
+		}
+		else {
+			sb.append("\t\tpublic void "
+					+ pathPrefix+patternGraph.getNameOfGraph()+"_"
+					+ (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
+					+ "(LGSPGraph graph, LGSPMatch match)\n");
+		}
 		sb.append("\t\t{\n");
 
 		// The resulting code has the following order:
@@ -354,9 +434,11 @@ public class ModifyGen extends CSharpBase {
 				sb3.append("\t\t\tif(!" + formatEntity(ent) + ".Valid) " + formatEntity(ent) + " = null;\n");
 		}
 
-		// Emit return
-		collectReturnElements(rule);
-		emitReturnStatement(sb3, rule);
+		// Emit return (only if top-level rule, not subrule of alternative)
+		if(pathPrefix=="") {
+			collectReturnElements(rule);
+			emitReturnStatement(sb3, rule);
+		}
 
 		// Emit end of function
 		sb3.append("\t\t}\n");
@@ -371,11 +453,11 @@ public class ModifyGen extends CSharpBase {
 		// Finalize method using the infos collected and the already generated code
 		//
 
-		genExtractElementsFromMatch(sb, patternName);
-		
-		genExtractSubmatchesFromMatch(sb, rule.getPattern());
+		genExtractElementsFromMatch(sb, pathPrefix, patternGraph.getNameOfGraph());
 
-		genNestedPatternModificationCalls(sb, rule.getPattern());
+		genExtractSubmatchesFromMatch(sb, pathPrefix, rule.getPattern());
+
+		genNestedPatternModificationCalls(sb, rule.getPattern(), pathPrefix, reuseNodeAndEdges);
 
 		// Generate needed types
 		for(Node node : nodesNeededAsTypes) {
@@ -406,32 +488,11 @@ public class ModifyGen extends CSharpBase {
 		sb.append(sb3);
 	}
 
-	public void genSubpatternModify(StringBuffer sb, Rule subpattern) {
-		newNodes = new HashSet<Node>();
-		newEdges = new HashSet<Edge>();
-		delNodes = new HashSet<Node>();
-		delEdges = new HashSet<Edge>();
-		commonNodes = new HashSet<Node>();
-		commonEdges = new HashSet<Edge>();
-		newOrRetypedNodes = new HashSet<Node>();
-		newOrRetypedEdges = new HashSet<Edge>();
-		
-		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
-		sb.append("\t\t{  // currently empty\n");
-		sb.append("\t\t\treturn EmptyReturnElements;\n");
-		sb.append("\t\t}\n");
-	
-		sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
-		sb.append("\t\t{  // currently empty\n");
-		sb.append("\t\t\treturn EmptyReturnElements;\n");
-		sb.append("\t\t}\n");
-	}
-
 	public void genAddedGraphElementsArray(StringBuffer sb, boolean hasRightHandSide) {
 		if(hasRightHandSide) {
 			genAddedGraphElementsArray(sb, true, newNodes);
 			genAddedGraphElementsArray(sb, false, newEdges);
-		} 
+		}
 		else {
 			sb.append("\t\tprivate static String[] addedNodeNames = new String[] {};\n");
 			sb.append("\t\tpublic override String[] AddedNodeNames { get { return addedNodeNames; } }\n");
@@ -440,7 +501,7 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genNestedPatternModificationCalls(StringBuffer sb, PatternGraph pattern) {
+	private void genNestedPatternModificationCalls(StringBuffer sb, PatternGraph pattern, String pathPrefix, boolean reuseNodeAndEdges) {
 		// generate calls to the modifications, first of the subpatterns, then of the alternatives
 		// nested alternatives are handled in their enclosing alternative
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
@@ -451,7 +512,7 @@ public class ModifyGen extends CSharpBase {
 		int i = 0;
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = "alt_" + i;
-			sb.append("\t\t\tModify_" + altName + "(graph, alternative_" + altName + ");\n");
+			sb.append("\t\t\t" + pathPrefix+pattern.getNameOfGraph()+"_"+altName+"_" + (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, alternative_" + altName + ");\n");
 			++i;
 		}
 	}
@@ -476,11 +537,11 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genExtractElementsFromMatch(StringBuffer sb, String patternName) {
+	private void genExtractElementsFromMatch(StringBuffer sb, String pathPrefix, String patternName) {
 		for(Node node : nodesNeededAsElements) {
 			if(node.isRetyped()) continue;
 			sb.append("\t\t\tLGSPNode " + formatEntity(node)
-					+ " = match.Nodes[(int) " + patternName + "_NodeNums.@"
+					+ " = match.Nodes[(int)" + pathPrefix+patternName + "_NodeNums.@"
 					+ formatIdentifiable(node) + "];\n");
 		}
 		for(Node node : nodesNeededAsAttributes) {
@@ -489,13 +550,13 @@ public class ModifyGen extends CSharpBase {
 			if(nodesNeededAsElements.contains(node))
 				sb.append(formatEntity(node) + ";\n");
 			else
-				sb.append("match.Nodes[(int) " + patternName + "_NodeNums.@"
+				sb.append("match.Nodes[(int)" + pathPrefix+patternName + "_NodeNums.@"
 						+ formatIdentifiable(node) + "];\n");
 		}
 		for(Edge edge : edgesNeededAsElements) {
 			if(edge.isRetyped()) continue;
 			sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
-					+ " = match.Edges[(int) " + patternName + "_EdgeNums.@"
+					+ " = match.Edges[(int)" + pathPrefix+patternName + "_EdgeNums.@"
 					+ formatIdentifiable(edge) + "];\n");
 		}
 		for(Edge edge : edgesNeededAsAttributes) {
@@ -504,24 +565,24 @@ public class ModifyGen extends CSharpBase {
 			if(edgesNeededAsElements.contains(edge))
 				sb.append(formatEntity(edge) + ";\n");
 			else
-				sb.append("match.Edges[(int) " + patternName + "_EdgeNums.@"
+				sb.append("match.Edges[(int)" + pathPrefix+patternName + "_EdgeNums.@"
 						+ formatIdentifiable(edge) + "];\n");
 		}
 	}
-	
-	private void genExtractSubmatchesFromMatch(StringBuffer sb, PatternGraph pattern) {
+
+	private void genExtractSubmatchesFromMatch(StringBuffer sb, String pathPrefix, PatternGraph pattern) {
 		String patternName = pattern.getNameOfGraph();
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			String subName = formatIdentifiable(sub);
 			sb.append("\t\t\tLGSPMatch subpattern_" + subName
-					+ " = match.EmbeddedGraphs[(int) " + patternName + "_SubNums.@"
+					+ " = match.EmbeddedGraphs[(int)" + pathPrefix+pattern.getNameOfGraph() + "_SubNums.@"
 					+ formatIdentifiable(sub) + "];\n");
 		}
 		int i = 0;
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = "alt_" + i;
 			sb.append("\t\t\tLGSPMatch alternative_" + altName
-					+ " = match.EmbeddedGraphs[(int) " + patternName + "_AltNums.@"
+					+ " = match.EmbeddedGraphs[(int)" + pathPrefix+pattern.getNameOfGraph() + "_AltNums.@"
 					+ altName + " + " + pattern.getSubpatternUsages().size() + "];\n");
 			++i;
 		}
@@ -570,7 +631,7 @@ public class ModifyGen extends CSharpBase {
 			collectNeededAttributes(cast.getExpression());
 		}
 	}
-	
+
 	////////////////////////////
 	// New element generation //
 	////////////////////////////

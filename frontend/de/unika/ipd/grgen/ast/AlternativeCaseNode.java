@@ -37,7 +37,7 @@ import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Pattern;
 import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.AlternativeCase;
+import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Edge;
@@ -92,7 +92,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		return childrenNames;
 	}
 
-	protected static final DeclarationTypeResolver<AlternativeCaseTypeNode> typeResolver = 
+	protected static final DeclarationTypeResolver<AlternativeCaseTypeNode> typeResolver =
 		new DeclarationTypeResolver<AlternativeCaseTypeNode>(AlternativeCaseTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -344,7 +344,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 		return edgeReUse;
 	}
-	
+
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -417,7 +417,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 			}
 		}
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
@@ -436,27 +436,27 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		if(this.right.children.size() > 0) {
 			right = this.right.children.get(0).getPatternGraph(left);
 		}
-		
+
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
 		if (isIRAlreadySet()) {
 			return getIR();
 		}
 
-		AlternativeCase altCase = new AlternativeCase(getIdentNode().getIdent(), left, right);
+		Rule altCaseRule = new Rule(getIdentNode().getIdent(), left, right);
 
 		constructImplicitNegs(left);
-		constructIRaux(altCase);
+		constructIRaux(altCaseRule);
 
 		// add Eval statements to the IR
 		// TODO choose the right one
 		if(this.right.children.size() > 0) {
 			for (Assignment n : this.right.children.get(0).getAssignments()) {
-				altCase.addEval(n);
+				altCaseRule.addEval(n);
 			}
 		}
-		
-		return altCase;
+
+		return altCaseRule;
 	}
 
 
@@ -517,7 +517,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 	public static String getKindStr() {
 		return "alternative case node";
 	}
-	
+
 	public static String getUseStr() {
 		return "alternative case";
 	}

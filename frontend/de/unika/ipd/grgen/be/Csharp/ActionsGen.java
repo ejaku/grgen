@@ -134,10 +134,10 @@ public class ActionsGen extends CSharpBase {
 
 		if(action instanceof Rule) {
 			Rule rule = (Rule) action;
-			
+
 			mg.genRuleOrTestModify(sb, rule);
 
-			mg.genAddedGraphElementsArray(sb, rule.getRight()!=null);				
+			mg.genAddedGraphElementsArray(sb, rule.getRight()!=null);
 
 			if(rule.getRight()!=null) {
 				genEmit(sb, rule, false);
@@ -176,7 +176,7 @@ public class ActionsGen extends CSharpBase {
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = "alt_" + i;
 			genCaseEnum(sb, alt, pathPrefixForElements+altName+"_");
-			for(AlternativeCase altCase : alt.getAlternativeCases()) {
+			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
@@ -307,7 +307,7 @@ public class ActionsGen extends CSharpBase {
 
 	private void genCaseEnum(StringBuffer sb, Alternative alt, String pathPrefixForElements) {
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "CaseNums { ");
-		for(AlternativeCase altCase : alt.getAlternativeCases()) {
+		for(Rule altCase : alt.getAlternativeCases()) {
 			PatternGraph altCasePattern = altCase.getLeft();
 			sb.append("@" + altCasePattern.getNameOfGraph() + ", ");
 		}
@@ -444,9 +444,9 @@ public class ActionsGen extends CSharpBase {
 
 		// link edges to nodes
 		for(Edge edge : pattern.getEdges()) {
-			String edgeName = alreadyDefinedEntityToName.get(edge)!=null ? 
+			String edgeName = alreadyDefinedEntityToName.get(edge)!=null ?
 					alreadyDefinedEntityToName.get(edge) : formatEntity(edge, pathPrefixForElements);
-			
+
 			if(pattern.getSource(edge)!=null) {
 				String sourceName = formatEntity(pattern.getSource(edge), pathPrefixForElements, alreadyDefinedEntityToName);
 				sb.append("\t\t\t" + patGraphVarName + ".edgeToSourceNode.Add("+edgeName+", "+sourceName+");\n");
@@ -457,12 +457,12 @@ public class ActionsGen extends CSharpBase {
 				sb.append("\t\t\t" + patGraphVarName + ".edgeToTargetNode.Add("+edgeName+", "+targetName+");\n");
 			}
 		}
-		
+
 		// set embedding-member of contained graphs
 		int i = 0;
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = "alt_" + i;
-			for(AlternativeCase altCase : alt.getAlternativeCases()) {
+			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				sb.append("\t\t\t" + altPatGraphVarName + ".embeddingGraph = " + patGraphVarName + ";\n");
@@ -475,9 +475,9 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\t" + pathPrefixForElements+negName + ".embeddingGraph = " + patGraphVarName + ";\n");
 			++i;
 		}
-		
+
 		sb.append("\n");
-		
+
 		return condCnt;
 	}
 
@@ -588,7 +588,7 @@ public class ActionsGen extends CSharpBase {
 		int i = 0;
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = "alt_" + i;
-			for(AlternativeCase altCase : alt.getAlternativeCases()) {
+			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
@@ -690,7 +690,7 @@ public class ActionsGen extends CSharpBase {
 	private int genPatternConditions(StringBuffer sb, PatternGraph pattern, int condCnt) {
 		condCnt = genConditions(sb, pattern.getConditions(), condCnt);
 		for(Alternative alt : pattern.getAlts()) {
-			for(AlternativeCase altCase : alt.getAlternativeCases()) {
+			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				condCnt = genPatternConditions(sb, altCasePattern, condCnt);
 			}
@@ -733,7 +733,7 @@ public class ActionsGen extends CSharpBase {
 			max = computePriosMax(max, neg);
 		}
 		for(Alternative alt : pattern.getAlts()) {
-			for(AlternativeCase altCase : alt.getAlternativeCases()) {
+			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				max = computePriosMax(max, altCasePattern);
 			}
@@ -796,6 +796,6 @@ public class ActionsGen extends CSharpBase {
 	///////////////////////
 
 	private SearchPlanBackend2 be;
-	private ModifyGen mg;	
+	private ModifyGen mg;
 }
 

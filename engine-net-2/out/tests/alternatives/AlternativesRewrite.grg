@@ -1,0 +1,45 @@
+using alternatives;
+
+rule createA {
+	modify {
+		:A;
+	}
+}
+
+rule createB {
+	modify {
+		:B;
+	}
+}
+
+test testA {
+	:A;
+}
+
+test testB {
+	:B;
+}
+
+test testC {
+	:C;
+}
+
+rule AandBtoC {
+	alternative {
+		AtoC {
+			a:A;
+			replace {
+				:C;
+			}
+		}
+		BtoC {
+			b:B;
+			replace {
+				:C;
+			}
+		}
+	}
+	
+	replace {
+	}
+}

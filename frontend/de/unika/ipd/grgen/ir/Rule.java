@@ -30,7 +30,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 /**
- * A replacement rule.
+ * A graph rewrite rule or subrule, with none, one, or arbitrary many (not yet) replacements.
  */
 public class Rule extends MatchingAction {
 	/** Names of the children of this node. */

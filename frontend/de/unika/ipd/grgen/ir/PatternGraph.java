@@ -65,11 +65,11 @@ public class PatternGraph extends Graph {
 
 	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
 
-	/** if graph is a subpattern or a negative this member tells us whether 
+	/** if graph is a subpattern or a negative this member tells us whether
 	 *  it should be matched independent from already matched enclosing subpatterns*/
 	boolean isIndependent;
-	
-	
+
+
 	/** Make a new pattern graph. */
 	public PatternGraph(String nameOfGraph, boolean isIndependent) {
 		super(nameOfGraph);
@@ -207,7 +207,7 @@ public class PatternGraph extends Graph {
 		///////////////////////////////////////////////////////////////////////////////
 		// depth first walk over IR-pattern-graph tree structure
 		for(Alternative alternative : getAlts()) {
-			for(AlternativeCase altCase : alternative.getAlternativeCases()) {
+			for(Rule altCase : alternative.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 				HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
@@ -229,7 +229,7 @@ public class PatternGraph extends Graph {
 		// add elements needed in alternative cases, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
 		for(Alternative alternative : getAlts()) {
-			for(AlternativeCase altCase : alternative.getAlternativeCases()) {
+			for(Rule altCase : alternative.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				for(Node node : altCasePattern.getNodes()) {
 					if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
@@ -237,7 +237,7 @@ public class PatternGraph extends Graph {
 						addHomToAll(node);
 						PatternGraph altCaseReplacement = altCase.getRight();
 						if(altCaseReplacement!=null && !altCaseReplacement.hasNode(node)) {
-							// prevent deletion of elements inserted for pattern completion 
+							// prevent deletion of elements inserted for pattern completion
 							altCaseReplacement.addSingleNode(node);
 						}
 					}
@@ -248,7 +248,7 @@ public class PatternGraph extends Graph {
 						addHomToAll(edge);
 						PatternGraph altCaseReplacement = altCase.getRight();
 						if(altCaseReplacement!=null && !altCaseReplacement.hasEdge(edge)) {
-							// prevent deletion of elements inserted for pattern completion 
+							// prevent deletion of elements inserted for pattern completion
 							altCaseReplacement.addSingleEdge(edge);
 						}
 					}
