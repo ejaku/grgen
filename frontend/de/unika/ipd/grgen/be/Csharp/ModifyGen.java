@@ -170,7 +170,8 @@ public class ModifyGen extends CSharpBase {
 		//  - Extract edges from match or from already extracted edges as interface instances
 		//  - Extract subpattern submatches from match as LGSPMatch instances
 		//  - Extract alternative submatches from match as LGSPMatch instances
-		//  - Call modification code of nested subpatterns and alternatives
+		//  - Call modification code of nested subpatterns
+		//  - Call modification code of nested alternatives
 		//  - Extract node types
 		//  - Extract edge types
 		//  - Create variables for used attributes of reusee
@@ -457,7 +458,9 @@ public class ModifyGen extends CSharpBase {
 
 		genExtractSubmatchesFromMatch(sb, pathPrefix, rule.getPattern());
 
-		genNestedPatternModificationCalls(sb, rule.getPattern(), pathPrefix, reuseNodeAndEdges);
+		genSubpatternModificationCalls(sb, rule, pathPrefix, reuseNodeAndEdges);
+
+		genAlternativeModificationCalls(sb, rule, pathPrefix, reuseNodeAndEdges);
 
 		// Generate needed types
 		for(Node node : nodesNeededAsTypes) {
@@ -501,20 +504,30 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genNestedPatternModificationCalls(StringBuffer sb, PatternGraph pattern, String pathPrefix, boolean reuseNodeAndEdges) {
-		// generate calls to the modifications, first of the subpatterns, then of the alternatives
-		// nested alternatives are handled in their enclosing alternative
-		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
-			String subName = formatIdentifiable(sub);
-			sb.append("\t\t\tPattern_" + formatIdentifiable(sub.getSubpatternAction())
-					+ ".Instance.Modify(graph, subpattern_" + subName + ");\n");
-		}
+	private void genAlternativeModificationCalls(StringBuffer sb, Rule rule, String pathPrefix, boolean reuseNodeAndEdges) {
+		// generate calls to the modifications of the alternatives (nested alternatives are handled in their enclosing alternative)
+		PatternGraph pattern = rule.getPattern();
 		int i = 0;
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = "alt_" + i;
 			sb.append("\t\t\t" + pathPrefix+pattern.getNameOfGraph()+"_"+altName+"_" + (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, alternative_" + altName + ");\n");
 			++i;
 		}
+	}
+
+	private void genSubpatternModificationCalls(StringBuffer sb, Rule rule, String pathPrefix, boolean reuseNodeAndEdges) {
+		// generate calls to the modifications of the subpatterns
+		// subpattern may be kept, created, deleted or dependent modified
+		PatternGraph pattern = rule.getPattern();
+		PatternGraph replacement = rule.getRight();
+
+		// todo: creation and deletion, for now only: keeping - no code in that case
+		// todo: nicht lhs subpattern usage ist das relevante, sondern rhs subpattern replacement
+		/*for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+			String subName = formatIdentifiable(sub);
+			sb.append("\t\t\tPattern_" + formatIdentifiable(sub.getSubpatternAction())
+					+ ".Instance.Modify(graph, subpattern_" + subName + ");\n");
+		}*/
 	}
 
 	private void genAddedGraphElementsArray(StringBuffer sb, boolean isNode, Collection<? extends GraphEntity> set) {

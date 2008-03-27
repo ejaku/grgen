@@ -79,7 +79,8 @@ public class SubpatternUsageNode extends DeclNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<SubpatternDeclNode> actionResolver = new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class);
+	private static final DeclarationResolver<SubpatternDeclNode> actionResolver =
+		new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class);
 	private static final CollectPairResolver<ConstraintDeclNode> connectionsResolver =
 		new CollectPairResolver<ConstraintDeclNode>(new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
 
