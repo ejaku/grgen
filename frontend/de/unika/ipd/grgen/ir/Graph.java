@@ -114,6 +114,8 @@ public abstract class Graph extends IR {
 
 	private Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
+	private Set<SubpatternDependentReplacement> subpatternDependentReplacement = new LinkedHashSet<SubpatternDependentReplacement>();
+
 	private String nameOfGraph;
 
 	/** Make a new graph. */
@@ -226,6 +228,15 @@ public abstract class Graph extends IR {
 	}
 
 	/**
+	 * Get a read-only collection containing all dependent subpattern replacements in this graph.
+	 * @return A collection containing all dependent subpattern replacements in this graph.
+	 * @note The collection is read-only and may not be modified.
+	 */
+	public Collection<SubpatternDependentReplacement> getSubpatternDependentReplacements() {
+		return Collections.unmodifiableCollection(subpatternDependentReplacement);
+	}
+
+	/**
 	 * Put all nodes in this graph into a collection.
 	 * @param c The collection to put them into.
 	 * @return The given collection.
@@ -333,6 +344,11 @@ public abstract class Graph extends IR {
 	/** Add a subpattern usage to the graph. */
 	public void addSubpatternUsage(SubpatternUsage subpatternUsage) {
 		subpatternUsages.add(subpatternUsage);
+	}
+
+	/** Add a dependent subpattern replacement to the graph */
+	public void addSubpatternReplacement(SubpatternDependentReplacement subpatternDepRepl) {
+		subpatternDependentReplacement.add(subpatternDepRepl);
 	}
 
 	/** @return true, if the node is single (i.e. has no incident edges), false if not. */

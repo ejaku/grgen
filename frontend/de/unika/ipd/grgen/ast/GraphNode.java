@@ -41,6 +41,7 @@ import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -132,7 +133,8 @@ public class GraphNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		Triple<CollectNode<ConnectionNode>, CollectNode<SingleNodeConnNode>, CollectNode<SingleGraphEntityNode>> resolve = connectionsResolver.resolve(connectionsUnresolved);
+		Triple<CollectNode<ConnectionNode>, CollectNode<SingleNodeConnNode>, CollectNode<SingleGraphEntityNode>> resolve =
+			connectionsResolver.resolve(connectionsUnresolved);
 
 		if (resolve != null) {
 			if (resolve.first != null) {
@@ -273,8 +275,12 @@ public class GraphNode extends BaseNode {
 			conn.addToGraph(gr);
 		}
 
-		for(BaseNode n : subpatterns.getChildren()) {
+		for(SubpatternUsageNode n : subpatterns.getChildren()) {
 			gr.addSubpatternUsage((SubpatternUsage)n.getIR());
+		}
+
+		for(SubpatternReplNode n : subpatternReplacements.getChildren()) {
+			gr.addSubpatternReplacement((SubpatternDependentReplacement)n.getIR());
 		}
 
 		// TODO imperativeStmts

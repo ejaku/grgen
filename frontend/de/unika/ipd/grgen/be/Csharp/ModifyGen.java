@@ -522,12 +522,13 @@ public class ModifyGen extends CSharpBase {
 		PatternGraph replacement = rule.getRight();
 
 		// todo: creation and deletion, for now only: keeping - no code in that case
-		// todo: nicht lhs subpattern usage ist das relevante, sondern rhs subpattern replacement
-		/*for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
-			String subName = formatIdentifiable(sub);
-			sb.append("\t\t\tPattern_" + formatIdentifiable(sub.getSubpatternAction())
+
+		// calls to dependent subpattern replacement methods
+		for(SubpatternDependentReplacement subRep : pattern.getSubpatternDependentReplacements()) {
+			String subName = formatIdentifiable(subRep);
+			sb.append("\t\t\tPattern_" + formatIdentifiable(subRep.getSubpatternUsage().getSubpatternAction())
 					+ ".Instance.Modify(graph, subpattern_" + subName + ");\n");
-		}*/
+		}
 	}
 
 	private void genAddedGraphElementsArray(StringBuffer sb, boolean isNode, Collection<? extends GraphEntity> set) {

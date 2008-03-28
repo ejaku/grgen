@@ -32,10 +32,10 @@ import java.util.LinkedList;
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.SubpatternUsage;
-import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.SubpatternUsage;
 
 public class SubpatternReplNode extends BaseNode {
 	static {
@@ -111,10 +111,11 @@ public class SubpatternReplNode extends BaseNode {
 
 	@Override
 	protected IR constructIR() {
-		List<GraphEntity> subpatternConnections = new LinkedList<GraphEntity>();
-    	for (ConstraintDeclNode c : replConnections.getChildren()) {
-    		subpatternConnections.add((GraphEntity) c.checkIR(GraphEntity.class));
+		List<GraphEntity> replConnections = new LinkedList<GraphEntity>();
+    	for (ConstraintDeclNode c : this.replConnections.getChildren()) {
+    		replConnections.add((GraphEntity) c.checkIR(GraphEntity.class));
     	}
-		return new SubpatternUsage("subpattern", subpatternUnresolved.getIdent(), (MatchingAction)subpattern.type.getIR(), subpatternConnections);
+		return new SubpatternDependentReplacement("dependent replacement", subpatternUnresolved.getIdent(),
+				(SubpatternUsage)subpattern.getIR(), replConnections);
 	}
 }
