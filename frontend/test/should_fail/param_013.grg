@@ -1,0 +1,4 @@
+rule r(a:Node -b:Edge->, -c:Edge->)
+{
+    modify {}
+}
