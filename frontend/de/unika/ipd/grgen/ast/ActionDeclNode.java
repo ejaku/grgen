@@ -24,10 +24,10 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.Action;
+import de.unika.ipd.grgen.ir.Rule;
 
 /**
- * Base class for all action types (tests, rules)
+ * Base class for all action type ast nodes
  */
 public abstract class ActionDeclNode extends DeclNode
 {
@@ -37,11 +37,10 @@ public abstract class ActionDeclNode extends DeclNode
 
     /**
      * Get the IR object for this action node.
-     * The IR object is instance of Action here.
-     * @see de.unika.ipd.grgen.ir.Action
+     * The IR object is instance of Rule.
      * @return The IR object.
      */
-    public Action getAction() {
-        return (Action) getIR();
+    public Rule getAction() {
+        return (Rule) getIR();
     }
 }

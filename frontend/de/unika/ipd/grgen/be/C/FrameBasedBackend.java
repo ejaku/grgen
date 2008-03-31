@@ -214,7 +214,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				" * the graph existing at runtime */\n\n\n\n\n");
 
 		// for all actions gen matcher programs
-		for ( Iterator<Action> act_it = actionMap.keySet().iterator(); act_it.hasNext(); ) {
+		for ( Iterator<Rule> act_it = actionRuleMap.keySet().iterator(); act_it.hasNext(); ) {
 
 			MatchingAction action = (MatchingAction) act_it.next();
 			Graph pattern = action.getPattern();
@@ -222,11 +222,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			sb.append(
 				"\n\n\n\n" +
 					"/* ---------------------- matcher programs and all the rest " +
-					"for action " + actionMap.get(action) +
+					"for action " + actionRuleMap.get(action) +
 					" ---------------------- */\n\n\n");
 
 			//start generating programs beginning with the already computed start node
-			int act_id = actionMap.get(action).intValue();
+			int act_id = actionRuleMap.get(action).intValue();
 			Node startNode = start_node[act_id];
 			//perform a deep first search on the pattern
 			//graph while emiting matcher operations
@@ -245,10 +245,10 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			}
 
 			//get the actions kind
-			String act_kind = action instanceof Rule ?
+			String act_kind = action instanceof Rule && ((Rule)action).getRight()!=null ?
 				"gr_action_kind_rule" : "gr_action_kind_test";
 			//get the replacement graph
-			String replGraph = action instanceof Rule ?
+			String replGraph = action instanceof Rule && ((Rule)action).getRight()!=null ?
 				"&replacement_graph_of_action_" + act_id : "NULL";
 
 			sb.append("static fb_acts_graph_t *negative_pattern_graphs_of_act_" + act_id + "[] = {\n  ");
@@ -332,7 +332,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			int n_remove_nodes = 0;
 			String remove_nodes_array = "NULL";
 			Collection<Node> remove_nodes = new HashSet<Node>();
-			if (action instanceof Rule) {
+			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
 				Graph replacement = ((Rule) action).getRight();
 				//compute all pattern nodes to be removed  in the replace step.
 				remove_nodes.addAll(pattern.getNodes());
@@ -361,7 +361,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			int n_remove_edges = 0;
 			String remove_edges_array = "NULL";
 			Collection<Edge> remove_edges = new HashSet<Edge>();
-			if (action instanceof Rule) {
+			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
 				Graph replacement = ((Rule) action).getRight();
 				//compute all pattern nodes to be removed  in the replace step.
 				remove_edges.addAll(pattern.getEdges());
@@ -391,7 +391,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			// TODO use or remove it
 			// String new_edges_array = "NULL";
 
-			if (action instanceof Rule) {
+			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
 				n_new_edges = newEdgesOfAction[act_id].size();
 				if (n_new_edges > 0) {
 					sb.append(
@@ -588,7 +588,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		// Collection<Node> currentSubgraphNodes;
 		Collection<Collection<Node>> subgraphs = new LinkedList<Collection<Node>>();
 
-		int act_id = actionMap.get(action).intValue();
+		int act_id = actionRuleMap.get(action).intValue();
 		op_counter = 0;
 
 		subgraphs.addAll(nodesOfSubgraph[act_id]);
@@ -731,7 +731,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		Collection<IR> edgeVisited = new HashSet<IR>();
 		Collection<IR> startNodes = new HashSet<IR>();
 
-		int act_id = actionMap.get(action).intValue();
+		int act_id = actionRuleMap.get(action).intValue();
 		int neg_pattern_num = (negMap[act_id].get(neg_pattern)).intValue();
 
 		/* find out which nodes/edges have been already matched by analyzing the already checked conditions */
@@ -969,7 +969,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					   Collection<Expression> alreadyCheckedConds,
 					   Collection<Collection<InheritanceType>> alreadyCheckedTypeConds,
 					   int op_counter, StringBuffer sb) {
-		int act_id = actionMap.get(action).intValue();
+		int act_id = actionRuleMap.get(action).intValue();
 
 		//get the potentialy homomorphic nodes of the far end node
 		Collection<Node> homomorphicNodes = new HashSet<Node>();
@@ -1093,7 +1093,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	 *
 	 */
 	private int genConditionOps(Node node, Edge edge, MatchingAction action, int pattern_num, PatternGraph pattern, Collection<IR> nodeVisited, Collection<IR> edgeVisited, Collection<Entity> currentSubgraph, Collection<Expression> alreadyCheckedConds, Collection<Collection<InheritanceType>> alreadyCheckedTypeConds, StringBuffer sb) {
-		int act_id = actionMap.get(action).intValue();
+		int act_id = actionRuleMap.get(action).intValue();
 
 		//compute the set of conditions evaluatable in the current op
 		Collection<Expression> evaluatableConditions = new TreeSet<Expression>(conditionsComparator);
@@ -1214,7 +1214,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 
 	private void genCheckNegativeOp( MatchingAction action, int neg_num, int op_counter, PatternGraph negative_pattern, StringBuffer sb ) {
 
-		int act_id = actionMap.get(action).intValue();
+		int act_id = actionRuleMap.get(action).intValue();
 		//int neg_pattern_num = ((Integer)negMap[act_id].get(negative_pattern)).intValue();
 
 		sb.append(
@@ -1516,10 +1516,10 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"\n\n");
 
 		//iterate over all actions
-		for(Iterator<Action> act_it = actionMap.keySet().iterator(); act_it.hasNext(); ) {
+		for(Iterator<Rule> act_it = actionRuleMap.keySet().iterator(); act_it.hasNext(); ) {
 			//get the current action
 			MatchingAction act = (MatchingAction)act_it.next();
-			int act_id = actionMap.get(act).intValue();
+			int act_id = actionRuleMap.get(act).intValue();
 
 			for (Expression current_cond : (Collection<Expression>)conditions.get(act_id)) {
 
@@ -1789,7 +1789,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"an entity which is neither a node nor an edge owns a graph attr";
 
 			if (owner instanceof Node) {
-				int act_id = actionMap.get(act).intValue();
+				int act_id = actionRuleMap.get(act).intValue();
 
 				String pattern_or_neg = "pattern";
 				Integer node_num = (Integer)pattern_node_num[ act_id ].get(owner);
@@ -1824,7 +1824,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 			}
 			if (owner instanceof Edge) {
-				int act_id = actionMap.get(act).intValue();
+				int act_id = actionRuleMap.get(act).intValue();
 				String pattern_or_neg = "pattern";
 				Integer edge_num = (Integer)pattern_edge_num[ act_id ].get(owner);
 				if( edge_num == null ) {
@@ -1875,7 +1875,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"an entity which is neither a node nor an edge owns a graph attr";
 
 			if (owner instanceof Node) {
-				int act_id = actionMap.get(act).intValue();
+				int act_id = actionRuleMap.get(act).intValue();
 				Node node = (Node)owner;
 				String pattern_or_repl = "replacement";
 
@@ -1922,7 +1922,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 			}
 			if (owner instanceof Edge) {
-				int act_id = actionMap.get(act).intValue();
+				int act_id = actionRuleMap.get(act).intValue();
 				String pattern_or_repl = "replacement";
 
 				//Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
@@ -2104,7 +2104,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			"an entity which is neither a node nor an edge owns a graph attr";
 
 		if (owner instanceof Node) {
-			int act_id = actionMap.get(act).intValue();
+			int act_id = actionRuleMap.get(act).intValue();
 			Node node = (Node)owner;
 			String pattern_or_repl = "replacement";
 
@@ -2141,7 +2141,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			}
 		}
 		if (owner instanceof Edge) {
-			int act_id = actionMap.get(act).intValue();
+			int act_id = actionRuleMap.get(act).intValue();
 			String pattern_or_repl = "replacement";
 
 			//Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
@@ -2190,10 +2190,10 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		 actions, ... */
 
 		//iterate over all actions
-		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
+		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
 			//get the current action
 			Action act = it.next();
-			int act_id = actionMap.get(act).intValue();
+			int act_id = actionRuleMap.get(act).intValue();
 
 			//for all conditions gen the C-structs describing the conditions
 			Collection<Object> allConditions = new HashSet<Object>();
@@ -2283,12 +2283,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		}
 
 		//gen pattern, replacement and action-struct for all actions
-		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
+		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
 
 			//get the current action
 			Action act = it.next();
 			//get the current actions id
-			int act_id = actionMap.get(act).intValue();
+			int act_id = actionRuleMap.get(act).intValue();
 			assert act_id < n_graph_actions:
 				"action id found which was greater than the number of graph actions";
 
@@ -2335,7 +2335,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			}
 
 			//gen replacemant graph of the current action if there exists one
-			if (act instanceof Rule) {
+			if (act instanceof Rule && ((Rule)act).getRight()!=null) {
 				//get the current actions pattern graph
 				Graph replacement = ((Rule)act).getRight();
 				//create a C-identifier for the currents action pattern graph

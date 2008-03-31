@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A graph rewrite rule or subrule, with none, one, or arbitrary many (not yet) replacements.
@@ -44,6 +45,10 @@ public class Rule extends MatchingAction {
 	/** The evaluation assignments of this rule. */
 	private final Collection<Assignment> evals = new LinkedList<Assignment>();
 
+	/** A list of the replacement parameters */
+	private final List<Node> replParams = new LinkedList<Node>();
+
+	
 	/**
 	 * Make a new rule.
 	 * @param ident The identifier with which the rule was declared.
@@ -71,6 +76,16 @@ public class Rule extends MatchingAction {
 	/** Add an assignment to the list of evaluations. */
 	public void addEval(Assignment a) {
 		evals.add(a);
+	}
+	
+	/** Add a replacement parameter to the rule. */
+	public void addReplParameter(Node id) {
+		replParams.add(id);
+	}
+
+	/** Get all replacement parameters of this rule. */
+	public List<Node> getReplParameters() {
+		return Collections.unmodifiableList(replParams);
 	}
 
 	/** @return A set with nodes, that occur on the left _and_ on the right side of the rule. */

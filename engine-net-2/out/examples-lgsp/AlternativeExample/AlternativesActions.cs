@@ -7,7 +7,7 @@ using de.unika.ipd.grGen.Model_Alternatives;
 
 namespace de.unika.ipd.grGen.Action_Alternatives
 {
-	public class Pattern_toAorB : LGSPRulePattern
+	public class Pattern_toAorB : LGSPMatchingPattern
 	{
 		private static Pattern_toAorB instance = null;
 		public static Pattern_toAorB Instance { get { if (instance==null) { instance = new Pattern_toAorB(); instance.initialize(); } return instance; } }
@@ -20,6 +20,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum toAorB_EdgeNums { @y, };
 		public enum toAorB_SubNums { };
 		public enum toAorB_AltNums { @alt_0, };
+		PatternGraph pat_toAorB;
+
 		public enum toAorB_alt_0_CaseNums { @toA, @toB, };
 		public static NodeType[] toAorB_alt_0_toA_node_a_AllowedTypes = null;
 		public static bool[] toAorB_alt_0_toA_node_a_IsAllowedType = null;
@@ -27,12 +29,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum toAorB_alt_0_toA_EdgeNums { @y, };
 		public enum toAorB_alt_0_toA_SubNums { };
 		public enum toAorB_alt_0_toA_AltNums { };
+		PatternGraph toAorB_alt_0_toA;
+
 		public static NodeType[] toAorB_alt_0_toB_node_b_AllowedTypes = null;
 		public static bool[] toAorB_alt_0_toB_node_b_IsAllowedType = null;
 		public enum toAorB_alt_0_toB_NodeNums { @b, };
 		public enum toAorB_alt_0_toB_EdgeNums { @y, };
 		public enum toAorB_alt_0_toB_SubNums { };
 		public enum toAorB_alt_0_toB_AltNums { };
+		PatternGraph toAorB_alt_0_toB;
+
 
 #if INITIAL_WARMUP
 		public Pattern_toAorB()
@@ -41,16 +47,12 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "toAorB";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { NodeType_Node.typeVar, };
 			inputNames = new string[] { "toAorB_node_x", };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_toAorB;
 			bool[,] toAorB_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -59,7 +61,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			PatternNode toAorB_node_x = new PatternNode((int) NodeTypes.@Node, "toAorB_node_x", "x", toAorB_node_x_AllowedTypes, toAorB_node_x_IsAllowedType, 5.5F, 0);
 			PatternEdge toAorB_edge_y = new PatternEdge(true, (int) EdgeTypes.@Edge, "toAorB_edge_y", "y", toAorB_edge_y_AllowedTypes, toAorB_edge_y_IsAllowedType, 5.5F, -1);
-			PatternGraph toAorB_alt_0_toA;
 			bool[,] toAorB_alt_0_toA_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -87,7 +88,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				toAorB_alt_0_toA_isEdgeHomomorphicGlobal
 			);
 			toAorB_alt_0_toA.edgeToTargetNode.Add(toAorB_edge_y, toAorB_alt_0_toA_node_a);
-			PatternGraph toAorB_alt_0_toB;
+
 			bool[,] toAorB_alt_0_toB_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -115,6 +116,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				toAorB_alt_0_toB_isEdgeHomomorphicGlobal
 			);
 			toAorB_alt_0_toB.edgeToTargetNode.Add(toAorB_edge_y, toAorB_alt_0_toB_node_b);
+
 			Alternative toAorB_alt_0 = new Alternative( "alt_0", "toAorB_", new PatternGraph[] { toAorB_alt_0_toA, toAorB_alt_0_toB } );
 
 			pat_toAorB = new PatternGraph(
@@ -139,6 +141,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_toAorB.edgeToSourceNode.Add(toAorB_edge_y, toAorB_node_x);
 			toAorB_alt_0_toA.embeddingGraph = pat_toAorB;
 			toAorB_alt_0_toB.embeddingGraph = pat_toAorB;
+
 			toAorB_node_x.PointOfDefinition = null;
 			toAorB_edge_y.PointOfDefinition = pat_toAorB;
 			toAorB_alt_0_toA_node_a.PointOfDefinition = toAorB_alt_0_toA;
@@ -148,18 +151,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 	public class Rule_createA : LGSPRulePattern
@@ -171,6 +162,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createA_EdgeNums { };
 		public enum createA_SubNums { };
 		public enum createA_AltNums { };
+		PatternGraph pat_createA;
+
 
 #if INITIAL_WARMUP
 		public Rule_createA()
@@ -179,7 +172,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "createA";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -188,7 +180,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_createA;
 			bool[,] createA_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createA_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_createA = new PatternGraph(
@@ -206,6 +197,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				createA_isNodeHomomorphicGlobal,
 				createA_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_createA;
 		}
@@ -237,6 +229,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createB_EdgeNums { };
 		public enum createB_SubNums { };
 		public enum createB_AltNums { };
+		PatternGraph pat_createB;
+
 
 #if INITIAL_WARMUP
 		public Rule_createB()
@@ -245,7 +239,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "createB";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -254,7 +247,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_createB;
 			bool[,] createB_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createB_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_createB = new PatternGraph(
@@ -272,6 +264,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				createB_isNodeHomomorphicGlobal,
 				createB_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_createB;
 		}
@@ -303,6 +296,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createC_EdgeNums { };
 		public enum createC_SubNums { };
 		public enum createC_AltNums { };
+		PatternGraph pat_createC;
+
 
 #if INITIAL_WARMUP
 		public Rule_createC()
@@ -311,7 +306,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "createC";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -320,7 +314,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_createC;
 			bool[,] createC_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createC_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_createC = new PatternGraph(
@@ -338,6 +331,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				createC_isNodeHomomorphicGlobal,
 				createC_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_createC;
 		}
@@ -369,6 +363,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createAtoB_EdgeNums { };
 		public enum createAtoB_SubNums { };
 		public enum createAtoB_AltNums { };
+		PatternGraph pat_createAtoB;
+
 
 #if INITIAL_WARMUP
 		public Rule_createAtoB()
@@ -377,7 +373,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "createAtoB";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -386,7 +381,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_createAtoB;
 			bool[,] createAtoB_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createAtoB_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_createAtoB = new PatternGraph(
@@ -404,6 +398,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				createAtoB_isNodeHomomorphicGlobal,
 				createAtoB_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_createAtoB;
 		}
@@ -439,11 +434,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum leer_EdgeNums { };
 		public enum leer_SubNums { };
 		public enum leer_AltNums { @alt_0, };
+		PatternGraph pat_leer;
+
 		public enum leer_alt_0_CaseNums { @altleer, };
 		public enum leer_alt_0_altleer_NodeNums { };
 		public enum leer_alt_0_altleer_EdgeNums { };
 		public enum leer_alt_0_altleer_SubNums { };
 		public enum leer_alt_0_altleer_AltNums { };
+		PatternGraph leer_alt_0_altleer;
+
 
 #if INITIAL_WARMUP
 		public Rule_leer()
@@ -452,7 +451,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "leer";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -461,10 +459,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_leer;
 			bool[,] leer_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] leer_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			PatternGraph leer_alt_0_altleer;
 			bool[,] leer_alt_0_altleer_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] leer_alt_0_altleer_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			leer_alt_0_altleer = new PatternGraph(
@@ -482,6 +478,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				leer_alt_0_altleer_isNodeHomomorphicGlobal,
 				leer_alt_0_altleer_isEdgeHomomorphicGlobal
 			);
+
 			Alternative leer_alt_0 = new Alternative( "alt_0", "leer_", new PatternGraph[] { leer_alt_0_altleer } );
 
 			pat_leer = new PatternGraph(
@@ -501,16 +498,17 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 			leer_alt_0_altleer.embeddingGraph = pat_leer;
 
+
 			patternGraph = pat_leer;
 		}
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -528,6 +526,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AorB_EdgeNums { };
 		public enum AorB_SubNums { };
 		public enum AorB_AltNums { @alt_0, };
+		PatternGraph pat_AorB;
+
 		public enum AorB_alt_0_CaseNums { @A, @B, };
 		public static NodeType[] AorB_alt_0_A_node__node0_AllowedTypes = null;
 		public static bool[] AorB_alt_0_A_node__node0_IsAllowedType = null;
@@ -535,12 +535,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AorB_alt_0_A_EdgeNums { };
 		public enum AorB_alt_0_A_SubNums { };
 		public enum AorB_alt_0_A_AltNums { };
+		PatternGraph AorB_alt_0_A;
+
 		public static NodeType[] AorB_alt_0_B_node__node0_AllowedTypes = null;
 		public static bool[] AorB_alt_0_B_node__node0_IsAllowedType = null;
 		public enum AorB_alt_0_B_NodeNums { @_node0, };
 		public enum AorB_alt_0_B_EdgeNums { };
 		public enum AorB_alt_0_B_SubNums { };
 		public enum AorB_alt_0_B_AltNums { };
+		PatternGraph AorB_alt_0_B;
+
 
 #if INITIAL_WARMUP
 		public Rule_AorB()
@@ -549,7 +553,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "AorB";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -558,10 +561,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_AorB;
 			bool[,] AorB_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] AorB_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			PatternGraph AorB_alt_0_A;
 			bool[,] AorB_alt_0_A_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -584,7 +585,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				AorB_alt_0_A_isNodeHomomorphicGlobal,
 				AorB_alt_0_A_isEdgeHomomorphicGlobal
 			);
-			PatternGraph AorB_alt_0_B;
+
 			bool[,] AorB_alt_0_B_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -607,6 +608,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				AorB_alt_0_B_isNodeHomomorphicGlobal,
 				AorB_alt_0_B_isEdgeHomomorphicGlobal
 			);
+
 			Alternative AorB_alt_0 = new Alternative( "alt_0", "AorB_", new PatternGraph[] { AorB_alt_0_A, AorB_alt_0_B } );
 
 			pat_AorB = new PatternGraph(
@@ -626,6 +628,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 			AorB_alt_0_A.embeddingGraph = pat_AorB;
 			AorB_alt_0_B.embeddingGraph = pat_AorB;
+
 			AorB_alt_0_A_node__node0.PointOfDefinition = AorB_alt_0_A;
 			AorB_alt_0_B_node__node0.PointOfDefinition = AorB_alt_0_B;
 
@@ -634,11 +637,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -656,6 +659,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AandnotCorB_EdgeNums { };
 		public enum AandnotCorB_SubNums { };
 		public enum AandnotCorB_AltNums { @alt_0, };
+		PatternGraph pat_AandnotCorB;
+
 		public enum AandnotCorB_alt_0_CaseNums { @A, @B, };
 		public static NodeType[] AandnotCorB_alt_0_A_node__node0_AllowedTypes = null;
 		public static bool[] AandnotCorB_alt_0_A_node__node0_IsAllowedType = null;
@@ -663,18 +668,24 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AandnotCorB_alt_0_A_EdgeNums { };
 		public enum AandnotCorB_alt_0_A_SubNums { };
 		public enum AandnotCorB_alt_0_A_AltNums { };
+		PatternGraph AandnotCorB_alt_0_A;
+
 		public static NodeType[] AandnotCorB_alt_0_A_neg_0_node__node0_AllowedTypes = null;
 		public static bool[] AandnotCorB_alt_0_A_neg_0_node__node0_IsAllowedType = null;
 		public enum AandnotCorB_alt_0_A_neg_0_NodeNums { @_node0, };
 		public enum AandnotCorB_alt_0_A_neg_0_EdgeNums { };
 		public enum AandnotCorB_alt_0_A_neg_0_SubNums { };
 		public enum AandnotCorB_alt_0_A_neg_0_AltNums { };
+		PatternGraph AandnotCorB_alt_0_A_neg_0;
+
 		public static NodeType[] AandnotCorB_alt_0_B_node__node0_AllowedTypes = null;
 		public static bool[] AandnotCorB_alt_0_B_node__node0_IsAllowedType = null;
 		public enum AandnotCorB_alt_0_B_NodeNums { @_node0, };
 		public enum AandnotCorB_alt_0_B_EdgeNums { };
 		public enum AandnotCorB_alt_0_B_SubNums { };
 		public enum AandnotCorB_alt_0_B_AltNums { };
+		PatternGraph AandnotCorB_alt_0_B;
+
 
 #if INITIAL_WARMUP
 		public Rule_AandnotCorB()
@@ -683,7 +694,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "AandnotCorB";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -692,16 +702,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_AandnotCorB;
 			bool[,] AandnotCorB_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] AandnotCorB_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			PatternGraph AandnotCorB_alt_0_A;
 			bool[,] AandnotCorB_alt_0_A_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] AandnotCorB_alt_0_A_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			PatternNode AandnotCorB_alt_0_A_node__node0 = new PatternNode((int) NodeTypes.@A, "AandnotCorB_alt_0_A_node__node0", "_node0", AandnotCorB_alt_0_A_node__node0_AllowedTypes, AandnotCorB_alt_0_A_node__node0_IsAllowedType, 5.5F, -1);
-			PatternGraph AandnotCorB_alt_0_A_neg_0;
 			bool[,] AandnotCorB_alt_0_A_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -724,6 +731,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				AandnotCorB_alt_0_A_neg_0_isNodeHomomorphicGlobal,
 				AandnotCorB_alt_0_A_neg_0_isEdgeHomomorphicGlobal
 			);
+
 			AandnotCorB_alt_0_A = new PatternGraph(
 				"A",
 				"AandnotCorB_alt_0_",
@@ -742,7 +750,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				AandnotCorB_alt_0_A_isEdgeHomomorphicGlobal
 			);
 			AandnotCorB_alt_0_A_neg_0.embeddingGraph = AandnotCorB_alt_0_A;
-			PatternGraph AandnotCorB_alt_0_B;
+
 			bool[,] AandnotCorB_alt_0_B_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -765,6 +773,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				AandnotCorB_alt_0_B_isNodeHomomorphicGlobal,
 				AandnotCorB_alt_0_B_isEdgeHomomorphicGlobal
 			);
+
 			Alternative AandnotCorB_alt_0 = new Alternative( "alt_0", "AandnotCorB_", new PatternGraph[] { AandnotCorB_alt_0_A, AandnotCorB_alt_0_B } );
 
 			pat_AandnotCorB = new PatternGraph(
@@ -784,6 +793,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 			AandnotCorB_alt_0_A.embeddingGraph = pat_AandnotCorB;
 			AandnotCorB_alt_0_B.embeddingGraph = pat_AandnotCorB;
+
 			AandnotCorB_alt_0_A_node__node0.PointOfDefinition = AandnotCorB_alt_0_A;
 			AandnotCorB_alt_0_A_neg_0_node__node0.PointOfDefinition = AandnotCorB_alt_0_A_neg_0;
 			AandnotCorB_alt_0_B_node__node0.PointOfDefinition = AandnotCorB_alt_0_B;
@@ -793,11 +803,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -815,6 +825,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AorBorC_EdgeNums { };
 		public enum AorBorC_SubNums { };
 		public enum AorBorC_AltNums { @alt_0, };
+		PatternGraph pat_AorBorC;
+
 		public enum AorBorC_alt_0_CaseNums { @A, @B, @C, };
 		public static NodeType[] AorBorC_alt_0_A_node__node0_AllowedTypes = null;
 		public static bool[] AorBorC_alt_0_A_node__node0_IsAllowedType = null;
@@ -822,18 +834,24 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AorBorC_alt_0_A_EdgeNums { };
 		public enum AorBorC_alt_0_A_SubNums { };
 		public enum AorBorC_alt_0_A_AltNums { };
+		PatternGraph AorBorC_alt_0_A;
+
 		public static NodeType[] AorBorC_alt_0_B_node__node0_AllowedTypes = null;
 		public static bool[] AorBorC_alt_0_B_node__node0_IsAllowedType = null;
 		public enum AorBorC_alt_0_B_NodeNums { @_node0, };
 		public enum AorBorC_alt_0_B_EdgeNums { };
 		public enum AorBorC_alt_0_B_SubNums { };
 		public enum AorBorC_alt_0_B_AltNums { };
+		PatternGraph AorBorC_alt_0_B;
+
 		public static NodeType[] AorBorC_alt_0_C_node__node0_AllowedTypes = null;
 		public static bool[] AorBorC_alt_0_C_node__node0_IsAllowedType = null;
 		public enum AorBorC_alt_0_C_NodeNums { @_node0, };
 		public enum AorBorC_alt_0_C_EdgeNums { };
 		public enum AorBorC_alt_0_C_SubNums { };
 		public enum AorBorC_alt_0_C_AltNums { };
+		PatternGraph AorBorC_alt_0_C;
+
 
 #if INITIAL_WARMUP
 		public Rule_AorBorC()
@@ -842,7 +860,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "AorBorC";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -851,10 +868,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_AorBorC;
 			bool[,] AorBorC_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] AorBorC_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			PatternGraph AorBorC_alt_0_A;
 			bool[,] AorBorC_alt_0_A_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -877,7 +892,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				AorBorC_alt_0_A_isNodeHomomorphicGlobal,
 				AorBorC_alt_0_A_isEdgeHomomorphicGlobal
 			);
-			PatternGraph AorBorC_alt_0_B;
+
 			bool[,] AorBorC_alt_0_B_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -900,7 +915,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				AorBorC_alt_0_B_isNodeHomomorphicGlobal,
 				AorBorC_alt_0_B_isEdgeHomomorphicGlobal
 			);
-			PatternGraph AorBorC_alt_0_C;
+
 			bool[,] AorBorC_alt_0_C_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -923,6 +938,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				AorBorC_alt_0_C_isNodeHomomorphicGlobal,
 				AorBorC_alt_0_C_isEdgeHomomorphicGlobal
 			);
+
 			Alternative AorBorC_alt_0 = new Alternative( "alt_0", "AorBorC_", new PatternGraph[] { AorBorC_alt_0_A, AorBorC_alt_0_B, AorBorC_alt_0_C } );
 
 			pat_AorBorC = new PatternGraph(
@@ -943,6 +959,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AorBorC_alt_0_A.embeddingGraph = pat_AorBorC;
 			AorBorC_alt_0_B.embeddingGraph = pat_AorBorC;
 			AorBorC_alt_0_C.embeddingGraph = pat_AorBorC;
+
 			AorBorC_alt_0_A_node__node0.PointOfDefinition = AorBorC_alt_0_A;
 			AorBorC_alt_0_B_node__node0.PointOfDefinition = AorBorC_alt_0_B;
 			AorBorC_alt_0_C_node__node0.PointOfDefinition = AorBorC_alt_0_C;
@@ -952,11 +969,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -976,6 +993,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AtoAorB_EdgeNums { };
 		public enum AtoAorB_SubNums { };
 		public enum AtoAorB_AltNums { @alt_0, };
+		PatternGraph pat_AtoAorB;
+
 		public enum AtoAorB_alt_0_CaseNums { @toA, @toB, };
 		public static NodeType[] AtoAorB_alt_0_toA_node__node0_AllowedTypes = null;
 		public static bool[] AtoAorB_alt_0_toA_node__node0_IsAllowedType = null;
@@ -985,6 +1004,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AtoAorB_alt_0_toA_EdgeNums { @_edge0, };
 		public enum AtoAorB_alt_0_toA_SubNums { };
 		public enum AtoAorB_alt_0_toA_AltNums { };
+		PatternGraph AtoAorB_alt_0_toA;
+
 		public static NodeType[] AtoAorB_alt_0_toB_node__node0_AllowedTypes = null;
 		public static bool[] AtoAorB_alt_0_toB_node__node0_IsAllowedType = null;
 		public static EdgeType[] AtoAorB_alt_0_toB_edge__edge0_AllowedTypes = null;
@@ -993,6 +1014,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AtoAorB_alt_0_toB_EdgeNums { @_edge0, };
 		public enum AtoAorB_alt_0_toB_SubNums { };
 		public enum AtoAorB_alt_0_toB_AltNums { };
+		PatternGraph AtoAorB_alt_0_toB;
+
 
 #if INITIAL_WARMUP
 		public Rule_AtoAorB()
@@ -1001,7 +1024,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "AtoAorB";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1010,13 +1032,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_AtoAorB;
 			bool[,] AtoAorB_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] AtoAorB_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			PatternNode AtoAorB_node_a = new PatternNode((int) NodeTypes.@A, "AtoAorB_node_a", "a", AtoAorB_node_a_AllowedTypes, AtoAorB_node_a_IsAllowedType, 5.5F, -1);
-			PatternGraph AtoAorB_alt_0_toA;
 			bool[,] AtoAorB_alt_0_toA_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1048,7 +1068,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 			AtoAorB_alt_0_toA.edgeToSourceNode.Add(AtoAorB_alt_0_toA_edge__edge0, AtoAorB_node_a);
 			AtoAorB_alt_0_toA.edgeToTargetNode.Add(AtoAorB_alt_0_toA_edge__edge0, AtoAorB_alt_0_toA_node__node0);
-			PatternGraph AtoAorB_alt_0_toB;
+
 			bool[,] AtoAorB_alt_0_toB_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1080,6 +1100,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 			AtoAorB_alt_0_toB.edgeToSourceNode.Add(AtoAorB_alt_0_toB_edge__edge0, AtoAorB_node_a);
 			AtoAorB_alt_0_toB.edgeToTargetNode.Add(AtoAorB_alt_0_toB_edge__edge0, AtoAorB_alt_0_toB_node__node0);
+
 			Alternative AtoAorB_alt_0 = new Alternative( "alt_0", "AtoAorB_", new PatternGraph[] { AtoAorB_alt_0_toA, AtoAorB_alt_0_toB } );
 
 			pat_AtoAorB = new PatternGraph(
@@ -1101,6 +1122,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 			AtoAorB_alt_0_toA.embeddingGraph = pat_AtoAorB;
 			AtoAorB_alt_0_toB.embeddingGraph = pat_AtoAorB;
+
 			AtoAorB_node_a.PointOfDefinition = pat_AtoAorB;
 			AtoAorB_alt_0_toA_node__node0.PointOfDefinition = AtoAorB_alt_0_toA;
 			AtoAorB_alt_0_toA_edge__edge0.PointOfDefinition = AtoAorB_alt_0_toA;
@@ -1112,11 +1134,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -1134,6 +1156,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createComplex_EdgeNums { };
 		public enum createComplex_SubNums { };
 		public enum createComplex_AltNums { };
+		PatternGraph pat_createComplex;
+
 
 #if INITIAL_WARMUP
 		public Rule_createComplex()
@@ -1142,7 +1166,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "createComplex";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1151,7 +1174,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_createComplex;
 			bool[,] createComplex_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createComplex_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_createComplex = new PatternGraph(
@@ -1169,6 +1191,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				createComplex_isNodeHomomorphicGlobal,
 				createComplex_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_createComplex;
 		}
@@ -1232,6 +1255,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum Complex_EdgeNums { @_edge0, @_edge1, };
 		public enum Complex_SubNums { };
 		public enum Complex_AltNums { @alt_0, };
+		PatternGraph pat_Complex;
+
 		public enum Complex_alt_0_CaseNums { @ExtendAv, @ExtendAv2, @ExtendNA2, };
 		public static NodeType[] Complex_alt_0_ExtendAv_node_b2_AllowedTypes = null;
 		public static NodeType[] Complex_alt_0_ExtendAv_node__node0_AllowedTypes = null;
@@ -1251,6 +1276,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum Complex_alt_0_ExtendAv_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, };
 		public enum Complex_alt_0_ExtendAv_SubNums { };
 		public enum Complex_alt_0_ExtendAv_AltNums { };
+		PatternGraph Complex_alt_0_ExtendAv;
+
 		public static NodeType[] Complex_alt_0_ExtendAv2_node_b2_AllowedTypes = null;
 		public static NodeType[] Complex_alt_0_ExtendAv2_node__node0_AllowedTypes = null;
 		public static NodeType[] Complex_alt_0_ExtendAv2_node__node1_AllowedTypes = null;
@@ -1273,6 +1300,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum Complex_alt_0_ExtendAv2_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, };
 		public enum Complex_alt_0_ExtendAv2_SubNums { };
 		public enum Complex_alt_0_ExtendAv2_AltNums { };
+		PatternGraph Complex_alt_0_ExtendAv2;
+
 		public static NodeType[] Complex_alt_0_ExtendNA2_node__node0_AllowedTypes = null;
 		public static NodeType[] Complex_alt_0_ExtendNA2_node__node1_AllowedTypes = null;
 		public static NodeType[] Complex_alt_0_ExtendNA2_node_b2_AllowedTypes = null;
@@ -1291,6 +1320,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum Complex_alt_0_ExtendNA2_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, };
 		public enum Complex_alt_0_ExtendNA2_SubNums { };
 		public enum Complex_alt_0_ExtendNA2_AltNums { };
+		PatternGraph Complex_alt_0_ExtendNA2;
+
 
 #if INITIAL_WARMUP
 		public Rule_Complex()
@@ -1299,7 +1330,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "Complex";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1308,7 +1338,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_Complex;
 			bool[,] Complex_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1321,7 +1350,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternNode Complex_node_b = new PatternNode((int) NodeTypes.@B, "Complex_node_b", "b", Complex_node_b_AllowedTypes, Complex_node_b_IsAllowedType, 5.5F, -1);
 			PatternEdge Complex_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@Edge, "Complex_edge__edge0", "_edge0", Complex_edge__edge0_AllowedTypes, Complex_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternEdge Complex_edge__edge1 = new PatternEdge(true, (int) EdgeTypes.@Edge, "Complex_edge__edge1", "_edge1", Complex_edge__edge1_AllowedTypes, Complex_edge__edge1_IsAllowedType, 5.5F, -1);
-			PatternGraph Complex_alt_0_ExtendAv;
 			bool[,] Complex_alt_0_ExtendAv_isNodeHomomorphicGlobal = new bool[5, 5] {
 				{ false, false, false, false, false, },
 				{ false, false, false, false, false, },
@@ -1376,7 +1404,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			Complex_alt_0_ExtendAv.edgeToTargetNode.Add(Complex_alt_0_ExtendAv_edge__edge2, Complex_alt_0_ExtendAv_node__node0);
 			Complex_alt_0_ExtendAv.edgeToSourceNode.Add(Complex_alt_0_ExtendAv_edge__edge3, Complex_alt_0_ExtendAv_node__node0);
 			Complex_alt_0_ExtendAv.edgeToTargetNode.Add(Complex_alt_0_ExtendAv_edge__edge3, Complex_alt_0_ExtendAv_node__node1);
-			PatternGraph Complex_alt_0_ExtendAv2;
+
 			bool[,] Complex_alt_0_ExtendAv2_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -1439,7 +1467,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			Complex_alt_0_ExtendAv2.edgeToTargetNode.Add(Complex_alt_0_ExtendAv2_edge__edge3, Complex_alt_0_ExtendAv2_node__node1);
 			Complex_alt_0_ExtendAv2.edgeToSourceNode.Add(Complex_alt_0_ExtendAv2_edge__edge4, Complex_alt_0_ExtendAv2_node__node1);
 			Complex_alt_0_ExtendAv2.edgeToTargetNode.Add(Complex_alt_0_ExtendAv2_edge__edge4, Complex_alt_0_ExtendAv2_node__node2);
-			PatternGraph Complex_alt_0_ExtendNA2;
+
 			bool[,] Complex_alt_0_ExtendNA2_isNodeHomomorphicGlobal = new bool[5, 5] {
 				{ false, false, false, false, false, },
 				{ false, false, false, false, false, },
@@ -1494,6 +1522,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			Complex_alt_0_ExtendNA2.edgeToTargetNode.Add(Complex_alt_0_ExtendNA2_edge__edge2, Complex_alt_0_ExtendNA2_node_b2);
 			Complex_alt_0_ExtendNA2.edgeToSourceNode.Add(Complex_alt_0_ExtendNA2_edge__edge3, Complex_alt_0_ExtendNA2_node_b2);
 			Complex_alt_0_ExtendNA2.edgeToTargetNode.Add(Complex_alt_0_ExtendNA2_edge__edge3, Complex_node_b);
+
 			Alternative Complex_alt_0 = new Alternative( "alt_0", "Complex_", new PatternGraph[] { Complex_alt_0_ExtendAv, Complex_alt_0_ExtendAv2, Complex_alt_0_ExtendNA2 } );
 
 			pat_Complex = new PatternGraph(
@@ -1524,6 +1553,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			Complex_alt_0_ExtendAv.embeddingGraph = pat_Complex;
 			Complex_alt_0_ExtendAv2.embeddingGraph = pat_Complex;
 			Complex_alt_0_ExtendNA2.embeddingGraph = pat_Complex;
+
 			Complex_node_a.PointOfDefinition = pat_Complex;
 			Complex_node_b.PointOfDefinition = pat_Complex;
 			Complex_edge__edge0.PointOfDefinition = pat_Complex;
@@ -1557,11 +1587,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -1587,6 +1617,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum ComplexMax_EdgeNums { @_edge0, @_edge1, };
 		public enum ComplexMax_SubNums { };
 		public enum ComplexMax_AltNums { @alt_0, };
+		PatternGraph pat_ComplexMax;
+
 		public enum ComplexMax_alt_0_CaseNums { @ExtendAv, @ExtendAv2, @ExtendNA2, };
 		public static NodeType[] ComplexMax_alt_0_ExtendAv_node_b2_AllowedTypes = null;
 		public static NodeType[] ComplexMax_alt_0_ExtendAv_node__node0_AllowedTypes = null;
@@ -1606,6 +1638,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum ComplexMax_alt_0_ExtendAv_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, };
 		public enum ComplexMax_alt_0_ExtendAv_SubNums { };
 		public enum ComplexMax_alt_0_ExtendAv_AltNums { };
+		PatternGraph ComplexMax_alt_0_ExtendAv;
+
 		public static NodeType[] ComplexMax_alt_0_ExtendAv_neg_0_node__node0_AllowedTypes = null;
 		public static bool[] ComplexMax_alt_0_ExtendAv_neg_0_node__node0_IsAllowedType = null;
 		public static EdgeType[] ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0_AllowedTypes = null;
@@ -1614,6 +1648,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum ComplexMax_alt_0_ExtendAv_neg_0_EdgeNums { @_edge0, };
 		public enum ComplexMax_alt_0_ExtendAv_neg_0_SubNums { };
 		public enum ComplexMax_alt_0_ExtendAv_neg_0_AltNums { };
+		PatternGraph ComplexMax_alt_0_ExtendAv_neg_0;
+
 		public static NodeType[] ComplexMax_alt_0_ExtendAv2_node_b2_AllowedTypes = null;
 		public static NodeType[] ComplexMax_alt_0_ExtendAv2_node__node0_AllowedTypes = null;
 		public static NodeType[] ComplexMax_alt_0_ExtendAv2_node__node1_AllowedTypes = null;
@@ -1636,6 +1672,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum ComplexMax_alt_0_ExtendAv2_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, };
 		public enum ComplexMax_alt_0_ExtendAv2_SubNums { };
 		public enum ComplexMax_alt_0_ExtendAv2_AltNums { };
+		PatternGraph ComplexMax_alt_0_ExtendAv2;
+
 		public static NodeType[] ComplexMax_alt_0_ExtendNA2_node__node0_AllowedTypes = null;
 		public static NodeType[] ComplexMax_alt_0_ExtendNA2_node__node1_AllowedTypes = null;
 		public static NodeType[] ComplexMax_alt_0_ExtendNA2_node_b2_AllowedTypes = null;
@@ -1654,6 +1692,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum ComplexMax_alt_0_ExtendNA2_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, };
 		public enum ComplexMax_alt_0_ExtendNA2_SubNums { };
 		public enum ComplexMax_alt_0_ExtendNA2_AltNums { };
+		PatternGraph ComplexMax_alt_0_ExtendNA2;
+
 
 #if INITIAL_WARMUP
 		public Rule_ComplexMax()
@@ -1662,7 +1702,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "ComplexMax";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1671,7 +1710,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_ComplexMax;
 			bool[,] ComplexMax_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1684,7 +1722,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternNode ComplexMax_node_b = new PatternNode((int) NodeTypes.@B, "ComplexMax_node_b", "b", ComplexMax_node_b_AllowedTypes, ComplexMax_node_b_IsAllowedType, 5.5F, -1);
 			PatternEdge ComplexMax_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@Edge, "ComplexMax_edge__edge0", "_edge0", ComplexMax_edge__edge0_AllowedTypes, ComplexMax_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternEdge ComplexMax_edge__edge1 = new PatternEdge(true, (int) EdgeTypes.@Edge, "ComplexMax_edge__edge1", "_edge1", ComplexMax_edge__edge1_AllowedTypes, ComplexMax_edge__edge1_IsAllowedType, 5.5F, -1);
-			PatternGraph ComplexMax_alt_0_ExtendAv;
 			bool[,] ComplexMax_alt_0_ExtendAv_isNodeHomomorphicGlobal = new bool[5, 5] {
 				{ false, false, false, false, false, },
 				{ false, false, false, false, false, },
@@ -1705,7 +1742,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge1 = new PatternEdge(true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendAv_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge1_IsAllowedType, 5.5F, -1);
 			PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge2 = new PatternEdge(true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendAv_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge2_IsAllowedType, 5.5F, -1);
 			PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge3 = new PatternEdge(true, (int) EdgeTypes.@Edge, "ComplexMax_alt_0_ExtendAv_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendAv_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge3_IsAllowedType, 5.5F, -1);
-			PatternGraph ComplexMax_alt_0_ExtendAv_neg_0;
 			bool[,] ComplexMax_alt_0_ExtendAv_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1737,6 +1773,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 			ComplexMax_alt_0_ExtendAv_neg_0.edgeToSourceNode.Add(ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0, ComplexMax_alt_0_ExtendAv_node_c);
 			ComplexMax_alt_0_ExtendAv_neg_0.edgeToTargetNode.Add(ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0, ComplexMax_alt_0_ExtendAv_neg_0_node__node0);
+
 			ComplexMax_alt_0_ExtendAv = new PatternGraph(
 				"ExtendAv",
 				"ComplexMax_alt_0_",
@@ -1772,7 +1809,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			ComplexMax_alt_0_ExtendAv.edgeToSourceNode.Add(ComplexMax_alt_0_ExtendAv_edge__edge3, ComplexMax_alt_0_ExtendAv_node__node0);
 			ComplexMax_alt_0_ExtendAv.edgeToTargetNode.Add(ComplexMax_alt_0_ExtendAv_edge__edge3, ComplexMax_alt_0_ExtendAv_node_c);
 			ComplexMax_alt_0_ExtendAv_neg_0.embeddingGraph = ComplexMax_alt_0_ExtendAv;
-			PatternGraph ComplexMax_alt_0_ExtendAv2;
+
 			bool[,] ComplexMax_alt_0_ExtendAv2_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -1835,7 +1872,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			ComplexMax_alt_0_ExtendAv2.edgeToTargetNode.Add(ComplexMax_alt_0_ExtendAv2_edge__edge3, ComplexMax_alt_0_ExtendAv2_node__node1);
 			ComplexMax_alt_0_ExtendAv2.edgeToSourceNode.Add(ComplexMax_alt_0_ExtendAv2_edge__edge4, ComplexMax_alt_0_ExtendAv2_node__node1);
 			ComplexMax_alt_0_ExtendAv2.edgeToTargetNode.Add(ComplexMax_alt_0_ExtendAv2_edge__edge4, ComplexMax_alt_0_ExtendAv2_node__node2);
-			PatternGraph ComplexMax_alt_0_ExtendNA2;
+
 			bool[,] ComplexMax_alt_0_ExtendNA2_isNodeHomomorphicGlobal = new bool[5, 5] {
 				{ false, false, false, false, false, },
 				{ false, false, false, false, false, },
@@ -1890,6 +1927,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			ComplexMax_alt_0_ExtendNA2.edgeToTargetNode.Add(ComplexMax_alt_0_ExtendNA2_edge__edge2, ComplexMax_alt_0_ExtendNA2_node_b2);
 			ComplexMax_alt_0_ExtendNA2.edgeToSourceNode.Add(ComplexMax_alt_0_ExtendNA2_edge__edge3, ComplexMax_alt_0_ExtendNA2_node_b2);
 			ComplexMax_alt_0_ExtendNA2.edgeToTargetNode.Add(ComplexMax_alt_0_ExtendNA2_edge__edge3, ComplexMax_node_b);
+
 			Alternative ComplexMax_alt_0 = new Alternative( "alt_0", "ComplexMax_", new PatternGraph[] { ComplexMax_alt_0_ExtendAv, ComplexMax_alt_0_ExtendAv2, ComplexMax_alt_0_ExtendNA2 } );
 
 			pat_ComplexMax = new PatternGraph(
@@ -1920,6 +1958,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			ComplexMax_alt_0_ExtendAv.embeddingGraph = pat_ComplexMax;
 			ComplexMax_alt_0_ExtendAv2.embeddingGraph = pat_ComplexMax;
 			ComplexMax_alt_0_ExtendNA2.embeddingGraph = pat_ComplexMax;
+
 			ComplexMax_node_a.PointOfDefinition = pat_ComplexMax;
 			ComplexMax_node_b.PointOfDefinition = pat_ComplexMax;
 			ComplexMax_edge__edge0.PointOfDefinition = pat_ComplexMax;
@@ -1955,11 +1994,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -1977,6 +2016,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createABA_EdgeNums { };
 		public enum createABA_SubNums { };
 		public enum createABA_AltNums { };
+		PatternGraph pat_createABA;
+
 
 #if INITIAL_WARMUP
 		public Rule_createABA()
@@ -1985,7 +2026,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "createABA";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1994,7 +2034,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_createABA;
 			bool[,] createABA_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createABA_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_createABA = new PatternGraph(
@@ -2012,6 +2051,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				createABA_isNodeHomomorphicGlobal,
 				createABA_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_createABA;
 		}
@@ -2061,6 +2101,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum homm_EdgeNums { @_edge0, @_edge1, };
 		public enum homm_SubNums { };
 		public enum homm_AltNums { @alt_0, };
+		PatternGraph pat_homm;
+
 		public enum homm_alt_0_CaseNums { @case1, @case2, };
 		public static NodeType[] homm_alt_0_case1_node_b2_AllowedTypes = null;
 		public static bool[] homm_alt_0_case1_node_b2_IsAllowedType = null;
@@ -2072,6 +2114,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum homm_alt_0_case1_EdgeNums { @_edge0, @_edge1, };
 		public enum homm_alt_0_case1_SubNums { };
 		public enum homm_alt_0_case1_AltNums { };
+		PatternGraph homm_alt_0_case1;
+
 		public static NodeType[] homm_alt_0_case2_node_b2_AllowedTypes = null;
 		public static bool[] homm_alt_0_case2_node_b2_IsAllowedType = null;
 		public static EdgeType[] homm_alt_0_case2_edge__edge0_AllowedTypes = null;
@@ -2082,6 +2126,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum homm_alt_0_case2_EdgeNums { @_edge0, @_edge1, };
 		public enum homm_alt_0_case2_SubNums { };
 		public enum homm_alt_0_case2_AltNums { };
+		PatternGraph homm_alt_0_case2;
+
 
 #if INITIAL_WARMUP
 		public Rule_homm()
@@ -2090,7 +2136,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "homm";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2099,7 +2144,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_homm;
 			bool[,] homm_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -2112,7 +2156,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			PatternNode homm_node_b = new PatternNode((int) NodeTypes.@B, "homm_node_b", "b", homm_node_b_AllowedTypes, homm_node_b_IsAllowedType, 5.5F, -1);
 			PatternEdge homm_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@Edge, "homm_edge__edge0", "_edge0", homm_edge__edge0_AllowedTypes, homm_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternEdge homm_edge__edge1 = new PatternEdge(true, (int) EdgeTypes.@Edge, "homm_edge__edge1", "_edge1", homm_edge__edge1_AllowedTypes, homm_edge__edge1_IsAllowedType, 5.5F, -1);
-			PatternGraph homm_alt_0_case1;
 			bool[,] homm_alt_0_case1_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, true, },
@@ -2151,7 +2194,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			homm_alt_0_case1.edgeToTargetNode.Add(homm_alt_0_case1_edge__edge0, homm_alt_0_case1_node_b2);
 			homm_alt_0_case1.edgeToSourceNode.Add(homm_alt_0_case1_edge__edge1, homm_alt_0_case1_node_b2);
 			homm_alt_0_case1.edgeToTargetNode.Add(homm_alt_0_case1_edge__edge1, homm_node_a);
-			PatternGraph homm_alt_0_case2;
+
 			bool[,] homm_alt_0_case2_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -2188,6 +2231,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			homm_alt_0_case2.edgeToTargetNode.Add(homm_alt_0_case2_edge__edge0, homm_alt_0_case2_node_b2);
 			homm_alt_0_case2.edgeToSourceNode.Add(homm_alt_0_case2_edge__edge1, homm_alt_0_case2_node_b2);
 			homm_alt_0_case2.edgeToTargetNode.Add(homm_alt_0_case2_edge__edge1, homm_node_a);
+
 			Alternative homm_alt_0 = new Alternative( "alt_0", "homm_", new PatternGraph[] { homm_alt_0_case1, homm_alt_0_case2 } );
 
 			pat_homm = new PatternGraph(
@@ -2217,6 +2261,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_homm.edgeToTargetNode.Add(homm_edge__edge1, homm_node_a);
 			homm_alt_0_case1.embeddingGraph = pat_homm;
 			homm_alt_0_case2.embeddingGraph = pat_homm;
+
 			homm_node_a.PointOfDefinition = pat_homm;
 			homm_node_b.PointOfDefinition = pat_homm;
 			homm_edge__edge0.PointOfDefinition = pat_homm;
@@ -2233,11 +2278,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -2257,6 +2302,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum XtoAorB_EdgeNums { };
 		public enum XtoAorB_SubNums { @_subpattern0, };
 		public enum XtoAorB_AltNums { };
+		PatternGraph pat_XtoAorB;
+
 
 #if INITIAL_WARMUP
 		public Rule_XtoAorB()
@@ -2265,7 +2312,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 #endif
 		{
 			name = "XtoAorB";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2274,7 +2320,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_XtoAorB;
 			bool[,] XtoAorB_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -2298,6 +2343,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				XtoAorB_isNodeHomomorphicGlobal,
 				XtoAorB_isEdgeHomomorphicGlobal
 			);
+
 			XtoAorB_node_x.PointOfDefinition = pat_XtoAorB;
 			XtoAorB__subpattern0.PointOfDefinition = pat_XtoAorB;
 
@@ -2306,11 +2352,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -2484,13 +2530,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                 }
                 candidate_toAorB_alt_0_toA_node_a.flags = candidate_toAorB_alt_0_toA_node_a.flags & ~(LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN) | prevGlobal__candidate_toAorB_alt_0_toA_node_a;
             } while(false);
-            if(matchesList==foundPartialMatches) {
-                matchesList = new List<Stack<LGSPMatch>>();
-            } else {
-                foreach(Stack<LGSPMatch> match in matchesList) {
-                    foundPartialMatches.Add(match);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
                 }
-                matchesList.Clear();
             }
             // Alternative case toAorB_alt_0_toB 
             do {
@@ -2935,13 +2983,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                     candidate_AorB_alt_0_A_node__node0.flags = candidate_AorB_alt_0_A_node__node0.flags & ~(LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN) | prevGlobal__candidate_AorB_alt_0_A_node__node0;
                 }
             } while(false);
-            if(matchesList==foundPartialMatches) {
-                matchesList = new List<Stack<LGSPMatch>>();
-            } else {
-                foreach(Stack<LGSPMatch> match in matchesList) {
-                    foundPartialMatches.Add(match);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
                 }
-                matchesList.Clear();
             }
             // Alternative case AorB_alt_0_B 
             do {
@@ -3172,13 +3222,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                 }
 label0: ;
             } while(false);
-            if(matchesList==foundPartialMatches) {
-                matchesList = new List<Stack<LGSPMatch>>();
-            } else {
-                foreach(Stack<LGSPMatch> match in matchesList) {
-                    foundPartialMatches.Add(match);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
                 }
-                matchesList.Clear();
             }
             // Alternative case AandnotCorB_alt_0_B 
             do {
@@ -3378,13 +3430,15 @@ label0: ;
                     candidate_AorBorC_alt_0_A_node__node0.flags = candidate_AorBorC_alt_0_A_node__node0.flags & ~(LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN) | prevGlobal__candidate_AorBorC_alt_0_A_node__node0;
                 }
             } while(false);
-            if(matchesList==foundPartialMatches) {
-                matchesList = new List<Stack<LGSPMatch>>();
-            } else {
-                foreach(Stack<LGSPMatch> match in matchesList) {
-                    foundPartialMatches.Add(match);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
                 }
-                matchesList.Clear();
             }
             // Alternative case AorBorC_alt_0_B 
             do {
@@ -3450,13 +3504,15 @@ label0: ;
                     candidate_AorBorC_alt_0_B_node__node0.flags = candidate_AorBorC_alt_0_B_node__node0.flags & ~(LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN) | prevGlobal__candidate_AorBorC_alt_0_B_node__node0;
                 }
             } while(false);
-            if(matchesList==foundPartialMatches) {
-                matchesList = new List<Stack<LGSPMatch>>();
-            } else {
-                foreach(Stack<LGSPMatch> match in matchesList) {
-                    foundPartialMatches.Add(match);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
                 }
-                matchesList.Clear();
             }
             // Alternative case AorBorC_alt_0_C 
             do {
@@ -3705,13 +3761,15 @@ label0: ;
                     while( (candidate_AtoAorB_alt_0_toA_edge__edge0 = candidate_AtoAorB_alt_0_toA_edge__edge0.outNext) != head_candidate_AtoAorB_alt_0_toA_edge__edge0 );
                 }
             } while(false);
-            if(matchesList==foundPartialMatches) {
-                matchesList = new List<Stack<LGSPMatch>>();
-            } else {
-                foreach(Stack<LGSPMatch> match in matchesList) {
-                    foundPartialMatches.Add(match);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
                 }
-                matchesList.Clear();
             }
             // Alternative case AtoAorB_alt_0_toB 
             do {
@@ -4407,13 +4465,15 @@ label0: ;
                     while( (candidate_Complex_alt_0_ExtendAv_edge__edge0 = candidate_Complex_alt_0_ExtendAv_edge__edge0.outNext) != head_candidate_Complex_alt_0_ExtendAv_edge__edge0 );
                 }
             } while(false);
-            if(matchesList==foundPartialMatches) {
-                matchesList = new List<Stack<LGSPMatch>>();
-            } else {
-                foreach(Stack<LGSPMatch> match in matchesList) {
-                    foundPartialMatches.Add(match);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
                 }
-                matchesList.Clear();
             }
             // Alternative case Complex_alt_0_ExtendAv2 
             do {
@@ -4949,13 +5009,15 @@ label0: ;
                     while( (candidate_Complex_alt_0_ExtendAv2_edge__edge0 = candidate_Complex_alt_0_ExtendAv2_edge__edge0.outNext) != head_candidate_Complex_alt_0_ExtendAv2_edge__edge0 );
                 }
             } while(false);
-            if(matchesList==foundPartialMatches) {
-                matchesList = new List<Stack<LGSPMatch>>();
-            } else {
-                foreach(Stack<LGSPMatch> match in matchesList) {
-                    foundPartialMatches.Add(match);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
                 }
-                matchesList.Clear();
             }
             // Alternative case Complex_alt_0_ExtendNA2 
             do {
@@ -6021,13 +6083,15 @@ label3: ;
                     while( (candidate_ComplexMax_alt_0_ExtendAv_edge__edge0 = candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.outNext) != head_candidate_ComplexMax_alt_0_ExtendAv_edge__edge0 );
                 }
             } while(false);
-            if(matchesList==foundPartialMatches) {
-                matchesList = new List<Stack<LGSPMatch>>();
-            } else {
-                foreach(Stack<LGSPMatch> match in matchesList) {
-                    foundPartialMatches.Add(match);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
                 }
-                matchesList.Clear();
             }
             // Alternative case ComplexMax_alt_0_ExtendAv2 
             do {
@@ -6563,13 +6627,15 @@ label3: ;
                     while( (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0 = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.outNext) != head_candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0 );
                 }
             } while(false);
-            if(matchesList==foundPartialMatches) {
-                matchesList = new List<Stack<LGSPMatch>>();
-            } else {
-                foreach(Stack<LGSPMatch> match in matchesList) {
-                    foundPartialMatches.Add(match);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
                 }
-                matchesList.Clear();
             }
             // Alternative case ComplexMax_alt_0_ExtendNA2 
             do {
@@ -7367,13 +7433,15 @@ label3: ;
                     while( (candidate_homm_alt_0_case1_edge__edge0 = candidate_homm_alt_0_case1_edge__edge0.outNext) != head_candidate_homm_alt_0_case1_edge__edge0 );
                 }
             } while(false);
-            if(matchesList==foundPartialMatches) {
-                matchesList = new List<Stack<LGSPMatch>>();
-            } else {
-                foreach(Stack<LGSPMatch> match in matchesList) {
-                    foundPartialMatches.Add(match);
+            if(matchesList.Count>0) {
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList) {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
                 }
-                matchesList.Clear();
             }
             // Alternative case homm_alt_0_case2 
             do {

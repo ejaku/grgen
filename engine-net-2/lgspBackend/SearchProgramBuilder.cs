@@ -33,7 +33,6 @@ namespace de.unika.ipd.grGen.lgsp
             List<string> parametersList,
             List<bool> parameterIsNodeList)
         {
-            Debug.Assert(!rulePattern.isSubpattern);
             Debug.Assert(nameOfSearchProgram == null && parametersList == null && parameterIsNodeList == null
                 || nameOfSearchProgram != null && parametersList != null && parameterIsNodeList != null);
 
@@ -91,14 +90,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public SearchProgram BuildSearchProgram(
             IGraphModel model,
-            LGSPRulePattern rulePattern)
+            LGSPMatchingPattern matchingPattern)
         {
-            Debug.Assert(rulePattern.isSubpattern);
+            Debug.Assert(!(matchingPattern is LGSPRulePattern));
 
             programType = SearchProgramType.Subpattern;
             this.model = model;
-            patternGraph = rulePattern.patternGraph;
-            rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, true);
+            patternGraph = matchingPattern.patternGraph;
+            rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, true);
             negativeNames = new List<string>();
             negLevelNeverAboveMaxNegLevel = false;
 
@@ -129,13 +128,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public SearchProgram BuildSearchProgram(
             IGraphModel model,
-            LGSPRulePattern rulePattern,
+            LGSPMatchingPattern matchingPattern,
             Alternative alternative)
         {
             programType = SearchProgramType.AlternativeCase;
             this.model = model;
             this.alternative = alternative;
-            rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.isSubpattern);
+            rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, !(matchingPattern is LGSPRulePattern));
             negativeNames = new List<string>();
             negLevelNeverAboveMaxNegLevel = false;
 
@@ -172,7 +171,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(i<alternative.alternativeCases.Length-1)
                 {
                     NewMatchesListForFollowingMatches newMatchesList =
-                        new NewMatchesListForFollowingMatches();
+                        new NewMatchesListForFollowingMatches(true);
                     insertionPoint = insertionPoint.Append(newMatchesList);
                 }
             }
@@ -1406,8 +1405,8 @@ namespace de.unika.ipd.grGen.lgsp
             for (int i = patternGraph.embeddedGraphs.Length - 1; i >= 0; --i)
             {
                 PatternGraphEmbedding subpattern = patternGraph.embeddedGraphs[i];
-                Debug.Assert(subpattern.ruleOfEmbeddedGraph.inputNames.Length == subpattern.connections.Length);
-                string[] connectionName = subpattern.ruleOfEmbeddedGraph.inputNames;
+                Debug.Assert(subpattern.matchingPatternOfEmbeddedGraph.inputNames.Length == subpattern.connections.Length);
+                string[] connectionName = subpattern.matchingPatternOfEmbeddedGraph.inputNames;
                 string[] patternElementBoundToConnectionName = new string[subpattern.connections.Length];
                 bool[] patternElementBoundToConnectionIsNode = new bool[subpattern.connections.Length];
                 for (int j = 0; j < subpattern.connections.Length; ++j)
@@ -1418,7 +1417,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 PushSubpatternTask pushTask =
                     new PushSubpatternTask(
-                        subpattern.ruleOfEmbeddedGraph.name,
+                        subpattern.matchingPatternOfEmbeddedGraph.name,
                         subpattern.name,
                         connectionName,
                         patternElementBoundToConnectionName,
@@ -1620,7 +1619,7 @@ namespace de.unika.ipd.grGen.lgsp
             if (programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase)
             {
                 NewMatchesListForFollowingMatches newMatchesList =
-                    new NewMatchesListForFollowingMatches();
+                    new NewMatchesListForFollowingMatches(false);
                 insertionPoint = insertionPoint.Append(newMatchesList);
             }
 

@@ -35,6 +35,9 @@ public class Node extends GraphEntity {
 	/** Type of the node. */
 	protected final NodeType type;
 
+	/** Point of definition, that is the pattern graph the node was defined in*/
+	protected PatternGraph pointOfDefinition;
+
 	/**
 	 * Make a new node.
 	 * @param ident The identifier for the node.
@@ -83,5 +86,14 @@ public class Node extends GraphEntity {
 	 */
 	public RetypedNode getRetypedNode() {
 		return (RetypedNode)this.retyped;
+	}
+	
+	public void setPointOfDefinition(PatternGraph pointOfDefinition) {
+		assert this.pointOfDefinition==null && pointOfDefinition!=null;
+		this.pointOfDefinition = pointOfDefinition;
+	}
+	
+	public PatternGraph getPointOfDefinition() {
+		return pointOfDefinition;
 	}
 }

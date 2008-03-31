@@ -148,9 +148,9 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// A description of a GrGen rule.
+    /// A description of a GrGen matching pattern, that's a subpattern/subrule or the base for some rule.
     /// </summary>
-    public interface IRulePattern
+    public interface IMatchingPattern
     {
         /// <summary>
         /// The main pattern graph.
@@ -161,7 +161,13 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of GrGen types corresponding to rule parameters.
         /// </summary>
         GrGenType[] Inputs { get; }
+    }
 
+    /// <summary>
+    /// A description of a GrGen rule.
+    /// </summary>
+    public interface IRulePattern : IMatchingPattern
+    {
         /// <summary>
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>

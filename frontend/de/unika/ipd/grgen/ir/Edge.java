@@ -35,6 +35,9 @@ public class Edge extends GraphEntity {
 	/** Type of the edge. */
 	protected final EdgeType type;
 
+	/** Point of definition, that is the pattern graph the edge was defined in*/
+	protected PatternGraph pointOfDefinition;
+
 	protected boolean fixedDirection;
 
 	/**
@@ -93,5 +96,14 @@ public class Edge extends GraphEntity {
 	 */
 	public boolean hasFixedDirection() {
 		return fixedDirection;
+	}
+	
+	public void setPointOfDefinition(PatternGraph pointOfDefinition) {
+		assert this.pointOfDefinition==null && pointOfDefinition!=null;
+		this.pointOfDefinition = pointOfDefinition;
+	}
+	
+	public PatternGraph getPointOfDefinition() {
+		return pointOfDefinition;
 	}
 }

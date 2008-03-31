@@ -26,6 +26,8 @@ namespace de.unika.ipd.grGen.Action_test
 		public enum testRule_EdgeNums { @_edge0, @_edge1, };
 		public enum testRule_SubNums { };
 		public enum testRule_AltNums { };
+		PatternGraph pat_testRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_testRule()
@@ -34,7 +36,6 @@ namespace de.unika.ipd.grGen.Action_test
 #endif
 		{
 			name = "testRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -43,7 +44,6 @@ namespace de.unika.ipd.grGen.Action_test
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_testRule;
 			bool[,] testRule_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -84,6 +84,7 @@ namespace de.unika.ipd.grGen.Action_test
 			pat_testRule.edgeToTargetNode.Add(testRule_edge__edge0, testRule_node_f);
 			pat_testRule.edgeToSourceNode.Add(testRule_edge__edge1, testRule_node_f);
 			pat_testRule.edgeToTargetNode.Add(testRule_edge__edge1, testRule_node_m);
+
 			testRule_node_a.PointOfDefinition = pat_testRule;
 			testRule_node_f.PointOfDefinition = pat_testRule;
 			testRule_node_m.PointOfDefinition = pat_testRule;
@@ -96,9 +97,9 @@ namespace de.unika.ipd.grGen.Action_test
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_a = match.Nodes[(int) testRule_NodeNums.@a];
-			LGSPNode node_f = match.Nodes[(int) testRule_NodeNums.@f];
-			LGSPNode node_m = match.Nodes[(int) testRule_NodeNums.@m];
+			LGSPNode node_a = match.Nodes[(int)testRule_NodeNums.@a];
+			LGSPNode node_f = match.Nodes[(int)testRule_NodeNums.@f];
+			LGSPNode node_m = match.Nodes[(int)testRule_NodeNums.@m];
 			LGSPNode node_are = graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
 			INode_D2211_2222_31 inode_are = (INode_D2211_2222_31) node_are;
 			LGSPNode node_fre = graph.Retype(node_f, NodeType_D231_4121.typeVar);
@@ -119,9 +120,9 @@ namespace de.unika.ipd.grGen.Action_test
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_a = match.Nodes[(int) testRule_NodeNums.@a];
-			LGSPNode node_f = match.Nodes[(int) testRule_NodeNums.@f];
-			LGSPNode node_m = match.Nodes[(int) testRule_NodeNums.@m];
+			LGSPNode node_a = match.Nodes[(int)testRule_NodeNums.@a];
+			LGSPNode node_f = match.Nodes[(int)testRule_NodeNums.@f];
+			LGSPNode node_m = match.Nodes[(int)testRule_NodeNums.@m];
 			LGSPNode node_are = graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
 			INode_D2211_2222_31 inode_are = (INode_D2211_2222_31) node_are;
 			LGSPNode node_fre = graph.Retype(node_f, NodeType_D231_4121.typeVar);

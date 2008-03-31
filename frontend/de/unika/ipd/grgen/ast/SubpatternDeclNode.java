@@ -41,6 +41,7 @@ import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Node;
 
 
 /**
@@ -401,17 +402,35 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 			& checkExecParamsNotDeleted();
 	}
 
-	protected void constructIRaux(MatchingAction ma) {
-		PatternGraph patternGraph = ma.getPattern();
-
-		// add Params to the IR
+	protected void constructIRaux(Rule rule) {
+		// add parameters to the IR
+		PatternGraph patternGraph = rule.getPattern();
 		for(DeclNode decl : pattern.getParamDecls()) {
-			ma.addParameter((Entity) decl.checkIR(Entity.class));
+			rule.addParameter((Entity) decl.checkIR(Entity.class));
 			if(decl instanceof NodeCharacter) {
 				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
 			} else if (decl instanceof EdgeCharacter) {
 				Edge e = ((EdgeCharacter)decl).getEdge();
 				patternGraph.addSingleEdge(e);
+			} else {
+				throw new IllegalArgumentException("unknown Class: " + decl);
+			}
+		}
+		
+		// add replacement parameters to the IR
+		// TODO choose the right one
+		PatternGraph right = null;
+		if(this.right.children.size() > 0) {
+			right = this.right.children.get(0).getPatternGraph(pattern.getPatternGraph());
+		}
+		else {
+			return;
+		}
+		
+		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
+			rule.addReplParameter((Node) decl.checkIR(Entity.class));
+			if(decl instanceof NodeCharacter) {
+				right.addSingleNode(((NodeCharacter)decl).getNode());
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
@@ -462,7 +481,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 
 	// TODO use this to create IR patterns, that is currently not supported by
 	//      any backend
-	private IR constructPatternIR() {
+	/*private IR constructPatternIR() {
 		PatternGraph left = pattern.getPatternGraph();
 
 		// return if the pattern graph already constructed the IR object
@@ -495,7 +514,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		}
 
 		return pattern;
-	}
+	}*/
 
 	/**
 	 * add NACs for induced- or DPO-semantic

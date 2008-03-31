@@ -817,7 +817,7 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(Type type in initialAssembly.GetTypes())
                 {
                     if(!type.IsClass || type.IsNotPublic) continue;
-                    if(type.BaseType == typeof(LGSPRulePattern))
+                    if(type.BaseType == typeof(LGSPMatchingPattern) || type.BaseType == typeof(LGSPRulePattern))
 						actionTypes.Add(type.Name, type);
                 }
 
@@ -914,20 +914,20 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(Type type in initialAssembly.GetTypes())
                 {
                     if(!type.IsClass || type.IsNotPublic) continue;
-                    if(type.BaseType == typeof(LGSPRulePattern))
+                    if (type.BaseType == typeof(LGSPMatchingPattern) || type.BaseType == typeof(LGSPRulePattern))
                     {
-                        LGSPRulePattern rulePattern = (LGSPRulePattern) initialAssembly.CreateInstance(type.FullName);
-                        rulePattern.initialize();
+                        LGSPMatchingPattern matchingPattern = (LGSPMatchingPattern) initialAssembly.CreateInstance(type.FullName);
+                        matchingPattern.initialize();
 
-                        GenerateScheduledSearchPlans(rulePattern.patternGraph, matcherGen, rulePattern.isSubpattern, false);
+                        GenerateScheduledSearchPlans(matchingPattern.patternGraph, matcherGen, !(matchingPattern is LGSPRulePattern), false);
 
-                        matcherGen.MergeNegativeSchedulesIntoPositiveSchedules(rulePattern.patternGraph);
+                        matcherGen.MergeNegativeSchedulesIntoPositiveSchedules(matchingPattern.patternGraph);
 
-                        matcherGen.GenerateMatcherSourceCode(source, rulePattern, true);
+                        matcherGen.GenerateMatcherSourceCode(source, matchingPattern, true);
 
-                        if (!rulePattern.isSubpattern) // normal rule
+                        if (matchingPattern is LGSPRulePattern) // normal rule
                         {
-                            endSource.AppendFrontFormat("actions.Add(\"{0}\", (LGSPAction) Action_{0}.Instance);\n", rulePattern.name);
+                            endSource.AppendFrontFormat("actions.Add(\"{0}\", (LGSPAction) Action_{0}.Instance);\n", matchingPattern.name);
                         }
                     }
                 }

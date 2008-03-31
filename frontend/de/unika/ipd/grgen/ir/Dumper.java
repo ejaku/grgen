@@ -91,7 +91,7 @@ public class Dumper {
 		Collection<Graph> graphs = new LinkedList<Graph>();
 		Graph right = null;
 
-		if(act instanceof Rule) {
+		if(act instanceof Rule && ((Rule)act).getRight()!=null) {
 			right = ((Rule) act).getRight();
 			graphs.add(right);
 		}
@@ -123,7 +123,7 @@ public class Dumper {
 			}
 		}
 
-		if(act instanceof Rule) {
+		if(act instanceof Rule && ((Rule)act).getRight()!=null) {
 			Rule r = (Rule) act;
 			graphs.add(r.getRight());
 			Collection<Assignment> evals = r.getEvals();
@@ -225,7 +225,7 @@ public class Dumper {
 		GraphDumper curr = dumperFactory.get(fileName);
 
 		curr.begin();
-		for(Action act : unit.getActions()) {
+		for(Action act : unit.getActionRules()) {
 			if(act instanceof MatchingAction) {
 				MatchingAction mact = (MatchingAction) act;
 				dump(mact, curr);
@@ -259,7 +259,7 @@ public class Dumper {
 
 	public final void dump(Unit unit) {
 
-		for(Action obj : unit.getActions()) {
+		for(Action obj : unit.getActionRules()) {
 			if(obj instanceof MatchingAction) {
 				MatchingAction act = (MatchingAction) obj;
 				String main = act.toString().replace(' ', '_');

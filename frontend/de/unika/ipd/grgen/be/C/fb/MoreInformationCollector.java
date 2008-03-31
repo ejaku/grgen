@@ -86,16 +86,16 @@ public class MoreInformationCollector extends InformationCollector {
 	 *
 	 */
 	protected void collectEvalInfo() {
-		involvedEvalNodeAttrIds = new Map[ actionMap.size() ];
-		involvedEvalEdgeAttrIds = new Map[ actionMap.size() ];
+		involvedEvalNodeAttrIds = new Map[ actionRuleMap.size() ];
+		involvedEvalEdgeAttrIds = new Map[ actionRuleMap.size() ];
 
-		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
+		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
 			//get the current action
 			Action act = it.next();
 
-			if (act instanceof Rule) {
+			if (act instanceof Rule && ((Rule)act).getRight()!=null) {
 				Rule rule = (Rule) act;
-				Integer act_id = actionMap.get(act);
+				Integer act_id = actionRuleMap.get(act);
 
 				Collection<Assignment> rule_evals = rule.getEvals();
 
@@ -161,12 +161,12 @@ public class MoreInformationCollector extends InformationCollector {
 
 		//for all edges preserved set the corresponding array entry to the
 		//appropriate pattern edge number
-		Iterator<Action> act_it = actionMap.keySet().iterator();
+		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
 		for ( ; act_it.hasNext() ; ) {
 			MatchingAction action = (MatchingAction) act_it.next();
-			int act_id = actionMap.get(action).intValue();
+			int act_id = actionRuleMap.get(action).intValue();
 
-			if (action instanceof Rule) {
+			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
 				//compute the set of replacement edges preserved by this action
 				Collection<IR> replacement_edges_preserved = new HashSet<IR>();
 				replacement_edges_preserved.addAll(
@@ -201,15 +201,15 @@ public class MoreInformationCollector extends InformationCollector {
 
 		//for all edges to be kept set the corresponding array entry to the
 		//appropriate replacement edge number
-		Iterator<Action> act_it = actionMap.keySet().iterator();
+		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
 		for ( ; act_it.hasNext() ; ) {
 			MatchingAction action = (MatchingAction) act_it.next();
-			int act_id = actionMap.get(action).intValue();
+			int act_id = actionRuleMap.get(action).intValue();
 
 			//compute the set of pattern edges to be kept for this action
 			Collection<IR> pattern_edges_to_keep = new HashSet<IR>();
 			pattern_edges_to_keep.addAll(action.getPattern().getEdges());
-			if (action instanceof Rule) {
+			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
 				Graph replacement = ((Rule)action).getRight();
 				pattern_edges_to_keep.retainAll(replacement.getEdges());
 				//iterate over the pattern edges to be kept and store their
@@ -248,10 +248,10 @@ public class MoreInformationCollector extends InformationCollector {
 		n_negative_patterns = new int[n_graph_actions];
 		negMap = new Map[n_graph_actions];
 
-		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
+		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
 			//get the current action
 			Action act = it.next();
-			int act_id = actionMap.get(act).intValue();
+			int act_id = actionRuleMap.get(act).intValue();
 			int negs = 0;
 
 			negMap[act_id] = new HashMap<PatternGraph,Integer>();
@@ -278,10 +278,10 @@ public class MoreInformationCollector extends InformationCollector {
 		negative_node_num = new Map[n_graph_actions][max_n_negative_patterns];
 		negative_edge_num = new Map[n_graph_actions][max_n_negative_patterns];
 
-		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
+		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
 			/* get the current action*/
 			Action act = it.next();
-			int act_id = actionMap.get(act).intValue();
+			int act_id = actionRuleMap.get(act).intValue();
 
 			/* if action has negative pattern graphs, compute node/edge numbers */
 			if (act instanceof MatchingAction) {
@@ -334,10 +334,10 @@ public class MoreInformationCollector extends InformationCollector {
 
 		//for all negative patterns insert the correspondig negative node numbers
 		//for the pattern nodes that are also present in that negative pattern
-		Iterator<Action> act_it = actionMap.keySet().iterator();
+		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
 		for ( ; act_it.hasNext() ; ) {
 			MatchingAction action = (MatchingAction) act_it.next();
-			int act_id = actionMap.get(action).intValue();
+			int act_id = actionRuleMap.get(action).intValue();
 
 			if (action instanceof MatchingAction) {
 
@@ -374,10 +374,10 @@ public class MoreInformationCollector extends InformationCollector {
 
 		//for all negative patterns insert the correspondig negative edge numbers
 		//for the pattern edges that are also present in that negative pattern
-		Iterator<Action> act_it = actionMap.keySet().iterator();
+		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
 		for ( ; act_it.hasNext() ; ) {
 			MatchingAction action = (MatchingAction) act_it.next();
-			int act_id = actionMap.get(action).intValue();
+			int act_id = actionRuleMap.get(action).intValue();
 
 			if (action instanceof MatchingAction) {
 
@@ -412,10 +412,10 @@ public class MoreInformationCollector extends InformationCollector {
 		int subConditionCounter = n_conditions;
 
 		//iterate over all actions
-		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
+		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
 			//get the current action
 			Action act = it.next();
-			int act_id = actionMap.get(act).intValue();
+			int act_id = actionRuleMap.get(act).intValue();
 
 			if (act instanceof MatchingAction) {
 
@@ -479,11 +479,11 @@ public class MoreInformationCollector extends InformationCollector {
 		involvedPatternNodeAttrIds = new HashMap<Expression, Map<Node,Collection<Integer>>>();
 		involvedPatternEdgeAttrIds = new HashMap<Expression, Map<Edge,Collection<Integer>>>();
 
-		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); )
+		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); )
 		{
 			//get the current action
 			Action act = it.next();
-			int act_id = actionMap.get(act).intValue();
+			int act_id = actionRuleMap.get(act).intValue();
 
 			//collect the attr ids in dependency of condition and the pattern node
 			for (Iterator<Expression> cond_it = conditions.get(act_id).iterator(); cond_it.hasNext(); )
@@ -506,10 +506,10 @@ public class MoreInformationCollector extends InformationCollector {
 		/* collect the type constraints of the node of all actions pattern graphs */
 		int typeConditionCounter = n_conditions;
 
-		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
+		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
 			//get the current action
 			Action act = it.next();
-			int act_id = actionMap.get(act).intValue();
+			int act_id = actionRuleMap.get(act).intValue();
 
 			if (act instanceof MatchingAction) {
 
@@ -598,21 +598,21 @@ public class MoreInformationCollector extends InformationCollector {
 	protected Map<Edge, Integer> subgraphOfEdge;
 
 	private void collectSubGraphInfo() {
-		n_subgraphs = new int[actionMap.size()];
-		first_subgraph = new int[actionMap.size()];
+		n_subgraphs = new int[actionRuleMap.size()];
+		first_subgraph = new int[actionRuleMap.size()];
 		//subGraphMap = new HashMap[actionMap.size()];
-		nodesOfSubgraph = new LinkedList[actionMap.size()];
-		edgesOfSubgraph = new LinkedList[actionMap.size()];
+		nodesOfSubgraph = new LinkedList[actionRuleMap.size()];
+		edgesOfSubgraph = new LinkedList[actionRuleMap.size()];
 		subgraphOfNode = new HashMap<Node, Integer>();
 		subgraphOfEdge = new HashMap<Edge, Integer>();
 
 		max_n_subgraphs = 0;
 
 
-		for ( Iterator<Action> act_it = actionMap.keySet().iterator(); act_it.hasNext(); ) {
+		for ( Iterator<Rule> act_it = actionRuleMap.keySet().iterator(); act_it.hasNext(); ) {
 			MatchingAction action = (MatchingAction) act_it.next();
 			PatternGraph pattern = action.getPattern();
-			int act_id = actionMap.get(action).intValue();
+			int act_id = actionRuleMap.get(action).intValue();
 
 			int subgraph = 0;
 

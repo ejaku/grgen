@@ -40,10 +40,10 @@ public abstract class MatchingAction extends Action {
 	/** The graph pattern to match against. */
 	protected final PatternGraph pattern;
 
-	/** A list of the pattern parameter */
+	/** A list of the pattern parameters */
 	private final List<Entity> params = new LinkedList<Entity>();
 
-	/** A list of the replace return-parameters */
+	/** A list of the return-parameters */
 	private final List<Entity> returns = new LinkedList<Entity>();
 
 

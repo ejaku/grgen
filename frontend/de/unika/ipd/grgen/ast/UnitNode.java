@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.Action;
+import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Unit;
@@ -137,13 +137,13 @@ public class UnitNode extends BaseNode {
 		}
 
 		for(SubpatternDeclNode n : subpatterns.getChildren()) {
-			Action act = n.getAction();
-			res.addSubpattern(act);
+			Rule rule = n.getAction();
+			res.addSubpatternRule(rule);
 		}
 
 		for(TestDeclNode n : actions.getChildren()) {
-			Action act = n.getAction();
-			res.addAction(act);
+			Rule rule = n.getAction();
+			res.addActionRule(rule);
 		}
 
 		return res;

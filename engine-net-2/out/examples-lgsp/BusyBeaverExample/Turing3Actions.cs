@@ -24,6 +24,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum readZeroRule_EdgeNums { @rv, };
 		public enum readZeroRule_SubNums { };
 		public enum readZeroRule_AltNums { };
+		PatternGraph pat_readZeroRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_readZeroRule()
@@ -32,7 +34,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 #endif
 		{
 			name = "readZeroRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { NodeType_State.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "readZeroRule_node_s", "readZeroRule_node_bp", };
@@ -41,7 +42,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_readZeroRule;
 			bool[,] readZeroRule_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -78,6 +78,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			);
 			pat_readZeroRule.edgeToSourceNode.Add(readZeroRule_edge_rv, readZeroRule_node_s);
 			pat_readZeroRule.edgeToTargetNode.Add(readZeroRule_edge_rv, readZeroRule_node_wv);
+
 			readZeroRule_node_s.PointOfDefinition = null;
 			readZeroRule_node_wv.PointOfDefinition = pat_readZeroRule;
 			readZeroRule_node_bp.PointOfDefinition = null;
@@ -93,8 +94,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_bp = match.Nodes[(int) readZeroRule_NodeNums.@bp];
-			LGSPNode node_wv = match.Nodes[(int) readZeroRule_NodeNums.@wv];
+			LGSPNode node_bp = match.Nodes[(int)readZeroRule_NodeNums.@bp];
+			LGSPNode node_wv = match.Nodes[(int)readZeroRule_NodeNums.@wv];
 			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
 			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
 			int var_i = inode_wv.@value;
@@ -105,8 +106,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_bp = match.Nodes[(int) readZeroRule_NodeNums.@bp];
-			LGSPNode node_wv = match.Nodes[(int) readZeroRule_NodeNums.@wv];
+			LGSPNode node_bp = match.Nodes[(int)readZeroRule_NodeNums.@bp];
+			LGSPNode node_wv = match.Nodes[(int)readZeroRule_NodeNums.@wv];
 			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
 			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
 			int var_i = inode_wv.@value;
@@ -137,6 +138,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum readOneRule_EdgeNums { @rv, };
 		public enum readOneRule_SubNums { };
 		public enum readOneRule_AltNums { };
+		PatternGraph pat_readOneRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_readOneRule()
@@ -145,7 +148,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 #endif
 		{
 			name = "readOneRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { NodeType_State.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "readOneRule_node_s", "readOneRule_node_bp", };
@@ -154,7 +156,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_readOneRule;
 			bool[,] readOneRule_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -191,6 +192,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			);
 			pat_readOneRule.edgeToSourceNode.Add(readOneRule_edge_rv, readOneRule_node_s);
 			pat_readOneRule.edgeToTargetNode.Add(readOneRule_edge_rv, readOneRule_node_wv);
+
 			readOneRule_node_s.PointOfDefinition = null;
 			readOneRule_node_wv.PointOfDefinition = pat_readOneRule;
 			readOneRule_node_bp.PointOfDefinition = null;
@@ -206,8 +208,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_bp = match.Nodes[(int) readOneRule_NodeNums.@bp];
-			LGSPNode node_wv = match.Nodes[(int) readOneRule_NodeNums.@wv];
+			LGSPNode node_bp = match.Nodes[(int)readOneRule_NodeNums.@bp];
+			LGSPNode node_wv = match.Nodes[(int)readOneRule_NodeNums.@wv];
 			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
 			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
 			int var_i = inode_wv.@value;
@@ -218,8 +220,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_bp = match.Nodes[(int) readOneRule_NodeNums.@bp];
-			LGSPNode node_wv = match.Nodes[(int) readOneRule_NodeNums.@wv];
+			LGSPNode node_bp = match.Nodes[(int)readOneRule_NodeNums.@bp];
+			LGSPNode node_wv = match.Nodes[(int)readOneRule_NodeNums.@wv];
 			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
 			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
 			int var_i = inode_wv.@value;
@@ -250,6 +252,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveLeftValidRule_EdgeNums { @_edge0, };
 		public enum ensureMoveLeftValidRule_SubNums { };
 		public enum ensureMoveLeftValidRule_AltNums { };
+		PatternGraph pat_ensureMoveLeftValidRule;
+
 		public static NodeType[] ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes = null;
 		public static bool[] ensureMoveLeftValidRule_neg_0_node__node0_IsAllowedType = null;
 		public static EdgeType[] ensureMoveLeftValidRule_neg_0_edge__edge0_AllowedTypes = null;
@@ -258,6 +262,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveLeftValidRule_neg_0_EdgeNums { @_edge0, };
 		public enum ensureMoveLeftValidRule_neg_0_SubNums { };
 		public enum ensureMoveLeftValidRule_neg_0_AltNums { };
+		PatternGraph ensureMoveLeftValidRule_neg_0;
+
 
 #if INITIAL_WARMUP
 		public Rule_ensureMoveLeftValidRule()
@@ -266,7 +272,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 #endif
 		{
 			name = "ensureMoveLeftValidRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { NodeType_WriteValue.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "ensureMoveLeftValidRule_node_wv", "ensureMoveLeftValidRule_node_bp", };
@@ -275,7 +280,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_ensureMoveLeftValidRule;
 			bool[,] ensureMoveLeftValidRule_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -288,7 +292,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			PatternNode ensureMoveLeftValidRule_node__node0 = new PatternNode((int) NodeTypes.@State, "ensureMoveLeftValidRule_node__node0", "_node0", ensureMoveLeftValidRule_node__node0_AllowedTypes, ensureMoveLeftValidRule_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode ensureMoveLeftValidRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "ensureMoveLeftValidRule_node_bp", "bp", ensureMoveLeftValidRule_node_bp_AllowedTypes, ensureMoveLeftValidRule_node_bp_IsAllowedType, 5.5F, 1);
 			PatternEdge ensureMoveLeftValidRule_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@moveLeft, "ensureMoveLeftValidRule_edge__edge0", "_edge0", ensureMoveLeftValidRule_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternGraph ensureMoveLeftValidRule_neg_0;
 			bool[,] ensureMoveLeftValidRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -320,6 +323,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			);
 			ensureMoveLeftValidRule_neg_0.edgeToSourceNode.Add(ensureMoveLeftValidRule_neg_0_edge__edge0, ensureMoveLeftValidRule_neg_0_node__node0);
 			ensureMoveLeftValidRule_neg_0.edgeToTargetNode.Add(ensureMoveLeftValidRule_neg_0_edge__edge0, ensureMoveLeftValidRule_node_bp);
+
 			pat_ensureMoveLeftValidRule = new PatternGraph(
 				"ensureMoveLeftValidRule",
 				"",
@@ -344,6 +348,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_ensureMoveLeftValidRule.edgeToSourceNode.Add(ensureMoveLeftValidRule_edge__edge0, ensureMoveLeftValidRule_node_wv);
 			pat_ensureMoveLeftValidRule.edgeToTargetNode.Add(ensureMoveLeftValidRule_edge__edge0, ensureMoveLeftValidRule_node__node0);
 			ensureMoveLeftValidRule_neg_0.embeddingGraph = pat_ensureMoveLeftValidRule;
+
 			ensureMoveLeftValidRule_node_wv.PointOfDefinition = null;
 			ensureMoveLeftValidRule_node__node0.PointOfDefinition = pat_ensureMoveLeftValidRule;
 			ensureMoveLeftValidRule_node_bp.PointOfDefinition = null;
@@ -357,7 +362,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_bp = match.Nodes[(int) ensureMoveLeftValidRule_NodeNums.@bp];
+			LGSPNode node_bp = match.Nodes[(int)ensureMoveLeftValidRule_NodeNums.@bp];
 			Node_BandPosition node__node1 = Node_BandPosition.CreateNode(graph);
 			Edge_right edge__edge1 = Edge_right.CreateEdge(graph, node__node1, node_bp);
 			return EmptyReturnElements;
@@ -365,7 +370,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_bp = match.Nodes[(int) ensureMoveLeftValidRule_NodeNums.@bp];
+			LGSPNode node_bp = match.Nodes[(int)ensureMoveLeftValidRule_NodeNums.@bp];
 			Node_BandPosition node__node1 = Node_BandPosition.CreateNode(graph);
 			Edge_right edge__edge1 = Edge_right.CreateEdge(graph, node__node1, node_bp);
 			return EmptyReturnElements;
@@ -393,6 +398,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveRightValidRule_EdgeNums { @_edge0, };
 		public enum ensureMoveRightValidRule_SubNums { };
 		public enum ensureMoveRightValidRule_AltNums { };
+		PatternGraph pat_ensureMoveRightValidRule;
+
 		public static NodeType[] ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes = null;
 		public static bool[] ensureMoveRightValidRule_neg_0_node__node0_IsAllowedType = null;
 		public static EdgeType[] ensureMoveRightValidRule_neg_0_edge__edge0_AllowedTypes = null;
@@ -401,6 +408,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveRightValidRule_neg_0_EdgeNums { @_edge0, };
 		public enum ensureMoveRightValidRule_neg_0_SubNums { };
 		public enum ensureMoveRightValidRule_neg_0_AltNums { };
+		PatternGraph ensureMoveRightValidRule_neg_0;
+
 
 #if INITIAL_WARMUP
 		public Rule_ensureMoveRightValidRule()
@@ -409,7 +418,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 #endif
 		{
 			name = "ensureMoveRightValidRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { NodeType_WriteValue.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "ensureMoveRightValidRule_node_wv", "ensureMoveRightValidRule_node_bp", };
@@ -418,7 +426,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_ensureMoveRightValidRule;
 			bool[,] ensureMoveRightValidRule_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -431,7 +438,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			PatternNode ensureMoveRightValidRule_node__node0 = new PatternNode((int) NodeTypes.@State, "ensureMoveRightValidRule_node__node0", "_node0", ensureMoveRightValidRule_node__node0_AllowedTypes, ensureMoveRightValidRule_node__node0_IsAllowedType, 5.5F, -1);
 			PatternNode ensureMoveRightValidRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "ensureMoveRightValidRule_node_bp", "bp", ensureMoveRightValidRule_node_bp_AllowedTypes, ensureMoveRightValidRule_node_bp_IsAllowedType, 5.5F, 1);
 			PatternEdge ensureMoveRightValidRule_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@moveRight, "ensureMoveRightValidRule_edge__edge0", "_edge0", ensureMoveRightValidRule_edge__edge0_AllowedTypes, ensureMoveRightValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			PatternGraph ensureMoveRightValidRule_neg_0;
 			bool[,] ensureMoveRightValidRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -463,6 +469,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			);
 			ensureMoveRightValidRule_neg_0.edgeToSourceNode.Add(ensureMoveRightValidRule_neg_0_edge__edge0, ensureMoveRightValidRule_node_bp);
 			ensureMoveRightValidRule_neg_0.edgeToTargetNode.Add(ensureMoveRightValidRule_neg_0_edge__edge0, ensureMoveRightValidRule_neg_0_node__node0);
+
 			pat_ensureMoveRightValidRule = new PatternGraph(
 				"ensureMoveRightValidRule",
 				"",
@@ -487,6 +494,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_ensureMoveRightValidRule.edgeToSourceNode.Add(ensureMoveRightValidRule_edge__edge0, ensureMoveRightValidRule_node_wv);
 			pat_ensureMoveRightValidRule.edgeToTargetNode.Add(ensureMoveRightValidRule_edge__edge0, ensureMoveRightValidRule_node__node0);
 			ensureMoveRightValidRule_neg_0.embeddingGraph = pat_ensureMoveRightValidRule;
+
 			ensureMoveRightValidRule_node_wv.PointOfDefinition = null;
 			ensureMoveRightValidRule_node__node0.PointOfDefinition = pat_ensureMoveRightValidRule;
 			ensureMoveRightValidRule_node_bp.PointOfDefinition = null;
@@ -500,7 +508,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_bp = match.Nodes[(int) ensureMoveRightValidRule_NodeNums.@bp];
+			LGSPNode node_bp = match.Nodes[(int)ensureMoveRightValidRule_NodeNums.@bp];
 			Node_BandPosition node__node1 = Node_BandPosition.CreateNode(graph);
 			Edge_right edge__edge1 = Edge_right.CreateEdge(graph, node_bp, node__node1);
 			return EmptyReturnElements;
@@ -508,7 +516,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_bp = match.Nodes[(int) ensureMoveRightValidRule_NodeNums.@bp];
+			LGSPNode node_bp = match.Nodes[(int)ensureMoveRightValidRule_NodeNums.@bp];
 			Node_BandPosition node__node1 = Node_BandPosition.CreateNode(graph);
 			Edge_right edge__edge1 = Edge_right.CreateEdge(graph, node_bp, node__node1);
 			return EmptyReturnElements;
@@ -540,6 +548,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum moveLeftRule_EdgeNums { @_edge0, @_edge1, };
 		public enum moveLeftRule_SubNums { };
 		public enum moveLeftRule_AltNums { };
+		PatternGraph pat_moveLeftRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_moveLeftRule()
@@ -548,7 +558,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 #endif
 		{
 			name = "moveLeftRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { NodeType_WriteValue.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "moveLeftRule_node_wv", "moveLeftRule_node_bp", };
@@ -557,7 +566,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_moveLeftRule;
 			bool[,] moveLeftRule_isNodeHomomorphicGlobal = new bool[4, 4] {
 				{ false, false, false, false, },
 				{ false, false, false, false, },
@@ -601,6 +609,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_moveLeftRule.edgeToTargetNode.Add(moveLeftRule_edge__edge0, moveLeftRule_node_s);
 			pat_moveLeftRule.edgeToSourceNode.Add(moveLeftRule_edge__edge1, moveLeftRule_node_lbp);
 			pat_moveLeftRule.edgeToTargetNode.Add(moveLeftRule_edge__edge1, moveLeftRule_node_bp);
+
 			moveLeftRule_node_wv.PointOfDefinition = null;
 			moveLeftRule_node_s.PointOfDefinition = pat_moveLeftRule;
 			moveLeftRule_node_lbp.PointOfDefinition = pat_moveLeftRule;
@@ -614,15 +623,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_s = match.Nodes[(int) moveLeftRule_NodeNums.@s];
-			LGSPNode node_lbp = match.Nodes[(int) moveLeftRule_NodeNums.@lbp];
+			LGSPNode node_s = match.Nodes[(int)moveLeftRule_NodeNums.@s];
+			LGSPNode node_lbp = match.Nodes[(int)moveLeftRule_NodeNums.@lbp];
 			return new IGraphElement[] { node_s, node_lbp, };
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_s = match.Nodes[(int) moveLeftRule_NodeNums.@s];
-			LGSPNode node_lbp = match.Nodes[(int) moveLeftRule_NodeNums.@lbp];
+			LGSPNode node_s = match.Nodes[(int)moveLeftRule_NodeNums.@s];
+			LGSPNode node_lbp = match.Nodes[(int)moveLeftRule_NodeNums.@lbp];
 			return new IGraphElement[] { node_s, node_lbp, };
 		}
 		private static String[] addedNodeNames = new String[] {  };
@@ -652,6 +661,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum moveRightRule_EdgeNums { @_edge0, @_edge1, };
 		public enum moveRightRule_SubNums { };
 		public enum moveRightRule_AltNums { };
+		PatternGraph pat_moveRightRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_moveRightRule()
@@ -660,7 +671,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 #endif
 		{
 			name = "moveRightRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { NodeType_WriteValue.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "moveRightRule_node_wv", "moveRightRule_node_bp", };
@@ -669,7 +679,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_moveRightRule;
 			bool[,] moveRightRule_isNodeHomomorphicGlobal = new bool[4, 4] {
 				{ false, false, false, false, },
 				{ false, false, false, false, },
@@ -713,6 +722,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_moveRightRule.edgeToTargetNode.Add(moveRightRule_edge__edge0, moveRightRule_node_s);
 			pat_moveRightRule.edgeToSourceNode.Add(moveRightRule_edge__edge1, moveRightRule_node_bp);
 			pat_moveRightRule.edgeToTargetNode.Add(moveRightRule_edge__edge1, moveRightRule_node_rbp);
+
 			moveRightRule_node_wv.PointOfDefinition = null;
 			moveRightRule_node_s.PointOfDefinition = pat_moveRightRule;
 			moveRightRule_node_bp.PointOfDefinition = null;
@@ -726,15 +736,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_s = match.Nodes[(int) moveRightRule_NodeNums.@s];
-			LGSPNode node_rbp = match.Nodes[(int) moveRightRule_NodeNums.@rbp];
+			LGSPNode node_s = match.Nodes[(int)moveRightRule_NodeNums.@s];
+			LGSPNode node_rbp = match.Nodes[(int)moveRightRule_NodeNums.@rbp];
 			return new IGraphElement[] { node_s, node_rbp, };
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_s = match.Nodes[(int) moveRightRule_NodeNums.@s];
-			LGSPNode node_rbp = match.Nodes[(int) moveRightRule_NodeNums.@rbp];
+			LGSPNode node_s = match.Nodes[(int)moveRightRule_NodeNums.@s];
+			LGSPNode node_rbp = match.Nodes[(int)moveRightRule_NodeNums.@rbp];
 			return new IGraphElement[] { node_s, node_rbp, };
 		}
 		private static String[] addedNodeNames = new String[] {  };

@@ -187,15 +187,14 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		RBRACE popScope
 	| p:PATTERN id=typeIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS] LBRACE
 		left=patternPart[getCoords(p), params, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
-		(
-			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
-				{
-					rightHandSides.addChild(rightReplace);
-				}
-			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
-				{
-					rightHandSides.addChild(rightModify);
-				}
+		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
+			{
+				rightHandSides.addChild(rightReplace);
+			}
+		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
+			{
+				rightHandSides.addChild(rightModify);
+			}
 		)*
 			{
 				id.setDecl(new SubpatternDeclNode(id, left, rightHandSides));
@@ -378,7 +377,6 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 	: id=entIdentUse firstEdgeContinuation[id, conn, context] // use of already declared node, continue looking for first edge
 	| id=entIdentUse l:LPAREN subpatternConnections[subpatternReplConn] RPAREN // use of already declared subpattern
 		{ subpatternReplacements.addChild(new SubpatternReplNode(id, subpatternReplConn)); }
-		//{ reportError(getCoords(l), "subpattern replacements not yet supported"); }
 	| id=entIdentDecl cc:COLON // node or subpattern declaration
 		( // node declaration
 			type=typeIdentUse
@@ -757,6 +755,10 @@ modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<Subpa
 	;
 
 alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNode alt = new AlternativeNode(coords) ]
+	: ( alternativeCase[alt, altCount, context] ) +
+	;
+	
+alternativeCase [ AlternativeNode alt, int altCount, int context ]
 	{
 		IdentNode id;
 		PatternGraphNode left;
@@ -767,7 +769,7 @@ alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNo
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
-	: ( id=entIdentDecl l:LBRACE pushScopeStr["alt"+altCount, getCoords(l)]
+	: id=entIdentDecl l:LBRACE pushScopeStr["alt"+altCount+id.toString(), getCoords(l)]
 		left=patternBody[getCoords(l), new CollectNode<BaseNode>(), mod, context, id.toString()]
 		(
 			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, id]
@@ -780,8 +782,7 @@ alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNo
 				}
 		) ?
 		RBRACE popScope	{ alt.addChild(new AlternativeCaseNode(id, left, rightHandSides)); }
-	  ) *
-	;
+	;	
 
 negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
 	{

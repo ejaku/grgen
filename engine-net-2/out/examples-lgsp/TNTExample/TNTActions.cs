@@ -7,7 +7,7 @@ using de.unika.ipd.grGen.Model_TNT;
 
 namespace de.unika.ipd.grGen.Action_TNT
 {
-	public class Pattern_BenzolRing : LGSPRulePattern
+	public class Pattern_BenzolRing : LGSPMatchingPattern
 	{
 		private static Pattern_BenzolRing instance = null;
 		public static Pattern_BenzolRing Instance { get { if (instance==null) { instance = new Pattern_BenzolRing(); instance.initialize(); } return instance; } }
@@ -46,6 +46,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRing_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, };
 		public enum BenzolRing_SubNums { };
 		public enum BenzolRing_AltNums { };
+		PatternGraph pat_BenzolRing;
+
 
 #if INITIAL_WARMUP
 		public Pattern_BenzolRing()
@@ -54,16 +56,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "BenzolRing";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_BenzolRing;
 			bool[,] BenzolRing_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -148,6 +146,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRing.edgeToTargetNode.Add(BenzolRing_edge__edge7, BenzolRing_node_c4);
 			pat_BenzolRing.edgeToSourceNode.Add(BenzolRing_edge__edge8, BenzolRing_node_c5);
 			pat_BenzolRing.edgeToTargetNode.Add(BenzolRing_edge__edge8, BenzolRing_node_c6);
+
 			BenzolRing_node_c1.PointOfDefinition = pat_BenzolRing;
 			BenzolRing_node_c2.PointOfDefinition = pat_BenzolRing;
 			BenzolRing_node_c3.PointOfDefinition = pat_BenzolRing;
@@ -168,21 +167,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-	public class Pattern_BenzolRingC123456Exposed : LGSPRulePattern
+	public class Pattern_BenzolRingC123456Exposed : LGSPMatchingPattern
 	{
 		private static Pattern_BenzolRingC123456Exposed instance = null;
 		public static Pattern_BenzolRingC123456Exposed Instance { get { if (instance==null) { instance = new Pattern_BenzolRingC123456Exposed(); instance.initialize(); } return instance; } }
@@ -221,6 +208,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC123456Exposed_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, };
 		public enum BenzolRingC123456Exposed_SubNums { };
 		public enum BenzolRingC123456Exposed_AltNums { };
+		PatternGraph pat_BenzolRingC123456Exposed;
+
 
 #if INITIAL_WARMUP
 		public Pattern_BenzolRingC123456Exposed()
@@ -229,16 +218,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "BenzolRingC123456Exposed";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "BenzolRingC123456Exposed_node_c1", "BenzolRingC123456Exposed_node_c2", "BenzolRingC123456Exposed_node_c3", "BenzolRingC123456Exposed_node_c4", "BenzolRingC123456Exposed_node_c5", "BenzolRingC123456Exposed_node_c6", };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_BenzolRingC123456Exposed;
 			bool[,] BenzolRingC123456Exposed_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -323,6 +308,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC123456Exposed.edgeToTargetNode.Add(BenzolRingC123456Exposed_edge__edge7, BenzolRingC123456Exposed_node_c4);
 			pat_BenzolRingC123456Exposed.edgeToSourceNode.Add(BenzolRingC123456Exposed_edge__edge8, BenzolRingC123456Exposed_node_c5);
 			pat_BenzolRingC123456Exposed.edgeToTargetNode.Add(BenzolRingC123456Exposed_edge__edge8, BenzolRingC123456Exposed_node_c6);
+
 			BenzolRingC123456Exposed_node_c1.PointOfDefinition = null;
 			BenzolRingC123456Exposed_node_c2.PointOfDefinition = null;
 			BenzolRingC123456Exposed_node_c3.PointOfDefinition = null;
@@ -343,21 +329,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-	public class Pattern_BenzolRingC1Exposed : LGSPRulePattern
+	public class Pattern_BenzolRingC1Exposed : LGSPMatchingPattern
 	{
 		private static Pattern_BenzolRingC1Exposed instance = null;
 		public static Pattern_BenzolRingC1Exposed Instance { get { if (instance==null) { instance = new Pattern_BenzolRingC1Exposed(); instance.initialize(); } return instance; } }
@@ -396,6 +370,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC1Exposed_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, };
 		public enum BenzolRingC1Exposed_SubNums { };
 		public enum BenzolRingC1Exposed_AltNums { };
+		PatternGraph pat_BenzolRingC1Exposed;
+
 
 #if INITIAL_WARMUP
 		public Pattern_BenzolRingC1Exposed()
@@ -404,16 +380,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "BenzolRingC1Exposed";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "BenzolRingC1Exposed_node_c1", };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_BenzolRingC1Exposed;
 			bool[,] BenzolRingC1Exposed_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -498,6 +470,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC1Exposed.edgeToTargetNode.Add(BenzolRingC1Exposed_edge__edge7, BenzolRingC1Exposed_node_c4);
 			pat_BenzolRingC1Exposed.edgeToSourceNode.Add(BenzolRingC1Exposed_edge__edge8, BenzolRingC1Exposed_node_c5);
 			pat_BenzolRingC1Exposed.edgeToTargetNode.Add(BenzolRingC1Exposed_edge__edge8, BenzolRingC1Exposed_node_c6);
+
 			BenzolRingC1Exposed_node_c1.PointOfDefinition = null;
 			BenzolRingC1Exposed_node_c2.PointOfDefinition = pat_BenzolRingC1Exposed;
 			BenzolRingC1Exposed_node_c3.PointOfDefinition = pat_BenzolRingC1Exposed;
@@ -518,21 +491,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-	public class Pattern_BenzolRingC1ExposedNotC6Nitro : LGSPRulePattern
+	public class Pattern_BenzolRingC1ExposedNotC6Nitro : LGSPMatchingPattern
 	{
 		private static Pattern_BenzolRingC1ExposedNotC6Nitro instance = null;
 		public static Pattern_BenzolRingC1ExposedNotC6Nitro Instance { get { if (instance==null) { instance = new Pattern_BenzolRingC1ExposedNotC6Nitro(); instance.initialize(); } return instance; } }
@@ -571,6 +532,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC1ExposedNotC6Nitro_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, };
 		public enum BenzolRingC1ExposedNotC6Nitro_SubNums { };
 		public enum BenzolRingC1ExposedNotC6Nitro_AltNums { };
+		PatternGraph pat_BenzolRingC1ExposedNotC6Nitro;
+
 		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_AllowedTypes = null;
 		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_AllowedTypes = null;
 		public static NodeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_AllowedTypes = null;
@@ -587,6 +550,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_EdgeNums { @_edge0, @_edge1, @_edge2, };
 		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_SubNums { };
 		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_AltNums { };
+		PatternGraph BenzolRingC1ExposedNotC6Nitro_neg_0;
+
 
 #if INITIAL_WARMUP
 		public Pattern_BenzolRingC1ExposedNotC6Nitro()
@@ -595,16 +560,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "BenzolRingC1ExposedNotC6Nitro";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "BenzolRingC1ExposedNotC6Nitro_node_c1", };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_BenzolRingC1ExposedNotC6Nitro;
 			bool[,] BenzolRingC1ExposedNotC6Nitro_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -639,7 +600,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge6 = new PatternEdge(true, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge6", "_edge6", BenzolRingC1ExposedNotC6Nitro_edge__edge6_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge6_IsAllowedType, 5.5F, -1);
 			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge7 = new PatternEdge(true, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge7", "_edge7", BenzolRingC1ExposedNotC6Nitro_edge__edge7_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge7_IsAllowedType, 5.5F, -1);
 			PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge8 = new PatternEdge(true, (int) EdgeTypes.@Edge, "BenzolRingC1ExposedNotC6Nitro_edge__edge8", "_edge8", BenzolRingC1ExposedNotC6Nitro_edge__edge8_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge8_IsAllowedType, 5.5F, -1);
-			PatternGraph BenzolRingC1ExposedNotC6Nitro_neg_0;
 			bool[,] BenzolRingC1ExposedNotC6Nitro_neg_0_isNodeHomomorphicGlobal = new bool[4, 4] {
 				{ false, false, false, false, },
 				{ false, false, false, false, },
@@ -687,6 +647,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			BenzolRingC1ExposedNotC6Nitro_neg_0.edgeToTargetNode.Add(BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0);
 			BenzolRingC1ExposedNotC6Nitro_neg_0.edgeToSourceNode.Add(BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n);
 			BenzolRingC1ExposedNotC6Nitro_neg_0.edgeToTargetNode.Add(BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1);
+
 			pat_BenzolRingC1ExposedNotC6Nitro = new PatternGraph(
 				"BenzolRingC1ExposedNotC6Nitro",
 				"",
@@ -738,6 +699,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC1ExposedNotC6Nitro.edgeToSourceNode.Add(BenzolRingC1ExposedNotC6Nitro_edge__edge8, BenzolRingC1ExposedNotC6Nitro_node_c5);
 			pat_BenzolRingC1ExposedNotC6Nitro.edgeToTargetNode.Add(BenzolRingC1ExposedNotC6Nitro_edge__edge8, BenzolRingC1ExposedNotC6Nitro_node_c6);
 			BenzolRingC1ExposedNotC6Nitro_neg_0.embeddingGraph = pat_BenzolRingC1ExposedNotC6Nitro;
+
 			BenzolRingC1ExposedNotC6Nitro_node_c1.PointOfDefinition = null;
 			BenzolRingC1ExposedNotC6Nitro_node_c2.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
 			BenzolRingC1ExposedNotC6Nitro_node_c3.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
@@ -764,21 +726,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-	public class Pattern_Oxygen : LGSPRulePattern
+	public class Pattern_Oxygen : LGSPMatchingPattern
 	{
 		private static Pattern_Oxygen instance = null;
 		public static Pattern_Oxygen Instance { get { if (instance==null) { instance = new Pattern_Oxygen(); instance.initialize(); } return instance; } }
@@ -795,6 +745,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Oxygen_EdgeNums { @_edge0, @_edge1, };
 		public enum Oxygen_SubNums { };
 		public enum Oxygen_AltNums { };
+		PatternGraph pat_Oxygen;
+
 
 #if INITIAL_WARMUP
 		public Pattern_Oxygen()
@@ -803,16 +755,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "Oxygen";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_Oxygen;
 			bool[,] Oxygen_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -850,6 +798,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Oxygen.edgeToTargetNode.Add(Oxygen_edge__edge0, Oxygen_node_o2);
 			pat_Oxygen.edgeToSourceNode.Add(Oxygen_edge__edge1, Oxygen_node_o2);
 			pat_Oxygen.edgeToTargetNode.Add(Oxygen_edge__edge1, Oxygen_node_o1);
+
 			Oxygen_node_o1.PointOfDefinition = pat_Oxygen;
 			Oxygen_node_o2.PointOfDefinition = pat_Oxygen;
 			Oxygen_edge__edge0.PointOfDefinition = pat_Oxygen;
@@ -859,21 +808,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-	public class Pattern_Hydrogen : LGSPRulePattern
+	public class Pattern_Hydrogen : LGSPMatchingPattern
 	{
 		private static Pattern_Hydrogen instance = null;
 		public static Pattern_Hydrogen Instance { get { if (instance==null) { instance = new Pattern_Hydrogen(); instance.initialize(); } return instance; } }
@@ -888,6 +825,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Hydrogen_EdgeNums { @_edge0, };
 		public enum Hydrogen_SubNums { };
 		public enum Hydrogen_AltNums { };
+		PatternGraph pat_Hydrogen;
+
 
 #if INITIAL_WARMUP
 		public Pattern_Hydrogen()
@@ -896,16 +835,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "Hydrogen";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Hydrogen_node_anchor", };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_Hydrogen;
 			bool[,] Hydrogen_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -938,6 +873,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			);
 			pat_Hydrogen.edgeToSourceNode.Add(Hydrogen_edge__edge0, Hydrogen_node_anchor);
 			pat_Hydrogen.edgeToTargetNode.Add(Hydrogen_edge__edge0, Hydrogen_node__node0);
+
 			Hydrogen_node_anchor.PointOfDefinition = null;
 			Hydrogen_node__node0.PointOfDefinition = pat_Hydrogen;
 			Hydrogen_edge__edge0.PointOfDefinition = pat_Hydrogen;
@@ -946,21 +882,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-	public class Pattern_Hydroxyl : LGSPRulePattern
+	public class Pattern_Hydroxyl : LGSPMatchingPattern
 	{
 		private static Pattern_Hydroxyl instance = null;
 		public static Pattern_Hydroxyl Instance { get { if (instance==null) { instance = new Pattern_Hydroxyl(); instance.initialize(); } return instance; } }
@@ -979,6 +903,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Hydroxyl_EdgeNums { @_edge0, @_edge1, };
 		public enum Hydroxyl_SubNums { };
 		public enum Hydroxyl_AltNums { };
+		PatternGraph pat_Hydroxyl;
+
 
 #if INITIAL_WARMUP
 		public Pattern_Hydroxyl()
@@ -987,16 +913,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "Hydroxyl";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Hydroxyl_node_anchor", };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_Hydroxyl;
 			bool[,] Hydroxyl_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -1037,6 +959,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Hydroxyl.edgeToTargetNode.Add(Hydroxyl_edge__edge0, Hydroxyl_node__node0);
 			pat_Hydroxyl.edgeToSourceNode.Add(Hydroxyl_edge__edge1, Hydroxyl_node__node0);
 			pat_Hydroxyl.edgeToTargetNode.Add(Hydroxyl_edge__edge1, Hydroxyl_node__node1);
+
 			Hydroxyl_node_anchor.PointOfDefinition = null;
 			Hydroxyl_node__node0.PointOfDefinition = pat_Hydroxyl;
 			Hydroxyl_node__node1.PointOfDefinition = pat_Hydroxyl;
@@ -1047,21 +970,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-	public class Pattern_Methyl : LGSPRulePattern
+	public class Pattern_Methyl : LGSPMatchingPattern
 	{
 		private static Pattern_Methyl instance = null;
 		public static Pattern_Methyl Instance { get { if (instance==null) { instance = new Pattern_Methyl(); instance.initialize(); } return instance; } }
@@ -1088,6 +999,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Methyl_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, };
 		public enum Methyl_SubNums { };
 		public enum Methyl_AltNums { };
+		PatternGraph pat_Methyl;
+
 
 #if INITIAL_WARMUP
 		public Pattern_Methyl()
@@ -1096,16 +1009,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "Methyl";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Methyl_node_anchor", };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_Methyl;
 			bool[,] Methyl_isNodeHomomorphicGlobal = new bool[5, 5] {
 				{ false, false, false, false, false, },
 				{ false, false, false, false, false, },
@@ -1162,6 +1071,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Methyl.edgeToTargetNode.Add(Methyl_edge__edge2, Methyl_node__node1);
 			pat_Methyl.edgeToSourceNode.Add(Methyl_edge__edge3, Methyl_node_c);
 			pat_Methyl.edgeToTargetNode.Add(Methyl_edge__edge3, Methyl_node__node2);
+
 			Methyl_node_anchor.PointOfDefinition = null;
 			Methyl_node_c.PointOfDefinition = pat_Methyl;
 			Methyl_node__node0.PointOfDefinition = pat_Methyl;
@@ -1176,21 +1086,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-	public class Pattern_Nitro : LGSPRulePattern
+	public class Pattern_Nitro : LGSPMatchingPattern
 	{
 		private static Pattern_Nitro instance = null;
 		public static Pattern_Nitro Instance { get { if (instance==null) { instance = new Pattern_Nitro(); instance.initialize(); } return instance; } }
@@ -1213,6 +1111,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Nitro_EdgeNums { @_edge0, @_edge1, @_edge2, };
 		public enum Nitro_SubNums { };
 		public enum Nitro_AltNums { };
+		PatternGraph pat_Nitro;
+
 
 #if INITIAL_WARMUP
 		public Pattern_Nitro()
@@ -1221,16 +1121,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "Nitro";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Nitro_node_anchor", };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_Nitro;
 			bool[,] Nitro_isNodeHomomorphicGlobal = new bool[4, 4] {
 				{ false, false, false, false, },
 				{ false, false, false, false, },
@@ -1279,6 +1175,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Nitro.edgeToTargetNode.Add(Nitro_edge__edge1, Nitro_node__node0);
 			pat_Nitro.edgeToSourceNode.Add(Nitro_edge__edge2, Nitro_node_n);
 			pat_Nitro.edgeToTargetNode.Add(Nitro_edge__edge2, Nitro_node__node1);
+
 			Nitro_node_anchor.PointOfDefinition = null;
 			Nitro_node_n.PointOfDefinition = pat_Nitro;
 			Nitro_node__node0.PointOfDefinition = pat_Nitro;
@@ -1291,21 +1188,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-	public class Pattern_TriNitro : LGSPRulePattern
+	public class Pattern_TriNitro : LGSPMatchingPattern
 	{
 		private static Pattern_TriNitro instance = null;
 		public static Pattern_TriNitro Instance { get { if (instance==null) { instance = new Pattern_TriNitro(); instance.initialize(); } return instance; } }
@@ -1320,6 +1205,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TriNitro_EdgeNums { };
 		public enum TriNitro_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, };
 		public enum TriNitro_AltNums { };
+		PatternGraph pat_TriNitro;
+
 
 #if INITIAL_WARMUP
 		public Pattern_TriNitro()
@@ -1328,16 +1215,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "TriNitro";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "TriNitro_node_c2", "TriNitro_node_c4", "TriNitro_node_c6", };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_TriNitro;
 			bool[,] TriNitro_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -1369,6 +1252,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				TriNitro_isNodeHomomorphicGlobal,
 				TriNitro_isEdgeHomomorphicGlobal
 			);
+
 			TriNitro_node_c2.PointOfDefinition = null;
 			TriNitro_node_c4.PointOfDefinition = null;
 			TriNitro_node_c6.PointOfDefinition = null;
@@ -1380,21 +1264,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-	public class Pattern_ToluolCoreThenTriNitro : LGSPRulePattern
+	public class Pattern_ToluolCoreThenTriNitro : LGSPMatchingPattern
 	{
 		private static Pattern_ToluolCoreThenTriNitro instance = null;
 		public static Pattern_ToluolCoreThenTriNitro Instance { get { if (instance==null) { instance = new Pattern_ToluolCoreThenTriNitro(); instance.initialize(); } return instance; } }
@@ -1415,6 +1287,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum ToluolCoreThenTriNitro_EdgeNums { };
 		public enum ToluolCoreThenTriNitro_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, };
 		public enum ToluolCoreThenTriNitro_AltNums { };
+		PatternGraph pat_ToluolCoreThenTriNitro;
+
 
 #if INITIAL_WARMUP
 		public Pattern_ToluolCoreThenTriNitro()
@@ -1423,16 +1297,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "ToluolCoreThenTriNitro";
-			isSubpattern = true;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "ToluolCoreThenTriNitro_node_c1", "ToluolCoreThenTriNitro_node_c2", "ToluolCoreThenTriNitro_node_c3", "ToluolCoreThenTriNitro_node_c4", "ToluolCoreThenTriNitro_node_c5", "ToluolCoreThenTriNitro_node_c6", };
-			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_ToluolCoreThenTriNitro;
 			bool[,] ToluolCoreThenTriNitro_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -1474,6 +1344,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				ToluolCoreThenTriNitro_isNodeHomomorphicGlobal,
 				ToluolCoreThenTriNitro_isEdgeHomomorphicGlobal
 			);
+
 			ToluolCoreThenTriNitro_node_c1.PointOfDefinition = null;
 			ToluolCoreThenTriNitro_node_c2.PointOfDefinition = null;
 			ToluolCoreThenTriNitro_node_c3.PointOfDefinition = null;
@@ -1489,18 +1360,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // currently empty
-			return EmptyReturnElements;
-		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 	public class Rule_BenzolRing : LGSPRulePattern
@@ -1512,6 +1371,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRing_EdgeNums { };
 		public enum BenzolRing_SubNums { @_subpattern0, };
 		public enum BenzolRing_AltNums { };
+		PatternGraph pat_BenzolRing;
+
 
 #if INITIAL_WARMUP
 		public Rule_BenzolRing()
@@ -1520,7 +1381,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "BenzolRing";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1529,7 +1389,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_BenzolRing;
 			bool[,] BenzolRing_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] BenzolRing_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			PatternGraphEmbedding BenzolRing__subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRing.Instance, new PatternElement[] {  });
@@ -1548,6 +1407,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				BenzolRing_isNodeHomomorphicGlobal,
 				BenzolRing_isEdgeHomomorphicGlobal
 			);
+
 			BenzolRing__subpattern0.PointOfDefinition = pat_BenzolRing;
 
 			patternGraph = pat_BenzolRing;
@@ -1555,11 +1415,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -1589,6 +1449,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNTTotallyFolded_EdgeNums { };
 		public enum TNTTotallyFolded_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, @_subpattern6, };
 		public enum TNTTotallyFolded_AltNums { };
+		PatternGraph pat_TNTTotallyFolded;
+
 
 #if INITIAL_WARMUP
 		public Rule_TNTTotallyFolded()
@@ -1597,7 +1459,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "TNTTotallyFolded";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1606,7 +1467,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_TNTTotallyFolded;
 			bool[,] TNTTotallyFolded_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -1651,6 +1511,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				TNTTotallyFolded_isNodeHomomorphicGlobal,
 				TNTTotallyFolded_isEdgeHomomorphicGlobal
 			);
+
 			TNTTotallyFolded_node_c1.PointOfDefinition = pat_TNTTotallyFolded;
 			TNTTotallyFolded_node_c2.PointOfDefinition = pat_TNTTotallyFolded;
 			TNTTotallyFolded_node_c3.PointOfDefinition = pat_TNTTotallyFolded;
@@ -1670,11 +1531,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -1704,6 +1565,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNTChain_EdgeNums { };
 		public enum TNTChain_SubNums { @_subpattern0, @_subpattern1, };
 		public enum TNTChain_AltNums { };
+		PatternGraph pat_TNTChain;
+
 
 #if INITIAL_WARMUP
 		public Rule_TNTChain()
@@ -1712,7 +1575,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "TNTChain";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1721,7 +1583,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_TNTChain;
 			bool[,] TNTChain_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -1761,6 +1622,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				TNTChain_isNodeHomomorphicGlobal,
 				TNTChain_isEdgeHomomorphicGlobal
 			);
+
 			TNTChain_node_c1.PointOfDefinition = pat_TNTChain;
 			TNTChain_node_c2.PointOfDefinition = pat_TNTChain;
 			TNTChain_node_c3.PointOfDefinition = pat_TNTChain;
@@ -1775,11 +1637,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -1799,6 +1661,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum ToluolCore_EdgeNums { };
 		public enum ToluolCore_SubNums { @_subpattern0, @_subpattern1, };
 		public enum ToluolCore_AltNums { };
+		PatternGraph pat_ToluolCore;
+
 
 #if INITIAL_WARMUP
 		public Rule_ToluolCore()
@@ -1807,7 +1671,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "ToluolCore";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1816,7 +1679,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_ToluolCore;
 			bool[,] ToluolCore_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -1841,6 +1703,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				ToluolCore_isNodeHomomorphicGlobal,
 				ToluolCore_isEdgeHomomorphicGlobal
 			);
+
 			ToluolCore_node_c1.PointOfDefinition = pat_ToluolCore;
 			ToluolCore__subpattern0.PointOfDefinition = pat_ToluolCore;
 			ToluolCore__subpattern1.PointOfDefinition = pat_ToluolCore;
@@ -1850,11 +1713,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -1874,6 +1737,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum ToluolCoreNotC6Nitro_EdgeNums { };
 		public enum ToluolCoreNotC6Nitro_SubNums { @_subpattern0, @_subpattern1, };
 		public enum ToluolCoreNotC6Nitro_AltNums { };
+		PatternGraph pat_ToluolCoreNotC6Nitro;
+
 
 #if INITIAL_WARMUP
 		public Rule_ToluolCoreNotC6Nitro()
@@ -1882,7 +1747,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "ToluolCoreNotC6Nitro";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1891,7 +1755,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_ToluolCoreNotC6Nitro;
 			bool[,] ToluolCoreNotC6Nitro_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -1916,6 +1779,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				ToluolCoreNotC6Nitro_isNodeHomomorphicGlobal,
 				ToluolCoreNotC6Nitro_isEdgeHomomorphicGlobal
 			);
+
 			ToluolCoreNotC6Nitro_node_c1.PointOfDefinition = pat_ToluolCoreNotC6Nitro;
 			ToluolCoreNotC6Nitro__subpattern0.PointOfDefinition = pat_ToluolCoreNotC6Nitro;
 			ToluolCoreNotC6Nitro__subpattern1.PointOfDefinition = pat_ToluolCoreNotC6Nitro;
@@ -1925,11 +1789,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -1959,6 +1823,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Toluol_EdgeNums { };
 		public enum Toluol_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, @_subpattern6, };
 		public enum Toluol_AltNums { };
+		PatternGraph pat_Toluol;
+
 
 #if INITIAL_WARMUP
 		public Rule_Toluol()
@@ -1967,7 +1833,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "Toluol";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1976,7 +1841,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_Toluol;
 			bool[,] Toluol_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -2021,6 +1885,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				Toluol_isNodeHomomorphicGlobal,
 				Toluol_isEdgeHomomorphicGlobal
 			);
+
 			Toluol_node_c1.PointOfDefinition = pat_Toluol;
 			Toluol_node_c2.PointOfDefinition = pat_Toluol;
 			Toluol_node_c3.PointOfDefinition = pat_Toluol;
@@ -2040,11 +1905,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -2092,6 +1957,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNT_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, };
 		public enum TNT_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, };
 		public enum TNT_AltNums { };
+		PatternGraph pat_TNT;
+
 
 #if INITIAL_WARMUP
 		public Rule_TNT()
@@ -2100,7 +1967,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "TNT";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2109,7 +1975,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_TNT;
 			bool[,] TNT_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -2200,6 +2065,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNT.edgeToTargetNode.Add(TNT_edge__edge7, TNT_node_c4);
 			pat_TNT.edgeToSourceNode.Add(TNT_edge__edge8, TNT_node_c5);
 			pat_TNT.edgeToTargetNode.Add(TNT_edge__edge8, TNT_node_c6);
+
 			TNT_node_c1.PointOfDefinition = pat_TNT;
 			TNT_node_c2.PointOfDefinition = pat_TNT;
 			TNT_node_c3.PointOfDefinition = pat_TNT;
@@ -2227,11 +2093,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -2339,6 +2205,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNTUnfolded_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, @_edge9, @_edge10, @_edge11, @_edge12, @_edge13, @_edge14, @_edge15, @_edge16, @_edge17, @_edge18, @_edge19, @_edge20, @_edge21, @_edge22, @_edge23, };
 		public enum TNTUnfolded_SubNums { };
 		public enum TNTUnfolded_AltNums { };
+		PatternGraph pat_TNTUnfolded;
+
 
 #if INITIAL_WARMUP
 		public Rule_TNTUnfolded()
@@ -2347,7 +2215,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "TNTUnfolded";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2356,7 +2223,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_TNTUnfolded;
 			bool[,] TNTUnfolded_isNodeHomomorphicGlobal = new bool[21, 21] {
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -2561,6 +2427,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNTUnfolded.edgeToTargetNode.Add(TNTUnfolded_edge__edge22, TNTUnfolded_node__node9);
 			pat_TNTUnfolded.edgeToSourceNode.Add(TNTUnfolded_edge__edge23, TNTUnfolded_node_n6);
 			pat_TNTUnfolded.edgeToTargetNode.Add(TNTUnfolded_edge__edge23, TNTUnfolded_node__node10);
+
 			TNTUnfolded_node_c1.PointOfDefinition = pat_TNTUnfolded;
 			TNTUnfolded_node_c2.PointOfDefinition = pat_TNTUnfolded;
 			TNTUnfolded_node_c3.PointOfDefinition = pat_TNTUnfolded;
@@ -2612,11 +2479,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -2634,6 +2501,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum createTNT_EdgeNums { };
 		public enum createTNT_SubNums { };
 		public enum createTNT_AltNums { };
+		PatternGraph pat_createTNT;
+
 
 #if INITIAL_WARMUP
 		public Rule_createTNT()
@@ -2642,7 +2511,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "createTNT";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2651,7 +2519,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_createTNT;
 			bool[,] createTNT_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createTNT_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_createTNT = new PatternGraph(
@@ -2669,6 +2536,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				createTNT_isNodeHomomorphicGlobal,
 				createTNT_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_createTNT;
 		}
@@ -2818,6 +2686,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum DNT_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, };
 		public enum DNT_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, };
 		public enum DNT_AltNums { };
+		PatternGraph pat_DNT;
+
 
 #if INITIAL_WARMUP
 		public Rule_DNT()
@@ -2826,7 +2696,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "DNT";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2835,7 +2704,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_DNT;
 			bool[,] DNT_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -2926,6 +2794,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_DNT.edgeToTargetNode.Add(DNT_edge__edge7, DNT_node_c4);
 			pat_DNT.edgeToSourceNode.Add(DNT_edge__edge8, DNT_node_c5);
 			pat_DNT.edgeToTargetNode.Add(DNT_edge__edge8, DNT_node_c6);
+
 			DNT_node_c1.PointOfDefinition = pat_DNT;
 			DNT_node_c2.PointOfDefinition = pat_DNT;
 			DNT_node_c3.PointOfDefinition = pat_DNT;
@@ -2953,11 +2822,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -3057,6 +2926,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum DNTUnfolded_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, @_edge9, @_edge10, @_edge11, @_edge12, @_edge13, @_edge14, @_edge15, @_edge16, @_edge17, @_edge18, @_edge19, @_edge20, @_edge21, };
 		public enum DNTUnfolded_SubNums { };
 		public enum DNTUnfolded_AltNums { };
+		PatternGraph pat_DNTUnfolded;
+
 
 #if INITIAL_WARMUP
 		public Rule_DNTUnfolded()
@@ -3065,7 +2936,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "DNTUnfolded";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -3074,7 +2944,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_DNTUnfolded;
 			bool[,] DNTUnfolded_isNodeHomomorphicGlobal = new bool[19, 19] {
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -3263,6 +3132,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_DNTUnfolded.edgeToTargetNode.Add(DNTUnfolded_edge__edge20, DNTUnfolded_node__node8);
 			pat_DNTUnfolded.edgeToSourceNode.Add(DNTUnfolded_edge__edge21, DNTUnfolded_node_c6);
 			pat_DNTUnfolded.edgeToTargetNode.Add(DNTUnfolded_edge__edge21, DNTUnfolded_node__node9);
+
 			DNTUnfolded_node_c1.PointOfDefinition = pat_DNTUnfolded;
 			DNTUnfolded_node_c2.PointOfDefinition = pat_DNTUnfolded;
 			DNTUnfolded_node_c3.PointOfDefinition = pat_DNTUnfolded;
@@ -3310,11 +3180,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -3332,6 +3202,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum createDNT_EdgeNums { };
 		public enum createDNT_SubNums { };
 		public enum createDNT_AltNums { };
+		PatternGraph pat_createDNT;
+
 
 #if INITIAL_WARMUP
 		public Rule_createDNT()
@@ -3340,7 +3212,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "createDNT";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -3349,7 +3220,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_createDNT;
 			bool[,] createDNT_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createDNT_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_createDNT = new PatternGraph(
@@ -3367,6 +3237,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				createDNT_isNodeHomomorphicGlobal,
 				createDNT_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_createDNT;
 		}
@@ -3508,6 +3379,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNB_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, };
 		public enum TNB_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, };
 		public enum TNB_AltNums { };
+		PatternGraph pat_TNB;
+
 
 #if INITIAL_WARMUP
 		public Rule_TNB()
@@ -3516,7 +3389,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "TNB";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -3525,7 +3397,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_TNB;
 			bool[,] TNB_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, },
@@ -3616,6 +3487,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNB.edgeToTargetNode.Add(TNB_edge__edge7, TNB_node_c4);
 			pat_TNB.edgeToSourceNode.Add(TNB_edge__edge8, TNB_node_c5);
 			pat_TNB.edgeToTargetNode.Add(TNB_edge__edge8, TNB_node_c6);
+
 			TNB_node_c1.PointOfDefinition = pat_TNB;
 			TNB_node_c2.PointOfDefinition = pat_TNB;
 			TNB_node_c3.PointOfDefinition = pat_TNB;
@@ -3643,11 +3515,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -3743,6 +3615,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNBUnfolded_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, @_edge9, @_edge10, @_edge11, @_edge12, @_edge13, @_edge14, @_edge15, @_edge16, @_edge17, @_edge18, @_edge19, @_edge20, };
 		public enum TNBUnfolded_SubNums { };
 		public enum TNBUnfolded_AltNums { };
+		PatternGraph pat_TNBUnfolded;
+
 
 #if INITIAL_WARMUP
 		public Rule_TNBUnfolded()
@@ -3751,7 +3625,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "TNBUnfolded";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -3760,7 +3633,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_TNBUnfolded;
 			bool[,] TNBUnfolded_isNodeHomomorphicGlobal = new bool[18, 18] {
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -3941,6 +3813,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNBUnfolded.edgeToTargetNode.Add(TNBUnfolded_edge__edge19, TNBUnfolded_node__node7);
 			pat_TNBUnfolded.edgeToSourceNode.Add(TNBUnfolded_edge__edge20, TNBUnfolded_node_n6);
 			pat_TNBUnfolded.edgeToTargetNode.Add(TNBUnfolded_edge__edge20, TNBUnfolded_node__node8);
+
 			TNBUnfolded_node_c1.PointOfDefinition = pat_TNBUnfolded;
 			TNBUnfolded_node_c2.PointOfDefinition = pat_TNBUnfolded;
 			TNBUnfolded_node_c3.PointOfDefinition = pat_TNBUnfolded;
@@ -3986,11 +3859,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -4008,6 +3881,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum createTNB_EdgeNums { };
 		public enum createTNB_SubNums { };
 		public enum createTNB_AltNums { };
+		PatternGraph pat_createTNB;
+
 
 #if INITIAL_WARMUP
 		public Rule_createTNB()
@@ -4016,7 +3891,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 #endif
 		{
 			name = "createTNB";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -4025,7 +3899,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_createTNB;
 			bool[,] createTNB_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createTNB_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_createTNB = new PatternGraph(
@@ -4043,6 +3916,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				createTNB_isNodeHomomorphicGlobal,
 				createTNB_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_createTNB;
 		}

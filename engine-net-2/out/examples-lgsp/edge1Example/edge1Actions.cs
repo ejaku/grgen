@@ -16,6 +16,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum init_EdgeNums { };
 		public enum init_SubNums { };
 		public enum init_AltNums { };
+		PatternGraph pat_init;
+
 
 #if INITIAL_WARMUP
 		public Rule_init()
@@ -24,7 +26,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 #endif
 		{
 			name = "init";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -33,7 +34,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_init;
 			bool[,] init_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] init_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_init = new PatternGraph(
@@ -51,6 +51,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				init_isNodeHomomorphicGlobal,
 				init_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_init;
 		}
@@ -92,6 +93,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum init2_EdgeNums { };
 		public enum init2_SubNums { };
 		public enum init2_AltNums { };
+		PatternGraph pat_init2;
+
 
 #if INITIAL_WARMUP
 		public Rule_init2()
@@ -100,7 +103,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 #endif
 		{
 			name = "init2";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -109,7 +111,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_init2;
 			bool[,] init2_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] init2_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_init2 = new PatternGraph(
@@ -127,6 +128,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				init2_isNodeHomomorphicGlobal,
 				init2_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_init2;
 		}
@@ -166,6 +168,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum init3_EdgeNums { };
 		public enum init3_SubNums { };
 		public enum init3_AltNums { };
+		PatternGraph pat_init3;
+
 
 #if INITIAL_WARMUP
 		public Rule_init3()
@@ -174,7 +178,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 #endif
 		{
 			name = "init3";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -183,7 +186,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_init3;
 			bool[,] init3_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] init3_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			pat_init3 = new PatternGraph(
@@ -201,6 +203,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				init3_isNodeHomomorphicGlobal,
 				init3_isEdgeHomomorphicGlobal
 			);
+
 
 			patternGraph = pat_init3;
 		}
@@ -248,6 +251,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findUndirectedEdge_EdgeNums { @_edge0, };
 		public enum findUndirectedEdge_SubNums { };
 		public enum findUndirectedEdge_AltNums { };
+		PatternGraph pat_findUndirectedEdge;
+
 
 #if INITIAL_WARMUP
 		public Rule_findUndirectedEdge()
@@ -256,7 +261,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 #endif
 		{
 			name = "findUndirectedEdge";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -265,7 +269,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_findUndirectedEdge;
 			bool[,] findUndirectedEdge_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -298,6 +301,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			);
 			pat_findUndirectedEdge.edgeToSourceNode.Add(findUndirectedEdge_edge__edge0, findUndirectedEdge_node_x);
 			pat_findUndirectedEdge.edgeToTargetNode.Add(findUndirectedEdge_edge__edge0, findUndirectedEdge_node_y);
+
 			findUndirectedEdge_node_x.PointOfDefinition = pat_findUndirectedEdge;
 			findUndirectedEdge_node_y.PointOfDefinition = pat_findUndirectedEdge;
 			findUndirectedEdge_edge__edge0.PointOfDefinition = pat_findUndirectedEdge;
@@ -307,11 +311,11 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -335,6 +339,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findArbitraryEdge_EdgeNums { @_edge0, };
 		public enum findArbitraryEdge_SubNums { };
 		public enum findArbitraryEdge_AltNums { };
+		PatternGraph pat_findArbitraryEdge;
+
 
 #if INITIAL_WARMUP
 		public Rule_findArbitraryEdge()
@@ -343,7 +349,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 #endif
 		{
 			name = "findArbitraryEdge";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -352,7 +357,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_findArbitraryEdge;
 			bool[,] findArbitraryEdge_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -385,6 +389,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			);
 			pat_findArbitraryEdge.edgeToSourceNode.Add(findArbitraryEdge_edge__edge0, findArbitraryEdge_node_x);
 			pat_findArbitraryEdge.edgeToTargetNode.Add(findArbitraryEdge_edge__edge0, findArbitraryEdge_node_y);
+
 			findArbitraryEdge_node_x.PointOfDefinition = pat_findArbitraryEdge;
 			findArbitraryEdge_node_y.PointOfDefinition = pat_findArbitraryEdge;
 			findArbitraryEdge_edge__edge0.PointOfDefinition = pat_findArbitraryEdge;
@@ -394,11 +399,11 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -422,6 +427,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findArbitraryDirectedEdge_EdgeNums { @_edge0, };
 		public enum findArbitraryDirectedEdge_SubNums { };
 		public enum findArbitraryDirectedEdge_AltNums { };
+		PatternGraph pat_findArbitraryDirectedEdge;
+
 
 #if INITIAL_WARMUP
 		public Rule_findArbitraryDirectedEdge()
@@ -430,7 +437,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 #endif
 		{
 			name = "findArbitraryDirectedEdge";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -439,7 +445,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_findArbitraryDirectedEdge;
 			bool[,] findArbitraryDirectedEdge_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -472,6 +477,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			);
 			pat_findArbitraryDirectedEdge.edgeToSourceNode.Add(findArbitraryDirectedEdge_edge__edge0, findArbitraryDirectedEdge_node_x);
 			pat_findArbitraryDirectedEdge.edgeToTargetNode.Add(findArbitraryDirectedEdge_edge__edge0, findArbitraryDirectedEdge_node_y);
+
 			findArbitraryDirectedEdge_node_x.PointOfDefinition = pat_findArbitraryDirectedEdge;
 			findArbitraryDirectedEdge_node_y.PointOfDefinition = pat_findArbitraryDirectedEdge;
 			findArbitraryDirectedEdge_edge__edge0.PointOfDefinition = pat_findArbitraryDirectedEdge;
@@ -481,11 +487,11 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -507,6 +513,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findArbitraryDirectedReflexiveEdge_EdgeNums { @_edge0, };
 		public enum findArbitraryDirectedReflexiveEdge_SubNums { };
 		public enum findArbitraryDirectedReflexiveEdge_AltNums { };
+		PatternGraph pat_findArbitraryDirectedReflexiveEdge;
+
 
 #if INITIAL_WARMUP
 		public Rule_findArbitraryDirectedReflexiveEdge()
@@ -515,7 +523,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 #endif
 		{
 			name = "findArbitraryDirectedReflexiveEdge";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -524,7 +531,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_findArbitraryDirectedReflexiveEdge;
 			bool[,] findArbitraryDirectedReflexiveEdge_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -554,6 +560,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			);
 			pat_findArbitraryDirectedReflexiveEdge.edgeToSourceNode.Add(findArbitraryDirectedReflexiveEdge_edge__edge0, findArbitraryDirectedReflexiveEdge_node_x);
 			pat_findArbitraryDirectedReflexiveEdge.edgeToTargetNode.Add(findArbitraryDirectedReflexiveEdge_edge__edge0, findArbitraryDirectedReflexiveEdge_node_x);
+
 			findArbitraryDirectedReflexiveEdge_node_x.PointOfDefinition = pat_findArbitraryDirectedReflexiveEdge;
 			findArbitraryDirectedReflexiveEdge_edge__edge0.PointOfDefinition = pat_findArbitraryDirectedReflexiveEdge;
 
@@ -562,11 +569,11 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -592,6 +599,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_EdgeNums { @_edge0, @_edge1, };
 		public enum findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_SubNums { };
 		public enum findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_AltNums { };
+		PatternGraph pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
+
 
 #if INITIAL_WARMUP
 		public Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne()
@@ -600,7 +609,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 #endif
 		{
 			name = "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -609,7 +617,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
 			bool[,] findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -647,6 +654,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.edgeToTargetNode.Add(findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y);
 			pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.edgeToSourceNode.Add(findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y);
 			pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.edgeToTargetNode.Add(findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y);
+
 			findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x.PointOfDefinition = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
 			findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.PointOfDefinition = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
 			findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0.PointOfDefinition = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
@@ -657,11 +665,11 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -689,6 +697,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findArbitraryDirectedTriple_EdgeNums { @_edge0, @_edge1, };
 		public enum findArbitraryDirectedTriple_SubNums { };
 		public enum findArbitraryDirectedTriple_AltNums { };
+		PatternGraph pat_findArbitraryDirectedTriple;
+
 
 #if INITIAL_WARMUP
 		public Rule_findArbitraryDirectedTriple()
@@ -697,7 +707,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 #endif
 		{
 			name = "findArbitraryDirectedTriple";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -706,7 +715,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_findArbitraryDirectedTriple;
 			bool[,] findArbitraryDirectedTriple_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -747,6 +755,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedTriple.edgeToTargetNode.Add(findArbitraryDirectedTriple_edge__edge0, findArbitraryDirectedTriple_node__node1);
 			pat_findArbitraryDirectedTriple.edgeToSourceNode.Add(findArbitraryDirectedTriple_edge__edge1, findArbitraryDirectedTriple_node__node1);
 			pat_findArbitraryDirectedTriple.edgeToTargetNode.Add(findArbitraryDirectedTriple_edge__edge1, findArbitraryDirectedTriple_node__node2);
+
 			findArbitraryDirectedTriple_node__node0.PointOfDefinition = pat_findArbitraryDirectedTriple;
 			findArbitraryDirectedTriple_node__node1.PointOfDefinition = pat_findArbitraryDirectedTriple;
 			findArbitraryDirectedTriple_node__node2.PointOfDefinition = pat_findArbitraryDirectedTriple;
@@ -758,11 +767,11 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -786,6 +795,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findDirectedEdge_EdgeNums { @_edge0, };
 		public enum findDirectedEdge_SubNums { };
 		public enum findDirectedEdge_AltNums { };
+		PatternGraph pat_findDirectedEdge;
+
 
 #if INITIAL_WARMUP
 		public Rule_findDirectedEdge()
@@ -794,7 +805,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 #endif
 		{
 			name = "findDirectedEdge";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -803,7 +813,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_findDirectedEdge;
 			bool[,] findDirectedEdge_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -836,6 +845,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			);
 			pat_findDirectedEdge.edgeToSourceNode.Add(findDirectedEdge_edge__edge0, findDirectedEdge_node_x);
 			pat_findDirectedEdge.edgeToTargetNode.Add(findDirectedEdge_edge__edge0, findDirectedEdge_node_y);
+
 			findDirectedEdge_node_x.PointOfDefinition = pat_findDirectedEdge;
 			findDirectedEdge_node_y.PointOfDefinition = pat_findDirectedEdge;
 			findDirectedEdge_edge__edge0.PointOfDefinition = pat_findDirectedEdge;
@@ -845,11 +855,11 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
@@ -879,6 +889,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findTripleCircle_EdgeNums { @_edge0, @_edge1, @_edge2, };
 		public enum findTripleCircle_SubNums { };
 		public enum findTripleCircle_AltNums { };
+		PatternGraph pat_findTripleCircle;
+
 
 #if INITIAL_WARMUP
 		public Rule_findTripleCircle()
@@ -887,7 +899,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 #endif
 		{
 			name = "findTripleCircle";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -896,7 +907,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_findTripleCircle;
 			bool[,] findTripleCircle_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -942,6 +952,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findTripleCircle.edgeToTargetNode.Add(findTripleCircle_edge__edge1, findTripleCircle_node_z);
 			pat_findTripleCircle.edgeToSourceNode.Add(findTripleCircle_edge__edge2, findTripleCircle_node_z);
 			pat_findTripleCircle.edgeToTargetNode.Add(findTripleCircle_edge__edge2, findTripleCircle_node_x);
+
 			findTripleCircle_node_x.PointOfDefinition = pat_findTripleCircle;
 			findTripleCircle_node_y.PointOfDefinition = pat_findTripleCircle;
 			findTripleCircle_node_z.PointOfDefinition = pat_findTripleCircle;
@@ -954,11 +965,11 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test does not have modifications
+		{  // test without modifications
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};

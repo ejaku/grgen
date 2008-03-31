@@ -57,18 +57,14 @@ public class ActionsGen extends CSharpBase {
 		sb.append("namespace de.unika.ipd.grGen.Action_" + be.unit.getUnitName() + "\n");
 		sb.append("{\n");
 
-		for(Action action : be.patternMap.keySet())
-			if(action instanceof MatchingAction)
-				genSubpattern(sb, (MatchingAction) action);
-			else
-				throw new IllegalArgumentException("Unknown Subpattern: " + action);
+		for(Rule subpatternRule : be.subpatternRuleMap.keySet()) {
+			genSubpattern(sb, subpatternRule);
+		}
 
-		for(Action action : be.actionMap.keySet())
-			if(action instanceof MatchingAction)
-				genAction(sb, (MatchingAction) action);
-			else
-				throw new IllegalArgumentException("Unknown Action: " + action);
-
+		for(Rule actionRule : be.actionRuleMap.keySet()) {
+			genAction(sb, actionRule);
+		}
+		
 		sb.append("// GrGen insert Actions here\n");
 		sb.append("}\n");
 
@@ -76,37 +72,28 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	/**
-	 * Generates the subpattern actions sourcecode for the given matching-action
+	 * Generates the subpattern actions sourcecode for the given subpattern-matching-action
 	 */
-	private void genSubpattern(StringBuffer sb, MatchingAction action) {
-		String actionName = formatIdentifiable(action);
+	private void genSubpattern(StringBuffer sb, Rule subpatternRule) {
+		String actionName = formatIdentifiable(subpatternRule);
 
-		sb.append("\tpublic class Pattern_" + actionName + " : LGSPRulePattern\n");
+		sb.append("\tpublic class Pattern_" + actionName + " : LGSPMatchingPattern\n");
 		sb.append("\t{\n");
 		sb.append("\t\tprivate static Pattern_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
 		sb.append("\t\tpublic static Pattern_" + actionName + " Instance { get { if (instance==null) { instance = new Pattern_" + actionName + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
-		String patGraphVarName = "pat_" + action.getPattern().getNameOfGraph();
-		genTypeConditionsAndEnums(sb, action.getPattern(), patGraphVarName,
-				action.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
+		String patGraphVarName = "pat_" + subpatternRule.getPattern().getNameOfGraph();
+		genTypeConditionsAndEnums(sb, subpatternRule.getPattern(), patGraphVarName,
+				subpatternRule.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
 		sb.append("\n");
-		genRuleOrSubpatternInit(sb, action, true);
+		genRuleOrSubpatternInit(sb, subpatternRule, true);
 		sb.append("\n");
-		genActionConditions(sb, action);
+		genActionConditions(sb, subpatternRule);
 		sb.append("\n");
 
-		if(action instanceof Rule) {
-			Rule rule = (Rule) action;
+		Rule rule = (Rule) subpatternRule;
 
-			mg.genSubpatternModify(sb, rule);
-
-			mg.genAddedGraphElementsArray(sb, rule.getRight()!=null);
-
-			//genEmit(sb, rule, true);
-		}
-		else {
-			throw new IllegalArgumentException("Unknown subpattern action type: " + action);
-		}
+		mg.genModify(sb, rule, true);
 
 		sb.append("\t}\n");
 		sb.append("\n");
@@ -115,36 +102,31 @@ public class ActionsGen extends CSharpBase {
 	/**
 	 * Generates the actions sourcecode for the given matching-action
 	 */
-	private void genAction(StringBuffer sb, MatchingAction action) {
-		String actionName = formatIdentifiable(action);
+	private void genAction(StringBuffer sb, Rule actionRule) {
+		String actionName = formatIdentifiable(actionRule);
 
 		sb.append("\tpublic class Rule_" + actionName + " : LGSPRulePattern\n");
 		sb.append("\t{\n");
 		sb.append("\t\tprivate static Rule_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
 		sb.append("\t\tpublic static Rule_" + actionName + " Instance { get { if (instance==null) { instance = new Rule_" + actionName + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
-		String patGraphVarName = "pat_" + action.getPattern().getNameOfGraph();
-		genTypeConditionsAndEnums(sb, action.getPattern(), patGraphVarName,
-				action.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
+		String patGraphVarName = "pat_" + actionRule.getPattern().getNameOfGraph();
+		genTypeConditionsAndEnums(sb, actionRule.getPattern(), patGraphVarName,
+				actionRule.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
 		sb.append("\n");
-		genRuleOrSubpatternInit(sb, action, false);
+		genRuleOrSubpatternInit(sb, actionRule, false);
 		sb.append("\n");
-		genActionConditions(sb, action);
+		genActionConditions(sb, actionRule);
 		sb.append("\n");
 
-		if(action instanceof Rule) {
-			Rule rule = (Rule) action;
+		Rule rule = (Rule) actionRule;
 
-			mg.genRuleOrTestModify(sb, rule);
+		mg.genModify(sb, rule, false);
 
-			mg.genAddedGraphElementsArray(sb, rule.getRight()!=null);
+		mg.genAddedGraphElementsArray(sb, rule.getRight()!=null);
 
-			if(rule.getRight()!=null) {
-				genEmit(sb, rule, false);
-			}
-		}
-		else {
-			throw new IllegalArgumentException("Unknown action type: " + action);
+		if(rule.getRight()!=null) {
+			genEmit(sb, rule, false);
 		}
 
 		sb.append("\t}\n");
@@ -328,9 +310,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("#endif\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tname = \"" + formatIdentifiable(action) + "\";\n");
-		sb.append("\t\t\tisSubpattern = " + (isSubpattern ? "true" : "false") + ";\n");
 		sb.append("\n");
-		genRuleParamResult(sb, action);
+		genRuleParamResult(sb, action, isSubpattern);
 		sb.append("\t\t}\n");
 
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
@@ -538,6 +519,8 @@ public class ActionsGen extends CSharpBase {
 			sb.append(parameters.indexOf(node)+");\n");
 			alreadyDefinedEntityToName.put(node, nodeName);
 			aux.append("\t\t\t" + nodeName + ".PointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
+			
+			node.setPointOfDefinition(pattern);
 		}
 
 		for(Edge edge : pattern.getEdges()) {
@@ -555,6 +538,8 @@ public class ActionsGen extends CSharpBase {
 			sb.append(parameters.indexOf(edge)+");\n");
 			alreadyDefinedEntityToName.put(edge, edgeName);
 			aux.append("\t\t\t" + edgeName + ".PointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
+			
+			edge.setPointOfDefinition(pattern);
 		}
 
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
@@ -629,7 +614,7 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	private void genRuleParamResult(StringBuffer sb, MatchingAction action) {
+	private void genRuleParamResult(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
 		sb.append("\t\t\tinputs = new GrGenType[] { ");
 		for(Entity ent : action.getParameters())
 			sb.append(formatTypeClass(ent.getType()) + ".typeVar, ");
@@ -640,15 +625,17 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\"" + formatEntity(ent, action.getPattern().getNameOfGraph()+"_") + "\", ");
 		sb.append("};\n");
 
-		sb.append("\t\t\toutputs = new GrGenType[] { ");
-		for(Entity ent : action.getReturns())
-			sb.append(formatTypeClass(ent.getType()) + ".typeVar, ");
-		sb.append("};\n");
-
-		sb.append("\t\t\toutputNames = new string[] { ");
-		for(Entity ent : action.getReturns())
-			sb.append("\"" + formatEntity(ent, action.getPattern().getNameOfGraph()+"_") + "\", ");
-		sb.append("};\n");
+		if(!isSubpattern) {
+			sb.append("\t\t\toutputs = new GrGenType[] { ");
+			for(Entity ent : action.getReturns())
+				sb.append(formatTypeClass(ent.getType()) + ".typeVar, ");
+			sb.append("};\n");
+	
+			sb.append("\t\t\toutputNames = new string[] { ");
+			for(Entity ent : action.getReturns())
+				sb.append("\"" + formatEntity(ent, action.getPattern().getNameOfGraph()+"_") + "\", ");
+			sb.append("};\n");
+		}
 	}
 
 	private void genEmit(StringBuffer sb, Rule rule, boolean isSubpattern) {

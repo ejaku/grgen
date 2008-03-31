@@ -3178,17 +3178,25 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class NewMatchesListForFollowingMatches : SearchProgramOperation
     {
-        public NewMatchesListForFollowingMatches()
+        public NewMatchesListForFollowingMatches(bool onlyIfMatchWasFound)
         {
+            OnlyIfMatchWasFound = onlyIfMatchWasFound;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("NewMatchesListForFollowingMatches\n");
+            builder.AppendFrontFormat("NewMatchesListForFollowingMatches {0}\n",
+                OnlyIfMatchWasFound ? "if match was found" : "");
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            if (OnlyIfMatchWasFound)
+            {
+                sourceCode.AppendFront("if(matchesList.Count>0) {\n");
+                sourceCode.Indent();
+            }
+
             sourceCode.AppendFront("if(matchesList==foundPartialMatches) {\n");
             sourceCode.AppendFront("    matchesList = new List<Stack<LGSPMatch>>();\n");
             sourceCode.AppendFront("} else {\n");
@@ -3197,7 +3205,15 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("    }\n");
             sourceCode.AppendFront("    matchesList.Clear();\n");
             sourceCode.AppendFront("}\n");
+
+            if (OnlyIfMatchWasFound)
+            {
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
         }
+
+        public bool OnlyIfMatchWasFound;
     }
 
     /// <summary>

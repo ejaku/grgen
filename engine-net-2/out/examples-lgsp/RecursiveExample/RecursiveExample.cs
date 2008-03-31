@@ -24,9 +24,10 @@ namespace Recursive
             LGSPAction createChain = Action_createChain.Instance;
             matches = createChain.Match(graph, 0, null);
             returns = createChain.Modify(graph, matches.matchesList.First);
-            Node_Node[] head = new Node_Node[1];
-            head[0] = (Node_Node)returns[0];
-            matches = actions.GetAction("chainFrom").Match(graph, 0, head);
+            Node_Node[] param = new Node_Node[2];
+            param[0] = (Node_Node)returns[0];
+            param[1] = (Node_Node)returns[1];
+            matches = actions.GetAction("chainFromToReverseToCommon").Match(graph, 0, param);
             Console.WriteLine(matches.Count + " matches found.");
 
             LGSPAction createBlowball = Action_createBlowball.Instance;

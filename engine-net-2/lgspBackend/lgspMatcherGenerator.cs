@@ -1219,44 +1219,44 @@ exitSecondLoop: ;
         /// <summary>
         /// Generates the matcher source code for the given rule pattern into the given source builder
         /// </summary>
-        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPRulePattern rulePattern,
+        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPMatchingPattern matchingPattern,
             bool isInitialStatic)
         {
             // generate the search program out of the schedule within the pattern graph of the rule
-            SearchProgram searchProgram = GenerateSearchProgram(rulePattern);
+            SearchProgram searchProgram = GenerateSearchProgram(matchingPattern);
 
             // emit matcher class head, body, tail; body is source code representing search program
-            if(rulePattern.isSubpattern)
-                GenerateMatcherClassHeadSubpattern(sb, rulePattern, isInitialStatic);
+            if(matchingPattern is LGSPRulePattern)
+                GenerateMatcherClassHeadAction(sb, (LGSPRulePattern)matchingPattern, isInitialStatic);
             else
-                GenerateMatcherClassHeadAction(sb, rulePattern, isInitialStatic);
+                GenerateMatcherClassHeadSubpattern(sb, matchingPattern, isInitialStatic);
             searchProgram.Emit(sb);
             GenerateMatcherClassTail(sb);
 
             // finally generate matcher source for all the nested alternatives of the pattern graph
             // nested alternatives are the direct alternatives and their nested alternatives
-            foreach(Alternative alt in rulePattern.patternGraph.alternatives)
+            foreach(Alternative alt in matchingPattern.patternGraph.alternatives)
             {
-                GenerateMatcherSourceCode(sb, rulePattern, alt, isInitialStatic);
+                GenerateMatcherSourceCode(sb, matchingPattern, alt, isInitialStatic);
             }
             // or the alternatives nested within the negatives
-            foreach (PatternGraph neg in rulePattern.patternGraph.negativePatternGraphs)
+            foreach (PatternGraph neg in matchingPattern.patternGraph.negativePatternGraphs)
             {
-                GenerateMatcherSourceCode(sb, rulePattern, neg, isInitialStatic);
+                GenerateMatcherSourceCode(sb, matchingPattern, neg, isInitialStatic);
             }
         }
 
         /// <summary>
         /// Generates the matcher source code for the given alternative into the given source builder
         /// </summary>
-        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPRulePattern rulePattern,
+        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPMatchingPattern matchingPattern,
             Alternative alt, bool isInitialStatic)
         {
             // generate the search program out of the schedules within the pattern graphs of the alternative cases
-            SearchProgram searchProgram = GenerateSearchProgram(rulePattern, alt);
+            SearchProgram searchProgram = GenerateSearchProgram(matchingPattern, alt);
 
             // emit matcher class head, body, tail; body is source code representing search program
-            GenerateMatcherClassHeadAlternative(sb, rulePattern, alt, isInitialStatic);
+            GenerateMatcherClassHeadAlternative(sb, matchingPattern, alt, isInitialStatic);
             searchProgram.Emit(sb);
             GenerateMatcherClassTail(sb);
 
@@ -1265,11 +1265,11 @@ exitSecondLoop: ;
             {
                 foreach (Alternative nestedAlt in altCase.alternatives)
                 {
-                    GenerateMatcherSourceCode(sb, rulePattern, nestedAlt, isInitialStatic);
+                    GenerateMatcherSourceCode(sb, matchingPattern, nestedAlt, isInitialStatic);
                 }
                 foreach (PatternGraph neg in altCase.negativePatternGraphs)
                 {
-                    GenerateMatcherSourceCode(sb, rulePattern, neg, isInitialStatic);
+                    GenerateMatcherSourceCode(sb, matchingPattern, neg, isInitialStatic);
                 }
             }
         }
@@ -1278,7 +1278,7 @@ exitSecondLoop: ;
         /// Generates the matcher source code for the nested alternatives within the given negative pattern graph
         /// into the given source builder
         /// </summary>
-        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPRulePattern rulePattern,
+        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPMatchingPattern matchingPattern,
             PatternGraph neg, bool isInitialStatic)
         {
             // nothing to do locally ..
@@ -1286,30 +1286,31 @@ exitSecondLoop: ;
             // .. just move on to the nested alternatives
             foreach (Alternative alt in neg.alternatives)
             {
-                GenerateMatcherSourceCode(sb, rulePattern, alt, isInitialStatic);
+                GenerateMatcherSourceCode(sb, matchingPattern, alt, isInitialStatic);
             }
             foreach (PatternGraph nestedNeg in neg.negativePatternGraphs)
             {
-                GenerateMatcherSourceCode(sb, rulePattern, nestedNeg, isInitialStatic);
+                GenerateMatcherSourceCode(sb, matchingPattern, nestedNeg, isInitialStatic);
             }
         }
 
         /// <summary>
         /// Generates the serach program for the pattern graph of the given rule
         /// </summary>
-        SearchProgram GenerateSearchProgram(LGSPRulePattern rulePattern)
+        SearchProgram GenerateSearchProgram(LGSPMatchingPattern matchingPattern)
         {
-            PatternGraph patternGraph = rulePattern.patternGraph;
+            PatternGraph patternGraph = matchingPattern.patternGraph;
             ScheduledSearchPlan scheduledSearchPlan = patternGraph.ScheduleIncludingNegatives;
 
             // build pass: build nested program from scheduled search plan
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
             SearchProgram searchProgram;
-            if(rulePattern.isSubpattern)
-                searchProgram = searchProgramBuilder.BuildSearchProgram(model, rulePattern);
-            else
-                searchProgram = searchProgramBuilder.BuildSearchProgram(model, rulePattern, null, null, null);
-
+            if (matchingPattern is LGSPRulePattern) {
+                searchProgram = searchProgramBuilder.BuildSearchProgram(model, 
+                    (LGSPRulePattern)matchingPattern, null, null, null);
+            } else {
+                searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern);
+            }
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
             SourceBuilder builder = new SourceBuilder(CommentSourceCode);
@@ -1321,9 +1322,9 @@ exitSecondLoop: ;
 
             // build additional: create extra search subprogram per MaybePreset operation;
             // will be called when preset element is not available
-            if (!rulePattern.isSubpattern)
+            if (matchingPattern is LGSPRulePattern)
                 searchProgramBuilder.BuildAddionalSearchSubprograms(
-                    scheduledSearchPlan, searchProgram, rulePattern);
+                    scheduledSearchPlan, searchProgram, (LGSPRulePattern)matchingPattern);
 
             // complete pass: complete check operations in all search programs
             SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
@@ -1344,7 +1345,7 @@ exitSecondLoop: ;
         /// <summary>
         /// Generates the search program for the given alternative 
         /// </summary>
-        SearchProgram GenerateSearchProgram(LGSPRulePattern rulePattern, Alternative alt)
+        SearchProgram GenerateSearchProgram(LGSPMatchingPattern matchingPattern, Alternative alt)
         {
             ScheduledSearchPlan[] scheduledSearchPlans = new ScheduledSearchPlan[alt.alternativeCases.Length];
             int i=0;
@@ -1355,7 +1356,7 @@ exitSecondLoop: ;
 
             // build pass: build nested program from scheduled search plans of the alternative cases
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
-            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, rulePattern, alt);
+            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, alt);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
@@ -1402,7 +1403,6 @@ exitSecondLoop: ;
         /// </summary>
         public void GenerateMatcherClassHeadAction(SourceBuilder sb, LGSPRulePattern rulePattern, bool isInitialStatic)
         {
-            Debug.Assert(!rulePattern.isSubpattern);
             PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
                 
             String namePrefix = (isInitialStatic ? "" : "Dyn") + "Action_";
@@ -1436,13 +1436,13 @@ exitSecondLoop: ;
         /// Generates matcher class head source code for the subpattern of the rulePattern into given source builder
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
-        public void GenerateMatcherClassHeadSubpattern(SourceBuilder sb, LGSPRulePattern rulePattern, bool isInitialStatic)
+        public void GenerateMatcherClassHeadSubpattern(SourceBuilder sb, LGSPMatchingPattern matchingPattern, bool isInitialStatic)
         {
-            Debug.Assert(rulePattern.isSubpattern);
-            PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
+            Debug.Assert(!(matchingPattern is LGSPRulePattern));
+            PatternGraph patternGraph = (PatternGraph)matchingPattern.PatternGraph;
 
             String namePrefix = (isInitialStatic ? "" : "Dyn") + "PatternAction_";
-            String className = namePrefix + rulePattern.name;
+            String className = namePrefix + matchingPattern.name;
 
             sb.AppendFront("public class " + className + " : LGSPSubpatternAction\n");
             sb.AppendFront("{\n");
@@ -1450,7 +1450,7 @@ exitSecondLoop: ;
             sb.AppendFront("public " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {\n");
             sb.Indent(); // method body level
             sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
-            sb.AppendFront("patternGraph = " + rulePattern.GetType().Name + ".Instance.patternGraph;\n");
+            sb.AppendFront("patternGraph = " + matchingPattern.GetType().Name + ".Instance.patternGraph;\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
@@ -1477,9 +1477,9 @@ exitSecondLoop: ;
         /// Generates matcher class head source code for the given alternative into given source builder
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
-        public void GenerateMatcherClassHeadAlternative(SourceBuilder sb, LGSPRulePattern rulePattern, Alternative alternative, bool isInitialStatic)
+        public void GenerateMatcherClassHeadAlternative(SourceBuilder sb, LGSPMatchingPattern matchingPattern, Alternative alternative, bool isInitialStatic)
         {
-            PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
+            PatternGraph patternGraph = (PatternGraph)matchingPattern.PatternGraph;
 
             String namePrefix = (isInitialStatic ? "" : "Dyn") + "AlternativeAction_";
             String className = namePrefix + alternative.pathPrefix+alternative.name;
@@ -1623,10 +1623,10 @@ exitSecondLoop: ;
         /// Computes all, by the given actions directly or indirectly used subpatterns.
         /// returned in set with rulepatterns of the subpatterns, implemented by abused dictionary as .net lacks a set datatype - argggh
         /// </summary>
-        protected Dictionary<LGSPRulePattern, LGSPRulePattern> SubpatternsUsedByTheActions(LGSPAction[] actions)
+        protected Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> SubpatternsUsedByTheActions(LGSPAction[] actions)
         {
             // todo: use more efficient worklist algorithm
-            Dictionary<LGSPRulePattern, LGSPRulePattern> subpatternRules = new Dictionary<LGSPRulePattern, LGSPRulePattern>();
+            Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns = new Dictionary<LGSPMatchingPattern, LGSPMatchingPattern>();
 
             // all directly used subpatterns
             foreach (LGSPAction action in actions)
@@ -1635,23 +1635,23 @@ exitSecondLoop: ;
                     action.RulePattern.PatternGraph.EmbeddedGraphs);
                 for (int i = 0; i < embeddedGraphs.Length; ++i)
                 {
-                    subpatternRules.Add(embeddedGraphs[i].ruleOfEmbeddedGraph, null);
+                    subpatternMatchingPatterns.Add(embeddedGraphs[i].matchingPatternOfEmbeddedGraph, null);
                 }
             }
 
             // transitive closure
-            bool setChanged = subpatternRules.Count != 0;
+            bool setChanged = subpatternMatchingPatterns.Count != 0;
             while (setChanged)
             {
                 setChanged = false;
-                foreach (KeyValuePair<LGSPRulePattern, LGSPRulePattern> subpatternRule in subpatternRules)
+                foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPattern in subpatternMatchingPatterns)
                 {
-                    PatternGraphEmbedding[] embedded = (PatternGraphEmbedding[])subpatternRule.Key.PatternGraph.EmbeddedGraphs;
+                    PatternGraphEmbedding[] embedded = (PatternGraphEmbedding[])subpatternMatchingPattern.Key.PatternGraph.EmbeddedGraphs;
                     for (int i = 0; i < embedded.Length; ++i)
                     {
-                        if (!subpatternRules.ContainsKey(embedded[i].ruleOfEmbeddedGraph))
+                        if (!subpatternMatchingPatterns.ContainsKey(embedded[i].matchingPatternOfEmbeddedGraph))
                         {
-                            subpatternRules.Add(embedded[i].ruleOfEmbeddedGraph, null);
+                            subpatternMatchingPatterns.Add(embedded[i].matchingPatternOfEmbeddedGraph, null);
                             setChanged = true;
                         }
                     }
@@ -1660,7 +1660,7 @@ exitSecondLoop: ;
                 }
             }
 
-            return subpatternRules;
+            return subpatternMatchingPatterns;
         }
 
         /// <summary>
@@ -1676,19 +1676,19 @@ exitSecondLoop: ;
             GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, actions[0].RulePattern.GetType().Namespace);
 
             // use domain of dictionary as set with rulepatterns of the subpatterns of the actions
-            Dictionary<LGSPRulePattern, LGSPRulePattern> subpatternRules;
-            subpatternRules = SubpatternsUsedByTheActions(actions);
+            Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns;
+            subpatternMatchingPatterns = SubpatternsUsedByTheActions(actions);
 
             // generate code for subpatterns
-            foreach (KeyValuePair<LGSPRulePattern, LGSPRulePattern> subpatternRule in subpatternRules)
+            foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPattern in subpatternMatchingPatterns)
             {
-                LGSPRulePattern rulePattern = subpatternRule.Key;
+                LGSPMatchingPattern smp = subpatternMatchingPattern.Key;
 
-                GenerateScheduledSearchPlans(rulePattern.patternGraph, graph, true, false);
+                GenerateScheduledSearchPlans(smp.patternGraph, graph, true, false);
 
-                MergeNegativeSchedulesIntoPositiveSchedules(rulePattern.patternGraph);
+                MergeNegativeSchedulesIntoPositiveSchedules(smp.patternGraph);
 
-                GenerateMatcherSourceCode(sourceCode, rulePattern, false);
+                GenerateMatcherSourceCode(sourceCode, smp, false);
             }
 
             // generate code for actions

@@ -359,10 +359,10 @@ public abstract class CBackend extends IDBase implements Backend {
 		ps.print("};\n");
 	}
 
-	protected void makeActionMap(PrintStream ps, Map<Action, Integer> map) {
+	protected void makeActionMap(PrintStream ps, Map<Rule, Integer> map) {
 		Action[] actions = new Action[map.size()];
 
-		for(Iterator<Action> it = map.keySet().iterator(); it.hasNext();) {
+		for(Iterator<Rule> it = map.keySet().iterator(); it.hasNext();) {
 			Action a = it.next();
 			int index = map.get(a).intValue();
 			actions[index] = a;
@@ -377,7 +377,7 @@ public abstract class CBackend extends IDBase implements Backend {
 			Action a = actions[i];
 			String kind = "gr_action_kind_test";
 
-			if(a instanceof Rule)
+			if(a instanceof Rule && ((Rule)a).getRight()!=null)
 				kind = "gr_action_kind_rule";
 
 			ps.print("  { " + formatString(a.getIdent().toString()) + ", "
@@ -391,9 +391,9 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param sb The string buffer to add the code to.
 	 */
 	protected void makeActions(PrintStream ps) {
-		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext();) {
+		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext();) {
 			MatchingAction a = (MatchingAction) it.next();
-			int id = actionMap.get(a).intValue();
+			int id = actionRuleMap.get(a).intValue();
 			genMatch(ps, a, id);
 			genFinish(ps, a, id);
 		}
@@ -706,7 +706,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		closeFile(ps);
 
 		ps = openFile("actions" + incExtension);
-		makeActionMap(ps, actionMap);
+		makeActionMap(ps, actionRuleMap);
 		closeFile(ps);
 
 		ps = openFile("action_impl" + incExtension);

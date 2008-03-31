@@ -22,6 +22,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum newRule_EdgeNums { @n, };
 		public enum newRule_SubNums { };
 		public enum newRule_AltNums { };
+		PatternGraph pat_newRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_newRule()
@@ -30,7 +32,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "newRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -39,7 +40,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_newRule;
 			bool[,] newRule_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -72,6 +72,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			pat_newRule.edgeToSourceNode.Add(newRule_edge_n, newRule_node_p1);
 			pat_newRule.edgeToTargetNode.Add(newRule_edge_n, newRule_node_p2);
+
 			newRule_node_p1.PointOfDefinition = pat_newRule;
 			newRule_node_p2.PointOfDefinition = pat_newRule;
 			newRule_edge_n.PointOfDefinition = pat_newRule;
@@ -82,9 +83,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p2 = match.Nodes[(int) newRule_NodeNums.@p2];
-			LGSPNode node_p1 = match.Nodes[(int) newRule_NodeNums.@p1];
-			LGSPEdge edge_n = match.Edges[(int) newRule_EdgeNums.@n];
+			LGSPNode node_p2 = match.Nodes[(int)newRule_NodeNums.@p2];
+			LGSPNode node_p1 = match.Nodes[(int)newRule_NodeNums.@p1];
+			LGSPEdge edge_n = match.Edges[(int)newRule_EdgeNums.@n];
 			Node_Process node_p = Node_Process.CreateNode(graph);
 			Edge_next edge_n2;
 			if(edge_n.type == EdgeType_next.typeVar)
@@ -104,9 +105,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p2 = match.Nodes[(int) newRule_NodeNums.@p2];
-			LGSPNode node_p1 = match.Nodes[(int) newRule_NodeNums.@p1];
-			LGSPEdge edge_n = match.Edges[(int) newRule_EdgeNums.@n];
+			LGSPNode node_p2 = match.Nodes[(int)newRule_NodeNums.@p2];
+			LGSPNode node_p1 = match.Nodes[(int)newRule_NodeNums.@p1];
+			LGSPEdge edge_n = match.Edges[(int)newRule_EdgeNums.@n];
 			Node_Process node_p = Node_Process.CreateNode(graph);
 			Edge_next edge_n2 = Edge_next.CreateEdge(graph, node_p, node_p2);
 			Edge_next edge_n1 = Edge_next.CreateEdge(graph, node_p1, node_p);
@@ -138,6 +139,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum killRule_EdgeNums { @n1, @n2, };
 		public enum killRule_SubNums { };
 		public enum killRule_AltNums { };
+		PatternGraph pat_killRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_killRule()
@@ -146,7 +149,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "killRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -155,7 +157,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_killRule;
 			bool[,] killRule_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -196,6 +197,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_killRule.edgeToTargetNode.Add(killRule_edge_n1, killRule_node_p);
 			pat_killRule.edgeToSourceNode.Add(killRule_edge_n2, killRule_node_p);
 			pat_killRule.edgeToTargetNode.Add(killRule_edge_n2, killRule_node_p2);
+
 			killRule_node_p1.PointOfDefinition = pat_killRule;
 			killRule_node_p.PointOfDefinition = pat_killRule;
 			killRule_node_p2.PointOfDefinition = pat_killRule;
@@ -208,11 +210,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p1 = match.Nodes[(int) killRule_NodeNums.@p1];
-			LGSPNode node_p2 = match.Nodes[(int) killRule_NodeNums.@p2];
-			LGSPNode node_p = match.Nodes[(int) killRule_NodeNums.@p];
-			LGSPEdge edge_n2 = match.Edges[(int) killRule_EdgeNums.@n2];
-			LGSPEdge edge_n1 = match.Edges[(int) killRule_EdgeNums.@n1];
+			LGSPNode node_p1 = match.Nodes[(int)killRule_NodeNums.@p1];
+			LGSPNode node_p2 = match.Nodes[(int)killRule_NodeNums.@p2];
+			LGSPNode node_p = match.Nodes[(int)killRule_NodeNums.@p];
+			LGSPEdge edge_n2 = match.Edges[(int)killRule_EdgeNums.@n2];
+			LGSPEdge edge_n1 = match.Edges[(int)killRule_EdgeNums.@n1];
 			Edge_next edge_n;
 			if(edge_n2.type == EdgeType_next.typeVar)
 			{
@@ -233,11 +235,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p1 = match.Nodes[(int) killRule_NodeNums.@p1];
-			LGSPNode node_p2 = match.Nodes[(int) killRule_NodeNums.@p2];
-			LGSPNode node_p = match.Nodes[(int) killRule_NodeNums.@p];
-			LGSPEdge edge_n2 = match.Edges[(int) killRule_EdgeNums.@n2];
-			LGSPEdge edge_n1 = match.Edges[(int) killRule_EdgeNums.@n1];
+			LGSPNode node_p1 = match.Nodes[(int)killRule_NodeNums.@p1];
+			LGSPNode node_p2 = match.Nodes[(int)killRule_NodeNums.@p2];
+			LGSPNode node_p = match.Nodes[(int)killRule_NodeNums.@p];
+			LGSPEdge edge_n2 = match.Edges[(int)killRule_EdgeNums.@n2];
+			LGSPEdge edge_n1 = match.Edges[(int)killRule_EdgeNums.@n1];
 			Edge_next edge_n = Edge_next.CreateEdge(graph, node_p1, node_p2);
 			graph.Remove(edge_n2);
 			graph.Remove(edge_n1);
@@ -262,6 +264,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum mountRule_EdgeNums { };
 		public enum mountRule_SubNums { };
 		public enum mountRule_AltNums { };
+		PatternGraph pat_mountRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_mountRule()
@@ -270,7 +274,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "mountRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -279,7 +282,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_mountRule;
 			bool[,] mountRule_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -302,6 +304,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				mountRule_isNodeHomomorphicGlobal,
 				mountRule_isEdgeHomomorphicGlobal
 			);
+
 			mountRule_node_p.PointOfDefinition = pat_mountRule;
 
 			patternGraph = pat_mountRule;
@@ -310,7 +313,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[(int) mountRule_NodeNums.@p];
+			LGSPNode node_p = match.Nodes[(int)mountRule_NodeNums.@p];
 			Node_Resource node_r = Node_Resource.CreateNode(graph);
 			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
@@ -318,7 +321,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[(int) mountRule_NodeNums.@p];
+			LGSPNode node_p = match.Nodes[(int)mountRule_NodeNums.@p];
 			Node_Resource node_r = Node_Resource.CreateNode(graph);
 			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
@@ -344,6 +347,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum unmountRule_EdgeNums { @t, };
 		public enum unmountRule_SubNums { };
 		public enum unmountRule_AltNums { };
+		PatternGraph pat_unmountRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_unmountRule()
@@ -352,7 +357,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "unmountRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -361,7 +365,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_unmountRule;
 			bool[,] unmountRule_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -394,6 +397,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			pat_unmountRule.edgeToSourceNode.Add(unmountRule_edge_t, unmountRule_node_r);
 			pat_unmountRule.edgeToTargetNode.Add(unmountRule_edge_t, unmountRule_node_p);
+
 			unmountRule_node_r.PointOfDefinition = pat_unmountRule;
 			unmountRule_node_p.PointOfDefinition = pat_unmountRule;
 			unmountRule_edge_t.PointOfDefinition = pat_unmountRule;
@@ -404,8 +408,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) unmountRule_NodeNums.@r];
-			LGSPEdge edge_t = match.Edges[(int) unmountRule_EdgeNums.@t];
+			LGSPNode node_r = match.Nodes[(int)unmountRule_NodeNums.@r];
+			LGSPEdge edge_t = match.Edges[(int)unmountRule_EdgeNums.@t];
 			graph.Remove(edge_t);
 			graph.RemoveEdges(node_r);
 			graph.Remove(node_r);
@@ -414,8 +418,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) unmountRule_NodeNums.@r];
-			LGSPEdge edge_t = match.Edges[(int) unmountRule_EdgeNums.@t];
+			LGSPNode node_r = match.Nodes[(int)unmountRule_NodeNums.@r];
+			LGSPEdge edge_t = match.Edges[(int)unmountRule_EdgeNums.@t];
 			graph.Remove(edge_t);
 			graph.RemoveEdges(node_r);
 			graph.Remove(node_r);
@@ -446,12 +450,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum passRule_EdgeNums { @_edge0, @n, };
 		public enum passRule_SubNums { };
 		public enum passRule_AltNums { };
+		PatternGraph pat_passRule;
+
 		public static EdgeType[] passRule_neg_0_edge_req_AllowedTypes = null;
 		public static bool[] passRule_neg_0_edge_req_IsAllowedType = null;
 		public enum passRule_neg_0_NodeNums { @p1, @r, };
 		public enum passRule_neg_0_EdgeNums { @req, };
 		public enum passRule_neg_0_SubNums { };
 		public enum passRule_neg_0_AltNums { };
+		PatternGraph passRule_neg_0;
+
 
 #if INITIAL_WARMUP
 		public Rule_passRule()
@@ -460,7 +468,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "passRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -469,7 +476,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_passRule;
 			bool[,] passRule_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -484,7 +490,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternNode passRule_node_p2 = new PatternNode((int) NodeTypes.@Process, "passRule_node_p2", "p2", passRule_node_p2_AllowedTypes, passRule_node_p2_IsAllowedType, 5.5F, -1);
 			PatternEdge passRule_edge__edge0 = new PatternEdge(true, (int) EdgeTypes.@token, "passRule_edge__edge0", "_edge0", passRule_edge__edge0_AllowedTypes, passRule_edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternEdge passRule_edge_n = new PatternEdge(true, (int) EdgeTypes.@next, "passRule_edge_n", "n", passRule_edge_n_AllowedTypes, passRule_edge_n_IsAllowedType, 5.5F, -1);
-			PatternGraph passRule_neg_0;
 			bool[,] passRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -515,6 +520,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			passRule_neg_0.edgeToSourceNode.Add(passRule_neg_0_edge_req, passRule_node_p1);
 			passRule_neg_0.edgeToTargetNode.Add(passRule_neg_0_edge_req, passRule_node_r);
+
 			pat_passRule = new PatternGraph(
 				"passRule",
 				"",
@@ -542,6 +548,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_passRule.edgeToSourceNode.Add(passRule_edge_n, passRule_node_p1);
 			pat_passRule.edgeToTargetNode.Add(passRule_edge_n, passRule_node_p2);
 			passRule_neg_0.embeddingGraph = pat_passRule;
+
 			passRule_node_r.PointOfDefinition = pat_passRule;
 			passRule_node_p1.PointOfDefinition = pat_passRule;
 			passRule_node_p2.PointOfDefinition = pat_passRule;
@@ -555,9 +562,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) passRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[(int) passRule_NodeNums.@p2];
-			LGSPEdge edge__edge0 = match.Edges[(int) passRule_EdgeNums.@_edge0];
+			LGSPNode node_r = match.Nodes[(int)passRule_NodeNums.@r];
+			LGSPNode node_p2 = match.Nodes[(int)passRule_NodeNums.@p2];
+			LGSPEdge edge__edge0 = match.Edges[(int)passRule_EdgeNums.@_edge0];
 			Edge_token edge_t;
 			if(edge__edge0.type == EdgeType_token.typeVar)
 			{
@@ -575,9 +582,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) passRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[(int) passRule_NodeNums.@p2];
-			LGSPEdge edge__edge0 = match.Edges[(int) passRule_EdgeNums.@_edge0];
+			LGSPNode node_r = match.Nodes[(int)passRule_NodeNums.@r];
+			LGSPNode node_p2 = match.Nodes[(int)passRule_NodeNums.@p2];
+			LGSPEdge edge__edge0 = match.Edges[(int)passRule_EdgeNums.@_edge0];
 			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p2);
 			graph.Remove(edge__edge0);
 			return EmptyReturnElements;
@@ -601,12 +608,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_EdgeNums { };
 		public enum requestRule_SubNums { };
 		public enum requestRule_AltNums { };
+		PatternGraph pat_requestRule;
+
 		public static EdgeType[] requestRule_neg_0_edge_hb_AllowedTypes = null;
 		public static bool[] requestRule_neg_0_edge_hb_IsAllowedType = null;
 		public enum requestRule_neg_0_NodeNums { @r, @p, };
 		public enum requestRule_neg_0_EdgeNums { @hb, };
 		public enum requestRule_neg_0_SubNums { };
 		public enum requestRule_neg_0_AltNums { };
+		PatternGraph requestRule_neg_0;
+
 		public static NodeType[] requestRule_neg_1_node_m_AllowedTypes = null;
 		public static bool[] requestRule_neg_1_node_m_IsAllowedType = null;
 		public static EdgeType[] requestRule_neg_1_edge_req_AllowedTypes = null;
@@ -615,6 +626,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_neg_1_EdgeNums { @req, };
 		public enum requestRule_neg_1_SubNums { };
 		public enum requestRule_neg_1_AltNums { };
+		PatternGraph requestRule_neg_1;
+
 
 #if INITIAL_WARMUP
 		public Rule_requestRule()
@@ -623,7 +636,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "requestRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -632,7 +644,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_requestRule;
 			bool[,] requestRule_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -640,7 +651,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] requestRule_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			PatternNode requestRule_node_p = new PatternNode((int) NodeTypes.@Process, "requestRule_node_p", "p", requestRule_node_p_AllowedTypes, requestRule_node_p_IsAllowedType, 5.5F, -1);
 			PatternNode requestRule_node_r = new PatternNode((int) NodeTypes.@Resource, "requestRule_node_r", "r", requestRule_node_r_AllowedTypes, requestRule_node_r_IsAllowedType, 1.0F, -1);
-			PatternGraph requestRule_neg_0;
 			bool[,] requestRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -671,7 +681,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			requestRule_neg_0.edgeToSourceNode.Add(requestRule_neg_0_edge_hb, requestRule_node_r);
 			requestRule_neg_0.edgeToTargetNode.Add(requestRule_neg_0_edge_hb, requestRule_node_p);
-			PatternGraph requestRule_neg_1;
+
 			bool[,] requestRule_neg_1_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -703,6 +713,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			requestRule_neg_1.edgeToSourceNode.Add(requestRule_neg_1_edge_req, requestRule_node_p);
 			requestRule_neg_1.edgeToTargetNode.Add(requestRule_neg_1_edge_req, requestRule_neg_1_node_m);
+
 			pat_requestRule = new PatternGraph(
 				"requestRule",
 				"",
@@ -723,6 +734,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			requestRule_neg_0.embeddingGraph = pat_requestRule;
 			requestRule_neg_1.embeddingGraph = pat_requestRule;
+
 			requestRule_node_p.PointOfDefinition = pat_requestRule;
 			requestRule_node_r.PointOfDefinition = pat_requestRule;
 			requestRule_neg_0_edge_hb.PointOfDefinition = requestRule_neg_0;
@@ -735,16 +747,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[(int) requestRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[(int) requestRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int)requestRule_NodeNums.@p];
+			LGSPNode node_r = match.Nodes[(int)requestRule_NodeNums.@r];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[(int) requestRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[(int) requestRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int)requestRule_NodeNums.@p];
+			LGSPNode node_r = match.Nodes[(int)requestRule_NodeNums.@r];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
@@ -771,6 +783,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum takeRule_EdgeNums { @t, @req, };
 		public enum takeRule_SubNums { };
 		public enum takeRule_AltNums { };
+		PatternGraph pat_takeRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_takeRule()
@@ -779,7 +793,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "takeRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -788,7 +801,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_takeRule;
 			bool[,] takeRule_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -826,6 +838,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_takeRule.edgeToTargetNode.Add(takeRule_edge_t, takeRule_node_p);
 			pat_takeRule.edgeToSourceNode.Add(takeRule_edge_req, takeRule_node_p);
 			pat_takeRule.edgeToTargetNode.Add(takeRule_edge_req, takeRule_node_r);
+
 			takeRule_node_r.PointOfDefinition = pat_takeRule;
 			takeRule_node_p.PointOfDefinition = pat_takeRule;
 			takeRule_edge_t.PointOfDefinition = pat_takeRule;
@@ -837,10 +850,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) takeRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int) takeRule_NodeNums.@p];
-			LGSPEdge edge_t = match.Edges[(int) takeRule_EdgeNums.@t];
-			LGSPEdge edge_req = match.Edges[(int) takeRule_EdgeNums.@req];
+			LGSPNode node_r = match.Nodes[(int)takeRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int)takeRule_NodeNums.@p];
+			LGSPEdge edge_t = match.Edges[(int)takeRule_EdgeNums.@t];
+			LGSPEdge edge_req = match.Edges[(int)takeRule_EdgeNums.@req];
 			Edge_held_by edge_hb = Edge_held_by.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_t);
 			graph.Remove(edge_req);
@@ -849,10 +862,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) takeRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int) takeRule_NodeNums.@p];
-			LGSPEdge edge_t = match.Edges[(int) takeRule_EdgeNums.@t];
-			LGSPEdge edge_req = match.Edges[(int) takeRule_EdgeNums.@req];
+			LGSPNode node_r = match.Nodes[(int)takeRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int)takeRule_NodeNums.@p];
+			LGSPEdge edge_t = match.Edges[(int)takeRule_EdgeNums.@t];
+			LGSPEdge edge_req = match.Edges[(int)takeRule_EdgeNums.@req];
 			Edge_held_by edge_hb = Edge_held_by.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_t);
 			graph.Remove(edge_req);
@@ -879,6 +892,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseRule_EdgeNums { @hb, };
 		public enum releaseRule_SubNums { };
 		public enum releaseRule_AltNums { };
+		PatternGraph pat_releaseRule;
+
 		public static NodeType[] releaseRule_neg_0_node_m_AllowedTypes = null;
 		public static bool[] releaseRule_neg_0_node_m_IsAllowedType = null;
 		public static EdgeType[] releaseRule_neg_0_edge_req_AllowedTypes = null;
@@ -887,6 +902,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseRule_neg_0_EdgeNums { @req, };
 		public enum releaseRule_neg_0_SubNums { };
 		public enum releaseRule_neg_0_AltNums { };
+		PatternGraph releaseRule_neg_0;
+
 
 #if INITIAL_WARMUP
 		public Rule_releaseRule()
@@ -895,7 +912,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "releaseRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -904,7 +920,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_releaseRule;
 			bool[,] releaseRule_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -915,7 +930,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternNode releaseRule_node_r = new PatternNode((int) NodeTypes.@Resource, "releaseRule_node_r", "r", releaseRule_node_r_AllowedTypes, releaseRule_node_r_IsAllowedType, 5.5F, -1);
 			PatternNode releaseRule_node_p = new PatternNode((int) NodeTypes.@Process, "releaseRule_node_p", "p", releaseRule_node_p_AllowedTypes, releaseRule_node_p_IsAllowedType, 5.5F, -1);
 			PatternEdge releaseRule_edge_hb = new PatternEdge(true, (int) EdgeTypes.@held_by, "releaseRule_edge_hb", "hb", releaseRule_edge_hb_AllowedTypes, releaseRule_edge_hb_IsAllowedType, 1.0F, -1);
-			PatternGraph releaseRule_neg_0;
 			bool[,] releaseRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -947,6 +961,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			releaseRule_neg_0.edgeToSourceNode.Add(releaseRule_neg_0_edge_req, releaseRule_node_p);
 			releaseRule_neg_0.edgeToTargetNode.Add(releaseRule_neg_0_edge_req, releaseRule_neg_0_node_m);
+
 			pat_releaseRule = new PatternGraph(
 				"releaseRule",
 				"",
@@ -970,6 +985,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_releaseRule.edgeToSourceNode.Add(releaseRule_edge_hb, releaseRule_node_r);
 			pat_releaseRule.edgeToTargetNode.Add(releaseRule_edge_hb, releaseRule_node_p);
 			releaseRule_neg_0.embeddingGraph = pat_releaseRule;
+
 			releaseRule_node_r.PointOfDefinition = pat_releaseRule;
 			releaseRule_node_p.PointOfDefinition = pat_releaseRule;
 			releaseRule_edge_hb.PointOfDefinition = pat_releaseRule;
@@ -982,9 +998,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) releaseRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int) releaseRule_NodeNums.@p];
-			LGSPEdge edge_hb = match.Edges[(int) releaseRule_EdgeNums.@hb];
+			LGSPNode node_r = match.Nodes[(int)releaseRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int)releaseRule_NodeNums.@p];
+			LGSPEdge edge_hb = match.Edges[(int)releaseRule_EdgeNums.@hb];
 			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_hb);
 			return EmptyReturnElements;
@@ -992,9 +1008,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) releaseRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int) releaseRule_NodeNums.@p];
-			LGSPEdge edge_hb = match.Edges[(int) releaseRule_EdgeNums.@hb];
+			LGSPNode node_r = match.Nodes[(int)releaseRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int)releaseRule_NodeNums.@p];
+			LGSPEdge edge_hb = match.Edges[(int)releaseRule_EdgeNums.@hb];
 			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_hb);
 			return EmptyReturnElements;
@@ -1024,6 +1040,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum giveRule_EdgeNums { @rel, @n, };
 		public enum giveRule_SubNums { };
 		public enum giveRule_AltNums { };
+		PatternGraph pat_giveRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_giveRule()
@@ -1032,7 +1050,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "giveRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1041,7 +1058,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_giveRule;
 			bool[,] giveRule_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -1082,6 +1098,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_giveRule.edgeToTargetNode.Add(giveRule_edge_rel, giveRule_node_p1);
 			pat_giveRule.edgeToSourceNode.Add(giveRule_edge_n, giveRule_node_p1);
 			pat_giveRule.edgeToTargetNode.Add(giveRule_edge_n, giveRule_node_p2);
+
 			giveRule_node_r.PointOfDefinition = pat_giveRule;
 			giveRule_node_p1.PointOfDefinition = pat_giveRule;
 			giveRule_node_p2.PointOfDefinition = pat_giveRule;
@@ -1094,9 +1111,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) giveRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[(int) giveRule_NodeNums.@p2];
-			LGSPEdge edge_rel = match.Edges[(int) giveRule_EdgeNums.@rel];
+			LGSPNode node_r = match.Nodes[(int)giveRule_NodeNums.@r];
+			LGSPNode node_p2 = match.Nodes[(int)giveRule_NodeNums.@p2];
+			LGSPEdge edge_rel = match.Edges[(int)giveRule_EdgeNums.@rel];
 			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p2);
 			graph.Remove(edge_rel);
 			return EmptyReturnElements;
@@ -1104,9 +1121,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) giveRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[(int) giveRule_NodeNums.@p2];
-			LGSPEdge edge_rel = match.Edges[(int) giveRule_EdgeNums.@rel];
+			LGSPNode node_r = match.Nodes[(int)giveRule_NodeNums.@r];
+			LGSPNode node_p2 = match.Nodes[(int)giveRule_NodeNums.@p2];
+			LGSPEdge edge_rel = match.Edges[(int)giveRule_EdgeNums.@rel];
 			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p2);
 			graph.Remove(edge_rel);
 			return EmptyReturnElements;
@@ -1136,6 +1153,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum blockedRule_EdgeNums { @req, @hb, };
 		public enum blockedRule_SubNums { };
 		public enum blockedRule_AltNums { };
+		PatternGraph pat_blockedRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_blockedRule()
@@ -1144,7 +1163,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "blockedRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1153,7 +1171,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_blockedRule;
 			bool[,] blockedRule_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, false, },
@@ -1194,6 +1211,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_blockedRule.edgeToTargetNode.Add(blockedRule_edge_req, blockedRule_node_r);
 			pat_blockedRule.edgeToSourceNode.Add(blockedRule_edge_hb, blockedRule_node_r);
 			pat_blockedRule.edgeToTargetNode.Add(blockedRule_edge_hb, blockedRule_node_p2);
+
 			blockedRule_node_p1.PointOfDefinition = pat_blockedRule;
 			blockedRule_node_r.PointOfDefinition = pat_blockedRule;
 			blockedRule_node_p2.PointOfDefinition = pat_blockedRule;
@@ -1206,16 +1224,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) blockedRule_NodeNums.@r];
-			LGSPNode node_p1 = match.Nodes[(int) blockedRule_NodeNums.@p1];
+			LGSPNode node_r = match.Nodes[(int)blockedRule_NodeNums.@r];
+			LGSPNode node_p1 = match.Nodes[(int)blockedRule_NodeNums.@p1];
 			Edge_blocked edge_b = Edge_blocked.CreateEdge(graph, node_r, node_p1);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) blockedRule_NodeNums.@r];
-			LGSPNode node_p1 = match.Nodes[(int) blockedRule_NodeNums.@p1];
+			LGSPNode node_r = match.Nodes[(int)blockedRule_NodeNums.@r];
+			LGSPNode node_p1 = match.Nodes[(int)blockedRule_NodeNums.@p1];
 			Edge_blocked edge_b = Edge_blocked.CreateEdge(graph, node_r, node_p1);
 			return EmptyReturnElements;
 		}
@@ -1250,6 +1268,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum waitingRule_EdgeNums { @b, @hb, @req, };
 		public enum waitingRule_SubNums { };
 		public enum waitingRule_AltNums { };
+		PatternGraph pat_waitingRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_waitingRule()
@@ -1258,7 +1278,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "waitingRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1267,7 +1286,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_waitingRule;
 			bool[,] waitingRule_isNodeHomomorphicGlobal = new bool[5, 5] {
 				{ false, false, false, false, false, },
 				{ false, false, false, false, false, },
@@ -1319,6 +1337,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_waitingRule.edgeToTargetNode.Add(waitingRule_edge_hb, waitingRule_node_p1);
 			pat_waitingRule.edgeToSourceNode.Add(waitingRule_edge_req, waitingRule_node_p2);
 			pat_waitingRule.edgeToTargetNode.Add(waitingRule_edge_req, waitingRule_node_r1);
+
 			waitingRule_node_r2.PointOfDefinition = pat_waitingRule;
 			waitingRule_node_p1.PointOfDefinition = pat_waitingRule;
 			waitingRule_node_r1.PointOfDefinition = pat_waitingRule;
@@ -1334,10 +1353,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r2 = match.Nodes[(int) waitingRule_NodeNums.@r2];
-			LGSPNode node_p2 = match.Nodes[(int) waitingRule_NodeNums.@p2];
-			LGSPNode node_r = match.Nodes[(int) waitingRule_NodeNums.@r];
-			LGSPEdge edge_b = match.Edges[(int) waitingRule_EdgeNums.@b];
+			LGSPNode node_r2 = match.Nodes[(int)waitingRule_NodeNums.@r2];
+			LGSPNode node_p2 = match.Nodes[(int)waitingRule_NodeNums.@p2];
+			LGSPNode node_r = match.Nodes[(int)waitingRule_NodeNums.@r];
+			LGSPEdge edge_b = match.Edges[(int)waitingRule_EdgeNums.@b];
 			Edge_blocked edge_bn;
 			if(edge_b.type == EdgeType_blocked.typeVar)
 			{
@@ -1357,10 +1376,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r2 = match.Nodes[(int) waitingRule_NodeNums.@r2];
-			LGSPNode node_p2 = match.Nodes[(int) waitingRule_NodeNums.@p2];
-			LGSPNode node_r = match.Nodes[(int) waitingRule_NodeNums.@r];
-			LGSPEdge edge_b = match.Edges[(int) waitingRule_EdgeNums.@b];
+			LGSPNode node_r2 = match.Nodes[(int)waitingRule_NodeNums.@r2];
+			LGSPNode node_p2 = match.Nodes[(int)waitingRule_NodeNums.@p2];
+			LGSPNode node_r = match.Nodes[(int)waitingRule_NodeNums.@r];
+			LGSPEdge edge_b = match.Edges[(int)waitingRule_EdgeNums.@b];
 			Edge_blocked edge_bn = Edge_blocked.CreateEdge(graph, node_r2, node_p2);
 			graph.Remove(edge_b);
 			graph.RemoveEdges(node_r);
@@ -1388,6 +1407,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum ignoreRule_EdgeNums { @b, };
 		public enum ignoreRule_SubNums { };
 		public enum ignoreRule_AltNums { };
+		PatternGraph pat_ignoreRule;
+
 		public static NodeType[] ignoreRule_neg_0_node_m_AllowedTypes = null;
 		public static bool[] ignoreRule_neg_0_node_m_IsAllowedType = null;
 		public static EdgeType[] ignoreRule_neg_0_edge_hb_AllowedTypes = null;
@@ -1396,6 +1417,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum ignoreRule_neg_0_EdgeNums { @hb, };
 		public enum ignoreRule_neg_0_SubNums { };
 		public enum ignoreRule_neg_0_AltNums { };
+		PatternGraph ignoreRule_neg_0;
+
 
 #if INITIAL_WARMUP
 		public Rule_ignoreRule()
@@ -1404,7 +1427,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "ignoreRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1413,7 +1435,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_ignoreRule;
 			bool[,] ignoreRule_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1424,7 +1445,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternNode ignoreRule_node_r = new PatternNode((int) NodeTypes.@Resource, "ignoreRule_node_r", "r", ignoreRule_node_r_AllowedTypes, ignoreRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode ignoreRule_node_p = new PatternNode((int) NodeTypes.@Process, "ignoreRule_node_p", "p", ignoreRule_node_p_AllowedTypes, ignoreRule_node_p_IsAllowedType, 5.5F, -1);
 			PatternEdge ignoreRule_edge_b = new PatternEdge(true, (int) EdgeTypes.@blocked, "ignoreRule_edge_b", "b", ignoreRule_edge_b_AllowedTypes, ignoreRule_edge_b_IsAllowedType, 5.5F, -1);
-			PatternGraph ignoreRule_neg_0;
 			bool[,] ignoreRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1456,6 +1476,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			ignoreRule_neg_0.edgeToSourceNode.Add(ignoreRule_neg_0_edge_hb, ignoreRule_neg_0_node_m);
 			ignoreRule_neg_0.edgeToTargetNode.Add(ignoreRule_neg_0_edge_hb, ignoreRule_node_p);
+
 			pat_ignoreRule = new PatternGraph(
 				"ignoreRule",
 				"",
@@ -1479,6 +1500,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_ignoreRule.edgeToSourceNode.Add(ignoreRule_edge_b, ignoreRule_node_r);
 			pat_ignoreRule.edgeToTargetNode.Add(ignoreRule_edge_b, ignoreRule_node_p);
 			ignoreRule_neg_0.embeddingGraph = pat_ignoreRule;
+
 			ignoreRule_node_r.PointOfDefinition = pat_ignoreRule;
 			ignoreRule_node_p.PointOfDefinition = pat_ignoreRule;
 			ignoreRule_edge_b.PointOfDefinition = pat_ignoreRule;
@@ -1491,14 +1513,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPEdge edge_b = match.Edges[(int) ignoreRule_EdgeNums.@b];
+			LGSPEdge edge_b = match.Edges[(int)ignoreRule_EdgeNums.@b];
 			graph.Remove(edge_b);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPEdge edge_b = match.Edges[(int) ignoreRule_EdgeNums.@b];
+			LGSPEdge edge_b = match.Edges[(int)ignoreRule_EdgeNums.@b];
 			graph.Remove(edge_b);
 			return EmptyReturnElements;
 		}
@@ -1525,6 +1547,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum unlockRule_EdgeNums { @b, @hb, };
 		public enum unlockRule_SubNums { };
 		public enum unlockRule_AltNums { };
+		PatternGraph pat_unlockRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_unlockRule()
@@ -1533,7 +1557,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "unlockRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1542,7 +1565,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_unlockRule;
 			bool[,] unlockRule_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1580,6 +1602,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_unlockRule.edgeToTargetNode.Add(unlockRule_edge_b, unlockRule_node_p);
 			pat_unlockRule.edgeToSourceNode.Add(unlockRule_edge_hb, unlockRule_node_r);
 			pat_unlockRule.edgeToTargetNode.Add(unlockRule_edge_hb, unlockRule_node_p);
+
 			unlockRule_node_r.PointOfDefinition = pat_unlockRule;
 			unlockRule_node_p.PointOfDefinition = pat_unlockRule;
 			unlockRule_edge_b.PointOfDefinition = pat_unlockRule;
@@ -1591,10 +1614,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) unlockRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int) unlockRule_NodeNums.@p];
-			LGSPEdge edge_b = match.Edges[(int) unlockRule_EdgeNums.@b];
-			LGSPEdge edge_hb = match.Edges[(int) unlockRule_EdgeNums.@hb];
+			LGSPNode node_r = match.Nodes[(int)unlockRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int)unlockRule_NodeNums.@p];
+			LGSPEdge edge_b = match.Edges[(int)unlockRule_EdgeNums.@b];
+			LGSPEdge edge_hb = match.Edges[(int)unlockRule_EdgeNums.@hb];
 			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_b);
 			graph.Remove(edge_hb);
@@ -1603,10 +1626,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r = match.Nodes[(int) unlockRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int) unlockRule_NodeNums.@p];
-			LGSPEdge edge_b = match.Edges[(int) unlockRule_EdgeNums.@b];
-			LGSPEdge edge_hb = match.Edges[(int) unlockRule_EdgeNums.@hb];
+			LGSPNode node_r = match.Nodes[(int)unlockRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int)unlockRule_NodeNums.@p];
+			LGSPEdge edge_b = match.Edges[(int)unlockRule_EdgeNums.@b];
+			LGSPEdge edge_hb = match.Edges[(int)unlockRule_EdgeNums.@hb];
 			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_b);
 			graph.Remove(edge_hb);
@@ -1641,12 +1664,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestStarRule_EdgeNums { @h1, @n, @h2, };
 		public enum requestStarRule_SubNums { };
 		public enum requestStarRule_AltNums { };
+		PatternGraph pat_requestStarRule;
+
 		public static EdgeType[] requestStarRule_neg_0_edge_req_AllowedTypes = null;
 		public static bool[] requestStarRule_neg_0_edge_req_IsAllowedType = null;
 		public enum requestStarRule_neg_0_NodeNums { @p1, @r2, };
 		public enum requestStarRule_neg_0_EdgeNums { @req, };
 		public enum requestStarRule_neg_0_SubNums { };
 		public enum requestStarRule_neg_0_AltNums { };
+		PatternGraph requestStarRule_neg_0;
+
 
 #if INITIAL_WARMUP
 		public Rule_requestStarRule()
@@ -1655,7 +1682,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "requestStarRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1664,7 +1690,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_requestStarRule;
 			bool[,] requestStarRule_isNodeHomomorphicGlobal = new bool[4, 4] {
 				{ false, false, false, false, },
 				{ false, false, false, false, },
@@ -1683,7 +1708,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternEdge requestStarRule_edge_h1 = new PatternEdge(true, (int) EdgeTypes.@held_by, "requestStarRule_edge_h1", "h1", requestStarRule_edge_h1_AllowedTypes, requestStarRule_edge_h1_IsAllowedType, 5.5F, -1);
 			PatternEdge requestStarRule_edge_n = new PatternEdge(true, (int) EdgeTypes.@next, "requestStarRule_edge_n", "n", requestStarRule_edge_n_AllowedTypes, requestStarRule_edge_n_IsAllowedType, 5.5F, -1);
 			PatternEdge requestStarRule_edge_h2 = new PatternEdge(true, (int) EdgeTypes.@held_by, "requestStarRule_edge_h2", "h2", requestStarRule_edge_h2_AllowedTypes, requestStarRule_edge_h2_IsAllowedType, 5.5F, -1);
-			PatternGraph requestStarRule_neg_0;
 			bool[,] requestStarRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1714,6 +1738,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			requestStarRule_neg_0.edgeToSourceNode.Add(requestStarRule_neg_0_edge_req, requestStarRule_node_p1);
 			requestStarRule_neg_0.edgeToTargetNode.Add(requestStarRule_neg_0_edge_req, requestStarRule_node_r2);
+
 			pat_requestStarRule = new PatternGraph(
 				"requestStarRule",
 				"",
@@ -1745,6 +1770,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_requestStarRule.edgeToSourceNode.Add(requestStarRule_edge_h2, requestStarRule_node_r2);
 			pat_requestStarRule.edgeToTargetNode.Add(requestStarRule_edge_h2, requestStarRule_node_p2);
 			requestStarRule_neg_0.embeddingGraph = pat_requestStarRule;
+
 			requestStarRule_node_r1.PointOfDefinition = pat_requestStarRule;
 			requestStarRule_node_p1.PointOfDefinition = pat_requestStarRule;
 			requestStarRule_node_p2.PointOfDefinition = pat_requestStarRule;
@@ -1760,16 +1786,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p1 = match.Nodes[(int) requestStarRule_NodeNums.@p1];
-			LGSPNode node_r2 = match.Nodes[(int) requestStarRule_NodeNums.@r2];
+			LGSPNode node_p1 = match.Nodes[(int)requestStarRule_NodeNums.@p1];
+			LGSPNode node_r2 = match.Nodes[(int)requestStarRule_NodeNums.@r2];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p1, node_r2);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p1 = match.Nodes[(int) requestStarRule_NodeNums.@p1];
-			LGSPNode node_r2 = match.Nodes[(int) requestStarRule_NodeNums.@r2];
+			LGSPNode node_p1 = match.Nodes[(int)requestStarRule_NodeNums.@p1];
+			LGSPNode node_r2 = match.Nodes[(int)requestStarRule_NodeNums.@r2];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p1, node_r2);
 			return EmptyReturnElements;
 		}
@@ -1802,6 +1828,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseStarRule_EdgeNums { @rq, @h1, @h2, };
 		public enum releaseStarRule_SubNums { };
 		public enum releaseStarRule_AltNums { };
+		PatternGraph pat_releaseStarRule;
+
 
 #if INITIAL_WARMUP
 		public Rule_releaseStarRule()
@@ -1810,7 +1838,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "releaseStarRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1819,7 +1846,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_releaseStarRule;
 			bool[,] releaseStarRule_isNodeHomomorphicGlobal = new bool[4, 4] {
 				{ false, false, false, false, },
 				{ false, false, false, false, },
@@ -1868,6 +1894,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_releaseStarRule.edgeToTargetNode.Add(releaseStarRule_edge_h1, releaseStarRule_node_p2);
 			pat_releaseStarRule.edgeToSourceNode.Add(releaseStarRule_edge_h2, releaseStarRule_node_r2);
 			pat_releaseStarRule.edgeToTargetNode.Add(releaseStarRule_edge_h2, releaseStarRule_node_p2);
+
 			releaseStarRule_node_p1.PointOfDefinition = pat_releaseStarRule;
 			releaseStarRule_node_r1.PointOfDefinition = pat_releaseStarRule;
 			releaseStarRule_node_p2.PointOfDefinition = pat_releaseStarRule;
@@ -1882,9 +1909,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r1 = match.Nodes[(int) releaseStarRule_NodeNums.@r1];
-			LGSPNode node_p2 = match.Nodes[(int) releaseStarRule_NodeNums.@p2];
-			LGSPEdge edge_h1 = match.Edges[(int) releaseStarRule_EdgeNums.@h1];
+			LGSPNode node_r1 = match.Nodes[(int)releaseStarRule_NodeNums.@r1];
+			LGSPNode node_p2 = match.Nodes[(int)releaseStarRule_NodeNums.@p2];
+			LGSPEdge edge_h1 = match.Edges[(int)releaseStarRule_EdgeNums.@h1];
 			Edge_release edge_rl = Edge_release.CreateEdge(graph, node_r1, node_p2);
 			graph.Remove(edge_h1);
 			return EmptyReturnElements;
@@ -1892,9 +1919,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_r1 = match.Nodes[(int) releaseStarRule_NodeNums.@r1];
-			LGSPNode node_p2 = match.Nodes[(int) releaseStarRule_NodeNums.@p2];
-			LGSPEdge edge_h1 = match.Edges[(int) releaseStarRule_EdgeNums.@h1];
+			LGSPNode node_r1 = match.Nodes[(int)releaseStarRule_NodeNums.@r1];
+			LGSPNode node_p2 = match.Nodes[(int)releaseStarRule_NodeNums.@p2];
+			LGSPEdge edge_h1 = match.Edges[(int)releaseStarRule_EdgeNums.@h1];
 			Edge_release edge_rl = Edge_release.CreateEdge(graph, node_r1, node_p2);
 			graph.Remove(edge_h1);
 			return EmptyReturnElements;
@@ -1920,12 +1947,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestSimpleRule_EdgeNums { @t, };
 		public enum requestSimpleRule_SubNums { };
 		public enum requestSimpleRule_AltNums { };
+		PatternGraph pat_requestSimpleRule;
+
 		public static EdgeType[] requestSimpleRule_neg_0_edge_req_AllowedTypes = null;
 		public static bool[] requestSimpleRule_neg_0_edge_req_IsAllowedType = null;
 		public enum requestSimpleRule_neg_0_NodeNums { @p, @r, };
 		public enum requestSimpleRule_neg_0_EdgeNums { @req, };
 		public enum requestSimpleRule_neg_0_SubNums { };
 		public enum requestSimpleRule_neg_0_AltNums { };
+		PatternGraph requestSimpleRule_neg_0;
+
 
 #if INITIAL_WARMUP
 		public Rule_requestSimpleRule()
@@ -1934,7 +1965,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "requestSimpleRule";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1943,7 +1973,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_requestSimpleRule;
 			bool[,] requestSimpleRule_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1954,7 +1983,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			PatternNode requestSimpleRule_node_r = new PatternNode((int) NodeTypes.@Resource, "requestSimpleRule_node_r", "r", requestSimpleRule_node_r_AllowedTypes, requestSimpleRule_node_r_IsAllowedType, 1.0F, -1);
 			PatternNode requestSimpleRule_node_p = new PatternNode((int) NodeTypes.@Process, "requestSimpleRule_node_p", "p", requestSimpleRule_node_p_AllowedTypes, requestSimpleRule_node_p_IsAllowedType, 5.5F, -1);
 			PatternEdge requestSimpleRule_edge_t = new PatternEdge(true, (int) EdgeTypes.@token, "requestSimpleRule_edge_t", "t", requestSimpleRule_edge_t_AllowedTypes, requestSimpleRule_edge_t_IsAllowedType, 5.5F, -1);
-			PatternGraph requestSimpleRule_neg_0;
 			bool[,] requestSimpleRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1985,6 +2013,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			requestSimpleRule_neg_0.edgeToSourceNode.Add(requestSimpleRule_neg_0_edge_req, requestSimpleRule_node_p);
 			requestSimpleRule_neg_0.edgeToTargetNode.Add(requestSimpleRule_neg_0_edge_req, requestSimpleRule_node_r);
+
 			pat_requestSimpleRule = new PatternGraph(
 				"requestSimpleRule",
 				"",
@@ -2008,6 +2037,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_requestSimpleRule.edgeToSourceNode.Add(requestSimpleRule_edge_t, requestSimpleRule_node_r);
 			pat_requestSimpleRule.edgeToTargetNode.Add(requestSimpleRule_edge_t, requestSimpleRule_node_p);
 			requestSimpleRule_neg_0.embeddingGraph = pat_requestSimpleRule;
+
 			requestSimpleRule_node_r.PointOfDefinition = pat_requestSimpleRule;
 			requestSimpleRule_node_p.PointOfDefinition = pat_requestSimpleRule;
 			requestSimpleRule_edge_t.PointOfDefinition = pat_requestSimpleRule;
@@ -2019,16 +2049,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[(int) requestSimpleRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[(int) requestSimpleRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int)requestSimpleRule_NodeNums.@p];
+			LGSPNode node_r = match.Nodes[(int)requestSimpleRule_NodeNums.@r];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[(int) requestSimpleRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[(int) requestSimpleRule_NodeNums.@r];
+			LGSPNode node_p = match.Nodes[(int)requestSimpleRule_NodeNums.@p];
+			LGSPNode node_r = match.Nodes[(int)requestSimpleRule_NodeNums.@r];
 			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
@@ -2049,6 +2079,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum aux_attachResource_EdgeNums { };
 		public enum aux_attachResource_SubNums { };
 		public enum aux_attachResource_AltNums { };
+		PatternGraph pat_aux_attachResource;
+
 		public static NodeType[] aux_attachResource_neg_0_node_r_AllowedTypes = null;
 		public static bool[] aux_attachResource_neg_0_node_r_IsAllowedType = null;
 		public static EdgeType[] aux_attachResource_neg_0_edge__edge0_AllowedTypes = null;
@@ -2057,6 +2089,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum aux_attachResource_neg_0_EdgeNums { @_edge0, };
 		public enum aux_attachResource_neg_0_SubNums { };
 		public enum aux_attachResource_neg_0_AltNums { };
+		PatternGraph aux_attachResource_neg_0;
+
 
 #if INITIAL_WARMUP
 		public Rule_aux_attachResource()
@@ -2065,7 +2099,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 #endif
 		{
 			name = "aux_attachResource";
-			isSubpattern = false;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2074,13 +2107,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 		public override void initialize()
 		{
-			PatternGraph pat_aux_attachResource;
 			bool[,] aux_attachResource_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] aux_attachResource_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			PatternNode aux_attachResource_node_p = new PatternNode((int) NodeTypes.@Process, "aux_attachResource_node_p", "p", aux_attachResource_node_p_AllowedTypes, aux_attachResource_node_p_IsAllowedType, 5.5F, -1);
-			PatternGraph aux_attachResource_neg_0;
 			bool[,] aux_attachResource_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -2112,6 +2143,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			aux_attachResource_neg_0.edgeToSourceNode.Add(aux_attachResource_neg_0_edge__edge0, aux_attachResource_neg_0_node_r);
 			aux_attachResource_neg_0.edgeToTargetNode.Add(aux_attachResource_neg_0_edge__edge0, aux_attachResource_node_p);
+
 			pat_aux_attachResource = new PatternGraph(
 				"aux_attachResource",
 				"",
@@ -2130,6 +2162,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				aux_attachResource_isEdgeHomomorphicGlobal
 			);
 			aux_attachResource_neg_0.embeddingGraph = pat_aux_attachResource;
+
 			aux_attachResource_node_p.PointOfDefinition = pat_aux_attachResource;
 			aux_attachResource_neg_0_node_r.PointOfDefinition = aux_attachResource_neg_0;
 			aux_attachResource_neg_0_edge__edge0.PointOfDefinition = aux_attachResource_neg_0;
@@ -2140,7 +2173,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[(int) aux_attachResource_NodeNums.@p];
+			LGSPNode node_p = match.Nodes[(int)aux_attachResource_NodeNums.@p];
 			Node_Resource node_r = Node_Resource.CreateNode(graph);
 			Edge_held_by edge__edge0 = Edge_held_by.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
@@ -2148,7 +2181,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p = match.Nodes[(int) aux_attachResource_NodeNums.@p];
+			LGSPNode node_p = match.Nodes[(int)aux_attachResource_NodeNums.@p];
 			Node_Resource node_r = Node_Resource.CreateNode(graph);
 			Edge_held_by edge__edge0 = Edge_held_by.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;

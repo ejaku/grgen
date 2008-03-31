@@ -33,7 +33,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.unika.ipd.grgen.ir.Action;
+import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.CompoundType;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Entity;
@@ -68,10 +68,10 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	public final Map<EnumType, Integer> enumMap = new LinkedHashMap<EnumType, Integer>();
 
 	/** action map. (Action -> Integer) */
-	public final Map<Action, Integer> actionMap = new LinkedHashMap<Action, Integer>();
+	public final Map<Rule, Integer> actionRuleMap = new LinkedHashMap<Rule, Integer>();
 
 	/** pattern map. (Subpattern action -> Integer) */
-	public final Map<Action, Integer> patternMap = new LinkedHashMap<Action, Integer>();
+	public final Map<Rule, Integer> subpatternRuleMap = new LinkedHashMap<Rule, Integer>();
 
 	private short[][] nodeTypeIsAMatrix;
 
@@ -233,25 +233,27 @@ public abstract class IDBase extends Base implements IDTypeModel {
 
 	/**
 	 * Make subpattern IDs.
-	 * @param patternMap The map to put the IDs to.
+	 * @param subpatternRuleMap The map to put the IDs to.
 	 */
 	private void makeSubpatternIds(Unit unit) {
 		int id = 0;
-		for(Iterator<Action> it = unit.getSubpatterns().iterator(); it.hasNext();) {
-			Action act = it.next();
-			patternMap.put(act, new Integer(id++));
+		for(Iterator<Rule> it = unit.getSubpatternRules().iterator(); it.hasNext();) {
+			Rule rule = it.next();
+			subpatternRuleMap.put(rule, new Integer(id));
+			++id;
 		}
 	}
 
 	/**
 	 * Make action IDs.
-	 * @param actionMap The map to put the IDs to.
+	 * @param actionRuleMap The map to put the IDs to.
 	 */
 	private void makeActionIds(Unit unit) {
 		int id = 0;
-		for(Iterator<Action> it = unit.getActions().iterator(); it.hasNext();) {
-			Action act = it.next();
-			actionMap.put(act, new Integer(id++));
+		for(Iterator<Rule> it = unit.getActionRules().iterator(); it.hasNext();) {
+			Rule rule = it.next();
+			actionRuleMap.put(rule, new Integer(id));
+			++id;
 		}
 	}
 

@@ -35,6 +35,7 @@ import java.util.LinkedList;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Pattern;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
@@ -401,17 +402,36 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 			& checkExecParamsNotDeleted();
 	}
 
-	protected void constructIRaux(MatchingAction ma) {
-		PatternGraph patternGraph = ma.getPattern();
+	protected void constructIRaux(Rule rule) {
+		PatternGraph patternGraph = rule.getPattern();
 
 		// add Params to the IR
 		for(DeclNode decl : pattern.getParamDecls()) {
-			ma.addParameter((Entity) decl.checkIR(Entity.class));
+			rule.addParameter((Entity) decl.checkIR(Entity.class));
 			if(decl instanceof NodeCharacter) {
 				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
 			} else if (decl instanceof EdgeCharacter) {
 				Edge e = ((EdgeCharacter)decl).getEdge();
 				patternGraph.addSingleEdge(e);
+			} else {
+				throw new IllegalArgumentException("unknown Class: " + decl);
+			}
+		}
+		
+		// add replacement parameters to the IR
+		// TODO choose the right one
+		PatternGraph right = null;
+		if(this.right.children.size() > 0) {
+			right = this.right.children.get(0).getPatternGraph(pattern.getPatternGraph());
+		}
+		else {
+			return;
+		}
+		
+		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
+			rule.addReplParameter((Node) decl.checkIR(Entity.class));
+			if(decl instanceof NodeCharacter) {
+				right.addSingleNode(((NodeCharacter)decl).getNode());
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
@@ -462,7 +482,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 	// TODO use this to create IR patterns, that is currently not supported by
 	//      any backend
-	private IR constructPatternIR() {
+	/*private IR constructPatternIR() {
 		PatternGraph left = pattern.getPatternGraph();
 
 		// return if the pattern graph already constructed the IR object
@@ -495,7 +515,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		}
 
 		return pattern;
-	}
+	}*/
 
 	/**
 	 * add NACs for induced- or DPO-semantic

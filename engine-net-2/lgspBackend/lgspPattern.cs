@@ -422,7 +422,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The embedded subpattern
         /// </summary>
-        public IPatternGraph EmbeddedGraph { get { return ruleOfEmbeddedGraph.patternGraph; } }
+        public IPatternGraph EmbeddedGraph { get { return matchingPatternOfEmbeddedGraph.patternGraph; } }
 
         /// <summary>
         /// An array with the connections telling how the subpattern is connected to the containing pattern,
@@ -443,7 +443,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The embedded subpattern
         /// </summary>
-        public LGSPRulePattern ruleOfEmbeddedGraph;
+        public LGSPMatchingPattern matchingPatternOfEmbeddedGraph;
 
         /// <summary>
         /// An array with the connections telling how the subpattern is connected to the containing pattern,
@@ -451,10 +451,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PatternElement[] connections;
 
-        public PatternGraphEmbedding(String name, LGSPRulePattern ruleOfEmbeddedGraph, PatternElement[] connections)
+        public PatternGraphEmbedding(String name, LGSPMatchingPattern matchingPatternOfEmbeddedGraph, PatternElement[] connections)
         {
             this.name = name;
-            this.ruleOfEmbeddedGraph = ruleOfEmbeddedGraph;
+            this.matchingPatternOfEmbeddedGraph = matchingPatternOfEmbeddedGraph;
             this.connections = connections;
         }
     }
@@ -496,18 +496,8 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// A description of a GrGen rule.
     /// </summary>
-    public abstract class LGSPRulePattern : IRulePattern
+    public abstract class LGSPRulePattern : LGSPMatchingPattern, IRulePattern
     {
-        /// <summary>
-        /// The main pattern graph.
-        /// </summary>
-        public IPatternGraph PatternGraph { get { return patternGraph; } }
-
-        /// <summary>
-        /// An array of GrGen types corresponding to rule parameters.
-        /// </summary>
-        public GrGenType[] Inputs { get { return inputs; } }
-
         /// <summary>
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
@@ -559,6 +549,32 @@ namespace de.unika.ipd.grGen.lgsp
         public static IGraphElement[] EmptyReturnElements = new IGraphElement[] { };
 
         /// <summary>
+        /// An array of GrGen types corresponding to rule return values.
+        /// </summary>
+        public GrGenType[] outputs;
+
+        /// <summary>
+        /// Names of the rule return elements
+        /// </summary>
+        public string[] outputNames;
+    }
+
+    /// <summary>
+    /// A description of a GrGen matching pattern, that's a subpattern/subrule or the base for some rule.
+    /// </summary>
+    public abstract class LGSPMatchingPattern : IMatchingPattern
+    {
+        /// <summary>
+        /// The main pattern graph.
+        /// </summary>
+        public IPatternGraph PatternGraph { get { return patternGraph; } }
+
+        /// <summary>
+        /// An array of GrGen types corresponding to rule parameters.
+        /// </summary>
+        public GrGenType[] Inputs { get { return inputs; } }
+
+        /// <summary>
         /// The main pattern graph.
         /// </summary>
         public PatternGraph patternGraph;
@@ -574,24 +590,9 @@ namespace de.unika.ipd.grGen.lgsp
         public string[] inputNames;
 
         /// <summary>
-        /// An array of GrGen types corresponding to rule return values.
-        /// </summary>
-        public GrGenType[] outputs;
-
-        /// <summary>
-        /// Names of the rule return elements
-        /// </summary>
-        public string[] outputNames;
-
-        /// <summary>
         /// Our name
         /// </summary>
         public string name;
-        
-        /// <summary>
-        /// Are we a rule or a subpattern?
-        /// </summary>
-        public bool isSubpattern;
 
         public abstract void initialize();
     }

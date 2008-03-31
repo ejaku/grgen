@@ -299,8 +299,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private void genPatterns(StringBuffer sb)
 	{
 		String indent = "  ";
-		for(Action action : unit.getActions()) {
-			if(action instanceof Rule) {
+		for(Action action : unit.getActionRules()) {
+			if(action instanceof Rule && ((Rule)action).getRight()!=null) {
 
 				String actionName = action.getIdent().toString();
 
@@ -987,8 +987,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("/* global variables containing the actions */\n");
 		initsb.append("ext_grs_action_init_" + unitName + "() {\n");
 		initsb.append(indent + "init();\n");
-		for(Action action : unit.getActions()) {
-			if(action instanceof Rule) {
+		for(Action action : unit.getActionRules()) {
+			if(action instanceof Rule && ((Rule)action).getRight()!=null) {
 				String actionName = action.getIdent().toString();
 				String fqactionName = "ext_grs_action_" + unitName + "_" + actionName;
 

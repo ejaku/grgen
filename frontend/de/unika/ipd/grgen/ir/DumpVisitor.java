@@ -132,7 +132,7 @@ public class DumpVisitor extends GraphDumpVisitor
 			return;
 		}
 
-		if (n instanceof Rule) {
+		if (n instanceof Rule && ((Rule)n).getRight()!=null) {
 			Rule r = (Rule) n;
 			dumper.beginSubgraph(r);
 			if(r.getRight()==null) {

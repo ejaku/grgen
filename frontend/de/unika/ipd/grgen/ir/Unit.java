@@ -40,9 +40,9 @@ import de.unika.ipd.grgen.util.Util;
  */
 public class Unit extends IR {
 
-	private final List<Action> actions = new LinkedList<Action>();
+	private final List<Rule> actionRules = new LinkedList<Rule>();
 
-	private final List<Action> subpatterns = new LinkedList<Action>();
+	private final List<Rule> subpatternRules = new LinkedList<Rule>();
 
 	private final List<Model> models = new LinkedList<Model>();
 
@@ -62,22 +62,22 @@ public class Unit extends IR {
 		this.filename = filename;
 	}
 
-	/** Add an action to the unit. */
-	public void addAction(Action action) {
-		actions.add(action);
+	/** Add an action-rule to the unit. */
+	public void addActionRule(Rule actionRule) {
+		actionRules.add(actionRule);
 	}
 
-	public Collection<Action> getActions() {
-		return Collections.unmodifiableCollection(actions);
+	public Collection<Rule> getActionRules() {
+		return Collections.unmodifiableCollection(actionRules);
 	}
 
-	/** Add a subpattern to the unit. */
-	public void addSubpattern(Action action) {
-		subpatterns.add(action);
+	/** Add a subpattern-rule to the unit. */
+	public void addSubpatternRule(Rule subpatternRule) {
+		subpatternRules.add(subpatternRule);
 	}
 
-	public Collection<Action> getSubpatterns() {
-		return Collections.unmodifiableCollection(subpatterns);
+	public Collection<Rule> getSubpatternRules() {
+		return Collections.unmodifiableCollection(subpatternRules);
 	}
 
 	/** Add a model to the unit. */
@@ -153,13 +153,13 @@ public class Unit extends IR {
 	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern() {
 		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
 		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();
-		for(Action action : actions) {
-			((MatchingAction)action).pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+		for(Rule actionRule : actionRules) {
+			actionRule.pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodes, alreadyDefinedEdges);
 			alreadyDefinedNodes.clear();
 		}
-		for(Action subpattern : subpatterns) {
-			((MatchingAction)subpattern).pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternRule.pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodes, alreadyDefinedEdges);
 			alreadyDefinedEdges.clear();
 		}
