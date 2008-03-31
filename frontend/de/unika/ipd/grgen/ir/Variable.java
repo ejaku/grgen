@@ -20,7 +20,7 @@
 
 /**
  * @author Rubino Geiss
- * @version $Id: Entity.java 17864 2008-02-26 00:10:53Z buchwald $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 

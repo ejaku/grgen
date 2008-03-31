@@ -20,7 +20,7 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id: SubpatternUsage.java 17577 2008-01-31 17:17:27Z rubino $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 

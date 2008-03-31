@@ -20,7 +20,7 @@
 
 /**
  * @author shack, Daniel Grund
- * @version $Id: Rule.java 17880 2008-02-26 18:29:31Z moritz $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 
