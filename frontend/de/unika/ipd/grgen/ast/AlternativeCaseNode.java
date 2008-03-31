@@ -20,7 +20,7 @@
 
 /**
  * @author Sebastian Hack, Daniel Grund, Edgar Jakumeit
- * @version $Id: SubpatternDeclNode.java 18220 2008-03-23 17:23:34Z eja $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
