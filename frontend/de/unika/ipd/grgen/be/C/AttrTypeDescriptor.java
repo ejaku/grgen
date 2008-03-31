@@ -25,7 +25,7 @@
  * @version $Id$
  */
 
-package de.unika.ipd.grgen.be.C.fb;
+package de.unika.ipd.grgen.be.C;
 
 public class AttrTypeDescriptor
 {

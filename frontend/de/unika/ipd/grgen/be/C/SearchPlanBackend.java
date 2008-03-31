@@ -18,6 +18,11 @@
  */
 
 
+/*********************************************************************************
+ * This file contains the code generator for firm-internal graph rewriting
+ *********************************************************************************/
+
+
 /**
  * A GrGen Backend which generates C code for a frame-based
  * graph model impl and a frame based graph matcher
@@ -39,7 +44,7 @@ import java.util.Set;
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendFactory;
-import de.unika.ipd.grgen.be.C.fb.MoreInformationCollector;
+import de.unika.ipd.grgen.be.C.MoreInformationCollector;
 import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Constant;

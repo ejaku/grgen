@@ -26,7 +26,7 @@
  * @version $Id$
  */
 
-package de.unika.ipd.grgen.be.C.fb;
+package de.unika.ipd.grgen.be.C;
 
 import java.util.Collection;
 import java.util.Collections;
