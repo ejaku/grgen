@@ -239,6 +239,8 @@ param [ int context ] returns [ BaseNode res = null ]
 		res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY);
 	}
 
+	| res=varDecl[context]
+
 	| node=nodeDecl[context]
 	{
 		res = new SingleNodeConnNode(node);
@@ -569,6 +571,18 @@ nodeDecl [ int context ] returns [ NodeDeclNode res = null ]
 				}
 			}
 	;
+
+varDecl [ int context ] returns [ VarDeclNode res = null ]
+	{
+		IdentNode id, type;
+	}
+
+	: VAR id=entIdentDecl COLON type=typeIdentUse
+		{
+			res = new VarDeclNode(id, type);
+		}
+	;
+
 
 forwardOrUndirectedEdgeOcc [int context, MutableInteger direction] returns [ BaseNode res = env.initNode() ]
 	: MINUS ( res=edgeDecl[context] | res=entIdentUse) forwardOrUndirectedEdgeOccContinuation[ direction ]

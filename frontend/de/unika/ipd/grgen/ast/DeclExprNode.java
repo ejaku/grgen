@@ -24,14 +24,18 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
-
-import de.unika.ipd.grgen.ast.util.MemberPairResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
+import de.unika.ipd.grgen.ast.MemberDeclNode;
+import de.unika.ipd.grgen.ast.QualIdentNode;
+import de.unika.ipd.grgen.ast.VarDeclNode;
+import de.unika.ipd.grgen.ast.util.MemberTripleResolver;
+import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberExpression;
+import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.VariableExpression;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * An expression that results from a declared identifier.
@@ -44,6 +48,7 @@ public class DeclExprNode extends ExprNode {
 	BaseNode declUnresolved;
 	MemberDeclNode declMember;
 	QualIdentNode declQualIdent;
+	VarDeclNode declVar;
 
 	/**
 	 * Make a new declaration expression.
@@ -70,24 +75,25 @@ public class DeclExprNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static MemberPairResolver<MemberDeclNode, QualIdentNode> memberInitResolver = new MemberPairResolver<MemberDeclNode, QualIdentNode>(MemberDeclNode.class, QualIdentNode.class);
+	private static MemberTripleResolver<MemberDeclNode, QualIdentNode, VarDeclNode> memberInitResolver =
+		new MemberTripleResolver<MemberDeclNode, QualIdentNode, VarDeclNode>(
+			MemberDeclNode.class, QualIdentNode.class, VarDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-		Pair<MemberDeclNode, QualIdentNode> resolved = memberInitResolver.resolve(declUnresolved, this);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		if (resolved != null) {
-			declMember = resolved.fst;
-			declQualIdent = resolved.snd;
-		}
+		Triple<MemberDeclNode, QualIdentNode, VarDeclNode> resolved = memberInitResolver.resolve(declUnresolved, this);
+		if(resolved == null) return false;
 
-		return successfullyResolved;
+		declMember    = resolved.first;
+		declQualIdent = resolved.second;
+		declVar       = resolved.third;
+
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	public TypeNode getType() {
-		DeclaredCharacter c = (DeclaredCharacter) getValidVersion(declUnresolved, declMember, declQualIdent);
+		DeclaredCharacter c = (DeclaredCharacter) getValidVersion(declUnresolved, declMember, declQualIdent, declVar);
 		TypeNode type = c.getDecl().getDeclType();
 		return type;
 	}
@@ -95,7 +101,7 @@ public class DeclExprNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.ExprNode#evaluate() */
 	public ExprNode evaluate() {
 		ExprNode res = this;
-		DeclaredCharacter c = (DeclaredCharacter) getValidVersion(declUnresolved, declMember, declQualIdent);
+		DeclaredCharacter c = (DeclaredCharacter) getValidVersion(declUnresolved, declMember, declQualIdent, declVar);
 		DeclNode decl = c.getDecl();
 
 		if(decl instanceof EnumItemNode) {
@@ -112,18 +118,19 @@ public class DeclExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#isConstant() */
 	public boolean isConst() {
-		DeclaredCharacter c = (DeclaredCharacter) getValidVersion(declUnresolved, declMember, declQualIdent);
+		DeclaredCharacter c = (DeclaredCharacter) getValidVersion(declUnresolved, declMember, declQualIdent, declVar);
 		return c.getDecl() instanceof EnumItemNode;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
-		BaseNode decl = getValidResolvedVersion(declMember, declQualIdent);
-		if(decl instanceof MemberDeclNode) {
-			return new MemberExpression((Entity)decl.getIR());
-		} else {
+		BaseNode decl = getValidResolvedVersion(declMember, declQualIdent, declVar);
+		if(decl instanceof MemberDeclNode)
+			return new MemberExpression((Entity) decl.getIR());
+		else if(decl instanceof VarDeclNode)
+			return new VariableExpression((Variable) decl.getIR());
+		else
 			return decl.getIR();
-		}
 	}
 }
 

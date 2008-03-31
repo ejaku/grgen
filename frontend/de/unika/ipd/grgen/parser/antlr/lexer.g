@@ -74,6 +74,7 @@ tokens {
   TYPEOF = "typeof";
   UNDIRECTED = "undirected";
   USING = "using";
+  VAR = "var";
   NUM_INTEGER;
   NUM_FLOAT;
   NUM_DOUBLE;

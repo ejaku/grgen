@@ -31,61 +31,43 @@ import java.util.Map;
 /**
  * A resolver, that resolves a declaration node from an identifier (used in a member init).
  */
-public class MemberPairResolver<S extends BaseNode, T extends BaseNode> extends Resolver<Pair<S,T>>
+public class MemberTripleResolver<S extends BaseNode, T extends BaseNode, U extends BaseNode>
+	extends Resolver<Triple<S, T, U>>
 {
 	private Class<S> clsS;
 	private Class<T> clsT;
+	private Class<U> clsU;
 	private Class<?>[] classes;
 
 	/**
- 	 * Make a new member pair resolver.
+ 	 * Make a new member triple resolver.
  	 *
 	 * @param cls A class, the resolved node must be an instance of.
 	 */
-	public MemberPairResolver(Class<S> clsS, Class<T> clsT) {
+	public MemberTripleResolver(Class<S> clsS, Class<T> clsT, Class<U> clsU) {
 		this.clsS = clsS;
 		this.clsT = clsT;
+		this.clsU = clsU;
 
-		classes = new Class[] { this.clsS, this.clsT };
+		classes = new Class[] { this.clsS, this.clsT, this.clsU };
 	}
 
 	/**
-	 * Resolves n to node of type S or T, via member init if n is an identifier, via simple cast otherwise
-	 * returns null if n's declaration or n can't be cast to S or T.
+	 * Resolves n to node of type S or T or U, via member init if n is an identifier, via simple cast otherwise
+	 * returns null if n's declaration or n can't be cast to S or T or U.
 	 */
-	public Pair<S,T> resolve(BaseNode n, BaseNode parent) {
-		if(n instanceof IdentNode) {
-			Pair<S,T> pair = resolve((IdentNode)n);
-			if (pair != null) {
-				assert pair.fst==null || pair.snd==null;
-				parent.becomeParent(pair.fst);
-				parent.becomeParent(pair.snd);
-			}
-			return pair;
-		}
+	public Triple<S,T,U> resolve(BaseNode n, BaseNode parent) {
+		if(n instanceof IdentNode)
+			return resolve((IdentNode) n, parent);
 
-		Pair<S,T> pair = new Pair<S,T>();
-		if(clsS.isInstance(n)) {
-			pair.fst = clsS.cast(n);
-		}
-		if(clsT.isInstance(n)) {
-			pair.snd = clsT.cast(n);
-		}
-		if(pair.fst!=null || pair.snd!=null) {
-			assert pair.fst==null || pair.snd==null;
-			return pair;
-		}
-
-		n.reportError("\"" + n + "\" is a " + n.getUseString() +
-				" but a " + Util.getStrListWithOr(classes, BaseNode.class, "getUseStr") + " is expected");
-		return null;
+		return genTriple(n, n);
 	}
 
 	/**
-	 * Resolves n to node of type S or T, via member init
-	 * returns null if n's declaration can't be cast to S or T.
+	 * Resolves n to node of type S or T or U via member init
+	 * returns null if n's declaration can't be cast to S or T or U.
 	 */
-	private Pair<S,T> resolve(IdentNode n) {
+	private Triple<S,T,U> resolve(IdentNode n, BaseNode parent) {
 		DeclNode res = n.getDecl();
 
 		if (res instanceof InvalidDeclNode) {
@@ -105,18 +87,35 @@ public class MemberPairResolver<S extends BaseNode, T extends BaseNode> extends 
 			}
 		}
 
-		Pair<S,T> pair = new Pair<S,T>();
-		if (clsS.isInstance(res)) {
-			pair.fst = clsS.cast(res);
+		Triple<S,T,U> triple = genTriple(res, n);
+		if(triple == null) return null;
+
+		parent.becomeParent(triple.first);
+		parent.becomeParent(triple.second);
+		parent.becomeParent(triple.third);
+
+		return triple;
+	}
+
+	private Triple<S,T,U> genTriple(BaseNode res, BaseNode errorPos) {
+		Triple<S,T,U> triple = new Triple<S,T,U>();
+		if(clsS.isInstance(res)) {
+			triple.first = clsS.cast(res);
 		}
-		if (clsT.isInstance(res)) {
-			pair.snd = clsT.cast(res);
+		if(clsT.isInstance(res)) {
+			triple.second = clsT.cast(res);
 		}
-		if(pair.fst!=null || pair.snd!=null) {
-			return pair;
+		if(clsU.isInstance(res)) {
+			triple.third = clsU.cast(res);
+		}
+		if(triple.first != null || triple.second != null || triple.third != null) {
+			assert (triple.first  == null ? 0 : 1)
+				 + (triple.second == null ? 0 : 1)
+				 + (triple.third  == null ? 0 : 1) == 1;
+			return triple;
 		}
 
-		n.reportError("\"" + n + "\" is a " + res.getUseString() + " but a "
+		errorPos.reportError("\"" + errorPos + "\" is a " + res.getUseString() + " but a "
 		        + Util.getStrListWithOr(classes, BaseNode.class, "getUseStr")
 		        + " is expected");
 

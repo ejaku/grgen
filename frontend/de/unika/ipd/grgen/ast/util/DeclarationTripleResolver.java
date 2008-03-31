@@ -48,12 +48,13 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 	/** resolves n to node of type R, S or T, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R, S or T */
 	public Triple<R, S, T> resolve(BaseNode n, BaseNode parent) {
+		Triple<R, S, T> triple;
 		if(n instanceof IdentNode) {
-			Triple<R, S, T> triple = resolve((IdentNode)n);
+			triple = resolve((IdentNode)n);
 			if (triple != null) {
-				assert (triple.first == null && triple.second == null)
-					|| (triple.first == null && triple.third == null)
-					|| (triple.second == null && triple.third == null);
+				assert (triple.first  == null ? 0 : 1)
+					 + (triple.second == null ? 0 : 1)
+					 + (triple.third  == null ? 0 : 1) == 1;
 				parent.becomeParent(triple.first);
 				parent.becomeParent(triple.second);
 				parent.becomeParent(triple.third);
@@ -61,22 +62,22 @@ public class DeclarationTripleResolver<R extends BaseNode, S extends BaseNode, T
 			return triple;
 		}
 
-		Triple<R, S, T> tripel = new Triple<R, S, T>();
+		triple = new Triple<R, S, T>();
 		if(clsR.isInstance(n)) {
-			tripel.first = clsR.cast(n);
+			triple.first = clsR.cast(n);
 		}
 		if(clsS.isInstance(n)) {
-			tripel.second = clsS.cast(n);
+			triple.second = clsS.cast(n);
 		}
 		if(clsT.isInstance(n)) {
-			tripel.third = clsT.cast(n);
+			triple.third = clsT.cast(n);
 		}
-		if(tripel.first != null || tripel.second != null || tripel.third != null) {
-			assert (tripel.first == null && tripel.second == null)
-			|| (tripel.first == null && tripel.third == null)
-			|| (tripel.second == null && tripel.third == null);
+		if(triple.first != null || triple.second != null || triple.third != null) {
+			assert (triple.first  == null ? 0 : 1)
+				 + (triple.second == null ? 0 : 1)
+				 + (triple.third  == null ? 0 : 1) == 1;
 
-			return tripel;
+			return triple;
 		}
 
 		n.reportError("\"" + n + "\" is a " + n.getUseString() +

@@ -58,7 +58,7 @@ public abstract class BaseNode extends Base
 	public static final int CONTEXT_ACTION_OR_PATTERN = 1<<1;
 	public static final int CONTEXT_ACTION = 0<<1;
 	public static final int CONTEXT_PATTERN = 1<<1;
-	public static final int CONTEXT_TEST_OR_RULE = 1<<2; // only valid if CONTEXT_ACTION 
+	public static final int CONTEXT_TEST_OR_RULE = 1<<2; // only valid if CONTEXT_ACTION
 	public static final int CONTEXT_TEST = 0<<2;
 	public static final int CONTEXT_RULE = 1<<2;
 
@@ -367,6 +367,22 @@ public abstract class BaseNode extends Base
 		return null;
 	}
 
+	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
+	protected <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved, T thirdResolved) {
+		assert isResolved() : this;
+		if(firstResolved != null){
+			return firstResolved;
+		}
+		if(secondResolved != null){
+			return secondResolved;
+		}
+		if(thirdResolved != null){
+			return thirdResolved;
+		}
+		assert false : this;
+		return null;
+	}
+
 	/** Return the currently valid member. Currently valid depends on variable was already resolved. */
 	protected <T extends BaseNode> T getValidVersion(T unresolved, T resolved) {
 		if(isResolved()){
@@ -383,6 +399,22 @@ public abstract class BaseNode extends Base
 			}
 			if(secondResolved != null){
 				return secondResolved;
+			}
+		}
+		return unresolved;
+	}
+
+	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
+	protected <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved, T thirdResolved) {
+		if(isResolved()){
+			if(firstResolved != null){
+				return firstResolved;
+			}
+			if(secondResolved != null){
+				return secondResolved;
+			}
+			if(thirdResolved != null){
+				return thirdResolved;
 			}
 		}
 		return unresolved;

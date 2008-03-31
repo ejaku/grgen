@@ -96,7 +96,7 @@ public class GraphNode extends BaseNode {
 		becomeParent(this.params);
 		this.context = context;
 
-		// treat parameters like connections
+		// treat non-var parameters like connections
 		addParamsToConnections(params);
 	}
 
@@ -125,9 +125,12 @@ public class GraphNode extends BaseNode {
 	}
 
 	private static final CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode> connectionsResolver =
-		new CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(new DeclarationTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(ConnectionNode.class, SingleNodeConnNode.class,  SingleGraphEntityNode.class));;
+		new CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(
+			new DeclarationTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(
+				ConnectionNode.class, SingleNodeConnNode.class,  SingleGraphEntityNode.class));
 
-	private static final CollectPairResolver<ConstraintDeclNode> returnsResolver = new CollectPairResolver<ConstraintDeclNode>(
+	private static final CollectPairResolver<ConstraintDeclNode> returnsResolver =
+		new CollectPairResolver<ConstraintDeclNode>(
 			new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
 
 
@@ -172,9 +175,24 @@ public class GraphNode extends BaseNode {
         	becomeParent(subpatterns);
         }
 
+		boolean paramsOK = true;
+    	for (BaseNode n : params.getChildren()) {
+			if(!(n instanceof VarDeclNode)) continue;
+
+			VarDeclNode paramVar = (VarDeclNode) n;
+			if(paramVar.resolve()) {
+				if(!(paramVar.getDeclType() instanceof BasicTypeNode)) {
+					paramVar.typeUnresolved.reportError("Type of variable \""
+							+ paramVar.getIdentNode() + "\" must be a basic type (like int or string)");
+					paramsOK = false;
+				}
+			}
+			else paramsOK = false;
+        }
+
 		returns = returnsResolver.resolve(returnsUnresolved, this);
 
-		return resolve != null && returns != null;
+		return resolve != null && paramsOK && returns != null;
 	}
 
 	private static final Checker connectionsChecker = new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
@@ -294,6 +312,7 @@ public class GraphNode extends BaseNode {
 	private void addParamsToConnections(CollectNode<BaseNode> params)
     {
     	for (BaseNode n : params.getChildren()) {
+			if(n instanceof VarDeclNode) continue;
             connectionsUnresolved.addChild(n);
         }
     }

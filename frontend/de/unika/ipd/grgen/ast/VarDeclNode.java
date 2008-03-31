@@ -64,7 +64,12 @@ public class VarDeclNode extends DeclNode {
 	 * false, if there was some error.
 	 */
 	protected boolean resolveLocal() {
-		type = declOfTypeResolver.resolve(typeUnresolved, this).getDeclType();
+		DeclNode typeDecl = declOfTypeResolver.resolve(typeUnresolved, this);
+		if(typeDecl instanceof InvalidDeclNode) {
+			typeUnresolved.reportError("Unknown type: \"" + typeUnresolved + "\"");
+			return false;
+		}
+		type = typeDecl.getDeclType();
 		return type != null;
 	}
 
