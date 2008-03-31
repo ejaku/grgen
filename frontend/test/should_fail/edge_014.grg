@@ -1,0 +1,7 @@
+using edge_model_007;
+
+rule r {
+	replace {
+		x:Node ?-e:A-? y:Node;
+	}
+}
