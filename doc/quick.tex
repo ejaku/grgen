@@ -1,7 +1,5 @@
 \chapter{Quickstart}\indexmain{quickstart}
 
-\TODO{Coding Convention Rules?}
-
 In this chapter we'll build a \GrG\ system from scratch. 
 You should already have read chapter \ref{chp:intro} to have a glimpse of the \GrG\ system and its components.
 We will use \GrG\ to construct non-deterministic state machines.
@@ -28,8 +26,19 @@ export PATH=/opt/grgen/bin:$PATH
 \end{bash}
 Furthermore we create a directory for our \GrG\ data, for instance by \texttt{mkdir /home/grgen}.
 
+\begin{figure}[htbp]
+    \begin{note}
+        {\bf If you're using Microsoft Windows:}
+        On Windows make sure you have the .NET 2.0 (or above) framework installed.
+        \GrG\ does not need to be ``installed'', just copy the extracted files to a directory of your choice.
+        Add this directory to your search paths via \emph{control panel} $\rightarrow$ \emph{system properties}.
+        You might rather want to download the zip archive instead of the bz2 archive.
+        Execute the \GrG\ assemblies from a command line window (\emph{Start} $\rightarrow$ \emph{Run...} $\rightarrow$ \texttt{cmd}); On Windows / .NET the \texttt{mono} prefix is not applicable, of course.
+    \end{note}
+\end{figure}
+
 \section{Creating a Graph Model}
-In the directory \texttt{/home/grgen} we create a text file \texttt{state\_machine.gm} that contains the graph meta model for our state machine\footnote{You'll find the source code of this quick start example shipped with the \GrG\ package in the \texttt{examples/FiniteStateMachine/} directory.}.
+In the directory \texttt{/home/grgen} we create a text file \texttt{StateMachine.gm} that contains the graph meta model for our state machine\footnote{You'll find the source code of this quick start example shipped with the \GrG\ package in the \texttt{examples/FiniteStateMachine/} directory.}.
 By graph meta model we mean a set of node types and edge types which are available for building state machine graphs (see chapter \ref{chapmodellang}).
 Figure \ref{fig:quick:mm} shows the meta model.
 \begin{figure}[htbp]
@@ -65,20 +74,20 @@ As you can see \GrG\ supports multiple inheritance, and with \texttt{StartFinalS
 Let's test our graph meta model by creating a state machine graph.
 We will use the \GrShell\ (see chapter \ref{chapgrshell}) and---for visualization---\yComp.
 To get everything working we need a rule set file, too.
-For the moment we just create an almost empty file \texttt{remove\_epsilons.grg} in the \texttt{/home/grgen} directory, containing only the line
+For the moment we just create an almost empty file \texttt{removeEpsilons.grg} in the \texttt{/home/grgen} directory, containing only the line
 \begin{grgen}
-using state_machine;
+using StateMachine;
 \end{grgen}
 Now, we could start by launching the \GrShell\ and typing the commands interactively.
 This is, however, in most of the cases not the preferred way.
-We rather create a \GrShell\ script, say \texttt{remove\_epsilons.grs}, in the \texttt{/home/grgen} directory.
+We rather create a \GrShell\ script, say \texttt{removeEpsilons.grs}, in the \texttt{/home/grgen} directory.
 Figure \ref{fig:quick:shell} shows this script.
-Run the script by executing \texttt{grshell remove\_epsilons.grs}.
+Run the script by executing \texttt{grshell removeEpsilons.grs}.
 The first time you execute the script, it might take a while because \GrG\ has to compile the meta model and the rule set into .NET assemblies.
 \begin{figure}[htbp]
     \centering
     \begin{grgen}
-new graph remove_epsilons "StateMachineGraph"
+new graph removeEpsilons "StateMachineGraph"
 
 new :StartState($=S, id=0)
 new :FinalState($=F, id=3)
@@ -107,7 +116,7 @@ The graph looks still a bit confusing.
 In fact it is quite normal that \yComp's automatic layout algorithm needs manual adjustments.
 Quit \yComp\ and exit the \GrShell\ by typing \texttt{exit}.
 
-This script starts with creating an empty graph of the meta model \texttt{StateMachine} (which is referenced by the rule set \texttt{remove\_epsilons.grg}) with the name \texttt{StateMachineGraph}.
+This script starts with creating an empty graph of the meta model \texttt{StateMachine} (which is referenced by the rule set \texttt{removeEpsilons.grg}) with the name \texttt{StateMachineGraph}.
 Thereafter we create nodes and edges.
 The colon notation indicates a node or edge type.
 Also note the inplace-arrow notation for edges (\texttt{-Edge->} resp.\ \texttt{-:EdgeType->}).
@@ -120,7 +129,7 @@ Persistent names are set by \texttt{\$=Identifier} on creation and they are acce
 The quote chars around \texttt{"1"} and \texttt{"2"} are used to type these characters as (identifier) strings rather than numbers.
 
 \section{The Rewrite Rules}
-We will now add the real rewrite rules to the rule set file \texttt{remove\_epsilons.grg}.
+We will now add the real rewrite rules to the rule set file \texttt{removeEpsilons.grg}.
 The idea is to ``forward'' the $\varepsilon$-transitions one after another, i.e.\ if we have a pattern like \texttt{a:State -EpsilonTransition-> b:State -e:Transition-> c:State} we forward to \texttt{a -e-> c}.
 After all such transitions are forwarded we can remove the $\varepsilon$-transitions alltogether.
 The complete rule set is shown in figure \ref{fig:quick:ruleset}.
@@ -128,57 +137,57 @@ See chapter \ref{chaprulelang} for the rule set language reference.
 \begin{figure}[htbp]
 	\centering
 	\begin{grgen}
-using state_machine;
+using StateMachine;
 
-test CheckStartState {
-    x: StartState;
+test checkStartState {
+    x:StartState;
     negative {
         x;
-        y: StartState;
+        y:StartState;
     }
 }
 
-test CheckDoublettes {
+test checkDoublettes {
     negative {
         x:State -e:Transition-> y:State;
         hom(x,y);
         x -doublette:Transition-> y;
-        if { typeof(doublette) == typeof(e); }
+        if {typeof(doublette) == typeof(e);}
         if { ((typeof(e) == EpsilonTransition) || (e.Trigger == doublette.Trigger)); }
     }
 }
 
-rule ForwardTransition {
+rule forwardTransition {
     x:State -:EpsilonTransition-> y:State -e:Transition-> z:State;
     hom(x,y,z);
     negative {
         x -exists:Transition-> z;
-        if { typeof(exists) == typeof(e); }
+        if {typeof(exists) == typeof(e);}
         if { ((typeof(e) == EpsilonTransition) || (e.Trigger == exists.Trigger)); }
     }
     modify {
         x -forward:typeof(e)-> z;
-        eval { forward.Trigger = e.Trigger; }
+        eval {forward.Trigger = e.Trigger;}
     }    
 }
 
-rule AddStartFinalState {
+rule addStartFinalState {
     x:StartState -:EpsilonTransition-> :FinalState;
     modify {
         y:StartFinalState<x>;
-        emit ("Start state (" + x.id +  ") mutated into a start-and-final state");
+        emit("Start state (" + x.id +  ") mutated into a start-and-final state");
     }
 }
 
-rule AddFinalState {
+rule addFinalState {
     x:State -:EpsilonTransition-> :FinalState;
-    if { typeof(x) < SpecialState; }
+    if {typeof(x) < SpecialState;}
     modify {
         y:FinalState<x>;
     }
 }
 
-rule RemoveEpsilonTransition {
+rule removeEpsilonTransition {
     -:EpsilonTransition->;
     replace {}   
 }	
@@ -187,7 +196,7 @@ rule RemoveEpsilonTransition {
 	\label{fig:quick:ruleset}
 \end{figure}
 
-In detail: The rule set file consists of a number of rules and tests, each of them bearing a name, like \texttt{ForwardTransition}.
+In detail: The rule set file consists of a number of rules and tests, each of them bearing a name, like \texttt{forwardTransition}.
 Rules contain a pattern expressed as several semicolon-separated pattern statements and a modify part or a rewrite part.
 Tests contain only a pattern; they are used to check for a certain pattern without doing any rewrite operation.
 If a rule is applied, \GrG\ tries to find the pattern within a host graph, for instance within the graph we created in section \ref{sct:quick:create}.
@@ -209,17 +218,17 @@ Note, the dot notation to access attributes (as in \texttt{e.Trigger}).
 The \texttt{emit} statement prints a string to \texttt{stdout}.
 The \texttt{hom(x,y)} and \texttt{hom(x,y,z)} statements mean ``match the embraced nodes homomorphically'', i.e.\ they can (but they don't have to) actually be matched to the same node within the host graph.
 The \texttt{eval \{\dots\}} statement is used to recalculate attributes of graph elements.
-Have a look at the statement \texttt{y:StartFinalState<x>} in \texttt{AddStartFinalState}: we \emph{retype} the node \texttt{x}.
+Have a look at the statement \texttt{y:StartFinalState<x>} in \texttt{addStartFinalState}: we \emph{retype} the node \texttt{x}.
 That means the newly created node \texttt{y} is actually the node \texttt{x} (including its incident edges and attribute values) except for the node type which is changed to \texttt{StartFinalState}.
 Imagine retyping as a kind of a type cast.
 
 The created rewrite rules might be considered as rewrite primitives.
 In order to implement more complex functionality, we will compose a sequence of rewrite rules out of them. 
-For instance we don't want to forward just one $\varepsilon$-transition as \texttt{ForwardTransition} would do; we want to forward them all.
+For instance we don't want to forward just one $\varepsilon$-transition as \texttt{forwardTransition} would do; we want to forward them all.
 Such a rule composing is called \emph{graph rewrite sequence} (see section \ref{sct:xgrs}).
-We add the following line to our shell script \texttt{remove\_epsilons.grs}:
+We add the following line to our shell script \texttt{removeEpsilons.grs}:
 \begin{grgen}
-debug xgrs (CheckStartState && CheckDoublettes) && <ForwardTransition* | AddStartFinalState | AddFinalState* | RemoveEpsilonTransition*>
+debug xgrs (checkStartState && checkDoublettes) && <forwardTransition* | addStartFinalState | addFinalState* | removeEpsilonTransition*>
 \end{grgen}
 This looks like a boolean expression and in fact it behaves similar.
 The whole expression is evaluated from left to right.

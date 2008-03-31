@@ -8,26 +8,24 @@ The \indexed{rule set} language forms the core of \GrG. Rule files refer to zero
 using SomeModel;
 
 rule SomeRule {
-  n1 : NodeTypeA;
-  n2 : NodeTypeA;
+  n1:NodeTypeA;
+  n2:NodeTypeA;
   hom(n1, n2);
   n1 --> n2; /*@\label{ex:somerule:graphlet}@*/
-  n3: NodeTypeB;
+  n3:NodeTypeB;
   negative {
     n3 -e1:EdgeTypeA-> n1;
     if {n3.a1 == 42*n2.a1;}
   }
   negative { /*@\label{ex:somerule:secondnac:begin}@*/
-    n4: Node \ (NodeTypeB);
+    n4:Node\(NodeTypeB);
     n3 -e1:EdgeTypeB-> n4;
     if {typeof(e1) >= EdgeTypeA;}
   } /*@\label{ex:somerule:secondnac:end}@*/
   replace {
-    n5: NodeTypeC<n1>;
+    n5:NodeTypeC<n1>;
     n3 -e1:EdgeTypeB-> n5;
-    eval {
-      n5.a3 = n3.a1*n1.a2;
-    }
+    eval {n5.a3 = n3.a1*n1.a2;}
   }  
 }
 \end{grgen}
@@ -272,7 +270,7 @@ For an explanation of the \texttt{exact}, \texttt{induced}, and \texttt{dpo} pat
 We define a test \texttt{SomeCond}
 \begin{grgen}
 test SomeCond {
-  n: SeldomNodeType;
+  n:SeldomNodeType;
 }
 \end{grgen}
 and execute in \GrShell:
@@ -300,7 +298,7 @@ test r(-e:Edge->, x:Node) {
     -e-> x;
   }
   negative {
-    x -e->;
+    x -e-> ;
   }
 }
 \end{grgen}
@@ -313,7 +311,7 @@ test s {
     -e-> x;
   }
   negative {
-    x -e->;
+    x -e-> ;
   }
 }
 \end{grgen}
@@ -329,8 +327,8 @@ The return types specify edge and node types of graph elements that are returned
 \begin{example}\label{ex:rule:someruleext}
 We extend \texttt{SomeRule} (Example~\ref{ex:rule:SomeRule}) with a user defined node to match and we want it to return the rewritten graph elements \texttt{n5} and \texttt{e1}.
 \begin{grgen}
-  rule SomeRuleExt(varnode: Node): (Node, EdgeTypeB) {
-    n1: NodeTypeA;
+  rule SomeRuleExt(varnode:Node):(Node, EdgeTypeB) {
+    n1:NodeTypeA;
     ...
     
     replace {
@@ -485,8 +483,8 @@ If an incident node of an edge gets deleted, the edge will be deleted as well (i
   \texttt{x:T;} & \texttt{}                   & $\lhs.x \notin \deF(r)$    & Deletion \\
   \texttt{} & \texttt{x:T;}                   & $\rhs.x \notin \ran(r)$    & Creation \\
   \texttt{x:T;} & \texttt{x:T;}               & --- & Illegal, redefinition of \texttt{x} \\
-  \texttt{-e:T->;} & \texttt{-e-> x:Node;}    & --- & Illegal, redirection of  \texttt{e} \\
-  \texttt{x:N -e:E-> y:N;} & \texttt{x -e->;} & $r:\{\lhs.x\} \mapsto \{\rhs.x\}$ & Deletion of \texttt{y}. Hence del\-etion of \texttt{e}. \\
+  \texttt{-e:T-> ;} & \texttt{-e-> x:Node;}    & --- & Illegal, redirection of  \texttt{e} \\
+  \texttt{x:N -e:E-> y:N;} & \texttt{x -e-> ;} & $r:\{\lhs.x\} \mapsto \{\rhs.x\}$ & Deletion of \texttt{y}. Hence del\-etion of \texttt{e}. \\
 \end{tabularx}
 \caption{Definition of the preservation morphism $r$}
 \label{rule:impldefinition}
@@ -516,7 +514,7 @@ rule SomeRuleExtModify(varnode: Node): (Node, EdgeTypeB)  {
   n1 -e0:Edge-> n2;
   ...
   modify {
-    n5 : NodeTypeC<n1>;
+    n5:NodeTypeC<n1>;
     n3 -e1:EdgeTypeB-> n5;
     delete(e0);
     eval {
@@ -582,8 +580,8 @@ modify {
   ...
   eval {y.i = 40;}
   eval {y.j = 0;}
-  x: IJNode;
-  y: IJNode;
+  x:IJNode;
+  y:IJNode;
   delete(x);
   eval {
     x.i = 1; 
@@ -694,7 +692,7 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
                 \draw[-latex] (n2) -- (n3) {};
                 \draw[-latex] (n2) -- (n4) node[midway,right] {$e$};
             \end{tikzpicture}\end{tabular} & 
-                \begin{tabular}[c]{@{}l}\texttt{pattern\{ --> x:node -->; \}}\\\texttt{modify\{ delete(x); \}}\end{tabular} & 
+                \begin{tabular}[c]{@{}l}\texttt{pattern\{ --> x:node --> ; \}}\\\texttt{modify\{ delete(x); \}}\end{tabular} & 
                 Produces no match in DPO-mode because of edge \texttt{e}\\    
         \end{tabularx}
     \end{center}

@@ -50,7 +50,7 @@ Be careful with assignments of objects: \GrG\ does not know your .NET type hiera
 	  \texttt{x.myfloat = x.myint; x.mydouble = (float) x.myint;\\ x.mystring = (string) x.mybool;}
     \item Forbidden:\\
       \texttt{x.myfloat = x.mydouble;} and \texttt{x.myint = (int) x.mybool;}\\
-      \texttt{myenum1 = (myenum1\_type) int;} and \texttt{myenum2 = (myenum2\_type) myenum1;}
+      \texttt{MyEnum1 = (MyEnum1Type) int;} and \texttt{MyEnum2 = (MyEnum2Type) MyEnum1;}
   where {\tt myenum1} and {\tt myenum2} are different enum types.
 
   \end{itemize}

@@ -14,27 +14,27 @@ The key features of \GrG\ \emph{graph models}\indexmain{graph model} as describe
 \begin{example}\label{ex:model:map}
 The following toy example of a model of road maps gives a rough picture of the language:
 \begin{grgen}
-enum resident {village = 500, town = 5000, city = 50000}
+enum Resident {VILLAGE = 500, TOWN = 5000, CITY = 50000}
 
-node class sight;
+node class Sight;
 
-node class city {
-	size: resident;
+node class City {
+	Size:Resident;
 }
 
-const node class metropolis extends city {
-  river: string;
+const node class Metropolis extends City {
+  River:String;
 }  
 
-abstract node class abandoned_city extends city;
-node class ghost_town extends abandoned_city;
+abstract node class AbandonedCity extends City;
+node class GhostTown extends AbandonedCity;
 
-edge class street;
-edge class trail extends street;
-edge class highway extends street
-    connect metropolis [+] -> metropolis [+]
+edge class Street;
+edge class Trail extends Street;
+edge class Highway extends Street
+    connect Metropolis[+] -> Metropolis[+]
 {
-    jam: boolean = false;
+    Jam:boolean = false;
 }
 \end{grgen}
 \end{example}
@@ -87,18 +87,18 @@ Accordingly, a \GrG\ enum is internally represented as \texttt{int} (see Section
 	Normally, assignments of {\tt int} values to something that has an enum type are forbidden (see section~\ref{builtin}).
 	Only inside a declaration of an enum type an int value may be assigned to the enum item that is currently declared.
 	This also includes the usage of items taken from other enum types (because they are implicitly casted to {\tt int}).
-	However, items from other enum types must be written fully qualified in this case (which, e.g., looks like {\tt my\_enum::a}, where {\tt my\_enum} is the name of the other enum type).
+	However, items from other enum types must be written fully qualified in this case (which, e.g., looks like {\tt MyEnum::a}, where {\tt MyEnum} is the name of the other enum type).
 \end{note}
 
 \begin{example}
 \begin{grgen}
-enum Color {red, green, blue}
-enum Resident {village = 500, town = 5000, city = 50000}
-enum AsInC {a = 2, b, c = 1, d, e = (int)Resident::village + c}
+enum Color {RED, GREEN, BLUE}
+enum Resident {VILLAGE = 500, TOWN = 5000, CITY = 50000}
+enum AsInC {A = 2, B, C = 1, D, e = (int)Resident::VILLAGE + C}
 \end{grgen}
 Consider, e.g., the declaration of the enum item {\tt e}:
-By implicit casts of   {\tt Resident::village } and {\tt c} to {\tt int} we get the {\tt int} value 501, which is assigned to {\tt e}.
-Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following holds: $\texttt{red} = 0$, $\texttt{green} = 1$, $\texttt{blue} = 2$, $\texttt{a}=2$, $\texttt{b}=3$, $\texttt{c}=1$, $\texttt{d}=2$, and $\texttt{e}=501$.
+By implicit casts of   {\tt Resident::VILLAGE } and {\tt C} to {\tt int} we get the {\tt int} value 501, which is assigned to {\tt E}.
+Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following holds: $\texttt{RED} = 0$, $\texttt{GREEN} = 1$, $\texttt{BLUE} = 2$, $\texttt{A}=2$, $\texttt{B}=3$, $\texttt{C}=1$, $\texttt{D}=2$, and $\texttt{E}=501$.
 \end{example}
 \begin{note}
 	The C-like semantics of enum item declarations implies, that multiple items of one enum type can be associated with the same same {\tt int} value.
@@ -114,13 +114,13 @@ Defines a new node type or edge type. The keyword \texttt{abstract} indicates th
 \begin{example}
 We adjust our map model and make \texttt{city} abstract:
 \begin{grgen}
-abstract node class city {
-	size: int;
+abstract node class City {
+	Size:int;
 }
-abstract node class abandoned_city extends city;
-node class ghost_town extends abandoned_city;
+abstract node class AbandonedCity extends City;
+node class GhostTown extends AbandonedCity;
 \end{grgen}
-You will be able to create nodes of type \texttt{ghost\_town}, but not of type \texttt{city} or \texttt{abandoned\_city}. However, nodes of type \texttt{ghost\_town} are also of type \texttt{abandoned\_city} as well as of type \texttt{city} and they have the attribute \texttt{size}, hence.
+You will be able to create nodes of type \texttt{GhostTown}, but not of type \texttt{City} or \texttt{AbandonedCity}. However, nodes of type \texttt{GhostTown} are also of type \texttt{AbandonedCity} as well as of type \texttt{City} and they have the attribute \texttt{Size}, hence.
 \end{example}
 The keyword \texttt{const} indicates that rules may not write to attributes (see also Section~\ref{replacepart}, \texttt{eval}). However, such attributes are still writable by \LibGr\indexmain{libGr} and \GrShell\indexmain{GrShell} directly. This property applies to attributes defined in the current class, only. It does not apply to inherited attributes. The \texttt{const} property will not be inherited by subclasses, either. If you want a subclass to have the \texttt{const} property, you have to set the \texttt{const} modifier explicitly.
 
@@ -178,8 +178,8 @@ Defines a node or edge \indexed{attribute}. Possible types are enumeration types
 \begin{example}
 	The following attribute declarations are \emph{illegal} because of the order of evaluation of initialization values:
 	\begin{grgen}
-x: int = y;
-y: int = 42;	
+x:int = y;
+y:int = 42;	
 	\end{grgen}
 \end{example}
 
