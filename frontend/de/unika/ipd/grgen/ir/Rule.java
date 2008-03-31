@@ -48,7 +48,7 @@ public class Rule extends MatchingAction {
 	/** A list of the replacement parameters */
 	private final List<Node> replParams = new LinkedList<Node>();
 
-	
+
 	/**
 	 * Make a new rule.
 	 * @param ident The identifier with which the rule was declared.
@@ -77,7 +77,7 @@ public class Rule extends MatchingAction {
 	public void addEval(Assignment a) {
 		evals.add(a);
 	}
-	
+
 	/** Add a replacement parameter to the rule. */
 	public void addReplParameter(Node id) {
 		replParams.add(id);
@@ -99,6 +99,13 @@ public class Rule extends MatchingAction {
 	public Collection<Edge> getCommonEdges() {
 		Collection<Edge> common = new HashSet<Edge>(pattern.getEdges());
 		common.retainAll(right.getEdges());
+		return common;
+	}
+
+	/** @return A set with subpatterns, that occur on the left _and_ on the right side of the rule. */
+	public Collection<SubpatternUsage> getCommonSubpatternUsages() {
+		Collection<SubpatternUsage> common = new HashSet<SubpatternUsage>(pattern.getSubpatternUsages());
+		common.retainAll(right.getSubpatternUsages());
 		return common;
 	}
 

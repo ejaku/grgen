@@ -51,7 +51,8 @@ public class SingleGraphEntityNode extends BaseNode
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<NodeDeclNode, SubpatternUsageNode> entityResolver = new DeclarationPairResolver<NodeDeclNode, SubpatternUsageNode>(NodeDeclNode.class, SubpatternUsageNode.class);
+	private static final DeclarationPairResolver<NodeDeclNode, SubpatternUsageNode> entityResolver =
+		new DeclarationPairResolver<NodeDeclNode, SubpatternUsageNode>(NodeDeclNode.class, SubpatternUsageNode.class);
 
 	@Override
 	protected boolean resolveLocal()
