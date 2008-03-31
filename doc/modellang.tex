@@ -4,7 +4,7 @@ The key features of \GrG\ \emph{graph models}\indexmain{graph model} as describe
 
 \begin{description}
 \item[Types] Nodes and edges are typed. 
-  This is similar to classes in common programming languages, except for the concept of methods that \GrG\ nodes and edges don't support. 
+  This is similar to classes in common programming languages, except for the concept of methods that \GrG\ nodes and edges don't support. \GrG\ edge types can be directed and undirected.
 \item[Attributes] Nodes and edges may possess attributes. The set of attributes assigned to a node or edge is determined by its type. The attributes themselves are typed, too.
 \item[Inheritance] Node and edge types (classes) can be composed by multiple \indexed{inheritance}. \texttt{Node} and \texttt{Edge} are built-in root types of node and edge types, respectively. Inheritance eases the specification of attributes because subtypes inherit the attributes of their super types. Note that \GrG\ lacks a concept of overwriting. On a path in the \indexed{type hierarchy} graph from a type up to the built-in root type there must be exactly one declaration for each attribute identifier. Furthermore, if multiple paths from a type up to the built-in root type exist, the declaring types for an attribute identifier must be the same on all such paths.
 \item[Connection Assertions] To specify that certain edge types should only connect specific nodes, we include connection assertions. In particular this allows for constraints on the number of outgoing and incoming edges.
@@ -65,6 +65,12 @@ Using an identifier before defining it is allowed. Every used identifier has to 
 \pagebreak
 \emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ \nopagebreak
 These are (semantic) specializations of \emph{Ident} to restrict an identifier to denote a node type, an edge type, or an enum type, respectively.
+
+\subsection{Base Types}
+The \GrG\ model language has built-in types for nodes and edges.
+All nodes have the attribute-less, built-in type \texttt{Node} as their ancestor.
+All edges have the abstract (see section \ref{typedecl}), attribute-less, built-in type \texttt{AEdge} as their ancestor.
+\TODO{rest of type system} 
 
 \section{Type Declarations}
 \label{typedecl}
