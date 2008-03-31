@@ -36,10 +36,8 @@ import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.Pattern;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Edge;
 
@@ -417,7 +415,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
 		}
-		
+
 		// add replacement parameters to the IR
 		// TODO choose the right one
 		PatternGraph right = null;
@@ -427,7 +425,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		else {
 			return;
 		}
-		
+
 		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
 			rule.addReplParameter((Node) decl.checkIR(Entity.class));
 			if(decl instanceof NodeCharacter) {

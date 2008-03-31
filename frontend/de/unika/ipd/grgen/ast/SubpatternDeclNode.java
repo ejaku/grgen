@@ -35,10 +35,8 @@ import java.util.LinkedList;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Pattern;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Node;
@@ -93,7 +91,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		return childrenNames;
 	}
 
-	protected static final DeclarationTypeResolver<SubpatternTypeNode> typeResolver = 
+	protected static final DeclarationTypeResolver<SubpatternTypeNode> typeResolver =
 		new DeclarationTypeResolver<SubpatternTypeNode>(SubpatternTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -345,7 +343,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 
 		return edgeReUse;
 	}
-	
+
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -416,7 +414,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
 		}
-		
+
 		// add replacement parameters to the IR
 		// TODO choose the right one
 		PatternGraph right = null;
@@ -426,7 +424,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		else {
 			return;
 		}
-		
+
 		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
 			rule.addReplParameter((Node) decl.checkIR(Entity.class));
 			if(decl instanceof NodeCharacter) {
@@ -436,7 +434,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 			}
 		}
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
@@ -455,7 +453,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		if(this.right.children.size() > 0) {
 			right = this.right.children.get(0).getPatternGraph(left);
 		}
-		
+
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
 		if (isIRAlreadySet()) {
@@ -474,7 +472,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				rule.addEval(n);
 			}
 		}
-		
+
 		return rule;
 	}
 
@@ -536,7 +534,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	public static String getKindStr() {
 		return "subpattern declaration";
 	}
-	
+
 	public static String getUseStr() {
 		return "subpattern";
 	}
