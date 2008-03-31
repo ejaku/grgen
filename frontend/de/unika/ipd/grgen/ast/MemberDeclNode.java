@@ -134,4 +134,12 @@ public class MemberDeclNode extends DeclNode {
 		Type type = (Type) getDeclType().checkIR(Type.class);
 		return new Entity("entity", getIdentNode().getIdent(), type);
 	}
+
+	public static String getKindStr() {
+		return "member declaration";
+	}
+
+	public static String getUseStr() {
+		return "member access";
+	}
 }

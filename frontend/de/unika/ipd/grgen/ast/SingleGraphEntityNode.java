@@ -79,4 +79,11 @@ public class SingleGraphEntityNode extends BaseNode
 		return entityNode;
 	}
 
+	public static String getKindStr() {
+		return "single graph entity";
+	}
+
+	public static String getUseStr() {
+		return "SingleGraphEntityNode";
+	}
 }

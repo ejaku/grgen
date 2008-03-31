@@ -280,5 +280,13 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		set.add(left);
 		set.add(right);
 	}
+
+	public static String getKindStr() {
+		return "connection node";
+	}
+
+	public static String getUseStr() {
+		return "ConnectionNode";
+	}
 }
 

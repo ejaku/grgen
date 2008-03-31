@@ -137,4 +137,12 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 
 		return new Qualification(ownerIR, memberIR);
 	}
+
+	public static String getKindStr() {
+		return "member";
+	}
+
+	public static String getUseStr() {
+		return "qualified identifier";
+	}
 }

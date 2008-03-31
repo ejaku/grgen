@@ -131,4 +131,12 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	public boolean isNegated() {
 		return false;
 	}
+
+	public static String getKindStr() {
+		return "single node connection";
+	}
+
+	public static String getUseStr() {
+		return "SingleNodeConnNode";
+	}
 }
