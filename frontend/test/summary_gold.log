@@ -117,9 +117,10 @@ OK     should_pass/edge_010.grg
 OK     should_pass/edge_011.grg
 OK     should_pass/edge_012.grg
 OK     should_pass/edge_013.grg
-OK     should_pass/edge_014.grg
 OK     should_pass/edge_015.grg
 OK     should_pass/edge_016.grg
+OK     should_pass/edge_017.grg
+OK     should_pass/edge_018.grg
 OK     should_pass/emit_001.grg
 OK     should_pass/emit_002.grg
 OK     should_pass/emit_003.grg
@@ -203,6 +204,7 @@ OK     should_pass/param_005.grg
 OK     should_pass/param_006.grg
 OK     should_pass/param_007.grg
 OK     should_pass/param_008.grg
+FAILED should_pass/param_100.grg
 OK     should_pass/pattern_001.grg
 OK     should_pass/pattern_002.grg
 OK     should_pass/pattern_003.grg
@@ -462,6 +464,13 @@ ERROR  should_fail/edge_008.grg
 ERROR  should_fail/edge_010.grg
 ERROR  should_fail/edge_011.grg
 ERROR  should_fail/edge_012.grg
+ERROR  should_fail/edge_013.grg
+ERROR  should_fail/edge_014.grg
+ERROR  should_fail/edge_015.grg
+ERROR  should_fail/edge_016.grg
+ERROR  should_fail/edge_017.grg
+ERROR  should_fail/edge_018.grg
+ERROR  should_fail/edge_019.grg
 ERROR  should_fail/edge_into_neg_001.grg
 ERROR  should_fail/edge_into_neg_002.grg
 ERROR  should_fail/edge_into_neg_003.grg
@@ -577,6 +586,7 @@ ERROR  should_fail/param_009.grg
 ERROR  should_fail/param_010.grg
 ERROR  should_fail/param_011.grg
 ERROR  should_fail/param_012.grg
+ABEND  should_fail/param_013.grg
 ERROR  should_fail/pattern_001.grg
 ERROR  should_fail/pattern_002.grg
 ERROR  should_fail/pattern_003.grg

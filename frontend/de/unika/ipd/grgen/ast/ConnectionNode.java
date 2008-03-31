@@ -152,11 +152,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 			return;
 		}
 
-		DeclaredTypeNode rootType = getArbitraryEdgeRootType().getDeclType();
-
-		boolean res = edge.getDeclType().isEqual(rootType);
-
-		if (!res) {
+		if (!(edge.getDeclType() instanceof ArbitraryEdgeTypeNode)) {
 			edge.reportWarning("The type of " + edge.getIdentNode().toString() + " differs from "
 					+ getArbitraryEdgeRootType().getIdentNode().toString()
 					+ ", please use another edge kind instead of ?--? (e.g. -->)");

@@ -108,6 +108,22 @@ public class TypeDeclNode extends DeclNode {
 	    	reportError("An edge class can't extend a directed and a undirected edge class");
 	    	return false;
 	    }
+	    if ((type instanceof ArbitraryEdgeTypeNode) && extendEdge) {
+	    	reportError("An arbitrary edge class can't extend a directed edge class");
+	    	return false;
+	    }
+	    if (type instanceof ArbitraryEdgeTypeNode && extendUEdge) {
+	    	reportError("An arbitrary edge class can't extend an undirected edge class");
+	    	return false;
+	    }
+	    if ((type instanceof UndirectedEdgeTypeNode) && extendEdge) {
+	    	reportError("An undirected edge class can't extend a directed edge class");
+	    	return false;
+	    }
+	    if (type instanceof DirectedEdgeTypeNode && extendUEdge) {
+	    	reportError("A directed edge class can't extend an undirected edge class");
+	    	return false;
+	    }
 
 	    return true;
     }
@@ -125,8 +141,8 @@ public class TypeDeclNode extends DeclNode {
 
 	    EdgeTypeNode edgeType = (EdgeTypeNode) type;
 
-	    // abstract subtypes of AEdge are legal
-	    if (edgeType.isAbstract()) {
+	    // arbitrary subtypes of AEdge are legal
+	    if (edgeType instanceof ArbitraryEdgeTypeNode) {
 	    	return true;
 	    }
 
@@ -144,9 +160,9 @@ public class TypeDeclNode extends DeclNode {
 	    	}
         }
 
-	    // type is not abstract (see above)
+	    // type is not arbitrary (see above)
 	    if (onlyExtendAEdge) {
-	    	reportError("A non-abstract edge class should extend Edge or UEdge");
+	    	reportError("A non-arbitrary edge class should extend Edge or UEdge");
 	    	return false;
 	    }
 

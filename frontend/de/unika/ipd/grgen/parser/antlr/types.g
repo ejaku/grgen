@@ -105,12 +105,21 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode<IdentNode> ext;
 		CollectNode<ConnAssertNode> cas;
 		String externalName = null;
+		boolean arbitrary = false;
 		boolean undirected = false;
 	}
 
-	:	(UNDIRECTED { undirected = true; } )?
+	:	(
+			ARBITRARY
+			{
+				arbitrary = true;
+				modifiers |= InheritanceTypeNode.MOD_ABSTRACT;
+			}
+		|	DIRECTED // do nothing, that's default
+		|	UNDIRECTED { undirected = true; }
+		)?
 		EDGE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
-	  	ext=edgeExtends[id, undirected] cas=connectAssertions pushScope[id]
+	  	ext=edgeExtends[id, arbitrary, undirected] cas=connectAssertions pushScope[id]
 		(
 			LBRACE body=edgeClassBody RBRACE
 		|	SEMI
@@ -118,7 +127,7 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 		)
 		{
 			EdgeTypeNode et;
-			if ((modifiers & InheritanceTypeNode.MOD_ABSTRACT) != 0) {
+			if (arbitrary) {
 				et = new ArbitraryEdgeTypeNode(ext, cas, body, modifiers, externalName);
 			}
 			else {
@@ -189,13 +198,17 @@ connectAssertion [ CollectNode<ConnAssertNode> c ]
 			{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange)); }
 	;
 
-edgeExtends [IdentNode clsId, boolean undirected] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]
+edgeExtends [IdentNode clsId, boolean arbitrary, boolean undirected] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]
 	: EXTENDS edgeExtendsCont[clsId, c, undirected]
 	|	{
-			if(undirected) {
-				c.addChild(env.getUndirectedEdgeRoot());
+			if (arbitrary) {
+				c.addChild(env.getArbitraryEdgeRoot());
 			} else {
-				c.addChild(env.getDirectedEdgeRoot());
+				if(undirected) {
+					c.addChild(env.getUndirectedEdgeRoot());
+				} else {
+					c.addChild(env.getDirectedEdgeRoot());
+				}
 			}
 		}
 	;

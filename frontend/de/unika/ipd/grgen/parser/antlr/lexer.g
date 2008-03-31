@@ -41,11 +41,13 @@ tokens {
   ABSTRACT = "abstract";
   ACTIONS = "actions";
   ALTERNATIVE = "alternative";
+  ARBITRARY = "arbitrary";
   CLASS = "class";
   COND = "if";
   CONNECT = "connect";
   CONST = "const";
   DELETE = "delete";
+  DIRECTED = "directed";
   DPO = "dpo";
   EDGE = "edge";
   EMIT = "emit";
