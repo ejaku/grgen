@@ -49,6 +49,7 @@ import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Graph;
@@ -236,6 +237,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	NodeType VPROJ_TYPE = null;
 	NodeType PROJ_TYPE  = null;
 	NodeType MULTIPLE_ADD_TYPE = null;
+	NodeType IA32_SUB = null;
+
+	EdgeType DF = null;
+
 	public void findConstType()
 	{
 	 	for(NodeType node : nodeTypeMap.keySet())
@@ -248,6 +253,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				PROJ_TYPE = node;
 			if(node.getIdent().toString().equals("MultipleAdd"))
 				MULTIPLE_ADD_TYPE = node;
+			if(node.getIdent().toString().equals("ia32_Sub"))
+				IA32_SUB = node;
 		}
 		if(CONST_TYPE == null)
 			System.out.println("Warning: CONST_TYPE not found!");
@@ -255,6 +262,16 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			System.out.println("Warning: VPROJ_TYPE not found!");
 		if(PROJ_TYPE == null)
 			System.out.println("Warning: PROJ_TYPE not found!");
+		if(IA32_SUB == null)
+			System.out.println("Warning: IA32_SUB not found!");
+
+		for(EdgeType edge : edgeTypeMap.keySet())
+		{
+			if(edge.getIdent().toString().equals("df"))
+				DF = edge;
+		}
+		if(DF == null)
+			System.out.println("Warning: DF not found!");
 	}
 
 
@@ -423,7 +440,13 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 					sb.append(indent + "set_Proj_proj(rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
 					genConditionEval(sb, expr, nodeIds, edgeIds);
 					sb.append(");");
-
+				}
+				else if(n.getNodeType().isCastableTo(IA32_SUB))
+				{
+					System.out.println("IA32_SUB EVAL: Target member:" + targetMember.getName());
+					sb.append(indent + "set_IA32_SUB_proj(rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
+					genConditionEval(sb, expr, nodeIds, edgeIds);
+					sb.append(");");
 				}
 				else
 				{
@@ -432,7 +455,19 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			}
 			else if (targetOwner instanceof Edge)
 			{
-				throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
+				Edge e = (Edge) targetOwner;
+
+				if(e.getEdgeType().isCastableTo(DF))
+				{
+					System.out.println("DF EVAL: Target member:" + targetMember.getName());
+					sb.append(indent + "set_DF_proj(rpl_node_map[" + edgeIds.computeId(e) + "/* " + e.getIdent() + " */], ");
+					genConditionEval(sb, expr, nodeIds, edgeIds);
+					sb.append(");");
+				}
+				else
+				{
+					throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
+				}
 			}
 			else
 			{
