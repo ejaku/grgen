@@ -1,6 +1,7 @@
 ﻿#define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
 //#define NO_EDGE_LOOKUP
 //#define RANDOM_LOOKUP_LIST_START      // currently broken
+//#define DUMP_SCHEDULED_SEARCH_PLAN
 //#define DUMP_SEARCHPROGRAMS
 #define OLDMAPPEDFIELDS
 //#define OPCOST_WITH_GEO_MEAN
@@ -600,16 +601,16 @@ exitSecondLoop: ;
             SearchPlanNode tgt = op.Element as SearchPlanNode;
             switch(op.Type)
             {
-                case SearchOperationType.Outgoing: typeStr = src.PatternElement.Name + "-" + tgt.PatternElement.Name + "->"; break;
-                case SearchOperationType.Incoming: typeStr = src.PatternElement.Name + "<-" + tgt.PatternElement.Name + "-"; break;
-                case SearchOperationType.Incident: typeStr = src.PatternElement.Name + "<-" + tgt.PatternElement.Name + "->"; break;
-                case SearchOperationType.ImplicitSource: typeStr = "<-" + src.PatternElement.Name + "-" + tgt.PatternElement.Name; break;
-                case SearchOperationType.ImplicitTarget: typeStr = "-" + src.PatternElement.Name + "->" + tgt.PatternElement.Name; break;
-                case SearchOperationType.Implicit: typeStr = "<-" + src.PatternElement.Name + "->" + tgt.PatternElement.Name; break;
+                case SearchOperationType.Outgoing: typeStr = src.PatternElement.Name + " -" + tgt.PatternElement.Name + "->"; break;
+                case SearchOperationType.Incoming: typeStr = src.PatternElement.Name + " <-" + tgt.PatternElement.Name + "-"; break;
+                case SearchOperationType.Incident: typeStr = src.PatternElement.Name + " <-" + tgt.PatternElement.Name + "->"; break;
+                case SearchOperationType.ImplicitSource: typeStr = "<-" + src.PatternElement.Name + "- " + tgt.PatternElement.Name; break;
+                case SearchOperationType.ImplicitTarget: typeStr = "-" + src.PatternElement.Name + "-> " + tgt.PatternElement.Name; break;
+                case SearchOperationType.Implicit: typeStr = "<-" + src.PatternElement.Name + "-> " + tgt.PatternElement.Name; break;
                 case SearchOperationType.Lookup: typeStr = "*" + tgt.PatternElement.Name; break;
-                case SearchOperationType.MaybePreset: typeStr = "p" + tgt.PatternElement.Name; break;
-                case SearchOperationType.NegPreset: typeStr = "np" + tgt.PatternElement.Name; break;
-                case SearchOperationType.SubPreset: typeStr = "sp"; break;
+                case SearchOperationType.MaybePreset: typeStr = "p(" + tgt.PatternElement.Name + ")"; break;
+                case SearchOperationType.NegPreset: typeStr = "np(" + tgt.PatternElement.Name + ")"; break;
+                case SearchOperationType.SubPreset: typeStr = "sp(" + tgt.PatternElement.Name + ")"; break;
                 case SearchOperationType.Condition:
                     typeStr = " ?(" + String.Join(",", ((Condition) op.Element).NeededNodes) + ")("
                         + String.Join(",", ((Condition) op.Element).NeededEdges) + ")";
@@ -1302,6 +1303,15 @@ exitSecondLoop: ;
             PatternGraph patternGraph = matchingPattern.patternGraph;
             ScheduledSearchPlan scheduledSearchPlan = patternGraph.ScheduleIncludingNegatives;
 
+#if DUMP_SCHEDULED_SEARCH_PLAN
+            StreamWriter sspwriter = new StreamWriter(matchingPattern.name + "_ssp_dump.txt");
+            foreach (SearchOperation so in scheduledSearchPlan.Operations)
+            {
+                sspwriter.Write(SearchOpToString(so)+"\n");
+            }
+            sspwriter.Close();
+#endif
+
             // build pass: build nested program from scheduled search plan
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
             SearchProgram searchProgram;
@@ -1315,7 +1325,7 @@ exitSecondLoop: ;
             // dump built search program for debugging
             SourceBuilder builder = new SourceBuilder(CommentSourceCode);
             searchProgram.Dump(builder);
-            StreamWriter writer = new StreamWriter(rulePattern.name + "_" + searchProgram.Name + "_built_dump.txt");
+            StreamWriter writer = new StreamWriter(matchingPattern.name + "_" + searchProgram.Name + "_built_dump.txt");
             writer.Write(builder.ToString());
             writer.Close();
 #endif
@@ -1334,7 +1344,7 @@ exitSecondLoop: ;
             // dump completed search program for debugging
             builder = new SourceBuilder(CommentSourceCode);
             searchProgram.Dump(builder);
-            writer = new StreamWriter(rulePattern.name + "_" + searchProgram.Name + "_completed_dump.txt");
+            writer = new StreamWriter(matchingPattern.name + "_" + searchProgram.Name + "_completed_dump.txt");
             writer.Write(builder.ToString());
             writer.Close();
 #endif
@@ -1362,7 +1372,7 @@ exitSecondLoop: ;
             // dump built search program for debugging
             SourceBuilder builder = new SourceBuilder(CommentSourceCode);
             searchProgram.Dump(builder);
-            StreamWriter writer = new StreamWriter(rulePattern.name + "_" + alt.name + "_" + searchProgram.Name + "_built_dump.txt");
+            StreamWriter writer = new StreamWriter(matchingPattern.name + "_" + alt.name + "_" + searchProgram.Name + "_built_dump.txt");
             writer.Write(builder.ToString());
             writer.Close();
 #endif
@@ -1375,7 +1385,7 @@ exitSecondLoop: ;
             // dump completed search program for debugging
             builder = new SourceBuilder(CommentSourceCode);
             searchProgram.Dump(builder);
-            writer = new StreamWriter(rulePattern.name + "_" + alt.name + "_" + searchProgram.Name + "_completed_dump.txt");
+            writer = new StreamWriter(matchingPattern.name + "_" + alt.name + "_" + searchProgram.Name + "_completed_dump.txt");
             writer.Write(builder.ToString());
             writer.Close();
 #endif
