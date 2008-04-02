@@ -37,6 +37,8 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
+import de.unika.ipd.grgen.ir.SubpatternUsage;
 
 
 /**
@@ -115,6 +117,20 @@ public class ModifyDeclNode extends RhsDeclNode {
 			   && !deleteSet.contains(left.getSource(e))
 			   && !deleteSet.contains(left.getTarget(e))) {
 				right.addConnection(left.getSource(e), e, left.getTarget(e), e.hasFixedDirection());
+			}
+		}
+
+		for(SubpatternUsage sub : left.getSubpatternUsages()) {
+			boolean subHasDepModify = false;
+			for(SubpatternDependentReplacement subRepl: right.getSubpatternDependentReplacements()) {
+				if(sub==subRepl.getSubpatternUsage()) {
+					subHasDepModify = true;
+					break;
+				}
+			}
+
+			if(!subHasDepModify) {
+				right.addSubpatternUsage(sub);
 			}
 		}
 

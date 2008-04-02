@@ -91,8 +91,8 @@ public class ModifyGen extends CSharpBase {
 
 		public Map<GraphEntity, HashSet<Entity>> forceAttributeToVar();
 	}
-	
-	class ModifyGenerationState implements ModifyGenerationStateConst {		
+
+	class ModifyGenerationState implements ModifyGenerationStateConst {
 		public Collection<Node> commonNodes() { return Collections.unmodifiableCollection(commonNodes); }
 		public Collection<Edge> commonEdges() { return Collections.unmodifiableCollection(commonEdges); }
 		public Collection<SubpatternUsage> commonSubpatternUsages() { return Collections.unmodifiableCollection(commonSubpatternUsages); }
@@ -122,7 +122,7 @@ public class ModifyGen extends CSharpBase {
 		public Map<GraphEntity, HashSet<Entity>> forceAttributeToVar() { return Collections.unmodifiableMap(forceAttributeToVar); }
 
 		// --------------------
-		
+
 		public HashSet<Node> commonNodes = new HashSet<Node>();
 		public HashSet<Edge> commonEdges = new HashSet<Edge>();
 		public HashSet<SubpatternUsage> commonSubpatternUsages = new HashSet<SubpatternUsage>();
@@ -151,7 +151,7 @@ public class ModifyGen extends CSharpBase {
 
 		public HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 	}
-	
+
 	final List<Entity> emptyParameters = new LinkedList<Entity>();
 	final Collection<Assignment> emtpyEvals = new HashSet<Assignment>();
 
@@ -163,7 +163,7 @@ public class ModifyGen extends CSharpBase {
 	//////////////////////////////////`
 
 	public void genModify(StringBuffer sb, Rule rule, boolean isSubpattern) {
-		genModify(sb, rule, "", "pat_"+rule.getLeft().getNameOfGraph(), isSubpattern);		
+		genModify(sb, rule, "", "pat_"+rule.getLeft().getNameOfGraph(), isSubpattern);
 	}
 
 	private void genModify(StringBuffer sb, Rule rule, String pathPrefix, String patGraphVarName, boolean isSubpattern)
@@ -258,14 +258,14 @@ public class ModifyGen extends CSharpBase {
 			String altName = "alt_" + i;
 
 			genModifyAlternative(sb, rule, alt, pathPrefix+rule.getLeft().getNameOfGraph()+"_", altName, isSubpattern);
-			
+
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altCasePatGraphVarName = pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_"+altCasePattern.getNameOfGraph();
 				genModify(sb, altCase, pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_", altCasePatGraphVarName, isSubpattern);
 			}
 			++i;
-		}		
+		}
 	}
 
 	private void genModifyAlternative(StringBuffer sb, Rule rule, Alternative alt,
@@ -280,7 +280,7 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genModifyAlternativeModify(StringBuffer sb, Alternative alt, String pathPrefix, String altName, 
+	private void genModifyAlternativeModify(StringBuffer sb, Alternative alt, String pathPrefix, String altName,
 			List<Entity> replParameters, boolean isSubpattern, boolean reuseNodesAndEdges) {
 		// Emit function header
 		sb.append("\n");
@@ -394,7 +394,7 @@ public class ModifyGen extends CSharpBase {
 
 		ModifyGenerationState state = new ModifyGenerationState();
 		ModifyGenerationStateConst stateConst = state;
-		
+
 		collectCommonElements(task, state.commonNodes, state.commonEdges, state.commonSubpatternUsages);
 
 		collectNewElements(task, stateConst, state.newNodes, state.newEdges, state.newSubpatternUsages);
@@ -432,7 +432,7 @@ public class ModifyGen extends CSharpBase {
 		genTypeChangesNodes(sb2, stateConst, task, state.nodesNeededAsElements, state.nodesNeededAsTypes);
 
 		genNewEdges(sb2, stateConst, task,
-				state.nodesNeededAsElements, state.edgesNeededAsElements, 
+				state.nodesNeededAsElements, state.edgesNeededAsElements,
 				state.edgesNeededAsTypes, state.reusedElements);
 
 		genTypeChangesEdges(sb2, task, stateConst, state.edgesNeededAsElements, state.edgesNeededAsTypes);
@@ -449,7 +449,7 @@ public class ModifyGen extends CSharpBase {
 
 		genDelNodes(sb3, stateConst, state.nodesNeededAsElements);
 
-		genDelSubpatternCalls(sb3);
+		genDelSubpatternCalls(sb3, stateConst);
 
 		genImperativeStatements(sb3, stateConst, task);
 
@@ -484,9 +484,9 @@ public class ModifyGen extends CSharpBase {
 
 		// Attribute re-calc, attr vars for emit, remove, emit, return
 		sb.append(sb3);
-		
+
 		// ----------
-		
+
 		if(pathPrefix=="" && !task.isSubpattern && task.reuseNodesAndEdges) {
 			genAddedGraphElementsArray(sb, stateConst, task.left!=task.right);
 		}
@@ -552,11 +552,11 @@ public class ModifyGen extends CSharpBase {
 		nodesNeededAsAttributes.removeAll(state.newNodes());
 		edgesNeededAsElements.removeAll(state.newEdges());
 		edgesNeededAsAttributes.removeAll(state.newEdges());
-		
+
 		// nodes/edges handed in as subpattern connections to create are already available as method parameters
 		if(task.typeOfTask==TYPE_OF_TASK_CREATION) {
 			nodesNeededAsElements.removeAll(task.parameters);
-			//nodesNeededAsAttributes.removeAll(state.newNodes);	
+			//nodesNeededAsAttributes.removeAll(state.newNodes);
 			edgesNeededAsElements.removeAll(task.parameters);
 			//edgesNeededAsAttributes.removeAll(state.newEdges);
 		}
@@ -569,7 +569,7 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void collectDeletedElements(ModifyGenerationTask task,
-			ModifyGenerationStateConst stateConst, HashSet<Node> delNodes, HashSet<Edge> delEdges, 
+			ModifyGenerationStateConst stateConst, HashSet<Node> delNodes, HashSet<Edge> delEdges,
 			HashSet<SubpatternUsage> delSubpatternUsages)
 	{
 		// Deleted elements are elements from the LHS which are not common
@@ -579,10 +579,15 @@ public class ModifyGen extends CSharpBase {
 		delEdges.removeAll(stateConst.commonEdges());
 		delSubpatternUsages.addAll(task.left.getSubpatternUsages());
 		delSubpatternUsages.removeAll(stateConst.commonSubpatternUsages());
+
+		// subpatterns not appearing on the right side as subpattern usages but as dependent replacements are to be modified by their special method
+		for(SubpatternDependentReplacement subRepl : task.right.getSubpatternDependentReplacements()) {
+			delSubpatternUsages.remove(subRepl.getSubpatternUsage());
+		}
 	}
 
 	private void collectNewElements(ModifyGenerationTask task,
-			ModifyGenerationStateConst stateConst, HashSet<Node> newNodes, HashSet<Edge> newEdges, 
+			ModifyGenerationStateConst stateConst, HashSet<Node> newNodes, HashSet<Edge> newEdges,
 			HashSet<SubpatternUsage> newSubpatternUsages)
 	{
 		// New elements are elements from the RHS which are not common
@@ -833,7 +838,7 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genTypeChangesEdges(StringBuffer sb, ModifyGenerationTask task, ModifyGenerationStateConst state, 
+	private void genTypeChangesEdges(StringBuffer sb, ModifyGenerationTask task, ModifyGenerationStateConst state,
 			HashSet<Edge> edgesNeededAsElements, HashSet<Edge> edgesNeededAsTypes)
 	{
 		for(Edge edge : task.right.getEdges()) {
@@ -860,7 +865,7 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genTypeChangesNodes(StringBuffer sb, ModifyGenerationStateConst state, ModifyGenerationTask task, 
+	private void genTypeChangesNodes(StringBuffer sb, ModifyGenerationStateConst state, ModifyGenerationTask task,
 			HashSet<Node> nodesNeededAsElements, HashSet<Node> nodesNeededAsTypes)
 	{
 		for(Node node : task.right.getNodes()) {
@@ -932,7 +937,7 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genSubpatternModificationCalls(StringBuffer sb, ModifyGenerationTask task, String pathPrefix, 
+	private void genSubpatternModificationCalls(StringBuffer sb, ModifyGenerationTask task, String pathPrefix,
 			HashSet<Node> nodesNeededAsElements) {
 		if(task.right==task.left) { // test needs top-level-modify due to interface, but not more
 			return;
@@ -1023,10 +1028,9 @@ public class ModifyGen extends CSharpBase {
 					+ altName + " + " + pattern.getSubpatternUsages().size() + "];\n");
 			++i;
 		}
-
 	}
 
-	private void collectReturnElements(List<Entity> returns, 
+	private void collectReturnElements(List<Entity> returns,
 			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements) {
 		for(Entity ent : returns) {
 			if(ent instanceof Node)
@@ -1181,8 +1185,8 @@ public class ModifyGen extends CSharpBase {
 	 return type;
 	 }*/
 
-	private void genNewEdges(StringBuffer sb2, ModifyGenerationStateConst state, ModifyGenerationTask task, 
-			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements, 
+	private void genNewEdges(StringBuffer sb2, ModifyGenerationStateConst state, ModifyGenerationTask task,
+			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
 			HashSet<Edge> edgesNeededAsTypes, HashSet<GraphEntity> reusedElements)
 	{
 		NE:	for(Edge edge : state.newEdges()) {
@@ -1298,15 +1302,20 @@ public class ModifyGen extends CSharpBase {
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
 					"_Create(graph");
 			for(Entity entity : subUsage.getSubpatternConnections()) {
-				sb.append("," + formatEntity(entity));
+				sb.append(", " + formatEntity(entity));
 			}
 			sb.append(");\n");
 		}
 	}
 
-	private void genDelSubpatternCalls(StringBuffer sb)
+	private void genDelSubpatternCalls(StringBuffer sb, ModifyGenerationStateConst state)
 	{
-		//sb.append("\t\t\t" + pathPrefix+patternGraph.getNameOfGraph()+"_" + "Delete" + "(LGSPGraph graph, LGSPMatch match);\n");
+		for(SubpatternUsage subUsage : state.delSubpatternUsages()) {
+			String subName = formatIdentifiable(subUsage);
+			sb.append("\t\t\tPattern_" + formatIdentifiable(subUsage.getSubpatternAction())
+					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
+					"_Delete(graph, subpattern_" + subName + ");\n");
+		}
 	}
 
 	//////////////////////////
@@ -1409,7 +1418,7 @@ public class ModifyGen extends CSharpBase {
 			sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
 			return;
 		}
-		
+
 		if(accessViaVariable(state, (GraphEntity) owner, member)) {
 			sb.append("var_" + formatEntity(owner) + "_" + formatIdentifiable(member));
 		}

@@ -16,7 +16,7 @@ pattern DNAChainBegin(pOfNext:P)
 {
 	:H --> :O --> c3; 
 
-	// Desoxyribose	core
+	// Desoxyribose core
 	o:O --> c1:C --> c2:C --> c3:C --> c4:C --> o; 
 	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
 	c4 --> c5:C;  
@@ -65,7 +65,7 @@ pattern DNAChainElement(pOfPrev:P, pOfNext:P)
 {
 	pOfPrev --> :O --> c3; 
 
-	// Desoxyribose	core
+	// Desoxyribose core
 	o:O --> c1:C --> c2:C --> c3:C --> c4:C --> o; 
 	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
 	c4 --> c5:C;  
@@ -187,7 +187,6 @@ pattern Nukleinbase(c1:C) {
 	}
 	
 	modify(rc1:C) {
-		:Adenin(rc1); 
 	}
 }
 
@@ -239,4 +238,210 @@ pattern Uracil(rc1:C) {
 	c3 --> o:O;  c3 --> o;  
 	n2 --> :H; 
 	c4 --> o2:O;  c4 --> o2; 
+}
+
+pattern DNAChainBeginAdenin(pOfNext:P)
+{
+	:H --> :O --> c3; 
+
+	// Desoxyribose core
+	o:O --> c1:C --> c2:C --> c3:C --> c4:C --> o; 
+	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
+	c4 --> c5:C;  
+	c5 --> :H;  c5 --> :H; 
+	c2 --> :H; 
+	
+	:Adenin(c1);
+	
+	c5 --> :O --> pOfNext; 
+	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+}
+
+pattern DNAChainElementAdenin(pOfPrev:P, pOfNext:P)
+{
+	pOfPrev --> :O --> c3; 
+
+	// Desoxyribose core
+	o:O --> c1:C --> c2:C --> c3:C --> c4:C --> o; 
+	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
+	c4 --> c5:C;  
+	c5 --> :H;  c5 --> :H; 
+	c2 --> :H; 
+
+	:Adenin(c1); 
+
+	c5 --> :O --> pOfNext; 
+	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+}
+
+pattern DNAChainElementCytosin(pOfPrev:P, pOfNext:P)
+{
+	pOfPrev --> :O --> c3; 
+
+	// Desoxyribose core
+	o:O --> c1:C --> c2:C --> c3:C --> c4:C --> o; 
+	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
+	c4 --> c5:C;  
+	c5 --> :H;  c5 --> :H; 
+	c2 --> :H; 
+
+	:Cytosin(c1); 
+
+	c5 --> :O --> pOfNext; 
+	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+}
+
+pattern DNAChainElementGuanin(pOfPrev:P, pOfNext:P)
+{
+	pOfPrev --> :O --> c3; 
+
+	// Desoxyribose core
+	o:O --> c1:C --> c2:C --> c3:C --> c4:C --> o; 
+	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
+	c4 --> c5:C;  
+	c5 --> :H;  c5 --> :H; 
+	c2 --> :H; 
+
+	:Guanin(c1); 
+
+	c5 --> :O --> pOfNext; 
+	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+}
+
+pattern DNAChainElementThymin(pOfPrev:P, pOfNext:P)
+{
+	pOfPrev --> :O --> c3; 
+
+	// Desoxyribose core
+	o:O --> c1:C --> c2:C --> c3:C --> c4:C --> o; 
+	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
+	c4 --> c5:C;  
+	c5 --> :H;  c5 --> :H; 
+	c2 --> :H; 
+
+	:Thymin(c1); 
+
+	c5 --> :O --> pOfNext; 
+	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
+}
+
+pattern DNAChainEndAdenin(pOfPrev:P)
+{
+	pOfPrev --> :O --> c3;
+
+	// Desoxyribose core
+	o:O --> c1:C --> c2:C --> c3:C --> c4:C --> o; 
+	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
+	c4 --> c5:C;  
+	c5 --> :H;  c5 --> :H; 
+	c2 --> :H; 
+	
+	:Adenin(c1); 
+
+	c5 --> :O --> p:P; 
+	p --> do:O;  p --> do;  p --> :O --> :H; 
+	p --> :O --> :H; 
+}
+
+rule createDNAChain
+{
+	replace {
+		:DNAChainBeginAdenin(pLink1);
+		pLink1:P;
+		:DNAChainElementCytosin(pLink1, pLink2);
+		pLink2:P;
+		:DNAChainElementGuanin(pLink2, pLink3);
+		pLink3:P;
+		:DNAChainElementThymin(pLink3, pLink4);
+		pLink4:P;
+		:DNAChainEndAdenin(pLink4);
+	}
+}
+
+test findDesoxyriboseCore
+{
+	o:O --> c1:C --> c2:C --> c3:C --> c4:C --> o; 
+	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
+	c4 --> c5:C;  
+	c5 --> :H;  c5 --> :H; 
+	c2 --> :H; 
+}
+
+test findRiboseCore
+{
+	o:O --> c1:C --> c2:C --> c3:C --> c4:C --> o; 
+	c1 --> :H;  c2 --> :H;  c3 --> :H;  c4 --> :H; 
+	c4 --> c5:C;  
+	c5 --> :H;  c5 --> :H; 
+	c2 --> :O --> :H; 
+}
+
+test findAdenin
+{
+	rc1:C;
+	:Adenin(rc1);
+}
+
+rule createAdenin
+{
+	modify {
+		rc1:C;
+		:Adenin(rc1);
+	}
+}
+
+test findCytosin
+{
+	rc1:C;
+	:Cytosin(rc1);
+}
+
+rule createCytosin
+{
+	modify {
+		rc1:C;
+		:Cytosin(rc1);
+	}
+}
+
+test findGuanin
+{
+	rc1:C;
+	:Guanin(rc1);
+}
+
+rule createGuanin
+{
+	modify {
+		rc1:C;
+		:Guanin(rc1);
+	}
+}
+
+test findThymin
+{
+	rc1:C;
+	:Thymin(rc1);
+}
+
+rule createThymin
+{
+	modify {
+		rc1:C;
+		:Thymin(rc1);
+	}
+}
+
+test findUracil
+{
+	rc1:C;
+	:Uracil(rc1);
+}
+
+rule createUracil
+{
+	modify {
+		rc1:C;
+		:Uracil(rc1);
+	}
 }

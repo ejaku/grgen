@@ -302,3 +302,24 @@ rule createTNB {
 		n6-->:O;
 	}
 }
+
+rule keepBenzolRingPattern {
+	br:BenzolRing();
+
+	replace {
+		br;
+	}
+}
+
+rule createBenzolRingPattern {
+	replace {
+		:BenzolRing();
+	}
+}
+
+rule deleteBenzolRingPattern {
+	:BenzolRing();
+
+	replace {
+	}
+}

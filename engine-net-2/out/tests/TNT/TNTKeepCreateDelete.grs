@@ -1,0 +1,25 @@
+new graph "TNT\TNT"
+
+debug set layout Circular
+
+show num nodes
+show num edges
+xgrs createBenzolRingPattern 
+
+show num nodes
+show num edges
+xgrs BenzolRing
+
+xgrs keepBenzolRingPattern 
+
+show num nodes
+show num edges
+xgrs BenzolRing
+
+xgrs deleteBenzolRingPattern 
+
+show num nodes
+show num edges
+xgrs BenzolRing
+
+quit

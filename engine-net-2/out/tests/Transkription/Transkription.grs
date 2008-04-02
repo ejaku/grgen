@@ -1,0 +1,31 @@
+new graph "Transkription\Transkription"
+
+debug set layout Organic
+
+#ACGTA
+xgrs createDNAChain
+
+custom graph analyze_graph
+custom actions gen_searchplan Transkription
+
+xgrs [?findDesoxyriboseCore]
+xgrs [?findRiboseCore]
+xgrs [?findAdenin]
+xgrs [?findCytosin]
+xgrs [?findGuanin]
+xgrs [?findThymin]
+xgrs [?findUracil]
+
+#A->U, C->G, G->C, T->A
+xgrs Transkription
+# ACGTA + UGCAU
+
+xgrs [?findDesoxyriboseCore]
+xgrs [?findRiboseCore]
+xgrs [?findAdenin]
+xgrs [?findCytosin]
+xgrs [?findGuanin]
+xgrs [?findThymin]
+xgrs [?findUracil]
+
+quit
