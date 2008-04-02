@@ -244,30 +244,30 @@ public abstract class CSharpBase {
 		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();
 	}
 
-	public strictfp void genExpression(StringBuffer sb, Expression expr) {
+	public strictfp void genExpression(StringBuffer sb, Expression expr, Object modifyGenerationState) {
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
 			switch (op.arity()) {
 				case 1:
 					sb.append("(" + opSymbols[op.getOpCode()] + " ");
-					genExpression(sb, op.getOperand(0));
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
 					sb.append(")");
 					break;
 				case 2:
 					sb.append("(");
-					genExpression(sb, op.getOperand(0));
+					genExpression(sb, op.getOperand(0), modifyGenerationState);
 					sb.append(" " + opSymbols[op.getOpCode()] + " ");
-					genExpression(sb, op.getOperand(1));
+					genExpression(sb, op.getOperand(1), modifyGenerationState);
 					sb.append(")");
 					break;
 				case 3:
 					if(op.getOpCode()==Operator.COND) {
 						sb.append("((");
-						genExpression(sb, op.getOperand(0));
+						genExpression(sb, op.getOperand(0), modifyGenerationState);
 						sb.append(") ? (");
-						genExpression(sb, op.getOperand(1));
+						genExpression(sb, op.getOperand(1), modifyGenerationState);
 						sb.append(") : (");
-						genExpression(sb, op.getOperand(2));
+						genExpression(sb, op.getOperand(2), modifyGenerationState);
 						sb.append("))");
 						break;
 					}
@@ -279,7 +279,7 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof Qualification) {
 			Qualification qual = (Qualification) expr;
-			genQualAccess(sb, qual);
+			genQualAccess(sb, qual, modifyGenerationState);
 		}
 		else if(expr instanceof MemberExpression) {
 			MemberExpression memberExp = (MemberExpression) expr;
@@ -334,7 +334,7 @@ public abstract class CSharpBase {
 			Type type = cast.getType();
 
 			if(type.classify() == Type.IS_STRING) {
-				genExpression(sb, cast.getExpression());
+				genExpression(sb, cast.getExpression(), modifyGenerationState);
 				sb.append(".ToString()");
 			}
 			else {
@@ -353,14 +353,14 @@ public abstract class CSharpBase {
 				}
 
 				sb.append("((" + typeName  + ") ");
-				genExpression(sb, cast.getExpression());
+				genExpression(sb, cast.getExpression(), modifyGenerationState);
 				sb.append(")");
 			}
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
 
-	protected abstract void genQualAccess(StringBuffer sb, Qualification qual);
+	protected abstract void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState);
 	protected abstract void genMemberAccess(StringBuffer sb, Entity member);
 
 	///////////////////////

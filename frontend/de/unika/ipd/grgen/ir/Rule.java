@@ -46,7 +46,7 @@ public class Rule extends MatchingAction {
 	private final Collection<Assignment> evals = new LinkedList<Assignment>();
 
 	/** A list of the replacement parameters */
-	private final List<Node> replParams = new LinkedList<Node>();
+	private final List<Entity> replParams = new LinkedList<Entity>();
 
 
 	/**
@@ -83,8 +83,8 @@ public class Rule extends MatchingAction {
 		replParams.add(id);
 	}
 
-	/** Get all replacement parameters of this rule. */
-	public List<Node> getReplParameters() {
+	/** Get all replacement parameters of this rule (may currently contain only nodes). */
+	public List<Entity> getReplParameters() {
 		return Collections.unmodifiableList(replParams);
 	}
 

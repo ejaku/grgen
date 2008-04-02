@@ -33,60 +33,262 @@ import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
 public class ModifyGen extends CSharpBase {
+	final int TYPE_OF_TASK_NONE = 0;
+	final int TYPE_OF_TASK_MODIFY = 1;
+	final int TYPE_OF_TASK_CREATION = 2;
+	final int TYPE_OF_TASK_DELETION = 3;
+
+	class ModifyGenerationTask {
+		int typeOfTask;
+		PatternGraph left;
+		PatternGraph right;
+		List<Entity> parameters;
+		Collection<Assignment> evals;
+		List<Entity> replParameters;
+		List<Entity> returns;
+		boolean isSubpattern;
+		boolean reuseNodesAndEdges;
+
+		public ModifyGenerationTask() {
+			typeOfTask = TYPE_OF_TASK_NONE;
+			left = null;
+			right = null;
+			parameters = null;
+			evals = null;
+			replParameters = null;
+			returns = null;
+			isSubpattern = false;
+			reuseNodesAndEdges = false;
+		}
+	}
+
+	interface ModifyGenerationStateConst {
+		public Collection<Node> commonNodes();
+		public Collection<Edge> commonEdges();
+		public Collection<SubpatternUsage> commonSubpatternUsages();
+
+		public Collection<Node> newNodes();
+		public Collection<Edge> newEdges();
+		public Collection<SubpatternUsage> newSubpatternUsages();
+		public Collection<Node> delNodes();
+		public Collection<Edge> delEdges();
+		public Collection<SubpatternUsage> delSubpatternUsages();
+
+		public Collection<Node> newOrRetypedNodes();
+		public Collection<Edge> newOrRetypedEdges();
+		public Collection<GraphEntity> reusedElements();
+		public Collection<GraphEntity> accessViaInterface();
+
+		public Map<GraphEntity, HashSet<Entity>> neededAttributes();
+		public Map<GraphEntity, HashSet<Entity>> neededAttributesForEmit();
+
+		public Collection<Node> nodesNeededAsElements();
+		public Collection<Edge> edgesNeededAsElements();
+		public Collection<Node> nodesNeededAsAttributes();
+		public Collection<Edge> edgesNeededAsAttributes();
+		public Collection<Node> nodesNeededAsTypes();
+		public Collection<Edge> edgesNeededAsTypes();
+
+		public Map<GraphEntity, HashSet<Entity>> forceAttributeToVar();
+	}
+	
+	class ModifyGenerationState implements ModifyGenerationStateConst {		
+		public Collection<Node> commonNodes() { return Collections.unmodifiableCollection(commonNodes); }
+		public Collection<Edge> commonEdges() { return Collections.unmodifiableCollection(commonEdges); }
+		public Collection<SubpatternUsage> commonSubpatternUsages() { return Collections.unmodifiableCollection(commonSubpatternUsages); }
+
+		public Collection<Node> newNodes() { return Collections.unmodifiableCollection(newNodes); }
+		public Collection<Edge> newEdges() { return Collections.unmodifiableCollection(newEdges); }
+		public Collection<SubpatternUsage> newSubpatternUsages() { return Collections.unmodifiableCollection(newSubpatternUsages); }
+		public Collection<Node> delNodes() { return Collections.unmodifiableCollection(delNodes); }
+		public Collection<Edge> delEdges() { return Collections.unmodifiableCollection(delEdges); }
+		public Collection<SubpatternUsage> delSubpatternUsages() { return Collections.unmodifiableCollection(delSubpatternUsages); }
+
+		public Collection<Node> newOrRetypedNodes() { return Collections.unmodifiableCollection(newOrRetypedNodes); }
+		public Collection<Edge> newOrRetypedEdges() { return Collections.unmodifiableCollection(newOrRetypedEdges); }
+		public Collection<GraphEntity> reusedElements() { return Collections.unmodifiableCollection(reusedElements); }
+		public Collection<GraphEntity> accessViaInterface() { return Collections.unmodifiableCollection(accessViaInterface); }
+
+		public Map<GraphEntity, HashSet<Entity>> neededAttributes() { return Collections.unmodifiableMap(neededAttributes); }
+		public Map<GraphEntity, HashSet<Entity>> neededAttributesForEmit() { return Collections.unmodifiableMap(neededAttributesForEmit); }
+
+		public Collection<Node> nodesNeededAsElements() { return Collections.unmodifiableCollection(nodesNeededAsElements); }
+		public Collection<Edge> edgesNeededAsElements() { return Collections.unmodifiableCollection(edgesNeededAsElements); }
+		public Collection<Node> nodesNeededAsAttributes() { return Collections.unmodifiableCollection(nodesNeededAsAttributes); }
+		public Collection<Edge> edgesNeededAsAttributes() { return Collections.unmodifiableCollection(edgesNeededAsAttributes); }
+		public Collection<Node> nodesNeededAsTypes() { return Collections.unmodifiableCollection(nodesNeededAsTypes); }
+		public Collection<Edge> edgesNeededAsTypes() { return Collections.unmodifiableCollection(edgesNeededAsTypes); }
+
+		public Map<GraphEntity, HashSet<Entity>> forceAttributeToVar() { return Collections.unmodifiableMap(forceAttributeToVar); }
+
+		// --------------------
+		
+		public HashSet<Node> commonNodes = new HashSet<Node>();
+		public HashSet<Edge> commonEdges = new HashSet<Edge>();
+		public HashSet<SubpatternUsage> commonSubpatternUsages = new HashSet<SubpatternUsage>();
+
+		public HashSet<Node> newNodes = new HashSet<Node>();
+		public HashSet<Edge> newEdges = new HashSet<Edge>();
+		public HashSet<SubpatternUsage> newSubpatternUsages = new HashSet<SubpatternUsage>();
+		public HashSet<Node> delNodes = new HashSet<Node>();
+		public HashSet<Edge> delEdges = new HashSet<Edge>();
+		public HashSet<SubpatternUsage> delSubpatternUsages = new HashSet<SubpatternUsage>();
+
+		public HashSet<Node> newOrRetypedNodes = new HashSet<Node>();
+		public HashSet<Edge> newOrRetypedEdges = new HashSet<Edge>();
+		public HashSet<GraphEntity> reusedElements = new HashSet<GraphEntity>();
+		public HashSet<GraphEntity> accessViaInterface = new HashSet<GraphEntity>();
+
+		public HashMap<GraphEntity, HashSet<Entity>> neededAttributes = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
+		public HashMap<GraphEntity, HashSet<Entity>> neededAttributesForEmit = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
+
+		public HashSet<Node> nodesNeededAsElements = new LinkedHashSet<Node>();
+		public HashSet<Edge> edgesNeededAsElements = new LinkedHashSet<Edge>();
+		public HashSet<Node> nodesNeededAsAttributes = new LinkedHashSet<Node>();
+		public HashSet<Edge> edgesNeededAsAttributes = new LinkedHashSet<Edge>();
+		public HashSet<Node> nodesNeededAsTypes = new LinkedHashSet<Node>();
+		public HashSet<Edge> edgesNeededAsTypes = new LinkedHashSet<Edge>();
+
+		public HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
+	}
+	
+	final List<Entity> emptyParameters = new LinkedList<Entity>();
+	final Collection<Assignment> emtpyEvals = new HashSet<Assignment>();
+
 	public ModifyGen() {
 	}
 
 	//////////////////////////////////
 	// Modification part generation //
-	//////////////////////////////////
+	//////////////////////////////////`
 
 	public void genModify(StringBuffer sb, Rule rule, boolean isSubpattern) {
-		genModify(sb, rule, "", "pat_"+rule.getLeft().getNameOfGraph(), isSubpattern, true);
-		genModify(sb, rule, "", "pat_"+rule.getLeft().getNameOfGraph(), isSubpattern, false);
+		genModify(sb, rule, "", "pat_"+rule.getLeft().getNameOfGraph(), isSubpattern);		
 	}
 
-	private void genModify(StringBuffer sb, Rule rule, String pathPrefix, String patGraphVarName,
-			boolean isSubpattern, boolean reuseNodeAndEdges)
+	private void genModify(StringBuffer sb, Rule rule, String pathPrefix, String patGraphVarName, boolean isSubpattern)
 	{
-		genRuleOrSubruleModify(sb, rule, pathPrefix, isSubpattern, reuseNodeAndEdges);
-		if(isSubpattern && reuseNodeAndEdges) { // nothing to reuse, so only create once
-			genCreateSubpattern(sb, rule, pathPrefix);
-			genDeleteSubpattern(sb, rule, pathPrefix);
+		if(rule.getRight()!=null) { // rule / subpattern with dependent replacement
+			// replace left by right, normal version
+			ModifyGenerationTask task = new ModifyGenerationTask();
+			task.typeOfTask = TYPE_OF_TASK_MODIFY;
+			task.left = rule.getLeft();
+			task.right = rule.getRight();
+			task.parameters = rule.getParameters();
+			task.evals = rule.getEvals();
+			task.replParameters = rule.getReplParameters();
+			task.returns = rule.getReturns();
+			task.isSubpattern = isSubpattern;
+			task.reuseNodesAndEdges = true;
+			genModifyRuleOrSubrule(sb, task, pathPrefix);
+
+			// version without reuse deleted elements for new elements optimization
+			task.reuseNodesAndEdges = false;
+			genModifyRuleOrSubrule(sb, task, pathPrefix);
+		} else if(!isSubpattern){ // test
+			// keep left unchanged, normal version
+			ModifyGenerationTask task = new ModifyGenerationTask();
+			task.typeOfTask = TYPE_OF_TASK_MODIFY;
+			task.left = rule.getLeft();
+			task.right = rule.getLeft();
+			task.parameters = rule.getParameters();
+			task.evals = rule.getEvals();
+			task.replParameters = emptyParameters;
+			task.returns = rule.getReturns();
+			task.isSubpattern = false;
+			task.reuseNodesAndEdges = true;
+			genModifyRuleOrSubrule(sb, task, pathPrefix);
+
+			// version without reuse deleted elements for new elements optimization
+			// that's nonsense but the interface requires it
+			task.reuseNodesAndEdges = false;
+			genModifyRuleOrSubrule(sb, task, pathPrefix);
+		}
+
+		if(isSubpattern) {
+			// create subpattern into pattern
+			ModifyGenerationTask task = new ModifyGenerationTask();
+			task.typeOfTask = TYPE_OF_TASK_CREATION;
+			task.left = new PatternGraph(rule.getLeft().getNameOfGraph(), false); // empty graph
+			task.right = rule.getLeft();
+			task.parameters = rule.getParameters();
+			task.evals = emtpyEvals;
+			task.replParameters = emptyParameters;
+			task.returns = emptyParameters;
+			task.isSubpattern = true;
+			for(Entity entity : task.parameters) { // add connections to empty graph so that they stay unchanged
+				if(entity instanceof Node) {
+					Node node = (Node)entity;
+					task.left.addSingleNode(node);
+				} else if(entity instanceof Edge) {
+					Edge edge = (Edge)entity;
+					task.left.addSingleEdge(edge);
+				} else {
+					assert false;
+				}
+			}
+			genModifyRuleOrSubrule(sb, task, pathPrefix);
+
+			// delete subpattern from pattern
+			task = new ModifyGenerationTask();
+			task.typeOfTask = TYPE_OF_TASK_DELETION;
+			task.left = rule.getLeft();
+			task.right = new PatternGraph(rule.getLeft().getNameOfGraph(), false); // empty graph
+			task.parameters = rule.getParameters();
+			task.evals = emtpyEvals;
+			task.replParameters = emptyParameters;
+			task.returns = emptyParameters;
+			task.isSubpattern = true;
+			for(Entity entity : task.parameters) { // add connections to empty graph so that they stay unchanged
+				if(entity instanceof Node) {
+					Node node = (Node)entity;
+					task.right.addSingleNode(node);
+				} else if(entity instanceof Edge) {
+					Edge edge = (Edge)entity;
+					task.right.addSingleEdge(edge);
+				} else {
+					assert false;
+				}
+			}
+			genModifyRuleOrSubrule(sb, task, pathPrefix);
 		}
 
 		int i = 0;
 		for(Alternative alt : rule.getLeft().getAlts()) {
 			String altName = "alt_" + i;
 
-			genAlternativeModify(sb, rule, alt, pathPrefix+rule.getLeft().getNameOfGraph()+"_", altName, isSubpattern, reuseNodeAndEdges);
-			if(reuseNodeAndEdges) { // nothing to reuse, so only create once
-				genCreateAlternative(sb, rule, alt, pathPrefix+rule.getLeft().getNameOfGraph()+"_", altName);
-				genDeleteAlternative(sb, rule, alt, pathPrefix+rule.getLeft().getNameOfGraph()+"_", altName);
-			}
-
+			genModifyAlternative(sb, rule, alt, pathPrefix+rule.getLeft().getNameOfGraph()+"_", altName, isSubpattern);
+			
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altCasePatGraphVarName = pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_"+altCasePattern.getNameOfGraph();
-				genModify(sb, altCase, pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_", altCasePatGraphVarName, isSubpattern, reuseNodeAndEdges);
+				genModify(sb, altCase, pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_", altCasePatGraphVarName, isSubpattern);
 			}
 			++i;
+		}		
+	}
+
+	private void genModifyAlternative(StringBuffer sb, Rule rule, Alternative alt,
+			String pathPrefix, String altName, boolean isSubpattern) {
+		if(rule.getRight()!=null) { // generate code for dependent modify dispatcher
+			genModifyAlternativeModify(sb, alt, pathPrefix, altName, rule.getReplParameters(), isSubpattern, true);
+			genModifyAlternativeModify(sb, alt, pathPrefix, altName, rule.getReplParameters(), isSubpattern, false);
+		}
+
+		if(isSubpattern) { // generate for delete alternative dispatcher
+			genModifyAlternativeDelete(sb, alt, pathPrefix, altName, isSubpattern);
 		}
 	}
 
-	private void genAlternativeModify(StringBuffer sb, Rule rule, Alternative alt,
-			String pathPrefix, String altName, boolean isSubpattern, boolean reuseNodeAndEdges) {
-		PatternGraph replaceGraph = rule.getRight();
-
-		if(isSubpattern && replaceGraph==null) {
-			return;
-		}
-
+	private void genModifyAlternativeModify(StringBuffer sb, Alternative alt, String pathPrefix, String altName, 
+			List<Entity> replParameters, boolean isSubpattern, boolean reuseNodesAndEdges) {
 		// Emit function header
 		sb.append("\n");
 		sb.append("\t\tpublic void "
-					  + pathPrefix+altName+"_" + (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
+					  + pathPrefix+altName+"_" + (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
 					  + "(LGSPGraph graph, LGSPMatch match");
-		for(Node node : rule.getReplParameters()) {
+		for(Entity entity : replParameters) {
+			Node node = (Node)entity;
 			sb.append(", LGSPNode " + formatEntity(node));
 		}
 		sb.append(")\n");
@@ -106,9 +308,10 @@ public class ModifyGen extends CSharpBase {
 						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
 			}
 			sb.append("\t\t\t\t" + pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+"_"
-					+ (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
+					+ (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
 					+ "(graph, match");
-			for(Node node : rule.getReplParameters()) {
+			for(Entity entity : replParameters) {
+				Node node = (Node)entity;
 				sb.append(", " + formatEntity(node));
 			}
 			sb.append(");\n");
@@ -121,44 +324,44 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t}\n");
 	}
 
-	private void genCreateAlternative(StringBuffer sb, Rule rule, Alternative alt, String pathPrefix, String altName) {
-		// todo
+	private void genModifyAlternativeDelete(StringBuffer sb, Alternative alt, String pathPrefix, String altName,
+			boolean isSubpattern) {
+		// Emit function header
+		sb.append("\n");
+		sb.append("\t\tpublic void " + pathPrefix+altName+"_"+"Delete(LGSPGraph graph, LGSPMatch match)\n");
+		sb.append("\t\t{\n");
+
+		// Emit dispatcher calling the delete-method of the alternative case which was matched
+		boolean firstCase = true;
+		for(Rule altCase : alt.getAlternativeCases()) {
+			if(firstCase) {
+				sb.append("\t\t\tif(match.patternGraph == "
+						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
+				firstCase = false;
+			}
+			else
+			{
+				sb.append("\t\t\telse if(match.patternGraph == "
+						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
+			}
+			sb.append("\t\t\t\t" + pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+"_"
+					+ "Delete(graph, match);\n");
+			sb.append("\t\t\t\treturn;\n");
+			sb.append("\t\t\t}\n");
+		}
+		sb.append("\t\t\tthrow new ApplicationException(); //debug assert\n");
+
+		// Emit end of function
+		sb.append("\t\t}\n");
 	}
 
-	private void genDeleteAlternative(StringBuffer sb, Rule rule, Alternative alt, String pathPrefix, String altName) {
-		// todo
-	}
-
-	private void genRuleOrSubruleModify(StringBuffer sb, Rule rule, String pathPrefix,
-			boolean isSubpattern, boolean reuseNodeAndEdges) {
+	private void genModifyRuleOrSubrule(StringBuffer sb, ModifyGenerationTask task, String pathPrefix) {
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
 
-		PatternGraph patternGraph = rule.getLeft();
-		PatternGraph replaceGraph = rule.getRight();
-
-		if(isSubpattern && replaceGraph==null) {
-			return;
-		}
-
 		// Emit function header
-		if(pathPrefix=="" && !isSubpattern) {
-			sb.append("\n");
-			sb.append("\t\tpublic override IGraphElement[] "
-					+ (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
-					+ "(LGSPGraph graph, LGSPMatch match)\n");
-		}
-		else {
-			sb.append("\n");
-			sb.append("\t\tpublic void "
-					+ pathPrefix+patternGraph.getNameOfGraph()+"_"
-					+ (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
-					+ "(LGSPGraph graph, LGSPMatch match");
-			for(Node node : rule.getReplParameters()) {
-				sb.append(", LGSPNode " + formatEntity(node));
-			}
-			sb.append(")\n");
-		}
+		sb.append("\n");
+		emitMethodHead(sb, task, pathPrefix);
 		sb.append("\t\t{\n");
 
 		// The resulting code has the following order:
@@ -189,54 +392,242 @@ public class ModifyGen extends CSharpBase {
 		//  - Check returned elements for deletion and retyping due to homomorphy
 		//  - Return
 
-		// Initialize used data structures
-		newNodes.clear();
-		newEdges.clear();
-		newSubpatternUsages.clear();
-		delNodes.clear();
-		delEdges.clear();
-		delSubpatternUsages.clear();
-		newOrRetypedNodes.clear();
-		newOrRetypedEdges.clear();
+		ModifyGenerationState state = new ModifyGenerationState();
+		ModifyGenerationStateConst stateConst = state;
+		
+		collectCommonElements(task, state.commonNodes, state.commonEdges, state.commonSubpatternUsages);
 
-		reusedElements.clear();
-		accessViaInterface.clear();
-		neededAttributes.clear();
-		neededAttributesForEmit.clear();
-		nodesNeededAsElements.clear();
-		edgesNeededAsElements.clear();
-		nodesNeededAsTypes.clear();
-		edgesNeededAsTypes.clear();
-		nodesNeededAsAttributes.clear();
-		edgesNeededAsAttributes.clear();
-		forceAttributeToVar.clear();
+		collectNewElements(task, stateConst, state.newNodes, state.newEdges, state.newSubpatternUsages);
 
-		// Common elements are elements of the LHS which are unmodified by RHS
-		if(replaceGraph!=null) {
-			commonNodes = new HashSet<Node>(rule.getCommonNodes());
-			commonEdges = new HashSet<Edge>(rule.getCommonEdges());
-			commonSubpatternUsages = new HashSet<SubpatternUsage>(rule.getCommonSubpatternUsages());
-		} else {
-			commonNodes = new HashSet<Node>(patternGraph.getNodes());
-			commonEdges = new HashSet<Edge>(patternGraph.getEdges());
-			commonSubpatternUsages = new HashSet<SubpatternUsage>(patternGraph.getSubpatternUsages());
+		collectDeletedElements(task, stateConst, state.delNodes, state.delEdges, state.delSubpatternUsages);
+
+		collectNewOrRetypedElements(task, state, state.newOrRetypedNodes, state.newOrRetypedEdges);
+
+		collectElementsAccessedByInterface(task, state.accessViaInterface);
+
+		collectElementsAndAttributesNeededByImperativeStatements(task, state.neededAttributes,
+				state.nodesNeededAsElements, state.edgesNeededAsElements,
+				state.nodesNeededAsAttributes, state.edgesNeededAsAttributes);
+
+		// Copy all entries generated by collectNeededAttributes for emit stuff
+		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : state.neededAttributes.entrySet()) {
+			HashSet<Entity> neededAttrs = entry.getValue();
+			HashSet<Entity> neededAttrsForEmit = state.neededAttributesForEmit.get(entry.getKey());
+			if(neededAttrsForEmit == null) {
+				state.neededAttributesForEmit.put(entry.getKey(), neededAttrsForEmit = new LinkedHashSet<Entity>());
+			}
+			neededAttrsForEmit.addAll(neededAttrs);
 		}
 
+		collectElementsAndAttributesNeededByEvals(task, state.neededAttributes,
+				state.nodesNeededAsElements, state.edgesNeededAsElements,
+				state.nodesNeededAsAttributes, state.edgesNeededAsAttributes);
+
+		genNewNodes(sb2, task.reuseNodesAndEdges, stateConst, state.nodesNeededAsElements, state.nodesNeededAsTypes);
+
+		genSubpatternModificationCalls(sb2, task, pathPrefix, state.nodesNeededAsElements);
+
+		genAlternativeModificationCalls(sb2, task, pathPrefix);
+
+		genTypeChangesNodes(sb2, stateConst, task, state.nodesNeededAsElements, state.nodesNeededAsTypes);
+
+		genNewEdges(sb2, stateConst, task,
+				state.nodesNeededAsElements, state.edgesNeededAsElements, 
+				state.edgesNeededAsTypes, state.reusedElements);
+
+		genTypeChangesEdges(sb2, task, stateConst, state.edgesNeededAsElements, state.edgesNeededAsTypes);
+
+		genNewSubpatternCalls(sb2, stateConst);
+
+		genEvals(sb3, stateConst, task.evals);
+
+		genCreateVariablesForUsedAttributesOfNonReuseesNeededForEmits(sb3, stateConst, state.forceAttributeToVar);
+
+		genCheckDeletedElementsForRetypingThroughHomomorphy(sb3, stateConst);
+
+		genDelEdges(sb3, stateConst, state.edgesNeededAsElements);
+
+		genDelNodes(sb3, stateConst, state.nodesNeededAsElements);
+
+		genDelSubpatternCalls(sb3);
+
+		genImperativeStatements(sb3, stateConst, task);
+
+		genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(sb3, task);
+
+		// Emit return (only if top-level rule)
+		if(pathPrefix=="" && !task.isSubpattern) {
+			collectReturnElements(task.returns, state.nodesNeededAsElements, state.edgesNeededAsElements);
+			emitReturnStatement(sb3, task.returns);
+		}
+
+		// Emit end of function
+		sb3.append("\t\t}\n");
+
+		removeAgainFromNeededWhatIsNotReallyNeeded(task, stateConst,
+				state.nodesNeededAsElements, state.edgesNeededAsElements,
+				state.nodesNeededAsAttributes, state.edgesNeededAsAttributes);
+
+		////////////////////////////////////////////////////////////////////////////////
+		// Finalize method using the infos collected and the already generated code
+
+		genExtractElementsFromMatch(sb, stateConst, pathPrefix, task.left.getNameOfGraph());
+
+		genExtractSubmatchesFromMatch(sb, pathPrefix, task.left);
+
+		genNeededTypes(sb, stateConst);
+
+		genCreateVariablesForUsedAttributesOfReusedElements(sb, stateConst);
+
+		// New nodes/edges (re-use), retype nodes/edges, call modification code
+		sb.append(sb2);
+
+		// Attribute re-calc, attr vars for emit, remove, emit, return
+		sb.append(sb3);
+		
+		// ----------
+		
+		if(pathPrefix=="" && !task.isSubpattern && task.reuseNodesAndEdges) {
+			genAddedGraphElementsArray(sb, stateConst, task.left!=task.right);
+		}
+	}
+
+	private void emitMethodHead(StringBuffer sb, ModifyGenerationTask task, String pathPrefix)
+	{
+		String noReuse = task.reuseNodesAndEdges ? "" : "NoReuse";
+		switch(task.typeOfTask) {
+		case TYPE_OF_TASK_MODIFY:
+			if(pathPrefix=="" && !task.isSubpattern) {
+				sb.append("\t\tpublic override IGraphElement[] "
+						+ "Modify"+noReuse+"(LGSPGraph graph, LGSPMatch match)\n");
+			} else {
+				sb.append("\t\tpublic void "
+						+ pathPrefix+task.left.getNameOfGraph()+"_Modify"+noReuse+"(LGSPGraph graph, LGSPMatch match");
+				for(Entity entity : task.replParameters) {
+					Node node = (Node)entity;
+					sb.append(", LGSPNode " + formatEntity(node));
+				}
+				sb.append(")\n");
+			}
+			break;
+		case TYPE_OF_TASK_CREATION:
+			sb.append("\t\tpublic void "
+					+ pathPrefix+task.left.getNameOfGraph()+"_Create(LGSPGraph graph");
+			for(Entity entity : task.parameters) {
+				sb.append((entity instanceof Node ? ", LGSPNode " : ", LGSPEdge " )+ formatEntity(entity));
+			}
+			sb.append(")\n");
+			break;
+		case TYPE_OF_TASK_DELETION:
+			sb.append("\t\tpublic void "
+					+ pathPrefix+task.left.getNameOfGraph()+"_Delete(LGSPGraph graph, LGSPMatch match)\n");
+			break;
+		default:
+			assert false;
+		}
+	}
+
+	private void collectNewOrRetypedElements(ModifyGenerationTask task,	ModifyGenerationStateConst state,
+			HashSet<Node> newOrRetypedNodes, HashSet<Edge> newOrRetypedEdges)
+	{
+		newOrRetypedNodes.addAll(state.newNodes());
+		for(Node node : task.right.getNodes()) {
+			if(node.changesType())
+				newOrRetypedNodes.add(node.getRetypedNode());
+		}
+		newOrRetypedEdges.addAll(state.newEdges());
+		for(Edge edge : task.right.getEdges()) {
+			if(edge.changesType())
+				newOrRetypedEdges.add(edge.getRetypedEdge());
+		}
+	}
+
+	private void removeAgainFromNeededWhatIsNotReallyNeeded(
+			ModifyGenerationTask task, ModifyGenerationStateConst state,
+			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
+			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes)
+	{
+		// nodes/edges needed from match, but not the new nodes
+		nodesNeededAsElements.removeAll(state.newNodes());
+		nodesNeededAsAttributes.removeAll(state.newNodes());
+		edgesNeededAsElements.removeAll(state.newEdges());
+		edgesNeededAsAttributes.removeAll(state.newEdges());
+		
+		// nodes/edges handed in as subpattern connections to create are already available as method parameters
+		if(task.typeOfTask==TYPE_OF_TASK_CREATION) {
+			nodesNeededAsElements.removeAll(task.parameters);
+			//nodesNeededAsAttributes.removeAll(state.newNodes);	
+			edgesNeededAsElements.removeAll(task.parameters);
+			//edgesNeededAsAttributes.removeAll(state.newEdges);
+		}
+
+		// nodes handed in as replacement connections to modify are already available as method parameters
+		if(task.typeOfTask==TYPE_OF_TASK_MODIFY) {
+			nodesNeededAsElements.removeAll(task.replParameters);
+			//nodesNeededAsAttributes.removeAll(state.newNodes);
+		}
+	}
+
+	private void collectDeletedElements(ModifyGenerationTask task,
+			ModifyGenerationStateConst stateConst, HashSet<Node> delNodes, HashSet<Edge> delEdges, 
+			HashSet<SubpatternUsage> delSubpatternUsages)
+	{
+		// Deleted elements are elements from the LHS which are not common
+		delNodes.addAll(task.left.getNodes());
+		delNodes.removeAll(stateConst.commonNodes());
+		delEdges.addAll(task.left.getEdges());
+		delEdges.removeAll(stateConst.commonEdges());
+		delSubpatternUsages.addAll(task.left.getSubpatternUsages());
+		delSubpatternUsages.removeAll(stateConst.commonSubpatternUsages());
+	}
+
+	private void collectNewElements(ModifyGenerationTask task,
+			ModifyGenerationStateConst stateConst, HashSet<Node> newNodes, HashSet<Edge> newEdges, 
+			HashSet<SubpatternUsage> newSubpatternUsages)
+	{
+		// New elements are elements from the RHS which are not common
+		newNodes.addAll(task.right.getNodes());
+		newNodes.removeAll(stateConst.commonNodes());
+		newEdges.addAll(task.right.getEdges());
+		newEdges.removeAll(stateConst.commonEdges());
+		newSubpatternUsages.addAll(task.right.getSubpatternUsages());
+		newSubpatternUsages.removeAll(stateConst.commonSubpatternUsages());
+
+		// and which are not in the replacement parameters of a subpattern
+		if(task.isSubpattern) {
+			for(Entity entity : task.replParameters) {
+				Node node = (Node)entity;
+				newNodes.remove(node);
+			}
+		}
+	}
+
+	private void collectCommonElements(ModifyGenerationTask task,
+			HashSet<Node> commonNodes, HashSet<Edge> commonEdges, HashSet<SubpatternUsage> commonSubpatternUsages)
+	{
+		// Common elements are elements of the LHS which are unmodified by RHS
+		commonNodes.addAll(task.left.getNodes());
+		commonNodes.retainAll(task.right.getNodes());
+		commonEdges.addAll(task.left.getEdges());
+		commonEdges.retainAll(task.right.getEdges());
+		commonSubpatternUsages.addAll(task.left.getSubpatternUsages());
+		commonSubpatternUsages.retainAll(task.right.getSubpatternUsages());
+
 		// Elements from outer pattern are not allowed to be modified by inner alternative case pattern
-		for(Node node : patternGraph.getNodes()) {
-			if(node.getPointOfDefinition()!=patternGraph) {
+		for(Node node : task.left.getNodes()) {
+			if(node.getPointOfDefinition()!=task.left) {
 				commonNodes.add(node);
 			}
 		}
-		for(Edge edge : patternGraph.getEdges()) {
-			if(edge.getPointOfDefinition()!=patternGraph) {
+		for(Edge edge : task.left.getEdges()) {
+			if(edge.getPointOfDefinition()!=task.left) {
 				commonEdges.add(edge);
 			}
 		}
 
 		// Parameters/connections are not allowed to be modified by subpatterns
-		if(isSubpattern) {
-			for(Entity entity : rule.getParameters()) {
+		if(task.isSubpattern) {
+			for(Entity entity : task.parameters) {
 				if(entity instanceof Node) {
 					commonNodes.add((Node)entity);
 				}
@@ -245,101 +636,62 @@ public class ModifyGen extends CSharpBase {
 				}
 			}
 		}
+	}
 
-		// New elements are elements from the RHS which are not common
-		if(replaceGraph!=null) {
-			newNodes = new HashSet<Node>(replaceGraph.getNodes());
-			newNodes.removeAll(commonNodes);
-			newEdges = new HashSet<Edge>(replaceGraph.getEdges());
-			newEdges.removeAll(commonEdges);
-			newSubpatternUsages = new HashSet<SubpatternUsage>(replaceGraph.getSubpatternUsages());
-			newSubpatternUsages.removeAll(commonSubpatternUsages);
-
-			// and which are not in the replacement parameters of a subpattern
-			for(Node node : rule.getReplParameters()) {
-				newNodes.remove(node);
-			}
+	private void collectElementsAccessedByInterface(ModifyGenerationTask task,
+			HashSet<GraphEntity> accessViaInterface)
+	{
+		accessViaInterface.addAll(task.left.getNodes());
+		accessViaInterface.addAll(task.left.getEdges());
+		for(Node node : task.right.getNodes()) {
+			if(node.inheritsType())
+				accessViaInterface.add(node);
+			else if(node.changesType())
+				accessViaInterface.add(node.getRetypedEntity());
 		}
-
-		// Deleted elements are elements from the LHS which are not common
-		if(replaceGraph!=null) {
-			delNodes = new HashSet<Node>(patternGraph.getNodes());
-			delNodes.removeAll(commonNodes);
-			delEdges = new HashSet<Edge>(patternGraph.getEdges());
-			delEdges.removeAll(commonEdges);
-			delSubpatternUsages = new HashSet<SubpatternUsage>(patternGraph.getSubpatternUsages());
-			delSubpatternUsages.removeAll(commonSubpatternUsages);
+		for(Edge edge : task.right.getEdges()) {
+			if(edge.inheritsType())
+				accessViaInterface.add(edge);
+			else if(edge.changesType())
+				accessViaInterface.add(edge.getRetypedEntity());
 		}
+	}
 
-		// Collect all elements which are new or retyped
-		if(replaceGraph!=null) {
-			newOrRetypedNodes = new HashSet<Node>(newNodes);
-			for(Node node : replaceGraph.getNodes()) {
-				if(node.changesType())
-					newOrRetypedNodes.add(node.getRetypedNode());
+	private void collectElementsAndAttributesNeededByImperativeStatements(ModifyGenerationTask task,
+			HashMap<GraphEntity, HashSet<Entity>> neededAttributes,
+			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
+			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes)
+	{
+		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
+			if(istmt instanceof Emit) {
+				Emit emit = (Emit) istmt;
+				for(Expression arg : emit.getArguments())
+					collectNeededAttributes(arg, neededAttributes,
+							nodesNeededAsAttributes, edgesNeededAsAttributes);
 			}
-			newOrRetypedEdges = new HashSet<Edge>(newEdges);
-			for(Edge edge : replaceGraph.getEdges()) {
-				if(edge.changesType())
-					newOrRetypedEdges.add(edge.getRetypedEdge());
-			}
-		}
-
-		// Collect all elements which must be accessed via interface
-		accessViaInterface.addAll(patternGraph.getNodes());
-		accessViaInterface.addAll(patternGraph.getEdges());
-		if(replaceGraph!=null) {
-			for(Node node : replaceGraph.getNodes()) {
-				if(node.inheritsType())
-					accessViaInterface.add(node);
-				else if(node.changesType())
-					accessViaInterface.add(node.getRetypedEntity());
-			}
-			for(Edge edge : replaceGraph.getEdges()) {
-				if(edge.inheritsType())
-					accessViaInterface.add(edge);
-				else if(edge.changesType())
-					accessViaInterface.add(edge.getRetypedEntity());
-			}
-		}
-
-		// Collect all entities with their attributes needed by imperative statements
-		if(replaceGraph!=null) {
-			for(ImperativeStmt istmt : replaceGraph.getImperativeStmts()) {
-				if(istmt instanceof Emit) {
-					Emit emit = (Emit) istmt;
-					for(Expression arg : emit.getArguments())
-						collectNeededAttributes(arg);
+			else if (istmt instanceof Exec) {
+				Exec exec = (Exec) istmt;
+				for(Entity param : exec.getArguments()) {
+					if(param instanceof Node)
+						nodesNeededAsElements.add((Node) param);
+					else if(param instanceof Edge)
+						edgesNeededAsElements.add((Edge) param);
+					else if(param instanceof Variable)
+						System.err.println("genRuleModify(): TODO NYI Variable " + param +"  TODO"); // TODO is it correct to do noting
+					else
+						assert false : "XGRS argument of unknown type: " + param.getClass();
 				}
-				else if (istmt instanceof Exec) {
-					Exec exec = (Exec) istmt;
-					for(Entity param : exec.getArguments()) {
-						if(param instanceof Node)
-							nodesNeededAsElements.add((Node) param);
-						else if(param instanceof Edge)
-							edgesNeededAsElements.add((Edge) param);
-						else if(param instanceof Variable)
-							System.err.println("genRuleModify(): TODO NYI Variable " + param +"  TODO"); // TODO is it correct to do noting
-						else
-							assert false : "XGRS argument of unknown type: " + param.getClass();
-					}
-				}
-				else assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;
 			}
+			else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
 		}
+	}
 
-		// Copy all entries generated by collectNeededAttributes for emit stuff
-		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : neededAttributes.entrySet()) {
-			HashSet<Entity> neededAttrs = entry.getValue();
-			HashSet<Entity> neededAttrsForEmit = neededAttributesForEmit.get(entry.getKey());
-			if(neededAttrsForEmit == null) {
-				neededAttributesForEmit.put(entry.getKey(), neededAttrsForEmit = new LinkedHashSet<Entity>());
-			}
-			neededAttrsForEmit.addAll(neededAttrs);
-		}
-
-		// Collect all entities with their attributes needed by evals
-		for(Assignment ass : rule.getEvals()) {
+	private void collectElementsAndAttributesNeededByEvals(ModifyGenerationTask task,
+			HashMap<GraphEntity, HashSet<Entity>> neededAttributes,
+			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
+			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes)
+	{
+		for(Assignment ass : task.evals) {
 			Entity entity = ass.getTarget().getOwner();
 			if(entity instanceof Node)
 				nodesNeededAsElements.add((Node) entity);
@@ -348,206 +700,17 @@ public class ModifyGen extends CSharpBase {
 			else
 				throw new UnsupportedOperationException("Unsupported entity (" + entity + ")");
 
-			collectNeededAttributes(ass.getTarget());
-			collectNeededAttributes(ass.getExpression());
+			collectNeededAttributes(ass.getTarget(), neededAttributes,
+					nodesNeededAsAttributes, edgesNeededAsAttributes);
+			collectNeededAttributes(ass.getExpression(), neededAttributes,
+					nodesNeededAsAttributes, edgesNeededAsAttributes);
 		}
+	}
 
-		// Generate new nodes
-		genRewriteNewNodes(sb2, reuseNodeAndEdges);
-
-		genSubpatternModificationCalls(sb2, rule, pathPrefix, reuseNodeAndEdges);
-
-		genAlternativeModificationCalls(sb2, rule, pathPrefix, reuseNodeAndEdges);
-
-		// Generate node type changes
-		if(replaceGraph!=null) {
-			for(Node node : replaceGraph.getNodes()) {
-				if(!node.changesType()) continue;
-				String new_type;
-				RetypedNode rnode = node.getRetypedNode();
-
-				if(rnode.inheritsType()) {
-					Node typeofElem = (Node) getConcreteTypeofElem(rnode);
-					new_type = formatEntity(typeofElem) + "_type";
-					nodesNeededAsElements.add(typeofElem);
-					nodesNeededAsTypes.add(typeofElem);
-				} else {
-					new_type = formatTypeClass(rnode.getType()) + ".typeVar";
-				}
-
-				nodesNeededAsElements.add(node);
-				sb2.append("\t\t\tLGSPNode " + formatEntity(rnode) + " = graph.Retype("
-							   + formatEntity(node) + ", " + new_type + ");\n");
-				if(nodesNeededAsAttributes.contains(rnode) && accessViaInterface.contains(rnode)) {
-					sb2.append("\t\t\t" + formatVarDeclWithCast(rnode.getType(), "I", "i" + formatEntity(rnode))
-								   + formatEntity(rnode) + ";\n");
-				}
-			}
-		}
-
-		// Generate new edges
-		genRewriteNewEdges(sb2, rule, reuseNodeAndEdges);
-
-		// Generate edge type changes
-		if(replaceGraph!=null) {
-			for(Edge edge : replaceGraph.getEdges()) {
-				if(!edge.changesType()) continue;
-				String new_type;
-				RetypedEdge redge = edge.getRetypedEdge();
-
-				if(redge.inheritsType()) {
-					Edge typeofElem = (Edge) getConcreteTypeofElem(redge);
-					new_type = formatEntity(typeofElem) + "_type";
-					edgesNeededAsElements.add(typeofElem);
-					edgesNeededAsTypes.add(typeofElem);
-				} else {
-					new_type = formatTypeClass(redge.getType()) + ".typeVar";
-				}
-
-				edgesNeededAsElements.add(edge);
-				sb2.append("\t\t\tLGSPEdge " + formatEntity(redge) + " = graph.Retype("
-							   + formatEntity(edge) + ", " + new_type + ");\n");
-				if(edgesNeededAsAttributes.contains(redge) && accessViaInterface.contains(redge)) {
-					sb2.append("\t\t\t" + formatVarDeclWithCast(redge.getType(), "I", "i" + formatEntity(redge))
-								   + formatEntity(redge) + ";\n");
-				}
-			}
-		}
-
-		// Generate new subpattern usages
-		genRewriteNewSubpatternCalls(sb2);
-
-		// Generate attribute re-calculations
-		genEvals(sb3, rule);
-
-		// Create variables for used attributes of non-reusees needed for emits
-		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : neededAttributesForEmit.entrySet()) {
-			GraphEntity owner = entry.getKey();
-			if(reusedElements.contains(owner)) continue;
-
-			String grEntName = formatEntity(owner);
-			for(Entity entity : entry.getValue()) {
-				genVariable(sb3, grEntName, entity);
-				sb3.append(" = ");
-				genQualAccess(sb3, owner, entity);
-				sb3.append(";\n");
-
-				HashSet<Entity> forcedAttrs = forceAttributeToVar.get(owner);
-				if(forcedAttrs == null)
-					forceAttributeToVar.put(owner, forcedAttrs = new HashSet<Entity>());
-				forcedAttrs.add(entity);
-			}
-		}
-
-		// Check deleted elements for retyping through homomorphy
-		for(Edge edge : delEdges) {
-			if(!edge.isMaybeRetyped()) continue;
-
-			String edgeName = formatEntity(edge);
-			sb3.append("\t\t\tif(" + edgeName + ".ReplacedByEdge != null) "
-					+ edgeName + " = " + edgeName + ".ReplacedByEdge;\n");
-		}
-		for(Node node : delNodes) {
-			if(!node.isMaybeRetyped()) continue;
-
-			String nodeName = formatEntity(node);
-			sb3.append("\t\t\tif(" + nodeName + ".ReplacedByNode != null) "
-					+ nodeName + " = " + nodeName + ".ReplacedByNode;\n");
-		}
-
-		// Remove edges
-		for(Edge edge : delEdges) {
-			if(reusedElements.contains(edge)) continue;
-			edgesNeededAsElements.add(edge);
-			sb3.append("\t\t\tgraph.Remove(" + formatEntity(edge) + ");\n");
-		}
-
-		// Remove nodes
-		for(Node node : delNodes) {
-			nodesNeededAsElements.add(node);
-			sb3.append("\t\t\tgraph.RemoveEdges(" + formatEntity(node) + ");\n");
-			sb3.append("\t\t\tgraph.Remove(" + formatEntity(node) + ");\n");
-		}
-
-		// Remove subpattern usages
-		genRewriteDelSubpatternCalls(sb3);
-
-		// Generate imperative statements
-		if(replaceGraph!=null) {
-			int xgrsID = 0;
-			for(ImperativeStmt istmt : replaceGraph.getImperativeStmts()) {
-				if(istmt instanceof Emit) {
-					Emit emit =(Emit) istmt;
-					for(Expression arg : emit.getArguments()) {
-						sb3.append("\t\t\tgraph.EmitWriter.Write(");
-						genExpression(sb3, arg);
-						sb3.append(");\n");
-					}
-				} else if (istmt instanceof Exec) {
-					Exec exec = (Exec) istmt;
-					sb3.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
-					for(Entity param : exec.getArguments()) {
-						if(param instanceof Variable) continue;
-						sb3.append(", ");
-						sb3.append(formatEntity(param));
-					}
-					sb3.append(");\n");
-				} else assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;
-			}
-		}
-
-		// Check returned elements for deletion or retyping due to homomorphy
-		for(Entity ent : rule.getReturns()) {
-			if(!(ent instanceof GraphEntity)) continue;
-
-			GraphEntity grEnt = (GraphEntity) ent;
-			if(grEnt.isMaybeRetyped()) {
-				String elemName = formatEntity(grEnt);
-				String kind = formatNodeOrEdge(grEnt);
-				sb3.append("\t\t\tif(" + elemName + ".ReplacedBy" + kind + " != null) "
-					+ elemName + " = " + elemName + ".ReplacedBy" + kind + ";\n");
-			}
-			if(grEnt.isMaybeDeleted())
-				sb3.append("\t\t\tif(!" + formatEntity(ent) + ".Valid) " + formatEntity(ent) + " = null;\n");
-		}
-
-		// Emit return (only if top-level rule)
-		if(pathPrefix=="" && !isSubpattern) {
-			collectReturnElements(rule);
-			emitReturnStatement(sb3, rule);
-		}
-
-		// Emit end of function
-		sb3.append("\t\t}\n");
-
-		// nodes/edges needed from match, but not the new nodes 
-		nodesNeededAsElements.removeAll(newNodes);
-		nodesNeededAsAttributes.removeAll(newNodes);
-		edgesNeededAsElements.removeAll(newEdges);
-		edgesNeededAsAttributes.removeAll(newEdges);
-		nodesNeededAsElements.removeAll(rule.getReplParameters());
-
-		//
-		// Finalize method using the infos collected and the already generated code
-		//
-
-		genExtractElementsFromMatch(sb, pathPrefix, patternGraph.getNameOfGraph());
-
-		genExtractSubmatchesFromMatch(sb, pathPrefix, rule.getPattern());
-
-		// Generate needed types
-		for(Node node : nodesNeededAsTypes) {
-			String name = formatEntity(node);
-			sb.append("\t\t\tNodeType " + name + "_type = " + name + ".type;\n");
-		}
-		for(Edge edge : edgesNeededAsTypes) {
-			String name = formatEntity(edge);
-			sb.append("\t\t\tEdgeType " + name + "_type = " + name + ".type;\n");
-		}
-
-		// Create variables for used attributes of reused elements
-		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : neededAttributes.entrySet()) {
-			if(!reusedElements.contains(entry.getKey())) continue;
+	private void genCreateVariablesForUsedAttributesOfReusedElements(StringBuffer sb, ModifyGenerationStateConst state)
+	{
+		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : state.neededAttributes().entrySet()) {
+			if(!state.reusedElements().contains(entry.getKey())) continue;
 
 			String grEntName = formatEntity(entry.getKey());
 			for(Entity entity : entry.getValue()) {
@@ -556,18 +719,178 @@ public class ModifyGen extends CSharpBase {
 				sb.append(" = i" + grEntName + ".@" + attrName + ";\n");
 			}
 		}
-
-		// New nodes/edges (re-use), retype nodes/edges, call modification code
-		sb.append(sb2);
-
-		// Attribute re-calc, attr vars for emit, remove, emit, return
-		sb.append(sb3);
 	}
 
-	public void genAddedGraphElementsArray(StringBuffer sb, boolean hasRightHandSide) {
+	private void genNeededTypes(StringBuffer sb, ModifyGenerationStateConst state)
+	{
+		for(Node node : state.nodesNeededAsTypes()) {
+			String name = formatEntity(node);
+			sb.append("\t\t\tNodeType " + name + "_type = " + name + ".type;\n");
+		}
+		for(Edge edge : state.edgesNeededAsTypes()) {
+			String name = formatEntity(edge);
+			sb.append("\t\t\tEdgeType " + name + "_type = " + name + ".type;\n");
+		}
+	}
+
+	private void genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(
+			StringBuffer sb, ModifyGenerationTask task)
+	{
+		for(Entity ent : task.returns) {
+			if(!(ent instanceof GraphEntity)) continue;
+
+			GraphEntity grEnt = (GraphEntity) ent;
+			if(grEnt.isMaybeRetyped()) {
+				String elemName = formatEntity(grEnt);
+				String kind = formatNodeOrEdge(grEnt);
+				sb.append("\t\t\tif(" + elemName + ".ReplacedBy" + kind + " != null) "
+					+ elemName + " = " + elemName + ".ReplacedBy" + kind + ";\n");
+			}
+			if(grEnt.isMaybeDeleted())
+				sb.append("\t\t\tif(!" + formatEntity(ent) + ".Valid) " + formatEntity(ent) + " = null;\n");
+		}
+	}
+
+	private void genImperativeStatements(StringBuffer sb, ModifyGenerationStateConst state, ModifyGenerationTask task)
+	{
+		int xgrsID = 0;
+		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
+			if(istmt instanceof Emit) {
+				Emit emit =(Emit) istmt;
+				for(Expression arg : emit.getArguments()) {
+					sb.append("\t\t\tgraph.EmitWriter.Write(");
+					genExpression(sb, arg, state);
+					sb.append(");\n");
+				}
+			} else if (istmt instanceof Exec) {
+				Exec exec = (Exec) istmt;
+				sb.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
+				for(Entity param : exec.getArguments()) {
+					if(param instanceof Variable) continue;
+					sb.append(", ");
+					sb.append(formatEntity(param));
+				}
+				sb.append(");\n");
+			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
+		}
+	}
+
+	private void genCreateVariablesForUsedAttributesOfNonReuseesNeededForEmits(StringBuffer sb,
+			ModifyGenerationStateConst state, HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar)
+	{
+		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : state.neededAttributesForEmit().entrySet()) {
+			GraphEntity owner = entry.getKey();
+			if(state.reusedElements().contains(owner)) continue;
+
+			String grEntName = formatEntity(owner);
+			for(Entity entity : entry.getValue()) {
+				genVariable(sb, grEntName, entity);
+				sb.append(" = ");
+				genQualAccess(sb, state, owner, entity);
+				sb.append(";\n");
+
+				HashSet<Entity> forcedAttrs = forceAttributeToVar.get(owner);
+				if(forcedAttrs == null)
+					forceAttributeToVar.put(owner, forcedAttrs = new HashSet<Entity>());
+				forcedAttrs.add(entity);
+			}
+		}
+	}
+
+	private void genCheckDeletedElementsForRetypingThroughHomomorphy(StringBuffer sb, ModifyGenerationStateConst state)
+	{
+		for(Edge edge : state.delEdges()) {
+			if(!edge.isMaybeRetyped()) continue;
+
+			String edgeName = formatEntity(edge);
+			sb.append("\t\t\tif(" + edgeName + ".ReplacedByEdge != null) "
+					+ edgeName + " = " + edgeName + ".ReplacedByEdge;\n");
+		}
+		for(Node node : state.delNodes()) {
+			if(!node.isMaybeRetyped()) continue;
+
+			String nodeName = formatEntity(node);
+			sb.append("\t\t\tif(" + nodeName + ".ReplacedByNode != null) "
+					+ nodeName + " = " + nodeName + ".ReplacedByNode;\n");
+		}
+	}
+
+	private void genDelNodes(StringBuffer sb, ModifyGenerationStateConst state, HashSet<Node> nodesNeededAsElements)
+	{
+		for(Node node : state.delNodes()) {
+			nodesNeededAsElements.add(node);
+			sb.append("\t\t\tgraph.RemoveEdges(" + formatEntity(node) + ");\n");
+			sb.append("\t\t\tgraph.Remove(" + formatEntity(node) + ");\n");
+		}
+	}
+
+	private void genDelEdges(StringBuffer sb, ModifyGenerationStateConst state, HashSet<Edge> edgesNeededAsElements)
+	{
+		for(Edge edge : state.delEdges()) {
+			if(state.reusedElements().contains(edge)) continue;
+			edgesNeededAsElements.add(edge);
+			sb.append("\t\t\tgraph.Remove(" + formatEntity(edge) + ");\n");
+		}
+	}
+
+	private void genTypeChangesEdges(StringBuffer sb, ModifyGenerationTask task, ModifyGenerationStateConst state, 
+			HashSet<Edge> edgesNeededAsElements, HashSet<Edge> edgesNeededAsTypes)
+	{
+		for(Edge edge : task.right.getEdges()) {
+			if(!edge.changesType()) continue;
+			String new_type;
+			RetypedEdge redge = edge.getRetypedEdge();
+
+			if(redge.inheritsType()) {
+				Edge typeofElem = (Edge) getConcreteTypeofElem(redge);
+				new_type = formatEntity(typeofElem) + "_type";
+				edgesNeededAsElements.add(typeofElem);
+				edgesNeededAsTypes.add(typeofElem);
+			} else {
+				new_type = formatTypeClass(redge.getType()) + ".typeVar";
+			}
+
+			edgesNeededAsElements.add(edge);
+			sb.append("\t\t\tLGSPEdge " + formatEntity(redge) + " = graph.Retype("
+						   + formatEntity(edge) + ", " + new_type + ");\n");
+			if(state.edgesNeededAsAttributes().contains(redge) && state.accessViaInterface().contains(redge)) {
+				sb.append("\t\t\t" + formatVarDeclWithCast(redge.getType(), "I", "i" + formatEntity(redge))
+							   + formatEntity(redge) + ";\n");
+			}
+		}
+	}
+
+	private void genTypeChangesNodes(StringBuffer sb, ModifyGenerationStateConst state, ModifyGenerationTask task, 
+			HashSet<Node> nodesNeededAsElements, HashSet<Node> nodesNeededAsTypes)
+	{
+		for(Node node : task.right.getNodes()) {
+			if(!node.changesType()) continue;
+			String new_type;
+			RetypedNode rnode = node.getRetypedNode();
+
+			if(rnode.inheritsType()) {
+				Node typeofElem = (Node) getConcreteTypeofElem(rnode);
+				new_type = formatEntity(typeofElem) + "_type";
+				nodesNeededAsElements.add(typeofElem);
+				nodesNeededAsTypes.add(typeofElem);
+			} else {
+				new_type = formatTypeClass(rnode.getType()) + ".typeVar";
+			}
+
+			nodesNeededAsElements.add(node);
+			sb.append("\t\t\tLGSPNode " + formatEntity(rnode) + " = graph.Retype("
+						   + formatEntity(node) + ", " + new_type + ");\n");
+			if(state.nodesNeededAsAttributes().contains(rnode) && state.accessViaInterface().contains(rnode)) {
+				sb.append("\t\t\t" + formatVarDeclWithCast(rnode.getType(), "I", "i" + formatEntity(rnode))
+							   + formatEntity(rnode) + ";\n");
+			}
+		}
+	}
+
+	private void genAddedGraphElementsArray(StringBuffer sb, ModifyGenerationStateConst state, boolean hasRightHandSide) {
 		if(hasRightHandSide) {
-			genAddedGraphElementsArray(sb, true, newNodes);
-			genAddedGraphElementsArray(sb, false, newEdges);
+			genAddedGraphElementsArray(sb, true, state.newNodes());
+			genAddedGraphElementsArray(sb, false, state.newEdges());
 		}
 		else {
 			sb.append("\t\tprivate static String[] addedNodeNames = new String[] {};\n");
@@ -577,88 +900,46 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genCreateSubpattern(StringBuffer sb, Rule rule, String pathPrefix)
-	{
-		PatternGraph patternGraph = rule.getLeft();
-
-		// Emit function header
-		sb.append("\n");
-		sb.append("\t\tpublic void "
-				+ pathPrefix+patternGraph.getNameOfGraph()+"_"
-				+ "Create"
-				+ "(LGSPGraph graph");
-		for(Entity entity : rule.getParameters()) {
-			sb.append((entity instanceof Node ? ", LGSPNode " : ", LGSPEdge " )+ formatEntity(entity));
-		}
-		sb.append(")\n");
-
-		// Emit begin of function
-		sb.append("\t\t{\n");
-
-		// New elements are elements from the RHS which are not common
-		newNodes = new HashSet<Node>(patternGraph.getNodes());
-		newEdges = new HashSet<Edge>(patternGraph.getEdges());
-		newSubpatternUsages = new HashSet<SubpatternUsage>(patternGraph.getSubpatternUsages());
-		newNodes.removeAll(rule.getParameters());
-		newEdges.removeAll(rule.getParameters());
-
-		// Generate new nodes
-		genRewriteNewNodes(sb, false);
-
-		// Generate new edges
-		genRewriteNewEdges(sb, patternGraph);
-
-		// Generate new subpattern usages
-		genRewriteNewSubpatternCalls(sb);
-
-		// Emit end of function
-		sb.append("\t\t}\n");
-	}
-
-	private void genDeleteSubpattern(StringBuffer sb, Rule rule, String pathPrefix)
-	{
-		PatternGraph patternGraph = rule.getLeft();
-
-		// Emit function header
-		sb.append("\n");
-		sb.append("\t\tpublic void "
-				+ pathPrefix+patternGraph.getNameOfGraph()+"_"
-				+ "Delete"
-				+ "(LGSPGraph graph, LGSPMatch match)\n");
-
-		// Emit begin of function
-		sb.append("\t\t{\n");
-
-		// todo
-
-		// Emit end of function
-		sb.append("\t\t}\n");
-	}
-
-	private void genAlternativeModificationCalls(StringBuffer sb, Rule rule, String pathPrefix, boolean reuseNodeAndEdges) {
-		// generate calls to the modifications of the alternatives (nested alternatives are handled in their enclosing alternative)
-		PatternGraph pattern = rule.getPattern();
-		int i = 0;
-		for(Alternative alt : pattern.getAlts()) {
-			String altName = "alt_" + i;
-			sb.append("\t\t\t" + pathPrefix+pattern.getNameOfGraph()+"_"+altName+"_" +
-					(reuseNodeAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, alternative_" + altName);
-			for(Node node : rule.getReplParameters()) {
-				sb.append(", " + formatEntity(node));
-			}
-			sb.append(");\n");
-			++i;
-		}
-	}
-
-	private void genSubpatternModificationCalls(StringBuffer sb, Rule rule, String pathPrefix, boolean reuseNodeAndEdges) {
-		// generate calls to the dependent modifications of the subpatterns
-		PatternGraph replacement = rule.getRight();
-		if(replacement==null) {
+	private void genAlternativeModificationCalls(StringBuffer sb, ModifyGenerationTask task, String pathPrefix) {
+		if(task.right==task.left) { // test needs top-level-modify due to interface, but not more
 			return;
 		}
 
-		for(SubpatternDependentReplacement subRep : replacement.getSubpatternDependentReplacements()) {
+		if(task.typeOfTask==TYPE_OF_TASK_MODIFY) {
+			// generate calls to the modifications of the alternatives (nested alternatives are handled in their enclosing alternative)
+			int i = 0;
+			for(Alternative alt : task.left.getAlts()) {
+				String altName = "alt_" + i;
+				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
+						(task.reuseNodesAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, alternative_" + altName);
+				for(Entity entity : task.replParameters) {
+					Node node = (Node)entity;
+					sb.append(", " + formatEntity(node));
+				}
+				sb.append(");\n");
+				++i;
+			}
+		}
+		else if(task.typeOfTask==TYPE_OF_TASK_DELETION) {
+			// generate calls to the deletion of the alternatives (nested alternatives are handled in their enclosing alternative)
+			int i = 0;
+			for(Alternative alt : task.left.getAlts()) {
+				String altName = "alt_" + i;
+				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
+						"Delete" + "(graph, alternative_"+altName+");\n");
+				++i;
+			}
+		}
+	}
+
+	private void genSubpatternModificationCalls(StringBuffer sb, ModifyGenerationTask task, String pathPrefix, 
+			HashSet<Node> nodesNeededAsElements) {
+		if(task.right==task.left) { // test needs top-level-modify due to interface, but not more
+			return;
+		}
+
+		// generate calls to the dependent modifications of the subpatterns
+		for(SubpatternDependentReplacement subRep : task.right.getSubpatternDependentReplacements()) {
 			String subName = formatIdentifiable(subRep);
 			sb.append("\t\t\tPattern_" + formatIdentifiable(subRep.getSubpatternUsage().getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subRep.getSubpatternUsage().getSubpatternAction()) +
@@ -681,43 +962,44 @@ public class ModifyGen extends CSharpBase {
 					  + "Names { get { return added" + NodesOrEdges + "Names; } }\n");
 	}
 
-	private void emitReturnStatement(StringBuffer sb, MatchingAction rule) {
-		if(rule.getReturns().isEmpty())
+	private void emitReturnStatement(StringBuffer sb, List<Entity> returns) {
+		if(returns.isEmpty())
 			sb.append("\t\t\treturn EmptyReturnElements;\n");
 		else {
 			sb.append("\t\t\treturn new IGraphElement[] { ");
-			for(Entity ent : rule.getReturns())
+			for(Entity ent : returns)
 				sb.append(formatEntity(ent) + ", ");
 			sb.append("};\n");
 		}
 	}
 
-	private void genExtractElementsFromMatch(StringBuffer sb, String pathPrefix, String patternName) {
-		for(Node node : nodesNeededAsElements) {
+	private void genExtractElementsFromMatch(StringBuffer sb, ModifyGenerationStateConst state,
+			String pathPrefix, String patternName) {
+		for(Node node : state.nodesNeededAsElements()) {
 			if(node.isRetyped()) continue;
 			sb.append("\t\t\tLGSPNode " + formatEntity(node)
 					+ " = match.Nodes[(int)" + pathPrefix+patternName + "_NodeNums.@"
 					+ formatIdentifiable(node) + "];\n");
 		}
-		for(Node node : nodesNeededAsAttributes) {
+		for(Node node : state.nodesNeededAsAttributes()) {
 			if(node.isRetyped()) continue;
 			sb.append("\t\t\t" + formatVarDeclWithCast(node.getType(), "I", "i" + formatEntity(node)));
-			if(nodesNeededAsElements.contains(node))
+			if(state.nodesNeededAsElements().contains(node))
 				sb.append(formatEntity(node) + ";\n");
 			else
 				sb.append("match.Nodes[(int)" + pathPrefix+patternName + "_NodeNums.@"
 						+ formatIdentifiable(node) + "];\n");
 		}
-		for(Edge edge : edgesNeededAsElements) {
+		for(Edge edge : state.edgesNeededAsElements()) {
 			if(edge.isRetyped()) continue;
 			sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
 					+ " = match.Edges[(int)" + pathPrefix+patternName + "_EdgeNums.@"
 					+ formatIdentifiable(edge) + "];\n");
 		}
-		for(Edge edge : edgesNeededAsAttributes) {
+		for(Edge edge : state.edgesNeededAsAttributes()) {
 			if(edge.isRetyped()) continue;
 			sb.append("\t\t\t" + formatVarDeclWithCast(edge.getType(), "I", "i" + formatEntity(edge)));
-			if(edgesNeededAsElements.contains(edge))
+			if(state.edgesNeededAsElements().contains(edge))
 				sb.append(formatEntity(edge) + ";\n");
 			else
 				sb.append("match.Edges[(int)" + pathPrefix+patternName + "_EdgeNums.@"
@@ -744,8 +1026,9 @@ public class ModifyGen extends CSharpBase {
 
 	}
 
-	private void collectReturnElements(MatchingAction action) {
-		for(Entity ent : action.getReturns()) {
+	private void collectReturnElements(List<Entity> returns, 
+			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements) {
+		for(Entity ent : returns) {
 			if(ent instanceof Node)
 				nodesNeededAsElements.add((Node) ent);
 			else if(ent instanceof Edge)
@@ -760,11 +1043,13 @@ public class ModifyGen extends CSharpBase {
 	 * them in the neededAttributes hash map and their owners in
 	 * the appropriate <kind>NeededAsAttributes hash set.
 	 */
-	private void collectNeededAttributes(Expression expr) {
+	private void collectNeededAttributes(Expression expr, HashMap<GraphEntity, HashSet<Entity>> neededAttributes,
+			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes) {
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
 			for(int i = 0; i < op.arity(); i++)
-				collectNeededAttributes(op.getOperand(i));
+				collectNeededAttributes(op.getOperand(i), neededAttributes,
+						nodesNeededAsAttributes, edgesNeededAsAttributes);
 		}
 		else if(expr instanceof Qualification) {
 			Qualification qual = (Qualification) expr;
@@ -783,7 +1068,8 @@ public class ModifyGen extends CSharpBase {
 		}
 		else if(expr instanceof Cast) {
 			Cast cast = (Cast) expr;
-			collectNeededAttributes(cast.getExpression());
+			collectNeededAttributes(cast.getExpression(), neededAttributes,
+					nodesNeededAsAttributes, edgesNeededAsAttributes);
 		}
 	}
 
@@ -791,10 +1077,11 @@ public class ModifyGen extends CSharpBase {
 	// New element generation //
 	////////////////////////////
 
-	private void genRewriteNewNodes(StringBuffer sb2, boolean reuseNodeAndEdges) {
+	private void genNewNodes(StringBuffer sb2, boolean reuseNodeAndEdges, ModifyGenerationStateConst state,
+			HashSet<Node> nodesNeededAsElements, HashSet<Node> nodesNeededAsTypes) {
 		//reuseNodeAndEdges = false;							// TODO: reimplement this!!
 
-		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(newNodes);
+		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(state.newNodes());
 
 		/* LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
 		 if(reuseNodeAndEdges) {
@@ -857,7 +1144,7 @@ public class ModifyGen extends CSharpBase {
 				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) "
 							   + formatEntity(typeofElem) + "_type.CreateNode();\n"
 							   + "\t\t\tgraph.AddNode(" + formatEntity(node) + ");\n");
-				if(nodesNeededAsAttributes.contains(node) && accessViaInterface.contains(node)) {
+				if(state.nodesNeededAsAttributes().contains(node) && state.accessViaInterface().contains(node)) {
 					sb2.append("\t\t\t" + formatVarDeclWithCast(node.getType(), "I", "i" + formatEntity(node))
 								   + formatEntity(node) + ";\n");
 				}
@@ -894,23 +1181,26 @@ public class ModifyGen extends CSharpBase {
 	 return type;
 	 }*/
 
-	private void genRewriteNewEdges(StringBuffer sb2, Rule rule, boolean reuseNodeAndEdges) {
-		PatternGraph leftSide = rule.getLeft();
-		PatternGraph rightSide = rule.getRight();
-
-		NE:	for(Edge edge : newEdges) {
+	private void genNewEdges(StringBuffer sb2, ModifyGenerationStateConst state, ModifyGenerationTask task, 
+			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements, 
+			HashSet<Edge> edgesNeededAsTypes, HashSet<GraphEntity> reusedElements)
+	{
+		NE:	for(Edge edge : state.newEdges()) {
 			String etype = formatElementClass(edge.getType());
 
-			Node src_node = rightSide.getSource(edge);
-			Node tgt_node = rightSide.getTarget(edge);
+			Node src_node = task.right.getSource(edge);
+			Node tgt_node = task.right.getTarget(edge);
+			if(src_node==null || tgt_node==null) {
+				return; // don't create dangling edges    - todo: what's the correct way to handle them?
+			}
 
 			if(src_node.changesType()) src_node = src_node.getRetypedNode();
 			if(tgt_node.changesType()) tgt_node = tgt_node.getRetypedNode();
 
-			if(commonNodes.contains(src_node))
+			if(state.commonNodes().contains(src_node))
 				nodesNeededAsElements.add(src_node);
 
-			if(commonNodes.contains(tgt_node))
+			if(state.commonNodes().contains(tgt_node))
 				nodesNeededAsElements.add(tgt_node);
 
 			if(edge.inheritsType()) {
@@ -922,25 +1212,25 @@ public class ModifyGen extends CSharpBase {
 							   + formatEntity(typeofElem) + "_type.CreateEdge("
 							   + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
 							   + "\t\t\tgraph.AddEdge(" + formatEntity(edge) + ");\n");
-				if(edgesNeededAsAttributes.contains(edge) && accessViaInterface.contains(edge)) {
+				if(state.edgesNeededAsAttributes().contains(edge) && state.accessViaInterface().contains(edge)) {
 					sb2.append("\t\t\t" + formatVarDeclWithCast(edge.getType(), "I", "i" + formatEntity(edge))
 								   + formatEntity(edge) + ";\n");
 				}
 				continue;
 			}
-			else if(reuseNodeAndEdges) {
+			else if(task.reuseNodesAndEdges) {
 				Edge bestDelEdge = null;
 				int bestPoints = -1;
 
 				// Can we reuse a deleted edge of the same type?
-				for(Edge delEdge : delEdges) {
+				for(Edge delEdge : state.delEdges()) {
 					if(reusedElements.contains(delEdge)) continue;
 					if(delEdge.getType() != edge.getType()) continue;
 
 					int curPoints = 0;
-					if(leftSide.getSource(delEdge) == src_node)
+					if(task.left.getSource(delEdge) == src_node)
 						curPoints++;
-					if(leftSide.getTarget(delEdge) == tgt_node)
+					if(task.left.getTarget(delEdge) == tgt_node)
 						curPoints++;
 					if(curPoints > bestPoints) {
 						bestPoints = curPoints;
@@ -967,12 +1257,12 @@ public class ModifyGen extends CSharpBase {
 								   + "\t\t\t\t" + newEdgeName + " = (" + etype + ") " + reusedEdgeName + ";\n"
 								   + "\t\t\t\tgraph.ReuseEdge(" + reusedEdgeName + ", ");
 
-					if(leftSide.getSource(bestDelEdge) != src_node)
+					if(task.left.getSource(bestDelEdge) != src_node)
 						sb2.append(src + ", ");
 					else
 						sb2.append("null, ");
 
-					if(leftSide.getTarget(bestDelEdge) != tgt_node)
+					if(task.left.getTarget(bestDelEdge) != tgt_node)
 						sb2.append(tgt + "");
 					else
 						sb2.append("null");
@@ -1000,28 +1290,9 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genRewriteNewEdges(StringBuffer sb2, PatternGraph patternGraph) {
-		for(Edge edge : newEdges) {
-			String etype = formatElementClass(edge.getType());
-
-			Node src_node = patternGraph.getSource(edge);
-			Node tgt_node = patternGraph.getTarget(edge);
-			
-			if(src_node==null || tgt_node==null) {
-				// dangling edges are not created
-				return;
-			}
-
-			// Create the edge
-			sb2.append("\t\t\t" + etype + " " + formatEntity(edge) + " = " + etype
-						   + ".CreateEdge(graph, " + formatEntity(src_node)
-						   + ", " + formatEntity(tgt_node) + ");\n");
-		}
-	}
-
-	private void genRewriteNewSubpatternCalls(StringBuffer sb)
+	private void genNewSubpatternCalls(StringBuffer sb, ModifyGenerationStateConst state)
 	{
-		for(SubpatternUsage subUsage : newSubpatternUsages) {
+		for(SubpatternUsage subUsage : state.newSubpatternUsages()) {
 			String subName = formatIdentifiable(subUsage);
 			sb.append("\t\t\tPattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
@@ -1033,7 +1304,7 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genRewriteDelSubpatternCalls(StringBuffer sb)
+	private void genDelSubpatternCalls(StringBuffer sb)
 	{
 		//sb.append("\t\t\t" + pathPrefix+patternGraph.getNameOfGraph()+"_" + "Delete" + "(LGSPGraph graph, LGSPMatch match);\n");
 	}
@@ -1042,9 +1313,9 @@ public class ModifyGen extends CSharpBase {
 	// Eval part generation //
 	//////////////////////////
 
-	private void genEvals(StringBuffer sb, Rule rule) {
+	private void genEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<Assignment> assignments) {
 		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false, def_o = false;
-		for(Assignment ass : rule.getEvals()) {
+		for(Assignment ass : assignments) {
 			String varName, varType;
 			Entity entity = ass.getTarget().getOwner();
 
@@ -1086,18 +1357,18 @@ public class ModifyGen extends CSharpBase {
 			sb.append("\t\t\t" + varType + varName + " = ");
 			if(ass.getTarget().getType() instanceof EnumType)
 				sb.append("(int) ");
-			genExpression(sb, ass.getExpression());
+			genExpression(sb, ass.getExpression(), state);
 			sb.append(";\n");
 
 			String kindStr = null;
 			boolean isDeletedElem = false;
 			if(entity instanceof Node) {
 				kindStr = "Node";
-				isDeletedElem = delNodes.contains(entity);
+				isDeletedElem = state.delNodes().contains(entity);
 			}
 			else if(entity instanceof Edge) {
 				kindStr = "Edge";
-				isDeletedElem = delEdges.contains(entity);
+				isDeletedElem = state.delEdges().contains(entity);
 			}
 			else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
 
@@ -1105,12 +1376,12 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
 							  ", " + kindStr + "Type_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
 							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
-				genExpression(sb, ass.getTarget());
+				genExpression(sb, ass.getTarget(), state);
 				sb.append(", " + varName + ");\n");
 			}
 
 			sb.append("\t\t\t");
-			genExpression(sb, ass.getTarget());
+			genExpression(sb, ass.getTarget(), state);
 			sb.append(" = ");
 			if(ass.getTarget().getType() instanceof EnumType)
 				sb.append("(ENUM_" + formatIdentifiable(ass.getTarget().getType()) + ") ");
@@ -1122,18 +1393,28 @@ public class ModifyGen extends CSharpBase {
 	// Expression stuff //
 	//////////////////////
 
-	protected void genQualAccess(StringBuffer sb, Qualification qual) {
-		Entity owner = qual.getOwner();
-		Entity member = qual.getMember();
-		genQualAccess(sb, owner, member);
+	protected void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState) {
+		genQualAccess(sb, qual, (ModifyGenerationState)modifyGenerationState);
 	}
 
-	protected void genQualAccess(StringBuffer sb, Entity owner, Entity member) {
-		if(accessViaVariable((GraphEntity) owner, member)) {
+	protected void genQualAccess(StringBuffer sb, Qualification qual, ModifyGenerationStateConst state) {
+		Entity owner = qual.getOwner();
+		Entity member = qual.getMember();
+		genQualAccess(sb, state, owner, member);
+	}
+
+	protected void genQualAccess(StringBuffer sb, ModifyGenerationStateConst state, Entity owner, Entity member) {
+		if(state==null) {
+			assert false;
+			sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
+			return;
+		}
+		
+		if(accessViaVariable(state, (GraphEntity) owner, member)) {
 			sb.append("var_" + formatEntity(owner) + "_" + formatIdentifiable(member));
 		}
 		else {
-			if(accessViaInterface.contains(owner))
+			if(state.accessViaInterface().contains(owner))
 				sb.append("i");
 
 			sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
@@ -1144,12 +1425,12 @@ public class ModifyGen extends CSharpBase {
 		throw new UnsupportedOperationException("Member expressions not allowed in actions!");
 	}
 
-	private boolean accessViaVariable(GraphEntity elem, Entity attr) {
-		if(!reusedElements.contains(elem)) {
-			HashSet<Entity> forcedAttrs = forceAttributeToVar.get(elem);
+	private boolean accessViaVariable(ModifyGenerationStateConst state, GraphEntity elem, Entity attr) {
+		if(!state.reusedElements().contains(elem)) {
+			HashSet<Entity> forcedAttrs = state.forceAttributeToVar().get(elem);
 			return forcedAttrs != null && forcedAttrs.contains(attr);
 		}
-		HashSet<Entity> neededAttrs = neededAttributes.get(elem);
+		HashSet<Entity> neededAttrs = state.neededAttributes().get(elem);
 		return neededAttrs != null && neededAttrs.contains(attr);
 	}
 
@@ -1187,37 +1468,5 @@ public class ModifyGen extends CSharpBase {
 
 		sb.append("\t\t\t" + varTypeName + " var_" + ownerName + "_" + attrName);
 	}
-
-	///////////////////////
-	// Private variables //
-	///////////////////////
-
-	private Collection<Node> commonNodes;
-	private Collection<Edge> commonEdges;
-	private Collection<SubpatternUsage> commonSubpatternUsages;
-
-	private HashSet<Node> newNodes = new HashSet<Node>();
-	private HashSet<Edge> newEdges = new HashSet<Edge>();
-	private HashSet<SubpatternUsage> newSubpatternUsages = new HashSet<SubpatternUsage>();
-	private HashSet<Node> delNodes = new HashSet<Node>();
-	private HashSet<Edge> delEdges = new HashSet<Edge>();
-	private HashSet<SubpatternUsage> delSubpatternUsages = new HashSet<SubpatternUsage>();
-
-	private HashSet<Node> newOrRetypedNodes = new HashSet<Node>();
-	private HashSet<Edge> newOrRetypedEdges = new HashSet<Edge>();
-	private HashSet<GraphEntity> reusedElements = new HashSet<GraphEntity>();
-	private HashSet<GraphEntity> accessViaInterface = new HashSet<GraphEntity>();
-
-	private HashMap<GraphEntity, HashSet<Entity>> neededAttributes = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
-	private HashMap<GraphEntity, HashSet<Entity>> neededAttributesForEmit = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
-
-	private HashSet<Node> nodesNeededAsElements = new LinkedHashSet<Node>();
-	private HashSet<Edge> edgesNeededAsElements = new LinkedHashSet<Edge>();
-	private HashSet<Node> nodesNeededAsAttributes = new LinkedHashSet<Node>();
-	private HashSet<Edge> edgesNeededAsAttributes = new LinkedHashSet<Edge>();
-	private HashSet<Node> nodesNeededAsTypes = new LinkedHashSet<Node>();
-	private HashSet<Edge> edgesNeededAsTypes = new LinkedHashSet<Edge>();
-
-	private HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 }
 

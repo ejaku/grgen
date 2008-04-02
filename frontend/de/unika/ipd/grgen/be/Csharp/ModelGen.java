@@ -487,12 +487,12 @@ public class ModelGen extends CSharpBase {
 		for(MemberInit mi : type.getMemberInits()) {
 			String attrName = formatIdentifiable(mi.getMember());
 			sb.append(indentString + varName + ".@" + attrName + " = ");
-			genExpression(sb, mi.getExpression());
+			genExpression(sb, mi.getExpression(), null);
 			sb.append(";\n");
 		}
 	}
 
-	protected void genQualAccess(StringBuffer sb, Qualification qual) {
+	protected void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState) {
 		Entity owner = qual.getOwner();
 		sb.append("((I" + (owner instanceof Node ? "Node" : "Edge") + "_" +
 				formatIdentifiable(owner.getType()) + ") ");

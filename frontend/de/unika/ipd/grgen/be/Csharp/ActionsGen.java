@@ -123,8 +123,6 @@ public class ActionsGen extends CSharpBase {
 
 		mg.genModify(sb, rule, false);
 
-		mg.genAddedGraphElementsArray(sb, rule.getRight()!=null);
-
 		if(rule.getRight()!=null) {
 			genEmit(sb, rule, false);
 		}
@@ -701,7 +699,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(")\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn ");
-			genExpression(sb, expr);
+			genExpression(sb, expr, null);
 			sb.append(";\n");
 			sb.append("\t\t}\n");
 			++condCnt;
@@ -762,7 +760,7 @@ public class ActionsGen extends CSharpBase {
 	// Expression stuff //
 	//////////////////////
 
-	protected void genQualAccess(StringBuffer sb, Qualification qual) {
+	protected void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState) {
 		Entity owner = qual.getOwner();
 		Entity member = qual.getMember();
 		genQualAccess(sb, owner, member);
