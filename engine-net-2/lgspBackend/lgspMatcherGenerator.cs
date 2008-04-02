@@ -1305,9 +1305,11 @@ exitSecondLoop: ;
 
 #if DUMP_SCHEDULED_SEARCH_PLAN
             StreamWriter sspwriter = new StreamWriter(matchingPattern.name + "_ssp_dump.txt");
+            float prevCostToEnd = scheduledSearchPlan.Operations.Length > 0 ? scheduledSearchPlan.Operations[0].CostToEnd : 0f;
             foreach (SearchOperation so in scheduledSearchPlan.Operations)
             {
-                sspwriter.Write(SearchOpToString(so)+"\n");
+                sspwriter.Write(SearchOpToString(so) + " ; " + so.CostToEnd + " (+" + (prevCostToEnd-so.CostToEnd) + ")" + "\n");
+                prevCostToEnd = so.CostToEnd;
             }
             sspwriter.Close();
 #endif
