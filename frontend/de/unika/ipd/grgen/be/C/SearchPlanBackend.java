@@ -35,7 +35,6 @@ package de.unika.ipd.grgen.be.C;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -411,11 +410,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private void genEvalFunctions(StringBuffer sb, String indent, Rule rule, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
 	  	sb.append("/* function to do eval assignments */\n");
-		Collection<Assignment> evalList = rule.getEvals();
 
-		for(Iterator<Assignment> it = evalList.iterator(); it.hasNext(); )
+		for(Assignment eval : rule.getEvals())
 		{
-			Assignment eval = it.next();
 			Qualification target = eval.getTarget();
 			Entity targetOwner = target.getOwner();
 			Entity targetMember = target.getMember();
@@ -457,11 +454,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private void registerEvalFunctions(StringBuffer sb, String indent, Rule rule)
 	{
-		Collection<Assignment> evalList = rule.getEvals();
-
-		for(Iterator<Assignment> it = evalList.iterator(); it.hasNext(); )
+		for(Assignment eval : rule.getEvals())
 		{
-			Assignment eval = it.next();
 			sb.append(indent + "ext_grs_act_register_eval(act, NULL, (ext_grs_eval_out_func_t) &grs_eval_out_func_" + eval.getId() + ");\n");
 		}
 
