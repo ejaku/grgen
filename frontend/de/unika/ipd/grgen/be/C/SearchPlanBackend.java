@@ -37,7 +37,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import de.unika.ipd.grgen.Sys;
@@ -806,25 +805,26 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 
 
-	/* ---------------------------------------------
-	 * Method genSet dumps C-like Set representaion.
+	/* ----------------------------------------------
+	 * Method genSet dumps C-like Set representation.
 	 *
 	 * @param    sb		  a  StringBuffer
 	 * @param    set		 a  Set
-	 * --------------------------------------------- */
+	 * ---------------------------------------------- */
 
 	private void genSet(StringBuffer sb, Set<? extends Entity> set) {
 		sb.append('{');
-		for(Iterator<? extends Entity> i = set.iterator(); i.hasNext(); ) {
-			Entity e = i.next();
+
+		String sep = "";
+		for(Entity e : set) {
+			sb.append(sep);
 			if(e instanceof Node)
 				sb.append("n_" + e.getIdent().toString());
 			else if (e instanceof Edge)
 				sb.append("e_" + e.getIdent().toString());
 			else
 				sb.append(e.getIdent().toString());
-			if(i.hasNext())
-				sb.append(", ");
+			sep = ", ";
 		}
 		sb.append('}');
 	}

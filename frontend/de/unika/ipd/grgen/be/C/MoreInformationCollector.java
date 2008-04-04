@@ -32,7 +32,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -89,10 +88,7 @@ public class MoreInformationCollector extends InformationCollector {
 		involvedEvalNodeAttrIds = new Map[ actionRuleMap.size() ];
 		involvedEvalEdgeAttrIds = new Map[ actionRuleMap.size() ];
 
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
-			//get the current action
-			Action act = it.next();
-
+		for(Rule act : actionRuleMap.keySet()) {
 			if (act instanceof Rule && ((Rule)act).getRight()!=null) {
 				Rule rule = (Rule) act;
 				Integer act_id = actionRuleMap.get(act);
@@ -107,8 +103,7 @@ public class MoreInformationCollector extends InformationCollector {
 				involvedEvalNodeAttrIds[ act_id.intValue() ] = new HashMap<Node, Collection<Integer>>();
 				involvedEvalEdgeAttrIds[ act_id.intValue() ] = new HashMap<Edge, Collection<Integer>>();
 
-				for(  Iterator<Assignment> it2 = rule_evals.iterator(); it2.hasNext(); ) {
-					Assignment eval = (Assignment)it2.next();
+				for(Assignment eval : rule_evals) {
 					Qualification target = eval.getTarget();
 					Expression expr = eval.getExpression();
 
@@ -161,27 +156,22 @@ public class MoreInformationCollector extends InformationCollector {
 
 		//for all edges preserved set the corresponding array entry to the
 		//appropriate pattern edge number
-		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
-		for ( ; act_it.hasNext() ; ) {
-			MatchingAction action = (MatchingAction) act_it.next();
+		for (Rule action :  actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
 			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
 				//compute the set of replacement edges preserved by this action
-				Collection<IR> replacement_edges_preserved = new HashSet<IR>();
+				Collection<Edge> replacement_edges_preserved = new HashSet<Edge>();
 				replacement_edges_preserved.addAll(
 													  ((Rule) action).getRight().getEdges() );
 				replacement_edges_preserved.retainAll(action.getPattern().getEdges());
 				//for all those preserved replacement edges store the
 				//corresponding pattern edge
-				Iterator<IR> preserved_edge_it =
-					replacement_edges_preserved.iterator();
-				for ( ; preserved_edge_it.hasNext() ; ) {
-					Edge edge = (Edge) preserved_edge_it.next();
+				for (Edge edge : replacement_edges_preserved) {
 					int edge_num =
-						((Integer) replacement_edge_num[act_id].get(edge)).intValue();
+						replacement_edge_num[act_id].get(edge).intValue();
 					replacementEdgeIsPreservedEdge[act_id][edge_num] =
-						((Integer) pattern_edge_num[act_id].get(edge)).intValue();
+						pattern_edge_num[act_id].get(edge).intValue();
 				}
 			}
 		}
@@ -201,26 +191,22 @@ public class MoreInformationCollector extends InformationCollector {
 
 		//for all edges to be kept set the corresponding array entry to the
 		//appropriate replacement edge number
-		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
-		for ( ; act_it.hasNext() ; ) {
-			MatchingAction action = (MatchingAction) act_it.next();
+		for (Rule action : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
 			//compute the set of pattern edges to be kept for this action
-			Collection<IR> pattern_edges_to_keep = new HashSet<IR>();
+			Collection<Edge> pattern_edges_to_keep = new HashSet<Edge>();
 			pattern_edges_to_keep.addAll(action.getPattern().getEdges());
 			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
 				Graph replacement = ((Rule)action).getRight();
 				pattern_edges_to_keep.retainAll(replacement.getEdges());
 				//iterate over the pattern edges to be kept and store their
 				//corresponding replacement edge number
-				Iterator<IR> kept_edge_it = pattern_edges_to_keep.iterator();
-				for ( ; kept_edge_it.hasNext() ; ) {
-					Edge edge = (Edge) kept_edge_it.next();
+				for (Edge edge : pattern_edges_to_keep) {
 					int edge_num =
-						((Integer) pattern_edge_num[act_id].get(edge)).intValue();
+						pattern_edge_num[act_id].get(edge).intValue();
 					patternEdgeIsToBeKept[act_id][edge_num] =
-						((Integer) replacement_edge_num[act_id].get(edge)).intValue();
+						replacement_edge_num[act_id].get(edge).intValue();
 				}
 			}
 		}
@@ -248,9 +234,7 @@ public class MoreInformationCollector extends InformationCollector {
 		n_negative_patterns = new int[n_graph_actions];
 		negMap = new Map[n_graph_actions];
 
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
-			//get the current action
-			Action act = it.next();
+		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 			int negs = 0;
 
@@ -278,27 +262,20 @@ public class MoreInformationCollector extends InformationCollector {
 		negative_node_num = new Map[n_graph_actions][max_n_negative_patterns];
 		negative_edge_num = new Map[n_graph_actions][max_n_negative_patterns];
 
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
-			/* get the current action*/
-			Action act = it.next();
+		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 
 			/* if action has negative pattern graphs, compute node/edge numbers */
 			if (act instanceof MatchingAction) {
 
-				for(Iterator<PatternGraph> neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); ) {
-					PatternGraph neg_pattern = neg_it.next();
-
+				for(PatternGraph neg_pattern : negMap[act_id].keySet()) {
 					int neg_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
 					negative_node_num[act_id][neg_num] = new HashMap<Node,Integer>();
 					negative_edge_num[act_id][neg_num] = new HashMap<Edge,Integer>();
 
 					/* fill the map with pairs (node, node_num) */
 					int node_num = 0;
-					Iterator<Node> node_it =
-						neg_pattern.getNodes().iterator();
-					for ( ; node_it.hasNext(); ) {
-						Node node = (Node) node_it.next();
+					for (Node node : neg_pattern.getNodes()) {
 						negative_node_num[act_id][neg_num].put(node, new Integer(node_num++));
 					}
 					assert node_num == neg_pattern.getNodes().size():
@@ -306,10 +283,7 @@ public class MoreInformationCollector extends InformationCollector {
 
 					/* fill the map with pairs (edge, edge_num) */
 					int edge_num = 0;
-					Iterator<Edge> edge_it =
-						neg_pattern.getEdges().iterator();
-					for ( ; edge_it.hasNext(); ) {
-						Edge edge = (Edge) edge_it.next();
+					for (Edge edge :neg_pattern.getEdges()) {
 						negative_edge_num[act_id][neg_num].put(edge, new Integer(edge_num++));
 					}
 					assert edge_num == neg_pattern.getEdges().size():
@@ -334,28 +308,23 @@ public class MoreInformationCollector extends InformationCollector {
 
 		//for all negative patterns insert the correspondig negative node numbers
 		//for the pattern nodes that are also present in that negative pattern
-		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
-		for ( ; act_it.hasNext() ; ) {
-			MatchingAction action = (MatchingAction) act_it.next();
+		for (Rule action : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
 			if (action instanceof MatchingAction) {
 
-				for(Iterator<PatternGraph> neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); ) {
-					PatternGraph neg_pattern = neg_it.next();
+				for(PatternGraph neg_pattern : negMap[act_id].keySet()) {
+					int neg_num = negMap[act_id].get(neg_pattern).intValue();
 
-					int neg_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
-
-					Collection<IR> negatives_also_in_pattern = new HashSet<IR>();
+					Collection<Node> negatives_also_in_pattern = new HashSet<Node>();
 					negatives_also_in_pattern.addAll( neg_pattern.getNodes() );
 					negatives_also_in_pattern.retainAll( action.getPattern().getNodes() );
 
-					for(Iterator<IR> neg_patt_it = negatives_also_in_pattern.iterator(); neg_patt_it.hasNext(); ) {
-						Node node = (Node) neg_patt_it.next();
-						int node_num = ((Integer) pattern_node_num[act_id].get(node)).intValue();
+					for(Node node : negatives_also_in_pattern) {
+						int node_num = pattern_node_num[act_id].get(node).intValue();
 
 						patternNodeIsNegativeNode[act_id][neg_num][node_num] =
-							((Integer)negative_node_num[act_id][neg_num].get(node)).intValue();
+							negative_node_num[act_id][neg_num].get(node).intValue();
 					}
 				}
 			}
@@ -374,28 +343,23 @@ public class MoreInformationCollector extends InformationCollector {
 
 		//for all negative patterns insert the correspondig negative edge numbers
 		//for the pattern edges that are also present in that negative pattern
-		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
-		for ( ; act_it.hasNext() ; ) {
-			MatchingAction action = (MatchingAction) act_it.next();
+		for (Rule action : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
 			if (action instanceof MatchingAction) {
 
-				for(Iterator<PatternGraph> neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); ) {
-					PatternGraph neg_pattern = neg_it.next();
+				for(PatternGraph neg_pattern : negMap[act_id].keySet()) {
+					int neg_num = negMap[act_id].get(neg_pattern).intValue();
 
-					int neg_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
-
-					Collection<IR> negatives_also_in_pattern = new HashSet<IR>();
+					Collection<Edge> negatives_also_in_pattern = new HashSet<Edge>();
 					negatives_also_in_pattern.addAll( neg_pattern.getEdges() );
 					negatives_also_in_pattern.retainAll( action.getPattern().getEdges() );
 
-					for(Iterator<IR> neg_patt_it = negatives_also_in_pattern.iterator(); neg_patt_it.hasNext(); ) {
-						Edge edge = (Edge) neg_patt_it.next();
-						int edge_num = ((Integer) pattern_edge_num[act_id].get(edge)).intValue();
+					for(Edge edge : negatives_also_in_pattern) {
+						int edge_num = pattern_edge_num[act_id].get(edge).intValue();
 
 						patternEdgeIsNegativeEdge[act_id][neg_num][edge_num] =
-							((Integer)negative_edge_num[act_id][neg_num].get(edge)).intValue();
+							negative_edge_num[act_id][neg_num].get(edge).intValue();
 					}
 				}
 			}
@@ -412,32 +376,23 @@ public class MoreInformationCollector extends InformationCollector {
 		int subConditionCounter = n_conditions;
 
 		//iterate over all actions
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
-			//get the current action
-			Action act = it.next();
+		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 
 			if (act instanceof MatchingAction) {
 
 				//iterate over negative patterns
-				for(Iterator<PatternGraph> neg_it = negMap[ act_id ].keySet().iterator(); neg_it.hasNext(); ) {
-					PatternGraph neg_pattern = neg_it.next();
-					int neg_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
+				for(PatternGraph neg_pattern : negMap[act_id].keySet()) {
+					int neg_num = negMap[act_id].get(neg_pattern).intValue();
 
 					//iterate over all conditions of the current action
-					Iterator<Expression> condition_it =
-						neg_pattern.getConditions().iterator();
-					for ( ; condition_it.hasNext(); ) {
-
+					for (Expression condition : neg_pattern.getConditions()) {
 						// divide the expression to all AND-connected parts, which do
 						//not have an AND-Operator as root themselves
-						Expression condition = (Expression) condition_it.next();
 						Collection<Expression> subConditions = decomposeAndParts(condition);
 
-						//for all the subcinditions just computed...
-						for ( Iterator<Expression> sub_cond_it = subConditions.iterator(); sub_cond_it.hasNext(); ) {
-							Expression sub_condition = sub_cond_it.next();
-
+						//for all the subconditions just computed...
+						for (Expression sub_condition : subConditions) {
 							assert conditionNumbers.get(sub_condition) == null;
 
 							//...create condition numbers
@@ -479,16 +434,13 @@ public class MoreInformationCollector extends InformationCollector {
 		involvedPatternNodeAttrIds = new HashMap<Expression, Map<Node,Collection<Integer>>>();
 		involvedPatternEdgeAttrIds = new HashMap<Expression, Map<Edge,Collection<Integer>>>();
 
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); )
+		for(Rule act : actionRuleMap.keySet())
 		{
-			//get the current action
-			Action act = it.next();
 			int act_id = actionRuleMap.get(act).intValue();
 
 			//collect the attr ids in dependency of condition and the pattern node
-			for (Iterator<Expression> cond_it = conditions.get(act_id).iterator(); cond_it.hasNext(); )
+			for (Expression cond : conditions.get(act_id))
 			{
-				Expression cond = cond_it.next();
 				// TODO use or remove it
 				// int cond_num = conditionNumbers.get(cond).intValue();
 
@@ -506,25 +458,19 @@ public class MoreInformationCollector extends InformationCollector {
 		/* collect the type constraints of the node of all actions pattern graphs */
 		int typeConditionCounter = n_conditions;
 
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
-			//get the current action
-			Action act = it.next();
+		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 
 			if (act instanceof MatchingAction) {
 
 				//iterate over negative patterns
-				for(Iterator<PatternGraph> neg_it = negMap[ act_id ].keySet().iterator(); neg_it.hasNext(); ) {
-					PatternGraph neg_pattern = neg_it.next();
-					int neg_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
+				for(PatternGraph neg_pattern : negMap[act_id].keySet()) {
+					int neg_num = negMap[act_id].get(neg_pattern).intValue();
 
 					/* for all nodes of the current MatchingActions negative pattern graphs
 					 extract that nodes type constraints */
-					Iterator<Node> pattern_node_it = neg_pattern.getNodes().iterator();
-					for ( ; pattern_node_it.hasNext() ; ) {
-						Node node = (Node) pattern_node_it.next();
-
-						//if node has type costraints, register the as conditions
+					for (Node node : neg_pattern.getNodes()) {
+						//if node has type constraints, register the as conditions
 						if (! node.getConstraints().isEmpty()) {
 
 							//note that a type condition is the set of all types,
@@ -550,10 +496,7 @@ public class MoreInformationCollector extends InformationCollector {
 						}
 					}
 					//do the same thing for all edges of the current pattern
-					Iterator<Edge> pattern_edge_it = neg_pattern.getEdges().iterator();
-					for ( ; pattern_edge_it.hasNext() ; ) {
-						Edge edge = pattern_edge_it.next();
-
+					for (Edge edge : neg_pattern.getEdges()) {
 						//if node has type constraints, register the as conditions
 						if (! edge.getConstraints().isEmpty()) {
 
@@ -609,8 +552,7 @@ public class MoreInformationCollector extends InformationCollector {
 		max_n_subgraphs = 0;
 
 
-		for ( Iterator<Rule> act_it = actionRuleMap.keySet().iterator(); act_it.hasNext(); ) {
-			MatchingAction action = (MatchingAction) act_it.next();
+		for (Rule action : actionRuleMap.keySet()) {
 			PatternGraph pattern = action.getPattern();
 			int act_id = actionRuleMap.get(action).intValue();
 
@@ -713,16 +655,14 @@ public class MoreInformationCollector extends InformationCollector {
 
 			for(subgraph = 0; subgraph < edgesOfSubgraph[act_id].size(); subgraph++) {
 				Collection<Edge> subgraph_edges = edgesOfSubgraph[act_id].get(subgraph);
-				for(Iterator<Edge> edge_it = subgraph_edges.iterator(); edge_it.hasNext(); ) {
-					Edge edge = (Edge) edge_it.next();
+				for(Edge edge : subgraph_edges) {
 					subgraphOfEdge.put( edge, new Integer(subgraph) );
 				}
 			}
 
 			for(subgraph = 0; subgraph < nodesOfSubgraph[act_id].size(); subgraph++) {
 				Collection<Node> subgraph_nodes = nodesOfSubgraph[act_id].get(subgraph);
-				for(Iterator<Node> node_it = subgraph_nodes.iterator(); node_it.hasNext(); ) {
-					Node node = (Node) node_it.next();
+				for(Node node : subgraph_nodes) {
 					subgraphOfNode.put( node, new Integer(subgraph) );
 				}
 			}
@@ -733,9 +673,7 @@ public class MoreInformationCollector extends InformationCollector {
 			if(pattern.getNodes().size() > 0) {
 				//get any node as initial node
 				Node max_prio_node = (Node) pattern.getNodes().iterator().next();
-				for (Iterator<Node> node_it = pattern.getNodes().iterator(); node_it.hasNext(); )	{
-					Node node = (Node) node_it.next();
-
+				for (Node node : pattern.getNodes()) {
 					//get the nodes priority
 					int prio = 0;
 					Annotations a = node.getAnnotations();
@@ -774,10 +712,7 @@ public class MoreInformationCollector extends InformationCollector {
 		pattern.getIncoming(node, incidentEdges);
 
 		//iterate over all those incident edges...
-		Iterator<Edge> incident_edge_it = incidentEdges.iterator();
-		for ( ; incident_edge_it.hasNext(); ) {
-			Edge edge = incident_edge_it.next();
-
+		for (Edge edge : incidentEdges) {
 			//...and check whether the current edge has already been visited
 			if ( remainingEdges.contains(edge) ) {
 

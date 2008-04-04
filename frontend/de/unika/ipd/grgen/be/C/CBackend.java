@@ -149,8 +149,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		ps.print("#define GR_" + labelAdd + "_ATTR_VALID(a) "
 					 + "((a) >= 0 && (a) < " + attrMap.size() + ")\n\n");
 
-		for(Iterator<Entity> it = attrMap.keySet().iterator(); it.hasNext();) {
-			Entity ent = it.next();
+		for(Entity ent : attrMap.keySet()) {
 			Ident id = ent.getIdent();
 
 			ps.print("/** Attribute " + id + " of "
@@ -215,8 +214,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		Type[] types = new Type[attrMap.size()];
 		Integer[] owner = new Integer[attrMap.size()];
 
-		for(Iterator<Entity> it = attrMap.keySet().iterator(); it.hasNext();) {
-			Entity ent = it.next();
+		for(Entity ent : attrMap.keySet()) {
 			int index = attrMap.get(ent).intValue();
 			name[index] = ent.getIdent().toString();
 			owner[index] = new Integer(getTypeId(typeMap, ent.getOwner()));
@@ -340,8 +338,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		int maxAttrId = attrMap.size();
 		int[][] matrix = new int[maxTypeId][maxAttrId];
 
-		for(Iterator<Entity> it = attrMap.keySet().iterator(); it.hasNext();) {
-			Entity ent = it.next();
+		for(Entity ent : attrMap.keySet()) {
 			int attrId = attrMap.get(ent).intValue();
 			int typeId = getTypeId(typeMap, ent.getOwner());
 			matrix[typeId][attrId] = 1;
@@ -362,10 +359,9 @@ public abstract class CBackend extends IDBase implements Backend {
 	protected void makeActionMap(PrintStream ps, Map<Rule, Integer> map) {
 		Action[] actions = new Action[map.size()];
 
-		for(Iterator<Rule> it = map.keySet().iterator(); it.hasNext();) {
-			Action a = it.next();
-			int index = map.get(a).intValue();
-			actions[index] = a;
+		for(Rule r : map.keySet()) {
+			int index = map.get(r).intValue();
+			actions[index] = r;
 		}
 
 		ps.print("#define GR_ACTION_VALID(x) ((x) >= 0 && (x) < "
@@ -391,8 +387,7 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param sb The string buffer to add the code to.
 	 */
 	protected void makeActions(PrintStream ps) {
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext();) {
-			MatchingAction a = (MatchingAction) it.next();
+		for(Rule a : actionRuleMap.keySet()) {
 			int id = actionRuleMap.get(a).intValue();
 			genMatch(ps, a, id);
 			genFinish(ps, a, id);
@@ -488,8 +483,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		ps.print("<unit>\n");
 
 		for(int i = 0; i < maps.length; i++) {
-			for(Iterator<? extends InheritanceType> it = maps[i].keySet().iterator(); it.hasNext();) {
-				InheritanceType type = it.next();
+			for(InheritanceType type : maps[i].keySet()) {
 				dumpXMLTag(1, ps, ">\n", type);
 
 				Iterator<InheritanceType> inhIt = type.getDirectSuperTypes().iterator();
@@ -518,8 +512,7 @@ public abstract class CBackend extends IDBase implements Backend {
 			}
 		}
 
-		for(Iterator<EnumType> it = enumMap.keySet().iterator(); it.hasNext();) {
-			EnumType type = it.next();
+		for(EnumType type : enumMap.keySet()) {
 
 			dumpXMLTag(1, ps, ">\n", type);
 			Iterator<EnumItem> itemIt = type.getItems().iterator();
@@ -598,8 +591,7 @@ public abstract class CBackend extends IDBase implements Backend {
 	 */
 	protected void makeEnumDeclarations(PrintStream ps, Map<EnumType, Integer> map) {
 		// build the description of all enum types
-		for(Iterator<EnumType> it = map.keySet().iterator(); it.hasNext();) {
-			EnumType type = it.next();
+		for(EnumType type : map.keySet()) {
 			Ident name = type.getIdent();
 
 			ps.print("/** The items for the " + name + " enum type. */\n");
@@ -623,8 +615,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		ps.print("static const enum_types_t enum_types[] = {\n");
 
 		String[] names = new String[map.size()];
-		for(Iterator<EnumType> it = map.keySet().iterator(); it.hasNext();) {
-			EnumType type = it.next();
+		for(EnumType type : map.keySet()) {
 			int index = getTypeId(map, type);
 
 			names[index] = type.getIdent().toString();

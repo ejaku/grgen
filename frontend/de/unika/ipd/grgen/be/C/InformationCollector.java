@@ -39,7 +39,6 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import de.unika.ipd.grgen.be.C.CBackend;
-import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
@@ -272,10 +271,8 @@ public class InformationCollector extends CBackend {
 		max_n_pattern_edges = 0;
 		max_n_replacement_nodes = 0;
 		max_n_replacement_edges = 0;
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
-			//get the current action
-			Action act = it.next();
 
+		for(Rule act : actionRuleMap.keySet()) {
 			//check whether its graphs node and edge set sizes are greater
 			if (act instanceof MatchingAction) {
 				int size;
@@ -302,24 +299,22 @@ public class InformationCollector extends CBackend {
 		pattern_edge_num = new Map[n_graph_actions];
 		replacement_node_num = new Map[n_graph_actions];
 		replacement_edge_num = new Map[n_graph_actions];
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
-			//get the current action
-			Action act = it.next();
+		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 			assert act_id < n_graph_actions:
 				"action id found which was graeter than the number of graph actions";
 
 			//if action has a pattern graph, compute node/edge numbers
 			if (act instanceof MatchingAction) {
+				MatchingAction ma = (MatchingAction) act;
+
 				pattern_node_num[act_id] = new HashMap<Node,Integer>();
 				pattern_edge_num[act_id] = new HashMap<Edge,Integer>();
 
 				//fill the map with pairs (node, node_num)
 				int node_num = 0;
-				Iterator<Node> node_it =
-					((MatchingAction)act).getPattern().getNodes().iterator();
-				for ( ; node_it.hasNext(); ) {
-					Node node = node_it.next();
+
+				for (Node node : ma.getPattern().getNodes()) {
 					pattern_node_num[act_id].put(node, new Integer(node_num++));
 				}
 				assert node_num == ((MatchingAction)act).getPattern().getNodes().size():
@@ -327,10 +322,8 @@ public class InformationCollector extends CBackend {
 
 				//fill the map with pairs (edge, edge_num)
 				int edge_num = 0;
-				Iterator<Edge> edge_it =
-					((MatchingAction)act).getPattern().getEdges().iterator();
-				for ( ; edge_it.hasNext(); ) {
-					Edge edge = edge_it.next();
+
+				for (Edge edge : ma.getPattern().getEdges()) {
 					pattern_edge_num[act_id].put(edge, new Integer(edge_num++));
 				}
 				assert edge_num == ((MatchingAction)act).getPattern().getEdges().size():
@@ -343,15 +336,15 @@ public class InformationCollector extends CBackend {
 
 			//if action has a replacement graph, compute node/edge numbers
 			if (act instanceof Rule && ((Rule)act).getRight()!=null) {
+				Rule rule = (Rule) act;
+
 				replacement_node_num[act_id] = new HashMap<Node,Integer>();
 				replacement_edge_num[act_id] = new HashMap<Edge,Integer>();
 
 				//fill the map with pairs (node, node_num)
 				int node_num = 0;
-				Iterator<Node> node_it =
-					((Rule)act).getRight().getNodes().iterator();
-				for ( ; node_it.hasNext(); ) {
-					Node node = node_it.next();
+
+				for (Node node : rule.getRight().getNodes()) {
 					replacement_node_num[act_id].put(node, new Integer(node_num++));
 				}
 				assert node_num == ((Rule)act).getRight().getNodes().size():
@@ -359,10 +352,8 @@ public class InformationCollector extends CBackend {
 
 				//fill the map with pairs (edge, edge_num)
 				int edge_num = 0;
-				Iterator<Edge> edge_it =
-					((Rule)act).getRight().getEdges().iterator();
-				for ( ; edge_it.hasNext(); ) {
-					Edge edge = edge_it.next();
+
+				for (Edge edge : rule.getRight().getEdges()) {
 					replacement_edge_num[act_id].put(edge, new Integer(edge_num++));
 				}
 				assert edge_num == ((Rule)act).getRight().getEdges().size():
@@ -384,9 +375,7 @@ public class InformationCollector extends CBackend {
 		conditions = new HashMap<Integer, Collection<Expression>>();
 
 		//iterate over all actions
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
-			//get the current action
-			Action act = it.next();
+		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 
 			conditions.put(act_id, new TreeSet<Expression>(conditionsComparator));
@@ -400,8 +389,7 @@ public class InformationCollector extends CBackend {
 					Collection<Expression> subConditions = decomposeAndParts(condition);
 
 					//for all the subconditions just computed...
-					for ( Iterator<Expression> sub_cond_it = subConditions.iterator(); sub_cond_it.hasNext(); ) {
-						Expression sub_condition = sub_cond_it.next();
+					for (Expression sub_condition : subConditions) {
 
 						//...create condition numbers
 						conditionNumbers.put(sub_condition, new Integer(subConditionCounter++));
@@ -426,9 +414,7 @@ public class InformationCollector extends CBackend {
 		int typeConditionCounter = n_conditions;
 		typeConditions = new Collection[n_graph_actions];
 
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
-			//get the current action
-			Action act = it.next();
+		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 
 			typeConditions[act_id] = new TreeSet<Collection<InheritanceType>>(typeConditionsComparator);
@@ -438,10 +424,7 @@ public class InformationCollector extends CBackend {
 				/* for all nodes of the current MatchingActions pattern graph
 				 extract that nodes type constraints */
 				PatternGraph pattern = ((MatchingAction)act).getPattern();
-				Iterator<Node> pattern_node_it = pattern.getNodes().iterator();
-				for ( ; pattern_node_it.hasNext() ; ) {
-					Node node = pattern_node_it.next();
-
+				for (Node node : pattern.getNodes()) {
 					//if node has type constraints, register the as conditions
 					if (! node.getConstraints().isEmpty()) {
 
@@ -465,9 +448,7 @@ public class InformationCollector extends CBackend {
 					}
 				}
 				//do the same thing for all edges of the current pattern
-				Iterator<Edge> pattern_edge_it = pattern.getEdges().iterator();
-				for ( ; pattern_edge_it.hasNext() ; ) {
-					Edge edge = pattern_edge_it.next();
+				for (Edge edge : pattern.getEdges()) {
 
 					//if node has type constraints, register the as conditions
 					if (! edge.getConstraints().isEmpty()) {
@@ -510,14 +491,11 @@ public class InformationCollector extends CBackend {
 		involvedPatternNodeAttrIds = new HashMap<Expression, Map<Node,Collection<Integer>>>();
 		involvedPatternEdgeAttrIds = new HashMap<Expression, Map<Edge,Collection<Integer>>>();
 
-		for(Iterator<Rule> it = actionRuleMap.keySet().iterator(); it.hasNext(); ) {
-			//get the current action
-			Action act = it.next();
+		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 
 			//collect the attr ids in dependency of condition and the pattern node
-			for (Iterator<Expression> cond_it = conditions.get(act_id).iterator(); cond_it.hasNext(); ) {
-				Expression cond = cond_it.next();
+			for (Expression cond : conditions.get(act_id)) {
 				// TODO use or remove it
 				// int cond_num = conditionNumbers.get(cond).intValue();
 
@@ -534,9 +512,7 @@ public class InformationCollector extends CBackend {
 		//init the array of start nodes
 		start_node = new Node[n_graph_actions];
 		// for all actions gen matcher programs
-		for (Iterator<Rule> act_it = actionRuleMap.keySet().iterator(); act_it.hasNext(); ) {
-
-			MatchingAction action = (MatchingAction) act_it.next();
+		for (Rule action : actionRuleMap.keySet()) {
 			Graph pattern = action.getPattern();
 
 			//pick out the node with the highest priority as start node
@@ -544,11 +520,9 @@ public class InformationCollector extends CBackend {
 			//get any node as initial node
 			Node max_prio_node = null;
 			if(pattern.getNodes().iterator().hasNext()) {
-				max_prio_node = (Node) pattern.getNodes().iterator().next();
+				max_prio_node = pattern.getNodes().iterator().next();
 			}
-			for (Iterator<Node> node_it = pattern.getNodes().iterator(); node_it.hasNext(); ) {
-				Node node = (Node) node_it.next();
-
+			for (Node node : pattern.getNodes()) {
 				//get the nodes priority
 				int prio = 0;
 				Annotations a = node.getAnnotations();
@@ -588,9 +562,7 @@ public class InformationCollector extends CBackend {
 			newEdgesOfAction[i] = new HashSet<Edge>();
 
 		//for all actions collect the edges to be newly inserted
-		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
-		for ( ; act_it.hasNext() ; ) {
-			MatchingAction action = (MatchingAction) act_it.next();
+		for (Rule action : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
 			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
@@ -618,9 +590,7 @@ public class InformationCollector extends CBackend {
 
 		//for all nodes preserved set the corresponding array entry to the
 		//appropriate node type id
-		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
-		for ( ; act_it.hasNext() ; ) {
-			MatchingAction action = (MatchingAction) act_it.next();
+		for (Rule action : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
 			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
@@ -656,9 +626,7 @@ public class InformationCollector extends CBackend {
 
 		//for all nodes preserved set the corresponding array entry to the
 		//appropriate pattern node number
-		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
-		for ( ; act_it.hasNext() ; ) {
-			MatchingAction action = (MatchingAction) act_it.next();
+		for (Rule action : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
 			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
@@ -697,22 +665,18 @@ public class InformationCollector extends CBackend {
 
 		//for all nodes to be kept set the corresponding array entry to the
 		//appropriate replacement node number
-		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
-		for ( ; act_it.hasNext() ; ) {
-			MatchingAction action = (MatchingAction) act_it.next();
+		for (Rule action : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
 			//compute the set of pattern nodes to be kept for this action
-			Collection<IR> pattern_nodes_to_keep = new HashSet<IR>();
+			Collection<Node> pattern_nodes_to_keep = new HashSet<Node>();
 			pattern_nodes_to_keep.addAll(action.getPattern().getNodes());
 			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
 				Graph replacement = ((Rule)action).getRight();
 				pattern_nodes_to_keep.retainAll(replacement.getNodes());
 				//iterate over the pattern nodes to be kept and store their
 				//corresponding replacement node number
-				Iterator<IR> kept_node_it = pattern_nodes_to_keep.iterator();
-				for ( ; kept_node_it.hasNext() ; ) {
-					Node node = (Node) kept_node_it.next();
+				for (Node node : pattern_nodes_to_keep) {
 					int node_num =
 						((Integer) pattern_node_num[act_id].get(node)).intValue();
 					patternNodeIsToBeKept[act_id][node_num] =
@@ -908,8 +872,7 @@ public class InformationCollector extends CBackend {
 		//fill that array with 0
 		for (int i=0; i < n_node_types; i++) n_attr_of_node_type[i] = 0;
 		//count number of attributes
-		for (Iterator<Entity> it =  nodeAttrMap.keySet().iterator(); it.hasNext(); ) {
-			Entity attr = it.next();
+		for (Entity attr : nodeAttrMap.keySet()) {
 			assert attr.hasOwner():
 				"Thought, that the Entity represented a node class attr and that\n" +
 				"thus there had to be a type that owned the entity, but there was non.";
@@ -935,8 +898,7 @@ public class InformationCollector extends CBackend {
 		//fill that array with 0
 		for (int i=0; i < n_edge_types; i++) n_attr_of_edge_type[i] = 0;
 		//count number of attributes
-		for (Iterator<Entity> it =  edgeAttrMap.keySet().iterator(); it.hasNext(); ) {
-			Entity attr = it.next();
+		for (Entity attr : edgeAttrMap.keySet()) {
 			assert attr.hasOwner():
 				"Thought, that the Entity represented an edge class attr and that\n" +
 				"thus there had to be a type that owned the entity, but there was non.";
@@ -958,8 +920,7 @@ public class InformationCollector extends CBackend {
 
 		/* collect all needed information about node attributes */
 		node_attr_info = new AttrTypeDescriptor[n_node_attrs];
-		for (Iterator<Entity> it = nodeAttrMap.keySet().iterator(); it.hasNext(); ) {
-			Entity attr = it.next();
+		for (Entity attr : nodeAttrMap.keySet()) {
 			assert attr.hasOwner():
 				"Thought, that the Entity represented an node attr and that thus\n" +
 				"there had to be a type that owned the entity, but there was non.";
@@ -997,8 +958,7 @@ public class InformationCollector extends CBackend {
 
 		/* collect all needed information about edge attributes */
 		edge_attr_info = new AttrTypeDescriptor[n_edge_attrs];
-		for (Iterator<Entity> it = edgeAttrMap.keySet().iterator(); it.hasNext(); ) {
-			Entity attr = it.next();
+		for (Entity attr : edgeAttrMap.keySet()) {
 			assert attr.hasOwner():
 				"Thought, that the Entity represented an edge attr and that thus\n" +
 				"there had to be a type that owned the entity, but there was non.";
@@ -1086,8 +1046,8 @@ public class InformationCollector extends CBackend {
 			//...the identifier used in the grg-file to declare thar enum type
 			enum_type_descriptors[enum_type_id].name = enum_type.getIdent().toString();
 			//..the items in this enumeration type
-			for (Iterator<EnumItem> item_it = enum_type.getItems().iterator(); item_it.hasNext(); ) {
-				enum_type_descriptors[enum_type_id].items.add(item_it.next());
+			for (EnumItem item : enum_type.getItems()) {
+				enum_type_descriptors[enum_type_id].items.add(item);
 			}
 			//...the number of items
 			enum_type_descriptors[enum_type_id].n_items =
@@ -1111,19 +1071,13 @@ public class InformationCollector extends CBackend {
 
 		//got through that m,atrices and set cells to '1' if two nodes
 		//are potentialy homomorphic
-		Iterator<Rule> act_it = actionRuleMap.keySet().iterator();
-		for ( ; act_it.hasNext(); ) {
-			MatchingAction action = (MatchingAction) act_it.next();
+		for (Rule action : actionRuleMap.keySet()) {
 			PatternGraph pattern = action.getPattern();
-			Iterator<Node> node_it_1 = pattern.getNodes().iterator();
-			for ( ; node_it_1.hasNext(); ) {
-				Node node_1 = node_it_1.next();
+			for (Node node_1 : pattern.getNodes()) {
 				Collection<Node> hom_of_node_1 = new HashSet<Node>();
 				hom_of_node_1 = pattern.getHomomorphic(node_1);
 
-				Iterator<Node> node_it_2 = pattern.getNodes().iterator();
-				for ( ; node_it_2.hasNext() ; ) {
-					Node node_2 = node_it_2.next();
+				for (Node node_2 : pattern.getNodes()) {
 					//check wether these to nodes are potentially homomorphic
 					//the pattern graph of the currrent action
 					if (hom_of_node_1.contains(node_2)) {
