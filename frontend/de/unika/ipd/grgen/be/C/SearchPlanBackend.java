@@ -281,7 +281,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 *
 	 * Generates all FIRM ops. Creates a new one if the FIRM op is not
 	 * existing, or uses the existing one.
-	 * @param    sb                  a  StringBuffer
+	 * @param    sb		  a  StringBuffer
 	 * --------------------------------------------------------------- */
 
 	private void genTypes(StringBuffer sb)
@@ -315,7 +315,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * Method genPatterns generates the patterns needed by the seach plan
 	 * builder. It consists mainly of the left hand side of the rule.
 	 *
-	 * @param    sb                  a  StringBuffer
+	 * @param    sb		  a  StringBuffer
 	 * ------------------------------------------------------------------ */
 
 	private void genPatterns(StringBuffer sb)
@@ -358,10 +358,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	/* ----------------------------------------------------------------------------------------------
 	 * Method genConditionFunctions generates the fuctions that evaluate the conditions of an action.
 	 *
-	 * @param    sb                  a  StringBuffer
-	 * @param    indent              a  String
-	 * @param    actionName          a  String
-	 * @param    rule                a  Rule
+	 * @param    sb		  a  StringBuffer
+	 * @param    indent	      a  String
+	 * @param    actionName	  a  String
+	 * @param    rule		a  Rule
 	 * ---------------------------------------------------------------------------------------------- */
 
 	private void genConditionFunctions(StringBuffer sb, String indent, String actionName, Rule rule,
@@ -410,6 +410,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private void genEvalFunctions(StringBuffer sb, String indent, Rule rule, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
+	  	sb.append("/* function to do eval assignments */\n")
 		Collection<Assignment> evalList = rule.getEvals();
 
 		for(Iterator<Assignment> it = evalList.iterator(); it.hasNext(); )
@@ -420,61 +421,27 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			Entity targetMember = target.getMember();
 			Expression expr = eval.getExpression();
 
-			sb.append("static void *grs_eval_out_func_" + eval.getId() + "(ir_node **rpl_node_map, const ir_edge_t **rpl_edge_map, ir_node **pat_node_map, void *data) {\n");
-
+			sb.append("static void *grs_eval_out_func_" + eval.getId() + "(const ir_node **rpl_node_map, const ir_edge_t **rpl_edge_map, ir_node **pat_node_map, void *data) {\n");
+			sb.append(indent+"set_"+ targetOwner.getType().getIdent() +"_"+ targetMember.getIdent() +"(");
 			// Each node type has to be treated differently when accessing attributes
 			// Care about that here.
 			if(targetOwner instanceof Node)
 			{
 				Node n = (Node) targetOwner;
-
-				if(n.getNodeType().isCastableTo(VPROJ_TYPE))
-				{
-					sb.append("set_VProj_proj(rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
-					genConditionEval(sb, expr, nodeIds, edgeIds);
-					sb.append(");");
-				}
-				else if(n.getNodeType().isCastableTo(PROJ_TYPE))
-				{
-					System.out.println("PROJ EVAL: Target member:" + targetMember.getName());
-					sb.append(indent + "set_Proj_proj(rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
-					genConditionEval(sb, expr, nodeIds, edgeIds);
-					sb.append(");");
-				}
-				else if(n.getNodeType().isCastableTo(IA32_SUB))
-				{
-					System.out.println("IA32_SUB EVAL: Target member:" + targetMember.getName());
-					sb.append(indent + "set_IA32_SUB_proj(rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
-					genConditionEval(sb, expr, nodeIds, edgeIds);
-					sb.append(");");
-				}
-				else
-				{
-					throw new UnsupportedOperationException("Unsupported Node type in eval for node " + n.getIdent());
-				}
+				sb.append("rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
 			}
 			else if (targetOwner instanceof Edge)
 			{
 				Edge e = (Edge) targetOwner;
-
-				if(e.getEdgeType().isCastableTo(DF))
-				{
-					System.out.println("DF EVAL: Target member:" + targetMember.getName());
-					sb.append(indent + "set_DF_proj(rpl_node_map[" + edgeIds.computeId(e) + "/* " + e.getIdent() + " */], ");
-					genConditionEval(sb, expr, nodeIds, edgeIds);
-					sb.append(");");
-				}
-				else
-				{
-					throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
-				}
+				sb.append("rpl_edge_map[" + edgeIds.computeId(e) + "/* " + e.getIdent() + " */], ");
 			}
 			else
 			{
 				throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
 			}
+			genConditionEval(sb, expr, nodeIds, edgeIds);
+			sb.append(");\n");
 
-			sb.append("\n");
 			sb.append(indent + "return(NULL);\n");
 			sb.append("}\n");
 		}
@@ -505,8 +472,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	/* -------------------------------------------------------
 	 * Method genPattern generates pattern graph for one rule.
 	 *
-	 * @param    sb                  a  StringBuffer
-	 * @param    rule                a  Rule
+	 * @param    sb		  a  StringBuffer
+	 * @param    rule		a  Rule
 	 * ------------------------------------------------------ */
 	private void genPattern(StringBuffer sb, Rule rule,
 							IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
@@ -548,11 +515,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	/* -----------------------------------------------------------------------------------
 	 * Method genPatternGraph generates code for a L, or a NAC graph.
 	 *
-	 * @param    sb                  a  StringBuffer
-	 * @param    indent              a  String
-	 * @param    funcName            a  String containing the C-name for getting the graph
-	 * @param    parentNodes         a  Collection<Node> of the nodes of the parent graph
-	 * @param    graph               a  Graph
+	 * @param    sb		  a  StringBuffer
+	 * @param    indent	      a  String
+	 * @param    funcName	    a  String containing the C-name for getting the graph
+	 * @param    parentNodes	 a  Collection<Node> of the nodes of the parent graph
+	 * @param    graph	       a  Graph
 	 * @param    isNegativeGraph	 true, if current graph is negative
 	 * ----------------------------------------------------------------------------------- */
 
@@ -619,10 +586,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			{
 				nameSuffix = "_" + uin; 	// Node is already known (positive pattern), make sure that names are different
 				uin++;
-				related = true;        		// Flag indicates to emit an relation statement afterwards
+				related = true;			// Flag indicates to emit an relation statement afterwards
 			}
 
-            int nodeId;
+	    int nodeId;
 			String name, type;
 			if(node.getRetypedNode() == null || graphType != GraphType.Replacement)
 			{
@@ -665,7 +632,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			{
 				String addRelatedNodeFunc = (graphType == GraphType.Negative) ? "ext_grs_act_add_related_node" : "ext_grs_act_add_node_to_keep";
 				String related_name = node.getIdent().toString(); 			// Yes, the regular node name without suffix
-				sb.append(indent + "ext_grs_node_t *n_" + name +            // Write statement to file
+				sb.append(indent + "ext_grs_node_t *n_" + name +	    // Write statement to file
 					  	" = " + addRelatedNodeFunc + "(pattern, \"" +
 					  	name + "\", grs_op_" + type + ", mode_" + mode +
 					  	", " + nodeId + ", n_" + related_name + ");\n");
@@ -754,7 +721,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				// Create a related edge
 				String addRelatedEdgeFunc = (graphType == GraphType.Negative) ? "ext_grs_act_add_related_edge" : "ext_grs_act_add_edge_to_keep";
 				String related_name = edge.getIdent().toString().replace('$','_'); 	// The original name without suffux
-				sb.append(indent + "ext_grs_edge_t *e_" + name +                   	// Write statement to file
+				sb.append(indent + "ext_grs_edge_t *e_" + name +		   	// Write statement to file
 						  " = " + addRelatedEdgeFunc + "(pattern, \"" + name +
 						  "\", " + edgePos + ", n_" + targetName + ", n_" +
 						  sourceName + ", " + edgeId + ", e_" + related_name + ");\n");
@@ -768,9 +735,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	/* ---------------------------------------------
 	 * Method genConditions
 	 *
-	 * @param    sb                  a  StringBuffer
-	 * @param    indent              a  String
-	 * @param    graph               a  PatternGraph
+	 * @param    sb		  a  StringBuffer
+	 * @param    indent	      a  String
+	 * @param    graph	       a  PatternGraph
 	 * --------------------------------------------- */
 
 	private void genConditions(StringBuffer sb, String indent, PatternGraph graph) {
@@ -848,8 +815,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	/* ---------------------------------------------
 	 * Method genSet dumps C-like Set representaion.
 	 *
-	 * @param    sb                  a  StringBuffer
-	 * @param    set                 a  Set
+	 * @param    sb		  a  StringBuffer
+	 * @param    set		 a  Set
 	 * --------------------------------------------- */
 
 	private void genSet(StringBuffer sb, Set<? extends Entity> set) {
@@ -873,9 +840,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	/* ---------------------------------------------------------------------------------
 	 * Method collectNodesnEdges extracts the nodes and edges occuring in an Expression.
 	 *
-	 * @param    nodes               a  Set to contain the nodes of cond
-	 * @param    edges               a  Set to contain the edges of cond
-	 * @param    cond                an Expression
+	 * @param    nodes	       a  Set to contain the nodes of cond
+	 * @param    edges	       a  Set to contain the edges of cond
+	 * @param    cond		an Expression
 	 * --------------------------------------------------------------------------------- */
 
 	private void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges, Expression cond)
@@ -1039,9 +1006,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		initsb.append("\n" + indent + "/* establish inherritance */\n");
 		for(InheritanceType type : nodeTypeMap.keySet()) {
 
-		        if(!type.isCastableTo(MODE_TYPE))
-		        {
-		        	// Don't dump the inheritance of the pseudo "Mode"-Nodes
+			if(!type.isCastableTo(MODE_TYPE))
+			{
+				// Don't dump the inheritance of the pseudo "Mode"-Nodes
 
 				String typeName = type.getIdent().toString();
 				for(InheritanceType superType : type.getAllSuperTypes())
