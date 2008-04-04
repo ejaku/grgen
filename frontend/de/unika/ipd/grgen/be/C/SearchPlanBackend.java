@@ -410,7 +410,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private void genEvalFunctions(StringBuffer sb, String indent, Rule rule, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
-	  	sb.append("/* function to do eval assignments */\n")
+	  	sb.append("/* function to do eval assignments */\n");
 		Collection<Assignment> evalList = rule.getEvals();
 
 		for(Iterator<Assignment> it = evalList.iterator(); it.hasNext(); )
