@@ -93,8 +93,8 @@ public class XMLDumper {
 			for(Iterator<String> it = fields.keySet().iterator(); it.hasNext();) {
 				Object obj = it.next();
 
-				// the cast was partial checked some lines above
-				Iterator<XMLDumpable> childs = (Iterator<XMLDumpable>) fields.get(obj);
+				// the cast was checked some lines above
+				Iterator<?> childs = (Iterator<?>) fields.get(obj);
 				String tag = obj.toString();
 
 				if(childs.hasNext()) {
@@ -105,8 +105,10 @@ public class XMLDumper {
 					indent++;
 
 					while(childs.hasNext()) {
-						XMLDumpable d = childs.next();
-						dump(d);
+						Object d = childs.next();
+
+						assert d instanceof XMLDumpable;
+						dump((XMLDumpable) d);
 					}
 
 					indent--;
