@@ -22,4 +22,16 @@ show num nodes
 show num edges
 xgrs BenzolRing
 
+xgrs createBenzolRingPattern 
+
+show num nodes
+show num edges
+xgrs BenzolRing
+
+xgrs deleteInModifyBenzolRingPattern
+
+show num nodes
+show num edges
+xgrs BenzolRing
+
 quit

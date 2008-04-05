@@ -323,3 +323,11 @@ rule deleteBenzolRingPattern {
 	replace {
 	}
 }
+
+rule deleteInModifyBenzolRingPattern {
+	br:BenzolRing();
+
+	modify {
+		delete(br);
+	}
+}

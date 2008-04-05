@@ -31,8 +31,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.CollectPairResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
+import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Node;
@@ -50,7 +51,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 	}
 
 	CollectNode<IdentNode> deleteUnresolved;
-	CollectNode<ConstraintDeclNode> delete;
+	CollectNode<DeclNode> delete = new CollectNode<DeclNode>();
 
 	/**
 	 * Make a new modify right-hand side.
@@ -87,14 +88,38 @@ public class ModifyDeclNode extends RhsDeclNode {
 		return childrenNames;
 	}
 
-	private static final CollectPairResolver<ConstraintDeclNode> deleteResolver = new CollectPairResolver<ConstraintDeclNode>(
-			new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
+	private static final CollectTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageNode> deleteResolver = 
+		new CollectTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageNode>(
+			new DeclarationTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageNode>(NodeDeclNode.class, EdgeDeclNode.class, SubpatternUsageNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		delete = deleteResolver.resolve(deleteUnresolved, this);
+		Triple<CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<SubpatternUsageNode>> resolve =
+			deleteResolver.resolve(deleteUnresolved);
 
-		return super.resolveLocal() && delete != null;
+		if (resolve != null) {
+			if (resolve.first != null) {
+    			for (NodeDeclNode node : resolve.first.getChildren()) {
+                    delete.addChild(node);
+                }
+			}
+
+        	if (resolve.second != null) {
+            	for (EdgeDeclNode edge : resolve.second.getChildren()) {
+                    delete.addChild(edge);
+                }
+			}
+
+        	if (resolve.third != null) {
+        		for (SubpatternUsageNode sub : resolve.third.getChildren()) {
+       				delete.addChild(sub);
+                }
+    		}
+
+        	becomeParent(delete);
+        }
+
+		return super.resolveLocal() && resolve != null;
 	}
 
 	@Override
@@ -104,7 +129,8 @@ public class ModifyDeclNode extends RhsDeclNode {
 
 		Collection<Entity> deleteSet = new HashSet<Entity>();
 		for(BaseNode n : delete.getChildren()) {
-			deleteSet.add((Entity)n.checkIR(Entity.class));
+			if(!(n instanceof SubpatternUsageNode))
+				deleteSet.add((Entity)n.checkIR(Entity.class));
 		}
 
 		for(Node n : left.getNodes()) {
@@ -128,8 +154,17 @@ public class ModifyDeclNode extends RhsDeclNode {
 					break;
 				}
 			}
+			boolean subInDeleteSet = false;
+			for(BaseNode n : delete.getChildren()) {
+				if(n instanceof SubpatternUsageNode) {
+					SubpatternUsage su = (SubpatternUsage)n.checkIR(SubpatternUsage.class);
+					if(sub==su) {
+						subInDeleteSet = true;
+					}
+				}
+			}
 
-			if(!subHasDepModify) {
+			if(!subHasDepModify && !subInDeleteSet) {
 				right.addSubpatternUsage(sub);
 			}
 		}
@@ -143,8 +178,9 @@ public class ModifyDeclNode extends RhsDeclNode {
 
 		Set<DeclNode> res = new LinkedHashSet<DeclNode>();
 
-		for (ConstraintDeclNode x : delete.getChildren()) {
-			res.add(x);
+		for (DeclNode x : delete.getChildren()) {
+			if(!(x instanceof SubpatternDeclNode))
+				res.add(x);
 		}
 
 		// add edges with deleted source or target
