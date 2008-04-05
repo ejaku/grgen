@@ -64,7 +64,7 @@ public class ActionsGen extends CSharpBase {
 		for(Rule actionRule : be.actionRuleMap.keySet()) {
 			genAction(sb, actionRule);
 		}
-		
+
 		sb.append("// GrGen insert Actions here\n");
 		sb.append("}\n");
 
@@ -448,11 +448,10 @@ public class ActionsGen extends CSharpBase {
 			}
 			++i;
 		}
-		i = 0;
-		for(PatternGraph neg : pattern.getNegs()) {
-			String negName = "neg_" + i;
+
+		for(int j = 0; j < pattern.getNegs().size(); j++) {
+			String negName = "neg_" + j;
 			sb.append("\t\t\t" + pathPrefixForElements+negName + ".embeddingGraph = " + patGraphVarName + ";\n");
-			++i;
 		}
 
 		sb.append("\n");
@@ -517,7 +516,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(parameters.indexOf(node)+");\n");
 			alreadyDefinedEntityToName.put(node, nodeName);
 			aux.append("\t\t\t" + nodeName + ".PointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
-			
+
 			node.setPointOfDefinition(pattern);
 		}
 
@@ -536,7 +535,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(parameters.indexOf(edge)+");\n");
 			alreadyDefinedEntityToName.put(edge, edgeName);
 			aux.append("\t\t\t" + edgeName + ".PointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
-			
+
 			edge.setPointOfDefinition(pattern);
 		}
 
@@ -628,7 +627,7 @@ public class ActionsGen extends CSharpBase {
 			for(Entity ent : action.getReturns())
 				sb.append(formatTypeClass(ent.getType()) + ".typeVar, ");
 			sb.append("};\n");
-	
+
 			sb.append("\t\t\toutputNames = new string[] { ");
 			for(Entity ent : action.getReturns())
 				sb.append("\"" + formatEntity(ent, action.getPattern().getNameOfGraph()+"_") + "\", ");

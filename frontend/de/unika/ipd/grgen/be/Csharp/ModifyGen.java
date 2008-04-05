@@ -912,8 +912,7 @@ public class ModifyGen extends CSharpBase {
 
 		if(task.typeOfTask==TYPE_OF_TASK_MODIFY) {
 			// generate calls to the modifications of the alternatives (nested alternatives are handled in their enclosing alternative)
-			int i = 0;
-			for(Alternative alt : task.left.getAlts()) {
+			for(int i = 0; i < task.left.getAlts().size(); i++) {
 				String altName = "alt_" + i;
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
 						(task.reuseNodesAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, alternative_" + altName);
@@ -922,17 +921,14 @@ public class ModifyGen extends CSharpBase {
 					sb.append(", " + formatEntity(node));
 				}
 				sb.append(");\n");
-				++i;
 			}
 		}
 		else if(task.typeOfTask==TYPE_OF_TASK_DELETION) {
 			// generate calls to the deletion of the alternatives (nested alternatives are handled in their enclosing alternative)
-			int i = 0;
-			for(Alternative alt : task.left.getAlts()) {
+			for(int i = 0; i < task.left.getAlts().size(); i++) {
 				String altName = "alt_" + i;
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
 						"Delete" + "(graph, alternative_"+altName+");\n");
-				++i;
 			}
 		}
 	}
@@ -1013,20 +1009,17 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genExtractSubmatchesFromMatch(StringBuffer sb, String pathPrefix, PatternGraph pattern) {
-		String patternName = pattern.getNameOfGraph();
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			String subName = formatIdentifiable(sub);
 			sb.append("\t\t\tLGSPMatch subpattern_" + subName
 					+ " = match.EmbeddedGraphs[(int)" + pathPrefix+pattern.getNameOfGraph() + "_SubNums.@"
 					+ formatIdentifiable(sub) + "];\n");
 		}
-		int i = 0;
-		for(Alternative alt : pattern.getAlts()) {
+		for(int i = 0; i < pattern.getAlts().size(); i++) {
 			String altName = "alt_" + i;
 			sb.append("\t\t\tLGSPMatch alternative_" + altName
 					+ " = match.EmbeddedGraphs[(int)" + pathPrefix+pattern.getNameOfGraph() + "_AltNums.@"
 					+ altName + " + " + pattern.getSubpatternUsages().size() + "];\n");
-			++i;
 		}
 	}
 
@@ -1297,7 +1290,6 @@ public class ModifyGen extends CSharpBase {
 	private void genNewSubpatternCalls(StringBuffer sb, ModifyGenerationStateConst state)
 	{
 		for(SubpatternUsage subUsage : state.newSubpatternUsages()) {
-			String subName = formatIdentifiable(subUsage);
 			sb.append("\t\t\tPattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
 					"_Create(graph");
