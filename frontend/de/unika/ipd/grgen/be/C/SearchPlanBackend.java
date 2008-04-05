@@ -43,7 +43,6 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.be.C.MoreInformationCollector;
-import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.Edge;
@@ -319,8 +318,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private void genPatterns(StringBuffer sb)
 	{
 		String indent = "  ";
-		for(Action action : unit.getActionRules()) {
-			if(action instanceof Rule && ((Rule)action).getRight()!=null) {
+		for(Rule action : unit.getActionRules()) {
+			if(action.getRight() != null) {
 
 				String actionName = action.getIdent().toString();
 
@@ -334,15 +333,15 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 							   actionName + "\");\n");
 				sb2.append(indent + "int check;\n");
 
-				genPattern(sb2, (Rule)action, nodeIds, edgeIds);
+				genPattern(sb2, action, nodeIds, edgeIds);
 
 				sb2.append(indent + "check = ext_grs_act_mature(act);\n");
 				sb2.append(indent + "assert(check);\n");
 				sb2.append(indent + "return act;\n");
 				sb2.append("} /* " + actionName + " */\n\n\n");
 
-				genConditionFunctions(sb, indent, actionName, (Rule)action, nodeIds, edgeIds);
-				genEvalFunctions(sb, indent, (Rule) action, nodeIds, edgeIds);
+				genConditionFunctions(sb, indent, actionName, action, nodeIds, edgeIds);
+				genEvalFunctions(sb, indent, action, nodeIds, edgeIds);
 
 				sb.append(sb2);
 			}
@@ -529,7 +528,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 								 GraphType graphType)
 	{
 		// Generate the graph
-		genGraph(sb, indent, funcName, (Graph) graph, nodeIds, edgeIds, graphType);
+		genGraph(sb, indent, funcName, graph, nodeIds, edgeIds, graphType);
 
 		// code for the conditions
 		genConditions(sb, indent, graph);
@@ -690,15 +689,15 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			// Check if source node is a negative node
 			if(relatedNodes.containsKey(src))
 				// Yes, get negative node name
-				sourceName = (String) relatedNodes.get(src);
+				sourceName = relatedNodes.get(src);
 			else
-				sourceName = (String) src.getIdent().toString(); 	// No, get regular node name
+				sourceName = src.getIdent().toString(); 	// No, get regular node name
 
 			// Check if dest node is a negative node
 			if(relatedNodes.containsKey(tgt))
-				targetName = (String) relatedNodes.get(tgt);		// Yes, get negative node name
+				targetName = relatedNodes.get(tgt);		// Yes, get negative node name
 			else
-				targetName = (String) tgt.getIdent().toString();	// No, get regular node name
+				targetName = tgt.getIdent().toString();	// No, get regular node name
 
 			// Check if the edge is related to a positive edge
 			if(!related)
@@ -906,21 +905,21 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				// Only integer supported so far
 				if(n.getNodeType().isCastableTo(CONST_TYPE))
 				{
-					sb.append("get_tarval_long(get_Const_tarval(node_map["+ nodeIds.computeId((Node)entity) +
+					sb.append("get_tarval_long(get_Const_tarval(node_map["+ nodeIds.computeId(n) +
 							  "/* "+ entity.getIdent() + " */]))");
 				}
 				// Query the proj_nr of a vproj_node
 				else if(n.getNodeType().isCastableTo(VPROJ_TYPE))
 				{
-					sb.append("get_VProj_proj(node_map[" + nodeIds.computeId((Node)entity) + "/* " + entity.getIdent() + " */])");
+					sb.append("get_VProj_proj(node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else if(n.getNodeType().isCastableTo(MULTIPLE_ADD_TYPE))
 				{
-					sb.append("get_irn_arity(node_map[" + nodeIds.computeId((Node)entity) + "/* " + entity.getIdent() + " */])");
+					sb.append("get_irn_arity(node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else if(n.getNodeType().isCastableTo(PROJ_TYPE))
 				{
-					sb.append("get_Proj_proj(node_map[" + nodeIds.computeId((Node)entity) + "/* " + entity.getIdent() + " */])");
+					sb.append("get_Proj_proj(node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else
 				{
@@ -988,8 +987,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("/* global variables containing the actions */\n");
 		initsb.append("void ext_grs_action_init_" + unitName + "() {\n");
 		initsb.append(indent + "init();\n");
-		for(Action action : unit.getActionRules()) {
-			if(action instanceof Rule && ((Rule)action).getRight()!=null) {
+		for(Rule action : unit.getActionRules()) {
+			if(action.getRight() != null) {
 				String actionName = action.getIdent().toString();
 				String fqactionName = "ext_grs_action_" + unitName + "_" + actionName;
 

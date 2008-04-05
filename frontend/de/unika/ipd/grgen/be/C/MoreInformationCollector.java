@@ -89,11 +89,10 @@ public class MoreInformationCollector extends InformationCollector {
 		involvedEvalEdgeAttrIds = new Map[ actionRuleMap.size() ];
 
 		for(Rule act : actionRuleMap.keySet()) {
-			if (act instanceof Rule && ((Rule)act).getRight()!=null) {
-				Rule rule = (Rule) act;
+			if (act.getRight() != null) {
 				Integer act_id = actionRuleMap.get(act);
 
-				Collection<Assignment> rule_evals = rule.getEvals();
+				Collection<Assignment> rule_evals = act.getEvals();
 
 				evalListMap.put( rule_evals, act_id );
 				evalActions.put( rule_evals, act );
@@ -159,11 +158,10 @@ public class MoreInformationCollector extends InformationCollector {
 		for (Rule action :  actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
-			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
+			if (action.getRight() != null) {
 				//compute the set of replacement edges preserved by this action
 				Collection<Edge> replacement_edges_preserved = new HashSet<Edge>();
-				replacement_edges_preserved.addAll(
-													  ((Rule) action).getRight().getEdges() );
+				replacement_edges_preserved.addAll(action.getRight().getEdges());
 				replacement_edges_preserved.retainAll(action.getPattern().getEdges());
 				//for all those preserved replacement edges store the
 				//corresponding pattern edge
@@ -197,8 +195,8 @@ public class MoreInformationCollector extends InformationCollector {
 			//compute the set of pattern edges to be kept for this action
 			Collection<Edge> pattern_edges_to_keep = new HashSet<Edge>();
 			pattern_edges_to_keep.addAll(action.getPattern().getEdges());
-			if (action instanceof Rule && ((Rule)action).getRight()!=null) {
-				Graph replacement = ((Rule)action).getRight();
+			if (action.getRight() != null) {
+				Graph replacement = action.getRight();
 				pattern_edges_to_keep.retainAll(replacement.getEdges());
 				//iterate over the pattern edges to be kept and store their
 				//corresponding replacement edge number
@@ -244,7 +242,7 @@ public class MoreInformationCollector extends InformationCollector {
 			if (act instanceof MatchingAction) {
 				int size;
 
-				for(PatternGraph negPattern : ((MatchingAction)act).getPattern().getNegs()) {
+				for(PatternGraph negPattern : act.getPattern().getNegs()) {
 					negMap[act_id].put(negPattern, new Integer(negs++));
 
 					size = negPattern.getNodes().size();
@@ -269,7 +267,7 @@ public class MoreInformationCollector extends InformationCollector {
 			if (act instanceof MatchingAction) {
 
 				for(PatternGraph neg_pattern : negMap[act_id].keySet()) {
-					int neg_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
+					int neg_num = negMap[act_id].get(neg_pattern).intValue();
 					negative_node_num[act_id][neg_num] = new HashMap<Node,Integer>();
 					negative_edge_num[act_id][neg_num] = new HashMap<Edge,Integer>();
 
@@ -672,7 +670,7 @@ public class MoreInformationCollector extends InformationCollector {
 			int max_prio = 0;
 			if(pattern.getNodes().size() > 0) {
 				//get any node as initial node
-				Node max_prio_node = (Node) pattern.getNodes().iterator().next();
+				Node max_prio_node = pattern.getNodes().iterator().next();
 				for (Node node : pattern.getNodes()) {
 					//get the nodes priority
 					int prio = 0;

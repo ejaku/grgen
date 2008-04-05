@@ -786,8 +786,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		sb.append("\n/** The Validate Info */\n\n");
 		sb.append("static gr_validate_info_t valid_info[] = {\n");
 
-		for(InheritanceType et : edgeTypeMap.keySet()) {
-			EdgeType edgeType = (EdgeType)et;
+		for(EdgeType edgeType : edgeTypeMap.keySet()) {
 			for(ConnAssert ca : edgeType.getConnAsserts()) {
 				sb.append("\n{\n");
 				sb.append("  "+getId(edgeType)+",\n");
