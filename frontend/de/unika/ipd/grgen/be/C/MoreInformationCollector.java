@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.Assignment;
@@ -64,8 +65,8 @@ public class MoreInformationCollector extends InformationCollector {
 	protected Map<Collection<Assignment>, Action> evalActions = new HashMap<Collection<Assignment>, Action>();
 
 	/* edge and node attributes involved in that eval */
-	protected Map<Node, Collection<Integer>>[] involvedEvalNodeAttrIds;
-	protected Map<Edge, Collection<Integer>>[] involvedEvalEdgeAttrIds;
+	protected Vector<Map<Node, Collection<Integer>>> involvedEvalNodeAttrIds;
+	protected Vector<Map<Edge, Collection<Integer>>> involvedEvalEdgeAttrIds;
 
 	//returns id of corresponding pattern edge id if edge is kept
 	//else -1 if edge is new one
@@ -85,8 +86,8 @@ public class MoreInformationCollector extends InformationCollector {
 	 *
 	 */
 	protected void collectEvalInfo() {
-		involvedEvalNodeAttrIds = new Map[ actionRuleMap.size() ];
-		involvedEvalEdgeAttrIds = new Map[ actionRuleMap.size() ];
+		involvedEvalNodeAttrIds = new Vector<Map<Node,Collection<Integer>>>(actionRuleMap.size());
+		involvedEvalEdgeAttrIds = new Vector<Map<Edge,Collection<Integer>>>(actionRuleMap.size());
 
 		for(Rule act : actionRuleMap.keySet()) {
 			if (act.getRight() != null) {
@@ -99,8 +100,8 @@ public class MoreInformationCollector extends InformationCollector {
 
 				Collection<Node> involvedNodes = new HashSet<Node>();
 				Collection<Edge> involvedEdges = new HashSet<Edge>();
-				involvedEvalNodeAttrIds[ act_id.intValue() ] = new HashMap<Node, Collection<Integer>>();
-				involvedEvalEdgeAttrIds[ act_id.intValue() ] = new HashMap<Edge, Collection<Integer>>();
+				involvedEvalNodeAttrIds.set(act_id.intValue(), new HashMap<Node, Collection<Integer>>());
+				involvedEvalEdgeAttrIds.set(act_id.intValue(), new HashMap<Edge, Collection<Integer>>());
 
 				for(Assignment eval : rule_evals) {
 					Qualification target = eval.getTarget();
@@ -128,8 +129,8 @@ public class MoreInformationCollector extends InformationCollector {
 
 					//descent to the conditions leaves and look for qualifications
 					__recursive_qual_collect( act_id.intValue(),
-											 involvedEvalNodeAttrIds[ act_id.intValue() ],
-											 involvedEvalEdgeAttrIds[ act_id.intValue() ],
+											 involvedEvalNodeAttrIds.get(act_id.intValue()),
+											 involvedEvalEdgeAttrIds.get(act_id.intValue()),
 											 op );
 				}
 
@@ -167,9 +168,9 @@ public class MoreInformationCollector extends InformationCollector {
 				//corresponding pattern edge
 				for (Edge edge : replacement_edges_preserved) {
 					int edge_num =
-						replacement_edge_num[act_id].get(edge).intValue();
+						replacement_edge_num.get(act_id).get(edge).intValue();
 					replacementEdgeIsPreservedEdge[act_id][edge_num] =
-						pattern_edge_num[act_id].get(edge).intValue();
+						pattern_edge_num.get(act_id).get(edge).intValue();
 				}
 			}
 		}
@@ -202,9 +203,9 @@ public class MoreInformationCollector extends InformationCollector {
 				//corresponding replacement edge number
 				for (Edge edge : pattern_edges_to_keep) {
 					int edge_num =
-						pattern_edge_num[act_id].get(edge).intValue();
+						pattern_edge_num.get(act_id).get(edge).intValue();
 					patternEdgeIsToBeKept[act_id][edge_num] =
-						replacement_edge_num[act_id].get(edge).intValue();
+						replacement_edge_num.get(act_id).get(edge).intValue();
 				}
 			}
 		}
@@ -214,9 +215,11 @@ public class MoreInformationCollector extends InformationCollector {
 	protected int max_n_negative_edges = 0;
 	protected int max_n_negative_patterns = 0;
 	protected int[] n_negative_patterns;
-	protected Map<Node,Integer>[][] negative_node_num;
-	protected Map<Edge,Integer>[][] negative_edge_num;
-	protected Map<PatternGraph,Integer>[] negMap;
+	//	action_id --> neg_id --> pattern_node_num
+	protected Vector<Vector<Map<Node,Integer>>> negative_node_num;
+	//	action_id --> neg_id --> pattern_edge_num
+	protected Vector<Vector<Map<Edge,Integer>>> negative_edge_num;
+	protected Vector<Map<PatternGraph,Integer>> negMap;
 
 	protected int[][][] patternNodeIsNegativeNode;
 	protected int[][][] patternEdgeIsNegativeEdge;
@@ -230,20 +233,20 @@ public class MoreInformationCollector extends InformationCollector {
 		max_n_negative_patterns = 0;
 
 		n_negative_patterns = new int[n_graph_actions];
-		negMap = new Map[n_graph_actions];
+		negMap = new Vector<Map<PatternGraph,Integer>>(n_graph_actions);
 
 		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 			int negs = 0;
 
-			negMap[act_id] = new HashMap<PatternGraph,Integer>();
+			negMap.set(act_id, new HashMap<PatternGraph,Integer>());
 
 			//check whether its graphs node and edge set sizes are greater
 			if (act instanceof MatchingAction) {
 				int size;
 
 				for(PatternGraph negPattern : act.getPattern().getNegs()) {
-					negMap[act_id].put(negPattern, new Integer(negs++));
+					negMap.get(act_id).put(negPattern, new Integer(negs++));
 
 					size = negPattern.getNodes().size();
 					if (size > max_n_negative_nodes)	max_n_negative_nodes = size;
@@ -257,24 +260,26 @@ public class MoreInformationCollector extends InformationCollector {
 
 
 		/* compute the numbers of nodes/edges of all negative-pattern-graphs */
-		negative_node_num = new Map[n_graph_actions][max_n_negative_patterns];
-		negative_edge_num = new Map[n_graph_actions][max_n_negative_patterns];
+		negative_node_num = new Vector<Vector<Map<Node,Integer>>>(n_graph_actions);
+		negative_edge_num = new Vector<Vector<Map<Edge,Integer>>>(n_graph_actions);
 
 		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 
+			negative_node_num.set(act_id, new Vector<Map<Node,Integer>>(max_n_negative_patterns));
+
 			/* if action has negative pattern graphs, compute node/edge numbers */
 			if (act instanceof MatchingAction) {
 
-				for(PatternGraph neg_pattern : negMap[act_id].keySet()) {
-					int neg_num = negMap[act_id].get(neg_pattern).intValue();
-					negative_node_num[act_id][neg_num] = new HashMap<Node,Integer>();
-					negative_edge_num[act_id][neg_num] = new HashMap<Edge,Integer>();
+				for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+					int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
+					negative_node_num.get(act_id).set(neg_num, new HashMap<Node,Integer>());
+					negative_edge_num.get(act_id).set(neg_num, new HashMap<Edge,Integer>());
 
 					/* fill the map with pairs (node, node_num) */
 					int node_num = 0;
 					for (Node node : neg_pattern.getNodes()) {
-						negative_node_num[act_id][neg_num].put(node, new Integer(node_num++));
+						negative_node_num.get(act_id).get(neg_num).put(node, new Integer(node_num++));
 					}
 					assert node_num == neg_pattern.getNodes().size():
 						"Wrong number of node_nums was created";
@@ -282,7 +287,7 @@ public class MoreInformationCollector extends InformationCollector {
 					/* fill the map with pairs (edge, edge_num) */
 					int edge_num = 0;
 					for (Edge edge :neg_pattern.getEdges()) {
-						negative_edge_num[act_id][neg_num].put(edge, new Integer(edge_num++));
+						negative_edge_num.get(act_id).get(neg_num).put(edge, new Integer(edge_num++));
 					}
 					assert edge_num == neg_pattern.getEdges().size():
 						"Wrong number of edge_nums was created";
@@ -311,18 +316,18 @@ public class MoreInformationCollector extends InformationCollector {
 
 			if (action instanceof MatchingAction) {
 
-				for(PatternGraph neg_pattern : negMap[act_id].keySet()) {
-					int neg_num = negMap[act_id].get(neg_pattern).intValue();
+				for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+					int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
 					Collection<Node> negatives_also_in_pattern = new HashSet<Node>();
 					negatives_also_in_pattern.addAll( neg_pattern.getNodes() );
 					negatives_also_in_pattern.retainAll( action.getPattern().getNodes() );
 
 					for(Node node : negatives_also_in_pattern) {
-						int node_num = pattern_node_num[act_id].get(node).intValue();
+						int node_num = pattern_node_num.get(act_id).get(node).intValue();
 
 						patternNodeIsNegativeNode[act_id][neg_num][node_num] =
-							negative_node_num[act_id][neg_num].get(node).intValue();
+							negative_node_num.get(act_id).get(neg_num).get(node).intValue();
 					}
 				}
 			}
@@ -346,18 +351,18 @@ public class MoreInformationCollector extends InformationCollector {
 
 			if (action instanceof MatchingAction) {
 
-				for(PatternGraph neg_pattern : negMap[act_id].keySet()) {
-					int neg_num = negMap[act_id].get(neg_pattern).intValue();
+				for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+					int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
 					Collection<Edge> negatives_also_in_pattern = new HashSet<Edge>();
 					negatives_also_in_pattern.addAll( neg_pattern.getEdges() );
 					negatives_also_in_pattern.retainAll( action.getPattern().getEdges() );
 
 					for(Edge edge : negatives_also_in_pattern) {
-						int edge_num = pattern_edge_num[act_id].get(edge).intValue();
+						int edge_num = pattern_edge_num.get(act_id).get(edge).intValue();
 
 						patternEdgeIsNegativeEdge[act_id][neg_num][edge_num] =
-							negative_edge_num[act_id][neg_num].get(edge).intValue();
+							negative_edge_num.get(act_id).get(neg_num).get(edge).intValue();
 					}
 				}
 			}
@@ -380,8 +385,8 @@ public class MoreInformationCollector extends InformationCollector {
 			if (act instanceof MatchingAction) {
 
 				//iterate over negative patterns
-				for(PatternGraph neg_pattern : negMap[act_id].keySet()) {
-					int neg_num = negMap[act_id].get(neg_pattern).intValue();
+				for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+					int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
 					//iterate over all conditions of the current action
 					for (Expression condition : neg_pattern.getConditions()) {
@@ -462,8 +467,8 @@ public class MoreInformationCollector extends InformationCollector {
 			if (act instanceof MatchingAction) {
 
 				//iterate over negative patterns
-				for(PatternGraph neg_pattern : negMap[act_id].keySet()) {
-					int neg_num = negMap[act_id].get(neg_pattern).intValue();
+				for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+					int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
 					/* for all nodes of the current MatchingActions negative pattern graphs
 					 extract that nodes type constraints */
@@ -490,7 +495,7 @@ public class MoreInformationCollector extends InformationCollector {
 							typeConditionsPatternNum.put(type_condition, new Integer(neg_num+1));
 
 							//store the subcondition in an ordered Collection
-							typeConditions[act_id].add(type_condition);
+							typeConditions.get(act_id).add(type_condition);
 						}
 					}
 					//do the same thing for all edges of the current pattern
@@ -517,7 +522,7 @@ public class MoreInformationCollector extends InformationCollector {
 							typeConditionsPatternNum.put(type_condition, new Integer(neg_num+1));
 
 							//store the subcondition in an ordered Collection
-							typeConditions[act_id].add(type_condition);
+							typeConditions.get(act_id).add(type_condition);
 						}
 					}
 				}
@@ -533,8 +538,8 @@ public class MoreInformationCollector extends InformationCollector {
 	protected int[] first_subgraph;
 	protected int max_n_subgraphs;
 	//protected Map[] subGraphMap;
-	protected LinkedList<Collection<Node>>[] nodesOfSubgraph;
-	protected LinkedList<Collection<Edge>>[] edgesOfSubgraph;
+	protected Vector<LinkedList<Collection<Node>>> nodesOfSubgraph;
+	protected Vector<LinkedList<Collection<Edge>>> edgesOfSubgraph;
 	protected Map<Node, Integer> subgraphOfNode;
 	protected Map<Edge, Integer> subgraphOfEdge;
 
@@ -542,8 +547,8 @@ public class MoreInformationCollector extends InformationCollector {
 		n_subgraphs = new int[actionRuleMap.size()];
 		first_subgraph = new int[actionRuleMap.size()];
 		//subGraphMap = new HashMap[actionMap.size()];
-		nodesOfSubgraph = new LinkedList[actionRuleMap.size()];
-		edgesOfSubgraph = new LinkedList[actionRuleMap.size()];
+		nodesOfSubgraph = new Vector<LinkedList<Collection<Node>>>(actionRuleMap.size());
+		edgesOfSubgraph = new Vector<LinkedList<Collection<Edge>>>(actionRuleMap.size());
 		subgraphOfNode = new HashMap<Node, Integer>();
 		subgraphOfEdge = new HashMap<Edge, Integer>();
 
@@ -562,8 +567,8 @@ public class MoreInformationCollector extends InformationCollector {
 			remainingNodes.addAll( pattern.getNodes() );
 			remainingEdges.addAll( pattern.getEdges() );
 
-			nodesOfSubgraph[act_id] = new LinkedList<Collection<Node>>();
-			edgesOfSubgraph[act_id] = new LinkedList<Collection<Edge>>();
+			nodesOfSubgraph.set(act_id, new LinkedList<Collection<Node>>());
+			edgesOfSubgraph.set(act_id, new LinkedList<Collection<Edge>>());
 
 			n_subgraphs[act_id] = 0;
 			//subGraphMap[act_id] = new HashMap();
@@ -574,8 +579,8 @@ public class MoreInformationCollector extends InformationCollector {
 				Collection<Node> currentSubgraphNodes = new HashSet<Node>();
 				Collection<Edge> currentSubgraphEdges = new HashSet<Edge>();
 
-				nodesOfSubgraph[act_id].addLast( currentSubgraphNodes );
-				edgesOfSubgraph[act_id].addLast( currentSubgraphEdges );
+				nodesOfSubgraph.get(act_id).addLast( currentSubgraphNodes );
+				edgesOfSubgraph.get(act_id).addLast( currentSubgraphEdges );
 
 
 				node = (Node)remainingNodes.iterator().next();
@@ -590,76 +595,76 @@ public class MoreInformationCollector extends InformationCollector {
 			}
 
 
-			if(nodesOfSubgraph[act_id].size() > 1) {
+			if(nodesOfSubgraph.get(act_id).size() > 1) {
 				//if a subgraph is smaller than 5 then merge it with the next smallest one
 				Collection<Node> smallest_subgraph;
 				Collection<Edge> smallest_subgraph_edges;
 				do {
-					smallest_subgraph = nodesOfSubgraph[act_id].getFirst();
-					smallest_subgraph_edges = edgesOfSubgraph[act_id].getFirst();
-					assert nodesOfSubgraph[act_id].size() ==  edgesOfSubgraph[act_id].size();
-					for(int i=0; i<nodesOfSubgraph[act_id].size(); i++) {
-						if((nodesOfSubgraph[act_id].get(i)).size() < smallest_subgraph.size()) {
-							smallest_subgraph = nodesOfSubgraph[act_id].get(i);
-							smallest_subgraph_edges = edgesOfSubgraph[act_id].get(i);
+					smallest_subgraph = nodesOfSubgraph.get(act_id).getFirst();
+					smallest_subgraph_edges = edgesOfSubgraph.get(act_id).getFirst();
+					assert nodesOfSubgraph.get(act_id).size() ==  edgesOfSubgraph.get(act_id).size();
+					for(int i=0; i<nodesOfSubgraph.get(act_id).size(); i++) {
+						if((nodesOfSubgraph.get(act_id).get(i)).size() < smallest_subgraph.size()) {
+							smallest_subgraph = nodesOfSubgraph.get(act_id).get(i);
+							smallest_subgraph_edges = edgesOfSubgraph.get(act_id).get(i);
 						}
 					}
 
 					if(smallest_subgraph.size() >= min_subgraph_size)
 						break;
 
-					boolean succ = nodesOfSubgraph[act_id].remove(smallest_subgraph);
+					boolean succ = nodesOfSubgraph.get(act_id).remove(smallest_subgraph);
 					assert succ;
-					succ = edgesOfSubgraph[act_id].remove(smallest_subgraph_edges);
+					succ = edgesOfSubgraph.get(act_id).remove(smallest_subgraph_edges);
 					assert succ;
 
 
 
-					Collection<Node> next_smallest_subgraph = nodesOfSubgraph[act_id].getFirst();
-					Collection<Edge> next_smallest_subgraph_edges = edgesOfSubgraph[act_id].getFirst();
-					assert nodesOfSubgraph[act_id].size() ==  edgesOfSubgraph[act_id].size();
-					for(int i=0; i<nodesOfSubgraph[act_id].size(); i++) {
-						if((nodesOfSubgraph[act_id].get(i)).size() < next_smallest_subgraph.size()) {
-							next_smallest_subgraph = nodesOfSubgraph[act_id].get(i);
-							next_smallest_subgraph_edges = edgesOfSubgraph[act_id].get(i);
+					Collection<Node> next_smallest_subgraph = nodesOfSubgraph.get(act_id).getFirst();
+					Collection<Edge> next_smallest_subgraph_edges = edgesOfSubgraph.get(act_id).getFirst();
+					assert nodesOfSubgraph.get(act_id).size() ==  edgesOfSubgraph.get(act_id).size();
+					for(int i=0; i<nodesOfSubgraph.get(act_id).size(); i++) {
+						if((nodesOfSubgraph.get(act_id).get(i)).size() < next_smallest_subgraph.size()) {
+							next_smallest_subgraph = nodesOfSubgraph.get(act_id).get(i);
+							next_smallest_subgraph_edges = edgesOfSubgraph.get(act_id).get(i);
 						}
 					}
 
 					//merge the two subgraphs
 					next_smallest_subgraph.addAll(smallest_subgraph);
 					next_smallest_subgraph_edges.addAll(smallest_subgraph_edges);
-				} while(nodesOfSubgraph[act_id].size() > 1);
+				} while(nodesOfSubgraph.get(act_id).size() > 1);
 
 				//move smallest subgraph to the beginning of the list
-				smallest_subgraph = nodesOfSubgraph[act_id].getFirst();
-				smallest_subgraph_edges = edgesOfSubgraph[act_id].getFirst();
-				for(int i=0; i<nodesOfSubgraph[act_id].size(); i++) {
-					if((nodesOfSubgraph[act_id].get(i)).size() < smallest_subgraph.size()) {
-						smallest_subgraph = nodesOfSubgraph[act_id].get(i);
-						smallest_subgraph_edges = edgesOfSubgraph[act_id].get(i);
+				smallest_subgraph = nodesOfSubgraph.get(act_id).getFirst();
+				smallest_subgraph_edges = edgesOfSubgraph.get(act_id).getFirst();
+				for(int i=0; i<nodesOfSubgraph.get(act_id).size(); i++) {
+					if((nodesOfSubgraph.get(act_id).get(i)).size() < smallest_subgraph.size()) {
+						smallest_subgraph = nodesOfSubgraph.get(act_id).get(i);
+						smallest_subgraph_edges = edgesOfSubgraph.get(act_id).get(i);
 					}
 				}
-				nodesOfSubgraph[act_id].remove(smallest_subgraph);
-				edgesOfSubgraph[act_id].remove(smallest_subgraph_edges);
-				nodesOfSubgraph[act_id].addFirst(smallest_subgraph);
-				edgesOfSubgraph[act_id].addFirst(smallest_subgraph_edges);
+				nodesOfSubgraph.get(act_id).remove(smallest_subgraph);
+				edgesOfSubgraph.get(act_id).remove(smallest_subgraph_edges);
+				nodesOfSubgraph.get(act_id).addFirst(smallest_subgraph);
+				edgesOfSubgraph.get(act_id).addFirst(smallest_subgraph_edges);
 			}
 
-			n_subgraphs[act_id] = nodesOfSubgraph[act_id].size();
+			n_subgraphs[act_id] = nodesOfSubgraph.get(act_id).size();
 
 
 			if(max_n_subgraphs < n_subgraphs[act_id])
 				max_n_subgraphs = n_subgraphs[act_id];
 
-			for(subgraph = 0; subgraph < edgesOfSubgraph[act_id].size(); subgraph++) {
-				Collection<Edge> subgraph_edges = edgesOfSubgraph[act_id].get(subgraph);
+			for(subgraph = 0; subgraph < edgesOfSubgraph.get(act_id).size(); subgraph++) {
+				Collection<Edge> subgraph_edges = edgesOfSubgraph.get(act_id).get(subgraph);
 				for(Edge edge : subgraph_edges) {
 					subgraphOfEdge.put( edge, new Integer(subgraph) );
 				}
 			}
 
-			for(subgraph = 0; subgraph < nodesOfSubgraph[act_id].size(); subgraph++) {
-				Collection<Node> subgraph_nodes = nodesOfSubgraph[act_id].get(subgraph);
+			for(subgraph = 0; subgraph < nodesOfSubgraph.get(act_id).size(); subgraph++) {
+				Collection<Node> subgraph_nodes = nodesOfSubgraph.get(act_id).get(subgraph);
 				for(Node node : subgraph_nodes) {
 					subgraphOfNode.put( node, new Integer(subgraph) );
 				}

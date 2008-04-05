@@ -27,7 +27,9 @@ package de.unika.ipd.grgen.be.C;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 import de.unika.ipd.grgen.Sys;
@@ -473,17 +475,17 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param sb The string buffer to put the XML stuff to.
 	 */
 	protected void writeOverview(PrintStream ps) {
-		Map<? extends InheritanceType, Integer>[] maps = new Map[] {
-			nodeTypeMap,
-			edgeTypeMap
-		};
+		Collection<Map<? extends InheritanceType, Integer>> maps =
+			new LinkedHashSet<Map<? extends InheritanceType, Integer>>();
+		maps.add(nodeTypeMap);
+		maps.add(edgeTypeMap);
 
 		ps.print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 
 		ps.print("<unit>\n");
 
-		for(int i = 0; i < maps.length; i++) {
-			for(InheritanceType type : maps[i].keySet()) {
+		for(Map<? extends InheritanceType, Integer> map : maps) {
+			for(InheritanceType type : map.keySet()) {
 				dumpXMLTag(1, ps, ">\n", type);
 
 				Iterator<InheritanceType> inhIt = type.getDirectSuperTypes().iterator();
