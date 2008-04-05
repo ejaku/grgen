@@ -216,7 +216,6 @@ edgeExtends [IdentNode clsId, boolean arbitrary, boolean undirected] returns [ C
 edgeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c, boolean undirected ]
 	{
 		IdentNode e;
-		int extCount = 0;
 	}
 
 	: e=typeIdentUse

@@ -24,7 +24,7 @@ header {
  */
 	package de.unika.ipd.grgen.parser.antlr;
 
-  import java.util.*;
+	import java.util.*;
 
 	import de.unika.ipd.grgen.parser.*;
 	import de.unika.ipd.grgen.ast.*;
@@ -83,7 +83,6 @@ options {
 	};
 
 	private OpNode makeOp(antlr.Token t) {
-		Coords c = new Coords(t, this);
 		Integer opId = (Integer) opIds.get(new Integer(t.getType()));
 		assert opId != null : "Invalid operator ID";
 		return new ArithmeticOpNode(getCoords(t), opId.intValue());

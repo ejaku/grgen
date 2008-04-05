@@ -326,7 +326,6 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpa
 		int altCounter = 0;
 		PatternGraphNode neg;
 		int negCounter = 0;
-		int mod = 0; // TODO: insert mod=actionModifiers iff nesting of negative parts is allowed
 		ExprNode e;
 		HomNode hom;
 		ExactNode exa;
@@ -638,7 +637,6 @@ arbitraryEdgeOcc [int context] returns [ BaseNode res = env.initNode() ]
 edgeDecl [ int context ] returns [ EdgeDeclNode res = null ]
 	{
 		IdentNode id = env.getDummyIdent();
-		Annotations annots = env.getEmptyAnnotations();
 		Pair<DefaultAnnotations, de.unika.ipd.grgen.parser.Coords> atCo;
 	}
 
@@ -750,7 +748,6 @@ modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode>
 		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
-		EmitNode es = null;
 		res = new ModifyDeclNode(nameOfRHS, graph, eval, dels);
 	}
 
@@ -830,8 +827,6 @@ rets[CollectNode<IdentNode> res, int context]
 	;
 
 deleteStmt[CollectNode<IdentNode> res]
-	{ IdentNode id; }
-
 	: DELETE LPAREN paramListOfEntIdentUse[res] RPAREN
 	;
 
