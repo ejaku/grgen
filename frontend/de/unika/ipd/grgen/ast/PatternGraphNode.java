@@ -367,7 +367,7 @@ public class PatternGraphNode extends GraphNode {
 				}
 			}
 		}
-		
+
 		// add negative parts to the IR
 		for (PatternGraphNode pgn : negs.getChildren()) {
 			PatternGraph neg = pgn.getPatternGraph();

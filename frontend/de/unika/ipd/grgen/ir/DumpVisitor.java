@@ -137,7 +137,7 @@ public class DumpVisitor extends GraphDumpVisitor
 			dumper.beginSubgraph(r);
 			if(r.getRight()==null) {
 				dumpGraph(r.getPattern(), "");
-				dumper.endSubgraph();				
+				dumper.endSubgraph();
 			}
 			dumpGraph(r.getLeft(), "l");
 			dumpGraph(r.getRight(), "r");

@@ -28,8 +28,29 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
-import de.unika.ipd.grgen.ir.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import de.unika.ipd.grgen.ir.Alternative;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Emit;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Exec;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.ImperativeStmt;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.SubpatternUsage;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Variable;
 
 public class ActionsGen extends CSharpBase {
 	public ActionsGen(SearchPlanBackend2 backend) {

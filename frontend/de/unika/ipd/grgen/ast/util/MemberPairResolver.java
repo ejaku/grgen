@@ -23,10 +23,15 @@
  */
 package de.unika.ipd.grgen.ast.util;
 
-import de.unika.ipd.grgen.ast.*;
-
-import de.unika.ipd.grgen.util.Util;
 import java.util.Map;
+
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.DeclNode;
+import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.InvalidDeclNode;
+import de.unika.ipd.grgen.ast.RuleDeclNode;
+import de.unika.ipd.grgen.util.Util;
 
 /**
  * A resolver, that resolves a declaration node from an identifier (used in a member init).

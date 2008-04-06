@@ -24,6 +24,11 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.awt.Color;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
@@ -31,10 +36,6 @@ import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
-import java.awt.Color;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Vector;
 
 public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	static {

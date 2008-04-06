@@ -27,7 +27,6 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
@@ -126,7 +125,7 @@ public class SubpatternUsageNode extends DeclNode {
 	protected boolean checkLocal() {
 		return checkSubpatternSignatureAdhered();
 	}
-	
+
 
 	/** Check whether the subpattern usage adheres to the signature of the subpattern declaration */
 	protected boolean checkSubpatternSignatureAdhered() {
@@ -148,7 +147,7 @@ public class SubpatternUsageNode extends DeclNode {
 			ConstraintDeclNode formalParameter = (ConstraintDeclNode)formalParameters.get(i);
 			InheritanceTypeNode actualParameterType = actualParameter.getDeclType();
 			InheritanceTypeNode formalParameterType = formalParameter.getDeclType();
-			
+
 			if(!actualParameterType.isA(formalParameterType)) {
 				res = false;
 				actualParameter.ident.reportError("Subpattern usage parameter \"" + actualParameter.ident.toString() + "\" has wrong type");

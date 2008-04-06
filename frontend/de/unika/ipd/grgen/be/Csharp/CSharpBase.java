@@ -29,14 +29,41 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
-import de.unika.ipd.grgen.ir.*;
-
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.Util;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import de.unika.ipd.grgen.ir.BooleanType;
+import de.unika.ipd.grgen.ir.Cast;
+import de.unika.ipd.grgen.ir.Constant;
+import de.unika.ipd.grgen.ir.DoubleType;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EnumExpression;
+import de.unika.ipd.grgen.ir.EnumType;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.FloatType;
+import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.IntType;
+import de.unika.ipd.grgen.ir.MemberExpression;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.ObjectType;
+import de.unika.ipd.grgen.ir.Operator;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.StringType;
+import de.unika.ipd.grgen.ir.SubpatternUsage;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Typeof;
+import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.VoidType;
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.Util;
 
 public abstract class CSharpBase {
 	/**
@@ -326,7 +353,7 @@ public abstract class CSharpBase {
 			}
 		}
 		else if(expr instanceof Typeof) {
-			Typeof to = (Typeof)expr;
+			Typeof to = (Typeof) expr;
 			sb.append(formatEntity(to.getEntity()) + ".type");
 		}
 		else if(expr instanceof Cast) {

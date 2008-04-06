@@ -28,9 +28,38 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
-import de.unika.ipd.grgen.ir.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-import java.util.*;
+import de.unika.ipd.grgen.ir.Alternative;
+import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Cast;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Emit;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EnumType;
+import de.unika.ipd.grgen.ir.Exec;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.ImperativeStmt;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Operator;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.RetypedEdge;
+import de.unika.ipd.grgen.ir.RetypedNode;
+import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
+import de.unika.ipd.grgen.ir.SubpatternUsage;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Variable;
 
 public class ModifyGen extends CSharpBase {
 	final int TYPE_OF_TASK_NONE = 0;
@@ -63,33 +92,33 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	interface ModifyGenerationStateConst {
-		public Collection<Node> commonNodes();
-		public Collection<Edge> commonEdges();
-		public Collection<SubpatternUsage> commonSubpatternUsages();
+		Collection<Node> commonNodes();
+		Collection<Edge> commonEdges();
+		Collection<SubpatternUsage> commonSubpatternUsages();
 
-		public Collection<Node> newNodes();
-		public Collection<Edge> newEdges();
-		public Collection<SubpatternUsage> newSubpatternUsages();
-		public Collection<Node> delNodes();
-		public Collection<Edge> delEdges();
-		public Collection<SubpatternUsage> delSubpatternUsages();
+		Collection<Node> newNodes();
+		Collection<Edge> newEdges();
+		Collection<SubpatternUsage> newSubpatternUsages();
+		Collection<Node> delNodes();
+		Collection<Edge> delEdges();
+		Collection<SubpatternUsage> delSubpatternUsages();
 
-		public Collection<Node> newOrRetypedNodes();
-		public Collection<Edge> newOrRetypedEdges();
-		public Collection<GraphEntity> reusedElements();
-		public Collection<GraphEntity> accessViaInterface();
+		Collection<Node> newOrRetypedNodes();
+		Collection<Edge> newOrRetypedEdges();
+		Collection<GraphEntity> reusedElements();
+		Collection<GraphEntity> accessViaInterface();
 
-		public Map<GraphEntity, HashSet<Entity>> neededAttributes();
-		public Map<GraphEntity, HashSet<Entity>> neededAttributesForEmit();
+		Map<GraphEntity, HashSet<Entity>> neededAttributes();
+		Map<GraphEntity, HashSet<Entity>> neededAttributesForEmit();
 
-		public Collection<Node> nodesNeededAsElements();
-		public Collection<Edge> edgesNeededAsElements();
-		public Collection<Node> nodesNeededAsAttributes();
-		public Collection<Edge> edgesNeededAsAttributes();
-		public Collection<Node> nodesNeededAsTypes();
-		public Collection<Edge> edgesNeededAsTypes();
+		Collection<Node> nodesNeededAsElements();
+		Collection<Edge> edgesNeededAsElements();
+		Collection<Node> nodesNeededAsAttributes();
+		Collection<Edge> edgesNeededAsAttributes();
+		Collection<Node> nodesNeededAsTypes();
+		Collection<Edge> edgesNeededAsTypes();
 
-		public Map<GraphEntity, HashSet<Entity>> forceAttributeToVar();
+		Map<GraphEntity, HashSet<Entity>> forceAttributeToVar();
 	}
 
 	class ModifyGenerationState implements ModifyGenerationStateConst {
@@ -1118,9 +1147,7 @@ public class ModifyGen extends CSharpBase {
 		 }
 		 }
 		 }
-		 NN:*/ for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
-			Node node = i.next();
-
+		 NN:*/ for(Node node : tmpNewNodes) {
 			/*String type = computeGraphEntityType(node);
 			 // Can we reuse the node
 			 if(reuseNodeAndEdges && !tmpDelNodes.isEmpty()) {

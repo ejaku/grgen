@@ -88,7 +88,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 		return childrenNames;
 	}
 
-	private static final CollectTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageNode> deleteResolver = 
+	private static final CollectTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageNode> deleteResolver =
 		new CollectTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageNode>(
 			new DeclarationTripleResolver<NodeDeclNode, EdgeDeclNode, SubpatternUsageNode>(NodeDeclNode.class, EdgeDeclNode.class, SubpatternUsageNode.class));
 

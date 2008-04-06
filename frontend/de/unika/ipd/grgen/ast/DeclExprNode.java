@@ -24,9 +24,9 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.MemberDeclNode;
-import de.unika.ipd.grgen.ast.QualIdentNode;
-import de.unika.ipd.grgen.ast.VarDeclNode;
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.MemberTripleResolver;
 import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Entity;
@@ -34,8 +34,6 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberExpression;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.VariableExpression;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * An expression that results from a declared identifier.

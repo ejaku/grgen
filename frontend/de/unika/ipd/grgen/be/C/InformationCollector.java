@@ -38,7 +38,6 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.be.C.CBackend;
 import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;

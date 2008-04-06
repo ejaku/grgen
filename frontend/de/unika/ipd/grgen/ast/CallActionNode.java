@@ -24,22 +24,24 @@
  */
 package de.unika.ipd.grgen.ast;
 
-
-import de.unika.ipd.grgen.ir.*;
-
-import de.unika.ipd.grgen.ast.TestDeclNode;
-import de.unika.ipd.grgen.ast.VarDeclNode;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.parser.Scope;
-import de.unika.ipd.grgen.parser.Symbol;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ast.util.CollectResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.Pair;
+import de.unika.ipd.grgen.ir.Bad;
+import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.parser.Scope;
+import de.unika.ipd.grgen.parser.Symbol;
 
 /**
  * Call of an action with parameters and returns.

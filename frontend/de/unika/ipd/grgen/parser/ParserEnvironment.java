@@ -27,15 +27,31 @@
 
 package de.unika.ipd.grgen.parser;
 
-import de.unika.ipd.grgen.ast.*;
+import java.io.File;
+import java.util.Hashtable;
 
 import antlr.TokenStreamException;
+
 import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.ast.ArbitraryEdgeTypeNode;
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.BasicTypeNode;
+import de.unika.ipd.grgen.ast.CollectNode;
+import de.unika.ipd.grgen.ast.ConnAssertNode;
+import de.unika.ipd.grgen.ast.DirectedEdgeTypeNode;
+import de.unika.ipd.grgen.ast.ExprNode;
+import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.InheritanceTypeNode;
+import de.unika.ipd.grgen.ast.IntConstNode;
+import de.unika.ipd.grgen.ast.ModelNode;
+import de.unika.ipd.grgen.ast.NodeDeclNode;
+import de.unika.ipd.grgen.ast.NodeTypeNode;
+import de.unika.ipd.grgen.ast.TypeDeclNode;
+import de.unika.ipd.grgen.ast.TypeNode;
+import de.unika.ipd.grgen.ast.UndirectedEdgeTypeNode;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
-import java.io.File;
-import java.util.Hashtable;
 
 public abstract class ParserEnvironment extends Base {
 	public static final String MODEL_SUFFIX = ".gm";

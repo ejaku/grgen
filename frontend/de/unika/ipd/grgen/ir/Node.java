@@ -87,12 +87,12 @@ public class Node extends GraphEntity {
 	public RetypedNode getRetypedNode() {
 		return (RetypedNode)this.retyped;
 	}
-	
+
 	public void setPointOfDefinition(PatternGraph pointOfDefinition) {
 		assert this.pointOfDefinition==null && pointOfDefinition!=null;
 		this.pointOfDefinition = pointOfDefinition;
 	}
-	
+
 	public PatternGraph getPointOfDefinition() {
 		return pointOfDefinition;
 	}

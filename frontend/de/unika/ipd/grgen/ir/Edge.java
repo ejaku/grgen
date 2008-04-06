@@ -97,12 +97,12 @@ public class Edge extends GraphEntity {
 	public boolean hasFixedDirection() {
 		return fixedDirection;
 	}
-	
+
 	public void setPointOfDefinition(PatternGraph pointOfDefinition) {
 		assert this.pointOfDefinition==null && pointOfDefinition!=null;
 		this.pointOfDefinition = pointOfDefinition;
 	}
-	
+
 	public PatternGraph getPointOfDefinition() {
 		return pointOfDefinition;
 	}
