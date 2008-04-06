@@ -95,15 +95,36 @@ public class SubpatternReplNode extends BaseNode {
 			return false;
 		}
 
+		return checkSubpatternSignatureAdhered();
+	}
+
+	/** Check whether the subpattern replacement usage adheres to the signature of the subpattern replacement declaration */
+	protected boolean checkSubpatternSignatureAdhered() {
 		// check if the number of parameters is correct
-		int expected = right.iterator().next().graph.getParamDecls().size();
-		int actual = replConnections.getChildren().size();
+		Collection<RhsDeclNode> right = subpattern.type.right.getChildren();
+		String patternName = subpattern.type.pattern.nameOfGraph;
+		Vector<DeclNode> formalReplacementParameters = right.iterator().next().graph.getParamDecls();
+		Vector<ConstraintDeclNode> actualReplacementParameters = replConnections.children;
+		int expected = formalReplacementParameters.size();
+		int actual = actualReplacementParameters.size();
+		if (expected != actual) {
+			subpattern.ident.reportError("The dependent replacement specified in \"" + patternName + "\" needs "
+			        + expected + " parameters, given by replacement usage " + subpattern.ident.toString() + " are " + actual);
+			return false;
+		}
 
-		boolean res = (expected == actual);
-
-		if (!res) {
-			error.error(getCoords(), "The dependent replacement specified in \"" + patternName + "\" needs "
-			        + expected + " parameters");
+		// check if the types of the parameters are correct
+		boolean res = true;
+		for (int i = 0; i < formalReplacementParameters.size(); ++i) {
+			ConstraintDeclNode actualParameter = actualReplacementParameters.get(i);
+			ConstraintDeclNode formalParameter = (ConstraintDeclNode)formalReplacementParameters.get(i);
+			InheritanceTypeNode actualParameterType = actualParameter.getDeclType();
+			InheritanceTypeNode formalParameterType = formalParameter.getDeclType();
+			
+			if(!actualParameterType.isA(formalParameterType)) {
+				res = false;
+				actualParameter.ident.reportError("Subpattern replacement usage parameter \"" + actualParameter.ident.toString() + "\" has wrong type");
+			}
 		}
 
 		return res;

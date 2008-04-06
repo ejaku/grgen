@@ -590,6 +590,11 @@ ABEND  should_fail/param_013.grg
 ERROR  should_fail/pattern_001.grg
 ERROR  should_fail/pattern_002.grg
 ERROR  should_fail/pattern_003.grg
+ERROR  should_fail/pattern_004.grg
+ERROR  should_fail/pattern_005a.grg
+ERROR  should_fail/pattern_005b.grg
+ERROR  should_fail/pattern_006a.grg
+ERROR  should_fail/pattern_006b.grg
 ERROR  should_fail/range_001.grg
 ERROR  should_fail/ret_001.grg
 ERROR  should_fail/ret_002.grg

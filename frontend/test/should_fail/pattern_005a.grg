@@ -1,0 +1,12 @@
+using patt;
+
+pattern Foo(a:Node, b:Node)
+{
+	:Node;	
+}
+
+test t {
+	a:Node;	b:Node; c:Node;
+	foo1:Foo(a);
+	foo2:Foo(a,b,c);
+}

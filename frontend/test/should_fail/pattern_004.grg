@@ -1,0 +1,15 @@
+pattern Foo()
+{
+	:Node;
+	
+	modify(-a:Edge->) {
+	}
+}
+
+rule r {
+	. -a:Edge-> .; 
+	foo:Foo();
+	modify {
+		foo(a);
+	}
+}

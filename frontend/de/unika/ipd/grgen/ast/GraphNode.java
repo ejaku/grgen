@@ -317,8 +317,8 @@ public class GraphNode extends BaseNode {
         }
     }
 
-	public Collection<DeclNode> getParamDecls() {
-		Collection<DeclNode> res = new Vector<DeclNode>();
+	public Vector<DeclNode> getParamDecls() {
+		Vector<DeclNode> res = new Vector<DeclNode>();
 
 		for (BaseNode para : params.getChildren()) {
 	        if (para instanceof ConnectionNode) {

@@ -27,6 +27,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
@@ -123,21 +124,40 @@ public class SubpatternUsageNode extends DeclNode {
 
 	@Override
 	protected boolean checkLocal() {
+		return checkSubpatternSignatureAdhered();
+	}
+	
+
+	/** Check whether the subpattern usage adheres to the signature of the subpattern declaration */
+	protected boolean checkSubpatternSignatureAdhered() {
 		// check if the number of parameters are correct
-		int expected = type.pattern.params.getChildren().size();
+		int expected = type.pattern.getParamDecls().size();
 		int actual = connections.getChildren().size();
-
-		boolean res = (expected == actual);
-
-		if (!res) {
+		if (expected != actual) {
 			String patternName = type.ident.toString();
+			ident.reportError("The pattern \"" + patternName + "\" needs "
+					+ expected + " parameters, given by subpattern usage " + ident.toString() + " are " + actual);
+			return false;
+		}
 
-			error.error(getCoords(), "The pattern \"" + patternName + "\" need "
-			        + expected + " parameters");
+		// check if the types of the parameters are correct
+		boolean res = true;
+		Vector<DeclNode> formalParameters = type.pattern.getParamDecls();
+		for (int i = 0; i < connections.children.size(); ++i) {
+			ConstraintDeclNode actualParameter = connections.children.get(i);
+			ConstraintDeclNode formalParameter = (ConstraintDeclNode)formalParameters.get(i);
+			InheritanceTypeNode actualParameterType = actualParameter.getDeclType();
+			InheritanceTypeNode formalParameterType = formalParameter.getDeclType();
+			
+			if(!actualParameterType.isA(formalParameterType)) {
+				res = false;
+				actualParameter.ident.reportError("Subpattern usage parameter \"" + actualParameter.ident.toString() + "\" has wrong type");
+			}
 		}
 
 		return res;
 	}
+
 
 	@Override
 	protected IR constructIR() {

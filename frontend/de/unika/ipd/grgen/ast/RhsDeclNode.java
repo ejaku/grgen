@@ -162,6 +162,14 @@ public abstract class RhsDeclNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
+		for(DeclNode replParam : graph.getParamDecls()) {
+			if(!(replParam instanceof NodeDeclNode)) {
+				// edges as replacement parameters are not really needed but very troublesome, keep them out for now
+				replParam.reportError("only nodes supported as replacement parameters, " 
+						+ replParam.ident.toString() + " isn't one");
+				return false;
+			}
+		}
 		return true;
 	}
 
