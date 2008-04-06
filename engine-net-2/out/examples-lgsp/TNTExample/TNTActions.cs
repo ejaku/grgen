@@ -167,6 +167,65 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
+		public void BenzolRing_Create(LGSPGraph graph)
+		{
+			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_C node_c6 = Node_C.CreateNode(graph);
+			Node_C node_c2 = Node_C.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_C node_c5 = Node_C.CreateNode(graph);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+		}
+
+		public void BenzolRing_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_c1 = match.Nodes[(int)BenzolRing_NodeNums.@c1];
+			LGSPNode node_c6 = match.Nodes[(int)BenzolRing_NodeNums.@c6];
+			LGSPNode node_c2 = match.Nodes[(int)BenzolRing_NodeNums.@c2];
+			LGSPNode node_c3 = match.Nodes[(int)BenzolRing_NodeNums.@c3];
+			LGSPNode node_c4 = match.Nodes[(int)BenzolRing_NodeNums.@c4];
+			LGSPNode node_c5 = match.Nodes[(int)BenzolRing_NodeNums.@c5];
+			LGSPEdge edge__edge8 = match.Edges[(int)BenzolRing_EdgeNums.@_edge8];
+			LGSPEdge edge__edge3 = match.Edges[(int)BenzolRing_EdgeNums.@_edge3];
+			LGSPEdge edge__edge2 = match.Edges[(int)BenzolRing_EdgeNums.@_edge2];
+			LGSPEdge edge__edge1 = match.Edges[(int)BenzolRing_EdgeNums.@_edge1];
+			LGSPEdge edge__edge0 = match.Edges[(int)BenzolRing_EdgeNums.@_edge0];
+			LGSPEdge edge__edge7 = match.Edges[(int)BenzolRing_EdgeNums.@_edge7];
+			LGSPEdge edge__edge6 = match.Edges[(int)BenzolRing_EdgeNums.@_edge6];
+			LGSPEdge edge__edge5 = match.Edges[(int)BenzolRing_EdgeNums.@_edge5];
+			LGSPEdge edge__edge4 = match.Edges[(int)BenzolRing_EdgeNums.@_edge4];
+			graph.Remove(edge__edge8);
+			graph.Remove(edge__edge3);
+			graph.Remove(edge__edge2);
+			graph.Remove(edge__edge1);
+			graph.Remove(edge__edge0);
+			graph.Remove(edge__edge7);
+			graph.Remove(edge__edge6);
+			graph.Remove(edge__edge5);
+			graph.Remove(edge__edge4);
+			graph.RemoveEdges(node_c1);
+			graph.Remove(node_c1);
+			graph.RemoveEdges(node_c6);
+			graph.Remove(node_c6);
+			graph.RemoveEdges(node_c2);
+			graph.Remove(node_c2);
+			graph.RemoveEdges(node_c3);
+			graph.Remove(node_c3);
+			graph.RemoveEdges(node_c4);
+			graph.Remove(node_c4);
+			graph.RemoveEdges(node_c5);
+			graph.Remove(node_c5);
+		}
 	}
 
 	public class Pattern_BenzolRingC123456Exposed : LGSPMatchingPattern
@@ -329,6 +388,41 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
+		public void BenzolRingC123456Exposed_Create(LGSPGraph graph, LGSPNode node_c1, LGSPNode node_c2, LGSPNode node_c3, LGSPNode node_c4, LGSPNode node_c5, LGSPNode node_c6)
+		{
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+		}
+
+		public void BenzolRingC123456Exposed_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPEdge edge__edge8 = match.Edges[(int)BenzolRingC123456Exposed_EdgeNums.@_edge8];
+			LGSPEdge edge__edge3 = match.Edges[(int)BenzolRingC123456Exposed_EdgeNums.@_edge3];
+			LGSPEdge edge__edge2 = match.Edges[(int)BenzolRingC123456Exposed_EdgeNums.@_edge2];
+			LGSPEdge edge__edge1 = match.Edges[(int)BenzolRingC123456Exposed_EdgeNums.@_edge1];
+			LGSPEdge edge__edge0 = match.Edges[(int)BenzolRingC123456Exposed_EdgeNums.@_edge0];
+			LGSPEdge edge__edge7 = match.Edges[(int)BenzolRingC123456Exposed_EdgeNums.@_edge7];
+			LGSPEdge edge__edge6 = match.Edges[(int)BenzolRingC123456Exposed_EdgeNums.@_edge6];
+			LGSPEdge edge__edge5 = match.Edges[(int)BenzolRingC123456Exposed_EdgeNums.@_edge5];
+			LGSPEdge edge__edge4 = match.Edges[(int)BenzolRingC123456Exposed_EdgeNums.@_edge4];
+			graph.Remove(edge__edge8);
+			graph.Remove(edge__edge3);
+			graph.Remove(edge__edge2);
+			graph.Remove(edge__edge1);
+			graph.Remove(edge__edge0);
+			graph.Remove(edge__edge7);
+			graph.Remove(edge__edge6);
+			graph.Remove(edge__edge5);
+			graph.Remove(edge__edge4);
+		}
 	}
 
 	public class Pattern_BenzolRingC1Exposed : LGSPMatchingPattern
@@ -491,6 +585,61 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
+		public void BenzolRingC1Exposed_Create(LGSPGraph graph, LGSPNode node_c1)
+		{
+			Node_C node_c6 = Node_C.CreateNode(graph);
+			Node_C node_c2 = Node_C.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_C node_c5 = Node_C.CreateNode(graph);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+		}
+
+		public void BenzolRingC1Exposed_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_c6 = match.Nodes[(int)BenzolRingC1Exposed_NodeNums.@c6];
+			LGSPNode node_c2 = match.Nodes[(int)BenzolRingC1Exposed_NodeNums.@c2];
+			LGSPNode node_c3 = match.Nodes[(int)BenzolRingC1Exposed_NodeNums.@c3];
+			LGSPNode node_c4 = match.Nodes[(int)BenzolRingC1Exposed_NodeNums.@c4];
+			LGSPNode node_c5 = match.Nodes[(int)BenzolRingC1Exposed_NodeNums.@c5];
+			LGSPEdge edge__edge8 = match.Edges[(int)BenzolRingC1Exposed_EdgeNums.@_edge8];
+			LGSPEdge edge__edge3 = match.Edges[(int)BenzolRingC1Exposed_EdgeNums.@_edge3];
+			LGSPEdge edge__edge2 = match.Edges[(int)BenzolRingC1Exposed_EdgeNums.@_edge2];
+			LGSPEdge edge__edge1 = match.Edges[(int)BenzolRingC1Exposed_EdgeNums.@_edge1];
+			LGSPEdge edge__edge0 = match.Edges[(int)BenzolRingC1Exposed_EdgeNums.@_edge0];
+			LGSPEdge edge__edge7 = match.Edges[(int)BenzolRingC1Exposed_EdgeNums.@_edge7];
+			LGSPEdge edge__edge6 = match.Edges[(int)BenzolRingC1Exposed_EdgeNums.@_edge6];
+			LGSPEdge edge__edge5 = match.Edges[(int)BenzolRingC1Exposed_EdgeNums.@_edge5];
+			LGSPEdge edge__edge4 = match.Edges[(int)BenzolRingC1Exposed_EdgeNums.@_edge4];
+			graph.Remove(edge__edge8);
+			graph.Remove(edge__edge3);
+			graph.Remove(edge__edge2);
+			graph.Remove(edge__edge1);
+			graph.Remove(edge__edge0);
+			graph.Remove(edge__edge7);
+			graph.Remove(edge__edge6);
+			graph.Remove(edge__edge5);
+			graph.Remove(edge__edge4);
+			graph.RemoveEdges(node_c6);
+			graph.Remove(node_c6);
+			graph.RemoveEdges(node_c2);
+			graph.Remove(node_c2);
+			graph.RemoveEdges(node_c3);
+			graph.Remove(node_c3);
+			graph.RemoveEdges(node_c4);
+			graph.Remove(node_c4);
+			graph.RemoveEdges(node_c5);
+			graph.Remove(node_c5);
+		}
 	}
 
 	public class Pattern_BenzolRingC1ExposedNotC6Nitro : LGSPMatchingPattern
@@ -726,6 +875,61 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
+		public void BenzolRingC1ExposedNotC6Nitro_Create(LGSPGraph graph, LGSPNode node_c1)
+		{
+			Node_C node_c6 = Node_C.CreateNode(graph);
+			Node_C node_c2 = Node_C.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_C node_c5 = Node_C.CreateNode(graph);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+		}
+
+		public void BenzolRingC1ExposedNotC6Nitro_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_c6 = match.Nodes[(int)BenzolRingC1ExposedNotC6Nitro_NodeNums.@c6];
+			LGSPNode node_c2 = match.Nodes[(int)BenzolRingC1ExposedNotC6Nitro_NodeNums.@c2];
+			LGSPNode node_c3 = match.Nodes[(int)BenzolRingC1ExposedNotC6Nitro_NodeNums.@c3];
+			LGSPNode node_c4 = match.Nodes[(int)BenzolRingC1ExposedNotC6Nitro_NodeNums.@c4];
+			LGSPNode node_c5 = match.Nodes[(int)BenzolRingC1ExposedNotC6Nitro_NodeNums.@c5];
+			LGSPEdge edge__edge8 = match.Edges[(int)BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge8];
+			LGSPEdge edge__edge3 = match.Edges[(int)BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge3];
+			LGSPEdge edge__edge2 = match.Edges[(int)BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge2];
+			LGSPEdge edge__edge1 = match.Edges[(int)BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge1];
+			LGSPEdge edge__edge0 = match.Edges[(int)BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge0];
+			LGSPEdge edge__edge7 = match.Edges[(int)BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge7];
+			LGSPEdge edge__edge6 = match.Edges[(int)BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge6];
+			LGSPEdge edge__edge5 = match.Edges[(int)BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge5];
+			LGSPEdge edge__edge4 = match.Edges[(int)BenzolRingC1ExposedNotC6Nitro_EdgeNums.@_edge4];
+			graph.Remove(edge__edge8);
+			graph.Remove(edge__edge3);
+			graph.Remove(edge__edge2);
+			graph.Remove(edge__edge1);
+			graph.Remove(edge__edge0);
+			graph.Remove(edge__edge7);
+			graph.Remove(edge__edge6);
+			graph.Remove(edge__edge5);
+			graph.Remove(edge__edge4);
+			graph.RemoveEdges(node_c6);
+			graph.Remove(node_c6);
+			graph.RemoveEdges(node_c2);
+			graph.Remove(node_c2);
+			graph.RemoveEdges(node_c3);
+			graph.Remove(node_c3);
+			graph.RemoveEdges(node_c4);
+			graph.Remove(node_c4);
+			graph.RemoveEdges(node_c5);
+			graph.Remove(node_c5);
+		}
 	}
 
 	public class Pattern_Oxygen : LGSPMatchingPattern
@@ -808,6 +1012,28 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
+		public void Oxygen_Create(LGSPGraph graph)
+		{
+			Node_O node_o1 = Node_O.CreateNode(graph);
+			Node_O node_o2 = Node_O.CreateNode(graph);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_o2, node_o1);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_o1, node_o2);
+		}
+
+		public void Oxygen_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_o1 = match.Nodes[(int)Oxygen_NodeNums.@o1];
+			LGSPNode node_o2 = match.Nodes[(int)Oxygen_NodeNums.@o2];
+			LGSPEdge edge__edge1 = match.Edges[(int)Oxygen_EdgeNums.@_edge1];
+			LGSPEdge edge__edge0 = match.Edges[(int)Oxygen_EdgeNums.@_edge0];
+			graph.Remove(edge__edge1);
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_o1);
+			graph.Remove(node_o1);
+			graph.RemoveEdges(node_o2);
+			graph.Remove(node_o2);
+		}
 	}
 
 	public class Pattern_Hydrogen : LGSPMatchingPattern
@@ -882,6 +1108,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
+		public void Hydrogen_Create(LGSPGraph graph, LGSPNode node_anchor)
+		{
+			Node_H node__node0 = Node_H.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_anchor, node__node0);
+		}
+
+		public void Hydrogen_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node__node0 = match.Nodes[(int)Hydrogen_NodeNums.@_node0];
+			LGSPEdge edge__edge0 = match.Edges[(int)Hydrogen_EdgeNums.@_edge0];
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node__node0);
+			graph.Remove(node__node0);
+		}
 	}
 
 	public class Pattern_Hydroxyl : LGSPMatchingPattern
@@ -970,6 +1211,28 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
+		public void Hydroxyl_Create(LGSPGraph graph, LGSPNode node_anchor)
+		{
+			Node_H node__node1 = Node_H.CreateNode(graph);
+			Node_O node__node0 = Node_O.CreateNode(graph);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_anchor, node__node0);
+		}
+
+		public void Hydroxyl_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node__node1 = match.Nodes[(int)Hydroxyl_NodeNums.@_node1];
+			LGSPNode node__node0 = match.Nodes[(int)Hydroxyl_NodeNums.@_node0];
+			LGSPEdge edge__edge1 = match.Edges[(int)Hydroxyl_EdgeNums.@_edge1];
+			LGSPEdge edge__edge0 = match.Edges[(int)Hydroxyl_EdgeNums.@_edge0];
+			graph.Remove(edge__edge1);
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node__node1);
+			graph.Remove(node__node1);
+			graph.RemoveEdges(node__node0);
+			graph.Remove(node__node0);
+		}
 	}
 
 	public class Pattern_Methyl : LGSPMatchingPattern
@@ -1086,6 +1349,42 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
+		public void Methyl_Create(LGSPGraph graph, LGSPNode node_anchor)
+		{
+			Node_C node_c = Node_C.CreateNode(graph);
+			Node_H node__node1 = Node_H.CreateNode(graph);
+			Node_H node__node2 = Node_H.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_anchor, node_c);
+		}
+
+		public void Methyl_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_c = match.Nodes[(int)Methyl_NodeNums.@c];
+			LGSPNode node__node1 = match.Nodes[(int)Methyl_NodeNums.@_node1];
+			LGSPNode node__node2 = match.Nodes[(int)Methyl_NodeNums.@_node2];
+			LGSPNode node__node0 = match.Nodes[(int)Methyl_NodeNums.@_node0];
+			LGSPEdge edge__edge3 = match.Edges[(int)Methyl_EdgeNums.@_edge3];
+			LGSPEdge edge__edge2 = match.Edges[(int)Methyl_EdgeNums.@_edge2];
+			LGSPEdge edge__edge1 = match.Edges[(int)Methyl_EdgeNums.@_edge1];
+			LGSPEdge edge__edge0 = match.Edges[(int)Methyl_EdgeNums.@_edge0];
+			graph.Remove(edge__edge3);
+			graph.Remove(edge__edge2);
+			graph.Remove(edge__edge1);
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_c);
+			graph.Remove(node_c);
+			graph.RemoveEdges(node__node1);
+			graph.Remove(node__node1);
+			graph.RemoveEdges(node__node2);
+			graph.Remove(node__node2);
+			graph.RemoveEdges(node__node0);
+			graph.Remove(node__node0);
+		}
 	}
 
 	public class Pattern_Nitro : LGSPMatchingPattern
@@ -1188,6 +1487,35 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
+		public void Nitro_Create(LGSPGraph graph, LGSPNode node_anchor)
+		{
+			Node_O node__node1 = Node_O.CreateNode(graph);
+			Node_O node__node0 = Node_O.CreateNode(graph);
+			Node_N node_n = Node_N.CreateNode(graph);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_n, node__node1);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_n, node__node0);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_anchor, node_n);
+		}
+
+		public void Nitro_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node__node1 = match.Nodes[(int)Nitro_NodeNums.@_node1];
+			LGSPNode node__node0 = match.Nodes[(int)Nitro_NodeNums.@_node0];
+			LGSPNode node_n = match.Nodes[(int)Nitro_NodeNums.@n];
+			LGSPEdge edge__edge2 = match.Edges[(int)Nitro_EdgeNums.@_edge2];
+			LGSPEdge edge__edge1 = match.Edges[(int)Nitro_EdgeNums.@_edge1];
+			LGSPEdge edge__edge0 = match.Edges[(int)Nitro_EdgeNums.@_edge0];
+			graph.Remove(edge__edge2);
+			graph.Remove(edge__edge1);
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node__node1);
+			graph.Remove(node__node1);
+			graph.RemoveEdges(node__node0);
+			graph.Remove(node__node0);
+			graph.RemoveEdges(node_n);
+			graph.Remove(node_n);
+		}
 	}
 
 	public class Pattern_TriNitro : LGSPMatchingPattern
@@ -1264,6 +1592,23 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
+		public void TriNitro_Create(LGSPGraph graph, LGSPNode node_c2, LGSPNode node_c4, LGSPNode node_c6)
+		{
+			Pattern_Nitro.Instance.Nitro_Create(graph, node_c4);
+			Pattern_Nitro.Instance.Nitro_Create(graph, node_c6);
+			Pattern_Nitro.Instance.Nitro_Create(graph, node_c2);
+		}
+
+		public void TriNitro_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)TriNitro_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)TriNitro_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)TriNitro_SubNums.@_subpattern2];
+			Pattern_Nitro.Instance.Nitro_Delete(graph, subpattern__subpattern1);
+			Pattern_Nitro.Instance.Nitro_Delete(graph, subpattern__subpattern2);
+			Pattern_Nitro.Instance.Nitro_Delete(graph, subpattern__subpattern0);
+		}
 	}
 
 	public class Pattern_ToluolCoreThenTriNitro : LGSPMatchingPattern
@@ -1360,6 +1705,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
+		public void ToluolCoreThenTriNitro_Create(LGSPGraph graph, LGSPNode node_c1, LGSPNode node_c2, LGSPNode node_c3, LGSPNode node_c4, LGSPNode node_c5, LGSPNode node_c6)
+		{
+			Pattern_TriNitro.Instance.TriNitro_Create(graph, node_c2, node_c4, node_c6);
+			Pattern_Hydrogen.Instance.Hydrogen_Create(graph, node_c3);
+			Pattern_Hydrogen.Instance.Hydrogen_Create(graph, node_c5);
+			Pattern_Methyl.Instance.Methyl_Create(graph, node_c1);
+		}
+
+		public void ToluolCoreThenTriNitro_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)ToluolCoreThenTriNitro_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)ToluolCoreThenTriNitro_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)ToluolCoreThenTriNitro_SubNums.@_subpattern2];
+			LGSPMatch subpattern__subpattern3 = match.EmbeddedGraphs[(int)ToluolCoreThenTriNitro_SubNums.@_subpattern3];
+			Pattern_TriNitro.Instance.TriNitro_Delete(graph, subpattern__subpattern3);
+			Pattern_Hydrogen.Instance.Hydrogen_Delete(graph, subpattern__subpattern1);
+			Pattern_Hydrogen.Instance.Hydrogen_Delete(graph, subpattern__subpattern2);
+			Pattern_Methyl.Instance.Methyl_Delete(graph, subpattern__subpattern0);
+		}
 	}
 
 	public class Rule_BenzolRing : LGSPRulePattern
@@ -1414,18 +1779,22 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)BenzolRing_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)BenzolRing_SubNums.@_subpattern0];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_TNTTotallyFolded : LGSPRulePattern
@@ -1530,18 +1899,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern2];
+			LGSPMatch subpattern__subpattern3 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern3];
+			LGSPMatch subpattern__subpattern4 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern4];
+			LGSPMatch subpattern__subpattern5 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern5];
+			LGSPMatch subpattern__subpattern6 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern6];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern2];
+			LGSPMatch subpattern__subpattern3 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern3];
+			LGSPMatch subpattern__subpattern4 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern4];
+			LGSPMatch subpattern__subpattern5 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern5];
+			LGSPMatch subpattern__subpattern6 = match.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern6];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_TNTChain : LGSPRulePattern
@@ -1636,18 +2021,24 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)TNTChain_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)TNTChain_SubNums.@_subpattern1];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)TNTChain_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)TNTChain_SubNums.@_subpattern1];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_ToluolCore : LGSPRulePattern
@@ -1712,18 +2103,24 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)ToluolCore_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)ToluolCore_SubNums.@_subpattern1];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)ToluolCore_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)ToluolCore_SubNums.@_subpattern1];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_ToluolCoreNotC6Nitro : LGSPRulePattern
@@ -1788,18 +2185,24 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)ToluolCoreNotC6Nitro_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)ToluolCoreNotC6Nitro_SubNums.@_subpattern1];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)ToluolCoreNotC6Nitro_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)ToluolCoreNotC6Nitro_SubNums.@_subpattern1];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_Toluol : LGSPRulePattern
@@ -1904,18 +2307,34 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern2];
+			LGSPMatch subpattern__subpattern3 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern3];
+			LGSPMatch subpattern__subpattern4 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern4];
+			LGSPMatch subpattern__subpattern5 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern5];
+			LGSPMatch subpattern__subpattern6 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern6];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern2];
+			LGSPMatch subpattern__subpattern3 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern3];
+			LGSPMatch subpattern__subpattern4 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern4];
+			LGSPMatch subpattern__subpattern5 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern5];
+			LGSPMatch subpattern__subpattern6 = match.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern6];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_TNT : LGSPRulePattern
@@ -2092,18 +2511,32 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern2];
+			LGSPMatch subpattern__subpattern3 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern3];
+			LGSPMatch subpattern__subpattern4 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern4];
+			LGSPMatch subpattern__subpattern5 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern5];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern2];
+			LGSPMatch subpattern__subpattern3 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern3];
+			LGSPMatch subpattern__subpattern4 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern4];
+			LGSPMatch subpattern__subpattern5 = match.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern5];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_TNTUnfolded : LGSPRulePattern
@@ -2478,18 +2911,20 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_createTNT : LGSPRulePattern
@@ -2542,6 +2977,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_N node_n6 = Node_N.CreateNode(graph);
@@ -2553,22 +2989,24 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Node_H node__node8 = Node_H.CreateNode(graph);
 			Node_H node__node5 = Node_H.CreateNode(graph);
 			Node_O node__node6 = Node_O.CreateNode(graph);
-			Node_O node__node3 = Node_O.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
+			Node_O node__node3 = Node_O.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
 			Node_H node__node1 = Node_H.CreateNode(graph);
 			Node_H node__node2 = Node_H.CreateNode(graph);
 			Node_N node_n4 = Node_N.CreateNode(graph);
 			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c3 = Node_C.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
 			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
 			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
 			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
+			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
+			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
 			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
 			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
@@ -2577,20 +3015,22 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge23 = Edge_Edge.CreateEdge(graph, node_n6, node__node10);
 			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
 			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge22 = Edge_Edge.CreateEdge(graph, node_n6, node__node9);
 			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
 			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
-			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
-			Edge_Edge edge__edge23 = Edge_Edge.CreateEdge(graph, node_n6, node__node10);
-			Edge_Edge edge__edge22 = Edge_Edge.CreateEdge(graph, node_n6, node__node9);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
 			return EmptyReturnElements;
 		}
+		private static String[] addedNodeNames = new String[] { "n6", "_node10", "c", "_node9", "c1", "_node7", "_node8", "_node5", "_node6", "c6", "_node3", "_node4", "_node1", "_node2", "n4", "c2", "c3", "_node0", "c4", "n2", "c5" };
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge21", "_edge20", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge23", "_edge14", "_edge7", "_edge22", "_edge13", "_edge6", "_edge5", "_edge12", "_edge4", "_edge11" };
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
@@ -2603,22 +3043,24 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Node_H node__node8 = Node_H.CreateNode(graph);
 			Node_H node__node5 = Node_H.CreateNode(graph);
 			Node_O node__node6 = Node_O.CreateNode(graph);
-			Node_O node__node3 = Node_O.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
+			Node_O node__node3 = Node_O.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
 			Node_H node__node1 = Node_H.CreateNode(graph);
 			Node_H node__node2 = Node_H.CreateNode(graph);
 			Node_N node_n4 = Node_N.CreateNode(graph);
 			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c3 = Node_C.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
 			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
 			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
 			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
+			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
+			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
 			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
 			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
@@ -2627,24 +3069,18 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge23 = Edge_Edge.CreateEdge(graph, node_n6, node__node10);
 			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
 			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge22 = Edge_Edge.CreateEdge(graph, node_n6, node__node9);
 			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
 			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
-			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
-			Edge_Edge edge__edge23 = Edge_Edge.CreateEdge(graph, node_n6, node__node10);
-			Edge_Edge edge__edge22 = Edge_Edge.CreateEdge(graph, node_n6, node__node9);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "n6", "_node10", "c", "_node9", "c1", "_node7", "_node8", "_node5", "_node6", "_node3", "c6", "_node4", "_node1", "_node2", "n4", "c2", "_node0", "c3", "n2", "c4", "c5" };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge14", "_edge7", "_edge13", "_edge6", "_edge12", "_edge5", "_edge11", "_edge4", "_edge21", "_edge20", "_edge23", "_edge22" };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 	public class Rule_DNT : LGSPRulePattern
@@ -2821,18 +3257,32 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern2];
+			LGSPMatch subpattern__subpattern3 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern3];
+			LGSPMatch subpattern__subpattern4 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern4];
+			LGSPMatch subpattern__subpattern5 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern5];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern2];
+			LGSPMatch subpattern__subpattern3 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern3];
+			LGSPMatch subpattern__subpattern4 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern4];
+			LGSPMatch subpattern__subpattern5 = match.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern5];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_DNTUnfolded : LGSPRulePattern
@@ -3179,18 +3629,20 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_createDNT : LGSPRulePattern
@@ -3243,6 +3695,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_C node_c = Node_C.CreateNode(graph);
@@ -3252,17 +3705,17 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Node_H node__node8 = Node_H.CreateNode(graph);
 			Node_H node__node5 = Node_H.CreateNode(graph);
 			Node_O node__node6 = Node_O.CreateNode(graph);
-			Node_O node__node3 = Node_O.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
+			Node_O node__node3 = Node_O.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
 			Node_H node__node1 = Node_H.CreateNode(graph);
 			Node_H node__node2 = Node_H.CreateNode(graph);
 			Node_N node_n4 = Node_N.CreateNode(graph);
 			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c3 = Node_C.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
 			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
@@ -3282,12 +3735,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
 			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
 			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
 			return EmptyReturnElements;
 		}
+		private static String[] addedNodeNames = new String[] { "c", "_node9", "c1", "_node7", "_node8", "_node5", "_node6", "c6", "_node3", "_node4", "_node1", "_node2", "n4", "c2", "c3", "_node0", "c4", "n2", "c5" };
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge21", "_edge20", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge14", "_edge7", "_edge13", "_edge6", "_edge5", "_edge12", "_edge4", "_edge11" };
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
@@ -3298,17 +3755,17 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Node_H node__node8 = Node_H.CreateNode(graph);
 			Node_H node__node5 = Node_H.CreateNode(graph);
 			Node_O node__node6 = Node_O.CreateNode(graph);
-			Node_O node__node3 = Node_O.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
+			Node_O node__node3 = Node_O.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
 			Node_H node__node1 = Node_H.CreateNode(graph);
 			Node_H node__node2 = Node_H.CreateNode(graph);
 			Node_N node_n4 = Node_N.CreateNode(graph);
 			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c3 = Node_C.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
 			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
@@ -3328,16 +3785,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
 			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
 			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "c", "_node9", "c1", "_node7", "_node8", "_node5", "_node6", "_node3", "c6", "_node4", "_node1", "_node2", "n4", "c2", "_node0", "c3", "n2", "c4", "c5" };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge21", "_edge20", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge14", "_edge7", "_edge13", "_edge6", "_edge12", "_edge5", "_edge11", "_edge4" };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 	public class Rule_TNB : LGSPRulePattern
@@ -3514,18 +3967,32 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern2];
+			LGSPMatch subpattern__subpattern3 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern3];
+			LGSPMatch subpattern__subpattern4 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern4];
+			LGSPMatch subpattern__subpattern5 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern5];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern0];
+			LGSPMatch subpattern__subpattern1 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern1];
+			LGSPMatch subpattern__subpattern2 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern2];
+			LGSPMatch subpattern__subpattern3 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern3];
+			LGSPMatch subpattern__subpattern4 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern4];
+			LGSPMatch subpattern__subpattern5 = match.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern5];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_TNBUnfolded : LGSPRulePattern
@@ -3858,18 +4325,20 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_createTNB : LGSPRulePattern
@@ -3922,6 +4391,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_N node_n6 = Node_N.CreateNode(graph);
@@ -3930,17 +4400,17 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Node_O node__node8 = Node_O.CreateNode(graph);
 			Node_O node__node5 = Node_O.CreateNode(graph);
 			Node_H node__node6 = Node_H.CreateNode(graph);
-			Node_H node__node3 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
+			Node_H node__node3 = Node_H.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
 			Node_O node__node1 = Node_O.CreateNode(graph);
 			Node_O node__node2 = Node_O.CreateNode(graph);
-			Node_N node_n4 = Node_N.CreateNode(graph);
 			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
+			Node_N node_n4 = Node_N.CreateNode(graph);
 			Node_C node_c3 = Node_C.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
 			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node__node0);
@@ -3959,12 +4429,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
 			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c3, node__node3);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
 			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_n2, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_n2, node__node1);
 			return EmptyReturnElements;
 		}
+		private static String[] addedNodeNames = new String[] { "n6", "c1", "_node7", "_node8", "_node5", "_node6", "c6", "_node3", "_node4", "_node1", "_node2", "c2", "n4", "c3", "_node0", "c4", "n2", "c5" };
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge20", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge14", "_edge7", "_edge13", "_edge6", "_edge5", "_edge12", "_edge4", "_edge11" };
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
@@ -3974,17 +4448,17 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Node_O node__node8 = Node_O.CreateNode(graph);
 			Node_O node__node5 = Node_O.CreateNode(graph);
 			Node_H node__node6 = Node_H.CreateNode(graph);
-			Node_H node__node3 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
+			Node_H node__node3 = Node_H.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
 			Node_O node__node1 = Node_O.CreateNode(graph);
 			Node_O node__node2 = Node_O.CreateNode(graph);
-			Node_N node_n4 = Node_N.CreateNode(graph);
 			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
+			Node_N node_n4 = Node_N.CreateNode(graph);
 			Node_C node_c3 = Node_C.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
 			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node__node0);
@@ -4003,25 +4477,332 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
 			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c3, node__node3);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
 			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_n2, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_n2, node__node1);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "n6", "c1", "_node7", "_node8", "_node5", "_node6", "_node3", "c6", "_node4", "_node1", "_node2", "n4", "c2", "_node0", "c3", "n2", "c4", "c5" };
+	}
+
+	public class Rule_keepBenzolRingPattern : LGSPRulePattern
+	{
+		private static Rule_keepBenzolRingPattern instance = null;
+		public static Rule_keepBenzolRingPattern Instance { get { if (instance==null) { instance = new Rule_keepBenzolRingPattern(); instance.initialize(); } return instance; } }
+
+		public enum keepBenzolRingPattern_NodeNums { };
+		public enum keepBenzolRingPattern_EdgeNums { };
+		public enum keepBenzolRingPattern_SubNums { @br, };
+		public enum keepBenzolRingPattern_AltNums { };
+		PatternGraph pat_keepBenzolRingPattern;
+
+
+#if INITIAL_WARMUP
+		public Rule_keepBenzolRingPattern()
+#else
+		private Rule_keepBenzolRingPattern()
+#endif
+		{
+			name = "keepBenzolRingPattern";
+
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
+			bool[,] keepBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
+			bool[,] keepBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			PatternGraphEmbedding keepBenzolRingPattern_br = new PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, new PatternElement[] {  });
+			pat_keepBenzolRingPattern = new PatternGraph(
+				"keepBenzolRingPattern",
+				"",
+				false,
+				new PatternNode[] {  }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] { keepBenzolRingPattern_br }, 
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
+				new bool[0, 0] ,
+				new bool[0, 0] ,
+				keepBenzolRingPattern_isNodeHomomorphicGlobal,
+				keepBenzolRingPattern_isEdgeHomomorphicGlobal
+			);
+
+			keepBenzolRingPattern_br.PointOfDefinition = pat_keepBenzolRingPattern;
+
+			patternGraph = pat_keepBenzolRingPattern;
+		}
+
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern_br = match.EmbeddedGraphs[(int)keepBenzolRingPattern_SubNums.@br];
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {  };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge20", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge14", "_edge7", "_edge13", "_edge6", "_edge12", "_edge5", "_edge11", "_edge4" };
+		private static String[] addedEdgeNames = new String[] {  };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern_br = match.EmbeddedGraphs[(int)keepBenzolRingPattern_SubNums.@br];
+			return EmptyReturnElements;
+		}
+	}
+
+	public class Rule_createBenzolRingPattern : LGSPRulePattern
+	{
+		private static Rule_createBenzolRingPattern instance = null;
+		public static Rule_createBenzolRingPattern Instance { get { if (instance==null) { instance = new Rule_createBenzolRingPattern(); instance.initialize(); } return instance; } }
+
+		public enum createBenzolRingPattern_NodeNums { };
+		public enum createBenzolRingPattern_EdgeNums { };
+		public enum createBenzolRingPattern_SubNums { };
+		public enum createBenzolRingPattern_AltNums { };
+		PatternGraph pat_createBenzolRingPattern;
+
+
+#if INITIAL_WARMUP
+		public Rule_createBenzolRingPattern()
+#else
+		private Rule_createBenzolRingPattern()
+#endif
+		{
+			name = "createBenzolRingPattern";
+
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
+			bool[,] createBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
+			bool[,] createBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			pat_createBenzolRingPattern = new PatternGraph(
+				"createBenzolRingPattern",
+				"",
+				false,
+				new PatternNode[] {  }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] {  }, 
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
+				new bool[0, 0] ,
+				new bool[0, 0] ,
+				createBenzolRingPattern_isNodeHomomorphicGlobal,
+				createBenzolRingPattern_isEdgeHomomorphicGlobal
+			);
+
+
+			patternGraph = pat_createBenzolRingPattern;
+		}
+
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
+			Pattern_BenzolRing.Instance.BenzolRing_Create(graph);
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {  };
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {  };
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			Pattern_BenzolRing.Instance.BenzolRing_Create(graph);
+			return EmptyReturnElements;
+		}
+	}
+
+	public class Rule_deleteBenzolRingPattern : LGSPRulePattern
+	{
+		private static Rule_deleteBenzolRingPattern instance = null;
+		public static Rule_deleteBenzolRingPattern Instance { get { if (instance==null) { instance = new Rule_deleteBenzolRingPattern(); instance.initialize(); } return instance; } }
+
+		public enum deleteBenzolRingPattern_NodeNums { };
+		public enum deleteBenzolRingPattern_EdgeNums { };
+		public enum deleteBenzolRingPattern_SubNums { @_subpattern0, };
+		public enum deleteBenzolRingPattern_AltNums { };
+		PatternGraph pat_deleteBenzolRingPattern;
+
+
+#if INITIAL_WARMUP
+		public Rule_deleteBenzolRingPattern()
+#else
+		private Rule_deleteBenzolRingPattern()
+#endif
+		{
+			name = "deleteBenzolRingPattern";
+
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
+			bool[,] deleteBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
+			bool[,] deleteBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			PatternGraphEmbedding deleteBenzolRingPattern__subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRing.Instance, new PatternElement[] {  });
+			pat_deleteBenzolRingPattern = new PatternGraph(
+				"deleteBenzolRingPattern",
+				"",
+				false,
+				new PatternNode[] {  }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] { deleteBenzolRingPattern__subpattern0 }, 
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
+				new bool[0, 0] ,
+				new bool[0, 0] ,
+				deleteBenzolRingPattern_isNodeHomomorphicGlobal,
+				deleteBenzolRingPattern_isEdgeHomomorphicGlobal
+			);
+
+			deleteBenzolRingPattern__subpattern0.PointOfDefinition = pat_deleteBenzolRingPattern;
+
+			patternGraph = pat_deleteBenzolRingPattern;
+		}
+
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)deleteBenzolRingPattern_SubNums.@_subpattern0];
+			Pattern_BenzolRing.Instance.BenzolRing_Delete(graph, subpattern__subpattern0);
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {  };
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {  };
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)deleteBenzolRingPattern_SubNums.@_subpattern0];
+			Pattern_BenzolRing.Instance.BenzolRing_Delete(graph, subpattern__subpattern0);
+			return EmptyReturnElements;
+		}
+	}
+
+	public class Rule_deleteInModifyBenzolRingPattern : LGSPRulePattern
+	{
+		private static Rule_deleteInModifyBenzolRingPattern instance = null;
+		public static Rule_deleteInModifyBenzolRingPattern Instance { get { if (instance==null) { instance = new Rule_deleteInModifyBenzolRingPattern(); instance.initialize(); } return instance; } }
+
+		public enum deleteInModifyBenzolRingPattern_NodeNums { };
+		public enum deleteInModifyBenzolRingPattern_EdgeNums { };
+		public enum deleteInModifyBenzolRingPattern_SubNums { @br, };
+		public enum deleteInModifyBenzolRingPattern_AltNums { };
+		PatternGraph pat_deleteInModifyBenzolRingPattern;
+
+
+#if INITIAL_WARMUP
+		public Rule_deleteInModifyBenzolRingPattern()
+#else
+		private Rule_deleteInModifyBenzolRingPattern()
+#endif
+		{
+			name = "deleteInModifyBenzolRingPattern";
+
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+		public override void initialize()
+		{
+			bool[,] deleteInModifyBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
+			bool[,] deleteInModifyBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			PatternGraphEmbedding deleteInModifyBenzolRingPattern_br = new PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, new PatternElement[] {  });
+			pat_deleteInModifyBenzolRingPattern = new PatternGraph(
+				"deleteInModifyBenzolRingPattern",
+				"",
+				false,
+				new PatternNode[] {  }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] { deleteInModifyBenzolRingPattern_br }, 
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
+				new bool[0, 0] ,
+				new bool[0, 0] ,
+				deleteInModifyBenzolRingPattern_isNodeHomomorphicGlobal,
+				deleteInModifyBenzolRingPattern_isEdgeHomomorphicGlobal
+			);
+
+			deleteInModifyBenzolRingPattern_br.PointOfDefinition = pat_deleteInModifyBenzolRingPattern;
+
+			patternGraph = pat_deleteInModifyBenzolRingPattern;
+		}
+
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern_br = match.EmbeddedGraphs[(int)deleteInModifyBenzolRingPattern_SubNums.@br];
+			Pattern_BenzolRing.Instance.BenzolRing_Delete(graph, subpattern_br);
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {  };
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {  };
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern_br = match.EmbeddedGraphs[(int)deleteInModifyBenzolRingPattern_SubNums.@br];
+			Pattern_BenzolRing.Instance.BenzolRing_Delete(graph, subpattern_br);
+			return EmptyReturnElements;
+		}
 	}
 
 
     public class PatternAction_BenzolRing : LGSPSubpatternAction
     {
-        public PatternAction_BenzolRing(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_BenzolRing(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_BenzolRing.Instance.patternGraph;
         }
+
+        public static PatternAction_BenzolRing getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_BenzolRing newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_BenzolRing(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_BenzolRing oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_BenzolRing freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_BenzolRing next = null;
 
         
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
@@ -5055,10 +5836,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 
     public class PatternAction_BenzolRingC123456Exposed : LGSPSubpatternAction
     {
-        public PatternAction_BenzolRingC123456Exposed(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_BenzolRingC123456Exposed(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_BenzolRingC123456Exposed.Instance.patternGraph;
         }
+
+        public static PatternAction_BenzolRingC123456Exposed getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_BenzolRingC123456Exposed newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_BenzolRingC123456Exposed(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_BenzolRingC123456Exposed oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_BenzolRingC123456Exposed freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_BenzolRingC123456Exposed next = null;
 
         public LGSPNode BenzolRingC123456Exposed_node_c1;
         public LGSPNode BenzolRingC123456Exposed_node_c2;
@@ -5714,10 +6524,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 
     public class PatternAction_BenzolRingC1Exposed : LGSPSubpatternAction
     {
-        public PatternAction_BenzolRingC1Exposed(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_BenzolRingC1Exposed(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_BenzolRingC1Exposed.Instance.patternGraph;
         }
+
+        public static PatternAction_BenzolRingC1Exposed getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_BenzolRingC1Exposed newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_BenzolRingC1Exposed(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_BenzolRingC1Exposed oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_BenzolRingC1Exposed freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_BenzolRingC1Exposed next = null;
 
         public LGSPNode BenzolRingC1Exposed_node_c1;
         
@@ -6683,10 +7522,39 @@ namespace de.unika.ipd.grGen.Action_TNT
 
     public class PatternAction_BenzolRingC1ExposedNotC6Nitro : LGSPSubpatternAction
     {
-        public PatternAction_BenzolRingC1ExposedNotC6Nitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_BenzolRingC1ExposedNotC6Nitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_BenzolRingC1ExposedNotC6Nitro.Instance.patternGraph;
         }
+
+        public static PatternAction_BenzolRingC1ExposedNotC6Nitro getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_BenzolRingC1ExposedNotC6Nitro newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_BenzolRingC1ExposedNotC6Nitro(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_BenzolRingC1ExposedNotC6Nitro oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_BenzolRingC1ExposedNotC6Nitro freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_BenzolRingC1ExposedNotC6Nitro next = null;
 
         public LGSPNode BenzolRingC1ExposedNotC6Nitro_node_c1;
         
@@ -7882,10 +8750,39 @@ label0: ;
 
     public class PatternAction_Oxygen : LGSPSubpatternAction
     {
-        public PatternAction_Oxygen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Oxygen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_Oxygen.Instance.patternGraph;
         }
+
+        public static PatternAction_Oxygen getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_Oxygen newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_Oxygen(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_Oxygen oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_Oxygen freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_Oxygen next = null;
 
         
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
@@ -8149,10 +9046,39 @@ label0: ;
 
     public class PatternAction_Hydrogen : LGSPSubpatternAction
     {
-        public PatternAction_Hydrogen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Hydrogen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_Hydrogen.Instance.patternGraph;
         }
+
+        public static PatternAction_Hydrogen getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_Hydrogen newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_Hydrogen(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_Hydrogen oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_Hydrogen freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_Hydrogen next = null;
 
         public LGSPNode Hydrogen_node_anchor;
         
@@ -8258,10 +9184,39 @@ label0: ;
 
     public class PatternAction_Hydroxyl : LGSPSubpatternAction
     {
-        public PatternAction_Hydroxyl(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Hydroxyl(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_Hydroxyl.Instance.patternGraph;
         }
+
+        public static PatternAction_Hydroxyl getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_Hydroxyl newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_Hydroxyl(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_Hydroxyl oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_Hydroxyl freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_Hydroxyl next = null;
 
         public LGSPNode Hydroxyl_node_anchor;
         
@@ -8458,10 +9413,39 @@ label0: ;
 
     public class PatternAction_Methyl : LGSPSubpatternAction
     {
-        public PatternAction_Methyl(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Methyl(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_Methyl.Instance.patternGraph;
         }
+
+        public static PatternAction_Methyl getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_Methyl newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_Methyl(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_Methyl oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_Methyl freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_Methyl next = null;
 
         public LGSPNode Methyl_node_anchor;
         
@@ -8937,10 +9921,39 @@ label0: ;
 
     public class PatternAction_Nitro : LGSPSubpatternAction
     {
-        public PatternAction_Nitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Nitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_Nitro.Instance.patternGraph;
         }
+
+        public static PatternAction_Nitro getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_Nitro newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_Nitro(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_Nitro oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_Nitro freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_Nitro next = null;
 
         public LGSPNode Nitro_node_anchor;
         
@@ -9265,10 +10278,39 @@ label0: ;
 
     public class PatternAction_TriNitro : LGSPSubpatternAction
     {
-        public PatternAction_TriNitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_TriNitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_TriNitro.Instance.patternGraph;
         }
+
+        public static PatternAction_TriNitro getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_TriNitro newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_TriNitro(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_TriNitro oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_TriNitro freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_TriNitro next = null;
 
         public LGSPNode TriNitro_node_c2;
         public LGSPNode TriNitro_node_c4;
@@ -9287,25 +10329,28 @@ label0: ;
             // SubPreset TriNitro_node_c6 
             LGSPNode candidate_TriNitro_node_c6 = TriNitro_node_c6;
             // Push subpattern matching task for _subpattern2
-            PatternAction_Nitro taskFor__subpattern2 = new PatternAction_Nitro(graph, openTasks);
+            PatternAction_Nitro taskFor__subpattern2 = PatternAction_Nitro.getNewTask(graph, openTasks);
             taskFor__subpattern2.Nitro_node_anchor = candidate_TriNitro_node_c6;
             openTasks.Push(taskFor__subpattern2);
             // Push subpattern matching task for _subpattern1
-            PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
+            PatternAction_Nitro taskFor__subpattern1 = PatternAction_Nitro.getNewTask(graph, openTasks);
             taskFor__subpattern1.Nitro_node_anchor = candidate_TriNitro_node_c4;
             openTasks.Push(taskFor__subpattern1);
             // Push subpattern matching task for _subpattern0
-            PatternAction_Nitro taskFor__subpattern0 = new PatternAction_Nitro(graph, openTasks);
+            PatternAction_Nitro taskFor__subpattern0 = PatternAction_Nitro.getNewTask(graph, openTasks);
             taskFor__subpattern0.Nitro_node_anchor = candidate_TriNitro_node_c2;
             openTasks.Push(taskFor__subpattern0);
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            PatternAction_Nitro.releaseTask(taskFor__subpattern0);
             // Pop subpattern matching task for _subpattern1
             openTasks.Pop();
+            PatternAction_Nitro.releaseTask(taskFor__subpattern1);
             // Pop subpattern matching task for _subpattern2
             openTasks.Pop();
+            PatternAction_Nitro.releaseTask(taskFor__subpattern2);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -9345,10 +10390,39 @@ label0: ;
 
     public class PatternAction_ToluolCoreThenTriNitro : LGSPSubpatternAction
     {
-        public PatternAction_ToluolCoreThenTriNitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ToluolCoreThenTriNitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_ToluolCoreThenTriNitro.Instance.patternGraph;
         }
+
+        public static PatternAction_ToluolCoreThenTriNitro getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_ToluolCoreThenTriNitro newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_ToluolCoreThenTriNitro(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_ToluolCoreThenTriNitro oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_ToluolCoreThenTriNitro freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_ToluolCoreThenTriNitro next = null;
 
         public LGSPNode ToluolCoreThenTriNitro_node_c1;
         public LGSPNode ToluolCoreThenTriNitro_node_c2;
@@ -9376,33 +10450,37 @@ label0: ;
             // SubPreset ToluolCoreThenTriNitro_node_c6 
             LGSPNode candidate_ToluolCoreThenTriNitro_node_c6 = ToluolCoreThenTriNitro_node_c6;
             // Push subpattern matching task for _subpattern3
-            PatternAction_TriNitro taskFor__subpattern3 = new PatternAction_TriNitro(graph, openTasks);
+            PatternAction_TriNitro taskFor__subpattern3 = PatternAction_TriNitro.getNewTask(graph, openTasks);
             taskFor__subpattern3.TriNitro_node_c2 = candidate_ToluolCoreThenTriNitro_node_c2;
             taskFor__subpattern3.TriNitro_node_c4 = candidate_ToluolCoreThenTriNitro_node_c4;
             taskFor__subpattern3.TriNitro_node_c6 = candidate_ToluolCoreThenTriNitro_node_c6;
             openTasks.Push(taskFor__subpattern3);
             // Push subpattern matching task for _subpattern2
-            PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
+            PatternAction_Hydrogen taskFor__subpattern2 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
             taskFor__subpattern2.Hydrogen_node_anchor = candidate_ToluolCoreThenTriNitro_node_c5;
             openTasks.Push(taskFor__subpattern2);
             // Push subpattern matching task for _subpattern1
-            PatternAction_Hydrogen taskFor__subpattern1 = new PatternAction_Hydrogen(graph, openTasks);
+            PatternAction_Hydrogen taskFor__subpattern1 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
             taskFor__subpattern1.Hydrogen_node_anchor = candidate_ToluolCoreThenTriNitro_node_c3;
             openTasks.Push(taskFor__subpattern1);
             // Push subpattern matching task for _subpattern0
-            PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
+            PatternAction_Methyl taskFor__subpattern0 = PatternAction_Methyl.getNewTask(graph, openTasks);
             taskFor__subpattern0.Methyl_node_anchor = candidate_ToluolCoreThenTriNitro_node_c1;
             openTasks.Push(taskFor__subpattern0);
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            PatternAction_Methyl.releaseTask(taskFor__subpattern0);
             // Pop subpattern matching task for _subpattern1
             openTasks.Pop();
+            PatternAction_Hydrogen.releaseTask(taskFor__subpattern1);
             // Pop subpattern matching task for _subpattern2
             openTasks.Pop();
+            PatternAction_Hydrogen.releaseTask(taskFor__subpattern2);
             // Pop subpattern matching task for _subpattern3
             openTasks.Pop();
+            PatternAction_TriNitro.releaseTask(taskFor__subpattern3);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -9467,12 +10545,13 @@ label0: ;
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Push subpattern matching task for _subpattern0
-            PatternAction_BenzolRing taskFor__subpattern0 = new PatternAction_BenzolRing(graph, openTasks);
+            PatternAction_BenzolRing taskFor__subpattern0 = PatternAction_BenzolRing.getNewTask(graph, openTasks);
             openTasks.Push(taskFor__subpattern0);
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            PatternAction_BenzolRing.releaseTask(taskFor__subpattern0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -9626,31 +10705,31 @@ label0: ;
                                         continue;
                                     }
                                     // Push subpattern matching task for _subpattern6
-                                    PatternAction_Nitro taskFor__subpattern6 = new PatternAction_Nitro(graph, openTasks);
+                                    PatternAction_Nitro taskFor__subpattern6 = PatternAction_Nitro.getNewTask(graph, openTasks);
                                     taskFor__subpattern6.Nitro_node_anchor = candidate_TNTTotallyFolded_node_c6;
                                     openTasks.Push(taskFor__subpattern6);
                                     // Push subpattern matching task for _subpattern5
-                                    PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
+                                    PatternAction_Hydrogen taskFor__subpattern5 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                     taskFor__subpattern5.Hydrogen_node_anchor = candidate_TNTTotallyFolded_node_c5;
                                     openTasks.Push(taskFor__subpattern5);
                                     // Push subpattern matching task for _subpattern4
-                                    PatternAction_Nitro taskFor__subpattern4 = new PatternAction_Nitro(graph, openTasks);
+                                    PatternAction_Nitro taskFor__subpattern4 = PatternAction_Nitro.getNewTask(graph, openTasks);
                                     taskFor__subpattern4.Nitro_node_anchor = candidate_TNTTotallyFolded_node_c4;
                                     openTasks.Push(taskFor__subpattern4);
                                     // Push subpattern matching task for _subpattern3
-                                    PatternAction_Hydrogen taskFor__subpattern3 = new PatternAction_Hydrogen(graph, openTasks);
+                                    PatternAction_Hydrogen taskFor__subpattern3 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                     taskFor__subpattern3.Hydrogen_node_anchor = candidate_TNTTotallyFolded_node_c3;
                                     openTasks.Push(taskFor__subpattern3);
                                     // Push subpattern matching task for _subpattern2
-                                    PatternAction_Nitro taskFor__subpattern2 = new PatternAction_Nitro(graph, openTasks);
+                                    PatternAction_Nitro taskFor__subpattern2 = PatternAction_Nitro.getNewTask(graph, openTasks);
                                     taskFor__subpattern2.Nitro_node_anchor = candidate_TNTTotallyFolded_node_c2;
                                     openTasks.Push(taskFor__subpattern2);
                                     // Push subpattern matching task for _subpattern1
-                                    PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
+                                    PatternAction_Methyl taskFor__subpattern1 = PatternAction_Methyl.getNewTask(graph, openTasks);
                                     taskFor__subpattern1.Methyl_node_anchor = candidate_TNTTotallyFolded_node_c1;
                                     openTasks.Push(taskFor__subpattern1);
                                     // Push subpattern matching task for _subpattern0
-                                    PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
+                                    PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = PatternAction_BenzolRingC123456Exposed.getNewTask(graph, openTasks);
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c1 = candidate_TNTTotallyFolded_node_c1;
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c2 = candidate_TNTTotallyFolded_node_c2;
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c3 = candidate_TNTTotallyFolded_node_c3;
@@ -9680,18 +10759,25 @@ label0: ;
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                     // Pop subpattern matching task for _subpattern0
                                     openTasks.Pop();
+                                    PatternAction_BenzolRingC123456Exposed.releaseTask(taskFor__subpattern0);
                                     // Pop subpattern matching task for _subpattern1
                                     openTasks.Pop();
+                                    PatternAction_Methyl.releaseTask(taskFor__subpattern1);
                                     // Pop subpattern matching task for _subpattern2
                                     openTasks.Pop();
+                                    PatternAction_Nitro.releaseTask(taskFor__subpattern2);
                                     // Pop subpattern matching task for _subpattern3
                                     openTasks.Pop();
+                                    PatternAction_Hydrogen.releaseTask(taskFor__subpattern3);
                                     // Pop subpattern matching task for _subpattern4
                                     openTasks.Pop();
+                                    PatternAction_Nitro.releaseTask(taskFor__subpattern4);
                                     // Pop subpattern matching task for _subpattern5
                                     openTasks.Pop();
+                                    PatternAction_Hydrogen.releaseTask(taskFor__subpattern5);
                                     // Pop subpattern matching task for _subpattern6
                                     openTasks.Pop();
+                                    PatternAction_Nitro.releaseTask(taskFor__subpattern6);
                                     // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
                                         // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -9951,7 +11037,7 @@ label0: ;
                                         continue;
                                     }
                                     // Push subpattern matching task for _subpattern1
-                                    PatternAction_ToluolCoreThenTriNitro taskFor__subpattern1 = new PatternAction_ToluolCoreThenTriNitro(graph, openTasks);
+                                    PatternAction_ToluolCoreThenTriNitro taskFor__subpattern1 = PatternAction_ToluolCoreThenTriNitro.getNewTask(graph, openTasks);
                                     taskFor__subpattern1.ToluolCoreThenTriNitro_node_c1 = candidate_TNTChain_node_c1;
                                     taskFor__subpattern1.ToluolCoreThenTriNitro_node_c2 = candidate_TNTChain_node_c2;
                                     taskFor__subpattern1.ToluolCoreThenTriNitro_node_c3 = candidate_TNTChain_node_c3;
@@ -9960,7 +11046,7 @@ label0: ;
                                     taskFor__subpattern1.ToluolCoreThenTriNitro_node_c6 = candidate_TNTChain_node_c6;
                                     openTasks.Push(taskFor__subpattern1);
                                     // Push subpattern matching task for _subpattern0
-                                    PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
+                                    PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = PatternAction_BenzolRingC123456Exposed.getNewTask(graph, openTasks);
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c1 = candidate_TNTChain_node_c1;
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c2 = candidate_TNTChain_node_c2;
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c3 = candidate_TNTChain_node_c3;
@@ -9990,8 +11076,10 @@ label0: ;
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                     // Pop subpattern matching task for _subpattern0
                                     openTasks.Pop();
+                                    PatternAction_BenzolRingC123456Exposed.releaseTask(taskFor__subpattern0);
                                     // Pop subpattern matching task for _subpattern1
                                     openTasks.Pop();
+                                    PatternAction_ToluolCoreThenTriNitro.releaseTask(taskFor__subpattern1);
                                     // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
                                         // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -10142,11 +11230,11 @@ label0: ;
             for(LGSPNode head_candidate_ToluolCore_node_c1 = graph.nodesByTypeHeads[type_id_candidate_ToluolCore_node_c1], candidate_ToluolCore_node_c1 = head_candidate_ToluolCore_node_c1.typeNext; candidate_ToluolCore_node_c1 != head_candidate_ToluolCore_node_c1; candidate_ToluolCore_node_c1 = candidate_ToluolCore_node_c1.typeNext)
             {
                 // Push subpattern matching task for _subpattern1
-                PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
+                PatternAction_Methyl taskFor__subpattern1 = PatternAction_Methyl.getNewTask(graph, openTasks);
                 taskFor__subpattern1.Methyl_node_anchor = candidate_ToluolCore_node_c1;
                 openTasks.Push(taskFor__subpattern1);
                 // Push subpattern matching task for _subpattern0
-                PatternAction_BenzolRingC1Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC1Exposed(graph, openTasks);
+                PatternAction_BenzolRingC1Exposed taskFor__subpattern0 = PatternAction_BenzolRingC1Exposed.getNewTask(graph, openTasks);
                 taskFor__subpattern0.BenzolRingC1Exposed_node_c1 = candidate_ToluolCore_node_c1;
                 openTasks.Push(taskFor__subpattern0);
                 uint prevGlobal__candidate_ToluolCore_node_c1;
@@ -10156,8 +11244,10 @@ label0: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_BenzolRingC1Exposed.releaseTask(taskFor__subpattern0);
                 // Pop subpattern matching task for _subpattern1
                 openTasks.Pop();
+                PatternAction_Methyl.releaseTask(taskFor__subpattern1);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -10213,11 +11303,11 @@ label0: ;
             for(LGSPNode head_candidate_ToluolCoreNotC6Nitro_node_c1 = graph.nodesByTypeHeads[type_id_candidate_ToluolCoreNotC6Nitro_node_c1], candidate_ToluolCoreNotC6Nitro_node_c1 = head_candidate_ToluolCoreNotC6Nitro_node_c1.typeNext; candidate_ToluolCoreNotC6Nitro_node_c1 != head_candidate_ToluolCoreNotC6Nitro_node_c1; candidate_ToluolCoreNotC6Nitro_node_c1 = candidate_ToluolCoreNotC6Nitro_node_c1.typeNext)
             {
                 // Push subpattern matching task for _subpattern1
-                PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
+                PatternAction_Methyl taskFor__subpattern1 = PatternAction_Methyl.getNewTask(graph, openTasks);
                 taskFor__subpattern1.Methyl_node_anchor = candidate_ToluolCoreNotC6Nitro_node_c1;
                 openTasks.Push(taskFor__subpattern1);
                 // Push subpattern matching task for _subpattern0
-                PatternAction_BenzolRingC1ExposedNotC6Nitro taskFor__subpattern0 = new PatternAction_BenzolRingC1ExposedNotC6Nitro(graph, openTasks);
+                PatternAction_BenzolRingC1ExposedNotC6Nitro taskFor__subpattern0 = PatternAction_BenzolRingC1ExposedNotC6Nitro.getNewTask(graph, openTasks);
                 taskFor__subpattern0.BenzolRingC1ExposedNotC6Nitro_node_c1 = candidate_ToluolCoreNotC6Nitro_node_c1;
                 openTasks.Push(taskFor__subpattern0);
                 uint prevGlobal__candidate_ToluolCoreNotC6Nitro_node_c1;
@@ -10227,8 +11317,10 @@ label0: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_BenzolRingC1ExposedNotC6Nitro.releaseTask(taskFor__subpattern0);
                 // Pop subpattern matching task for _subpattern1
                 openTasks.Pop();
+                PatternAction_Methyl.releaseTask(taskFor__subpattern1);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -10388,31 +11480,31 @@ label0: ;
                                         continue;
                                     }
                                     // Push subpattern matching task for _subpattern6
-                                    PatternAction_Hydrogen taskFor__subpattern6 = new PatternAction_Hydrogen(graph, openTasks);
+                                    PatternAction_Hydrogen taskFor__subpattern6 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                     taskFor__subpattern6.Hydrogen_node_anchor = candidate_Toluol_node_c6;
                                     openTasks.Push(taskFor__subpattern6);
                                     // Push subpattern matching task for _subpattern5
-                                    PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
+                                    PatternAction_Hydrogen taskFor__subpattern5 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                     taskFor__subpattern5.Hydrogen_node_anchor = candidate_Toluol_node_c5;
                                     openTasks.Push(taskFor__subpattern5);
                                     // Push subpattern matching task for _subpattern4
-                                    PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
+                                    PatternAction_Hydrogen taskFor__subpattern4 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                     taskFor__subpattern4.Hydrogen_node_anchor = candidate_Toluol_node_c4;
                                     openTasks.Push(taskFor__subpattern4);
                                     // Push subpattern matching task for _subpattern3
-                                    PatternAction_Hydrogen taskFor__subpattern3 = new PatternAction_Hydrogen(graph, openTasks);
+                                    PatternAction_Hydrogen taskFor__subpattern3 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                     taskFor__subpattern3.Hydrogen_node_anchor = candidate_Toluol_node_c3;
                                     openTasks.Push(taskFor__subpattern3);
                                     // Push subpattern matching task for _subpattern2
-                                    PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
+                                    PatternAction_Hydrogen taskFor__subpattern2 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                     taskFor__subpattern2.Hydrogen_node_anchor = candidate_Toluol_node_c2;
                                     openTasks.Push(taskFor__subpattern2);
                                     // Push subpattern matching task for _subpattern1
-                                    PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
+                                    PatternAction_Methyl taskFor__subpattern1 = PatternAction_Methyl.getNewTask(graph, openTasks);
                                     taskFor__subpattern1.Methyl_node_anchor = candidate_Toluol_node_c1;
                                     openTasks.Push(taskFor__subpattern1);
                                     // Push subpattern matching task for _subpattern0
-                                    PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
+                                    PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = PatternAction_BenzolRingC123456Exposed.getNewTask(graph, openTasks);
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c1 = candidate_Toluol_node_c1;
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c2 = candidate_Toluol_node_c2;
                                     taskFor__subpattern0.BenzolRingC123456Exposed_node_c3 = candidate_Toluol_node_c3;
@@ -10442,18 +11534,25 @@ label0: ;
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                     // Pop subpattern matching task for _subpattern0
                                     openTasks.Pop();
+                                    PatternAction_BenzolRingC123456Exposed.releaseTask(taskFor__subpattern0);
                                     // Pop subpattern matching task for _subpattern1
                                     openTasks.Pop();
+                                    PatternAction_Methyl.releaseTask(taskFor__subpattern1);
                                     // Pop subpattern matching task for _subpattern2
                                     openTasks.Pop();
+                                    PatternAction_Hydrogen.releaseTask(taskFor__subpattern2);
                                     // Pop subpattern matching task for _subpattern3
                                     openTasks.Pop();
+                                    PatternAction_Hydrogen.releaseTask(taskFor__subpattern3);
                                     // Pop subpattern matching task for _subpattern4
                                     openTasks.Pop();
+                                    PatternAction_Hydrogen.releaseTask(taskFor__subpattern4);
                                     // Pop subpattern matching task for _subpattern5
                                     openTasks.Pop();
+                                    PatternAction_Hydrogen.releaseTask(taskFor__subpattern5);
                                     // Pop subpattern matching task for _subpattern6
                                     openTasks.Pop();
+                                    PatternAction_Hydrogen.releaseTask(taskFor__subpattern6);
                                     // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
                                         // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -11053,27 +12152,27 @@ label0: ;
                                                                                     continue;
                                                                                 }
                                                                                 // Push subpattern matching task for _subpattern5
-                                                                                PatternAction_Nitro taskFor__subpattern5 = new PatternAction_Nitro(graph, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern5 = PatternAction_Nitro.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern5.Nitro_node_anchor = candidate_TNT_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
                                                                                 // Push subpattern matching task for _subpattern4
-                                                                                PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern4 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern4.Hydrogen_node_anchor = candidate_TNT_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
                                                                                 // Push subpattern matching task for _subpattern3
-                                                                                PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern3 = PatternAction_Nitro.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern3.Nitro_node_anchor = candidate_TNT_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
                                                                                 // Push subpattern matching task for _subpattern2
-                                                                                PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern2 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern2.Hydrogen_node_anchor = candidate_TNT_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
                                                                                 // Push subpattern matching task for _subpattern1
-                                                                                PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern1 = PatternAction_Nitro.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern1.Nitro_node_anchor = candidate_TNT_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
                                                                                 // Push subpattern matching task for _subpattern0
-                                                                                PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
+                                                                                PatternAction_Methyl taskFor__subpattern0 = PatternAction_Methyl.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern0.Methyl_node_anchor = candidate_TNT_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
                                                                                 uint prevGlobal__candidate_TNT_node_c1;
@@ -11125,16 +12224,22 @@ label0: ;
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                                                                 // Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Methyl.releaseTask(taskFor__subpattern0);
                                                                                 // Pop subpattern matching task for _subpattern1
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Nitro.releaseTask(taskFor__subpattern1);
                                                                                 // Pop subpattern matching task for _subpattern2
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Hydrogen.releaseTask(taskFor__subpattern2);
                                                                                 // Pop subpattern matching task for _subpattern3
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Nitro.releaseTask(taskFor__subpattern3);
                                                                                 // Pop subpattern matching task for _subpattern4
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Hydrogen.releaseTask(taskFor__subpattern4);
                                                                                 // Pop subpattern matching task for _subpattern5
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Nitro.releaseTask(taskFor__subpattern5);
                                                                                 // Check whether subpatterns were found 
                                                                                 if(matchesList.Count>0) {
                                                                                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -13250,27 +14355,27 @@ label0: ;
                                                                                     continue;
                                                                                 }
                                                                                 // Push subpattern matching task for _subpattern5
-                                                                                PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern5 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern5.Hydrogen_node_anchor = candidate_DNT_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
                                                                                 // Push subpattern matching task for _subpattern4
-                                                                                PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern4 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern4.Hydrogen_node_anchor = candidate_DNT_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
                                                                                 // Push subpattern matching task for _subpattern3
-                                                                                PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern3 = PatternAction_Nitro.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern3.Nitro_node_anchor = candidate_DNT_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
                                                                                 // Push subpattern matching task for _subpattern2
-                                                                                PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern2 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern2.Hydrogen_node_anchor = candidate_DNT_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
                                                                                 // Push subpattern matching task for _subpattern1
-                                                                                PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern1 = PatternAction_Nitro.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern1.Nitro_node_anchor = candidate_DNT_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
                                                                                 // Push subpattern matching task for _subpattern0
-                                                                                PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
+                                                                                PatternAction_Methyl taskFor__subpattern0 = PatternAction_Methyl.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern0.Methyl_node_anchor = candidate_DNT_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
                                                                                 uint prevGlobal__candidate_DNT_node_c1;
@@ -13322,16 +14427,22 @@ label0: ;
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                                                                 // Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Methyl.releaseTask(taskFor__subpattern0);
                                                                                 // Pop subpattern matching task for _subpattern1
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Nitro.releaseTask(taskFor__subpattern1);
                                                                                 // Pop subpattern matching task for _subpattern2
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Hydrogen.releaseTask(taskFor__subpattern2);
                                                                                 // Pop subpattern matching task for _subpattern3
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Nitro.releaseTask(taskFor__subpattern3);
                                                                                 // Pop subpattern matching task for _subpattern4
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Hydrogen.releaseTask(taskFor__subpattern4);
                                                                                 // Pop subpattern matching task for _subpattern5
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Hydrogen.releaseTask(taskFor__subpattern5);
                                                                                 // Check whether subpatterns were found 
                                                                                 if(matchesList.Count>0) {
                                                                                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -15306,27 +16417,27 @@ label0: ;
                                                                                     continue;
                                                                                 }
                                                                                 // Push subpattern matching task for _subpattern5
-                                                                                PatternAction_Nitro taskFor__subpattern5 = new PatternAction_Nitro(graph, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern5 = PatternAction_Nitro.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern5.Nitro_node_anchor = candidate_TNB_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
                                                                                 // Push subpattern matching task for _subpattern4
-                                                                                PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern4 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern4.Hydrogen_node_anchor = candidate_TNB_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
                                                                                 // Push subpattern matching task for _subpattern3
-                                                                                PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern3 = PatternAction_Nitro.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern3.Nitro_node_anchor = candidate_TNB_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
                                                                                 // Push subpattern matching task for _subpattern2
-                                                                                PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern2 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern2.Hydrogen_node_anchor = candidate_TNB_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
                                                                                 // Push subpattern matching task for _subpattern1
-                                                                                PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern1 = PatternAction_Nitro.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern1.Nitro_node_anchor = candidate_TNB_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
                                                                                 // Push subpattern matching task for _subpattern0
-                                                                                PatternAction_Hydrogen taskFor__subpattern0 = new PatternAction_Hydrogen(graph, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern0 = PatternAction_Hydrogen.getNewTask(graph, openTasks);
                                                                                 taskFor__subpattern0.Hydrogen_node_anchor = candidate_TNB_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
                                                                                 uint prevGlobal__candidate_TNB_node_c1;
@@ -15378,16 +16489,22 @@ label0: ;
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                                                                 // Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Hydrogen.releaseTask(taskFor__subpattern0);
                                                                                 // Pop subpattern matching task for _subpattern1
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Nitro.releaseTask(taskFor__subpattern1);
                                                                                 // Pop subpattern matching task for _subpattern2
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Hydrogen.releaseTask(taskFor__subpattern2);
                                                                                 // Pop subpattern matching task for _subpattern3
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Nitro.releaseTask(taskFor__subpattern3);
                                                                                 // Pop subpattern matching task for _subpattern4
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Hydrogen.releaseTask(taskFor__subpattern4);
                                                                                 // Pop subpattern matching task for _subpattern5
                                                                                 openTasks.Pop();
+                                                                                PatternAction_Nitro.releaseTask(taskFor__subpattern5);
                                                                                 // Check whether subpatterns were found 
                                                                                 if(matchesList.Count>0) {
                                                                                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -16818,6 +17935,193 @@ label0: ;
         }
     }
 
+    public class Action_keepBenzolRingPattern : LGSPAction
+    {
+        public Action_keepBenzolRingPattern() {
+            rulePattern = Rule_keepBenzolRingPattern.Instance;
+            patternGraph = rulePattern.patternGraph;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 1+0);
+        }
+
+        public override string Name { get { return "keepBenzolRingPattern"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_keepBenzolRingPattern instance = new Action_keepBenzolRingPattern();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
+            List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Push subpattern matching task for br
+            PatternAction_BenzolRing taskFor_br = PatternAction_BenzolRing.getNewTask(graph, openTasks);
+            openTasks.Push(taskFor_br);
+            // Match subpatterns 
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
+            // Pop subpattern matching task for br
+            openTasks.Pop();
+            PatternAction_BenzolRing.releaseTask(taskFor_br);
+            // Check whether subpatterns were found 
+            if(matchesList.Count>0) {
+                // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
+                foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                {
+                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                    match.patternGraph = rulePattern.patternGraph;
+                    match.EmbeddedGraphs[(int)Rule_keepBenzolRingPattern.keepBenzolRingPattern_SubNums.@br] = currentFoundPartialMatch.Pop();
+                    matches.matchesList.PositionWasFilledFixIt();
+                }
+                matchesList.Clear();
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                {
+                    return matches;
+                }
+                return matches;
+            }
+            return matches;
+        }
+    }
+
+    public class Action_createBenzolRingPattern : LGSPAction
+    {
+        public Action_createBenzolRingPattern() {
+            rulePattern = Rule_createBenzolRingPattern.Instance;
+            patternGraph = rulePattern.patternGraph;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
+        }
+
+        public override string Name { get { return "createBenzolRingPattern"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_createBenzolRingPattern instance = new Action_createBenzolRingPattern();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+            match.patternGraph = rulePattern.patternGraph;
+            matches.matchesList.PositionWasFilledFixIt();
+            // if enough matches were found, we leave
+            if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+            {
+                return matches;
+            }
+            return matches;
+        }
+    }
+
+    public class Action_deleteBenzolRingPattern : LGSPAction
+    {
+        public Action_deleteBenzolRingPattern() {
+            rulePattern = Rule_deleteBenzolRingPattern.Instance;
+            patternGraph = rulePattern.patternGraph;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 1+0);
+        }
+
+        public override string Name { get { return "deleteBenzolRingPattern"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_deleteBenzolRingPattern instance = new Action_deleteBenzolRingPattern();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
+            List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Push subpattern matching task for _subpattern0
+            PatternAction_BenzolRing taskFor__subpattern0 = PatternAction_BenzolRing.getNewTask(graph, openTasks);
+            openTasks.Push(taskFor__subpattern0);
+            // Match subpatterns 
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
+            // Pop subpattern matching task for _subpattern0
+            openTasks.Pop();
+            PatternAction_BenzolRing.releaseTask(taskFor__subpattern0);
+            // Check whether subpatterns were found 
+            if(matchesList.Count>0) {
+                // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
+                foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                {
+                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                    match.patternGraph = rulePattern.patternGraph;
+                    match.EmbeddedGraphs[(int)Rule_deleteBenzolRingPattern.deleteBenzolRingPattern_SubNums.@_subpattern0] = currentFoundPartialMatch.Pop();
+                    matches.matchesList.PositionWasFilledFixIt();
+                }
+                matchesList.Clear();
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                {
+                    return matches;
+                }
+                return matches;
+            }
+            return matches;
+        }
+    }
+
+    public class Action_deleteInModifyBenzolRingPattern : LGSPAction
+    {
+        public Action_deleteInModifyBenzolRingPattern() {
+            rulePattern = Rule_deleteInModifyBenzolRingPattern.Instance;
+            patternGraph = rulePattern.patternGraph;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 1+0);
+        }
+
+        public override string Name { get { return "deleteInModifyBenzolRingPattern"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_deleteInModifyBenzolRingPattern instance = new Action_deleteInModifyBenzolRingPattern();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            const int MAX_NEG_LEVEL = 5;
+            int negLevel = 0;
+            Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
+            List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Push subpattern matching task for br
+            PatternAction_BenzolRing taskFor_br = PatternAction_BenzolRing.getNewTask(graph, openTasks);
+            openTasks.Push(taskFor_br);
+            // Match subpatterns 
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
+            // Pop subpattern matching task for br
+            openTasks.Pop();
+            PatternAction_BenzolRing.releaseTask(taskFor_br);
+            // Check whether subpatterns were found 
+            if(matchesList.Count>0) {
+                // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
+                foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                {
+                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
+                    match.patternGraph = rulePattern.patternGraph;
+                    match.EmbeddedGraphs[(int)Rule_deleteInModifyBenzolRingPattern.deleteInModifyBenzolRingPattern_SubNums.@br] = currentFoundPartialMatch.Pop();
+                    matches.matchesList.PositionWasFilledFixIt();
+                }
+                matchesList.Clear();
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                {
+                    return matches;
+                }
+                return matches;
+            }
+            return matches;
+        }
+    }
+
 
     public class TNTActions : LGSPActions
     {
@@ -16850,6 +18154,10 @@ label0: ;
             actions.Add("TNB", (LGSPAction) Action_TNB.Instance);
             actions.Add("TNBUnfolded", (LGSPAction) Action_TNBUnfolded.Instance);
             actions.Add("createTNB", (LGSPAction) Action_createTNB.Instance);
+            actions.Add("keepBenzolRingPattern", (LGSPAction) Action_keepBenzolRingPattern.Instance);
+            actions.Add("createBenzolRingPattern", (LGSPAction) Action_createBenzolRingPattern.Instance);
+            actions.Add("deleteBenzolRingPattern", (LGSPAction) Action_deleteBenzolRingPattern.Instance);
+            actions.Add("deleteInModifyBenzolRingPattern", (LGSPAction) Action_deleteInModifyBenzolRingPattern.Instance);
         }
 
         public override String Name { get { return "TNTActions"; } }

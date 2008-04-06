@@ -69,6 +69,11 @@ namespace de.unika.ipd.grGen.lgsp
             this.EmbeddedGraphs = embeddedGraphs;
         }
 
+        public override string ToString()
+        {
+            return "Match of " + patternGraph.Name;
+        }
+
         #region IMatch Members
 
         IPatternGraph IMatch.Pattern

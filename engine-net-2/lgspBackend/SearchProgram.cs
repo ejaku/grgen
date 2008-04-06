@@ -2987,9 +2987,9 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Available types of PushSubpatternTask operations
+    /// Available types of PushSubpatternTask and PopSubpatternTask operations
     /// </summary>
-    enum PushSubpatternTaskTypes
+    enum PushAndPopSubpatternTaskTypes
     {
         Subpattern,
         Alternative
@@ -3010,7 +3010,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Debug.Assert(connectionName.Length == patternElementBoundToConnectionName.Length
                 && patternElementBoundToConnectionName.Length == patternElementBoundToConnectionIsNode.Length);
-            Type = PushSubpatternTaskTypes.Subpattern;
+            Type = PushAndPopSubpatternTaskTypes.Subpattern;
             SubpatternName = subpatternName;
             SubpatternElementName = subpatternElementName;
 
@@ -3032,7 +3032,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Debug.Assert(connectionName.Length == patternElementBoundToConnectionName.Length
                 && patternElementBoundToConnectionName.Length == patternElementBoundToConnectionIsNode.Length);
-            Type = PushSubpatternTaskTypes.Alternative;
+            Type = PushAndPopSubpatternTaskTypes.Alternative;
             PathPrefix = pathPrefix;
             AlternativeName = alternativeName;
             RulePatternClassName = rulePatternClassName;
@@ -3047,8 +3047,8 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFrontFormat("PushSubpatternTask {0} ",
-                Type==PushSubpatternTaskTypes.Alternative ? "Alternative" : "Subpattern");
-            if (Type == PushSubpatternTaskTypes.Alternative) {
+                Type==PushAndPopSubpatternTaskTypes.Alternative ? "Alternative" : "Subpattern");
+            if (Type == PushAndPopSubpatternTaskTypes.Alternative) {
                 builder.AppendFormat("{0} of {1} ", SubpatternElementName, SubpatternName);
             } else {
                 builder.AppendFormat("{0}/{1} ", PathPrefix, AlternativeName);
@@ -3066,12 +3066,12 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             if (sourceCode.CommentSourceCode) {
-                string type = Type==PushSubpatternTaskTypes.Alternative ? "alternative" : "subpattern";
-                string what = Type==PushSubpatternTaskTypes.Alternative ? PathPrefix+AlternativeName : SubpatternElementName;
+                string type = Type==PushAndPopSubpatternTaskTypes.Alternative ? "alternative" : "subpattern";
+                string what = Type==PushAndPopSubpatternTaskTypes.Alternative ? PathPrefix+AlternativeName : SubpatternElementName;
                 sourceCode.AppendFrontFormat("// Push {0} matching task for {1}\n", type, what);
             }
 
-            bool isAlternative = Type == PushSubpatternTaskTypes.Alternative;
+            bool isAlternative = Type == PushAndPopSubpatternTaskTypes.Alternative;
             string variableContainingTask;
             if (isAlternative)
             {
@@ -3080,7 +3080,7 @@ namespace de.unika.ipd.grGen.lgsp
                 string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix+AlternativeName, true);
                 string alternativeCases = "patternGraph.alternatives[(int)" + RulePatternClassName + "."
                     + PathPrefix+"AltNums.@" + AlternativeName + "].alternativeCases";
-                sourceCode.AppendFrontFormat("{0} {1} = new {0}(graph, {2}openTasks, {3});\n",
+                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks, {3});\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativePrefix, alternativeCases);
             }
             else
@@ -3088,7 +3088,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // create matching task for subpattern
                 variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName);
                 string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, false);
-                sourceCode.AppendFrontFormat("{0} {1} = new {0}(graph, {2}openTasks);\n",
+                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks);\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativePrefix);
             }
             
@@ -3105,7 +3105,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFrontFormat("{0}openTasks.Push({1});\n", NegativePrefix, variableContainingTask);
         }
 
-        public PushSubpatternTaskTypes Type;
+        public PushAndPopSubpatternTaskTypes Type;
         public string SubpatternName; // only valid if Type==Subpattern
         public string SubpatternElementName; // only valid if Type==Subpattern
         string PathPrefix; // only valid if Type==Alternative
@@ -3122,26 +3122,52 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class PopSubpatternTask : SearchProgramOperation
     {
-        public PopSubpatternTask(string subpatternElementName, string negativePrefix)
+        public PopSubpatternTask(string negativePrefix, PushAndPopSubpatternTaskTypes type,
+            string subpatternNameOrAlternativeName, string subpatternElementNameOrPathPrefix)
         {
-            SubpatternElementName = subpatternElementName;
             NegativePrefix = negativePrefix;
+            Type = type;
+            if (type == PushAndPopSubpatternTaskTypes.Alternative)
+            {
+                AlternativeName = subpatternNameOrAlternativeName;
+                PathPrefix = subpatternElementNameOrPathPrefix;
+            }
+            else
+            {
+                SubpatternName = subpatternNameOrAlternativeName;
+                SubpatternElementName = subpatternElementNameOrPathPrefix;
+            }
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFrontFormat("PopSubpatternTask {0}\n", SubpatternElementName);
+            builder.AppendFrontFormat("PopSubpatternTask {0}\n",
+                Type==PushAndPopSubpatternTaskTypes.Alternative ? AlternativeName : SubpatternElementName);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             if (sourceCode.CommentSourceCode)
-                sourceCode.AppendFrontFormat("// Pop subpattern matching task for {0}\n", SubpatternElementName);
+                sourceCode.AppendFrontFormat("// Pop subpattern matching task for {0}\n",
+                    Type==PushAndPopSubpatternTaskTypes.Alternative ? AlternativeName : SubpatternElementName);
 
             sourceCode.AppendFrontFormat("{0}openTasks.Pop();\n", NegativePrefix);
+
+            string variableContainingTask = Type == PushAndPopSubpatternTaskTypes.Alternative
+                ? NamesOfEntities.TaskVariable(AlternativeName)
+                : NamesOfEntities.TaskVariable(SubpatternElementName);
+            string typeOfVariableContainingTask = Type == PushAndPopSubpatternTaskTypes.Alternative 
+                ? NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeName, true)
+                : NamesOfEntities.TypeOfTaskVariable(SubpatternName, false);
+            sourceCode.AppendFrontFormat("{0}.releaseTask({1});\n", 
+                typeOfVariableContainingTask, variableContainingTask);
         }
 
-        public string SubpatternElementName;
+        public PushAndPopSubpatternTaskTypes Type;
+        public string SubpatternName; // only valid if Type==Subpattern
+        public string SubpatternElementName; // only valid if Type==Subpattern
+        public string PathPrefix; // only valid if Type==Alternative
+        public string AlternativeName; // only valid if Type==Alternative
         public string NegativePrefix;
     }
 

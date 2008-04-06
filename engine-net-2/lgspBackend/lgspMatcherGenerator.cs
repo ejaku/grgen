@@ -1423,6 +1423,7 @@ exitSecondLoop: ;
             sb.AppendFront("public class " + className + " : LGSPAction\n");
             sb.AppendFront("{\n");
             sb.Indent(); // class level
+
             sb.AppendFront("public " + className + "() {\n");
             sb.Indent(); // method body level
             sb.AppendFront("rulePattern = " + rulePattern.GetType().Name + ".Instance;\n");
@@ -1459,12 +1460,15 @@ exitSecondLoop: ;
             sb.AppendFront("public class " + className + " : LGSPSubpatternAction\n");
             sb.AppendFront("{\n");
             sb.Indent(); // class level
-            sb.AppendFront("public " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {\n");
+
+            sb.AppendFront("private " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {\n");
             sb.Indent(); // method body level
             sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
             sb.AppendFront("patternGraph = " + matchingPattern.GetType().Name + ".Instance.patternGraph;\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
+
+            generateTasksMemoryPool(sb, className, false);
 
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
             {
@@ -1499,13 +1503,15 @@ exitSecondLoop: ;
             sb.AppendFront("public class " + className + " : LGSPSubpatternAction\n");
             sb.AppendFront("{\n");
             sb.Indent(); // class level
-            sb.AppendFront("public " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {\n");
+            sb.AppendFront("private " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {\n");
             sb.Indent(); // method body level
             sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
             // pfadausdruck gebraucht, da das alternative-objekt im pattern graph steckt
             sb.AppendFront("patternGraphs = patternGraphs_;\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
+
+            generateTasksMemoryPool(sb, className, true);
 
             Dictionary<string, bool> neededNodes = new Dictionary<string,bool>();
             Dictionary<string, bool> neededEdges = new Dictionary<string,bool>();
@@ -1522,6 +1528,62 @@ exitSecondLoop: ;
                 sb.AppendFront("public LGSPEdge " + edge.Key + ";\n");
             }
             sb.AppendFront("\n");
+        }
+
+        /// <summary>
+        /// Generates memory pooling code for matching tasks of class given by it's name
+        /// </summary>
+        private void generateTasksMemoryPool(SourceBuilder sb, String className, bool isAlternative)
+        {
+            // getNewTask method handing out new task from pool or creating task if pool is empty
+            if (isAlternative)
+                sb.AppendFront("public static " + className + " getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {\n");
+            else
+                sb.AppendFront("public static " + className + " getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {\n");
+            sb.Indent();
+            sb.AppendFront(className + " newTask;\n");
+            sb.AppendFront("if(numFreeTasks>0) {\n");
+            sb.Indent();
+            sb.AppendFront("newTask = freeListHead;\n"); 
+            sb.AppendFront("newTask.graph = graph_; newTask.openTasks = openTasks_;\n");
+            if(isAlternative)
+                sb.AppendFront("newTask.patternGraphs = patternGraphs_;\n");
+            sb.AppendFront("freeListHead = newTask.next;\n");
+            sb.AppendFront("newTask.next = null;\n");
+            sb.AppendFront("--numFreeTasks;\n");
+            sb.Unindent();
+            sb.AppendFront("} else {\n");
+            sb.Indent();
+            if (isAlternative)
+                sb.AppendFront("newTask = new " + className + "(graph_, openTasks_, patternGraphs_);\n");
+            else
+                sb.AppendFront("newTask = new " + className + "(graph_, openTasks_);\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.Unindent();
+            sb.AppendFront("return newTask;\n");
+            sb.AppendFront("}\n\n");
+
+            // releaseTask method recycling task into pool if pool is not full
+            sb.AppendFront("public static void releaseTask(" + className + " oldTask) {\n");
+            sb.Indent();
+            sb.AppendFront("if(numFreeTasks<MAX_NUM_FREE_TASKS) {\n");
+            sb.Indent();
+            sb.AppendFront("oldTask.next = freeListHead;\n");
+            sb.AppendFront("oldTask.graph = null; oldTask.openTasks = null;\n");
+            sb.AppendFront("freeListHead = oldTask;\n");
+            sb.AppendFront("++numFreeTasks;\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.Unindent();
+            sb.AppendFront("}\n\n");
+
+            // tasks pool administration data
+            sb.AppendFront("private static " + className + " freeListHead = null;\n");
+            sb.AppendFront("private static int numFreeTasks = 0;\n");
+            sb.AppendFront("private const int MAX_NUM_FREE_TASKS = 100;\n\n"); // todo: compute antiproportional to pattern size
+
+            sb.AppendFront("private " + className + " next = null;\n\n");
         }
 
         /// <summary>

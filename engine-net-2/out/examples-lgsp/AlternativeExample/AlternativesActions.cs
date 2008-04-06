@@ -151,6 +151,55 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
+
+		public void toAorB_Create(LGSPGraph graph, LGSPNode node_x)
+		{
+		}
+
+		public void toAorB_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPEdge edge_y = match.Edges[(int)toAorB_EdgeNums.@y];
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)toAorB_AltNums.@alt_0 + 0];
+			toAorB_alt_0_Delete(graph, alternative_alt_0);
+			graph.Remove(edge_y);
+		}
+
+		public void toAorB_alt_0_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			if(match.patternGraph == toAorB_alt_0_toA) {
+				toAorB_alt_0_toA_Delete(graph, match);
+				return;
+			}
+			else if(match.patternGraph == toAorB_alt_0_toB) {
+				toAorB_alt_0_toB_Delete(graph, match);
+				return;
+			}
+			throw new ApplicationException(); //debug assert
+		}
+
+		public void toAorB_alt_0_toA_Create(LGSPGraph graph)
+		{
+			Node_A node_a = Node_A.CreateNode(graph);
+		}
+
+		public void toAorB_alt_0_toA_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_a = match.Nodes[(int)toAorB_alt_0_toA_NodeNums.@a];
+			graph.RemoveEdges(node_a);
+			graph.Remove(node_a);
+		}
+
+		public void toAorB_alt_0_toB_Create(LGSPGraph graph)
+		{
+			Node_B node_b = Node_B.CreateNode(graph);
+		}
+
+		public void toAorB_alt_0_toB_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_b = match.Nodes[(int)toAorB_alt_0_toB_NodeNums.@b];
+			graph.RemoveEdges(node_b);
+			graph.Remove(node_b);
+		}
 	}
 
 	public class Rule_createA : LGSPRulePattern
@@ -203,13 +252,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_A node__node0 = Node_A.CreateNode(graph);
-			return EmptyReturnElements;
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_A node__node0 = Node_A.CreateNode(graph);
 			return EmptyReturnElements;
@@ -218,6 +262,12 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {  };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			Node_A node__node0 = Node_A.CreateNode(graph);
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_createB : LGSPRulePattern
@@ -270,13 +320,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_B node__node0 = Node_B.CreateNode(graph);
-			return EmptyReturnElements;
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_B node__node0 = Node_B.CreateNode(graph);
 			return EmptyReturnElements;
@@ -285,6 +330,12 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {  };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			Node_B node__node0 = Node_B.CreateNode(graph);
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_createC : LGSPRulePattern
@@ -337,13 +388,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_C node__node0 = Node_C.CreateNode(graph);
-			return EmptyReturnElements;
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_C node__node0 = Node_C.CreateNode(graph);
 			return EmptyReturnElements;
@@ -352,6 +398,12 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {  };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			Node_C node__node0 = Node_C.CreateNode(graph);
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_createAtoB : LGSPRulePattern
@@ -404,15 +456,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_B node__node1 = Node_B.CreateNode(graph);
-			Node_A node__node0 = Node_A.CreateNode(graph);
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
-			return EmptyReturnElements;
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_B node__node1 = Node_B.CreateNode(graph);
 			Node_A node__node0 = Node_A.CreateNode(graph);
@@ -423,6 +468,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] { "_edge0" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			Node_B node__node1 = Node_B.CreateNode(graph);
+			Node_A node__node0 = Node_A.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_leer : LGSPRulePattern
@@ -503,18 +556,30 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)leer_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)leer_AltNums.@alt_0 + 0];
+			return EmptyReturnElements;
+		}
+
+		public void leer_alt_0_altleer_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void leer_alt_0_altleer_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
 	}
 
 	public class Rule_AorB : LGSPRulePattern
@@ -636,18 +701,38 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AorB_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AorB_AltNums.@alt_0 + 0];
+			return EmptyReturnElements;
+		}
+
+		public void AorB_alt_0_A_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AorB_alt_0_A_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AorB_alt_0_B_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AorB_alt_0_B_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
 	}
 
 	public class Rule_AandnotCorB : LGSPRulePattern
@@ -802,18 +887,38 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AandnotCorB_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AandnotCorB_AltNums.@alt_0 + 0];
+			return EmptyReturnElements;
+		}
+
+		public void AandnotCorB_alt_0_A_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AandnotCorB_alt_0_A_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AandnotCorB_alt_0_B_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AandnotCorB_alt_0_B_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
 	}
 
 	public class Rule_AorBorC : LGSPRulePattern
@@ -968,18 +1073,46 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AorBorC_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AorBorC_AltNums.@alt_0 + 0];
+			return EmptyReturnElements;
+		}
+
+		public void AorBorC_alt_0_A_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AorBorC_alt_0_A_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AorBorC_alt_0_B_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AorBorC_alt_0_B_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AorBorC_alt_0_C_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AorBorC_alt_0_C_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
 	}
 
 	public class Rule_AtoAorB : LGSPRulePattern
@@ -1133,18 +1266,38 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AtoAorB_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AtoAorB_AltNums.@alt_0 + 0];
+			return EmptyReturnElements;
+		}
+
+		public void AtoAorB_alt_0_toA_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AtoAorB_alt_0_toA_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AtoAorB_alt_0_toB_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void AtoAorB_alt_0_toB_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
 	}
 
 	public class Rule_createComplex : LGSPRulePattern
@@ -1197,25 +1350,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_B node_b2 = Node_B.CreateNode(graph);
-			Node_A node_a = Node_A.CreateNode(graph);
-			Node_B node_b = Node_B.CreateNode(graph);
-			Node_C node__node1 = Node_C.CreateNode(graph);
-			Node_C node__node2 = Node_C.CreateNode(graph);
-			Node_C node__node0 = Node_C.CreateNode(graph);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node__node1, node__node2);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
-			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_b, node__node0);
-			return EmptyReturnElements;
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_B node_b2 = Node_B.CreateNode(graph);
 			Node_A node_a = Node_A.CreateNode(graph);
@@ -1236,6 +1372,24 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0", "_edge6", "_edge5", "_edge4" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			Node_B node_b2 = Node_B.CreateNode(graph);
+			Node_A node_a = Node_A.CreateNode(graph);
+			Node_B node_b = Node_B.CreateNode(graph);
+			Node_C node__node1 = Node_C.CreateNode(graph);
+			Node_C node__node2 = Node_C.CreateNode(graph);
+			Node_C node__node0 = Node_C.CreateNode(graph);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node__node1, node__node2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_b, node__node0);
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_Complex : LGSPRulePattern
@@ -1586,18 +1740,46 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)Complex_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)Complex_AltNums.@alt_0 + 0];
+			return EmptyReturnElements;
+		}
+
+		public void Complex_alt_0_ExtendAv_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void Complex_alt_0_ExtendAv_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void Complex_alt_0_ExtendAv2_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void Complex_alt_0_ExtendAv2_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void Complex_alt_0_ExtendNA2_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void Complex_alt_0_ExtendNA2_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
 	}
 
 	public class Rule_ComplexMax : LGSPRulePattern
@@ -1993,18 +2175,46 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ComplexMax_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ComplexMax_AltNums.@alt_0 + 0];
+			return EmptyReturnElements;
+		}
+
+		public void ComplexMax_alt_0_ExtendAv_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void ComplexMax_alt_0_ExtendAv_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void ComplexMax_alt_0_ExtendAv2_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void ComplexMax_alt_0_ExtendAv2_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void ComplexMax_alt_0_ExtendNA2_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void ComplexMax_alt_0_ExtendNA2_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
 	}
 
 	public class Rule_createABA : LGSPRulePattern
@@ -2057,18 +2267,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_A node_a = Node_A.CreateNode(graph);
-			Node_B node_b = Node_B.CreateNode(graph);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b, node_a);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			return EmptyReturnElements;
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_A node_a = Node_A.CreateNode(graph);
 			Node_B node_b = Node_B.CreateNode(graph);
@@ -2082,6 +2282,17 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			Node_A node_a = Node_A.CreateNode(graph);
+			Node_B node_b = Node_B.CreateNode(graph);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b, node_a);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_homm : LGSPRulePattern
@@ -2277,18 +2488,38 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)homm_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)homm_AltNums.@alt_0 + 0];
+			return EmptyReturnElements;
+		}
+
+		public void homm_alt_0_case1_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void homm_alt_0_case1_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void homm_alt_0_case2_Modify(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void homm_alt_0_case2_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+		}
 	}
 
 	public class Rule_XtoAorB : LGSPRulePattern
@@ -2351,27 +2582,60 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)XtoAorB_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)XtoAorB_SubNums.@_subpattern0];
+			return EmptyReturnElements;
+		}
 	}
 
 
     public class PatternAction_toAorB : LGSPSubpatternAction
     {
-        public PatternAction_toAorB(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_toAorB(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_toAorB.Instance.patternGraph;
         }
+
+        public static PatternAction_toAorB getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_toAorB newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_toAorB(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_toAorB oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_toAorB freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_toAorB next = null;
 
         public LGSPNode toAorB_node_x;
         
@@ -2398,7 +2662,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                         continue;
                     }
                     // Push alternative matching task for toAorB_alt_0
-                    AlternativeAction_toAorB_alt_0 taskFor_alt_0 = new AlternativeAction_toAorB_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_toAorB.toAorB_AltNums.@alt_0].alternativeCases);
+                    AlternativeAction_toAorB_alt_0 taskFor_alt_0 = AlternativeAction_toAorB_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_toAorB.toAorB_AltNums.@alt_0].alternativeCases);
                     taskFor_alt_0.toAorB_edge_y = candidate_toAorB_edge_y;
                     openTasks.Push(taskFor_alt_0);
                     uint prevGlobal__candidate_toAorB_edge_y;
@@ -2408,6 +2672,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                     // Pop subpattern matching task for alt_0
                     openTasks.Pop();
+                    AlternativeAction_toAorB_alt_0.releaseTask(taskFor_alt_0);
                     // Check whether subpatterns were found 
                     if(matchesList.Count>0) {
                         // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -2449,10 +2714,40 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
     public class AlternativeAction_toAorB_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_toAorB_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_toAorB_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_toAorB_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_toAorB_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_toAorB_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_toAorB_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_toAorB_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_toAorB_alt_0 next = null;
 
         public LGSPEdge toAorB_edge_y;
         
@@ -2760,12 +3055,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Push alternative matching task for leer_alt_0
-            AlternativeAction_leer_alt_0 taskFor_alt_0 = new AlternativeAction_leer_alt_0(graph, openTasks, patternGraph.alternatives[(int)Rule_leer.leer_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_leer_alt_0 taskFor_alt_0 = AlternativeAction_leer_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Rule_leer.leer_AltNums.@alt_0].alternativeCases);
             openTasks.Push(taskFor_alt_0);
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_leer_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -2790,10 +3086,40 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
     public class AlternativeAction_leer_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_leer_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_leer_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_leer_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_leer_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_leer_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_leer_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_leer_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_leer_alt_0 next = null;
 
         
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
@@ -2877,12 +3203,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Push alternative matching task for AorB_alt_0
-            AlternativeAction_AorB_alt_0 taskFor_alt_0 = new AlternativeAction_AorB_alt_0(graph, openTasks, patternGraph.alternatives[(int)Rule_AorB.AorB_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_AorB_alt_0 taskFor_alt_0 = AlternativeAction_AorB_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Rule_AorB.AorB_AltNums.@alt_0].alternativeCases);
             openTasks.Push(taskFor_alt_0);
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_AorB_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -2907,10 +3234,40 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
     public class AlternativeAction_AorB_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_AorB_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_AorB_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_AorB_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_AorB_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_AorB_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_AorB_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_AorB_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_AorB_alt_0 next = null;
 
         
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
@@ -3085,12 +3442,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Push alternative matching task for AandnotCorB_alt_0
-            AlternativeAction_AandnotCorB_alt_0 taskFor_alt_0 = new AlternativeAction_AandnotCorB_alt_0(graph, openTasks, patternGraph.alternatives[(int)Rule_AandnotCorB.AandnotCorB_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_AandnotCorB_alt_0 taskFor_alt_0 = AlternativeAction_AandnotCorB_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Rule_AandnotCorB.AandnotCorB_AltNums.@alt_0].alternativeCases);
             openTasks.Push(taskFor_alt_0);
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_AandnotCorB_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -3115,10 +3473,40 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
     public class AlternativeAction_AandnotCorB_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_AandnotCorB_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_AandnotCorB_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_AandnotCorB_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_AandnotCorB_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_AandnotCorB_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_AandnotCorB_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_AandnotCorB_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_AandnotCorB_alt_0 next = null;
 
         
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
@@ -3324,12 +3712,13 @@ label0: ;
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Push alternative matching task for AorBorC_alt_0
-            AlternativeAction_AorBorC_alt_0 taskFor_alt_0 = new AlternativeAction_AorBorC_alt_0(graph, openTasks, patternGraph.alternatives[(int)Rule_AorBorC.AorBorC_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_AorBorC_alt_0 taskFor_alt_0 = AlternativeAction_AorBorC_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Rule_AorBorC.AorBorC_AltNums.@alt_0].alternativeCases);
             openTasks.Push(taskFor_alt_0);
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_AorBorC_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -3354,10 +3743,40 @@ label0: ;
 
     public class AlternativeAction_AorBorC_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_AorBorC_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_AorBorC_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_AorBorC_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_AorBorC_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_AorBorC_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_AorBorC_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_AorBorC_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_AorBorC_alt_0 next = null;
 
         
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)
@@ -3610,7 +4029,7 @@ label0: ;
             for(LGSPNode head_candidate_AtoAorB_node_a = graph.nodesByTypeHeads[type_id_candidate_AtoAorB_node_a], candidate_AtoAorB_node_a = head_candidate_AtoAorB_node_a.typeNext; candidate_AtoAorB_node_a != head_candidate_AtoAorB_node_a; candidate_AtoAorB_node_a = candidate_AtoAorB_node_a.typeNext)
             {
                 // Push alternative matching task for AtoAorB_alt_0
-                AlternativeAction_AtoAorB_alt_0 taskFor_alt_0 = new AlternativeAction_AtoAorB_alt_0(graph, openTasks, patternGraph.alternatives[(int)Rule_AtoAorB.AtoAorB_AltNums.@alt_0].alternativeCases);
+                AlternativeAction_AtoAorB_alt_0 taskFor_alt_0 = AlternativeAction_AtoAorB_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Rule_AtoAorB.AtoAorB_AltNums.@alt_0].alternativeCases);
                 taskFor_alt_0.AtoAorB_node_a = candidate_AtoAorB_node_a;
                 openTasks.Push(taskFor_alt_0);
                 uint prevGlobal__candidate_AtoAorB_node_a;
@@ -3620,6 +4039,7 @@ label0: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for alt_0
                 openTasks.Pop();
+                AlternativeAction_AtoAorB_alt_0.releaseTask(taskFor_alt_0);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -3649,10 +4069,40 @@ label0: ;
 
     public class AlternativeAction_AtoAorB_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_AtoAorB_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_AtoAorB_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_AtoAorB_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_AtoAorB_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_AtoAorB_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_AtoAorB_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_AtoAorB_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_AtoAorB_alt_0 next = null;
 
         public LGSPNode AtoAorB_node_a;
         
@@ -3978,7 +4428,7 @@ label0: ;
                             continue;
                         }
                         // Push alternative matching task for Complex_alt_0
-                        AlternativeAction_Complex_alt_0 taskFor_alt_0 = new AlternativeAction_Complex_alt_0(graph, openTasks, patternGraph.alternatives[(int)Rule_Complex.Complex_AltNums.@alt_0].alternativeCases);
+                        AlternativeAction_Complex_alt_0 taskFor_alt_0 = AlternativeAction_Complex_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Rule_Complex.Complex_AltNums.@alt_0].alternativeCases);
                         taskFor_alt_0.Complex_node_a = candidate_Complex_node_a;
                         taskFor_alt_0.Complex_node_b = candidate_Complex_node_b;
                         openTasks.Push(taskFor_alt_0);
@@ -3998,6 +4448,7 @@ label0: ;
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for alt_0
                         openTasks.Pop();
+                        AlternativeAction_Complex_alt_0.releaseTask(taskFor_alt_0);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -4056,10 +4507,40 @@ label0: ;
 
     public class AlternativeAction_Complex_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_Complex_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_Complex_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_Complex_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_Complex_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_Complex_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_Complex_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_Complex_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_Complex_alt_0 next = null;
 
         public LGSPNode Complex_node_a;
         public LGSPNode Complex_node_b;
@@ -5518,7 +5999,7 @@ label0: ;
                             continue;
                         }
                         // Push alternative matching task for ComplexMax_alt_0
-                        AlternativeAction_ComplexMax_alt_0 taskFor_alt_0 = new AlternativeAction_ComplexMax_alt_0(graph, openTasks, patternGraph.alternatives[(int)Rule_ComplexMax.ComplexMax_AltNums.@alt_0].alternativeCases);
+                        AlternativeAction_ComplexMax_alt_0 taskFor_alt_0 = AlternativeAction_ComplexMax_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Rule_ComplexMax.ComplexMax_AltNums.@alt_0].alternativeCases);
                         taskFor_alt_0.ComplexMax_node_a = candidate_ComplexMax_node_a;
                         taskFor_alt_0.ComplexMax_node_b = candidate_ComplexMax_node_b;
                         openTasks.Push(taskFor_alt_0);
@@ -5538,6 +6019,7 @@ label0: ;
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for alt_0
                         openTasks.Pop();
+                        AlternativeAction_ComplexMax_alt_0.releaseTask(taskFor_alt_0);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5596,10 +6078,40 @@ label0: ;
 
     public class AlternativeAction_ComplexMax_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_ComplexMax_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ComplexMax_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_ComplexMax_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_ComplexMax_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_ComplexMax_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_ComplexMax_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_ComplexMax_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_ComplexMax_alt_0 next = null;
 
         public LGSPNode ComplexMax_node_a;
         public LGSPNode ComplexMax_node_b;
@@ -7167,7 +7679,7 @@ label3: ;
                             continue;
                         }
                         // Push alternative matching task for homm_alt_0
-                        AlternativeAction_homm_alt_0 taskFor_alt_0 = new AlternativeAction_homm_alt_0(graph, openTasks, patternGraph.alternatives[(int)Rule_homm.homm_AltNums.@alt_0].alternativeCases);
+                        AlternativeAction_homm_alt_0 taskFor_alt_0 = AlternativeAction_homm_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Rule_homm.homm_AltNums.@alt_0].alternativeCases);
                         taskFor_alt_0.homm_node_a = candidate_homm_node_a;
                         taskFor_alt_0.homm_node_b = candidate_homm_node_b;
                         openTasks.Push(taskFor_alt_0);
@@ -7187,6 +7699,7 @@ label3: ;
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for alt_0
                         openTasks.Pop();
+                        AlternativeAction_homm_alt_0.releaseTask(taskFor_alt_0);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -7245,10 +7758,40 @@ label3: ;
 
     public class AlternativeAction_homm_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_homm_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_homm_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_homm_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_homm_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_homm_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_homm_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_homm_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_homm_alt_0 next = null;
 
         public LGSPNode homm_node_a;
         public LGSPNode homm_node_b;
@@ -7647,7 +8190,7 @@ label3: ;
                 for(LGSPNode head_candidate_XtoAorB_node_x = graph.nodesByTypeHeads[type_id_candidate_XtoAorB_node_x], candidate_XtoAorB_node_x = head_candidate_XtoAorB_node_x.typeNext; candidate_XtoAorB_node_x != head_candidate_XtoAorB_node_x; candidate_XtoAorB_node_x = candidate_XtoAorB_node_x.typeNext)
                 {
                     // Push subpattern matching task for _subpattern0
-                    PatternAction_toAorB taskFor__subpattern0 = new PatternAction_toAorB(graph, openTasks);
+                    PatternAction_toAorB taskFor__subpattern0 = PatternAction_toAorB.getNewTask(graph, openTasks);
                     taskFor__subpattern0.toAorB_node_x = candidate_XtoAorB_node_x;
                     openTasks.Push(taskFor__subpattern0);
                     uint prevGlobal__candidate_XtoAorB_node_x;
@@ -7657,6 +8200,7 @@ label3: ;
                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                     // Pop subpattern matching task for _subpattern0
                     openTasks.Pop();
+                    PatternAction_toAorB.releaseTask(taskFor__subpattern0);
                     // Check whether subpatterns were found 
                     if(matchesList.Count>0) {
                         // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it

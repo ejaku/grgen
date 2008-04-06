@@ -162,6 +162,62 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
+		public void ChainFromTo_Create(LGSPGraph graph, LGSPNode node_from, LGSPNode node_to)
+		{
+		}
+
+		public void ChainFromTo_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ChainFromTo_AltNums.@alt_0 + 0];
+			ChainFromTo_alt_0_Delete(graph, alternative_alt_0);
+		}
+
+		public void ChainFromTo_alt_0_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			if(match.patternGraph == ChainFromTo_alt_0_base) {
+				ChainFromTo_alt_0_base_Delete(graph, match);
+				return;
+			}
+			else if(match.patternGraph == ChainFromTo_alt_0_rec) {
+				ChainFromTo_alt_0_rec_Delete(graph, match);
+				return;
+			}
+			throw new ApplicationException(); //debug assert
+		}
+
+		public void ChainFromTo_alt_0_base_Create(LGSPGraph graph)
+		{
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_to);
+		}
+
+		public void ChainFromTo_alt_0_base_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromTo_alt_0_base_EdgeNums.@_edge0];
+			graph.Remove(edge__edge0);
+		}
+
+		public void ChainFromTo_alt_0_rec_Create(LGSPGraph graph)
+		{
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Node_Node node_intermediate = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_intermediate);
+			Pattern_ChainFromTo.Instance.ChainFromTo_Create(graph, node_intermediate, node_to);
+		}
+
+		public void ChainFromTo_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_intermediate = match.Nodes[(int)ChainFromTo_alt_0_rec_NodeNums.@intermediate];
+			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromTo_alt_0_rec_EdgeNums.@_edge0];
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)ChainFromTo_alt_0_rec_SubNums.@_subpattern0];
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_intermediate);
+			graph.Remove(node_intermediate);
+			Pattern_ChainFromTo.Instance.ChainFromTo_Delete(graph, subpattern__subpattern0);
+		}
 	}
 
 	public class Pattern_ChainFrom : LGSPMatchingPattern
@@ -295,6 +351,56 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
+		public void ChainFrom_Create(LGSPGraph graph, LGSPNode node_from)
+		{
+		}
+
+		public void ChainFrom_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ChainFrom_AltNums.@alt_0 + 0];
+			ChainFrom_alt_0_Delete(graph, alternative_alt_0);
+		}
+
+		public void ChainFrom_alt_0_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			if(match.patternGraph == ChainFrom_alt_0_base) {
+				ChainFrom_alt_0_base_Delete(graph, match);
+				return;
+			}
+			else if(match.patternGraph == ChainFrom_alt_0_rec) {
+				ChainFrom_alt_0_rec_Delete(graph, match);
+				return;
+			}
+			throw new ApplicationException(); //debug assert
+		}
+
+		public void ChainFrom_alt_0_base_Create(LGSPGraph graph)
+		{
+		}
+
+		public void ChainFrom_alt_0_base_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void ChainFrom_alt_0_rec_Create(LGSPGraph graph)
+		{
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_to);
+			Pattern_ChainFrom.Instance.ChainFrom_Create(graph, node_to);
+		}
+
+		public void ChainFrom_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_to = match.Nodes[(int)ChainFrom_alt_0_rec_NodeNums.@to];
+			LGSPEdge edge__edge0 = match.Edges[(int)ChainFrom_alt_0_rec_EdgeNums.@_edge0];
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)ChainFrom_alt_0_rec_SubNums.@_subpattern0];
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_to);
+			graph.Remove(node_to);
+			Pattern_ChainFrom.Instance.ChainFrom_Delete(graph, subpattern__subpattern0);
+		}
 	}
 
 	public class Pattern_ChainFromComplete : LGSPMatchingPattern
@@ -477,6 +583,57 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
+		public void ChainFromComplete_Create(LGSPGraph graph, LGSPNode node_from)
+		{
+		}
+
+		public void ChainFromComplete_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ChainFromComplete_AltNums.@alt_0 + 0];
+			ChainFromComplete_alt_0_Delete(graph, alternative_alt_0);
+		}
+
+		public void ChainFromComplete_alt_0_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			if(match.patternGraph == ChainFromComplete_alt_0_base) {
+				ChainFromComplete_alt_0_base_Delete(graph, match);
+				return;
+			}
+			else if(match.patternGraph == ChainFromComplete_alt_0_rec) {
+				ChainFromComplete_alt_0_rec_Delete(graph, match);
+				return;
+			}
+			throw new ApplicationException(); //debug assert
+		}
+
+		public void ChainFromComplete_alt_0_base_Create(LGSPGraph graph)
+		{
+			Node_Node node_from = Node_Node.CreateNode(graph);
+		}
+
+		public void ChainFromComplete_alt_0_base_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void ChainFromComplete_alt_0_rec_Create(LGSPGraph graph)
+		{
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_to);
+			Pattern_ChainFromComplete.Instance.ChainFromComplete_Create(graph, node_to);
+		}
+
+		public void ChainFromComplete_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_to = match.Nodes[(int)ChainFromComplete_alt_0_rec_NodeNums.@to];
+			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromComplete_alt_0_rec_EdgeNums.@_edge0];
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)ChainFromComplete_alt_0_rec_SubNums.@_subpattern0];
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_to);
+			graph.Remove(node_to);
+			Pattern_ChainFromComplete.Instance.ChainFromComplete_Delete(graph, subpattern__subpattern0);
+		}
 	}
 
 	public class Pattern_Blowball : LGSPMatchingPattern
@@ -659,6 +816,57 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
+		public void Blowball_Create(LGSPGraph graph, LGSPNode node_head)
+		{
+		}
+
+		public void Blowball_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)Blowball_AltNums.@alt_0 + 0];
+			Blowball_alt_0_Delete(graph, alternative_alt_0);
+		}
+
+		public void Blowball_alt_0_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			if(match.patternGraph == Blowball_alt_0_end) {
+				Blowball_alt_0_end_Delete(graph, match);
+				return;
+			}
+			else if(match.patternGraph == Blowball_alt_0_further) {
+				Blowball_alt_0_further_Delete(graph, match);
+				return;
+			}
+			throw new ApplicationException(); //debug assert
+		}
+
+		public void Blowball_alt_0_end_Create(LGSPGraph graph)
+		{
+			Node_Node node_head = Node_Node.CreateNode(graph);
+		}
+
+		public void Blowball_alt_0_end_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+		}
+
+		public void Blowball_alt_0_further_Create(LGSPGraph graph)
+		{
+			Node_Node node_head = Node_Node.CreateNode(graph);
+			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_head, node__node0);
+			Pattern_Blowball.Instance.Blowball_Create(graph, node_head);
+		}
+
+		public void Blowball_alt_0_further_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node__node0 = match.Nodes[(int)Blowball_alt_0_further_NodeNums.@_node0];
+			LGSPEdge edge__edge0 = match.Edges[(int)Blowball_alt_0_further_EdgeNums.@_edge0];
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)Blowball_alt_0_further_SubNums.@_subpattern0];
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node__node0);
+			graph.Remove(node__node0);
+			Pattern_Blowball.Instance.Blowball_Delete(graph, subpattern__subpattern0);
+		}
 	}
 
 	public class Pattern_ReverseChainFromTo : LGSPMatchingPattern
@@ -816,6 +1024,62 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
+		public void ReverseChainFromTo_Create(LGSPGraph graph, LGSPNode node_from, LGSPNode node_to)
+		{
+		}
+
+		public void ReverseChainFromTo_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ReverseChainFromTo_AltNums.@alt_0 + 0];
+			ReverseChainFromTo_alt_0_Delete(graph, alternative_alt_0);
+		}
+
+		public void ReverseChainFromTo_alt_0_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			if(match.patternGraph == ReverseChainFromTo_alt_0_base) {
+				ReverseChainFromTo_alt_0_base_Delete(graph, match);
+				return;
+			}
+			else if(match.patternGraph == ReverseChainFromTo_alt_0_rec) {
+				ReverseChainFromTo_alt_0_rec_Delete(graph, match);
+				return;
+			}
+			throw new ApplicationException(); //debug assert
+		}
+
+		public void ReverseChainFromTo_alt_0_base_Create(LGSPGraph graph)
+		{
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_to, node_from);
+		}
+
+		public void ReverseChainFromTo_alt_0_base_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPEdge edge__edge0 = match.Edges[(int)ReverseChainFromTo_alt_0_base_EdgeNums.@_edge0];
+			graph.Remove(edge__edge0);
+		}
+
+		public void ReverseChainFromTo_alt_0_rec_Create(LGSPGraph graph)
+		{
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Node_Node node_intermediate = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
+			Pattern_ReverseChainFromTo.Instance.ReverseChainFromTo_Create(graph, node_intermediate, node_to);
+		}
+
+		public void ReverseChainFromTo_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_intermediate = match.Nodes[(int)ReverseChainFromTo_alt_0_rec_NodeNums.@intermediate];
+			LGSPEdge edge__edge0 = match.Edges[(int)ReverseChainFromTo_alt_0_rec_EdgeNums.@_edge0];
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)ReverseChainFromTo_alt_0_rec_SubNums.@_subpattern0];
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_intermediate);
+			graph.Remove(node_intermediate);
+			Pattern_ReverseChainFromTo.Instance.ReverseChainFromTo_Delete(graph, subpattern__subpattern0);
+		}
 	}
 
 	public class Pattern_ChainFromToReverse : LGSPMatchingPattern
@@ -973,11 +1237,29 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
 		public void ChainFromToReverse_Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ChainFromToReverse_AltNums.@alt_0 + 0];
 			ChainFromToReverse_alt_0_Modify(graph, alternative_alt_0);
 		}
+
+		public void ChainFromToReverse_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ChainFromToReverse_AltNums.@alt_0 + 0];
+			ChainFromToReverse_alt_0_ModifyNoReuse(graph, alternative_alt_0);
+		}
+
+		public void ChainFromToReverse_Create(LGSPGraph graph, LGSPNode node_from, LGSPNode node_to)
+		{
+		}
+
+		public void ChainFromToReverse_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ChainFromToReverse_AltNums.@alt_0 + 0];
+			ChainFromToReverse_alt_0_Delete(graph, alternative_alt_0);
+		}
+
 		public void ChainFromToReverse_alt_0_Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			if(match.patternGraph == ChainFromToReverse_alt_0_base) {
@@ -990,6 +1272,33 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			}
 			throw new ApplicationException(); //debug assert
 		}
+
+		public void ChainFromToReverse_alt_0_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			if(match.patternGraph == ChainFromToReverse_alt_0_base) {
+				ChainFromToReverse_alt_0_base_ModifyNoReuse(graph, match);
+				return;
+			}
+			else if(match.patternGraph == ChainFromToReverse_alt_0_rec) {
+				ChainFromToReverse_alt_0_rec_ModifyNoReuse(graph, match);
+				return;
+			}
+			throw new ApplicationException(); //debug assert
+		}
+
+		public void ChainFromToReverse_alt_0_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			if(match.patternGraph == ChainFromToReverse_alt_0_base) {
+				ChainFromToReverse_alt_0_base_Delete(graph, match);
+				return;
+			}
+			else if(match.patternGraph == ChainFromToReverse_alt_0_rec) {
+				ChainFromToReverse_alt_0_rec_Delete(graph, match);
+				return;
+			}
+			throw new ApplicationException(); //debug assert
+		}
+
 		public void ChainFromToReverse_alt_0_base_Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPNode node_to = match.Nodes[(int)ChainFromToReverse_alt_0_base_NodeNums.@to];
@@ -1008,6 +1317,29 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
 			}
 		}
+
+		public void ChainFromToReverse_alt_0_base_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_to = match.Nodes[(int)ChainFromToReverse_alt_0_base_NodeNums.@to];
+			LGSPNode node_from = match.Nodes[(int)ChainFromToReverse_alt_0_base_NodeNums.@from];
+			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverse_alt_0_base_EdgeNums.@_edge0];
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
+			graph.Remove(edge__edge0);
+		}
+
+		public void ChainFromToReverse_alt_0_base_Create(LGSPGraph graph)
+		{
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_to);
+		}
+
+		public void ChainFromToReverse_alt_0_base_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverse_alt_0_base_EdgeNums.@_edge0];
+			graph.Remove(edge__edge0);
+		}
+
 		public void ChainFromToReverse_alt_0_rec_Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPNode node_intermediate = match.Nodes[(int)ChainFromToReverse_alt_0_rec_NodeNums.@intermediate];
@@ -1029,31 +1361,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			}
 		}
 
-		public void ChainFromToReverse_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{
-			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ChainFromToReverse_AltNums.@alt_0 + 0];
-			ChainFromToReverse_alt_0_ModifyNoReuse(graph, alternative_alt_0);
-		}
-		public void ChainFromToReverse_alt_0_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{
-			if(match.patternGraph == ChainFromToReverse_alt_0_base) {
-				ChainFromToReverse_alt_0_base_ModifyNoReuse(graph, match);
-				return;
-			}
-			else if(match.patternGraph == ChainFromToReverse_alt_0_rec) {
-				ChainFromToReverse_alt_0_rec_ModifyNoReuse(graph, match);
-				return;
-			}
-			throw new ApplicationException(); //debug assert
-		}
-		public void ChainFromToReverse_alt_0_base_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{
-			LGSPNode node_to = match.Nodes[(int)ChainFromToReverse_alt_0_base_NodeNums.@to];
-			LGSPNode node_from = match.Nodes[(int)ChainFromToReverse_alt_0_base_NodeNums.@from];
-			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverse_alt_0_base_EdgeNums.@_edge0];
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
-			graph.Remove(edge__edge0);
-		}
 		public void ChainFromToReverse_alt_0_rec_ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPNode node_intermediate = match.Nodes[(int)ChainFromToReverse_alt_0_rec_NodeNums.@intermediate];
@@ -1063,6 +1370,26 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Modify(graph, subpattern_cftr);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
 			graph.Remove(edge__edge0);
+		}
+
+		public void ChainFromToReverse_alt_0_rec_Create(LGSPGraph graph)
+		{
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Node_Node node_intermediate = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_intermediate);
+			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Create(graph, node_intermediate, node_to);
+		}
+
+		public void ChainFromToReverse_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_intermediate = match.Nodes[(int)ChainFromToReverse_alt_0_rec_NodeNums.@intermediate];
+			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverse_alt_0_rec_EdgeNums.@_edge0];
+			LGSPMatch subpattern_cftr = match.EmbeddedGraphs[(int)ChainFromToReverse_alt_0_rec_SubNums.@cftr];
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_intermediate);
+			graph.Remove(node_intermediate);
+			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Delete(graph, subpattern_cftr);
 		}
 	}
 
@@ -1221,11 +1548,29 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
 		public void ChainFromToReverseToCommon_Modify(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ChainFromToReverseToCommon_AltNums.@alt_0 + 0];
 			ChainFromToReverseToCommon_alt_0_Modify(graph, alternative_alt_0, node_common);
 		}
+
+		public void ChainFromToReverseToCommon_ModifyNoReuse(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ChainFromToReverseToCommon_AltNums.@alt_0 + 0];
+			ChainFromToReverseToCommon_alt_0_ModifyNoReuse(graph, alternative_alt_0, node_common);
+		}
+
+		public void ChainFromToReverseToCommon_Create(LGSPGraph graph, LGSPNode node_from, LGSPNode node_to)
+		{
+		}
+
+		public void ChainFromToReverseToCommon_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ChainFromToReverseToCommon_AltNums.@alt_0 + 0];
+			ChainFromToReverseToCommon_alt_0_Delete(graph, alternative_alt_0);
+		}
+
 		public void ChainFromToReverseToCommon_alt_0_Modify(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
 		{
 			if(match.patternGraph == ChainFromToReverseToCommon_alt_0_base) {
@@ -1238,25 +1583,78 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			}
 			throw new ApplicationException(); //debug assert
 		}
+
+		public void ChainFromToReverseToCommon_alt_0_ModifyNoReuse(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
+		{
+			if(match.patternGraph == ChainFromToReverseToCommon_alt_0_base) {
+				ChainFromToReverseToCommon_alt_0_base_ModifyNoReuse(graph, match, node_common);
+				return;
+			}
+			else if(match.patternGraph == ChainFromToReverseToCommon_alt_0_rec) {
+				ChainFromToReverseToCommon_alt_0_rec_ModifyNoReuse(graph, match, node_common);
+				return;
+			}
+			throw new ApplicationException(); //debug assert
+		}
+
+		public void ChainFromToReverseToCommon_alt_0_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			if(match.patternGraph == ChainFromToReverseToCommon_alt_0_base) {
+				ChainFromToReverseToCommon_alt_0_base_Delete(graph, match);
+				return;
+			}
+			else if(match.patternGraph == ChainFromToReverseToCommon_alt_0_rec) {
+				ChainFromToReverseToCommon_alt_0_rec_Delete(graph, match);
+				return;
+			}
+			throw new ApplicationException(); //debug assert
+		}
+
 		public void ChainFromToReverseToCommon_alt_0_base_Modify(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
 		{
-			LGSPNode node_from = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_base_NodeNums.@from];
 			LGSPNode node_to = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_base_NodeNums.@to];
+			LGSPNode node_from = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_base_NodeNums.@from];
 			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverseToCommon_alt_0_base_EdgeNums.@_edge0];
-			Edge_Edge edge__edge2;
+			Edge_Edge edge__edge3;
 			if(edge__edge0.type == EdgeType_Edge.typeVar)
 			{
-				// re-using edge__edge0 as edge__edge2
-				edge__edge2 = (Edge_Edge) edge__edge0;
-				graph.ReuseEdge(edge__edge0, null, node_common);
+				// re-using edge__edge0 as edge__edge3
+				edge__edge3 = (Edge_Edge) edge__edge0;
+				graph.ReuseEdge(edge__edge0, node_to, node_common);
 			}
 			else
 			{
 				graph.Remove(edge__edge0);
-				edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
+				edge__edge3 = Edge_Edge.CreateEdge(graph, node_to, node_common);
 			}
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
 		}
+
+		public void ChainFromToReverseToCommon_alt_0_base_ModifyNoReuse(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
+		{
+			LGSPNode node_to = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_base_NodeNums.@to];
+			LGSPNode node_from = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_base_NodeNums.@from];
+			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverseToCommon_alt_0_base_EdgeNums.@_edge0];
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_to, node_common);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
+			graph.Remove(edge__edge0);
+		}
+
+		public void ChainFromToReverseToCommon_alt_0_base_Create(LGSPGraph graph)
+		{
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_to);
+		}
+
+		public void ChainFromToReverseToCommon_alt_0_base_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverseToCommon_alt_0_base_EdgeNums.@_edge0];
+			graph.Remove(edge__edge0);
+		}
+
 		public void ChainFromToReverseToCommon_alt_0_rec_Modify(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
 		{
 			LGSPNode node_from = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_rec_NodeNums.@from];
@@ -1279,32 +1677,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
 		}
 
-		public void ChainFromToReverseToCommon_ModifyNoReuse(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
-		{
-			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ChainFromToReverseToCommon_AltNums.@alt_0 + 0];
-			ChainFromToReverseToCommon_alt_0_ModifyNoReuse(graph, alternative_alt_0, node_common);
-		}
-		public void ChainFromToReverseToCommon_alt_0_ModifyNoReuse(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
-		{
-			if(match.patternGraph == ChainFromToReverseToCommon_alt_0_base) {
-				ChainFromToReverseToCommon_alt_0_base_ModifyNoReuse(graph, match, node_common);
-				return;
-			}
-			else if(match.patternGraph == ChainFromToReverseToCommon_alt_0_rec) {
-				ChainFromToReverseToCommon_alt_0_rec_ModifyNoReuse(graph, match, node_common);
-				return;
-			}
-			throw new ApplicationException(); //debug assert
-		}
-		public void ChainFromToReverseToCommon_alt_0_base_ModifyNoReuse(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
-		{
-			LGSPNode node_from = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_base_NodeNums.@from];
-			LGSPNode node_to = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_base_NodeNums.@to];
-			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverseToCommon_alt_0_base_EdgeNums.@_edge0];
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
-			graph.Remove(edge__edge0);
-		}
 		public void ChainFromToReverseToCommon_alt_0_rec_ModifyNoReuse(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
 		{
 			LGSPNode node_from = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_rec_NodeNums.@from];
@@ -1315,6 +1687,26 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
 			graph.Remove(edge__edge0);
+		}
+
+		public void ChainFromToReverseToCommon_alt_0_rec_Create(LGSPGraph graph)
+		{
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Node_Node node_intermediate = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_intermediate);
+			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Create(graph, node_intermediate, node_to);
+		}
+
+		public void ChainFromToReverseToCommon_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_intermediate = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_rec_NodeNums.@intermediate];
+			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverseToCommon_alt_0_rec_EdgeNums.@_edge0];
+			LGSPMatch subpattern_cftrtc = match.EmbeddedGraphs[(int)ChainFromToReverseToCommon_alt_0_rec_SubNums.@cftrtc];
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_intermediate);
+			graph.Remove(node_intermediate);
+			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Delete(graph, subpattern_cftrtc);
 		}
 	}
 
@@ -1499,6 +1891,70 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
+		public void ReverseChainFromToToCommon_Create(LGSPGraph graph, LGSPNode node_from, LGSPNode node_to, LGSPNode node_common)
+		{
+		}
+
+		public void ReverseChainFromToToCommon_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ReverseChainFromToToCommon_AltNums.@alt_0 + 0];
+			ReverseChainFromToToCommon_alt_0_Delete(graph, alternative_alt_0);
+		}
+
+		public void ReverseChainFromToToCommon_alt_0_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			if(match.patternGraph == ReverseChainFromToToCommon_alt_0_base) {
+				ReverseChainFromToToCommon_alt_0_base_Delete(graph, match);
+				return;
+			}
+			else if(match.patternGraph == ReverseChainFromToToCommon_alt_0_rec) {
+				ReverseChainFromToToCommon_alt_0_rec_Delete(graph, match);
+				return;
+			}
+			throw new ApplicationException(); //debug assert
+		}
+
+		public void ReverseChainFromToToCommon_alt_0_base_Create(LGSPGraph graph)
+		{
+			Node_Node node_common = Node_Node.CreateNode(graph);
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_from, node_common);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_to, node_from);
+		}
+
+		public void ReverseChainFromToToCommon_alt_0_base_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPEdge edge__edge1 = match.Edges[(int)ReverseChainFromToToCommon_alt_0_base_EdgeNums.@_edge1];
+			LGSPEdge edge__edge0 = match.Edges[(int)ReverseChainFromToToCommon_alt_0_base_EdgeNums.@_edge0];
+			graph.Remove(edge__edge1);
+			graph.Remove(edge__edge0);
+		}
+
+		public void ReverseChainFromToToCommon_alt_0_rec_Create(LGSPGraph graph)
+		{
+			Node_Node node_common = Node_Node.CreateNode(graph);
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
+			Node_Node node_intermediate = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_from, node_common);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
+			Pattern_ReverseChainFromToToCommon.Instance.ReverseChainFromToToCommon_Create(graph, node_intermediate, node_to, node_common);
+		}
+
+		public void ReverseChainFromToToCommon_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPNode node_intermediate = match.Nodes[(int)ReverseChainFromToToCommon_alt_0_rec_NodeNums.@intermediate];
+			LGSPEdge edge__edge1 = match.Edges[(int)ReverseChainFromToToCommon_alt_0_rec_EdgeNums.@_edge1];
+			LGSPEdge edge__edge0 = match.Edges[(int)ReverseChainFromToToCommon_alt_0_rec_EdgeNums.@_edge0];
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)ReverseChainFromToToCommon_alt_0_rec_SubNums.@_subpattern0];
+			graph.Remove(edge__edge1);
+			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_intermediate);
+			graph.Remove(node_intermediate);
+			Pattern_ReverseChainFromToToCommon.Instance.ReverseChainFromToToCommon_Delete(graph, subpattern__subpattern0);
+		}
 	}
 
 	public class Rule_createChain : LGSPRulePattern
@@ -1551,19 +2007,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_Node node_end = Node_Node.CreateNode(graph);
-			Node_Node node_beg = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_beg, node__node0);
-			return new IGraphElement[] { node_beg, node_end, };
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_Node node_end = Node_Node.CreateNode(graph);
 			Node_Node node_beg = Node_Node.CreateNode(graph);
@@ -1578,6 +2023,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			Node_Node node_end = Node_Node.CreateNode(graph);
+			Node_Node node_beg = Node_Node.CreateNode(graph);
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
+			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_beg, node__node0);
+			return new IGraphElement[] { node_beg, node_end, };
+		}
 	}
 
 	public class Rule_chainFromTo : LGSPRulePattern
@@ -1646,18 +2103,22 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)chainFromTo_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)chainFromTo_SubNums.@_subpattern0];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_chainFrom : LGSPRulePattern
@@ -1720,18 +2181,22 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)chainFrom_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)chainFrom_SubNums.@_subpattern0];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_chainFromComplete : LGSPRulePattern
@@ -1794,18 +2259,22 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)chainFromComplete_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)chainFromComplete_SubNums.@_subpattern0];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_createBlowball : LGSPRulePattern
@@ -1858,21 +2327,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_Node node__node3 = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node2 = Node_Node.CreateNode(graph);
-			Node_Node node_head = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_head, node__node3);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_head, node__node1);
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_head, node__node0);
-			return new IGraphElement[] { node_head, };
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_Node node__node3 = Node_Node.CreateNode(graph);
 			Node_Node node__node1 = Node_Node.CreateNode(graph);
@@ -1889,6 +2345,20 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			Node_Node node__node3 = Node_Node.CreateNode(graph);
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
+			Node_Node node__node2 = Node_Node.CreateNode(graph);
+			Node_Node node_head = Node_Node.CreateNode(graph);
+			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_head, node__node3);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_head, node__node1);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_head, node__node0);
+			return new IGraphElement[] { node_head, };
+		}
 	}
 
 	public class Rule_blowball : LGSPRulePattern
@@ -1951,18 +2421,22 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)blowball_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)blowball_SubNums.@_subpattern0];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_reverseChainFromTo : LGSPRulePattern
@@ -2031,18 +2505,22 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)reverseChainFromTo_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)reverseChainFromTo_SubNums.@_subpattern0];
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_createReverseChain : LGSPRulePattern
@@ -2095,19 +2573,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_Node node_end = Node_Node.CreateNode(graph);
-			Node_Node node_beg = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_end, node__node1);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node1, node__node0);
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node_beg);
-			return new IGraphElement[] { node_beg, node_end, };
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			Node_Node node_end = Node_Node.CreateNode(graph);
 			Node_Node node_beg = Node_Node.CreateNode(graph);
@@ -2122,6 +2589,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			Node_Node node_end = Node_Node.CreateNode(graph);
+			Node_Node node_beg = Node_Node.CreateNode(graph);
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
+			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_end, node__node1);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node1, node__node0);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node_beg);
+			return new IGraphElement[] { node_beg, node_end, };
+		}
 	}
 
 	public class Rule_chainFromToReverse : LGSPRulePattern
@@ -2190,14 +2669,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			LGSPMatch subpattern_cftr = match.EmbeddedGraphs[(int)chainFromToReverse_SubNums.@cftr];
-			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Modify(graph, subpattern_cftr);
-			return EmptyReturnElements;
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch subpattern_cftr = match.EmbeddedGraphs[(int)chainFromToReverse_SubNums.@cftr];
 			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Modify(graph, subpattern_cftr);
@@ -2207,6 +2680,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {  };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern_cftr = match.EmbeddedGraphs[(int)chainFromToReverse_SubNums.@cftr];
+			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Modify(graph, subpattern_cftr);
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_chainFromToReverseToCommon : LGSPRulePattern
@@ -2275,15 +2755,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			LGSPMatch subpattern_cftrtc = match.EmbeddedGraphs[(int)chainFromToReverseToCommon_SubNums.@cftrtc];
-			Node_Node node_common = Node_Node.CreateNode(graph);
-			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, node_common);
-			return new IGraphElement[] { node_common, };
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch subpattern_cftrtc = match.EmbeddedGraphs[(int)chainFromToReverseToCommon_SubNums.@cftrtc];
 			Node_Node node_common = Node_Node.CreateNode(graph);
@@ -2294,6 +2767,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {  };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern_cftrtc = match.EmbeddedGraphs[(int)chainFromToReverseToCommon_SubNums.@cftrtc];
+			Node_Node node_common = Node_Node.CreateNode(graph);
+			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, node_common);
+			return new IGraphElement[] { node_common, };
+		}
 	}
 
 	public class Rule_reverseChainFromToToCommon : LGSPRulePattern
@@ -2368,27 +2849,60 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
+
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
-			return EmptyReturnElements;
-		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)reverseChainFromToToCommon_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {};
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
 		private static String[] addedEdgeNames = new String[] {};
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)reverseChainFromToToCommon_SubNums.@_subpattern0];
+			return EmptyReturnElements;
+		}
 	}
 
 
     public class PatternAction_ChainFromTo : LGSPSubpatternAction
     {
-        public PatternAction_ChainFromTo(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFromTo(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFromTo.Instance.patternGraph;
         }
+
+        public static PatternAction_ChainFromTo getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_ChainFromTo newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_ChainFromTo(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_ChainFromTo oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_ChainFromTo freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_ChainFromTo next = null;
 
         public LGSPNode ChainFromTo_node_from;
         public LGSPNode ChainFromTo_node_to;
@@ -2404,7 +2918,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
             // SubPreset ChainFromTo_node_to 
             LGSPNode candidate_ChainFromTo_node_to = ChainFromTo_node_to;
             // Push alternative matching task for ChainFromTo_alt_0
-            AlternativeAction_ChainFromTo_alt_0 taskFor_alt_0 = new AlternativeAction_ChainFromTo_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromTo.ChainFromTo_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFromTo_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromTo_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromTo.ChainFromTo_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFromTo_node_from = candidate_ChainFromTo_node_from;
             taskFor_alt_0.ChainFromTo_node_to = candidate_ChainFromTo_node_to;
             openTasks.Push(taskFor_alt_0);
@@ -2412,6 +2926,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_ChainFromTo_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -2448,10 +2963,40 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
     public class AlternativeAction_ChainFromTo_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_ChainFromTo_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromTo_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_ChainFromTo_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_ChainFromTo_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_ChainFromTo_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_ChainFromTo_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_ChainFromTo_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_ChainFromTo_alt_0 next = null;
 
         public LGSPNode ChainFromTo_node_from;
         public LGSPNode ChainFromTo_node_to;
@@ -2589,7 +3134,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
                             continue;
                         }
                         // Push subpattern matching task for _subpattern0
-                        PatternAction_ChainFromTo taskFor__subpattern0 = new PatternAction_ChainFromTo(graph, openTasks);
+                        PatternAction_ChainFromTo taskFor__subpattern0 = PatternAction_ChainFromTo.getNewTask(graph, openTasks);
                         taskFor__subpattern0.ChainFromTo_node_from = candidate_ChainFromTo_alt_0_rec_node_intermediate;
                         taskFor__subpattern0.ChainFromTo_node_to = candidate_ChainFromTo_node_to;
                         openTasks.Push(taskFor__subpattern0);
@@ -2603,6 +3148,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for _subpattern0
                         openTasks.Pop();
+                        PatternAction_ChainFromTo.releaseTask(taskFor__subpattern0);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -2650,10 +3196,39 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
     public class PatternAction_ChainFrom : LGSPSubpatternAction
     {
-        public PatternAction_ChainFrom(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFrom(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFrom.Instance.patternGraph;
         }
+
+        public static PatternAction_ChainFrom getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_ChainFrom newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_ChainFrom(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_ChainFrom oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_ChainFrom freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_ChainFrom next = null;
 
         public LGSPNode ChainFrom_node_from;
         
@@ -2666,13 +3241,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
             // SubPreset ChainFrom_node_from 
             LGSPNode candidate_ChainFrom_node_from = ChainFrom_node_from;
             // Push alternative matching task for ChainFrom_alt_0
-            AlternativeAction_ChainFrom_alt_0 taskFor_alt_0 = new AlternativeAction_ChainFrom_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFrom.ChainFrom_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFrom_alt_0 taskFor_alt_0 = AlternativeAction_ChainFrom_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFrom.ChainFrom_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFrom_node_from = candidate_ChainFrom_node_from;
             openTasks.Push(taskFor_alt_0);
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_ChainFrom_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -2708,10 +3284,40 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
     public class AlternativeAction_ChainFrom_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_ChainFrom_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFrom_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_ChainFrom_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_ChainFrom_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_ChainFrom_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_ChainFrom_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_ChainFrom_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_ChainFrom_alt_0 next = null;
 
         public LGSPNode ChainFrom_node_from;
         
@@ -2810,7 +3416,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
                             continue;
                         }
                         // Push subpattern matching task for _subpattern0
-                        PatternAction_ChainFrom taskFor__subpattern0 = new PatternAction_ChainFrom(graph, openTasks);
+                        PatternAction_ChainFrom taskFor__subpattern0 = PatternAction_ChainFrom.getNewTask(graph, openTasks);
                         taskFor__subpattern0.ChainFrom_node_from = candidate_ChainFrom_alt_0_rec_node_to;
                         openTasks.Push(taskFor__subpattern0);
                         uint prevGlobal__candidate_ChainFrom_alt_0_rec_node_to;
@@ -2823,6 +3429,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for _subpattern0
                         openTasks.Pop();
+                        PatternAction_ChainFrom.releaseTask(taskFor__subpattern0);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -2869,10 +3476,39 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
     public class PatternAction_ChainFromComplete : LGSPSubpatternAction
     {
-        public PatternAction_ChainFromComplete(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFromComplete(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFromComplete.Instance.patternGraph;
         }
+
+        public static PatternAction_ChainFromComplete getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_ChainFromComplete newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_ChainFromComplete(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_ChainFromComplete oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_ChainFromComplete freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_ChainFromComplete next = null;
 
         public LGSPNode ChainFromComplete_node_from;
         
@@ -2885,13 +3521,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
             // SubPreset ChainFromComplete_node_from 
             LGSPNode candidate_ChainFromComplete_node_from = ChainFromComplete_node_from;
             // Push alternative matching task for ChainFromComplete_alt_0
-            AlternativeAction_ChainFromComplete_alt_0 taskFor_alt_0 = new AlternativeAction_ChainFromComplete_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromComplete.ChainFromComplete_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFromComplete_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromComplete_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromComplete.ChainFromComplete_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFromComplete_node_from = candidate_ChainFromComplete_node_from;
             openTasks.Push(taskFor_alt_0);
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_ChainFromComplete_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -2927,10 +3564,40 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
     public class AlternativeAction_ChainFromComplete_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_ChainFromComplete_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromComplete_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_ChainFromComplete_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_ChainFromComplete_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_ChainFromComplete_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_ChainFromComplete_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_ChainFromComplete_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_ChainFromComplete_alt_0 next = null;
 
         public LGSPNode ChainFromComplete_node_from;
         
@@ -3108,7 +3775,7 @@ label2: ;
                             continue;
                         }
                         // Push subpattern matching task for _subpattern0
-                        PatternAction_ChainFromComplete taskFor__subpattern0 = new PatternAction_ChainFromComplete(graph, openTasks);
+                        PatternAction_ChainFromComplete taskFor__subpattern0 = PatternAction_ChainFromComplete.getNewTask(graph, openTasks);
                         taskFor__subpattern0.ChainFromComplete_node_from = candidate_ChainFromComplete_alt_0_rec_node_to;
                         openTasks.Push(taskFor__subpattern0);
                         uint prevGlobal__candidate_ChainFromComplete_alt_0_rec_node_to;
@@ -3121,6 +3788,7 @@ label2: ;
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for _subpattern0
                         openTasks.Pop();
+                        PatternAction_ChainFromComplete.releaseTask(taskFor__subpattern0);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -3167,10 +3835,39 @@ label2: ;
 
     public class PatternAction_Blowball : LGSPSubpatternAction
     {
-        public PatternAction_Blowball(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_Blowball(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_Blowball.Instance.patternGraph;
         }
+
+        public static PatternAction_Blowball getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_Blowball newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_Blowball(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_Blowball oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_Blowball freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_Blowball next = null;
 
         public LGSPNode Blowball_node_head;
         
@@ -3183,13 +3880,14 @@ label2: ;
             // SubPreset Blowball_node_head 
             LGSPNode candidate_Blowball_node_head = Blowball_node_head;
             // Push alternative matching task for Blowball_alt_0
-            AlternativeAction_Blowball_alt_0 taskFor_alt_0 = new AlternativeAction_Blowball_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_Blowball.Blowball_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_Blowball_alt_0 taskFor_alt_0 = AlternativeAction_Blowball_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_Blowball.Blowball_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.Blowball_node_head = candidate_Blowball_node_head;
             openTasks.Push(taskFor_alt_0);
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_Blowball_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -3225,10 +3923,40 @@ label2: ;
 
     public class AlternativeAction_Blowball_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_Blowball_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_Blowball_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_Blowball_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_Blowball_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_Blowball_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_Blowball_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_Blowball_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_Blowball_alt_0 next = null;
 
         public LGSPNode Blowball_node_head;
         
@@ -3406,7 +4134,7 @@ label5: ;
                             continue;
                         }
                         // Push subpattern matching task for _subpattern0
-                        PatternAction_Blowball taskFor__subpattern0 = new PatternAction_Blowball(graph, openTasks);
+                        PatternAction_Blowball taskFor__subpattern0 = PatternAction_Blowball.getNewTask(graph, openTasks);
                         taskFor__subpattern0.Blowball_node_head = candidate_Blowball_node_head;
                         openTasks.Push(taskFor__subpattern0);
                         uint prevGlobal__candidate_Blowball_alt_0_further_node__node0;
@@ -3419,6 +4147,7 @@ label5: ;
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for _subpattern0
                         openTasks.Pop();
+                        PatternAction_Blowball.releaseTask(taskFor__subpattern0);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -3465,10 +4194,39 @@ label5: ;
 
     public class PatternAction_ReverseChainFromTo : LGSPSubpatternAction
     {
-        public PatternAction_ReverseChainFromTo(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ReverseChainFromTo(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_ReverseChainFromTo.Instance.patternGraph;
         }
+
+        public static PatternAction_ReverseChainFromTo getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_ReverseChainFromTo newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_ReverseChainFromTo(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_ReverseChainFromTo oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_ReverseChainFromTo freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_ReverseChainFromTo next = null;
 
         public LGSPNode ReverseChainFromTo_node_from;
         public LGSPNode ReverseChainFromTo_node_to;
@@ -3484,7 +4242,7 @@ label5: ;
             // SubPreset ReverseChainFromTo_node_to 
             LGSPNode candidate_ReverseChainFromTo_node_to = ReverseChainFromTo_node_to;
             // Push alternative matching task for ReverseChainFromTo_alt_0
-            AlternativeAction_ReverseChainFromTo_alt_0 taskFor_alt_0 = new AlternativeAction_ReverseChainFromTo_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ReverseChainFromTo_alt_0 taskFor_alt_0 = AlternativeAction_ReverseChainFromTo_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ReverseChainFromTo_node_to = candidate_ReverseChainFromTo_node_to;
             taskFor_alt_0.ReverseChainFromTo_node_from = candidate_ReverseChainFromTo_node_from;
             openTasks.Push(taskFor_alt_0);
@@ -3492,6 +4250,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_ReverseChainFromTo_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -3528,10 +4287,40 @@ label5: ;
 
     public class AlternativeAction_ReverseChainFromTo_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_ReverseChainFromTo_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ReverseChainFromTo_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_ReverseChainFromTo_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_ReverseChainFromTo_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_ReverseChainFromTo_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_ReverseChainFromTo_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_ReverseChainFromTo_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_ReverseChainFromTo_alt_0 next = null;
 
         public LGSPNode ReverseChainFromTo_node_to;
         public LGSPNode ReverseChainFromTo_node_from;
@@ -3669,7 +4458,7 @@ label5: ;
                             continue;
                         }
                         // Push subpattern matching task for _subpattern0
-                        PatternAction_ReverseChainFromTo taskFor__subpattern0 = new PatternAction_ReverseChainFromTo(graph, openTasks);
+                        PatternAction_ReverseChainFromTo taskFor__subpattern0 = PatternAction_ReverseChainFromTo.getNewTask(graph, openTasks);
                         taskFor__subpattern0.ReverseChainFromTo_node_from = candidate_ReverseChainFromTo_alt_0_rec_node_intermediate;
                         taskFor__subpattern0.ReverseChainFromTo_node_to = candidate_ReverseChainFromTo_node_to;
                         openTasks.Push(taskFor__subpattern0);
@@ -3683,6 +4472,7 @@ label5: ;
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for _subpattern0
                         openTasks.Pop();
+                        PatternAction_ReverseChainFromTo.releaseTask(taskFor__subpattern0);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -3730,10 +4520,39 @@ label5: ;
 
     public class PatternAction_ChainFromToReverse : LGSPSubpatternAction
     {
-        public PatternAction_ChainFromToReverse(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFromToReverse(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFromToReverse.Instance.patternGraph;
         }
+
+        public static PatternAction_ChainFromToReverse getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_ChainFromToReverse newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_ChainFromToReverse(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_ChainFromToReverse oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_ChainFromToReverse freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_ChainFromToReverse next = null;
 
         public LGSPNode ChainFromToReverse_node_from;
         public LGSPNode ChainFromToReverse_node_to;
@@ -3749,7 +4568,7 @@ label5: ;
             // SubPreset ChainFromToReverse_node_to 
             LGSPNode candidate_ChainFromToReverse_node_to = ChainFromToReverse_node_to;
             // Push alternative matching task for ChainFromToReverse_alt_0
-            AlternativeAction_ChainFromToReverse_alt_0 taskFor_alt_0 = new AlternativeAction_ChainFromToReverse_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromToReverse.ChainFromToReverse_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFromToReverse_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromToReverse_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromToReverse.ChainFromToReverse_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFromToReverse_node_from = candidate_ChainFromToReverse_node_from;
             taskFor_alt_0.ChainFromToReverse_node_to = candidate_ChainFromToReverse_node_to;
             openTasks.Push(taskFor_alt_0);
@@ -3757,6 +4576,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_ChainFromToReverse_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -3793,10 +4613,40 @@ label5: ;
 
     public class AlternativeAction_ChainFromToReverse_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_ChainFromToReverse_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromToReverse_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_ChainFromToReverse_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_ChainFromToReverse_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_ChainFromToReverse_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_ChainFromToReverse_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_ChainFromToReverse_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_ChainFromToReverse_alt_0 next = null;
 
         public LGSPNode ChainFromToReverse_node_from;
         public LGSPNode ChainFromToReverse_node_to;
@@ -3934,7 +4784,7 @@ label5: ;
                             continue;
                         }
                         // Push subpattern matching task for cftr
-                        PatternAction_ChainFromToReverse taskFor_cftr = new PatternAction_ChainFromToReverse(graph, openTasks);
+                        PatternAction_ChainFromToReverse taskFor_cftr = PatternAction_ChainFromToReverse.getNewTask(graph, openTasks);
                         taskFor_cftr.ChainFromToReverse_node_from = candidate_ChainFromToReverse_alt_0_rec_node_intermediate;
                         taskFor_cftr.ChainFromToReverse_node_to = candidate_ChainFromToReverse_node_to;
                         openTasks.Push(taskFor_cftr);
@@ -3948,6 +4798,7 @@ label5: ;
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for cftr
                         openTasks.Pop();
+                        PatternAction_ChainFromToReverse.releaseTask(taskFor_cftr);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -3995,10 +4846,39 @@ label5: ;
 
     public class PatternAction_ChainFromToReverseToCommon : LGSPSubpatternAction
     {
-        public PatternAction_ChainFromToReverseToCommon(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ChainFromToReverseToCommon(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_ChainFromToReverseToCommon.Instance.patternGraph;
         }
+
+        public static PatternAction_ChainFromToReverseToCommon getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_ChainFromToReverseToCommon newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_ChainFromToReverseToCommon(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_ChainFromToReverseToCommon oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_ChainFromToReverseToCommon freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_ChainFromToReverseToCommon next = null;
 
         public LGSPNode ChainFromToReverseToCommon_node_from;
         public LGSPNode ChainFromToReverseToCommon_node_to;
@@ -4014,7 +4894,7 @@ label5: ;
             // SubPreset ChainFromToReverseToCommon_node_to 
             LGSPNode candidate_ChainFromToReverseToCommon_node_to = ChainFromToReverseToCommon_node_to;
             // Push alternative matching task for ChainFromToReverseToCommon_alt_0
-            AlternativeAction_ChainFromToReverseToCommon_alt_0 taskFor_alt_0 = new AlternativeAction_ChainFromToReverseToCommon_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFromToReverseToCommon_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromToReverseToCommon_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFromToReverseToCommon_node_from = candidate_ChainFromToReverseToCommon_node_from;
             taskFor_alt_0.ChainFromToReverseToCommon_node_to = candidate_ChainFromToReverseToCommon_node_to;
             openTasks.Push(taskFor_alt_0);
@@ -4022,6 +4902,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_ChainFromToReverseToCommon_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -4058,10 +4939,40 @@ label5: ;
 
     public class AlternativeAction_ChainFromToReverseToCommon_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_ChainFromToReverseToCommon_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ChainFromToReverseToCommon_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_ChainFromToReverseToCommon_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_ChainFromToReverseToCommon_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_ChainFromToReverseToCommon_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_ChainFromToReverseToCommon_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_ChainFromToReverseToCommon_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_ChainFromToReverseToCommon_alt_0 next = null;
 
         public LGSPNode ChainFromToReverseToCommon_node_from;
         public LGSPNode ChainFromToReverseToCommon_node_to;
@@ -4199,7 +5110,7 @@ label5: ;
                             continue;
                         }
                         // Push subpattern matching task for cftrtc
-                        PatternAction_ChainFromToReverseToCommon taskFor_cftrtc = new PatternAction_ChainFromToReverseToCommon(graph, openTasks);
+                        PatternAction_ChainFromToReverseToCommon taskFor_cftrtc = PatternAction_ChainFromToReverseToCommon.getNewTask(graph, openTasks);
                         taskFor_cftrtc.ChainFromToReverseToCommon_node_from = candidate_ChainFromToReverseToCommon_alt_0_rec_node_intermediate;
                         taskFor_cftrtc.ChainFromToReverseToCommon_node_to = candidate_ChainFromToReverseToCommon_node_to;
                         openTasks.Push(taskFor_cftrtc);
@@ -4213,6 +5124,7 @@ label5: ;
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for cftrtc
                         openTasks.Pop();
+                        PatternAction_ChainFromToReverseToCommon.releaseTask(taskFor_cftrtc);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -4260,10 +5172,39 @@ label5: ;
 
     public class PatternAction_ReverseChainFromToToCommon : LGSPSubpatternAction
     {
-        public PatternAction_ReverseChainFromToToCommon(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+        private PatternAction_ReverseChainFromToToCommon(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
             graph = graph_; openTasks = openTasks_;
             patternGraph = Pattern_ReverseChainFromToToCommon.Instance.patternGraph;
         }
+
+        public static PatternAction_ReverseChainFromToToCommon getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            PatternAction_ReverseChainFromToToCommon newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new PatternAction_ReverseChainFromToToCommon(graph_, openTasks_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(PatternAction_ReverseChainFromToToCommon oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static PatternAction_ReverseChainFromToToCommon freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private PatternAction_ReverseChainFromToToCommon next = null;
 
         public LGSPNode ReverseChainFromToToCommon_node_from;
         public LGSPNode ReverseChainFromToToCommon_node_to;
@@ -4282,7 +5223,7 @@ label5: ;
             // SubPreset ReverseChainFromToToCommon_node_common 
             LGSPNode candidate_ReverseChainFromToToCommon_node_common = ReverseChainFromToToCommon_node_common;
             // Push alternative matching task for ReverseChainFromToToCommon_alt_0
-            AlternativeAction_ReverseChainFromToToCommon_alt_0 taskFor_alt_0 = new AlternativeAction_ReverseChainFromToToCommon_alt_0(graph, openTasks, patternGraph.alternatives[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ReverseChainFromToToCommon_alt_0 taskFor_alt_0 = AlternativeAction_ReverseChainFromToToCommon_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ReverseChainFromToToCommon_node_to = candidate_ReverseChainFromToToCommon_node_to;
             taskFor_alt_0.ReverseChainFromToToCommon_node_from = candidate_ReverseChainFromToToCommon_node_from;
             taskFor_alt_0.ReverseChainFromToToCommon_node_common = candidate_ReverseChainFromToToCommon_node_common;
@@ -4291,6 +5232,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for alt_0
             openTasks.Pop();
+            AlternativeAction_ReverseChainFromToToCommon_alt_0.releaseTask(taskFor_alt_0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -4328,10 +5270,40 @@ label5: ;
 
     public class AlternativeAction_ReverseChainFromToToCommon_alt_0 : LGSPSubpatternAction
     {
-        public AlternativeAction_ReverseChainFromToToCommon_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+        private AlternativeAction_ReverseChainFromToToCommon_alt_0(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
             graph = graph_; openTasks = openTasks_;
             patternGraphs = patternGraphs_;
         }
+
+        public static AlternativeAction_ReverseChainFromToToCommon_alt_0 getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {
+            AlternativeAction_ReverseChainFromToToCommon_alt_0 newTask;
+            if(numFreeTasks>0) {
+                newTask = freeListHead;
+                newTask.graph = graph_; newTask.openTasks = openTasks_;
+                newTask.patternGraphs = patternGraphs_;
+                freeListHead = newTask.next;
+                newTask.next = null;
+                --numFreeTasks;
+            } else {
+                newTask = new AlternativeAction_ReverseChainFromToToCommon_alt_0(graph_, openTasks_, patternGraphs_);
+            }
+        return newTask;
+        }
+
+        public static void releaseTask(AlternativeAction_ReverseChainFromToToCommon_alt_0 oldTask) {
+            if(numFreeTasks<MAX_NUM_FREE_TASKS) {
+                oldTask.next = freeListHead;
+                oldTask.graph = null; oldTask.openTasks = null;
+                freeListHead = oldTask;
+                ++numFreeTasks;
+            }
+        }
+
+        private static AlternativeAction_ReverseChainFromToToCommon_alt_0 freeListHead = null;
+        private static int numFreeTasks = 0;
+        private const int MAX_NUM_FREE_TASKS = 100;
+
+        private AlternativeAction_ReverseChainFromToToCommon_alt_0 next = null;
 
         public LGSPNode ReverseChainFromToToCommon_node_to;
         public LGSPNode ReverseChainFromToToCommon_node_from;
@@ -4586,7 +5558,7 @@ label5: ;
                                     continue;
                                 }
                                 // Push subpattern matching task for _subpattern0
-                                PatternAction_ReverseChainFromToToCommon taskFor__subpattern0 = new PatternAction_ReverseChainFromToToCommon(graph, openTasks);
+                                PatternAction_ReverseChainFromToToCommon taskFor__subpattern0 = PatternAction_ReverseChainFromToToCommon.getNewTask(graph, openTasks);
                                 taskFor__subpattern0.ReverseChainFromToToCommon_node_from = candidate_ReverseChainFromToToCommon_alt_0_rec_node_intermediate;
                                 taskFor__subpattern0.ReverseChainFromToToCommon_node_to = candidate_ReverseChainFromToToCommon_node_to;
                                 taskFor__subpattern0.ReverseChainFromToToCommon_node_common = candidate_ReverseChainFromToToCommon_node_common;
@@ -4604,6 +5576,7 @@ label5: ;
                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                 // Pop subpattern matching task for _subpattern0
                                 openTasks.Pop();
+                                PatternAction_ReverseChainFromToToCommon.releaseTask(taskFor__subpattern0);
                                 // Check whether subpatterns were found 
                                 if(matchesList.Count>0) {
                                     // subpatterns/alternatives were found, extend the partial matches by our local match object
@@ -4782,7 +5755,7 @@ label5: ;
                 return matches;
             }
             // Push subpattern matching task for _subpattern0
-            PatternAction_ChainFromTo taskFor__subpattern0 = new PatternAction_ChainFromTo(graph, openTasks);
+            PatternAction_ChainFromTo taskFor__subpattern0 = PatternAction_ChainFromTo.getNewTask(graph, openTasks);
             taskFor__subpattern0.ChainFromTo_node_from = candidate_chainFromTo_node_beg;
             taskFor__subpattern0.ChainFromTo_node_to = candidate_chainFromTo_node_end;
             openTasks.Push(taskFor__subpattern0);
@@ -4796,6 +5769,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            PatternAction_ChainFromTo.releaseTask(taskFor__subpattern0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -4900,7 +5874,7 @@ label5: ;
                     continue;
                 }
                 // Push subpattern matching task for _subpattern0
-                PatternAction_ChainFromTo taskFor__subpattern0 = new PatternAction_ChainFromTo(graph, openTasks);
+                PatternAction_ChainFromTo taskFor__subpattern0 = PatternAction_ChainFromTo.getNewTask(graph, openTasks);
                 taskFor__subpattern0.ChainFromTo_node_from = candidate_chainFromTo_node_beg;
                 taskFor__subpattern0.ChainFromTo_node_to = candidate_chainFromTo_node_end;
                 openTasks.Push(taskFor__subpattern0);
@@ -4914,6 +5888,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_ChainFromTo.releaseTask(taskFor__subpattern0);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -4979,7 +5954,7 @@ label5: ;
                     continue;
                 }
                 // Push subpattern matching task for _subpattern0
-                PatternAction_ChainFromTo taskFor__subpattern0 = new PatternAction_ChainFromTo(graph, openTasks);
+                PatternAction_ChainFromTo taskFor__subpattern0 = PatternAction_ChainFromTo.getNewTask(graph, openTasks);
                 taskFor__subpattern0.ChainFromTo_node_from = candidate_chainFromTo_node_beg;
                 taskFor__subpattern0.ChainFromTo_node_to = candidate_chainFromTo_node_end;
                 openTasks.Push(taskFor__subpattern0);
@@ -4993,6 +5968,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_ChainFromTo.releaseTask(taskFor__subpattern0);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5058,7 +6034,7 @@ label5: ;
                 return matches;
             }
             // Push subpattern matching task for _subpattern0
-            PatternAction_ChainFrom taskFor__subpattern0 = new PatternAction_ChainFrom(graph, openTasks);
+            PatternAction_ChainFrom taskFor__subpattern0 = PatternAction_ChainFrom.getNewTask(graph, openTasks);
             taskFor__subpattern0.ChainFrom_node_from = candidate_chainFrom_node_beg;
             openTasks.Push(taskFor__subpattern0);
             uint prevGlobal__candidate_chainFrom_node_beg;
@@ -5068,6 +6044,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            PatternAction_ChainFrom.releaseTask(taskFor__subpattern0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5101,7 +6078,7 @@ label5: ;
             for(LGSPNode head_candidate_chainFrom_node_beg = graph.nodesByTypeHeads[type_id_candidate_chainFrom_node_beg], candidate_chainFrom_node_beg = head_candidate_chainFrom_node_beg.typeNext; candidate_chainFrom_node_beg != head_candidate_chainFrom_node_beg; candidate_chainFrom_node_beg = candidate_chainFrom_node_beg.typeNext)
             {
                 // Push subpattern matching task for _subpattern0
-                PatternAction_ChainFrom taskFor__subpattern0 = new PatternAction_ChainFrom(graph, openTasks);
+                PatternAction_ChainFrom taskFor__subpattern0 = PatternAction_ChainFrom.getNewTask(graph, openTasks);
                 taskFor__subpattern0.ChainFrom_node_from = candidate_chainFrom_node_beg;
                 openTasks.Push(taskFor__subpattern0);
                 uint prevGlobal__candidate_chainFrom_node_beg;
@@ -5111,6 +6088,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_ChainFrom.releaseTask(taskFor__subpattern0);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5172,7 +6150,7 @@ label5: ;
                 return matches;
             }
             // Push subpattern matching task for _subpattern0
-            PatternAction_ChainFromComplete taskFor__subpattern0 = new PatternAction_ChainFromComplete(graph, openTasks);
+            PatternAction_ChainFromComplete taskFor__subpattern0 = PatternAction_ChainFromComplete.getNewTask(graph, openTasks);
             taskFor__subpattern0.ChainFromComplete_node_from = candidate_chainFromComplete_node_beg;
             openTasks.Push(taskFor__subpattern0);
             uint prevGlobal__candidate_chainFromComplete_node_beg;
@@ -5182,6 +6160,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            PatternAction_ChainFromComplete.releaseTask(taskFor__subpattern0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5215,7 +6194,7 @@ label5: ;
             for(LGSPNode head_candidate_chainFromComplete_node_beg = graph.nodesByTypeHeads[type_id_candidate_chainFromComplete_node_beg], candidate_chainFromComplete_node_beg = head_candidate_chainFromComplete_node_beg.typeNext; candidate_chainFromComplete_node_beg != head_candidate_chainFromComplete_node_beg; candidate_chainFromComplete_node_beg = candidate_chainFromComplete_node_beg.typeNext)
             {
                 // Push subpattern matching task for _subpattern0
-                PatternAction_ChainFromComplete taskFor__subpattern0 = new PatternAction_ChainFromComplete(graph, openTasks);
+                PatternAction_ChainFromComplete taskFor__subpattern0 = PatternAction_ChainFromComplete.getNewTask(graph, openTasks);
                 taskFor__subpattern0.ChainFromComplete_node_from = candidate_chainFromComplete_node_beg;
                 openTasks.Push(taskFor__subpattern0);
                 uint prevGlobal__candidate_chainFromComplete_node_beg;
@@ -5225,6 +6204,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_ChainFromComplete.releaseTask(taskFor__subpattern0);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5317,7 +6297,7 @@ label5: ;
                 return matches;
             }
             // Push subpattern matching task for _subpattern0
-            PatternAction_Blowball taskFor__subpattern0 = new PatternAction_Blowball(graph, openTasks);
+            PatternAction_Blowball taskFor__subpattern0 = PatternAction_Blowball.getNewTask(graph, openTasks);
             taskFor__subpattern0.Blowball_node_head = candidate_blowball_node_head;
             openTasks.Push(taskFor__subpattern0);
             uint prevGlobal__candidate_blowball_node_head;
@@ -5327,6 +6307,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            PatternAction_Blowball.releaseTask(taskFor__subpattern0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5360,7 +6341,7 @@ label5: ;
             for(LGSPNode head_candidate_blowball_node_head = graph.nodesByTypeHeads[type_id_candidate_blowball_node_head], candidate_blowball_node_head = head_candidate_blowball_node_head.typeNext; candidate_blowball_node_head != head_candidate_blowball_node_head; candidate_blowball_node_head = candidate_blowball_node_head.typeNext)
             {
                 // Push subpattern matching task for _subpattern0
-                PatternAction_Blowball taskFor__subpattern0 = new PatternAction_Blowball(graph, openTasks);
+                PatternAction_Blowball taskFor__subpattern0 = PatternAction_Blowball.getNewTask(graph, openTasks);
                 taskFor__subpattern0.Blowball_node_head = candidate_blowball_node_head;
                 openTasks.Push(taskFor__subpattern0);
                 uint prevGlobal__candidate_blowball_node_head;
@@ -5370,6 +6351,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_Blowball.releaseTask(taskFor__subpattern0);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5477,7 +6459,7 @@ label5: ;
                 return matches;
             }
             // Push subpattern matching task for _subpattern0
-            PatternAction_ReverseChainFromTo taskFor__subpattern0 = new PatternAction_ReverseChainFromTo(graph, openTasks);
+            PatternAction_ReverseChainFromTo taskFor__subpattern0 = PatternAction_ReverseChainFromTo.getNewTask(graph, openTasks);
             taskFor__subpattern0.ReverseChainFromTo_node_from = candidate_reverseChainFromTo_node_beg;
             taskFor__subpattern0.ReverseChainFromTo_node_to = candidate_reverseChainFromTo_node_end;
             openTasks.Push(taskFor__subpattern0);
@@ -5491,6 +6473,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            PatternAction_ReverseChainFromTo.releaseTask(taskFor__subpattern0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5595,7 +6578,7 @@ label5: ;
                     continue;
                 }
                 // Push subpattern matching task for _subpattern0
-                PatternAction_ReverseChainFromTo taskFor__subpattern0 = new PatternAction_ReverseChainFromTo(graph, openTasks);
+                PatternAction_ReverseChainFromTo taskFor__subpattern0 = PatternAction_ReverseChainFromTo.getNewTask(graph, openTasks);
                 taskFor__subpattern0.ReverseChainFromTo_node_from = candidate_reverseChainFromTo_node_beg;
                 taskFor__subpattern0.ReverseChainFromTo_node_to = candidate_reverseChainFromTo_node_end;
                 openTasks.Push(taskFor__subpattern0);
@@ -5609,6 +6592,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_ReverseChainFromTo.releaseTask(taskFor__subpattern0);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5674,7 +6658,7 @@ label5: ;
                     continue;
                 }
                 // Push subpattern matching task for _subpattern0
-                PatternAction_ReverseChainFromTo taskFor__subpattern0 = new PatternAction_ReverseChainFromTo(graph, openTasks);
+                PatternAction_ReverseChainFromTo taskFor__subpattern0 = PatternAction_ReverseChainFromTo.getNewTask(graph, openTasks);
                 taskFor__subpattern0.ReverseChainFromTo_node_from = candidate_reverseChainFromTo_node_beg;
                 taskFor__subpattern0.ReverseChainFromTo_node_to = candidate_reverseChainFromTo_node_end;
                 openTasks.Push(taskFor__subpattern0);
@@ -5688,6 +6672,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_ReverseChainFromTo.releaseTask(taskFor__subpattern0);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5830,7 +6815,7 @@ label5: ;
                 return matches;
             }
             // Push subpattern matching task for cftr
-            PatternAction_ChainFromToReverse taskFor_cftr = new PatternAction_ChainFromToReverse(graph, openTasks);
+            PatternAction_ChainFromToReverse taskFor_cftr = PatternAction_ChainFromToReverse.getNewTask(graph, openTasks);
             taskFor_cftr.ChainFromToReverse_node_from = candidate_chainFromToReverse_node_beg;
             taskFor_cftr.ChainFromToReverse_node_to = candidate_chainFromToReverse_node_end;
             openTasks.Push(taskFor_cftr);
@@ -5844,6 +6829,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for cftr
             openTasks.Pop();
+            PatternAction_ChainFromToReverse.releaseTask(taskFor_cftr);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -5948,7 +6934,7 @@ label5: ;
                     continue;
                 }
                 // Push subpattern matching task for cftr
-                PatternAction_ChainFromToReverse taskFor_cftr = new PatternAction_ChainFromToReverse(graph, openTasks);
+                PatternAction_ChainFromToReverse taskFor_cftr = PatternAction_ChainFromToReverse.getNewTask(graph, openTasks);
                 taskFor_cftr.ChainFromToReverse_node_from = candidate_chainFromToReverse_node_beg;
                 taskFor_cftr.ChainFromToReverse_node_to = candidate_chainFromToReverse_node_end;
                 openTasks.Push(taskFor_cftr);
@@ -5962,6 +6948,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for cftr
                 openTasks.Pop();
+                PatternAction_ChainFromToReverse.releaseTask(taskFor_cftr);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -6027,7 +7014,7 @@ label5: ;
                     continue;
                 }
                 // Push subpattern matching task for cftr
-                PatternAction_ChainFromToReverse taskFor_cftr = new PatternAction_ChainFromToReverse(graph, openTasks);
+                PatternAction_ChainFromToReverse taskFor_cftr = PatternAction_ChainFromToReverse.getNewTask(graph, openTasks);
                 taskFor_cftr.ChainFromToReverse_node_from = candidate_chainFromToReverse_node_beg;
                 taskFor_cftr.ChainFromToReverse_node_to = candidate_chainFromToReverse_node_end;
                 openTasks.Push(taskFor_cftr);
@@ -6041,6 +7028,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for cftr
                 openTasks.Pop();
+                PatternAction_ChainFromToReverse.releaseTask(taskFor_cftr);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -6152,7 +7140,7 @@ label5: ;
                 return matches;
             }
             // Push subpattern matching task for cftrtc
-            PatternAction_ChainFromToReverseToCommon taskFor_cftrtc = new PatternAction_ChainFromToReverseToCommon(graph, openTasks);
+            PatternAction_ChainFromToReverseToCommon taskFor_cftrtc = PatternAction_ChainFromToReverseToCommon.getNewTask(graph, openTasks);
             taskFor_cftrtc.ChainFromToReverseToCommon_node_from = candidate_chainFromToReverseToCommon_node_beg;
             taskFor_cftrtc.ChainFromToReverseToCommon_node_to = candidate_chainFromToReverseToCommon_node_end;
             openTasks.Push(taskFor_cftrtc);
@@ -6166,6 +7154,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for cftrtc
             openTasks.Pop();
+            PatternAction_ChainFromToReverseToCommon.releaseTask(taskFor_cftrtc);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -6270,7 +7259,7 @@ label5: ;
                     continue;
                 }
                 // Push subpattern matching task for cftrtc
-                PatternAction_ChainFromToReverseToCommon taskFor_cftrtc = new PatternAction_ChainFromToReverseToCommon(graph, openTasks);
+                PatternAction_ChainFromToReverseToCommon taskFor_cftrtc = PatternAction_ChainFromToReverseToCommon.getNewTask(graph, openTasks);
                 taskFor_cftrtc.ChainFromToReverseToCommon_node_from = candidate_chainFromToReverseToCommon_node_beg;
                 taskFor_cftrtc.ChainFromToReverseToCommon_node_to = candidate_chainFromToReverseToCommon_node_end;
                 openTasks.Push(taskFor_cftrtc);
@@ -6284,6 +7273,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for cftrtc
                 openTasks.Pop();
+                PatternAction_ChainFromToReverseToCommon.releaseTask(taskFor_cftrtc);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -6349,7 +7339,7 @@ label5: ;
                     continue;
                 }
                 // Push subpattern matching task for cftrtc
-                PatternAction_ChainFromToReverseToCommon taskFor_cftrtc = new PatternAction_ChainFromToReverseToCommon(graph, openTasks);
+                PatternAction_ChainFromToReverseToCommon taskFor_cftrtc = PatternAction_ChainFromToReverseToCommon.getNewTask(graph, openTasks);
                 taskFor_cftrtc.ChainFromToReverseToCommon_node_from = candidate_chainFromToReverseToCommon_node_beg;
                 taskFor_cftrtc.ChainFromToReverseToCommon_node_to = candidate_chainFromToReverseToCommon_node_end;
                 openTasks.Push(taskFor_cftrtc);
@@ -6363,6 +7353,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for cftrtc
                 openTasks.Pop();
+                PatternAction_ChainFromToReverseToCommon.releaseTask(taskFor_cftrtc);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -6543,7 +7534,7 @@ label5: ;
                 return matches;
             }
             // Push subpattern matching task for _subpattern0
-            PatternAction_ReverseChainFromToToCommon taskFor__subpattern0 = new PatternAction_ReverseChainFromToToCommon(graph, openTasks);
+            PatternAction_ReverseChainFromToToCommon taskFor__subpattern0 = PatternAction_ReverseChainFromToToCommon.getNewTask(graph, openTasks);
             taskFor__subpattern0.ReverseChainFromToToCommon_node_from = candidate_reverseChainFromToToCommon_node_beg;
             taskFor__subpattern0.ReverseChainFromToToCommon_node_to = candidate_reverseChainFromToToCommon_node_end;
             taskFor__subpattern0.ReverseChainFromToToCommon_node_common = candidate_reverseChainFromToToCommon_node_common;
@@ -6561,6 +7552,7 @@ label5: ;
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _subpattern0
             openTasks.Pop();
+            PatternAction_ReverseChainFromToToCommon.releaseTask(taskFor__subpattern0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -6759,7 +7751,7 @@ label5: ;
                     continue;
                 }
                 // Push subpattern matching task for _subpattern0
-                PatternAction_ReverseChainFromToToCommon taskFor__subpattern0 = new PatternAction_ReverseChainFromToToCommon(graph, openTasks);
+                PatternAction_ReverseChainFromToToCommon taskFor__subpattern0 = PatternAction_ReverseChainFromToToCommon.getNewTask(graph, openTasks);
                 taskFor__subpattern0.ReverseChainFromToToCommon_node_from = candidate_reverseChainFromToToCommon_node_beg;
                 taskFor__subpattern0.ReverseChainFromToToCommon_node_to = candidate_reverseChainFromToToCommon_node_end;
                 taskFor__subpattern0.ReverseChainFromToToCommon_node_common = candidate_reverseChainFromToToCommon_node_common;
@@ -6777,6 +7769,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_ReverseChainFromToToCommon.releaseTask(taskFor__subpattern0);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -6915,7 +7908,7 @@ label5: ;
                     continue;
                 }
                 // Push subpattern matching task for _subpattern0
-                PatternAction_ReverseChainFromToToCommon taskFor__subpattern0 = new PatternAction_ReverseChainFromToToCommon(graph, openTasks);
+                PatternAction_ReverseChainFromToToCommon taskFor__subpattern0 = PatternAction_ReverseChainFromToToCommon.getNewTask(graph, openTasks);
                 taskFor__subpattern0.ReverseChainFromToToCommon_node_from = candidate_reverseChainFromToToCommon_node_beg;
                 taskFor__subpattern0.ReverseChainFromToToCommon_node_to = candidate_reverseChainFromToToCommon_node_end;
                 taskFor__subpattern0.ReverseChainFromToToCommon_node_common = candidate_reverseChainFromToToCommon_node_common;
@@ -6933,6 +7926,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_ReverseChainFromToToCommon.releaseTask(taskFor__subpattern0);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -7004,7 +7998,7 @@ label5: ;
                     continue;
                 }
                 // Push subpattern matching task for _subpattern0
-                PatternAction_ReverseChainFromToToCommon taskFor__subpattern0 = new PatternAction_ReverseChainFromToToCommon(graph, openTasks);
+                PatternAction_ReverseChainFromToToCommon taskFor__subpattern0 = PatternAction_ReverseChainFromToToCommon.getNewTask(graph, openTasks);
                 taskFor__subpattern0.ReverseChainFromToToCommon_node_from = candidate_reverseChainFromToToCommon_node_beg;
                 taskFor__subpattern0.ReverseChainFromToToCommon_node_to = candidate_reverseChainFromToToCommon_node_end;
                 taskFor__subpattern0.ReverseChainFromToToCommon_node_common = candidate_reverseChainFromToToCommon_node_common;
@@ -7022,6 +8016,7 @@ label5: ;
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
+                PatternAction_ReverseChainFromToToCommon.releaseTask(taskFor__subpattern0);
                 // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it

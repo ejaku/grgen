@@ -1442,8 +1442,10 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
-                        subpattern.name,
-                        negativeNamePrefix
+                        negativeNamePrefix,
+                        PushAndPopSubpatternTaskTypes.Subpattern,
+                        subpattern.matchingPatternOfEmbeddedGraph.name,
+                        subpattern.name
                     );
                 insertionPoint = insertionPoint.Append(popTask);
             }
@@ -1452,8 +1454,10 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
+                        negativeNamePrefix,
+                        PushAndPopSubpatternTaskTypes.Alternative,
                         alternative.name,
-                        negativeNamePrefix
+                        alternative.pathPrefix
                     );
                 insertionPoint = insertionPoint.Append(popTask);
             }
