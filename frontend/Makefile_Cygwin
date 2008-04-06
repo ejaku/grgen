@@ -38,4 +38,4 @@ dir:
 	@touch .grammar
 
 clean:
-	rm -rf build/* .generator_build .grammar
+	rm -rf build/ .generator_build .grammar grgen.jar
