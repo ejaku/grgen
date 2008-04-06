@@ -242,18 +242,17 @@ public class MoreInformationCollector extends InformationCollector {
 			negMap.set(act_id, new HashMap<PatternGraph,Integer>());
 
 			//check whether its graphs node and edge set sizes are greater
-			if (act instanceof MatchingAction) {
-				int size;
+			int size;
 
-				for(PatternGraph negPattern : act.getPattern().getNegs()) {
-					negMap.get(act_id).put(negPattern, new Integer(negs++));
+			for(PatternGraph negPattern : act.getPattern().getNegs()) {
+				negMap.get(act_id).put(negPattern, new Integer(negs++));
 
-					size = negPattern.getNodes().size();
-					if (size > max_n_negative_nodes)	max_n_negative_nodes = size;
-					size = negPattern.getEdges().size();
-					if (size > max_n_negative_edges) max_n_negative_edges = size;
-				}
+				size = negPattern.getNodes().size();
+				if (size > max_n_negative_nodes)	max_n_negative_nodes = size;
+				size = negPattern.getEdges().size();
+				if (size > max_n_negative_edges) max_n_negative_edges = size;
 			}
+
 			n_negative_patterns[act_id] = negs;
 			if (negs > max_n_negative_patterns) max_n_negative_patterns = negs;
 		}
@@ -314,21 +313,18 @@ public class MoreInformationCollector extends InformationCollector {
 		for (Rule action : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(action).intValue();
 
-			if (action instanceof MatchingAction) {
+			for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
-				for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
-					int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
+				Collection<Node> negatives_also_in_pattern = new HashSet<Node>();
+				negatives_also_in_pattern.addAll( neg_pattern.getNodes() );
+				negatives_also_in_pattern.retainAll( action.getPattern().getNodes() );
 
-					Collection<Node> negatives_also_in_pattern = new HashSet<Node>();
-					negatives_also_in_pattern.addAll( neg_pattern.getNodes() );
-					negatives_also_in_pattern.retainAll( action.getPattern().getNodes() );
+				for(Node node : negatives_also_in_pattern) {
+					int node_num = pattern_node_num.get(act_id).get(node).intValue();
 
-					for(Node node : negatives_also_in_pattern) {
-						int node_num = pattern_node_num.get(act_id).get(node).intValue();
-
-						patternNodeIsNegativeNode[act_id][neg_num][node_num] =
-							negative_node_num.get(act_id).get(neg_num).get(node).intValue();
-					}
+					patternNodeIsNegativeNode[act_id][neg_num][node_num] =
+						negative_node_num.get(act_id).get(neg_num).get(node).intValue();
 				}
 			}
 		}
@@ -382,38 +378,35 @@ public class MoreInformationCollector extends InformationCollector {
 		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 
-			if (act instanceof MatchingAction) {
+			//iterate over negative patterns
+			for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
+				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
-				//iterate over negative patterns
-				for(PatternGraph neg_pattern : negMap.get(act_id).keySet()) {
-					int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
+				//iterate over all conditions of the current action
+				for (Expression condition : neg_pattern.getConditions()) {
+					// divide the expression to all AND-connected parts, which do
+					//not have an AND-Operator as root themselves
+					Collection<Expression> subConditions = decomposeAndParts(condition);
 
-					//iterate over all conditions of the current action
-					for (Expression condition : neg_pattern.getConditions()) {
-						// divide the expression to all AND-connected parts, which do
-						//not have an AND-Operator as root themselves
-						Collection<Expression> subConditions = decomposeAndParts(condition);
+					//for all the subconditions just computed...
+					for (Expression sub_condition : subConditions) {
+						assert conditionNumbers.get(sub_condition) == null;
 
-						//for all the subconditions just computed...
-						for (Expression sub_condition : subConditions) {
-							assert conditionNumbers.get(sub_condition) == null;
+						//...create condition numbers
+						conditionNumbers.put(sub_condition, new Integer(subConditionCounter++));
 
-							//...create condition numbers
-							conditionNumbers.put(sub_condition, new Integer(subConditionCounter++));
+						//...extract the pattern nodes and edges involved in the condition
+						Collection<Node> involvedNodes = collectInvolvedNodes(sub_condition);
+						Collection<Edge> involvedEdges = collectInvolvedEdges(sub_condition);
+						//and at these Collections to prepared Maps
+						conditionsInvolvedNodes.put(sub_condition, involvedNodes);
+						conditionsInvolvedEdges.put(sub_condition, involvedEdges);
 
-							//...extract the pattern nodes and edges involved in the condition
-							Collection<Node> involvedNodes = collectInvolvedNodes(sub_condition);
-							Collection<Edge> involvedEdges = collectInvolvedEdges(sub_condition);
-							//and at these Collections to prepared Maps
-							conditionsInvolvedNodes.put(sub_condition, involvedNodes);
-							conditionsInvolvedEdges.put(sub_condition, involvedEdges);
+						//..store the negative pattern num the conditions belongs to
+						conditionsPatternNum.put(sub_condition, new Integer(neg_num+1));
 
-							//..store the negative pattern num the conditions belongs to
-							conditionsPatternNum.put(sub_condition, new Integer(neg_num+1));
-
-							//store the subcondition in an ordered Collection
-							conditions.get(act_id).add(sub_condition);
-						}
+						//store the subcondition in an ordered Collection
+						conditions.get(act_id).add(sub_condition);
 					}
 				}
 			}
