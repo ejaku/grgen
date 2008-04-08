@@ -60,10 +60,8 @@ import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Unit;
 
 public class SearchPlanBackend extends MoreInformationCollector implements Backend, BackendFactory {
-
-	// TODO use or remove it
-	// private final int OU2T = 0;
-	// private final int IN = 1;
+	private static final int nodesInUse = 1;
+	private static final int edgesInUse = 2;
 
 	private final String MODE_EDGE_NAME = "has_mode";
 
@@ -283,7 +281,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private void genTypes(StringBuffer sb)
 	{
-		String indent = "  ";
+		String indent = "\t";
 		StringBuffer initsb = new StringBuffer();
 		sb.append("/* nodeTypeMap */ \n");
 		initsb.append("/* init node ops and modes */\n");
@@ -317,7 +315,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private void genPatterns(StringBuffer sb)
 	{
-		String indent = "  ";
+		String indent = "\t";
 		for(Rule action : unit.getActionRules()) {
 			if(action.getRight() != null) {
 
@@ -381,7 +379,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	/* -------------------------------------------
 	 * Method genConditionFunction
 	 *
-	 * Generate the funtction body for a condition
+	 * Generate the function body for a condition
 	 * ------------------------------------------- */
 
 	private void genConditionFunction(StringBuffer sb, String indent, PatternGraph graph,
@@ -390,6 +388,13 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		for(Expression cond : graph.getConditions()) {
 			sb.append("static int grs_cond_func_" + cond.getId() +
 						  "(ir_node **node_map, const ir_edge_t **edge_map) {\n");
+			int useFlags = getUnusedEvalParams(cond);
+			if ((useFlags & nodesInUse) == 0) {
+				sb.append(indent + "(void) node_map;\n");
+			}
+			if ((useFlags & edgesInUse) == 0) {
+				sb.append(indent + "(void) edge_map;\n");
+			}
 			sb.append(indent + "return ");
 			genConditionEval(sb, cond, nodeIds, edgeIds);
 			sb.append(";\n");
@@ -397,14 +402,48 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		}
 	}
 
+	private int getUnusedEvalParams(Expression cond)
+	{
+		if(cond instanceof Operator) {
+			Operator op = (Operator)cond;
+			switch (op.arity()) {
+				case 1:
+					return getUnusedEvalParams(op.getOperand(0));
+				case 2:
+					return
+						getUnusedEvalParams(op.getOperand(0)) |
+						getUnusedEvalParams(op.getOperand(1));
+				case 3:
+					if(op.getOpCode()==Operator.COND) {
+						return
+							getUnusedEvalParams(op.getOperand(0)) |
+							getUnusedEvalParams(op.getOperand(1)) |
+							getUnusedEvalParams(op.getOperand(2));
+					}
+				default: /* nothing */;
+			}
+		}
+		else if(cond instanceof Qualification) {
+			Qualification qual = (Qualification)cond;
+			Entity entity = qual.getOwner();
 
+			if(entity instanceof Node)
+			{
+				return nodesInUse;
+			}
+			else if (entity instanceof Edge)
+			{
+				return edgesInUse;
+			}
+		}
+		return 0;
+	}
 
 	/* -------------------------------------------
 	 * Method genEvalFunctions
 	 *
 	 * Generates eval functions for each eval list
 	 * ------------------------------------------- */
-
 	private void genEvalFunctions(StringBuffer sb, String indent, Rule rule, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
 	  	sb.append("/* function to do eval assignments */\n");
@@ -470,11 +509,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private void genPattern(StringBuffer sb, Rule rule,
 							IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
-		String indent = "  ";
+		String indent = "\t";
 
 		// code for the pattern graph
 		sb.append(indent + "{ /* The action */\n");
-		genPatternGraph(sb, indent + "  ", "ext_grs_act_get_pattern", rule.getLeft(), nodeIds, edgeIds, GraphType.Pattern);
+		genPatternGraph(sb, indent + "\t", "ext_grs_act_get_pattern", rule.getLeft(), nodeIds, edgeIds, GraphType.Pattern);
 
 		// code for the negative graphs
 		sb.append(indent + "  /* The negative parts of the pattern */\n");
@@ -497,7 +536,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 		// Code for registring eval functions
 		sb.append(indent + "  /* Eval functions */\n");
-		registerEvalFunctions(sb, indent + "  ", rule);
+		registerEvalFunctions(sb, indent + "\t", rule);
 
 		sb.append(indent + "} /* The Action */\n\n");
 	}
@@ -741,7 +780,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private void genConditions(StringBuffer sb, String indent, PatternGraph graph) {
 		sb.append(indent + "/* The conditions of the pattern */\n");
 		for(Expression cond : graph.getConditions()) {
-			String indent2 = indent + "  ";
+			String indent2 = indent + "\t";
 			Set<Node> nodes = new HashSet<Node>();
 			Set<Edge> edges = new HashSet<Edge>();
 
@@ -980,12 +1019,12 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	/* -------------------------------------------------------------------------------
 	 * Method genInterface
-	 * Generates the init() funktions and code to create all the ext_grs_op's
-	 * if no corresponding FIRM op exists. Also appoints heiratage between IR_OP Types
+	 * Generates the init() functions and code to create all the ext_grs_op's
+	 * if no corresponding FIRM op exists. Also appoints heritage between IR_OP Types.
 	 * ------------------------------------------------------------------------------- */
 
 	private void genInterface(StringBuffer sb) {
-		String indent = "  ";
+		String indent = "\t";
 		StringBuffer initsb = new StringBuffer();
 		String unitName = unit.getUnitName();
 
