@@ -1365,6 +1365,18 @@ namespace de.unika.ipd.grGen.grShell
             SetAttributes(elem, attributes);
         }
 
+        public object GetVarValue(String varName)
+        {
+            if(!GraphExists()) return null;
+            object val = curShellGraph.Graph.GetVariableValue(varName);
+            if(val == null)
+            {
+                Console.WriteLine("Unknown variable: \"{0}\"", varName);
+                return null;
+            }
+            return val;
+        }
+
         public void SetVariable(String varName, object elem)
         {
             if(!GraphExists()) return;

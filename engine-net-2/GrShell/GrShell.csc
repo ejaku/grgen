@@ -472,20 +472,20 @@ IGraphElement GraphElement():
 	{ return elem; }
 }
 
-IGraphElement GraphElementOrNullVar():
+object GraphElementOrVarOrNull():
 {
-	IGraphElement elem;
+	object val;
 	String str;
 }
 {
 	(
-		"@" "(" str=Text() ")" { elem = impl.GetElemByName(str); }
+		"@" "(" str=Text() ")" { val = impl.GetElemByName(str); }
     |
-        "null" { elem = null; }
+        "null" { val = null; }
 	|
-		str=Word() { elem = impl.GetElemByVar(str); }
+		str=Word() { val = impl.GetVarValue(str); }
 	)
-	{ return elem; }
+	{ return val; }
 }
 
 INode Node():
@@ -763,9 +763,9 @@ void ShellCommand():
 	        }
 	    )
     |
-        str1=Text() "="
+        str1=Word() "="
         (
-            val=GraphElementOrNullVar() LineEnd()
+            val=GraphElementOrVarOrNull() LineEnd()
         |
             val=QuotedText() LineEnd()
         |
