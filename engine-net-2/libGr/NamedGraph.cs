@@ -547,11 +547,11 @@ namespace de.unika.ipd.grGen.libGr
         public LinkedList<Variable> GetElementVariables(IGraphElement elem) { return graph.GetElementVariables(elem); }
 
         /// <summary>
-        /// Retrieves the IGraphElement for a variable name or null, if the variable isn't set yet or anymore
+        /// Retrieves the object for a variable name or null, if the variable isn't set yet or anymore
         /// </summary>
         /// <param name="varName">The variable name to lookup</param>
-        /// <returns>The according IGraphElement or null</returns>
-        public IGraphElement GetVariableValue(string varName) { return graph.GetVariableValue(varName); }
+        /// <returns>The according object or null</returns>
+        public object GetVariableValue(string varName) { return graph.GetVariableValue(varName); }
 
         /// <summary>
         /// Retrieves the INode for a variable name or null, if the variable isn't set yet or anymore.
@@ -576,13 +576,13 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Sets the value of the given variable to the given IGraphElement
+        /// Sets the value of the given variable to the given object.
         /// If the variable name is null, this function does nothing
         /// If elem is null, the variable is unset
         /// </summary>
         /// <param name="varName">The name of the variable</param>
         /// <param name="element">The new value of the variable</param>
-        public void SetVariableValue(string varName, IGraphElement element) { graph.SetVariableValue(varName, element); }
+        public void SetVariableValue(string varName, object val) { graph.SetVariableValue(varName, val); }
 
         /// <summary>
         /// Fired before a node is deleted

@@ -2506,8 +2506,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(Type == BuildMatchObjectType.Variable)
             {
-                sourceCode.AppendFrontFormat("match.Variables[(int){0}.r_VariableNums.@{1}] = var_{2};\n",
-                    RulePatternClassName, PatternElementUnprefixedName, PatternElementName);
+                sourceCode.AppendFrontFormat("match.Variables[(int){0}.{1}VariableNums.@{2}] = var_{3};\n",
+                    RulePatternClassName, PathPrefixForEnum, PatternElementUnprefixedName, PatternElementName);
             }
             else if(Type == BuildMatchObjectType.Subpattern)
             {

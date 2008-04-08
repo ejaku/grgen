@@ -73,6 +73,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             this.Nodes = nodes;
             this.Edges = edges;
+            this.Variables = varParams;
             this.EmbeddedGraphs = embeddedGraphs;
         }
 

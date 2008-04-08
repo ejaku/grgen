@@ -81,7 +81,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < patternGraph.variables.Length; i++)
             {
                 PatternVariable var = patternGraph.variables[i];
-                insertionPoint = insertionPoint.Append(new ExtractVariable(var.Type.Type.Name, var.Name, i));
+                insertionPoint = insertionPoint.Append(new ExtractVariable(var.Type.Type.Name, var.Name, var.ParameterIndex));
             }
 
             // start building with first operation in scheduled search plan

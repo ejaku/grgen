@@ -5,7 +5,7 @@ using System.IO;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A named variable pointing to a graph element.
+    /// A named variable.
     /// </summary>
     public class Variable
     {
@@ -15,19 +15,19 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String Name;
 
         /// <summary>
-        /// The graph element pointed to by the variable.
+        /// The value pointed to by the variable.
         /// </summary>
-        public IGraphElement Element;
+        public object Value;
 
         /// <summary>
         /// Initializes a Variable instance.
         /// </summary>
         /// <param name="name">The name of the variable.</param>
-        /// <param name="element">The graph element pointed to by the variable.</param>
-        public Variable(String name, IGraphElement element)
+        /// <param name="value">The value pointed to by the variable.</param>
+        public Variable(String name, object value)
         {
             Name = name;
-            Element = element;
+            Value = value;
         }
     }
 
@@ -379,11 +379,11 @@ namespace de.unika.ipd.grGen.libGr
         LinkedList<Variable> GetElementVariables(IGraphElement elem);
 
         /// <summary>
-        /// Retrieves the IGraphElement for a variable name or null, if the variable isn't set yet or anymore
+        /// Retrieves the object for a variable name or null, if the variable isn't set yet or anymore
         /// </summary>
         /// <param name="varName">The variable name to lookup</param>
-        /// <returns>The according IGraphElement or null</returns>
-        IGraphElement GetVariableValue(string varName);
+        /// <returns>The according object or null</returns>
+        object GetVariableValue(string varName);
 
         /// <summary>
         /// Retrieves the INode for a variable name or null, if the variable isn't set yet or anymore.
@@ -402,13 +402,13 @@ namespace de.unika.ipd.grGen.libGr
         IEdge GetEdgeVarValue(string varName);
 
         /// <summary>
-        /// Sets the value of the given variable to the given IGraphElement
-        /// If the variable name is null, this function does nothing
-        /// If elem is null, the variable is unset
+        /// Sets the value of the given variable to the given value.
+        /// If the variable name is null, this function does nothing.
+        /// If elem is null, the variable is unset.
         /// </summary>
         /// <param name="varName">The name of the variable</param>
-        /// <param name="elem">The new value of the variable</param>
-        void SetVariableValue(string varName, IGraphElement elem);
+        /// <param name="val">The new value of the variable</param>
+        void SetVariableValue(string varName, object val);
 
         #region Events
 

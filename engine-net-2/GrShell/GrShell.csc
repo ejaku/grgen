@@ -399,6 +399,17 @@ String Text():
 	}
 }
 
+String QuotedText():
+{
+	Token tok;
+}
+{
+	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT>)
+	{
+		return tok.image;		
+	}
+}
+
 String TextOrNumber():
 {
 	Token tok;
@@ -456,7 +467,7 @@ IGraphElement GraphElement():
 	(
 		"@" "(" str=Text() ")" { elem = impl.GetElemByName(str); }
 	|
-		str=Text() { elem = impl.GetElemByVar(str); }
+		str=Word() { elem = impl.GetElemByVar(str); }
 	)
 	{ return elem; }
 }
@@ -472,7 +483,7 @@ IGraphElement GraphElementOrNullVar():
     |
         "null" { elem = null; }
 	|
-		str=Text() { elem = impl.GetElemByVar(str); }
+		str=Word() { elem = impl.GetElemByVar(str); }
 	)
 	{ return elem; }
 }
@@ -568,6 +579,7 @@ void ShellCommand():
 {
 	String str1, str2;
 	IGraphElement elem;
+	object val;
 	INode node1, node2;
 	IEdge edge1, edge2;
 	ShellGraph shellGraph = null;
@@ -751,9 +763,16 @@ void ShellCommand():
 	        }
 	    )
     |
-        str1=Text() "=" elem=GraphElementOrNullVar() LineEnd()
+        str1=Text() "="
+        (
+            val=GraphElementOrNullVar() LineEnd()
+        |
+            val=QuotedText() LineEnd()
+        |
+            val=Number() LineEnd()
+        )
         {
-            impl.SetVariable(str1, elem);
+            impl.SetVariable(str1, val);
         }
     }
     catch(ParseException ex)

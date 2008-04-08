@@ -338,11 +338,11 @@ namespace de.unika.ipd.grGen.libGr
         public abstract LinkedList<Variable> GetElementVariables(IGraphElement elem);
 
         /// <summary>
-        /// Retrieves the IGraphElement for a variable name or null, if the variable isn't set yet or anymore
+        /// Retrieves the object for a variable name or null, if the variable isn't set yet or anymore
         /// </summary>
         /// <param name="varName">The variable name to lookup</param>
-        /// <returns>The according IGraphElement or null</returns>
-        public abstract IGraphElement GetVariableValue(String varName);
+        /// <returns>The according object or null</returns>
+        public abstract object GetVariableValue(String varName);
 
         /// <summary>
         /// Retrieves the INode for a variable name or null, if the variable isn't set yet or anymore.
@@ -367,13 +367,13 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Sets the value of the given variable to the given IGraphElement
+        /// Sets the value of the given variable to the given object.
         /// If the variable name is null, this function does nothing
         /// If elem is null, the variable is unset
         /// </summary>
         /// <param name="varName">The name of the variable</param>
         /// <param name="elem">The new value of the variable</param>
-        public abstract void SetVariableValue(String varName, IGraphElement elem);
+        public abstract void SetVariableValue(String varName, object val);
 #endif
 
         #region Events

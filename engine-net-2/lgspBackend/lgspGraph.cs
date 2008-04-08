@@ -78,7 +78,11 @@ namespace de.unika.ipd.grGen.lgsp
             LinkedList<Variable> newVars = new LinkedList<Variable>();
             foreach(Variable var in _vars)
             {
-                newVars.AddLast(new Variable(var.Name, oldToNewMap[var.Element]));
+                object newVal;
+                IGraphElement elem = var.Value as IGraphElement;
+                if(elem != null) newVal = oldToNewMap[elem];
+                else newVal = var.Value;
+                newVars.AddLast(new Variable(var.Name, newVal));
             }
             return new LGSPUndoElemRemoved(oldToNewMap[_elem], _name, newVars);
         }
@@ -1249,7 +1253,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 LinkedList<Variable> varList = ElementMap[oldNode];
                 foreach(Variable var in varList)
-                    var.Element = newNode;
+                    var.Value = newNode;
                 ElementMap.Remove(oldNode);
                 ElementMap[newNode] = varList;
                 newNode.flags |= LGSPNode.HAS_VARIABLES;
@@ -1356,7 +1360,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 LinkedList<Variable> varList = ElementMap[oldEdge];
                 foreach(Variable var in varList)
-                    var.Element = newEdge;
+                    var.Value = newEdge;
                 ElementMap.Remove(oldEdge);
                 ElementMap[newEdge] = varList;
                 newEdge.flags |= LGSPEdge.HAS_VARIABLES;
@@ -1465,16 +1469,16 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Retrieves the IGraphElement for a variable name or null, if the variable isn't set yet or anymore
+        /// Retrieves the object for a variable name or null, if the variable isn't set yet or anymore.
         /// </summary>
         /// <param name="varName">The variable name to lookup</param>
-        /// <returns>The according IGraphElement or null</returns>
-        public override IGraphElement GetVariableValue(String varName)
+        /// <returns>The according object or null</returns>
+        public override object GetVariableValue(String varName)
         {
             Variable var;
             VariableMap.TryGetValue(varName, out var);
             if(var == null) return null;
-            return var.Element;
+            return var.Value;
         }
 
         /// <summary>
@@ -1502,21 +1506,23 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Detaches the specified variable from the according graph element.
         /// If it was the last variable pointing to the element, the variable list for the element is removed.
+        /// This function may only called on variables pointing to graph elements.
         /// </summary>
         /// <param name="var">Variable to detach.</param>
         private void DetachVariableFromElement(Variable var)
         {
-            LinkedList<Variable> oldVarList = ElementMap[var.Element];
+            IGraphElement elem = (IGraphElement) var.Value;
+            LinkedList<Variable> oldVarList = ElementMap[elem];
             oldVarList.Remove(var);
             if(oldVarList.Count == 0)
             {
-                ElementMap.Remove(var.Element);
+                ElementMap.Remove(elem);
 
-                LGSPNode oldNode = var.Element as LGSPNode;
+                LGSPNode oldNode = elem as LGSPNode;
                 if(oldNode != null) oldNode.flags &= ~LGSPNode.HAS_VARIABLES;
                 else
                 {
-                    LGSPEdge oldEdge = (LGSPEdge) var.Element;
+                    LGSPEdge oldEdge = (LGSPEdge) elem;
                     oldEdge.flags &= ~LGSPEdge.HAS_VARIABLES;
                 }
             }
@@ -1529,7 +1535,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="varName">The name of the variable.</param>
         /// <param name="elem">The new value of the variable or null to unset the variable.</param>
-        public override void SetVariableValue(String varName, IGraphElement elem)
+        public override void SetVariableValue(String varName, object val)
         {
             if(varName == null) return;
 
@@ -1538,23 +1544,27 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(var != null)
             {
-                if(var.Element == elem) return;     // Variable already set to this element?
-                DetachVariableFromElement(var);
+                if(var.Value == val) return;     // Variable already set to this element?
+                if(var.Value is IGraphElement)
+                    DetachVariableFromElement(var);
 
-                if(elem == null)
+                if(val == null)
                 {
                     VariableMap.Remove(varName);
                     return;
                 }
-                var.Element = elem;
+                var.Value = val;
             }
             else
             {
-                if(elem == null) return;
+                if(val == null) return;
 
-                var = new Variable(varName, elem);
+                var = new Variable(varName, val);
                 VariableMap[varName] = var;
             }
+
+            IGraphElement elem = val as IGraphElement;
+            if(elem == null) return;
 
             LinkedList<Variable> newVarList;
             if(!ElementMap.TryGetValue(elem, out newVarList))

@@ -808,5 +808,13 @@ namespace de.unika.ipd.grGen.libGr
             if(o == null) return false;
             return type == o.type;
         }
+
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return type.GetHashCode();
+        }
     }
 }

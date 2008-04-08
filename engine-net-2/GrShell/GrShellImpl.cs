@@ -156,19 +156,24 @@ namespace de.unika.ipd.grGen.grShell
         public IGraphElement GetElemByVar(String varName)
         {
             if(!GraphExists()) return null;
-            IGraphElement elem = curShellGraph.Graph.GetVariableValue(varName);
+            object elem = curShellGraph.Graph.GetVariableValue(varName);
             if(elem == null)
             {
                 Console.WriteLine("Unknown variable: \"{0}\"", varName);
                 return null;
             }
-            return elem;
+            if(!(elem is IGraphElement))
+            {
+                Console.WriteLine("\"{0}\" is not a graph element!", varName);
+                return null;
+            }
+            return (IGraphElement) elem;
         }
 
         public IGraphElement GetElemByVarOrNull(String varName)
         {
             if(!GraphExists()) return null;
-            return curShellGraph.Graph.GetVariableValue(varName);
+            return curShellGraph.Graph.GetVariableValue(varName) as IGraphElement;
         }
 
         public IGraphElement GetElemByName(String elemName)
@@ -1360,7 +1365,7 @@ namespace de.unika.ipd.grGen.grShell
             SetAttributes(elem, attributes);
         }
 
-        public void SetVariable(String varName, IGraphElement elem)
+        public void SetVariable(String varName, object elem)
         {
             if(!GraphExists()) return;
             curShellGraph.Graph.SetVariableValue(varName, elem);
