@@ -718,4 +718,95 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public new EdgeType[] DirectSuperTypes { get { return directSuperTypes; } }
     }
+
+    /// <summary>
+    /// A representation of a GrGen variable type.
+    /// </summary>
+    public class VarType : GrGenType
+    {
+        static int nextID = 0;
+
+        /// <summary>
+        /// A map from .NET types to singleton VarTypes.
+        /// </summary>
+        private static Dictionary<Type, VarType> varTypeMap = new Dictionary<Type, VarType>();
+
+        private Type type;
+
+        private VarType(Type varType) : base(nextID++)
+        {
+            type = varType;
+        }
+
+        /// <summary>
+        /// Gets the singleton VarType object for a given .NET type.
+        /// </summary>
+        /// <param name="type">The .NET type.</param>
+        /// <returns>The singleton VarType object.</returns>
+        public static VarType GetVarType(Type type)
+        {
+            VarType varType;
+            if(!varTypeMap.TryGetValue(type, out varType))
+                varTypeMap[type] = varType = new VarType(type);
+            return varType;
+        }
+
+        /// <summary>
+        /// The name of the type.
+        /// </summary>
+        public override string Name
+        {
+            get { return type.Name; }
+        }
+
+        /// <summary>
+        /// The .NET type of the variable.
+        /// </summary>
+        public Type Type { get { return type; } }
+
+        public override bool IsNodeType
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        public override int NumAttributes
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        public override IEnumerable<AttributeType> AttributeTypes
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        public override AttributeType GetAttributeType(string name)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        /// <summary>
+        /// Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
+        /// or it is a sub type of the given type.
+        /// </summary>
+        /// <param name="other">The type to be compared to.</param>
+        /// <returns>True, if this type is compatible to the given type.</returns>
+        public override bool IsA(GrGenType other)
+        {
+            VarType o = other as VarType;
+            if(o == null) return false;
+            return o.type.IsAssignableFrom(type);
+        }
+
+        /// <summary>
+        /// Checks, whether the given type equals this type.
+        /// </summary>
+        /// <param name="other">The type to be compared to.</param>
+        /// <returns>True, if the given type is the same as this type.</returns>
+        public override bool Equals(object other)
+        {
+            VarType o = other as VarType;
+            if(o == null) return false;
+            return type == o.type;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 //#define NO_ADJUST_LIST_HEADS
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using de.unika.ipd.grGen.libGr;
@@ -76,6 +77,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
+
+            for(int i = 0; i < patternGraph.variables.Length; i++)
+            {
+                PatternVariable var = patternGraph.variables[i];
+                insertionPoint = insertionPoint.Append(new ExtractVariable(var.Type.Type.Name, var.Name, i));
+            }
 
             // start building with first operation in scheduled search plan
             insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
@@ -1070,7 +1077,8 @@ namespace de.unika.ipd.grGen.lgsp
                 new CheckPartialMatchByCondition(condition.ID.ToString(),
                     rulePatternClassName,
                     condition.NeededNodes,
-                    condition.NeededEdges);
+                    condition.NeededEdges,
+                    condition.NeededVariables);
             insertionPoint = insertionPoint.Append(checkCondition);
 
             //---------------------------------------------------------------------------
@@ -1290,6 +1298,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertMatchObjectBuilding(SearchProgramOperation insertionPoint)
         {
+            String enumPrefix = patternGraph.pathPrefix + patternGraph.name + "_";
+            foreach(PatternVariable var in patternGraph.variables)
+            {
+                BuildMatchObject buildMatch = new BuildMatchObject(BuildMatchObjectType.Variable,
+                        var.UnprefixedName, var.Name, rulePatternClassName, enumPrefix, -1);
+                insertionPoint = insertionPoint.Append(buildMatch);
+            }
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
             {
                 BuildMatchObject buildMatch =
@@ -1298,7 +1313,7 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.nodes[i].UnprefixedName,
                         patternGraph.nodes[i].Name,
                         rulePatternClassName,
-                        patternGraph.pathPrefix + patternGraph.name + "_",
+                        enumPrefix,
                         -1
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
@@ -1311,7 +1326,7 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.edges[i].UnprefixedName,
                         patternGraph.edges[i].Name,
                         rulePatternClassName,
-                        patternGraph.pathPrefix + patternGraph.name + "_",
+                        enumPrefix,
                         -1
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
@@ -1324,7 +1339,7 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.embeddedGraphs[i].name,
                         patternGraph.embeddedGraphs[i].name,
                         rulePatternClassName,
-                        patternGraph.pathPrefix+patternGraph.name+"_",
+                        enumPrefix,
                         -1
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
@@ -1337,7 +1352,7 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.alternatives[i].name,
                         patternGraph.alternatives[i].name,
                         rulePatternClassName,
-                        patternGraph.pathPrefix + patternGraph.name + "_",
+                        enumPrefix,
                         patternGraph.embeddedGraphs.Length
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
@@ -1481,7 +1496,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- check failed, no tasks left, leaf subpattern was matched
             LeafSubpatternMatched leafMatched = new LeafSubpatternMatched(
-                patternGraph.nodes.Length.ToString(), patternGraph.edges.Length.ToString());
+                patternGraph.nodes.Length, patternGraph.edges.Length, patternGraph.variables.Length);
             SearchProgramOperation continuationPointAfterLeafMatched =
                 insertionPoint.Append(leafMatched);
             leafMatched.MatchBuildingOperations =
@@ -1602,6 +1617,7 @@ namespace de.unika.ipd.grGen.lgsp
                 patternAndSubpatternsMatched = new PatternAndSubpatternsMatched(
                     patternGraph.nodes.Length,
                     patternGraph.edges.Length,
+                    patternGraph.variables.Length,
                     patternGraph.embeddedGraphs.Length,
                     patternGraph.alternatives.Length
                 );
@@ -1661,9 +1677,9 @@ namespace de.unika.ipd.grGen.lgsp
             // or abort because the maximum desired number of maches was reached
             CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
 #if NO_ADJUST_LIST_HEADS
-            new CheckContinueMatchingMaximumMatchesReached(false, false);
+                new CheckContinueMatchingMaximumMatchesReached(false, false);
 #else
-            new CheckContinueMatchingMaximumMatchesReached(false, true);
+                new CheckContinueMatchingMaximumMatchesReached(false, true);
 #endif
             insertionPoint = insertionPoint.Append(checkMaximumMatches);
 

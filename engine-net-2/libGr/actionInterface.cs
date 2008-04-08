@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Buffer to store parameters used by libGr to avoid unneccessary memory allocation
         /// </summary>
-        public IGraphElement[] Parameters;
+        public object[] Parameters;
 
         /// <summary>
         /// Instantiates a new RuleObject
@@ -52,7 +52,7 @@ namespace de.unika.ipd.grGen.libGr
             else RuleName = "<Unknown rule>";
             ParamVars = paramVars;
             ReturnVars = returnVars;
-            Parameters = new IGraphElement[paramVars.Length];
+            Parameters = new object[paramVars.Length];
         }
     }
 
@@ -76,10 +76,10 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The host graph.</param>
         /// <param name="maxMatches">The maximum number of matches to be searched for, or zero for an unlimited search.</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>An IMatches object containing the found matches.</returns>
-        IMatches Match(IGraph graph, int maxMatches, IGraphElement[] parameters);
+        IMatches Match(IGraph graph, int maxMatches, object[] parameters);
 
         /// <summary>
         /// Performs the rule specific modifications to the given graph with the given match.
@@ -111,11 +111,11 @@ namespace de.unika.ipd.grGen.libGr
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] Apply(IGraph graph, params IGraphElement[] parameters);
+        IGraphElement[] Apply(IGraph graph, params object[] parameters);
 
         /// <summary>
         /// Tries to apply this rule to all occurrences in the given graph "at once".
@@ -134,11 +134,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="maxMatches">The maximum number of matches to be rewritten.</param>
         /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] ApplyAll(int maxMatches, IGraph graph, params IGraphElement[] parameters);
+        IGraphElement[] ApplyAll(int maxMatches, IGraph graph, params object[] parameters);
 
         /// <summary>
         /// Applies this rule to the given graph as often as possible.
@@ -154,10 +154,10 @@ namespace de.unika.ipd.grGen.libGr
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>Always returns true.</returns>
-        bool ApplyStar(IGraph graph, params IGraphElement[] parameters);
+        bool ApplyStar(IGraph graph, params object[] parameters);
 
         /// <summary>
         /// Applies this rule to the given graph as often as possible.
@@ -173,10 +173,10 @@ namespace de.unika.ipd.grGen.libGr
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>True, if the rule was applied at least once.</returns>
-        bool ApplyPlus(IGraph graph, params IGraphElement[] parameters);
+        bool ApplyPlus(IGraph graph, params object[] parameters);
 
         /// <summary>
         /// Applies this rule to the given graph at most max times.
@@ -196,10 +196,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="min">The minimum number of applications to be "successful".</param>
         /// <param name="max">The maximum number of applications to be applied.</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>True, if the rule was applied at least min times.</returns>
-        bool ApplyMinMax(IGraph graph, int min, int max, params IGraphElement[] parameters);
+        bool ApplyMinMax(IGraph graph, int min, int max, params object[] parameters);
     }
 
     /// <summary>
@@ -223,6 +223,12 @@ namespace de.unika.ipd.grGen.libGr
         /// The order is given by the Edges array of the according IPatternGraph.
         /// </summary>
         IEdge[] Edges { get; }
+
+        /// <summary>
+        /// An array of variables given to the matcher method.
+        /// The order is given by the Variables array of the according IPatternGraph.
+        /// </summary>
+        object[] Variables { get; }
 
         /// <summary>
         /// An array of all submatches due to subpatterns and alternatives. 

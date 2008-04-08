@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.lgsp
 {
-    public delegate LGSPMatches MatchInvoker(LGSPGraph graph, int maxMatches, IGraphElement[] parameters);
+    public delegate LGSPMatches MatchInvoker(LGSPGraph graph, int maxMatches, object[] parameters);
 
     /// <summary>
     /// An object representing a match of the LGSPBackend.
@@ -44,6 +44,12 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPEdge[] Edges;
 
         /// <summary>
+        /// An array of variables given to the matcher method.
+        /// The order is given by the Variables array of the according IPatternGraph.
+        /// </summary>
+        public object[] Variables;
+
+        /// <summary>
         /// An array of all submatches due to subpatterns and alternatives. 
         /// First subpatterns in order of EmbeddedGraphs array of the according IPatternGraph,
         /// then alternatives in order of Alternatives array of the according IPatternGraph.
@@ -61,14 +67,20 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="nodes">The nodes of the match.</param>
         /// <param name="edges">The edges of the match.</param>
+        /// <param name="varParams">The parameter variables of the match.</param>
         /// <param name="embeddedGraphs">The embedded graphs of the match.</param>
-        public LGSPMatch(LGSPNode[] nodes, LGSPEdge[] edges, LGSPMatch[] embeddedGraphs)
+        public LGSPMatch(LGSPNode[] nodes, LGSPEdge[] edges, object[] varParams, LGSPMatch[] embeddedGraphs)
         {
             this.Nodes = nodes;
             this.Edges = edges;
             this.EmbeddedGraphs = embeddedGraphs;
         }
 
+        /// <summary>
+        /// Returns a string representation of the LGSPMatch object.
+        /// Currently not really informative.
+        /// </summary>
+        /// <returns>A string representation of the LGSPMatch object.</returns>
         public override string ToString()
         {
             return "Match of " + patternGraph.Name;
@@ -76,21 +88,47 @@ namespace de.unika.ipd.grGen.lgsp
 
         #region IMatch Members
 
+        /// <summary>
+        /// The match object represents a match of the pattern given in this member
+        /// </summary>
         IPatternGraph IMatch.Pattern
         {
             get { throw new Exception("The method or operation is not implemented."); }
         }
 
+        /// <summary>
+        /// An array of all nodes in the match.
+        /// The order is given by the Nodes array of the according IPatternGraph.
+        /// </summary>
         INode[] IMatch.Nodes
         {
             get { return Nodes; }
         }
 
+        /// <summary>
+        /// An array of all edges in the match.
+        /// The order is given by the Edges array of the according IPatternGraph.
+        /// </summary>
         IEdge[] IMatch.Edges
         {
             get { return Edges; }
         }
 
+        /// <summary>
+        /// An array of variables given to the matcher method.
+        /// The order is given by the Variables array of the according IPatternGraph.
+        /// </summary>
+        object[] IMatch.Variables
+        {
+            get { return Variables; }
+        }
+
+        /// <summary>
+        /// An array of all submatches due to subpatterns and alternatives. 
+        /// First subpatterns in order of EmbeddedGraphs array of the according IPatternGraph,
+        /// then alternatives in order of Alternatives array of the according IPatternGraph.
+        /// You can find out which alternative case was matched by inspecting the Pattern member of the submatch.
+        /// </summary>
         IMatch[] IMatch.EmbeddedGraphs
         {
             get { return EmbeddedGraphs; }
@@ -110,10 +148,10 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPMatchesList : IEnumerable<IMatch>
     {
         /// <summary>
-        /// number of nodes, edges and subpatterns each match object contains
+        /// number of nodes, edges, variables and subpatterns each match object contains
         /// that knowledge allows us to create the match objects here
         /// </summary>
-        private int numNodes, numEdges, numSubpats;
+        private int numNodes, numEdges, numVars, numSubpats;
 
         /// <summary>
         /// number of found matches in the list
@@ -133,12 +171,13 @@ namespace de.unika.ipd.grGen.lgsp
         private LGSPMatch last;
 
 
-        public LGSPMatchesList(int numNodes, int numEdges, int numSubpats)
+        public LGSPMatchesList(int numNodes, int numEdges, int numVars, int numSubpats)
         {
             this.numNodes = numNodes;
             this.numEdges = numEdges;
+            this.numVars = numVars;
             this.numSubpats = numSubpats;
-            last = root = new LGSPMatch(new LGSPNode[numNodes], new LGSPEdge[numEdges], new LGSPMatch[numSubpats]);
+            last = root = new LGSPMatch(new LGSPNode[numNodes], new LGSPEdge[numEdges], new object[numVars], new LGSPMatch[numSubpats]);
         }
 
         public int Count { get { return count; } }
@@ -171,7 +210,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             count++;
             if (last.nextMatch == null)
-                last.nextMatch = new LGSPMatch(new LGSPNode[numNodes], new LGSPEdge[numEdges], new LGSPMatch[numSubpats]);
+                last.nextMatch = new LGSPMatch(new LGSPNode[numNodes], new LGSPEdge[numEdges], new object[numVars], new LGSPMatch[numSubpats]);
             last = last.nextMatch;
         }
 
@@ -224,11 +263,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="producer">The action object used to generate this LGSPMatches object</param>
         /// <param name="numNodes">The number of nodes which will be matched by the given action.</param>
         /// <param name="numEdges">The number of edges which will be matched by the given action.</param>
+        /// <param name="numVars">The number of variables which will be used by the given action.</param>
         /// <param name="numSubpats">The number of subpatterns which will be matched by the given action.</param>
-        public LGSPMatches(LGSPAction producer, int numNodes, int numEdges, int numSubpats)
+        public LGSPMatches(LGSPAction producer, int numNodes, int numEdges, int numVars, int numSubpats)
         {
             this.producer = producer;
-            matchesList = new LGSPMatchesList(numNodes, numEdges, numSubpats);
+            matchesList = new LGSPMatchesList(numNodes, numEdges, numVars, numSubpats);
         }
 
         /// <summary>
@@ -296,10 +336,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="graph">The host graph.</param>
         /// <param name="maxMatches">The maximum number of matches to be searched for, or zero for an unlimited search.</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>An LGSPMatches object containing the found matches.</returns>
-        public LGSPMatches Match(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches Match(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             return DynamicMatch(graph, maxMatches, parameters);
         }
@@ -360,11 +400,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
         /// or null, if no match was found.</returns>
-        public IGraphElement[] Apply(LGSPGraph graph, params IGraphElement[] parameters)
+        public IGraphElement[] Apply(LGSPGraph graph, params object[] parameters)
         {
             LGSPMatches matches = DynamicMatch(graph, 1, parameters);
             if(matches.Count <= 0) return null;
@@ -407,11 +447,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="maxMatches">The maximum number of matches to be rewritten.</param>
         /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
         /// or null, if no match was found.</returns>
-        public IGraphElement[] ApplyAll(int maxMatches, LGSPGraph graph, params IGraphElement[] parameters)
+        public IGraphElement[] ApplyAll(int maxMatches, LGSPGraph graph, params object[] parameters)
         {
             LGSPMatches matches = DynamicMatch(graph, maxMatches, parameters);
             IGraphElement[] retElems = null;
@@ -436,10 +476,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="graph">The host graph.</param>
         /// <param name="maxMatches">The maximum number of matches to be searched for, or zero for an unlimited search.</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>An IMatches object containing the found matches.</returns>
-        IMatches IAction.Match(IGraph graph, int maxMatches, IGraphElement[] parameters)
+        IMatches IAction.Match(IGraph graph, int maxMatches, object[] parameters)
         {
 //            return Match((LGSPGraph) graph, maxMatches, parameters);
             return DynamicMatch((LGSPGraph) graph, maxMatches, parameters);
@@ -493,11 +533,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] IAction.Apply(IGraph graph, params IGraphElement[] parameters)
+        IGraphElement[] IAction.Apply(IGraph graph, params object[] parameters)
         {
             LGSPMatches matches = DynamicMatch((LGSPGraph) graph, 1, parameters);
             if(matches.Count <= 0) return null;
@@ -525,11 +565,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] IAction.ApplyAll(int maxMatches, IGraph graph, params IGraphElement[] parameters)
+        IGraphElement[] IAction.ApplyAll(int maxMatches, IGraph graph, params object[] parameters)
         {
             return ApplyAll(maxMatches, (LGSPGraph) graph, parameters);
         }
@@ -563,10 +603,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>Always returns true.</returns>
-        public bool ApplyStar(IGraph graph, params IGraphElement[] parameters)
+        public bool ApplyStar(IGraph graph, params object[] parameters)
         {
             LGSPGraph lgraph = (LGSPGraph) graph;
             LGSPMatches matches;
@@ -610,10 +650,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>True, if the rule was applied at least once.</returns>
-        public bool ApplyPlus(IGraph graph, params IGraphElement[] parameters)
+        public bool ApplyPlus(IGraph graph, params object[] parameters)
         {
             LGSPGraph lgraph = (LGSPGraph) graph;
             LGSPMatches matches = DynamicMatch(lgraph, 1, parameters);
@@ -662,10 +702,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="min">The minimum number of applications to be "successful".</param>
         /// <param name="max">The maximum number of applications to be applied.</param>
-        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>True, if the rule was applied at least min times.</returns>
-        public bool ApplyMinMax(IGraph graph, int min, int max, params IGraphElement[] parameters)
+        public bool ApplyMinMax(IGraph graph, int min, int max, params object[] parameters)
         {
             LGSPGraph lgraph = (LGSPGraph) graph;
             LGSPMatches matches;

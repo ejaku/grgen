@@ -157,7 +157,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 
-            IGraphElement[] parameters;
+            object[] parameters;
             if(ruleObject.ParamVars.Length > 0)
             {
                 parameters = ruleObject.Parameters;

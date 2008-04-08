@@ -3,7 +3,6 @@
 //#define RANDOM_LOOKUP_LIST_START      // currently broken
 //#define DUMP_SCHEDULED_SEARCH_PLAN
 //#define DUMP_SEARCHPROGRAMS
-#define OLDMAPPEDFIELDS
 //#define OPCOST_WITH_GEO_MEAN
 //#define VSTRUCT_VAL_FOR_EDGE_LOOKUP
 
@@ -1428,10 +1427,12 @@ exitSecondLoop: ;
             sb.Indent(); // method body level
             sb.AppendFront("rulePattern = " + rulePattern.GetType().Name + ".Instance;\n");
             sb.AppendFront("patternGraph = rulePattern.patternGraph;\n");
-            sb.AppendFront("DynamicMatch = myMatch; matches = new LGSPMatches(this, " 
-                + patternGraph.Nodes.Length + ", " 
-                + patternGraph.Edges.Length + ", " 
-                + patternGraph.EmbeddedGraphs.Length + "+" + patternGraph.Alternatives.Length +
+            sb.AppendFront("DynamicMatch = myMatch;\n");
+            sb.AppendFront("matches = new LGSPMatches(this, "
+                + patternGraph.Nodes.Length + ", "
+                + patternGraph.Edges.Length + ", "
+                + patternGraph.Variables.Length + ", "
+                + patternGraph.EmbeddedGraphs.Length + " + " + patternGraph.Alternatives.Length +
                 ");\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");

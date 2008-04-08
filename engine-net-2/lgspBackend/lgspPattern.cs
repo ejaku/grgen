@@ -126,8 +126,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Instantiates a new PatternEdge object
         /// </summary>
-        /// <param name="source">The source pattern node for this edge.</param>
-        /// <param name="target">The target pattern node for this edge.</param>
         /// <param name="fixedDirection">Whether this pattern edge should be matched with a fixed direction or not.</param>
         /// <param name="typeID">The type ID of the pattern edge.</param>
         /// <param name="name">The name of the pattern edge.</param>
@@ -162,6 +160,39 @@ namespace de.unika.ipd.grGen.lgsp
         }
     }
 
+    public class PatternVariable : IPatternVariable
+    {
+        /// <summary>
+        /// The name of the variable.
+        /// </summary>
+        public String Name { get { return name; } }
+
+        /// <summary>
+        /// The pure name of the pattern element as specified in the .grg without any prefixes.
+        /// </summary>
+        public String UnprefixedName { get { return unprefixedName; } }
+
+        public VarType Type;
+        public String name;
+        public String unprefixedName;
+        public int ParameterIndex;
+
+        /// <summary>
+        /// Instantiates a new PatternVariable object.
+        /// </summary>
+        /// <param name="type">The GrGen type of the variable.</param>
+        /// <param name="name">The name of the variable.</param>
+        /// <param name="unprefixedName">Pure name of the variable as specified in the .grg without any prefixes.</param>
+        /// <param name="parameterIndex">Specifies to which rule parameter this variable corresponds.</param>
+        public PatternVariable(VarType type, String name, String unprefixedName, int parameterIndex)
+        {
+            this.Type = type;
+            this.name = name;
+            this.unprefixedName = unprefixedName;
+            this.ParameterIndex = parameterIndex;
+        }
+    }
+
     /// <summary>
     /// Representation of some condition which must be true for the pattern containing it to be matched
     /// </summary>
@@ -170,12 +201,14 @@ namespace de.unika.ipd.grGen.lgsp
         public int ID;
         public String[] NeededNodes;
         public String[] NeededEdges;
+        public String[] NeededVariables;
 
-        public Condition(int id, String[] neededNodes, String[] neededEdges)
+        public Condition(int id, String[] neededNodes, String[] neededEdges, String[] neededVariables)
         {
             ID = id;
             NeededNodes = neededNodes;
             NeededEdges = neededEdges;
+            NeededVariables = neededVariables;
         }
     }
 
@@ -202,6 +235,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of all pattern edges.
         /// </summary>
         public IPatternEdge[] Edges { get { return edges; } }
+
+        /// <summary>
+        /// An array of all pattern variables.
+        /// </summary>
+        public IPatternVariable[] Variables { get { return variables; } }
 
         /// <summary>
         /// Returns the source pattern node of the given edge, null if edge dangles to the left
@@ -286,6 +324,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of all pattern edges.
         /// </summary>
         public PatternEdge[] edges;
+
+        /// <summary>
+        /// An array of all pattern variables.
+        /// </summary>
+        public PatternVariable[] variables;
 
         /// <summary>
         /// Returns the source pattern node of the given edge, null if edge dangles to the left
@@ -387,7 +430,7 @@ namespace de.unika.ipd.grGen.lgsp
         public ScheduledSearchPlan ScheduleIncludingNegatives;
 
         public PatternGraph(String name, String pathPrefix, bool isIndependent,
-            PatternNode[] nodes, PatternEdge[] edges,
+            PatternNode[] nodes, PatternEdge[] edges, PatternVariable[] variables,
             PatternGraphEmbedding[] embeddedGraphs, Alternative[] alternatives, 
             PatternGraph[] negativePatternGraphs, Condition[] conditions,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
@@ -398,6 +441,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.isIndependent = isIndependent;
             this.nodes = nodes;
             this.edges = edges;
+            this.variables = variables;
             this.embeddedGraphs = embeddedGraphs;
             this.alternatives = alternatives;
             this.negativePatternGraphs = negativePatternGraphs;

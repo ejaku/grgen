@@ -40,6 +40,14 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// A pattern variable of a rule pattern.
+    /// </summary>
+    public interface IPatternVariable : IPatternElement
+    {
+        // currently empty
+    }
+
+    /// <summary>
     /// A pattern graph.
     /// </summary>
     public interface IPatternGraph
@@ -58,6 +66,11 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of all pattern edges.
         /// </summary>
         IPatternEdge[] Edges { get; }
+
+        /// <summary>
+        /// An array of all pattern variables;
+        /// </summary>
+        IPatternVariable[] Variables { get; }
 
         /// <summary>
         /// Returns the source pattern node of the given edge, null if edge dangles to the left
