@@ -534,7 +534,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		genGraph(sb, indent + "     ", "ext_grs_act_get_replacement", rule.getRight(), nodeIds, edgeIds, GraphType.Replacement);
 		sb.append(indent + "  } /* The replacement */\n\n");
 
-		// Code for registring eval functions
+		// Code for registering eval functions
 		sb.append(indent + "  /* Eval functions */\n");
 		registerEvalFunctions(sb, indent + "\t", rule);
 
@@ -620,7 +620,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				related = true;			// Flag indicates to emit an relation statement afterwards
 			}
 
-	    int nodeId;
+			int nodeId;
 			String name, type;
 			if(node.getRetypedNode() == null || graphType != GraphType.Replacement)
 			{
@@ -1030,7 +1030,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 		initsb.append("/* function for initializing the actions */\n");
 		sb.append("/* global variables containing the actions */\n");
-		initsb.append("void ext_grs_action_init_" + unitName + "() {\n");
+		initsb.append("void ext_grs_action_init_" + unitName + "(void) {\n");
 		initsb.append(indent + "init();\n");
 		for(Rule action : unit.getActionRules()) {
 			if(action.getRight() != null) {
