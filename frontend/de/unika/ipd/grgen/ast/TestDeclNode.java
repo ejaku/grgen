@@ -40,6 +40,7 @@ import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 
@@ -273,6 +274,8 @@ public class TestDeclNode extends ActionDeclNode {
 			} else if (decl instanceof EdgeCharacter) {
 				Edge e = ((EdgeCharacter)decl).getEdge();
 				patternGraph.addSingleEdge(e);
+			} else if(decl instanceof VarDeclNode) {
+				patternGraph.addVariable((Variable) decl.getIR());
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
@@ -287,7 +290,7 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	@Override
-		public TypeNode getDeclType() {
+	public TypeNode getDeclType() {
 		assert isResolved();
 
 		return type;

@@ -43,14 +43,17 @@ public abstract class Expression extends IR
 	}
 
 	/** @return The type of the expression. */
-	public Type getType()	{
+	public Type getType() {
 		return type;
 	}
 
 	/**
-	 * Method collectNodesnEdges extracts the nodes and edges occurring in this Expression.
-	 * @param nodes A set to receive the nodes
-	 * @param edges A set to receive the edges
+	 * Method collectElementsAndVars extracts the nodes, edges, and variables
+	 * occurring in this Expression.
+	 * @param nodes A set to receive the nodes. May be null, if not needed.
+	 * @param edges A set to receive the edges. May be null, if not needed.
+	 * @param vars  A set to receive the variables. May be null, if not needed.
 	 */
-	public abstract void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges);
+	public abstract void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges,
+			Set<Variable> vars);
 }

@@ -53,11 +53,15 @@ public class Qualification extends Expression {
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
-	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
-		if(owner instanceof Node)
-			nodes.add((Node)owner);
-		else if(owner instanceof Edge)
-			edges.add((Edge)owner);
+	public void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges, Set<Variable> vars) {
+		if(owner instanceof Node) {
+			if(nodes != null)
+				nodes.add((Node)owner);
+		}
+		else if(owner instanceof Edge) {
+			if(edges != null)
+				edges.add((Edge)owner);
+		}
 		else
 			throw new UnsupportedOperationException("Unsupported Entity (" + owner + ")");
 	}

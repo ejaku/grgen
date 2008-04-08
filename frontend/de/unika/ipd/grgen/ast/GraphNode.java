@@ -325,13 +325,19 @@ public class GraphNode extends BaseNode {
 	        	ConnectionNode conn = (ConnectionNode) para;
 	        	res.add(conn.getEdge().getDecl());
 	        }
-	        if (para instanceof SingleNodeConnNode) {
+	        else if (para instanceof SingleNodeConnNode) {
 	        	NodeDeclNode node = ((SingleNodeConnNode) para).getNode();
 	        	res.add(node);
 	        }
+			else if(para instanceof VarDeclNode) {
+				res.add((VarDeclNode) para);
+			}
+			else
+				throw new UnsupportedOperationException("Unsupported parameter (" + para + ")");
         }
 
 		return res;
 	}
 }
+
 

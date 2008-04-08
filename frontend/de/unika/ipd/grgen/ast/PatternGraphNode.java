@@ -309,7 +309,7 @@ public class PatternGraphNode extends GraphNode {
 		Set<Node> neededNodes = new LinkedHashSet<Node>();
 		Set<Edge> neededEdges = new LinkedHashSet<Edge>();
 		for(Expression cond : gr.getConditions()) {
-			cond.collectNodesnEdges(neededNodes, neededEdges);
+			cond.collectElementsAndVars(neededNodes, neededEdges, null);
 		}
 		for(Node neededNode : neededNodes) {
 			if(!gr.hasNode(neededNode)) {

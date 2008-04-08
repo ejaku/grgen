@@ -292,6 +292,12 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append("};\n");
 
+		sb.append("\t\tpublic enum " + pathPrefixForElements + "VariableNums { ");
+		for(Variable var : pattern.getVars()) {
+			sb.append("@" + formatIdentifiable(var) + ", ");
+		}
+		sb.append("};\n");
+
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "SubNums { ");
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			sb.append("@" + formatIdentifiable(sub) + ", ");
@@ -374,6 +380,10 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\t\t\t\tnew PatternEdge[] ");
 		genEntitySet(sb, pattern.getEdges(), "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append(", \n");
+
+		sb.append("\t\t\t\tnew PatternVariable[] ");
+		genEntitySet(sb, pattern.getVars(), "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
 		sb.append(", \n");
 
 		sb.append("\t\t\t\tnew PatternGraphEmbedding[] ");
@@ -560,6 +570,18 @@ public class ActionsGen extends CSharpBase {
 			edge.setPointOfDefinition(pattern);
 		}
 
+		for(Variable var : pattern.getVars()) {
+			if(alreadyDefinedEntityToName.get(var)!=null) {
+				continue;
+			}
+			String varName = formatEntity(var, pathPrefixForElements);
+			sb.append("\t\t\tPatternVariable " + varName + " = new PatternVariable(");
+			sb.append("VarType.GetVarType(typeof(" + formatAttributeType(var)
+					+ ")), \"" + varName + "\", \"" + formatIdentifiable(var) + "\", ");
+			sb.append(parameters.indexOf(var)+");\n");
+			alreadyDefinedEntityToName.put(var, varName);
+		}
+
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			if(alreadyDefinedIdentifiableToName.get(sub)!=null) {
 				continue;
@@ -579,11 +601,14 @@ public class ActionsGen extends CSharpBase {
 		for(Expression expr : pattern.getConditions()) {
 			Set<Node> nodes = new LinkedHashSet<Node>();
 			Set<Edge> edges = new LinkedHashSet<Edge>();
-			expr.collectNodesnEdges(nodes, edges);
+			Set<Variable> vars = new LinkedHashSet<Variable>();
+			expr.collectElementsAndVars(nodes, edges, vars);
 			sb.append("\t\t\tCondition cond_" + condCnt + " = new Condition(" + condCnt + ", new String[] ");
 			genEntitySet(sb, nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new String[] ");
 			genEntitySet(sb, edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new String[] ");
+			genEntitySet(sb, vars, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(");\n");
 			condCnt++;
 		}
@@ -634,8 +659,11 @@ public class ActionsGen extends CSharpBase {
 
 	private void genRuleParamResult(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
 		sb.append("\t\t\tinputs = new GrGenType[] { ");
-		for(Entity ent : action.getParameters())
-			sb.append(formatTypeClass(ent.getType()) + ".typeVar, ");
+		for(Entity ent : action.getParameters()) {
+			if(ent instanceof Variable)
+				sb.append("VarType.GetVarType(typeof(" + formatAttributeType(ent) + ")), ");
+			else sb.append(formatTypeClass(ent.getType()) + ".typeVar, ");
+		}
 		sb.append("};\n");
 
 		sb.append("\t\t\tinputNames = new string[] { ");
@@ -710,12 +738,27 @@ public class ActionsGen extends CSharpBase {
 		for(Expression expr : conditions) {
 			Set<Node> nodes = new LinkedHashSet<Node>();
 			Set<Edge> edges = new LinkedHashSet<Edge>();
-			expr.collectNodesnEdges(nodes, edges);
+			Set<Variable> vars = new LinkedHashSet<Variable>();
+			expr.collectElementsAndVars(nodes, edges, vars);
 			sb.append("\t\tpublic static bool Condition_" + condCnt + "(");
 			genSet(sb, nodes, "LGSPNode node_", "", false);
-			if(!nodes.isEmpty() && !edges.isEmpty())
-				sb.append(", ");
-			genSet(sb, edges, "LGSPEdge edge_", "", false);
+			if(!edges.isEmpty())
+			{
+				if(!nodes.isEmpty())
+					sb.append(", ");
+				genSet(sb, edges, "LGSPEdge edge_", "", false);
+			}
+			if(!vars.isEmpty())
+			{
+				boolean first = nodes.isEmpty() && edges.isEmpty();
+				for(Variable var : vars) {
+					if(first) first = false;
+					else sb.append(", ");
+					sb.append(formatAttributeType(var));
+					sb.append(" var_");
+					sb.append(formatIdentifiable(var));
+				}
+			}
 			sb.append(")\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn ");
@@ -803,4 +846,5 @@ public class ActionsGen extends CSharpBase {
 	private SearchPlanBackend2 be;
 	private ModifyGen mg;
 }
+
 

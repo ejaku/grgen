@@ -45,11 +45,15 @@ public class Typeof extends Expression {
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
-	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
-		if(entity instanceof Node)
-			nodes.add((Node)entity);
-		else if(entity instanceof Edge)
-			edges.add((Edge)entity);
+	public void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges, Set<Variable> vars) {
+		if(entity instanceof Node) {
+			if(nodes != null)
+				nodes.add((Node)entity);
+		}
+		else if(entity instanceof Edge) {
+			if(edges != null)
+				edges.add((Edge)entity);
+		}
 		else
 			throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
 	}

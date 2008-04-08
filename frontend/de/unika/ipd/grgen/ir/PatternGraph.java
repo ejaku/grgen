@@ -40,6 +40,8 @@ import java.util.List;
  * Additionally it can have conditions referring to its items that restrict the set of possible matchings.
  */
 public class PatternGraph extends Graph {
+	private final Collection<Variable> vars = new LinkedList<Variable>();
+
 	/** The alternative statements of the pattern graph */
 	private final Collection<Alternative> alts = new LinkedList<Alternative>();
 
@@ -82,6 +84,14 @@ public class PatternGraph extends Graph {
 
 	public List<ImperativeStmt> getImperativeStmts() {
 		return imperativeStmts;
+	}
+
+	public void addVariable(Variable var) {
+		vars.add(var);
+	}
+
+	public Collection<Variable> getVars() {
+		return Collections.unmodifiableCollection(vars);
 	}
 
 	public void addAlternative(Alternative alternative) {

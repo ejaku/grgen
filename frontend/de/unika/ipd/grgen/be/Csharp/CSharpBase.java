@@ -61,6 +61,7 @@ import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.VariableExpression;
 import de.unika.ipd.grgen.ir.VoidType;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
@@ -231,15 +232,13 @@ public abstract class CSharpBase {
 
 	public String formatEntity(Entity entity, String pathPrefix) {
 		if(entity instanceof Node) {
-			return pathPrefix+"node_"+formatIdentifiable(entity);
+			return pathPrefix + "node_" + formatIdentifiable(entity);
 		}
 		else if (entity instanceof Edge) {
-			return pathPrefix+"edge_"+formatIdentifiable(entity);
+			return pathPrefix + "edge_" + formatIdentifiable(entity);
 		}
 		else if (entity instanceof Variable) {
-			//TODO NYI
-			System.err.println("formatEntity(): TODO NYI Variable " + entity +"  TODO");
-			return "/* TODO NYI Variable TODO */";
+			return pathPrefix + "var_" + formatIdentifiable(entity);
 		}
 		else {
 			throw new IllegalArgumentException("Unknown entity " + entity + " (" + entity.getClass() + ")");
@@ -248,19 +247,9 @@ public abstract class CSharpBase {
 
 	public String formatEntity(Entity entity, String pathPrefix,
 							   HashMap<Entity, String> alreadyDefinedEntityToName) {
-		if(entity instanceof Node) {
-			if(alreadyDefinedEntityToName!=null && alreadyDefinedEntityToName.get(entity)!=null)
-				return alreadyDefinedEntityToName.get(entity);
-			return pathPrefix+"node_"+formatIdentifiable(entity);
-		}
-		else if (entity instanceof Edge) {
-			if(alreadyDefinedEntityToName!=null && alreadyDefinedEntityToName.get(entity)!=null)
-				return alreadyDefinedEntityToName.get(entity);
-			return pathPrefix+"edge_"+formatIdentifiable(entity);
-		}
-		else {
-			throw new IllegalArgumentException("Unknown entity" + entity + "(" + entity.getClass() + ")");
-		}
+		if(alreadyDefinedEntityToName!=null && alreadyDefinedEntityToName.get(entity)!=null)
+			return alreadyDefinedEntityToName.get(entity);
+		return formatEntity(entity, pathPrefix);
 	}
 
 	public String formatInt(int i) {
@@ -383,6 +372,10 @@ public abstract class CSharpBase {
 				genExpression(sb, cast.getExpression(), modifyGenerationState);
 				sb.append(")");
 			}
+		}
+		else if(expr instanceof VariableExpression) {
+			Variable var = ((VariableExpression) expr).getVariable();
+			sb.append("var_" + var.getIdent());
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

@@ -53,8 +53,8 @@ public class Cast extends Expression
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
-	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
-		getExpression().collectNodesnEdges(nodes, edges);
+	public void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges, Set<Variable> vars) {
+		getExpression().collectElementsAndVars(nodes, edges, vars);
 	}
 }
 

@@ -18,6 +18,8 @@ import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Typeof;
+import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.VariableExpression;
 
 public class Formatter {
 
@@ -62,6 +64,7 @@ public class Formatter {
 						sb.append(")");
 						break;
 					}
+					// FALL THROUGH
 				default: throw new UnsupportedOperationException("Unsupported Operation arrity (" + op.arity() + ")");
 			}
 		}
@@ -130,6 +133,10 @@ public class Formatter {
 				formatConditionEvalAux(sb, cast.getExpression());
 				sb.append(")");
 			}
+		}
+		else if(cond instanceof VariableExpression) {
+			Variable var = ((VariableExpression) cond).getVariable();
+			sb.append(var.getIdent());
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
