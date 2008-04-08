@@ -287,7 +287,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		StringBuffer initsb = new StringBuffer();
 		sb.append("/* nodeTypeMap */ \n");
 		initsb.append("/* init node ops and modes */\n");
-		initsb.append("static void init() {\n");
+		initsb.append("static void init(void) {\n");
 		for(NodeType nodeType : nodeTypeMap.keySet()) {
 			if(!nodeType.isCastableTo(MODE_TYPE))
 			{
@@ -328,7 +328,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				IdGenerator<Edge> edgeIds = new IdGenerator<Edge>();
 
 				sb2.append("/* functions for building the pattern of action " + actionName + " */\n");
-				sb2.append("static inline ext_grs_action_t *grs_action_" + actionName + "_init() {\n");
+				sb2.append("static INLINE ext_grs_action_t *grs_action_" + actionName + "_init(void) {\n");
 				sb2.append(indent + "ext_grs_action_t *act = ext_grs_new_action(ext_grs_k_rule, \"" +
 							   actionName + "\");\n");
 				sb2.append(indent + "int check;\n");
