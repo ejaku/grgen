@@ -181,6 +181,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("#include <assert.h>\n");
 		sb.append("#include \"firm.h\"\n");
 		sb.append("#include \"grs.h\"\n");
+		sb.append("#include \"ia32_new_nodes.h\"\n");
 		sb.append("#include \"simd/firm_node_ext.h\"\n\n");
 
 		findModeType();
@@ -589,7 +590,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				type = node.getNodeType().getIdent().toString();
 			}
 			else
-			{
+			{ // node gets retyped
 				nodeId = nodeIds.computeId(node.getRetypedNode());
 				name = node.getRetypedNode().getIdent().toString() + nameSuffix;
 				type = node.getRetypedNode().getNodeType().getIdent().toString();
@@ -601,7 +602,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				if(e.getEdgeType().getIdent().toString().equals(MODE_EDGE_NAME)) {
 					// Found the "mode" edge. Save the mode of the current node for dumping
 					Node modeNode = graph.getTarget(e);
-					mode = modeNode.getNodeType().getIdent().toString().substring(5);
+					//System.out.println("'" + modeNode.getNodeType().getIdent().toString() + "'");
+					if (null != modeNode) {
+						mode = modeNode.getNodeType().getIdent().toString().substring(5);
+					}
 				}
 			}
 
@@ -613,20 +617,23 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			// Check if the node is related to a positiv node
 			if(!related)
 			{
+				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_rd_" + type;
 				sb.append(indent + "ext_grs_node_t *n_" + name +			// No, Write statement to file
 						  " = ext_grs_act_add_node(pattern, \"" +
 						  name + "\", grs_op_" + type + ", mode_" + mode +
-						  ", " + nodeId + ");\n");
+						  ", " + nodeId + ", &" + construction_func + ");\n");
 
 			}
 			else
 			{
 				String addRelatedNodeFunc = (graphType == GraphType.Negative) ? "ext_grs_act_add_related_node" : "ext_grs_act_add_node_to_keep";
 				String related_name = node.getIdent().toString(); 			// Yes, the regular node name without suffix
+				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_rd_" + type;
 				sb.append(indent + "ext_grs_node_t *n_" + name +	    // Write statement to file
 					  	" = " + addRelatedNodeFunc + "(pattern, \"" +
 					  	name + "\", grs_op_" + type + ", mode_" + mode +
-					  	", " + nodeId + ", n_" + related_name + ");\n");
+					  	", " + nodeId + ", n_" + related_name + ", &" +
+							construction_func + ");\n");
 				System.out.println(relatedNodes + "; " + node + "; " + name);
 				relatedNodes.put(node, name);								// Name was changed for neg nodes. Remember new
 																			// name for the creation of edges.
@@ -670,7 +677,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			int edgeId  = edgeIds.computeId(edge);
 			String edgePos = "ext_grs_NO_EDGE_POS";
 			String name = edge.getIdent().toString().replace('$','_') + nameSuffix;
-			//System.out.println("'" + edge.getIdent().toString().substring(0, 4) + "'");
+			//System.out.println("'" + edge.getIdent().toString() + "'\n");
 			if(name.length() > 4 && name.substring(0, 4).matches("pos[0123456789]"))
 			{
 				String edgePosNrStr = edge.getIdent().toString().substring(3, 4);
@@ -711,7 +718,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			{
 				// Create a related edge
 				String addRelatedEdgeFunc = (graphType == GraphType.Negative) ? "ext_grs_act_add_related_edge" : "ext_grs_act_add_edge_to_keep";
-				String related_name = edge.getIdent().toString().replace('$','_'); 	// The original name without suffux
+				String related_name = edge.getIdent().toString().replace('$','_'); 	// The original name without suffix
 				sb.append(indent + "ext_grs_edge_t *e_" + name +		   	// Write statement to file
 						  " = " + addRelatedEdgeFunc + "(pattern, \"" + name +
 						  "\", " + edgePos + ", n_" + targetName + ", n_" +
