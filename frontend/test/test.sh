@@ -50,7 +50,7 @@ else
 fi
 CLASSPATH=$JARGS$SEP$ANTLR$SEP$GRGENNET/grgen.jar
 
-JAVA_ARGS="-Xmx256M -cp $CLASSPATH -ea de.unika.ipd.grgen.Main -b $BE_CSC -t"
+JAVA_ARGS="-Xms256M -Xmx512M -cp $CLASSPATH -ea de.unika.ipd.grgen.Main -b $BE_CSC -t"
 
 do_test()
 {
