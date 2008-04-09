@@ -752,6 +752,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 						  " = ext_grs_act_add_edge(pattern, \"" + name +
 						  "\", " + edgePos + ", n_" + targetName + ", n_" +
 						  sourceName +", " + edgeId + ");\n");
+				sb.append(indent + "(void) e_" + name + ";\n");
 			}
 			else
 			{
@@ -762,6 +763,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 						  " = " + addRelatedEdgeFunc + "(pattern, \"" + name +
 						  "\", " + edgePos + ", n_" + targetName + ", n_" +
 						  sourceName + ", " + edgeId + ", e_" + related_name + ");\n");
+				sb.append(indent + "(void) e_" + name + ";\n");
 			}
 		}
 		sb.append("\n");
