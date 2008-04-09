@@ -41,11 +41,14 @@ import java.util.Vector;
 /**
  * A resolver, that resolves a declaration node from an identifier.
  */
-public class MemberAnyResolver extends Base
+public class MemberAnyResolver<T> extends Base
 {
+	// for error message
+	private BaseNode orginalNode;
+
 	private BaseNode unresolvedNode;
-	private BaseNode resolvedNode;
-	private Vector<Class> triedClasses = new Vector<Class>();
+	private T resolvedNode;
+	private Vector<Class<? extends T>> triedClasses = new Vector<Class<? extends T>>();
 	private int validClasses;
 
 	/**
@@ -57,16 +60,16 @@ public class MemberAnyResolver extends Base
 		triedClasses.clear();
 		validClasses = 0;
 
-		unresolvedNode = node;
-		if(!(unresolvedNode instanceof IdentNode)) {
-			resolvedNode = unresolvedNode;
+		orginalNode = node;
+		if(!(orginalNode instanceof IdentNode)) {
+			unresolvedNode = orginalNode;
 			return true;
 		}
 
-		IdentNode identNode = (IdentNode) unresolvedNode;
-		resolvedNode = identNode.getDecl();
+		IdentNode identNode = (IdentNode) orginalNode;
+		unresolvedNode = identNode.getDecl();
 
-		if (resolvedNode instanceof InvalidDeclNode) {
+		if (unresolvedNode instanceof InvalidDeclNode) {
 			DeclNode scopeDecl = identNode.getScope().getIdentNode().getDecl();
 			if(scopeDecl instanceof RuleDeclNode) {
 				identNode.reportError("Undefined identifier \"" + identNode.toString() + "\"");
@@ -75,8 +78,8 @@ public class MemberAnyResolver extends Base
 			else {
 				InheritanceTypeNode typeNode = (InheritanceTypeNode) scopeDecl.getDeclType();
 				Map<String, DeclNode> allMembers = typeNode.getAllMembers();
-				resolvedNode = allMembers.get(identNode.toString());
-				if(resolvedNode == null) {
+				unresolvedNode = allMembers.get(identNode.toString());
+				if(unresolvedNode == null) {
 					identNode.reportError("Undefined member " + identNode.toString()
 							+ " of " + typeNode.getDecl().getIdentNode());
 					return false;
@@ -86,7 +89,7 @@ public class MemberAnyResolver extends Base
 		return true;
 	}
 
-	public BaseNode getResult() {
+	public T getResult() {
 		return resolvedNode;
 	}
 
@@ -94,12 +97,13 @@ public class MemberAnyResolver extends Base
 	 * Returns the last resolved BaseNode, if it has the given type.
 	 * Otherwise it returns null.
 	 */
-	public <T> T getResult(Class<T> cls) {
+	public <S extends T> S getResult(Class<S> cls) {
 		triedClasses.add(cls);
-		if(cls.isInstance(resolvedNode))
+		if(cls.isInstance(unresolvedNode))
 		{
 			validClasses++;
-			return cls.cast(resolvedNode);
+			resolvedNode = cls.cast(unresolvedNode);
+			return cls.cast(unresolvedNode);
 		}
 
 		return null;
@@ -110,7 +114,7 @@ public class MemberAnyResolver extends Base
 	 */
 	public void failed() {
 		Class<?>[] classes = new Class<?>[triedClasses.size()];
-		unresolvedNode.reportError("\"" + unresolvedNode + "\" is a " + resolvedNode.getUseString() + " but a "
+		orginalNode.reportError("\"" + orginalNode + "\" is a " + orginalNode.getUseString() + " but a "
 		        + Util.getStrListWithOr(triedClasses.toArray(classes), BaseNode.class, "getUseStr")
 		        + " is expected");
 	}

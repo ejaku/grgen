@@ -25,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;

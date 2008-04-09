@@ -77,7 +77,7 @@ public class DeclExprNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static MemberAnyResolver memberResolver = new MemberAnyResolver();
+	private static MemberAnyResolver<DeclaredCharacter> memberResolver = new MemberAnyResolver<DeclaredCharacter>();
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
@@ -88,7 +88,7 @@ public class DeclExprNode extends ExprNode {
 		declVar       = memberResolver.getResult(VarDeclNode.class);
 		declElem      = memberResolver.getResult(ConstraintDeclNode.class);
 
-		validVersion  = (DeclaredCharacter) memberResolver.getResult();
+		validVersion  = memberResolver.getResult();
 
 		return memberResolver.finish();
 	}
