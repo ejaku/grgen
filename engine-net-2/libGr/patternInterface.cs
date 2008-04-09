@@ -202,8 +202,8 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The host graph for this modification.</param>
         /// <param name="match">The match which is used for this rewrite.</param>
-        /// <returns>An array of elements returned by the rule</returns>
-        IGraphElement[] Modify(IGraph graph, IMatch match);
+        /// <returns>An array of values returned by the rule</returns>
+        object[] Modify(IGraph graph, IMatch match);
     }
 }
 

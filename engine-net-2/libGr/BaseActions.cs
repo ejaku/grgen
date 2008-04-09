@@ -115,10 +115,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="which">The index of the match in the matches object to be applied,
         /// or -1, if all matches are to be applied.</param>
         /// <param name="perfInfo">A PerformanceInfo object accumulating the number of rewrites performed, or null.</param>
-        /// <returns>A possibly empty array of graph elements returned by the last applied rewrite.</returns>
-        public IGraphElement[] Replace(IMatches matches, int which, PerformanceInfo perfInfo)
+        /// <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
+        public object[] Replace(IMatches matches, int which, PerformanceInfo perfInfo)
         {
-            IGraphElement[] retElems = null;
+            object[] retElems = null;
             if(which != -1)
             {
                 if(which < 0 || which >= matches.Count)
@@ -189,7 +189,7 @@ namespace de.unika.ipd.grGen.libGr
             if(OnFinishing != null) OnFinishing(matches, special);
 
             if(perfInfo != null) perfInfo.StartLocal();
-            IGraphElement[] retElems = Replace(matches, which, perfInfo);
+            object[] retElems = Replace(matches, which, perfInfo);
             for(int i = 0; i < ruleObject.ReturnVars.Length; i++)
                 Graph.SetVariableValue(ruleObject.ReturnVars[i], retElems[i]);
             if(perfInfo != null) perfInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore

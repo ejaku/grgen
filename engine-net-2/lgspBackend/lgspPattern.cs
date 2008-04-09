@@ -563,8 +563,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="graph">The host graph for this modification.</param>
         /// <param name="match">The match which is used for this rewrite.</param>
-        /// <returns>An array of elements returned by the rule</returns>
-        public IGraphElement[] Modify(IGraph graph, IMatch match)
+        /// <returns>An array of objects returned by the rule</returns>
+        public object[] Modify(IGraph graph, IMatch match)
         {
             return Modify((LGSPGraph)graph, (LGSPMatch)match);
         }
@@ -575,8 +575,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="graph">The host graph for this modification.</param>
         /// <param name="match">The match which is used for this rewrite.</param>
-        /// <returns>An array of elements returned by the rule</returns>
-        public abstract IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match);
+        /// <returns>An array of objects returned by the rule</returns>
+        public abstract object[] Modify(LGSPGraph graph, LGSPMatch match);
 
         /// <summary>
         /// Performs the rule specific modifications to the given graph with the given match (rewrite part).
@@ -585,22 +585,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="graph">The host graph for this modification.</param>
         /// <param name="match">The match which is used for this rewrite.</param>
-        /// <returns>An array of elements returned by the rule</returns>
-        public abstract IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match);
+        /// <returns>An array of objects returned by the rule</returns>
+        public abstract object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match);
 
 
         // performance optimization: saves us usage of new in Modify for returning empty array
-        public static IGraphElement[] EmptyReturnElements = new IGraphElement[] { };
+        public static object[] EmptyReturnElements = new object[] { };
 
         /// <summary>
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
         public GrGenType[] outputs;
-
-        /// <summary>
-        /// Names of the rule return elements
-        /// </summary>
-        public string[] outputNames;
     }
 
     /// <summary>

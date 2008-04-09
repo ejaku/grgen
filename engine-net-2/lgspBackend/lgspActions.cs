@@ -348,8 +348,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Performs the rule specific modifications to the given graph with the given match.
         /// </summary>
-        /// <returns>An array of elements returned by the rule.</returns>
-        public IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+        /// <returns>An array of values returned by the rule.</returns>
+        public object[] Modify(LGSPGraph graph, LGSPMatch match)
         {
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
                 return rulePattern.Modify(graph, match);
@@ -361,10 +361,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// Performs the rule specific modifications to the given graph with all of the given matches.
         /// No OnRewritingNextMatch events are triggered by this function.
         /// </summary>
-        /// <returns>An array of elements returned by the rule.</returns>
-        public IGraphElement[] ModifyAll(LGSPGraph graph, LGSPMatches matches)
+        /// <returns>An array of values returned by the rule.</returns>
+        public object[] ModifyAll(LGSPGraph graph, LGSPMatches matches)
         {
-            IGraphElement[] retElems = null;
+            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
             {
                 foreach(LGSPMatch match in matches)
@@ -384,9 +384,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+        /// <returns>A possibly empty array of objects returned by the rule,
         /// or null, if no match was found.</returns>
-        public IGraphElement[] Apply(LGSPGraph graph)
+        public object[] Apply(LGSPGraph graph)
         {
             LGSPMatches matches = DynamicMatch(graph, 1, null);
             if(matches.Count <= 0) return null;
@@ -403,9 +403,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+        /// <returns>A possibly empty array of objects returned by the rule,
         /// or null, if no match was found.</returns>
-        public IGraphElement[] Apply(LGSPGraph graph, params object[] parameters)
+        public object[] Apply(LGSPGraph graph, params object[] parameters)
         {
             LGSPMatches matches = DynamicMatch(graph, 1, parameters);
             if(matches.Count <= 0) return null;
@@ -423,12 +423,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="maxMatches">The maximum number of matches to be rewritten or 0 for no limit.</param>
         /// <param name="graph">Host graph for this rule</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
+        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
         /// or null, if no match was found.</returns>
-        public IGraphElement[] ApplyAll(int maxMatches, LGSPGraph graph)
+        public object[] ApplyAll(int maxMatches, LGSPGraph graph)
         {
             LGSPMatches matches = DynamicMatch(graph, maxMatches, null);
-            IGraphElement[] retElems = null;
+            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
             {
                 foreach(LGSPMatch match in matches)
@@ -450,12 +450,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
+        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
         /// or null, if no match was found.</returns>
-        public IGraphElement[] ApplyAll(int maxMatches, LGSPGraph graph, params object[] parameters)
+        public object[] ApplyAll(int maxMatches, LGSPGraph graph, params object[] parameters)
         {
             LGSPMatches matches = DynamicMatch(graph, maxMatches, parameters);
-            IGraphElement[] retElems = null;
+            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
             {
                 foreach(LGSPMatch match in matches)
@@ -490,8 +490,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// Performs the rule specific modifications to the given graph with the given match.
         /// The graph and match object must have the correct type for the used backend.
         /// </summary>
-        /// <returns>An array of elements returned by the rule.</returns>
-        IGraphElement[] IAction.Modify(IGraph graph, IMatch match)
+        /// <returns>An array of objects returned by the rule.</returns>
+        object[] IAction.Modify(IGraph graph, IMatch match)
         {
 //            return Modify((LGSPGraph)graph, (LGSPMatch)match);
 //            return rulePattern.Modify((LGSPGraph)graph, (LGSPMatch)match);
@@ -505,8 +505,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// Performs the rule specific modifications to the given graph with all of the given matches.
         /// No OnRewritingNextMatch events are triggered by this function.
         /// </summary>
-        /// <returns>An array of elements returned by the rule.</returns>
-        IGraphElement[] IAction.ModifyAll(IGraph graph, IMatches matches)
+        /// <returns>An array of objects returned by the rule.</returns>
+        object[] IAction.ModifyAll(IGraph graph, IMatches matches)
         {
             return ModifyAll((LGSPGraph) graph, (LGSPMatches) matches);
         }
@@ -517,9 +517,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+        /// <returns>A possibly empty array of objects returned by the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] IAction.Apply(IGraph graph)
+        object[] IAction.Apply(IGraph graph)
         {
             LGSPMatches matches = DynamicMatch((LGSPGraph) graph, 1, null);
             if(matches.Count <= 0) return null;
@@ -536,9 +536,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+        /// <returns>A possibly empty array of objects returned by the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] IAction.Apply(IGraph graph, params object[] parameters)
+        object[] IAction.Apply(IGraph graph, params object[] parameters)
         {
             LGSPMatches matches = DynamicMatch((LGSPGraph) graph, 1, parameters);
             if(matches.Count <= 0) return null;
@@ -554,9 +554,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
+        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] IAction.ApplyAll(int maxMatches, IGraph graph)
+        object[] IAction.ApplyAll(int maxMatches, IGraph graph)
         {
             return ApplyAll(maxMatches, (LGSPGraph) graph);
         }
@@ -568,9 +568,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
+        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] IAction.ApplyAll(int maxMatches, IGraph graph, params object[] parameters)
+        object[] IAction.ApplyAll(int maxMatches, IGraph graph, params object[] parameters)
         {
             return ApplyAll(maxMatches, (LGSPGraph) graph, parameters);
         }

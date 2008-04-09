@@ -343,7 +343,7 @@ namespace de.unika.ipd.grGen.lgsp
 			if(!xgrsVars.ContainsKey(varName))
 			{
 				xgrsVars.Add(varName, null);
-				source.AppendFront("IGraphElement var_" + varName + " = null;\n");
+				source.AppendFront("object var_" + varName + " = null;\n");
 			}
 		}
 
@@ -439,7 +439,7 @@ namespace de.unika.ipd.grGen.lgsp
 						+ ".Match(graph, " + (seq.SequenceType == SequenceType.Rule ? "1" : "actions.MaxMatches"));
                     if(ruleObj.ParamVars.Length != 0)
                     {
-                        source.Append(", new IGraphElement[] {");
+                        source.Append(", new object[] {");
                         foreach(String paramName in ruleObj.ParamVars)
                             source.Append("var_" + paramName + ", ");
                         source.Append("}");
@@ -453,7 +453,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("{\n");
                     source.Indent();
                     source.AppendFront("actions.Finishing(mat_" + seqID + ", " + specialStr + ");\n");
-                    source.AppendFront("IGraphElement[] ret_" + seqID + " = ");
+                    source.AppendFront("object[] ret_" + seqID + " = ");
                     if(seq.SequenceType == SequenceType.Rule)
                         source.Append("rule_" + ruleObj.RuleName + ".Modify(graph, mat_" + seqID + ".matchesList.First);\n");
                     else

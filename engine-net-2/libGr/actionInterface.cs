@@ -85,16 +85,16 @@ namespace de.unika.ipd.grGen.libGr
         /// Performs the rule specific modifications to the given graph with the given match.
         /// The graph and match object must have the correct type for the used backend.
         /// </summary>
-        /// <returns>An array of elements returned by the rule.</returns>
-        IGraphElement[] Modify(IGraph graph, IMatch match);
+        /// <returns>An array of objects returned by the rule.</returns>
+        object[] Modify(IGraph graph, IMatch match);
 
         /// <summary>
         /// Performs the rule specific modifications to the given graph with all of the given matches.
         /// The graph and match object must have the correct type for the used backend.
         /// No OnRewritingNextMatch events are triggered by this function.
         /// </summary>
-        /// <returns>An array of elements returned by the rule.</returns>
-        IGraphElement[] ModifyAll(IGraph graph, IMatches matches);
+        /// <returns>An array of objects returned by the rule.</returns>
+        object[] ModifyAll(IGraph graph, IMatches matches);
 
         /// <summary>
         /// Tries to apply this rule to the given graph once.
@@ -102,9 +102,9 @@ namespace de.unika.ipd.grGen.libGr
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+        /// <returns>A possibly empty array of objects returned by the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] Apply(IGraph graph);
+        object[] Apply(IGraph graph);
 
         /// <summary>
         /// Tries to apply this rule to the given graph once.
@@ -113,9 +113,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+        /// <returns>A possibly empty array of objects returned by the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] Apply(IGraph graph, params object[] parameters);
+        object[] Apply(IGraph graph, params object[] parameters);
 
         /// <summary>
         /// Tries to apply this rule to all occurrences in the given graph "at once".
@@ -124,9 +124,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="maxMatches">The maximum number of matches to be rewritten.</param>
         /// <param name="graph">Host graph for this rule</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
+        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] ApplyAll(int maxMatches, IGraph graph);
+        object[] ApplyAll(int maxMatches, IGraph graph);
 
         /// <summary>
         /// Tries to apply this rule to all occurrences in the given graph "at once".
@@ -136,9 +136,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
+        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
         /// or null, if no match was found.</returns>
-        IGraphElement[] ApplyAll(int maxMatches, IGraph graph, params object[] parameters);
+        object[] ApplyAll(int maxMatches, IGraph graph, params object[] parameters);
 
         /// <summary>
         /// Applies this rule to the given graph as often as possible.
