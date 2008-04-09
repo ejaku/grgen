@@ -119,7 +119,7 @@ public class UndirectedEdgeTypeNode extends EdgeTypeNode {
 
 		for(InheritanceTypeNode inh : extend.getChildren()) {
 			coll.add(inh);
-			inh.getCompatibleToTypes(coll);
+			coll.addAll(inh.getCompatibleToTypes());
 		}
     }
 

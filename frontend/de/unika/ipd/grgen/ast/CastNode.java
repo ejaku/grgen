@@ -129,11 +129,7 @@ public class CastNode extends ExprNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#typeCheckLocal()
 	 */
 	protected boolean typeCheckLocal() {
-		Collection<TypeNode> castableToTypes = new HashSet<TypeNode>();
-
-		expr.getType().getCastableToTypes(castableToTypes);
-
-		boolean result = castableToTypes.contains(type);
+		boolean result = expr.getType().getCastableToTypes().contains(type);
 		if(!result) {
 			reportError("Illegal cast from \"" + expr.getType() + "\" to \"" + type + "\"");
 		}

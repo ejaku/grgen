@@ -93,9 +93,7 @@ public abstract class ExprNode extends BaseNode {
 		 * compatibility graph. But as it is very small we do it shortly
 		 * and nicely with this little piece of code finding a compatibility
 		 * with only one indirection */
-		Collection<TypeNode> coll = new HashSet<TypeNode>();
-		src.getCompatibleToTypes(coll);
-		for (TypeNode t : coll) {
+		for (TypeNode t : src.getCompatibleToTypes()) {
 			if (t.isCompatibleTo(tgt)) {
 				return new CastNode(getCoords(), tgt, new CastNode(getCoords(), t, this, this), this);
 			}

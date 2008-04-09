@@ -147,7 +147,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 
 		for(InheritanceTypeNode inh : extend.getChildren()) {
 			coll.add(inh);
-			inh.getCompatibleToTypes(coll);
+			coll.addAll(inh.getCompatibleToTypes());
 		}
     }
 

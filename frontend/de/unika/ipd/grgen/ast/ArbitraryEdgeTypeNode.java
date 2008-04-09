@@ -118,7 +118,7 @@ public class ArbitraryEdgeTypeNode extends EdgeTypeNode {
 
 		for(EdgeTypeNode inh : extend.getChildren()) {
 			coll.add(inh);
-			inh.getCompatibleToTypes(coll);
+			coll.addAll(inh.getCompatibleToTypes());
 		}
     }
 
