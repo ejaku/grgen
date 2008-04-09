@@ -28,16 +28,6 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Cast;
@@ -48,6 +38,7 @@ import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Operator;
@@ -61,6 +52,15 @@ import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.VariableExpression;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class ModifyGen extends CSharpBase {
 	final int TYPE_OF_TASK_NONE = 0;
@@ -75,7 +75,7 @@ public class ModifyGen extends CSharpBase {
 		List<Entity> parameters;
 		Collection<Assignment> evals;
 		List<Entity> replParameters;
-		List<Entity> returns;
+		List<Expression> returns;
 		boolean isSubpattern;
 		boolean reuseNodesAndEdges;
 
@@ -110,7 +110,7 @@ public class ModifyGen extends CSharpBase {
 		Collection<GraphEntity> accessViaInterface();
 
 		Map<GraphEntity, HashSet<Entity>> neededAttributes();
-		Map<GraphEntity, HashSet<Entity>> neededAttributesForEmit();
+		Map<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete();
 
 		Collection<Variable> neededVariables();
 
@@ -142,7 +142,7 @@ public class ModifyGen extends CSharpBase {
 		public Collection<GraphEntity> accessViaInterface() { return Collections.unmodifiableCollection(accessViaInterface); }
 
 		public Map<GraphEntity, HashSet<Entity>> neededAttributes() { return Collections.unmodifiableMap(neededAttributes); }
-		public Map<GraphEntity, HashSet<Entity>> neededAttributesForEmit() { return Collections.unmodifiableMap(neededAttributesForEmit); }
+		public Map<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete() { return Collections.unmodifiableMap(attributesStoredBeforeDelete); }
 
 		public Collection<Variable> neededVariables() { return Collections.unmodifiableCollection(neededVariables); }
 
@@ -174,7 +174,7 @@ public class ModifyGen extends CSharpBase {
 		public HashSet<GraphEntity> accessViaInterface = new HashSet<GraphEntity>();
 
 		public HashMap<GraphEntity, HashSet<Entity>> neededAttributes = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
-		public HashMap<GraphEntity, HashSet<Entity>> neededAttributesForEmit = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
+		public HashMap<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 
 		public HashSet<Variable> neededVariables = new LinkedHashSet<Variable>();
 
@@ -189,6 +189,7 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	final List<Entity> emptyParameters = new LinkedList<Entity>();
+	final List<Expression> emptyReturns = new LinkedList<Expression>();
 	final Collection<Assignment> emtpyEvals = new HashSet<Assignment>();
 
 	public ModifyGen() {
@@ -250,7 +251,7 @@ public class ModifyGen extends CSharpBase {
 			task.parameters = rule.getParameters();
 			task.evals = emtpyEvals;
 			task.replParameters = emptyParameters;
-			task.returns = emptyParameters;
+			task.returns = emptyReturns;
 			task.isSubpattern = true;
 			for(Entity entity : task.parameters) { // add connections to empty graph so that they stay unchanged
 				if(entity instanceof Node) {
@@ -273,7 +274,7 @@ public class ModifyGen extends CSharpBase {
 			task.parameters = rule.getParameters();
 			task.evals = emtpyEvals;
 			task.replParameters = emptyParameters;
-			task.returns = emptyParameters;
+			task.returns = emptyReturns;
 			task.isSubpattern = true;
 			for(Entity entity : task.parameters) { // add connections to empty graph so that they stay unchanged
 				if(entity instanceof Node) {
@@ -419,7 +420,7 @@ public class ModifyGen extends CSharpBase {
 		//  - Retype edges
 		//  - Create subpatterns
 		//  - Attribute reevaluation
-		//  - Create variables for used attributes of non-reusees needed for emits
+		//  - Create variables for used attributes of non-reusees needed for imperative statements and returns
 		//  - Check deleted elements for retyping due to homomorphy
 		//  - Remove edges
 		//  - Remove nodes
@@ -446,14 +447,20 @@ public class ModifyGen extends CSharpBase {
 				state.nodesNeededAsAttributes, state.edgesNeededAsAttributes,
 				state.neededVariables);
 
-		// Copy all entries generated by collectNeededAttributes for emit stuff
+		collectElementsAndAttributesNeededByReturns(task, state.neededAttributes,
+				state.nodesNeededAsElements, state.edgesNeededAsElements,
+				state.nodesNeededAsAttributes, state.edgesNeededAsAttributes,
+				state.neededVariables);
+
+		// Copy all entries generated by collectNeededAttributes for imperative statements and returns
 		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : state.neededAttributes.entrySet()) {
 			HashSet<Entity> neededAttrs = entry.getValue();
-			HashSet<Entity> neededAttrsForEmit = state.neededAttributesForEmit.get(entry.getKey());
-			if(neededAttrsForEmit == null) {
-				state.neededAttributesForEmit.put(entry.getKey(), neededAttrsForEmit = new LinkedHashSet<Entity>());
+			HashSet<Entity> attributesStoredBeforeDelete = state.attributesStoredBeforeDelete.get(entry.getKey());
+			if(attributesStoredBeforeDelete == null) {
+				state.attributesStoredBeforeDelete.put(entry.getKey(),
+						attributesStoredBeforeDelete = new LinkedHashSet<Entity>());
 			}
-			neededAttrsForEmit.addAll(neededAttrs);
+			attributesStoredBeforeDelete.addAll(neededAttrs);
 		}
 
 		collectElementsAndAttributesNeededByEvals(task, state.neededAttributes,
@@ -479,7 +486,7 @@ public class ModifyGen extends CSharpBase {
 
 		genEvals(sb3, stateConst, task.evals);
 
-		genCreateVariablesForUsedAttributesOfNonReuseesNeededForEmits(sb3, stateConst, state.forceAttributeToVar);
+		genVariablesForUsedAttributesBeforeDelete(sb3, stateConst, state.forceAttributeToVar);
 
 		genCheckDeletedElementsForRetypingThroughHomomorphy(sb3, stateConst);
 
@@ -494,10 +501,8 @@ public class ModifyGen extends CSharpBase {
 		genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(sb3, task);
 
 		// Emit return (only if top-level rule)
-		if(pathPrefix=="" && !task.isSubpattern) {
-			collectReturnElements(task.returns, state.nodesNeededAsElements, state.edgesNeededAsElements);
-			emitReturnStatement(sb3, task.returns);
-		}
+		if(pathPrefix=="" && !task.isSubpattern)
+			emitReturnStatement(sb3, stateConst, task.returns);
 
 		// Emit end of function
 		sb3.append("\t\t}\n");
@@ -538,8 +543,7 @@ public class ModifyGen extends CSharpBase {
 		switch(task.typeOfTask) {
 		case TYPE_OF_TASK_MODIFY:
 			if(pathPrefix=="" && !task.isSubpattern) {
-				sb.append("\t\tpublic override IGraphElement[] "
-						+ "Modify"+noReuse+"(LGSPGraph graph, LGSPMatch match)\n");
+				sb.append("\t\tpublic override object[] Modify"+noReuse+"(LGSPGraph graph, LGSPMatch match)\n");
 			} else {
 				sb.append("\t\tpublic void "
 						+ pathPrefix+task.left.getNameOfGraph()+"_Modify"+noReuse+"(LGSPGraph graph, LGSPMatch match");
@@ -754,6 +758,28 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void collectElementsAndAttributesNeededByReturns(ModifyGenerationTask task,
+			HashMap<GraphEntity, HashSet<Entity>> neededAttributes,
+			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
+			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes,
+			HashSet<Variable> neededVariables)
+	{
+		for(Expression expr : task.returns) {
+			if(expr instanceof GraphEntityExpression) {
+				GraphEntity entity = ((GraphEntityExpression) expr).getGraphEntity();
+				if(entity instanceof Node)
+					nodesNeededAsElements.add((Node) entity);
+				else if(entity instanceof Edge)
+					edgesNeededAsElements.add((Edge) entity);
+				else
+					throw new UnsupportedOperationException("Unsupported entity (" + entity + ")");
+			}
+			else
+				collectNeededAttributes(expr, neededAttributes,
+						nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
+		}
+	}
+
 	private void genCreateVariablesForUsedAttributesOfReusedElements(StringBuffer sb, ModifyGenerationStateConst state)
 	{
 		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : state.neededAttributes().entrySet()) {
@@ -783,10 +809,10 @@ public class ModifyGen extends CSharpBase {
 	private void genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(
 			StringBuffer sb, ModifyGenerationTask task)
 	{
-		for(Entity ent : task.returns) {
-			if(!(ent instanceof GraphEntity)) continue;
+		for(Expression expr : task.returns) {
+			if(!(expr instanceof GraphEntityExpression)) continue;
 
-			GraphEntity grEnt = (GraphEntity) ent;
+			GraphEntity grEnt = ((GraphEntityExpression) expr).getGraphEntity();
 			if(grEnt.isMaybeRetyped()) {
 				String elemName = formatEntity(grEnt);
 				String kind = formatNodeOrEdge(grEnt);
@@ -794,7 +820,7 @@ public class ModifyGen extends CSharpBase {
 					+ elemName + " = " + elemName + ".ReplacedBy" + kind + ";\n");
 			}
 			if(grEnt.isMaybeDeleted())
-				sb.append("\t\t\tif(!" + formatEntity(ent) + ".Valid) " + formatEntity(ent) + " = null;\n");
+				sb.append("\t\t\tif(!" + formatEntity(grEnt) + ".Valid) " + formatEntity(grEnt) + " = null;\n");
 		}
 	}
 
@@ -822,10 +848,10 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genCreateVariablesForUsedAttributesOfNonReuseesNeededForEmits(StringBuffer sb,
+	private void genVariablesForUsedAttributesBeforeDelete(StringBuffer sb,
 			ModifyGenerationStateConst state, HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar)
 	{
-		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : state.neededAttributesForEmit().entrySet()) {
+		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : state.attributesStoredBeforeDelete().entrySet()) {
 			GraphEntity owner = entry.getKey();
 			if(state.reusedElements().contains(owner)) continue;
 
@@ -1005,13 +1031,16 @@ public class ModifyGen extends CSharpBase {
 					  + "Names { get { return added" + NodesOrEdges + "Names; } }\n");
 	}
 
-	private void emitReturnStatement(StringBuffer sb, List<Entity> returns) {
+	private void emitReturnStatement(StringBuffer sb, ModifyGenerationStateConst state, List<Expression> returns) {
 		if(returns.isEmpty())
 			sb.append("\t\t\treturn EmptyReturnElements;\n");
 		else {
-			sb.append("\t\t\treturn new IGraphElement[] { ");
-			for(Entity ent : returns)
-				sb.append(formatEntity(ent) + ", ");
+			sb.append("\t\t\treturn new object[] { ");
+			for(Expression expr : returns)
+			{
+				genExpression(sb, expr, state);
+				sb.append(", ");
+			}
 			sb.append("};\n");
 		}
 	}
@@ -1072,18 +1101,6 @@ public class ModifyGen extends CSharpBase {
 			sb.append("\t\t\tLGSPMatch alternative_" + altName
 					+ " = match.EmbeddedGraphs[(int)" + pathPrefix+pattern.getNameOfGraph() + "_AltNums.@"
 					+ altName + " + " + pattern.getSubpatternUsages().size() + "];\n");
-		}
-	}
-
-	private void collectReturnElements(List<Entity> returns,
-			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements) {
-		for(Entity ent : returns) {
-			if(ent instanceof Node)
-				nodesNeededAsElements.add((Node) ent);
-			else if(ent instanceof Edge)
-				edgesNeededAsElements.add((Edge) ent);
-			else
-				throw new IllegalArgumentException("unknown Entity: " + ent);
 		}
 	}
 

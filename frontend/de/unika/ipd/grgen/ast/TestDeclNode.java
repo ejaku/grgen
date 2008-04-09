@@ -24,24 +24,24 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.Vector;
 
 
 /**
@@ -102,45 +102,74 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	/**
-	 * check if actual return entities are conformant
-	 * to the formal return parameters.
+	 * Check if actual return arguments are conformant to the formal return parameters.
 	 */
-	// TODO: check types
-	protected boolean checkReturnParams(CollectNode<IdentNode> typeReturns, CollectNode<ConstraintDeclNode> actualReturns) {
-		boolean returnTypes = true;
+	protected boolean checkReturns(CollectNode<ExprNode> returnArgs) {
+		boolean res = true;
 
-		/*
-		 System.out.println("\n*** this          = " + this.getClass());
-		 System.out.println("    this          = " + this.getChildren());
-		 System.out.println("*** typeReturns   = "   + typeReturns);
-		 System.out.println("    typeReturns   = "   + typeReturns.getChildren());
-		 System.out.println("*** actualReturns = " + actualReturns);
-		 System.out.println("    actualReturns = " + actualReturns.getChildren());
-		 */
+		Vector<IdentNode> retTypeIdents = returnFormalParameters.children;
 
-		if(actualReturns.children.size() != typeReturns.children.size()) {
-			error.error(getCoords(), "Actual and formal return-parameter count mismatch (" +
-							actualReturns.children.size() + " vs. " + typeReturns.children.size() +")");
-			returnTypes = false;
-		} else {
-			Iterator<ConstraintDeclNode> itAR = actualReturns.children.iterator();
+		int declaredNumRets = retTypeIdents.size();
+		int actualNumRets = returnArgs.children.size();
+retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
+			ExprNode retExpr = returnArgs.children.get(i);
+			TypeNode retExprType = retExpr.getType();
 
-			for(BaseNode n : typeReturns.getChildren()) {
-				IdentNode       tReturnAST  = (IdentNode)n;
-				InheritanceType tReturn     = (InheritanceType)tReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
-
-				ConstraintDeclNode aReturnAST  = itAR.next();
-				InheritanceType    aReturnType = (InheritanceType)aReturnAST.getDeclType().checkIR(InheritanceType.class);
-
-				if(!aReturnType.isCastableTo(tReturn)) {
-					error.error(aReturnAST.getCoords(), "Actual return-parameter is not conformant to formal parameter (" +
-									aReturnType + " not castable to " + tReturn + ")");
-					returnTypes = false;
-				}
+			IdentNode retIdent = retTypeIdents.get(i);
+			TypeNode retDeclType = retIdent.getDecl().getDeclType();
+			if(!retExprType.isCompatibleTo(retDeclType)) {
+				res = false;
+				String exprTypeName;
+				if(retExprType instanceof InheritanceTypeNode)
+					exprTypeName = ((InheritanceTypeNode) retExprType).getIdentNode().toString();
+				else
+					exprTypeName = retExprType.toString();
+				ident.reportError("Cannot convert " + (i + 1) + ". return parameter from \""
+						+ exprTypeName + "\" to \"" + retIdent + "\"");
+				continue;
 			}
+
+			if(!(retExpr instanceof DeclExprNode)) continue;
+			ConstraintDeclNode retElem = ((DeclExprNode) retExpr).getConstraintDeclNode();
+			if(retElem == null) continue;
+
+			InheritanceTypeNode declaredRetType = retElem.getDeclType();
+
+			Set<? extends ConstraintDeclNode> homSet;
+			if(retElem instanceof NodeDeclNode)
+				homSet = pattern.getCorrespondentHomSet((NodeDeclNode) retElem);
+			else
+				homSet = pattern.getCorrespondentHomSet((EdgeDeclNode) retElem);
+
+			for(ConstraintDeclNode homElem : homSet) {
+				if(homElem == retElem) continue;
+
+				ConstraintDeclNode retypedElem = homElem.getRetypedElement();
+				if(retypedElem == null) continue;
+
+				InheritanceTypeNode retypedElemType = retypedElem.getDeclType();
+				if(retypedElemType.isA(declaredRetType)) continue;
+
+				res = false;
+				returnArgs.reportError("Return parameter \"" + retElem.getIdentNode() + "\" is homomorphic to \""
+						+ homElem.getIdentNode() + "\", which gets retyped to the incompatible type \""
+						+ retypedElemType.getIdentNode() + "\"");
+				continue retLoop;
+			 }
 		}
 
-		return returnTypes;
+		//check the number of returned elements
+		if (actualNumRets != declaredNumRets) {
+			res = false;
+			if (declaredNumRets == 0) {
+				returnArgs.reportError("No return values declared for rule \"" + ident + "\"");
+			} else if(actualNumRets == 0) {
+				reportError("Missing return statement for rule \"" + ident + "\"");
+			} else {
+				returnArgs.reportError("Return statement has wrong number of parameters");
+			}
+		}
+		return res;
 	}
 
 	private static final Checker retDeclarationChecker = new CollectChecker(
@@ -158,9 +187,10 @@ public class TestDeclNode extends ActionDeclNode {
 					node.reportError("\"" + node + "\" is undeclared");
 				} else {
 					TypeNode type = ((IdentNode)node).getDecl().getDeclType();
-					res = (type instanceof NodeTypeNode) || (type instanceof EdgeTypeNode);
+					res = (type instanceof NodeTypeNode) || (type instanceof EdgeTypeNode)
+						|| (type instanceof BasicTypeNode);
 					if (!res) {
-						node.reportError("\"" + node + "\" is neither a node nor an edge type");
+						node.reportError("\"" + node + "\" is neither a node nor an edge nor a basic type");
 					}
 				}
 				return res;
@@ -168,12 +198,6 @@ public class TestDeclNode extends ActionDeclNode {
 		}
 	);
 
-	/**
-	 * Method check
-	 *
-	 * @return   a boolean
-	 *
-	 */
 	protected boolean checkLocal() {
 		boolean childs = retDeclarationChecker.check(returnFormalParameters, error);
 
@@ -255,15 +279,14 @@ public class TestDeclNode extends ActionDeclNode {
 		}
 
 		boolean returnParams = true;
-		if(! (this instanceof RuleDeclNode)) {
-			returnParams = checkReturnParams(returnFormalParameters, pattern.returns);
-		}
+		if(!(this instanceof RuleDeclNode))
+			returnParams = checkReturns(pattern.returns);
 
 		return childs && edgeReUse && returnParams;
 	}
 
 
-	protected void constructIRaux(MatchingAction ma, CollectNode<ConstraintDeclNode> aReturns) {
+	protected void constructIRaux(MatchingAction ma, CollectNode<ExprNode> aReturns) {
 		PatternGraph patternGraph = ma.getPattern();
 
 		// add Params to the IR
@@ -275,15 +298,15 @@ public class TestDeclNode extends ActionDeclNode {
 				Edge e = ((EdgeCharacter)decl).getEdge();
 				patternGraph.addSingleEdge(e);
 			} else if(decl instanceof VarDeclNode) {
-				patternGraph.addVariable((Variable) decl.getIR());
+				patternGraph.addVariable(((VarDeclNode) decl).getVariable());
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
 		}
 
 		// add Return-Params to the IR
-		for(ConstraintDeclNode aReturnAST : aReturns.getChildren()) {
-			Entity aReturn = (Entity)aReturnAST.checkIR(Entity.class);
+		for(ExprNode aReturnAST : aReturns.getChildren()) {
+			Expression aReturn = (Expression)aReturnAST.checkIR(Expression.class);
 			// actual return-parameter
 			ma.addReturn(aReturn);
 		}

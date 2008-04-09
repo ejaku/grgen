@@ -25,17 +25,16 @@
 package de.unika.ipd.grgen.ast;
 
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Vector;
 
 
 /**
@@ -106,15 +105,18 @@ public class RuleDeclNode extends TestDeclNode {
 		assert isResolved();
 
 		boolean res = true;
+		Set<DeclNode> delete = right.getDelete(left);
 
-		for (ConstraintDeclNode retElem : right.graph.returns.getChildren()) {
-			Set<DeclNode> delete = right.getDelete(left);
+		for (ExprNode expr : right.graph.returns.getChildren()) {
+			if(!(expr instanceof DeclExprNode)) continue;
+			ConstraintDeclNode retElem = ((DeclExprNode) expr).getConstraintDeclNode();
+			if(retElem == null) continue;
 
 			if (delete.contains(retElem)) {
 				res = false;
 
-				ident.reportError("The deleted " + retElem.getUseString() +
-									  " \"" + retElem.ident + "\" must not be returned");
+				ident.reportError("The deleted " + retElem.getUseString()
+						+ " \"" + retElem.ident + "\" must not be returned");
 			}
 		}
 		return res;
@@ -142,94 +144,11 @@ public class RuleDeclNode extends TestDeclNode {
 		return res;
 	}
 
-
-	/** Check whether the returned elements are valid and
-	 *  whether the number of returned elements is right. */
-	protected boolean checkRetSignatureAdhered(PatternGraphNode left, GraphNode right) {
-		boolean res = true;
-
-		Vector<IdentNode> retSignature = returnFormalParameters.children;
-
-		int declaredNumRets = retSignature.size();
-		int actualNumRets = right.returns.getChildren().size();
-
-retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
-			ConstraintDeclNode retElem = right.returns.children.get(i);
-
-			if (retElem.equals(DeclNode.getInvalid())) {
-				res = false;
-				ident.reportError("\"" + ident + "\" is undeclared");
-				continue;
-			}
-
-			if ( !(retElem instanceof NodeDeclNode) && !(retElem instanceof EdgeDeclNode)) {
-				res = false;
-				ident.reportError("\"" + ident + "\" is neither a node nor an edge");
-				continue;
-			}
-
-			if ( ((IdentNode) retSignature.get(i)).getDecl().equals(DeclNode.getInvalid()) ) {
-				res = false;
-				//this should have been reported elsewhere
-				continue;
-			}
-
-			IdentNode retIdent = retSignature.get(i);
-			TypeNode retDeclType = retIdent.getDecl().getDeclType();
-			if(!(retDeclType instanceof InheritanceTypeNode)) {
-				res = false;
-				retIdent.reportError("\"" + retIdent + "\" is neither a node nor an edge type");
-				continue;
-			}
-
-			InheritanceTypeNode declaredRetType = (InheritanceTypeNode)	retDeclType;
-			InheritanceTypeNode actualRetType =	retElem.getDeclType();
-			if(!actualRetType.isA(declaredRetType)) {
-				res = false;
-				ident.reportError("Return parameter \"" + ident + "\" has wrong type");
-				continue;
-			}
-
-			Set<? extends ConstraintDeclNode> homSet;
-			if(retElem instanceof NodeDeclNode)
-				homSet = pattern.getCorrespondentHomSet((NodeDeclNode) retElem);
-			else
-				homSet = pattern.getCorrespondentHomSet((EdgeDeclNode) retElem);
-
-			for(ConstraintDeclNode homElem : homSet) {
-				if(homElem == retElem) continue;
-
-				ConstraintDeclNode retypedElem = homElem.getRetypedElement();
-				if(retypedElem == null) continue;
-
-				InheritanceTypeNode retypedElemType = retypedElem.getDeclType();
-				if(retypedElemType.isA(declaredRetType)) continue;
-
-				res = false;
-				right.returns.reportError("Return parameter \"" + retElem.getIdentNode() + "\" is homomorphic to \""
-						+ homElem.getIdentNode() + "\", which gets retyped to the incompatible type \""
-						+ retypedElemType.getIdentNode() + "\"");
-				continue retLoop;
-			}
-		}
-
-		//check the number of returned elements
-		if (actualNumRets != declaredNumRets) {
-			res = false;
-			if (declaredNumRets == 0) {
-				right.returns.reportError("No return values declared for rule \"" + ident + "\"");
-			} else if(actualNumRets == 0) {
-				reportError("Missing return statement for rule \"" + ident + "\"");
-			} else {
-				right.returns.reportError("Return statement has wrong number of parameters");
-			}
-		}
-		return res;
-	}
-
-	/* Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
+	/**
+	 * Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
 	 * If consistent, replace the dummy nodes with the nodes the pattern edge is
-	 * incident to (if these aren't dummy nodes themselves, of course). */
+	 * incident to (if these aren't dummy nodes themselves, of course).
+	 */
 	protected boolean checkRhsReuse(PatternGraphNode left, RhsDeclNode right) {
 		boolean res = true;
 		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
@@ -268,7 +187,8 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 				NodeDeclNode rSrc = rConn.getSrc();
 				NodeDeclNode rTgt = rConn.getTgt();
 
-				Collection<BaseNode> rhsNodes = right.getReusedNodes(left);
+				HashSet<BaseNode> rhsNodes = new HashSet<BaseNode>();
+				rhsNodes.addAll(right.getReusedNodes(left));
 
 				if (rSrc instanceof NodeTypeChangeNode) {
 					rSrc = ((NodeTypeChangeNode)rSrc).getOldNode();
@@ -353,23 +273,27 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		assert isResolved();
 
 		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
-		Collection<ConstraintDeclNode> retSet = right.graph.returns.getChildren();
+		Collection<ExprNode> retSet = right.graph.returns.getChildren();
 
 		// for all pairs of deleted and returned elems check whether
 		// homomorphic matching is allowed
 		HashSet<BaseNode> alreadyReported = new HashSet<BaseNode>();
-		for (ConstraintDeclNode r : retSet) {
-			if (maybeDeleted.contains(r)) {
-				r.maybeDeleted = true;
-				if(!r.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-					alreadyReported.add(r);
-					String warning = "Returning \"" + r.ident + "\" that may be deleted"
-							+ ", possibly it's homomorphic with a deleted " + r.getUseString();
-					if (r instanceof EdgeDeclNode) {
-						warning += " or \"" + r.ident + "\" is a dangling " + r.getUseString()
+		for(ExprNode expr : retSet) {
+			if(!(expr instanceof DeclExprNode)) continue;
+			ConstraintDeclNode retElem = ((DeclExprNode) expr).getConstraintDeclNode();
+			if(retElem == null) continue;
+
+			if(maybeDeleted.contains(retElem)) {
+				retElem.maybeDeleted = true;
+				if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+					alreadyReported.add(retElem);
+					String warning = "Returning \"" + retElem.ident + "\" that may be deleted"
+							+ ", possibly it's homomorphic with a deleted " + retElem.getUseString();
+					if(retElem instanceof EdgeDeclNode) {
+						warning += " or \"" + retElem.ident + "\" is a dangling " + retElem.getUseString()
 								+ " and a deleted node exists";
 					}
-					r.reportWarning(warning);
+					retElem.reportWarning(warning);
 				}
 			}
 		}
@@ -439,14 +363,14 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		boolean abstr = true;
 		for(BaseNode n : right.getNodes()) {
 			NodeDeclNode node = (NodeDeclNode)n;
-			if(!node.hasTypeof() && ((InheritanceTypeNode)node.getDeclType()).isAbstract() && !left.getNodes().contains(node)) {
+			if(!node.hasTypeof() && node.getDeclType().isAbstract() && !left.getNodes().contains(node)) {
 				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
 				abstr = false;
 			}
 		}
 		for(BaseNode e : right.getEdges()) {
 			EdgeDeclNode edge = (EdgeDeclNode) e;
-			if(!edge.hasTypeof() && ((InheritanceTypeNode)edge.getDeclType()).isAbstract() && !left.getEdges().contains(edge)) {
+			if(!edge.hasTypeof() && edge.getDeclType().isAbstract() && !left.getEdges().contains(edge)) {
 				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
 				abstr = false;
 			}
@@ -456,7 +380,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 			& checkRhsReuse(left, this.right) & noReturnInPatternOk & abstr
 			& checkReturnedElemsNotDeleted(left, this.right)
 			& checkExecParamsNotDeleted(left, right)
-			& checkRetSignatureAdhered(left, right);
+			& checkReturns(right.returns);
 	}
 
 	/**
@@ -493,7 +417,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 	}
 
 	@Override
-		public RuleTypeNode getDeclType() {
+	public RuleTypeNode getDeclType() {
 		assert isResolved();
 
 		return type;

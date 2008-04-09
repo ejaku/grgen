@@ -24,12 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
@@ -44,6 +38,12 @@ import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.parser.Coords;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.Vector;
 
 /**
  * AST node that represents a graph pattern
@@ -60,10 +60,13 @@ public class GraphNode extends BaseNode {
 	CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 	CollectNode<SubpatternUsageNode> subpatterns;
 	CollectNode<SubpatternReplNode> subpatternReplacements;
-	CollectNode<IdentNode> returnsUnresolved;
-	CollectNode<ConstraintDeclNode> returns;
+	CollectNode<ExprNode> returns;
 	CollectNode<BaseNode> imperativeStmts;
 	CollectNode<BaseNode> params;
+
+	// Cache variables
+	private Set<BaseNode> nodes;
+	private Set<BaseNode> edges;
 
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	int context = 0;
@@ -78,7 +81,7 @@ public class GraphNode extends BaseNode {
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
 			CollectNode<SubpatternUsageNode> subpatterns,
 			CollectNode<SubpatternReplNode> subpatternReplacements,
-			CollectNode<IdentNode> returns, CollectNode<BaseNode> imperativeStmts,
+			CollectNode<ExprNode> returns, CollectNode<BaseNode> imperativeStmts,
 			int context) {
 		super(coords);
 		this.nameOfGraph = nameOfGraph;
@@ -88,8 +91,8 @@ public class GraphNode extends BaseNode {
 		becomeParent(this.subpatterns);
 		this.subpatternReplacements = subpatternReplacements;
 		becomeParent(this.subpatternReplacements);
-		this.returnsUnresolved = returns;
-		becomeParent(this.returnsUnresolved);
+		this.returns = returns;
+		becomeParent(this.returns);
 		this.imperativeStmts = imperativeStmts;
 		becomeParent(imperativeStmts);
 		this.params = params;
@@ -107,7 +110,7 @@ public class GraphNode extends BaseNode {
 		children.add(params);
 		children.add(subpatterns);
 		children.add(subpatternReplacements);
-		children.add(getValidVersion(returnsUnresolved, returns));
+		children.add(returns);
 		children.add(imperativeStmts);
 		return children;
 	}
@@ -128,11 +131,6 @@ public class GraphNode extends BaseNode {
 		new CollectTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(
 			new DeclarationTripleResolver<ConnectionNode, SingleNodeConnNode, SingleGraphEntityNode>(
 				ConnectionNode.class, SingleNodeConnNode.class,  SingleGraphEntityNode.class));
-
-	private static final CollectPairResolver<ConstraintDeclNode> returnsResolver =
-		new CollectPairResolver<ConstraintDeclNode>(
-			new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
-
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
@@ -190,9 +188,7 @@ public class GraphNode extends BaseNode {
 			else paramsOK = false;
         }
 
-		returns = returnsResolver.resolve(returnsUnresolved, this);
-
-		return resolve != null && paramsOK && returns != null;
+		return resolve != null && paramsOK;
 	}
 
 	private static final Checker connectionsChecker = new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
@@ -215,10 +211,10 @@ public class GraphNode extends BaseNode {
 
 				// add() returns false iff edges already contains ec
 				if (ec != null
-					&& !(cc instanceof ConnectionNode
-							&& cc.getSrc() instanceof DummyNodeDeclNode
-							&& cc.getTgt() instanceof DummyNodeDeclNode)
-					&& !edges.add(ec)) {
+						&& !(cc instanceof ConnectionNode
+								&& cc.getSrc() instanceof DummyNodeDeclNode
+								&& cc.getTgt() instanceof DummyNodeDeclNode)
+						&& !edges.add(ec)) {
 					((EdgeDeclNode) ec).reportError("This (named) edge is used more than once in a graph of this action");
 					edgeUsage = false;
 				}
@@ -249,27 +245,33 @@ public class GraphNode extends BaseNode {
 	protected Set<BaseNode> getNodes() {
 		assert isResolved();
 
-		Set<BaseNode> res = new LinkedHashSet<BaseNode>();
+		if(nodes != null) return nodes;
+
+		LinkedHashSet<BaseNode> coll = new LinkedHashSet<BaseNode>();
 
 		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
-			conn.addNodes(res);
+			conn.addNodes(coll);
 		}
 
-		return res;
+		nodes = Collections.unmodifiableSet(coll);
+		return nodes;
 	}
 
 	protected Set<BaseNode> getEdges() {
 		assert isResolved();
 
-		Set<BaseNode> res = new LinkedHashSet<BaseNode>();
+		if(edges != null) return edges;
+
+		LinkedHashSet<BaseNode> coll = new LinkedHashSet<BaseNode>();
 
 		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
-			conn.addEdge(res);
+			conn.addEdge(coll);
 		}
 
-		return res;
+		edges = Collections.unmodifiableSet(coll);
+		return edges;
 	}
 
 	/**
@@ -339,5 +341,3 @@ public class GraphNode extends BaseNode {
 		return res;
 	}
 }
-
-

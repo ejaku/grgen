@@ -66,7 +66,8 @@ public abstract class RhsDeclNode extends DeclNode {
 	}
 
 	protected Collection<DeclNode> getMaybeDeleted(PatternGraphNode pattern) {
-		Collection<DeclNode> ret = getDelete(pattern);
+		Collection<DeclNode> ret = new LinkedHashSet<DeclNode>();
+		ret.addAll(getDelete(pattern));
 
 		// check if a deleted node exists
 		Collection<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
@@ -165,7 +166,7 @@ public abstract class RhsDeclNode extends DeclNode {
 		for(DeclNode replParam : graph.getParamDecls()) {
 			if(!(replParam instanceof NodeDeclNode)) {
 				// edges as replacement parameters are not really needed but very troublesome, keep them out for now
-				replParam.reportError("only nodes supported as replacement parameters, " 
+				replParam.reportError("only nodes supported as replacement parameters, "
 						+ replParam.ident.toString() + " isn't one");
 				return false;
 			}

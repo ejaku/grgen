@@ -1,0 +1,15 @@
+using attrib_model_001;
+
+rule r(a:Node, var b:int, -c:Edge->, var d:string) : (int, Node, int, string, Edge)
+{
+    x:NINT;
+    -e[maybeDeleted]:EINT->;  // potentially deleted because of x
+    modify {
+        delete(x);
+        y:NSTRING;
+        eval {
+            y.a = d + "/blub";
+        }
+        return (x.a + b + 9 + e.a, y, b, y.a + " hallo " + x.a, e);
+    }
+}

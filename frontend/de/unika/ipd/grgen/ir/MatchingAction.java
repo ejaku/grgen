@@ -44,7 +44,7 @@ public abstract class MatchingAction extends Action {
 	private final List<Entity> params = new LinkedList<Entity>();
 
 	/** A list of the return-parameters */
-	private final List<Entity> returns = new LinkedList<Entity>();
+	private final List<Expression> returns = new LinkedList<Expression>();
 
 
 	/**
@@ -74,13 +74,13 @@ public abstract class MatchingAction extends Action {
 		return Collections.unmodifiableList(params);
 	}
 
-	/** Add a return-value (named node or edge) to the graph. */
-	public void addReturn(Entity id) {
-		returns.add(id);
+	/** Add a return-value to the graph. */
+	public void addReturn(Expression expr) {
+		returns.add(expr);
 	}
 
 	/** Get all Returns of this graph. */
-	public List<Entity> getReturns() {
+	public List<Expression> getReturns() {
 		return Collections.unmodifiableList(returns);
 	}
 }

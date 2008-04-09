@@ -35,14 +35,14 @@ rule r2 : (Type1)
     }
 }
 
-rule t3 : (A, Type1, A)
+rule r3 : (A, Type1, A)
 {
     modify {
         return (null, null, null);
     }
 }
 
-rule t4 : (Type1, Type1, A)
+rule r4 : (Type1, Type1, A)
 {
     modify {
         -t:Type1->;

@@ -29,11 +29,6 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.Cast;
 import de.unika.ipd.grgen.ir.Constant;
@@ -45,6 +40,8 @@ import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.FloatType;
+import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IntType;
@@ -65,6 +62,10 @@ import de.unika.ipd.grgen.ir.VariableExpression;
 import de.unika.ipd.grgen.ir.VoidType;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
+import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public abstract class CSharpBase {
 	/**
@@ -164,7 +165,7 @@ public abstract class CSharpBase {
 		else if (type instanceof EdgeType)
 			return "Edge";
 		else
-			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
+			throw new IllegalArgumentException("Unknown type " + type + " (" + type.getClass() + ")");
 	}
 
 	public String formatNodeOrEdge(Entity ent) {
@@ -173,7 +174,7 @@ public abstract class CSharpBase {
 		else if (ent instanceof Edge)
 			return "Edge";
 		else
-			throw new IllegalArgumentException("Illegal entity type" + ent + "(" + ent.getClass() + ")");
+			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
 	}
 
 	public String formatTypeClass(Type type) {
@@ -203,8 +204,7 @@ public abstract class CSharpBase {
 			return "LGSPEdge " + formatEntity(edge) + " = ";
 	}
 
-	public String formatAttributeType(Entity e) {
-		Type t = e.getType();
+	public String formatAttributeType(Type t) {
 		if (t instanceof IntType)
 			return "int";
 		else if (t instanceof BooleanType)
@@ -216,10 +216,14 @@ public abstract class CSharpBase {
 		else if (t instanceof StringType)
 			return "String";
 		else if (t instanceof EnumType)
-			return "ENUM_" + formatIdentifiable(e.getType());
+			return "ENUM_" + formatIdentifiable(t);
 		else if (t instanceof ObjectType || t instanceof VoidType)
 			return "Object"; //TODO maybe we need another output type
-		else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");
+		else throw new IllegalArgumentException("Illegal type: " + t);
+	}
+
+	public String formatAttributeType(Entity e) {
+		return formatAttributeType(e.getType());
 	}
 
 	public String formatAttributeTypeName(Entity e) {
@@ -376,6 +380,10 @@ public abstract class CSharpBase {
 		else if(expr instanceof VariableExpression) {
 			Variable var = ((VariableExpression) expr).getVariable();
 			sb.append("var_" + var.getIdent());
+		}
+		else if(expr instanceof GraphEntityExpression) {
+			GraphEntity ent = ((GraphEntityExpression) expr).getGraphEntity();
+			sb.append(formatEntity(ent));
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

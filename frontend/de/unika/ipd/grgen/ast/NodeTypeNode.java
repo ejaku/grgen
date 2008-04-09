@@ -179,7 +179,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	}
 
 	@Override
-		public Collection<NodeTypeNode> getDirectSuperTypes() {
+	public Collection<NodeTypeNode> getDirectSuperTypes() {
 		assert isResolved();
 
 	    return extend.getChildren();

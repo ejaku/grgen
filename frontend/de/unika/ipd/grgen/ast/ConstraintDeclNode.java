@@ -82,5 +82,13 @@ public abstract class ConstraintDeclNode extends DeclNode
 	}
 
 	public abstract InheritanceTypeNode getDeclType();
+
+	public static String getKindStr() {
+		return "node or edge declaration";
+	}
+
+	public static String getUseStr() {
+		return "node or edge";
+	}
 }
 

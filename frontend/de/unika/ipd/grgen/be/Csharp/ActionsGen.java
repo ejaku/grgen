@@ -28,19 +28,13 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.MatchingAction;
@@ -51,6 +45,12 @@ import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Variable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ActionsGen extends CSharpBase {
 	public ActionsGen(SearchPlanBackend2 backend) {
@@ -673,13 +673,12 @@ public class ActionsGen extends CSharpBase {
 
 		if(!isSubpattern) {
 			sb.append("\t\t\toutputs = new GrGenType[] { ");
-			for(Entity ent : action.getReturns())
-				sb.append(formatTypeClass(ent.getType()) + ".typeVar, ");
-			sb.append("};\n");
-
-			sb.append("\t\t\toutputNames = new string[] { ");
-			for(Entity ent : action.getReturns())
-				sb.append("\"" + formatEntity(ent, action.getPattern().getNameOfGraph()+"_") + "\", ");
+			for(Expression expr : action.getReturns()) {
+				if(expr instanceof GraphEntityExpression)
+					sb.append(formatTypeClass(expr.getType()) + ".typeVar, ");
+				else
+					sb.append("VarType.GetVarType(typeof(" + formatAttributeType(expr.getType()) + ")), ");
+			}
 			sb.append("};\n");
 		}
 	}

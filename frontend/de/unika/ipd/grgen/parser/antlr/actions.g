@@ -305,7 +305,7 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context,
 		CollectNode<AlternativeNode> alts = new CollectNode<AlternativeNode>();
 		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
 		CollectNode<ExprNode> conditions = new CollectNode<ExprNode>();
-		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
+		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<HomNode> homs = new CollectNode<HomNode>();
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
@@ -319,7 +319,7 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context,
 
 patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> cond,
-			CollectNode<IdentNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
+			CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context]
 	{
 		AlternativeNode alt;
@@ -721,7 +721,7 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<AssignNod
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
 		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
-		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
+		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
 		res = new ReplaceDeclNode(nameOfRHS, graph, eval);
@@ -731,7 +731,7 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<AssignNod
 	;
 
 replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
- 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<IdentNode> returnz,
+ 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<ExprNode> returnz,
 		CollectNode<AssignNode> eval, CollectNode<BaseNode> imperativeStmts, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
 	| rets[returnz, context] SEMI
@@ -745,7 +745,7 @@ modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode>
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
 		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
-		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
+		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
 		res = new ModifyDeclNode(nameOfRHS, graph, eval, dels);
@@ -755,7 +755,7 @@ modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode>
 	;
 
 modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
- 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<IdentNode> returnz,
+ 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<ExprNode> returnz,
 		CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> imperativeStmts, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
 	| rets[returnz, context] SEMI
@@ -768,7 +768,7 @@ modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<Subpa
 alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNode alt = new AlternativeNode(coords) ]
 	: ( alternativeCase[alt, altCount, context] ) +
 	;
-	
+
 alternativeCase [ AlternativeNode alt, int altCount, int context ]
 	{
 		IdentNode id;
@@ -793,7 +793,7 @@ alternativeCase [ AlternativeNode alt, int altCount, int context ]
 				}
 		) ?
 		RBRACE popScope	{ alt.addChild(new AlternativeCaseNode(id, left, rightHandSides)); }
-	;	
+	;
 
 negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
 	{
@@ -805,9 +805,9 @@ negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
 		RBRACE popScope
 	;
 
-rets[CollectNode<IdentNode> res, int context]
+rets[CollectNode<ExprNode> res, int context]
 	{
-		IdentNode id;
+		ExprNode exp;
 		boolean multipleReturns = ! res.getChildren().isEmpty();
 	}
 
@@ -819,11 +819,11 @@ rets[CollectNode<IdentNode> res, int context]
 			if ( (context & BaseNode.CONTEXT_ACTION_OR_PATTERN) == BaseNode.CONTEXT_PATTERN) {
 				reportError(getCoords(r), "return statement only allowed in actions, not in pattern type declarations");
 			}
+			res.setCoords(getCoords(r));
 		}
-		LPAREN id=entIdentUse { if ( !multipleReturns ) res.addChild(id); }
-		( COMMA id=entIdentUse { if ( !multipleReturns ) res.addChild(id); } )*
+		LPAREN exp=expr[false] { if ( !multipleReturns ) res.addChild(exp); }
+		( COMMA exp=expr[false] { if ( !multipleReturns ) res.addChild(exp); } )*
 		RPAREN
-			{ res.setCoords(getCoords(r)); }
 	;
 
 deleteStmt[CollectNode<IdentNode> res]
@@ -872,7 +872,7 @@ emitStmt[CollectNode<BaseNode> imperativeStmts]
 	: e:EMIT { emit = new EmitNode(getCoords(e)); }
 		LPAREN
 			exp=expr[false] { emit.addChild(exp); }
-			( c:COMMA exp=expr[false] { emit.addChild(exp); } )*
+			( COMMA exp=expr[false] { emit.addChild(exp); } )*
 		RPAREN
 		{ imperativeStmts.addChild(emit); }
 	;

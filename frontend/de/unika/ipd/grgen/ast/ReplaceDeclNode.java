@@ -25,12 +25,12 @@
 package de.unika.ipd.grgen.ast;
 
 
+import de.unika.ipd.grgen.ir.PatternGraph;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
-
-import de.unika.ipd.grgen.ir.PatternGraph;
 
 
 /**
@@ -40,6 +40,10 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	static {
 		setName(ReplaceDeclNode.class, "replace declaration");
 	}
+
+	// Cache variables
+	private Set<DeclNode> deletedElements;
+	private Set<BaseNode> reusedNodes;
 
 	/**
 	 * Make a new replace right-hand side.
@@ -76,7 +80,9 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	}
 
 	protected Set<DeclNode> getDelete(PatternGraphNode pattern) {
-		Set<DeclNode> res = new LinkedHashSet<DeclNode>();
+		if(deletedElements != null) return deletedElements;
+
+		LinkedHashSet<DeclNode> coll = new LinkedHashSet<DeclNode>();
 
 		Set<EdgeDeclNode> rhsEdges = new LinkedHashSet<EdgeDeclNode>();
 		Set<NodeDeclNode> rhsNodes = new LinkedHashSet<NodeDeclNode>();
@@ -92,7 +98,7 @@ public class ReplaceDeclNode extends RhsDeclNode {
 		for (BaseNode x : pattern.getEdges()) {
 			assert (x instanceof DeclNode);
 			if ( ! rhsEdges.contains(x) ) {
-				res.add((DeclNode)x);
+				coll.add((DeclNode)x);
 			}
 		}
 
@@ -108,13 +114,14 @@ public class ReplaceDeclNode extends RhsDeclNode {
 			assert (x instanceof NodeDeclNode);
 			NodeDeclNode node = (NodeDeclNode) x;
 			if ( ! rhsNodes.contains(node) && !node.isDummy()) {
-				res.add(node);
+				coll.add(node);
 			}
 		}
 		// parameters are no special case, since they are treat like normal
 		// graph elements
 
-		return res;
+		deletedElements = Collections.unmodifiableSet(coll);
+		return deletedElements;
 	}
 
 	/**
@@ -145,17 +152,19 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	 * Return all reused nodes, that excludes new nodes of the right-hand side.
 	 */
 	protected Set<BaseNode> getReusedNodes(PatternGraphNode pattern) {
-		Set<BaseNode> res = new LinkedHashSet<BaseNode>();
+		if(reusedNodes != null) return reusedNodes;
+
+		LinkedHashSet<BaseNode> coll = new LinkedHashSet<BaseNode>();
 		Set<BaseNode> patternNodes = pattern.getNodes();
 		Set<BaseNode> rhsNodes = graph.getNodes();
 
 		for (BaseNode node : patternNodes) {
-			if ( rhsNodes.contains(node) ) {
-				res.add(node);
-			}
+			if ( rhsNodes.contains(node) )
+				coll.add(node);
 		}
 
-		return res;
+		reusedNodes = Collections.unmodifiableSet(coll);
+		return reusedNodes;
 	}
 
 	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern) {

@@ -97,6 +97,14 @@ public class VarDeclNode extends DeclNode {
 		return "variable";
 	}
 
+	/**
+	 * Get the IR object correctly casted.
+	 * @return The Variable IR object.
+	 */
+	public Variable getVariable() {
+		return (Variable) checkIR(Variable.class);
+	}
+
 	protected IR constructIR() {
 		return new Variable("Var", getIdentNode().getIdent(), type.getType());
 	}

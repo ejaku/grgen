@@ -110,15 +110,18 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		assert isResolved();
 
 		boolean res = true;
+		Set<DeclNode> delete = right.getDelete(left);
 
-		for (ConstraintDeclNode retElem : right.graph.returns.getChildren()) {
-			Set<DeclNode> delete = right.getDelete(left);
+		for (ExprNode expr : right.graph.returns.getChildren()) {
+			if(!(expr instanceof DeclExprNode)) continue;
+			ConstraintDeclNode retElem = ((DeclExprNode) expr).getConstraintDeclNode();
+			if(retElem == null) continue;
 
 			if (delete.contains(retElem)) {
 				res = false;
 
-				ident.reportError("The deleted " + retElem.getUseString() +
-									  " \"" + retElem.ident + "\" must not be returned");
+				ident.reportError("The deleted " + retElem.getUseString()
+						+ " \"" + retElem.ident + "\" must not be returned");
 			}
 		}
 		return res;
@@ -190,7 +193,8 @@ public class SubpatternDeclNode extends ActionDeclNode  {
     				NodeDeclNode rSrc = rConn.getSrc();
     				NodeDeclNode rTgt = rConn.getTgt();
 
-    				Collection<BaseNode> rhsNodes = right.children.get(i).getReusedNodes(pattern);
+					HashSet<BaseNode> rhsNodes = new HashSet<BaseNode>();
+					rhsNodes.addAll(right.children.get(i).getReusedNodes(pattern));
 
     				if (rSrc instanceof NodeTypeChangeNode) {
     					rSrc = ((NodeTypeChangeNode)rSrc).getOldNode();

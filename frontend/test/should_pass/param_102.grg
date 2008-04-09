@@ -1,0 +1,8 @@
+using attrib_model_001;
+
+test r(a:Node, var b:int, -c:Edge->, var d:string) : (int, NINT, int, string, Edge)
+{
+    x:NINT;
+    -e:EINT->;
+    return (x.a + b + 9 + e.a, x, b, e.a + " hallo " + x.a, e);
+}
