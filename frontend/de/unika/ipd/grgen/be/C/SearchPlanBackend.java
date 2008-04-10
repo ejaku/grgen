@@ -1035,7 +1035,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		array_sb.append("/* array of all actions */\n");
 		int action_count = unit.getActionRules().size();
 		array_sb.append("unsigned int ext_grs_all_actions_count = "+action_count+";\n");
-		array_sb.append("ext_grs_action_t *ext_grs_all_actions["+action_count+"] = {\n");
+		array_sb.append("ext_grs_action_t **ext_grs_all_actions["+action_count+"] = {\n");
 		sb.append("/* global variables containing the actions */\n");
 		initsb.append("void ext_grs_action_init_" + unitName + "(void) {\n");
 		initsb.append(indent + "init();\n");
