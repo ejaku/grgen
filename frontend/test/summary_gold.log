@@ -204,7 +204,9 @@ OK     should_pass/param_005.grg
 OK     should_pass/param_006.grg
 OK     should_pass/param_007.grg
 OK     should_pass/param_008.grg
-FAILED should_pass/param_100.grg
+OK     should_pass/param_100.grg
+OK     should_pass/param_101.grg
+OK     should_pass/param_102.grg
 OK     should_pass/pattern_001.grg
 OK     should_pass/pattern_002.grg
 OK     should_pass/pattern_003.grg
@@ -587,6 +589,7 @@ ERROR  should_fail/param_010.grg
 ERROR  should_fail/param_011.grg
 ERROR  should_fail/param_012.grg
 ABEND  should_fail/param_013.grg
+ERROR  should_fail/param_100.grg
 ERROR  should_fail/pattern_001.grg
 ERROR  should_fail/pattern_002.grg
 ERROR  should_fail/pattern_003.grg
