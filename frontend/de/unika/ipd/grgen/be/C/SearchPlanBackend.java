@@ -307,7 +307,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 
 	/* ------------------------------------------------------------------
-	 * Method genPatterns generates the patterns needed by the seach plan
+	 * Method genPatterns generates the patterns needed by the search plan
 	 * builder. It consists mainly of the left hand side of the rule.
 	 *
 	 * @param    sb		  a  StringBuffer
@@ -1028,9 +1028,14 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private void genInterface(StringBuffer sb) {
 		String indent = "\t";
 		StringBuffer initsb = new StringBuffer();
+		StringBuffer array_sb = new StringBuffer();
 		String unitName = unit.getUnitName();
 
 		initsb.append("/* function for initializing the actions */\n");
+		array_sb.append("/* array of all actions */\n");
+		int action_count = unit.getActionRules().size();
+		array_sb.append("unsigned int ext_grs_all_actions_count = "+action_count+";\n");
+		array_sb.append("ext_grs_action_t *ext_grs_all_actions["+action_count+"] = {\n");
 		sb.append("/* global variables containing the actions */\n");
 		initsb.append("void ext_grs_action_init_" + unitName + "(void) {\n");
 		initsb.append(indent + "init();\n");
@@ -1041,9 +1046,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 				initsb.append(indent + fqactionName + " = grs_action_" + actionName + "_init();\n");
 				sb.append("ext_grs_action_t *" + fqactionName + ";\n");
+				array_sb.append(indent + "&" + fqactionName + ",\n");
 			}
 		}
-		initsb.append("\n" + indent + "/* establish inherritance */\n");
+		initsb.append("\n" + indent + "/* establish inheritance */\n");
 		for(InheritanceType type : nodeTypeMap.keySet()) {
 
 			if(!type.isCastableTo(MODE_TYPE))
@@ -1056,6 +1062,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				initsb.append("\n");
 			}
 		}
+		sb.append("\n"+array_sb+"};\n");
+
 		initsb.append(indent+"ext_grs_inheritance_mature();\n");
 		initsb.append(indent+"return;\n");
 		initsb.append("}\n\n");
