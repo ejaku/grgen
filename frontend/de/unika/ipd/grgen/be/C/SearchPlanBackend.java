@@ -973,7 +973,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				}
 				else if(n.getNodeType().isCastableTo(SYM_CONST))
 				{
-					sb.append("be_get_Frame_Addr(node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
+					sb.append("be_get_FrameAddr_entity(node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else
 				{
