@@ -64,6 +64,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private static final int edgesInUse = 2;
 
 	private final String MODE_EDGE_NAME = "has_mode";
+	private final String LS_MODE_EDGE_NAME = "has_ls_mode";
 
 	protected final boolean emit_subgraph_info = false;
 
@@ -638,8 +639,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				type = node.getRetypedNode().getNodeType().getIdent().toString();
 			}
 			String mode = "ANY";
+			String lsmode = "ANY"; // just for Load/Store nodes!
 
-			// Search for the "Mode"-edge
+			// Search for the "Mode"- and "LS Mode"-edge
 			for(Edge e : graph.getOutgoing(node)) { // test iff we got an Mode-node
 				if(e.getEdgeType().getIdent().toString().equals(MODE_EDGE_NAME)) {
 					// Found the "mode" edge. Save the mode of the current node for dumping
@@ -647,6 +649,15 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 					//System.out.println("'" + modeNode.getNodeType().getIdent().toString() + "'");
 					if (null != modeNode) {
 						mode = modeNode.getNodeType().getIdent().toString().substring(5);
+					}
+				}
+				if(e.getEdgeType().getIdent().toString().equals(LS_MODE_EDGE_NAME)) {
+					Node modeNode = graph.getTarget(e);
+					String src_type = graph.getSource(e).getType().getIdent().toString();
+					//System.out.println("'" + src_type + "'");
+					if (null != modeNode && 
+							(src_type.equals("Load") || src_type.equals("Store"))) {
+						lsmode = modeNode.getNodeType().getIdent().toString().substring(5);
 					}
 				}
 			}
@@ -662,7 +673,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_rd_" + type;
 				sb.append(indent + "ext_grs_node_t *n_" + name +			// No, Write statement to file
 						  " = ext_grs_act_add_node(pattern, \"" +
-						  name + "\", grs_op_" + type + ", mode_" + mode +
+						  name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
 						  ", " + nodeId + ", &" + construction_func + ");\n");
 
 			}
@@ -673,7 +684,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_rd_" + type;
 				sb.append(indent + "ext_grs_node_t *n_" + name +	    // Write statement to file
 					  	" = " + addRelatedNodeFunc + "(pattern, \"" +
-					  	name + "\", grs_op_" + type + ", mode_" + mode +
+					  	name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
 					  	", " + nodeId + ", n_" + related_name + ", &" +
 							construction_func + ");\n");
 				System.out.println(relatedNodes + "; " + node + "; " + name);
