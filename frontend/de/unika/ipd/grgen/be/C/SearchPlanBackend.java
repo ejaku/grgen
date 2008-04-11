@@ -231,6 +231,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	NodeType CONST_TYPE = null;
 	NodeType VPROJ_TYPE = null;
 	NodeType PROJ_TYPE  = null;
+	NodeType SYM_CONST  = null;
 	NodeType MULTIPLE_ADD_TYPE = null;
 	NodeType IA32_SUB = null;
 
@@ -248,6 +249,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				PROJ_TYPE = node;
 			if(node.getIdent().toString().equals("MultipleAdd"))
 				MULTIPLE_ADD_TYPE = node;
+			if(node.getIdent().toString().equals("SymConst"))
+				SYM_CONST = node;
 			if(node.getIdent().toString().equals("ia32_Sub"))
 				IA32_SUB = node;
 		}
@@ -967,6 +970,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				else if(n.getNodeType().isCastableTo(PROJ_TYPE))
 				{
 					sb.append("get_Proj_proj(node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
+				}
+				else if(n.getNodeType().isCastableTo(SYM_CONST))
+				{
+					sb.append("be_get_Frame_Addr(node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else
 				{
