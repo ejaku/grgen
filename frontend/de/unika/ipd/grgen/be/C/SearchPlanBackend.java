@@ -710,6 +710,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			// Don't dump edges to mode nodes
 			if(edge.getEdgeType().getIdent().toString().equals(MODE_EDGE_NAME))
 				continue;
+			if(edge.getEdgeType().getIdent().toString().equals(LS_MODE_EDGE_NAME))
+				continue;
 
 
 			String nameSuffix = "";
