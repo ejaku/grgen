@@ -653,10 +653,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				}
 				if(e.getEdgeType().getIdent().toString().equals(LS_MODE_EDGE_NAME)) {
 					Node modeNode = graph.getTarget(e);
-					String src_type = graph.getSource(e).getType().getIdent().toString();
-					//System.out.println("'" + src_type + "'");
-					if (null != modeNode && 
-							(src_type.equals("Load") || src_type.equals("Store"))) {
+					if (null != modeNode) {
 						lsmode = modeNode.getNodeType().getIdent().toString().substring(5);
 					}
 				}
