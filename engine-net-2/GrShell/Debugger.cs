@@ -503,53 +503,52 @@ namespace de.unika.ipd.grGen.grShell
 
             curRulePattern = matches.Producer.RulePattern;
 
-            foreach(IMatch match in matches)
-            {
-                int i = 0;
-                foreach(INode node in match.Nodes)
-                {
-                    String name = curRulePattern.PatternGraph.Nodes[i].UnprefixedName;
-                    ycompClient.ChangeNode(node, ycompClient.MatchedNodeRealizer);
-                    ycompClient.AnnotateElement(node, name);
-                    markedNodes[node] = name;
-                    i++;
-                }
-                i = 0;
-                foreach(IEdge edge in match.Edges)
-                {
-                    String name = curRulePattern.PatternGraph.Edges[i].UnprefixedName;
-                    ycompClient.ChangeEdge(edge, ycompClient.MatchedEdgeRealizer);
-                    ycompClient.AnnotateElement(edge, name);
-                    markedEdges[edge] = name;
-                    i++;
-                }
-            }
+            MarkMatches(matches, ycompClient.MatchedNodeRealizer, ycompClient.MatchedEdgeRealizer, true);
+
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
             Console.WriteLine("Press any key to apply rewrite...");
             ReadKeyWithCancel();
 
-            foreach(IMatch match in matches)
-            {
-                int i = 0;
-                foreach(INode node in match.Nodes)
-                {
-                    ycompClient.ChangeNode(node, null);
-                    i++;
-                }
-                i = 0;
-                foreach(IEdge edge in match.Edges)
-                {
-                    ycompClient.ChangeEdge(edge, null);
-                    i++;
-                }
-            }
+            MarkMatches(matches, null, null, false);
 
             recordMode = true;
             ycompClient.NodeRealizer = ycompClient.NewNodeRealizer;
             ycompClient.EdgeRealizer = ycompClient.NewEdgeRealizer;
             nextAddedNodeIndex = 0;
             nextAddedEdgeIndex = 0;
+        }
+
+        private void MarkMatches(IEnumerable<IMatch> matches, String nodeRealizerName, String edgeRealizerName, bool annotateElements)
+        {
+            foreach(IMatch match in matches)
+            {
+                int i = 0;
+                foreach(INode node in match.Nodes)
+                {
+                    ycompClient.ChangeNode(node, nodeRealizerName);
+                    if(annotateElements)
+                    {
+                        String name = match.Pattern.Nodes[i].UnprefixedName;
+                        ycompClient.AnnotateElement(node, name);
+                        markedNodes[node] = name;
+                    }
+                    i++;
+                }
+                i = 0;
+                foreach(IEdge edge in match.Edges)
+                {
+                    ycompClient.ChangeEdge(edge, ycompClient.MatchedEdgeRealizer);
+                    if(annotateElements)
+                    {
+                        String name = match.Pattern.Edges[i].UnprefixedName;
+                        ycompClient.AnnotateElement(edge, name);
+                        markedEdges[edge] = name;
+                    }
+                    i++;
+                }
+                MarkMatches(match.EmbeddedGraphs, nodeRealizerName, edgeRealizerName, annotateElements);
+            }
         }
 
         void DebugNextMatch()

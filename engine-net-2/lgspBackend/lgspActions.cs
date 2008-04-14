@@ -94,7 +94,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         IPatternGraph IMatch.Pattern
         {
-            get { throw new Exception("The method or operation is not implemented."); }
+            get { return patternGraph; }
         }
 
         /// <summary>
