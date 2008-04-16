@@ -599,6 +599,11 @@ ERROR  should_fail/pattern_005b.grg
 ERROR  should_fail/pattern_006a.grg
 ERROR  should_fail/pattern_006b.grg
 ERROR  should_fail/range_001.grg
+ERROR  should_fail/repl_000.grg
+ERROR  should_fail/repl_001a.grg
+ERROR  should_fail/repl_001b.grg
+ERROR  should_fail/repl_002.grg
+ERROR  should_fail/repl_003.grg
 ERROR  should_fail/ret_001.grg
 ERROR  should_fail/ret_002.grg
 ERROR  should_fail/ret_003.grg

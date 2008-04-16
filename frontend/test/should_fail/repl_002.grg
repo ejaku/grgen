@@ -1,0 +1,36 @@
+using patt;
+
+pattern Foo()
+{
+	d:Node;
+	
+	alternative {
+		Foo {
+			:Node;
+			modify(a:Node) {
+				a-->d;	
+			}
+		}
+		Bar {
+			:Node;
+			modify(a:Node, b:Node, c:Node) {
+				a-->b<--c;
+			}
+		}
+	}
+	
+	modify(a:Node, b:Node) {
+		a-->d<--b;
+	}
+}
+
+rule r {
+	a:Node;	b:Node; c:Node;
+	foo1:Foo();
+	foo2:Foo();
+	
+	modify {
+		foo1(a,b);
+		foo2(a,b);
+	}
+}

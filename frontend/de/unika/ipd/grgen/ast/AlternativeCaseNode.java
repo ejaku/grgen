@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
@@ -43,7 +44,7 @@ import de.unika.ipd.grgen.ir.Rule;
 
 
 /**
- * AST node for a pattern with replacements.
+ * AST node for an alternative case pattern, maybe including replacements.
  */
 public class AlternativeCaseNode extends ActionDeclNode  {
 	static {
@@ -103,52 +104,6 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 	protected Set<DeclNode> getDelete(int index) {
 		return right.children.get(index).getDelete(pattern);
-	}
-
-	/** Check that only graph elements are returned, that are not deleted. */
-	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, RhsDeclNode right) {
-		assert isResolved();
-
-		boolean res = true;
-		Set<DeclNode> delete = right.getDelete(left);
-
-		for (ExprNode expr : right.graph.returns.getChildren()) {
-			if(!(expr instanceof DeclExprNode)) continue;
-			ConstraintDeclNode retElem = ((DeclExprNode) expr).getConstraintDeclNode();
-			if(retElem == null) continue;
-
-			if (delete.contains(retElem)) {
-				res = false;
-
-				ident.reportError("The deleted " + retElem.getUseString()
-						+ " \"" + retElem.ident + "\" must not be returned");
-			}
-		}
-		return res;
-	}
-
-	/** Check that only graph elements are returned, that are not deleted. */
-	protected boolean checkExecParamsNotDeleted() {
-		boolean res = true;
-
-		for (int i = 0; i < right.getChildren().size(); i++) {
-    		Set<DeclNode> dels = getDelete(i);
-    		for (BaseNode x : right.children.get(i).graph.imperativeStmts.getChildren()) {
-    			if(x instanceof ExecNode) {
-    				ExecNode exec = (ExecNode)x;
-    				for(CallActionNode callAction : exec.callActions.getChildren())
-    					if(!Collections.disjoint(callAction.params.getChildren(), dels)) {
-    						// FIXME error message
-    						callAction.reportError("Parameter of call \"" + callAction.getName() + "\"");
-    						// TODO ...
-    						res = false;
-    					}
-
-
-    			}
-    		}
-		}
-		return res;
 	}
 
 	/* Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
@@ -348,6 +303,50 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		return edgeReUse;
 	}
 
+	protected boolean SameParametersInNestedAlternativeReplacementsAsInReplacement() {
+		boolean res = true;
+
+		for(AlternativeNode alt : pattern.alts.getChildren()) {
+			for(AlternativeCaseNode altCase : alt.getChildren()) {
+				if(right.getChildren().size()!=altCase.right.getChildren().size()) {
+					error.error(getCoords(), "Different number of replacement patterns in alternative case " + ident.toString()
+							+ " and nested alternative case " + altCase.ident.toString());
+					res = false;
+					continue;
+				}
+				
+				if(right.getChildren().size()==0) continue;
+				
+				Vector<DeclNode> parameters = right.children.get(0).graph.getParamDecls(); // todo: choose the right one
+				Vector<DeclNode> parametersInNestedAlternativeCase = 
+					altCase.right.children.get(0).graph.getParamDecls(); // todo: choose the right one
+
+				if(parameters.size()!=parametersInNestedAlternativeCase.size()) {
+					error.error(getCoords(), "Different number of replacement parameters in alternative case " + ident.toString()
+							+ " and nested alternative case " + altCase.ident.toString());
+					res = false;
+					continue;
+				}
+
+				// check if the types of the parameters are the same
+				for (int i = 0; i < parameters.size(); ++i) {
+					ConstraintDeclNode parameter = (ConstraintDeclNode)parameters.get(i);
+					ConstraintDeclNode parameterInNestedAlternativeCase = (ConstraintDeclNode)parametersInNestedAlternativeCase.get(i);
+					InheritanceTypeNode parameterType = parameter.getDeclType();
+					InheritanceTypeNode parameterInNestedAlternativeCaseType = parameterInNestedAlternativeCase.getDeclType();
+					
+					if(!parameterType.isEqual(parameterInNestedAlternativeCaseType)) {
+						parameterInNestedAlternativeCase.ident.reportError("Different type of replacement parameter in nested alternative case " + altCase.ident.toString() 
+								+ " at parameter " + parameterInNestedAlternativeCase.ident.toString() + " compared to replacement parameter in alternative " + ident.toString());
+						res = false;
+					}
+				}
+			}
+		}
+		
+		return res;
+	}
+	
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -366,6 +365,14 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		if(pattern.returns.children.size() > 0) {
 			error.error(getCoords(), "No return statements in pattern parts of rules allowed");
 			noReturnInPatternOk = false;
+		}
+		
+		boolean noReturnInAlterntiveCaseReplacement = true;
+		for (int i = 0; i < right.getChildren().size(); i++) {
+			if(right.children.get(i).graph.returns.children.size() > 0) {
+				error.error(getCoords(), "No return statements in alternative cases allowed");
+				noReturnInAlterntiveCaseReplacement = false;
+			}
 		}
 
 		boolean noDeleteOfPatternParameters = true;
@@ -399,9 +406,8 @@ public class AlternativeCaseNode extends ActionDeclNode  {
     		}
 		}
 
-		return leftHandGraphsOk & noDeleteOfPatternParameters
-			& checkRhsReuse() & noReturnInPatternOk & abstr
-			& checkExecParamsNotDeleted();
+		return leftHandGraphsOk & noDeleteOfPatternParameters & SameParametersInNestedAlternativeReplacementsAsInReplacement()
+			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement & abstr;
 	}
 
 	protected void constructIRaux(Rule rule) {

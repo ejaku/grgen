@@ -348,6 +348,50 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		return edgeReUse;
 	}
 
+	protected boolean SameParametersInNestedAlternativeReplacementsAsInReplacement() {
+		boolean res = true;
+
+		for(AlternativeNode alt : pattern.alts.getChildren()) {
+			for(AlternativeCaseNode altCase : alt.getChildren()) {
+				if(right.getChildren().size()!=altCase.right.getChildren().size()) {
+					error.error(getCoords(), "Different number of replacement patterns in subpattern " + ident.toString()
+							+ " and nested alternative case " + altCase.ident.toString());
+					res = false;
+					continue;
+				}
+				
+				if(right.getChildren().size()==0) continue;
+				
+				Vector<DeclNode> parameters = right.children.get(0).graph.getParamDecls(); // todo: choose the right one
+				Vector<DeclNode> parametersInNestedAlternativeCase = 
+					altCase.right.children.get(0).graph.getParamDecls(); // todo: choose the right one
+
+				if(parameters.size()!=parametersInNestedAlternativeCase.size()) {
+					error.error(getCoords(), "Different number of replacement parameters in subpattern " + ident.toString()
+							+ " and nested alternative case " + altCase.ident.toString());
+					res = false;
+					continue;
+				}
+
+				// check if the types of the parameters are the same
+				for (int i = 0; i < parameters.size(); ++i) {
+					ConstraintDeclNode parameter = (ConstraintDeclNode)parameters.get(i);
+					ConstraintDeclNode parameterInNestedAlternativeCase = (ConstraintDeclNode)parametersInNestedAlternativeCase.get(i);
+					InheritanceTypeNode parameterType = parameter.getDeclType();
+					InheritanceTypeNode parameterInNestedAlternativeCaseType = parameterInNestedAlternativeCase.getDeclType();
+					
+					if(!parameterType.isEqual(parameterInNestedAlternativeCaseType)) {
+						parameterInNestedAlternativeCase.ident.reportError("Different type of replacement parameter in nested alternative case " + altCase.ident.toString() 
+								+ " at parameter " + parameterInNestedAlternativeCase.ident.toString() + " compared to replacement parameter in subpattern " + ident.toString());
+						res = false;
+					}
+				}
+			}
+		}
+		
+		return res;
+	}
+
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -400,6 +444,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		}
 
 		return leftHandGraphsOk & noDeleteOfPatternParameters
+			& SameParametersInNestedAlternativeReplacementsAsInReplacement()
 			& checkRhsReuse() & noReturnInPatternOk & abstr
 			& checkExecParamsNotDeleted();
 	}

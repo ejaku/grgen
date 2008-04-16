@@ -1,0 +1,15 @@
+using patt;
+
+pattern Foo()
+{
+	:Node;
+}
+
+rule r {
+	a:Node;
+	foo1:Foo();
+	
+	modify {
+		foo1();
+	}
+}
