@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.lgsp
 {
-    public class IsomorphyInformation
+    public class IsomorphyInformation : ICloneable
     {
         /// <summary>
         /// if true, the graph element's is-matched-bit must be checked
@@ -26,6 +26,30 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public List<SearchPlanNode> GloballyHomomorphPatternElements = null;
 
+
+        public Object Clone()
+        {
+            IsomorphyInformation ii = new IsomorphyInformation();
+            ii.CheckIsMatchedBit = CheckIsMatchedBit;
+            ii.SetIsMatchedBit = SetIsMatchedBit;
+            if (PatternElementsToCheckAgainst != null)
+            {
+                ii.PatternElementsToCheckAgainst = new List<SearchPlanNode>(PatternElementsToCheckAgainst.Count);
+                for(int i=0; i<PatternElementsToCheckAgainst.Count; ++i)
+                {
+                    ii.PatternElementsToCheckAgainst[i] = PatternElementsToCheckAgainst[i];
+                }
+            }
+            if (GloballyHomomorphPatternElements != null)
+            {
+                ii.GloballyHomomorphPatternElements = new List<SearchPlanNode>(GloballyHomomorphPatternElements.Count);
+                for (int i = 0; i < GloballyHomomorphPatternElements.Count; ++i)
+                {
+                    ii.GloballyHomomorphPatternElements[i] = GloballyHomomorphPatternElements[i];
+                }
+            }
+            return ii;
+        }
 
         public List<string> PatternElementsToCheckAgainstAsListOfStrings()
         {
@@ -65,7 +89,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// Element of the scheduled search plan.
     /// </summary>
     [DebuggerDisplay("SearchOperation ({SourceSPNode} -{Type}-> {Element} = {CostToEnd})")]
-    public class SearchOperation : IComparable<SearchOperation>
+    public class SearchOperation : IComparable<SearchOperation>, ICloneable
     {
         public SearchOperationType Type;
         /// <summary>
@@ -87,6 +111,13 @@ namespace de.unika.ipd.grGen.lgsp
             Element = elem;
             SourceSPNode = srcSPNode;
             CostToEnd = costToEnd;
+        }
+
+        public Object Clone()
+        {
+            SearchOperation so = new SearchOperation(Type, Element, SourceSPNode, CostToEnd);
+            so.Isomorphy = (IsomorphyInformation)Isomorphy.Clone();
+            return so;
         }
 
         public static SearchOperation CreateMaybePreset(SearchPlanNode element)
@@ -163,7 +194,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// The scheduled search plan is a list of search operations,
     /// plus the information which nodes/edges are homomorph
     /// </summary>
-    public class ScheduledSearchPlan
+    public class ScheduledSearchPlan : ICloneable
     {
         public PatternGraph PatternGraph; // the pattern graph originating this schedule
         public SearchOperation[] Operations; // the scheduled list of search operations
@@ -174,6 +205,23 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph = patternGraph;
             Operations = ops;
             Cost = cost;
+        }
+
+        private ScheduledSearchPlan(PatternGraph patternGraph, float cost)
+        {
+            PatternGraph = patternGraph;
+            Cost = cost;
+        }
+
+        public Object Clone()
+        {
+            ScheduledSearchPlan ssp = new ScheduledSearchPlan(PatternGraph, Cost);
+            ssp.Operations = new SearchOperation[Operations.Length];
+            for (int i = 0; i < Operations.Length; ++i)
+            {
+                ssp.Operations[i] = (SearchOperation)Operations[i].Clone();
+            }
+            return ssp;
         }
     }
 }
