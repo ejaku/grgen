@@ -14,6 +14,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 		public enum init_NodeNums { };
 		public enum init_EdgeNums { };
+		public enum init_VariableNums { };
 		public enum init_SubNums { };
 		public enum init_AltNums { };
 		PatternGraph pat_init;
@@ -30,7 +31,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -42,6 +42,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -57,31 +58,34 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_Node node_x = Node_Node.CreateNode(graph);
-			Node_Node node_z = Node_Node.CreateNode(graph);
-			Node_Node node_y = Node_Node.CreateNode(graph);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_y, node_y);
-			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
-			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
-			return EmptyReturnElements;
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( init_addedNodeNames );
 			Node_Node node_x = Node_Node.CreateNode(graph);
 			Node_Node node_z = Node_Node.CreateNode(graph);
 			Node_Node node_y = Node_Node.CreateNode(graph);
+			graph.SettingAddedEdgeNames( init_addedEdgeNames );
 			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_y, node_y);
 			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
 			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "x", "z", "y" };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+		private static String[] init_addedNodeNames = new String[] { "x", "z", "y" };
+		private static String[] init_addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
+
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			graph.SettingAddedNodeNames( init_addedNodeNames );
+			Node_Node node_x = Node_Node.CreateNode(graph);
+			Node_Node node_z = Node_Node.CreateNode(graph);
+			Node_Node node_y = Node_Node.CreateNode(graph);
+			graph.SettingAddedEdgeNames( init_addedEdgeNames );
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_y, node_y);
+			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
+			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_init2 : LGSPRulePattern
@@ -91,6 +95,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 		public enum init2_NodeNums { };
 		public enum init2_EdgeNums { };
+		public enum init2_VariableNums { };
 		public enum init2_SubNums { };
 		public enum init2_AltNums { };
 		PatternGraph pat_init2;
@@ -107,7 +112,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -119,6 +123,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -134,29 +139,32 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node2 = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node2, node__node1);
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
-			return EmptyReturnElements;
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( init2_addedNodeNames );
 			Node_Node node__node1 = Node_Node.CreateNode(graph);
 			Node_Node node__node2 = Node_Node.CreateNode(graph);
 			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			graph.SettingAddedEdgeNames( init2_addedEdgeNames );
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node2, node__node1);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "_node1", "_node2", "_node0" };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge1", "_edge0" };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+		private static String[] init2_addedNodeNames = new String[] { "_node1", "_node2", "_node0" };
+		private static String[] init2_addedEdgeNames = new String[] { "_edge1", "_edge0" };
+
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			graph.SettingAddedNodeNames( init2_addedNodeNames );
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
+			Node_Node node__node2 = Node_Node.CreateNode(graph);
+			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			graph.SettingAddedEdgeNames( init2_addedEdgeNames );
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node2, node__node1);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_init3 : LGSPRulePattern
@@ -166,6 +174,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 		public enum init3_NodeNums { };
 		public enum init3_EdgeNums { };
+		public enum init3_VariableNums { };
 		public enum init3_SubNums { };
 		public enum init3_AltNums { };
 		PatternGraph pat_init3;
@@ -182,7 +191,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -194,6 +202,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -209,31 +218,34 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{
-			Node_Node node_x = Node_Node.CreateNode(graph);
-			Node_Node node_z = Node_Node.CreateNode(graph);
-			Node_Node node_y = Node_Node.CreateNode(graph);
-			Edge_UEdge edge__edge2 = Edge_UEdge.CreateEdge(graph, node_z, node_x);
-			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
-			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
-			return EmptyReturnElements;
-		}
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( init3_addedNodeNames );
 			Node_Node node_x = Node_Node.CreateNode(graph);
 			Node_Node node_z = Node_Node.CreateNode(graph);
 			Node_Node node_y = Node_Node.CreateNode(graph);
+			graph.SettingAddedEdgeNames( init3_addedEdgeNames );
 			Edge_UEdge edge__edge2 = Edge_UEdge.CreateEdge(graph, node_z, node_x);
 			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
 			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "x", "z", "y" };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+		private static String[] init3_addedNodeNames = new String[] { "x", "z", "y" };
+		private static String[] init3_addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
+
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
+			graph.SettingAddedNodeNames( init3_addedNodeNames );
+			Node_Node node_x = Node_Node.CreateNode(graph);
+			Node_Node node_z = Node_Node.CreateNode(graph);
+			Node_Node node_y = Node_Node.CreateNode(graph);
+			graph.SettingAddedEdgeNames( init3_addedEdgeNames );
+			Edge_UEdge edge__edge2 = Edge_UEdge.CreateEdge(graph, node_z, node_x);
+			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
+			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
+			return EmptyReturnElements;
+		}
 	}
 
 	public class Rule_findUndirectedEdge : LGSPRulePattern
@@ -249,6 +261,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public static bool[] findUndirectedEdge_edge__edge0_IsAllowedType = null;
 		public enum findUndirectedEdge_NodeNums { @x, @y, };
 		public enum findUndirectedEdge_EdgeNums { @_edge0, };
+		public enum findUndirectedEdge_VariableNums { };
 		public enum findUndirectedEdge_SubNums { };
 		public enum findUndirectedEdge_AltNums { };
 		PatternGraph pat_findUndirectedEdge;
@@ -265,7 +278,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -285,6 +297,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				false,
 				new PatternNode[] { findUndirectedEdge_node_x, findUndirectedEdge_node_y }, 
 				new PatternEdge[] { findUndirectedEdge_edge__edge0 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -310,18 +323,16 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 	public class Rule_findArbitraryEdge : LGSPRulePattern
@@ -337,6 +348,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public static bool[] findArbitraryEdge_edge__edge0_IsAllowedType = null;
 		public enum findArbitraryEdge_NodeNums { @x, @y, };
 		public enum findArbitraryEdge_EdgeNums { @_edge0, };
+		public enum findArbitraryEdge_VariableNums { };
 		public enum findArbitraryEdge_SubNums { };
 		public enum findArbitraryEdge_AltNums { };
 		PatternGraph pat_findArbitraryEdge;
@@ -353,7 +365,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -373,6 +384,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				false,
 				new PatternNode[] { findArbitraryEdge_node_x, findArbitraryEdge_node_y }, 
 				new PatternEdge[] { findArbitraryEdge_edge__edge0 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -398,18 +410,16 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 	public class Rule_findArbitraryDirectedEdge : LGSPRulePattern
@@ -425,6 +435,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public static bool[] findArbitraryDirectedEdge_edge__edge0_IsAllowedType = null;
 		public enum findArbitraryDirectedEdge_NodeNums { @x, @y, };
 		public enum findArbitraryDirectedEdge_EdgeNums { @_edge0, };
+		public enum findArbitraryDirectedEdge_VariableNums { };
 		public enum findArbitraryDirectedEdge_SubNums { };
 		public enum findArbitraryDirectedEdge_AltNums { };
 		PatternGraph pat_findArbitraryDirectedEdge;
@@ -441,7 +452,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -461,6 +471,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				false,
 				new PatternNode[] { findArbitraryDirectedEdge_node_x, findArbitraryDirectedEdge_node_y }, 
 				new PatternEdge[] { findArbitraryDirectedEdge_edge__edge0 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -486,18 +497,16 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 	public class Rule_findArbitraryDirectedReflexiveEdge : LGSPRulePattern
@@ -511,6 +520,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public static bool[] findArbitraryDirectedReflexiveEdge_edge__edge0_IsAllowedType = null;
 		public enum findArbitraryDirectedReflexiveEdge_NodeNums { @x, };
 		public enum findArbitraryDirectedReflexiveEdge_EdgeNums { @_edge0, };
+		public enum findArbitraryDirectedReflexiveEdge_VariableNums { };
 		public enum findArbitraryDirectedReflexiveEdge_SubNums { };
 		public enum findArbitraryDirectedReflexiveEdge_AltNums { };
 		PatternGraph pat_findArbitraryDirectedReflexiveEdge;
@@ -527,7 +537,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -545,6 +554,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				false,
 				new PatternNode[] { findArbitraryDirectedReflexiveEdge_node_x }, 
 				new PatternEdge[] { findArbitraryDirectedReflexiveEdge_edge__edge0 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -568,18 +578,16 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 	public class Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne : LGSPRulePattern
@@ -597,6 +605,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public static bool[] findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1_IsAllowedType = null;
 		public enum findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_NodeNums { @x, @y, };
 		public enum findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_EdgeNums { @_edge0, @_edge1, };
+		public enum findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_VariableNums { };
 		public enum findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_SubNums { };
 		public enum findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_AltNums { };
 		PatternGraph pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
@@ -613,7 +622,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -635,6 +643,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				false,
 				new PatternNode[] { findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y }, 
 				new PatternEdge[] { findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -664,18 +673,16 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 	public class Rule_findArbitraryDirectedTriple : LGSPRulePattern
@@ -695,6 +702,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public static bool[] findArbitraryDirectedTriple_edge__edge1_IsAllowedType = null;
 		public enum findArbitraryDirectedTriple_NodeNums { @_node0, @_node1, @_node2, };
 		public enum findArbitraryDirectedTriple_EdgeNums { @_edge0, @_edge1, };
+		public enum findArbitraryDirectedTriple_VariableNums { };
 		public enum findArbitraryDirectedTriple_SubNums { };
 		public enum findArbitraryDirectedTriple_AltNums { };
 		PatternGraph pat_findArbitraryDirectedTriple;
@@ -711,7 +719,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -735,6 +742,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				false,
 				new PatternNode[] { findArbitraryDirectedTriple_node__node0, findArbitraryDirectedTriple_node__node1, findArbitraryDirectedTriple_node__node2 }, 
 				new PatternEdge[] { findArbitraryDirectedTriple_edge__edge0, findArbitraryDirectedTriple_edge__edge1 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -766,18 +774,16 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 	public class Rule_findDirectedEdge : LGSPRulePattern
@@ -793,6 +799,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public static bool[] findDirectedEdge_edge__edge0_IsAllowedType = null;
 		public enum findDirectedEdge_NodeNums { @x, @y, };
 		public enum findDirectedEdge_EdgeNums { @_edge0, };
+		public enum findDirectedEdge_VariableNums { };
 		public enum findDirectedEdge_SubNums { };
 		public enum findDirectedEdge_AltNums { };
 		PatternGraph pat_findDirectedEdge;
@@ -809,7 +816,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -829,6 +835,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				false,
 				new PatternNode[] { findDirectedEdge_node_x, findDirectedEdge_node_y }, 
 				new PatternEdge[] { findDirectedEdge_edge__edge0 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -854,18 +861,16 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 	public class Rule_findTripleCircle : LGSPRulePattern
@@ -887,6 +892,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public static bool[] findTripleCircle_edge__edge2_IsAllowedType = null;
 		public enum findTripleCircle_NodeNums { @x, @y, @z, };
 		public enum findTripleCircle_EdgeNums { @_edge0, @_edge1, @_edge2, };
+		public enum findTripleCircle_VariableNums { };
 		public enum findTripleCircle_SubNums { };
 		public enum findTripleCircle_AltNums { };
 		PatternGraph pat_findTripleCircle;
@@ -903,7 +909,6 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -929,6 +934,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 				false,
 				new PatternNode[] { findTripleCircle_node_x, findTripleCircle_node_y, findTripleCircle_node_z }, 
 				new PatternEdge[] { findTripleCircle_edge__edge0, findTripleCircle_edge__edge1, findTripleCircle_edge__edge2 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -964,18 +970,16 @@ namespace de.unika.ipd.grGen.Action_edge1
 		}
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
-		{  // test without modifications
+
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
 
@@ -984,7 +988,8 @@ namespace de.unika.ipd.grGen.Action_edge1
         public Action_init() {
             rulePattern = Rule_init.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 0);
         }
 
         public override string Name { get { return "init"; } }
@@ -993,7 +998,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static LGSPAction Instance { get { return instance; } }
         private static Action_init instance = new Action_init();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -1015,7 +1020,8 @@ namespace de.unika.ipd.grGen.Action_edge1
         public Action_init2() {
             rulePattern = Rule_init2.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 0);
         }
 
         public override string Name { get { return "init2"; } }
@@ -1024,7 +1030,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static LGSPAction Instance { get { return instance; } }
         private static Action_init2 instance = new Action_init2();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -1046,7 +1052,8 @@ namespace de.unika.ipd.grGen.Action_edge1
         public Action_init3() {
             rulePattern = Rule_init3.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 0);
         }
 
         public override string Name { get { return "init3"; } }
@@ -1055,7 +1062,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static LGSPAction Instance { get { return instance; } }
         private static Action_init3 instance = new Action_init3();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -1077,7 +1084,8 @@ namespace de.unika.ipd.grGen.Action_edge1
         public Action_findUndirectedEdge() {
             rulePattern = Rule_findUndirectedEdge.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 2, 1, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 2, 1, 0, 0 + 0);
         }
 
         public override string Name { get { return "findUndirectedEdge"; } }
@@ -1086,7 +1094,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         public static LGSPAction Instance { get { return instance; } }
         private static Action_findUndirectedEdge instance = new Action_findUndirectedEdge();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -1138,7 +1146,8 @@ label0: ;
         public Action_findArbitraryEdge() {
             rulePattern = Rule_findArbitraryEdge.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 2, 1, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 2, 1, 0, 0 + 0);
         }
 
         public override string Name { get { return "findArbitraryEdge"; } }
@@ -1147,7 +1156,7 @@ label0: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_findArbitraryEdge instance = new Action_findArbitraryEdge();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -1202,7 +1211,8 @@ label1: ;
         public Action_findArbitraryDirectedEdge() {
             rulePattern = Rule_findArbitraryDirectedEdge.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 2, 1, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 2, 1, 0, 0 + 0);
         }
 
         public override string Name { get { return "findArbitraryDirectedEdge"; } }
@@ -1211,7 +1221,7 @@ label1: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_findArbitraryDirectedEdge instance = new Action_findArbitraryDirectedEdge();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -1263,7 +1273,8 @@ label2: ;
         public Action_findArbitraryDirectedReflexiveEdge() {
             rulePattern = Rule_findArbitraryDirectedReflexiveEdge.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 1, 1, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 1, 1, 0, 0 + 0);
         }
 
         public override string Name { get { return "findArbitraryDirectedReflexiveEdge"; } }
@@ -1272,7 +1283,7 @@ label2: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_findArbitraryDirectedReflexiveEdge instance = new Action_findArbitraryDirectedReflexiveEdge();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -1310,7 +1321,8 @@ label2: ;
         public Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne() {
             rulePattern = Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 2, 2, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 2, 2, 0, 0 + 0);
         }
 
         public override string Name { get { return "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne"; } }
@@ -1319,7 +1331,7 @@ label2: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne instance = new Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -1389,7 +1401,8 @@ label3: ;
         public Action_findArbitraryDirectedTriple() {
             rulePattern = Rule_findArbitraryDirectedTriple.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 3, 2, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 3, 2, 0, 0 + 0);
         }
 
         public override string Name { get { return "findArbitraryDirectedTriple"; } }
@@ -1398,7 +1411,7 @@ label3: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_findArbitraryDirectedTriple instance = new Action_findArbitraryDirectedTriple();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -1501,7 +1514,8 @@ label4: ;
         public Action_findDirectedEdge() {
             rulePattern = Rule_findDirectedEdge.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 2, 1, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 2, 1, 0, 0 + 0);
         }
 
         public override string Name { get { return "findDirectedEdge"; } }
@@ -1510,7 +1524,7 @@ label4: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_findDirectedEdge instance = new Action_findDirectedEdge();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -1557,7 +1571,8 @@ label4: ;
         public Action_findTripleCircle() {
             rulePattern = Rule_findTripleCircle.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 3, 3, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 3, 3, 0, 0 + 0);
         }
 
         public override string Name { get { return "findTripleCircle"; } }
@@ -1566,7 +1581,7 @@ label4: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_findTripleCircle instance = new Action_findTripleCircle();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;

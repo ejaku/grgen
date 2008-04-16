@@ -187,16 +187,6 @@ namespace de.unika.ipd.grGen.libGr
         GrGenType[] Outputs { get; }
 
         /// <summary>
-        /// The names of the nodes added in Modify() in order of adding.
-        /// </summary>
-        String[] AddedNodeNames { get; }
-
-        /// <summary>
-        /// The names of the edges added in Modify() in order of adding.
-        /// </summary>
-        String[] AddedEdgeNames { get; }
-
-        /// <summary>
         /// Performs the rule specific modifications to the given graph with the given match (rewrite part).
         /// The graph and match object must have the correct type for the used backend.
         /// </summary>

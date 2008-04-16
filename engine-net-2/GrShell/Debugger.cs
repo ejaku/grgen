@@ -30,6 +30,9 @@ namespace de.unika.ipd.grGen.grShell
         int nextAddedNodeIndex = 0;
         int nextAddedEdgeIndex = 0;
 
+        String[] curAddedNodeNames = null;
+        String[] curAddedEdgeNames = null;
+
         Dictionary<INode, String> markedNodes = new Dictionary<INode, String>();
         Dictionary<IEdge, String> markedEdges = new Dictionary<IEdge, String>();
 
@@ -563,7 +566,7 @@ namespace de.unika.ipd.grGen.grShell
             if(recordMode)
             {
                 addedNodes[node] = true;
-                ycompClient.AnnotateElement(node, curRulePattern.AddedNodeNames[nextAddedNodeIndex++]);
+                ycompClient.AnnotateElement(node, curAddedNodeNames[nextAddedNodeIndex++]);
             }
             else if(alwaysShow) ycompClient.UpdateDisplay();
         }
@@ -574,7 +577,7 @@ namespace de.unika.ipd.grGen.grShell
             if(recordMode)
             {
                 addedEdges[edge] = true;
-                ycompClient.AnnotateElement(edge, curRulePattern.AddedEdgeNames[nextAddedEdgeIndex++]);
+                ycompClient.AnnotateElement(edge, curAddedEdgeNames[nextAddedEdgeIndex++]);
             }
             else if(alwaysShow) ycompClient.UpdateDisplay();
         }
@@ -732,6 +735,8 @@ namespace de.unika.ipd.grGen.grShell
             shellGraph.Graph.OnChangingEdgeAttribute += new ChangingEdgeAttributeHandler(DebugChangingEdgeAttribute);
             shellGraph.Graph.OnRetypingNode += new RetypingNodeHandler(DebugRetypingElement);
             shellGraph.Graph.OnRetypingEdge += new RetypingEdgeHandler(DebugRetypingElement);
+            shellGraph.Graph.OnSettingAddedNodeNames += new SettingAddedElementNamesHandler(DebugSettingAddedNodeNames);
+            shellGraph.Graph.OnSettingAddedEdgeNames += new SettingAddedElementNamesHandler(DebugSettingAddedEdgeNames);
 
             if(shellGraph.Actions != null)
             {
@@ -741,6 +746,18 @@ namespace de.unika.ipd.grGen.grShell
                 shellGraph.Actions.OnRewritingNextMatch += new RewriteNextMatchHandler(DebugNextMatch);
                 shellGraph.Actions.OnFinished += new AfterFinishHandler(DebugFinished);
             }
+        }
+
+        void DebugSettingAddedNodeNames(string[] namesOfNodesAdded)
+        {
+            curAddedNodeNames = namesOfNodesAdded;
+            nextAddedNodeIndex = 0;
+        }
+
+        void DebugSettingAddedEdgeNames(string[] namesOfEdgesAdded)
+        {
+            curAddedEdgeNames = namesOfEdgesAdded;
+            nextAddedEdgeIndex = 0;
         }
 
         /// <summary>
@@ -757,6 +774,8 @@ namespace de.unika.ipd.grGen.grShell
             shellGraph.Graph.OnChangingEdgeAttribute -= new ChangingEdgeAttributeHandler(DebugChangingEdgeAttribute);
             shellGraph.Graph.OnRetypingNode -= new RetypingNodeHandler(DebugRetypingElement);
             shellGraph.Graph.OnRetypingEdge -= new RetypingEdgeHandler(DebugRetypingElement);
+            shellGraph.Graph.OnSettingAddedNodeNames -= new SettingAddedElementNamesHandler(DebugSettingAddedNodeNames);
+            shellGraph.Graph.OnSettingAddedEdgeNames -= new SettingAddedElementNamesHandler(DebugSettingAddedEdgeNames);
 
             if(shellGraph.Actions != null)
             {

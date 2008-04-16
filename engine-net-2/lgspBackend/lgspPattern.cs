@@ -538,6 +538,44 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// A description of a GrGen matching pattern, that's a subpattern/subrule or the base for some rule.
+    /// </summary>
+    public abstract class LGSPMatchingPattern : IMatchingPattern
+    {
+        /// <summary>
+        /// The main pattern graph.
+        /// </summary>
+        public IPatternGraph PatternGraph { get { return patternGraph; } }
+
+        /// <summary>
+        /// An array of GrGen types corresponding to rule parameters.
+        /// </summary>
+        public GrGenType[] Inputs { get { return inputs; } }
+
+        /// <summary>
+        /// The main pattern graph.
+        /// </summary>
+        public PatternGraph patternGraph;
+
+        /// <summary>
+        /// An array of GrGen types corresponding to rule parameters.
+        /// </summary>
+        public GrGenType[] inputs; // redundant convenience, information already given by/within the PatternElements
+
+        /// <summary>
+        /// Names of the rule parameter elements
+        /// </summary>
+        public string[] inputNames;
+
+        /// <summary>
+        /// Our name
+        /// </summary>
+        public string name;
+
+        public abstract void initialize();
+    }
+
+    /// <summary>
     /// A description of a GrGen rule.
     /// </summary>
     public abstract class LGSPRulePattern : LGSPMatchingPattern, IRulePattern
@@ -546,16 +584,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
         public GrGenType[] Outputs { get { return outputs; } }
-
-        /// <summary>
-        /// The names of the nodes added in Modify() in order of adding.
-        /// </summary>
-        public abstract String[] AddedNodeNames { get; }
-
-        /// <summary>
-        /// The names of the edges added in Modify() in order of adding.
-        /// </summary>
-        public abstract String[] AddedEdgeNames { get; }
 
         /// <summary>
         /// Performs the rule specific modifications to the given graph with the given match (rewrite part).
@@ -596,43 +624,5 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
         public GrGenType[] outputs;
-    }
-
-    /// <summary>
-    /// A description of a GrGen matching pattern, that's a subpattern/subrule or the base for some rule.
-    /// </summary>
-    public abstract class LGSPMatchingPattern : IMatchingPattern
-    {
-        /// <summary>
-        /// The main pattern graph.
-        /// </summary>
-        public IPatternGraph PatternGraph { get { return patternGraph; } }
-
-        /// <summary>
-        /// An array of GrGen types corresponding to rule parameters.
-        /// </summary>
-        public GrGenType[] Inputs { get { return inputs; } }
-
-        /// <summary>
-        /// The main pattern graph.
-        /// </summary>
-        public PatternGraph patternGraph;
-
-        /// <summary>
-        /// An array of GrGen types corresponding to rule parameters.
-        /// </summary>
-        public GrGenType[] inputs; // redundant convenience, information already given by/within the PatternElements
-
-        /// <summary>
-        /// Names of the rule parameter elements
-        /// </summary>
-        public string[] inputNames;
-
-        /// <summary>
-        /// Our name
-        /// </summary>
-        public string name;
-
-        public abstract void initialize();
     }
 }

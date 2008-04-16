@@ -434,6 +434,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public event RetypingEdgeHandler OnRetypingEdge;
 
+        public event SettingAddedElementNamesHandler OnSettingAddedNodeNames;
+        public event SettingAddedElementNamesHandler OnSettingAddedEdgeNames;
+
         /// <summary>
         /// Fires an OnNodeAdded event.
         /// </summary>
@@ -492,6 +495,19 @@ namespace de.unika.ipd.grGen.libGr
             ClearingGraphHandler clearingGraph = OnClearingGraph;
             if(clearingGraph != null) clearingGraph();
         }
+
+        public void SettingAddedNodeNames(String[] addedNodeNames)
+        {
+            SettingAddedElementNamesHandler handler = OnSettingAddedNodeNames;
+            if(handler != null) handler(addedNodeNames);
+        }
+
+        public void SettingAddedEdgeNames(String[] addedEdgeNames)
+        {
+            SettingAddedElementNamesHandler handler = OnSettingAddedEdgeNames;
+            if(handler != null) handler(addedEdgeNames);
+        }
+
 
         /// <summary>
         /// Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.

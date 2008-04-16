@@ -19,7 +19,7 @@ namespace Recursive
             actions.PerformanceInfo = new PerformanceInfo();
 
             LGSPMatches matches;
-            IGraphElement[] returns;
+            Object[] returns;
 
             LGSPAction createChain = Action_createChain.Instance;
             matches = createChain.Match(graph, 0, null);

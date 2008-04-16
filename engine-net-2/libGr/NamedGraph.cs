@@ -638,6 +638,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public event RetypingEdgeHandler OnRetypingEdge { add { graph.OnRetypingEdge += value; } remove { graph.OnRetypingEdge -= value; } }
 
+        public event SettingAddedElementNamesHandler OnSettingAddedNodeNames
+        { add { graph.OnSettingAddedNodeNames += value; } remove { graph.OnSettingAddedNodeNames -= value; } }
+
+        public event SettingAddedElementNamesHandler OnSettingAddedEdgeNames
+        { add { graph.OnSettingAddedEdgeNames += value; } remove { graph.OnSettingAddedEdgeNames -= value; } }
 
         /// <summary>
         /// Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.

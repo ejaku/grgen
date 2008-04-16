@@ -159,6 +159,11 @@ namespace de.unika.ipd.grGen.libGr
     /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the adjacent nodes, yet.</param>
     public delegate void RetypingEdgeHandler(IEdge oldEdge, IEdge newEdge);
 
+    /// <summary>
+    /// Delegate-type called shortly before elements are added to the graph, with the names of the elements added.
+    /// </summary>
+    public delegate void SettingAddedElementNamesHandler(String[] namesOfElementsAdded);
+
     #endregion GraphDelegates
 
     /// <summary>
@@ -473,6 +478,9 @@ namespace de.unika.ipd.grGen.libGr
         /// Old and new type and attributes are provided to the handler.
         /// </summary>
         event RetypingEdgeHandler OnRetypingEdge;
+
+        event SettingAddedElementNamesHandler OnSettingAddedNodeNames;
+        event SettingAddedElementNamesHandler OnSettingAddedEdgeNames;
 
         /// <summary>
         /// Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.

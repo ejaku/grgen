@@ -18,6 +18,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] toAorB_edge_y_IsAllowedType = null;
 		public enum toAorB_NodeNums { @x, };
 		public enum toAorB_EdgeNums { @y, };
+		public enum toAorB_VariableNums { };
 		public enum toAorB_SubNums { };
 		public enum toAorB_AltNums { @alt_0, };
 		PatternGraph pat_toAorB;
@@ -27,6 +28,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] toAorB_alt_0_toA_node_a_IsAllowedType = null;
 		public enum toAorB_alt_0_toA_NodeNums { @a, };
 		public enum toAorB_alt_0_toA_EdgeNums { @y, };
+		public enum toAorB_alt_0_toA_VariableNums { };
 		public enum toAorB_alt_0_toA_SubNums { };
 		public enum toAorB_alt_0_toA_AltNums { };
 		PatternGraph toAorB_alt_0_toA;
@@ -35,6 +37,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] toAorB_alt_0_toB_node_b_IsAllowedType = null;
 		public enum toAorB_alt_0_toB_NodeNums { @b, };
 		public enum toAorB_alt_0_toB_EdgeNums { @y, };
+		public enum toAorB_alt_0_toB_VariableNums { };
 		public enum toAorB_alt_0_toB_SubNums { };
 		public enum toAorB_alt_0_toB_AltNums { };
 		PatternGraph toAorB_alt_0_toB;
@@ -74,6 +77,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { toAorB_alt_0_toA_node_a }, 
 				new PatternEdge[] { toAorB_edge_y }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -102,6 +106,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { toAorB_alt_0_toB_node_b }, 
 				new PatternEdge[] { toAorB_edge_y }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -125,6 +130,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { toAorB_node_x }, 
 				new PatternEdge[] { toAorB_edge_y }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { toAorB_alt_0,  }, 
 				new PatternGraph[] {  }, 
@@ -154,7 +160,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public void toAorB_Create(LGSPGraph graph, LGSPNode node_x)
 		{
+			graph.SettingAddedNodeNames( create_toAorB_addedNodeNames );
+			graph.SettingAddedEdgeNames( create_toAorB_addedEdgeNames );
 		}
+		private static String[] create_toAorB_addedNodeNames = new String[] {  };
+		private static String[] create_toAorB_addedEdgeNames = new String[] { "y" };
 
 		public void toAorB_Delete(LGSPGraph graph, LGSPMatch match)
 		{
@@ -179,8 +189,12 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public void toAorB_alt_0_toA_Create(LGSPGraph graph)
 		{
+			graph.SettingAddedNodeNames( create_toAorB_alt_0_toA_addedNodeNames );
 			Node_A node_a = Node_A.CreateNode(graph);
+			graph.SettingAddedEdgeNames( create_toAorB_alt_0_toA_addedEdgeNames );
 		}
+		private static String[] create_toAorB_alt_0_toA_addedNodeNames = new String[] { "a" };
+		private static String[] create_toAorB_alt_0_toA_addedEdgeNames = new String[] { "y" };
 
 		public void toAorB_alt_0_toA_Delete(LGSPGraph graph, LGSPMatch match)
 		{
@@ -191,8 +205,12 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public void toAorB_alt_0_toB_Create(LGSPGraph graph)
 		{
+			graph.SettingAddedNodeNames( create_toAorB_alt_0_toB_addedNodeNames );
 			Node_B node_b = Node_B.CreateNode(graph);
+			graph.SettingAddedEdgeNames( create_toAorB_alt_0_toB_addedEdgeNames );
 		}
+		private static String[] create_toAorB_alt_0_toB_addedNodeNames = new String[] { "b" };
+		private static String[] create_toAorB_alt_0_toB_addedEdgeNames = new String[] { "y" };
 
 		public void toAorB_alt_0_toB_Delete(LGSPGraph graph, LGSPMatch match)
 		{
@@ -209,6 +227,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public enum createA_NodeNums { };
 		public enum createA_EdgeNums { };
+		public enum createA_VariableNums { };
 		public enum createA_SubNums { };
 		public enum createA_AltNums { };
 		PatternGraph pat_createA;
@@ -225,7 +244,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -237,6 +255,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -253,19 +272,21 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createA_addedNodeNames );
 			Node_A node__node0 = Node_A.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createA_addedEdgeNames );
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "_node0" };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {  };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+		private static String[] createA_addedNodeNames = new String[] { "_node0" };
+		private static String[] createA_addedEdgeNames = new String[] {  };
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createA_addedNodeNames );
 			Node_A node__node0 = Node_A.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createA_addedEdgeNames );
 			return EmptyReturnElements;
 		}
 	}
@@ -277,6 +298,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public enum createB_NodeNums { };
 		public enum createB_EdgeNums { };
+		public enum createB_VariableNums { };
 		public enum createB_SubNums { };
 		public enum createB_AltNums { };
 		PatternGraph pat_createB;
@@ -293,7 +315,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -305,6 +326,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -321,19 +343,21 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createB_addedNodeNames );
 			Node_B node__node0 = Node_B.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createB_addedEdgeNames );
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "_node0" };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {  };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+		private static String[] createB_addedNodeNames = new String[] { "_node0" };
+		private static String[] createB_addedEdgeNames = new String[] {  };
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createB_addedNodeNames );
 			Node_B node__node0 = Node_B.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createB_addedEdgeNames );
 			return EmptyReturnElements;
 		}
 	}
@@ -345,6 +369,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public enum createC_NodeNums { };
 		public enum createC_EdgeNums { };
+		public enum createC_VariableNums { };
 		public enum createC_SubNums { };
 		public enum createC_AltNums { };
 		PatternGraph pat_createC;
@@ -361,7 +386,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -373,6 +397,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -389,19 +414,21 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createC_addedNodeNames );
 			Node_C node__node0 = Node_C.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createC_addedEdgeNames );
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "_node0" };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {  };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+		private static String[] createC_addedNodeNames = new String[] { "_node0" };
+		private static String[] createC_addedEdgeNames = new String[] {  };
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createC_addedNodeNames );
 			Node_C node__node0 = Node_C.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createC_addedEdgeNames );
 			return EmptyReturnElements;
 		}
 	}
@@ -413,6 +440,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public enum createAtoB_NodeNums { };
 		public enum createAtoB_EdgeNums { };
+		public enum createAtoB_VariableNums { };
 		public enum createAtoB_SubNums { };
 		public enum createAtoB_AltNums { };
 		PatternGraph pat_createAtoB;
@@ -429,7 +457,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -441,6 +468,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -457,22 +485,24 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createAtoB_addedNodeNames );
 			Node_B node__node1 = Node_B.CreateNode(graph);
 			Node_A node__node0 = Node_A.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createAtoB_addedEdgeNames );
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "_node1", "_node0" };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge0" };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+		private static String[] createAtoB_addedNodeNames = new String[] { "_node1", "_node0" };
+		private static String[] createAtoB_addedEdgeNames = new String[] { "_edge0" };
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createAtoB_addedNodeNames );
 			Node_B node__node1 = Node_B.CreateNode(graph);
 			Node_A node__node0 = Node_A.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createAtoB_addedEdgeNames );
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			return EmptyReturnElements;
 		}
@@ -485,6 +515,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public enum leer_NodeNums { };
 		public enum leer_EdgeNums { };
+		public enum leer_VariableNums { };
 		public enum leer_SubNums { };
 		public enum leer_AltNums { @alt_0, };
 		PatternGraph pat_leer;
@@ -492,6 +523,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum leer_alt_0_CaseNums { @altleer, };
 		public enum leer_alt_0_altleer_NodeNums { };
 		public enum leer_alt_0_altleer_EdgeNums { };
+		public enum leer_alt_0_altleer_VariableNums { };
 		public enum leer_alt_0_altleer_SubNums { };
 		public enum leer_alt_0_altleer_AltNums { };
 		PatternGraph leer_alt_0_altleer;
@@ -508,7 +540,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -522,6 +553,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -540,6 +572,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { leer_alt_0,  }, 
 				new PatternGraph[] {  }, 
@@ -557,17 +590,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)leer_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)leer_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
@@ -589,6 +618,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public enum AorB_NodeNums { };
 		public enum AorB_EdgeNums { };
+		public enum AorB_VariableNums { };
 		public enum AorB_SubNums { };
 		public enum AorB_AltNums { @alt_0, };
 		PatternGraph pat_AorB;
@@ -598,6 +628,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] AorB_alt_0_A_node__node0_IsAllowedType = null;
 		public enum AorB_alt_0_A_NodeNums { @_node0, };
 		public enum AorB_alt_0_A_EdgeNums { };
+		public enum AorB_alt_0_A_VariableNums { };
 		public enum AorB_alt_0_A_SubNums { };
 		public enum AorB_alt_0_A_AltNums { };
 		PatternGraph AorB_alt_0_A;
@@ -606,6 +637,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] AorB_alt_0_B_node__node0_IsAllowedType = null;
 		public enum AorB_alt_0_B_NodeNums { @_node0, };
 		public enum AorB_alt_0_B_EdgeNums { };
+		public enum AorB_alt_0_B_VariableNums { };
 		public enum AorB_alt_0_B_SubNums { };
 		public enum AorB_alt_0_B_AltNums { };
 		PatternGraph AorB_alt_0_B;
@@ -622,7 +654,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -639,6 +670,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { AorB_alt_0_A_node__node0 }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -662,6 +694,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { AorB_alt_0_B_node__node0 }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -682,6 +715,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { AorB_alt_0,  }, 
 				new PatternGraph[] {  }, 
@@ -702,17 +736,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AorB_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AorB_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
@@ -742,6 +772,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public enum AandnotCorB_NodeNums { };
 		public enum AandnotCorB_EdgeNums { };
+		public enum AandnotCorB_VariableNums { };
 		public enum AandnotCorB_SubNums { };
 		public enum AandnotCorB_AltNums { @alt_0, };
 		PatternGraph pat_AandnotCorB;
@@ -751,6 +782,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] AandnotCorB_alt_0_A_node__node0_IsAllowedType = null;
 		public enum AandnotCorB_alt_0_A_NodeNums { @_node0, };
 		public enum AandnotCorB_alt_0_A_EdgeNums { };
+		public enum AandnotCorB_alt_0_A_VariableNums { };
 		public enum AandnotCorB_alt_0_A_SubNums { };
 		public enum AandnotCorB_alt_0_A_AltNums { };
 		PatternGraph AandnotCorB_alt_0_A;
@@ -759,6 +791,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] AandnotCorB_alt_0_A_neg_0_node__node0_IsAllowedType = null;
 		public enum AandnotCorB_alt_0_A_neg_0_NodeNums { @_node0, };
 		public enum AandnotCorB_alt_0_A_neg_0_EdgeNums { };
+		public enum AandnotCorB_alt_0_A_neg_0_VariableNums { };
 		public enum AandnotCorB_alt_0_A_neg_0_SubNums { };
 		public enum AandnotCorB_alt_0_A_neg_0_AltNums { };
 		PatternGraph AandnotCorB_alt_0_A_neg_0;
@@ -767,6 +800,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] AandnotCorB_alt_0_B_node__node0_IsAllowedType = null;
 		public enum AandnotCorB_alt_0_B_NodeNums { @_node0, };
 		public enum AandnotCorB_alt_0_B_EdgeNums { };
+		public enum AandnotCorB_alt_0_B_VariableNums { };
 		public enum AandnotCorB_alt_0_B_SubNums { };
 		public enum AandnotCorB_alt_0_B_AltNums { };
 		PatternGraph AandnotCorB_alt_0_B;
@@ -783,7 +817,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -805,6 +838,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { AandnotCorB_alt_0_A_neg_0_node__node0 }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -823,6 +857,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { AandnotCorB_alt_0_A_node__node0 }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { AandnotCorB_alt_0_A_neg_0,  }, 
@@ -847,6 +882,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { AandnotCorB_alt_0_B_node__node0 }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -867,6 +903,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { AandnotCorB_alt_0,  }, 
 				new PatternGraph[] {  }, 
@@ -888,17 +925,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AandnotCorB_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AandnotCorB_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
@@ -928,6 +961,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public enum AorBorC_NodeNums { };
 		public enum AorBorC_EdgeNums { };
+		public enum AorBorC_VariableNums { };
 		public enum AorBorC_SubNums { };
 		public enum AorBorC_AltNums { @alt_0, };
 		PatternGraph pat_AorBorC;
@@ -937,6 +971,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] AorBorC_alt_0_A_node__node0_IsAllowedType = null;
 		public enum AorBorC_alt_0_A_NodeNums { @_node0, };
 		public enum AorBorC_alt_0_A_EdgeNums { };
+		public enum AorBorC_alt_0_A_VariableNums { };
 		public enum AorBorC_alt_0_A_SubNums { };
 		public enum AorBorC_alt_0_A_AltNums { };
 		PatternGraph AorBorC_alt_0_A;
@@ -945,6 +980,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] AorBorC_alt_0_B_node__node0_IsAllowedType = null;
 		public enum AorBorC_alt_0_B_NodeNums { @_node0, };
 		public enum AorBorC_alt_0_B_EdgeNums { };
+		public enum AorBorC_alt_0_B_VariableNums { };
 		public enum AorBorC_alt_0_B_SubNums { };
 		public enum AorBorC_alt_0_B_AltNums { };
 		PatternGraph AorBorC_alt_0_B;
@@ -953,6 +989,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] AorBorC_alt_0_C_node__node0_IsAllowedType = null;
 		public enum AorBorC_alt_0_C_NodeNums { @_node0, };
 		public enum AorBorC_alt_0_C_EdgeNums { };
+		public enum AorBorC_alt_0_C_VariableNums { };
 		public enum AorBorC_alt_0_C_SubNums { };
 		public enum AorBorC_alt_0_C_AltNums { };
 		PatternGraph AorBorC_alt_0_C;
@@ -969,7 +1006,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -986,6 +1022,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { AorBorC_alt_0_A_node__node0 }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -1009,6 +1046,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { AorBorC_alt_0_B_node__node0 }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -1032,6 +1070,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { AorBorC_alt_0_C_node__node0 }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -1052,6 +1091,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { AorBorC_alt_0,  }, 
 				new PatternGraph[] {  }, 
@@ -1074,17 +1114,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AorBorC_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AorBorC_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
@@ -1124,6 +1160,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] AtoAorB_node_a_IsAllowedType = null;
 		public enum AtoAorB_NodeNums { @a, };
 		public enum AtoAorB_EdgeNums { };
+		public enum AtoAorB_VariableNums { };
 		public enum AtoAorB_SubNums { };
 		public enum AtoAorB_AltNums { @alt_0, };
 		PatternGraph pat_AtoAorB;
@@ -1135,6 +1172,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] AtoAorB_alt_0_toA_edge__edge0_IsAllowedType = null;
 		public enum AtoAorB_alt_0_toA_NodeNums { @a, @_node0, };
 		public enum AtoAorB_alt_0_toA_EdgeNums { @_edge0, };
+		public enum AtoAorB_alt_0_toA_VariableNums { };
 		public enum AtoAorB_alt_0_toA_SubNums { };
 		public enum AtoAorB_alt_0_toA_AltNums { };
 		PatternGraph AtoAorB_alt_0_toA;
@@ -1145,6 +1183,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] AtoAorB_alt_0_toB_edge__edge0_IsAllowedType = null;
 		public enum AtoAorB_alt_0_toB_NodeNums { @a, @_node0, };
 		public enum AtoAorB_alt_0_toB_EdgeNums { @_edge0, };
+		public enum AtoAorB_alt_0_toB_VariableNums { };
 		public enum AtoAorB_alt_0_toB_SubNums { };
 		public enum AtoAorB_alt_0_toB_AltNums { };
 		PatternGraph AtoAorB_alt_0_toB;
@@ -1161,7 +1200,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -1185,6 +1223,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { AtoAorB_node_a, AtoAorB_alt_0_toA_node__node0 }, 
 				new PatternEdge[] { AtoAorB_alt_0_toA_edge__edge0 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -1217,6 +1256,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { AtoAorB_node_a, AtoAorB_alt_0_toB_node__node0 }, 
 				new PatternEdge[] { AtoAorB_alt_0_toB_edge__edge0 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -1242,6 +1282,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { AtoAorB_node_a }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { AtoAorB_alt_0,  }, 
 				new PatternGraph[] {  }, 
@@ -1267,17 +1308,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AtoAorB_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)AtoAorB_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
@@ -1307,6 +1344,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public enum createComplex_NodeNums { };
 		public enum createComplex_EdgeNums { };
+		public enum createComplex_VariableNums { };
 		public enum createComplex_SubNums { };
 		public enum createComplex_AltNums { };
 		PatternGraph pat_createComplex;
@@ -1323,7 +1361,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -1335,6 +1372,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -1351,14 +1389,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createComplex_addedNodeNames );
 			Node_B node_b2 = Node_B.CreateNode(graph);
 			Node_A node_a = Node_A.CreateNode(graph);
 			Node_B node_b = Node_B.CreateNode(graph);
 			Node_C node__node1 = Node_C.CreateNode(graph);
 			Node_C node__node2 = Node_C.CreateNode(graph);
 			Node_C node__node0 = Node_C.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createComplex_addedEdgeNames );
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
 			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
@@ -1368,19 +1408,19 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_b, node__node0);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "b2", "a", "b", "_node1", "_node2", "_node0" };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0", "_edge6", "_edge5", "_edge4" };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+		private static String[] createComplex_addedNodeNames = new String[] { "b2", "a", "b", "_node1", "_node2", "_node0" };
+		private static String[] createComplex_addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0", "_edge6", "_edge5", "_edge4" };
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createComplex_addedNodeNames );
 			Node_B node_b2 = Node_B.CreateNode(graph);
 			Node_A node_a = Node_A.CreateNode(graph);
 			Node_B node_b = Node_B.CreateNode(graph);
 			Node_C node__node1 = Node_C.CreateNode(graph);
 			Node_C node__node2 = Node_C.CreateNode(graph);
 			Node_C node__node0 = Node_C.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createComplex_addedEdgeNames );
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
 			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
@@ -1407,6 +1447,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] Complex_edge__edge1_IsAllowedType = null;
 		public enum Complex_NodeNums { @a, @b, };
 		public enum Complex_EdgeNums { @_edge0, @_edge1, };
+		public enum Complex_VariableNums { };
 		public enum Complex_SubNums { };
 		public enum Complex_AltNums { @alt_0, };
 		PatternGraph pat_Complex;
@@ -1428,6 +1469,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] Complex_alt_0_ExtendAv_edge__edge3_IsAllowedType = null;
 		public enum Complex_alt_0_ExtendAv_NodeNums { @a, @b2, @b, @_node0, @_node1, };
 		public enum Complex_alt_0_ExtendAv_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, };
+		public enum Complex_alt_0_ExtendAv_VariableNums { };
 		public enum Complex_alt_0_ExtendAv_SubNums { };
 		public enum Complex_alt_0_ExtendAv_AltNums { };
 		PatternGraph Complex_alt_0_ExtendAv;
@@ -1452,6 +1494,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] Complex_alt_0_ExtendAv2_edge__edge4_IsAllowedType = null;
 		public enum Complex_alt_0_ExtendAv2_NodeNums { @a, @b2, @b, @_node0, @_node1, @_node2, };
 		public enum Complex_alt_0_ExtendAv2_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, };
+		public enum Complex_alt_0_ExtendAv2_VariableNums { };
 		public enum Complex_alt_0_ExtendAv2_SubNums { };
 		public enum Complex_alt_0_ExtendAv2_AltNums { };
 		PatternGraph Complex_alt_0_ExtendAv2;
@@ -1472,6 +1515,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] Complex_alt_0_ExtendNA2_edge__edge3_IsAllowedType = null;
 		public enum Complex_alt_0_ExtendNA2_NodeNums { @a, @_node0, @_node1, @b, @b2, };
 		public enum Complex_alt_0_ExtendNA2_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, };
+		public enum Complex_alt_0_ExtendNA2_VariableNums { };
 		public enum Complex_alt_0_ExtendNA2_SubNums { };
 		public enum Complex_alt_0_ExtendNA2_AltNums { };
 		PatternGraph Complex_alt_0_ExtendNA2;
@@ -1488,7 +1532,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -1530,6 +1573,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { Complex_node_a, Complex_alt_0_ExtendAv_node_b2, Complex_node_b, Complex_alt_0_ExtendAv_node__node0, Complex_alt_0_ExtendAv_node__node1 }, 
 				new PatternEdge[] { Complex_alt_0_ExtendAv_edge__edge0, Complex_alt_0_ExtendAv_edge__edge1, Complex_alt_0_ExtendAv_edge__edge2, Complex_alt_0_ExtendAv_edge__edge3 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -1589,6 +1633,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { Complex_node_a, Complex_alt_0_ExtendAv2_node_b2, Complex_node_b, Complex_alt_0_ExtendAv2_node__node0, Complex_alt_0_ExtendAv2_node__node1, Complex_alt_0_ExtendAv2_node__node2 }, 
 				new PatternEdge[] { Complex_alt_0_ExtendAv2_edge__edge0, Complex_alt_0_ExtendAv2_edge__edge1, Complex_alt_0_ExtendAv2_edge__edge2, Complex_alt_0_ExtendAv2_edge__edge3, Complex_alt_0_ExtendAv2_edge__edge4 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -1648,6 +1693,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { Complex_node_a, Complex_alt_0_ExtendNA2_node__node0, Complex_alt_0_ExtendNA2_node__node1, Complex_node_b, Complex_alt_0_ExtendNA2_node_b2 }, 
 				new PatternEdge[] { Complex_alt_0_ExtendNA2_edge__edge0, Complex_alt_0_ExtendNA2_edge__edge1, Complex_alt_0_ExtendNA2_edge__edge2, Complex_alt_0_ExtendNA2_edge__edge3 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -1685,6 +1731,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { Complex_node_a, Complex_node_b }, 
 				new PatternEdge[] { Complex_edge__edge0, Complex_edge__edge1 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { Complex_alt_0,  }, 
 				new PatternGraph[] {  }, 
@@ -1741,17 +1788,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)Complex_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)Complex_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
@@ -1797,6 +1840,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] ComplexMax_edge__edge1_IsAllowedType = null;
 		public enum ComplexMax_NodeNums { @a, @b, };
 		public enum ComplexMax_EdgeNums { @_edge0, @_edge1, };
+		public enum ComplexMax_VariableNums { };
 		public enum ComplexMax_SubNums { };
 		public enum ComplexMax_AltNums { @alt_0, };
 		PatternGraph pat_ComplexMax;
@@ -1818,6 +1862,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] ComplexMax_alt_0_ExtendAv_edge__edge3_IsAllowedType = null;
 		public enum ComplexMax_alt_0_ExtendAv_NodeNums { @a, @b2, @b, @_node0, @c, };
 		public enum ComplexMax_alt_0_ExtendAv_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, };
+		public enum ComplexMax_alt_0_ExtendAv_VariableNums { };
 		public enum ComplexMax_alt_0_ExtendAv_SubNums { };
 		public enum ComplexMax_alt_0_ExtendAv_AltNums { };
 		PatternGraph ComplexMax_alt_0_ExtendAv;
@@ -1828,6 +1873,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0_IsAllowedType = null;
 		public enum ComplexMax_alt_0_ExtendAv_neg_0_NodeNums { @c, @_node0, };
 		public enum ComplexMax_alt_0_ExtendAv_neg_0_EdgeNums { @_edge0, };
+		public enum ComplexMax_alt_0_ExtendAv_neg_0_VariableNums { };
 		public enum ComplexMax_alt_0_ExtendAv_neg_0_SubNums { };
 		public enum ComplexMax_alt_0_ExtendAv_neg_0_AltNums { };
 		PatternGraph ComplexMax_alt_0_ExtendAv_neg_0;
@@ -1852,6 +1898,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] ComplexMax_alt_0_ExtendAv2_edge__edge4_IsAllowedType = null;
 		public enum ComplexMax_alt_0_ExtendAv2_NodeNums { @a, @b2, @b, @_node0, @_node1, @_node2, };
 		public enum ComplexMax_alt_0_ExtendAv2_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, };
+		public enum ComplexMax_alt_0_ExtendAv2_VariableNums { };
 		public enum ComplexMax_alt_0_ExtendAv2_SubNums { };
 		public enum ComplexMax_alt_0_ExtendAv2_AltNums { };
 		PatternGraph ComplexMax_alt_0_ExtendAv2;
@@ -1872,6 +1919,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] ComplexMax_alt_0_ExtendNA2_edge__edge3_IsAllowedType = null;
 		public enum ComplexMax_alt_0_ExtendNA2_NodeNums { @a, @_node0, @_node1, @b, @b2, };
 		public enum ComplexMax_alt_0_ExtendNA2_EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, };
+		public enum ComplexMax_alt_0_ExtendNA2_VariableNums { };
 		public enum ComplexMax_alt_0_ExtendNA2_SubNums { };
 		public enum ComplexMax_alt_0_ExtendNA2_AltNums { };
 		PatternGraph ComplexMax_alt_0_ExtendNA2;
@@ -1888,7 +1936,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -1939,6 +1986,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { ComplexMax_alt_0_ExtendAv_node_c, ComplexMax_alt_0_ExtendAv_neg_0_node__node0 }, 
 				new PatternEdge[] { ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -1962,6 +2010,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { ComplexMax_node_a, ComplexMax_alt_0_ExtendAv_node_b2, ComplexMax_node_b, ComplexMax_alt_0_ExtendAv_node__node0, ComplexMax_alt_0_ExtendAv_node_c }, 
 				new PatternEdge[] { ComplexMax_alt_0_ExtendAv_edge__edge0, ComplexMax_alt_0_ExtendAv_edge__edge1, ComplexMax_alt_0_ExtendAv_edge__edge2, ComplexMax_alt_0_ExtendAv_edge__edge3 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { ComplexMax_alt_0_ExtendAv_neg_0,  }, 
@@ -2022,6 +2071,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { ComplexMax_node_a, ComplexMax_alt_0_ExtendAv2_node_b2, ComplexMax_node_b, ComplexMax_alt_0_ExtendAv2_node__node0, ComplexMax_alt_0_ExtendAv2_node__node1, ComplexMax_alt_0_ExtendAv2_node__node2 }, 
 				new PatternEdge[] { ComplexMax_alt_0_ExtendAv2_edge__edge0, ComplexMax_alt_0_ExtendAv2_edge__edge1, ComplexMax_alt_0_ExtendAv2_edge__edge2, ComplexMax_alt_0_ExtendAv2_edge__edge3, ComplexMax_alt_0_ExtendAv2_edge__edge4 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -2081,6 +2131,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { ComplexMax_node_a, ComplexMax_alt_0_ExtendNA2_node__node0, ComplexMax_alt_0_ExtendNA2_node__node1, ComplexMax_node_b, ComplexMax_alt_0_ExtendNA2_node_b2 }, 
 				new PatternEdge[] { ComplexMax_alt_0_ExtendNA2_edge__edge0, ComplexMax_alt_0_ExtendNA2_edge__edge1, ComplexMax_alt_0_ExtendNA2_edge__edge2, ComplexMax_alt_0_ExtendNA2_edge__edge3 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -2118,6 +2169,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { ComplexMax_node_a, ComplexMax_node_b }, 
 				new PatternEdge[] { ComplexMax_edge__edge0, ComplexMax_edge__edge1 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { ComplexMax_alt_0,  }, 
 				new PatternGraph[] {  }, 
@@ -2176,17 +2228,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ComplexMax_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)ComplexMax_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
@@ -2224,6 +2272,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 		public enum createABA_NodeNums { };
 		public enum createABA_EdgeNums { };
+		public enum createABA_VariableNums { };
 		public enum createABA_SubNums { };
 		public enum createABA_AltNums { };
 		PatternGraph pat_createABA;
@@ -2240,7 +2289,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -2252,6 +2300,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -2268,25 +2317,27 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createABA_addedNodeNames );
 			Node_A node_a = Node_A.CreateNode(graph);
 			Node_B node_b = Node_B.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createABA_addedEdgeNames );
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b, node_a);
 			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "a", "b" };
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0" };
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+		private static String[] createABA_addedNodeNames = new String[] { "a", "b" };
+		private static String[] createABA_addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0" };
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
+			graph.SettingAddedNodeNames( createABA_addedNodeNames );
 			Node_A node_a = Node_A.CreateNode(graph);
 			Node_B node_b = Node_B.CreateNode(graph);
+			graph.SettingAddedEdgeNames( createABA_addedEdgeNames );
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b, node_a);
 			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
@@ -2310,6 +2361,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] homm_edge__edge1_IsAllowedType = null;
 		public enum homm_NodeNums { @a, @b, };
 		public enum homm_EdgeNums { @_edge0, @_edge1, };
+		public enum homm_VariableNums { };
 		public enum homm_SubNums { };
 		public enum homm_AltNums { @alt_0, };
 		PatternGraph pat_homm;
@@ -2323,6 +2375,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] homm_alt_0_case1_edge__edge1_IsAllowedType = null;
 		public enum homm_alt_0_case1_NodeNums { @a, @b2, @b, };
 		public enum homm_alt_0_case1_EdgeNums { @_edge0, @_edge1, };
+		public enum homm_alt_0_case1_VariableNums { };
 		public enum homm_alt_0_case1_SubNums { };
 		public enum homm_alt_0_case1_AltNums { };
 		PatternGraph homm_alt_0_case1;
@@ -2335,6 +2388,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] homm_alt_0_case2_edge__edge1_IsAllowedType = null;
 		public enum homm_alt_0_case2_NodeNums { @a, @b2, };
 		public enum homm_alt_0_case2_EdgeNums { @_edge0, @_edge1, };
+		public enum homm_alt_0_case2_VariableNums { };
 		public enum homm_alt_0_case2_SubNums { };
 		public enum homm_alt_0_case2_AltNums { };
 		PatternGraph homm_alt_0_case2;
@@ -2351,7 +2405,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -2385,6 +2438,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { homm_node_a, homm_alt_0_case1_node_b2, homm_node_b }, 
 				new PatternEdge[] { homm_alt_0_case1_edge__edge0, homm_alt_0_case1_edge__edge1 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -2423,6 +2477,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { homm_node_a, homm_alt_0_case2_node_b2 }, 
 				new PatternEdge[] { homm_alt_0_case2_edge__edge0, homm_alt_0_case2_edge__edge1 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -2451,6 +2506,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { homm_node_a, homm_node_b }, 
 				new PatternEdge[] { homm_edge__edge0, homm_edge__edge1 }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { homm_alt_0,  }, 
 				new PatternGraph[] {  }, 
@@ -2489,17 +2545,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)homm_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch alternative_alt_0 = match.EmbeddedGraphs[(int)homm_AltNums.@alt_0 + 0];
 			return EmptyReturnElements;
@@ -2531,6 +2583,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public static bool[] XtoAorB_node_x_IsAllowedType = null;
 		public enum XtoAorB_NodeNums { @x, };
 		public enum XtoAorB_EdgeNums { };
+		public enum XtoAorB_VariableNums { };
 		public enum XtoAorB_SubNums { @_subpattern0, };
 		public enum XtoAorB_AltNums { };
 		PatternGraph pat_XtoAorB;
@@ -2547,7 +2600,6 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
-			outputNames = new string[] { };
 		}
 		public override void initialize()
 		{
@@ -2563,6 +2615,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				false,
 				new PatternNode[] { XtoAorB_node_x }, 
 				new PatternEdge[] {  }, 
+				new PatternVariable[] {  }, 
 				new PatternGraphEmbedding[] { XtoAorB__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
@@ -2583,17 +2636,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 
 
-		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)XtoAorB_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] {};
-		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] {};
-		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 
-		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)XtoAorB_SubNums.@_subpattern0];
 			return EmptyReturnElements;
@@ -2678,7 +2727,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                         {
-                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[1], new LGSPMatch[0+1]);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[1], new object[0], new LGSPMatch[0+1]);
                             match.patternGraph = patternGraph;
                             match.Nodes[(int)Pattern_toAorB.toAorB_NodeNums.@x] = candidate_toAorB_node_x;
                             match.Edges[(int)Pattern_toAorB.toAorB_EdgeNums.@y] = candidate_toAorB_edge_y;
@@ -2776,7 +2825,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                 {
                     Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                     foundPartialMatches.Add(currentFoundPartialMatch);
-                    LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[1], new LGSPMatch[0]);
+                    LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[1], new object[0], new LGSPMatch[0]);
                     match.patternGraph = patternGraph;
                     match.Nodes[(int)Pattern_toAorB.toAorB_alt_0_toA_NodeNums.@a] = candidate_toAorB_alt_0_toA_node_a;
                     match.Edges[(int)Pattern_toAorB.toAorB_alt_0_toA_EdgeNums.@y] = candidate_toAorB_edge_y;
@@ -2799,7 +2848,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                     {
-                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[1], new LGSPMatch[0+0]);
+                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[1], new object[0], new LGSPMatch[0+0]);
                         match.patternGraph = patternGraph;
                         match.Nodes[(int)Pattern_toAorB.toAorB_alt_0_toA_NodeNums.@a] = candidate_toAorB_alt_0_toA_node_a;
                         match.Edges[(int)Pattern_toAorB.toAorB_alt_0_toA_EdgeNums.@y] = candidate_toAorB_edge_y;
@@ -2854,7 +2903,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                 {
                     Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                     foundPartialMatches.Add(currentFoundPartialMatch);
-                    LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[1], new LGSPMatch[0]);
+                    LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[1], new object[0], new LGSPMatch[0]);
                     match.patternGraph = patternGraph;
                     match.Nodes[(int)Pattern_toAorB.toAorB_alt_0_toB_NodeNums.@b] = candidate_toAorB_alt_0_toB_node_b;
                     match.Edges[(int)Pattern_toAorB.toAorB_alt_0_toB_EdgeNums.@y] = candidate_toAorB_edge_y;
@@ -2877,7 +2926,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                     {
-                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[1], new LGSPMatch[0+0]);
+                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[1], new object[0], new LGSPMatch[0+0]);
                         match.patternGraph = patternGraph;
                         match.Nodes[(int)Pattern_toAorB.toAorB_alt_0_toB_NodeNums.@b] = candidate_toAorB_alt_0_toB_node_b;
                         match.Edges[(int)Pattern_toAorB.toAorB_alt_0_toB_EdgeNums.@y] = candidate_toAorB_edge_y;
@@ -2913,7 +2962,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public Action_createA() {
             rulePattern = Rule_createA.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 0);
         }
 
         public override string Name { get { return "createA"; } }
@@ -2922,7 +2972,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public static LGSPAction Instance { get { return instance; } }
         private static Action_createA instance = new Action_createA();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -2944,7 +2994,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public Action_createB() {
             rulePattern = Rule_createB.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 0);
         }
 
         public override string Name { get { return "createB"; } }
@@ -2953,7 +3004,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public static LGSPAction Instance { get { return instance; } }
         private static Action_createB instance = new Action_createB();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -2975,7 +3026,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public Action_createC() {
             rulePattern = Rule_createC.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 0);
         }
 
         public override string Name { get { return "createC"; } }
@@ -2984,7 +3036,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public static LGSPAction Instance { get { return instance; } }
         private static Action_createC instance = new Action_createC();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -3006,7 +3058,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public Action_createAtoB() {
             rulePattern = Rule_createAtoB.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 0);
         }
 
         public override string Name { get { return "createAtoB"; } }
@@ -3015,7 +3068,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public static LGSPAction Instance { get { return instance; } }
         private static Action_createAtoB instance = new Action_createAtoB();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -3037,7 +3090,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public Action_leer() {
             rulePattern = Rule_leer.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+1);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 1);
         }
 
         public override string Name { get { return "leer"; } }
@@ -3046,7 +3100,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public static LGSPAction Instance { get { return instance; } }
         private static Action_leer instance = new Action_leer();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -3136,7 +3190,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                 {
                     Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                     foundPartialMatches.Add(currentFoundPartialMatch);
-                    LGSPMatch match = new LGSPMatch(new LGSPNode[0], new LGSPEdge[0], new LGSPMatch[0]);
+                    LGSPMatch match = new LGSPMatch(new LGSPNode[0], new LGSPEdge[0], new object[0], new LGSPMatch[0]);
                     match.patternGraph = patternGraph;
                     currentFoundPartialMatch.Push(match);
                     // if enough matches were found, we leave
@@ -3154,7 +3208,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                     {
-                        LGSPMatch match = new LGSPMatch(new LGSPNode[0], new LGSPEdge[0], new LGSPMatch[0+0]);
+                        LGSPMatch match = new LGSPMatch(new LGSPNode[0], new LGSPEdge[0], new object[0], new LGSPMatch[0+0]);
                         match.patternGraph = patternGraph;
                         currentFoundPartialMatch.Push(match);
                     }
@@ -3185,7 +3239,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public Action_AorB() {
             rulePattern = Rule_AorB.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+1);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 1);
         }
 
         public override string Name { get { return "AorB"; } }
@@ -3194,7 +3249,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public static LGSPAction Instance { get { return instance; } }
         private static Action_AorB instance = new Action_AorB();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -3292,7 +3347,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                     {
                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                         foundPartialMatches.Add(currentFoundPartialMatch);
-                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0]);
+                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0]);
                         match.patternGraph = patternGraph;
                         match.Nodes[(int)Rule_AorB.AorB_alt_0_A_NodeNums.@_node0] = candidate_AorB_alt_0_A_node__node0;
                         currentFoundPartialMatch.Push(match);
@@ -3314,7 +3369,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                         {
-                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+0]);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0+0]);
                             match.patternGraph = patternGraph;
                             match.Nodes[(int)Rule_AorB.AorB_alt_0_A_NodeNums.@_node0] = candidate_AorB_alt_0_A_node__node0;
                             currentFoundPartialMatch.Push(match);
@@ -3366,7 +3421,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                     {
                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                         foundPartialMatches.Add(currentFoundPartialMatch);
-                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0]);
+                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0]);
                         match.patternGraph = patternGraph;
                         match.Nodes[(int)Rule_AorB.AorB_alt_0_B_NodeNums.@_node0] = candidate_AorB_alt_0_B_node__node0;
                         currentFoundPartialMatch.Push(match);
@@ -3388,7 +3443,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                         {
-                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+0]);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0+0]);
                             match.patternGraph = patternGraph;
                             match.Nodes[(int)Rule_AorB.AorB_alt_0_B_NodeNums.@_node0] = candidate_AorB_alt_0_B_node__node0;
                             currentFoundPartialMatch.Push(match);
@@ -3424,7 +3479,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public Action_AandnotCorB() {
             rulePattern = Rule_AandnotCorB.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+1);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 1);
         }
 
         public override string Name { get { return "AandnotCorB"; } }
@@ -3433,7 +3489,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
         public static LGSPAction Instance { get { return instance; } }
         private static Action_AandnotCorB instance = new Action_AandnotCorB();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -3561,7 +3617,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                     {
                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                         foundPartialMatches.Add(currentFoundPartialMatch);
-                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0]);
+                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0]);
                         match.patternGraph = patternGraph;
                         match.Nodes[(int)Rule_AandnotCorB.AandnotCorB_alt_0_A_NodeNums.@_node0] = candidate_AandnotCorB_alt_0_A_node__node0;
                         currentFoundPartialMatch.Push(match);
@@ -3583,7 +3639,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                         {
-                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+0]);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0+0]);
                             match.patternGraph = patternGraph;
                             match.Nodes[(int)Rule_AandnotCorB.AandnotCorB_alt_0_A_NodeNums.@_node0] = candidate_AandnotCorB_alt_0_A_node__node0;
                             currentFoundPartialMatch.Push(match);
@@ -3636,7 +3692,7 @@ label0: ;
                     {
                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                         foundPartialMatches.Add(currentFoundPartialMatch);
-                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0]);
+                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0]);
                         match.patternGraph = patternGraph;
                         match.Nodes[(int)Rule_AandnotCorB.AandnotCorB_alt_0_B_NodeNums.@_node0] = candidate_AandnotCorB_alt_0_B_node__node0;
                         currentFoundPartialMatch.Push(match);
@@ -3658,7 +3714,7 @@ label0: ;
                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                         {
-                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+0]);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0+0]);
                             match.patternGraph = patternGraph;
                             match.Nodes[(int)Rule_AandnotCorB.AandnotCorB_alt_0_B_NodeNums.@_node0] = candidate_AandnotCorB_alt_0_B_node__node0;
                             currentFoundPartialMatch.Push(match);
@@ -3694,7 +3750,8 @@ label0: ;
         public Action_AorBorC() {
             rulePattern = Rule_AorBorC.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+1);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 1);
         }
 
         public override string Name { get { return "AorBorC"; } }
@@ -3703,7 +3760,7 @@ label0: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_AorBorC instance = new Action_AorBorC();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -3801,7 +3858,7 @@ label0: ;
                     {
                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                         foundPartialMatches.Add(currentFoundPartialMatch);
-                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0]);
+                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0]);
                         match.patternGraph = patternGraph;
                         match.Nodes[(int)Rule_AorBorC.AorBorC_alt_0_A_NodeNums.@_node0] = candidate_AorBorC_alt_0_A_node__node0;
                         currentFoundPartialMatch.Push(match);
@@ -3823,7 +3880,7 @@ label0: ;
                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                         {
-                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+0]);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0+0]);
                             match.patternGraph = patternGraph;
                             match.Nodes[(int)Rule_AorBorC.AorBorC_alt_0_A_NodeNums.@_node0] = candidate_AorBorC_alt_0_A_node__node0;
                             currentFoundPartialMatch.Push(match);
@@ -3875,7 +3932,7 @@ label0: ;
                     {
                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                         foundPartialMatches.Add(currentFoundPartialMatch);
-                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0]);
+                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0]);
                         match.patternGraph = patternGraph;
                         match.Nodes[(int)Rule_AorBorC.AorBorC_alt_0_B_NodeNums.@_node0] = candidate_AorBorC_alt_0_B_node__node0;
                         currentFoundPartialMatch.Push(match);
@@ -3897,7 +3954,7 @@ label0: ;
                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                         {
-                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+0]);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0+0]);
                             match.patternGraph = patternGraph;
                             match.Nodes[(int)Rule_AorBorC.AorBorC_alt_0_B_NodeNums.@_node0] = candidate_AorBorC_alt_0_B_node__node0;
                             currentFoundPartialMatch.Push(match);
@@ -3949,7 +4006,7 @@ label0: ;
                     {
                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                         foundPartialMatches.Add(currentFoundPartialMatch);
-                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0]);
+                        LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0]);
                         match.patternGraph = patternGraph;
                         match.Nodes[(int)Rule_AorBorC.AorBorC_alt_0_C_NodeNums.@_node0] = candidate_AorBorC_alt_0_C_node__node0;
                         currentFoundPartialMatch.Push(match);
@@ -3971,7 +4028,7 @@ label0: ;
                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                         {
-                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new LGSPMatch[0+0]);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[1], new LGSPEdge[0], new object[0], new LGSPMatch[0+0]);
                             match.patternGraph = patternGraph;
                             match.Nodes[(int)Rule_AorBorC.AorBorC_alt_0_C_NodeNums.@_node0] = candidate_AorBorC_alt_0_C_node__node0;
                             currentFoundPartialMatch.Push(match);
@@ -4007,7 +4064,8 @@ label0: ;
         public Action_AtoAorB() {
             rulePattern = Rule_AtoAorB.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 1, 0, 0+1);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 1, 0, 0, 0 + 1);
         }
 
         public override string Name { get { return "AtoAorB"; } }
@@ -4016,7 +4074,7 @@ label0: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_AtoAorB instance = new Action_AtoAorB();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -4151,7 +4209,7 @@ label0: ;
                         {
                             Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                             foundPartialMatches.Add(currentFoundPartialMatch);
-                            LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0]);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new object[0], new LGSPMatch[0]);
                             match.patternGraph = patternGraph;
                             match.Nodes[(int)Rule_AtoAorB.AtoAorB_alt_0_toA_NodeNums.@a] = candidate_AtoAorB_node_a;
                             match.Nodes[(int)Rule_AtoAorB.AtoAorB_alt_0_toA_NodeNums.@_node0] = candidate_AtoAorB_alt_0_toA_node__node0;
@@ -4178,7 +4236,7 @@ label0: ;
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                             {
-                                LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0+0]);
+                                LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new object[0], new LGSPMatch[0+0]);
                                 match.patternGraph = patternGraph;
                                 match.Nodes[(int)Rule_AtoAorB.AtoAorB_alt_0_toA_NodeNums.@a] = candidate_AtoAorB_node_a;
                                 match.Nodes[(int)Rule_AtoAorB.AtoAorB_alt_0_toA_NodeNums.@_node0] = candidate_AtoAorB_alt_0_toA_node__node0;
@@ -4254,7 +4312,7 @@ label0: ;
                         {
                             Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                             foundPartialMatches.Add(currentFoundPartialMatch);
-                            LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0]);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new object[0], new LGSPMatch[0]);
                             match.patternGraph = patternGraph;
                             match.Nodes[(int)Rule_AtoAorB.AtoAorB_alt_0_toB_NodeNums.@a] = candidate_AtoAorB_node_a;
                             match.Nodes[(int)Rule_AtoAorB.AtoAorB_alt_0_toB_NodeNums.@_node0] = candidate_AtoAorB_alt_0_toB_node__node0;
@@ -4281,7 +4339,7 @@ label0: ;
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                             {
-                                LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0+0]);
+                                LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new object[0], new LGSPMatch[0+0]);
                                 match.patternGraph = patternGraph;
                                 match.Nodes[(int)Rule_AtoAorB.AtoAorB_alt_0_toB_NodeNums.@a] = candidate_AtoAorB_node_a;
                                 match.Nodes[(int)Rule_AtoAorB.AtoAorB_alt_0_toB_NodeNums.@_node0] = candidate_AtoAorB_alt_0_toB_node__node0;
@@ -4324,7 +4382,8 @@ label0: ;
         public Action_createComplex() {
             rulePattern = Rule_createComplex.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 0);
         }
 
         public override string Name { get { return "createComplex"; } }
@@ -4333,7 +4392,7 @@ label0: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_createComplex instance = new Action_createComplex();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -4355,7 +4414,8 @@ label0: ;
         public Action_Complex() {
             rulePattern = Rule_Complex.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 2, 2, 0+1);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 2, 2, 0, 0 + 1);
         }
 
         public override string Name { get { return "Complex"; } }
@@ -4364,7 +4424,7 @@ label0: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_Complex instance = new Action_Complex();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -4751,7 +4811,7 @@ label0: ;
                                                 {
                                                     Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                                     foundPartialMatches.Add(currentFoundPartialMatch);
-                                                    LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0]);
+                                                    LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new object[0], new LGSPMatch[0]);
                                                     match.patternGraph = patternGraph;
                                                     match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendAv_NodeNums.@a] = candidate_Complex_node_a;
                                                     match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendAv_NodeNums.@b2] = candidate_Complex_alt_0_ExtendAv_node_b2;
@@ -4827,7 +4887,7 @@ label0: ;
                                                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                     {
-                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0+0]);
+                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new object[0], new LGSPMatch[0+0]);
                                                         match.patternGraph = patternGraph;
                                                         match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendAv_NodeNums.@a] = candidate_Complex_node_a;
                                                         match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendAv_NodeNums.@b2] = candidate_Complex_alt_0_ExtendAv_node_b2;
@@ -5234,7 +5294,7 @@ label0: ;
                                                         {
                                                             Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                                             foundPartialMatches.Add(currentFoundPartialMatch);
-                                                            LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[5], new LGSPMatch[0]);
+                                                            LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[5], new object[0], new LGSPMatch[0]);
                                                             match.patternGraph = patternGraph;
                                                             match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendAv2_NodeNums.@a] = candidate_Complex_node_a;
                                                             match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendAv2_NodeNums.@b2] = candidate_Complex_alt_0_ExtendAv2_node_b2;
@@ -5332,7 +5392,7 @@ label0: ;
                                                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                             foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                             {
-                                                                LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[5], new LGSPMatch[0+0]);
+                                                                LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[5], new object[0], new LGSPMatch[0+0]);
                                                                 match.patternGraph = patternGraph;
                                                                 match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendAv2_NodeNums.@a] = candidate_Complex_node_a;
                                                                 match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendAv2_NodeNums.@b2] = candidate_Complex_alt_0_ExtendAv2_node_b2;
@@ -5721,7 +5781,7 @@ label0: ;
                                                 {
                                                     Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                                     foundPartialMatches.Add(currentFoundPartialMatch);
-                                                    LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0]);
+                                                    LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new object[0], new LGSPMatch[0]);
                                                     match.patternGraph = patternGraph;
                                                     match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendNA2_NodeNums.@a] = candidate_Complex_node_a;
                                                     match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendNA2_NodeNums.@_node0] = candidate_Complex_alt_0_ExtendNA2_node__node0;
@@ -5797,7 +5857,7 @@ label0: ;
                                                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                     {
-                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0+0]);
+                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new object[0], new LGSPMatch[0+0]);
                                                         match.patternGraph = patternGraph;
                                                         match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendNA2_NodeNums.@a] = candidate_Complex_node_a;
                                                         match.Nodes[(int)Rule_Complex.Complex_alt_0_ExtendNA2_NodeNums.@_node0] = candidate_Complex_alt_0_ExtendNA2_node__node0;
@@ -5926,7 +5986,8 @@ label0: ;
         public Action_ComplexMax() {
             rulePattern = Rule_ComplexMax.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 2, 2, 0+1);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 2, 2, 0, 0 + 1);
         }
 
         public override string Name { get { return "ComplexMax"; } }
@@ -5935,7 +5996,7 @@ label0: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_ComplexMax instance = new Action_ComplexMax();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -6397,7 +6458,7 @@ label0: ;
                                                 {
                                                     Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                                     foundPartialMatches.Add(currentFoundPartialMatch);
-                                                    LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0]);
+                                                    LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new object[0], new LGSPMatch[0]);
                                                     match.patternGraph = patternGraph;
                                                     match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendAv_NodeNums.@a] = candidate_ComplexMax_node_a;
                                                     match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendAv_NodeNums.@b2] = candidate_ComplexMax_alt_0_ExtendAv_node_b2;
@@ -6473,7 +6534,7 @@ label0: ;
                                                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                     {
-                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0+0]);
+                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new object[0], new LGSPMatch[0+0]);
                                                         match.patternGraph = patternGraph;
                                                         match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendAv_NodeNums.@a] = candidate_ComplexMax_node_a;
                                                         match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendAv_NodeNums.@b2] = candidate_ComplexMax_alt_0_ExtendAv_node_b2;
@@ -6883,7 +6944,7 @@ label3: ;
                                                         {
                                                             Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                                             foundPartialMatches.Add(currentFoundPartialMatch);
-                                                            LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[5], new LGSPMatch[0]);
+                                                            LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[5], new object[0], new LGSPMatch[0]);
                                                             match.patternGraph = patternGraph;
                                                             match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendAv2_NodeNums.@a] = candidate_ComplexMax_node_a;
                                                             match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendAv2_NodeNums.@b2] = candidate_ComplexMax_alt_0_ExtendAv2_node_b2;
@@ -6981,7 +7042,7 @@ label3: ;
                                                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                             foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                             {
-                                                                LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[5], new LGSPMatch[0+0]);
+                                                                LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[5], new object[0], new LGSPMatch[0+0]);
                                                                 match.patternGraph = patternGraph;
                                                                 match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendAv2_NodeNums.@a] = candidate_ComplexMax_node_a;
                                                                 match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendAv2_NodeNums.@b2] = candidate_ComplexMax_alt_0_ExtendAv2_node_b2;
@@ -7370,7 +7431,7 @@ label3: ;
                                                 {
                                                     Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                                     foundPartialMatches.Add(currentFoundPartialMatch);
-                                                    LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0]);
+                                                    LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new object[0], new LGSPMatch[0]);
                                                     match.patternGraph = patternGraph;
                                                     match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendNA2_NodeNums.@a] = candidate_ComplexMax_node_a;
                                                     match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendNA2_NodeNums.@_node0] = candidate_ComplexMax_alt_0_ExtendNA2_node__node0;
@@ -7446,7 +7507,7 @@ label3: ;
                                                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                     {
-                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0+0]);
+                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new object[0], new LGSPMatch[0+0]);
                                                         match.patternGraph = patternGraph;
                                                         match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendNA2_NodeNums.@a] = candidate_ComplexMax_node_a;
                                                         match.Nodes[(int)Rule_ComplexMax.ComplexMax_alt_0_ExtendNA2_NodeNums.@_node0] = candidate_ComplexMax_alt_0_ExtendNA2_node__node0;
@@ -7575,7 +7636,8 @@ label3: ;
         public Action_createABA() {
             rulePattern = Rule_createABA.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 0, 0, 0, 0 + 0);
         }
 
         public override string Name { get { return "createABA"; } }
@@ -7584,7 +7646,7 @@ label3: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_createABA instance = new Action_createABA();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -7606,7 +7668,8 @@ label3: ;
         public Action_homm() {
             rulePattern = Rule_homm.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 2, 2, 0+1);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 2, 2, 0, 0 + 1);
         }
 
         public override string Name { get { return "homm"; } }
@@ -7615,7 +7678,7 @@ label3: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_homm instance = new Action_homm();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;
@@ -7882,7 +7945,7 @@ label3: ;
                                 {
                                     Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                     foundPartialMatches.Add(currentFoundPartialMatch);
-                                    LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[2], new LGSPMatch[0]);
+                                    LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[2], new object[0], new LGSPMatch[0]);
                                     match.patternGraph = patternGraph;
                                     match.Nodes[(int)Rule_homm.homm_alt_0_case1_NodeNums.@a] = candidate_homm_node_a;
                                     match.Nodes[(int)Rule_homm.homm_alt_0_case1_NodeNums.@b2] = candidate_homm_alt_0_case1_node_b2;
@@ -7921,7 +7984,7 @@ label3: ;
                                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                     {
-                                        LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[2], new LGSPMatch[0+0]);
+                                        LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[2], new object[0], new LGSPMatch[0+0]);
                                         match.patternGraph = patternGraph;
                                         match.Nodes[(int)Rule_homm.homm_alt_0_case1_NodeNums.@a] = candidate_homm_node_a;
                                         match.Nodes[(int)Rule_homm.homm_alt_0_case1_NodeNums.@b2] = candidate_homm_alt_0_case1_node_b2;
@@ -8064,7 +8127,7 @@ label3: ;
                                 {
                                     Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                     foundPartialMatches.Add(currentFoundPartialMatch);
-                                    LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[2], new LGSPMatch[0]);
+                                    LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[2], new object[0], new LGSPMatch[0]);
                                     match.patternGraph = patternGraph;
                                     match.Nodes[(int)Rule_homm.homm_alt_0_case2_NodeNums.@a] = candidate_homm_node_a;
                                     match.Nodes[(int)Rule_homm.homm_alt_0_case2_NodeNums.@b2] = candidate_homm_alt_0_case2_node_b2;
@@ -8102,7 +8165,7 @@ label3: ;
                                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                     {
-                                        LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[2], new LGSPMatch[0+0]);
+                                        LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[2], new object[0], new LGSPMatch[0+0]);
                                         match.patternGraph = patternGraph;
                                         match.Nodes[(int)Rule_homm.homm_alt_0_case2_NodeNums.@a] = candidate_homm_node_a;
                                         match.Nodes[(int)Rule_homm.homm_alt_0_case2_NodeNums.@b2] = candidate_homm_alt_0_case2_node_b2;
@@ -8166,7 +8229,8 @@ label3: ;
         public Action_XtoAorB() {
             rulePattern = Rule_XtoAorB.Instance;
             patternGraph = rulePattern.patternGraph;
-            DynamicMatch = myMatch; matches = new LGSPMatches(this, 1, 0, 1+0);
+            DynamicMatch = myMatch;
+            matches = new LGSPMatches(this, 1, 0, 0, 1 + 0);
         }
 
         public override string Name { get { return "XtoAorB"; } }
@@ -8175,7 +8239,7 @@ label3: ;
         public static LGSPAction Instance { get { return instance; } }
         private static Action_XtoAorB instance = new Action_XtoAorB();
 
-        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
             const int MAX_NEG_LEVEL = 5;

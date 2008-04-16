@@ -396,6 +396,13 @@ public class ModifyGen extends CSharpBase {
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
 
+		boolean useAddedElementNames = task.typeOfTask==TYPE_OF_TASK_CREATION ||
+			(task.typeOfTask==TYPE_OF_TASK_MODIFY && task.left!=task.right);
+		boolean createAddedElementNames = task.typeOfTask==TYPE_OF_TASK_CREATION ||
+			(task.typeOfTask==TYPE_OF_TASK_MODIFY && task.left!=task.right && task.reuseNodesAndEdges);
+		String prefix = (task.typeOfTask==TYPE_OF_TASK_CREATION ? "create_" : "")
+			+ pathPrefix+task.left.getNameOfGraph()+"_";
+
 		// Emit function header
 		sb.append("\n");
 		emitMethodHead(sb, task, pathPrefix);
@@ -468,15 +475,17 @@ public class ModifyGen extends CSharpBase {
 				state.nodesNeededAsAttributes, state.edgesNeededAsAttributes,
 				state.neededVariables);
 
-		genNewNodes(sb2, task.reuseNodesAndEdges, stateConst, state.nodesNeededAsElements, state.nodesNeededAsTypes);
+		genNewNodes(sb2, task.reuseNodesAndEdges, stateConst, useAddedElementNames, prefix,
+				state.nodesNeededAsElements, state.nodesNeededAsTypes);
 
 		genSubpatternModificationCalls(sb2, task, pathPrefix, state.nodesNeededAsElements);
 
 		genAlternativeModificationCalls(sb2, task, pathPrefix);
 
-		genTypeChangesNodes(sb2, stateConst, task, state.nodesNeededAsElements, state.nodesNeededAsTypes);
+		genTypeChangesNodes(sb2, stateConst, task,
+				state.nodesNeededAsElements, state.nodesNeededAsTypes);
 
-		genNewEdges(sb2, stateConst, task,
+		genNewEdges(sb2, stateConst, task, useAddedElementNames, prefix,
 				state.nodesNeededAsElements, state.edgesNeededAsElements,
 				state.edgesNeededAsTypes, state.reusedElements);
 
@@ -532,8 +541,8 @@ public class ModifyGen extends CSharpBase {
 
 		// ----------
 
-		if(pathPrefix=="" && !task.isSubpattern && task.reuseNodesAndEdges) {
-			genAddedGraphElementsArray(sb, stateConst, task.left!=task.right);
+		if(createAddedElementNames) {
+			genAddedGraphElementsArray(sb, stateConst, prefix, task.typeOfTask);
 		}
 	}
 
@@ -960,16 +969,10 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genAddedGraphElementsArray(StringBuffer sb, ModifyGenerationStateConst state, boolean hasRightHandSide) {
-		if(hasRightHandSide) {
-			genAddedGraphElementsArray(sb, true, state.newNodes());
-			genAddedGraphElementsArray(sb, false, state.newEdges());
-		}
-		else {
-			sb.append("\t\tprivate static String[] addedNodeNames = new String[] {};\n");
-			sb.append("\t\tpublic override String[] AddedNodeNames { get { return addedNodeNames; } }\n");
-			sb.append("\t\tprivate static String[] addedEdgeNames = new String[] {};\n");
-			sb.append("\t\tpublic override String[] AddedEdgeNames { get { return addedEdgeNames; } }\n");
+	private void genAddedGraphElementsArray(StringBuffer sb, ModifyGenerationStateConst state, String pathPrefix, int typeOfTask) {
+		if(typeOfTask==TYPE_OF_TASK_MODIFY || typeOfTask==TYPE_OF_TASK_CREATION) {
+			genAddedGraphElementsArray(sb, pathPrefix, true, state.newNodes());
+			genAddedGraphElementsArray(sb, pathPrefix, false, state.newEdges());
 		}
 	}
 
@@ -1022,13 +1025,11 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genAddedGraphElementsArray(StringBuffer sb, boolean isNode, Collection<? extends GraphEntity> set) {
+	private void genAddedGraphElementsArray(StringBuffer sb, String pathPrefix, boolean isNode, Collection<? extends GraphEntity> set) {
 		String NodesOrEdges = isNode?"Node":"Edge";
-		sb.append("\t\tprivate static String[] added" + NodesOrEdges + "Names = new String[] ");
+		sb.append("\t\tprivate static String[] " + pathPrefix + "added" + NodesOrEdges + "Names = new String[] ");
 		genSet(sb, set, "\"", "\"", true);
 		sb.append(";\n");
-		sb.append("\t\tpublic override String[] Added" + NodesOrEdges
-					  + "Names { get { return added" + NodesOrEdges + "Names; } }\n");
 	}
 
 	private void emitReturnStatement(StringBuffer sb, ModifyGenerationStateConst state, List<Expression> returns) {
@@ -1150,7 +1151,11 @@ public class ModifyGen extends CSharpBase {
 	////////////////////////////
 
 	private void genNewNodes(StringBuffer sb2, boolean reuseNodeAndEdges, ModifyGenerationStateConst state,
+			boolean useAddedElementNames, String pathPrefix,
 			HashSet<Node> nodesNeededAsElements, HashSet<Node> nodesNeededAsTypes) {
+		// call nodes added delegate
+		if(useAddedElementNames) sb2.append("\t\t\tgraph.SettingAddedNodeNames( " + pathPrefix + "addedNodeNames );\n");
+
 		//reuseNodeAndEdges = false;							// TODO: reimplement this!!
 
 		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(state.newNodes());
@@ -1252,9 +1257,13 @@ public class ModifyGen extends CSharpBase {
 	 }*/
 
 	private void genNewEdges(StringBuffer sb2, ModifyGenerationStateConst state, ModifyGenerationTask task,
+			boolean useAddedElementNames, String pathPrefix,
 			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
 			HashSet<Edge> edgesNeededAsTypes, HashSet<GraphEntity> reusedElements)
 	{
+		// call edges added delegate
+		if(useAddedElementNames) sb2.append("\t\t\tgraph.SettingAddedEdgeNames( " + pathPrefix + "addedEdgeNames );\n");
+
 		NE:	for(Edge edge : state.newEdges()) {
 			String etype = formatElementClass(edge.getType());
 
