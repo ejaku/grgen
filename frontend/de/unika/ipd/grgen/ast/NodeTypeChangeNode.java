@@ -142,7 +142,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	}
 
 	public Node getNode() {
-		return (Node) checkIR(Node.class);
+		return checkIR(Node.class);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		res.setOldNode(node);
 
 		if (inheritsType()) {
-			res.setTypeof((Node) typeNodeDecl.checkIR(Node.class));
+			res.setTypeof(typeNodeDecl.checkIR(Node.class));
 		}
 
 		return res;

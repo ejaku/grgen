@@ -120,7 +120,7 @@ public class SubpatternReplNode extends BaseNode {
 			ConstraintDeclNode formalParameter = (ConstraintDeclNode)formalReplacementParameters.get(i);
 			InheritanceTypeNode actualParameterType = actualParameter.getDeclType();
 			InheritanceTypeNode formalParameterType = formalParameter.getDeclType();
-			
+
 			if(!actualParameterType.isA(formalParameterType)) {
 				res = false;
 				actualParameter.ident.reportError("Subpattern replacement usage parameter \"" + actualParameter.ident.toString() + "\" has wrong type");
@@ -134,9 +134,9 @@ public class SubpatternReplNode extends BaseNode {
 	protected IR constructIR() {
 		List<GraphEntity> replConnections = new LinkedList<GraphEntity>();
     	for (ConstraintDeclNode c : this.replConnections.getChildren()) {
-    		replConnections.add((GraphEntity) c.checkIR(GraphEntity.class));
+    		replConnections.add(c.checkIR(GraphEntity.class));
     	}
 		return new SubpatternDependentReplacement("dependent replacement", subpatternUnresolved.getIdent(),
-				(SubpatternUsage)subpattern.getIR(), replConnections);
+				subpattern.checkIR(SubpatternUsage.class), replConnections);
 	}
 }

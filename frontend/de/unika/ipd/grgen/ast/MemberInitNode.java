@@ -129,6 +129,6 @@ public class MemberInitNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		return new MemberInit((Entity) lhs.getIR(), (Expression) rhs.getIR());
+		return new MemberInit(lhs.checkIR(Entity.class), rhs.checkIR(Expression.class));
 	}
 }

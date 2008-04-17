@@ -136,7 +136,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 		Collection<Entity> deleteSet = new HashSet<Entity>();
 		for(BaseNode n : delete.getChildren()) {
 			if(!(n instanceof SubpatternUsageNode))
-				deleteSet.add((Entity)n.checkIR(Entity.class));
+				deleteSet.add(n.checkIR(Entity.class));
 		}
 
 		for(Node n : left.getNodes()) {
@@ -163,7 +163,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 			boolean subInDeleteSet = false;
 			for(BaseNode n : delete.getChildren()) {
 				if(n instanceof SubpatternUsageNode) {
-					SubpatternUsage su = (SubpatternUsage)n.checkIR(SubpatternUsage.class);
+					SubpatternUsage su = n.checkIR(SubpatternUsage.class);
 					if(sub==su) {
 						subInDeleteSet = true;
 					}

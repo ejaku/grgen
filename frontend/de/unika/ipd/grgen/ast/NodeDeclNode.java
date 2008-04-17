@@ -159,7 +159,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 	/** @see de.unika.ipd.grgen.ast.NodeCharacter#getNode() */
 	public Node getNode() {
-		return (Node) checkIR(Node.class);
+		return checkIR(Node.class);
 	}
 
 	protected boolean inheritsType() {
@@ -184,7 +184,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		}
 
 		if(inheritsType()) {
-			res.setTypeof((Node)typeNodeDecl.checkIR(Node.class));
+			res.setTypeof(typeNodeDecl.checkIR(Node.class));
 		}
 
 		return res;

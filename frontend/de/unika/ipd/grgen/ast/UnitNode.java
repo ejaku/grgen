@@ -45,7 +45,7 @@ public class UnitNode extends BaseNode {
 		setName(UnitNode.class, "unit declaration");
 	}
 
-	CollectNode<BaseNode> models;
+	CollectNode<ModelNode> models;
 
 	// of type PatternTestDeclNode or PatternRuleDeclNode
 	CollectNode<SubpatternDeclNode> subpatterns;
@@ -65,7 +65,8 @@ public class UnitNode extends BaseNode {
 	 */
 	private String filename;
 
-	public UnitNode(String unitname, String filename, CollectNode<BaseNode> models, CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions) {
+	public UnitNode(String unitname, String filename, CollectNode<ModelNode> models,
+			CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions) {
 		this.models = models;
 		becomeParent(this.models);
 		this.subpatternsUnresolved = subpatterns;
@@ -120,7 +121,7 @@ public class UnitNode extends BaseNode {
 	 * @return The Unit for this AST node.
 	 */
 	public Unit getUnit() {
-		return (Unit) checkIR(Unit.class);
+		return checkIR(Unit.class);
 	}
 
 	/**
@@ -131,8 +132,8 @@ public class UnitNode extends BaseNode {
 	protected IR constructIR() {
 		Unit res = new Unit(unitname, filename);
 
-		for(BaseNode n : models.getChildren()) {
-			Model model = ((ModelNode)n).getModel();
+		for(ModelNode n : models.getChildren()) {
+			Model model = n.getModel();
 			res.addModel(model);
 		}
 

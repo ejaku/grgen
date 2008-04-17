@@ -104,7 +104,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
-		Ident name = (Ident) getIdentNode().checkIR(Ident.class);
+		Ident name = getIdentNode().checkIR(Ident.class);
 		EnumType ty = new EnumType(name);
 
 		for (EnumItemNode item : elements.getChildren()) {

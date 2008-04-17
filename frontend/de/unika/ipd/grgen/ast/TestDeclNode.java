@@ -289,7 +289,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 
 		// add Params to the IR
 		for(DeclNode decl : pattern.getParamDecls()) {
-			ma.addParameter((Entity) decl.checkIR(Entity.class));
+			ma.addParameter(decl.checkIR(Entity.class));
 			if(decl instanceof NodeCharacter) {
 				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
 			} else if (decl instanceof EdgeCharacter) {
@@ -304,7 +304,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 
 		// add Return-Params to the IR
 		for(ExprNode aReturnAST : aReturns.getChildren()) {
-			Expression aReturn = (Expression)aReturnAST.checkIR(Expression.class);
+			Expression aReturn = aReturnAST.checkIR(Expression.class);
 			// actual return-parameter
 			ma.addReturn(aReturn);
 		}

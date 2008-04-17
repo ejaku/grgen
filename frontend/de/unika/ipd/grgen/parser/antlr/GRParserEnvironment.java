@@ -34,6 +34,7 @@ import antlr.TokenStreamException;
 import antlr.TokenStreamSelector;
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.ModelNode;
 import de.unika.ipd.grgen.ast.UnitNode;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 import java.io.BufferedInputStream;
@@ -148,8 +149,8 @@ public class GRParserEnvironment extends ParserEnvironment {
 		return root;
 	}
 
-    public BaseNode parseModel(File inputFile) {
-		BaseNode root = null;
+    public ModelNode parseModel(File inputFile) {
+		ModelNode root = null;
 
 		try {
 			TokenStreamSelector selector = new TokenStreamSelector();

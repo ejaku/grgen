@@ -63,7 +63,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 	}
 
 	protected final TypeExpr getConstraints() {
-		return (TypeExpr) constraints.checkIR(TypeExpr.class);
+		return constraints.checkIR(TypeExpr.class);
 	}
 
 	/** @returns True, if this element has eventually been deleted due to homomorphy */

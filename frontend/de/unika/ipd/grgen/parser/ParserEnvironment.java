@@ -27,11 +27,7 @@
 
 package de.unika.ipd.grgen.parser;
 
-import java.io.File;
-import java.util.Hashtable;
-
 import antlr.TokenStreamException;
-
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.ArbitraryEdgeTypeNode;
 import de.unika.ipd.grgen.ast.BaseNode;
@@ -49,9 +45,12 @@ import de.unika.ipd.grgen.ast.NodeTypeNode;
 import de.unika.ipd.grgen.ast.TypeDeclNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.ast.UndirectedEdgeTypeNode;
+import de.unika.ipd.grgen.ast.UnitNode;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
+import java.io.File;
+import java.util.Hashtable;
 
 public abstract class ParserEnvironment extends Base {
 	public static final String MODEL_SUFFIX = ".gm";
@@ -310,8 +309,8 @@ public abstract class ParserEnvironment extends Base {
 
 	public abstract boolean isKeyword(String str);
 
-	public abstract BaseNode parseActions(File inputFile);
-	public abstract BaseNode parseModel(File inputFile);
+	public abstract UnitNode parseActions(File inputFile);
+	public abstract ModelNode parseModel(File inputFile);
 	public abstract void pushFile(File inputFile) throws TokenStreamException;
 	public abstract void popFile() throws TokenStreamException;
 	public abstract String getFilename();

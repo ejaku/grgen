@@ -140,7 +140,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	}
 
 	public Edge getEdge() {
-		return (Edge) checkIR(Edge.class);
+		return checkIR(Edge.class);
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		res.setOldEdge(oldEdge);
 
 		if (inheritsType()) {
-			res.setTypeof((Edge) typeEdgeDecl.checkIR(Edge.class));
+			res.setTypeof(typeEdgeDecl.checkIR(Edge.class));
 		}
 
 		return res;

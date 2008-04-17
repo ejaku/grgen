@@ -131,9 +131,9 @@ public class DeclExprNode extends ExprNode {
 	protected IR constructIR() {
 		BaseNode decl = (BaseNode) validVersion;
 		if(decl instanceof MemberDeclNode)
-			return new MemberExpression((Entity) decl.getIR());
+			return new MemberExpression(decl.checkIR(Entity.class));
 		else if(decl instanceof VarDeclNode)
-			return new VariableExpression((Variable) decl.getIR());
+			return new VariableExpression(decl.checkIR(Variable.class));
 		else if(decl instanceof ConstraintDeclNode)
 			return new GraphEntityExpression((GraphEntity) decl.getIR());
 		else

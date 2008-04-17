@@ -105,11 +105,11 @@ public class ConnAssertNode extends BaseNode {
 	protected IR constructIR() {
 		long srcLower = srcRange.getLower();
 		long srcUpper = srcRange.getUpper();
-		NodeType srcType = (NodeType)src.getIR();
+		NodeType srcType = src.checkIR(NodeType.class);
 
 		long tgtLower = tgtRange.getLower();
 		long tgtUpper = tgtRange.getUpper();
-		NodeType tgtType = (NodeType)tgt.getIR();
+		NodeType tgtType = tgt.checkIR(NodeType.class);
 
 		return new ConnAssert(srcType, srcLower, srcUpper,
 							  tgtType, tgtLower, tgtUpper);

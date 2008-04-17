@@ -277,7 +277,7 @@ public class GraphNode extends BaseNode {
 	 * @return The IR object.
 	 */
 	public PatternGraph getGraph() {
-		return (PatternGraph) checkIR(PatternGraph.class);
+		return checkIR(PatternGraph.class);
 	}
 
 	/**
@@ -294,11 +294,11 @@ public class GraphNode extends BaseNode {
 		}
 
 		for(SubpatternUsageNode n : subpatterns.getChildren()) {
-			gr.addSubpatternUsage((SubpatternUsage)n.getIR());
+			gr.addSubpatternUsage(n.checkIR(SubpatternUsage.class));
 		}
 
 		for(SubpatternReplNode n : subpatternReplacements.getChildren()) {
-			gr.addSubpatternReplacement((SubpatternDependentReplacement)n.getIR());
+			gr.addSubpatternReplacement(n.checkIR(SubpatternDependentReplacement.class));
 		}
 
 		// TODO imperativeStmts

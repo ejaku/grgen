@@ -215,7 +215,7 @@ public class PatternGraphNode extends GraphNode {
 	 * @return The IR object.
 	 */
 	public PatternGraph getPatternGraph() {
-		return (PatternGraph) checkIR(PatternGraph.class);
+		return checkIR(PatternGraph.class);
 	}
 
 	/** NOTE: Use this only in DPO-Mode,i.e. if the pattern is part of a rule */
@@ -258,13 +258,13 @@ public class PatternGraphNode extends GraphNode {
 		}
 
 		for(BaseNode subpatternUsage : subpatterns.getChildren()) {
-			gr.addSubpatternUsage((SubpatternUsage)subpatternUsage.getIR());
+			gr.addSubpatternUsage(subpatternUsage.checkIR(SubpatternUsage.class));
 		}
 
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
 		for(BaseNode n : subpatterns.getChildren()) {
-			List<GraphEntity> connections = ((SubpatternUsage)n.getIR()).getSubpatternConnections();
+			List<GraphEntity> connections = n.checkIR(SubpatternUsage.class).getSubpatternConnections();
 			for(GraphEntity connection : connections) {
 				if(connection instanceof Node) {
 					Node neededNode = (Node)connection;
@@ -287,13 +287,13 @@ public class PatternGraphNode extends GraphNode {
 		}
 
 		for(AlternativeNode alternativeNode : alts.getChildren()) {
-			Alternative alternative = (Alternative)alternativeNode.getIR();
+			Alternative alternative = alternativeNode.checkIR(Alternative.class);
 			gr.addAlternative(alternative);
 		}
 
 		for (ExprNode expr : conditions.getChildren()) {
 			expr = expr.evaluate();
-			gr.addCondition((Expression) expr.checkIR(Expression.class));
+			gr.addCondition(expr.checkIR(Expression.class));
 		}
 
 		/* generate type conditions from dynamic type checks via typeof */
@@ -331,7 +331,7 @@ public class PatternGraphNode extends GraphNode {
 				if (homSet.iterator().next() instanceof NodeDeclNode) {
     				HashSet<Node> homSetIR = new HashSet<Node>();
     	    		for (DeclNode decl : homSet) {
-    	    			homSetIR.add((Node) decl.checkIR(Node.class));
+    	    			homSetIR.add(decl.checkIR(Node.class));
     	    		}
     	            gr.addHomomorphicNodes(homSetIR);
 	            }
@@ -339,7 +339,7 @@ public class PatternGraphNode extends GraphNode {
 	            if (homSet.iterator().next() instanceof EdgeDeclNode) {
     				HashSet<Edge> homSetIR = new HashSet<Edge>();
     	    		for (DeclNode decl : homSet) {
-    	    			homSetIR.add((Edge) decl.checkIR(Edge.class));
+    	    			homSetIR.add(decl.checkIR(Edge.class));
     	    		}
     	            gr.addHomomorphicEdges(homSetIR);
 	            }
@@ -911,7 +911,7 @@ public class PatternGraphNode extends GraphNode {
 
 	    	for (NodeDeclNode homNode : homNodes) {
 	            if (allNegNodes.contains(homNode)) {
-	    			homSet.add((Node) homNode.checkIR(Node.class));
+	    			homSet.add(homNode.checkIR(Node.class));
 	            }
 	        }
 	    	if (homSet.size() > 1) {
@@ -926,7 +926,7 @@ public class PatternGraphNode extends GraphNode {
 
 	    	for (EdgeDeclNode homEdge : homEdges) {
 	            if (allNegEdges.contains(homEdge)) {
-	    			homSet.add((Edge) homEdge.checkIR(Edge.class));
+	    			homSet.add(homEdge.checkIR(Edge.class));
 	            }
 	        }
 	    	if (homSet.size() > 1) {

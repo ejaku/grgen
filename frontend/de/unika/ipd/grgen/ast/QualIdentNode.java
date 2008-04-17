@@ -132,8 +132,8 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	}
 
 	protected IR constructIR() {
-		Entity ownerIR = (Entity) owner.checkIR(Entity.class);
-		Entity memberIR = (Entity) member.checkIR(Entity.class);
+		Entity ownerIR = owner.checkIR(Entity.class);
+		Entity memberIR = member.checkIR(Entity.class);
 
 		return new Qualification(ownerIR, memberIR);
 	}

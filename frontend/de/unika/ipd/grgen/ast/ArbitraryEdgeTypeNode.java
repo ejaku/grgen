@@ -89,7 +89,7 @@ public class ArbitraryEdgeTypeNode extends EdgeTypeNode {
 	 * @return The edge type IR object for this AST node.
 	 */
 	public EdgeType getEdgeType() {
-		return (EdgeType) checkIR(EdgeType.class);
+		return checkIR(EdgeType.class);
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode) */
@@ -130,7 +130,7 @@ public class ArbitraryEdgeTypeNode extends EdgeTypeNode {
 			}
 			else if(n instanceof MemberInitNode) {
 				MemberInitNode mi = (MemberInitNode)n;
-				inhType.addMemberInit((MemberInit)mi.getIR());
+				inhType.addMemberInit(mi.checkIR(MemberInit.class));
 			}
 		}
 		for(InheritanceTypeNode inh : extend.getChildren()) {

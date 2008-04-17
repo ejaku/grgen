@@ -41,6 +41,6 @@ public abstract class ActionDeclNode extends DeclNode
      * @return The IR object.
      */
     public Rule getAction() {
-        return (Rule) getIR();
+        return checkIR(Rule.class);
     }
 }

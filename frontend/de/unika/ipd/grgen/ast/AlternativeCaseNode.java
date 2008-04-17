@@ -415,7 +415,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 		// add Params to the IR
 		for(DeclNode decl : pattern.getParamDecls()) {
-			rule.addParameter((Entity) decl.checkIR(Entity.class));
+			rule.addParameter(decl.checkIR(Entity.class));
 			if(decl instanceof NodeCharacter) {
 				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
 			} else if (decl instanceof EdgeCharacter) {
@@ -437,7 +437,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		}
 
 		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
-			rule.addReplParameter((Node) decl.checkIR(Entity.class));
+			rule.addReplParameter(decl.checkIR(Node.class));
 			if(decl instanceof NodeCharacter) {
 				right.addSingleNode(((NodeCharacter)decl).getNode());
 			} else {

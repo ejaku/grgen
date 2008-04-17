@@ -73,8 +73,8 @@ public class TypeBinaryExprNode extends TypeExprNode {
 	}
 
 	protected IR constructIR() {
-		TypeExpr lhs = (TypeExpr) this.lhs.checkIR(TypeExpr.class);
-		TypeExpr rhs = (TypeExpr) this.rhs.checkIR(TypeExpr.class);
+		TypeExpr lhs = this.lhs.checkIR(TypeExpr.class);
+		TypeExpr rhs = this.rhs.checkIR(TypeExpr.class);
 
 		TypeExprSetOperator expr = new TypeExprSetOperator(irOp[op]);
 		expr.addOperand(lhs);

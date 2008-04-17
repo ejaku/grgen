@@ -94,11 +94,11 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	}
 
 	public Entity getEntity() {
-		return (Entity) checkIR(Entity.class);
+		return checkIR(Entity.class);
 	}
 
 	protected IR constructIR() {
-		Type type = (Type) getDeclType().checkIR(Type.class);
+		Type type = getDeclType().checkIR(Type.class);
 		return new Entity("entity", getIdentNode().getIdent(), type);
 	}
 

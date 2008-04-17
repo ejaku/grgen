@@ -88,7 +88,7 @@ public class TypeofNode extends ExprNode {
 	}
 
 	protected IR constructIR() {
-		Entity entity = (Entity) getValidResolvedVersion(entityEdgeDecl, entityNodeDecl).checkIR(Entity.class);
+		Entity entity = getValidResolvedVersion(entityEdgeDecl, entityNodeDecl).checkIR(Entity.class);
 
 		return new Typeof(entity);
 	}

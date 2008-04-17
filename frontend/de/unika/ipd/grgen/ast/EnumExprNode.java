@@ -102,8 +102,8 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 	 * @return An enum expression IR object.
 	 */
 	protected IR constructIR() {
-		EnumType et = (EnumType) owner.checkIR(EnumType.class);
-		EnumItem it = (EnumItem) member.checkIR(EnumItem.class);
+		EnumType et = owner.checkIR(EnumType.class);
+		EnumItem it = member.checkIR(EnumItem.class);
 		return new EnumExpression(et, it);
 	}
 }

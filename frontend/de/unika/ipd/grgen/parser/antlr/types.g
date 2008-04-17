@@ -44,7 +44,7 @@ options {
 
 }
 
-text returns [ BaseNode model = env.initNode() ]
+text returns [ ModelNode model = null ]
 	{
 		CollectNode<IdentNode> types = new CollectNode<IdentNode>();
 		IdentNode id = env.getDummyIdent();

@@ -162,9 +162,10 @@ public class SubpatternUsageNode extends DeclNode {
 	protected IR constructIR() {
 		List<GraphEntity> subpatternConnections = new LinkedList<GraphEntity>();
 		for (ConstraintDeclNode c : connections.getChildren()) {
-			subpatternConnections.add((GraphEntity) c.checkIR(GraphEntity.class));
+			subpatternConnections.add(c.checkIR(GraphEntity.class));
 		}
-		return new SubpatternUsage("subpattern", getIdentNode().getIdent(), (MatchingAction)type.getIR(), subpatternConnections);
+		return new SubpatternUsage("subpattern", getIdentNode().getIdent(),
+				type.checkIR(MatchingAction.class), subpatternConnections);
 	}
 }
 

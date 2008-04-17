@@ -212,7 +212,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	 * @return The IR object.
 	 */
 	public Ident getIdent() {
-		return (Ident) checkIR(Ident.class);
+		return checkIR(Ident.class);
 	}
 
 	/**

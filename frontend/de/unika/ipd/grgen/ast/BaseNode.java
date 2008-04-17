@@ -667,7 +667,7 @@ public abstract class BaseNode extends Base
 	 * @param cls The class to check the IR object for.
 	 * @return The IR object.
 	 */
-	public final IR checkIR(Class<? extends IR> cls) {
+	public final <T extends IR> T checkIR(Class<T> cls) {
 		IR ir = getIR();
 
 		debug.report(NOTE, getCoords(), "checking ir object in \"" + getName()
@@ -675,7 +675,7 @@ public abstract class BaseNode extends Base
 		assert cls.isInstance(ir) : "checking ir object in \"" + getName()
 			+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"";
 
-		return ir;
+		return cls.cast(ir);
 	}
 
 	/**
@@ -754,9 +754,9 @@ public abstract class BaseNode extends Base
 
     	// find an edgeRoot-type and nodeRoot
     	TypeDeclNode nodeRoot = null;
-    	BaseNode model = ((UnitNode) root).models.children.firstElement();
+    	ModelNode model = ((UnitNode) root).models.children.firstElement();
     	assert model.isResolved();
-    	Collection<TypeDeclNode> types = ((ModelNode) model).decls.children;
+    	Collection<TypeDeclNode> types = model.decls.children;
 
     	for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
     		TypeDeclNode candidate = it.next();
@@ -778,9 +778,9 @@ public abstract class BaseNode extends Base
 
     	// find a root-type
     	TypeDeclNode edgeRoot = null;
-    	BaseNode model = ((UnitNode) root).models.children.firstElement();
+    	ModelNode model = ((UnitNode) root).models.children.firstElement();
     	assert model.isResolved();
-    	Collection<TypeDeclNode> types = ((ModelNode) model).decls.children;
+    	Collection<TypeDeclNode> types = model.decls.children;
 
     	for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
     		TypeDeclNode candidate = it.next();

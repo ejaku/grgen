@@ -177,7 +177,7 @@ public class EnumItemNode extends MemberDeclNode {
 	}
 
 	protected EnumItem getItem() {
-		return (EnumItem) checkIR(EnumItem.class);
+		return checkIR(EnumItem.class);
 	}
 
 	/**

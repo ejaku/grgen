@@ -103,7 +103,7 @@ public class ModelNode extends DeclNode {
 	 * @return The model for this AST node.
 	 */
 	public Model getModel() {
-		return (Model) checkIR(Model.class);
+		return checkIR(Model.class);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class ModelNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		Ident id = (Ident) ident.checkIR(Ident.class);
+		Ident id = ident.checkIR(Ident.class);
 		Model res = new Model(id);
 		for(TypeDeclNode typeDecl : decls.getChildren()) {
 			res.addType(typeDecl.getDeclType().getType());

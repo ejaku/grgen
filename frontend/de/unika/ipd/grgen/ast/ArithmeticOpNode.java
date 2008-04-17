@@ -127,7 +127,7 @@ public class ArithmeticOpNode extends OpNode {
 		Operator op = new Operator(type.getPrimitiveType(), getIROpCode(getOpId()));
 
 		for(BaseNode n : children) {
-			Expression ir = (Expression) n.checkIR(Expression.class);
+			Expression ir = n.checkIR(Expression.class);
 			op.addOperand(ir);
 		}
 

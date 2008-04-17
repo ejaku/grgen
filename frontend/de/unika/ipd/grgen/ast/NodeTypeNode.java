@@ -105,7 +105,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 * @return The correctly casted IR node type.
 	 */
 	public NodeType getNodeType() {
-		return (NodeType) checkIR(NodeType.class);
+		return checkIR(NodeType.class);
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 			}
 			else if(n instanceof MemberInitNode) {
 				MemberInitNode mi = (MemberInitNode)n;
-				inhType.addMemberInit((MemberInit)mi.getIR());
+				inhType.addMemberInit(mi.checkIR(MemberInit.class));
 			}
 		}
 		for(InheritanceTypeNode inh : extend.getChildren()) {

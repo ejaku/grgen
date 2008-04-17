@@ -82,7 +82,7 @@ public class AlternativeNode extends BaseNode {
 	protected IR constructIR() {
 		Alternative alternative = new Alternative();
 		for (AlternativeCaseNode alternativeCaseNode : children) {
-			Rule alternativeCaseRule = (Rule)alternativeCaseNode.getIR();
+			Rule alternativeCaseRule = alternativeCaseNode.checkIR(Rule.class);
 			alternative.addAlternativeCase(alternativeCaseRule);
 		}
 		return alternative;

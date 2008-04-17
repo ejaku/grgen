@@ -167,7 +167,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	 * @return The edge IR object.
 	 */
 	public Edge getEdge() {
-		return (Edge) checkIR(Edge.class);
+		return checkIR(Edge.class);
 	}
 
 	protected boolean inheritsType() {
@@ -178,14 +178,14 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	protected IR constructIR() {
 		// This must be ok after checking all nodes.
 		TypeNode tn = getDeclType();
-		EdgeType et = (EdgeType) tn.checkIR(EdgeType.class);
+		EdgeType et = tn.checkIR(EdgeType.class);
 		IdentNode ident = getIdentNode();
 
 		Edge edge = new Edge(ident.getIdent(), et, ident.getAnnotations(), isMaybeDeleted(), isMaybeRetyped());
 		edge.setConstraints(getConstraints());
 
 		if(inheritsType()) {
-			edge.setTypeof((Edge)typeEdgeDecl.checkIR(Edge.class));
+			edge.setTypeof(typeEdgeDecl.checkIR(Edge.class));
 		}
 
 		return edge;

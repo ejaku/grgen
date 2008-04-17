@@ -59,7 +59,7 @@ options {
  */
 text returns [ UnitNode main = null ]
 	{
-		CollectNode<BaseNode> modelChilds = new CollectNode<BaseNode>();
+		CollectNode<ModelNode> modelChilds = new CollectNode<ModelNode>();
 		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
@@ -93,7 +93,7 @@ identList [ Collection<String> strings ]
 		( COMMA sid:IDENT { strings.add(sid.getText()); } )*
 	;
 
-usingDecl [ CollectNode<BaseNode> modelChilds ]
+usingDecl [ CollectNode<ModelNode> modelChilds ]
 	{ Collection<String> modelNames = new LinkedList<String>(); }
 
 	: u:USING identList[modelNames] SEMI
@@ -105,7 +105,7 @@ usingDecl [ CollectNode<BaseNode> modelChilds ]
 				if ( modelFile == null ) {
 					reportError(getCoords(u), "model \"" + modelName + "\" could not be found");
 				} else {
-					BaseNode model;
+					ModelNode model;
 					model = env.parseModel(modelFile);
 					modelChilds.addChild(model);
 				}

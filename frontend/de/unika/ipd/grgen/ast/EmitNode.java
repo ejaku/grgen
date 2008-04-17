@@ -87,7 +87,7 @@ public class EmitNode extends BaseNode {
 	protected IR constructIR() {
 		List<Expression> arguments = new ArrayList<Expression>();
 		for(BaseNode child : getChildren())
-			arguments.add((Expression)child.getIR());
+			arguments.add(child.checkIR(Expression.class));
 		Emit res= new Emit(arguments);
 		return res;
 	}

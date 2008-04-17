@@ -147,11 +147,11 @@ public class ExecNode extends BaseNode {
 		Set<Entity> parameters = new LinkedHashSet<Entity>();
 		for(DeclNode dn : graphElementUsageOutsideOfCall.getChildren())
 			if(dn instanceof ConstraintDeclNode)
-				parameters.add((Entity)dn.getIR());
+				parameters.add(dn.checkIR(Entity.class));
 		for(CallActionNode callActionNode : callActions.getChildren()) {
 			callActionNode.checkPost();
 			for(DeclNode param : callActionNode.getParams().getChildren())
-				parameters.add((Entity) param.getIR());
+				parameters.add(param.checkIR(Entity.class));
 		}
 		Exec res= new Exec(getXGRSString(), parameters);
 		return res;

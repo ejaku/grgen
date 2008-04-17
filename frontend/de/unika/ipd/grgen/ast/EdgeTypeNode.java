@@ -90,7 +90,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 
     	for(BaseNode n : cas.getChildren()) {
     		ConnAssertNode can = (ConnAssertNode)n;
-    		et.addConnAssert((ConnAssert)can.checkIR(ConnAssert.class));
+    		et.addConnAssert(can.checkIR(ConnAssert.class));
     	}
 
     	return et;

@@ -187,7 +187,7 @@ public abstract class RhsDeclNode extends DeclNode {
 		Collection<Assignment> ret = new LinkedHashSet<Assignment>();
 
 		for (AssignNode n : eval.getChildren()) {
-			ret.add((Assignment) n.checkIR(Assignment.class));
+			ret.add(n.checkIR(Assignment.class));
 		}
 
 		return ret;

@@ -126,7 +126,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @return The IR object as type.
 	 */
 	public Type getType() {
-		return (Type) checkIR(Type.class);
+		return checkIR(Type.class);
 	}
 
 	/**

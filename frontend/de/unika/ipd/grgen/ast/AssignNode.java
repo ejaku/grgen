@@ -138,14 +138,14 @@ public class AssignNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		Qualification qual = (Qualification) lhs.checkIR(Qualification.class);
+		Qualification qual = lhs.checkIR(Qualification.class);
 		if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType()) {
 			error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
 		}
 		if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType()) {
 			error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
 		}
-		return new Assignment(qual, (Expression) rhs.evaluate().checkIR(Expression.class));
+		return new Assignment(qual, rhs.evaluate().checkIR(Expression.class));
 	}
 }
 

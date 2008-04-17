@@ -102,7 +102,7 @@ public abstract class ConstNode extends OpNode {
 	 * @return The IR object.
 	 */
 	protected Constant getConstant() {
-		return (Constant) checkIR(Constant.class);
+		return checkIR(Constant.class);
 	}
 
 	/**
