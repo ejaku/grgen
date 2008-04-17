@@ -24,16 +24,13 @@
  */
 package de.unika.ipd.grgen.ast;
 
-
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
