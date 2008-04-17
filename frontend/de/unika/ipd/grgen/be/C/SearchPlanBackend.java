@@ -694,21 +694,17 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	}
 
 	private int isModifiedNode(Rule rule, Node node) {
-		if (!rule.getCommonNodes().contains(node)) {
+		if (node.isRetyped() || node.getRetypedEntity() != null
+				|| !rule.getCommonNodes().contains(node)) {
 			return 1;
 		}
-		
-		
+
 		for (Assignment a : rule.getEvals()) {
 			if (a.getTarget().getOwner().compareTo(node) == 0) {
 				return 1;
 			}
 		}
-//		Collection<Node> involvedNodes = evalInvolvedNodes.get(rule.getEvals());
-//		if (involvedNodes != null && involvedNodes.contains(node)) {
-//			return 1;
-//		}
-		
+
 		return 0;
 	}
 
