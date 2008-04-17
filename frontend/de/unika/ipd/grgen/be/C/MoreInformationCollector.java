@@ -57,7 +57,7 @@ public class MoreInformationCollector extends InformationCollector {
 	/* maps an eval list to the action_id it belong to */
 	protected Map<Collection<Assignment>, Integer> evalListMap = new HashMap<Collection<Assignment>, Integer>();
 
-	/* replacement and pattern edges involved in an eval */
+	/* replacement and pattern nodes/edges involved in an eval */
 	protected Map<Collection<Assignment>, Collection<Node>> evalInvolvedNodes = new HashMap<Collection<Assignment>, Collection<Node>>();
 	protected Map<Collection<Assignment>, Collection<Edge>> evalInvolvedEdges = new HashMap<Collection<Assignment>, Collection<Edge>>();
 

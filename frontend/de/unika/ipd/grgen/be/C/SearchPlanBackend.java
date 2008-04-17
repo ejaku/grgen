@@ -517,7 +517,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 		// code for the pattern graph
 		sb.append(indent + "{ /* The action */\n");
-		genPatternGraph(sb, indent + "\t", "ext_grs_act_get_pattern", rule.getLeft(), nodeIds, edgeIds, GraphType.Pattern);
+		genPatternGraph(sb, indent + "\t", "ext_grs_act_get_pattern", rule.getLeft(), nodeIds, edgeIds, GraphType.Pattern, rule);
 
 		// code for the negative graphs
 		sb.append(indent + "  /* The negative parts of the pattern */\n");
@@ -525,7 +525,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		for(PatternGraph neg : rule.getLeft().getNegs()) {
 			sb.append(indent + "  { /* NAC " + i + "  */\n");
 			genPatternGraph(sb, indent+"    ", "ext_grs_act_impose_negative",
-							neg, nodeIds, edgeIds, GraphType.Negative);
+							neg, nodeIds, edgeIds, GraphType.Negative, rule);
 			sb.append(indent + "  } /* NAC " + i + "  */\n");
 			sb.append("\n");
 			i++;
@@ -535,7 +535,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 		// Code for the replacement
 		sb.append(indent + "  { /* The replacement */\n");
-		genGraph(sb, indent + "     ", "ext_grs_act_get_replacement", rule.getRight(), nodeIds, edgeIds, GraphType.Replacement);
+		genGraph(sb, indent + "     ", "ext_grs_act_get_replacement", rule.getRight(), nodeIds, edgeIds, GraphType.Replacement, rule);
 		sb.append(indent + "  } /* The replacement */\n\n");
 
 		// Code for registering eval functions
@@ -568,10 +568,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private void genPatternGraph(StringBuffer sb, String indent, String funcName,
 								 PatternGraph graph,
 								 IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds,
-								 GraphType graphType)
+								 GraphType graphType, Rule rule)
 	{
 		// Generate the graph
-		genGraph(sb, indent, funcName, graph, nodeIds, edgeIds, graphType);
+		genGraph(sb, indent, funcName, graph, nodeIds, edgeIds, graphType, rule);
 
 		// code for the conditions
 		genConditions(sb, indent, graph);
@@ -581,13 +581,13 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private void genGraph(StringBuffer sb, String indent, String funcName,
 						  Graph graph,
 						  IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds,
-						  GraphType graphType)
+						  GraphType graphType, Rule rule)
 	{
 		sb.append(indent + "ext_grs_graph_t *pattern = " + funcName + "(act);\n\n");
 
 		// nodes
 		relatedNodes = new HashMap<Node,String>();
-		genPatternNodes(sb, indent, graph, nodeIds, graphType);
+		genPatternNodes(sb, indent, graph, nodeIds, graphType, rule);
 		sb.append("\n");
 
 		//edges
@@ -606,7 +606,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * -------------------------------------- */
 
 	private int uin = 0;
-	private void genPatternNodes(StringBuffer sb, String indent, Graph graph, IdGenerator<Node> nodeIds, GraphType graphType) {
+	private void genPatternNodes(StringBuffer sb, String indent, Graph graph, IdGenerator<Node> nodeIds, GraphType graphType, Rule rule) {
 		sb.append(indent + "/* The nodes of the pattern */\n");
 
 		for(Node node : graph.getNodes()) {
@@ -671,7 +671,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				sb.append(indent + "ext_grs_node_t *n_" + name +			// No, Write statement to file
 						  " = ext_grs_act_add_node(pattern, \"" +
 						  name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
-						  ", " + nodeId + ", &" + construction_func + ");\n");
+						  ", " + nodeId + ", &" + construction_func +
+  						  ", " + isModifiedNode(rule, node) + ");\n");
 
 			}
 			else
@@ -682,8 +683,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				sb.append(indent + "ext_grs_node_t *n_" + name +	    // Write statement to file
 					  	" = " + addRelatedNodeFunc + "(pattern, \"" +
 					  	name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
-					  	", " + nodeId + ", n_" + related_name + ", &" +
-							construction_func + ");\n");
+					  	", " + nodeId + ", n_" + related_name +
+					  	", &" +	construction_func +
+						", " +  isModifiedNode(rule, node) + ");\n");
 				System.out.println(relatedNodes + "; " + node + "; " + name);
 				relatedNodes.put(node, name);								// Name was changed for neg nodes. Remember new
 																			// name for the creation of edges.
@@ -691,7 +693,24 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		}
 	}
 
-
+	private int isModifiedNode(Rule rule, Node node) {
+		if (!rule.getCommonNodes().contains(node)) {
+			return 1;
+		}
+		
+		
+		for (Assignment a : rule.getEvals()) {
+			if (a.getTarget().getOwner().compareTo(node) == 0) {
+				return 1;
+			}
+		}
+//		Collection<Node> involvedNodes = evalInvolvedNodes.get(rule.getEvals());
+//		if (involvedNodes != null && involvedNodes.contains(node)) {
+//			return 1;
+//		}
+		
+		return 0;
+	}
 
 	/* ----------------------------
 	 * Method genPatternEdges
