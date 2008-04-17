@@ -88,14 +88,20 @@ public class Rule extends MatchingAction {
 		return Collections.unmodifiableList(replParams);
 	}
 
-	/** @return A set with nodes, that occur on the left _and_ on the right side of the rule. */
+	/**
+	 *  @return A set with nodes, that occur on the left _and_ on the right side of the rule.
+	 *  		The set also contains retyped nodes.
+	 */
 	public Collection<Node> getCommonNodes() {
 		Collection<Node> common = new HashSet<Node>(pattern.getNodes());
 		common.retainAll(right.getNodes());
 		return common;
 	}
 
-	/** @return A set with edges, that occur on the left _and_ on the right side of the rule. */
+	/**
+	 * @return A set with edges, that occur on the left _and_ on the right side of the rule.
+	 *         The set also contains all retyped edges.
+	 */
 	public Collection<Edge> getCommonEdges() {
 		Collection<Edge> common = new HashSet<Edge>(pattern.getEdges());
 		common.retainAll(right.getEdges());
