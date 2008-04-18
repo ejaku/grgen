@@ -224,7 +224,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The name of this model.
         /// </summary>
-        String Name { get; }
+        String ModelName { get; }
 
         /// <summary>
         /// The model of the nodes.

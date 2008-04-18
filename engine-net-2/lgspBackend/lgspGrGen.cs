@@ -115,11 +115,12 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(Type type in modelAssembly.GetTypes())
                 {
                     if(!type.IsClass || type.IsNotPublic) continue;
-                    if(type.GetInterface("IGraphModel") != null)
+                    if(type.GetInterface("IGraphModel") != null && type.GetInterface("IGraph") == null)
                     {
                         if(modelType != null)
                         {
-                            Console.Error.WriteLine("The given model contains more than one IModelDescription implementation!");
+                            Console.Error.WriteLine("The given model contains more than one IGraphModel implementation: '"
+                                + modelType + "' and '" + type + "'");
                             return null;
                         }
                         modelType = type;
@@ -132,7 +133,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             if(modelType == null)
             {
-                Console.Error.WriteLine("The given model doesn't contain an IModelDescription implementation!");
+                Console.Error.WriteLine("The given model does not contain an IGraphModel implementation!");
                 return null;
             }
 
@@ -737,11 +738,20 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(String file in producedFiles)
             {
                 if(file.EndsWith("Model.cs"))
-                    modelFilename = file;
+                {
+                    if(modelFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(modelFilename))
+                        modelFilename = file;
+                }
                 else if(file.EndsWith("Actions_intermediate.cs"))
-                    actionsFilename = file;
+                {
+                    if(actionsFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(actionsFilename))
+                        actionsFilename = file;
+                }
                 else if(file.EndsWith("ModelStub.cs"))
-                    modelStubFilename = file;
+                {
+                    if(modelStubFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(modelStubFilename))
+                        modelStubFilename = file;
+                }
             }
 
             if(modelFilename == null || actionsFilename == null)

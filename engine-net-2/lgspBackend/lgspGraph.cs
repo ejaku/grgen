@@ -381,21 +381,15 @@ namespace de.unika.ipd.grGen.lgsp
 
         public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> atNegLevelMatchedElements;
 
+        protected static String GetNextGraphName() { return "lgspGraph_" + graphID++; }
 
-        public LGSPGraph(IGraphModel grmodel) : this(grmodel, "lgspGraph_" + graphID++)
+        public LGSPGraph(IGraphModel grmodel) : this(grmodel, GetNextGraphName())
         {
         }
 
-        public LGSPGraph(IGraphModel grmodel, String grname)
+        public LGSPGraph(IGraphModel grmodel, String grname) : this(grname)
         {
-            model = grmodel;
-            name = grname;
-
-            atNegLevelMatchedElements = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
-
-            modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
-
-            InitializeGraph();
+            InitializeGraph(grmodel);
         }
 
         public LGSPGraph(LGSPBackend lgspBackend, IGraphModel grmodel, String grname, String modelassemblyname)
@@ -403,6 +397,13 @@ namespace de.unika.ipd.grGen.lgsp
         {
             backend = lgspBackend;
             modelAssemblyName = modelassemblyname;
+        }
+
+        protected LGSPGraph(String grname)
+        {
+            name = grname;
+
+            atNegLevelMatchedElements = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
         }
 
         /// <summary>
@@ -477,6 +478,15 @@ namespace de.unika.ipd.grGen.lgsp
                 meanInDegree = (float[]) dataSource.meanInDegree.Clone();
             if(dataSource.meanOutDegree != null)
                 meanOutDegree = (float[]) dataSource.meanOutDegree.Clone();
+        }
+
+        protected void InitializeGraph(IGraphModel grmodel)
+        {
+            model = grmodel;
+
+            modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
+
+            InitializeGraph();
         }
 
         private void InitializeGraph()

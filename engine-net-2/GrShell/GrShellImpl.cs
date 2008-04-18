@@ -533,7 +533,7 @@ namespace de.unika.ipd.grGen.grShell
                     return false;
                 }
                 graphs.Add(curShellGraph);
-                Console.WriteLine("New graph \"{0}\" of model \"{1}\" created.", graphName, graph.Model.Name);
+                Console.WriteLine("New graph \"{0}\" of model \"{1}\" created.", graphName, graph.Model.ModelName);
             }
             else
             {
