@@ -45,6 +45,7 @@ public class UnitNode extends BaseNode {
 		setName(UnitNode.class, "unit declaration");
 	}
 
+	private ModelNode stdModel;
 	CollectNode<ModelNode> models;
 
 	// of type PatternTestDeclNode or PatternRuleDeclNode
@@ -65,8 +66,9 @@ public class UnitNode extends BaseNode {
 	 */
 	private String filename;
 
-	public UnitNode(String unitname, String filename, CollectNode<ModelNode> models,
+	public UnitNode(String unitname, String filename, ModelNode stdModel, CollectNode<ModelNode> models,
 			CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions) {
+		this.stdModel = stdModel;
 		this.models = models;
 		becomeParent(this.models);
 		this.subpatternsUnresolved = subpatterns;
@@ -75,6 +77,14 @@ public class UnitNode extends BaseNode {
 		becomeParent(this.actionsUnresolved);
 		this.unitname = unitname;
 		this.filename = filename;
+	}
+
+	public ModelNode getStdModel() {
+		return stdModel;
+	}
+
+	public void addModel(ModelNode model) {
+		models.addChild(model);
 	}
 
 	/** returns children of this node */

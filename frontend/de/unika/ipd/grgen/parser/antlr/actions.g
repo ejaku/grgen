@@ -63,7 +63,6 @@ text returns [ UnitNode main = null ]
 		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
-		modelChilds.addChild(env.getStdModel());
 	}
 
 	: (
@@ -83,8 +82,20 @@ text returns [ UnitNode main = null ]
 
 	( patternOrActionDecls[patternChilds, actionChilds] EOF )?
 		{
-			main = new UnitNode(actionsName, getFilename(), modelChilds, patternChilds, actionChilds);
-			env.getCurrScope().leaveScope();
+			if(modelChilds.getChildren().size() == 0)
+				modelChilds.addChild(env.getStdModel());
+			else if(modelChilds.getChildren().size() > 1) {
+				//
+				// If more than one model is specified, generate a new graph model
+				// using the name of the grg-file containing all given models.
+				//
+				IdentNode id = new IdentNode(env.define(ParserEnvironment.ENTITIES, actionsName,
+					modelChilds.getCoords()));
+				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(), modelChilds);
+				modelChilds = new CollectNode<ModelNode>();
+				modelChilds.addChild(model);
+			}
+			main = new UnitNode(actionsName, getFilename(), env.getStdModel(), modelChilds, patternChilds, actionChilds);
 		}
 	;
 
@@ -98,6 +109,7 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 
 	: u:USING identList[modelNames] SEMI
 		{
+			modelChilds.setCoords(getCoords(u));
 			for(Iterator<String> it = modelNames.iterator(); it.hasNext();)
 			{
 				String modelName = it.next();

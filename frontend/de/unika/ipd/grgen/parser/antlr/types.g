@@ -20,8 +20,12 @@ header {
 
 	package de.unika.ipd.grgen.parser.antlr;
 
-	import java.util.Map;
+	import java.io.File;
+	import java.util.Collection;
 	import java.util.HashMap;
+	import java.util.Iterator;
+	import java.util.LinkedList;
+	import java.util.Map;
 
 	import de.unika.ipd.grgen.parser.*;
 	import de.unika.ipd.grgen.ast.*;
@@ -41,29 +45,56 @@ options {
 	defaultErrorHandler = true;
 	buildAST = false;
 	importVocab = GRBase;
-
 }
 
 text returns [ ModelNode model = null ]
 	{
+		CollectNode<ModelNode> modelChilds = new CollectNode<ModelNode>();
 		CollectNode<IdentNode> types = new CollectNode<IdentNode>();
 		IdentNode id = env.getDummyIdent();
 
-		String modelName = Util.removePathPrefix(getFilename());
-//		Util.removeFileSuffix(getFilename(), "gm") );
+		String modelName = Util.removeFileSuffix(Util.removePathPrefix(getFilename()), "gm");
 
 		id = new IdentNode(
-			env.define(ParserEnvironment.ENTITIES, modelName,
+			env.define(ParserEnvironment.MODELS, modelName,
 			new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
 	}
 
 	:   ( m:MODEL i:IDENT SEMI
 			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
 		)?
+		( usingDecl[modelChilds] )?
 		typeDecls[types] EOF
+		{
+			if(modelChilds.getChildren().size() == 0)
+				modelChilds.addChild(env.getStdModel());
+			model = new ModelNode(id, types, modelChilds);
+		}
+	;
+
+identList [ Collection<String> strings ]
+	: fid:IDENT { strings.add(fid.getText()); }
+		( COMMA sid:IDENT { strings.add(sid.getText()); } )*
+	;
+
+usingDecl [ CollectNode<ModelNode> modelChilds ]
+	{ Collection<String> modelNames = new LinkedList<String>(); }
+
+	: u:USING identList[modelNames] SEMI
+		{
+			for(Iterator<String> it = modelNames.iterator(); it.hasNext();)
 			{
-				model = new ModelNode(id, types);
+				String modelName = it.next();
+				File modelFile = env.findModel(modelName);
+				if ( modelFile == null ) {
+					reportError(getCoords(u), "model \"" + modelName + "\" could not be found");
+				} else {
+					ModelNode model;
+					model = env.parseModel(modelFile);
+					modelChilds.addChild(model);
+				}
 			}
+		}
 	;
 
 typeDecls [ CollectNode<IdentNode> types ]

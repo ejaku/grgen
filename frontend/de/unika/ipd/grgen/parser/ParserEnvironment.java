@@ -60,12 +60,14 @@ public abstract class ParserEnvironment extends Base {
 	public static final int ACTIONS = ENTITIES; // actions are also entities to get exec working
 	public static final int ALTERNATIVES = 2;
 	public static final int REPLACES = 3;
+	public static final int MODELS = 4;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types"),
 		new SymbolTable("entities"), // actions are also entities
 		new SymbolTable("alternatives"),
-		new SymbolTable("replaces")
+		new SymbolTable("replaces"),
+		new SymbolTable("models")
 	};
 
 	private final IntConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
@@ -112,7 +114,7 @@ public abstract class ParserEnvironment extends Base {
 		}
 
 		CollectNode<IdentNode> stdModelChilds = new CollectNode<IdentNode>();
-		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelChilds);
+		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelChilds, new CollectNode<ModelNode>());
 
 		// The node type root
 		nodeRoot = predefineType("Node",

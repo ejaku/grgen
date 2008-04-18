@@ -744,30 +744,6 @@ public abstract class BaseNode extends Base
 		return "" + edge;
 	}
 
-	protected TypeDeclNode getNodeRootType()
-    {
-    	// get root node
-    	BaseNode root = this;
-    	while (!root.isRoot()) {
-    		root = root.getParents().iterator().next();
-    	}
-
-    	// find an edgeRoot-type and nodeRoot
-    	TypeDeclNode nodeRoot = null;
-    	ModelNode model = ((UnitNode) root).models.children.firstElement();
-    	assert model.isResolved();
-    	Collection<TypeDeclNode> types = model.decls.children;
-
-    	for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
-    		TypeDeclNode candidate = it.next();
-    		String name = candidate.ident.getSymbol().getText();
-    		if (name.equals("Node")) {
-    			nodeRoot = candidate;
-    		}
-    	}
-    	return nodeRoot;
-    }
-
 	private TypeDeclNode findType(String rootName)
     {
     	// get root node
@@ -777,8 +753,8 @@ public abstract class BaseNode extends Base
     	}
 
     	// find a root-type
-    	TypeDeclNode edgeRoot = null;
-    	ModelNode model = ((UnitNode) root).models.children.firstElement();
+    	TypeDeclNode rootType = null;
+    	ModelNode model = ((UnitNode) root).getStdModel();
     	assert model.isResolved();
     	Collection<TypeDeclNode> types = model.decls.children;
 
@@ -786,11 +762,16 @@ public abstract class BaseNode extends Base
     		TypeDeclNode candidate = it.next();
     		String name = candidate.ident.getSymbol().getText();
     		if (name.equals(rootName)) {
-    			edgeRoot = candidate;
+    			rootType = candidate;
     		}
     	}
-    	return edgeRoot;
+    	return rootType;
     }
+
+	protected TypeDeclNode getNodeRootType()
+	{
+		return findType("Node");
+	}
 
 	protected TypeDeclNode getArbitraryEdgeRootType()
     {

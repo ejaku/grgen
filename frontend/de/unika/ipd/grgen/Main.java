@@ -55,6 +55,9 @@ import javax.swing.JTree;
 import jargs.gnu.CmdLineParser;
 
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.CollectNode;
+import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.ModelNode;
 import de.unika.ipd.grgen.ast.UnitNode;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendFactory;
@@ -92,7 +95,7 @@ import de.unika.ipd.grgen.util.report.TableHandler;
 public class Main extends Base implements Sys {
 
 	private String[] args;
-	private File inputFile;
+	private String[] inputFileNames;
 	private UnitNode root;
 	private Unit irUnit;
 	private ErrorReporter errorReporter;
@@ -166,7 +169,8 @@ public class Main extends Base implements Sys {
 	}
 
 	private void printUsage() {
-		System.out.println("usage: grgen [options] filename");
+		System.out.println("usage: grgen [options] filenames");
+		System.out.println("filenames may consist of one .grg and multiple .gm files");
 		System.out.println("Options are:");
 		//System.out.println("  -n, --new-technology              enable immature features");
 		System.out.println("  -t, --timing                      print some timing stats");
@@ -368,19 +372,10 @@ public class Main extends Base implements Sys {
 			prefsImport = (String) parser.getOptionValue(prefsImportOpt);
 			prefsExport = (String) parser.getOptionValue(prefsExportOpt);
 
-			String[] rem = parser.getRemainingArgs();
-			if(rem.length == 0) {
+			inputFileNames = parser.getRemainingArgs();
+			if(inputFileNames.length == 0) {
 				printUsage();
 				System.exit(2);
-			}
-			else {
-				inputFile = new File(rem[0]);
-				if(rem[0].indexOf('/') != -1 || rem[0].indexOf('\\') != -1)
-					sourcePath = inputFile.getAbsoluteFile().getParentFile();
-				else
-					sourcePath = new File(".");
-				debugPath = new File(sourcePath, inputFile.getName() + "_debug");
-				modelPaths.add(sourcePath);
 			}
 		}
 		catch(CmdLineParser.OptionException e) {
@@ -405,15 +400,77 @@ public class Main extends Base implements Sys {
 		}
 	}
 
-	private boolean parseInput(File inputFile) {
+	private boolean parseInput() {
 		boolean res = false;
 
 		GRParserEnvironment env = new GRParserEnvironment(this);
-		root = env.parseActions(inputFile);
+
+		// First process the .grg file, if one was specified
+		for(String inputFileName : inputFileNames)
+		{
+			File inputFile = new File(inputFileName);
+			String ext = getFileExt(inputFileName);
+			if(ext.equals("grg")) {
+				if(root != null) {
+					error.error("Only one .grg file may be specified!");
+					System.exit(-1);
+				}
+				initPaths(inputFileName, inputFile, true);
+
+				root = env.parseActions(inputFile);
+			}
+			else if(!ext.equals("gm")) {
+				error.error("Input file with unknown extension: '" + ext + "'");
+				System.exit(-1);
+			}
+		}
+
+		// No .grg file given?
+		if(root == null) {
+			root = new UnitNode("NoGRGFileGiven", inputFileNames[0], env.getStdModel(),
+					new CollectNode<ModelNode>(), new CollectNode<IdentNode>(),
+					new CollectNode<IdentNode>());
+		}
+
+		// Now all .gm files
+		for(String inputFileName : inputFileNames)
+		{
+			File inputFile = new File(inputFileName);
+			if(getFileExt(inputFileName).equals("gm")) {
+				initPaths(inputFileName, inputFile, false);
+
+				ModelNode model = env.parseModel(inputFile);
+				root.addModel(model);
+			}
+		}
 		res = !env.hadError();
+
+		// Close main scope and fixup definitions
+		env.getCurrScope().leaveScope();
 
 		debug.report(NOTE, "result: " + res);
 		return res;
+	}
+
+	private String getFileExt(String filename) {
+		int lastDot = filename.lastIndexOf('.');
+		int lastDirSep = filename.lastIndexOf(File.separatorChar);
+		if(lastDot == -1 || lastDirSep != -1 && lastDot < lastDirSep) {
+			error.error("The input file \"" + filename + "\" has no extension!");
+			System.exit(-1);
+		}
+		return filename.substring(lastDot + 1).toLowerCase();
+	}
+
+	private void initPaths(String inputFileName, File inputFile, boolean setDebugPath) {
+		if(inputFileName.indexOf('/') != -1 || inputFileName.indexOf('\\') != -1)
+			sourcePath = inputFile.getAbsoluteFile().getParentFile();
+		else
+			sourcePath = new File(".");
+		if(setDebugPath)
+			debugPath = new File(sourcePath, inputFile.getName() + "_debug");
+		modelPaths.clear();
+		modelPaths.add(sourcePath);
 	}
 
 	private void dumpVCG(Walkable node, GraphDumpVisitor visitor,
@@ -447,21 +504,23 @@ public class Main extends Base implements Sys {
 			be.init(irUnit, this, outputPath);
 			be.generate();
 			be.done();
-
 		} catch(ClassNotFoundException e) {
 			System.err.println("cannot locate backend class: " + backend);
+			System.exit(-1);
 		} catch(IllegalAccessException e) {
 			System.err.println("no rights to create backend class: " + backend);
+			System.exit(-1);
 		} catch(InstantiationException e) {
 			System.err.println("cannot create backend class: " + backend);
+			System.exit(-1);
 		} catch(Throwable e) {
 			System.err.println("unexpected exception occurred:");
 			e.printStackTrace();
+			System.exit(-1);
 		}
 
 
 		if (ErrorReporter.getErrorCount() > 0) {
-
 			if (ErrorReporter.getErrorCount() == 1)
 				System.err.println("There was " + ErrorReporter.getErrorCount() + " error");
 			else
@@ -504,7 +563,7 @@ public class Main extends Base implements Sys {
 
 		debug.report(NOTE, "### Parse Input ###");
 		// parse the input file and exit, if there were errors
-		if(!parseInput(inputFile)) {
+		if(!parseInput()) {
 			debug.report(NOTE, "### ERROR in Parse Input. Exiting! ###");
 			System.exit(1);
 		}

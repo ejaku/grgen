@@ -45,14 +45,19 @@ public class ModelNode extends DeclNode {
 
 	protected static final TypeNode modelType = new ModelTypeNode();
 
+	private CollectNode<ModelNode> usedModels;
+
 	CollectNode<TypeDeclNode> decls;
 	CollectNode<IdentNode> declsUnresolved;
 	ModelTypeNode type;
 
-	public ModelNode(IdentNode id, CollectNode<IdentNode> decls) {
+	public ModelNode(IdentNode id, CollectNode<IdentNode> decls, CollectNode<ModelNode> usedModels) {
 		super(id, modelType);
+
 		this.declsUnresolved = decls;
 		becomeParent(this.declsUnresolved);
+		this.usedModels = usedModels;
+		becomeParent(this.usedModels);
 	}
 
 	/** returns children of this node */
@@ -61,6 +66,7 @@ public class ModelNode extends DeclNode {
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(getValidVersion(declsUnresolved, decls));
+		children.add(usedModels);
 		return children;
 	}
 
@@ -70,6 +76,7 @@ public class ModelNode extends DeclNode {
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("decls");
+		childrenNames.add("usedModels");
 		return childrenNames;
 	}
 
@@ -114,6 +121,8 @@ public class ModelNode extends DeclNode {
 	protected IR constructIR() {
 		Ident id = ident.checkIR(Ident.class);
 		Model res = new Model(id);
+		for(ModelNode model : usedModels.getChildren())
+			res.addUsedModel(model.getModel());
 		for(TypeDeclNode typeDecl : decls.getChildren()) {
 			res.addType(typeDecl.getDeclType().getType());
 		}

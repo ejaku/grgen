@@ -33,7 +33,6 @@ import antlr.Parser;
 import antlr.TokenStreamException;
 import antlr.TokenStreamSelector;
 import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.ModelNode;
 import de.unika.ipd.grgen.ast.UnitNode;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
@@ -42,6 +41,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Stack;
 
 /**
@@ -51,7 +51,9 @@ public class GRParserEnvironment extends ParserEnvironment {
 	private boolean hadError = false;
 	private Stack<Parser> parsers = new Stack<Parser>();
 	private Stack<TokenStreamSelector> selectors = new Stack<TokenStreamSelector>();
-	private HashMap<String, Object> filesOnStack = new HashMap<String, Object>();
+	private HashSet<String> filesOnStack = new HashSet<String>();
+	private HashSet<String> modelsOnStack = new HashSet<String>();
+	private HashMap<String, ModelNode> models = new HashMap<String, ModelNode>();
 
 	private ANTLRHashString hashString;
 
@@ -67,14 +69,14 @@ public class GRParserEnvironment extends ParserEnvironment {
 			file = new File(baseDir, file.getPath());
 
 		String filePath = file.getPath();
-		if(filesOnStack.containsKey(filePath)) {
+		if(filesOnStack.contains(filePath)) {
 			GRLexer curlexer = (GRLexer) selectors.peek().getCurrentStream();
 			System.err.println("GrGen: [ERROR at " + getFilename() + ":" + curlexer.getLine()
 					+ "," + curlexer.getColumn() + "] found circular include with file \""
 					+ filePath + "\"");
 			System.exit(1);
 		}
-		filesOnStack.put(filePath, null);
+		filesOnStack.add(filePath);
 
 		try {
     		FileInputStream stream = new FileInputStream(file);
@@ -152,6 +154,20 @@ public class GRParserEnvironment extends ParserEnvironment {
     public ModelNode parseModel(File inputFile) {
 		ModelNode root = null;
 
+		String filePath = inputFile.getPath();
+		if(modelsOnStack.contains(filePath)) {
+			GRLexer curlexer = (GRLexer) selectors.peek().getCurrentStream();
+			System.err.println("GrGen: [ERROR at " + getFilename() + ":" + curlexer.getLine()
+					+ "," + curlexer.getColumn() + "] found circular model usage with file \""
+					+ filePath + "\"");
+			System.exit(1);
+		}
+
+		root = models.get(filePath);
+		if(root != null) return root;
+
+		modelsOnStack.add(filePath);
+
 		try {
 			TokenStreamSelector selector = new TokenStreamSelector();
 			GRLexer mainLexer = new GRLexer(new BufferedInputStream(new FileInputStream(inputFile)));
@@ -182,6 +198,10 @@ public class GRParserEnvironment extends ParserEnvironment {
 			System.err.println("cannot load graph model: " + e.getMessage());
 			System.exit(1);
 		}
+
+		modelsOnStack.remove(filePath);
+
+		models.put(filePath, root);
 
 		return root;
 	}

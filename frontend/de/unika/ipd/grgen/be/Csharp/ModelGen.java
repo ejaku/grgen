@@ -52,6 +52,7 @@ import de.unika.ipd.grgen.ir.FloatType;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IntType;
 import de.unika.ipd.grgen.ir.MemberInit;
+import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.ObjectType;
@@ -68,11 +69,12 @@ public class ModelGen extends CSharpBase {
 	/**
 	 * Generates the model sourcecode for the current unit.
 	 */
-	public void genModel() {
+	public void genModel(Model model) {
+		this.model = model;
 		sb = new StringBuffer();
 		stubsb = null;
 
-		String filename = be.unit.getUnitName() + "Model.cs";
+		String filename = model.getIdent() + "Model.cs";
 
 		System.out.println("  generating the " + filename + " file...");
 
@@ -82,7 +84,7 @@ public class ModelGen extends CSharpBase {
 		sb.append("using de.unika.ipd.grGen.lgsp;\n");
 		sb.append("\n");
 
-		sb.append("namespace de.unika.ipd.grGen.Model_" + be.unit.getUnitName() + "\n");
+		sb.append("namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n");
 		sb.append("{\n");
 
 		System.out.println("    generating enums...");
@@ -90,19 +92,19 @@ public class ModelGen extends CSharpBase {
 
 		System.out.println("    generating node types...");
 		sb.append("\n");
-		genTypes(be.nodeTypeMap.keySet(), true);
+		genTypes(model.getNodeTypes(), true);
 
 		System.out.println("    generating node model...");
 		sb.append("\n");
-		genModelClass(be.nodeTypeMap.keySet(), true);
+		genModelClass(model.getNodeTypes(), true);
 
 		System.out.println("    generating edge types...");
 		sb.append("\n");
-		genTypes(be.edgeTypeMap.keySet(), false);
+		genTypes(model.getEdgeTypes(), false);
 
 		System.out.println("    generating edge model...");
 		sb.append("\n");
-		genModelClass(be.edgeTypeMap.keySet(), false);
+		genModelClass(model.getEdgeTypes(), false);
 
 		System.out.println("    generating graph model...");
 		sb.append("\n");
@@ -112,7 +114,7 @@ public class ModelGen extends CSharpBase {
 
 		writeFile(be.path, filename, sb);
 		if(stubsb != null) {
-			String stubFilename = be.unit.getUnitName() + "ModelStub.cs";
+			String stubFilename = model.getIdent() + "ModelStub.cs";
 			System.out.println("  writing the " + stubFilename + " stub file...");
 			writeFile(be.path, stubFilename, stubsb);
 		}
@@ -130,7 +132,7 @@ public class ModelGen extends CSharpBase {
 					+ "using System.Collections.Generic;\n"
 					+ "using de.unika.ipd.grGen.libGr;\n"
 					+ "using de.unika.ipd.grGen.lgsp;\n"
-					+ "using de.unika.ipd.grGen.Model_" + be.unit.getUnitName() + ";\n");
+					+ "using de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n");
 		}
 		return stubsb;
 	}
@@ -141,7 +143,7 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t//\n");
 		sb.append("\n");
 
-		for(EnumType enumt : be.enumMap.keySet()) {
+		for(EnumType enumt : model.getEnumTypes()) {
 			sb.append("\tpublic enum ENUM_" + formatIdentifiable(enumt) + " { ");
 			for(EnumItem enumi : enumt.getItems()) {
 				sb.append("@" + formatIdentifiable(enumi) + " = " + enumi.getValue().getValue() + ", ");
@@ -151,7 +153,7 @@ public class ModelGen extends CSharpBase {
 
 		sb.append("\tpublic class Enums\n");
 		sb.append("\t{\n");
-		for(EnumType enumt : be.enumMap.keySet()) {
+		for(EnumType enumt : model.getEnumTypes()) {
 			sb.append("\t\tpublic static EnumAttributeType @" + formatIdentifiable(enumt)
 					+ " = new EnumAttributeType(\"ENUM_" + formatIdentifiable(enumt)
 					+ "\", new EnumMember[] {\n");
@@ -167,7 +169,7 @@ public class ModelGen extends CSharpBase {
 	/**
 	 * Generates code for all given element types.
 	 */
-	private void genTypes(Set<? extends InheritanceType> types, boolean isNode) {
+	private void genTypes(Collection<? extends InheritanceType> types, boolean isNode) {
 		sb.append("\t//\n");
 		sb.append("\t// " + formatNodeOrEdge(isNode) + " types\n");
 		sb.append("\t//\n");
@@ -184,7 +186,7 @@ public class ModelGen extends CSharpBase {
 	/**
 	 * Generates all code for a given type.
 	 */
-	private void genType(Set<? extends InheritanceType> types, InheritanceType type) {
+	private void genType(Collection<? extends InheritanceType> types, InheritanceType type) {
 		sb.append("\n");
 		sb.append("\t// *** " + formatNodeOrEdge(type) + " " + formatIdentifiable(type) + " ***\n");
 		sb.append("\n");
@@ -595,7 +597,7 @@ public class ModelGen extends CSharpBase {
 	/**
 	 * Generates the type implementation
 	 */
-	private void genTypeImplementation(Set<? extends InheritanceType> types, InheritanceType type) {
+	private void genTypeImplementation(Collection<? extends InheritanceType> types, InheritanceType type) {
 		String typeName = formatIdentifiable(type);
 		String tname = formatTypeClass(type);
 		String cname = formatElementClass(type);
@@ -651,7 +653,7 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t}\n");
 	}
 
-	private void genIsA(Set<? extends InheritanceType> types, InheritanceType type) {
+	private void genIsA(Collection<? extends InheritanceType> types, InheritanceType type) {
 		sb.append("\t\tpublic static bool[] isA = new bool[] { ");
 		for(InheritanceType nt : types) {
 			if(type.isCastableTo(nt))
@@ -662,7 +664,7 @@ public class ModelGen extends CSharpBase {
 		sb.append("};\n");
 	}
 
-	private void genIsMyType(Set<? extends InheritanceType> types, InheritanceType type) {
+	private void genIsMyType(Collection<? extends InheritanceType> types, InheritanceType type) {
 		sb.append("\t\tpublic static bool[] isMyType = new bool[] { ");
 		for(InheritanceType nt : types) {
 			if(nt.isCastableTo(type))
@@ -786,8 +788,8 @@ public class ModelGen extends CSharpBase {
 		Map<BitSet, LinkedList<InheritanceType>> commonGroups = new LinkedHashMap<BitSet, LinkedList<InheritanceType>>();
 
 		Collection<? extends InheritanceType> typeSet =
-			isNode ? (Collection<? extends InheritanceType>) be.nodeTypeMap.keySet()
-			: (Collection<? extends InheritanceType>) be.edgeTypeMap.keySet();
+			isNode ? (Collection<? extends InheritanceType>) model.getNodeTypes()
+			: (Collection<? extends InheritanceType>) model.getEdgeTypes();
 		for(InheritanceType itype : typeSet) {
 			if(itype.isAbstract()) continue;
 
@@ -914,12 +916,12 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	/**
 	 * Generates the model class for the edge or node types.
 	 */
-	private void genModelClass(Set<? extends InheritanceType> types, boolean isNode) {
+	private void genModelClass(Collection<? extends InheritanceType> types, boolean isNode) {
 		sb.append("\t//\n");
 		sb.append("\t// " + formatNodeOrEdge(isNode) + " model\n");
 		sb.append("\t//\n");
 		sb.append("\n");
-		sb.append("\tpublic sealed class " + be.unit.getUnitName() + formatNodeOrEdge(isNode)
+		sb.append("\tpublic sealed class " + model.getIdent() + formatNodeOrEdge(isNode)
 				+ "Model : I" + (isNode ? "Node" : "Edge") + "Model\n");
 		sb.append("\t{\n");
 
@@ -969,10 +971,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t}\n");
 	}
 
-	private InheritanceType genModelConstructor(boolean isNode, Set<? extends InheritanceType> types) {
+	private InheritanceType genModelConstructor(boolean isNode, Collection<? extends InheritanceType> types) {
 		InheritanceType rootType = null;
 
-		sb.append("\t\tpublic " + be.unit.getUnitName() + formatNodeOrEdge(isNode) + "Model()\n");
+		sb.append("\t\tpublic " + model.getIdent() + formatNodeOrEdge(isNode) + "Model()\n");
 		sb.append("\t\t{\n");
 		for(InheritanceType type : types) {
 			String ctype = formatTypeClass(type);
@@ -1026,33 +1028,75 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	 * Generates the graph model class.
 	 */
 	private void genGraphModel() {
-		String unitName = be.unit.getUnitName();
+		String modelName = model.getIdent().toString();
 		sb.append("\t//\n");
 		sb.append("\t// IGraphModel implementation\n");
 		sb.append("\t//\n");
 		sb.append("\n");
 
-		sb.append("\tpublic sealed class " + unitName + "GraphModel : IGraphModel\n");
+		sb.append("\tpublic sealed class " + modelName + "GraphModel : IGraphModel\n");
 		sb.append("\t{\n");
-		sb.append("\t\tprivate " + unitName + "NodeModel nodeModel = new " + unitName + "NodeModel();\n");
-		sb.append("\t\tprivate " + unitName + "EdgeModel edgeModel = new " + unitName + "EdgeModel();\n");
+		genGraphModelBody(modelName);
+		sb.append("\t}\n");
+
+		sb.append("\t//\n");
+		sb.append("\t// IGraph/IGraphModel implementation\n");
+		sb.append("\t//\n");
+		sb.append("\n");
+
+		sb.append(
+			  "\tpublic class " + modelName + " : LGSPGraph, IGraphModel\n"
+			+ "\t{\n"
+			+ "\t\tpublic " + modelName + "() : base(GetNextGraphName())\n"
+			+ "\t\t{\n"
+			+ "\t\t\tInitializeGraph(this);\n"
+			+ "\t\t}\n\n"
+		);
+
+		for(NodeType nodeType : model.getNodeTypes()) {
+			if(nodeType.isAbstract()) continue;
+			String typeName = formatElementClass(nodeType);
+			sb.append(
+				  "\t\tpublic " + typeName + " Create" + typeName + "()\n"
+				+ "\t\t{\n"
+				+ "\t\t\treturn " + typeName + ".CreateNode(this);\n"
+				+ "\t\t}\n\n"
+			);
+		}
+
+		for(EdgeType edgeType : model.getEdgeTypes()) {
+			if(edgeType.isAbstract()) continue;
+			String typeName = formatElementClass(edgeType);
+			sb.append(
+				  "\t\tpublic " + typeName + " Create" + typeName + "(LGSPNode source, LGSPNode target)\n"
+				+ "\t\t{\n"
+				+ "\t\t\treturn " + typeName + ".CreateEdge(this, source, target);\n"
+				+ "\t\t}\n\n"
+			);
+		}
+
+		genGraphModelBody(modelName);
+		sb.append("\t}\n");
+	}
+
+	private void genGraphModelBody(String modelName) {
+		sb.append("\t\tprivate " + modelName + "NodeModel nodeModel = new " + modelName + "NodeModel();\n");
+		sb.append("\t\tprivate " + modelName + "EdgeModel edgeModel = new " + modelName + "EdgeModel();\n");
 		genValidate();
 		sb.append("\n");
 
-		sb.append("\t\tpublic String Name { get { return \"" + unitName + "\"; } }\n");
+		sb.append("\t\tpublic String ModelName { get { return \"" + modelName + "\"; } }\n");
 		sb.append("\t\tpublic INodeModel NodeModel { get { return nodeModel; } }\n");
 		sb.append("\t\tpublic IEdgeModel EdgeModel { get { return edgeModel; } }\n");
 		sb.append("\t\tpublic IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }\n");
 		sb.append("\t\tpublic String MD5Hash { get { return \"" + be.unit.getTypeDigest() + "\"; } }\n");
-
-		sb.append("\t}\n");
 	}
 
 	private void genValidate() {
 		sb.append("\t\tprivate ValidateInfo[] validateInfos = {\n");
 
-		for(EdgeType edgeType : be.edgeTypeMap.keySet()) {
-			for(ConnAssert ca :edgeType.getConnAsserts()) {
+		for(EdgeType edgeType : model.getEdgeTypes()) {
+			for(ConnAssert ca : edgeType.getConnAsserts()) {
 				sb.append("\t\t\tnew ValidateInfo(");
 				sb.append(formatTypeClass(edgeType) + ".typeVar, ");
 				sb.append(formatTypeClass(ca.getSrcType()) + ".typeVar, ");
@@ -1073,10 +1117,9 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	///////////////////////
 
 	private SearchPlanBackend2 be;
+	private Model model;
 	private StringBuffer sb = null;
 	private StringBuffer stubsb = null;
 	private String curMemberOwner = null;
 	private String nsIndent = "\t";
 }
-
-

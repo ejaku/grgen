@@ -49,9 +49,6 @@ public class Util
 	 */
 	public static String removePathPrefix(String filename)
 	{
-		// TODO use or remove it
-		// String res = filename;
-
 		int lastSepPos = filename.lastIndexOf(File.separatorChar);
 
 		if (lastSepPos < 0) return filename;

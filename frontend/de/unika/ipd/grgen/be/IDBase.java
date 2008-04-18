@@ -107,20 +107,18 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	private void makeTypeIds(Unit unit) {
 		unit.canonicalize();
 
-		for(Model model : unit.getModels()) {
-			for(Type type : model.getTypes()) {
-				if(type instanceof NodeType) {
-					nodeTypeMap.put((NodeType)type, new Integer(nodeTypeMap.size()));
-				} else if(type instanceof EdgeType) {
-					edgeTypeMap.put((EdgeType)type, new Integer(edgeTypeMap.size()));
-				} else if(type instanceof EnumType) {
-					enumMap.put((EnumType)type, new Integer(enumMap.size()));
-				}
+		for(Type type : unit.getActionsGraphModel().getTypes()) {
+			if(type instanceof NodeType) {
+				nodeTypeMap.put((NodeType)type, new Integer(nodeTypeMap.size()));
+			} else if(type instanceof EdgeType) {
+				edgeTypeMap.put((EdgeType)type, new Integer(edgeTypeMap.size()));
+			} else if(type instanceof EnumType) {
+				enumMap.put((EnumType)type, new Integer(enumMap.size()));
+			}
 
-				if(type instanceof CompoundType) {
-					CompoundType ct = (CompoundType) type;
-					addMembers(ct);
-				}
+			if(type instanceof CompoundType) {
+				CompoundType ct = (CompoundType) type;
+				addMembers(ct);
 			}
 		}
 	}
@@ -316,7 +314,6 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	/**
 	 * Compute all IDs.
 	 * @param unit The IR unit for ID computation.
-	 * @return A digest for the type model.
 	 */
 	protected final void makeTypes(Unit unit) {
 		makeTypeIds(unit);

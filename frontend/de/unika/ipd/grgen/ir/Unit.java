@@ -91,6 +91,14 @@ public class Unit extends IR {
 		return Collections.unmodifiableCollection(models);
 	}
 
+	public Model getActionsGraphModel() {
+		return models.get(0);
+	}
+
+	public String getActionsGraphModelName() {
+		return models.get(0).getIdent().toString();
+	}
+
 	/** @return The unit name of this unit. */
 	public String getUnitName() {
 		return unitName;

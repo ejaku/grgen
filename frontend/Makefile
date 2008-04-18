@@ -31,12 +31,12 @@ fast: .grammar
 
 .generator_build: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
 	find de -type f -name "*.java" | xargs javac -d build -classpath $(ANTLR_JAR):$(JARGS_JAR) -source 1.5 -target 1.5
-	jar -cf $(GRGENNET_DIR)/grgen.jar -C build/ .
+	jar -cmf GrGenManifest.mf $(GRGENNET_DIR)/grgen.jar -C build/ .
 	@touch .generator_build
 
 .generator_build_fast: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
 	find de -type f -name "*.java" -cnewer .generator_build | xargs javac -d build -classpath $(ANTLR_JAR):$(JARGS_JAR):build -source 1.5 -target 1.5
-	jar -cf $(GRGENNET_DIR)/grgen.jar -C build/ .
+	jar -cmf GrGenManifest.mf $(GRGENNET_DIR)/grgen.jar -C build/ .
 	@touch .generator_build
 
 .PHONY: dir

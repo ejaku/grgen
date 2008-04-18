@@ -30,10 +30,10 @@ import java.io.File;
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendFactory;
-import de.unika.ipd.grgen.be.IDBase;
+import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Unit;
 
-public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactory {
+public class SearchPlanBackend2 implements Backend, BackendFactory {
 	/** The unit to generate code for. */
 	protected Unit unit;
 
@@ -56,8 +56,6 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		this.unit = unit;
 		this.path = outputPath;
 		path.mkdirs();
-
-		makeTypes(unit);
 	}
 
 	/**
@@ -67,7 +65,11 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	public void generate() {
 		System.out.println("The " + this.getClass() + " GrGen backend...");
 
-		new ModelGen(this).genModel();
+		// Generate graph models for all top level models
+		ModelGen modelGen = new ModelGen(this);
+		for(Model model : unit.getModels())
+			modelGen.genModel(model);
+
 		new ActionsGen(this).genActionsAndSubpatterns();
 
 		System.out.println("done!");

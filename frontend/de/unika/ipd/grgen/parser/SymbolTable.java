@@ -127,7 +127,7 @@ public class SymbolTable {
 	/**
 	 * Test a symbol for a string.
 	 * @param text The string.
-	 * @return The corresponding symbol.
+	 * @return Whether the symbol is defined.
 	 */
 	public boolean test(String text) {
 		return symbolMap.containsKey(text);

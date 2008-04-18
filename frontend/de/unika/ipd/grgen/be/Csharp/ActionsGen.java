@@ -38,6 +38,7 @@ import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Qualification;
@@ -55,6 +56,7 @@ import java.util.Set;
 public class ActionsGen extends CSharpBase {
 	public ActionsGen(SearchPlanBackend2 backend) {
 		be = backend;
+		model = be.unit.getActionsGraphModel();
 		mg = new ModifyGen();
 	}
 
@@ -72,17 +74,17 @@ public class ActionsGen extends CSharpBase {
 		sb.append("using System.Text;\n");
 		sb.append("using de.unika.ipd.grGen.libGr;\n");
 		sb.append("using de.unika.ipd.grGen.lgsp;\n");
-		sb.append("using de.unika.ipd.grGen.Model_" + be.unit.getUnitName() + ";\n");
+		sb.append("using de.unika.ipd.grGen.Model_" + be.unit.getActionsGraphModelName() + ";\n");
 		sb.append("\n");
 
 		sb.append("namespace de.unika.ipd.grGen.Action_" + be.unit.getUnitName() + "\n");
 		sb.append("{\n");
 
-		for(Rule subpatternRule : be.subpatternRuleMap.keySet()) {
+		for(Rule subpatternRule : be.unit.getSubpatternRules()) {
 			genSubpattern(sb, subpatternRule);
 		}
 
-		for(Rule actionRule : be.actionRuleMap.keySet()) {
+		for(Rule actionRule : be.unit.getActionRules()) {
 			genAction(sb, actionRule);
 		}
 
@@ -208,13 +210,13 @@ public class ActionsGen extends CSharpBase {
 				// alle verbotenen Typen und deren Untertypen
 				HashSet<Type> allForbiddenTypes = new HashSet<Type>();
 				for(Type forbiddenType : node.getConstraints())
-					for(Type type : be.nodeTypeMap.keySet()) {
+					for(Type type : model.getNodeTypes()) {
 						if (type.isCastableTo(forbiddenType))
 							allForbiddenTypes.add(type);
 					}
 				sb.append("{ ");
 				aux.append("{ ");
-				for(Type type : be.nodeTypeMap.keySet()) {
+				for(Type type : model.getNodeTypes()) {
 					boolean isAllowed = type.isCastableTo(node.getNodeType()) && !allForbiddenTypes.contains(type);
 					// all permitted nodes, aka nodes that are not forbidden
 					if( isAllowed )
@@ -248,13 +250,13 @@ public class ActionsGen extends CSharpBase {
 				// alle verbotenen Typen und deren Untertypen
 				HashSet<Type> allForbiddenTypes = new HashSet<Type>();
 				for(Type forbiddenType : edge.getConstraints())
-					for(Type type : be.edgeTypeMap.keySet()) {
+					for(Type type : model.getEdgeTypes()) {
 						if (type.isCastableTo(forbiddenType))
 							allForbiddenTypes.add(type);
 					}
 				sb.append("{ ");
 				aux.append("{ ");
-				for(Type type : be.edgeTypeMap.keySet()) {
+				for(Type type : model.getEdgeTypes()) {
 					boolean isAllowed = type.isCastableTo(edge.getEdgeType()) && !allForbiddenTypes.contains(type);
 					// all permitted nodes, aka node that are not forbidden
 					if( isAllowed )
@@ -844,6 +846,7 @@ public class ActionsGen extends CSharpBase {
 
 	private SearchPlanBackend2 be;
 	private ModifyGen mg;
+	private Model model;
 }
 
 
