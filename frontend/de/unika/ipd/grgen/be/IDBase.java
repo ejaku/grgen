@@ -40,7 +40,6 @@ import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Type;
