@@ -402,6 +402,7 @@ public class Main extends Base implements Sys {
 
 	private boolean parseInput() {
 		boolean res = false;
+		boolean setDebugPath = true;	// use the first processed filename for the debug path
 
 		GRParserEnvironment env = new GRParserEnvironment(this);
 
@@ -415,7 +416,8 @@ public class Main extends Base implements Sys {
 					error.error("Only one .grg file may be specified!");
 					System.exit(-1);
 				}
-				initPaths(inputFileName, inputFile, true);
+				initPaths(inputFileName, inputFile, setDebugPath);
+				setDebugPath = false;
 
 				root = env.parseActions(inputFile);
 			}
@@ -437,7 +439,8 @@ public class Main extends Base implements Sys {
 		{
 			File inputFile = new File(inputFileName);
 			if(getFileExt(inputFileName).equals("gm")) {
-				initPaths(inputFileName, inputFile, false);
+				initPaths(inputFileName, inputFile, setDebugPath);
+				setDebugPath = false;
 
 				ModelNode model = env.parseModel(inputFile);
 				root.addModel(model);
@@ -706,7 +709,3 @@ public class Main extends Base implements Sys {
 	}
 
 }
-
-
-
-

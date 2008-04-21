@@ -154,7 +154,7 @@ public class GRParserEnvironment extends ParserEnvironment {
     public ModelNode parseModel(File inputFile) {
 		ModelNode root = null;
 
-		String filePath = inputFile.getPath();
+		String filePath = inputFile.getAbsolutePath();
 		if(modelsOnStack.contains(filePath)) {
 			GRLexer curlexer = (GRLexer) selectors.peek().getCurrentStream();
 			System.err.println("GrGen: [ERROR at " + getFilename() + ":" + curlexer.getLine()
@@ -215,4 +215,3 @@ public class GRParserEnvironment extends ParserEnvironment {
 		return literals.containsKey(hashString);
 	}
 }
-
