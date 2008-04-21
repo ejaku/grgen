@@ -991,9 +991,11 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t\t" + ctype + ".typeVar.directSubGrGenTypes = "
 					+ formatTypeClass(type) + ".typeVar.directSubTypes = new "
 					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
-			sb.append("\t\t\t\t");
 			for(InheritanceType subType : type.getDirectSubTypes()) {
-					sb.append("\t\t\t\t" + formatTypeClass(subType) + ".typeVar,\n");
+				// TODO: HACK, because direct sub types may also contain types from other models...
+				if(!types.contains(subType))
+					continue;
+				sb.append("\t\t\t\t" + formatTypeClass(subType) + ".typeVar,\n");
 			}
 			sb.append("\t\t\t};\n");
 
@@ -1010,9 +1012,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t\t" + ctype + ".typeVar.directSuperGrGenTypes = "
 					+ formatTypeClass(type) + ".typeVar.directSuperTypes = new "
 					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
-			sb.append("\t\t\t\t");
 			for(InheritanceType superType : type.getDirectSuperTypes()) {
-					sb.append("\t\t\t\t" + formatTypeClass(superType) + ".typeVar,\n");
+				sb.append("\t\t\t\t" + formatTypeClass(superType) + ".typeVar,\n");
 			}
 			sb.append("\t\t\t};\n");
 
@@ -1123,3 +1124,4 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private String curMemberOwner = null;
 	private String nsIndent = "\t";
 }
+
