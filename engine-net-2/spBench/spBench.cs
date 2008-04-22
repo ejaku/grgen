@@ -1523,9 +1523,6 @@ namespace spBench
 
 #if DUMP_INITIALGRAPH
             IDumper dumper = new VCGDumper("spBenchTest-Initial.cs", VCGFlags.OrientTopToBottom);
-            /*            DumpInfo DumpInfo = new DumpInfo(graph.GetElementName);
-                        VCGDumperFactory DumperFactory = new VCGDumperFactory(VCGFlags.OrientTopToBottom, DumpInfo);
-                        IDumper dumper = DumperFactory.CreateDumper("spBenchTest-Initial");*/
             graph.Dump(dumper, new DumpInfo(graph.GetElementName));
             dumper.FinishDump();
 #endif

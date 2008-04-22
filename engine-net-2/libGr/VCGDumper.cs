@@ -74,28 +74,6 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// Deprecated...
-    /// </summary>
-    public class VCGDumperFactory : IDumperFactory
-    {
-        private VCGFlags flags;
-        private DumpInfo dumpInfo;
-
-        public VCGDumperFactory(VCGFlags vcgFlags, DumpInfo dumpinfo)
-        {
-            flags = vcgFlags;
-            dumpInfo = dumpinfo;
-        }
-
-        public IDumper CreateDumper(String filename)
-        {
-            return new VCGDumper(filename + ".vcg", flags);
-        }
-
-        public DumpInfo DumpInfo { get { return dumpInfo; } set { dumpInfo = value; } }
-    }
-
-    /// <summary>
     /// A VCG graph dumper.
     /// </summary>
     public class VCGDumper : IDumper
@@ -159,12 +137,24 @@ namespace de.unika.ipd.grGen.libGr
         }
         
         /// <summary>
-        /// Initializes a new instance of VCGDump
+        /// Initializes a new instance of VCGDump.
         /// </summary>
-        /// <param name="filename">Destination file</param>
-        /// <param name="flags">Flags to control the dumper's behavior</param>
+        /// <param name="filename">Destination file.</param>
+        /// <param name="flags">Flags to control the dumper's behavior.</param>
+        /// <param name="layouter">Specifies the yComp layouter to be used.</param>
         /// <exception cref="IOException">Thrown when the destination cannot be created.</exception>
-        public VCGDumper(String filename, VCGFlags flags)
+        /// <remarks>Currently (YComp 1.3.9) valid layouters are:
+        ///  - "Random"
+        ///  - "Hierarchic"
+        ///  - "Organic"
+        ///  - "Orthogonal"
+        ///  - "Circular"
+        ///  - "Tree"
+        ///  - "Diagonal"
+        ///  - "Incremental Hierarchic"
+        ///  - "Compilergraph"
+        /// </remarks>
+        public VCGDumper(String filename, VCGFlags flags, String layouter)
         {
             sw = new StreamWriter(filename, false);
 
@@ -172,6 +162,7 @@ namespace de.unika.ipd.grGen.libGr
             indent++;
             WriteLine("infoname 1: \"Attributes\"");
             WriteLine("display_edge_labels: {0}", (flags & VCGFlags.EdgeLabels) != 0 ? "yes" : "no");
+            WriteLine("layoutalgorithm: normal //$ \"{0}\"", layouter);
             WriteLine("port_sharing: {0}", (flags & VCGFlags.PortSharing) != 0 ? "yes" : "no");
             WriteLine("spines: {0}", (flags & VCGFlags.Splines) != 0 ? "yes" : "no");
             WriteLine("manhattan_edges: {0}", (flags & VCGFlags.ManhattanEdges) != 0 ? "yes" : "no");
@@ -186,11 +177,11 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Initializes a new instance of VCGDump with standard flags (VCGFlags.OrientBottomToTop)
+        /// Initializes a new instance of VCGDump with standard flags (VCGFlags.OrientBottomToTop) and the "Orthogonal" layouter.
         /// </summary>
-        /// <param name="filename">Destination file</param>
+        /// <param name="filename">Destination file.</param>
         /// <exception cref="IOException">Thrown when the destination cannot be created.</exception>
-        public VCGDumper(String filename) : this(filename, VCGFlags.OrientBottomToTop) { }
+        public VCGDumper(String filename) : this(filename, VCGFlags.OrientBottomToTop, "Orthogonal") { }
 
         /// <summary>
         /// Dump a node to the VCG graph.

@@ -51,12 +51,10 @@ show num edges GridEdge
 show num nodes Command
 
 echo ""
-echo '-----------------------------------------------------------------'
-echo '- In yComp please select "Layout" -> "Select Type" -> "Organic" -'
-echo "- and then press the play button (or press <CTRL> + 'r').       -"
-echo '- Layouting the Dragoncurve will take some time...              -'
-echo '- If the result does not have the form of a rectangle,          -'
-echo '- press the play button again.                                  -'
-echo '-----------------------------------------------------------------'
+echo '--------------------------------------------------------'
+echo '- Layouting the Dragoncurve will take some time...     -'
+echo '- If the result does not have the form of a rectangle, -'
+echo "- press the play button again (or press <CTRL> + 'r'). -"
+echo '--------------------------------------------------------'
 
-show graph ycomp
+show graph ycomp "--dolayout"

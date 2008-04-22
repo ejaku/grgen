@@ -179,13 +179,6 @@ namespace de.unika.ipd.grGen.libGr
 
             if(test) return matches.Count;
 
-/*            if(dump && DumperFactory != null)
-            {
-                DumpMatch(matches, 0, String.Format("{0}-{1}-match", ruleObject.Action.Name, iteration));
-                DumpMatch(matches, DumpMatchSpecial.AllMatches, String.Format("{0}-{1}-match-all", ruleObject.Action.Name, iteration));
-                DumpMatch(matches, DumpMatchSpecial.OnlyMatches, String.Format("{0}-{1}-match-only", ruleObject.Action.Name, iteration));
-            }*/
-
             if(OnFinishing != null) OnFinishing(matches, special);
 
             if(perfInfo != null) perfInfo.StartLocal();

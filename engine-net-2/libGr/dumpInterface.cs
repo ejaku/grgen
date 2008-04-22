@@ -35,24 +35,6 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// Deprecated...
-    /// </summary>
-    public interface IDumperFactory
-    {
-        /// <summary>
-        /// Creates a new IDumper instance using the given name for the output file.
-        /// The filename should be created out of this name by optionally prepanding path information
-        /// and appending an extension.
-        /// </summary>
-        IDumper CreateDumper(String name);
-
-        /// <summary>
-        /// The DumpInfo associated with this dumper factory.
-        /// </summary>
-        DumpInfo DumpInfo { get; set; }
-    }
-
-    /// <summary>
     /// A dumper for output of graphs.
     /// </summary>
     public interface IDumper : IDisposable

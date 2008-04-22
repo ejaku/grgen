@@ -1191,7 +1191,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             while(File.Exists(filename));
 
-            VCGDumper dump = new VCGDumper(filename, curShellGraph.VcgFlags);
+            VCGDumper dump = new VCGDumper(filename, curShellGraph.VcgFlags, debugLayout);
             curShellGraph.Graph.Dump(dump, curShellGraph.DumpInfo);
             dump.FinishDump();
 
@@ -1770,7 +1770,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!GraphExists()) return;
 
-            VCGDumper dump = new VCGDumper(filename, curShellGraph.VcgFlags);
+            VCGDumper dump = new VCGDumper(filename, curShellGraph.VcgFlags, debugLayout);
             curShellGraph.Graph.Dump(dump, curShellGraph.DumpInfo);
             dump.FinishDump();
         }
