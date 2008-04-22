@@ -1,0 +1,29 @@
+%\documentclass{article}
+
+%\usepackage{tikz}
+%\usetikzlibrary{positioning,arrows}
+
+%\begin{document}
+	\begin{tikzpicture}
+		[font=\small,
+		 class/.style={rectangle,draw,minimum width=3.5cm,minimum height=0.75cm},
+		 inherits/.style={->,>=open triangle 60}]
+		
+		\node[class] (AEdge) at (0,0) {\texttt{AEdge}};
+		\node[class] (Edge) [below=of AEdge] {\texttt{Edge}};
+		\node[class] (UEdge) [below right=of AEdge] {\texttt{UEdge}};
+		\node[minimum width=3.5cm] (UserAEdge1) [below left=of AEdge] {};
+		\node (AEdgeDots) [below=of UserAEdge1] {\parbox{4cm}{\centering$\vdots$\\ user-defined\\\emph{arbitrary} edge classes \\$\vdots$}};
+		\node (EdgeDots) [below=of Edge] {\parbox{4cm}{\centering$\vdots$\\ user-defined\\\emph{directed} edge classes \\$\vdots$}};
+		\node (UEdgeDots) [below=of UEdge] {\parbox{4cm}{\centering$\vdots$\\ user-defined\\\emph{undirected} edge classes \\$\vdots$}};
+		\node (UserEdgeN) [below=of EdgeDots] {};
+		\node (UserAEdgeN) [below=of AEdgeDots] {};
+		\node[class] (CombinedEdge) [below=of UserEdgeN] {\parbox{4cm}{\centering user-defined\\\emph{directed} edge class $n$}};
+		
+		\draw[inherits] (UEdge.north) -- (AEdge.south east);
+		\draw[inherits] (Edge.north) -- (AEdge.south);
+		\draw[inherits] (UserAEdge1.north) -- (AEdge.south west);
+		\draw[inherits] (CombinedEdge.north) -- (UserEdgeN.south);
+		\draw[inherits] (CombinedEdge.north) -- (UserAEdgeN.south);
+	\end{tikzpicture}
+%\end{document}	

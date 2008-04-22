@@ -47,6 +47,8 @@ A non-empty character sequence of arbitrary length consisting of letters, digits
 \emph{ModelIdent}, \emph{TypeIdent}, \emph{NodeType}, \emph{EdgeType}\\
 These are (semantic) specializations of \emph{Ident}. \emph{TypeIdent} matches every type identifier, i.e.\ a node type, an edge type, an enumeration type or a primitive type. All the type identifiers are actually type \emph{expressions}\indexmain{type expression}. See Section~\ref{typeexpressions} for the use of type expressions.\\
 
+\subsection{Graphlets}
+\label{sct:graphlets}
 \begin{rail}
   Graphlet: (GraphletNode (() | Continuation) | Continuation) ';' ;
   Continuation: GraphletEdge (() | (GraphletNode (() | Continuation))) ;
@@ -57,7 +59,7 @@ Any graph can be specified piecewise by a set of graphlets.
 In Example~\ref{ex:rule:SomeRule}, line~\ref{ex:somerule:graphlet}, the statement \texttt{n1 --> n2} is the node identifier \texttt{n1} followed by the \indexedsee{continuation}{graphlet} graphlet \texttt{--> n2}.
 
 All the graph elements of a graphlet have \newterm{name}s.
-The name is either user assigned or a unique internal, non-accessible name.
+The name is either user-assigned or a unique internal, non-accessible name.
 In the second case the graph element is called \newterm{anonymous}.
 For illustration purposes we use a \indexed{\texttt{\$<number>}} notation to denote anonymous graph elements in this document.
 For example the graphlet \texttt{n1 --> n2} contains an anonymous edge; thus can be understood as \texttt{n1 -\$1:Edge-> n2}.
@@ -83,8 +85,7 @@ and \texttt{n1 --> n3} is equivalent to \texttt{n3 <-- n1}, of course.
 The visibility of names is determined by \indexed{scope}s. 
 Scopes can be nested. 
 Names of surrounding scopes are visible in inner scopes. 
-Usually a scope is defined by \texttt{\{} and \texttt{\}}.
-In contrast to pure syntactic scoping, the replace/modify part is a direct inner scope of the pattern part.
+Usually a scope is defined by \texttt{\{} and \texttt{\}}. %In contrast to pure syntactic scoping, the replace/modify part is a direct inner scope of the pattern part.
 In Example~\ref{ex:rule:SomeRule}, lines~\ref{ex:somerule:secondnac:begin}~to~\ref{ex:somerule:secondnac:end}, the negative condition uses \texttt{n3} from the surrounding scope and defines \texttt{n4} and \texttt{e1}. 
 We may safely reuse the variable name \texttt{e1} in the replace part.
 
@@ -108,19 +109,32 @@ Remember that every node type has \texttt{Node} as super type. The \texttt{<>} o
 \end{center} 
 
 \begin{rail}
-  GraphletEdge: '-' (() | EdgeRefinement) '->'  | '<-' (() | EdgeRefinement) '-' ;
-  EdgeRefinement: Ident | (() | IdentDecl) ':' EdgeType (() | TypeConstraint | '<' Ident '>') ;
+  GraphletEdge: '-' EdgeRefinement '->'  | '<-' EdgeRefinement '-'  | '<-' EdgeRefinement '->' | '?-' EdgeRefinement '-?' ;
+  EdgeRefinement: () | Ident | (() | IdentDecl) ':' EdgeType (() | TypeConstraint | '<' Ident '>') ;
 \end{rail}\ixnterm{GraphletEdge}\ixnterm{EdgeRefinement}
-\TODO{undirected, unspecified edges}
-Specifies an edge\indexmain{edge (graphlet)}. Anonymous edges are specified by \texttt{-->} or \texttt{<--} resp. \texttt{-:T->} or \texttt{<-:T-} for an edge type \texttt{T}. For a more detailed specification you can use the inplace notated \emph{EdgeRefinement} clause. Type constraints\indexmain{type constraint} are allowed in the pattern part only (see Section~\ref{typeexpressions}, \emph{TypeConstraint}). The \texttt{<>} operator retypes\indexmain{retyping} an edge. Retyping is allowed in the replace/modify part only (see Section~\ref{replacepart}, \emph{Retyping}).\\
+A \emph{GraphletEdge} specifies an edge\indexmain{edge (graphlet)}. 
+Anonymous edges are specified by an empty \emph{EdgeRefinement} clause, i.\,e.\ \texttt{-->}, \texttt{<--}, \texttt{<-->}, \texttt{--}, \texttt{?--?} or \texttt{-:T->}, \texttt{<-:T-}, \dots\ for an edge type \texttt{T}, respectively. 
+A non-empty \emph{EdgeRefinement} clause allows for detailed edge type specification. 
+Type constraints\indexmain{type constraint} are allowed in the pattern part only (see Section~\ref{typeexpressions}, \emph{TypeConstraint}). The \texttt{<>} operator retypes\indexmain{retyping} an edge. Retyping is allowed in the replace/modify part only (see Section~\ref{replacepart}, \emph{Retyping}).
+
+The different kind of arrow tips distinguish between \indexed{directed}, \indexed{undirected}, and \indexed{arbitrary} edges (see also Section~\ref{sct:basetypes}).
+The arrows \texttt{-->} and \texttt{<--} are used for directed edges with a defined source and target.
+The arrow \texttt{--} is used for undirected edges.
+The pattern part allows for further arrow tips, namely \texttt{?--?}\ for arbitrary edges and \texttt{<-->} for directed edges with undefined direction.
+Note that \texttt{<-->} is \emph{not} equivalent to the \texttt{--> ; <-- ;} statements.
+In order to produce a match for the arrow \texttt{<-->}, it is sufficient that one of the statements \texttt{-->}, \texttt{<--} matches.
+If an edge type is specified (through the \emph{EdgeRefinement} clause), this type has to correspond to the arrow tips, of course.
 \begin{center}
-  \begin{tabularx}{\linewidth}{lX}
-    \textbf{Graphlet} & \textbf{Meaning}\\ \hline
-    \texttt{ -e:EdgeType-> ;} & The name \texttt{e} is bound to an edge of type \texttt{EdgeType} or one of its subtypes. \\
-    \texttt{ -:EdgeType-> ;} & \texttt{-\$1:EdgeType-> ;} \\
-    \texttt{ --> ;} & \texttt{-\$1:Edge-> ;} \\
-    \texttt{ -e-> ;} & The edge, \texttt{e} is bound to.
-  \end{tabularx}
+	\begin{tabularx}{\linewidth}{lX}
+		\textbf{Graphlet} & \textbf{Meaning}\\ \hline
+		\texttt{ -e:EdgeType-> ;} & The name \texttt{e} is bound to an edge of type \texttt{EdgeType} or one of its subtypes. \\
+		\texttt{ -:EdgeType-> ;} & \texttt{-\$1:EdgeType-> ;} \\
+		\texttt{ --> ;} & \texttt{-\$1:Edge-> ;} \\
+		\texttt{ <--> ;} & \texttt{-\$1:Edge-> ;} or  \texttt{<-\$1:Edge- ;}\\
+		\texttt{ -- ;} & \texttt{-\$1:UEdge-> ;} \\
+		\texttt{ ?--?\ ;} & \texttt{-\$1:AEdge-> ;} \\
+		\texttt{ -e-> ;} & The edge, \texttt{e} is bound to.
+	\end{tabularx}
 \end{center} 
 As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes. Beware of accidentally ``\indexed{redirecting}''\footnote{You cannot directly express the redirection of edges. This a direct consequence of the \indexedsee{SPO}{single-pushout approach}\indexmain{single-pushout approach} approach. Redirection of edges can be ``simulated'' by either deleting and re-inserting an edge, or more indirect by re-typing of nodes.} an edge: 
 The graphlets
@@ -246,7 +260,8 @@ And some illegal graphlets:\\
 \end{figure}
 
 \begin{note}
-Although both, the pattern part and the replace/modify part use graphlets, there are subtle differences between them. These concern the \emph{TypeConstraint} clause, the retype operator \texttt{<>}, and the scope of defined graph element names: Names defined within the pattern part are valid in the pattern part as well as in the replace/modify part. Names defined within the replace/modify part are unknown to the pattern part.
+	Although both, the pattern part and the replace/modify part use graphlets, there are subtle differences between them. 
+	These concern the \emph{TypeConstraint} clause, the retype operator \texttt{<>}, and the allowed arrow tips for edges.
 \end{note}
 
 \section{Rules and Tests}
