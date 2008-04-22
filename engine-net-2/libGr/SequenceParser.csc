@@ -381,7 +381,7 @@ Sequence RewriteSequence6():
 Sequence SingleSequence():
 {
 	Sequence seq;
-	long minnum = -1, maxnum, temp;
+	long minnum, maxnum = -1;
 	bool maxspecified = false;
 	bool maxstar = false;
 }
@@ -399,12 +399,16 @@ Sequence SingleSequence():
 				seq = new SequenceMin(seq, 1);
 			}
 		|
-		    "[" maxnum=Number() (":"
+		    "[" minnum=Number()
+		    (
+				":"
 				(
-					temp=Number() { minnum = maxnum; maxnum = temp; maxspecified = true; }
+					maxnum=Number() { maxspecified = true; }
 				|
-					"*" { minnum = maxnum; maxstar = true; }
-				))? "]"
+					"*" { maxstar = true; }
+				)
+			)?
+			"]"
 			{
 			    if(maxstar)
 			    {
@@ -412,7 +416,7 @@ Sequence SingleSequence():
 			    }
 			    else
 			    {
-					if(!maxspecified) minnum = maxnum;
+					if(!maxspecified) maxnum = minnum;
 					seq = new SequenceMinMax(seq, minnum, maxnum);
 				}
 			}
