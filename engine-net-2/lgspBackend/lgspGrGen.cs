@@ -694,6 +694,73 @@ namespace de.unika.ipd.grGen.lgsp
 			return true;
 		}
 
+        public static bool ExecuteGrGenJava(String tmpDir, out List<String> genModelFiles, out List<String> genModelStubFiles,
+                out List<String> genActionsFiles, params String[] sourceFiles)
+        {
+            genModelFiles = new List<string>();
+            genModelStubFiles = new List<string>();
+            genActionsFiles = new List<string>();
+
+            if(sourceFiles.Length == 0)
+            {
+                Console.Error.WriteLine("No GrGen.NET source files specified!");
+                return false;
+            }
+
+            String binPath = FixDirectorySeparators(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
+                    + Path.DirectorySeparatorChar;
+
+            try
+            {
+                String javaString;
+                if(Environment.OSVersion.Platform == PlatformID.Unix) javaString = "java";
+                else javaString = "javaw";
+
+                ProcessStartInfo startInfo = new ProcessStartInfo(javaString, "-Xmx1024M -jar \"" + binPath + "grgen.jar\" "
+                    + "-b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
+                    + "-c " + tmpDir + Path.DirectorySeparatorChar + "printOutput.txt -o " + tmpDir
+                    + " \"" + String.Join("\" \"", sourceFiles) + "\"");
+                startInfo.CreateNoWindow = true;
+                Process grGenJava = Process.Start(startInfo);
+                grGenJava.WaitForExit();
+            }
+            catch(Exception e)
+            {
+                Console.Error.WriteLine("Unable to process specification: " + e.Message);
+                return false;
+            }
+
+            using(StreamReader sr = new StreamReader(tmpDir + Path.DirectorySeparatorChar + "printOutput.txt"))
+            {
+                String frontStr = "  generating the ";
+                String backStr = " file...";
+
+                String line;
+                while((line = sr.ReadLine()) != null)
+                {
+                    if(line.Contains("ERROR"))
+                        return false;
+                    if(line.Contains("WARNING"))
+                    {
+                        Console.Error.WriteLine(line);
+                        continue;
+                    }
+                    if(line.StartsWith(frontStr) && line.EndsWith(backStr))
+                    {
+                        String filename = line.Substring(frontStr.Length, line.Length - frontStr.Length - backStr.Length);
+                        if(filename.EndsWith("Model.cs"))
+                            genModelFiles.Add(tmpDir + Path.DirectorySeparatorChar + filename);
+                        else if(filename.EndsWith("ModelStub.cs"))
+                            genModelStubFiles.Add(tmpDir + Path.DirectorySeparatorChar + filename);
+                        else if(filename.EndsWith("Actions_intermediate.cs"))
+                            genActionsFiles.Add(tmpDir + Path.DirectorySeparatorChar + filename);
+                    }
+                }
+            }
+
+            return true;
+        }
+
 		enum ErrorType { NoError, GrGenJavaError, GrGenNetError };
 
         ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, UseExistingKind useExisting,
@@ -705,52 +772,59 @@ namespace de.unika.ipd.grGen.lgsp
             // use java frontend to build the model and intermediate action source files
             ///////////////////////////////////////////////
 
-            String binPath = FixDirectorySeparators(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)) + Path.DirectorySeparatorChar;
-
-            if(useExisting == UseExistingKind.None)
-            {
-                try
-                {
-                    String javaString;
-                    if(Environment.OSVersion.Platform == PlatformID.Unix) javaString = "java";
-                    else javaString = "javaw";
-
-                    ProcessStartInfo startInfo = new ProcessStartInfo(javaString, "-Xmx1024M -classpath \"" + binPath + "grgen.jar\""
-                        + Path.PathSeparator + "\"" + binPath + "antlr.jar\"" + Path.PathSeparator + "\"" + binPath + "jargs.jar\" "
-                        + "de.unika.ipd.grgen.Main -b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
-                        + "-c " + tmpDir + Path.DirectorySeparatorChar + "printOutput.txt -o " + tmpDir + " \"" + specFile + "\"");
-                    startInfo.CreateNoWindow = true;
-                    Process grGenJava = Process.Start(startInfo);
-                    grGenJava.WaitForExit();
-                }
-                catch(Exception e)
-                {
-                    Console.Error.WriteLine("Unable to process specification: " + e.Message);
-                    return ErrorType.GrGenJavaError;
-                }
-            }
-
             String modelFilename = null;
             String modelStubFilename = null;
             String actionsFilename = null;
 
-            String[] producedFiles = Directory.GetFiles(tmpDir);
-            foreach(String file in producedFiles)
+            if(useExisting == UseExistingKind.None)
             {
-                if(file.EndsWith("Model.cs"))
+                List<String> genModelFiles, genModelStubFiles, genActionsFiles;
+
+                if(!ExecuteGrGenJava(tmpDir, out genModelFiles, out genModelStubFiles,
+                        out genActionsFiles, specFile))
+                    return ErrorType.GrGenJavaError;
+
+                if(genModelFiles.Count == 1) modelFilename = genModelFiles[0];
+                else if(genModelFiles.Count > 1)
                 {
-                    if(modelFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(modelFilename))
-                        modelFilename = file;
+                    Console.Error.WriteLine("Multiple models are not supported by ProcessSpecification, yet!");
+                    return ErrorType.GrGenNetError;
                 }
-                else if(file.EndsWith("Actions_intermediate.cs"))
+
+                if(genModelStubFiles.Count == 1) modelStubFilename = genModelStubFiles[0];
+                else if(genModelStubFiles.Count > 1)
                 {
-                    if(actionsFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(actionsFilename))
-                        actionsFilename = file;
+                    Console.Error.WriteLine("Multiple model stubs are not supported by ProcessSpecification, yet!");
+                    return ErrorType.GrGenNetError;
                 }
-                else if(file.EndsWith("ModelStub.cs"))
+
+                if(genActionsFiles.Count == 1) actionsFilename = genActionsFiles[0];
+                else if(genActionsFiles.Count > 1)
                 {
-                    if(modelStubFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(modelStubFilename))
-                        modelStubFilename = file;
+                    Console.Error.WriteLine("Multiple action sets are not supported by ProcessSpecification, yet!");
+                    return ErrorType.GrGenNetError;
+                }
+            }
+            else
+            {
+                String[] producedFiles = Directory.GetFiles(tmpDir);
+                foreach(String file in producedFiles)
+                {
+                    if(file.EndsWith("Model.cs"))
+                    {
+                        if(modelFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(modelFilename))
+                            modelFilename = file;
+                    }
+                    else if(file.EndsWith("Actions_intermediate.cs"))
+                    {
+                        if(actionsFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(actionsFilename))
+                            actionsFilename = file;
+                    }
+                    else if(file.EndsWith("ModelStub.cs"))
+                    {
+                        if(modelStubFilename == null || File.GetLastWriteTime(file) > File.GetLastWriteTime(modelStubFilename))
+                            modelStubFilename = file;
+                    }
                 }
             }
 
@@ -760,18 +834,6 @@ namespace de.unika.ipd.grGen.lgsp
                 return ErrorType.GrGenJavaError;
             }
 
-            if(File.Exists(tmpDir + Path.DirectorySeparatorChar + "printOutput.txt"))
-            {
-                String output;
-                using(StreamReader sr = new StreamReader(tmpDir + Path.DirectorySeparatorChar + "printOutput.txt"))
-                    output = sr.ReadToEnd();
-
-                if(output.Contains("ERROR"))
-                    return ErrorType.GrGenJavaError;
-                if(output.Contains("WARNING"))
-                    Console.Error.WriteLine(output);
-            }
-
             ///////////////////////////////////////////////
             // compile the model and intermediate action files generated by the java frontend
             // to gain access via reflection to their content needed for matcher code generation
@@ -779,7 +841,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             Assembly modelAssembly;
             String modelAssemblyName;
-            if(!ProcessModel(modelFilename, modelStubFilename, destDir, compileWithDebug, out modelAssembly, out modelAssemblyName)) return ErrorType.GrGenNetError;
+            if(!ProcessModel(modelFilename, modelStubFilename, destDir, compileWithDebug, out modelAssembly, out modelAssemblyName))
+                return ErrorType.GrGenNetError;
 
             IGraphModel model = GetGraphModel(modelAssembly);
             if(model == null) return ErrorType.GrGenNetError;
