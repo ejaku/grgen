@@ -157,21 +157,21 @@ public class ModifyGen extends CSharpBase {
 
 		// --------------------
 
-		public HashSet<Node> commonNodes = new HashSet<Node>();
-		public HashSet<Edge> commonEdges = new HashSet<Edge>();
-		public HashSet<SubpatternUsage> commonSubpatternUsages = new HashSet<SubpatternUsage>();
+		public HashSet<Node> commonNodes = new LinkedHashSet<Node>();
+		public HashSet<Edge> commonEdges = new LinkedHashSet<Edge>();
+		public HashSet<SubpatternUsage> commonSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
-		public HashSet<Node> newNodes = new HashSet<Node>();
-		public HashSet<Edge> newEdges = new HashSet<Edge>();
-		public HashSet<SubpatternUsage> newSubpatternUsages = new HashSet<SubpatternUsage>();
-		public HashSet<Node> delNodes = new HashSet<Node>();
-		public HashSet<Edge> delEdges = new HashSet<Edge>();
-		public HashSet<SubpatternUsage> delSubpatternUsages = new HashSet<SubpatternUsage>();
+		public HashSet<Node> newNodes = new LinkedHashSet<Node>();
+		public HashSet<Edge> newEdges = new LinkedHashSet<Edge>();
+		public HashSet<SubpatternUsage> newSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
+		public HashSet<Node> delNodes = new LinkedHashSet<Node>();
+		public HashSet<Edge> delEdges = new LinkedHashSet<Edge>();
+		public HashSet<SubpatternUsage> delSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
-		public HashSet<Node> newOrRetypedNodes = new HashSet<Node>();
-		public HashSet<Edge> newOrRetypedEdges = new HashSet<Edge>();
-		public HashSet<GraphEntity> reusedElements = new HashSet<GraphEntity>();
-		public HashSet<GraphEntity> accessViaInterface = new HashSet<GraphEntity>();
+		public HashSet<Node> newOrRetypedNodes = new LinkedHashSet<Node>();
+		public HashSet<Edge> newOrRetypedEdges = new LinkedHashSet<Edge>();
+		public HashSet<GraphEntity> reusedElements = new LinkedHashSet<GraphEntity>();
+		public HashSet<GraphEntity> accessViaInterface = new LinkedHashSet<GraphEntity>();
 
 		public HashMap<GraphEntity, HashSet<Entity>> neededAttributes = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 		public HashMap<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
