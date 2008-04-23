@@ -734,12 +734,17 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 String frontStr = "  generating the ";
                 String backStr = " file...";
+                String frontStubStr = "  writing the ";
+                String backStubStr = " stub file...";
 
                 String line;
                 while((line = sr.ReadLine()) != null)
                 {
                     if(line.Contains("ERROR"))
+                    {
+                        Console.Error.WriteLine(line);
                         return false;
+                    }
                     if(line.Contains("WARNING"))
                     {
                         Console.Error.WriteLine(line);
@@ -750,10 +755,14 @@ namespace de.unika.ipd.grGen.lgsp
                         String filename = line.Substring(frontStr.Length, line.Length - frontStr.Length - backStr.Length);
                         if(filename.EndsWith("Model.cs"))
                             genModelFiles.Add(tmpDir + Path.DirectorySeparatorChar + filename);
-                        else if(filename.EndsWith("ModelStub.cs"))
-                            genModelStubFiles.Add(tmpDir + Path.DirectorySeparatorChar + filename);
                         else if(filename.EndsWith("Actions_intermediate.cs"))
                             genActionsFiles.Add(tmpDir + Path.DirectorySeparatorChar + filename);
+                    }
+                    else if(line.StartsWith(frontStubStr) && line.EndsWith(backStubStr))
+                    {
+                        String filename = line.Substring(frontStubStr.Length, line.Length - frontStubStr.Length - backStubStr.Length);
+                        if(filename.EndsWith("ModelStub.cs"))
+                            genModelStubFiles.Add(tmpDir + Path.DirectorySeparatorChar + filename);
                     }
                 }
             }
@@ -761,7 +770,7 @@ namespace de.unika.ipd.grGen.lgsp
             return true;
         }
 
-		enum ErrorType { NoError, GrGenJavaError, GrGenNetError };
+        enum ErrorType { NoError, GrGenJavaError, GrGenNetError };
 
         ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, UseExistingKind useExisting,
                 bool keepGeneratedFiles, bool compileWithDebug)
@@ -885,71 +894,78 @@ namespace de.unika.ipd.grGen.lgsp
 
                 Assembly initialAssembly = compResultsWarmup.CompiledAssembly;
 
-				Dictionary<String, Type> actionTypes = new Dictionary<string,Type>();
+                Dictionary<String, Type> actionTypes = new Dictionary<string, Type>();
 
                 foreach(Type type in initialAssembly.GetTypes())
                 {
                     if(!type.IsClass || type.IsNotPublic) continue;
                     if(type.BaseType == typeof(LGSPMatchingPattern) || type.BaseType == typeof(LGSPRulePattern))
-						actionTypes.Add(type.Name, type);
+                        actionTypes.Add(type.Name, type);
                 }
 
                 ///////////////////////////////////////////////
                 // take action intermediate file until action insertion point as base for action file 
                 ///////////////////////////////////////////////
 
-				SourceBuilder source = new SourceBuilder(keepGeneratedFiles);
-				source.Indent();
-				source.Indent();
-				bool actionPointFound = false;
-				using(StreamReader sr = new StreamReader(actionsFilename))
-				{
-					String line;
-					while(!actionPointFound && (line = sr.ReadLine()) != null)
-					{
-						if(line.Length > 0 && line[0] == '#' && line.Contains("// GrGen emit statement section"))
-						{
-							int lastSpace = line.LastIndexOf(' ');
-							String ruleName = line.Substring(lastSpace + 1);
-							Type ruleType = actionTypes[ruleName];
-							int xgrsID = 0;
-							while(true)
-							{
-								FieldInfo fieldInfo = ruleType.GetField("XGRSInfo_" + xgrsID);
-								if(fieldInfo == null) break;
-								LGSPXGRSInfo xgrsInfo = (LGSPXGRSInfo) fieldInfo.GetValue(null);
-								if(!GenerateXGRSCode(xgrsID.ToString(), xgrsInfo.XGRS,
-										xgrsInfo.Parameters, source))
-									return ErrorType.GrGenNetError;
-								xgrsID++;
-							}
-							while((line = sr.ReadLine()) != null)
-							{
-								if(line.StartsWith("#"))
-									break;
-							}
-						}
-						else if(line.Length > 0 && line[0] == '/' && line.StartsWith("// GrGen insert Actions here"))
-						{
-							actionPointFound = true;
-							break;
-						}
-						else
-						{
-							source.Append(line);
-							source.Append("\n");
-						}
-					}
-				}
+                SourceBuilder source = new SourceBuilder(keepGeneratedFiles);
+                source.Indent();
+                source.Indent();
+                bool actionPointFound = false;
+                String actionsNamespace = null;
+                using(StreamReader sr = new StreamReader(actionsFilename))
+                {
+                    String line;
+                    while(!actionPointFound && (line = sr.ReadLine()) != null)
+                    {
+                        if(actionsNamespace == null && line.StartsWith("namespace "))
+                        {
+                            actionsNamespace = line.Substring("namespace ".Length);
+                            source.Append(line);
+                            source.Append("\n");
+                        }
+                        else if(line.Length > 0 && line[0] == '#' && line.Contains("// GrGen emit statement section"))
+                        {
+                            int lastSpace = line.LastIndexOf(' ');
+                            String ruleName = line.Substring(lastSpace + 1);
+                            Type ruleType = actionTypes[ruleName];
+                            int xgrsID = 0;
+                            while(true)
+                            {
+                                FieldInfo fieldInfo = ruleType.GetField("XGRSInfo_" + xgrsID);
+                                if(fieldInfo == null) break;
+                                LGSPXGRSInfo xgrsInfo = (LGSPXGRSInfo) fieldInfo.GetValue(null);
+                                if(!GenerateXGRSCode(xgrsID.ToString(), xgrsInfo.XGRS,
+                                        xgrsInfo.Parameters, source))
+                                    return ErrorType.GrGenNetError;
+                                xgrsID++;
+                            }
+                            while((line = sr.ReadLine()) != null)
+                            {
+                                if(line.StartsWith("#"))
+                                    break;
+                            }
+                        }
+                        else if(line.Length > 0 && line[0] == '/' && line.StartsWith("// GrGen insert Actions here"))
+                        {
+                            actionPointFound = true;
+                            break;
+                        }
+                        else
+                        {
+                            source.Append(line);
+                            source.Append("\n");
+                        }
+                    }
+                }
 
-				if(!actionPointFound)
-				{
-					Console.Error.WriteLine("Illegal actions C# input source code: Actions insertion point not found!");
-					return ErrorType.GrGenJavaError;
-				}
+                if(!actionPointFound)
+                {
+                    Console.Error.WriteLine("Illegal actions C# input source code: Actions insertion point not found!");
+                    return ErrorType.GrGenJavaError;
+                }
 
-				source.Unindent();
-				source.Append("\n");
+                source.Unindent();
+                source.Append("\n");
 
                 ///////////////////////////////////////////////
                 // generate and insert the matcher source code into the action file
@@ -960,10 +976,9 @@ namespace de.unika.ipd.grGen.lgsp
                 if(keepGeneratedFiles) matcherGen.CommentSourceCode = true;
 
                 String unitName;
-                String modelNamespace = model.GetType().Namespace;
-                int lastDot = modelNamespace.LastIndexOf(".");
+                int lastDot = actionsNamespace.LastIndexOf(".");
                 if(lastDot == -1) unitName = "";
-                else unitName = modelNamespace.Substring(lastDot + 7);  // skip ".Model_"
+                else unitName = actionsNamespace.Substring(lastDot + 8);  // skip ".Action_"
 
                 SourceBuilder endSource = new SourceBuilder("\n");
                 endSource.Indent();
@@ -987,7 +1002,7 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(Type type in initialAssembly.GetTypes())
                 {
                     if(!type.IsClass || type.IsNotPublic) continue;
-                    if (type.BaseType == typeof(LGSPMatchingPattern) || type.BaseType == typeof(LGSPRulePattern))
+                    if(type.BaseType == typeof(LGSPMatchingPattern) || type.BaseType == typeof(LGSPRulePattern))
                     {
                         LGSPMatchingPattern matchingPattern = (LGSPMatchingPattern) initialAssembly.CreateInstance(type.FullName);
                         matchingPattern.initialize();
@@ -998,7 +1013,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                         matcherGen.GenerateMatcherSourceCode(source, matchingPattern, true);
 
-                        if (matchingPattern is LGSPRulePattern) // normal rule
+                        if(matchingPattern is LGSPRulePattern) // normal rule
                         {
                             endSource.AppendFrontFormat("actions.Add(\"{0}\", (LGSPAction) Action_{0}.Instance);\n", matchingPattern.name);
                         }
@@ -1052,7 +1067,7 @@ namespace de.unika.ipd.grGen.lgsp
             compParams.OutputAssembly = destDir + "lgsp-" + actionsName + ".dll";
 
             CompilerResults compResults;
-            if (keepGeneratedFiles)
+            if(keepGeneratedFiles)
             {
                 compResults = compiler.CompileAssemblyFromFile(compParams, actionsOutputFilename);
             }
