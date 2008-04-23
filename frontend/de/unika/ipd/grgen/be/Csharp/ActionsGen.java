@@ -47,6 +47,7 @@ import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Variable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -69,16 +70,19 @@ public class ActionsGen extends CSharpBase {
 
 		System.out.println("  generating the " + filename + " file...");
 
-		sb.append("using System;\n");
-		sb.append("using System.Collections.Generic;\n");
-		sb.append("using System.Text;\n");
-		sb.append("using de.unika.ipd.grGen.libGr;\n");
-		sb.append("using de.unika.ipd.grGen.lgsp;\n");
-		sb.append("using de.unika.ipd.grGen.Model_" + be.unit.getActionsGraphModelName() + ";\n");
-		sb.append("\n");
-
-		sb.append("namespace de.unika.ipd.grGen.Action_" + be.unit.getUnitName() + "\n");
-		sb.append("{\n");
+		sb.append("// This file has been generated automatically by GrGen.\n"
+				+ "// Do not modify this file! Any changes will be lost!\n"
+				+ "// Generated from \"" + be.unit.getFilename() + "\" on " + new Date() + "\n"
+				+ "\n"
+				+ "using System;\n"
+				+ "using System.Collections.Generic;\n"
+				+ "using System.Text;\n"
+				+ "using de.unika.ipd.grGen.libGr;\n"
+				+ "using de.unika.ipd.grGen.lgsp;\n"
+				+ "using de.unika.ipd.grGen.Model_" + be.unit.getActionsGraphModelName() + ";\n"
+				+ "\n"
+				+ "namespace de.unika.ipd.grGen.Action_" + be.unit.getUnitName() + "\n"
+				+ "{\n");
 
 		for(Rule subpatternRule : be.unit.getSubpatternRules()) {
 			genSubpattern(sb, subpatternRule);

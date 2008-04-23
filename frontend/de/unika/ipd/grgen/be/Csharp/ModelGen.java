@@ -78,14 +78,17 @@ public class ModelGen extends CSharpBase {
 
 		System.out.println("  generating the " + filename + " file...");
 
-		sb.append("using System;\n");
-		sb.append("using System.Collections.Generic;\n");
-		sb.append("using de.unika.ipd.grGen.libGr;\n");
-		sb.append("using de.unika.ipd.grGen.lgsp;\n");
-		sb.append("\n");
-
-		sb.append("namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n");
-		sb.append("{\n");
+		sb.append("// This file has been generated automatically by GrGen.\n"
+				+ "// Do not modify this file! Any changes will be lost!\n"
+				+ "// Generated from \"" + be.unit.getFilename() + "\" on " + new Date() + "\n"
+				+ "\n"
+				+ "using System;\n"
+				+ "using System.Collections.Generic;\n"
+				+ "using de.unika.ipd.grGen.libGr;\n"
+				+ "using de.unika.ipd.grGen.lgsp;\n"
+				+ "\n"
+				+ "namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n"
+				+ "{\n");
 
 		System.out.println("    generating enums...");
 		genEnums();
@@ -1062,6 +1065,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				+ "\t\t{\n"
 				+ "\t\t\treturn " + typeName + ".CreateNode(this);\n"
 				+ "\t\t}\n\n"
+				+ "\t\tpublic " + typeName + " Create" + typeName + "(String varName)\n"
+				+ "\t\t{\n"
+				+ "\t\t\treturn " + typeName + ".CreateNode(this, varName);\n"
+				+ "\t\t}\n\n"
 			);
 		}
 
@@ -1072,6 +1079,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				  "\t\tpublic " + typeName + " Create" + typeName + "(LGSPNode source, LGSPNode target)\n"
 				+ "\t\t{\n"
 				+ "\t\t\treturn " + typeName + ".CreateEdge(this, source, target);\n"
+				+ "\t\t}\n\n"
+				+ "\t\tpublic " + typeName + " Create" + typeName + "(LGSPNode source, LGSPNode target, String varName)\n"
+				+ "\t\t{\n"
+				+ "\t\t\treturn " + typeName + ".CreateEdge(this, source, target, varName);\n"
 				+ "\t\t}\n\n"
 			);
 		}

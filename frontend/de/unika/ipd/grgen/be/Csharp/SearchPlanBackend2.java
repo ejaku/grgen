@@ -70,7 +70,7 @@ public class SearchPlanBackend2 implements Backend, BackendFactory {
 		for(Model model : unit.getModels())
 			modelGen.genModel(model);
 
-		if(unit.getActionRules().size() != 0 || unit.getSubpatternRules().size() != 0)
+		//if(unit.getActionRules().size() != 0 || unit.getSubpatternRules().size() != 0)
 			new ActionsGen(this).genActionsAndSubpatterns();
 
 		System.out.println("done!");

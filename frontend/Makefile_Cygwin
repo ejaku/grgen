@@ -20,9 +20,23 @@ grgen: .grammar
 	  fi; \
 	fi
 
+fast: .grammar
+	@if [ ! -e .generator_build -o ! -f grgen.jar ]; then \
+	  $(MAKE) -f Makefile_Cygwin .generator_build; \
+	else \
+	  if [ "`find . -type f -name "*.java" -cnewer .generator_build`" != "" ]; then \
+	    $(MAKE) -f Makefile_Cygwin .generator_build_fast; \
+	  fi; \
+	fi
+
 .generator_build: dir .grammar
 	find de -type f -name "*.java" | xargs javac -d build -classpath "$(ANTLR_JAR);$(JARGS_JAR)" -source 1.5 -target 1.5
-	jar -cf $(GRGENNET_DIR)/grgen.jar -C build .
+	jar -cmf GrGenManifest.mf $(GRGENNET_DIR)/grgen.jar -C build .
+	@touch .generator_build
+
+.generator_build_fast: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
+	find de -type f -name "*.java" -cnewer .generator_build | xargs javac -d build -classpath "$(ANTLR_JAR);$(JARGS_JAR);build" -source 1.5 -target 1.5
+	jar -cmf GrGenManifest.mf $(GRGENNET_DIR)/grgen.jar -C build .
 	@touch .generator_build
 
 .PHONY: dir
