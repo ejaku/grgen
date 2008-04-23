@@ -2,18 +2,18 @@
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.Action_Recursive;
-using de.unika.ipd.grGen.Model_Recursive;
+using de.unika.ipd.grGen.Model_Std;
 
 namespace Recursive
 {
     class RecursiveExample
     {
-        LGSPGraph graph;
+        Std graph;
         RecursiveActions actions;
 
         void DoAlt()
         {
-            graph = new LGSPGraph(new RecursiveGraphModel());
+            graph = new Std();
             actions = new RecursiveActions(graph);
 
             actions.PerformanceInfo = new PerformanceInfo();

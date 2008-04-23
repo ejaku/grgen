@@ -11,7 +11,7 @@ namespace BusyBeaver
         const int L = -1;
         const int R = 1;
 
-        LGSPGraph graph;
+        Turing3 graph;
         Turing3Actions actions;
 
         void GenStateTransition(String srcState, int input, String destState, int output, int move)
@@ -24,7 +24,7 @@ namespace BusyBeaver
                 default: throw new ArgumentException("Illegal move value: " + move);
             }
 
-            Node_WriteValue writeNode = Node_WriteValue.CreateNode(graph);
+            Node_WriteValue writeNode = graph.CreateNode_WriteValue();
             writeNode.value = output;
 
             graph.AddEdge(input == 0 ? (EdgeType) EdgeType_readZero.typeVar : (EdgeType) EdgeType_readOne.typeVar,
@@ -37,22 +37,22 @@ namespace BusyBeaver
             long startBytes = System.GC.GetTotalMemory(true);
             int startTime = Environment.TickCount;
 
-            graph = new LGSPGraph(new Turing3GraphModel());
+            graph = new Turing3();
             actions = new Turing3Actions(graph);
 
             // Enable step counting
             actions.PerformanceInfo = new PerformanceInfo();
 
             // Initialize tape
-            Node_BandPosition bp = Node_BandPosition.CreateNode(graph);
+            Node_BandPosition bp = graph.CreateNode_BandPosition();
 
             // Initialize states
-            Node_State sA = Node_State.CreateNode(graph, "sA");
-            Node_State.CreateNode(graph, "sB");
-            Node_State.CreateNode(graph, "sC");
-            Node_State.CreateNode(graph, "sD");
-            Node_State.CreateNode(graph, "sE");
-            Node_State.CreateNode(graph, "sH");
+            Node_State sA = graph.CreateNode_State("sA");
+			graph.CreateNode_State("sB");
+			graph.CreateNode_State("sC");
+			graph.CreateNode_State("sD");
+			graph.CreateNode_State("sE");
+			graph.CreateNode_State("sH");
 
             // Create state transitions
             GenStateTransition("sA", 0, "sB", 1, L);

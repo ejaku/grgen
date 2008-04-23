@@ -1,4 +1,4 @@
-using alternatives;
+using Alternatives;
 
 rule createA {
 	modify {

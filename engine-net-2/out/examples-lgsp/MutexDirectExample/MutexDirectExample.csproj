@@ -40,8 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MutexDirectExample.cs" />
+    <Compile Include="MutexModel.cs" />
     <Compile Include="MutexPimpedActions.cs" />
-    <Compile Include="MutexPimpedModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

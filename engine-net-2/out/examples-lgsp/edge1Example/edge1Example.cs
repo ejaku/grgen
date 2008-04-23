@@ -2,18 +2,18 @@
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.Action_edge1;
-using de.unika.ipd.grGen.Model_edge1;
+using de.unika.ipd.grGen.Model_Std;
 
 namespace edge1
 {
     class edge1Example
     {
-        LGSPGraph graph;
+        Std graph;
         edge1Actions actions;
 
         void DoEdge1()
         {
-            graph = new LGSPGraph(new edge1GraphModel());
+            graph = new Std();
             actions = new edge1Actions(graph);
 
             actions.PerformanceInfo = new PerformanceInfo();

@@ -1,9 +1,13 @@
+// This file has been generated automatically by GrGen.
+// Do not modify this file! Any changes will be lost!
+// Generated from "..\..\tests\edge1\edge1.grg" on Wed Apr 23 23:46:22 CEST 2008
+
 using System;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
 
-namespace de.unika.ipd.grGen.Model_edge1
+namespace de.unika.ipd.grGen.Model_Std
 {
 	//
 	// Enums
@@ -121,20 +125,20 @@ namespace de.unika.ipd.grGen.Model_edge1
 	// Node model
 	//
 
-	public sealed class edge1NodeModel : INodeModel
+	public sealed class StdNodeModel : INodeModel
 	{
-		public edge1NodeModel()
+		public StdNodeModel()
 		{
 			NodeType_Node.typeVar.subOrSameGrGenTypes = NodeType_Node.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_Node.typeVar,
 			};
 			NodeType_Node.typeVar.directSubGrGenTypes = NodeType_Node.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_Node.typeVar.superOrSameGrGenTypes = NodeType_Node.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_Node.typeVar,
 			};
 			NodeType_Node.typeVar.directSuperGrGenTypes = NodeType_Node.typeVar.directSuperTypes = new NodeType[] {
-							};
+			};
 		}
 		public bool IsNodeModel { get { return true; } }
 		public NodeType RootType { get { return NodeType_Node.typeVar; } }
@@ -409,9 +413,9 @@ namespace de.unika.ipd.grGen.Model_edge1
 	// Edge model
 	//
 
-	public sealed class edge1EdgeModel : IEdgeModel
+	public sealed class StdEdgeModel : IEdgeModel
 	{
-		public edge1EdgeModel()
+		public StdEdgeModel()
 		{
 			EdgeType_AEdge.typeVar.subOrSameGrGenTypes = EdgeType_AEdge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_AEdge.typeVar,
@@ -419,37 +423,37 @@ namespace de.unika.ipd.grGen.Model_edge1
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.directSubGrGenTypes = EdgeType_AEdge.typeVar.directSubTypes = new EdgeType[] {
-								EdgeType_Edge.typeVar,
+				EdgeType_Edge.typeVar,
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.superOrSameGrGenTypes = EdgeType_AEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.directSuperGrGenTypes = EdgeType_AEdge.typeVar.directSuperTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_Edge.typeVar.directSubGrGenTypes = EdgeType_Edge.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_Edge.typeVar.superOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_Edge.typeVar.directSuperGrGenTypes = EdgeType_Edge.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_AEdge.typeVar,
+				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.subOrSameGrGenTypes = EdgeType_UEdge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.directSubGrGenTypes = EdgeType_UEdge.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_UEdge.typeVar.superOrSameGrGenTypes = EdgeType_UEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.directSuperGrGenTypes = EdgeType_UEdge.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_AEdge.typeVar,
+				EdgeType_AEdge.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return false; } }
@@ -491,14 +495,66 @@ namespace de.unika.ipd.grGen.Model_edge1
 	// IGraphModel implementation
 	//
 
-	public sealed class edge1GraphModel : IGraphModel
+	public sealed class StdGraphModel : IGraphModel
 	{
-		private edge1NodeModel nodeModel = new edge1NodeModel();
-		private edge1EdgeModel edgeModel = new edge1EdgeModel();
+		private StdNodeModel nodeModel = new StdNodeModel();
+		private StdEdgeModel edgeModel = new StdEdgeModel();
 		private ValidateInfo[] validateInfos = {
 		};
 
-		public String Name { get { return "edge1"; } }
+		public String ModelName { get { return "Std"; } }
+		public INodeModel NodeModel { get { return nodeModel; } }
+		public IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public String MD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
+	}
+	//
+	// IGraph/IGraphModel implementation
+	//
+
+	public class Std : LGSPGraph, IGraphModel
+	{
+		public Std() : base(GetNextGraphName())
+		{
+			InitializeGraph(this);
+		}
+
+		public Node_Node CreateNode_Node()
+		{
+			return Node_Node.CreateNode(this);
+		}
+
+		public Node_Node CreateNode_Node(String varName)
+		{
+			return Node_Node.CreateNode(this, varName);
+		}
+
+		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target)
+		{
+			return Edge_Edge.CreateEdge(this, source, target);
+		}
+
+		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_Edge.CreateEdge(this, source, target, varName);
+		}
+
+		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target)
+		{
+			return Edge_UEdge.CreateEdge(this, source, target);
+		}
+
+		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_UEdge.CreateEdge(this, source, target, varName);
+		}
+
+		private StdNodeModel nodeModel = new StdNodeModel();
+		private StdEdgeModel edgeModel = new StdEdgeModel();
+		private ValidateInfo[] validateInfos = {
+		};
+
+		public String ModelName { get { return "Std"; } }
 		public INodeModel NodeModel { get { return nodeModel; } }
 		public IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }

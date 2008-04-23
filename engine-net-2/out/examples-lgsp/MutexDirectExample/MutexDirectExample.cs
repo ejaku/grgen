@@ -1,10 +1,10 @@
 ﻿using System;
 using de.unika.ipd.grGen.lgsp;
-using de.unika.ipd.grGen.Model_MutexPimped;
+using de.unika.ipd.grGen.Model_Mutex;
 using de.unika.ipd.grGen.Action_MutexPimped;
 using de.unika.ipd.grGen.libGr;
 
-namespace Mutex
+namespace MutexExample
 {
     class MutexDirectExample
     {
@@ -30,13 +30,13 @@ namespace Mutex
         {
             int startTime = Environment.TickCount;
 
-            LGSPGraph graph = new LGSPGraph(new MutexPimpedGraphModel());
+            Mutex graph = new Mutex();
             MutexPimpedActions actions = new MutexPimpedActions(graph);
 
-            LGSPNode p1 = graph.AddNode(NodeType_Process.typeVar);
-            LGSPNode p2 = graph.AddNode(NodeType_Process.typeVar);
-            LGSPEdge n1 = graph.AddEdge(EdgeType_next.typeVar, p1, p2);
-            LGSPEdge n2 = graph.AddEdge(EdgeType_next.typeVar, p2, p1);
+            LGSPNode p1 = graph.CreateNode_Process();
+            LGSPNode p2 = graph.CreateNode_Process();
+            LGSPEdge n1 = graph.CreateEdge_next(p1, p2);
+            LGSPEdge n2 = graph.CreateEdge_next(p2, p1);
 
             LGSPMatches matches;
             LGSPAction newRule = Action_newRule.Instance;
@@ -108,13 +108,13 @@ namespace Mutex
         {
             int startTime = Environment.TickCount;
 
-            LGSPGraph graph = new LGSPGraph(new MutexPimpedGraphModel());
-            MutexPimpedActions actions = new MutexPimpedActions(graph);
+			Mutex graph = new Mutex();
+			MutexPimpedActions actions = new MutexPimpedActions(graph);
 
-            LGSPNode p1 = graph.AddNode(NodeType_Process.typeVar);
-            LGSPNode p2 = graph.AddNode(NodeType_Process.typeVar);
-            LGSPEdge n1 = graph.AddEdge(EdgeType_next.typeVar, p1, p2);
-            LGSPEdge n2 = graph.AddEdge(EdgeType_next.typeVar, p2, p1);
+			LGSPNode p1 = graph.CreateNode_Process();
+			LGSPNode p2 = graph.CreateNode_Process();
+			LGSPEdge n1 = graph.CreateEdge_next(p1, p2);
+			LGSPEdge n2 = graph.CreateEdge_next(p2, p1);
 
             Action_newRule.Instance.ApplyMinMax(graph, n - 2, n - 2);
             Action_mountRule.Instance.Apply(graph);
@@ -147,13 +147,13 @@ namespace Mutex
         {
             int startTime = Environment.TickCount;
 
-            LGSPGraph graph = new LGSPGraph(new MutexPimpedGraphModel());
-            MutexPimpedActions actions = new MutexPimpedActions(graph);
+			Mutex graph = new Mutex();
+			MutexPimpedActions actions = new MutexPimpedActions(graph);
 
-            LGSPNode p1 = graph.AddNode(NodeType_Process.typeVar);
-            LGSPNode p2 = graph.AddNode(NodeType_Process.typeVar);
-            LGSPEdge n1 = graph.AddEdge(EdgeType_next.typeVar, p1, p2);
-            LGSPEdge n2 = graph.AddEdge(EdgeType_next.typeVar, p2, p1);
+			LGSPNode p1 = graph.CreateNode_Process();
+			LGSPNode p2 = graph.CreateNode_Process();
+			LGSPEdge n1 = graph.CreateEdge_next(p1, p2);
+			LGSPEdge n2 = graph.CreateEdge_next(p2, p1);
 
             actions.ApplyGraphRewriteSequence("newRule[" + (n - 2) + "] && mountRule && requestRule[" + n
                 + "] && (takeRule && releaseRule && giveRule)[" + n + "]");

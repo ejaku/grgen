@@ -1,9 +1,13 @@
+// This file has been generated automatically by GrGen.
+// Do not modify this file! Any changes will be lost!
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Wed Apr 23 23:46:26 CEST 2008
+
 using System;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
 
-namespace de.unika.ipd.grGen.Model_MutexPimped
+namespace de.unika.ipd.grGen.Model_Mutex
 {
 	//
 	// Enums
@@ -317,9 +321,9 @@ namespace de.unika.ipd.grGen.Model_MutexPimped
 	// Node model
 	//
 
-	public sealed class MutexPimpedNodeModel : INodeModel
+	public sealed class MutexNodeModel : INodeModel
 	{
-		public MutexPimpedNodeModel()
+		public MutexNodeModel()
 		{
 			NodeType_Node.typeVar.subOrSameGrGenTypes = NodeType_Node.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_Node.typeVar,
@@ -327,37 +331,37 @@ namespace de.unika.ipd.grGen.Model_MutexPimped
 				NodeType_Resource.typeVar,
 			};
 			NodeType_Node.typeVar.directSubGrGenTypes = NodeType_Node.typeVar.directSubTypes = new NodeType[] {
-								NodeType_Process.typeVar,
+				NodeType_Process.typeVar,
 				NodeType_Resource.typeVar,
 			};
 			NodeType_Node.typeVar.superOrSameGrGenTypes = NodeType_Node.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_Node.typeVar,
 			};
 			NodeType_Node.typeVar.directSuperGrGenTypes = NodeType_Node.typeVar.directSuperTypes = new NodeType[] {
-							};
+			};
 			NodeType_Process.typeVar.subOrSameGrGenTypes = NodeType_Process.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_Process.typeVar,
 			};
 			NodeType_Process.typeVar.directSubGrGenTypes = NodeType_Process.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_Process.typeVar.superOrSameGrGenTypes = NodeType_Process.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_Process.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_Process.typeVar.directSuperGrGenTypes = NodeType_Process.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_Resource.typeVar.subOrSameGrGenTypes = NodeType_Resource.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_Resource.typeVar,
 			};
 			NodeType_Resource.typeVar.directSubGrGenTypes = NodeType_Resource.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_Resource.typeVar.superOrSameGrGenTypes = NodeType_Resource.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_Resource.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_Resource.typeVar.directSuperGrGenTypes = NodeType_Resource.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return true; } }
@@ -1245,9 +1249,9 @@ namespace de.unika.ipd.grGen.Model_MutexPimped
 	// Edge model
 	//
 
-	public sealed class MutexPimpedEdgeModel : IEdgeModel
+	public sealed class MutexEdgeModel : IEdgeModel
 	{
-		public MutexPimpedEdgeModel()
+		public MutexEdgeModel()
 		{
 			EdgeType_AEdge.typeVar.subOrSameGrGenTypes = EdgeType_AEdge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_AEdge.typeVar,
@@ -1261,14 +1265,14 @@ namespace de.unika.ipd.grGen.Model_MutexPimped
 				EdgeType_request.typeVar,
 			};
 			EdgeType_AEdge.typeVar.directSubGrGenTypes = EdgeType_AEdge.typeVar.directSubTypes = new EdgeType[] {
-								EdgeType_Edge.typeVar,
+				EdgeType_Edge.typeVar,
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.superOrSameGrGenTypes = EdgeType_AEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.directSuperGrGenTypes = EdgeType_AEdge.typeVar.directSuperTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 				EdgeType_next.typeVar,
@@ -1279,7 +1283,7 @@ namespace de.unika.ipd.grGen.Model_MutexPimped
 				EdgeType_request.typeVar,
 			};
 			EdgeType_Edge.typeVar.directSubGrGenTypes = EdgeType_Edge.typeVar.directSubTypes = new EdgeType[] {
-								EdgeType_next.typeVar,
+				EdgeType_next.typeVar,
 				EdgeType_blocked.typeVar,
 				EdgeType_held_by.typeVar,
 				EdgeType_token.typeVar,
@@ -1291,97 +1295,97 @@ namespace de.unika.ipd.grGen.Model_MutexPimped
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_Edge.typeVar.directSuperGrGenTypes = EdgeType_Edge.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_AEdge.typeVar,
+				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.subOrSameGrGenTypes = EdgeType_UEdge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.directSubGrGenTypes = EdgeType_UEdge.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_UEdge.typeVar.superOrSameGrGenTypes = EdgeType_UEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.directSuperGrGenTypes = EdgeType_UEdge.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_AEdge.typeVar,
+				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_next.typeVar.subOrSameGrGenTypes = EdgeType_next.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_next.typeVar,
 			};
 			EdgeType_next.typeVar.directSubGrGenTypes = EdgeType_next.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_next.typeVar.superOrSameGrGenTypes = EdgeType_next.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_next.typeVar,
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_next.typeVar.directSuperGrGenTypes = EdgeType_next.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_Edge.typeVar,
+				EdgeType_Edge.typeVar,
 			};
 			EdgeType_blocked.typeVar.subOrSameGrGenTypes = EdgeType_blocked.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_blocked.typeVar,
 			};
 			EdgeType_blocked.typeVar.directSubGrGenTypes = EdgeType_blocked.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_blocked.typeVar.superOrSameGrGenTypes = EdgeType_blocked.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_blocked.typeVar,
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_blocked.typeVar.directSuperGrGenTypes = EdgeType_blocked.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_Edge.typeVar,
+				EdgeType_Edge.typeVar,
 			};
 			EdgeType_held_by.typeVar.subOrSameGrGenTypes = EdgeType_held_by.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_held_by.typeVar,
 			};
 			EdgeType_held_by.typeVar.directSubGrGenTypes = EdgeType_held_by.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_held_by.typeVar.superOrSameGrGenTypes = EdgeType_held_by.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_held_by.typeVar,
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_held_by.typeVar.directSuperGrGenTypes = EdgeType_held_by.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_Edge.typeVar,
+				EdgeType_Edge.typeVar,
 			};
 			EdgeType_token.typeVar.subOrSameGrGenTypes = EdgeType_token.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_token.typeVar,
 			};
 			EdgeType_token.typeVar.directSubGrGenTypes = EdgeType_token.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_token.typeVar.superOrSameGrGenTypes = EdgeType_token.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_token.typeVar,
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_token.typeVar.directSuperGrGenTypes = EdgeType_token.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_Edge.typeVar,
+				EdgeType_Edge.typeVar,
 			};
 			EdgeType_release.typeVar.subOrSameGrGenTypes = EdgeType_release.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_release.typeVar,
 			};
 			EdgeType_release.typeVar.directSubGrGenTypes = EdgeType_release.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_release.typeVar.superOrSameGrGenTypes = EdgeType_release.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_release.typeVar,
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_release.typeVar.directSuperGrGenTypes = EdgeType_release.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_Edge.typeVar,
+				EdgeType_Edge.typeVar,
 			};
 			EdgeType_request.typeVar.subOrSameGrGenTypes = EdgeType_request.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_request.typeVar,
 			};
 			EdgeType_request.typeVar.directSubGrGenTypes = EdgeType_request.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_request.typeVar.superOrSameGrGenTypes = EdgeType_request.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_request.typeVar,
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_request.typeVar.directSuperGrGenTypes = EdgeType_request.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_Edge.typeVar,
+				EdgeType_Edge.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return false; } }
@@ -1441,10 +1445,10 @@ namespace de.unika.ipd.grGen.Model_MutexPimped
 	// IGraphModel implementation
 	//
 
-	public sealed class MutexPimpedGraphModel : IGraphModel
+	public sealed class MutexGraphModel : IGraphModel
 	{
-		private MutexPimpedNodeModel nodeModel = new MutexPimpedNodeModel();
-		private MutexPimpedEdgeModel edgeModel = new MutexPimpedEdgeModel();
+		private MutexNodeModel nodeModel = new MutexNodeModel();
+		private MutexEdgeModel edgeModel = new MutexEdgeModel();
 		private ValidateInfo[] validateInfos = {
 			new ValidateInfo(EdgeType_next.typeVar, NodeType_Process.typeVar, NodeType_Process.typeVar, 0, 1, 0, 1),
 			new ValidateInfo(EdgeType_blocked.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 0, long.MaxValue, 0, long.MaxValue),
@@ -1454,10 +1458,148 @@ namespace de.unika.ipd.grGen.Model_MutexPimped
 			new ValidateInfo(EdgeType_request.typeVar, NodeType_Process.typeVar, NodeType_Resource.typeVar, 0, long.MaxValue, 0, long.MaxValue),
 		};
 
-		public String Name { get { return "MutexPimped"; } }
+		public String ModelName { get { return "Mutex"; } }
 		public INodeModel NodeModel { get { return nodeModel; } }
 		public IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public String MD5Hash { get { return "4d67d2be1ec281e915805c5bc5600b15"; } }
+		public String MD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
+	}
+	//
+	// IGraph/IGraphModel implementation
+	//
+
+	public class Mutex : LGSPGraph, IGraphModel
+	{
+		public Mutex() : base(GetNextGraphName())
+		{
+			InitializeGraph(this);
+		}
+
+		public Node_Node CreateNode_Node()
+		{
+			return Node_Node.CreateNode(this);
+		}
+
+		public Node_Node CreateNode_Node(String varName)
+		{
+			return Node_Node.CreateNode(this, varName);
+		}
+
+		public Node_Process CreateNode_Process()
+		{
+			return Node_Process.CreateNode(this);
+		}
+
+		public Node_Process CreateNode_Process(String varName)
+		{
+			return Node_Process.CreateNode(this, varName);
+		}
+
+		public Node_Resource CreateNode_Resource()
+		{
+			return Node_Resource.CreateNode(this);
+		}
+
+		public Node_Resource CreateNode_Resource(String varName)
+		{
+			return Node_Resource.CreateNode(this, varName);
+		}
+
+		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target)
+		{
+			return Edge_Edge.CreateEdge(this, source, target);
+		}
+
+		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_Edge.CreateEdge(this, source, target, varName);
+		}
+
+		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target)
+		{
+			return Edge_UEdge.CreateEdge(this, source, target);
+		}
+
+		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_UEdge.CreateEdge(this, source, target, varName);
+		}
+
+		public Edge_next CreateEdge_next(LGSPNode source, LGSPNode target)
+		{
+			return Edge_next.CreateEdge(this, source, target);
+		}
+
+		public Edge_next CreateEdge_next(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_next.CreateEdge(this, source, target, varName);
+		}
+
+		public Edge_blocked CreateEdge_blocked(LGSPNode source, LGSPNode target)
+		{
+			return Edge_blocked.CreateEdge(this, source, target);
+		}
+
+		public Edge_blocked CreateEdge_blocked(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_blocked.CreateEdge(this, source, target, varName);
+		}
+
+		public Edge_held_by CreateEdge_held_by(LGSPNode source, LGSPNode target)
+		{
+			return Edge_held_by.CreateEdge(this, source, target);
+		}
+
+		public Edge_held_by CreateEdge_held_by(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_held_by.CreateEdge(this, source, target, varName);
+		}
+
+		public Edge_token CreateEdge_token(LGSPNode source, LGSPNode target)
+		{
+			return Edge_token.CreateEdge(this, source, target);
+		}
+
+		public Edge_token CreateEdge_token(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_token.CreateEdge(this, source, target, varName);
+		}
+
+		public Edge_release CreateEdge_release(LGSPNode source, LGSPNode target)
+		{
+			return Edge_release.CreateEdge(this, source, target);
+		}
+
+		public Edge_release CreateEdge_release(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_release.CreateEdge(this, source, target, varName);
+		}
+
+		public Edge_request CreateEdge_request(LGSPNode source, LGSPNode target)
+		{
+			return Edge_request.CreateEdge(this, source, target);
+		}
+
+		public Edge_request CreateEdge_request(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_request.CreateEdge(this, source, target, varName);
+		}
+
+		private MutexNodeModel nodeModel = new MutexNodeModel();
+		private MutexEdgeModel edgeModel = new MutexEdgeModel();
+		private ValidateInfo[] validateInfos = {
+			new ValidateInfo(EdgeType_next.typeVar, NodeType_Process.typeVar, NodeType_Process.typeVar, 0, 1, 0, 1),
+			new ValidateInfo(EdgeType_blocked.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 0, long.MaxValue, 0, long.MaxValue),
+			new ValidateInfo(EdgeType_held_by.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
+			new ValidateInfo(EdgeType_token.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
+			new ValidateInfo(EdgeType_release.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
+			new ValidateInfo(EdgeType_request.typeVar, NodeType_Process.typeVar, NodeType_Resource.typeVar, 0, long.MaxValue, 0, long.MaxValue),
+		};
+
+		public String ModelName { get { return "Mutex"; } }
+		public INodeModel NodeModel { get { return nodeModel; } }
+		public IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public String MD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
 	}
 }

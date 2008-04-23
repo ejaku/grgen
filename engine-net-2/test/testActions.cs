@@ -1,9 +1,13 @@
+// This file has been generated automatically by GrGen.
+// Do not modify this file! Any changes will be lost!
+// Generated from "test.grg" on Wed Apr 23 23:46:39 CEST 2008
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
-using de.unika.ipd.grGen.Model_test;
+using de.unika.ipd.grGen.Model_complModel;
 
 namespace de.unika.ipd.grGen.Action_test
 {
@@ -257,6 +261,6 @@ namespace de.unika.ipd.grGen.Action_test
         }
 
         public override String Name { get { return "testActions"; } }
-        public override String ModelMD5Hash { get { return "bb4aa07ae20ecd46a442b4d2a48258b3"; } }
+        public override String ModelMD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
     }
 }

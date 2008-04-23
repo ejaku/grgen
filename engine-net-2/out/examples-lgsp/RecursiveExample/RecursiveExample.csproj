@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="RecursiveActions.cs" />
     <Compile Include="RecursiveExample.cs" />
-    <Compile Include="RecursiveModel.cs" />
+    <Compile Include="StdModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

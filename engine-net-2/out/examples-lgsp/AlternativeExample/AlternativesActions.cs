@@ -1,3 +1,7 @@
+// This file has been generated automatically by GrGen.
+// Do not modify this file! Any changes will be lost!
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Wed Apr 23 23:46:16 CEST 2008
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -488,20 +492,20 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createAtoB_addedNodeNames );
-			Node_B node__node1 = Node_B.CreateNode(graph);
 			Node_A node__node0 = Node_A.CreateNode(graph);
+			Node_B node__node1 = Node_B.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createAtoB_addedEdgeNames );
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			return EmptyReturnElements;
 		}
-		private static String[] createAtoB_addedNodeNames = new String[] { "_node1", "_node0" };
+		private static String[] createAtoB_addedNodeNames = new String[] { "_node0", "_node1" };
 		private static String[] createAtoB_addedEdgeNames = new String[] { "_edge0" };
 
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createAtoB_addedNodeNames );
-			Node_B node__node1 = Node_B.CreateNode(graph);
 			Node_A node__node0 = Node_A.CreateNode(graph);
+			Node_B node__node1 = Node_B.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createAtoB_addedEdgeNames );
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			return EmptyReturnElements;
@@ -1392,42 +1396,42 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createComplex_addedNodeNames );
-			Node_B node_b2 = Node_B.CreateNode(graph);
 			Node_A node_a = Node_A.CreateNode(graph);
 			Node_B node_b = Node_B.CreateNode(graph);
+			Node_B node_b2 = Node_B.CreateNode(graph);
+			Node_C node__node0 = Node_C.CreateNode(graph);
 			Node_C node__node1 = Node_C.CreateNode(graph);
 			Node_C node__node2 = Node_C.CreateNode(graph);
-			Node_C node__node0 = Node_C.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createComplex_addedEdgeNames );
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node__node1, node__node2);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_b, node__node0);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node__node1, node__node2);
 			return EmptyReturnElements;
 		}
-		private static String[] createComplex_addedNodeNames = new String[] { "b2", "a", "b", "_node1", "_node2", "_node0" };
-		private static String[] createComplex_addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0", "_edge6", "_edge5", "_edge4" };
+		private static String[] createComplex_addedNodeNames = new String[] { "a", "b", "b2", "_node0", "_node1", "_node2" };
+		private static String[] createComplex_addedEdgeNames = new String[] { "_edge0", "_edge1", "_edge2", "_edge3", "_edge4", "_edge5", "_edge6" };
 
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createComplex_addedNodeNames );
-			Node_B node_b2 = Node_B.CreateNode(graph);
 			Node_A node_a = Node_A.CreateNode(graph);
 			Node_B node_b = Node_B.CreateNode(graph);
+			Node_B node_b2 = Node_B.CreateNode(graph);
+			Node_C node__node0 = Node_C.CreateNode(graph);
 			Node_C node__node1 = Node_C.CreateNode(graph);
 			Node_C node__node2 = Node_C.CreateNode(graph);
-			Node_C node__node0 = Node_C.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createComplex_addedEdgeNames );
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node__node1, node__node2);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_b, node__node0);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node__node1, node__node2);
 			return EmptyReturnElements;
 		}
 	}
@@ -2323,14 +2327,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			Node_A node_a = Node_A.CreateNode(graph);
 			Node_B node_b = Node_B.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createABA_addedEdgeNames );
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b, node_a);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b, node_a);
 			return EmptyReturnElements;
 		}
 		private static String[] createABA_addedNodeNames = new String[] { "a", "b" };
-		private static String[] createABA_addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0" };
+		private static String[] createABA_addedEdgeNames = new String[] { "_edge0", "_edge1", "_edge2", "_edge3" };
 
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
@@ -2338,10 +2342,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			Node_A node_a = Node_A.CreateNode(graph);
 			Node_B node_b = Node_B.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createABA_addedEdgeNames );
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b, node_a);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b, node_a);
 			return EmptyReturnElements;
 		}
 	}
@@ -8328,6 +8332,6 @@ label3: ;
         }
 
         public override String Name { get { return "AlternativesActions"; } }
-        public override String ModelMD5Hash { get { return "e6c5215b8441bdc431ed9a3538e41e73"; } }
+        public override String ModelMD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }
     }
 }

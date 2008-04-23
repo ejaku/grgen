@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="edge1Actions.cs" />
     <Compile Include="edge1Example.cs" />
-    <Compile Include="edge1Model.cs" />
+    <Compile Include="StdModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

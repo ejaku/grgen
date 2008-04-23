@@ -1,4 +1,4 @@
-using MutexModel;
+using Mutex;
 
 rule initRule {
   pattern {}

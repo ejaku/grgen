@@ -1,9 +1,13 @@
+// This file has been generated automatically by GrGen.
+// Do not modify this file! Any changes will be lost!
+// Generated from "test.grg" on Wed Apr 23 23:46:39 CEST 2008
+
 using System;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
 
-namespace de.unika.ipd.grGen.Model_test
+namespace de.unika.ipd.grGen.Model_complModel
 {
 	//
 	// Enums
@@ -3736,9 +3740,9 @@ namespace de.unika.ipd.grGen.Model_test
 	// Node model
 	//
 
-	public sealed class testNodeModel : INodeModel
+	public sealed class complModelNodeModel : INodeModel
 	{
-		public testNodeModel()
+		public complModelNodeModel()
 		{
 			NodeType_Node.typeVar.subOrSameGrGenTypes = NodeType_Node.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_Node.typeVar,
@@ -3762,7 +3766,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_D231_4121.typeVar,
 			};
 			NodeType_Node.typeVar.directSubGrGenTypes = NodeType_Node.typeVar.directSubTypes = new NodeType[] {
-								NodeType_A1.typeVar,
+				NodeType_A1.typeVar,
 				NodeType_A2.typeVar,
 				NodeType_A3.typeVar,
 				NodeType_A4.typeVar,
@@ -3772,20 +3776,20 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_Node.typeVar,
 			};
 			NodeType_Node.typeVar.directSuperGrGenTypes = NodeType_Node.typeVar.directSuperTypes = new NodeType[] {
-							};
+			};
 			NodeType_A1.typeVar.subOrSameGrGenTypes = NodeType_A1.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_A1.typeVar,
 				NodeType_D11_2221.typeVar,
 			};
 			NodeType_A1.typeVar.directSubGrGenTypes = NodeType_A1.typeVar.directSubTypes = new NodeType[] {
-								NodeType_D11_2221.typeVar,
+				NodeType_D11_2221.typeVar,
 			};
 			NodeType_A1.typeVar.superOrSameGrGenTypes = NodeType_A1.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_A1.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_A1.typeVar.directSuperGrGenTypes = NodeType_A1.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_A2.typeVar.subOrSameGrGenTypes = NodeType_A2.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_A2.typeVar,
@@ -3799,7 +3803,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_D231_4121.typeVar,
 			};
 			NodeType_A2.typeVar.directSubGrGenTypes = NodeType_A2.typeVar.directSubTypes = new NodeType[] {
-								NodeType_B21.typeVar,
+				NodeType_B21.typeVar,
 				NodeType_B22.typeVar,
 				NodeType_B23.typeVar,
 			};
@@ -3808,21 +3812,21 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_Node.typeVar,
 			};
 			NodeType_A2.typeVar.directSuperGrGenTypes = NodeType_A2.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_A3.typeVar.subOrSameGrGenTypes = NodeType_A3.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_A3.typeVar,
 				NodeType_D2211_2222_31.typeVar,
 			};
 			NodeType_A3.typeVar.directSubGrGenTypes = NodeType_A3.typeVar.directSubTypes = new NodeType[] {
-								NodeType_D2211_2222_31.typeVar,
+				NodeType_D2211_2222_31.typeVar,
 			};
 			NodeType_A3.typeVar.superOrSameGrGenTypes = NodeType_A3.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_A3.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_A3.typeVar.directSuperGrGenTypes = NodeType_A3.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_A4.typeVar.subOrSameGrGenTypes = NodeType_A4.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_A4.typeVar,
@@ -3837,7 +3841,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_D231_4121.typeVar,
 			};
 			NodeType_A4.typeVar.directSubGrGenTypes = NodeType_A4.typeVar.directSubTypes = new NodeType[] {
-								NodeType_B41.typeVar,
+				NodeType_B41.typeVar,
 				NodeType_B42.typeVar,
 				NodeType_B43.typeVar,
 			};
@@ -3846,7 +3850,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_Node.typeVar,
 			};
 			NodeType_A4.typeVar.directSuperGrGenTypes = NodeType_A4.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_A5.typeVar.subOrSameGrGenTypes = NodeType_A5.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_A5.typeVar,
@@ -3854,27 +3858,27 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_D231_4121.typeVar,
 			};
 			NodeType_A5.typeVar.directSubGrGenTypes = NodeType_A5.typeVar.directSubTypes = new NodeType[] {
-								NodeType_C412_421_431_51.typeVar,
+				NodeType_C412_421_431_51.typeVar,
 			};
 			NodeType_A5.typeVar.superOrSameGrGenTypes = NodeType_A5.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_A5.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_A5.typeVar.directSuperGrGenTypes = NodeType_A5.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_B21.typeVar.subOrSameGrGenTypes = NodeType_B21.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_B21.typeVar,
 			};
 			NodeType_B21.typeVar.directSubGrGenTypes = NodeType_B21.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_B21.typeVar.superOrSameGrGenTypes = NodeType_B21.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_B21.typeVar,
 				NodeType_Node.typeVar,
 				NodeType_A2.typeVar,
 			};
 			NodeType_B21.typeVar.directSuperGrGenTypes = NodeType_B21.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_A2.typeVar,
+				NodeType_A2.typeVar,
 			};
 			NodeType_B22.typeVar.subOrSameGrGenTypes = NodeType_B22.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_B22.typeVar,
@@ -3884,7 +3888,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_D2211_2222_31.typeVar,
 			};
 			NodeType_B22.typeVar.directSubGrGenTypes = NodeType_B22.typeVar.directSubTypes = new NodeType[] {
-								NodeType_C221.typeVar,
+				NodeType_C221.typeVar,
 				NodeType_C222_411.typeVar,
 			};
 			NodeType_B22.typeVar.superOrSameGrGenTypes = NodeType_B22.typeVar.superOrSameTypes = new NodeType[] {
@@ -3893,14 +3897,14 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_A2.typeVar,
 			};
 			NodeType_B22.typeVar.directSuperGrGenTypes = NodeType_B22.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_A2.typeVar,
+				NodeType_A2.typeVar,
 			};
 			NodeType_B23.typeVar.subOrSameGrGenTypes = NodeType_B23.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_B23.typeVar,
 				NodeType_D231_4121.typeVar,
 			};
 			NodeType_B23.typeVar.directSubGrGenTypes = NodeType_B23.typeVar.directSubTypes = new NodeType[] {
-								NodeType_D231_4121.typeVar,
+				NodeType_D231_4121.typeVar,
 			};
 			NodeType_B23.typeVar.superOrSameGrGenTypes = NodeType_B23.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_B23.typeVar,
@@ -3908,7 +3912,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_A2.typeVar,
 			};
 			NodeType_B23.typeVar.directSuperGrGenTypes = NodeType_B23.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_A2.typeVar,
+				NodeType_A2.typeVar,
 			};
 			NodeType_B41.typeVar.subOrSameGrGenTypes = NodeType_B41.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_B41.typeVar,
@@ -3919,7 +3923,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_D231_4121.typeVar,
 			};
 			NodeType_B41.typeVar.directSubGrGenTypes = NodeType_B41.typeVar.directSubTypes = new NodeType[] {
-								NodeType_C222_411.typeVar,
+				NodeType_C222_411.typeVar,
 				NodeType_C412_421_431_51.typeVar,
 			};
 			NodeType_B41.typeVar.superOrSameGrGenTypes = NodeType_B41.typeVar.superOrSameTypes = new NodeType[] {
@@ -3928,7 +3932,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_A4.typeVar,
 			};
 			NodeType_B41.typeVar.directSuperGrGenTypes = NodeType_B41.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_A4.typeVar,
+				NodeType_A4.typeVar,
 			};
 			NodeType_B42.typeVar.subOrSameGrGenTypes = NodeType_B42.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_B42.typeVar,
@@ -3937,7 +3941,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_D231_4121.typeVar,
 			};
 			NodeType_B42.typeVar.directSubGrGenTypes = NodeType_B42.typeVar.directSubTypes = new NodeType[] {
-								NodeType_C412_421_431_51.typeVar,
+				NodeType_C412_421_431_51.typeVar,
 				NodeType_C432_422.typeVar,
 			};
 			NodeType_B42.typeVar.superOrSameGrGenTypes = NodeType_B42.typeVar.superOrSameTypes = new NodeType[] {
@@ -3946,7 +3950,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_A4.typeVar,
 			};
 			NodeType_B42.typeVar.directSuperGrGenTypes = NodeType_B42.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_A4.typeVar,
+				NodeType_A4.typeVar,
 			};
 			NodeType_B43.typeVar.subOrSameGrGenTypes = NodeType_B43.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_B43.typeVar,
@@ -3955,7 +3959,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_D231_4121.typeVar,
 			};
 			NodeType_B43.typeVar.directSubGrGenTypes = NodeType_B43.typeVar.directSubTypes = new NodeType[] {
-								NodeType_C412_421_431_51.typeVar,
+				NodeType_C412_421_431_51.typeVar,
 				NodeType_C432_422.typeVar,
 			};
 			NodeType_B43.typeVar.superOrSameGrGenTypes = NodeType_B43.typeVar.superOrSameTypes = new NodeType[] {
@@ -3964,14 +3968,14 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_A4.typeVar,
 			};
 			NodeType_B43.typeVar.directSuperGrGenTypes = NodeType_B43.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_A4.typeVar,
+				NodeType_A4.typeVar,
 			};
 			NodeType_C221.typeVar.subOrSameGrGenTypes = NodeType_C221.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_C221.typeVar,
 				NodeType_D2211_2222_31.typeVar,
 			};
 			NodeType_C221.typeVar.directSubGrGenTypes = NodeType_C221.typeVar.directSubTypes = new NodeType[] {
-								NodeType_D2211_2222_31.typeVar,
+				NodeType_D2211_2222_31.typeVar,
 			};
 			NodeType_C221.typeVar.superOrSameGrGenTypes = NodeType_C221.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_C221.typeVar,
@@ -3980,7 +3984,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_B22.typeVar,
 			};
 			NodeType_C221.typeVar.directSuperGrGenTypes = NodeType_C221.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_B22.typeVar,
+				NodeType_B22.typeVar,
 			};
 			NodeType_C222_411.typeVar.subOrSameGrGenTypes = NodeType_C222_411.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_C222_411.typeVar,
@@ -3988,7 +3992,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_D2211_2222_31.typeVar,
 			};
 			NodeType_C222_411.typeVar.directSubGrGenTypes = NodeType_C222_411.typeVar.directSubTypes = new NodeType[] {
-								NodeType_D11_2221.typeVar,
+				NodeType_D11_2221.typeVar,
 				NodeType_D2211_2222_31.typeVar,
 			};
 			NodeType_C222_411.typeVar.superOrSameGrGenTypes = NodeType_C222_411.typeVar.superOrSameTypes = new NodeType[] {
@@ -4000,7 +4004,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_B41.typeVar,
 			};
 			NodeType_C222_411.typeVar.directSuperGrGenTypes = NodeType_C222_411.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_B22.typeVar,
+				NodeType_B22.typeVar,
 				NodeType_B41.typeVar,
 			};
 			NodeType_C412_421_431_51.typeVar.subOrSameGrGenTypes = NodeType_C412_421_431_51.typeVar.subOrSameTypes = new NodeType[] {
@@ -4008,7 +4012,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_D231_4121.typeVar,
 			};
 			NodeType_C412_421_431_51.typeVar.directSubGrGenTypes = NodeType_C412_421_431_51.typeVar.directSubTypes = new NodeType[] {
-								NodeType_D231_4121.typeVar,
+				NodeType_D231_4121.typeVar,
 			};
 			NodeType_C412_421_431_51.typeVar.superOrSameGrGenTypes = NodeType_C412_421_431_51.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_C412_421_431_51.typeVar,
@@ -4020,7 +4024,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_B43.typeVar,
 			};
 			NodeType_C412_421_431_51.typeVar.directSuperGrGenTypes = NodeType_C412_421_431_51.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_B41.typeVar,
+				NodeType_B41.typeVar,
 				NodeType_B42.typeVar,
 				NodeType_B43.typeVar,
 				NodeType_A5.typeVar,
@@ -4029,7 +4033,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_C432_422.typeVar,
 			};
 			NodeType_C432_422.typeVar.directSubGrGenTypes = NodeType_C432_422.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_C432_422.typeVar.superOrSameGrGenTypes = NodeType_C432_422.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_C432_422.typeVar,
 				NodeType_Node.typeVar,
@@ -4038,14 +4042,14 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_B43.typeVar,
 			};
 			NodeType_C432_422.typeVar.directSuperGrGenTypes = NodeType_C432_422.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_B43.typeVar,
+				NodeType_B43.typeVar,
 				NodeType_B42.typeVar,
 			};
 			NodeType_D11_2221.typeVar.subOrSameGrGenTypes = NodeType_D11_2221.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_D11_2221.typeVar,
 			};
 			NodeType_D11_2221.typeVar.directSubGrGenTypes = NodeType_D11_2221.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_D11_2221.typeVar.superOrSameGrGenTypes = NodeType_D11_2221.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_D11_2221.typeVar,
 				NodeType_Node.typeVar,
@@ -4057,14 +4061,14 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_C222_411.typeVar,
 			};
 			NodeType_D11_2221.typeVar.directSuperGrGenTypes = NodeType_D11_2221.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_A1.typeVar,
+				NodeType_A1.typeVar,
 				NodeType_C222_411.typeVar,
 			};
 			NodeType_D2211_2222_31.typeVar.subOrSameGrGenTypes = NodeType_D2211_2222_31.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_D2211_2222_31.typeVar,
 			};
 			NodeType_D2211_2222_31.typeVar.directSubGrGenTypes = NodeType_D2211_2222_31.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_D2211_2222_31.typeVar.superOrSameGrGenTypes = NodeType_D2211_2222_31.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_D2211_2222_31.typeVar,
 				NodeType_Node.typeVar,
@@ -4077,7 +4081,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_C222_411.typeVar,
 			};
 			NodeType_D2211_2222_31.typeVar.directSuperGrGenTypes = NodeType_D2211_2222_31.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_C221.typeVar,
+				NodeType_C221.typeVar,
 				NodeType_C222_411.typeVar,
 				NodeType_A3.typeVar,
 			};
@@ -4085,7 +4089,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_D231_4121.typeVar,
 			};
 			NodeType_D231_4121.typeVar.directSubGrGenTypes = NodeType_D231_4121.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_D231_4121.typeVar.superOrSameGrGenTypes = NodeType_D231_4121.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_D231_4121.typeVar,
 				NodeType_Node.typeVar,
@@ -4099,7 +4103,7 @@ namespace de.unika.ipd.grGen.Model_test
 				NodeType_C412_421_431_51.typeVar,
 			};
 			NodeType_D231_4121.typeVar.directSuperGrGenTypes = NodeType_D231_4121.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_B23.typeVar,
+				NodeType_B23.typeVar,
 				NodeType_C412_421_431_51.typeVar,
 			};
 		}
@@ -4446,9 +4450,9 @@ namespace de.unika.ipd.grGen.Model_test
 	// Edge model
 	//
 
-	public sealed class testEdgeModel : IEdgeModel
+	public sealed class complModelEdgeModel : IEdgeModel
 	{
-		public testEdgeModel()
+		public complModelEdgeModel()
 		{
 			EdgeType_AEdge.typeVar.subOrSameGrGenTypes = EdgeType_AEdge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_AEdge.typeVar,
@@ -4456,37 +4460,37 @@ namespace de.unika.ipd.grGen.Model_test
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.directSubGrGenTypes = EdgeType_AEdge.typeVar.directSubTypes = new EdgeType[] {
-								EdgeType_Edge.typeVar,
+				EdgeType_Edge.typeVar,
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.superOrSameGrGenTypes = EdgeType_AEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.directSuperGrGenTypes = EdgeType_AEdge.typeVar.directSuperTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_Edge.typeVar.directSubGrGenTypes = EdgeType_Edge.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_Edge.typeVar.superOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_Edge.typeVar.directSuperGrGenTypes = EdgeType_Edge.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_AEdge.typeVar,
+				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.subOrSameGrGenTypes = EdgeType_UEdge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.directSubGrGenTypes = EdgeType_UEdge.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_UEdge.typeVar.superOrSameGrGenTypes = EdgeType_UEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.directSuperGrGenTypes = EdgeType_UEdge.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_AEdge.typeVar,
+				EdgeType_AEdge.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return false; } }
@@ -4528,17 +4532,249 @@ namespace de.unika.ipd.grGen.Model_test
 	// IGraphModel implementation
 	//
 
-	public sealed class testGraphModel : IGraphModel
+	public sealed class complModelGraphModel : IGraphModel
 	{
-		private testNodeModel nodeModel = new testNodeModel();
-		private testEdgeModel edgeModel = new testEdgeModel();
+		private complModelNodeModel nodeModel = new complModelNodeModel();
+		private complModelEdgeModel edgeModel = new complModelEdgeModel();
 		private ValidateInfo[] validateInfos = {
 		};
 
-		public String Name { get { return "test"; } }
+		public String ModelName { get { return "complModel"; } }
 		public INodeModel NodeModel { get { return nodeModel; } }
 		public IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public String MD5Hash { get { return "bb4aa07ae20ecd46a442b4d2a48258b3"; } }
+		public String MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
+	}
+	//
+	// IGraph/IGraphModel implementation
+	//
+
+	public class complModel : LGSPGraph, IGraphModel
+	{
+		public complModel() : base(GetNextGraphName())
+		{
+			InitializeGraph(this);
+		}
+
+		public Node_Node CreateNode_Node()
+		{
+			return Node_Node.CreateNode(this);
+		}
+
+		public Node_Node CreateNode_Node(String varName)
+		{
+			return Node_Node.CreateNode(this, varName);
+		}
+
+		public Node_A1 CreateNode_A1()
+		{
+			return Node_A1.CreateNode(this);
+		}
+
+		public Node_A1 CreateNode_A1(String varName)
+		{
+			return Node_A1.CreateNode(this, varName);
+		}
+
+		public Node_A2 CreateNode_A2()
+		{
+			return Node_A2.CreateNode(this);
+		}
+
+		public Node_A2 CreateNode_A2(String varName)
+		{
+			return Node_A2.CreateNode(this, varName);
+		}
+
+		public Node_A3 CreateNode_A3()
+		{
+			return Node_A3.CreateNode(this);
+		}
+
+		public Node_A3 CreateNode_A3(String varName)
+		{
+			return Node_A3.CreateNode(this, varName);
+		}
+
+		public Node_A4 CreateNode_A4()
+		{
+			return Node_A4.CreateNode(this);
+		}
+
+		public Node_A4 CreateNode_A4(String varName)
+		{
+			return Node_A4.CreateNode(this, varName);
+		}
+
+		public Node_A5 CreateNode_A5()
+		{
+			return Node_A5.CreateNode(this);
+		}
+
+		public Node_A5 CreateNode_A5(String varName)
+		{
+			return Node_A5.CreateNode(this, varName);
+		}
+
+		public Node_B21 CreateNode_B21()
+		{
+			return Node_B21.CreateNode(this);
+		}
+
+		public Node_B21 CreateNode_B21(String varName)
+		{
+			return Node_B21.CreateNode(this, varName);
+		}
+
+		public Node_B22 CreateNode_B22()
+		{
+			return Node_B22.CreateNode(this);
+		}
+
+		public Node_B22 CreateNode_B22(String varName)
+		{
+			return Node_B22.CreateNode(this, varName);
+		}
+
+		public Node_B23 CreateNode_B23()
+		{
+			return Node_B23.CreateNode(this);
+		}
+
+		public Node_B23 CreateNode_B23(String varName)
+		{
+			return Node_B23.CreateNode(this, varName);
+		}
+
+		public Node_B41 CreateNode_B41()
+		{
+			return Node_B41.CreateNode(this);
+		}
+
+		public Node_B41 CreateNode_B41(String varName)
+		{
+			return Node_B41.CreateNode(this, varName);
+		}
+
+		public Node_B42 CreateNode_B42()
+		{
+			return Node_B42.CreateNode(this);
+		}
+
+		public Node_B42 CreateNode_B42(String varName)
+		{
+			return Node_B42.CreateNode(this, varName);
+		}
+
+		public Node_B43 CreateNode_B43()
+		{
+			return Node_B43.CreateNode(this);
+		}
+
+		public Node_B43 CreateNode_B43(String varName)
+		{
+			return Node_B43.CreateNode(this, varName);
+		}
+
+		public Node_C221 CreateNode_C221()
+		{
+			return Node_C221.CreateNode(this);
+		}
+
+		public Node_C221 CreateNode_C221(String varName)
+		{
+			return Node_C221.CreateNode(this, varName);
+		}
+
+		public Node_C222_411 CreateNode_C222_411()
+		{
+			return Node_C222_411.CreateNode(this);
+		}
+
+		public Node_C222_411 CreateNode_C222_411(String varName)
+		{
+			return Node_C222_411.CreateNode(this, varName);
+		}
+
+		public Node_C412_421_431_51 CreateNode_C412_421_431_51()
+		{
+			return Node_C412_421_431_51.CreateNode(this);
+		}
+
+		public Node_C412_421_431_51 CreateNode_C412_421_431_51(String varName)
+		{
+			return Node_C412_421_431_51.CreateNode(this, varName);
+		}
+
+		public Node_C432_422 CreateNode_C432_422()
+		{
+			return Node_C432_422.CreateNode(this);
+		}
+
+		public Node_C432_422 CreateNode_C432_422(String varName)
+		{
+			return Node_C432_422.CreateNode(this, varName);
+		}
+
+		public Node_D11_2221 CreateNode_D11_2221()
+		{
+			return Node_D11_2221.CreateNode(this);
+		}
+
+		public Node_D11_2221 CreateNode_D11_2221(String varName)
+		{
+			return Node_D11_2221.CreateNode(this, varName);
+		}
+
+		public Node_D2211_2222_31 CreateNode_D2211_2222_31()
+		{
+			return Node_D2211_2222_31.CreateNode(this);
+		}
+
+		public Node_D2211_2222_31 CreateNode_D2211_2222_31(String varName)
+		{
+			return Node_D2211_2222_31.CreateNode(this, varName);
+		}
+
+		public Node_D231_4121 CreateNode_D231_4121()
+		{
+			return Node_D231_4121.CreateNode(this);
+		}
+
+		public Node_D231_4121 CreateNode_D231_4121(String varName)
+		{
+			return Node_D231_4121.CreateNode(this, varName);
+		}
+
+		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target)
+		{
+			return Edge_Edge.CreateEdge(this, source, target);
+		}
+
+		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_Edge.CreateEdge(this, source, target, varName);
+		}
+
+		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target)
+		{
+			return Edge_UEdge.CreateEdge(this, source, target);
+		}
+
+		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_UEdge.CreateEdge(this, source, target, varName);
+		}
+
+		private complModelNodeModel nodeModel = new complModelNodeModel();
+		private complModelEdgeModel edgeModel = new complModelEdgeModel();
+		private ValidateInfo[] validateInfos = {
+		};
+
+		public String ModelName { get { return "complModel"; } }
+		public INodeModel NodeModel { get { return nodeModel; } }
+		public IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public String MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
 	}
 }

@@ -1,9 +1,13 @@
+// This file has been generated automatically by GrGen.
+// Do not modify this file! Any changes will be lost!
+// Generated from "..\..\tests\edge1\edge1.grg" on Wed Apr 23 23:46:22 CEST 2008
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
-using de.unika.ipd.grGen.Model_edge1;
+using de.unika.ipd.grGen.Model_Std;
 
 namespace de.unika.ipd.grGen.Action_edge1
 {
@@ -63,27 +67,27 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			graph.SettingAddedNodeNames( init_addedNodeNames );
 			Node_Node node_x = Node_Node.CreateNode(graph);
-			Node_Node node_z = Node_Node.CreateNode(graph);
 			Node_Node node_y = Node_Node.CreateNode(graph);
+			Node_Node node_z = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init_addedEdgeNames );
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_y, node_y);
-			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
 			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
+			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_y, node_y);
 			return EmptyReturnElements;
 		}
-		private static String[] init_addedNodeNames = new String[] { "x", "z", "y" };
-		private static String[] init_addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
+		private static String[] init_addedNodeNames = new String[] { "x", "y", "z" };
+		private static String[] init_addedEdgeNames = new String[] { "_edge0", "_edge1", "_edge2" };
 
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( init_addedNodeNames );
 			Node_Node node_x = Node_Node.CreateNode(graph);
-			Node_Node node_z = Node_Node.CreateNode(graph);
 			Node_Node node_y = Node_Node.CreateNode(graph);
+			Node_Node node_z = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init_addedEdgeNames );
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_y, node_y);
-			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
 			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
+			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_y, node_y);
 			return EmptyReturnElements;
 		}
 	}
@@ -143,26 +147,26 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( init2_addedNodeNames );
+			Node_Node node__node0 = Node_Node.CreateNode(graph);
 			Node_Node node__node1 = Node_Node.CreateNode(graph);
 			Node_Node node__node2 = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init2_addedEdgeNames );
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node2, node__node1);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node2, node__node1);
 			return EmptyReturnElements;
 		}
-		private static String[] init2_addedNodeNames = new String[] { "_node1", "_node2", "_node0" };
-		private static String[] init2_addedEdgeNames = new String[] { "_edge1", "_edge0" };
+		private static String[] init2_addedNodeNames = new String[] { "_node0", "_node1", "_node2" };
+		private static String[] init2_addedEdgeNames = new String[] { "_edge0", "_edge1" };
 
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( init2_addedNodeNames );
+			Node_Node node__node0 = Node_Node.CreateNode(graph);
 			Node_Node node__node1 = Node_Node.CreateNode(graph);
 			Node_Node node__node2 = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init2_addedEdgeNames );
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node2, node__node1);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node2, node__node1);
 			return EmptyReturnElements;
 		}
 	}
@@ -223,27 +227,27 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			graph.SettingAddedNodeNames( init3_addedNodeNames );
 			Node_Node node_x = Node_Node.CreateNode(graph);
-			Node_Node node_z = Node_Node.CreateNode(graph);
 			Node_Node node_y = Node_Node.CreateNode(graph);
+			Node_Node node_z = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init3_addedEdgeNames );
-			Edge_UEdge edge__edge2 = Edge_UEdge.CreateEdge(graph, node_z, node_x);
-			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
 			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
+			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
+			Edge_UEdge edge__edge2 = Edge_UEdge.CreateEdge(graph, node_z, node_x);
 			return EmptyReturnElements;
 		}
-		private static String[] init3_addedNodeNames = new String[] { "x", "z", "y" };
-		private static String[] init3_addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
+		private static String[] init3_addedNodeNames = new String[] { "x", "y", "z" };
+		private static String[] init3_addedEdgeNames = new String[] { "_edge0", "_edge1", "_edge2" };
 
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( init3_addedNodeNames );
 			Node_Node node_x = Node_Node.CreateNode(graph);
-			Node_Node node_z = Node_Node.CreateNode(graph);
 			Node_Node node_y = Node_Node.CreateNode(graph);
+			Node_Node node_z = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init3_addedEdgeNames );
-			Edge_UEdge edge__edge2 = Edge_UEdge.CreateEdge(graph, node_z, node_x);
-			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
 			Edge_UEdge edge__edge0 = Edge_UEdge.CreateEdge(graph, node_x, node_y);
+			Edge_UEdge edge__edge1 = Edge_UEdge.CreateEdge(graph, node_y, node_z);
+			Edge_UEdge edge__edge2 = Edge_UEdge.CreateEdge(graph, node_z, node_x);
 			return EmptyReturnElements;
 		}
 	}

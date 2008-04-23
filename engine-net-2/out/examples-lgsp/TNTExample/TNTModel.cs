@@ -1,3 +1,7 @@
+// This file has been generated automatically by GrGen.
+// Do not modify this file! Any changes will be lost!
+// Generated from "..\..\tests\TNT\TNT.grg" on Wed Apr 23 23:46:33 CEST 2008
+
 using System;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
@@ -723,7 +727,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 				NodeType_S.typeVar,
 			};
 			NodeType_Node.typeVar.directSubGrGenTypes = NodeType_Node.typeVar.directSubTypes = new NodeType[] {
-								NodeType_C.typeVar,
+				NodeType_C.typeVar,
 				NodeType_H.typeVar,
 				NodeType_O.typeVar,
 				NodeType_N.typeVar,
@@ -734,78 +738,78 @@ namespace de.unika.ipd.grGen.Model_TNT
 				NodeType_Node.typeVar,
 			};
 			NodeType_Node.typeVar.directSuperGrGenTypes = NodeType_Node.typeVar.directSuperTypes = new NodeType[] {
-							};
+			};
 			NodeType_C.typeVar.subOrSameGrGenTypes = NodeType_C.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_C.typeVar,
 			};
 			NodeType_C.typeVar.directSubGrGenTypes = NodeType_C.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_C.typeVar.superOrSameGrGenTypes = NodeType_C.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_C.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_C.typeVar.directSuperGrGenTypes = NodeType_C.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_H.typeVar.subOrSameGrGenTypes = NodeType_H.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_H.typeVar,
 			};
 			NodeType_H.typeVar.directSubGrGenTypes = NodeType_H.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_H.typeVar.superOrSameGrGenTypes = NodeType_H.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_H.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_H.typeVar.directSuperGrGenTypes = NodeType_H.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_O.typeVar.subOrSameGrGenTypes = NodeType_O.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_O.typeVar,
 			};
 			NodeType_O.typeVar.directSubGrGenTypes = NodeType_O.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_O.typeVar.superOrSameGrGenTypes = NodeType_O.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_O.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_O.typeVar.directSuperGrGenTypes = NodeType_O.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_N.typeVar.subOrSameGrGenTypes = NodeType_N.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_N.typeVar,
 			};
 			NodeType_N.typeVar.directSubGrGenTypes = NodeType_N.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_N.typeVar.superOrSameGrGenTypes = NodeType_N.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_N.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_N.typeVar.directSuperGrGenTypes = NodeType_N.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_P.typeVar.subOrSameGrGenTypes = NodeType_P.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_P.typeVar,
 			};
 			NodeType_P.typeVar.directSubGrGenTypes = NodeType_P.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_P.typeVar.superOrSameGrGenTypes = NodeType_P.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_P.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_P.typeVar.directSuperGrGenTypes = NodeType_P.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_S.typeVar.subOrSameGrGenTypes = NodeType_S.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_S.typeVar,
 			};
 			NodeType_S.typeVar.directSubGrGenTypes = NodeType_S.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_S.typeVar.superOrSameGrGenTypes = NodeType_S.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_S.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_S.typeVar.directSuperGrGenTypes = NodeType_S.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return true; } }
@@ -1109,37 +1113,37 @@ namespace de.unika.ipd.grGen.Model_TNT
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.directSubGrGenTypes = EdgeType_AEdge.typeVar.directSubTypes = new EdgeType[] {
-								EdgeType_Edge.typeVar,
+				EdgeType_Edge.typeVar,
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.superOrSameGrGenTypes = EdgeType_AEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.directSuperGrGenTypes = EdgeType_AEdge.typeVar.directSuperTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_Edge.typeVar.directSubGrGenTypes = EdgeType_Edge.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_Edge.typeVar.superOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_Edge.typeVar.directSuperGrGenTypes = EdgeType_Edge.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_AEdge.typeVar,
+				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.subOrSameGrGenTypes = EdgeType_UEdge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.directSubGrGenTypes = EdgeType_UEdge.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_UEdge.typeVar.superOrSameGrGenTypes = EdgeType_UEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.directSuperGrGenTypes = EdgeType_UEdge.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_AEdge.typeVar,
+				EdgeType_AEdge.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return false; } }
@@ -1188,10 +1192,122 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private ValidateInfo[] validateInfos = {
 		};
 
-		public String Name { get { return "TNT"; } }
+		public String ModelName { get { return "TNT"; } }
 		public INodeModel NodeModel { get { return nodeModel; } }
 		public IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public String MD5Hash { get { return "b3154fd7520f415d5f335e9dae2cdf16"; } }
+		public String MD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
+	}
+	//
+	// IGraph/IGraphModel implementation
+	//
+
+	public class TNT : LGSPGraph, IGraphModel
+	{
+		public TNT() : base(GetNextGraphName())
+		{
+			InitializeGraph(this);
+		}
+
+		public Node_Node CreateNode_Node()
+		{
+			return Node_Node.CreateNode(this);
+		}
+
+		public Node_Node CreateNode_Node(String varName)
+		{
+			return Node_Node.CreateNode(this, varName);
+		}
+
+		public Node_C CreateNode_C()
+		{
+			return Node_C.CreateNode(this);
+		}
+
+		public Node_C CreateNode_C(String varName)
+		{
+			return Node_C.CreateNode(this, varName);
+		}
+
+		public Node_H CreateNode_H()
+		{
+			return Node_H.CreateNode(this);
+		}
+
+		public Node_H CreateNode_H(String varName)
+		{
+			return Node_H.CreateNode(this, varName);
+		}
+
+		public Node_O CreateNode_O()
+		{
+			return Node_O.CreateNode(this);
+		}
+
+		public Node_O CreateNode_O(String varName)
+		{
+			return Node_O.CreateNode(this, varName);
+		}
+
+		public Node_N CreateNode_N()
+		{
+			return Node_N.CreateNode(this);
+		}
+
+		public Node_N CreateNode_N(String varName)
+		{
+			return Node_N.CreateNode(this, varName);
+		}
+
+		public Node_P CreateNode_P()
+		{
+			return Node_P.CreateNode(this);
+		}
+
+		public Node_P CreateNode_P(String varName)
+		{
+			return Node_P.CreateNode(this, varName);
+		}
+
+		public Node_S CreateNode_S()
+		{
+			return Node_S.CreateNode(this);
+		}
+
+		public Node_S CreateNode_S(String varName)
+		{
+			return Node_S.CreateNode(this, varName);
+		}
+
+		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target)
+		{
+			return Edge_Edge.CreateEdge(this, source, target);
+		}
+
+		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_Edge.CreateEdge(this, source, target, varName);
+		}
+
+		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target)
+		{
+			return Edge_UEdge.CreateEdge(this, source, target);
+		}
+
+		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_UEdge.CreateEdge(this, source, target, varName);
+		}
+
+		private TNTNodeModel nodeModel = new TNTNodeModel();
+		private TNTEdgeModel edgeModel = new TNTEdgeModel();
+		private ValidateInfo[] validateInfos = {
+		};
+
+		public String ModelName { get { return "TNT"; } }
+		public INodeModel NodeModel { get { return nodeModel; } }
+		public IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public String MD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
 	}
 }

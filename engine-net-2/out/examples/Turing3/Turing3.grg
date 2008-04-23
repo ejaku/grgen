@@ -1,4 +1,4 @@
-using Turing3Model;
+using Turing3;
 
 rule readZeroRule(s:State, bp:BandPosition) : (WriteValue) {
   bp;

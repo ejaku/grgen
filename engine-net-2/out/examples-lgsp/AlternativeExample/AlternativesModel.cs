@@ -1,3 +1,7 @@
+// This file has been generated automatically by GrGen.
+// Do not modify this file! Any changes will be lost!
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Wed Apr 23 23:46:16 CEST 2008
+
 using System;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
@@ -426,7 +430,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 				NodeType_C.typeVar,
 			};
 			NodeType_Node.typeVar.directSubGrGenTypes = NodeType_Node.typeVar.directSubTypes = new NodeType[] {
-								NodeType_A.typeVar,
+				NodeType_A.typeVar,
 				NodeType_B.typeVar,
 				NodeType_C.typeVar,
 			};
@@ -434,42 +438,42 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 				NodeType_Node.typeVar,
 			};
 			NodeType_Node.typeVar.directSuperGrGenTypes = NodeType_Node.typeVar.directSuperTypes = new NodeType[] {
-							};
+			};
 			NodeType_A.typeVar.subOrSameGrGenTypes = NodeType_A.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_A.typeVar,
 			};
 			NodeType_A.typeVar.directSubGrGenTypes = NodeType_A.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_A.typeVar.superOrSameGrGenTypes = NodeType_A.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_A.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_A.typeVar.directSuperGrGenTypes = NodeType_A.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_B.typeVar.subOrSameGrGenTypes = NodeType_B.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_B.typeVar,
 			};
 			NodeType_B.typeVar.directSubGrGenTypes = NodeType_B.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_B.typeVar.superOrSameGrGenTypes = NodeType_B.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_B.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_B.typeVar.directSuperGrGenTypes = NodeType_B.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 			NodeType_C.typeVar.subOrSameGrGenTypes = NodeType_C.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_C.typeVar,
 			};
 			NodeType_C.typeVar.directSubGrGenTypes = NodeType_C.typeVar.directSubTypes = new NodeType[] {
-							};
+			};
 			NodeType_C.typeVar.superOrSameGrGenTypes = NodeType_C.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_C.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_C.typeVar.directSuperGrGenTypes = NodeType_C.typeVar.directSuperTypes = new NodeType[] {
-								NodeType_Node.typeVar,
+				NodeType_Node.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return true; } }
@@ -764,37 +768,37 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.directSubGrGenTypes = EdgeType_AEdge.typeVar.directSubTypes = new EdgeType[] {
-								EdgeType_Edge.typeVar,
+				EdgeType_Edge.typeVar,
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.superOrSameGrGenTypes = EdgeType_AEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.directSuperGrGenTypes = EdgeType_AEdge.typeVar.directSuperTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_Edge.typeVar.directSubGrGenTypes = EdgeType_Edge.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_Edge.typeVar.superOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_Edge.typeVar.directSuperGrGenTypes = EdgeType_Edge.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_AEdge.typeVar,
+				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.subOrSameGrGenTypes = EdgeType_UEdge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.directSubGrGenTypes = EdgeType_UEdge.typeVar.directSubTypes = new EdgeType[] {
-							};
+			};
 			EdgeType_UEdge.typeVar.superOrSameGrGenTypes = EdgeType_UEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
 			EdgeType_UEdge.typeVar.directSuperGrGenTypes = EdgeType_UEdge.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_AEdge.typeVar,
+				EdgeType_AEdge.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return false; } }
@@ -843,10 +847,92 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		private ValidateInfo[] validateInfos = {
 		};
 
-		public String Name { get { return "Alternatives"; } }
+		public String ModelName { get { return "Alternatives"; } }
 		public INodeModel NodeModel { get { return nodeModel; } }
 		public IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public String MD5Hash { get { return "e6c5215b8441bdc431ed9a3538e41e73"; } }
+		public String MD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }
+	}
+	//
+	// IGraph/IGraphModel implementation
+	//
+
+	public class Alternatives : LGSPGraph, IGraphModel
+	{
+		public Alternatives() : base(GetNextGraphName())
+		{
+			InitializeGraph(this);
+		}
+
+		public Node_Node CreateNode_Node()
+		{
+			return Node_Node.CreateNode(this);
+		}
+
+		public Node_Node CreateNode_Node(String varName)
+		{
+			return Node_Node.CreateNode(this, varName);
+		}
+
+		public Node_A CreateNode_A()
+		{
+			return Node_A.CreateNode(this);
+		}
+
+		public Node_A CreateNode_A(String varName)
+		{
+			return Node_A.CreateNode(this, varName);
+		}
+
+		public Node_B CreateNode_B()
+		{
+			return Node_B.CreateNode(this);
+		}
+
+		public Node_B CreateNode_B(String varName)
+		{
+			return Node_B.CreateNode(this, varName);
+		}
+
+		public Node_C CreateNode_C()
+		{
+			return Node_C.CreateNode(this);
+		}
+
+		public Node_C CreateNode_C(String varName)
+		{
+			return Node_C.CreateNode(this, varName);
+		}
+
+		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target)
+		{
+			return Edge_Edge.CreateEdge(this, source, target);
+		}
+
+		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_Edge.CreateEdge(this, source, target, varName);
+		}
+
+		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target)
+		{
+			return Edge_UEdge.CreateEdge(this, source, target);
+		}
+
+		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target, String varName)
+		{
+			return Edge_UEdge.CreateEdge(this, source, target, varName);
+		}
+
+		private AlternativesNodeModel nodeModel = new AlternativesNodeModel();
+		private AlternativesEdgeModel edgeModel = new AlternativesEdgeModel();
+		private ValidateInfo[] validateInfos = {
+		};
+
+		public String ModelName { get { return "Alternatives"; } }
+		public INodeModel NodeModel { get { return nodeModel; } }
+		public IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public String MD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }
 	}
 }

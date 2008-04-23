@@ -1,9 +1,13 @@
+// This file has been generated automatically by GrGen.
+// Do not modify this file! Any changes will be lost!
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Wed Apr 23 23:46:26 CEST 2008
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
-using de.unika.ipd.grGen.Model_MutexPimped;
+using de.unika.ipd.grGen.Model_Mutex;
 
 namespace de.unika.ipd.grGen.Action_MutexPimped
 {
@@ -85,40 +89,40 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p2 = match.Nodes[(int)newRule_NodeNums.@p2];
 			LGSPNode node_p1 = match.Nodes[(int)newRule_NodeNums.@p1];
+			LGSPNode node_p2 = match.Nodes[(int)newRule_NodeNums.@p2];
 			LGSPEdge edge_n = match.Edges[(int)newRule_EdgeNums.@n];
 			graph.SettingAddedNodeNames( newRule_addedNodeNames );
 			Node_Process node_p = Node_Process.CreateNode(graph);
 			graph.SettingAddedEdgeNames( newRule_addedEdgeNames );
-			Edge_next edge_n2;
+			Edge_next edge_n1;
 			if(edge_n.type == EdgeType_next.typeVar)
 			{
-				// re-using edge_n as edge_n2
-				edge_n2 = (Edge_next) edge_n;
-				graph.ReuseEdge(edge_n, node_p, null);
+				// re-using edge_n as edge_n1
+				edge_n1 = (Edge_next) edge_n;
+				graph.ReuseEdge(edge_n, null, node_p);
 			}
 			else
 			{
 				graph.Remove(edge_n);
-				edge_n2 = Edge_next.CreateEdge(graph, node_p, node_p2);
+				edge_n1 = Edge_next.CreateEdge(graph, node_p1, node_p);
 			}
-			Edge_next edge_n1 = Edge_next.CreateEdge(graph, node_p1, node_p);
+			Edge_next edge_n2 = Edge_next.CreateEdge(graph, node_p, node_p2);
 			return EmptyReturnElements;
 		}
 		private static String[] newRule_addedNodeNames = new String[] { "p" };
-		private static String[] newRule_addedEdgeNames = new String[] { "n2", "n1" };
+		private static String[] newRule_addedEdgeNames = new String[] { "n1", "n2" };
 
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_p2 = match.Nodes[(int)newRule_NodeNums.@p2];
 			LGSPNode node_p1 = match.Nodes[(int)newRule_NodeNums.@p1];
+			LGSPNode node_p2 = match.Nodes[(int)newRule_NodeNums.@p2];
 			LGSPEdge edge_n = match.Edges[(int)newRule_EdgeNums.@n];
 			graph.SettingAddedNodeNames( newRule_addedNodeNames );
 			Node_Process node_p = Node_Process.CreateNode(graph);
 			graph.SettingAddedEdgeNames( newRule_addedEdgeNames );
-			Edge_next edge_n2 = Edge_next.CreateEdge(graph, node_p, node_p2);
 			Edge_next edge_n1 = Edge_next.CreateEdge(graph, node_p1, node_p);
+			Edge_next edge_n2 = Edge_next.CreateEdge(graph, node_p, node_p2);
 			graph.Remove(edge_n);
 			return EmptyReturnElements;
 		}
@@ -219,23 +223,23 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_p1 = match.Nodes[(int)killRule_NodeNums.@p1];
 			LGSPNode node_p2 = match.Nodes[(int)killRule_NodeNums.@p2];
 			LGSPNode node_p = match.Nodes[(int)killRule_NodeNums.@p];
-			LGSPEdge edge_n2 = match.Edges[(int)killRule_EdgeNums.@n2];
 			LGSPEdge edge_n1 = match.Edges[(int)killRule_EdgeNums.@n1];
+			LGSPEdge edge_n2 = match.Edges[(int)killRule_EdgeNums.@n2];
 			graph.SettingAddedNodeNames( killRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( killRule_addedEdgeNames );
 			Edge_next edge_n;
-			if(edge_n2.type == EdgeType_next.typeVar)
+			if(edge_n1.type == EdgeType_next.typeVar)
 			{
-				// re-using edge_n2 as edge_n
-				edge_n = (Edge_next) edge_n2;
-				graph.ReuseEdge(edge_n2, node_p1, null);
+				// re-using edge_n1 as edge_n
+				edge_n = (Edge_next) edge_n1;
+				graph.ReuseEdge(edge_n1, null, node_p2);
 			}
 			else
 			{
-				graph.Remove(edge_n2);
+				graph.Remove(edge_n1);
 				edge_n = Edge_next.CreateEdge(graph, node_p1, node_p2);
 			}
-			graph.Remove(edge_n1);
+			graph.Remove(edge_n2);
 			graph.RemoveEdges(node_p);
 			graph.Remove(node_p);
 			return EmptyReturnElements;
@@ -248,13 +252,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_p1 = match.Nodes[(int)killRule_NodeNums.@p1];
 			LGSPNode node_p2 = match.Nodes[(int)killRule_NodeNums.@p2];
 			LGSPNode node_p = match.Nodes[(int)killRule_NodeNums.@p];
-			LGSPEdge edge_n2 = match.Edges[(int)killRule_EdgeNums.@n2];
 			LGSPEdge edge_n1 = match.Edges[(int)killRule_EdgeNums.@n1];
+			LGSPEdge edge_n2 = match.Edges[(int)killRule_EdgeNums.@n2];
 			graph.SettingAddedNodeNames( killRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( killRule_addedEdgeNames );
 			Edge_next edge_n = Edge_next.CreateEdge(graph, node_p1, node_p2);
-			graph.Remove(edge_n2);
 			graph.Remove(edge_n1);
+			graph.Remove(edge_n2);
 			graph.RemoveEdges(node_p);
 			graph.Remove(node_p);
 			return EmptyReturnElements;
@@ -3811,6 +3815,6 @@ label7: ;
         }
 
         public override String Name { get { return "MutexPimpedActions"; } }
-        public override String ModelMD5Hash { get { return "4d67d2be1ec281e915805c5bc5600b15"; } }
+        public override String ModelMD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
     }
 }

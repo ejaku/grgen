@@ -85,7 +85,7 @@ rule WalkBlocks
     cur:Block -:df-> :IR_node -:df-> top:Block <-p:pdom- bottom:Block;
     modify {
         cur -:cdep-> top;
-        exec((cur)=BuildCDep(cur,top,bottom)[*]);
+        exec(curBlock:Block=cur && (curBlock)=BuildCDep(curBlock,top,bottom)[*]);
     }
 }
 

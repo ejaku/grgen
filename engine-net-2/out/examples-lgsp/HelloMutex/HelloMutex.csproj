@@ -31,10 +31,10 @@
     <Compile Include="HelloMutex.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Mutex.grg">
+    <None Include="Mutex.gm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="MutexModel.gm">
+    <None Include="Mutex.grg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

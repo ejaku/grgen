@@ -1,9 +1,13 @@
+// This file has been generated automatically by GrGen.
+// Do not modify this file! Any changes will be lost!
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Wed Apr 23 23:46:30 CEST 2008
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
-using de.unika.ipd.grGen.Model_Recursive;
+using de.unika.ipd.grGen.Model_Std;
 
 namespace de.unika.ipd.grGen.Action_Recursive
 {
@@ -217,13 +221,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		{
 			graph.SettingAddedNodeNames( create_ChainFromTo_alt_0_rec_addedNodeNames );
 			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
 			Node_Node node_intermediate = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFromTo_alt_0_rec_addedEdgeNames );
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_intermediate);
 			Pattern_ChainFromTo.Instance.ChainFromTo_Create(graph, node_intermediate, node_to);
 		}
-		private static String[] create_ChainFromTo_alt_0_rec_addedNodeNames = new String[] { "from", "to", "intermediate" };
+		private static String[] create_ChainFromTo_alt_0_rec_addedNodeNames = new String[] { "from", "intermediate", "to" };
 		private static String[] create_ChainFromTo_alt_0_rec_addedEdgeNames = new String[] { "_edge0" };
 
 		public void ChainFromTo_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
@@ -1137,12 +1141,12 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ReverseChainFromTo_alt_0_base_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ReverseChainFromTo_alt_0_base_addedNodeNames );
-			Node_Node node_from = Node_Node.CreateNode(graph);
 			Node_Node node_to = Node_Node.CreateNode(graph);
+			Node_Node node_from = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ReverseChainFromTo_alt_0_base_addedEdgeNames );
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_to, node_from);
 		}
-		private static String[] create_ReverseChainFromTo_alt_0_base_addedNodeNames = new String[] { "from", "to" };
+		private static String[] create_ReverseChainFromTo_alt_0_base_addedNodeNames = new String[] { "to", "from" };
 		private static String[] create_ReverseChainFromTo_alt_0_base_addedEdgeNames = new String[] { "_edge0" };
 
 		public void ReverseChainFromTo_alt_0_base_Delete(LGSPGraph graph, LGSPMatch match)
@@ -1154,14 +1158,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ReverseChainFromTo_alt_0_rec_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ReverseChainFromTo_alt_0_rec_addedNodeNames );
+			Node_Node node_intermediate = Node_Node.CreateNode(graph);
 			Node_Node node_from = Node_Node.CreateNode(graph);
 			Node_Node node_to = Node_Node.CreateNode(graph);
-			Node_Node node_intermediate = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ReverseChainFromTo_alt_0_rec_addedEdgeNames );
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
 			Pattern_ReverseChainFromTo.Instance.ReverseChainFromTo_Create(graph, node_intermediate, node_to);
 		}
-		private static String[] create_ReverseChainFromTo_alt_0_rec_addedNodeNames = new String[] { "from", "to", "intermediate" };
+		private static String[] create_ReverseChainFromTo_alt_0_rec_addedNodeNames = new String[] { "intermediate", "from", "to" };
 		private static String[] create_ReverseChainFromTo_alt_0_rec_addedEdgeNames = new String[] { "_edge0" };
 
 		public void ReverseChainFromTo_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
@@ -1502,13 +1506,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		{
 			graph.SettingAddedNodeNames( create_ChainFromToReverse_alt_0_rec_addedNodeNames );
 			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
 			Node_Node node_intermediate = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFromToReverse_alt_0_rec_addedEdgeNames );
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_intermediate);
 			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Create(graph, node_intermediate, node_to);
 		}
-		private static String[] create_ChainFromToReverse_alt_0_rec_addedNodeNames = new String[] { "from", "to", "intermediate" };
+		private static String[] create_ChainFromToReverse_alt_0_rec_addedNodeNames = new String[] { "from", "intermediate", "to" };
 		private static String[] create_ChainFromToReverse_alt_0_rec_addedEdgeNames = new String[] { "_edge0" };
 
 		public void ChainFromToReverse_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
@@ -1763,23 +1767,23 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverseToCommon_alt_0_base_EdgeNums.@_edge0];
 			graph.SettingAddedNodeNames( ChainFromToReverseToCommon_alt_0_base_addedNodeNames );
 			graph.SettingAddedEdgeNames( ChainFromToReverseToCommon_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge3;
+			Edge_Edge edge__edge1;
 			if(edge__edge0.type == EdgeType_Edge.typeVar)
 			{
-				// re-using edge__edge0 as edge__edge3
-				edge__edge3 = (Edge_Edge) edge__edge0;
-				graph.ReuseEdge(edge__edge0, node_to, node_common);
+				// re-using edge__edge0 as edge__edge1
+				edge__edge1 = (Edge_Edge) edge__edge0;
+				graph.ReuseEdge(edge__edge0, node_to, node_from);
 			}
 			else
 			{
 				graph.Remove(edge__edge0);
-				edge__edge3 = Edge_Edge.CreateEdge(graph, node_to, node_common);
+				edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
 			}
 			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_to, node_common);
 		}
 		private static String[] ChainFromToReverseToCommon_alt_0_base_addedNodeNames = new String[] {  };
-		private static String[] ChainFromToReverseToCommon_alt_0_base_addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1" };
+		private static String[] ChainFromToReverseToCommon_alt_0_base_addedEdgeNames = new String[] { "_edge1", "_edge2", "_edge3" };
 
 		public void ChainFromToReverseToCommon_alt_0_base_ModifyNoReuse(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
 		{
@@ -1788,9 +1792,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverseToCommon_alt_0_base_EdgeNums.@_edge0];
 			graph.SettingAddedNodeNames( ChainFromToReverseToCommon_alt_0_base_addedNodeNames );
 			graph.SettingAddedEdgeNames( ChainFromToReverseToCommon_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_to, node_common);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_to, node_common);
 			graph.Remove(edge__edge0);
 		}
 
@@ -1813,41 +1817,41 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 		public void ChainFromToReverseToCommon_alt_0_rec_Modify(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
 		{
-			LGSPNode node_from = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_rec_NodeNums.@from];
 			LGSPNode node_intermediate = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_rec_NodeNums.@intermediate];
+			LGSPNode node_from = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_rec_NodeNums.@from];
 			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverseToCommon_alt_0_rec_EdgeNums.@_edge0];
 			LGSPMatch subpattern_cftrtc = match.EmbeddedGraphs[(int)ChainFromToReverseToCommon_alt_0_rec_SubNums.@cftrtc];
 			graph.SettingAddedNodeNames( ChainFromToReverseToCommon_alt_0_rec_addedNodeNames );
 			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, node_common);
 			graph.SettingAddedEdgeNames( ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge2;
+			Edge_Edge edge__edge1;
 			if(edge__edge0.type == EdgeType_Edge.typeVar)
 			{
-				// re-using edge__edge0 as edge__edge2
-				edge__edge2 = (Edge_Edge) edge__edge0;
-				graph.ReuseEdge(edge__edge0, null, node_common);
+				// re-using edge__edge0 as edge__edge1
+				edge__edge1 = (Edge_Edge) edge__edge0;
+				graph.ReuseEdge(edge__edge0, node_intermediate, node_from);
 			}
 			else
 			{
 				graph.Remove(edge__edge0);
-				edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
+				edge__edge1 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
 			}
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
 		}
 		private static String[] ChainFromToReverseToCommon_alt_0_rec_addedNodeNames = new String[] {  };
-		private static String[] ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames = new String[] { "_edge2", "_edge1" };
+		private static String[] ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames = new String[] { "_edge1", "_edge2" };
 
 		public void ChainFromToReverseToCommon_alt_0_rec_ModifyNoReuse(LGSPGraph graph, LGSPMatch match, LGSPNode node_common)
 		{
-			LGSPNode node_from = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_rec_NodeNums.@from];
 			LGSPNode node_intermediate = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_rec_NodeNums.@intermediate];
+			LGSPNode node_from = match.Nodes[(int)ChainFromToReverseToCommon_alt_0_rec_NodeNums.@from];
 			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverseToCommon_alt_0_rec_EdgeNums.@_edge0];
 			LGSPMatch subpattern_cftrtc = match.EmbeddedGraphs[(int)ChainFromToReverseToCommon_alt_0_rec_SubNums.@cftrtc];
 			graph.SettingAddedNodeNames( ChainFromToReverseToCommon_alt_0_rec_addedNodeNames );
 			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, node_common);
 			graph.SettingAddedEdgeNames( ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
 			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
 			graph.Remove(edge__edge0);
 		}
 
@@ -1855,13 +1859,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		{
 			graph.SettingAddedNodeNames( create_ChainFromToReverseToCommon_alt_0_rec_addedNodeNames );
 			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
 			Node_Node node_intermediate = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames );
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_intermediate);
 			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Create(graph, node_intermediate, node_to);
 		}
-		private static String[] create_ChainFromToReverseToCommon_alt_0_rec_addedNodeNames = new String[] { "from", "to", "intermediate" };
+		private static String[] create_ChainFromToReverseToCommon_alt_0_rec_addedNodeNames = new String[] { "from", "intermediate", "to" };
 		private static String[] create_ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames = new String[] { "_edge0" };
 
 		public void ChainFromToReverseToCommon_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
@@ -2094,47 +2098,47 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ReverseChainFromToToCommon_alt_0_base_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ReverseChainFromToToCommon_alt_0_base_addedNodeNames );
-			Node_Node node_common = Node_Node.CreateNode(graph);
-			Node_Node node_from = Node_Node.CreateNode(graph);
 			Node_Node node_to = Node_Node.CreateNode(graph);
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_common = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ReverseChainFromToToCommon_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_from, node_common);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_to, node_from);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_from, node_common);
 		}
-		private static String[] create_ReverseChainFromToToCommon_alt_0_base_addedNodeNames = new String[] { "common", "from", "to" };
-		private static String[] create_ReverseChainFromToToCommon_alt_0_base_addedEdgeNames = new String[] { "_edge1", "_edge0" };
+		private static String[] create_ReverseChainFromToToCommon_alt_0_base_addedNodeNames = new String[] { "to", "from", "common" };
+		private static String[] create_ReverseChainFromToToCommon_alt_0_base_addedEdgeNames = new String[] { "_edge0", "_edge1" };
 
 		public void ReverseChainFromToToCommon_alt_0_base_Delete(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPEdge edge__edge1 = match.Edges[(int)ReverseChainFromToToCommon_alt_0_base_EdgeNums.@_edge1];
 			LGSPEdge edge__edge0 = match.Edges[(int)ReverseChainFromToToCommon_alt_0_base_EdgeNums.@_edge0];
-			graph.Remove(edge__edge1);
+			LGSPEdge edge__edge1 = match.Edges[(int)ReverseChainFromToToCommon_alt_0_base_EdgeNums.@_edge1];
 			graph.Remove(edge__edge0);
+			graph.Remove(edge__edge1);
 		}
 
 		public void ReverseChainFromToToCommon_alt_0_rec_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ReverseChainFromToToCommon_alt_0_rec_addedNodeNames );
-			Node_Node node_common = Node_Node.CreateNode(graph);
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
 			Node_Node node_intermediate = Node_Node.CreateNode(graph);
+			Node_Node node_from = Node_Node.CreateNode(graph);
+			Node_Node node_common = Node_Node.CreateNode(graph);
+			Node_Node node_to = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ReverseChainFromToToCommon_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_from, node_common);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_from, node_common);
 			Pattern_ReverseChainFromToToCommon.Instance.ReverseChainFromToToCommon_Create(graph, node_intermediate, node_to, node_common);
 		}
-		private static String[] create_ReverseChainFromToToCommon_alt_0_rec_addedNodeNames = new String[] { "common", "from", "to", "intermediate" };
-		private static String[] create_ReverseChainFromToToCommon_alt_0_rec_addedEdgeNames = new String[] { "_edge1", "_edge0" };
+		private static String[] create_ReverseChainFromToToCommon_alt_0_rec_addedNodeNames = new String[] { "intermediate", "from", "common", "to" };
+		private static String[] create_ReverseChainFromToToCommon_alt_0_rec_addedEdgeNames = new String[] { "_edge0", "_edge1" };
 
 		public void ReverseChainFromToToCommon_alt_0_rec_Delete(LGSPGraph graph, LGSPMatch match)
 		{
 			LGSPNode node_intermediate = match.Nodes[(int)ReverseChainFromToToCommon_alt_0_rec_NodeNums.@intermediate];
-			LGSPEdge edge__edge1 = match.Edges[(int)ReverseChainFromToToCommon_alt_0_rec_EdgeNums.@_edge1];
 			LGSPEdge edge__edge0 = match.Edges[(int)ReverseChainFromToToCommon_alt_0_rec_EdgeNums.@_edge0];
+			LGSPEdge edge__edge1 = match.Edges[(int)ReverseChainFromToToCommon_alt_0_rec_EdgeNums.@_edge1];
 			LGSPMatch subpattern__subpattern0 = match.EmbeddedGraphs[(int)ReverseChainFromToToCommon_alt_0_rec_SubNums.@_subpattern0];
-			graph.Remove(edge__edge1);
 			graph.Remove(edge__edge0);
+			graph.Remove(edge__edge1);
 			graph.RemoveEdges(node_intermediate);
 			graph.Remove(node_intermediate);
 			Pattern_ReverseChainFromToToCommon.Instance.ReverseChainFromToToCommon_Delete(graph, subpattern__subpattern0);
@@ -2196,30 +2200,30 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createChain_addedNodeNames );
-			Node_Node node_end = Node_Node.CreateNode(graph);
 			Node_Node node_beg = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
 			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
+			Node_Node node_end = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createChain_addedEdgeNames );
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_beg, node__node0);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
 			return new object[] { node_beg, node_end, };
 		}
-		private static String[] createChain_addedNodeNames = new String[] { "end", "beg", "_node1", "_node0" };
-		private static String[] createChain_addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
+		private static String[] createChain_addedNodeNames = new String[] { "beg", "_node0", "_node1", "end" };
+		private static String[] createChain_addedEdgeNames = new String[] { "_edge0", "_edge1", "_edge2" };
 
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createChain_addedNodeNames );
-			Node_Node node_end = Node_Node.CreateNode(graph);
 			Node_Node node_beg = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
 			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
+			Node_Node node_end = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createChain_addedEdgeNames );
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_beg, node__node0);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
 			return new object[] { node_beg, node_end, };
 		}
 	}
@@ -2510,34 +2514,34 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createBlowball_addedNodeNames );
-			Node_Node node__node3 = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node2 = Node_Node.CreateNode(graph);
 			Node_Node node_head = Node_Node.CreateNode(graph);
 			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
+			Node_Node node__node2 = Node_Node.CreateNode(graph);
+			Node_Node node__node3 = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createBlowball_addedEdgeNames );
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_head, node__node3);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_head, node__node1);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_head, node__node0);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_head, node__node1);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_head, node__node3);
 			return new object[] { node_head, };
 		}
-		private static String[] createBlowball_addedNodeNames = new String[] { "_node3", "_node1", "_node2", "head", "_node0" };
-		private static String[] createBlowball_addedEdgeNames = new String[] { "_edge3", "_edge2", "_edge1", "_edge0" };
+		private static String[] createBlowball_addedNodeNames = new String[] { "head", "_node0", "_node1", "_node2", "_node3" };
+		private static String[] createBlowball_addedEdgeNames = new String[] { "_edge0", "_edge1", "_edge2", "_edge3" };
 
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createBlowball_addedNodeNames );
-			Node_Node node__node3 = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node2 = Node_Node.CreateNode(graph);
 			Node_Node node_head = Node_Node.CreateNode(graph);
 			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Node_Node node__node1 = Node_Node.CreateNode(graph);
+			Node_Node node__node2 = Node_Node.CreateNode(graph);
+			Node_Node node__node3 = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createBlowball_addedEdgeNames );
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_head, node__node3);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_head, node__node1);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_head, node__node0);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_head, node__node1);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_head, node__node3);
 			return new object[] { node_head, };
 		}
 	}
@@ -2753,30 +2757,30 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createReverseChain_addedNodeNames );
-			Node_Node node_end = Node_Node.CreateNode(graph);
+			Node_Node node__node0 = Node_Node.CreateNode(graph);
 			Node_Node node_beg = Node_Node.CreateNode(graph);
 			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Node_Node node_end = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createReverseChain_addedEdgeNames );
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_end, node__node1);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node1, node__node0);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node_beg);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node1, node__node0);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_end, node__node1);
 			return new object[] { node_beg, node_end, };
 		}
-		private static String[] createReverseChain_addedNodeNames = new String[] { "end", "beg", "_node1", "_node0" };
-		private static String[] createReverseChain_addedEdgeNames = new String[] { "_edge2", "_edge1", "_edge0" };
+		private static String[] createReverseChain_addedNodeNames = new String[] { "_node0", "beg", "_node1", "end" };
+		private static String[] createReverseChain_addedEdgeNames = new String[] { "_edge0", "_edge1", "_edge2" };
 
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createReverseChain_addedNodeNames );
-			Node_Node node_end = Node_Node.CreateNode(graph);
+			Node_Node node__node0 = Node_Node.CreateNode(graph);
 			Node_Node node_beg = Node_Node.CreateNode(graph);
 			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			Node_Node node_end = Node_Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createReverseChain_addedEdgeNames );
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_end, node__node1);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node1, node__node0);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node_beg);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node1, node__node0);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_end, node__node1);
 			return new object[] { node_beg, node_end, };
 		}
 	}
