@@ -76,7 +76,7 @@ public class TypeDeclNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return checkOnlyAbstractArbitraryEdgeChildren() & checkNoConflictionEdgeParents();
+		return checkOnlyAbstractArbitraryEdgeChildren() & checkNoConflictingEdgeParents();
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class TypeDeclNode extends DeclNode {
 	 *
 	 * @return Check pass without an error.
 	 */
-	private boolean checkNoConflictionEdgeParents()
+	private boolean checkNoConflictingEdgeParents()
     {
 		if (!(type instanceof EdgeTypeNode)) {
 	    	return true;
@@ -105,23 +105,23 @@ public class TypeDeclNode extends DeclNode {
         }
 
 	    if (extendEdge && extendUEdge) {
-	    	reportError("An edge class can't extend a directed and a undirected edge class");
+	    	reportError("An edge class cannot extend a directed and an undirected edge class");
 	    	return false;
 	    }
 	    if ((type instanceof ArbitraryEdgeTypeNode) && extendEdge) {
-	    	reportError("An arbitrary edge class can't extend a directed edge class");
+	    	reportError("An arbitrary edge class cannot extend a directed edge class");
 	    	return false;
 	    }
 	    if (type instanceof ArbitraryEdgeTypeNode && extendUEdge) {
-	    	reportError("An arbitrary edge class can't extend an undirected edge class");
+	    	reportError("An arbitrary edge class cannot extend an undirected edge class");
 	    	return false;
 	    }
 	    if ((type instanceof UndirectedEdgeTypeNode) && extendEdge) {
-	    	reportError("An undirected edge class can't extend a directed edge class");
+	    	reportError("An undirected edge class cannot extend a directed edge class");
 	    	return false;
 	    }
 	    if (type instanceof DirectedEdgeTypeNode && extendUEdge) {
-	    	reportError("A directed edge class can't extend an undirected edge class");
+	    	reportError("A directed edge class cannot extend an undirected edge class");
 	    	return false;
 	    }
 

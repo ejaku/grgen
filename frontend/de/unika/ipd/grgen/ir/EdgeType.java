@@ -39,6 +39,13 @@ public class EdgeType extends InheritanceType {
 	/** The connection assertions. */
 	private final List<ConnAssert> connectionAsserts = new LinkedList<ConnAssert>();
 
+	public enum Directedness
+	{
+		Arbitrary, Directed, Undirected
+	}
+
+	protected Directedness directedness;
+
 	/**
 	 * Make a new edge type.
 	 * @param ident The identifier declaring this type.
@@ -48,6 +55,9 @@ public class EdgeType extends InheritanceType {
 	public EdgeType(Ident ident, int modifiers, String externalName) {
 		super("edge type", ident, modifiers, externalName);
 	}
+
+	public Directedness getDirectedness() { return directedness; }
+	public void setDirectedness(Directedness dir) { directedness = dir; }
 
 	/**
 	 * Sorts the Connection assertion of this edge type,

@@ -24,19 +24,12 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ir.EdgeType;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.MemberInit;
 
 public class UndirectedEdgeTypeNode extends EdgeTypeNode {
 	static {
 		setName(UndirectedEdgeTypeNode.class, "undirected edge type");
 	}
-
-	CollectNode<EdgeTypeNode> extend;
 
 	/**
 	 * Make a new undirected edge type node.
@@ -49,97 +42,11 @@ public class UndirectedEdgeTypeNode extends EdgeTypeNode {
 	 */
 	public UndirectedEdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas, CollectNode<BaseNode> body,
 						int modifiers, String externalName) {
-		this.extendUnresolved = ext;
-		becomeParent(this.extendUnresolved);
-		this.bodyUnresolved = body;
-		becomeParent(this.bodyUnresolved);
-		this.cas = cas;
-		becomeParent(this.cas);
-		setModifiers(modifiers);
-		setExternalName(externalName);
+		super(ext, cas, body, modifiers, externalName);
 	}
 
-	/** returns children of this node */
-	public Collection<BaseNode> getChildren() {
-		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(extendUnresolved, extend));
-		children.add(getValidVersion(bodyUnresolved, body));
-		children.add(cas);
-		return children;
-	}
-
-	/** returns names of the children, same order as in getChildren */
-	public Collection<String> getChildrenNames() {
-		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("extends");
-		childrenNames.add("body");
-		childrenNames.add("cas");
-		return childrenNames;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	protected boolean resolveLocal() {
-		body = bodyResolver.resolve(bodyUnresolved, this);
-		extend = extendResolver.resolve(extendUnresolved, this);
-
-		return body != null && extend != null;
-	}
-
-	/**
-	 * Get the edge type IR object.
-	 * @return The edge type IR object for this AST node.
-	 */
-	public EdgeType getEdgeType() {
-		return checkIR(EdgeType.class);
-	}
-
-	/** @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode) */
-    public boolean fixupDefinition(IdentNode id) {
-		assert isResolved();
-
-		boolean found = super.fixupDefinition(id, false);
-
-		if(!found) {
-			for(InheritanceTypeNode inh : extend.getChildren()) {
-				boolean result = inh.fixupDefinition(id);
-
-				if(found && result) {
-					error.error(getIdentNode().getCoords(), "Identifier " + id + " is ambiguous");
-				}
-
-				found = found || result;
-			}
-		}
-
-		return found;
-    }
-
-	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
-		assert isResolved();
-
-		for(InheritanceTypeNode inh : extend.getChildren()) {
-			coll.add(inh);
-			coll.addAll(inh.getCompatibleToTypes());
-		}
-    }
-
-	protected void constructIR(InheritanceType inhType) {
-		for(BaseNode n : body.getChildren()) {
-			if(n instanceof DeclNode) {
-				DeclNode decl = (DeclNode)n;
-				inhType.addMember(decl.getEntity());
-			}
-			else if(n instanceof MemberInitNode) {
-				MemberInitNode mi = (MemberInitNode)n;
-				inhType.addMemberInit(mi.checkIR(MemberInit.class));
-			}
-		}
-		for(InheritanceTypeNode inh : extend.getChildren()) {
-			inhType.addDirectSuperType((InheritanceType)inh.getType());
-		}
-
-		// to check overwriting of attributes
-		inhType.getAllMembers();
+	protected void constructIR(EdgeType edgeType) {
+		edgeType.setDirectedness(EdgeType.Directedness.Undirected);
     }
 
 	public static String getKindStr() {
@@ -149,11 +56,4 @@ public class UndirectedEdgeTypeNode extends EdgeTypeNode {
 	public static String getUseStr() {
 		return "undirected edge type";
 	}
-
-	@Override
-		public Collection<EdgeTypeNode> getDirectSuperTypes() {
-		assert isResolved();
-
-	    return extend.getChildren();
-    }
 }

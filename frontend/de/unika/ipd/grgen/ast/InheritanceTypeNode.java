@@ -94,6 +94,15 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		return res;
 	}
 
+	/**
+	 * Get the IR object as type.
+	 * The cast must always succeed.
+	 * @return The IR object as type.
+	 */
+	public InheritanceType getType() {
+		return checkIR(InheritanceType.class);
+	}
+
 	public void setModifiers(int modifiers) {
 		this.modifiers = modifiers;
 	}
