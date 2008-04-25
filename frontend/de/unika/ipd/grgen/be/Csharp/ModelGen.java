@@ -64,6 +64,11 @@ import de.unika.ipd.grgen.ir.VoidType;
 public class ModelGen extends CSharpBase {
 	public ModelGen(SearchPlanBackend2 backend) {
 		be = backend;
+		rootTypes = new HashSet<String>();
+		rootTypes.add("Node");
+		rootTypes.add("Edge");
+		rootTypes.add("AEdge");
+		rootTypes.add("UEdge");
 	}
 
 	/**
@@ -194,7 +199,8 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t// *** " + formatNodeOrEdge(type) + " " + formatIdentifiable(type) + " ***\n");
 		sb.append("\n");
 
-		genElementInterface(type);
+		if(!rootTypes.contains(type.getIdent().toString()))
+			genElementInterface(type);
 		if(!type.isAbstract())
 			genElementImplementation(type);
 		genTypeImplementation(types, type);
@@ -208,7 +214,7 @@ public class ModelGen extends CSharpBase {
 	 * Generates the element interface for the given type
 	 */
 	private void genElementInterface(InheritanceType type) {
-		String iname = "I" + formatNodeOrEdge(type) + "_" + formatIdentifiable(type);
+		String iname = "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
 		sb.append("\tpublic interface " + iname + " : ");
 		genDirectSuperTypeList(type);
 		sb.append("\n");
@@ -221,15 +227,17 @@ public class ModelGen extends CSharpBase {
 	 * Generate a list of direct supertypes of the given type.
 	 */
 	private void genDirectSuperTypeList(InheritanceType type) {
-		String iprefix = "I" + formatNodeOrEdge(type);
+		String iprefix = "I" + getNodeOrEdgeTypePrefix(type);
 		Collection<InheritanceType> directSuperTypes = type.getDirectSuperTypes();
 
 		if(directSuperTypes.isEmpty())
-			sb.append(iprefix);		// INode or IEdge
+		{
+			sb.append("I" + formatNodeOrEdge(type));		// INode or IEdge
+		}
 
 		for(Iterator<InheritanceType> i = directSuperTypes.iterator(); i.hasNext(); ) {
 			InheritanceType superType = i.next();
-			sb.append(iprefix + "_" + formatIdentifiable(superType));
+			sb.append(iprefix + formatIdentifiable(superType));
 			if(i.hasNext())
 				sb.append(", ");
 		}
@@ -260,13 +268,17 @@ public class ModelGen extends CSharpBase {
 	 * Generates the element implementation for the given type
 	 */
 	private void genElementImplementation(InheritanceType type) {
+		boolean isNode = type instanceof NodeType;
+		String elemKind = isNode ? "Node" : "Edge";
 		String cname = formatElementClass(type);
 		String extName = type.getExternalName();
 		String allocName = extName != null ? "global::" + extName : cname;
 		String tname = formatTypeClass(type);
-		String iname = "I" + cname;
-		boolean isNode = type instanceof NodeType;
-		String elemKind = isNode ? "Node" : "Edge";
+		String iname;
+		if(rootTypes.contains(type.getIdent().toString()))
+			iname = "I" + elemKind;
+		else
+			iname = "I" + cname;
 		String namespace = null;
 		StringBuffer routedSB = sb;
 		String routedClassName = cname;
@@ -499,7 +511,7 @@ public class ModelGen extends CSharpBase {
 
 	protected void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState) {
 		Entity owner = qual.getOwner();
-		sb.append("((I" + (owner instanceof Node ? "Node" : "Edge") + "_" +
+		sb.append("((I" + getNodeOrEdgeTypePrefix(owner) +
 				formatIdentifiable(owner.getType()) + ") ");
 		sb.append(formatEntity(owner) + ").@" + formatIdentifiable(qual.getMember()));
 	}
@@ -633,6 +645,22 @@ public class ModelGen extends CSharpBase {
 			sb.append("\t\t}\n");
 		}
 		else {
+			EdgeType edgeType = (EdgeType) type;
+			sb.append("\t\tpublic override Directedness Directedness { get { return Directedness.");
+			switch(edgeType.getDirectedness()) {
+				case Arbitrary:
+					sb.append("Arbitrary; } }\n");
+					break;
+				case Directed:
+					sb.append("Directed; } }\n");
+					break;
+				case Undirected:
+					sb.append("Undirected; } }\n");
+					break;
+				default:
+					throw new UnsupportedOperationException("Illegal directedness of edge type \""
+							+ formatIdentifiable(type) + "\"");
+			}
 			sb.append("\t\tpublic override IEdge CreateEdge(INode source, INode target)\n"
 					+ "\t\t{\n");
 			if(type.isAbstract())
@@ -1059,13 +1087,14 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 		for(NodeType nodeType : model.getNodeTypes()) {
 			if(nodeType.isAbstract()) continue;
+			String name = formatIdentifiable(nodeType);
 			String typeName = formatElementClass(nodeType);
 			sb.append(
 				  "\t\tpublic " + typeName + " Create" + typeName + "()\n"
 				+ "\t\t{\n"
 				+ "\t\t\treturn " + typeName + ".CreateNode(this);\n"
 				+ "\t\t}\n\n"
-				+ "\t\tpublic " + typeName + " Create" + typeName + "(String varName)\n"
+				+ "\t\tpublic " + typeName + " CreateNode" + name + "(String varName)\n"
 				+ "\t\t{\n"
 				+ "\t\t\treturn " + typeName + ".CreateNode(this, varName);\n"
 				+ "\t\t}\n\n"
@@ -1074,13 +1103,14 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 		for(EdgeType edgeType : model.getEdgeTypes()) {
 			if(edgeType.isAbstract()) continue;
+			String name = formatIdentifiable(edgeType);
 			String typeName = formatElementClass(edgeType);
 			sb.append(
 				  "\t\tpublic " + typeName + " Create" + typeName + "(LGSPNode source, LGSPNode target)\n"
 				+ "\t\t{\n"
 				+ "\t\t\treturn " + typeName + ".CreateEdge(this, source, target);\n"
 				+ "\t\t}\n\n"
-				+ "\t\tpublic " + typeName + " Create" + typeName + "(LGSPNode source, LGSPNode target, String varName)\n"
+				+ "\t\tpublic " + typeName + " CreateEdge" + name + "(LGSPNode source, LGSPNode target, String varName)\n"
 				+ "\t\t{\n"
 				+ "\t\t\treturn " + typeName + ".CreateEdge(this, source, target, varName);\n"
 				+ "\t\t}\n\n"
@@ -1134,5 +1164,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private StringBuffer stubsb = null;
 	private String curMemberOwner = null;
 	private String nsIndent = "\t";
+	private HashSet<String> rootTypes;
 }
+
 

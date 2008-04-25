@@ -177,12 +177,30 @@ public abstract class CSharpBase {
 			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
 	}
 
+	public String getNodeOrEdgeTypePrefix(Type type) {
+		if (type instanceof NodeType)
+			return nodeTypePrefix;
+		else if (type instanceof EdgeType)
+			return edgeTypePrefix;
+		else
+			throw new IllegalArgumentException("Unknown type " + type + " (" + type.getClass() + ")");
+	}
+
+	public String getNodeOrEdgeTypePrefix(Entity ent) {
+		if (ent instanceof Node)
+			return nodeTypePrefix;
+		else if (ent instanceof Edge)
+			return edgeTypePrefix;
+		else
+			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
+	}
+
 	public String formatTypeClass(Type type) {
 		return formatNodeOrEdge(type) + "Type_" + formatIdentifiable(type);
 	}
 
 	public String formatElementClass(Type type) {
-		return formatNodeOrEdge(type) + "_" + formatIdentifiable(type);
+		return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
 	}
 
 	public String formatVarDeclWithCast(Type type, String typePrefix, String varName) {
@@ -409,5 +427,8 @@ public abstract class CSharpBase {
 	// TODO use or remove it
 	// private HashSet<Node> nodesNeededAsAttributes = new LinkedHashSet<Node>();
 	// private HashSet<Edge> edgesNeededAsAttributes = new LinkedHashSet<Edge>();
+
+	private static final String nodeTypePrefix = "";
+	private static final String edgeTypePrefix = "";
 }
 
