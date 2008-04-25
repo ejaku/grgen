@@ -648,6 +648,19 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// Specifies the kind of directedness for an EdgeType
+    /// </summary>
+    public enum Directedness
+    {
+        /// <summary>Arbitrary directed. Only for abstract edge types.</summary>
+        Arbitrary,
+        /// <summary>Directed.</summary>
+        Directed,
+        /// <summary>Undirected.</summary>
+        Undirected
+    }
+
+    /// <summary>
     /// A representation of a GrGen edge type.
     /// </summary>
     public abstract class EdgeType : GrGenType
@@ -662,6 +675,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Always returns false.
         /// </summary>
         public override bool IsNodeType { get { return false; } }
+
+        /// <summary>
+        /// Specifies the directedness of this edge type.
+        /// </summary>
+        public abstract Directedness Directedness { get; }
 
         /// <summary>
         /// Creates an IEdge object according to this type.
