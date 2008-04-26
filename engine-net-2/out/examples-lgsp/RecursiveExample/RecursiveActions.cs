@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Wed Apr 23 23:46:30 CEST 2008
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sat Apr 26 03:35:33 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -87,7 +87,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -122,7 +122,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { ChainFromTo_alt_0_rec__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, true, },
 					{ false, true, true, },
@@ -149,7 +149,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { ChainFromTo_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -203,10 +203,10 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ChainFromTo_alt_0_base_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ChainFromTo_alt_0_base_addedNodeNames );
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFromTo_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_to);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_from, node_to);
 		}
 		private static String[] create_ChainFromTo_alt_0_base_addedNodeNames = new String[] { "from", "to" };
 		private static String[] create_ChainFromTo_alt_0_base_addedEdgeNames = new String[] { "_edge0" };
@@ -220,11 +220,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ChainFromTo_alt_0_rec_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ChainFromTo_alt_0_rec_addedNodeNames );
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_intermediate = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
+			@Node node_intermediate = @Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFromTo_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_intermediate);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_from, node_intermediate);
 			Pattern_ChainFromTo.Instance.ChainFromTo_Create(graph, node_intermediate, node_to);
 		}
 		private static String[] create_ChainFromTo_alt_0_rec_addedNodeNames = new String[] { "from", "intermediate", "to" };
@@ -306,7 +306,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				ChainFrom_alt_0_base_isNodeHomomorphicGlobal,
@@ -333,7 +333,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { ChainFrom_alt_0_rec__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -359,7 +359,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { ChainFrom_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -422,10 +422,10 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ChainFrom_alt_0_rec_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ChainFrom_alt_0_rec_addedNodeNames );
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFrom_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_to);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_from, node_to);
 			Pattern_ChainFrom.Instance.ChainFrom_Create(graph, node_to);
 		}
 		private static String[] create_ChainFrom_alt_0_rec_addedNodeNames = new String[] { "from", "to" };
@@ -529,7 +529,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -553,7 +553,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { ChainFromComplete_alt_0_base_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -583,7 +583,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { ChainFromComplete_alt_0_rec__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -609,7 +609,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { ChainFromComplete_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -662,7 +662,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ChainFromComplete_alt_0_base_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ChainFromComplete_alt_0_base_addedNodeNames );
-			Node_Node node_from = Node_Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFromComplete_alt_0_base_addedEdgeNames );
 		}
 		private static String[] create_ChainFromComplete_alt_0_base_addedNodeNames = new String[] { "from" };
@@ -675,10 +675,10 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ChainFromComplete_alt_0_rec_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ChainFromComplete_alt_0_rec_addedNodeNames );
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFromComplete_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_to);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_from, node_to);
 			Pattern_ChainFromComplete.Instance.ChainFromComplete_Create(graph, node_to);
 		}
 		private static String[] create_ChainFromComplete_alt_0_rec_addedNodeNames = new String[] { "from", "to" };
@@ -782,7 +782,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -806,7 +806,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { Blowball_alt_0_end_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -836,7 +836,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { Blowball_alt_0_further__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -862,7 +862,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { Blowball_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -915,7 +915,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void Blowball_alt_0_end_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_Blowball_alt_0_end_addedNodeNames );
-			Node_Node node_head = Node_Node.CreateNode(graph);
+			@Node node_head = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_Blowball_alt_0_end_addedEdgeNames );
 		}
 		private static String[] create_Blowball_alt_0_end_addedNodeNames = new String[] { "head" };
@@ -928,10 +928,10 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void Blowball_alt_0_further_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_Blowball_alt_0_further_addedNodeNames );
-			Node_Node node_head = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
+			@Node node_head = @Node.CreateNode(graph);
+			@Node node__node0 = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_Blowball_alt_0_further_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_head, node__node0);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_head, node__node0);
 			Pattern_Blowball.Instance.Blowball_Create(graph, node_head);
 		}
 		private static String[] create_Blowball_alt_0_further_addedNodeNames = new String[] { "head", "_node0" };
@@ -1025,7 +1025,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1060,7 +1060,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { ReverseChainFromTo_alt_0_rec__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, true, },
 					{ false, true, true, },
@@ -1087,7 +1087,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { ReverseChainFromTo_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1141,10 +1141,10 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ReverseChainFromTo_alt_0_base_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ReverseChainFromTo_alt_0_base_addedNodeNames );
-			Node_Node node_to = Node_Node.CreateNode(graph);
-			Node_Node node_from = Node_Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ReverseChainFromTo_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_to, node_from);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_to, node_from);
 		}
 		private static String[] create_ReverseChainFromTo_alt_0_base_addedNodeNames = new String[] { "to", "from" };
 		private static String[] create_ReverseChainFromTo_alt_0_base_addedEdgeNames = new String[] { "_edge0" };
@@ -1158,11 +1158,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ReverseChainFromTo_alt_0_rec_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ReverseChainFromTo_alt_0_rec_addedNodeNames );
-			Node_Node node_intermediate = Node_Node.CreateNode(graph);
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
+			@Node node_intermediate = @Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ReverseChainFromTo_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_intermediate, node_from);
 			Pattern_ReverseChainFromTo.Instance.ReverseChainFromTo_Create(graph, node_intermediate, node_to);
 		}
 		private static String[] create_ReverseChainFromTo_alt_0_rec_addedNodeNames = new String[] { "intermediate", "from", "to" };
@@ -1256,7 +1256,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1291,7 +1291,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { ChainFromToReverse_alt_0_rec_cftr }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, true, },
 					{ false, true, true, },
@@ -1318,7 +1318,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { ChainFromToReverse_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1420,17 +1420,17 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverse_alt_0_base_EdgeNums.@_edge0];
 			graph.SettingAddedNodeNames( ChainFromToReverse_alt_0_base_addedNodeNames );
 			graph.SettingAddedEdgeNames( ChainFromToReverse_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge1;
+			@Edge edge__edge1;
 			if(edge__edge0.type == EdgeType_Edge.typeVar)
 			{
 				// re-using edge__edge0 as edge__edge1
-				edge__edge1 = (Edge_Edge) edge__edge0;
+				edge__edge1 = (@Edge) edge__edge0;
 				graph.ReuseEdge(edge__edge0, node_to, node_from);
 			}
 			else
 			{
 				graph.Remove(edge__edge0);
-				edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
+				edge__edge1 = @Edge.CreateEdge(graph, node_to, node_from);
 			}
 		}
 		private static String[] ChainFromToReverse_alt_0_base_addedNodeNames = new String[] {  };
@@ -1443,17 +1443,17 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverse_alt_0_base_EdgeNums.@_edge0];
 			graph.SettingAddedNodeNames( ChainFromToReverse_alt_0_base_addedNodeNames );
 			graph.SettingAddedEdgeNames( ChainFromToReverse_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_to, node_from);
 			graph.Remove(edge__edge0);
 		}
 
 		public void ChainFromToReverse_alt_0_base_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ChainFromToReverse_alt_0_base_addedNodeNames );
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFromToReverse_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_to);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_from, node_to);
 		}
 		private static String[] create_ChainFromToReverse_alt_0_base_addedNodeNames = new String[] { "from", "to" };
 		private static String[] create_ChainFromToReverse_alt_0_base_addedEdgeNames = new String[] { "_edge0" };
@@ -1473,17 +1473,17 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.SettingAddedNodeNames( ChainFromToReverse_alt_0_rec_addedNodeNames );
 			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Modify(graph, subpattern_cftr);
 			graph.SettingAddedEdgeNames( ChainFromToReverse_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge1;
+			@Edge edge__edge1;
 			if(edge__edge0.type == EdgeType_Edge.typeVar)
 			{
 				// re-using edge__edge0 as edge__edge1
-				edge__edge1 = (Edge_Edge) edge__edge0;
+				edge__edge1 = (@Edge) edge__edge0;
 				graph.ReuseEdge(edge__edge0, node_intermediate, node_from);
 			}
 			else
 			{
 				graph.Remove(edge__edge0);
-				edge__edge1 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
+				edge__edge1 = @Edge.CreateEdge(graph, node_intermediate, node_from);
 			}
 		}
 		private static String[] ChainFromToReverse_alt_0_rec_addedNodeNames = new String[] {  };
@@ -1498,18 +1498,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.SettingAddedNodeNames( ChainFromToReverse_alt_0_rec_addedNodeNames );
 			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Modify(graph, subpattern_cftr);
 			graph.SettingAddedEdgeNames( ChainFromToReverse_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_intermediate, node_from);
 			graph.Remove(edge__edge0);
 		}
 
 		public void ChainFromToReverse_alt_0_rec_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ChainFromToReverse_alt_0_rec_addedNodeNames );
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_intermediate = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
+			@Node node_intermediate = @Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFromToReverse_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_intermediate);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_from, node_intermediate);
 			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Create(graph, node_intermediate, node_to);
 		}
 		private static String[] create_ChainFromToReverse_alt_0_rec_addedNodeNames = new String[] { "from", "intermediate", "to" };
@@ -1603,7 +1603,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1638,7 +1638,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { ChainFromToReverseToCommon_alt_0_rec_cftrtc }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, true, },
 					{ false, true, true, },
@@ -1665,7 +1665,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { ChainFromToReverseToCommon_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1767,20 +1767,20 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverseToCommon_alt_0_base_EdgeNums.@_edge0];
 			graph.SettingAddedNodeNames( ChainFromToReverseToCommon_alt_0_base_addedNodeNames );
 			graph.SettingAddedEdgeNames( ChainFromToReverseToCommon_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge1;
+			@Edge edge__edge1;
 			if(edge__edge0.type == EdgeType_Edge.typeVar)
 			{
 				// re-using edge__edge0 as edge__edge1
-				edge__edge1 = (Edge_Edge) edge__edge0;
+				edge__edge1 = (@Edge) edge__edge0;
 				graph.ReuseEdge(edge__edge0, node_to, node_from);
 			}
 			else
 			{
 				graph.Remove(edge__edge0);
-				edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
+				edge__edge1 = @Edge.CreateEdge(graph, node_to, node_from);
 			}
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_to, node_common);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_from, node_common);
+			@Edge edge__edge3 = @Edge.CreateEdge(graph, node_to, node_common);
 		}
 		private static String[] ChainFromToReverseToCommon_alt_0_base_addedNodeNames = new String[] {  };
 		private static String[] ChainFromToReverseToCommon_alt_0_base_addedEdgeNames = new String[] { "_edge1", "_edge2", "_edge3" };
@@ -1792,19 +1792,19 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			LGSPEdge edge__edge0 = match.Edges[(int)ChainFromToReverseToCommon_alt_0_base_EdgeNums.@_edge0];
 			graph.SettingAddedNodeNames( ChainFromToReverseToCommon_alt_0_base_addedNodeNames );
 			graph.SettingAddedEdgeNames( ChainFromToReverseToCommon_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_to, node_from);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_to, node_common);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_to, node_from);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_from, node_common);
+			@Edge edge__edge3 = @Edge.CreateEdge(graph, node_to, node_common);
 			graph.Remove(edge__edge0);
 		}
 
 		public void ChainFromToReverseToCommon_alt_0_base_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ChainFromToReverseToCommon_alt_0_base_addedNodeNames );
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFromToReverseToCommon_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_to);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_from, node_to);
 		}
 		private static String[] create_ChainFromToReverseToCommon_alt_0_base_addedNodeNames = new String[] { "from", "to" };
 		private static String[] create_ChainFromToReverseToCommon_alt_0_base_addedEdgeNames = new String[] { "_edge0" };
@@ -1824,19 +1824,19 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.SettingAddedNodeNames( ChainFromToReverseToCommon_alt_0_rec_addedNodeNames );
 			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, node_common);
 			graph.SettingAddedEdgeNames( ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge1;
+			@Edge edge__edge1;
 			if(edge__edge0.type == EdgeType_Edge.typeVar)
 			{
 				// re-using edge__edge0 as edge__edge1
-				edge__edge1 = (Edge_Edge) edge__edge0;
+				edge__edge1 = (@Edge) edge__edge0;
 				graph.ReuseEdge(edge__edge0, node_intermediate, node_from);
 			}
 			else
 			{
 				graph.Remove(edge__edge0);
-				edge__edge1 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
+				edge__edge1 = @Edge.CreateEdge(graph, node_intermediate, node_from);
 			}
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_from, node_common);
 		}
 		private static String[] ChainFromToReverseToCommon_alt_0_rec_addedNodeNames = new String[] {  };
 		private static String[] ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames = new String[] { "_edge1", "_edge2" };
@@ -1850,19 +1850,19 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.SettingAddedNodeNames( ChainFromToReverseToCommon_alt_0_rec_addedNodeNames );
 			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, node_common);
 			graph.SettingAddedEdgeNames( ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_from, node_common);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_intermediate, node_from);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_from, node_common);
 			graph.Remove(edge__edge0);
 		}
 
 		public void ChainFromToReverseToCommon_alt_0_rec_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ChainFromToReverseToCommon_alt_0_rec_addedNodeNames );
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_intermediate = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
+			@Node node_intermediate = @Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_from, node_intermediate);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_from, node_intermediate);
 			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Create(graph, node_intermediate, node_to);
 		}
 		private static String[] create_ChainFromToReverseToCommon_alt_0_rec_addedNodeNames = new String[] { "from", "intermediate", "to" };
@@ -1967,7 +1967,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -2009,7 +2009,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { ReverseChainFromToToCommon_alt_0_rec__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[4, 4] {
 					{ true, false, false, true, },
 					{ false, true, false, true, },
@@ -2040,7 +2040,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { ReverseChainFromToToCommon_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -2098,12 +2098,12 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ReverseChainFromToToCommon_alt_0_base_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ReverseChainFromToToCommon_alt_0_base_addedNodeNames );
-			Node_Node node_to = Node_Node.CreateNode(graph);
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_common = Node_Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
+			@Node node_common = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ReverseChainFromToToCommon_alt_0_base_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_to, node_from);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_from, node_common);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_to, node_from);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_from, node_common);
 		}
 		private static String[] create_ReverseChainFromToToCommon_alt_0_base_addedNodeNames = new String[] { "to", "from", "common" };
 		private static String[] create_ReverseChainFromToToCommon_alt_0_base_addedEdgeNames = new String[] { "_edge0", "_edge1" };
@@ -2119,13 +2119,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ReverseChainFromToToCommon_alt_0_rec_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_ReverseChainFromToToCommon_alt_0_rec_addedNodeNames );
-			Node_Node node_intermediate = Node_Node.CreateNode(graph);
-			Node_Node node_from = Node_Node.CreateNode(graph);
-			Node_Node node_common = Node_Node.CreateNode(graph);
-			Node_Node node_to = Node_Node.CreateNode(graph);
+			@Node node_intermediate = @Node.CreateNode(graph);
+			@Node node_from = @Node.CreateNode(graph);
+			@Node node_common = @Node.CreateNode(graph);
+			@Node node_to = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ReverseChainFromToToCommon_alt_0_rec_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_intermediate, node_from);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_from, node_common);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_intermediate, node_from);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_from, node_common);
 			Pattern_ReverseChainFromToToCommon.Instance.ReverseChainFromToToCommon_Create(graph, node_intermediate, node_to, node_common);
 		}
 		private static String[] create_ReverseChainFromToToCommon_alt_0_rec_addedNodeNames = new String[] { "intermediate", "from", "common", "to" };
@@ -2184,7 +2184,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createChain_isNodeHomomorphicGlobal,
@@ -2200,14 +2200,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createChain_addedNodeNames );
-			Node_Node node_beg = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node_end = Node_Node.CreateNode(graph);
+			@Node node_beg = @Node.CreateNode(graph);
+			@Node node__node0 = @Node.CreateNode(graph);
+			@Node node__node1 = @Node.CreateNode(graph);
+			@Node node_end = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createChain_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_beg, node__node0);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_beg, node__node0);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node__node0, node__node1);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node__node1, node_end);
 			return new object[] { node_beg, node_end, };
 		}
 		private static String[] createChain_addedNodeNames = new String[] { "beg", "_node0", "_node1", "end" };
@@ -2216,14 +2216,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createChain_addedNodeNames );
-			Node_Node node_beg = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node_end = Node_Node.CreateNode(graph);
+			@Node node_beg = @Node.CreateNode(graph);
+			@Node node__node0 = @Node.CreateNode(graph);
+			@Node node__node1 = @Node.CreateNode(graph);
+			@Node node_end = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createChain_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_beg, node__node0);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node__node1, node_end);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_beg, node__node0);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node__node0, node__node1);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node__node1, node_end);
 			return new object[] { node_beg, node_end, };
 		}
 	}
@@ -2277,7 +2277,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { chainFromTo__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2354,7 +2354,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { chainFrom__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -2429,7 +2429,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { chainFromComplete__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -2498,7 +2498,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createBlowball_isNodeHomomorphicGlobal,
@@ -2514,16 +2514,16 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createBlowball_addedNodeNames );
-			Node_Node node_head = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node2 = Node_Node.CreateNode(graph);
-			Node_Node node__node3 = Node_Node.CreateNode(graph);
+			@Node node_head = @Node.CreateNode(graph);
+			@Node node__node0 = @Node.CreateNode(graph);
+			@Node node__node1 = @Node.CreateNode(graph);
+			@Node node__node2 = @Node.CreateNode(graph);
+			@Node node__node3 = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createBlowball_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_head, node__node0);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_head, node__node1);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_head, node__node3);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_head, node__node0);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_head, node__node1);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_head, node__node2);
+			@Edge edge__edge3 = @Edge.CreateEdge(graph, node_head, node__node3);
 			return new object[] { node_head, };
 		}
 		private static String[] createBlowball_addedNodeNames = new String[] { "head", "_node0", "_node1", "_node2", "_node3" };
@@ -2532,16 +2532,16 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createBlowball_addedNodeNames );
-			Node_Node node_head = Node_Node.CreateNode(graph);
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node__node2 = Node_Node.CreateNode(graph);
-			Node_Node node__node3 = Node_Node.CreateNode(graph);
+			@Node node_head = @Node.CreateNode(graph);
+			@Node node__node0 = @Node.CreateNode(graph);
+			@Node node__node1 = @Node.CreateNode(graph);
+			@Node node__node2 = @Node.CreateNode(graph);
+			@Node node__node3 = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createBlowball_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_head, node__node0);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_head, node__node1);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_head, node__node2);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_head, node__node3);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_head, node__node0);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_head, node__node1);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_head, node__node2);
+			@Edge edge__edge3 = @Edge.CreateEdge(graph, node_head, node__node3);
 			return new object[] { node_head, };
 		}
 	}
@@ -2591,7 +2591,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { blowball__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -2670,7 +2670,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { reverseChainFromTo__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2741,7 +2741,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createReverseChain_isNodeHomomorphicGlobal,
@@ -2757,14 +2757,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createReverseChain_addedNodeNames );
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Node_Node node_beg = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node_end = Node_Node.CreateNode(graph);
+			@Node node__node0 = @Node.CreateNode(graph);
+			@Node node_beg = @Node.CreateNode(graph);
+			@Node node__node1 = @Node.CreateNode(graph);
+			@Node node_end = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createReverseChain_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node_beg);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node1, node__node0);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_end, node__node1);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node__node0, node_beg);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node__node1, node__node0);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_end, node__node1);
 			return new object[] { node_beg, node_end, };
 		}
 		private static String[] createReverseChain_addedNodeNames = new String[] { "_node0", "beg", "_node1", "end" };
@@ -2773,14 +2773,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createReverseChain_addedNodeNames );
-			Node_Node node__node0 = Node_Node.CreateNode(graph);
-			Node_Node node_beg = Node_Node.CreateNode(graph);
-			Node_Node node__node1 = Node_Node.CreateNode(graph);
-			Node_Node node_end = Node_Node.CreateNode(graph);
+			@Node node__node0 = @Node.CreateNode(graph);
+			@Node node_beg = @Node.CreateNode(graph);
+			@Node node__node1 = @Node.CreateNode(graph);
+			@Node node_end = @Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createReverseChain_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node_beg);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node__node1, node__node0);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_end, node__node1);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node__node0, node_beg);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node__node1, node__node0);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_end, node__node1);
 			return new object[] { node_beg, node_end, };
 		}
 	}
@@ -2834,7 +2834,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { chainFromToReverse_cftr }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2923,7 +2923,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { chainFromToReverseToCommon_cftrtc }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2946,7 +2946,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		{
 			LGSPMatch subpattern_cftrtc = match.EmbeddedGraphs[(int)chainFromToReverseToCommon_SubNums.@cftrtc];
 			graph.SettingAddedNodeNames( chainFromToReverseToCommon_addedNodeNames );
-			Node_Node node_common = Node_Node.CreateNode(graph);
+			@Node node_common = @Node.CreateNode(graph);
 			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, node_common);
 			graph.SettingAddedEdgeNames( chainFromToReverseToCommon_addedEdgeNames );
 			return new object[] { node_common, };
@@ -2958,7 +2958,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		{
 			LGSPMatch subpattern_cftrtc = match.EmbeddedGraphs[(int)chainFromToReverseToCommon_SubNums.@cftrtc];
 			graph.SettingAddedNodeNames( chainFromToReverseToCommon_addedNodeNames );
-			Node_Node node_common = Node_Node.CreateNode(graph);
+			@Node node_common = @Node.CreateNode(graph);
 			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, node_common);
 			graph.SettingAddedEdgeNames( chainFromToReverseToCommon_addedEdgeNames );
 			return new object[] { node_common, };
@@ -3018,7 +3018,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new PatternGraphEmbedding[] { reverseChainFromToToCommon__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },

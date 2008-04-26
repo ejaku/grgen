@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Wed Apr 23 23:46:39 CEST 2008
+// Generated from "test.grg" on Sat Apr 26 03:35:40 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -25,27 +25,24 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node Node ***
 
-	public interface INode_Node : INode
-	{
-	}
 
-	public sealed class Node_Node : LGSPNode, INode_Node
+	public sealed class @Node : LGSPNode, INode
 	{
 		private static int poolLevel = 0;
-		private static Node_Node[] pool = new Node_Node[10];
-		public Node_Node() : base(NodeType_Node.typeVar)
+		private static @Node[] pool = new @Node[10];
+		public @Node() : base(NodeType_Node.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_Node(this); }
+		public override INode Clone() { return new @Node(this); }
 
-		private Node_Node(Node_Node oldElem) : base(NodeType_Node.typeVar)
+		private @Node(@Node oldElem) : base(NodeType_Node.typeVar)
 		{
 		}
-		public static Node_Node CreateNode(LGSPGraph graph)
+		public static @Node CreateNode(LGSPGraph graph)
 		{
-			Node_Node node;
+			@Node node;
 			if(poolLevel == 0)
-				node = new Node_Node();
+				node = new @Node();
 			else
 			{
 				node = pool[--poolLevel];
@@ -57,11 +54,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_Node CreateNode(LGSPGraph graph, String varName)
+		public static @Node CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_Node node;
+			@Node node;
 			if(poolLevel == 0)
-				node = new Node_Node();
+				node = new @Node();
 			else
 			{
 				node = pool[--poolLevel];
@@ -105,7 +102,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "Node"; } }
 		public override INode CreateNode()
 		{
-			return new Node_Node();
+			return new @Node();
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -116,36 +113,36 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			return new Node_Node();
+			return new @Node();
 		}
 
 	}
 
 	// *** Node A1 ***
 
-	public interface INode_A1 : INode_Node
+	public interface IA1 : INode
 	{
 		int @a1 { get; set; }
 	}
 
-	public sealed class Node_A1 : LGSPNode, INode_A1
+	public sealed class @A1 : LGSPNode, IA1
 	{
 		private static int poolLevel = 0;
-		private static Node_A1[] pool = new Node_A1[10];
-		public Node_A1() : base(NodeType_A1.typeVar)
+		private static @A1[] pool = new @A1[10];
+		public @A1() : base(NodeType_A1.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_A1(this); }
+		public override INode Clone() { return new @A1(this); }
 
-		private Node_A1(Node_A1 oldElem) : base(NodeType_A1.typeVar)
+		private @A1(@A1 oldElem) : base(NodeType_A1.typeVar)
 		{
 			_a1 = oldElem._a1;
 		}
-		public static Node_A1 CreateNode(LGSPGraph graph)
+		public static @A1 CreateNode(LGSPGraph graph)
 		{
-			Node_A1 node;
+			@A1 node;
 			if(poolLevel == 0)
-				node = new Node_A1();
+				node = new @A1();
 			else
 			{
 				node = pool[--poolLevel];
@@ -158,11 +155,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_A1 CreateNode(LGSPGraph graph, String varName)
+		public static @A1 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_A1 node;
+			@A1 node;
 			if(poolLevel == 0)
-				node = new Node_A1();
+				node = new @A1();
 			else
 			{
 				node = pool[--poolLevel];
@@ -225,7 +222,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "A1"; } }
 		public override INode CreateNode()
 		{
-			return new Node_A1();
+			return new @A1();
 		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -250,14 +247,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_A1 newNode = new Node_A1();
+			@A1 newNode = new @A1();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A1:
 				case (int) NodeTypes.@D11_2221:
 					// copy attributes for: A1
 					{
-						INode_A1 old = (INode_A1) oldNode;
+						@IA1 old = (@IA1) oldNode;
 						newNode.@a1 = old.@a1;
 					}
 					break;
@@ -269,29 +266,29 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node A2 ***
 
-	public interface INode_A2 : INode_Node
+	public interface IA2 : INode
 	{
 		int @a2 { get; set; }
 	}
 
-	public sealed class Node_A2 : LGSPNode, INode_A2
+	public sealed class @A2 : LGSPNode, IA2
 	{
 		private static int poolLevel = 0;
-		private static Node_A2[] pool = new Node_A2[10];
-		public Node_A2() : base(NodeType_A2.typeVar)
+		private static @A2[] pool = new @A2[10];
+		public @A2() : base(NodeType_A2.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_A2(this); }
+		public override INode Clone() { return new @A2(this); }
 
-		private Node_A2(Node_A2 oldElem) : base(NodeType_A2.typeVar)
+		private @A2(@A2 oldElem) : base(NodeType_A2.typeVar)
 		{
 			_a2 = oldElem._a2;
 		}
-		public static Node_A2 CreateNode(LGSPGraph graph)
+		public static @A2 CreateNode(LGSPGraph graph)
 		{
-			Node_A2 node;
+			@A2 node;
 			if(poolLevel == 0)
-				node = new Node_A2();
+				node = new @A2();
 			else
 			{
 				node = pool[--poolLevel];
@@ -304,11 +301,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_A2 CreateNode(LGSPGraph graph, String varName)
+		public static @A2 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_A2 node;
+			@A2 node;
 			if(poolLevel == 0)
-				node = new Node_A2();
+				node = new @A2();
 			else
 			{
 				node = pool[--poolLevel];
@@ -371,7 +368,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "A2"; } }
 		public override INode CreateNode()
 		{
-			return new Node_A2();
+			return new @A2();
 		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -396,7 +393,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_A2 newNode = new Node_A2();
+			@A2 newNode = new @A2();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -410,7 +407,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -422,29 +419,29 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node A3 ***
 
-	public interface INode_A3 : INode_Node
+	public interface IA3 : INode
 	{
 		int @a3 { get; set; }
 	}
 
-	public sealed class Node_A3 : LGSPNode, INode_A3
+	public sealed class @A3 : LGSPNode, IA3
 	{
 		private static int poolLevel = 0;
-		private static Node_A3[] pool = new Node_A3[10];
-		public Node_A3() : base(NodeType_A3.typeVar)
+		private static @A3[] pool = new @A3[10];
+		public @A3() : base(NodeType_A3.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_A3(this); }
+		public override INode Clone() { return new @A3(this); }
 
-		private Node_A3(Node_A3 oldElem) : base(NodeType_A3.typeVar)
+		private @A3(@A3 oldElem) : base(NodeType_A3.typeVar)
 		{
 			_a3 = oldElem._a3;
 		}
-		public static Node_A3 CreateNode(LGSPGraph graph)
+		public static @A3 CreateNode(LGSPGraph graph)
 		{
-			Node_A3 node;
+			@A3 node;
 			if(poolLevel == 0)
-				node = new Node_A3();
+				node = new @A3();
 			else
 			{
 				node = pool[--poolLevel];
@@ -457,11 +454,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_A3 CreateNode(LGSPGraph graph, String varName)
+		public static @A3 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_A3 node;
+			@A3 node;
 			if(poolLevel == 0)
-				node = new Node_A3();
+				node = new @A3();
 			else
 			{
 				node = pool[--poolLevel];
@@ -524,7 +521,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "A3"; } }
 		public override INode CreateNode()
 		{
-			return new Node_A3();
+			return new @A3();
 		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -549,14 +546,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_A3 newNode = new Node_A3();
+			@A3 newNode = new @A3();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A3:
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A3
 					{
-						INode_A3 old = (INode_A3) oldNode;
+						@IA3 old = (@IA3) oldNode;
 						newNode.@a3 = old.@a3;
 					}
 					break;
@@ -568,29 +565,29 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node A4 ***
 
-	public interface INode_A4 : INode_Node
+	public interface IA4 : INode
 	{
 		int @a4 { get; set; }
 	}
 
-	public sealed class Node_A4 : LGSPNode, INode_A4
+	public sealed class @A4 : LGSPNode, IA4
 	{
 		private static int poolLevel = 0;
-		private static Node_A4[] pool = new Node_A4[10];
-		public Node_A4() : base(NodeType_A4.typeVar)
+		private static @A4[] pool = new @A4[10];
+		public @A4() : base(NodeType_A4.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_A4(this); }
+		public override INode Clone() { return new @A4(this); }
 
-		private Node_A4(Node_A4 oldElem) : base(NodeType_A4.typeVar)
+		private @A4(@A4 oldElem) : base(NodeType_A4.typeVar)
 		{
 			_a4 = oldElem._a4;
 		}
-		public static Node_A4 CreateNode(LGSPGraph graph)
+		public static @A4 CreateNode(LGSPGraph graph)
 		{
-			Node_A4 node;
+			@A4 node;
 			if(poolLevel == 0)
-				node = new Node_A4();
+				node = new @A4();
 			else
 			{
 				node = pool[--poolLevel];
@@ -603,11 +600,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_A4 CreateNode(LGSPGraph graph, String varName)
+		public static @A4 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_A4 node;
+			@A4 node;
 			if(poolLevel == 0)
-				node = new Node_A4();
+				node = new @A4();
 			else
 			{
 				node = pool[--poolLevel];
@@ -670,7 +667,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "A4"; } }
 		public override INode CreateNode()
 		{
-			return new Node_A4();
+			return new @A4();
 		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -695,7 +692,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_A4 newNode = new Node_A4();
+			@A4 newNode = new @A4();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
@@ -710,7 +707,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A4
 					{
-						INode_A4 old = (INode_A4) oldNode;
+						@IA4 old = (@IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -722,29 +719,29 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node A5 ***
 
-	public interface INode_A5 : INode_Node
+	public interface IA5 : INode
 	{
 		int @a5 { get; set; }
 	}
 
-	public sealed class Node_A5 : LGSPNode, INode_A5
+	public sealed class @A5 : LGSPNode, IA5
 	{
 		private static int poolLevel = 0;
-		private static Node_A5[] pool = new Node_A5[10];
-		public Node_A5() : base(NodeType_A5.typeVar)
+		private static @A5[] pool = new @A5[10];
+		public @A5() : base(NodeType_A5.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_A5(this); }
+		public override INode Clone() { return new @A5(this); }
 
-		private Node_A5(Node_A5 oldElem) : base(NodeType_A5.typeVar)
+		private @A5(@A5 oldElem) : base(NodeType_A5.typeVar)
 		{
 			_a5 = oldElem._a5;
 		}
-		public static Node_A5 CreateNode(LGSPGraph graph)
+		public static @A5 CreateNode(LGSPGraph graph)
 		{
-			Node_A5 node;
+			@A5 node;
 			if(poolLevel == 0)
-				node = new Node_A5();
+				node = new @A5();
 			else
 			{
 				node = pool[--poolLevel];
@@ -757,11 +754,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_A5 CreateNode(LGSPGraph graph, String varName)
+		public static @A5 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_A5 node;
+			@A5 node;
 			if(poolLevel == 0)
-				node = new Node_A5();
+				node = new @A5();
 			else
 			{
 				node = pool[--poolLevel];
@@ -824,7 +821,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "A5"; } }
 		public override INode CreateNode()
 		{
-			return new Node_A5();
+			return new @A5();
 		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -849,7 +846,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_A5 newNode = new Node_A5();
+			@A5 newNode = new @A5();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A5:
@@ -857,7 +854,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A5
 					{
-						INode_A5 old = (INode_A5) oldNode;
+						@IA5 old = (@IA5) oldNode;
 						newNode.@a5 = old.@a5;
 					}
 					break;
@@ -869,30 +866,30 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node B21 ***
 
-	public interface INode_B21 : INode_A2
+	public interface IB21 : IA2
 	{
 		int @b21 { get; set; }
 	}
 
-	public sealed class Node_B21 : LGSPNode, INode_B21
+	public sealed class @B21 : LGSPNode, IB21
 	{
 		private static int poolLevel = 0;
-		private static Node_B21[] pool = new Node_B21[10];
-		public Node_B21() : base(NodeType_B21.typeVar)
+		private static @B21[] pool = new @B21[10];
+		public @B21() : base(NodeType_B21.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_B21(this); }
+		public override INode Clone() { return new @B21(this); }
 
-		private Node_B21(Node_B21 oldElem) : base(NodeType_B21.typeVar)
+		private @B21(@B21 oldElem) : base(NodeType_B21.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b21 = oldElem._b21;
 		}
-		public static Node_B21 CreateNode(LGSPGraph graph)
+		public static @B21 CreateNode(LGSPGraph graph)
 		{
-			Node_B21 node;
+			@B21 node;
 			if(poolLevel == 0)
-				node = new Node_B21();
+				node = new @B21();
 			else
 			{
 				node = pool[--poolLevel];
@@ -906,11 +903,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_B21 CreateNode(LGSPGraph graph, String varName)
+		public static @B21 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_B21 node;
+			@B21 node;
 			if(poolLevel == 0)
-				node = new Node_B21();
+				node = new @B21();
 			else
 			{
 				node = pool[--poolLevel];
@@ -984,7 +981,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "B21"; } }
 		public override INode CreateNode()
 		{
-			return new Node_B21();
+			return new @B21();
 		}
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -1011,7 +1008,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_B21 newNode = new Node_B21();
+			@B21 newNode = new @B21();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -1024,14 +1021,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
 				case (int) NodeTypes.@B21:
 					// copy attributes for: B21
 					{
-						INode_B21 old = (INode_B21) oldNode;
+						@IB21 old = (@IB21) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b21 = old.@b21;
 					}
@@ -1044,30 +1041,30 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node B22 ***
 
-	public interface INode_B22 : INode_A2
+	public interface IB22 : IA2
 	{
 		int @b22 { get; set; }
 	}
 
-	public sealed class Node_B22 : LGSPNode, INode_B22
+	public sealed class @B22 : LGSPNode, IB22
 	{
 		private static int poolLevel = 0;
-		private static Node_B22[] pool = new Node_B22[10];
-		public Node_B22() : base(NodeType_B22.typeVar)
+		private static @B22[] pool = new @B22[10];
+		public @B22() : base(NodeType_B22.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_B22(this); }
+		public override INode Clone() { return new @B22(this); }
 
-		private Node_B22(Node_B22 oldElem) : base(NodeType_B22.typeVar)
+		private @B22(@B22 oldElem) : base(NodeType_B22.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
 		}
-		public static Node_B22 CreateNode(LGSPGraph graph)
+		public static @B22 CreateNode(LGSPGraph graph)
 		{
-			Node_B22 node;
+			@B22 node;
 			if(poolLevel == 0)
-				node = new Node_B22();
+				node = new @B22();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1081,11 +1078,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_B22 CreateNode(LGSPGraph graph, String varName)
+		public static @B22 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_B22 node;
+			@B22 node;
 			if(poolLevel == 0)
-				node = new Node_B22();
+				node = new @B22();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1159,7 +1156,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "B22"; } }
 		public override INode CreateNode()
 		{
-			return new Node_B22();
+			return new @B22();
 		}
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -1186,7 +1183,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_B22 newNode = new Node_B22();
+			@B22 newNode = new @B22();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -1195,7 +1192,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -1206,7 +1203,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: B22
 					{
-						INode_B22 old = (INode_B22) oldNode;
+						@IB22 old = (@IB22) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 					}
@@ -1219,30 +1216,30 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node B23 ***
 
-	public interface INode_B23 : INode_A2
+	public interface IB23 : IA2
 	{
 		int @b23 { get; set; }
 	}
 
-	public sealed class Node_B23 : LGSPNode, INode_B23
+	public sealed class @B23 : LGSPNode, IB23
 	{
 		private static int poolLevel = 0;
-		private static Node_B23[] pool = new Node_B23[10];
-		public Node_B23() : base(NodeType_B23.typeVar)
+		private static @B23[] pool = new @B23[10];
+		public @B23() : base(NodeType_B23.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_B23(this); }
+		public override INode Clone() { return new @B23(this); }
 
-		private Node_B23(Node_B23 oldElem) : base(NodeType_B23.typeVar)
+		private @B23(@B23 oldElem) : base(NodeType_B23.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b23 = oldElem._b23;
 		}
-		public static Node_B23 CreateNode(LGSPGraph graph)
+		public static @B23 CreateNode(LGSPGraph graph)
 		{
-			Node_B23 node;
+			@B23 node;
 			if(poolLevel == 0)
-				node = new Node_B23();
+				node = new @B23();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1256,11 +1253,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_B23 CreateNode(LGSPGraph graph, String varName)
+		public static @B23 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_B23 node;
+			@B23 node;
 			if(poolLevel == 0)
-				node = new Node_B23();
+				node = new @B23();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1334,7 +1331,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "B23"; } }
 		public override INode CreateNode()
 		{
-			return new Node_B23();
+			return new @B23();
 		}
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -1361,7 +1358,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_B23 newNode = new Node_B23();
+			@B23 newNode = new @B23();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -1373,7 +1370,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -1381,7 +1378,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: B23
 					{
-						INode_B23 old = (INode_B23) oldNode;
+						@IB23 old = (@IB23) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b23 = old.@b23;
 					}
@@ -1394,30 +1391,30 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node B41 ***
 
-	public interface INode_B41 : INode_A4
+	public interface IB41 : IA4
 	{
 		int @b41 { get; set; }
 	}
 
-	public sealed class Node_B41 : LGSPNode, INode_B41
+	public sealed class @B41 : LGSPNode, IB41
 	{
 		private static int poolLevel = 0;
-		private static Node_B41[] pool = new Node_B41[10];
-		public Node_B41() : base(NodeType_B41.typeVar)
+		private static @B41[] pool = new @B41[10];
+		public @B41() : base(NodeType_B41.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_B41(this); }
+		public override INode Clone() { return new @B41(this); }
 
-		private Node_B41(Node_B41 oldElem) : base(NodeType_B41.typeVar)
+		private @B41(@B41 oldElem) : base(NodeType_B41.typeVar)
 		{
 			_a4 = oldElem._a4;
 			_b41 = oldElem._b41;
 		}
-		public static Node_B41 CreateNode(LGSPGraph graph)
+		public static @B41 CreateNode(LGSPGraph graph)
 		{
-			Node_B41 node;
+			@B41 node;
 			if(poolLevel == 0)
-				node = new Node_B41();
+				node = new @B41();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1431,11 +1428,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_B41 CreateNode(LGSPGraph graph, String varName)
+		public static @B41 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_B41 node;
+			@B41 node;
 			if(poolLevel == 0)
-				node = new Node_B41();
+				node = new @B41();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1509,7 +1506,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "B41"; } }
 		public override INode CreateNode()
 		{
-			return new Node_B41();
+			return new @B41();
 		}
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -1536,7 +1533,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_B41 newNode = new Node_B41();
+			@B41 newNode = new @B41();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
@@ -1545,7 +1542,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
-						INode_A4 old = (INode_A4) oldNode;
+						@IA4 old = (@IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -1557,7 +1554,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: B41
 					{
-						INode_B41 old = (INode_B41) oldNode;
+						@IB41 old = (@IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -1570,30 +1567,30 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node B42 ***
 
-	public interface INode_B42 : INode_A4
+	public interface IB42 : IA4
 	{
 		int @b42 { get; set; }
 	}
 
-	public sealed class Node_B42 : LGSPNode, INode_B42
+	public sealed class @B42 : LGSPNode, IB42
 	{
 		private static int poolLevel = 0;
-		private static Node_B42[] pool = new Node_B42[10];
-		public Node_B42() : base(NodeType_B42.typeVar)
+		private static @B42[] pool = new @B42[10];
+		public @B42() : base(NodeType_B42.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_B42(this); }
+		public override INode Clone() { return new @B42(this); }
 
-		private Node_B42(Node_B42 oldElem) : base(NodeType_B42.typeVar)
+		private @B42(@B42 oldElem) : base(NodeType_B42.typeVar)
 		{
 			_a4 = oldElem._a4;
 			_b42 = oldElem._b42;
 		}
-		public static Node_B42 CreateNode(LGSPGraph graph)
+		public static @B42 CreateNode(LGSPGraph graph)
 		{
-			Node_B42 node;
+			@B42 node;
 			if(poolLevel == 0)
-				node = new Node_B42();
+				node = new @B42();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1607,11 +1604,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_B42 CreateNode(LGSPGraph graph, String varName)
+		public static @B42 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_B42 node;
+			@B42 node;
 			if(poolLevel == 0)
-				node = new Node_B42();
+				node = new @B42();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1685,7 +1682,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "B42"; } }
 		public override INode CreateNode()
 		{
-			return new Node_B42();
+			return new @B42();
 		}
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -1712,7 +1709,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_B42 newNode = new Node_B42();
+			@B42 newNode = new @B42();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
@@ -1723,7 +1720,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A4
 					{
-						INode_A4 old = (INode_A4) oldNode;
+						@IA4 old = (@IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -1733,7 +1730,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: B42
 					{
-						INode_B42 old = (INode_B42) oldNode;
+						@IB42 old = (@IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -1746,28 +1743,28 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node B43 ***
 
-	public interface INode_B43 : INode_A4
+	public interface IB43 : IA4
 	{
 	}
 
-	public sealed class Node_B43 : LGSPNode, INode_B43
+	public sealed class @B43 : LGSPNode, IB43
 	{
 		private static int poolLevel = 0;
-		private static Node_B43[] pool = new Node_B43[10];
-		public Node_B43() : base(NodeType_B43.typeVar)
+		private static @B43[] pool = new @B43[10];
+		public @B43() : base(NodeType_B43.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_B43(this); }
+		public override INode Clone() { return new @B43(this); }
 
-		private Node_B43(Node_B43 oldElem) : base(NodeType_B43.typeVar)
+		private @B43(@B43 oldElem) : base(NodeType_B43.typeVar)
 		{
 			_a4 = oldElem._a4;
 		}
-		public static Node_B43 CreateNode(LGSPGraph graph)
+		public static @B43 CreateNode(LGSPGraph graph)
 		{
-			Node_B43 node;
+			@B43 node;
 			if(poolLevel == 0)
-				node = new Node_B43();
+				node = new @B43();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1780,11 +1777,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_B43 CreateNode(LGSPGraph graph, String varName)
+		public static @B43 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_B43 node;
+			@B43 node;
 			if(poolLevel == 0)
-				node = new Node_B43();
+				node = new @B43();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1845,7 +1842,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "B43"; } }
 		public override INode CreateNode()
 		{
-			return new Node_B43();
+			return new @B43();
 		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -1870,7 +1867,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_B43 newNode = new Node_B43();
+			@B43 newNode = new @B43();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
@@ -1881,7 +1878,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A4
 					{
-						INode_A4 old = (INode_A4) oldNode;
+						@IA4 old = (@IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -1891,7 +1888,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: B43
 					{
-						INode_B43 old = (INode_B43) oldNode;
+						@IB43 old = (@IB43) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -1903,31 +1900,31 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node C221 ***
 
-	public interface INode_C221 : INode_B22
+	public interface IC221 : IB22
 	{
 		int @c221 { get; set; }
 	}
 
-	public sealed class Node_C221 : LGSPNode, INode_C221
+	public sealed class @C221 : LGSPNode, IC221
 	{
 		private static int poolLevel = 0;
-		private static Node_C221[] pool = new Node_C221[10];
-		public Node_C221() : base(NodeType_C221.typeVar)
+		private static @C221[] pool = new @C221[10];
+		public @C221() : base(NodeType_C221.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_C221(this); }
+		public override INode Clone() { return new @C221(this); }
 
-		private Node_C221(Node_C221 oldElem) : base(NodeType_C221.typeVar)
+		private @C221(@C221 oldElem) : base(NodeType_C221.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
 			_c221 = oldElem._c221;
 		}
-		public static Node_C221 CreateNode(LGSPGraph graph)
+		public static @C221 CreateNode(LGSPGraph graph)
 		{
-			Node_C221 node;
+			@C221 node;
 			if(poolLevel == 0)
-				node = new Node_C221();
+				node = new @C221();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1942,11 +1939,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_C221 CreateNode(LGSPGraph graph, String varName)
+		public static @C221 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_C221 node;
+			@C221 node;
 			if(poolLevel == 0)
-				node = new Node_C221();
+				node = new @C221();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2031,7 +2028,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "C221"; } }
 		public override INode CreateNode()
 		{
-			return new Node_C221();
+			return new @C221();
 		}
 		public override int NumAttributes { get { return 3; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -2060,7 +2057,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_C221 newNode = new Node_C221();
+			@C221 newNode = new @C221();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -2069,7 +2066,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -2078,7 +2075,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D11_2221:
 					// copy attributes for: B22
 					{
-						INode_B22 old = (INode_B22) oldNode;
+						@IB22 old = (@IB22) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 					}
@@ -2087,7 +2084,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: C221
 					{
-						INode_C221 old = (INode_C221) oldNode;
+						@IC221 old = (@IC221) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@c221 = old.@c221;
@@ -2101,21 +2098,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node C222_411 ***
 
-	public interface INode_C222_411 : INode_B22, INode_B41
+	public interface IC222_411 : IB22, IB41
 	{
 		int @c222_411 { get; set; }
 	}
 
-	public sealed class Node_C222_411 : LGSPNode, INode_C222_411
+	public sealed class @C222_411 : LGSPNode, IC222_411
 	{
 		private static int poolLevel = 0;
-		private static Node_C222_411[] pool = new Node_C222_411[10];
-		public Node_C222_411() : base(NodeType_C222_411.typeVar)
+		private static @C222_411[] pool = new @C222_411[10];
+		public @C222_411() : base(NodeType_C222_411.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_C222_411(this); }
+		public override INode Clone() { return new @C222_411(this); }
 
-		private Node_C222_411(Node_C222_411 oldElem) : base(NodeType_C222_411.typeVar)
+		private @C222_411(@C222_411 oldElem) : base(NodeType_C222_411.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
@@ -2123,11 +2120,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			_b41 = oldElem._b41;
 			_c222_411 = oldElem._c222_411;
 		}
-		public static Node_C222_411 CreateNode(LGSPGraph graph)
+		public static @C222_411 CreateNode(LGSPGraph graph)
 		{
-			Node_C222_411 node;
+			@C222_411 node;
 			if(poolLevel == 0)
-				node = new Node_C222_411();
+				node = new @C222_411();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2144,11 +2141,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_C222_411 CreateNode(LGSPGraph graph, String varName)
+		public static @C222_411 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_C222_411 node;
+			@C222_411 node;
 			if(poolLevel == 0)
-				node = new Node_C222_411();
+				node = new @C222_411();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2255,7 +2252,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "C222_411"; } }
 		public override INode CreateNode()
 		{
-			return new Node_C222_411();
+			return new @C222_411();
 		}
 		public override int NumAttributes { get { return 5; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -2288,7 +2285,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_C222_411 newNode = new Node_C222_411();
+			@C222_411 newNode = new @C222_411();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -2296,7 +2293,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B23:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -2306,7 +2303,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
-						INode_A4 old = (INode_A4) oldNode;
+						@IA4 old = (@IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -2314,7 +2311,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C221:
 					// copy attributes for: B22
 					{
-						INode_B22 old = (INode_B22) oldNode;
+						@IB22 old = (@IB22) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 					}
@@ -2323,7 +2320,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C412_421_431_51:
 					// copy attributes for: B41
 					{
-						INode_B41 old = (INode_B41) oldNode;
+						@IB41 old = (@IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -2333,7 +2330,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: C222_411
 					{
-						INode_C222_411 old = (INode_C222_411) oldNode;
+						@IC222_411 old = (@IC222_411) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@a4 = old.@a4;
@@ -2344,12 +2341,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					// copy attributes for: B41
 					{
-						INode_B41 old = (INode_B41) oldNode;
+						@IB41 old = (@IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -2362,31 +2359,31 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node C412_421_431_51 ***
 
-	public interface INode_C412_421_431_51 : INode_B41, INode_B42, INode_B43, INode_A5
+	public interface IC412_421_431_51 : IB41, IB42, IB43, IA5
 	{
 	}
 
-	public sealed class Node_C412_421_431_51 : LGSPNode, INode_C412_421_431_51
+	public sealed class @C412_421_431_51 : LGSPNode, IC412_421_431_51
 	{
 		private static int poolLevel = 0;
-		private static Node_C412_421_431_51[] pool = new Node_C412_421_431_51[10];
-		public Node_C412_421_431_51() : base(NodeType_C412_421_431_51.typeVar)
+		private static @C412_421_431_51[] pool = new @C412_421_431_51[10];
+		public @C412_421_431_51() : base(NodeType_C412_421_431_51.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_C412_421_431_51(this); }
+		public override INode Clone() { return new @C412_421_431_51(this); }
 
-		private Node_C412_421_431_51(Node_C412_421_431_51 oldElem) : base(NodeType_C412_421_431_51.typeVar)
+		private @C412_421_431_51(@C412_421_431_51 oldElem) : base(NodeType_C412_421_431_51.typeVar)
 		{
 			_a4 = oldElem._a4;
 			_b41 = oldElem._b41;
 			_b42 = oldElem._b42;
 			_a5 = oldElem._a5;
 		}
-		public static Node_C412_421_431_51 CreateNode(LGSPGraph graph)
+		public static @C412_421_431_51 CreateNode(LGSPGraph graph)
 		{
-			Node_C412_421_431_51 node;
+			@C412_421_431_51 node;
 			if(poolLevel == 0)
-				node = new Node_C412_421_431_51();
+				node = new @C412_421_431_51();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2402,11 +2399,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_C412_421_431_51 CreateNode(LGSPGraph graph, String varName)
+		public static @C412_421_431_51 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_C412_421_431_51 node;
+			@C412_421_431_51 node;
 			if(poolLevel == 0)
-				node = new Node_C412_421_431_51();
+				node = new @C412_421_431_51();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2500,7 +2497,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "C412_421_431_51"; } }
 		public override INode CreateNode()
 		{
-			return new Node_C412_421_431_51();
+			return new @C412_421_431_51();
 		}
 		public override int NumAttributes { get { return 4; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -2531,20 +2528,20 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_C412_421_431_51 newNode = new Node_C412_421_431_51();
+			@C412_421_431_51 newNode = new @C412_421_431_51();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
 					// copy attributes for: A4
 					{
-						INode_A4 old = (INode_A4) oldNode;
+						@IA4 old = (@IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
 				case (int) NodeTypes.@A5:
 					// copy attributes for: A5
 					{
-						INode_A5 old = (INode_A5) oldNode;
+						@IA5 old = (@IA5) oldNode;
 						newNode.@a5 = old.@a5;
 					}
 					break;
@@ -2554,7 +2551,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: B41
 					{
-						INode_B41 old = (INode_B41) oldNode;
+						@IB41 old = (@IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -2562,7 +2559,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B42:
 					// copy attributes for: B42
 					{
-						INode_B42 old = (INode_B42) oldNode;
+						@IB42 old = (@IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -2570,7 +2567,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B43:
 					// copy attributes for: B43
 					{
-						INode_B43 old = (INode_B43) oldNode;
+						@IB43 old = (@IB43) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -2578,7 +2575,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: C412_421_431_51
 					{
-						INode_C412_421_431_51 old = (INode_C412_421_431_51) oldNode;
+						@IC412_421_431_51 old = (@IC412_421_431_51) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 						newNode.@b42 = old.@b42;
@@ -2588,7 +2585,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: B42
 					{
-						INode_B42 old = (INode_B42) oldNode;
+						@IB42 old = (@IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -2603,31 +2600,31 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node C432_422 ***
 
-	public interface INode_C432_422 : INode_B43, INode_B42
+	public interface IC432_422 : IB43, IB42
 	{
 		int @c432_422 { get; set; }
 	}
 
-	public sealed class Node_C432_422 : LGSPNode, INode_C432_422
+	public sealed class @C432_422 : LGSPNode, IC432_422
 	{
 		private static int poolLevel = 0;
-		private static Node_C432_422[] pool = new Node_C432_422[10];
-		public Node_C432_422() : base(NodeType_C432_422.typeVar)
+		private static @C432_422[] pool = new @C432_422[10];
+		public @C432_422() : base(NodeType_C432_422.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_C432_422(this); }
+		public override INode Clone() { return new @C432_422(this); }
 
-		private Node_C432_422(Node_C432_422 oldElem) : base(NodeType_C432_422.typeVar)
+		private @C432_422(@C432_422 oldElem) : base(NodeType_C432_422.typeVar)
 		{
 			_a4 = oldElem._a4;
 			_b42 = oldElem._b42;
 			_c432_422 = oldElem._c432_422;
 		}
-		public static Node_C432_422 CreateNode(LGSPGraph graph)
+		public static @C432_422 CreateNode(LGSPGraph graph)
 		{
-			Node_C432_422 node;
+			@C432_422 node;
 			if(poolLevel == 0)
-				node = new Node_C432_422();
+				node = new @C432_422();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2642,11 +2639,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_C432_422 CreateNode(LGSPGraph graph, String varName)
+		public static @C432_422 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_C432_422 node;
+			@C432_422 node;
 			if(poolLevel == 0)
-				node = new Node_C432_422();
+				node = new @C432_422();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2731,7 +2728,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "C432_422"; } }
 		public override INode CreateNode()
 		{
-			return new Node_C432_422();
+			return new @C432_422();
 		}
 		public override int NumAttributes { get { return 3; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -2760,7 +2757,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_C432_422 newNode = new Node_C432_422();
+			@C432_422 newNode = new @C432_422();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
@@ -2770,14 +2767,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A4
 					{
-						INode_A4 old = (INode_A4) oldNode;
+						@IA4 old = (@IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
 				case (int) NodeTypes.@B42:
 					// copy attributes for: B42
 					{
-						INode_B42 old = (INode_B42) oldNode;
+						@IB42 old = (@IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -2785,7 +2782,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B43:
 					// copy attributes for: B43
 					{
-						INode_B43 old = (INode_B43) oldNode;
+						@IB43 old = (@IB43) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -2793,7 +2790,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: B42
 					{
-						INode_B42 old = (INode_B42) oldNode;
+						@IB42 old = (@IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -2803,7 +2800,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: C432_422
 					{
-						INode_C432_422 old = (INode_C432_422) oldNode;
+						@IC432_422 old = (@IC432_422) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 						newNode.@c432_422 = old.@c432_422;
@@ -2817,21 +2814,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node D11_2221 ***
 
-	public interface INode_D11_2221 : INode_A1, INode_C222_411
+	public interface ID11_2221 : IA1, IC222_411
 	{
 		int @d11_2221 { get; set; }
 	}
 
-	public sealed class Node_D11_2221 : LGSPNode, INode_D11_2221
+	public sealed class @D11_2221 : LGSPNode, ID11_2221
 	{
 		private static int poolLevel = 0;
-		private static Node_D11_2221[] pool = new Node_D11_2221[10];
-		public Node_D11_2221() : base(NodeType_D11_2221.typeVar)
+		private static @D11_2221[] pool = new @D11_2221[10];
+		public @D11_2221() : base(NodeType_D11_2221.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_D11_2221(this); }
+		public override INode Clone() { return new @D11_2221(this); }
 
-		private Node_D11_2221(Node_D11_2221 oldElem) : base(NodeType_D11_2221.typeVar)
+		private @D11_2221(@D11_2221 oldElem) : base(NodeType_D11_2221.typeVar)
 		{
 			_a1 = oldElem._a1;
 			_a2 = oldElem._a2;
@@ -2841,11 +2838,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			_c222_411 = oldElem._c222_411;
 			_d11_2221 = oldElem._d11_2221;
 		}
-		public static Node_D11_2221 CreateNode(LGSPGraph graph)
+		public static @D11_2221 CreateNode(LGSPGraph graph)
 		{
-			Node_D11_2221 node;
+			@D11_2221 node;
 			if(poolLevel == 0)
-				node = new Node_D11_2221();
+				node = new @D11_2221();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2864,11 +2861,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_D11_2221 CreateNode(LGSPGraph graph, String varName)
+		public static @D11_2221 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_D11_2221 node;
+			@D11_2221 node;
 			if(poolLevel == 0)
-				node = new Node_D11_2221();
+				node = new @D11_2221();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2997,7 +2994,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "D11_2221"; } }
 		public override INode CreateNode()
 		{
-			return new Node_D11_2221();
+			return new @D11_2221();
 		}
 		public override int NumAttributes { get { return 7; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -3034,13 +3031,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_D11_2221 newNode = new Node_D11_2221();
+			@D11_2221 newNode = new @D11_2221();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A1:
 					// copy attributes for: A1
 					{
-						INode_A1 old = (INode_A1) oldNode;
+						@IA1 old = (@IA1) oldNode;
 						newNode.@a1 = old.@a1;
 					}
 					break;
@@ -3049,7 +3046,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B23:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -3059,7 +3056,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
-						INode_A4 old = (INode_A4) oldNode;
+						@IA4 old = (@IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -3067,7 +3064,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C221:
 					// copy attributes for: B22
 					{
-						INode_B22 old = (INode_B22) oldNode;
+						@IB22 old = (@IB22) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 					}
@@ -3076,7 +3073,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C412_421_431_51:
 					// copy attributes for: B41
 					{
-						INode_B41 old = (INode_B41) oldNode;
+						@IB41 old = (@IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -3085,7 +3082,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: C222_411
 					{
-						INode_C222_411 old = (INode_C222_411) oldNode;
+						@IC222_411 old = (@IC222_411) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@a4 = old.@a4;
@@ -3096,7 +3093,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D11_2221:
 					// copy attributes for: D11_2221
 					{
-						INode_D11_2221 old = (INode_D11_2221) oldNode;
+						@ID11_2221 old = (@ID11_2221) oldNode;
 						newNode.@a1 = old.@a1;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
@@ -3109,12 +3106,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					// copy attributes for: B41
 					{
-						INode_B41 old = (INode_B41) oldNode;
+						@IB41 old = (@IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -3127,21 +3124,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node D2211_2222_31 ***
 
-	public interface INode_D2211_2222_31 : INode_C221, INode_C222_411, INode_A3
+	public interface ID2211_2222_31 : IC221, IC222_411, IA3
 	{
 		int @d2211_2222_31 { get; set; }
 	}
 
-	public sealed class Node_D2211_2222_31 : LGSPNode, INode_D2211_2222_31
+	public sealed class @D2211_2222_31 : LGSPNode, ID2211_2222_31
 	{
 		private static int poolLevel = 0;
-		private static Node_D2211_2222_31[] pool = new Node_D2211_2222_31[10];
-		public Node_D2211_2222_31() : base(NodeType_D2211_2222_31.typeVar)
+		private static @D2211_2222_31[] pool = new @D2211_2222_31[10];
+		public @D2211_2222_31() : base(NodeType_D2211_2222_31.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_D2211_2222_31(this); }
+		public override INode Clone() { return new @D2211_2222_31(this); }
 
-		private Node_D2211_2222_31(Node_D2211_2222_31 oldElem) : base(NodeType_D2211_2222_31.typeVar)
+		private @D2211_2222_31(@D2211_2222_31 oldElem) : base(NodeType_D2211_2222_31.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
@@ -3152,11 +3149,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			_a3 = oldElem._a3;
 			_d2211_2222_31 = oldElem._d2211_2222_31;
 		}
-		public static Node_D2211_2222_31 CreateNode(LGSPGraph graph)
+		public static @D2211_2222_31 CreateNode(LGSPGraph graph)
 		{
-			Node_D2211_2222_31 node;
+			@D2211_2222_31 node;
 			if(poolLevel == 0)
-				node = new Node_D2211_2222_31();
+				node = new @D2211_2222_31();
 			else
 			{
 				node = pool[--poolLevel];
@@ -3176,11 +3173,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_D2211_2222_31 CreateNode(LGSPGraph graph, String varName)
+		public static @D2211_2222_31 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_D2211_2222_31 node;
+			@D2211_2222_31 node;
 			if(poolLevel == 0)
-				node = new Node_D2211_2222_31();
+				node = new @D2211_2222_31();
 			else
 			{
 				node = pool[--poolLevel];
@@ -3320,7 +3317,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override String Name { get { return "D2211_2222_31"; } }
 		public override INode CreateNode()
 		{
-			return new Node_D2211_2222_31();
+			return new @D2211_2222_31();
 		}
 		public override int NumAttributes { get { return 8; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -3359,7 +3356,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_D2211_2222_31 newNode = new Node_D2211_2222_31();
+			@D2211_2222_31 newNode = new @D2211_2222_31();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -3367,14 +3364,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B23:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
 				case (int) NodeTypes.@A3:
 					// copy attributes for: A3
 					{
-						INode_A3 old = (INode_A3) oldNode;
+						@IA3 old = (@IA3) oldNode;
 						newNode.@a3 = old.@a3;
 					}
 					break;
@@ -3384,14 +3381,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
-						INode_A4 old = (INode_A4) oldNode;
+						@IA4 old = (@IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
 				case (int) NodeTypes.@B22:
 					// copy attributes for: B22
 					{
-						INode_B22 old = (INode_B22) oldNode;
+						@IB22 old = (@IB22) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 					}
@@ -3400,7 +3397,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C412_421_431_51:
 					// copy attributes for: B41
 					{
-						INode_B41 old = (INode_B41) oldNode;
+						@IB41 old = (@IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -3408,7 +3405,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C221:
 					// copy attributes for: C221
 					{
-						INode_C221 old = (INode_C221) oldNode;
+						@IC221 old = (@IC221) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@c221 = old.@c221;
@@ -3418,7 +3415,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D11_2221:
 					// copy attributes for: C222_411
 					{
-						INode_C222_411 old = (INode_C222_411) oldNode;
+						@IC222_411 old = (@IC222_411) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@a4 = old.@a4;
@@ -3429,7 +3426,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: D2211_2222_31
 					{
-						INode_D2211_2222_31 old = (INode_D2211_2222_31) oldNode;
+						@ID2211_2222_31 old = (@ID2211_2222_31) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@c221 = old.@c221;
@@ -3443,12 +3440,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					// copy attributes for: B41
 					{
-						INode_B41 old = (INode_B41) oldNode;
+						@IB41 old = (@IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -3461,21 +3458,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Node D231_4121 ***
 
-	public interface INode_D231_4121 : INode_B23, INode_C412_421_431_51
+	public interface ID231_4121 : IB23, IC412_421_431_51
 	{
 		int @d231_4121 { get; set; }
 	}
 
-	public abstract class Node_D231_4121 : LGSPNode, INode_D231_4121
+	public abstract class @D231_4121 : LGSPNode, ID231_4121
 	{
 		private static int poolLevel = 0;
-		private static Node_D231_4121[] pool = new Node_D231_4121[10];
-		public Node_D231_4121() : base(NodeType_D231_4121.typeVar)
+		private static @D231_4121[] pool = new @D231_4121[10];
+		public @D231_4121() : base(NodeType_D231_4121.typeVar)
 		{
 		}
-		public static Node_D231_4121 CreateNode(LGSPGraph graph)
+		public static @D231_4121 CreateNode(LGSPGraph graph)
 		{
-			Node_D231_4121 node;
+			@D231_4121 node;
 			if(poolLevel == 0)
 				node = new global::test.D231_4121_Impl();
 			else
@@ -3496,9 +3493,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static Node_D231_4121 CreateNode(LGSPGraph graph, String varName)
+		public static @D231_4121 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_D231_4121 node;
+			@D231_4121 node;
 			if(poolLevel == 0)
 				node = new global::test.D231_4121_Impl();
 			else
@@ -3624,7 +3621,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_D231_4121 newNode = new global::test.D231_4121_Impl();
+			@D231_4121 newNode = new global::test.D231_4121_Impl();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -3633,28 +3630,28 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C221:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
 				case (int) NodeTypes.@A4:
 					// copy attributes for: A4
 					{
-						INode_A4 old = (INode_A4) oldNode;
+						@IA4 old = (@IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
 				case (int) NodeTypes.@A5:
 					// copy attributes for: A5
 					{
-						INode_A5 old = (INode_A5) oldNode;
+						@IA5 old = (@IA5) oldNode;
 						newNode.@a5 = old.@a5;
 					}
 					break;
 				case (int) NodeTypes.@B23:
 					// copy attributes for: B23
 					{
-						INode_B23 old = (INode_B23) oldNode;
+						@IB23 old = (@IB23) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b23 = old.@b23;
 					}
@@ -3662,7 +3659,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B41:
 					// copy attributes for: B41
 					{
-						INode_B41 old = (INode_B41) oldNode;
+						@IB41 old = (@IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -3670,7 +3667,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B42:
 					// copy attributes for: B42
 					{
-						INode_B42 old = (INode_B42) oldNode;
+						@IB42 old = (@IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -3678,7 +3675,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B43:
 					// copy attributes for: B43
 					{
-						INode_B43 old = (INode_B43) oldNode;
+						@IB43 old = (@IB43) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -3687,12 +3684,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A2
 					{
-						INode_A2 old = (INode_A2) oldNode;
+						@IA2 old = (@IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					// copy attributes for: B41
 					{
-						INode_B41 old = (INode_B41) oldNode;
+						@IB41 old = (@IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -3700,7 +3697,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C412_421_431_51:
 					// copy attributes for: C412_421_431_51
 					{
-						INode_C412_421_431_51 old = (INode_C412_421_431_51) oldNode;
+						@IC412_421_431_51 old = (@IC412_421_431_51) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 						newNode.@b42 = old.@b42;
@@ -3710,7 +3707,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: B42
 					{
-						INode_B42 old = (INode_B42) oldNode;
+						@IB42 old = (@IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -3720,7 +3717,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: D231_4121
 					{
-						INode_D231_4121 old = (INode_D231_4121) oldNode;
+						@ID231_4121 old = (@ID231_4121) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b23 = old.@b23;
 						newNode.@a4 = old.@a4;
@@ -4214,9 +4211,6 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Edge AEdge ***
 
-	public interface IEdge_AEdge : IEdge
-	{
-	}
 
 	public sealed class EdgeType_AEdge : EdgeType
 	{
@@ -4227,6 +4221,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 		}
 		public override String Name { get { return "AEdge"; } }
+		public override Directedness Directedness { get { return Directedness.Arbitrary; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
@@ -4246,30 +4241,27 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	// *** Edge Edge ***
 
-	public interface IEdge_Edge : IEdge_AEdge
-	{
-	}
 
-	public sealed class Edge_Edge : LGSPEdge, IEdge_Edge
+	public sealed class @Edge : LGSPEdge, IEdge
 	{
 		private static int poolLevel = 0;
-		private static Edge_Edge[] pool = new Edge_Edge[10];
-		public Edge_Edge(LGSPNode source, LGSPNode target)
+		private static @Edge[] pool = new @Edge[10];
+		public @Edge(LGSPNode source, LGSPNode target)
 			: base(EdgeType_Edge.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_Edge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new @Edge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_Edge(Edge_Edge oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @Edge(@Edge oldElem, LGSPNode newSource, LGSPNode newTarget)
 			: base(EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_Edge edge;
+			@Edge edge;
 			if(poolLevel == 0)
-				edge = new Edge_Edge(source, target);
+				edge = new @Edge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -4281,11 +4273,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return edge;
 		}
 
-		public static Edge_Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_Edge edge;
+			@Edge edge;
 			if(poolLevel == 0)
-				edge = new Edge_Edge(source, target);
+				edge = new @Edge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -4327,9 +4319,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 		}
 		public override String Name { get { return "Edge"; } }
+		public override Directedness Directedness { get { return Directedness.Directed; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_Edge((LGSPNode) source, (LGSPNode) target);
+			return new @Edge((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -4340,37 +4333,34 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			return new Edge_Edge((LGSPNode) source, (LGSPNode) target);
+			return new @Edge((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge UEdge ***
 
-	public interface IEdge_UEdge : IEdge_AEdge
-	{
-	}
 
-	public sealed class Edge_UEdge : LGSPEdge, IEdge_UEdge
+	public sealed class @UEdge : LGSPEdge, IEdge
 	{
 		private static int poolLevel = 0;
-		private static Edge_UEdge[] pool = new Edge_UEdge[10];
-		public Edge_UEdge(LGSPNode source, LGSPNode target)
+		private static @UEdge[] pool = new @UEdge[10];
+		public @UEdge(LGSPNode source, LGSPNode target)
 			: base(EdgeType_UEdge.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_UEdge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new @UEdge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_UEdge(Edge_UEdge oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @UEdge(@UEdge oldElem, LGSPNode newSource, LGSPNode newTarget)
 			: base(EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_UEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @UEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_UEdge edge;
+			@UEdge edge;
 			if(poolLevel == 0)
-				edge = new Edge_UEdge(source, target);
+				edge = new @UEdge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -4382,11 +4372,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return edge;
 		}
 
-		public static Edge_UEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @UEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_UEdge edge;
+			@UEdge edge;
 			if(poolLevel == 0)
-				edge = new Edge_UEdge(source, target);
+				edge = new @UEdge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -4428,9 +4418,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 		}
 		public override String Name { get { return "UEdge"; } }
+		public override Directedness Directedness { get { return Directedness.Undirected; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_UEdge((LGSPNode) source, (LGSPNode) target);
+			return new @UEdge((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -4441,7 +4432,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			return new Edge_UEdge((LGSPNode) source, (LGSPNode) target);
+			return new @UEdge((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
@@ -4556,214 +4547,214 @@ namespace de.unika.ipd.grGen.Model_complModel
 			InitializeGraph(this);
 		}
 
-		public Node_Node CreateNode_Node()
+		public @Node CreateNodeNode()
 		{
-			return Node_Node.CreateNode(this);
+			return @Node.CreateNode(this);
 		}
 
-		public Node_Node CreateNode_Node(String varName)
+		public @Node CreateNodeNode(String varName)
 		{
-			return Node_Node.CreateNode(this, varName);
+			return @Node.CreateNode(this, varName);
 		}
 
-		public Node_A1 CreateNode_A1()
+		public @A1 CreateNodeA1()
 		{
-			return Node_A1.CreateNode(this);
+			return @A1.CreateNode(this);
 		}
 
-		public Node_A1 CreateNode_A1(String varName)
+		public @A1 CreateNodeA1(String varName)
 		{
-			return Node_A1.CreateNode(this, varName);
+			return @A1.CreateNode(this, varName);
 		}
 
-		public Node_A2 CreateNode_A2()
+		public @A2 CreateNodeA2()
 		{
-			return Node_A2.CreateNode(this);
+			return @A2.CreateNode(this);
 		}
 
-		public Node_A2 CreateNode_A2(String varName)
+		public @A2 CreateNodeA2(String varName)
 		{
-			return Node_A2.CreateNode(this, varName);
+			return @A2.CreateNode(this, varName);
 		}
 
-		public Node_A3 CreateNode_A3()
+		public @A3 CreateNodeA3()
 		{
-			return Node_A3.CreateNode(this);
+			return @A3.CreateNode(this);
 		}
 
-		public Node_A3 CreateNode_A3(String varName)
+		public @A3 CreateNodeA3(String varName)
 		{
-			return Node_A3.CreateNode(this, varName);
+			return @A3.CreateNode(this, varName);
 		}
 
-		public Node_A4 CreateNode_A4()
+		public @A4 CreateNodeA4()
 		{
-			return Node_A4.CreateNode(this);
+			return @A4.CreateNode(this);
 		}
 
-		public Node_A4 CreateNode_A4(String varName)
+		public @A4 CreateNodeA4(String varName)
 		{
-			return Node_A4.CreateNode(this, varName);
+			return @A4.CreateNode(this, varName);
 		}
 
-		public Node_A5 CreateNode_A5()
+		public @A5 CreateNodeA5()
 		{
-			return Node_A5.CreateNode(this);
+			return @A5.CreateNode(this);
 		}
 
-		public Node_A5 CreateNode_A5(String varName)
+		public @A5 CreateNodeA5(String varName)
 		{
-			return Node_A5.CreateNode(this, varName);
+			return @A5.CreateNode(this, varName);
 		}
 
-		public Node_B21 CreateNode_B21()
+		public @B21 CreateNodeB21()
 		{
-			return Node_B21.CreateNode(this);
+			return @B21.CreateNode(this);
 		}
 
-		public Node_B21 CreateNode_B21(String varName)
+		public @B21 CreateNodeB21(String varName)
 		{
-			return Node_B21.CreateNode(this, varName);
+			return @B21.CreateNode(this, varName);
 		}
 
-		public Node_B22 CreateNode_B22()
+		public @B22 CreateNodeB22()
 		{
-			return Node_B22.CreateNode(this);
+			return @B22.CreateNode(this);
 		}
 
-		public Node_B22 CreateNode_B22(String varName)
+		public @B22 CreateNodeB22(String varName)
 		{
-			return Node_B22.CreateNode(this, varName);
+			return @B22.CreateNode(this, varName);
 		}
 
-		public Node_B23 CreateNode_B23()
+		public @B23 CreateNodeB23()
 		{
-			return Node_B23.CreateNode(this);
+			return @B23.CreateNode(this);
 		}
 
-		public Node_B23 CreateNode_B23(String varName)
+		public @B23 CreateNodeB23(String varName)
 		{
-			return Node_B23.CreateNode(this, varName);
+			return @B23.CreateNode(this, varName);
 		}
 
-		public Node_B41 CreateNode_B41()
+		public @B41 CreateNodeB41()
 		{
-			return Node_B41.CreateNode(this);
+			return @B41.CreateNode(this);
 		}
 
-		public Node_B41 CreateNode_B41(String varName)
+		public @B41 CreateNodeB41(String varName)
 		{
-			return Node_B41.CreateNode(this, varName);
+			return @B41.CreateNode(this, varName);
 		}
 
-		public Node_B42 CreateNode_B42()
+		public @B42 CreateNodeB42()
 		{
-			return Node_B42.CreateNode(this);
+			return @B42.CreateNode(this);
 		}
 
-		public Node_B42 CreateNode_B42(String varName)
+		public @B42 CreateNodeB42(String varName)
 		{
-			return Node_B42.CreateNode(this, varName);
+			return @B42.CreateNode(this, varName);
 		}
 
-		public Node_B43 CreateNode_B43()
+		public @B43 CreateNodeB43()
 		{
-			return Node_B43.CreateNode(this);
+			return @B43.CreateNode(this);
 		}
 
-		public Node_B43 CreateNode_B43(String varName)
+		public @B43 CreateNodeB43(String varName)
 		{
-			return Node_B43.CreateNode(this, varName);
+			return @B43.CreateNode(this, varName);
 		}
 
-		public Node_C221 CreateNode_C221()
+		public @C221 CreateNodeC221()
 		{
-			return Node_C221.CreateNode(this);
+			return @C221.CreateNode(this);
 		}
 
-		public Node_C221 CreateNode_C221(String varName)
+		public @C221 CreateNodeC221(String varName)
 		{
-			return Node_C221.CreateNode(this, varName);
+			return @C221.CreateNode(this, varName);
 		}
 
-		public Node_C222_411 CreateNode_C222_411()
+		public @C222_411 CreateNodeC222_411()
 		{
-			return Node_C222_411.CreateNode(this);
+			return @C222_411.CreateNode(this);
 		}
 
-		public Node_C222_411 CreateNode_C222_411(String varName)
+		public @C222_411 CreateNodeC222_411(String varName)
 		{
-			return Node_C222_411.CreateNode(this, varName);
+			return @C222_411.CreateNode(this, varName);
 		}
 
-		public Node_C412_421_431_51 CreateNode_C412_421_431_51()
+		public @C412_421_431_51 CreateNodeC412_421_431_51()
 		{
-			return Node_C412_421_431_51.CreateNode(this);
+			return @C412_421_431_51.CreateNode(this);
 		}
 
-		public Node_C412_421_431_51 CreateNode_C412_421_431_51(String varName)
+		public @C412_421_431_51 CreateNodeC412_421_431_51(String varName)
 		{
-			return Node_C412_421_431_51.CreateNode(this, varName);
+			return @C412_421_431_51.CreateNode(this, varName);
 		}
 
-		public Node_C432_422 CreateNode_C432_422()
+		public @C432_422 CreateNodeC432_422()
 		{
-			return Node_C432_422.CreateNode(this);
+			return @C432_422.CreateNode(this);
 		}
 
-		public Node_C432_422 CreateNode_C432_422(String varName)
+		public @C432_422 CreateNodeC432_422(String varName)
 		{
-			return Node_C432_422.CreateNode(this, varName);
+			return @C432_422.CreateNode(this, varName);
 		}
 
-		public Node_D11_2221 CreateNode_D11_2221()
+		public @D11_2221 CreateNodeD11_2221()
 		{
-			return Node_D11_2221.CreateNode(this);
+			return @D11_2221.CreateNode(this);
 		}
 
-		public Node_D11_2221 CreateNode_D11_2221(String varName)
+		public @D11_2221 CreateNodeD11_2221(String varName)
 		{
-			return Node_D11_2221.CreateNode(this, varName);
+			return @D11_2221.CreateNode(this, varName);
 		}
 
-		public Node_D2211_2222_31 CreateNode_D2211_2222_31()
+		public @D2211_2222_31 CreateNodeD2211_2222_31()
 		{
-			return Node_D2211_2222_31.CreateNode(this);
+			return @D2211_2222_31.CreateNode(this);
 		}
 
-		public Node_D2211_2222_31 CreateNode_D2211_2222_31(String varName)
+		public @D2211_2222_31 CreateNodeD2211_2222_31(String varName)
 		{
-			return Node_D2211_2222_31.CreateNode(this, varName);
+			return @D2211_2222_31.CreateNode(this, varName);
 		}
 
-		public Node_D231_4121 CreateNode_D231_4121()
+		public @D231_4121 CreateNodeD231_4121()
 		{
-			return Node_D231_4121.CreateNode(this);
+			return @D231_4121.CreateNode(this);
 		}
 
-		public Node_D231_4121 CreateNode_D231_4121(String varName)
+		public @D231_4121 CreateNodeD231_4121(String varName)
 		{
-			return Node_D231_4121.CreateNode(this, varName);
+			return @D231_4121.CreateNode(this, varName);
 		}
 
-		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target)
+		public @Edge CreateEdgeEdge(LGSPNode source, LGSPNode target)
 		{
-			return Edge_Edge.CreateEdge(this, source, target);
+			return @Edge.CreateEdge(this, source, target);
 		}
 
-		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target, String varName)
+		public @Edge CreateEdgeEdge(LGSPNode source, LGSPNode target, String varName)
 		{
-			return Edge_Edge.CreateEdge(this, source, target, varName);
+			return @Edge.CreateEdge(this, source, target, varName);
 		}
 
-		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target)
+		public @UEdge CreateEdgeUEdge(LGSPNode source, LGSPNode target)
 		{
-			return Edge_UEdge.CreateEdge(this, source, target);
+			return @UEdge.CreateEdge(this, source, target);
 		}
 
-		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target, String varName)
+		public @UEdge CreateEdgeUEdge(LGSPNode source, LGSPNode target, String varName)
 		{
-			return Edge_UEdge.CreateEdge(this, source, target, varName);
+			return @UEdge.CreateEdge(this, source, target, varName);
 		}
 
 		private complModelNodeModel nodeModel = new complModelNodeModel();

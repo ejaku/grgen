@@ -33,10 +33,10 @@ namespace MutexExample
             Mutex graph = new Mutex();
             MutexPimpedActions actions = new MutexPimpedActions(graph);
 
-            LGSPNode p1 = graph.CreateNode_Process();
-            LGSPNode p2 = graph.CreateNode_Process();
-            LGSPEdge n1 = graph.CreateEdge_next(p1, p2);
-            LGSPEdge n2 = graph.CreateEdge_next(p2, p1);
+            LGSPNode p1 = graph.CreateNodeProcess();
+            LGSPNode p2 = graph.CreateNodeProcess();
+            LGSPEdge n1 = graph.CreateEdgenext(p1, p2);
+            LGSPEdge n2 = graph.CreateEdgenext(p2, p1);
 
             LGSPMatches matches;
             LGSPAction newRule = Action_newRule.Instance;
@@ -111,10 +111,10 @@ namespace MutexExample
 			Mutex graph = new Mutex();
 			MutexPimpedActions actions = new MutexPimpedActions(graph);
 
-			LGSPNode p1 = graph.CreateNode_Process();
-			LGSPNode p2 = graph.CreateNode_Process();
-			LGSPEdge n1 = graph.CreateEdge_next(p1, p2);
-			LGSPEdge n2 = graph.CreateEdge_next(p2, p1);
+			LGSPNode p1 = graph.CreateNodeProcess();
+			LGSPNode p2 = graph.CreateNodeProcess();
+			LGSPEdge n1 = graph.CreateEdgenext(p1, p2);
+			LGSPEdge n2 = graph.CreateEdgenext(p2, p1);
 
             Action_newRule.Instance.ApplyMinMax(graph, n - 2, n - 2);
             Action_mountRule.Instance.Apply(graph);
@@ -150,10 +150,10 @@ namespace MutexExample
 			Mutex graph = new Mutex();
 			MutexPimpedActions actions = new MutexPimpedActions(graph);
 
-			LGSPNode p1 = graph.CreateNode_Process();
-			LGSPNode p2 = graph.CreateNode_Process();
-			LGSPEdge n1 = graph.CreateEdge_next(p1, p2);
-			LGSPEdge n2 = graph.CreateEdge_next(p2, p1);
+			LGSPNode p1 = graph.CreateNodeProcess();
+			LGSPNode p2 = graph.CreateNodeProcess();
+			LGSPEdge n1 = graph.CreateEdgenext(p1, p2);
+			LGSPEdge n2 = graph.CreateEdgenext(p2, p1);
 
             actions.ApplyGraphRewriteSequence("newRule[" + (n - 2) + "] && mountRule && requestRule[" + n
                 + "] && (takeRule && releaseRule && giveRule)[" + n + "]");

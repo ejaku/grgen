@@ -611,8 +611,8 @@ exitSecondLoop: ;
                 case SearchOperationType.NegPreset: typeStr = "np(" + tgt.PatternElement.Name + ")"; break;
                 case SearchOperationType.SubPreset: typeStr = "sp(" + tgt.PatternElement.Name + ")"; break;
                 case SearchOperationType.Condition:
-                    typeStr = " ?(" + String.Join(",", ((Condition) op.Element).NeededNodes) + ")("
-                        + String.Join(",", ((Condition) op.Element).NeededEdges) + ")";
+                    typeStr = " ?(" + String.Join(",", ((PatternCondition) op.Element).NeededNodes) + ")("
+                        + String.Join(",", ((PatternCondition) op.Element).NeededEdges) + ")";
                     break;
                 case SearchOperationType.NegativePattern:
                     typeStr = " !(" + ScheduleToString(((ScheduledSearchPlan) op.Element).Operations) + " )";
@@ -1039,7 +1039,7 @@ exitSecondLoop: ;
         /// <summary>
         /// Returns the elements the given condition needs in order to be evaluated
         /// </summary>
-        Dictionary<String, bool> GetNeededElements(Condition cond)
+        Dictionary<String, bool> GetNeededElements(PatternCondition cond)
         {
             Dictionary<String, bool> neededElements = new Dictionary<string, bool>();
 
@@ -1075,7 +1075,7 @@ exitSecondLoop: ;
             // and on ascending bottom up
             // a) it adds it's own locally needed elements
             //    - in conditions
-            foreach (Condition cond in patternGraph.Conditions)
+            foreach (PatternCondition cond in patternGraph.Conditions)
             {
                 foreach (String neededNode in cond.NeededNodes)
                     neededNodes[neededNode] = true;
@@ -1183,7 +1183,7 @@ exitSecondLoop: ;
         /// <summary>
         /// Inserts conditions into the schedule given by the operations list at their earliest possible position
         /// </summary>
-        public void InsertConditionsIntoSchedule(Condition[] conditions, List<SearchOperation> operations)
+        public void InsertConditionsIntoSchedule(PatternCondition[] conditions, List<SearchOperation> operations)
         {
             // get needed (in order to evaluate it) elements of each condition 
             Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[conditions.Length];

@@ -434,7 +434,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SearchOperationType.Condition:
                     return buildCondition(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
-                        (Condition)op.Element);
+                        (PatternCondition)op.Element);
 
                 default:
                     Debug.Assert(false, "Unknown search operation");
@@ -1070,7 +1070,7 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation buildCondition(
             SearchProgramOperation insertionPoint,
             int currentOperationIndex,
-            Condition condition)
+            PatternCondition condition)
         {
             // check condition with current partial match
             CheckPartialMatchByCondition checkCondition =

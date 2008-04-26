@@ -196,14 +196,14 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Representation of some condition which must be true for the pattern containing it to be matched
     /// </summary>
-    public class Condition
+    public class PatternCondition
     {
         public int ID;
         public String[] NeededNodes;
         public String[] NeededEdges;
         public String[] NeededVariables;
 
-        public Condition(int id, String[] neededNodes, String[] neededEdges, String[] neededVariables)
+        public PatternCondition(int id, String[] neededNodes, String[] neededEdges, String[] neededVariables)
         {
             ID = id;
             NeededNodes = neededNodes;
@@ -424,7 +424,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The conditions used in this pattern graph or it's nested graphs
         /// </summary>
-        public Condition[] Conditions;
+        public PatternCondition[] Conditions;
 
         public ScheduledSearchPlan Schedule;
         public ScheduledSearchPlan ScheduleIncludingNegatives;
@@ -432,7 +432,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph(String name, String pathPrefix, bool isIndependent,
             PatternNode[] nodes, PatternEdge[] edges, PatternVariable[] variables,
             PatternGraphEmbedding[] embeddedGraphs, Alternative[] alternatives, 
-            PatternGraph[] negativePatternGraphs, Condition[] conditions,
+            PatternGraph[] negativePatternGraphs, PatternCondition[] conditions,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
             bool[,] homomorphicNodesGlobal, bool[,] homomorphicEdgesGlobal)
         {

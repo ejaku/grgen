@@ -68,6 +68,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public abstract class CSharpBase {
+	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix) {
+		this.nodeTypePrefix = nodeTypePrefix;
+		this.edgeTypePrefix = edgeTypePrefix;
+	}
+	
 	/**
 	 * Write a character sequence to a file using the given path.
 	 * @param path The path for the file.
@@ -204,7 +209,7 @@ public abstract class CSharpBase {
 	}
 
 	public String formatVarDeclWithCast(Type type, String typePrefix, String varName) {
-		String ctype = typePrefix + formatElementClass(type);
+		String ctype = "@" + typePrefix + formatElementClass(type);
 		return ctype + " " + varName + " = (" + ctype + ") ";
 	}
 
@@ -428,7 +433,6 @@ public abstract class CSharpBase {
 	// private HashSet<Node> nodesNeededAsAttributes = new LinkedHashSet<Node>();
 	// private HashSet<Edge> edgesNeededAsAttributes = new LinkedHashSet<Edge>();
 
-	private static final String nodeTypePrefix = "";
-	private static final String edgeTypePrefix = "";
+	private String nodeTypePrefix;
+	private String edgeTypePrefix;
 }
-

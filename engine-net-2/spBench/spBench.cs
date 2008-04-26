@@ -566,7 +566,7 @@ namespace spBench
             Dictionary<String, bool>[] neededElemsArray = new Dictionary<String, bool>[patternGraph.Conditions.Length];
             for(int i = 0; i < patternGraph.Conditions.Length; i++)
             {
-                Condition cond = patternGraph.Conditions[i];
+                PatternCondition cond = patternGraph.Conditions[i];
                 neededElemsArray[i] = new Dictionary<String, bool>();
                 foreach(String nodeName in cond.NeededNodes)
                     neededElemsArray[i].Add(nodeName, false);
@@ -869,8 +869,8 @@ namespace spBench
                 case SearchOperationType.MaybePreset: typeStr = "p" + tgt.PatternElement.Name; break;
                 case SearchOperationType.NegPreset: typeStr = "np" + tgt.PatternElement.Name; break;
                 case SearchOperationType.Condition:
-                    typeStr = " ?(" + String.Join(",", ((Condition) op.Element).NeededNodes) + ")("
-                        + String.Join(",", ((Condition) op.Element).NeededEdges) + ")";
+                    typeStr = " ?(" + String.Join(",", ((PatternCondition) op.Element).NeededNodes) + ")("
+                        + String.Join(",", ((PatternCondition) op.Element).NeededEdges) + ")";
                     break;
                 case SearchOperationType.NegativePattern:
                     typeStr = " !(" + ScheduleToString(((ScheduledSearchPlan) op.Element).Operations) + " )";
@@ -1024,8 +1024,8 @@ namespace spBench
                         }
                         case SearchOperationType.Condition:
                         {
-                            Condition curCond = (Condition) curOp.Element;
-                            Condition lgspCond = (Condition) lgspOp.Element;
+                            PatternCondition curCond = (PatternCondition) curOp.Element;
+                            PatternCondition lgspCond = (PatternCondition) lgspOp.Element;
                             if(curCond == lgspCond)
                                 newLGSPIndex = curLGSPIndex + 1;
                             break;

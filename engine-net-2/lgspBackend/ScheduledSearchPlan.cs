@@ -175,7 +175,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public static SearchOperation CreateCondition(
-            Condition condition, float costToEnd)
+            PatternCondition condition, float costToEnd)
         {
             return new SearchOperation(SearchOperationType.Condition,
                 condition, null, costToEnd);

@@ -43,7 +43,8 @@ do_waitandoutput()
 	local FILE=${Threadfile[$1]}
 	echo -n "=$1==> TEST $FILE"
 	wait ${Threads[$1]}
-	case "$?" in
+	local STATUS=$?
+	case "$STATUS" in
 		10) echo " ... WARNED"
 			echo "WARNED $FILE" >> "$LOG";;
 		11) echo " ... OK"
@@ -60,8 +61,8 @@ do_waitandoutput()
 			echo "ABEND  $FILE" >> "$LOG";;
 		17) echo " ... ERROR"
 			echo "ERROR  $FILE" >> "$LOG";;
-		*)  echo " --- Unknown return value!!"
-			echo "UNKNOWN $FILE" >> "$LOG";;
+		*)  echo " --- Unknown return value $STATUS!!"
+			echo "UNKNOWN($STATUS) $FILE" >> "$LOG";;
 	esac
 	if [ "$VERBOSE" ]; then
 		local DIR="`echo "$FILE" | sed -e s/\\.grg\$/$OUTPUTSUFF/`"

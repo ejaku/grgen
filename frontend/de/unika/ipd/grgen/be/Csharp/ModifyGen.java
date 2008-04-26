@@ -192,12 +192,13 @@ public class ModifyGen extends CSharpBase {
 	final List<Expression> emptyReturns = new LinkedList<Expression>();
 	final Collection<Assignment> emtpyEvals = new HashSet<Assignment>();
 
-	public ModifyGen() {
+	public ModifyGen(String nodeTypePrefix, String edgeTypePrefix) {
+		super(nodeTypePrefix, edgeTypePrefix);
 	}
 
 	//////////////////////////////////
 	// Modification part generation //
-	//////////////////////////////////`
+	//////////////////////////////////
 
 	public void genModify(StringBuffer sb, Rule rule, boolean isSubpattern) {
 		genModify(sb, rule, "", "pat_"+rule.getLeft().getNameOfGraph(), isSubpattern);
@@ -1225,7 +1226,7 @@ public class ModifyGen extends CSharpBase {
 				}
 			}
 			else {
-				String etype = formatElementClass(node.getType());
+				String etype = "@" + formatElementClass(node.getType());
 				sb2.append("\t\t\t" + etype + " " + formatEntity(node) + " = " + etype + ".CreateNode(graph);\n");
 			}
 		}
@@ -1265,7 +1266,7 @@ public class ModifyGen extends CSharpBase {
 		if(useAddedElementNames) sb2.append("\t\t\tgraph.SettingAddedEdgeNames( " + pathPrefix + "addedEdgeNames );\n");
 
 		NE:	for(Edge edge : state.newEdges()) {
-			String etype = formatElementClass(edge.getType());
+			String etype = "@" + formatElementClass(edge.getType());
 
 			Node src_node = task.right.getSource(edge);
 			Node tgt_node = task.right.getTarget(edge);

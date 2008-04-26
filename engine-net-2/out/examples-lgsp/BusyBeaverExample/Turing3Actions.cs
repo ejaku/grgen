@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Wed Apr 23 23:46:19 CEST 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sat Apr 26 03:35:25 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -58,7 +58,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			PatternNode readZeroRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1);
 			PatternNode readZeroRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1);
 			PatternEdge readZeroRule_edge_rv = new PatternEdge(true, (int) EdgeTypes.@readZero, "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1);
-			Condition cond_0 = new Condition(0, new String[] { "readZeroRule_node_bp" }, new String[] {  }, new String[] {  });
+			PatternCondition cond_0 = new PatternCondition(0, new String[] { "readZeroRule_node_bp" }, new String[] {  }, new String[] {  });
 			pat_readZeroRule = new PatternGraph(
 				"readZeroRule",
 				"",
@@ -69,7 +69,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] { cond_0,  }, 
+				new PatternCondition[] { cond_0,  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -94,7 +94,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public static bool Condition_0(LGSPNode node_bp)
 		{
-			return (((INode_BandPosition) node_bp).@value == 0);
+			return (((IBandPosition) node_bp).@value == 0);
 		}
 
 
@@ -102,8 +102,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			LGSPNode node_wv = match.Nodes[(int)readZeroRule_NodeNums.@wv];
 			LGSPNode node_bp = match.Nodes[(int)readZeroRule_NodeNums.@bp];
-			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
-			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			@IBandPosition inode_bp = (@IBandPosition) node_bp;
+			@IWriteValue inode_wv = (@IWriteValue) node_wv;
 			graph.SettingAddedNodeNames( readZeroRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readZeroRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
@@ -118,8 +118,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			LGSPNode node_wv = match.Nodes[(int)readZeroRule_NodeNums.@wv];
 			LGSPNode node_bp = match.Nodes[(int)readZeroRule_NodeNums.@bp];
-			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
-			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			@IBandPosition inode_bp = (@IBandPosition) node_bp;
+			@IWriteValue inode_wv = (@IWriteValue) node_wv;
 			graph.SettingAddedNodeNames( readZeroRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readZeroRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
@@ -176,7 +176,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			PatternNode readOneRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1);
 			PatternNode readOneRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1);
 			PatternEdge readOneRule_edge_rv = new PatternEdge(true, (int) EdgeTypes.@readOne, "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1);
-			Condition cond_0 = new Condition(0, new String[] { "readOneRule_node_bp" }, new String[] {  }, new String[] {  });
+			PatternCondition cond_0 = new PatternCondition(0, new String[] { "readOneRule_node_bp" }, new String[] {  }, new String[] {  });
 			pat_readOneRule = new PatternGraph(
 				"readOneRule",
 				"",
@@ -187,7 +187,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] { cond_0,  }, 
+				new PatternCondition[] { cond_0,  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -212,7 +212,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		public static bool Condition_0(LGSPNode node_bp)
 		{
-			return (((INode_BandPosition) node_bp).@value == 1);
+			return (((IBandPosition) node_bp).@value == 1);
 		}
 
 
@@ -220,8 +220,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			LGSPNode node_wv = match.Nodes[(int)readOneRule_NodeNums.@wv];
 			LGSPNode node_bp = match.Nodes[(int)readOneRule_NodeNums.@bp];
-			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
-			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			@IBandPosition inode_bp = (@IBandPosition) node_bp;
+			@IWriteValue inode_wv = (@IWriteValue) node_wv;
 			graph.SettingAddedNodeNames( readOneRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readOneRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
@@ -236,8 +236,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			LGSPNode node_wv = match.Nodes[(int)readOneRule_NodeNums.@wv];
 			LGSPNode node_bp = match.Nodes[(int)readOneRule_NodeNums.@bp];
-			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
-			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			@IBandPosition inode_bp = (@IBandPosition) node_bp;
+			@IWriteValue inode_wv = (@IWriteValue) node_wv;
 			graph.SettingAddedNodeNames( readOneRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readOneRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
@@ -324,7 +324,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -348,7 +348,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { ensureMoveLeftValidRule_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -380,9 +380,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			LGSPNode node_bp = match.Nodes[(int)ensureMoveLeftValidRule_NodeNums.@bp];
 			graph.SettingAddedNodeNames( ensureMoveLeftValidRule_addedNodeNames );
-			Node_BandPosition node__node1 = Node_BandPosition.CreateNode(graph);
+			@BandPosition node__node1 = @BandPosition.CreateNode(graph);
 			graph.SettingAddedEdgeNames( ensureMoveLeftValidRule_addedEdgeNames );
-			Edge_right edge__edge1 = Edge_right.CreateEdge(graph, node__node1, node_bp);
+			@right edge__edge1 = @right.CreateEdge(graph, node__node1, node_bp);
 			return EmptyReturnElements;
 		}
 		private static String[] ensureMoveLeftValidRule_addedNodeNames = new String[] { "_node1" };
@@ -392,9 +392,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			LGSPNode node_bp = match.Nodes[(int)ensureMoveLeftValidRule_NodeNums.@bp];
 			graph.SettingAddedNodeNames( ensureMoveLeftValidRule_addedNodeNames );
-			Node_BandPosition node__node1 = Node_BandPosition.CreateNode(graph);
+			@BandPosition node__node1 = @BandPosition.CreateNode(graph);
 			graph.SettingAddedEdgeNames( ensureMoveLeftValidRule_addedEdgeNames );
-			Edge_right edge__edge1 = Edge_right.CreateEdge(graph, node__node1, node_bp);
+			@right edge__edge1 = @right.CreateEdge(graph, node__node1, node_bp);
 			return EmptyReturnElements;
 		}
 	}
@@ -476,7 +476,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -500,7 +500,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { ensureMoveRightValidRule_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -532,9 +532,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			LGSPNode node_bp = match.Nodes[(int)ensureMoveRightValidRule_NodeNums.@bp];
 			graph.SettingAddedNodeNames( ensureMoveRightValidRule_addedNodeNames );
-			Node_BandPosition node__node1 = Node_BandPosition.CreateNode(graph);
+			@BandPosition node__node1 = @BandPosition.CreateNode(graph);
 			graph.SettingAddedEdgeNames( ensureMoveRightValidRule_addedEdgeNames );
-			Edge_right edge__edge1 = Edge_right.CreateEdge(graph, node_bp, node__node1);
+			@right edge__edge1 = @right.CreateEdge(graph, node_bp, node__node1);
 			return EmptyReturnElements;
 		}
 		private static String[] ensureMoveRightValidRule_addedNodeNames = new String[] { "_node1" };
@@ -544,9 +544,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			LGSPNode node_bp = match.Nodes[(int)ensureMoveRightValidRule_NodeNums.@bp];
 			graph.SettingAddedNodeNames( ensureMoveRightValidRule_addedNodeNames );
-			Node_BandPosition node__node1 = Node_BandPosition.CreateNode(graph);
+			@BandPosition node__node1 = @BandPosition.CreateNode(graph);
 			graph.SettingAddedEdgeNames( ensureMoveRightValidRule_addedEdgeNames );
-			Edge_right edge__edge1 = Edge_right.CreateEdge(graph, node_bp, node__node1);
+			@right edge__edge1 = @right.CreateEdge(graph, node_bp, node__node1);
 			return EmptyReturnElements;
 		}
 	}
@@ -616,7 +616,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[4, 4] {
 					{ true, false, false, false, },
 					{ false, true, false, false, },
@@ -733,7 +733,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[4, 4] {
 					{ true, false, false, false, },
 					{ false, true, false, false, },

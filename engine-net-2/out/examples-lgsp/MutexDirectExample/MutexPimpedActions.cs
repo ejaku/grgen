@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Wed Apr 23 23:46:26 CEST 2008
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sat Apr 26 03:35:31 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -93,21 +93,21 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_p2 = match.Nodes[(int)newRule_NodeNums.@p2];
 			LGSPEdge edge_n = match.Edges[(int)newRule_EdgeNums.@n];
 			graph.SettingAddedNodeNames( newRule_addedNodeNames );
-			Node_Process node_p = Node_Process.CreateNode(graph);
+			@Process node_p = @Process.CreateNode(graph);
 			graph.SettingAddedEdgeNames( newRule_addedEdgeNames );
-			Edge_next edge_n1;
+			@next edge_n1;
 			if(edge_n.type == EdgeType_next.typeVar)
 			{
 				// re-using edge_n as edge_n1
-				edge_n1 = (Edge_next) edge_n;
+				edge_n1 = (@next) edge_n;
 				graph.ReuseEdge(edge_n, null, node_p);
 			}
 			else
 			{
 				graph.Remove(edge_n);
-				edge_n1 = Edge_next.CreateEdge(graph, node_p1, node_p);
+				edge_n1 = @next.CreateEdge(graph, node_p1, node_p);
 			}
-			Edge_next edge_n2 = Edge_next.CreateEdge(graph, node_p, node_p2);
+			@next edge_n2 = @next.CreateEdge(graph, node_p, node_p2);
 			return EmptyReturnElements;
 		}
 		private static String[] newRule_addedNodeNames = new String[] { "p" };
@@ -119,10 +119,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_p2 = match.Nodes[(int)newRule_NodeNums.@p2];
 			LGSPEdge edge_n = match.Edges[(int)newRule_EdgeNums.@n];
 			graph.SettingAddedNodeNames( newRule_addedNodeNames );
-			Node_Process node_p = Node_Process.CreateNode(graph);
+			@Process node_p = @Process.CreateNode(graph);
 			graph.SettingAddedEdgeNames( newRule_addedEdgeNames );
-			Edge_next edge_n1 = Edge_next.CreateEdge(graph, node_p1, node_p);
-			Edge_next edge_n2 = Edge_next.CreateEdge(graph, node_p, node_p2);
+			@next edge_n1 = @next.CreateEdge(graph, node_p1, node_p);
+			@next edge_n2 = @next.CreateEdge(graph, node_p, node_p2);
 			graph.Remove(edge_n);
 			return EmptyReturnElements;
 		}
@@ -189,7 +189,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -227,17 +227,17 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_n2 = match.Edges[(int)killRule_EdgeNums.@n2];
 			graph.SettingAddedNodeNames( killRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( killRule_addedEdgeNames );
-			Edge_next edge_n;
+			@next edge_n;
 			if(edge_n1.type == EdgeType_next.typeVar)
 			{
 				// re-using edge_n1 as edge_n
-				edge_n = (Edge_next) edge_n1;
+				edge_n = (@next) edge_n1;
 				graph.ReuseEdge(edge_n1, null, node_p2);
 			}
 			else
 			{
 				graph.Remove(edge_n1);
-				edge_n = Edge_next.CreateEdge(graph, node_p1, node_p2);
+				edge_n = @next.CreateEdge(graph, node_p1, node_p2);
 			}
 			graph.Remove(edge_n2);
 			graph.RemoveEdges(node_p);
@@ -256,7 +256,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_n2 = match.Edges[(int)killRule_EdgeNums.@n2];
 			graph.SettingAddedNodeNames( killRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( killRule_addedEdgeNames );
-			Edge_next edge_n = Edge_next.CreateEdge(graph, node_p1, node_p2);
+			@next edge_n = @next.CreateEdge(graph, node_p1, node_p2);
 			graph.Remove(edge_n1);
 			graph.Remove(edge_n2);
 			graph.RemoveEdges(node_p);
@@ -309,7 +309,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -329,9 +329,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			LGSPNode node_p = match.Nodes[(int)mountRule_NodeNums.@p];
 			graph.SettingAddedNodeNames( mountRule_addedNodeNames );
-			Node_Resource node_r = Node_Resource.CreateNode(graph);
+			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( mountRule_addedEdgeNames );
-			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p);
+			@token edge_t = @token.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
 		}
 		private static String[] mountRule_addedNodeNames = new String[] { "r" };
@@ -341,9 +341,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			LGSPNode node_p = match.Nodes[(int)mountRule_NodeNums.@p];
 			graph.SettingAddedNodeNames( mountRule_addedNodeNames );
-			Node_Resource node_r = Node_Resource.CreateNode(graph);
+			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( mountRule_addedEdgeNames );
-			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p);
+			@token edge_t = @token.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
 		}
 	}
@@ -401,7 +401,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -529,7 +529,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -553,7 +553,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { passRule_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -591,17 +591,17 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge__edge0 = match.Edges[(int)passRule_EdgeNums.@_edge0];
 			graph.SettingAddedNodeNames( passRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( passRule_addedEdgeNames );
-			Edge_token edge_t;
+			@token edge_t;
 			if(edge__edge0.type == EdgeType_token.typeVar)
 			{
 				// re-using edge__edge0 as edge_t
-				edge_t = (Edge_token) edge__edge0;
+				edge_t = (@token) edge__edge0;
 				graph.ReuseEdge(edge__edge0, null, node_p2);
 			}
 			else
 			{
 				graph.Remove(edge__edge0);
-				edge_t = Edge_token.CreateEdge(graph, node_r, node_p2);
+				edge_t = @token.CreateEdge(graph, node_r, node_p2);
 			}
 			return EmptyReturnElements;
 		}
@@ -615,7 +615,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge__edge0 = match.Edges[(int)passRule_EdgeNums.@_edge0];
 			graph.SettingAddedNodeNames( passRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( passRule_addedEdgeNames );
-			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p2);
+			@token edge_t = @token.CreateEdge(graph, node_r, node_p2);
 			graph.Remove(edge__edge0);
 			return EmptyReturnElements;
 		}
@@ -697,7 +697,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -730,7 +730,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -754,7 +754,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { requestRule_neg_0, requestRule_neg_1,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -783,7 +783,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_r = match.Nodes[(int)requestRule_NodeNums.@r];
 			graph.SettingAddedNodeNames( requestRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestRule_addedEdgeNames );
-			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
+			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
 		private static String[] requestRule_addedNodeNames = new String[] {  };
@@ -795,7 +795,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_r = match.Nodes[(int)requestRule_NodeNums.@r];
 			graph.SettingAddedNodeNames( requestRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestRule_addedEdgeNames );
-			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
+			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
 	}
@@ -857,7 +857,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -892,7 +892,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_req = match.Edges[(int)takeRule_EdgeNums.@req];
 			graph.SettingAddedNodeNames( takeRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( takeRule_addedEdgeNames );
-			Edge_held_by edge_hb = Edge_held_by.CreateEdge(graph, node_r, node_p);
+			@held_by edge_hb = @held_by.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_t);
 			graph.Remove(edge_req);
 			return EmptyReturnElements;
@@ -908,7 +908,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_req = match.Edges[(int)takeRule_EdgeNums.@req];
 			graph.SettingAddedNodeNames( takeRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( takeRule_addedEdgeNames );
-			Edge_held_by edge_hb = Edge_held_by.CreateEdge(graph, node_r, node_p);
+			@held_by edge_hb = @held_by.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_t);
 			graph.Remove(edge_req);
 			return EmptyReturnElements;
@@ -988,7 +988,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1012,7 +1012,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { releaseRule_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1045,7 +1045,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_hb = match.Edges[(int)releaseRule_EdgeNums.@hb];
 			graph.SettingAddedNodeNames( releaseRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseRule_addedEdgeNames );
-			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
+			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_hb);
 			return EmptyReturnElements;
 		}
@@ -1059,7 +1059,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_hb = match.Edges[(int)releaseRule_EdgeNums.@hb];
 			graph.SettingAddedNodeNames( releaseRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseRule_addedEdgeNames );
-			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
+			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_hb);
 			return EmptyReturnElements;
 		}
@@ -1126,7 +1126,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -1162,7 +1162,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_rel = match.Edges[(int)giveRule_EdgeNums.@rel];
 			graph.SettingAddedNodeNames( giveRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( giveRule_addedEdgeNames );
-			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p2);
+			@token edge_t = @token.CreateEdge(graph, node_r, node_p2);
 			graph.Remove(edge_rel);
 			return EmptyReturnElements;
 		}
@@ -1176,7 +1176,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_rel = match.Edges[(int)giveRule_EdgeNums.@rel];
 			graph.SettingAddedNodeNames( giveRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( giveRule_addedEdgeNames );
-			Edge_token edge_t = Edge_token.CreateEdge(graph, node_r, node_p2);
+			@token edge_t = @token.CreateEdge(graph, node_r, node_p2);
 			graph.Remove(edge_rel);
 			return EmptyReturnElements;
 		}
@@ -1243,7 +1243,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -1278,7 +1278,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_p1 = match.Nodes[(int)blockedRule_NodeNums.@p1];
 			graph.SettingAddedNodeNames( blockedRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( blockedRule_addedEdgeNames );
-			Edge_blocked edge_b = Edge_blocked.CreateEdge(graph, node_r, node_p1);
+			@blocked edge_b = @blocked.CreateEdge(graph, node_r, node_p1);
 			return EmptyReturnElements;
 		}
 		private static String[] blockedRule_addedNodeNames = new String[] {  };
@@ -1290,7 +1290,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_p1 = match.Nodes[(int)blockedRule_NodeNums.@p1];
 			graph.SettingAddedNodeNames( blockedRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( blockedRule_addedEdgeNames );
-			Edge_blocked edge_b = Edge_blocked.CreateEdge(graph, node_r, node_p1);
+			@blocked edge_b = @blocked.CreateEdge(graph, node_r, node_p1);
 			return EmptyReturnElements;
 		}
 	}
@@ -1368,7 +1368,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[5, 5] {
 					{ true, false, false, false, false, },
 					{ false, true, false, false, false, },
@@ -1413,17 +1413,17 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_b = match.Edges[(int)waitingRule_EdgeNums.@b];
 			graph.SettingAddedNodeNames( waitingRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( waitingRule_addedEdgeNames );
-			Edge_blocked edge_bn;
+			@blocked edge_bn;
 			if(edge_b.type == EdgeType_blocked.typeVar)
 			{
 				// re-using edge_b as edge_bn
-				edge_bn = (Edge_blocked) edge_b;
+				edge_bn = (@blocked) edge_b;
 				graph.ReuseEdge(edge_b, null, node_p2);
 			}
 			else
 			{
 				graph.Remove(edge_b);
-				edge_bn = Edge_blocked.CreateEdge(graph, node_r2, node_p2);
+				edge_bn = @blocked.CreateEdge(graph, node_r2, node_p2);
 			}
 			graph.RemoveEdges(node_r);
 			graph.Remove(node_r);
@@ -1440,7 +1440,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_b = match.Edges[(int)waitingRule_EdgeNums.@b];
 			graph.SettingAddedNodeNames( waitingRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( waitingRule_addedEdgeNames );
-			Edge_blocked edge_bn = Edge_blocked.CreateEdge(graph, node_r2, node_p2);
+			@blocked edge_bn = @blocked.CreateEdge(graph, node_r2, node_p2);
 			graph.Remove(edge_b);
 			graph.RemoveEdges(node_r);
 			graph.Remove(node_r);
@@ -1521,7 +1521,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1545,7 +1545,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { ignoreRule_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1649,7 +1649,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1684,7 +1684,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_hb = match.Edges[(int)unlockRule_EdgeNums.@hb];
 			graph.SettingAddedNodeNames( unlockRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( unlockRule_addedEdgeNames );
-			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
+			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_b);
 			graph.Remove(edge_hb);
 			return EmptyReturnElements;
@@ -1700,7 +1700,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_hb = match.Edges[(int)unlockRule_EdgeNums.@hb];
 			graph.SettingAddedNodeNames( unlockRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( unlockRule_addedEdgeNames );
-			Edge_release edge_rel = Edge_release.CreateEdge(graph, node_r, node_p);
+			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
 			graph.Remove(edge_b);
 			graph.Remove(edge_hb);
 			return EmptyReturnElements;
@@ -1793,7 +1793,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1817,7 +1817,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { requestStarRule_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[4, 4] {
 					{ true, false, false, false, },
 					{ false, true, false, false, },
@@ -1860,7 +1860,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_r2 = match.Nodes[(int)requestStarRule_NodeNums.@r2];
 			graph.SettingAddedNodeNames( requestStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestStarRule_addedEdgeNames );
-			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p1, node_r2);
+			@request edge_req = @request.CreateEdge(graph, node_p1, node_r2);
 			return EmptyReturnElements;
 		}
 		private static String[] requestStarRule_addedNodeNames = new String[] {  };
@@ -1872,7 +1872,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_r2 = match.Nodes[(int)requestStarRule_NodeNums.@r2];
 			graph.SettingAddedNodeNames( requestStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestStarRule_addedEdgeNames );
-			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p1, node_r2);
+			@request edge_req = @request.CreateEdge(graph, node_p1, node_r2);
 			return EmptyReturnElements;
 		}
 	}
@@ -1946,7 +1946,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[4, 4] {
 					{ true, false, false, false, },
 					{ false, true, false, false, },
@@ -1988,7 +1988,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_h1 = match.Edges[(int)releaseStarRule_EdgeNums.@h1];
 			graph.SettingAddedNodeNames( releaseStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseStarRule_addedEdgeNames );
-			Edge_release edge_rl = Edge_release.CreateEdge(graph, node_r1, node_p2);
+			@release edge_rl = @release.CreateEdge(graph, node_r1, node_p2);
 			graph.Remove(edge_h1);
 			return EmptyReturnElements;
 		}
@@ -2002,7 +2002,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPEdge edge_h1 = match.Edges[(int)releaseStarRule_EdgeNums.@h1];
 			graph.SettingAddedNodeNames( releaseStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseStarRule_addedEdgeNames );
-			Edge_release edge_rl = Edge_release.CreateEdge(graph, node_r1, node_p2);
+			@release edge_rl = @release.CreateEdge(graph, node_r1, node_p2);
 			graph.Remove(edge_h1);
 			return EmptyReturnElements;
 		}
@@ -2078,7 +2078,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2102,7 +2102,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { requestSimpleRule_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2133,7 +2133,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_r = match.Nodes[(int)requestSimpleRule_NodeNums.@r];
 			graph.SettingAddedNodeNames( requestSimpleRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestSimpleRule_addedEdgeNames );
-			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
+			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
 		private static String[] requestSimpleRule_addedNodeNames = new String[] {  };
@@ -2145,7 +2145,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			LGSPNode node_r = match.Nodes[(int)requestSimpleRule_NodeNums.@r];
 			graph.SettingAddedNodeNames( requestSimpleRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestSimpleRule_addedEdgeNames );
-			Edge_request edge_req = Edge_request.CreateEdge(graph, node_p, node_r);
+			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
 	}
@@ -2214,7 +2214,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2238,7 +2238,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { aux_attachResource_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -2261,9 +2261,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			LGSPNode node_p = match.Nodes[(int)aux_attachResource_NodeNums.@p];
 			graph.SettingAddedNodeNames( aux_attachResource_addedNodeNames );
-			Node_Resource node_r = Node_Resource.CreateNode(graph);
+			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( aux_attachResource_addedEdgeNames );
-			Edge_held_by edge__edge0 = Edge_held_by.CreateEdge(graph, node_r, node_p);
+			@held_by edge__edge0 = @held_by.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
 		}
 		private static String[] aux_attachResource_addedNodeNames = new String[] { "r" };
@@ -2273,9 +2273,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			LGSPNode node_p = match.Nodes[(int)aux_attachResource_NodeNums.@p];
 			graph.SettingAddedNodeNames( aux_attachResource_addedNodeNames );
-			Node_Resource node_r = Node_Resource.CreateNode(graph);
+			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( aux_attachResource_addedEdgeNames );
-			Edge_held_by edge__edge0 = Edge_held_by.CreateEdge(graph, node_r, node_p);
+			@held_by edge__edge0 = @held_by.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
 		}
 	}

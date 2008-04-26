@@ -24,7 +24,7 @@ namespace BusyBeaver
                 default: throw new ArgumentException("Illegal move value: " + move);
             }
 
-            Node_WriteValue writeNode = graph.CreateNode_WriteValue();
+            WriteValue writeNode = graph.CreateNodeWriteValue();
             writeNode.value = output;
 
             graph.AddEdge(input == 0 ? (EdgeType) EdgeType_readZero.typeVar : (EdgeType) EdgeType_readOne.typeVar,
@@ -44,15 +44,15 @@ namespace BusyBeaver
             actions.PerformanceInfo = new PerformanceInfo();
 
             // Initialize tape
-            Node_BandPosition bp = graph.CreateNode_BandPosition();
+            BandPosition bp = graph.CreateNodeBandPosition();
 
             // Initialize states
-            Node_State sA = graph.CreateNode_State("sA");
-			graph.CreateNode_State("sB");
-			graph.CreateNode_State("sC");
-			graph.CreateNode_State("sD");
-			graph.CreateNode_State("sE");
-			graph.CreateNode_State("sH");
+            State sA = graph.CreateNodeState("sA");
+			graph.CreateNodeState("sB");
+			graph.CreateNodeState("sC");
+			graph.CreateNodeState("sD");
+			graph.CreateNodeState("sE");
+			graph.CreateNodeState("sH");
 
             // Create state transitions
             GenStateTransition("sA", 0, "sB", 1, L);
@@ -99,7 +99,7 @@ namespace BusyBeaver
             // Count the number of "BandPosition" nodes with a "value" attribute being one
             int numOnes = 0;
             foreach(LGSPNode valueNode in graph.GetExactNodes(NodeType_BandPosition.typeVar))
-                if(((Node_BandPosition) valueNode).value == 1)
+                if(((BandPosition) valueNode).value == 1)
                     numOnes++;
 
             int countTime = Environment.TickCount - stopTime;

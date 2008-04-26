@@ -1,7 +1,7 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
 // Rename this file or use a copy!
-// Generated from "test.grg" on Wed Apr 23 23:46:39 CEST 2008
+// Generated from "test.grg" on Sat Apr 26 03:35:40 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using de.unika.ipd.grGen.Model_complModel;
 
 namespace test
 {
-	public class D231_4121_Impl : Node_D231_4121
+	public class D231_4121_Impl : @D231_4121
 	{
 		public D231_4121_Impl() : base() { }
 

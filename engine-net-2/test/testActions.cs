@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Wed Apr 23 23:46:39 CEST 2008
+// Generated from "test.grg" on Sat Apr 26 03:35:40 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -72,7 +72,7 @@ namespace de.unika.ipd.grGen.Action_test
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -108,11 +108,11 @@ namespace de.unika.ipd.grGen.Action_test
 			LGSPNode node_m = match.Nodes[(int)testRule_NodeNums.@m];
 			graph.SettingAddedNodeNames( testRule_addedNodeNames );
 			LGSPNode node_are = graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
-			INode_D2211_2222_31 inode_are = (INode_D2211_2222_31) node_are;
+			@ID2211_2222_31 inode_are = (@ID2211_2222_31) node_are;
 			LGSPNode node_fre = graph.Retype(node_f, NodeType_D231_4121.typeVar);
-			INode_D231_4121 inode_fre = (INode_D231_4121) node_fre;
+			@ID231_4121 inode_fre = (@ID231_4121) node_fre;
 			LGSPNode node_mre = graph.Retype(node_m, NodeType_D11_2221.typeVar);
-			INode_D11_2221 inode_mre = (INode_D11_2221) node_mre;
+			@ID11_2221 inode_mre = (@ID11_2221) node_mre;
 			graph.SettingAddedEdgeNames( testRule_addedEdgeNames );
 			int tempvar_i = 1234;
 			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, inode_are.@d2211_2222_31, tempvar_i);
@@ -135,11 +135,11 @@ namespace de.unika.ipd.grGen.Action_test
 			LGSPNode node_m = match.Nodes[(int)testRule_NodeNums.@m];
 			graph.SettingAddedNodeNames( testRule_addedNodeNames );
 			LGSPNode node_are = graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
-			INode_D2211_2222_31 inode_are = (INode_D2211_2222_31) node_are;
+			@ID2211_2222_31 inode_are = (@ID2211_2222_31) node_are;
 			LGSPNode node_fre = graph.Retype(node_f, NodeType_D231_4121.typeVar);
-			INode_D231_4121 inode_fre = (INode_D231_4121) node_fre;
+			@ID231_4121 inode_fre = (@ID231_4121) node_fre;
 			LGSPNode node_mre = graph.Retype(node_m, NodeType_D11_2221.typeVar);
-			INode_D11_2221 inode_mre = (INode_D11_2221) node_mre;
+			@ID11_2221 inode_mre = (@ID11_2221) node_mre;
 			graph.SettingAddedEdgeNames( testRule_addedEdgeNames );
 			int tempvar_i = 1234;
 			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, inode_are.@d2211_2222_31, tempvar_i);

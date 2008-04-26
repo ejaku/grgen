@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Wed Apr 23 23:46:19 CEST 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sat Apr 26 03:35:25 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -25,27 +25,24 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Node Node ***
 
-	public interface INode_Node : INode
-	{
-	}
 
-	public sealed class Node_Node : LGSPNode, INode_Node
+	public sealed class @Node : LGSPNode, INode
 	{
 		private static int poolLevel = 0;
-		private static Node_Node[] pool = new Node_Node[10];
-		public Node_Node() : base(NodeType_Node.typeVar)
+		private static @Node[] pool = new @Node[10];
+		public @Node() : base(NodeType_Node.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_Node(this); }
+		public override INode Clone() { return new @Node(this); }
 
-		private Node_Node(Node_Node oldElem) : base(NodeType_Node.typeVar)
+		private @Node(@Node oldElem) : base(NodeType_Node.typeVar)
 		{
 		}
-		public static Node_Node CreateNode(LGSPGraph graph)
+		public static @Node CreateNode(LGSPGraph graph)
 		{
-			Node_Node node;
+			@Node node;
 			if(poolLevel == 0)
-				node = new Node_Node();
+				node = new @Node();
 			else
 			{
 				node = pool[--poolLevel];
@@ -57,11 +54,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return node;
 		}
 
-		public static Node_Node CreateNode(LGSPGraph graph, String varName)
+		public static @Node CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_Node node;
+			@Node node;
 			if(poolLevel == 0)
-				node = new Node_Node();
+				node = new @Node();
 			else
 			{
 				node = pool[--poolLevel];
@@ -105,7 +102,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override String Name { get { return "Node"; } }
 		public override INode CreateNode()
 		{
-			return new Node_Node();
+			return new @Node();
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -116,36 +113,36 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			return new Node_Node();
+			return new @Node();
 		}
 
 	}
 
 	// *** Node BandPosition ***
 
-	public interface INode_BandPosition : INode_Node
+	public interface IBandPosition : INode
 	{
 		int @value { get; set; }
 	}
 
-	public sealed class Node_BandPosition : LGSPNode, INode_BandPosition
+	public sealed class @BandPosition : LGSPNode, IBandPosition
 	{
 		private static int poolLevel = 0;
-		private static Node_BandPosition[] pool = new Node_BandPosition[10];
-		public Node_BandPosition() : base(NodeType_BandPosition.typeVar)
+		private static @BandPosition[] pool = new @BandPosition[10];
+		public @BandPosition() : base(NodeType_BandPosition.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_BandPosition(this); }
+		public override INode Clone() { return new @BandPosition(this); }
 
-		private Node_BandPosition(Node_BandPosition oldElem) : base(NodeType_BandPosition.typeVar)
+		private @BandPosition(@BandPosition oldElem) : base(NodeType_BandPosition.typeVar)
 		{
 			_value = oldElem._value;
 		}
-		public static Node_BandPosition CreateNode(LGSPGraph graph)
+		public static @BandPosition CreateNode(LGSPGraph graph)
 		{
-			Node_BandPosition node;
+			@BandPosition node;
 			if(poolLevel == 0)
-				node = new Node_BandPosition();
+				node = new @BandPosition();
 			else
 			{
 				node = pool[--poolLevel];
@@ -158,11 +155,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return node;
 		}
 
-		public static Node_BandPosition CreateNode(LGSPGraph graph, String varName)
+		public static @BandPosition CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_BandPosition node;
+			@BandPosition node;
 			if(poolLevel == 0)
-				node = new Node_BandPosition();
+				node = new @BandPosition();
 			else
 			{
 				node = pool[--poolLevel];
@@ -225,7 +222,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override String Name { get { return "BandPosition"; } }
 		public override INode CreateNode()
 		{
-			return new Node_BandPosition();
+			return new @BandPosition();
 		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -250,13 +247,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_BandPosition newNode = new Node_BandPosition();
+			@BandPosition newNode = new @BandPosition();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@BandPosition:
 					// copy attributes for: BandPosition
 					{
-						INode_BandPosition old = (INode_BandPosition) oldNode;
+						@IBandPosition old = (@IBandPosition) oldNode;
 						newNode.@value = old.@value;
 					}
 					break;
@@ -268,27 +265,27 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Node State ***
 
-	public interface INode_State : INode_Node
+	public interface IState : INode
 	{
 	}
 
-	public sealed class Node_State : LGSPNode, INode_State
+	public sealed class @State : LGSPNode, IState
 	{
 		private static int poolLevel = 0;
-		private static Node_State[] pool = new Node_State[10];
-		public Node_State() : base(NodeType_State.typeVar)
+		private static @State[] pool = new @State[10];
+		public @State() : base(NodeType_State.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_State(this); }
+		public override INode Clone() { return new @State(this); }
 
-		private Node_State(Node_State oldElem) : base(NodeType_State.typeVar)
+		private @State(@State oldElem) : base(NodeType_State.typeVar)
 		{
 		}
-		public static Node_State CreateNode(LGSPGraph graph)
+		public static @State CreateNode(LGSPGraph graph)
 		{
-			Node_State node;
+			@State node;
 			if(poolLevel == 0)
-				node = new Node_State();
+				node = new @State();
 			else
 			{
 				node = pool[--poolLevel];
@@ -300,11 +297,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return node;
 		}
 
-		public static Node_State CreateNode(LGSPGraph graph, String varName)
+		public static @State CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_State node;
+			@State node;
 			if(poolLevel == 0)
-				node = new Node_State();
+				node = new @State();
 			else
 			{
 				node = pool[--poolLevel];
@@ -348,7 +345,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override String Name { get { return "State"; } }
 		public override INode CreateNode()
 		{
-			return new Node_State();
+			return new @State();
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -359,36 +356,36 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			return new Node_State();
+			return new @State();
 		}
 
 	}
 
 	// *** Node WriteValue ***
 
-	public interface INode_WriteValue : INode_Node
+	public interface IWriteValue : INode
 	{
 		int @value { get; set; }
 	}
 
-	public sealed class Node_WriteValue : LGSPNode, INode_WriteValue
+	public sealed class @WriteValue : LGSPNode, IWriteValue
 	{
 		private static int poolLevel = 0;
-		private static Node_WriteValue[] pool = new Node_WriteValue[10];
-		public Node_WriteValue() : base(NodeType_WriteValue.typeVar)
+		private static @WriteValue[] pool = new @WriteValue[10];
+		public @WriteValue() : base(NodeType_WriteValue.typeVar)
 		{
 		}
-		public override INode Clone() { return new Node_WriteValue(this); }
+		public override INode Clone() { return new @WriteValue(this); }
 
-		private Node_WriteValue(Node_WriteValue oldElem) : base(NodeType_WriteValue.typeVar)
+		private @WriteValue(@WriteValue oldElem) : base(NodeType_WriteValue.typeVar)
 		{
 			_value = oldElem._value;
 		}
-		public static Node_WriteValue CreateNode(LGSPGraph graph)
+		public static @WriteValue CreateNode(LGSPGraph graph)
 		{
-			Node_WriteValue node;
+			@WriteValue node;
 			if(poolLevel == 0)
-				node = new Node_WriteValue();
+				node = new @WriteValue();
 			else
 			{
 				node = pool[--poolLevel];
@@ -401,11 +398,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return node;
 		}
 
-		public static Node_WriteValue CreateNode(LGSPGraph graph, String varName)
+		public static @WriteValue CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_WriteValue node;
+			@WriteValue node;
 			if(poolLevel == 0)
-				node = new Node_WriteValue();
+				node = new @WriteValue();
 			else
 			{
 				node = pool[--poolLevel];
@@ -468,7 +465,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override String Name { get { return "WriteValue"; } }
 		public override INode CreateNode()
 		{
-			return new Node_WriteValue();
+			return new @WriteValue();
 		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
@@ -493,13 +490,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
 			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_WriteValue newNode = new Node_WriteValue();
+			@WriteValue newNode = new @WriteValue();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@WriteValue:
 					// copy attributes for: WriteValue
 					{
-						INode_WriteValue old = (INode_WriteValue) oldNode;
+						@IWriteValue old = (@IWriteValue) oldNode;
 						newNode.@value = old.@value;
 					}
 					break;
@@ -618,9 +615,6 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Edge AEdge ***
 
-	public interface IEdge_AEdge : IEdge
-	{
-	}
 
 	public sealed class EdgeType_AEdge : EdgeType
 	{
@@ -631,6 +625,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "AEdge"; } }
+		public override Directedness Directedness { get { return Directedness.Arbitrary; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
@@ -650,30 +645,27 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Edge Edge ***
 
-	public interface IEdge_Edge : IEdge_AEdge
-	{
-	}
 
-	public sealed class Edge_Edge : LGSPEdge, IEdge_Edge
+	public sealed class @Edge : LGSPEdge, IEdge
 	{
 		private static int poolLevel = 0;
-		private static Edge_Edge[] pool = new Edge_Edge[10];
-		public Edge_Edge(LGSPNode source, LGSPNode target)
+		private static @Edge[] pool = new @Edge[10];
+		public @Edge(LGSPNode source, LGSPNode target)
 			: base(EdgeType_Edge.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_Edge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new @Edge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_Edge(Edge_Edge oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @Edge(@Edge oldElem, LGSPNode newSource, LGSPNode newTarget)
 			: base(EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_Edge edge;
+			@Edge edge;
 			if(poolLevel == 0)
-				edge = new Edge_Edge(source, target);
+				edge = new @Edge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -685,11 +677,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static Edge_Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_Edge edge;
+			@Edge edge;
 			if(poolLevel == 0)
-				edge = new Edge_Edge(source, target);
+				edge = new @Edge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -731,9 +723,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "Edge"; } }
+		public override Directedness Directedness { get { return Directedness.Directed; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_Edge((LGSPNode) source, (LGSPNode) target);
+			return new @Edge((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -744,37 +737,34 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			return new Edge_Edge((LGSPNode) source, (LGSPNode) target);
+			return new @Edge((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge UEdge ***
 
-	public interface IEdge_UEdge : IEdge_AEdge
-	{
-	}
 
-	public sealed class Edge_UEdge : LGSPEdge, IEdge_UEdge
+	public sealed class @UEdge : LGSPEdge, IEdge
 	{
 		private static int poolLevel = 0;
-		private static Edge_UEdge[] pool = new Edge_UEdge[10];
-		public Edge_UEdge(LGSPNode source, LGSPNode target)
+		private static @UEdge[] pool = new @UEdge[10];
+		public @UEdge(LGSPNode source, LGSPNode target)
 			: base(EdgeType_UEdge.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_UEdge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new @UEdge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_UEdge(Edge_UEdge oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @UEdge(@UEdge oldElem, LGSPNode newSource, LGSPNode newTarget)
 			: base(EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_UEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @UEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_UEdge edge;
+			@UEdge edge;
 			if(poolLevel == 0)
-				edge = new Edge_UEdge(source, target);
+				edge = new @UEdge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -786,11 +776,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static Edge_UEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @UEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_UEdge edge;
+			@UEdge edge;
 			if(poolLevel == 0)
-				edge = new Edge_UEdge(source, target);
+				edge = new @UEdge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -832,9 +822,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "UEdge"; } }
+		public override Directedness Directedness { get { return Directedness.Undirected; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_UEdge((LGSPNode) source, (LGSPNode) target);
+			return new @UEdge((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -845,37 +836,37 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			return new Edge_UEdge((LGSPNode) source, (LGSPNode) target);
+			return new @UEdge((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge right ***
 
-	public interface IEdge_right : IEdge_Edge
+	public interface Iright : IEdge
 	{
 	}
 
-	public sealed class Edge_right : LGSPEdge, IEdge_right
+	public sealed class @right : LGSPEdge, Iright
 	{
 		private static int poolLevel = 0;
-		private static Edge_right[] pool = new Edge_right[10];
-		public Edge_right(LGSPNode source, LGSPNode target)
+		private static @right[] pool = new @right[10];
+		public @right(LGSPNode source, LGSPNode target)
 			: base(EdgeType_right.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_right(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new @right(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_right(Edge_right oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @right(@right oldElem, LGSPNode newSource, LGSPNode newTarget)
 			: base(EdgeType_right.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_right edge;
+			@right edge;
 			if(poolLevel == 0)
-				edge = new Edge_right(source, target);
+				edge = new @right(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -887,11 +878,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static Edge_right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_right edge;
+			@right edge;
 			if(poolLevel == 0)
-				edge = new Edge_right(source, target);
+				edge = new @right(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -933,9 +924,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "right"; } }
+		public override Directedness Directedness { get { return Directedness.Directed; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_right((LGSPNode) source, (LGSPNode) target);
+			return new @right((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -946,37 +938,37 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			return new Edge_right((LGSPNode) source, (LGSPNode) target);
+			return new @right((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge readZero ***
 
-	public interface IEdge_readZero : IEdge_Edge
+	public interface IreadZero : IEdge
 	{
 	}
 
-	public sealed class Edge_readZero : LGSPEdge, IEdge_readZero
+	public sealed class @readZero : LGSPEdge, IreadZero
 	{
 		private static int poolLevel = 0;
-		private static Edge_readZero[] pool = new Edge_readZero[10];
-		public Edge_readZero(LGSPNode source, LGSPNode target)
+		private static @readZero[] pool = new @readZero[10];
+		public @readZero(LGSPNode source, LGSPNode target)
 			: base(EdgeType_readZero.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_readZero(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new @readZero(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_readZero(Edge_readZero oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @readZero(@readZero oldElem, LGSPNode newSource, LGSPNode newTarget)
 			: base(EdgeType_readZero.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_readZero edge;
+			@readZero edge;
 			if(poolLevel == 0)
-				edge = new Edge_readZero(source, target);
+				edge = new @readZero(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -988,11 +980,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static Edge_readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_readZero edge;
+			@readZero edge;
 			if(poolLevel == 0)
-				edge = new Edge_readZero(source, target);
+				edge = new @readZero(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1034,9 +1026,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "readZero"; } }
+		public override Directedness Directedness { get { return Directedness.Directed; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_readZero((LGSPNode) source, (LGSPNode) target);
+			return new @readZero((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -1047,37 +1040,37 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			return new Edge_readZero((LGSPNode) source, (LGSPNode) target);
+			return new @readZero((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge readOne ***
 
-	public interface IEdge_readOne : IEdge_Edge
+	public interface IreadOne : IEdge
 	{
 	}
 
-	public sealed class Edge_readOne : LGSPEdge, IEdge_readOne
+	public sealed class @readOne : LGSPEdge, IreadOne
 	{
 		private static int poolLevel = 0;
-		private static Edge_readOne[] pool = new Edge_readOne[10];
-		public Edge_readOne(LGSPNode source, LGSPNode target)
+		private static @readOne[] pool = new @readOne[10];
+		public @readOne(LGSPNode source, LGSPNode target)
 			: base(EdgeType_readOne.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_readOne(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new @readOne(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_readOne(Edge_readOne oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @readOne(@readOne oldElem, LGSPNode newSource, LGSPNode newTarget)
 			: base(EdgeType_readOne.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_readOne CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @readOne CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_readOne edge;
+			@readOne edge;
 			if(poolLevel == 0)
-				edge = new Edge_readOne(source, target);
+				edge = new @readOne(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1089,11 +1082,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static Edge_readOne CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @readOne CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_readOne edge;
+			@readOne edge;
 			if(poolLevel == 0)
-				edge = new Edge_readOne(source, target);
+				edge = new @readOne(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1135,9 +1128,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "readOne"; } }
+		public override Directedness Directedness { get { return Directedness.Directed; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_readOne((LGSPNode) source, (LGSPNode) target);
+			return new @readOne((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -1148,37 +1142,37 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			return new Edge_readOne((LGSPNode) source, (LGSPNode) target);
+			return new @readOne((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge moveLeft ***
 
-	public interface IEdge_moveLeft : IEdge_Edge
+	public interface ImoveLeft : IEdge
 	{
 	}
 
-	public sealed class Edge_moveLeft : LGSPEdge, IEdge_moveLeft
+	public sealed class @moveLeft : LGSPEdge, ImoveLeft
 	{
 		private static int poolLevel = 0;
-		private static Edge_moveLeft[] pool = new Edge_moveLeft[10];
-		public Edge_moveLeft(LGSPNode source, LGSPNode target)
+		private static @moveLeft[] pool = new @moveLeft[10];
+		public @moveLeft(LGSPNode source, LGSPNode target)
 			: base(EdgeType_moveLeft.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_moveLeft(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new @moveLeft(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_moveLeft(Edge_moveLeft oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @moveLeft(@moveLeft oldElem, LGSPNode newSource, LGSPNode newTarget)
 			: base(EdgeType_moveLeft.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_moveLeft edge;
+			@moveLeft edge;
 			if(poolLevel == 0)
-				edge = new Edge_moveLeft(source, target);
+				edge = new @moveLeft(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1190,11 +1184,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static Edge_moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_moveLeft edge;
+			@moveLeft edge;
 			if(poolLevel == 0)
-				edge = new Edge_moveLeft(source, target);
+				edge = new @moveLeft(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1236,9 +1230,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "moveLeft"; } }
+		public override Directedness Directedness { get { return Directedness.Directed; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_moveLeft((LGSPNode) source, (LGSPNode) target);
+			return new @moveLeft((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -1249,37 +1244,37 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			return new Edge_moveLeft((LGSPNode) source, (LGSPNode) target);
+			return new @moveLeft((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge moveRight ***
 
-	public interface IEdge_moveRight : IEdge_Edge
+	public interface ImoveRight : IEdge
 	{
 	}
 
-	public sealed class Edge_moveRight : LGSPEdge, IEdge_moveRight
+	public sealed class @moveRight : LGSPEdge, ImoveRight
 	{
 		private static int poolLevel = 0;
-		private static Edge_moveRight[] pool = new Edge_moveRight[10];
-		public Edge_moveRight(LGSPNode source, LGSPNode target)
+		private static @moveRight[] pool = new @moveRight[10];
+		public @moveRight(LGSPNode source, LGSPNode target)
 			: base(EdgeType_moveRight.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_moveRight(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new @moveRight(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_moveRight(Edge_moveRight oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @moveRight(@moveRight oldElem, LGSPNode newSource, LGSPNode newTarget)
 			: base(EdgeType_moveRight.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_moveRight edge;
+			@moveRight edge;
 			if(poolLevel == 0)
-				edge = new Edge_moveRight(source, target);
+				edge = new @moveRight(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1291,11 +1286,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static Edge_moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_moveRight edge;
+			@moveRight edge;
 			if(poolLevel == 0)
-				edge = new Edge_moveRight(source, target);
+				edge = new @moveRight(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1337,9 +1332,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "moveRight"; } }
+		public override Directedness Directedness { get { return Directedness.Directed; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_moveRight((LGSPNode) source, (LGSPNode) target);
+			return new @moveRight((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -1350,7 +1346,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			return new Edge_moveRight((LGSPNode) source, (LGSPNode) target);
+			return new @moveRight((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
@@ -1561,114 +1557,114 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			InitializeGraph(this);
 		}
 
-		public Node_Node CreateNode_Node()
+		public @Node CreateNodeNode()
 		{
-			return Node_Node.CreateNode(this);
+			return @Node.CreateNode(this);
 		}
 
-		public Node_Node CreateNode_Node(String varName)
+		public @Node CreateNodeNode(String varName)
 		{
-			return Node_Node.CreateNode(this, varName);
+			return @Node.CreateNode(this, varName);
 		}
 
-		public Node_BandPosition CreateNode_BandPosition()
+		public @BandPosition CreateNodeBandPosition()
 		{
-			return Node_BandPosition.CreateNode(this);
+			return @BandPosition.CreateNode(this);
 		}
 
-		public Node_BandPosition CreateNode_BandPosition(String varName)
+		public @BandPosition CreateNodeBandPosition(String varName)
 		{
-			return Node_BandPosition.CreateNode(this, varName);
+			return @BandPosition.CreateNode(this, varName);
 		}
 
-		public Node_State CreateNode_State()
+		public @State CreateNodeState()
 		{
-			return Node_State.CreateNode(this);
+			return @State.CreateNode(this);
 		}
 
-		public Node_State CreateNode_State(String varName)
+		public @State CreateNodeState(String varName)
 		{
-			return Node_State.CreateNode(this, varName);
+			return @State.CreateNode(this, varName);
 		}
 
-		public Node_WriteValue CreateNode_WriteValue()
+		public @WriteValue CreateNodeWriteValue()
 		{
-			return Node_WriteValue.CreateNode(this);
+			return @WriteValue.CreateNode(this);
 		}
 
-		public Node_WriteValue CreateNode_WriteValue(String varName)
+		public @WriteValue CreateNodeWriteValue(String varName)
 		{
-			return Node_WriteValue.CreateNode(this, varName);
+			return @WriteValue.CreateNode(this, varName);
 		}
 
-		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target)
+		public @Edge CreateEdgeEdge(LGSPNode source, LGSPNode target)
 		{
-			return Edge_Edge.CreateEdge(this, source, target);
+			return @Edge.CreateEdge(this, source, target);
 		}
 
-		public Edge_Edge CreateEdge_Edge(LGSPNode source, LGSPNode target, String varName)
+		public @Edge CreateEdgeEdge(LGSPNode source, LGSPNode target, String varName)
 		{
-			return Edge_Edge.CreateEdge(this, source, target, varName);
+			return @Edge.CreateEdge(this, source, target, varName);
 		}
 
-		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target)
+		public @UEdge CreateEdgeUEdge(LGSPNode source, LGSPNode target)
 		{
-			return Edge_UEdge.CreateEdge(this, source, target);
+			return @UEdge.CreateEdge(this, source, target);
 		}
 
-		public Edge_UEdge CreateEdge_UEdge(LGSPNode source, LGSPNode target, String varName)
+		public @UEdge CreateEdgeUEdge(LGSPNode source, LGSPNode target, String varName)
 		{
-			return Edge_UEdge.CreateEdge(this, source, target, varName);
+			return @UEdge.CreateEdge(this, source, target, varName);
 		}
 
-		public Edge_right CreateEdge_right(LGSPNode source, LGSPNode target)
+		public @right CreateEdgeright(LGSPNode source, LGSPNode target)
 		{
-			return Edge_right.CreateEdge(this, source, target);
+			return @right.CreateEdge(this, source, target);
 		}
 
-		public Edge_right CreateEdge_right(LGSPNode source, LGSPNode target, String varName)
+		public @right CreateEdgeright(LGSPNode source, LGSPNode target, String varName)
 		{
-			return Edge_right.CreateEdge(this, source, target, varName);
+			return @right.CreateEdge(this, source, target, varName);
 		}
 
-		public Edge_readZero CreateEdge_readZero(LGSPNode source, LGSPNode target)
+		public @readZero CreateEdgereadZero(LGSPNode source, LGSPNode target)
 		{
-			return Edge_readZero.CreateEdge(this, source, target);
+			return @readZero.CreateEdge(this, source, target);
 		}
 
-		public Edge_readZero CreateEdge_readZero(LGSPNode source, LGSPNode target, String varName)
+		public @readZero CreateEdgereadZero(LGSPNode source, LGSPNode target, String varName)
 		{
-			return Edge_readZero.CreateEdge(this, source, target, varName);
+			return @readZero.CreateEdge(this, source, target, varName);
 		}
 
-		public Edge_readOne CreateEdge_readOne(LGSPNode source, LGSPNode target)
+		public @readOne CreateEdgereadOne(LGSPNode source, LGSPNode target)
 		{
-			return Edge_readOne.CreateEdge(this, source, target);
+			return @readOne.CreateEdge(this, source, target);
 		}
 
-		public Edge_readOne CreateEdge_readOne(LGSPNode source, LGSPNode target, String varName)
+		public @readOne CreateEdgereadOne(LGSPNode source, LGSPNode target, String varName)
 		{
-			return Edge_readOne.CreateEdge(this, source, target, varName);
+			return @readOne.CreateEdge(this, source, target, varName);
 		}
 
-		public Edge_moveLeft CreateEdge_moveLeft(LGSPNode source, LGSPNode target)
+		public @moveLeft CreateEdgemoveLeft(LGSPNode source, LGSPNode target)
 		{
-			return Edge_moveLeft.CreateEdge(this, source, target);
+			return @moveLeft.CreateEdge(this, source, target);
 		}
 
-		public Edge_moveLeft CreateEdge_moveLeft(LGSPNode source, LGSPNode target, String varName)
+		public @moveLeft CreateEdgemoveLeft(LGSPNode source, LGSPNode target, String varName)
 		{
-			return Edge_moveLeft.CreateEdge(this, source, target, varName);
+			return @moveLeft.CreateEdge(this, source, target, varName);
 		}
 
-		public Edge_moveRight CreateEdge_moveRight(LGSPNode source, LGSPNode target)
+		public @moveRight CreateEdgemoveRight(LGSPNode source, LGSPNode target)
 		{
-			return Edge_moveRight.CreateEdge(this, source, target);
+			return @moveRight.CreateEdge(this, source, target);
 		}
 
-		public Edge_moveRight CreateEdge_moveRight(LGSPNode source, LGSPNode target, String varName)
+		public @moveRight CreateEdgemoveRight(LGSPNode source, LGSPNode target, String varName)
 		{
-			return Edge_moveRight.CreateEdge(this, source, target, varName);
+			return @moveRight.CreateEdge(this, source, target, varName);
 		}
 
 		private Turing3NodeModel nodeModel = new Turing3NodeModel();

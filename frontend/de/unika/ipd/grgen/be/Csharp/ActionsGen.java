@@ -55,10 +55,11 @@ import java.util.List;
 import java.util.Set;
 
 public class ActionsGen extends CSharpBase {
-	public ActionsGen(SearchPlanBackend2 backend) {
+	public ActionsGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
+		super(nodeTypePrefix, edgeTypePrefix);
 		be = backend;
 		model = be.unit.getActionsGraphModel();
-		mg = new ModifyGen();
+		mg = new ModifyGen(nodeTypePrefix, edgeTypePrefix);
 	}
 
 	/**
@@ -408,7 +409,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(" }, \n");
 
-		sb.append("\t\t\t\tnew Condition[] { ");
+		sb.append("\t\t\t\tnew PatternCondition[] { ");
 		int condCnt = condCntInit;
 		for (int i = 0; i < pattern.getConditions().size(); i++){
 			sb.append("cond_" + condCnt + ", ");
@@ -609,7 +610,7 @@ public class ActionsGen extends CSharpBase {
 			Set<Edge> edges = new LinkedHashSet<Edge>();
 			Set<Variable> vars = new LinkedHashSet<Variable>();
 			expr.collectElementsAndVars(nodes, edges, vars);
-			sb.append("\t\t\tCondition cond_" + condCnt + " = new Condition(" + condCnt + ", new String[] ");
+			sb.append("\t\t\tPatternCondition cond_" + condCnt + " = new PatternCondition(" + condCnt + ", new String[] ");
 			genEntitySet(sb, nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new String[] ");
 			genEntitySet(sb, edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
@@ -835,7 +836,7 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	protected void genQualAccess(StringBuffer sb, Entity owner, Entity member) {
-		sb.append("((I" + (owner instanceof Node ? "Node" : "Edge") + "_" +
+		sb.append("((I" + getNodeOrEdgeTypePrefix(owner) +
 					  formatIdentifiable(owner.getType()) + ") ");
 		sb.append(formatEntity(owner) + ").@" + formatIdentifiable(member));
 	}
@@ -852,5 +853,3 @@ public class ActionsGen extends CSharpBase {
 	private ModifyGen mg;
 	private Model model;
 }
-
-

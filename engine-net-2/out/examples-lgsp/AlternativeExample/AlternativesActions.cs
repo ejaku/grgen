@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Wed Apr 23 23:46:16 CEST 2008
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sat Apr 26 03:35:21 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -85,7 +85,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -114,7 +114,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -138,7 +138,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { toAorB_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -194,7 +194,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void toAorB_alt_0_toA_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_toAorB_alt_0_toA_addedNodeNames );
-			Node_A node_a = Node_A.CreateNode(graph);
+			@A node_a = @A.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_toAorB_alt_0_toA_addedEdgeNames );
 		}
 		private static String[] create_toAorB_alt_0_toA_addedNodeNames = new String[] { "a" };
@@ -210,7 +210,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void toAorB_alt_0_toB_Create(LGSPGraph graph)
 		{
 			graph.SettingAddedNodeNames( create_toAorB_alt_0_toB_addedNodeNames );
-			Node_B node_b = Node_B.CreateNode(graph);
+			@B node_b = @B.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_toAorB_alt_0_toB_addedEdgeNames );
 		}
 		private static String[] create_toAorB_alt_0_toB_addedNodeNames = new String[] { "b" };
@@ -263,7 +263,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createA_isNodeHomomorphicGlobal,
@@ -279,7 +279,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createA_addedNodeNames );
-			Node_A node__node0 = Node_A.CreateNode(graph);
+			@A node__node0 = @A.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createA_addedEdgeNames );
 			return EmptyReturnElements;
 		}
@@ -289,7 +289,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createA_addedNodeNames );
-			Node_A node__node0 = Node_A.CreateNode(graph);
+			@A node__node0 = @A.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createA_addedEdgeNames );
 			return EmptyReturnElements;
 		}
@@ -334,7 +334,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createB_isNodeHomomorphicGlobal,
@@ -350,7 +350,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createB_addedNodeNames );
-			Node_B node__node0 = Node_B.CreateNode(graph);
+			@B node__node0 = @B.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createB_addedEdgeNames );
 			return EmptyReturnElements;
 		}
@@ -360,7 +360,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createB_addedNodeNames );
-			Node_B node__node0 = Node_B.CreateNode(graph);
+			@B node__node0 = @B.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createB_addedEdgeNames );
 			return EmptyReturnElements;
 		}
@@ -405,7 +405,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createC_isNodeHomomorphicGlobal,
@@ -421,7 +421,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createC_addedNodeNames );
-			Node_C node__node0 = Node_C.CreateNode(graph);
+			@C node__node0 = @C.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createC_addedEdgeNames );
 			return EmptyReturnElements;
 		}
@@ -431,7 +431,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createC_addedNodeNames );
-			Node_C node__node0 = Node_C.CreateNode(graph);
+			@C node__node0 = @C.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createC_addedEdgeNames );
 			return EmptyReturnElements;
 		}
@@ -476,7 +476,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createAtoB_isNodeHomomorphicGlobal,
@@ -492,10 +492,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createAtoB_addedNodeNames );
-			Node_A node__node0 = Node_A.CreateNode(graph);
-			Node_B node__node1 = Node_B.CreateNode(graph);
+			@A node__node0 = @A.CreateNode(graph);
+			@B node__node1 = @B.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createAtoB_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node__node0, node__node1);
 			return EmptyReturnElements;
 		}
 		private static String[] createAtoB_addedNodeNames = new String[] { "_node0", "_node1" };
@@ -504,10 +504,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createAtoB_addedNodeNames );
-			Node_A node__node0 = Node_A.CreateNode(graph);
-			Node_B node__node1 = Node_B.CreateNode(graph);
+			@A node__node0 = @A.CreateNode(graph);
+			@B node__node1 = @B.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createAtoB_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node__node0, node__node1);
 			return EmptyReturnElements;
 		}
 	}
@@ -561,7 +561,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				leer_alt_0_altleer_isNodeHomomorphicGlobal,
@@ -580,7 +580,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { leer_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				leer_isNodeHomomorphicGlobal,
@@ -678,7 +678,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -702,7 +702,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -723,7 +723,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { AorB_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				AorB_isNodeHomomorphicGlobal,
@@ -846,7 +846,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -865,7 +865,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { AandnotCorB_alt_0_A_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -890,7 +890,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -911,7 +911,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { AandnotCorB_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				AandnotCorB_isNodeHomomorphicGlobal,
@@ -1030,7 +1030,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -1054,7 +1054,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -1078,7 +1078,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -1099,7 +1099,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { AorBorC_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				AorBorC_isNodeHomomorphicGlobal,
@@ -1231,7 +1231,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1264,7 +1264,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1290,7 +1290,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { AtoAorB_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -1380,7 +1380,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createComplex_isNodeHomomorphicGlobal,
@@ -1396,20 +1396,20 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createComplex_addedNodeNames );
-			Node_A node_a = Node_A.CreateNode(graph);
-			Node_B node_b = Node_B.CreateNode(graph);
-			Node_B node_b2 = Node_B.CreateNode(graph);
-			Node_C node__node0 = Node_C.CreateNode(graph);
-			Node_C node__node1 = Node_C.CreateNode(graph);
-			Node_C node__node2 = Node_C.CreateNode(graph);
+			@A node_a = @A.CreateNode(graph);
+			@B node_b = @B.CreateNode(graph);
+			@B node_b2 = @B.CreateNode(graph);
+			@C node__node0 = @C.CreateNode(graph);
+			@C node__node1 = @C.CreateNode(graph);
+			@C node__node2 = @C.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createComplex_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
-			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_b, node__node0);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
-			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node__node1, node__node2);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_a, node_b);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_b, node_a);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_a, node_b2);
+			@Edge edge__edge3 = @Edge.CreateEdge(graph, node_b2, node_a);
+			@Edge edge__edge4 = @Edge.CreateEdge(graph, node_b, node__node0);
+			@Edge edge__edge5 = @Edge.CreateEdge(graph, node__node0, node__node1);
+			@Edge edge__edge6 = @Edge.CreateEdge(graph, node__node1, node__node2);
 			return EmptyReturnElements;
 		}
 		private static String[] createComplex_addedNodeNames = new String[] { "a", "b", "b2", "_node0", "_node1", "_node2" };
@@ -1418,20 +1418,20 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createComplex_addedNodeNames );
-			Node_A node_a = Node_A.CreateNode(graph);
-			Node_B node_b = Node_B.CreateNode(graph);
-			Node_B node_b2 = Node_B.CreateNode(graph);
-			Node_C node__node0 = Node_C.CreateNode(graph);
-			Node_C node__node1 = Node_C.CreateNode(graph);
-			Node_C node__node2 = Node_C.CreateNode(graph);
+			@A node_a = @A.CreateNode(graph);
+			@B node_b = @B.CreateNode(graph);
+			@B node_b2 = @B.CreateNode(graph);
+			@C node__node0 = @C.CreateNode(graph);
+			@C node__node1 = @C.CreateNode(graph);
+			@C node__node2 = @C.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createComplex_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b2);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b2, node_a);
-			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_b, node__node0);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node__node0, node__node1);
-			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node__node1, node__node2);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_a, node_b);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_b, node_a);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_a, node_b2);
+			@Edge edge__edge3 = @Edge.CreateEdge(graph, node_b2, node_a);
+			@Edge edge__edge4 = @Edge.CreateEdge(graph, node_b, node__node0);
+			@Edge edge__edge5 = @Edge.CreateEdge(graph, node__node0, node__node1);
+			@Edge edge__edge6 = @Edge.CreateEdge(graph, node__node1, node__node2);
 			return EmptyReturnElements;
 		}
 	}
@@ -1581,7 +1581,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[5, 5] {
 					{ true, false, false, false, false, },
 					{ false, true, false, false, false, },
@@ -1641,7 +1641,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -1701,7 +1701,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[5, 5] {
 					{ true, false, false, false, false, },
 					{ false, true, false, false, false, },
@@ -1739,7 +1739,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { Complex_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1994,7 +1994,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2018,7 +2018,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] { ComplexMax_alt_0_ExtendAv_neg_0,  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[5, 5] {
 					{ true, false, false, false, false, },
 					{ false, true, false, false, false, },
@@ -2079,7 +2079,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -2139,7 +2139,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[5, 5] {
 					{ true, false, false, false, false, },
 					{ false, true, false, false, false, },
@@ -2177,7 +2177,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { ComplexMax_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2308,7 +2308,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createABA_isNodeHomomorphicGlobal,
@@ -2324,13 +2324,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createABA_addedNodeNames );
-			Node_A node_a = Node_A.CreateNode(graph);
-			Node_B node_b = Node_B.CreateNode(graph);
+			@A node_a = @A.CreateNode(graph);
+			@B node_b = @B.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createABA_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b, node_a);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_a, node_b);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_b, node_a);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_a, node_b);
+			@Edge edge__edge3 = @Edge.CreateEdge(graph, node_b, node_a);
 			return EmptyReturnElements;
 		}
 		private static String[] createABA_addedNodeNames = new String[] { "a", "b" };
@@ -2339,13 +2339,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
 			graph.SettingAddedNodeNames( createABA_addedNodeNames );
-			Node_A node_a = Node_A.CreateNode(graph);
-			Node_B node_b = Node_B.CreateNode(graph);
+			@A node_a = @A.CreateNode(graph);
+			@B node_b = @B.CreateNode(graph);
 			graph.SettingAddedEdgeNames( createABA_addedEdgeNames );
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_b, node_a);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_a, node_b);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_b, node_a);
+			@Edge edge__edge0 = @Edge.CreateEdge(graph, node_a, node_b);
+			@Edge edge__edge1 = @Edge.CreateEdge(graph, node_b, node_a);
+			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_a, node_b);
+			@Edge edge__edge3 = @Edge.CreateEdge(graph, node_b, node_a);
 			return EmptyReturnElements;
 		}
 	}
@@ -2446,7 +2446,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, true, },
 					{ false, true, true, },
@@ -2485,7 +2485,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2514,7 +2514,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] { homm_alt_0,  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2623,7 +2623,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new PatternGraphEmbedding[] { XtoAorB__subpattern0 }, 
 				new Alternative[] {  }, 
 				new PatternGraph[] {  }, 
-				new Condition[] {  }, 
+				new PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
