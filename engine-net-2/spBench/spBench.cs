@@ -1,4 +1,10 @@
-ï»¿#define DUMP_MATCHERPROGRAMS
+/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET v2 beta
+ * Copyright (C) 2008 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation, LS Goos
+ * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
+ */
+
+#define DUMP_MATCHERPROGRAMS
 //#define DUMP_INITIALGRAPH
 #define NEWCOSTMODEL
 //#define OPCOST_WITH_GEO_MEAN
@@ -19,7 +25,7 @@ namespace spBench
     class SearchPlanResult : IComparable<SearchPlanResult>
     {
         /// <summary>
-        /// A GÃ¶del number for the searchplan
+        /// A Gödel number for the searchplan
         /// </summary>
         public SearchPlanID ID;
 
@@ -44,7 +50,7 @@ namespace spBench
         public float SPCostImplProduct;
 
         /// <summary>
-        /// Cost of the chosen operations (VarrÃ³: c+(S))
+        /// Cost of the chosen operations (Varró: c+(S))
         /// </summary>
         public float SPCostSum;
 

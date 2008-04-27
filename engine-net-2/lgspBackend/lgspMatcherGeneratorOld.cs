@@ -1,4 +1,10 @@
-ï»¿//#define PRODUCE_UNSAFE_MATCHERS // todo: what for ?
+/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET v2 beta
+ * Copyright (C) 2008 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation, LS Goos
+ * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
+ */
+
+//#define PRODUCE_UNSAFE_MATCHERS // todo: what for ?
 #define CSHARPCODE_VERSION2
 #define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
 //#define NO_EDGE_LOOKUP
