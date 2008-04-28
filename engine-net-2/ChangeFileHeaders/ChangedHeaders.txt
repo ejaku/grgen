@@ -1,25 +1,4 @@
 /grgen
-  /.metadata
-    /.mylyn
-      /backup
-      /contexts
-      /offline
-    /.plugins
-      /org.eclipse.core.resources
-        /.history
-        /.root
-          /.indexes
-        /.safetable
-      /org.eclipse.core.runtime
-        /.settings
-      /org.eclipse.debug.core
-      /org.eclipse.debug.ui
-      /org.eclipse.jdt.core
-      /org.eclipse.jdt.launching
-      /org.eclipse.jdt.ui
-      /org.eclipse.mylyn.bugzilla.core
-      /org.eclipse.ui.ide
-      /org.eclipse.ui.workbench
   /doc
     /bench
       /results
