@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sat Apr 26 03:35:25 CEST 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Apr 28 13:38:38 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public @Node() : base(NodeType_Node.typeVar)
 		{
 		}
+
+		public static NodeType_Node TypeInstance { get { return NodeType_Node.typeVar; } }
+
 		public override INode Clone() { return new @Node(this); }
 
 		private @Node(@Node oldElem) : base(NodeType_Node.typeVar)
@@ -132,6 +135,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public @BandPosition() : base(NodeType_BandPosition.typeVar)
 		{
 		}
+
+		public static NodeType_BandPosition TypeInstance { get { return NodeType_BandPosition.typeVar; } }
+
 		public override INode Clone() { return new @BandPosition(this); }
 
 		private @BandPosition(@BandPosition oldElem) : base(NodeType_BandPosition.typeVar)
@@ -276,6 +282,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public @State() : base(NodeType_State.typeVar)
 		{
 		}
+
+		public static NodeType_State TypeInstance { get { return NodeType_State.typeVar; } }
+
 		public override INode Clone() { return new @State(this); }
 
 		private @State(@State oldElem) : base(NodeType_State.typeVar)
@@ -375,6 +384,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public @WriteValue() : base(NodeType_WriteValue.typeVar)
 		{
 		}
+
+		public static NodeType_WriteValue TypeInstance { get { return NodeType_WriteValue.typeVar; } }
+
 		public override INode Clone() { return new @WriteValue(this); }
 
 		private @WriteValue(@WriteValue oldElem) : base(NodeType_WriteValue.typeVar)
@@ -654,6 +666,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(EdgeType_Edge.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_Edge TypeInstance { get { return EdgeType_Edge.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @Edge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -753,6 +768,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(EdgeType_UEdge.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_UEdge TypeInstance { get { return EdgeType_UEdge.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @UEdge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -855,6 +873,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(EdgeType_right.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_right TypeInstance { get { return EdgeType_right.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @right(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -957,6 +978,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(EdgeType_readZero.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_readZero TypeInstance { get { return EdgeType_readZero.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @readZero(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -1059,6 +1083,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(EdgeType_readOne.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_readOne TypeInstance { get { return EdgeType_readOne.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @readOne(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -1161,6 +1188,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(EdgeType_moveLeft.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_moveLeft TypeInstance { get { return EdgeType_moveLeft.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @moveLeft(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -1263,6 +1293,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			: base(EdgeType_moveRight.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_moveRight TypeInstance { get { return EdgeType_moveRight.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @moveRight(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 

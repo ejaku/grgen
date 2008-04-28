@@ -19,11 +19,11 @@ namespace MutexExample
             Console.WriteLine("Mutex benchmark: " + duration + " ms");
             Console.WriteLine("Number of nodes: " + graph.NumNodes);
             Console.WriteLine("Number of edges: " + graph.NumEdges);
-            Console.WriteLine("Number of Process nodes: " + graph.GetNumExactNodes(NodeType_Process.typeVar));
-            Console.WriteLine("Number of Resource nodes: " + graph.GetNumExactNodes(NodeType_Resource.typeVar));
-            Console.WriteLine("Number of next edges: " + graph.GetNumExactEdges(EdgeType_next.typeVar));
-            Console.WriteLine("Number of request edges: " + graph.GetNumExactEdges(EdgeType_request.typeVar));
-            Console.WriteLine("Number of token edges: " + graph.GetNumExactEdges(EdgeType_token.typeVar));
+            Console.WriteLine("Number of Process nodes: " + graph.GetNumExactNodes(Process.TypeInstance));
+            Console.WriteLine("Number of Resource nodes: " + graph.GetNumExactNodes(Resource.TypeInstance));
+            Console.WriteLine("Number of next edges: " + graph.GetNumExactEdges(next.TypeInstance));
+            Console.WriteLine("Number of request edges: " + graph.GetNumExactEdges(request.TypeInstance));
+            Console.WriteLine("Number of token edges: " + graph.GetNumExactEdges(token.TypeInstance));
         }
 
         /// <summary>

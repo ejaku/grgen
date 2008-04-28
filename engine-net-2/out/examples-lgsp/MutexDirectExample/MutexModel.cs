@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sat Apr 26 03:35:31 CEST 2008
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Apr 28 13:51:04 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public @Node() : base(NodeType_Node.typeVar)
 		{
 		}
+
+		public static NodeType_Node TypeInstance { get { return NodeType_Node.typeVar; } }
+
 		public override INode Clone() { return new @Node(this); }
 
 		private @Node(@Node oldElem) : base(NodeType_Node.typeVar)
@@ -131,6 +134,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public @Process() : base(NodeType_Process.typeVar)
 		{
 		}
+
+		public static NodeType_Process TypeInstance { get { return NodeType_Process.typeVar; } }
+
 		public override INode Clone() { return new @Process(this); }
 
 		private @Process(@Process oldElem) : base(NodeType_Process.typeVar)
@@ -229,6 +235,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public @Resource() : base(NodeType_Resource.typeVar)
 		{
 		}
+
+		public static NodeType_Resource TypeInstance { get { return NodeType_Resource.typeVar; } }
+
 		public override INode Clone() { return new @Resource(this); }
 
 		private @Resource(@Resource oldElem) : base(NodeType_Resource.typeVar)
@@ -443,6 +452,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(EdgeType_Edge.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_Edge TypeInstance { get { return EdgeType_Edge.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @Edge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -542,6 +554,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(EdgeType_UEdge.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_UEdge TypeInstance { get { return EdgeType_UEdge.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @UEdge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -644,6 +659,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(EdgeType_next.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_next TypeInstance { get { return EdgeType_next.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @next(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -746,6 +764,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(EdgeType_blocked.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_blocked TypeInstance { get { return EdgeType_blocked.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @blocked(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -848,6 +869,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(EdgeType_held_by.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_held_by TypeInstance { get { return EdgeType_held_by.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @held_by(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -950,6 +974,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(EdgeType_token.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_token TypeInstance { get { return EdgeType_token.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @token(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -1052,6 +1079,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(EdgeType_release.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_release TypeInstance { get { return EdgeType_release.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @release(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -1154,6 +1184,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			: base(EdgeType_request.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_request TypeInstance { get { return EdgeType_request.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @request(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 

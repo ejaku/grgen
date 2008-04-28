@@ -25,15 +25,15 @@ namespace BusyBeaver
             EdgeType moveType;
             switch(move)
             {
-                case L: moveType = EdgeType_moveLeft.typeVar; break;
-                case R: moveType = EdgeType_moveRight.typeVar; break;
+                case L: moveType = moveLeft.TypeInstance; break;
+                case R: moveType = moveRight.TypeInstance; break;
                 default: throw new ArgumentException("Illegal move value: " + move);
             }
 
             WriteValue writeNode = graph.CreateNodeWriteValue();
             writeNode.value = output;
 
-            graph.AddEdge(input == 0 ? (EdgeType) EdgeType_readZero.typeVar : (EdgeType) EdgeType_readOne.typeVar,
+            graph.AddEdge(input == 0 ? (EdgeType) readZero.TypeInstance : (EdgeType) readOne.TypeInstance,
                 graph.GetNodeVarValue(srcState), writeNode);
             graph.AddEdge(moveType, writeNode, graph.GetNodeVarValue(destState));
         }
@@ -104,8 +104,8 @@ namespace BusyBeaver
 
             // Count the number of "BandPosition" nodes with a "value" attribute being one
             int numOnes = 0;
-            foreach(LGSPNode valueNode in graph.GetExactNodes(NodeType_BandPosition.typeVar))
-                if(((BandPosition) valueNode).value == 1)
+            foreach(BandPosition valueNode in graph.GetExactNodes(BandPosition.TypeInstance))
+                if(valueNode.value == 1)
                     numOnes++;
 
             int countTime = Environment.TickCount - stopTime;
@@ -116,13 +116,10 @@ namespace BusyBeaver
 
             long endBytes = System.GC.GetTotalMemory(true);
 
-            int numNodes = graph.GetNumCompatibleNodes(NodeType_Node.typeVar);
-            int numEdges = graph.GetNumCompatibleEdges(EdgeType_Edge.typeVar);
-
             Console.WriteLine("Time: " + (stopTime - startTime) + " ms"
                 + "\nMemory usage: " + (endBytes - startBytes) + " bytes"
-                + "\nNum nodes: " + numNodes
-                + "\nNum edges: " + numEdges);
+                + "\nNum nodes: " + graph.NumNodes
+                + "\nNum edges: " + graph.NumEdges);
         }
 
         static void Main(string[] args)
