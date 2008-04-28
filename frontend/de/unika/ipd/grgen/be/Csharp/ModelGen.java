@@ -1,6 +1,6 @@
 /*
  * GrGen: graph rewrite generator tool -- release GrGen.NET v2 beta
- * Copyright (C) 2008 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation, LS Goos
+ * Copyright (C) 2008 UniversitÃ¤t Karlsruhe, Institut fÃ¼r Programmstrukturen und Datenorganisation, LS Goos
  * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
  */
 
@@ -216,7 +216,7 @@ public class ModelGen extends CSharpBase {
 	private void genDirectSuperTypeList(InheritanceType type) {
 		boolean isNode = type instanceof NodeType;
 		String elemKind = isNode ? "Node" : "Edge";
-		
+
 		String iprefix = "I" + getNodeOrEdgeTypePrefix(type);
 		Collection<InheritanceType> directSuperTypes = type.getDirectSuperTypes();
 
@@ -233,7 +233,7 @@ public class ModelGen extends CSharpBase {
 				// avoid problems with "extends Edge, AEdge" mapping to "IEdge, IEdge"
 				if(hasRootType) continue;
 				hasRootType = true;
-				
+
 				if(first) first = false;
 				else sb.append(", ");
 				sb.append("I" + elemKind);
@@ -321,15 +321,18 @@ public class ModelGen extends CSharpBase {
 			sb.append("\t\tpublic " + cname + "() : base("+ tname + ".typeVar)\n"
 					+ "\t\t{\n");
 			initAllMembers(type, "this", "\t\t\t", false);
-			sb.append("\t\t}\n");
+			sb.append("\t\t}\n\n");
 		}
 		else {
 			sb.append("\t\tpublic " + cname + "(LGSPNode source, LGSPNode target)\n"
 					+ "\t\t\t: base("+ tname + ".typeVar, source, target)\n"
 					+ "\t\t{\n");
 			initAllMembers(type, "this", "\t\t\t", false);
-			sb.append("\t\t}\n");
+			sb.append("\t\t}\n\n");
 		}
+
+		// Generate static type getter
+		sb.append("\t\tpublic static " + tname + " TypeInstance { get { return " + tname + ".typeVar; } }\n\n");
 
 		// Generate the clone and copy constructor
 		if(isNode)
@@ -1170,5 +1173,3 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private String nsIndent = "\t";
 	private HashSet<String> rootTypes;
 }
-
-
