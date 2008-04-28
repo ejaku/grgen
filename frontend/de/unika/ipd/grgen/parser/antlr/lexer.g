@@ -1,7 +1,7 @@
 header {
 /*
  * GrGen: graph rewrite generator, compiling declarative graph rewrite rules into executable code
- * Copyright (C) 2005 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation, LS Goos
+ * Copyright (C) 2005 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
  * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
  */
  
