@@ -1,0 +1,4 @@
+#! /bin/sh
+GRSHELL=`readlink -f "$0"`
+GRSHELL_HOME=`dirname "$YCOMP"`
+mono "$GRSHELL_HOME/GrShell.exe" $*
