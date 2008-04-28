@@ -44,6 +44,11 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IGraphModel Model { get; }
 
         /// <summary>
+        /// A currently associated actions object.
+        /// </summary>
+        public abstract BaseActions Actions { get; set; }
+
+        /// <summary>
         /// Returns the graph's transaction manager.
         /// For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
         /// Don't forget to call Commit after a transaction is finished!

@@ -311,7 +311,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// Currently associated LGSPActions object.
         /// This is needed to the current matchers while executing an exec statement on the RHS of a rule.
         /// </summary>
-		public LGSPActions curActions = null;
+        public LGSPActions curActions = null;
+
+        /// <summary>
+        /// A currently associated actions object.
+        /// </summary>
+        public override BaseActions Actions { get { return curActions; } set { curActions = (LGSPActions) curActions; } }
 
         private bool reuseOptimization = true;
 
