@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("grIO")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("IPD Uni-Karlsruhe")]
+[assembly: AssemblyCompany("Universität Karlsruhe, IPD")]
 [assembly: AssemblyProduct("grIO")]
-[assembly: AssemblyCopyright("Copyright © IPD Uni-Karlsruhe 2008")]
+[assembly: AssemblyCopyright("Copyright © 2008 Universität Karlsruhe, IPD")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,6 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.4.0.0")]
-[assembly: AssemblyFileVersion("1.4.0.0")]
+[assembly: AssemblyVersion("2.0.19422.0")]
+[assembly: AssemblyInformationalVersionAttribute("GrGen.NET v2 beta")]
+[assembly: AssemblyFileVersion("2.0.19422.0")]

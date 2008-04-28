@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GrGen")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Universität Karlsruhe")]
+[assembly: AssemblyCompany("Universität Karlsruhe, IPD")]
 [assembly: AssemblyProduct("GrGen")]
-[assembly: AssemblyCopyright("Copyright © Universität Karlsruhe 2008")]
+[assembly: AssemblyCopyright("Copyright © 2008 Universität Karlsruhe, IPD")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,6 @@ using System.Runtime.InteropServices;
 //      Buildnummer
 //      Revision
 //
-[assembly: AssemblyVersion("1.4.0.0")]
-[assembly: AssemblyFileVersion("1.4.0.0")]
+[assembly: AssemblyVersion("2.0.19422.0")]
+[assembly: AssemblyInformationalVersionAttribute("GrGen.NET v2 beta")]
+[assembly: AssemblyFileVersion("2.0.19422.0")]

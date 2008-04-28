@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Benchmarker")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Universität Karlsruhe")]
+[assembly: AssemblyCompany("Universität Karlsruhe, IPD")]
 [assembly: AssemblyProduct("Benchmarker")]
-[assembly: AssemblyCopyright("Copyright © Universität Karlsruhe 2007")]
+[assembly: AssemblyCopyright("Copyright © 2008 Universität Karlsruhe, IPD")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,6 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("2.0.19422.0")]
+[assembly: AssemblyInformationalVersionAttribute("GrGen.NET v2 beta")]
+[assembly: AssemblyFileVersion("2.0.19422.0")]
