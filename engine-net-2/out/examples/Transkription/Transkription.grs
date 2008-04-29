@@ -1,0 +1,15 @@
+new graph "Transkription"
+
+debug set layout Organic
+
+#ACGTA
+xgrs createDNAChain
+
+custom graph analyze_graph
+custom actions gen_searchplan Transkription
+
+#A->U, C->G, G->C, T->A
+xgrs Transkription
+# ACGTA + UGCAU
+
+quit

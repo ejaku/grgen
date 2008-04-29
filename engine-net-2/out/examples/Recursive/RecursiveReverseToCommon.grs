@@ -1,0 +1,13 @@
+new graph "Recursive"
+
+debug set layout Organic
+
+xgrs (beg,end)=createChain
+xgrs chainFromTo(beg,end)
+xgrs reverseChainFromTo(beg,end)
+xgrs (common)=chainFromToReverseToCommon(beg,end)
+xgrs chainFromTo(beg,end)
+xgrs reverseChainFromTo(beg,end)
+xgrs reverseChainFromToToCommon(beg,end,common)
+
+quit

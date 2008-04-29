@@ -1,0 +1,198 @@
+pattern ChainFromTo(from:Node, to:Node) {
+	alternative {
+		base {
+			from --> to;
+		}
+		rec {
+			from --> intermediate:Node;
+			:ChainFromTo(intermediate, to);
+		}
+	}
+}
+
+pattern ChainFrom(from:Node) {
+	alternative {
+		base {
+		}
+		rec {
+			from --> to:Node;
+			:ChainFrom(to);
+		}
+	}
+}
+
+pattern ChainFromComplete(from:Node) {
+	alternative {
+		base {
+			negative {
+				from --> .;
+			}
+		}
+		rec {
+			from --> to:Node;
+			:ChainFromComplete(to);
+		}
+	}
+}
+
+rule createChain : (Node, Node) {
+	modify {
+		beg:Node --> . --> . --> end:Node;
+		return(beg, end);
+	}
+}
+
+test chainFromTo(beg:Node, end:Node) {
+	:ChainFromTo(beg, end);
+}
+
+test chainFrom(beg:Node) {
+	:ChainFrom(beg);
+}
+
+test chainFromComplete(beg:Node) {
+	:ChainFromComplete(beg);
+}
+
+pattern Blowball(head:Node)
+{
+	alternative {
+		end {
+			negative {
+				head --> .;
+			}
+		}
+		further {
+			head --> .;
+			:Blowball(head);
+		}
+	}
+}
+
+rule createBlowball():(Node) {
+	modify {
+		head:Node --> .;
+		head --> .;
+		head --> .;
+		head --> .;
+		return(head);
+	}
+}
+
+test blowball(head:Node) {
+	:Blowball(head);	
+}
+
+pattern ReverseChainFromTo(from:Node, to:Node) {
+	alternative {
+		base {
+			from <-- to;
+		}
+		rec {
+			from <-- intermediate:Node;
+			:ReverseChainFromTo(intermediate, to);
+		}
+	}
+}
+
+test reverseChainFromTo(beg:Node, end:Node) {
+	:ReverseChainFromTo(beg, end);
+}
+
+rule createReverseChain : (Node, Node) {
+	modify {
+		beg:Node <-- . <-- . <-- end:Node;
+		return(beg, end);
+	}
+}
+
+pattern ChainFromToReverse(from:Node, to:Node) {
+	alternative {
+		base {
+			from --> to;
+			
+			replace {
+				from <-- to;
+			}
+		}
+		rec {
+			from --> intermediate:Node;
+			cftr:ChainFromToReverse(intermediate, to);
+			
+			replace {
+				from <-- intermediate;
+				cftr();
+			}
+		}
+	}
+	
+	replace {
+		from; to;
+	}
+}
+
+rule chainFromToReverse(beg:Node, end:Node) {
+	cftr:ChainFromToReverse(beg, end);
+	
+	replace {
+		beg; end;
+		cftr();
+	}
+}
+
+pattern ChainFromToReverseToCommon(from:Node, to:Node) {
+	alternative {
+		base {
+			from --> to;
+			
+			replace(common:Node) {
+				from <-- to;
+				from --> common;
+				to --> common;
+			}
+		}
+		rec {
+			from --> intermediate:Node;
+			cftrtc:ChainFromToReverseToCommon(intermediate, to);
+			
+			replace(common:Node) {
+				from <-- intermediate;
+				from --> common;
+				cftrtc(common);
+			}
+		}
+	}
+	
+	replace(common:Node) {
+		from; to;
+	}
+}
+
+rule chainFromToReverseToCommon(beg:Node, end:Node) : (Node) {
+	cftrtc:ChainFromToReverseToCommon(beg, end);
+	
+	replace {
+		beg; end;
+		common:Node;
+		cftrtc(common);
+		return(common);
+	}
+}
+
+pattern ReverseChainFromToToCommon(from:Node, to:Node, common:Node) {
+	alternative {
+		base {
+			from <-- to;
+			from --> common;
+		}
+		rec {
+			from <-- intermediate:Node;
+			from --> common;
+			:ReverseChainFromToToCommon(intermediate, to, common);
+		}
+	}
+}
+
+test reverseChainFromToToCommon(beg:Node, end:Node, common:Node) {
+	:ReverseChainFromToToCommon(beg, end, common);
+}
