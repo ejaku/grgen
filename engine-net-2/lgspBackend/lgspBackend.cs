@@ -620,14 +620,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="specPath">The path to the rule specification file (.grg).</param>
         /// <param name="destDir">The directory, where the generated libraries are to be placed.</param>
         /// <param name="intermediateDir">A directory, where intermediate files can be placed.</param>
-        /// <param name="useExisting">Specifies whether and how existing files in the intermediate directory will be used.</param>
-        /// <param name="keepIntermediateDir">If true, more files may be generated in the intermediate directory.</param>
-        /// <param name="compileWithDebug">If true, debug information will be generated for the generated assemblies.</param>
+        /// <param name="flags">Specifies how the specification is to be processed.</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
-        public void ProcessSpecification(string specPath, string destDir, string intermediateDir, UseExistingKind useExisting,
-            bool keepIntermediateDir, bool compileWithDebug)
+        public void ProcessSpecification(string specPath, string destDir, string intermediateDir, ProcessSpecFlags flags)
         {
-            LGSPGrGen.ProcessSpecification(specPath, destDir, intermediateDir, useExisting, keepIntermediateDir, compileWithDebug);
+            LGSPGrGen.ProcessSpecification(specPath, destDir, intermediateDir, flags);
         }
 
         /// <summary>

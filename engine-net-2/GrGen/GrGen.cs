@@ -71,11 +71,9 @@ namespace de.unika.ipd.grGen.grGen
         static int Main(string[] args)
         {
             String specFile = null;
-            bool keepGeneratedFiles = false;
-            bool compileWithDebug = false;
             String dirname = null;
             String destDir = null;
-            UseExistingKind useExisting = UseExistingKind.None;
+            ProcessSpecFlags flags = ProcessSpecFlags.UseNoExistingFiles;
             IBackend backend = null;
 
             for(int i = 0; i < args.Length; i++)
@@ -115,7 +113,7 @@ namespace de.unika.ipd.grGen.grGen
                             break;
 
                         case "-keep":
-                            keepGeneratedFiles = true;
+                            flags |= ProcessSpecFlags.KeepGeneratedFiles;
                             if(specFile != null)                // specFile already specified?
                             {
                                 if(i + 1 >= args.Length)        // yes. is there another parameter?
@@ -142,7 +140,7 @@ namespace de.unika.ipd.grGen.grGen
                                 break;
                             }
                             dirname = args[++i];
-                            useExisting = UseExistingKind.OnlyJavaGenerated;
+                            flags |= ProcessSpecFlags.UseJavaGeneratedFiles;
                             if(!Directory.Exists(dirname))
                             {
                                 Console.Error.WriteLine("Illegal directory specified! It does not exist!");
@@ -164,7 +162,7 @@ namespace de.unika.ipd.grGen.grGen
                                 break;
                             }
                             dirname = args[++i];
-                            useExisting = UseExistingKind.Full;
+                            flags |= ProcessSpecFlags.UseAllGeneratedFiles;
                             if(!Directory.Exists(dirname))
                             {
                                 Console.Error.WriteLine("Illegal directory specified! It does not exist!");
@@ -173,7 +171,7 @@ namespace de.unika.ipd.grGen.grGen
                             break;
 
                         case "-debug":
-                            compileWithDebug = true;
+                            flags |= ProcessSpecFlags.CompileWithDebug;
                             break;
                     
                         default:
@@ -258,7 +256,7 @@ namespace de.unika.ipd.grGen.grGen
                 }
             }
 
-            if(keepGeneratedFiles)
+            if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
                 Console.WriteLine("The generated files will be kept in: " + dirname);
 
             if(backend == null)
@@ -267,15 +265,15 @@ namespace de.unika.ipd.grGen.grGen
             int ret = 0;
             try
             {
-                backend.ProcessSpecification(specFile, destDir, dirname, useExisting, keepGeneratedFiles, compileWithDebug);
+                backend.ProcessSpecification(specFile, destDir, dirname, flags);
             }
             catch(Exception ex)
             {
-				Console.Error.WriteLine(compileWithDebug ? ex.ToString() : ex.Message);
+				Console.Error.WriteLine((flags & ProcessSpecFlags.CompileWithDebug) != 0 ? ex.ToString() : ex.Message);
                 ret = 1;
             }
 
-            if(!keepGeneratedFiles && useExisting == UseExistingKind.None)
+            if((flags & ProcessSpecFlags.KeepGeneratedFiles) == 0 && (flags & ProcessSpecFlags.UseExistingMask) == ProcessSpecFlags.UseNoExistingFiles)
                 Directory.Delete(dirname, true);
             return ret;
         }

@@ -67,7 +67,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        bool ProcessModel(String modelFilename, String modelStubFilename, String destDir, bool compileWithDebug, out Assembly modelAssembly, out String modelAssemblyName)
+        bool ProcessModel(String modelFilename, String modelStubFilename, String destDir, ProcessSpecFlags flags,
+            out Assembly modelAssembly, out String modelAssemblyName)
         {
             String modelName = Path.GetFileNameWithoutExtension(modelFilename);
             String modelExtension = Path.GetExtension(modelFilename);
@@ -81,7 +82,7 @@ namespace de.unika.ipd.grGen.lgsp
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IBackend)).Location);
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPActions)).Location);
 
-            compParams.CompilerOptions = compileWithDebug ? "/debug" : "/optimize";
+            compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
             compParams.OutputAssembly = destDir  + "lgsp-" + modelName + ".dll";
 
             CompilerResults compResults;
@@ -778,8 +779,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         enum ErrorType { NoError, GrGenJavaError, GrGenNetError };
 
-        ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, UseExistingKind useExisting,
-                bool keepGeneratedFiles, bool compileWithDebug)
+        ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, ProcessSpecFlags flags)
         {
             Console.WriteLine("Building libraries...");
 
@@ -791,7 +791,7 @@ namespace de.unika.ipd.grGen.lgsp
             String modelStubFilename = null;
             String actionsFilename = null;
 
-            if(useExisting == UseExistingKind.None)
+            if((flags & ProcessSpecFlags.UseExistingMask) == ProcessSpecFlags.UseNoExistingFiles)
             {
                 List<String> genModelFiles, genModelStubFiles, genActionsFiles;
 
@@ -856,7 +856,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             Assembly modelAssembly;
             String modelAssemblyName;
-            if(!ProcessModel(modelFilename, modelStubFilename, destDir, compileWithDebug, out modelAssembly, out modelAssemblyName))
+            if(!ProcessModel(modelFilename, modelStubFilename, destDir, flags, out modelAssembly, out modelAssemblyName))
                 return ErrorType.GrGenNetError;
 
             IGraphModel model = GetGraphModel(modelAssembly);
@@ -874,7 +874,7 @@ namespace de.unika.ipd.grGen.lgsp
             compParams.ReferencedAssemblies.Add(modelAssemblyName);
 
             String actionsOutputSource;
-            if(useExisting != UseExistingKind.Full)
+            if((flags & ProcessSpecFlags.UseAllGeneratedFiles) == 0)
             {
                 compParams.GenerateInMemory = true;
                 compParams.CompilerOptions = "/optimize /d:INITIAL_WARMUP";
@@ -913,7 +913,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // take action intermediate file until action insertion point as base for action file 
                 ///////////////////////////////////////////////
 
-                SourceBuilder source = new SourceBuilder(keepGeneratedFiles);
+                SourceBuilder source = new SourceBuilder((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0);
                 source.Indent();
                 source.Indent();
                 bool actionPointFound = false;
@@ -979,7 +979,7 @@ namespace de.unika.ipd.grGen.lgsp
                 ///////////////////////////////////////////////
 
                 LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
-                if(keepGeneratedFiles) matcherGen.CommentSourceCode = true;
+                if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
 
                 String unitName;
                 int lastDot = actionsNamespace.LastIndexOf(".");
@@ -1036,7 +1036,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 actionsOutputSource = source.ToString();
 
-                if(keepGeneratedFiles)
+                if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
                 {
                     StreamWriter writer = new StreamWriter(actionsOutputFilename);
                     writer.Write(actionsOutputSource);
@@ -1068,12 +1068,12 @@ namespace de.unika.ipd.grGen.lgsp
             ///////////////////////////////////////////////
 
             compParams.GenerateInMemory = false;
-            compParams.IncludeDebugInformation = compileWithDebug;
-            compParams.CompilerOptions = compileWithDebug ? "/debug" : "/optimize";
+            compParams.IncludeDebugInformation = (flags & ProcessSpecFlags.CompileWithDebug) != 0;
+            compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
             compParams.OutputAssembly = destDir + "lgsp-" + actionsName + ".dll";
 
             CompilerResults compResults;
-            if(keepGeneratedFiles)
+            if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
             {
                 compResults = compiler.CompileAssemblyFromFile(compParams, actionsOutputFilename);
             }
@@ -1100,18 +1100,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="specPath">The path to the rule specification file (.grg).</param>
         /// <param name="destDir">The directory, where the generated libraries are to be placed.</param>
         /// <param name="intermediateDir">A directory, where intermediate files can be placed.</param>
-        /// <param name="useExisting">Specifies whether and how existing files in the intermediate directory will be used.</param>
-        /// <param name="keepIntermediateDir">If true, ..._output.cs files will be generated.</param>
-        /// <param name="compileWithDebug">If true, debug information will be generated for the generated assemblies.</param>
+        /// <param name="flags">Specifies how the specification is to be processed.</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
-        public static void ProcessSpecification(String specPath, String destDir, String intermediateDir, UseExistingKind useExisting,
-            bool keepIntermediateDir, bool compileWithDebug)
+        public static void ProcessSpecification(String specPath, String destDir, String intermediateDir, ProcessSpecFlags flags)
         {
             ErrorType ret;
             try
             {
-                ret = new LGSPGrGen().ProcessSpecificationImpl(specPath, destDir, intermediateDir, useExisting,
-                    keepIntermediateDir, compileWithDebug);
+                ret = new LGSPGrGen().ProcessSpecificationImpl(specPath, destDir, intermediateDir, flags);
             }
             catch(Exception ex)
             {
@@ -1167,7 +1163,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             try
             {
-                ProcessSpecification(specPath, specDir, dirname, UseExistingKind.None, false, false);
+                ProcessSpecification(specPath, specDir, dirname, ProcessSpecFlags.UseNoExistingFiles);
             }
             finally
             {

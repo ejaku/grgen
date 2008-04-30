@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using de.unika.ipd.grGen.lgsp;
+using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.testBench
 {
@@ -161,7 +162,7 @@ namespace de.unika.ipd.grGen.testBench
 					bool failed = false;
 					try
 					{
-						backend.ProcessSpecification(file, outDir + Path.DirectorySeparatorChar, outDir, de.unika.ipd.grGen.libGr.UseExistingKind.None, true, false);
+                        backend.ProcessSpecification(file, outDir + Path.DirectorySeparatorChar, outDir, ProcessSpecFlags.KeepGeneratedFiles);
 					}
 					catch(Exception ex)
 					{
