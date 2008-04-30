@@ -1,4 +1,8 @@
 #! /bin/sh
 GRSHELL=`readlink -f "$0"`
-GRSHELL_HOME=`dirname "$YCOMP"`
-mono "$GRSHELL_HOME/GrShell.exe" $*
+GRSHELL_HOME=`dirname "$GRSHELL"`
+if which mono &> /dev/null; then
+	mono "$GRSHELL_HOME/GrShell.exe" $*
+else
+	"$GRSHELL_HOME/GrShell.exe" $*
+fi
