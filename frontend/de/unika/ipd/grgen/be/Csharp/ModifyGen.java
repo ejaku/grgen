@@ -311,7 +311,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\n");
 		sb.append("\t\tpublic void "
 					  + pathPrefix+altName+"_" + (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
-					  + "(LGSPGraph graph, LGSPMatch match");
+					  + "(LGSPGraph graph, LGSPMatch curMatch");
 		for(Entity entity : replParameters) {
 			Node node = (Node)entity;
 			sb.append(", LGSPNode " + formatEntity(node));
@@ -323,18 +323,18 @@ public class ModifyGen extends CSharpBase {
 		boolean firstCase = true;
 		for(Rule altCase : alt.getAlternativeCases()) {
 			if(firstCase) {
-				sb.append("\t\t\tif(match.patternGraph == "
+				sb.append("\t\t\tif(curMatch.patternGraph == "
 						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
 				firstCase = false;
 			}
 			else
 			{
-				sb.append("\t\t\telse if(match.patternGraph == "
+				sb.append("\t\t\telse if(curMatch.patternGraph == "
 						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
 			}
 			sb.append("\t\t\t\t" + pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+"_"
 					+ (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
-					+ "(graph, match");
+					+ "(graph, curMatch");
 			for(Entity entity : replParameters) {
 				Node node = (Node)entity;
 				sb.append(", " + formatEntity(node));
@@ -353,24 +353,24 @@ public class ModifyGen extends CSharpBase {
 			boolean isSubpattern) {
 		// Emit function header
 		sb.append("\n");
-		sb.append("\t\tpublic void " + pathPrefix+altName+"_"+"Delete(LGSPGraph graph, LGSPMatch match)\n");
+		sb.append("\t\tpublic void " + pathPrefix+altName+"_"+"Delete(LGSPGraph graph, LGSPMatch curMatch)\n");
 		sb.append("\t\t{\n");
 
 		// Emit dispatcher calling the delete-method of the alternative case which was matched
 		boolean firstCase = true;
 		for(Rule altCase : alt.getAlternativeCases()) {
 			if(firstCase) {
-				sb.append("\t\t\tif(match.patternGraph == "
+				sb.append("\t\t\tif(curMatch.patternGraph == "
 						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
 				firstCase = false;
 			}
 			else
 			{
-				sb.append("\t\t\telse if(match.patternGraph == "
+				sb.append("\t\t\telse if(curMatch.patternGraph == "
 						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
 			}
 			sb.append("\t\t\t\t" + pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+"_"
-					+ "Delete(graph, match);\n");
+					+ "Delete(graph, curMatch);\n");
 			sb.append("\t\t\t\treturn;\n");
 			sb.append("\t\t\t}\n");
 		}
@@ -540,10 +540,10 @@ public class ModifyGen extends CSharpBase {
 		switch(task.typeOfTask) {
 		case TYPE_OF_TASK_MODIFY:
 			if(pathPrefix=="" && !task.isSubpattern) {
-				sb.append("\t\tpublic override object[] Modify"+noReuse+"(LGSPGraph graph, LGSPMatch match)\n");
+				sb.append("\t\tpublic override object[] Modify"+noReuse+"(LGSPGraph graph, LGSPMatch curMatch)\n");
 			} else {
 				sb.append("\t\tpublic void "
-						+ pathPrefix+task.left.getNameOfGraph()+"_Modify"+noReuse+"(LGSPGraph graph, LGSPMatch match");
+						+ pathPrefix+task.left.getNameOfGraph()+"_Modify"+noReuse+"(LGSPGraph graph, LGSPMatch curMatch");
 				for(Entity entity : task.replParameters) {
 					Node node = (Node)entity;
 					sb.append(", LGSPNode " + formatEntity(node));
@@ -561,7 +561,7 @@ public class ModifyGen extends CSharpBase {
 			break;
 		case TYPE_OF_TASK_DELETION:
 			sb.append("\t\tpublic void "
-					+ pathPrefix+task.left.getNameOfGraph()+"_Delete(LGSPGraph graph, LGSPMatch match)\n");
+					+ pathPrefix+task.left.getNameOfGraph()+"_Delete(LGSPGraph graph, LGSPMatch curMatch)\n");
 			break;
 		default:
 			assert false;
@@ -1039,7 +1039,7 @@ public class ModifyGen extends CSharpBase {
 		for(Node node : state.nodesNeededAsElements()) {
 			if(node.isRetyped()) continue;
 			sb.append("\t\t\tLGSPNode " + formatEntity(node)
-					+ " = match.Nodes[(int)" + pathPrefix+patternName + "_NodeNums.@"
+					+ " = curMatch.Nodes[(int)" + pathPrefix+patternName + "_NodeNums.@"
 					+ formatIdentifiable(node) + "];\n");
 		}
 		for(Node node : state.nodesNeededAsAttributes()) {
@@ -1048,13 +1048,13 @@ public class ModifyGen extends CSharpBase {
 			if(state.nodesNeededAsElements().contains(node))
 				sb.append(formatEntity(node) + ";\n");
 			else
-				sb.append("match.Nodes[(int)" + pathPrefix+patternName + "_NodeNums.@"
+				sb.append("curMatch.Nodes[(int)" + pathPrefix+patternName + "_NodeNums.@"
 						+ formatIdentifiable(node) + "];\n");
 		}
 		for(Edge edge : state.edgesNeededAsElements()) {
 			if(edge.isRetyped()) continue;
 			sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
-					+ " = match.Edges[(int)" + pathPrefix+patternName + "_EdgeNums.@"
+					+ " = curMatch.Edges[(int)" + pathPrefix+patternName + "_EdgeNums.@"
 					+ formatIdentifiable(edge) + "];\n");
 		}
 		for(Edge edge : state.edgesNeededAsAttributes()) {
@@ -1063,7 +1063,7 @@ public class ModifyGen extends CSharpBase {
 			if(state.edgesNeededAsElements().contains(edge))
 				sb.append(formatEntity(edge) + ";\n");
 			else
-				sb.append("match.Edges[(int)" + pathPrefix+patternName + "_EdgeNums.@"
+				sb.append("curMatch.Edges[(int)" + pathPrefix+patternName + "_EdgeNums.@"
 						+ formatIdentifiable(edge) + "];\n");
 		}
 	}
@@ -1073,7 +1073,7 @@ public class ModifyGen extends CSharpBase {
 		for(Variable var : state.neededVariables()) {
 			String type = formatAttributeType(var);
 			sb.append("\t\t\t" + type + " " + formatEntity(var) + " = ("
-					+ type + ") match.Variables[(int)" + pathPrefix + patternName
+					+ type + ") curMatch.Variables[(int)" + pathPrefix + patternName
 					+ "_VariableNums.@" + formatIdentifiable(var) + "];\n");
 		}
 	}
@@ -1082,13 +1082,13 @@ public class ModifyGen extends CSharpBase {
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			String subName = formatIdentifiable(sub);
 			sb.append("\t\t\tLGSPMatch subpattern_" + subName
-					+ " = match.EmbeddedGraphs[(int)" + pathPrefix+pattern.getNameOfGraph() + "_SubNums.@"
+					+ " = curMatch.EmbeddedGraphs[(int)" + pathPrefix+pattern.getNameOfGraph() + "_SubNums.@"
 					+ formatIdentifiable(sub) + "];\n");
 		}
 		for(int i = 0; i < pattern.getAlts().size(); i++) {
 			String altName = "alt_" + i;
 			sb.append("\t\t\tLGSPMatch alternative_" + altName
-					+ " = match.EmbeddedGraphs[(int)" + pathPrefix+pattern.getNameOfGraph() + "_AltNums.@"
+					+ " = curMatch.EmbeddedGraphs[(int)" + pathPrefix+pattern.getNameOfGraph() + "_AltNums.@"
 					+ altName + " + " + pattern.getSubpatternUsages().size() + "];\n");
 		}
 	}
