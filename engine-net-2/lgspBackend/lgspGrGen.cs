@@ -862,6 +862,8 @@ namespace de.unika.ipd.grGen.lgsp
             IGraphModel model = GetGraphModel(modelAssembly);
             if(model == null) return ErrorType.GrGenNetError;
 
+            if((flags & ProcessSpecFlags.NoProcessActions) != 0) return ErrorType.NoError;
+
             String actionsName = Path.GetFileNameWithoutExtension(actionsFilename);
             actionsName = actionsName.Substring(0, actionsName.Length - 13);    // remove "_intermediate" suffix
             String actionsOutputFilename = tmpDir + Path.DirectorySeparatorChar + actionsName + ".cs";
@@ -1056,6 +1058,8 @@ namespace de.unika.ipd.grGen.lgsp
                     return ErrorType.GrGenNetError;
                 }
             }
+
+            if((flags & ProcessSpecFlags.NoCreateActionsAssembly) != 0) return ErrorType.NoError;
 
             ///////////////////////////////////////////////
             // finally compile the action source file into action assembly

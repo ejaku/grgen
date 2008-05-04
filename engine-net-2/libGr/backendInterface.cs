@@ -43,7 +43,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Include debug information in the generated assemblies.
         /// </summary>
-        CompileWithDebug = 8
+        CompileWithDebug = 8,
+
+        /// <summary>
+        /// Do not process intermediate actions file (stops after model has been processed).
+        /// </summary>
+        NoProcessActions = 16,
+
+        /// <summary>
+        /// Do not compile the generated final actions file.
+        /// </summary>
+        NoCreateActionsAssembly = 32
     }
 
     /// <summary>
