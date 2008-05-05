@@ -22,13 +22,13 @@ namespace Alternatives
             graph = new LGSPGraph(new AlternativesGraphModel());
             actions = new AlternativesActions(graph);
 
-            actions.PerformanceInfo = new PerformanceInfo();
+			graph.PerformanceInfo = new PerformanceInfo();
 
             actions.ApplyGraphRewriteSequence("createComplex");
 
-            Console.WriteLine(actions.PerformanceInfo.MatchesFound + " matches found.");
-            Console.WriteLine(actions.PerformanceInfo.RewritesPerformed + " rewrites performed.");
-            actions.PerformanceInfo.Reset();
+			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
+			Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+			graph.PerformanceInfo.Reset();
 
             LGSPMatches matches = actions.GetAction("Complex").Match(graph, 0, null);
             Console.WriteLine(matches.Count + " matches found.");

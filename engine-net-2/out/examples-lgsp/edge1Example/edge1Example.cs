@@ -22,13 +22,13 @@ namespace edge1
             graph = new Std();
             actions = new edge1Actions(graph);
 
-            actions.PerformanceInfo = new PerformanceInfo();
+			graph.PerformanceInfo = new PerformanceInfo();
 
             actions.ApplyGraphRewriteSequence("init3");
 
-            Console.WriteLine(actions.PerformanceInfo.MatchesFound + " matches found.");
-            Console.WriteLine(actions.PerformanceInfo.RewritesPerformed + " rewrites performed.");
-            actions.PerformanceInfo.Reset();
+			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
+			Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+			graph.PerformanceInfo.Reset();
 
             LGSPMatches matches = actions.GetAction("findTripleCircle").Match(graph, 0, null);
             Console.WriteLine(matches.Count + " matches found.");

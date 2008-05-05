@@ -531,7 +531,7 @@ namespace de.unika.ipd.grGen.libGr
             int transactionID = actions.Graph.TransactionManager.StartTransaction();
             int oldRewritesPerformed;
 
-            if(actions.PerformanceInfo != null) oldRewritesPerformed = actions.PerformanceInfo.RewritesPerformed;
+			if(actions.Graph.PerformanceInfo != null) oldRewritesPerformed = actions.Graph.PerformanceInfo.RewritesPerformed;
             else oldRewritesPerformed = -1;
 
             bool res = Seq.Apply(actions);
@@ -540,8 +540,8 @@ namespace de.unika.ipd.grGen.libGr
             else
             {
                 actions.Graph.TransactionManager.Rollback(transactionID);
-                if(actions.PerformanceInfo != null)
-                    actions.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
+				if(actions.Graph.PerformanceInfo != null)
+					actions.Graph.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
             }
 
             return res;

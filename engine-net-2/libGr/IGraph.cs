@@ -200,6 +200,13 @@ namespace de.unika.ipd.grGen.libGr
         ITransactionManager TransactionManager { get; }
 
         /// <summary>
+        /// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
+		/// By default it should be null.
+        /// The user is responsible for resetting the PerformanceInfo object.
+        /// </summary>
+		PerformanceInfo PerformanceInfo { get; set; }
+
+        /// <summary>
         /// The writer used by emit statements. By default this is Console.Out.
         /// </summary>
         TextWriter EmitWriter { get; set; }

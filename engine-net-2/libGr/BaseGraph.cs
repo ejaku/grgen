@@ -233,6 +233,18 @@ namespace de.unika.ipd.grGen.libGr
 
         #endregion Abstract and virtual members
 
+		private PerformanceInfo perfInfo = null;
+
+		/// <summary>
+		/// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
+		/// The user is responsible for resetting the PerformanceInfo object.
+		/// </summary>
+		public PerformanceInfo PerformanceInfo
+		{
+			get { return perfInfo; }
+			set { perfInfo = value; }
+		}
+
 #if VARIABLES_AS_HASHMAP
         #region Variables management
 

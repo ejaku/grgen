@@ -693,7 +693,7 @@ namespace spBench
             Sequence seq = SequenceParser.ParseSequence(benchGRS, actions);
 
             PerformanceInfo perfInfo = new PerformanceInfo();
-            actions.PerformanceInfo = perfInfo;
+			graph.PerformanceInfo = perfInfo;
             actions.ApplyGraphRewriteSequence(seq);
             if(foundMatches != -1)
             {

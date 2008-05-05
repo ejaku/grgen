@@ -48,8 +48,6 @@ namespace de.unika.ipd.grGen.libGr
         private Random randomGenerator = new Random();
         private IGraphElement[] noElems = new IGraphElement[] { };
 
-        private PerformanceInfo perfInfo = null;
-
         #region Abstract members
 
         /// <summary>
@@ -102,16 +100,6 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public abstract int MaxMatches { get; set; }
 
-        /// <summary>
-        /// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
-        /// The user is responsible for resetting the PerformanceInfo object.
-        /// </summary>
-        public PerformanceInfo PerformanceInfo
-        {
-            get { return perfInfo; }
-            set { perfInfo = value; }
-        }
-
         #endregion Abstract members
 
         /// <summary>
@@ -120,9 +108,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="matches">The matches object returned by a previous matcher call.</param>
         /// <param name="which">The index of the match in the matches object to be applied,
         /// or -1, if all matches are to be applied.</param>
-        /// <param name="perfInfo">A PerformanceInfo object accumulating the number of rewrites performed, or null.</param>
         /// <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
-        public object[] Replace(IMatches matches, int which, PerformanceInfo perfInfo)
+        public object[] Replace(IMatches matches, int which)
         {
             object[] retElems = null;
             if(which != -1)
@@ -131,7 +118,7 @@ namespace de.unika.ipd.grGen.libGr
                     throw new ArgumentOutOfRangeException("\"which\" is out of range!");
 
                 retElems = matches.Producer.Modify(Graph, matches.GetMatch(which));
-                if(perfInfo != null) perfInfo.RewritesPerformed++;
+				if(Graph.PerformanceInfo != null) Graph.PerformanceInfo.RewritesPerformed++;
             }
             else
             {
@@ -141,7 +128,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(first) first = false;
                     else if(OnRewritingNextMatch != null) OnRewritingNextMatch();
                     retElems = matches.Producer.Modify(Graph, match);
-                    if(perfInfo != null) perfInfo.RewritesPerformed++;
+					if(Graph.PerformanceInfo != null) Graph.PerformanceInfo.RewritesPerformed++;
                 }
                 if(retElems == null) retElems = noElems;
             }
@@ -172,12 +159,12 @@ namespace de.unika.ipd.grGen.libGr
             }
             else parameters = null;
 
-            if(perfInfo != null) perfInfo.StartLocal();
+			if(Graph.PerformanceInfo != null) Graph.PerformanceInfo.StartLocal();
             IMatches matches = ruleObject.Action.Match(Graph, curMaxMatches, parameters);
-            if(perfInfo != null)
+			if(Graph.PerformanceInfo != null)
             {
-                perfInfo.StopMatch();              // total match time does NOT include listeners anymore
-                perfInfo.MatchesFound += matches.Count;
+				Graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
+				Graph.PerformanceInfo.MatchesFound += matches.Count;
             }
 
             if(OnMatched != null) OnMatched(matches, special);
@@ -187,11 +174,11 @@ namespace de.unika.ipd.grGen.libGr
 
             if(OnFinishing != null) OnFinishing(matches, special);
 
-            if(perfInfo != null) perfInfo.StartLocal();
-            object[] retElems = Replace(matches, which, perfInfo);
+			if(Graph.PerformanceInfo != null) Graph.PerformanceInfo.StartLocal();
+			object[] retElems = Replace(matches, which);
             for(int i = 0; i < ruleObject.ReturnVars.Length; i++)
                 Graph.SetVariableValue(ruleObject.ReturnVars[i], retElems[i]);
-            if(perfInfo != null) perfInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
+			if(Graph.PerformanceInfo != null) Graph.PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
 
             if(OnFinished != null) OnFinished(matches, special);
 
@@ -211,7 +198,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             int oldMatches, matches = 0, i = 0;
             int maxMatches = mode == ActionMode.Fix ? -1 : 1;
-            if(perfInfo != null) perfInfo.Start();
+			if(Graph.PerformanceInfo != null) Graph.PerformanceInfo.Start();
 
             do
             {
@@ -222,7 +209,7 @@ namespace de.unika.ipd.grGen.libGr
             while(((mode == ActionMode.Zero && matches > 0) || (mode == ActionMode.Fix && oldMatches != matches)
                 || (mode == ActionMode.Max)) && i < times);
 
-            if(perfInfo != null) perfInfo.Stop();
+			if(Graph.PerformanceInfo != null) Graph.PerformanceInfo.Stop();
 
             return (matches != 0) ? i : i - 1;
         }
@@ -234,14 +221,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The result of the sequence.</returns>
         public bool ApplyGraphRewriteSequence(Sequence sequence)
         {
-            if(perfInfo != null) perfInfo.Start();
+			if(Graph.PerformanceInfo != null) Graph.PerformanceInfo.Start();
 
-//            int applied = 0;
-//            int res = ApplyGRS(sequence, ref applied, perfInfo);
             bool res = sequence.Apply(this);
 
-            if(perfInfo != null) perfInfo.Stop();
-            return res; // > 0;
+			if(Graph.PerformanceInfo != null) Graph.PerformanceInfo.Stop();
+            return res;
         }
 
         /// <summary>

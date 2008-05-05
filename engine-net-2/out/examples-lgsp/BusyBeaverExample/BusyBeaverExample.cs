@@ -47,7 +47,7 @@ namespace BusyBeaver
             actions = new Turing3Actions(graph);
 
             // Enable step counting
-            actions.PerformanceInfo = new PerformanceInfo();
+			graph.PerformanceInfo = new PerformanceInfo();
 
             // Initialize tape
             BandPosition bp = graph.CreateNodeBandPosition();
@@ -83,10 +83,10 @@ namespace BusyBeaver
                 + " && (ensureMoveLeftValidRule(curValue, curPos) || ensureMoveRightValidRule(curValue, curPos) || true)"
                 + " && ((curState, curPos)=moveLeftRule(curValue, curPos) || (curState, curPos)=moveRightRule(curValue, curPos)))[100]");
 
-            Console.WriteLine(actions.PerformanceInfo.MatchesFound + " matches found.");
+			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
 
             // Reset counters of the PerformanceInfo object
-            actions.PerformanceInfo.Reset();
+			graph.PerformanceInfo.Reset();
 
             // Calculate search plans to optimize performance
             graph.AnalyzeGraph();
@@ -110,7 +110,7 @@ namespace BusyBeaver
 
             int countTime = Environment.TickCount - stopTime;
 
-            Console.WriteLine(actions.PerformanceInfo.MatchesFound + " matches found."
+			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found."
                 + "\nNumber of ones written: " + numOnes
                 + "\nTime needed for counting ones: " + countTime + " ms");
 

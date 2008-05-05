@@ -22,8 +22,6 @@ namespace Recursive
             graph = new Std();
             actions = new RecursiveActions(graph);
 
-            actions.PerformanceInfo = new PerformanceInfo();
-
             LGSPMatches matches;
             Object[] returns;
 
