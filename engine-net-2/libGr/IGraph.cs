@@ -170,6 +170,13 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public delegate void SettingAddedElementNamesHandler(String[] namesOfElementsAdded);
 
+    public delegate void AfterMatchHandler(IMatches matches, bool special);
+    public delegate void BeforeFinishHandler(IMatches matches, bool special);
+    public delegate void RewriteNextMatchHandler();
+    public delegate void AfterFinishHandler(IMatches matches, bool special);
+    public delegate void EnterSequenceHandler(Sequence seq);
+    public delegate void ExitSequenceHandler(Sequence seq);
+
     #endregion GraphDelegates
 
     /// <summary>
@@ -201,15 +208,21 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
-		/// By default it should be null.
+        /// By default it should be null.
         /// The user is responsible for resetting the PerformanceInfo object.
         /// </summary>
-		PerformanceInfo PerformanceInfo { get; set; }
+        PerformanceInfo PerformanceInfo { get; set; }
 
         /// <summary>
         /// The writer used by emit statements. By default this is Console.Out.
         /// </summary>
         TextWriter EmitWriter { get; set; }
+
+        /// <summary>
+        /// The maximum number of matches to be returned for a RuleAll sequence element.
+        /// If it is zero or less, the number of matches is unlimited.
+        /// </summary>
+        int MaxMatches { get; set; }
 
         /// <summary>
         /// If true (the default case), elements deleted during a rewrite
@@ -433,6 +446,29 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="val">The new value of the variable</param>
         void SetVariableValue(string varName, object val);
 
+        /// <summary>
+        /// Executes the modifications of the according rule to the given match/matches.
+        /// Fires OnRewritingNextMatch events before each rewrite except for the first one.
+        /// </summary>
+        /// <param name="matches">The matches object returned by a previous matcher call.</param>
+        /// <param name="which">The index of the match in the matches object to be applied,
+        /// or -1, if all matches are to be applied.</param>
+        /// <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
+        object[] Replace(IMatches matches, int which);
+
+        /// <summary>
+        /// Apply a rewrite rule.
+        /// </summary>
+        /// <param name="ruleObject">RuleObject to be applied</param>
+        /// <param name="which">The index of the match to be rewritten or -1 to rewrite all matches</param>
+        /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
+        /// depends on MaxMatches)</param>
+        /// <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
+        /// the application</param>
+        /// <param name="test">If true, no rewrite step is performed.</param>
+        /// <returns>The number of matches found</returns>
+        int ApplyRewrite(RuleObject ruleObject, int which, int localMaxMatches, bool special, bool test);
+
         #region Events
 
         /// <summary>
@@ -497,8 +533,49 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         event RetypingEdgeHandler OnRetypingEdge;
 
+        /// <summary>
+        /// Fired before each rewrite step (also rewrite steps of subpatterns) to indicate the names
+        /// of the nodes added in this rewrite step in order of addition.
+        /// </summary>
         event SettingAddedElementNamesHandler OnSettingAddedNodeNames;
+
+        /// <summary>
+        /// Fired before each rewrite step (also rewrite steps of subpatterns) to indicate the names
+        /// of the edges added in this rewrite step in order of addition.
+        /// </summary>
         event SettingAddedElementNamesHandler OnSettingAddedEdgeNames;
+
+        /// <summary>
+        /// Fired after all requested matches of a rule have been matched.
+        /// </summary>
+        event AfterMatchHandler OnMatched;
+
+        /// <summary>
+        /// Fired before the rewrite step of a rule, when at least one match has been found.
+        /// </summary>
+        event BeforeFinishHandler OnFinishing;
+
+        /// <summary>
+        /// Fired before the next match is rewritten. It is not fired before rewriting the first match.
+        /// </summary>
+        event RewriteNextMatchHandler OnRewritingNextMatch;
+
+        /// <summary>
+        /// Fired after the rewrite step of a rule.
+        /// Note, that the given matches object may contain invalid entries,
+        /// as parts of the match may have been deleted!
+        /// </summary>
+        event AfterFinishHandler OnFinished;
+
+        /// <summary>
+        /// Fired when a sequence is entered.
+        /// </summary>
+        event EnterSequenceHandler OnEntereringSequence;
+
+        /// <summary>
+        /// Fired when a sequence is left.
+        /// </summary>
+        event ExitSequenceHandler OnExitingSequence;
 
         /// <summary>
         /// Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.
@@ -517,6 +594,44 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="oldValue">The old value of the attribute.</param>
         /// <param name="newValue">The new value of the attribute.</param>
         void ChangingEdgeAttribute(IEdge edge, AttributeType attrType, Object oldValue, Object newValue);
+
+        /// <summary>
+        /// Fires an OnMatched event.
+        /// </summary>
+        /// <param name="matches">The IMatches object returned by the matcher.</param>
+        /// <param name="special">Whether this is a 'special' match (user defined).</param>
+        void Matched(IMatches matches, bool special);
+
+        /// <summary>
+        /// Fires an OnFinishing event.
+        /// </summary>
+        /// <param name="matches">The IMatches object returned by the matcher.</param>
+        /// <param name="special">Whether this is a 'special' match (user defined).</param>
+        void Finishing(IMatches matches, bool special);
+
+        /// <summary>
+        /// Fires an OnRewritingNextMatch event.
+        /// </summary>
+        void RewritingNextMatch();
+
+        /// <summary>
+        /// Fires an OnFinished event.
+        /// </summary>
+        /// <param name="matches">The IMatches object returned by the matcher. The elements may be invalid.</param>
+        /// <param name="special">Whether this is a 'special' match (user defined).</param>
+        void Finished(IMatches matches, bool special);
+
+        /// <summary>
+        /// Fires an OnEnteringSequence event.
+        /// </summary>
+        /// <param name="seq">The sequence to be entered.</param>
+        void EnteringSequence(Sequence seq);
+
+        /// <summary>
+        /// Fires an OnExitingSequence event.
+        /// </summary>
+        /// <param name="seq">The sequence to be exited.</param>
+        void ExitingSequence(Sequence seq);
 
         #endregion Events
 

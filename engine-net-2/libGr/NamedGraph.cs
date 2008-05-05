@@ -403,20 +403,26 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public ITransactionManager TransactionManager { get { return graph.TransactionManager; } }
 
-		/// <summary>
-		/// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
-		/// The user is responsible for resetting the PerformanceInfo object.
-		/// </summary>
-		public PerformanceInfo PerformanceInfo
-		{
-			get { return graph.PerformanceInfo; }
-			set { graph.PerformanceInfo = value; }
-		}
+        /// <summary>
+        /// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
+        /// The user is responsible for resetting the PerformanceInfo object.
+        /// </summary>
+        public PerformanceInfo PerformanceInfo
+        {
+            get { return graph.PerformanceInfo; }
+            set { graph.PerformanceInfo = value; }
+        }
 
         /// <summary>
         /// The writer used by emit statements. By default this is Console.Out.
         /// </summary>
         public TextWriter EmitWriter { get { return graph.EmitWriter; } set { graph.EmitWriter = value; } }
+
+        /// <summary>
+        /// The maximum number of matches to be returned for a RuleAll sequence element.
+        /// If it is zero or less, the number of matches is unlimited.
+        /// </summary>
+        public int MaxMatches { get { return graph.MaxMatches; } set { graph.MaxMatches = value; } }
 
         /// <summary>
         /// If true (the default case), elements deleted during a rewrite
@@ -602,8 +608,34 @@ namespace de.unika.ipd.grGen.libGr
         /// If elem is null, the variable is unset
         /// </summary>
         /// <param name="varName">The name of the variable</param>
-        /// <param name="element">The new value of the variable</param>
+        /// <param name="val">The new value of the variable</param>
         public void SetVariableValue(string varName, object val) { graph.SetVariableValue(varName, val); }
+
+        /// <summary>
+        /// Executes the modifications of the according rule to the given match/matches.
+        /// Fires OnRewritingNextMatch events before each rewrite except for the first one.
+        /// </summary>
+        /// <param name="matches">The matches object returned by a previous matcher call.</param>
+        /// <param name="which">The index of the match in the matches object to be applied,
+        /// or -1, if all matches are to be applied.</param>
+        /// <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
+        public object[] Replace(IMatches matches, int which) { return graph.Replace(matches, which); }
+
+        /// <summary>
+        /// Apply a rewrite rule.
+        /// </summary>
+        /// <param name="ruleObject">RuleObject to be applied</param>
+        /// <param name="which">The index of the match to be rewritten or -1 to rewrite all matches</param>
+        /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
+        /// depends on MaxMatches)</param>
+        /// <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
+        /// the application</param>
+        /// <param name="test">If true, no rewrite step is performed.</param>
+        /// <returns>The number of matches found</returns>
+        public int ApplyRewrite(RuleObject ruleObject, int which, int localMaxMatches, bool special, bool test)
+        {
+            return graph.ApplyRewrite(ruleObject, which, localMaxMatches, special, test);
+        }
 
         /// <summary>
         /// Fired before a node is deleted
@@ -666,6 +698,38 @@ namespace de.unika.ipd.grGen.libGr
         { add { graph.OnSettingAddedEdgeNames += value; } remove { graph.OnSettingAddedEdgeNames -= value; } }
 
         /// <summary>
+        /// Fired after all requested matches of a rule have been matched.
+        /// </summary>
+        public event AfterMatchHandler OnMatched { add { graph.OnMatched += value; } remove { graph.OnMatched -= value; } }
+
+        /// <summary>
+        /// Fired before the rewrite step of a rule, when at least one match has been found.
+        /// </summary>
+        public event BeforeFinishHandler OnFinishing { add { graph.OnFinishing += value; } remove { graph.OnFinishing -= value; } }
+
+        /// <summary>
+        /// Fired before the next match is rewritten. It is not fired before rewriting the first match.
+        /// </summary>
+        public event RewriteNextMatchHandler OnRewritingNextMatch { add { graph.OnRewritingNextMatch += value; } remove { graph.OnRewritingNextMatch -= value; } }
+
+        /// <summary>
+        /// Fired after the rewrite step of a rule.
+        /// Note, that the given matches object may contain invalid entries,
+        /// as parts of the match may have been deleted!
+        /// </summary>
+        public event AfterFinishHandler OnFinished { add { graph.OnFinished += value; } remove { graph.OnFinished -= value; } }
+
+        /// <summary>
+        /// Fired when a sequence is entered.
+        /// </summary>
+        public event EnterSequenceHandler OnEntereringSequence { add { graph.OnEntereringSequence += value; } remove { graph.OnEntereringSequence -= value; } }
+
+        /// <summary>
+        /// Fired when a sequence is left.
+        /// </summary>
+        public event ExitSequenceHandler OnExitingSequence { add { graph.OnExitingSequence += value; } remove { graph.OnExitingSequence -= value; } }
+
+        /// <summary>
         /// Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.
         /// </summary>
         /// <param name="node">The node whose attribute is changed.</param>
@@ -684,6 +748,50 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newValue">The new value of the attribute.</param>
         public void ChangingEdgeAttribute(IEdge edge, AttributeType attrType, Object oldValue, Object newValue)
         { graph.ChangingEdgeAttribute(edge, attrType, oldValue, newValue); }
+
+        /// <summary>
+        /// Fires an OnMatched event.
+        /// </summary>
+        /// <param name="matches">The match result.</param>
+        /// <param name="special">The "special" flag of this rule application.</param>
+        public void Matched(IMatches matches, bool special)
+        { graph.Matched(matches, special); }
+
+        /// <summary>
+        /// Fires an OnFinishing event.
+        /// </summary>
+        /// <param name="matches">The match result.</param>
+        /// <param name="special">The "special" flag of this rule application.</param>
+        public void Finishing(IMatches matches, bool special)
+        { graph.Finishing(matches, special); }
+
+        /// <summary>
+        /// Fires an OnRewritingNextMatch event.
+        /// </summary>
+        public void RewritingNextMatch()
+        { graph.RewritingNextMatch(); }
+
+        /// <summary>
+        /// Fires an OnFinished event.
+        /// </summary>
+        /// <param name="matches">The match result.</param>
+        /// <param name="special">The "special" flag of this rule application.</param>
+        public void Finished(IMatches matches, bool special)
+        { graph.Finished(matches, special); }
+
+        /// <summary>
+        /// Fires an OnEnteringSequence event.
+        /// </summary>
+        /// <param name="seq">The sequence which is entered.</param>
+        public void EnteringSequence(Sequence seq)
+        { graph.EnteringSequence(seq); }
+
+        /// <summary>
+        /// Fires an OnExitingSequence event.
+        /// </summary>
+        /// <param name="seq">The sequence which is exited.</param>
+        public void ExitingSequence(Sequence seq)
+        { graph.ExitingSequence(seq); }
 
         /// <summary>
         /// Checks whether a graph meets the connection assertions.

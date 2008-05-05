@@ -2223,6 +2223,16 @@ namespace de.unika.ipd.grGen.lgsp
                     if(!bool.TryParse((String) args[1], out reuseOptimization))
                         throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
                     return;
+
+                case "set_max_matches":
+                    if(args.Length != 2)
+                        throw new ArgumentException("Usage: set_max_matches <integer>\nIf <integer> <= 0, all matches will be matched.");
+
+                    int newMaxMatches;
+                    if(!int.TryParse((String) args[1], out newMaxMatches))
+                        throw new ArgumentException("Illegal integer value specified: \"" + (String) args[1] + "\"");
+                    MaxMatches = newMaxMatches;
+                    return;
             }
 
 invalidCommand:
@@ -2230,7 +2240,9 @@ invalidCommand:
                 + "- analyze: Analyzes the graph. The generated information can then be\n"
                 + "     used by Actions implementations to optimize the pattern matching\n"
                 + "- optimizereuse: Sets whether deleted elements may be reused in a rewrite\n"
-                + "     (default: true)");
+                + "     (default: true)\n"
+                + "- set_max_matches: Sets the maximum number of matches to be found\n"
+                + "     during matching\n");
         }
 
         /// <summary>

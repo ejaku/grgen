@@ -744,14 +744,11 @@ namespace de.unika.ipd.grGen.grShell
             shellGraph.Graph.OnSettingAddedNodeNames += new SettingAddedElementNamesHandler(DebugSettingAddedNodeNames);
             shellGraph.Graph.OnSettingAddedEdgeNames += new SettingAddedElementNamesHandler(DebugSettingAddedEdgeNames);
 
-            if(shellGraph.Actions != null)
-            {
-                shellGraph.Actions.OnEntereringSequence += new EnterSequenceHandler(DebugEntereringSequence);
-                shellGraph.Actions.OnExitingSequence += new ExitSequenceHandler(DebugExitingSequence);
-                shellGraph.Actions.OnMatched += new AfterMatchHandler(DebugMatched);
-                shellGraph.Actions.OnRewritingNextMatch += new RewriteNextMatchHandler(DebugNextMatch);
-                shellGraph.Actions.OnFinished += new AfterFinishHandler(DebugFinished);
-            }
+            shellGraph.Graph.OnEntereringSequence += new EnterSequenceHandler(DebugEntereringSequence);
+            shellGraph.Graph.OnExitingSequence += new ExitSequenceHandler(DebugExitingSequence);
+            shellGraph.Graph.OnMatched += new AfterMatchHandler(DebugMatched);
+            shellGraph.Graph.OnRewritingNextMatch += new RewriteNextMatchHandler(DebugNextMatch);
+            shellGraph.Graph.OnFinished += new AfterFinishHandler(DebugFinished);
         }
 
         void DebugSettingAddedNodeNames(string[] namesOfNodesAdded)
@@ -783,14 +780,11 @@ namespace de.unika.ipd.grGen.grShell
             shellGraph.Graph.OnSettingAddedNodeNames -= new SettingAddedElementNamesHandler(DebugSettingAddedNodeNames);
             shellGraph.Graph.OnSettingAddedEdgeNames -= new SettingAddedElementNamesHandler(DebugSettingAddedEdgeNames);
 
-            if(shellGraph.Actions != null)
-            {
-                shellGraph.Actions.OnEntereringSequence -= new EnterSequenceHandler(DebugEntereringSequence);
-                shellGraph.Actions.OnExitingSequence -= new ExitSequenceHandler(DebugExitingSequence);
-                shellGraph.Actions.OnMatched -= new AfterMatchHandler(DebugMatched);
-                shellGraph.Actions.OnRewritingNextMatch -= new RewriteNextMatchHandler(DebugNextMatch);
-                shellGraph.Actions.OnFinished -= new AfterFinishHandler(DebugFinished);
-            }
+            shellGraph.Graph.OnEntereringSequence -= new EnterSequenceHandler(DebugEntereringSequence);
+            shellGraph.Graph.OnExitingSequence -= new ExitSequenceHandler(DebugExitingSequence);
+            shellGraph.Graph.OnMatched -= new AfterMatchHandler(DebugMatched);
+            shellGraph.Graph.OnRewritingNextMatch -= new RewriteNextMatchHandler(DebugNextMatch);
+            shellGraph.Graph.OnFinished -= new AfterFinishHandler(DebugFinished);
         }
 
         /// <summary>

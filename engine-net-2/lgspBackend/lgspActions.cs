@@ -737,7 +737,6 @@ namespace de.unika.ipd.grGen.lgsp
         private LGSPGraph graph;
         private LGSPMatcherGenerator matcherGenerator;
         private String modelAssemblyName, actionsAssemblyName;
-        int maxMatches = 0;
 
         protected Dictionary<String, LGSPAction> actions = new Dictionary<String, LGSPAction>();
 
@@ -860,16 +859,6 @@ namespace de.unika.ipd.grGen.lgsp
 
             switch((String) args[0])
             {
-                case "set_max_matches":
-                    if(args.Length != 2)
-                        throw new ArgumentException("Usage: set_max_matches <integer>\nIf <integer> <= 0, all matches will be matched.");
-
-                    int maxMatches;
-                    if(!int.TryParse((String) args[1], out maxMatches))
-                        throw new ArgumentException("Illegal integer value specified: \"" + (String) args[1] + "\"");
-                    MaxMatches = maxMatches;
-                    return;
-
                 case "gen_searchplan":
                 {
                     if(graph.edgeCounts == null)
@@ -920,20 +909,12 @@ namespace de.unika.ipd.grGen.lgsp
 
 invalidCommand:
             throw new ArgumentException("Possible commands:\n"
-                + "- set_max_matches: Sets the maximum number of matches to be found\n"
-                + "     during matching\n"
                 + "- gen_searchplan:  Generates a new searchplan for a given action\n"
                 + "     depending on a previous graph analysis\n"
                 + "- dump_sourcecode: Sets dumping of C# files for new searchplans\n"
                 + "- dump_searchplan: Sets dumping of VCG and TXT files of new\n"
                 + "     searchplans (with some intermediate steps)");
         }
-
-        /// <summary>
-        /// The maximum number of matches to be returned for a RuleAll sequence element.
-        /// If it is zero or less, the number of matches is unlimited.
-        /// </summary>
-        public override int MaxMatches { get { return maxMatches; } set { maxMatches = value; } }
 
         /// <summary>
         /// Enumerates all actions managed by this LGSPActions instance.

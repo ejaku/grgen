@@ -54,9 +54,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>True, iff the sequence succeeded</returns>
         public bool Apply(BaseActions actions)
         {
-            actions.EnteringSequence(this);
+            actions.Graph.EnteringSequence(this);
             bool res = ApplyImpl(actions);
-            actions.ExitingSequence(this);
+            actions.Graph.ExitingSequence(this);
             return res;
         }
 
@@ -315,7 +315,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(BaseActions actions)
         {
-            return actions.ApplyRewrite(RuleObj, 0, 1, Special, Test) > 0;
+            return actions.Graph.ApplyRewrite(RuleObj, 0, 1, Special, Test) > 0;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
@@ -362,7 +362,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(BaseActions actions)
         {
-            return actions.ApplyRewrite(RuleObj, -1, -1, Special, Test) > 0;
+            return actions.Graph.ApplyRewrite(RuleObj, -1, -1, Special, Test) > 0;
         }
         public override string Symbol
         { 

@@ -233,120 +233,8 @@ namespace de.unika.ipd.grGen.libGr
 
         #endregion Abstract and virtual members
 
-		private PerformanceInfo perfInfo = null;
-
-		/// <summary>
-		/// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
-		/// The user is responsible for resetting the PerformanceInfo object.
-		/// </summary>
-		public PerformanceInfo PerformanceInfo
-		{
-			get { return perfInfo; }
-			set { perfInfo = value; }
-		}
-
-#if VARIABLES_AS_HASHMAP
         #region Variables management
 
-        protected Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
-        protected Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
-
-        /// <summary>
-        /// Returns the first variable name for the given element it finds (if any).
-        /// </summary>
-        /// <param name="elem">Element which name is to be found</param>
-        /// <returns>A name which can be used in GetVariableValue to get this element</returns>
-        public String GetElementName(IGraphElement elem)
-        {
-            LinkedList<Variable> variableList;
-            if(ElementMap.TryGetValue(elem, out variableList))
-                return variableList.First.Value.Name;
-            return "$" + elem.GetHashCode();
-        }
-
-        public LinkedList<Variable> GetElementVariables(IGraphElement elem)
-        {
-            LinkedList<Variable> variableList;
-            ElementMap.TryGetValue(elem, out variableList);
-            return variableList;
-        }
-
-        /// <summary>
-        /// Retrieves the IGraphElement for a variable name or null, if the variable isn't set yet or anymore
-        /// </summary>
-        /// <param name="varName">The variable name to lookup</param>
-        /// <returns>The according IGraphElement or null</returns>
-        public IGraphElement GetVariableValue(String varName)
-        {
-            Variable var;
-            VariableMap.TryGetValue(varName, out var);
-            if(var == null) return null;
-            return var.Element;
-        }
-
-        /// <summary>
-        /// Sets the value of the given variable to the given IGraphElement
-        /// If the variable name is null, this function does nothing
-        /// </summary>
-        /// <param name="varName">The name of the variable</param>
-        /// <param name="elem">The new value of the variable</param>
-        public void SetVariableValue(String varName, IGraphElement elem)
-        {
-            if(varName == null) return;
-
-            Variable var;
-            if(!VariableMap.TryGetValue(varName, out var))
-            {
-                var = new Variable(varName, elem);
-                VariableMap[varName] = var;
-            }
-            else
-            {
-                LinkedList<Variable> oldVarList;
-                if(ElementMap.TryGetValue(var.Element, out oldVarList))
-                    oldVarList.Remove(var);
-                var.Element = elem;
-            }
-            LinkedList<Variable> newVarList;
-            if(!ElementMap.TryGetValue(elem, out newVarList))
-            {
-                newVarList = new LinkedList<Variable>();
-                newVarList.AddFirst(var);
-
-                ElementMap[elem] = newVarList;
-            }
-            else
-            {
-                if(!newVarList.Contains(var))
-                    newVarList.AddFirst(var);
-            }
-        }
-
-        protected void VariableAdded(IGraphElement elem, String varName)
-        {
-            if(varName != null)
-            {
-                Variable var = new Variable(varName, elem);
-                VariableMap[varName] = var;
-                LinkedList<Variable> varList = new LinkedList<Variable>();
-                varList.AddFirst(var);
-                ElementMap[elem] = varList;
-            }
-        }
-
-        protected void RemovingVariable(IGraphElement elem)
-        {
-            LinkedList<Variable> varList;
-            if(!ElementMap.TryGetValue(elem, out varList)) return;
-            foreach(Variable var in varList)
-            {
-                VariableMap.Remove(var.Name);
-            }
-            ElementMap.Remove(elem);
-        }
-
-        #endregion Variables management
-#else
         /// <summary>
         /// Returns the first variable name for the given element it finds (if any).
         /// </summary>
@@ -397,7 +285,122 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="varName">The name of the variable</param>
         /// <param name="elem">The new value of the variable</param>
         public abstract void SetVariableValue(String varName, object val);
-#endif
+
+        #endregion Variables management
+
+        #region Graph rewriting
+
+        private static IGraphElement[] noElems = new IGraphElement[] { };
+
+        private PerformanceInfo perfInfo = null;
+        private int maxMatches = 0;
+
+        /// <summary>
+        /// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
+        /// The user is responsible for resetting the PerformanceInfo object.
+        /// </summary>
+        public PerformanceInfo PerformanceInfo
+        {
+            get { return perfInfo; }
+            set { perfInfo = value; }
+        }
+
+        /// <summary>
+        /// The maximum number of matches to be returned for a RuleAll sequence element.
+        /// If it is zero or less, the number of matches is unlimited.
+        /// </summary>
+        public int MaxMatches
+        {
+            get { return maxMatches; }
+            set { maxMatches = value; }
+        }
+
+
+        /// <summary>
+        /// Executes the modifications of the according rule to the given match/matches.
+        /// Fires OnRewritingNextMatch events before each rewrite except for the first one.
+        /// </summary>
+        /// <param name="matches">The matches object returned by a previous matcher call.</param>
+        /// <param name="which">The index of the match in the matches object to be applied,
+        /// or -1, if all matches are to be applied.</param>
+        /// <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
+        public object[] Replace(IMatches matches, int which)
+        {
+            object[] retElems = null;
+            if(which != -1)
+            {
+                if(which < 0 || which >= matches.Count)
+                    throw new ArgumentOutOfRangeException("\"which\" is out of range!");
+
+                retElems = matches.Producer.Modify(this, matches.GetMatch(which));
+                if(PerformanceInfo != null) PerformanceInfo.RewritesPerformed++;
+            }
+            else
+            {
+                bool first = true;
+                foreach(IMatch match in matches)
+                {
+                    if(first) first = false;
+                    else if(OnRewritingNextMatch != null) OnRewritingNextMatch();
+                    retElems = matches.Producer.Modify(this, match);
+                    if(PerformanceInfo != null) PerformanceInfo.RewritesPerformed++;
+                }
+                if(retElems == null) retElems = noElems;
+            }
+            return retElems;
+        }
+
+        /// <summary>
+        /// Apply a rewrite rule.
+        /// </summary>
+        /// <param name="ruleObject">RuleObject to be applied</param>
+        /// <param name="which">The index of the match to be rewritten or -1 to rewrite all matches</param>
+        /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
+        /// depends on MaxMatches)</param>
+        /// <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
+        /// the application</param>
+        /// <param name="test">If true, no rewrite step is performed.</param>
+        /// <returns>The number of matches found</returns>
+        public int ApplyRewrite(RuleObject ruleObject, int which, int localMaxMatches, bool special, bool test)
+        {
+            int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
+
+            object[] parameters;
+            if(ruleObject.ParamVars.Length > 0)
+            {
+                parameters = ruleObject.Parameters;
+                for(int i = 0; i < ruleObject.ParamVars.Length; i++)
+                    parameters[i] = GetVariableValue(ruleObject.ParamVars[i]);
+            }
+            else parameters = null;
+
+            if(PerformanceInfo != null) PerformanceInfo.StartLocal();
+            IMatches matches = ruleObject.Action.Match(this, curMaxMatches, parameters);
+            if(PerformanceInfo != null)
+            {
+                PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
+                PerformanceInfo.MatchesFound += matches.Count;
+            }
+
+            if(OnMatched != null) OnMatched(matches, special);
+            if(matches.Count == 0) return 0;
+
+            if(test) return matches.Count;
+
+            if(OnFinishing != null) OnFinishing(matches, special);
+
+            if(PerformanceInfo != null) PerformanceInfo.StartLocal();
+            object[] retElems = Replace(matches, which);
+            for(int i = 0; i < ruleObject.ReturnVars.Length; i++)
+                SetVariableValue(ruleObject.ReturnVars[i], retElems[i]);
+            if(PerformanceInfo != null) PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
+
+            if(OnFinished != null) OnFinished(matches, special);
+
+            return matches.Count;
+        }
+
+        #endregion Graph rewriting
 
         #region Events
 
@@ -420,14 +423,17 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired before an edge is deleted
         /// </summary>
         public event RemovingEdgeHandler OnRemovingEdge;
+
         /// <summary>
         /// Fired before all edges of a node are deleted
         /// </summary>
         public event RemovingEdgesHandler OnRemovingEdges;
+
         /// <summary>
         /// Fired before the whole graph is cleared
         /// </summary>
         public event ClearingGraphHandler OnClearingGraph;
+
         /// <summary>
         /// Fired before an attribute of a node is changed.
         /// Note for LGSPBackend:
@@ -437,6 +443,7 @@ namespace de.unika.ipd.grGen.libGr
         /// using ChangingNodeAttributes.
         /// </summary>
         public event ChangingNodeAttributeHandler OnChangingNodeAttribute;
+
         /// <summary>
         /// Fired before an attribute of an edge is changed.
         /// Note for LGSPBackend:
@@ -446,11 +453,13 @@ namespace de.unika.ipd.grGen.libGr
         /// using ChangingEdgeAttributes.
         /// </summary>
         public event ChangingEdgeAttributeHandler OnChangingEdgeAttribute;
+
         /// <summary>
         /// Fired before a node is retyped.
         /// Old and new node are provided to the handler.
         /// </summary>
         public event RetypingNodeHandler OnRetypingNode;
+
         /// <summary>
         /// Fired before an edge is retyped.
         /// Old and new edge are provided to the handler.
@@ -459,6 +468,38 @@ namespace de.unika.ipd.grGen.libGr
 
         public event SettingAddedElementNamesHandler OnSettingAddedNodeNames;
         public event SettingAddedElementNamesHandler OnSettingAddedEdgeNames;
+
+        /// <summary>
+        /// Fired after all requested matches of a rule have been matched.
+        /// </summary>
+        public event AfterMatchHandler OnMatched;
+
+        /// <summary>
+        /// Fired before the rewrite step of a rule, when at least one match has been found.
+        /// </summary>
+        public event BeforeFinishHandler OnFinishing;
+
+        /// <summary>
+        /// Fired before the next match is rewritten. It is not fired before rewriting the first match.
+        /// </summary>
+        public event RewriteNextMatchHandler OnRewritingNextMatch;
+
+        /// <summary>
+        /// Fired after the rewrite step of a rule.
+        /// Note, that the given matches object may contain invalid entries,
+        /// as parts of the match may have been deleted!
+        /// </summary>
+        public event AfterFinishHandler OnFinished;
+
+        /// <summary>
+        /// Fired when a sequence is entered.
+        /// </summary>
+        public event EnterSequenceHandler OnEntereringSequence;
+
+        /// <summary>
+        /// Fired when a sequence is left.
+        /// </summary>
+        public event ExitSequenceHandler OnExitingSequence;
 
         /// <summary>
         /// Fires an OnNodeAdded event.
@@ -531,7 +572,6 @@ namespace de.unika.ipd.grGen.libGr
             if(handler != null) handler(addedEdgeNames);
         }
 
-
         /// <summary>
         /// Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.
         /// </summary>
@@ -578,6 +618,68 @@ namespace de.unika.ipd.grGen.libGr
         {
             RetypingEdgeHandler retypingEdge = OnRetypingEdge;
             if(retypingEdge != null) retypingEdge(oldEdge, newEdge);
+        }
+
+        /// <summary>
+        /// Fires an OnMatched event.
+        /// </summary>
+        /// <param name="matches">The match result.</param>
+        /// <param name="special">The "special" flag of this rule application.</param>
+        public void Matched(IMatches matches, bool special)
+        {
+            AfterMatchHandler handler = OnMatched;
+            if(handler != null) handler(matches, special);
+        }
+
+        /// <summary>
+        /// Fires an OnFinishing event.
+        /// </summary>
+        /// <param name="matches">The match result.</param>
+        /// <param name="special">The "special" flag of this rule application.</param>
+        public void Finishing(IMatches matches, bool special)
+        {
+            BeforeFinishHandler handler = OnFinishing;
+            if(handler != null) handler(matches, special);
+        }
+
+        /// <summary>
+        /// Fires an OnRewritingNextMatch event.
+        /// </summary>
+        public void RewritingNextMatch()
+        {
+            RewriteNextMatchHandler handler = OnRewritingNextMatch;
+            if(handler != null) handler();
+        }
+
+        /// <summary>
+        /// Fires an OnFinished event.
+        /// </summary>
+        /// <param name="matches">The match result.</param>
+        /// <param name="special">The "special" flag of this rule application.</param>
+        public void Finished(IMatches matches, bool special)
+        {
+            AfterFinishHandler handler = OnFinished;
+            if(handler != null) handler(matches, special);
+        }
+
+        /// <summary>
+        /// Fires an OnEnteringSequence event.
+        /// </summary>
+        /// <param name="seq">The sequence which is entered.</param>
+        public void EnteringSequence(Sequence seq)
+        {
+            EnterSequenceHandler handler = OnEntereringSequence;
+            if(handler != null) handler(seq);
+        }
+
+        /// <summary>
+        /// Fires an OnExitingSequence event.
+        /// </summary>
+        /// <param name="seq">The sequence which is exited.</param>
+        public void ExitingSequence(Sequence seq)
+        {
+            ExitSequenceHandler handler = OnExitingSequence;
+            if(handler != null) handler(seq);
         }
 
         #endregion Events
