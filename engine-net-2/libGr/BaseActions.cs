@@ -11,12 +11,10 @@ using de.unika.ipd.grGen.libGr.sequenceParser;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A container of rules also managing some parts of rule application with sequences.
+    /// A container of rules.
     /// </summary>
     public abstract class BaseActions
     {
-        private Random randomGenerator = new Random();
-
         #region Abstract members
 
         /// <summary>
@@ -60,48 +58,21 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Does action-backend dependent stuff.
         /// </summary>
-        /// <param name="args">Any kind of paramteres for the stuff to do</param>
+        /// <param name="args">Any kind of parameters for the stuff to do</param>
         public abstract void Custom(params object[] args);
 
         #endregion Abstract members
 
-        /// <summary>
-        /// Apply a graph rewrite sequence.
-        /// </summary>
-        /// <param name="sequence">The graph rewrite sequence</param>
-        /// <returns>The result of the sequence.</returns>
-        public bool ApplyGraphRewriteSequence(Sequence sequence)
-        {
-			if(Graph.PerformanceInfo != null) Graph.PerformanceInfo.Start();
-
-            bool res = sequence.Apply(this);
-
-			if(Graph.PerformanceInfo != null) Graph.PerformanceInfo.Stop();
-            return res;
-        }
+        #region Convenience methods
 
         /// <summary>
-        /// Apply a graph rewrite sequence.
+        /// Apply a graph rewrite sequence to the currently associated graph.
         /// </summary>
         /// <param name="seqStr">The graph rewrite sequence in form of a string</param>
         /// <returns>The result of the sequence.</returns>
         public bool ApplyGraphRewriteSequence(String seqStr)
         {
-            return ApplyGraphRewriteSequence(SequenceParser.ParseSequence(seqStr, this));
-        }
-
-        /// <summary>
-        /// Tests whether the given sequence succeeds on a clone of the associated graph.
-        /// </summary>
-        /// <param name="seq">The sequence to be executed</param>
-        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
-        public bool ValidateWithSequence(Sequence seq)
-        {
-            IGraph curGraph = Graph;
-            Graph = Graph.Clone("clonedGraph");
-            bool res = seq.Apply(this);
-            Graph = curGraph;
-            return res;
+            return Graph.ApplyGraphRewriteSequence(ParseSequence(seqStr));
         }
 
         /// <summary>
@@ -111,7 +82,20 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
         public bool ValidateWithSequence(String seqStr)
         {
-            return ValidateWithSequence(SequenceParser.ParseSequence(seqStr, this));
+            return Graph.ValidateWithSequence(ParseSequence(seqStr));
         }
+
+        /// <summary>
+        /// Parses the given XGRS string and generates a Sequence object.
+        /// Any actions in the string must refer to actions from this action container.
+        /// </summary>
+        /// <param name="seqStr">The sequence to be parsed in form of an XGRS string.</param>
+        /// <returns>The sequence object according to the given string.</returns>
+        public Sequence ParseSequence(String seqStr)
+        {
+            return SequenceParser.ParseSequence(seqStr, this);
+        }
+
+        #endregion Convenience methods
     }
 }

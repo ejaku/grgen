@@ -1524,7 +1524,7 @@ namespace de.unika.ipd.grGen.grShell
             curShellGraph.Graph.PerformanceInfo = perfInfo;
             try
             {
-                curShellGraph.Actions.ApplyGraphRewriteSequence(seq);
+                curShellGraph.Graph.ApplyGraphRewriteSequence(seq);
                 Console.WriteLine("Executing Graph Rewrite Sequence done after {0} ms:", perfInfo.TotalTimeMS);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
                 Console.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);
@@ -2238,7 +2238,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!ActionsExists()) return;
 
-            if(!curShellGraph.Actions.ValidateWithSequence(seq))
+            if(!curShellGraph.Graph.ValidateWithSequence(seq))
                 Console.WriteLine("The graph is NOT valid with respect to the given sequence!");
             else
                 Console.WriteLine("The graph is valid with respect to the given sequence.");

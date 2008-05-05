@@ -400,6 +400,31 @@ namespace de.unika.ipd.grGen.libGr
             return matches.Count;
         }
 
+        /// <summary>
+        /// Apply a graph rewrite sequence.
+        /// </summary>
+        /// <param name="sequence">The graph rewrite sequence</param>
+        /// <returns>The result of the sequence.</returns>
+        public bool ApplyGraphRewriteSequence(Sequence sequence)
+        {
+            if(PerformanceInfo != null) PerformanceInfo.Start();
+
+            bool res = sequence.Apply(this);
+
+            if(PerformanceInfo != null) PerformanceInfo.Stop();
+            return res;
+        }
+
+        /// <summary>
+        /// Tests whether the given sequence succeeds on a clone of the associated graph.
+        /// </summary>
+        /// <param name="seq">The sequence to be executed</param>
+        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
+        public bool ValidateWithSequence(Sequence seq)
+        {
+            return seq.Apply(Clone("clonedGraph"));
+        }
+
         #endregion Graph rewriting
 
         #region Events

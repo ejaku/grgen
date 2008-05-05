@@ -469,6 +469,20 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The number of matches found</returns>
         int ApplyRewrite(RuleObject ruleObject, int which, int localMaxMatches, bool special, bool test);
 
+        /// <summary>
+        /// Apply a graph rewrite sequence.
+        /// </summary>
+        /// <param name="sequence">The graph rewrite sequence</param>
+        /// <returns>The result of the sequence.</returns>
+        bool ApplyGraphRewriteSequence(Sequence sequence);
+
+        /// <summary>
+        /// Tests whether the given sequence succeeds on a clone of the associated graph.
+        /// </summary>
+        /// <param name="seq">The sequence to be executed</param>
+        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
+        bool ValidateWithSequence(Sequence seq);
+
         #region Events
 
         /// <summary>

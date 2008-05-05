@@ -638,6 +638,26 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Apply a graph rewrite sequence.
+        /// </summary>
+        /// <param name="sequence">The graph rewrite sequence</param>
+        /// <returns>The result of the sequence.</returns>
+        public bool ApplyGraphRewriteSequence(Sequence sequence)
+        {
+            return graph.ApplyGraphRewriteSequence(sequence);
+        }
+
+        /// <summary>
+        /// Tests whether the given sequence succeeds on a clone of the associated graph.
+        /// </summary>
+        /// <param name="seq">The sequence to be executed</param>
+        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
+        public bool ValidateWithSequence(Sequence seq)
+        {
+            return graph.ValidateWithSequence(seq);
+        }
+
+        /// <summary>
         /// Fired before a node is deleted
         /// </summary>
         public event RemovingNodeHandler OnRemovingNode { add { graph.OnRemovingNode += value; } remove { graph.OnRemovingNode -= value; } }

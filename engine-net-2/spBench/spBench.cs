@@ -693,8 +693,8 @@ namespace spBench
             Sequence seq = SequenceParser.ParseSequence(benchGRS, actions);
 
             PerformanceInfo perfInfo = new PerformanceInfo();
-			graph.PerformanceInfo = perfInfo;
-            actions.ApplyGraphRewriteSequence(seq);
+            graph.PerformanceInfo = perfInfo;
+            graph.ApplyGraphRewriteSequence(seq);
             if(foundMatches != -1)
             {
                 if(perfInfo.MatchesFound != foundMatches)
@@ -1525,7 +1525,7 @@ namespace spBench
             }
 
             if(initGRS != null)
-                actions.ApplyGraphRewriteSequence(SequenceParser.ParseSequence(initGRS, actions));
+                actions.ApplyGraphRewriteSequence(initGRS);
 
 #if DUMP_INITIALGRAPH
             IDumper dumper = new VCGDumper("spBenchTest-Initial.cs", VCGFlags.OrientTopToBottom);

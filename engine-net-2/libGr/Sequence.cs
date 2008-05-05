@@ -46,26 +46,26 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Applies this sequence
+        /// Applies this sequence.
         /// </summary>
-        /// <param name="actions">The actions object containing the graph and the events to be used.
-        ///     The rules will only be choosen during the Sequence object instantiation, so
+        /// <param name="graph">The graph on which this sequence is to be applied.
+        ///     The rules will only be chosen during the Sequence object instantiation, so
         ///     exchanging rules will have no effect for already existing Sequence objects.</param>
         /// <returns>True, iff the sequence succeeded</returns>
-        public bool Apply(BaseActions actions)
+        public bool Apply(IGraph graph)
         {
-            actions.Graph.EnteringSequence(this);
-            bool res = ApplyImpl(actions);
-            actions.Graph.ExitingSequence(this);
+            graph.EnteringSequence(this);
+            bool res = ApplyImpl(graph);
+            graph.ExitingSequence(this);
             return res;
         }
 
         /// <summary>
         /// Applies this sequence. This function represents the actual implementation of the sequence.
         /// </summary>
-        /// <param name="actions">The actions object containing the graph and the events to be used.</param>
+        /// <param name="graph">The graph on which this sequence is to be applied.</param>
         /// <returns>True, iff the sequence succeeded</returns>
-        protected abstract bool ApplyImpl(BaseActions actions);
+        protected abstract bool ApplyImpl(IGraph graph);
 
         /// <summary>
         /// Enumerates all child sequence objects
@@ -155,12 +155,12 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
             if(Randomize && randomGenerator.Next(2) == 1)
-                return Right.Apply(actions) || Left.Apply(actions);
+                return Right.Apply(graph) || Left.Apply(graph);
             else
-                return Left.Apply(actions) || Right.Apply(actions);
+                return Left.Apply(graph) || Right.Apply(graph);
         }
 
         public override int Precedence { get { return 0; } }
@@ -174,12 +174,12 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
             if(Randomize && randomGenerator.Next(2) == 1)
-                return Right.Apply(actions) && Left.Apply(actions);
+                return Right.Apply(graph) && Left.Apply(graph);
             else
-                return Left.Apply(actions) && Right.Apply(actions);
+                return Left.Apply(graph) && Right.Apply(graph);
         }
 
         public override int Precedence { get { return 1; } }
@@ -193,12 +193,12 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
             if(Randomize && randomGenerator.Next(2) == 1)
-                return Right.Apply(actions) | Left.Apply(actions);
+                return Right.Apply(graph) | Left.Apply(graph);
             else
-                return Left.Apply(actions) | Right.Apply(actions);
+                return Left.Apply(graph) | Right.Apply(graph);
         }
 
         public override int Precedence { get { return 2; } }
@@ -212,12 +212,12 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
             if(Randomize && randomGenerator.Next(2) == 1)
-                return Right.Apply(actions) ^ Left.Apply(actions);
+                return Right.Apply(graph) ^ Left.Apply(graph);
             else
-                return Left.Apply(actions) ^ Right.Apply(actions);
+                return Left.Apply(graph) ^ Right.Apply(graph);
         }
 
         public override int Precedence { get { return 3; } }
@@ -231,12 +231,12 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
             if(Randomize && randomGenerator.Next(2) == 1)
-                return Right.Apply(actions) & Left.Apply(actions);
+                return Right.Apply(graph) & Left.Apply(graph);
             else
-                return Left.Apply(actions) & Right.Apply(actions);
+                return Left.Apply(graph) & Right.Apply(graph);
         }
 
         public override int Precedence { get { return 4; } }
@@ -247,9 +247,9 @@ namespace de.unika.ipd.grGen.libGr
     {
         public SequenceNot(Sequence seq) : base(seq, SequenceType.Not) {}
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
-            return !Seq.Apply(actions);
+            return !Seq.Apply(graph);
         }
 
         public override int Precedence { get { return 5; } }
@@ -265,10 +265,10 @@ namespace de.unika.ipd.grGen.libGr
             Min = min;
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
             long i = 0;
-            while(Seq.Apply(actions))
+            while(Seq.Apply(graph))
                 i++;
             return i >= Min;
         }
@@ -287,12 +287,12 @@ namespace de.unika.ipd.grGen.libGr
             Max = max;
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
             long i;
             for(i = 0; i < Max; i++)
             {
-                if(!Seq.Apply(actions)) break;
+                if(!Seq.Apply(graph)) break;
             }
             return i >= Min;
         }
@@ -313,9 +313,9 @@ namespace de.unika.ipd.grGen.libGr
             Test = test;
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
-            return actions.Graph.ApplyRewrite(RuleObj, 0, 1, Special, Test) > 0;
+            return graph.ApplyRewrite(RuleObj, 0, 1, Special, Test) > 0;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
@@ -360,9 +360,9 @@ namespace de.unika.ipd.grGen.libGr
             SequenceType = SequenceType.RuleAll;
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
-            return actions.Graph.ApplyRewrite(RuleObj, -1, -1, Special, Test) > 0;
+            return graph.ApplyRewrite(RuleObj, -1, -1, Special, Test) > 0;
         }
         public override string Symbol
         { 
@@ -394,10 +394,10 @@ namespace de.unika.ipd.grGen.libGr
             DefVars = defVars;
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
             foreach(String defVar in DefVars)
-                if(actions.Graph.GetVariableValue(defVar) == null) 
+                if(graph.GetVariableValue(defVar) == null) 
                     return false;
 
             return true;
@@ -415,7 +415,7 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(BaseActions actions) { return true; }
+        protected override bool ApplyImpl(IGraph graph) { return true; }
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 7; } }
         public override string Symbol { get { return Special ? "%true" : "true"; } }
@@ -428,7 +428,7 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(BaseActions actions) { return false; }
+        protected override bool ApplyImpl(IGraph graph) { return false; }
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 7; } }
         public override string Symbol { get { return Special ? "%false" : "false"; } }
@@ -444,9 +444,12 @@ namespace de.unika.ipd.grGen.libGr
             PredicateVar = varName;
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
-            throw new NotImplementedException("Predicate variables cannot be accessed yet!");  // NYI
+            object val = graph.GetVariableValue(PredicateVar);
+            if(val is bool) return (bool) val;
+
+            throw new InvalidOperationException("The variable '" + PredicateVar + "' is not boolean!");
         }
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 7; } }
@@ -465,9 +468,9 @@ namespace de.unika.ipd.grGen.libGr
             SourceVar = sourceVar;
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
-            actions.Graph.SetVariableValue(DestVar, actions.Graph.GetVariableValue(SourceVar));
+            graph.SetVariableValue(DestVar, graph.GetVariableValue(SourceVar));
             return true;                    // Semantics changed! Now always returns true, as it is always successful!
         }
 
@@ -488,9 +491,9 @@ namespace de.unika.ipd.grGen.libGr
             Element = elem;
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
-            actions.Graph.SetVariableValue(DestVar, Element);
+            graph.SetVariableValue(DestVar, Element);
             return true;                    // Semantics changed! Now always returns true, as it is always successful!
         }
 
@@ -511,10 +514,11 @@ namespace de.unika.ipd.grGen.libGr
             Seq = sequence;
         }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
-            // TODO: Do any assignment!
-            return Seq.Apply(actions);
+            bool result = Seq.Apply(graph);
+            graph.SetVariableValue(DestVar, result);
+            return result;
         }
 
         public override IEnumerable<Sequence> Children { get { yield return Seq; } }
@@ -524,24 +528,24 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceTransaction : SequenceUnary
     {
-        public SequenceTransaction(Sequence seq) : base(seq, SequenceType.Transaction) {}
+        public SequenceTransaction(Sequence seq) : base(seq, SequenceType.Transaction) { }
 
-        protected override bool ApplyImpl(BaseActions actions)
+        protected override bool ApplyImpl(IGraph graph)
         {
-            int transactionID = actions.Graph.TransactionManager.StartTransaction();
+            int transactionID = graph.TransactionManager.StartTransaction();
             int oldRewritesPerformed;
 
-			if(actions.Graph.PerformanceInfo != null) oldRewritesPerformed = actions.Graph.PerformanceInfo.RewritesPerformed;
+            if(graph.PerformanceInfo != null) oldRewritesPerformed = graph.PerformanceInfo.RewritesPerformed;
             else oldRewritesPerformed = -1;
 
-            bool res = Seq.Apply(actions);
+            bool res = Seq.Apply(graph);
 
-            if(res) actions.Graph.TransactionManager.Commit(transactionID);
+            if(res) graph.TransactionManager.Commit(transactionID);
             else
             {
-                actions.Graph.TransactionManager.Rollback(transactionID);
-				if(actions.Graph.PerformanceInfo != null)
-					actions.Graph.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
+                graph.TransactionManager.Rollback(transactionID);
+                if(graph.PerformanceInfo != null)
+                    graph.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
             }
 
             return res;

@@ -852,7 +852,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Does action-backend dependent stuff.
         /// </summary>
-        /// <param name="args">Any kind of paramteres for the stuff to do</param>
+        /// <param name="args">Any kind of parameters for the stuff to do</param>
         public override void Custom(params object[] args)
         {
             if(args.Length == 0) goto invalidCommand;
