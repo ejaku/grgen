@@ -446,7 +446,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			Expression expr = eval.getExpression();
 
 			sb.append("static void *grs_eval_out_func_" + eval.getId() + "(const ir_node **rpl_node_map, const ir_edge_t **rpl_edge_map, ir_node **pat_node_map, void *data) {\n");
-			sb.append(indent+"set_"+ targetOwner.getType().getIdent() +"_"+ targetMember.getIdent() +"(");
+			sb.append(indent+"set_" + targetMember.getIdent() +"(");
 			// Each node type has to be treated differently when accessing attributes
 			// Care about that here.
 			if(targetOwner instanceof Node)
