@@ -670,8 +670,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 					  	" = " + addRelatedNodeFunc + "(pattern, \"" +
 					  	name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
 					  	", " + nodeId + ", n_" + related_name +
-					  	", &" +	construction_func +
-						", " +  isModifiedNode(rule, node) + ");\n");
+					  	", &" +	construction_func);
+				if (graphType != GraphType.Negative) {
+					sb.append(", " +  isModifiedNode(rule, node));
+				}
+				sb.append(");\n");
 				System.out.println(relatedNodes + "; " + node + "; " + name);
 				relatedNodes.put(node, name);								// Name was changed for neg nodes. Remember new
 																			// name for the creation of edges.
