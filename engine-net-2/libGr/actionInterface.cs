@@ -440,4 +440,36 @@ namespace de.unika.ipd.grGen.libGr
 #endif
 #endif
     }
+
+    /// <summary>
+    /// Describes a range with a minimum and a maximum value.
+    /// </summary>
+    public struct Range
+    {
+        /// <summary>
+        /// Constant value representing positive infinity for a range.
+        /// </summary>
+        public const int Infinite = int.MaxValue;
+
+        /// <summary>
+        /// The lower bound of the range.
+        /// </summary>
+        public int Min;
+
+        /// <summary>
+        /// The upper bound of the range.
+        /// </summary>
+        public int Max;
+
+        /// <summary>
+        /// Constructs a Range object.
+        /// </summary>
+        /// <param name="min">The lower bound of the range.</param>
+        /// <param name="max">The upper bound of the range.</param>
+        public Range(int min, int max)
+        {
+            Min = min;
+            Max = max;
+        }
+    }
 }
