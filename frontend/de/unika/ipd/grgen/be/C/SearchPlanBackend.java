@@ -20,9 +20,9 @@ package de.unika.ipd.grgen.be.C;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 import de.unika.ipd.grgen.Sys;
@@ -78,13 +78,13 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	// --------------------------------------------------
 
 	private class IdGenerator<T> {
-		ArrayList<T> list = new ArrayList<T>();
-		Set<T> set = new HashSet<T>();
+		LinkedHashMap<T, Integer> idMap = new LinkedHashMap<T, Integer>();
+
 		int startIndex = 0;
 
 		public void setStartIndex(int startIndex)
 		{
-			if(list.size() > 0)
+			if(idMap.size() > 0)
 			{
 				System.out.println("startIndex cannot be changed after elements have been added!");
 				return;
@@ -94,25 +94,24 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		}
 
 		private int computeId(T elem) {
-			if(!set.contains(elem)) {
-				set.add(elem);
-				list.add(elem);
+			if(!idMap.containsKey(elem)) {
+				idMap.put(elem, getMaxIndex() + 1);
 			}
-			return (list.indexOf(elem) + startIndex);
+			return idMap.get(elem);
 		}
 
 		private boolean isKnown(T elem) {
-			return set.contains(elem);
+			return idMap.containsKey(elem);
 		}
 
 		public int getMaxIndex()
 		{
-			return (list.size() + startIndex - 1);
+			return (idMap.size() + startIndex - 1);
 		}
 
 		public boolean contains(T elem)
 		{
-			return(set.contains(elem));
+			return(idMap.containsKey(elem));
 		}
 	}
 
