@@ -737,10 +737,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			//System.out.println("'" + edge.getIdent().toString() + "'\n");
 			if(name.length() > 4 && name.substring(0, 4).matches("pos[0123456789]"))
 			{
-				String edgePosNrStr = edge.getIdent().toString().substring(3, 4);
-				int edgePosNr = Integer.parseInt(edgePosNrStr);
-				edgePosNr -= 1;
-				edgePos = "" + edgePosNr;
+				edgePos = edge.getIdent().toString().substring(3, 4);
 			}
 
 			Node src = graph.getSource(edge);
