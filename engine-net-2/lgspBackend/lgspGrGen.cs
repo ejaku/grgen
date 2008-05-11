@@ -737,6 +737,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return false;
             }
 
+            bool noError = true;
             using(StreamReader sr = new StreamReader(tmpDir + Path.DirectorySeparatorChar + "printOutput.txt"))
             {
                 String frontStr = "  generating the ";
@@ -750,7 +751,8 @@ namespace de.unika.ipd.grGen.lgsp
                     if(line.Contains("ERROR"))
                     {
                         Console.Error.WriteLine(line);
-                        return false;
+                        noError = false;
+                        continue;
                     }
                     if(line.Contains("WARNING"))
                     {
@@ -774,7 +776,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            return true;
+            return noError;
         }
 
         enum ErrorType { NoError, GrGenJavaError, GrGenNetError };
