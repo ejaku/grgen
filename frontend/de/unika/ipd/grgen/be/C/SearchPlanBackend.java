@@ -81,16 +81,22 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		LinkedHashMap<T, Integer> idMap = new LinkedHashMap<T, Integer>();
 
 		int startIndex = 0;
+		int offset = 0;
 
 		public void setStartIndex(int startIndex)
 		{
-			if(idMap.size() > 0)
+			if(getMaxIndex() >= 0)
 			{
-				System.out.println("startIndex cannot be changed after elements have been added!");
+				System.out.println("startIndex cannot be changed after keys have been generated!");
 				return;
 			}
 
 			this.startIndex = startIndex;
+		}
+
+		public int getNewKey() {
+			offset++;
+			return getMaxIndex();
 		}
 
 		private int computeId(T elem) {
@@ -106,7 +112,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 		public int getMaxIndex()
 		{
-			return (idMap.size() + startIndex - 1);
+			return (idMap.size() + startIndex + offset - 1);
 		}
 
 		public boolean contains(T elem)
@@ -668,7 +674,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				sb.append(indent + "ext_grs_node_t *n_" + name + " = ");
 				if (graphType == GraphType.Negative) {
 					sb.append("ext_grs_act_add_related_node(pattern, \"" +
-						  	name + "\", n_" + related_name + ", " + nodeId);
+						  	name + "\", n_" + related_name + ", " + nodeIds.getNewKey());
 				} else {
 					sb.append("ext_grs_act_add_node_to_keep(pattern, \"" +
 							name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
