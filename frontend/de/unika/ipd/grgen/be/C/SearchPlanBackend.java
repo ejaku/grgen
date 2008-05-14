@@ -675,7 +675,6 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 							", " + nodeId + ", n_" + related_name +
 							", &" +	construction_func + ", " +  isModifiedNode(rule, node));
 				}
-				// FIXME
 				sb.append(");\n");
 				System.out.println(relatedNodes + "; " + node + "; " + name);
 				relatedNodes.put(node, name);								// Name was changed for neg nodes. Remember new
