@@ -662,16 +662,18 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			}
 			else
 			{
-				String addRelatedNodeFunc = (graphType == GraphType.Negative) ? "ext_grs_act_add_related_node" : "ext_grs_act_add_node_to_keep";
 				String related_name = node.getIdent().toString(); 			// Yes, the regular node name without suffix
 				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_rd_" + type;
-				sb.append(indent + "ext_grs_node_t *n_" + name +	    // Write statement to file
-					  	" = " + addRelatedNodeFunc + "(pattern, \"" +
-					  	name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
-					  	", " + nodeId + ", n_" + related_name +
-					  	", &" +	construction_func);
-				if (graphType != GraphType.Negative) {
-					sb.append(", " +  isModifiedNode(rule, node));
+				
+				sb.append(indent + "ext_grs_node_t *n_" + name + " = ");
+				if (graphType == GraphType.Negative) {
+					sb.append("ext_grs_act_add_related_node(pattern, \"" +
+						  	name + "\", n_" + related_name);
+				} else {
+					sb.append("ext_grs_act_add_node_to_keep(pattern, \"" +
+							name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
+							", " + nodeId + ", n_" + related_name +
+							", &" +	construction_func + ", " +  isModifiedNode(rule, node));
 				}
 				sb.append(");\n");
 				System.out.println(relatedNodes + "; " + node + "; " + name);
