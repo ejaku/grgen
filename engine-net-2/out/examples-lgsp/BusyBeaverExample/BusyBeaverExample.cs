@@ -79,9 +79,15 @@ namespace BusyBeaver
             // A little warm up for the beaver
             // Using a graph rewrite sequence with the new and more expressive syntax
             actions.ApplyGraphRewriteSequence(
-                "(((curValue)=readOneRule(curState, curPos) || (curValue)=readZeroRule(curState,curPos))"
-                + " && (ensureMoveLeftValidRule(curValue, curPos) || ensureMoveRightValidRule(curValue, curPos) || true)"
-                + " && ((curState, curPos)=moveLeftRule(curValue, curPos) || (curState, curPos)=moveRightRule(curValue, curPos)))[100]");
+                  "("
+                + "    ((curValue:WriteValue)=readOneRule(curState, curPos)"
+                + "    || (curValue)=readZeroRule(curState,curPos))"
+                + " && (ensureMoveLeftValidRule(curValue, curPos)"
+                + "    || ensureMoveRightValidRule(curValue, curPos)"
+                + "    || true)"
+                + " && ((curState, curPos)=moveLeftRule(curValue, curPos)"
+                + "    || (curState, curPos)=moveRightRule(curValue, curPos))"
+                + ")[100]");
 
 			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
 
@@ -96,16 +102,22 @@ namespace BusyBeaver
             // Go, beaver, go!
 
             actions.ApplyGraphRewriteSequence(
-                "(((curValue)=readOneRule(curState, curPos) || (curValue)=readZeroRule(curState,curPos))"
-                + " && (ensureMoveLeftValidRule(curValue, curPos) || ensureMoveRightValidRule(curValue, curPos) || true)"
-                + " && ((curState, curPos)=moveLeftRule(curValue, curPos) || (curState, curPos)=moveRightRule(curValue, curPos)))*");
+                  "("
+                + "    ((curValue:WriteValue)=readOneRule(curState, curPos)"
+                + "    || (curValue)=readZeroRule(curState,curPos))"
+                + " && (ensureMoveLeftValidRule(curValue, curPos)"
+                + "    || ensureMoveRightValidRule(curValue, curPos)"
+                + "    || true)"
+                + " && ((curState, curPos)=moveLeftRule(curValue, curPos)"
+                + "    || (curState, curPos)=moveRightRule(curValue, curPos))"
+                + ")*");
 
             int stopTime = Environment.TickCount;
 
-            // Count the number of "BandPosition" nodes with a "value" attribute being one
+            // Count "BandPosition" nodes with a "value" attribute being one
             int numOnes = 0;
-            foreach(BandPosition valueNode in graph.GetExactNodes(BandPosition.TypeInstance))
-                if(valueNode.value == 1)
+            foreach(BandPosition bpNode in graph.GetExactNodes(BandPosition.TypeInstance))
+                if(bpNode.value == 1)
                     numOnes++;
 
             int countTime = Environment.TickCount - stopTime;
