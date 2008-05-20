@@ -189,10 +189,10 @@ public class CallActionNode extends BaseNode {
 	private boolean checkParams(Collection<? extends DeclNode> formalParams, Collection<? extends DeclNode> actualParams) {
 		boolean res = true;
 		if(formalParams.size() != actualParams.size()) {
-			error.error(getCoords(), "Formal and actual parameter(s) of action " + this.getUseString() + " mismatch in number (" +
-							formalParams.size() + " vs. " + actualParams.size() +")");
+			error.error(getCoords(), "Formal and actual parameter(s) of action " + this.getUseString()
+					+ " mismatch in number (" + formalParams.size() + " vs. " + actualParams.size() +")");
 			res = false;
-		} else if(actualParams.size() >0) {
+		} else if(actualParams.size() > 0) {
 			Iterator<? extends DeclNode> iterAP = actualParams.iterator();
 			for(DeclNode formalParam : formalParams) {
 				Type     formalParamType = formalParam.getDecl().getDeclType().getType();
@@ -200,20 +200,33 @@ public class CallActionNode extends BaseNode {
 				DeclNode actualParam     = iterAP.next();
 				Type     actualParamType = actualParam.getDecl().getDeclType().getType();
 
-				if(actualParamType.classify() != formalParamType.classify() ||
-				   !(actualParamType instanceof EdgeType && formalParamType instanceof EdgeType ||
-						 actualParamType instanceof NodeType && formalParamType instanceof NodeType
-					)){
-					reportError("Actual param type \"" + actualParamType + "\" and formal param type \"" + formalParamType +
-									"\" are incommensurable.");
+				boolean incommensurable = false;
+
+				// Formal param type is a variable?
+				if(formalParamType.classify() != Type.IS_UNKNOWN) {
+					// Do types match?
+					if(actualParamType.classify() != formalParamType.classify())
+						incommensurable = true;		// No => illegal
+				}
+				// No, are formal and actual param types of same kind?
+				else if(!(actualParamType instanceof EdgeType && formalParamType instanceof EdgeType ||
+						 actualParamType instanceof NodeType && formalParamType instanceof NodeType))
+					incommensurable = true;			// No => illegal
+
+				if(incommensurable) {
+					reportError("Actual param type \"" + actualParamType
+							+ "\" and formal param type \"" + formalParamType
+							+ "\" are incommensurable.");
 					res = false;
 				}
+
 				if(actualParamType instanceof InheritanceType) {
 					InheritanceType fpt = (InheritanceType)formalParamType;
 					InheritanceType apt = (InheritanceType)actualParamType;
-					if(fpt!=apt && !fpt.isRoot() && !apt.isRoot() &&
-					   Collections.disjoint(fpt.getAllSubTypes(), apt.getAllSubTypes()))
-						reportWarning("Formal param type \"" + formalParamType + "\" will never match to actual param type \"" + actualParamType +  "\".");
+					if(fpt!=apt && !fpt.isRoot() && !apt.isRoot()
+							&& Collections.disjoint(fpt.getAllSubTypes(), apt.getAllSubTypes()))
+						reportWarning("Formal param type \"" + formalParamType
+								+ "\" will never match to actual param type \"" + actualParamType +  "\".");
 				}
 			}
 		}
@@ -230,12 +243,13 @@ public class CallActionNode extends BaseNode {
 	 */
 	private boolean checkReturns(CollectNode<IdentNode> formalReturns, CollectNode<VarDeclNode> actualReturns) {
 		boolean res = true;
-		// Its ok to have no actual returns, but if there are some, then they have to fit.
-		if(actualReturns.children.size() >0 && formalReturns.children.size() != actualReturns.children.size()) {
-			error.error(getCoords(), "Formal and actual return-parameter(s) of action " + this.getUseString() + " mismatch in number (" +
-							formalReturns.children.size() + " vs. " + actualReturns.children.size() +")");
+		// It is ok to have no actual returns, but if there are some, then they have to fit.
+		if(actualReturns.children.size() > 0 && formalReturns.children.size() != actualReturns.children.size()) {
+			error.error(getCoords(), "Formal and actual return-parameter(s) of action " + this.getUseString()
+					+ " mismatch in number (" + formalReturns.children.size()
+					+ " vs. " + actualReturns.children.size() +")");
 			res = false;
-		} else if(actualReturns.children.size() >0) {
+		} else if(actualReturns.children.size() > 0) {
 			Iterator<VarDeclNode> iterAR = actualReturns.getChildren().iterator();
 			for(IdentNode formalReturn : formalReturns.getChildren()) {
 				Type     formalReturnType = formalReturn.getDecl().getDeclType().getType();
@@ -243,14 +257,26 @@ public class CallActionNode extends BaseNode {
 				DeclNode actualReturn     = iterAR.next();
 				Type     actualReturnType = actualReturn.getDecl().getDeclType().getType();
 
-				if(actualReturnType.classify()!=formalReturnType.classify() ||
-				   !(actualReturnType instanceof EdgeType && formalReturnType instanceof EdgeType ||
-						 actualReturnType instanceof NodeType && formalReturnType instanceof NodeType
-					)){
-					reportError("Actual return type \"" + actualReturnType + "\" and formal return type \"" + formalReturnType +
-									"\" are incommensurable.");
+				boolean incommensurable = false;
+
+				// Formal return type is a variable?
+				if(formalReturnType.classify() != Type.IS_UNKNOWN) {
+					// Do types match?
+					if(actualReturnType.classify() != formalReturnType.classify())
+						incommensurable = true;		// No => illegal
+				}
+				// No, are formal and actual return types of same kind?
+				else if(!(actualReturnType instanceof EdgeType && formalReturnType instanceof EdgeType ||
+						 actualReturnType instanceof NodeType && formalReturnType instanceof NodeType))
+					incommensurable = true;			// No => illegal
+
+				if(incommensurable) {
+					reportError("Actual return type \"" + actualReturnType
+							+ "\" and formal return type \"" + formalReturnType
+							+ "\" are incommensurable.");
 					res = false;
 				}
+
 				if(actualReturnType instanceof InheritanceType) {
 					InheritanceType frt = (InheritanceType)formalReturnType;
 					InheritanceType art = (InheritanceType)actualReturnType;
