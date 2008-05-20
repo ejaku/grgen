@@ -454,19 +454,19 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else source.Append(", null");
 					source.Append(");\n");
-                    source.AppendFront("actions.Matched(mat_" + seqID + ", " + specialStr + ");\n");
+                    source.AppendFront("graph.Matched(mat_" + seqID + ", " + specialStr + ");\n");
                     source.AppendFront("if(mat_" + seqID + ".Count == 0)\n");
                     source.AppendFront("\tres_" + seqID + " = false;\n");
                     source.AppendFront("else\n");
                     source.AppendFront("{\n");
                     source.Indent();
-                    source.AppendFront("actions.Finishing(mat_" + seqID + ", " + specialStr + ");\n");
+                    source.AppendFront("graph.Finishing(mat_" + seqID + ", " + specialStr + ");\n");
                     source.AppendFront("object[] ret_" + seqID + " = ");
                     if(seq.SequenceType == SequenceType.Rule)
                         source.Append("rule_" + ruleObj.RuleName + ".Modify(graph, mat_" + seqID + ".matchesList.First);\n");
                     else
                         source.Append("actions.Replace(mat_" + seqID + ", -1, null);\n");
-                    source.AppendFront("actions.Finished(mat_" + seqID + ", " + specialStr + ");\n");
+                    source.AppendFront("graph.Finished(mat_" + seqID + ", " + specialStr + ");\n");
 
                     if(ruleObj.ReturnVars.Length != 0)
 					{
@@ -878,7 +878,7 @@ namespace de.unika.ipd.grGen.lgsp
             compParams.ReferencedAssemblies.Add(modelAssemblyName);
 
             String actionsOutputSource;
-            if((flags & ProcessSpecFlags.UseAllGeneratedFiles) == 0)
+            if((flags & ProcessSpecFlags.UseExistingMask) != ProcessSpecFlags.UseAllGeneratedFiles)
             {
                 compParams.GenerateInMemory = true;
                 compParams.CompilerOptions = "/optimize /d:INITIAL_WARMUP";
