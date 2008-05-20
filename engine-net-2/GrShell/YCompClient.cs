@@ -329,7 +329,13 @@ namespace de.unika.ipd.grGen.grShell
                 if(dumpInfo.IsExcludedEdgeType((EdgeType) type)) return;
 
                 foreach(IEdge edge in graph.GetExactEdges((EdgeType) type))
+                {
+                    if(dumpInfo.IsExcludedEdgeType(edge.Type)
+                        || dumpInfo.IsExcludedNodeType(edge.Source.Type)
+                        || dumpInfo.IsExcludedNodeType(edge.Target.Type)) return;
+
                     ycompStream.Write("setEdgeLabel \"e" + dumpInfo.GetElementName(edge) + "\" \"" + GetElemLabel(edge) + "\"\n");
+                }
             }
             isDirty = true;
         }
@@ -612,7 +618,9 @@ namespace de.unika.ipd.grGen.grShell
 
         public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType, String attrValue)
         {
-            if(dumpInfo.IsExcludedEdgeType(edge.Type)) return;
+            if(dumpInfo.IsExcludedEdgeType(edge.Type)
+                || dumpInfo.IsExcludedNodeType(edge.Source.Type)
+                || dumpInfo.IsExcludedNodeType(edge.Target.Type)) return;
             if(hiddenEdges.ContainsKey(edge)) return;
 
             String name = graph.GetElementName(edge);
