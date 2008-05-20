@@ -723,8 +723,10 @@ public class ModifyGen extends CSharpBase {
 						nodesNeededAsElements.add((Node) param);
 					else if(param instanceof Edge)
 						edgesNeededAsElements.add((Edge) param);
-					else if(param instanceof Variable)
-						System.err.println("genRuleModify(): TODO NYI Variable " + param +"  TODO"); // TODO is it correct to do noting
+					else if(param instanceof Variable) {
+						if(neededVariables != null)
+							neededVariables.add((Variable) param);
+					}
 					else
 						assert false : "XGRS argument of unknown type: " + param.getClass();
 				}
@@ -836,7 +838,6 @@ public class ModifyGen extends CSharpBase {
 				Exec exec = (Exec) istmt;
 				sb.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
 				for(Entity param : exec.getArguments()) {
-					if(param instanceof Variable) continue;
 					sb.append(", ");
 					sb.append(formatEntity(param));
 				}

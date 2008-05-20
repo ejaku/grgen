@@ -12,6 +12,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -131,18 +132,21 @@ public class ExecNode extends BaseNode {
 	}
 
 	protected IR constructIR() {
+		Set<VarDeclNode> localVars = new HashSet<VarDeclNode>();
+		for(VarDeclNode node : varDecls.getChildren())
+			localVars.add(node);
 		Set<Entity> parameters = new LinkedHashSet<Entity>();
 		for(DeclNode dn : graphElementUsageOutsideOfCall.getChildren())
 			if(dn instanceof ConstraintDeclNode)
 				parameters.add(dn.checkIR(Entity.class));
 		for(CallActionNode callActionNode : callActions.getChildren()) {
 			callActionNode.checkPost();
-			for(DeclNode param : callActionNode.getParams().getChildren())
+			for(DeclNode param : callActionNode.getParams().getChildren()) {
+				if(localVars.contains(param)) continue;
 				parameters.add(param.checkIR(Entity.class));
+			}
 		}
-		Exec res= new Exec(getXGRSString(), parameters);
+		Exec res = new Exec(getXGRSString(), parameters);
 		return res;
 	}
 }
-
-

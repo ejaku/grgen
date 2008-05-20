@@ -11,7 +11,23 @@ test UseIntTest(var i:int) : (int)
 rule UseIntRule(var i:int) : (int)
 {
     modify {
+        exec(UseIntTest(i));
         return (i + 7);
+    }
+}
+
+rule blub
+{
+    modify {
+        exec((j:int) = GetInt
+            && UseIntRule(j));
+    }
+}
+
+rule Wrapper(var i:int)
+{
+    modify {
+        exec(UseIntTest(i));
     }
 }
 

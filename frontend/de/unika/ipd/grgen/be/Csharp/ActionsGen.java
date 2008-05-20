@@ -688,15 +688,13 @@ public class ActionsGen extends CSharpBase {
 				Exec exec = (Exec) istmt;
 				sb.append("\t\tpublic static LGSPXGRSInfo XGRSInfo_" + xgrsID + " = new LGSPXGRSInfo(new String[] {");
 				for(Entity param : exec.getArguments()) {
-					if(param instanceof Variable) continue;
 					sb.append("\"" + param.getIdent() + "\", ");
 				}
 				sb.append("},\n");
 				sb.append("\t\t\t\"" + exec.getXGRSString() + "\");\n");
 				sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(LGSPGraph graph");
 				for(Entity param : exec.getArguments()) {
-					if(param instanceof Variable) continue;
-					sb.append(", IGraphElement var_");
+					sb.append(", object var_");
 					sb.append(param.getIdent());
 				}
 				sb.append(") {}\n");

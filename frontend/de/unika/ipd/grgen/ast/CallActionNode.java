@@ -297,6 +297,3 @@ public class CallActionNode extends BaseNode {
 		return Bad.getBad(); // TODO fix this
 	}
 }
-
-
-
