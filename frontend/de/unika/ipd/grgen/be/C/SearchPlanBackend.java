@@ -382,10 +382,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	{
 		for(Expression cond : graph.getConditions()) {
 			sb.append("static int grs_cond_func_" + cond.getId() +
-						  "(ir_node **node_map, const ir_edge_t **edge_map) {\n");
+						  "(ir_node **pat_node_map, const ir_edge_t **edge_map) {\n");
 			int useFlags = getUnusedEvalParams(cond);
 			if ((useFlags & nodesInUse) == 0) {
-				sb.append(indent + "(void) node_map;\n");
+				sb.append(indent + "(void) pat_node_map;\n");
 			}
 			if ((useFlags & edgesInUse) == 0) {
 				sb.append(indent + "(void) edge_map;\n");
