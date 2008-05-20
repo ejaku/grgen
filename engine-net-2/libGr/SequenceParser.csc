@@ -192,6 +192,16 @@ TOKEN: {
 	     (~["\'", "\"", "=", ":", ";", ".", ",", "+", "-", "*", "/", "&", "%", "?", "$", "|", "^", "<", ">", "(", ")", "{", "}", "[", "]", "*", "!", "#", " ", "@", "\n", "\r"])*	>
 }
 
+String Word():
+{
+	Token tok;
+}
+{
+	tok=<WORD>
+	{
+		return tok.image;		
+	}
+}
 
 String Text():
 {
@@ -223,7 +233,7 @@ void Parameters(List<String> parameters):
 	String str;
 }
 {
-	str=Text() { parameters.Add(str); } ("," str=Text() { parameters.Add(str); })*
+	str=Word() { parameters.Add(str); } ("," str=Word() { parameters.Add(str); })*
 }
 
 String Variable():
@@ -231,7 +241,7 @@ String Variable():
 	String toVarName, typeName = null;
 }
 {
-	toVarName=Text() (":" typeName=Text())?
+	toVarName=Word() (":" typeName=Word())?
 	{
 		if(varDecls != null)
 		{
@@ -436,7 +446,7 @@ Sequence SimpleSequence():
 	IGraphElement elem;
 }
 {
-	LOOKAHEAD(2) toVarName=Text() (":" typeName=Text())? "="
+	LOOKAHEAD(2) toVarName=Word() (":" typeName=Word())? "="
 	{
 		if(varDecls != null)
 		{
@@ -454,7 +464,7 @@ Sequence SimpleSequence():
 		}
 	}
     (
-        fromName=Text()
+        fromName=Word()
         {
             return new SequenceAssignVarToVar(toVarName, fromName);
         }
@@ -523,11 +533,11 @@ void RuleLookahead():
 {
 }
 {
-	("(" Text() (":" Text())? ("," Text() (":" Text())?)* ")" "=")?
+	("(" Word() (":" Word())? ("," Word() (":" Word())?)* ")" "=")?
 	(
 	    "["
 	|
-	    ("%" | "?")* Text()
+	    ("%" | "?")* Word()
 	)
 }
 
@@ -543,12 +553,12 @@ Sequence Rule():
 {
 	("(" VariableList(returnVars) ")" "=" { retSpecified = true; })? 
 	(
-	    "[" ("%" { special = true; } | "?" { test = true; })* str=Text() ("(" Parameters(paramVars) ")")? "]"
+	    "[" ("%" { special = true; } | "?" { test = true; })* str=Word() ("(" Parameters(paramVars) ")")? "]"
 	    {
    		    return new SequenceRuleAll(CreateRuleObject(str, paramVars, returnVars, retSpecified), special, test);
 	    }
 	|
-	    ("%" { special = true; } | "?" { test = true; })* str=Text() ("(" Parameters(paramVars) ")")?
+	    ("%" { special = true; } | "?" { test = true; })* str=Word() ("(" Parameters(paramVars) ")")?
 	    {
    		    return new SequenceRule(CreateRuleObject(str, paramVars, returnVars, retSpecified), special, test);
 	    }

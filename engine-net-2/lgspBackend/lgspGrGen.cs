@@ -444,7 +444,7 @@ namespace de.unika.ipd.grGen.lgsp
 					RuleObject ruleObj = seqRule.RuleObj;
                     String specialStr = seqRule.Special ? "true" : "false";
 					source.AppendFront("LGSPMatches mat_" + seqID + " = rule_" + ruleObj.RuleName
-						+ ".Match(graph, " + (seq.SequenceType == SequenceType.Rule ? "1" : "actions.MaxMatches"));
+						+ ".Match(graph, " + (seq.SequenceType == SequenceType.Rule ? "1" : "graph.MaxMatches"));
                     if(ruleObj.ParamVars.Length != 0)
                     {
                         source.Append(", new object[] {");
@@ -465,7 +465,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(seq.SequenceType == SequenceType.Rule)
                         source.Append("rule_" + ruleObj.RuleName + ".Modify(graph, mat_" + seqID + ".matchesList.First);\n");
                     else
-                        source.Append("actions.Replace(mat_" + seqID + ", -1, null);\n");
+                        source.Append("graph.Replace(mat_" + seqID + ", -1);\n");
                     source.AppendFront("graph.Finished(mat_" + seqID + ", " + specialStr + ");\n");
 
                     if(ruleObj.ReturnVars.Length != 0)
@@ -675,7 +675,7 @@ namespace de.unika.ipd.grGen.lgsp
 			source.AppendFront("public static bool ApplyXGRS_" + xgrsName + "(LGSPGraph graph");
 			for(int i = 0; i < paramNames.Length; i++)
 			{
-				source.Append(", IGraphElement var_");
+				source.Append(", object var_");
 				source.Append(paramNames[i]);
 			}
 			source.Append(")\n");
