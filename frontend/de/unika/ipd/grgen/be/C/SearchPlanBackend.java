@@ -973,21 +973,21 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				// Only integer supported so far
 				if(n.getNodeType().isCastableTo(CONST_TYPE))
 				{
-					sb.append("get_tarval_long(get_Const_tarval(node_map["+ nodeIds.computeId(n) +
+					sb.append("get_tarval_long(get_Const_tarval(pat_node_map["+ nodeIds.computeId(n) +
 							  "/* "+ entity.getIdent() + " */]))");
 				}
 				// Query the proj_nr of a vproj_node
 				else if(n.getNodeType().isCastableTo(VPROJ_TYPE))
 				{
-					sb.append("get_VProj_proj(node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
+					sb.append("get_VProj_proj(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else if(n.getNodeType().isCastableTo(MULTIPLE_ADD_TYPE))
 				{
-					sb.append("get_irn_arity(node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
+					sb.append("get_irn_arity(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else if(n.getNodeType().isCastableTo(PROJ_TYPE))
 				{
-					sb.append("get_Proj_proj(node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
+					sb.append("get_Proj_proj(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else if(n.getNodeType().isCastableTo(SYM_CONST))
 				{
