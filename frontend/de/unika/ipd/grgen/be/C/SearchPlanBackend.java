@@ -172,6 +172,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("#include \"firm.h\"\n");
 		sb.append("#include \"grs.h\"\n");
 		sb.append("#include \"ia32_new_nodes.h\"\n");
+		sb.append("#include \"ia32_getset.h\"\n");
 		sb.append("#include \"simd/firm_node_ext.h\"\n\n");
 
 		findModeType();
@@ -450,8 +451,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			Entity targetMember = target.getMember();
 			Expression expr = eval.getExpression();
 
-			sb.append("static void *grs_eval_out_func_" + eval.getId() + "(const ir_node **rpl_node_map, const ir_edge_t **rpl_edge_map, ir_node **pat_node_map, void *data) {\n");
-			sb.append(indent+"set_" + targetMember.getIdent() +"(");
+			sb.append("static void *grs_eval_out_func_" + eval.getId() + "(ir_node ** const rpl_node_map, ir_edge_t ** const rpl_edge_map, ir_node **pat_node_map, void *data) {\n");
+			sb.append(indent + "(void) pat_node_map;\n");
+			sb.append(indent + "(void) rpl_edge_map;\n");
+			sb.append(indent + "(void) data;\n");
+			sb.append(indent + "set_" + targetMember.getIdent() +"(");
 			// Each node type has to be treated differently when accessing attributes
 			// Care about that here.
 			if(targetOwner instanceof Node)
@@ -680,8 +684,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 							name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
 							", " + nodeId + ", n_" + related_name +
 							", &" +	construction_func + ", " +  isModifiedNode(rule, node));
+
 				}
 				sb.append(");\n");
+				sb.append(indent + "(void) n_" + name + ";\n");
 				System.out.println(relatedNodes + "; " + node + "; " + name);
 				relatedNodes.put(node, name);								// Name was changed for neg nodes. Remember new
 																			// name for the creation of edges.
@@ -928,7 +934,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * Method genConditionEval
 	 *
 	 * Generates C code for evaluating an expression
-	 * in conditions and eval statenemts
+	 * in conditions and eval statements
 	 * --------------------------------------------- */
 
 	private void genConditionEval(StringBuffer sb, Expression cond,
