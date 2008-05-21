@@ -14,7 +14,8 @@ dump add edge df infotag pos
 
 #xgrs sad_variant0
 #xgrs InitDiamond
-xgrs g
+#xgrs g
+xgrs ifconvTest1
 
 #debug xgrs testRetype*
 xgrs CreateEndBlock && InitPDom*

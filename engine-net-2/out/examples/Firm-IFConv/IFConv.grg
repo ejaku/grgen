@@ -2,8 +2,8 @@ using Firm;
 
 //#include "Sad.grg"
 #include "test.gri"
-#include "moritz0.gri"
-#include "moritz1.gri"
+#include "ifconvTest1.gri"
+#include "ifconvTest2.gri"
 
 rule InitDiamond
 {
@@ -110,14 +110,60 @@ rule IFConv
     bottom:Block -l:df-> :Jmp -:df-> lb:Block -:cdep-> top      ;
     bottom       -r:df-> :Jmp -:df-> rb:Block -:cdep-> top:Block;
     negative { bottom -:ifconv->; }
+    top <-:df- cond:Cond -:df-> condProj:Proj;
+    
     modify {
         exec(  ICCheckPathValid(lb, top)
             && ICCheckPathValid(rb, top)
             && (lpos:int)=ICGetPos(l)
             && (rpos:int)=ICGetPos(r)
-            && ICPreparePath(bottom, lb, lpos, top)
-            && ICPreparePath(bottom, rb, rpos, top));
+            && (ICPreparePath(bottom, lb, lpos, top)
+            | ICPreparePath(bottom, rb, rpos, top)
+            | ICConvPhi(bottom, lpos, rpos, condProj, top)[*])
+            | ICRemoveBlockPred(bottom, lpos)
+            | ICRemoveBlockPred(bottom, rpos)
+            | ICReplaceCondByJump(top, bottom, lpos, cond));
 //            && ICCheckLeftEnd(lb, top, lb, rb, bottom));
+    }
+}
+
+rule ICReplaceCondByJump(from:Block, to:Block, var newPos:int, cond:Cond)
+{
+    cond <-:df- proj1:Proj;
+    cond <-:df- proj2:Proj;
+    
+    modify {
+        delete(proj1, proj2, cond);
+    
+        from <-:df- :Jmp <-d:df- to;
+        eval {
+            d.pos = newPos;
+        }
+    }
+}
+
+rule ICConvPhi(block:Block, var i:int, var j:int, condProj:Proj, top:Block)
+{
+    block <-:df- phi:Phi -dfi:df-> ipred:IR_node\Block;
+                     phi -dfj:df-> jpred:IR_node\Block;
+    if { dfi.pos == i; dfj.pos == j; }
+    
+    modify {
+        psi:Psi -    :df-> top;
+            psi -    :df-> condProj;
+            psi -ndfi:df-> ipred;
+            psi -ndfj:df-> jpred;
+        eval {
+            ndfi.pos = i;
+            ndfj.pos = j;
+        }
+        
+        delete(dfi, dfj);
+        
+        phi -ndphi:df-> psi;
+        eval {
+            ndphi.pos = i;
+        }
     }
 }
 
