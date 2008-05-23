@@ -443,6 +443,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private void genEvalFunctions(StringBuffer sb, String indent, Rule rule, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
 	  	sb.append("/* function to do eval assignments */\n");
+	  	
+	  	StringBuffer ins = new StringBuffer();
+	  	StringBuffer outs = new StringBuffer();
 
 		for(Assignment eval : rule.getEvals())
 		{
@@ -451,33 +454,43 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			Entity targetMember = target.getMember();
 			Expression expr = eval.getExpression();
 
-			sb.append("static void *grs_eval_out_func_" + eval.getId() + "(ir_node ** const rpl_node_map, ir_edge_t ** const rpl_edge_map, ir_node **pat_node_map, void *data) {\n");
-			sb.append(indent + "(void) pat_node_map;\n");
-			sb.append(indent + "(void) rpl_edge_map;\n");
-			sb.append(indent + "(void) data;\n");
-			sb.append(indent + "set_" + targetMember.getIdent() +"(");
+			outs.append("static void grs_eval_out_func_" + eval.getId() + "(ir_node ** const rpl_node_map, ir_edge_t ** const rpl_edge_map, ir_node **pat_node_map, void *data) {\n");
+			outs.append(indent + "(void) pat_node_map;\n");
+			outs.append(indent + "(void) rpl_edge_map;\n");
+			outs.append(indent + "(void) data;\n");
+			outs.append(indent + "set_" + targetMember.getIdent() +"(");
 			// Each node type has to be treated differently when accessing attributes
 			// Care about that here.
 			if(targetOwner instanceof Node)
 			{
 				Node n = (Node) targetOwner;
-				sb.append("rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
+				outs.append("rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
 			}
 			else if (targetOwner instanceof Edge)
 			{
 				Edge e = (Edge) targetOwner;
-				sb.append("rpl_edge_map[" + edgeIds.computeId(e) + "/* " + e.getIdent() + " */], ");
+				outs.append("rpl_edge_map[" + edgeIds.computeId(e) + "/* " + e.getIdent() + " */], ");
 			}
 			else
 			{
 				throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
 			}
-			genConditionEval(sb, expr, nodeIds, edgeIds);
-			sb.append(");\n");
+			outs.append("data );\n");
+			outs.append("}\n");
+			
+			/* now generate the eval_in function */
+			
+			ins.append("static void *grs_eval_in_func_" 
+					+ eval.getId() 
+					+ "(ir_node ** const pat_node_map, ir_edge_t ** pat_edge_map) {\n");
+			ins.append(indent + "return (void*)");
+			genConditionEval(ins, expr, nodeIds, edgeIds);
+			ins.append(";\n}\n\n");
 
-			sb.append(indent + "return(NULL);\n");
-			sb.append("}\n");
 		}
+		
+		sb.append(ins);
+		sb.append(outs);
 	}
 
 
