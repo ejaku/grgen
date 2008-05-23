@@ -446,6 +446,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	  	
 	  	StringBuffer ins = new StringBuffer();
 	  	StringBuffer outs = new StringBuffer();
+	  	
 
 		for(Assignment eval : rule.getEvals())
 		{
@@ -453,7 +454,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			Entity targetOwner = target.getOwner();
 			Entity targetMember = target.getMember();
 			Expression expr = eval.getExpression();
-
+			StringBuffer cond_dummy = new StringBuffer();
+			
 			outs.append("static void grs_eval_out_func_" + eval.getId() + "(ir_node ** const rpl_node_map, ir_edge_t ** const rpl_edge_map, ir_node **pat_node_map, void *data) {\n");
 			outs.append(indent + "(void) pat_node_map;\n");
 			outs.append(indent + "(void) rpl_edge_map;\n");
@@ -475,21 +477,24 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			{
 				throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
 			}
-			outs.append("data );\n");
-			outs.append("}\n");
 			
-			/* now generate the eval_in function */
+			if (expr instanceof Constant) {
+				/* we don't need eval_in functions for constant values */
+				genConditionEval(cond_dummy, expr, nodeIds, edgeIds);
+				outs.append(cond_dummy);
+			} else {
+				/* generate the eval_in function */
+				ins.append("static void *grs_eval_in_func_"	+ eval.getId() 
+						+ "(ir_node ** const pat_node_map, ir_edge_t ** pat_edge_map) {\n");
+				ins.append(indent + "return (void*)");
+				genConditionEval(ins, expr, nodeIds, edgeIds);
+				ins.append(";\n}\n\n");
+				sb.append(ins);
+				outs.append("data");
+			}
 			
-			ins.append("static void *grs_eval_in_func_" 
-					+ eval.getId() 
-					+ "(ir_node ** const pat_node_map, ir_edge_t ** pat_edge_map) {\n");
-			ins.append(indent + "return (void*)");
-			genConditionEval(ins, expr, nodeIds, edgeIds);
-			ins.append(";\n}\n\n");
-
-		}
-		
-		sb.append(ins);
+			outs.append(");\n}\n");
+		}	
 		sb.append(outs);
 	}
 
@@ -505,7 +510,13 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	{
 		for(Assignment eval : rule.getEvals())
 		{
-			sb.append(indent + "ext_grs_act_register_eval(act, NULL, (ext_grs_eval_out_func_t) &grs_eval_out_func_" + eval.getId() + ");\n");
+			sb.append(indent + "ext_grs_act_register_eval(act, ");
+			if (eval.getExpression() instanceof Constant) {
+				sb.append("NULL");
+			} else {
+				sb.append("(ext_grs_eval_in_func_t) &grs_eval_in_func_" + eval.getId());
+			}
+			sb.append(", (ext_grs_eval_out_func_t) &grs_eval_out_func_" + eval.getId() + ");\n");
 		}
 
 	}
