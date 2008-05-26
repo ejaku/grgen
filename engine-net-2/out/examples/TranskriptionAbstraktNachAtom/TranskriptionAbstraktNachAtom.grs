@@ -1,0 +1,7 @@
+new graph "TranskriptionAbstraktNachAtom"
+debug set layout Organic
+
+debug enable
+xgrs createDNAChain
+xgrs A2K
+xgrs transcription

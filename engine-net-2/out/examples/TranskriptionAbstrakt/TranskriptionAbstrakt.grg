@@ -1,0 +1,235 @@
+using TranskriptionAbstrakt;
+
+rule transcription()
+{
+	// start transcription at TATABox: TATAAA.
+	d1:D -:PG-> d2:D -:PG-> d3:D -:PG-> d4:D -:PG-> d5:D -:PG-> d6:D;
+	d1 --> :T;
+	d2 --> :A;
+	d3 --> :T;
+	d4 --> :A;
+	d5 --> :A;
+	d6 --> :A;
+
+	d2r:DNAChain(d6);
+	
+	modify {
+		r:R; // new starting point for rna
+		d2r(r);
+	}
+}
+
+pattern DNAChain(prev:D)
+{
+	alternative	{
+	    Chain {
+			negative {
+				:TerminationSequence(prev);
+			}
+
+			prev -:PG-> next:D;
+			n:DNANucleotide(next);
+			d2r:DNAChain(next);
+						
+			modify(rprev:R) {
+				rprev -:PG-> rnext:R; 
+				n(rnext);
+				d2r(rnext);
+			}
+		}
+		End	{
+			:TerminationSequence(prev);
+			
+			modify(rprev:R) {
+			}
+		}
+	}
+	
+	modify(rprev:R) {
+	}
+}
+
+pattern DNANucleotide(d:D)
+{
+	alternative	{
+		A {
+			d --> a:A;
+			
+			modify(r:R) {
+				r --> u:U;
+			}
+		}
+		C {
+			d --> c:C;
+			
+			modify(r:R) {
+				r --> g:G;
+			}
+		}
+		G {
+			d --> g:G; 
+			
+			modify(r:R) {
+				r --> c:C;
+			}
+		}
+		T {	
+			d --> t:T; 
+			
+			modify(r:R) {
+				r --> a:A;
+			}
+		}
+	}
+	
+	modify(rprev:R) {
+	}
+}
+
+pattern TerminationSequence(nprev:D)
+{
+	// CCCACT
+	nprev -:PG-> d1:D -:PG-> d2:D -:PG-> d3:D -:PG-> d4:D -:PG-> d5:D -:PG-> d6:D;
+	d1 --> :C;
+	d2 --> :C;
+	d3 --> :C;
+	d4 --> :A;
+	d5 --> :C;
+	d6 --> :T;
+	// NNNNNN
+	d6 -:PG-> d7:D -:PG-> d8:D -:PG-> d9:D -:PG-> d10:D -:PG-> d11:D -:PG-> d12:D;
+	d7 --> :N;
+	d8 --> :N;
+	d9 --> :N;
+	d10 --> :N;
+	d11 --> :N;
+	d12 --> :N;
+	// AGTGGG = inverse and mirrored CCCACT
+	d12 -:PG-> d13:D -:PG-> d14:D -:PG-> d15:D -:PG-> d16:D -:PG-> d17:D -:PG-> d18:D;
+	d13 --> :A;
+	d14 --> :G;
+	d15 --> :T;
+	d16 --> :G;
+	d17 --> :G;
+	d18 --> :G;
+	// AAAAAA
+	d18 -:PG-> d19:D -:PG-> d20:D -:PG-> d21:D -:PG-> d22:D -:PG-> d23:D -:PG-> d24:D;
+	d19 --> :A;
+	d20 --> :A;
+	d21 --> :A;
+	d22 --> :A;
+	d23 --> :A;
+	d24 --> :A;
+}
+
+test findTATABox
+{
+	d1:D -:PG-> d2:D -:PG-> d3:D -:PG-> d4:D -:PG-> d5:D -:PG-> d6:D;
+	d1 --> :T;
+	d2 --> :A;
+	d3 --> :T;
+	d4 --> :A;
+	d5 --> :A;
+	d6 --> :A;
+}
+
+test findTerminationSequence
+{
+	d:D;
+	:TerminationSequence(d);
+}
+
+rule TATABox() : (D, R)
+{
+	// start transcription at TATABox: TATAAA.
+	d1:D -:PG-> d2:D -:PG-> d3:D -:PG-> d4:D -:PG-> d5:D -:PG-> d6:D;
+	d1 --> :T;
+	d2 --> :A;
+	d3 --> :T;
+	d4 --> :A;
+	d5 --> :A;
+	d6 --> :A;
+
+	modify {
+		r:R;
+		return(d6, r);
+	}
+}
+
+rule NextChainElement(prev:D, rprev:R) : (D,R)
+{
+	prev -:PG-> d:D;
+
+	modify {
+		rprev -:PG-> r:R;
+		return(d,r);
+	}
+}
+
+rule A(prev:D, rprev:R)
+{
+	prev --> :A;
+	modify {
+		rprev --> :U;
+	}
+}
+
+rule C(prev:D, rprev:R)
+{
+	prev --> :C;
+	modify {
+		rprev --> :G;
+	}
+}
+
+rule G(prev:D, rprev:R)
+{
+	prev --> :G;
+	modify {
+		rprev --> :C;
+	}
+}
+
+rule T(prev:D, rprev:R)
+{
+	prev --> :T;
+	modify {
+		rprev --> :A;
+	}
+}
+
+test TerminationSequence(prev:D)
+{
+	// CCCACT
+	prev -:PG-> d1:D -:PG-> d2:D -:PG-> d3:D -:PG-> d4:D -:PG-> d5:D -:PG-> d6:D;
+	d1 --> :C;
+	d2 --> :C;
+	d3 --> :C;
+	d4 --> :A;
+	d5 --> :C;
+	d6 --> :T;
+	// NNNNNN
+	d6 -:PG-> d7:D -:PG-> d8:D -:PG-> d9:D -:PG-> d10:D -:PG-> d11:D -:PG-> d12:D;
+	d7 --> :N;
+	d8 --> :N;
+	d9 --> :N;
+	d10 --> :N;
+	d11 --> :N;
+	d12 --> :N;
+	// AGTGGG = inverse and mirrored CCCACT
+	d12 -:PG-> d13:D -:PG-> d14:D -:PG-> d15:D -:PG-> d16:D -:PG-> d17:D -:PG-> d18:D;
+	d13 --> :A;
+	d14 --> :G;
+	d15 --> :T;
+	d16 --> :G;
+	d17 --> :G;
+	d18 --> :G;
+	// AAAAAA
+	d18 -:PG-> d19:D -:PG-> d20:D -:PG-> d21:D -:PG-> d22:D -:PG-> d23:D -:PG-> d24:D;
+	d19 --> :A;
+	d20 --> :A;
+	d21 --> :A;
+	d22 --> :A;
+	d23 --> :A;
+	d24 --> :A;
+}

@@ -97,7 +97,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>call "$(DevEnvDir)..\tools\vsvars32.bat"
+editbin /stack:16777216 $(TargetPath)</PostBuildEvent>
   </PropertyGroup>
 </Project>

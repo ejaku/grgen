@@ -4,6 +4,8 @@
  * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
  */
 
+//todo: auch ANTLR-header umschreiben - dazu .g-Dateien, 2te Zeile nach header { verarbeiten
+
 using System;
 using System.Text;
 using System.IO;
@@ -16,45 +18,51 @@ namespace ChangeFileHeaders
         {
             String rootDirectory = args[0];
             DirectoryInfo dir = new DirectoryInfo(rootDirectory);
-            ProcessFilesInDirectoryThenDescend(dir);
+            Console.Write(ProcessFilesInDirectoryThenDescend(dir));
         }
 
-        private static void ProcessFilesInDirectoryThenDescend(DirectoryInfo dir)
+        private static string ProcessFilesInDirectoryThenDescend(DirectoryInfo dir)
         {
+            StringBuilder output = new StringBuilder();
+            int nothingWasProcessedInThisDirectoryStringSize;
+
             ++indentLevel;
 
             for (int i = 0; i < indentLevel; ++i)
-                Console.Write("  ");
-            Console.WriteLine("/{0}", dir.Name);
+                output.Append("  ");
+            output.AppendFormat("/{0}\n", dir.Name);
+            nothingWasProcessedInThisDirectoryStringSize = output.Length;
 
             // handle files in current directory
             FileInfo[] filesInDirectory = dir.GetFiles();
             foreach (FileInfo file in filesInDirectory)
             {
+                Encoding encoding = Encoding.Default;
+
                 // we're only interested in Java and C# source files
                 if (!(file.Name.EndsWith(".java") || file.Name.EndsWith(".cs")))
                     continue;
 
-                // assembly info uses unicode and umlaute, hands off
+                // assembly info encoded in unicode
                 if (file.Name == "AssemblyInfo.cs")
-                    continue;
+                    encoding = Encoding.UTF8;
 
                 // log files processed to the console
                 for (int i = 0; i < indentLevel; ++i)
-                    Console.Write("  ");
-                Console.Write("+{0} ... ", file.Name);
+                    output.Append("  ");
+                output.AppendFormat("+{0} ... ", file.Name);
 
                 // filter out files not containing the header to change
                 if (!containsHeader(file))
                 {
-                    Console.WriteLine("NO HEADER");
+                    output.AppendLine("NO HEADER");
                     continue;
                 }
 
-                Console.Write("REWRITING ... ");
+                output.Append("REWRITING ... ");
 
                 // change the file header to the new one
-                rewriteHeader(file);
+                rewriteHeader(file, encoding, output);
             }
 
             // descend to nested directories
@@ -64,10 +72,16 @@ namespace ChangeFileHeaders
                 if (nestedDirectory.Name.EndsWith(".svn"))
                     continue;
 
-                ProcessFilesInDirectoryThenDescend(nestedDirectory);
+                if (nestedDirectory.Name == "engine-net")
+                    continue;
+
+                output.Append(ProcessFilesInDirectoryThenDescend(nestedDirectory));
             }
 
             --indentLevel;
+
+            if (output.Length == nothingWasProcessedInThisDirectoryStringSize) return "";
+            return output.ToString();
         }
 
         private static bool containsHeader(FileInfo file)
@@ -110,9 +124,9 @@ namespace ChangeFileHeaders
             return false;
         }
 
-        private static void rewriteHeader(FileInfo file)
+        private static void rewriteHeader(FileInfo file, Encoding encoding, StringBuilder output)
         {
-            string[] lines = File.ReadAllLines(file.FullName, Encoding.Default);
+            string[] lines = File.ReadAllLines(file.FullName, encoding);
 
             lines[0] = "/*";
             lines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET v2 beta";
@@ -120,15 +134,15 @@ namespace ChangeFileHeaders
             lines[3] = " * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)";
             lines[4] = " */";
 
-            File.WriteAllLines(file.FullName, lines, Encoding.Default);
+            File.WriteAllLines(file.FullName, lines, encoding);
 
-            Console.WriteLine("DONE");
+            output.AppendLine("DONE");
         }
 
-        private static void extendingRewriteHeader(FileInfo file)
+        private static void extendingRewriteHeader(FileInfo file, Encoding encoding, StringBuilder output)
         {
             const long NUM_LINES_TO_ADD = 5+1;
-            string[] lines = File.ReadAllLines(file.FullName, Encoding.Default);
+            string[] lines = File.ReadAllLines(file.FullName, encoding);
             string[] extendedLines = new string[lines.Length + NUM_LINES_TO_ADD];
 
             lines.CopyTo(extendedLines, NUM_LINES_TO_ADD);
@@ -141,9 +155,9 @@ namespace ChangeFileHeaders
 
             extendedLines[5] = "";
 
-            File.WriteAllLines(file.FullName, extendedLines, Encoding.Default);
+            File.WriteAllLines(file.FullName, extendedLines, encoding);
 
-            Console.WriteLine("DONE");
+            output.AppendLine("DONE");
         }
 
         static int indentLevel = -1; // directory depth indentation level for output of state to console

@@ -1,0 +1,392 @@
+using TranskriptionAbstraktNachAtom;
+
+rule createDNAChain // create sample abstract dna chain
+{
+	replace {
+		d1:D -:PG-> d2:D -:PG-> d3:D -:PG-> d4:D -:PG-> d5:D;
+		d1 --> :A;
+		d2 --> :C;
+		d3 --> :G;
+		d4 --> :T;
+		d5 --> :A;
+	}
+}
+
+rule A2K // transform abstract dna chain to atoms
+{
+	start:D;
+	
+	negative {
+		-:PG-> start;
+	}
+	
+	n:A2KNucleotide(start);
+	a2k:A2K(start);
+	
+	modify {
+		:A_H --> :A_O --> c3:A_C;
+		c1:A_C; c5:A_C;
+		:DesoxyriboseCore(c1, c3, c5);
+		n(c1);
+		a2k(c5);
+	}
+}
+
+rule transcription // transcription on atomic dna chain
+{
+	pLink:A_P;
+	b:DNAChainBegin(pLink); 
+	c:DNAChain(pLink); 
+	
+	modify {
+		oOfNext:A_O; 
+		b(oOfNext); 
+		c(oOfNext); 
+	}
+}
+
+pattern A2K(prev:D)
+{
+	alternative 
+	{
+		Chain {
+			prev -:PG-> next:D;
+			n:A2KNucleotide(next);
+			a2k:A2K(next);
+			
+			modify(prevC5:A_C) {
+				:PhosphateGroup(prevC5, p);
+				p:A_P --> :A_O --> c3:A_C; 
+				c1:A_C; c5:A_C;
+				:DesoxyriboseCore(c1, c3, c5);
+				n(c1);
+				a2k(c5);
+			}
+		}
+		End {
+			negative {
+				prev -:PG-> next:D;
+			}
+			
+			modify(prevC5:A_C) {
+				:PhosphateGroupEnd(prevC5);
+			}
+		}
+	}
+	
+	modify(prevC5:A_C) {
+	}
+}
+
+pattern A2KNucleotide(d:D)
+{
+	alternative {
+		A {
+			d --> :A;
+			
+			modify(c1:A_C) {
+				:Adenin(c1);
+			}
+		}
+		C {
+			d --> :C;
+			
+			modify(c1:A_C) {
+				:Cytosin(c1);
+			}
+		}
+		G {
+			d --> :G;
+			
+			modify(c1:A_C) {
+				:Guanin(c1);
+			}
+		}
+		T {
+			d --> :T;
+			
+			modify(c1:A_C) {
+				:Thymin(c1);
+			}
+		}
+		U { // corrupt DNA
+			d --> :U;
+			
+			modify(c1:A_C) {
+				:Uracil(c1);
+			}
+		}
+		H { // corrupt DNA
+			d --> :H;
+			
+			modify(c1:A_C) {
+				:HydroxyGuanin(c1);
+			}
+		}
+	}
+	
+	modify(c1:A_C) {
+	}
+}
+
+pattern DesoxyriboseCore(c1:A_C, c3:A_C, c5:A_C)
+{
+	o:A_O --> c1 --> c2:A_C --> c3 --> c4:A_C --> o; 
+	c1 --> :A_H;  c2 --> :A_H;  c3 --> :A_H;  c4 --> :A_H; 
+	c4 --> c5;  
+	c5 --> :A_H;  c5 --> :A_H; 
+	c2 --> :A_H; 
+}
+
+pattern PhosphateGroup(c5:A_C, p:A_P)
+{
+	c5 --> :A_O --> p; 
+	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H; 
+}
+
+pattern PhosphateGroupEnd(c5:A_C)
+{
+	c5 --> :A_O --> p:A_P; 
+	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H; 
+	p --> :A_O --> :A_H; 
+}
+
+pattern Adenin(rc1:A_C) {
+	rc1 --> n1:A_N --> c1:A_C --> n2:A_N --> c2:A_C --> c3:A_C --> n1; 
+	c1 --> n2;  c2 --> c3; 
+	c1 --> :A_H; 
+	c2 --> c4:A_C --> n3:A_N --> c5:A_C --> n4:A_N --> c3; 
+	c4 --> n3;  c5 --> n4;  
+	c5 --> :A_H; 
+	c4 --> n5:A_N;  n5 --> :A_H;  n5 --> :A_H; 
+}
+
+pattern Cytosin(rc1:A_C) {
+	rc1 --> n1:A_N --> c1:A_C --> c2:A_C --> c3:A_C --> n2:A_N --> c4:A_C --> n1; 
+	c1 --> c2;  c3 --> n2; 
+	c1 --> :A_H; 
+	c2 --> :A_H;  
+	c3 --> n3:A_N;  n3 --> :A_H;  n3 --> :A_H; 
+	c4 --> o:A_O;  c4 --> o;  
+}
+
+pattern Guanin(rc1:A_C) {
+	rc1 --> n1:A_N --> c1:A_C --> n2:A_N --> c2:A_C --> c3:A_C --> n1; 
+	c1 --> n2;  c2 --> c3; 
+	c1 --> :A_H; 
+	c2 --> c4:A_C --> n3:A_N --> c5:A_C --> n4:A_N --> c3; 
+	c5 --> n4; 
+	c4 --> :A_O;  c4 --> :A_O; 
+	n3 --> :A_H; 
+	c5 --> n5:A_N;  n5 --> :A_H;  n5 --> :A_H;  
+}
+
+pattern Thymin(rc1:A_C) {
+	rc1 --> n1:A_N --> c1:A_C --> c2:A_C --> c3:A_C --> n2:A_N --> c4:A_C --> n1; 
+	c1 --> c2; 
+	c1 --> :A_H; 
+	c2 --> c5:A_C;  c5 --> :A_H;  c5 --> :A_H;  c5 --> :A_H;  
+	c3 --> o:A_O;  c3 --> o;  
+	n2 --> :A_H; 
+	c4 --> o2:A_O;  c4 --> o2; 
+}
+
+pattern Uracil(rc1:A_C) {
+	rc1 --> n1:A_N --> c1:A_C --> c2:A_C --> c3:A_C --> n2:A_N --> c4:A_C --> n1; 
+	c1 --> c2;  
+	c1 --> :A_H; 
+	c2 --> :A_H; 
+	c3 --> o:A_O;  c3 --> o;  
+	n2 --> :A_H; 
+	c4 --> o2:A_O;  c4 --> o2; 
+}
+
+pattern HydroxyGuanin(rc1:A_C) {
+	rc1 --> n1:A_N --> c1:A_C --> n2:A_N --> c2:A_C --> c3:A_C --> n1; 
+	c1 --> n2;  c2 --> c3; 
+	c1 --> o:A_O; o --> :A_H;
+	c2 --> c4:A_C --> n3:A_N --> c5:A_C --> n4:A_N --> c3; 
+	c5 --> n4; 
+	c4 --> :A_O;  c4 --> :A_O; 
+	n3 --> :A_H; 
+	c5 --> n5:A_N;  n5 --> :A_H;  n5 --> :A_H;  
+}
+
+pattern DNAChainBegin(pOfNext:A_P)
+{
+	:A_H --> :A_O --> c3; 
+
+	// Desoxyribose core
+	o:A_O --> c1:A_C --> c2:A_C --> c3:A_C --> c4:A_C --> o; 
+	c1 --> :A_H;  c2 --> :A_H;  c3 --> :A_H;  c4 --> :A_H; 
+	c4 --> c5:A_C;  
+	c5 --> :A_H;  c5 --> :A_H; 
+	c2 --> :A_H; 
+	
+	n:Nukleinbase(c1);
+	
+	c5 --> :A_O --> pOfNext; 
+	pOfNext --> do:A_O;  pOfNext --> do;  pOfNext --> :A_O --> :A_H; 
+
+	modify(oOfNext:A_O) {
+		rep_c1:A_C; 
+		:RNAChainBegin(oOfNext, rep_c1); 
+		n(rep_c1); 
+	}
+}
+
+pattern DNAChain(pOfPrev:A_P) {
+	alternative {
+		Chain {
+			e:DNAChainElement(pOfPrev, pOfNext); 
+			pOfNext:A_P;
+			c:DNAChain(pOfNext); 
+
+			modify(oOfPrev:A_O) {
+				e(oOfPrev, oOfNext); 
+				oOfNext:A_O;
+				c(oOfNext); 
+			}
+		}
+		End {
+			e:DNAChainEnd(pOfPrev); 
+
+			modify(oOfPrev:A_O) {
+				e(oOfPrev); 
+			}
+		}
+	}
+	
+	modify(oOfPrev:A_O) {
+	}
+}
+
+pattern DNAChainElement(pOfPrev:A_P, pOfNext:A_P)
+{
+	pOfPrev --> :A_O --> c3; 
+
+	// Desoxyribose core
+	o:A_O --> c1:A_C --> c2:A_C --> c3:A_C --> c4:A_C --> o; 
+	c1 --> :A_H;  c2 --> :A_H;  c3 --> :A_H;  c4 --> :A_H; 
+	c4 --> c5:A_C;  
+	c5 --> :A_H;  c5 --> :A_H; 
+	c2 --> :A_H; 
+
+	n:Nukleinbase(c1); 
+	c5 --> :A_O --> pOfNext; 
+	pOfNext --> do:A_O;  pOfNext --> do;  pOfNext --> :A_O --> :A_H; 
+
+	modify(oOfPrev:A_O, oOfNext:A_O) {
+		:RNAChainElement(oOfPrev, oOfNext, rep_c1); 
+		rep_c1:A_C;
+		n(rep_c1); 
+	}
+}
+
+pattern DNAChainEnd(pOfPrev:A_P)
+{
+	pOfPrev --> :A_O --> c3;
+
+	// Desoxyribose core
+	o:A_O --> c1:A_C --> c2:A_C --> c3:A_C --> c4:A_C --> o; 
+	c1 --> :A_H;  c2 --> :A_H;  c3 --> :A_H;  c4 --> :A_H; 
+	c4 --> c5:A_C;  
+	c5 --> :A_H;  c5 --> :A_H; 
+	c2 --> :A_H; 
+	
+	n:Nukleinbase(c1); 
+	c5 --> :A_O --> p:A_P; 
+	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H; 
+	p --> :A_O --> :A_H; 
+
+	modify(oOfPrev:A_O) {
+		:RNAChainEnd(oOfPrev, rep_c1); 
+		rep_c1:A_C;
+		n(rep_c1); 
+	}    
+}
+
+pattern RNAChainElement(oOfPrev:A_O, oOfNext:A_O, c1:A_C)
+{
+	oOfPrev --> p:A_P; 
+	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H; 
+	p --> :A_O --> c5; 
+	
+	// Ribose core
+	o:A_O --> c1 --> c2:A_C --> c3:A_C --> c4:A_C --> o; 
+	c1 --> :A_H;  c2 --> :A_H;  c3 --> :A_H;  c4 --> :A_H; 
+	c4 --> c5:A_C;  
+	c5 --> :A_H;  c5 --> :A_H; 
+	c2 --> :A_O --> :A_H; 
+
+	c3 --> oOfNext; 
+}
+
+pattern RNAChainBegin(oOfNext:A_O, c1:A_C)
+{
+	p:A_P --> :A_O --> :A_H; 
+	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H; 
+	p --> :A_O --> c5; 
+
+	// Ribose core
+	o:A_O --> c1 --> c2:A_C --> c3:A_C --> c4:A_C --> o; 
+	c1 --> :A_H;  c2 --> :A_H;  c3 --> :A_H;  c4 --> :A_H; 
+	c4 --> c5:A_C;  
+	c5 --> :A_H;  c5 --> :A_H; 
+	c2 --> :A_O --> :A_H; 
+
+	c3 --> oOfNext; 
+}
+
+pattern RNAChainEnd(oOfPrev:A_O, c1:A_C)
+{
+	oOfPrev --> p:A_P; 
+	p --> do:A_O;  p --> do;  p --> :A_O --> :A_H; 
+	p --> :A_O --> c5; 
+
+	// Ribose core
+	o:A_O --> c1 --> c2:A_C --> c3:A_C --> c4:A_C --> o; 
+	c1 --> :A_H;  c2 --> :A_H;  c3 --> :A_H;  c4 --> :A_H; 
+	c4 --> c5:A_C;  
+	c5 --> :A_H;  c5 --> :A_H; 
+	c2 --> :A_O --> :A_H; 
+
+	c3 --> :A_O --> :A_H; 
+}
+
+pattern Nukleinbase(c1:A_C) {
+	alternative {
+		A {
+			a:Adenin(c1); 
+
+			modify(rc1:A_C) {
+				:Uracil(rc1); 
+			}
+		}
+		C {
+			c:Cytosin(c1); 
+
+			modify(rc1:A_C) {
+				:Guanin(rc1); 
+			}
+		}
+		G {
+			g:Guanin(c1); 
+
+			modify(rc1:A_C) {
+				:Cytosin(rc1); 
+			}
+		}
+		T {
+			t:Thymin(c1); 
+
+			modify(rc1:A_C) {
+				:Adenin(rc1); 
+			}
+		}
+	}
+	
+	modify(rc1:A_C) {
+	}
+}
+

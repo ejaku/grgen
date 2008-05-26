@@ -1,0 +1,13 @@
+node class N; // Nucleotide
+node class A extends N; // Adenin
+node class G extends N; // Guanin
+node class C extends N; // Cytosin
+node class T extends N; // Thymin
+node class U extends N; // Uracil
+node class H extends N; // Hydroxyguanin
+
+node class S; // Sugar
+node class D extends S; // Desoxyribose
+node class R extends S; // Ribose
+
+edge class PG; // Phosphate Group

@@ -1,0 +1,309 @@
+new graph "TranskriptionAbstrakt"
+debug set layout Organic
+
+echo "creating elements"
+new N0:D silent #/first of 10
+new N1:G silent #/first of 10
+new N0 -E2:Edge-> N1 silent
+new N3:D silent #
+new N4:T silent #
+new N3 -E5:Edge-> N4 silent
+new N0 -E6:PG-> N3 silent
+new N7:D silent #
+new N8:T silent #
+new N7 -E9:Edge-> N8 silent
+new N3 -E10:PG-> N7 silent
+new N11:D silent #
+new N12:G silent #
+new N11 -E13:Edge-> N12 silent
+new N7 -E14:PG-> N11 silent
+new N15:D silent #
+new N16:A silent #
+new N15 -E17:Edge-> N16 silent
+new N11 -E18:PG-> N15 silent
+new N19:D silent #
+new N20:G silent #
+new N19 -E21:Edge-> N20 silent
+new N15 -E22:PG-> N19 silent
+new N23:D silent #
+new N24:T silent #
+new N23 -E25:Edge-> N24 silent
+new N19 -E26:PG-> N23 silent
+new N27:D silent #
+new N28:C silent #
+new N27 -E29:Edge-> N28 silent
+new N23 -E30:PG-> N27 silent
+new N31:D silent #
+new N32:T silent #
+new N31 -E33:Edge-> N32 silent
+new N27 -E34:PG-> N31 silent
+new N35:D silent #/last of 10
+new N36:C silent #/last of 10
+new N35 -E37:Edge-> N36 silent
+new N31 -E38:PG-> N35 silent
+new N39:D silent #
+new N40:T silent #
+new N41:D silent #
+new N42:A silent #
+new N43:D silent #
+new N44:T silent #
+new N45:D silent #
+new N46:A silent #
+new N47:D silent #
+new N48:A silent #
+new N49:D silent #
+new N50:A silent #
+new N39 -E51:Edge-> N40 silent
+new N35 -E52:PG-> N39 silent
+new N41 -E53:Edge-> N42 silent
+new N39 -E54:PG-> N41 silent
+new N43 -E55:Edge-> N44 silent
+new N41 -E56:PG-> N43 silent
+new N45 -E57:Edge-> N46 silent
+new N43 -E58:PG-> N45 silent
+new N47 -E59:Edge-> N48 silent
+new N45 -E60:PG-> N47 silent
+new N49 -E61:Edge-> N50 silent
+new N47 -E62:PG-> N49 silent
+new N63:D silent #0/1/first of 25
+new N64:C silent #0/1/first of 25
+new N63 -E65:Edge-> N64 silent
+new N49 -E66:PG-> N63 silent
+new N67:D silent #
+new N68:C silent #
+new N67 -E69:Edge-> N68 silent
+new N63 -E70:PG-> N67 silent
+new N71:D silent #
+new N72:G silent #
+new N71 -E73:Edge-> N72 silent
+new N67 -E74:PG-> N71 silent
+new N75:D silent #
+new N76:C silent #
+new N75 -E77:Edge-> N76 silent
+new N71 -E78:PG-> N75 silent
+new N79:D silent #
+new N80:T silent #
+new N79 -E81:Edge-> N80 silent
+new N75 -E82:PG-> N79 silent
+new N83:D silent #
+new N84:T silent #
+new N83 -E85:Edge-> N84 silent
+new N79 -E86:PG-> N83 silent
+new N87:D silent #
+new N88:T silent #
+new N87 -E89:Edge-> N88 silent
+new N83 -E90:PG-> N87 silent
+new N91:D silent #
+new N92:G silent #
+new N91 -E93:Edge-> N92 silent
+new N87 -E94:PG-> N91 silent
+new N95:D silent #
+new N96:C silent #
+new N95 -E97:Edge-> N96 silent
+new N91 -E98:PG-> N95 silent
+new N99:D silent #
+new N100:T silent #
+new N99 -E101:Edge-> N100 silent
+new N95 -E102:PG-> N99 silent
+new N103:D silent #
+new N104:T silent #
+new N103 -E105:Edge-> N104 silent
+new N99 -E106:PG-> N103 silent
+new N107:D silent #
+new N108:T silent #
+new N107 -E109:Edge-> N108 silent
+new N103 -E110:PG-> N107 silent
+new N111:D silent #
+new N112:G silent #
+new N111 -E113:Edge-> N112 silent
+new N107 -E114:PG-> N111 silent
+new N115:D silent #
+new N116:G silent #
+new N115 -E117:Edge-> N116 silent
+new N111 -E118:PG-> N115 silent
+new N119:D silent #
+new N120:T silent #
+new N119 -E121:Edge-> N120 silent
+new N115 -E122:PG-> N119 silent
+new N123:D silent #
+new N124:G silent #
+new N123 -E125:Edge-> N124 silent
+new N119 -E126:PG-> N123 silent
+new N127:D silent #
+new N128:G silent #
+new N127 -E129:Edge-> N128 silent
+new N123 -E130:PG-> N127 silent
+new N131:D silent #
+new N132:A silent #
+new N131 -E133:Edge-> N132 silent
+new N127 -E134:PG-> N131 silent
+new N135:D silent #
+new N136:A silent #
+new N135 -E137:Edge-> N136 silent
+new N131 -E138:PG-> N135 silent
+new N139:D silent #
+new N140:C silent #
+new N139 -E141:Edge-> N140 silent
+new N135 -E142:PG-> N139 silent
+new N143:D silent #
+new N144:C silent #
+new N143 -E145:Edge-> N144 silent
+new N139 -E146:PG-> N143 silent
+new N147:D silent #
+new N148:T silent #
+new N147 -E149:Edge-> N148 silent
+new N143 -E150:PG-> N147 silent
+new N151:D silent #
+new N152:G silent #
+new N151 -E153:Edge-> N152 silent
+new N147 -E154:PG-> N151 silent
+new N155:D silent #
+new N156:T silent #
+new N155 -E157:Edge-> N156 silent
+new N151 -E158:PG-> N155 silent
+new N159:D silent #0/1/last of 25
+new N160:C silent #0/1/last of 25
+new N159 -E161:Edge-> N160 silent
+new N155 -E162:PG-> N159 silent
+new N163:D silent #
+new N164:C silent #
+new N165:D silent #
+new N166:C silent #
+new N167:D silent #
+new N168:C silent #
+new N169:D silent #
+new N170:A silent #
+new N171:D silent #
+new N172:C silent #
+new N173:D silent #
+new N174:T silent #
+new N175:D silent #
+new N176:C silent #
+new N177:D silent #
+new N178:T silent #
+new N179:D silent #
+new N180:G silent #
+new N181:D silent #
+new N182:G silent #
+new N183:D silent #
+new N184:A silent #
+new N185:D silent #
+new N186:C silent #
+new N187:D silent #
+new N188:A silent #
+new N189:D silent #
+new N190:G silent #
+new N191:D silent #
+new N192:T silent #
+new N193:D silent #
+new N194:G silent #
+new N195:D silent #
+new N196:G silent #
+new N197:D silent #
+new N198:G silent #
+new N199:D silent #
+new N200:A silent #
+new N201:D silent #
+new N202:A silent #
+new N203:D silent #
+new N204:A silent #
+new N205:D silent #
+new N206:A silent #
+new N207:D silent #
+new N208:A silent #
+new N209:D silent #
+new N210:A silent #
+new N163 -E211:Edge-> N164 silent
+new N159 -E212:PG-> N163 silent
+new N165 -E213:Edge-> N166 silent
+new N163 -E214:PG-> N165 silent
+new N167 -E215:Edge-> N168 silent
+new N165 -E216:PG-> N167 silent
+new N169 -E217:Edge-> N170 silent
+new N167 -E218:PG-> N169 silent
+new N171 -E219:Edge-> N172 silent
+new N169 -E220:PG-> N171 silent
+new N173 -E221:Edge-> N174 silent
+new N171 -E222:PG-> N173 silent
+new N175 -E223:Edge-> N176 silent
+new N173 -E224:PG-> N175 silent
+new N177 -E225:Edge-> N178 silent
+new N175 -E226:PG-> N177 silent
+new N179 -E227:Edge-> N180 silent
+new N177 -E228:PG-> N179 silent
+new N181 -E229:Edge-> N182 silent
+new N179 -E230:PG-> N181 silent
+new N183 -E231:Edge-> N184 silent
+new N181 -E232:PG-> N183 silent
+new N185 -E233:Edge-> N186 silent
+new N183 -E234:PG-> N185 silent
+new N187 -E235:Edge-> N188 silent
+new N185 -E236:PG-> N187 silent
+new N189 -E237:Edge-> N190 silent
+new N187 -E238:PG-> N189 silent
+new N191 -E239:Edge-> N192 silent
+new N189 -E240:PG-> N191 silent
+new N193 -E241:Edge-> N194 silent
+new N191 -E242:PG-> N193 silent
+new N195 -E243:Edge-> N196 silent
+new N193 -E244:PG-> N195 silent
+new N197 -E245:Edge-> N198 silent
+new N195 -E246:PG-> N197 silent
+new N199 -E247:Edge-> N200 silent
+new N197 -E248:PG-> N199 silent
+new N201 -E249:Edge-> N202 silent
+new N199 -E250:PG-> N201 silent
+new N203 -E251:Edge-> N204 silent
+new N201 -E252:PG-> N203 silent
+new N205 -E253:Edge-> N206 silent
+new N203 -E254:PG-> N205 silent
+new N207 -E255:Edge-> N208 silent
+new N205 -E256:PG-> N207 silent
+new N209 -E257:Edge-> N210 silent
+new N207 -E258:PG-> N209 silent
+new N259:D silent #/first of 10
+new N260:T silent #/first of 10
+new N259 -E261:Edge-> N260 silent
+new N209 -E262:PG-> N259 silent
+new N263:D silent #
+new N264:T silent #
+new N263 -E265:Edge-> N264 silent
+new N259 -E266:PG-> N263 silent
+new N267:D silent #
+new N268:C silent #
+new N267 -E269:Edge-> N268 silent
+new N263 -E270:PG-> N267 silent
+new N271:D silent #
+new N272:C silent #
+new N271 -E273:Edge-> N272 silent
+new N267 -E274:PG-> N271 silent
+new N275:D silent #
+new N276:A silent #
+new N275 -E277:Edge-> N276 silent
+new N271 -E278:PG-> N275 silent
+new N279:D silent #
+new N280:A silent #
+new N279 -E281:Edge-> N280 silent
+new N275 -E282:PG-> N279 silent
+new N283:D silent #
+new N284:C silent #
+new N283 -E285:Edge-> N284 silent
+new N279 -E286:PG-> N283 silent
+new N287:D silent #
+new N288:G silent #
+new N287 -E289:Edge-> N288 silent
+new N283 -E290:PG-> N287 silent
+new N291:D silent #
+new N292:G silent #
+new N291 -E293:Edge-> N292 silent
+new N287 -E294:PG-> N291 silent
+new N295:D silent #/last of 10
+new N296:C silent #/last of 10
+new N295 -E297:Edge-> N296 silent
+new N291 -E298:PG-> N295 silent
+echo "done: 299 elements created"
+
+#following xgrs
+xgrs < (prev,rprev) = TATABox && ( !TerminationSequence(prev) && (prev,rprev)=NextChainElement(prev,rprev) && (A(prev,rprev) || C(prev,rprev) || G(prev,rprev) || T(prev,rprev)) )* && TerminationSequence(prev) >
+#is equivalent to
+xgrs transcription

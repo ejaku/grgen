@@ -1,0 +1,279 @@
+using ProgramGraphs;
+
+pattern MultipleSubclasses(c:Class)
+{
+	alternative
+	{
+		OneAndAgain {
+			c -:contains-> sub:Class;
+			:Subclass(sub);
+			:MultipleSubclasses(c);
+		}
+		NoSubclassLeft {
+			negative {
+				c -:contains-> sub:Class;
+			}
+		}
+	}
+}
+
+pattern Subclass(sub:Class)
+{
+	:MultipleSubclasses(sub);	
+	:MultipleFeatures(sub);
+}
+
+pattern MultipleFeatures(c:Class)
+{
+	alternative
+	{
+		OneAndAgain {
+			:FeaturePattern(c);
+			:MultipleFeatures(c);
+		}
+		NoFeatureLeft {
+			negative {
+				c -:contains-> f:Feature;
+			}
+		}
+	}
+}
+
+pattern FeaturePattern(c:Class)
+{
+	alternative
+	{
+		MethodBody {
+			c -:contains-> b:MethodBody;
+			:MultipleParameters(b);
+			:MultipleStatements(b);
+		}
+		MethodSignature {
+			c -:contains-> :MethodSignature;
+		}
+		Variable {
+			c -:contains-> :Variabel;
+		}
+		Konstante {
+			c -:contains-> :Constant;
+		}
+	}
+}
+
+pattern MultipleParameters(b:MethodBody)
+{
+	alternative
+	{
+		OneAndAgain {
+			:Parameter(b);
+			:MultipleParameters(b);
+		}
+		NoStatementLeft {
+			negative {
+				b -:contains-> a:Attribute;
+			}
+		}
+	}
+}
+
+pattern Parameter(b:MethodBody)
+{
+	alternative
+	{
+		Variable {
+			b -:contains-> v:Variabel;
+		}
+		Konstante {
+			b -:contains-> c:Constant;
+		}
+	}
+}
+
+pattern MultipleStatements(b:MethodBody)
+{
+	alternative
+	{
+		OneAndAgain {
+			:Statement(b);
+			:MultipleStatements(b);
+		}
+		NoStatementLeft {
+			negative {
+				b -:contains-> e:Expression;
+			}
+		}
+	}
+}
+
+pattern Statement(b:MethodBody)
+{
+	alternative
+	{
+		Assignment {
+			b -:contains-> e:Expression;
+			e -:writesTo->;
+			:ExpressionPattern(e);
+		}
+		Call {
+			b -:contains-> e:Expression;
+			e -:calls->;
+			:MultipleExpressions(e);
+		}
+		Return {
+			b -:contains-> e:Expression;
+			e -:uses->;
+		}
+	}
+}
+
+pattern MultipleExpressions(e:Expression)
+{
+	alternative
+	{
+		OneAndAgain {
+			:ExpressionPattern(e);
+			:MultipleExpressions(e);
+		}
+		NoExpressionLeft {
+			negative {
+				e -:contains-> sub:Expression;
+			}
+		}
+	}
+}
+
+pattern ExpressionPattern(e:Expression)
+{
+	e -:contains-> sub:Expression;
+	alternative
+	{
+		Call {
+			sub -:calls->;
+			:MultipleExpressions(sub);
+		}
+		Use {
+			sub -:uses->;
+		}
+	}
+}
+
+rule createProgramGraphExample
+{
+	modify {
+		any:Class -:contains-> cell:Class -:contains-> recell:Class;
+		cell -:contains-> getS:MethodSignature;
+		cell -:contains-> getB:MethodBody -:bindsTo-> getS;
+		cell -:contains-> cts:Variabel -:hasType-> any;
+		getB -:contains-> ex1:Expression -:uses-> cts;
+		cell -:contains-> setS:MethodSignature;
+		cell -:contains-> setB:MethodBody -:bindsTo-> setS;
+		setB -:contains-> n:Constant -:hasType-> any;
+		setB -:contains-> ex2:Expression -:writesTo-> cts;
+		ex2 -:contains-> ex3:Expression -:uses-> n;
+		recell -:contains-> setB2:MethodBody -:bindsTo-> setS;
+		setB2 -:contains-> n2:Constant -:hasType-> any;
+		setB2 -:contains-> ex4:Expression -:calls-> setS;
+		ex4 -:contains-> ex5:Expression -:uses-> n2;
+		recell -:contains-> backup:Variabel -:hasType-> any;
+		setB2 -:contains-> ex6:Expression -:writesTo-> backup;
+		ex6 -:contains-> ex7:Expression -:uses-> cts;
+		recell -:contains-> restoreS:MethodSignature;
+		recell -:contains-> restoreB:MethodBody -:bindsTo-> restoreS;
+		restoreB -:contains-> ex8:Expression -:writesTo-> cts;
+		ex8 -:contains-> ex9:Expression -:uses-> backup;
+	}
+}
+
+rule createProgramGraphPullUp : (Class, MethodBody)
+{
+	modify {
+		// class hierarchy
+		c1:Class;
+		c1 -:contains-> c2:Class;
+		c1 -:contains-> c3:Class;
+		c1 -:contains-> c4:Class;
+		// method, it's body nodes and formal parameters
+		c1 -:contains-> m5:MethodSignature;
+		c2 -:contains-> b2:MethodBody -:contains-> v7a:Variabel;
+		c3 -:contains-> b3:MethodBody -:contains-> v7b:Variabel;
+		c4 -:contains-> b4:MethodBody;
+		b2 -:bindsTo-> m5;
+		b3 -:bindsTo-> m5;
+		b4 -:bindsTo-> m5;
+		// further methods and variables
+		c1 -:contains-> m8:MethodSignature;
+		c2 -:contains-> v9:Variabel;
+		// body of m in c2, corrected
+		b2 -:contains-> ex1:Expression;
+		ex1 -:writesTo-> v9;
+		ex1 -:contains-> ex:Expression -:uses-> v7a;
+		b2 -:contains-> ex2:Expression;
+		ex2 -:calls-> m8;
+		ex2 -:contains-> ex3:Expression;
+		ex3 -:uses-> v9;
+		// body of m in c3
+		b3 -:contains-> ex4:Expression;	
+		ex4 -:calls-> m8;
+		ex4 -:contains-> ex5:Expression;
+		ex5 -:uses-> v7b;
+		
+		return(c1, b4);
+	}
+}
+
+rule pullUpMethod(c1:Class, b4:MethodBody)
+{
+	c1 -:contains-> c3:Class -m:contains-> b4 -:bindsTo-> m5:MethodSignature;
+	mb:MultipleBodies(m5, c1);
+
+	modify {
+		delete(m);
+		c1 -:contains-> b4;
+		mb();
+	}
+}
+
+pattern MultipleBodies(m5:MethodSignature, c1:Class)
+{
+	alternative
+	{
+		Rek {
+			b:Body(m5, c1);
+			mb:MultipleBodies(m5, c1);
+
+			modify {
+				mb();
+				b();
+			}
+		}
+		Empty {
+			negative {
+				:Body(m5, c1);
+			}
+			
+			modify {
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+pattern Body(m5:MethodSignature, c1:Class)
+{
+	c1 -:contains-> c2:Class -:contains-> b:MethodBody -:bindsTo-> m5;
+	mp:MultipleParameters(b);
+	ms:MultipleStatements(b);
+	
+	modify {
+		delete(b);
+		delete(mp);
+		delete(ms);
+	}
+}
+
+test matchAll(c1:Class)
+{
+	:Subclass(c1);
+}

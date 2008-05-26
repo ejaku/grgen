@@ -1,0 +1,34 @@
+entity(beispiel)
+{
+	entity(metamodel) {
+		entity(Node);
+		
+		entity(N); // Nucleotide
+		supertypeOf(Node, N);
+		entity(A); // Adenin
+		supertypeOf(N, A);
+		entity(C); // Cytosin
+		supertypeOf(N, C);
+		entity(G); // Guanin
+		supertypeOf(N, G);
+		entity(T); // Thymin
+		supertypeOf(N, T);
+		entity(U); // Uracil
+		supertypeOf(N, U);
+		entity(H); // Hydroxguanin
+		supertypeOf(N, H);
+		
+		entity(S); // Sugar
+		supertypeOf(Node, S);
+		entity(D); // Desoxyribose
+		supertypeOf(S, D);
+		entity(R); // Ribose
+		supertypeOf(S, R);
+		
+		relation(Edge, Node, Node);
+		relation(PG, S, S); // Phosphate Group
+		//supertypeOf(Edge, PG);
+	}
+	
+	entity(models);
+}

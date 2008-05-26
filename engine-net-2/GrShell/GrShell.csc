@@ -279,6 +279,7 @@ TOKEN: {
 |   < SET: "set" >
 |   < SHAPE: "shape" >
 |   < SHOW: "show" >
+|   < SILENT: "silent" >
 |   < STRICT: "strict" >
 |   < SUB: "sub" >
 |   < SUPER: "super" >
@@ -790,6 +791,7 @@ void NewCommand():
 	String modelFilename, graphName = "DefaultGraph";
 	INode srcNode, tgtNode;
 	ElementDef elemDef;
+	bool silent = false;
 }
 {
 	"graph" modelFilename=Filename() (graphName=Text())? LineEnd()
@@ -798,15 +800,15 @@ void NewCommand():
 	}
 |
 	LOOKAHEAD(2)
-	srcNode=Node() "-" elemDef=ElementDefinition() "->" tgtNode=Node() LineEnd()
+	srcNode=Node() "-" elemDef=ElementDefinition() "->" tgtNode=Node() ("silent" { silent = true;} )? LineEnd()
 	{
-		noError = impl.NewEdge(elemDef, srcNode, tgtNode) != null;
+		noError = impl.NewEdge(elemDef, srcNode, tgtNode, silent) != null;
 	}
 	
 |
-	elemDef=ElementDefinition() LineEnd()
+	elemDef=ElementDefinition() ("silent" { silent = true;} )? LineEnd()
 	{
-		noError = impl.NewNode(elemDef) != null;
+		noError = impl.NewNode(elemDef, silent) != null;
 	}
 }
 

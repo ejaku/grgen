@@ -1,0 +1,24 @@
+// abstract view of transcription
+
+node class N; // Nucleotide
+node class A extends N; // Adenin
+node class G extends N; // Guanin
+node class C extends N; // Cytosin
+node class T extends N; // Thymin
+node class U extends N; // Uracil
+node class H extends N; // Hydroxyguanin
+
+node class S; // Sugar
+node class D extends S; // Desoxyribose
+node class R extends S; // Ribose
+
+edge class PG; // Phosphate Group
+
+// atoms for building molecules for atomic view of transcription
+
+node class A_C; // Atom C 
+node class A_H; // Atom H
+node class A_O; // Atom O
+node class A_N; // Atom N
+node class A_P; // Atom P
+

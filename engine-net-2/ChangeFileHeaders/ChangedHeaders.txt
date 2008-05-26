@@ -1,178 +1,48 @@
 /grgen
-  /doc
-    /bench
-      /results
-    /fig
-    /resources
-  /engine-net
-    /ASTdapter
-    +ASTdapter.cs ... NO HEADER
-    +MakeModel.cs ... NO HEADER
-    +ParserPackage.cs ... NO HEADER
-      /Properties
-      /test
-      +CalcLexer.cs ... NO HEADER
-      +CalcParser.cs ... NO HEADER
-      +CalcParserTokenTypes.cs ... NO HEADER
-    /Benchmarker
-    +Benchmarker.cs ... NO HEADER
-      /Properties
-    /GrGen
-    +GrGen.cs ... NO HEADER
-      /Properties
-    /GrIO
-    +FileIO.cs ... NO HEADER
-    +Infrastructure.cs ... NO HEADER
-      /Properties
-    /GrShell
-    +Debugger.cs ... NO HEADER
-    +GrShellImpl.cs ... NO HEADER
-    +WorkaroundManager.cs ... NO HEADER
-    +YCompClient.cs ... NO HEADER
-      /Properties
-    /GrShellBenchmarker
-    +Program.cs ... NO HEADER
-      /Properties
-    /lgspBackend
-    +lgspActions.cs ... NO HEADER
-    +lgspBackend.cs ... NO HEADER
-    +lgspGraph.cs ... NO HEADER
-    +lgspGraphElements.cs ... NO HEADER
-    +lgspGrGen.cs ... NO HEADER
-    +lgspMatcherGenerator.cs ... NO HEADER
-    +lgspPattern.cs ... NO HEADER
-    +MonoILReader.cs ... NO HEADER
-    +PriorityQueue.cs ... NO HEADER
-      /Properties
-    /libGr
-    +actionInterface.cs ... NO HEADER
-    +backendInterface.cs ... NO HEADER
-    +BaseActions.cs ... NO HEADER
-    +BaseGraph.cs ... NO HEADER
-    +dumpInterface.cs ... NO HEADER
-    +elementInterface.cs ... NO HEADER
-    +IGraph.cs ... NO HEADER
-    +modelInterface.cs ... NO HEADER
-    +NamedGraph.cs ... NO HEADER
-    +patternInterface.cs ... NO HEADER
-    +Sequence.cs ... NO HEADER
-    +SequenceParserExceptions.cs ... NO HEADER
-    +set.cs ... NO HEADER
-    +SingleLinkedList.cs ... NO HEADER
-    +VCGDumper.cs ... NO HEADER
-      /Properties
-    /out
-      /bin
-      /examples
-        /Agri
-        /Clique
-        /Dragon
-        /DTree
-        /GrIO
-        /Ludo2
-        /Mutex
-        /Sierpinski
-        /Sierpinski2
-        /Snowflake
-        /Turing
-        /Turing3
-        /TuringRubino
-        /UML2CSP
-      /examples-lgsp
-        /BusyBeaverExample
-        +BusyBeaverExample.cs ... NO HEADER
-        +Turing3Actions.cs ... NO HEADER
-        +Turing3Model.cs ... NO HEADER
-        /HelloMutex
-        +HelloMutex.cs ... NO HEADER
-        /MutexDirectExample
-        +MutexDirectExample.cs ... NO HEADER
-        +MutexPimpedActions.cs ... NO HEADER
-        +MutexPimpedModel.cs ... NO HEADER
-        /YCompExample
-        +YCompClient.cs ... NO HEADER
-        +YCompExample.cs ... NO HEADER
-      /tests
-        /Clique
-        /dpo
-        /dpoHom
-        /Dragon
-        /exact1
-        /exact2
-        /hom1
-        /hom2
-        /induced1
-        /induced2
-        /induced3
-        /induced4
-        /induced5
-        /lib
-        /Ludo2
-        /Mutex
-        /NegAndHom
-        /NegPresetInCondition
-        /PatternHomNeg
-        /Reuse
-        /Sierpinski
-        /Snowflake
-        /Turing
-        /UML2CSP
-    /spBench
-    +Kopie von spBench.cs ... NO HEADER
-    +spBench.cs ... NO HEADER
-      /Properties
+  /de
+    /unika
+      /ipd
+        /grgen
+          /parser
+            /antlr
+            +GRActionsParser.java ... NO HEADER
+            +GRActionsParserTokenTypes.java ... NO HEADER
+            +GRBaseParser.java ... NO HEADER
+            +GRBaseParserTokenTypes.java ... NO HEADER
+            +GRBaseTokenTypes.java ... NO HEADER
+            +GRLexer.java ... NO HEADER
+            +GRTypeParser.java ... NO HEADER
+            +GRTypeParserTokenTypes.java ... NO HEADER
   /engine-net-2
     /ASTdapter
     +ASTdapter.cs ... REWRITING ... DONE
     +MakeModel.cs ... REWRITING ... DONE
     +ParserPackage.cs ... REWRITING ... DONE
-      /obj
-        /Debug
-          /TempPE
-        /Release
-          /TempPE
       /Properties
+      +AssemblyInfo.cs ... REWRITING ... DONE
       /test
       +CalcLexer.cs ... NO HEADER
       +CalcParser.cs ... NO HEADER
       +CalcParserTokenTypes.cs ... NO HEADER
     /Benchmarker
     +Benchmarker.cs ... REWRITING ... DONE
-      /bin
-        /Debug
-        /Release
-      /obj
-        /Debug
-          /TempPE
-        /Release
-          /TempPE
       /Properties
+      +AssemblyInfo.cs ... REWRITING ... DONE
     /ChangeFileHeaders
       /ChangeFileHeaders
       +Program.cs ... REWRITING ... DONE
-        /bin
-          /Debug
-        /obj
-          /Debug
-            /TempPE
-        /Properties
+    /GenerateGraphs
+      /GenerateGraphs
+      +Program.cs ... NO HEADER
     /GrGen
     +GrGen.cs ... REWRITING ... DONE
-      /obj
-        /Debug
-          /TempPE
-        /Release
-          /TempPE
       /Properties
+      +AssemblyInfo.cs ... REWRITING ... DONE
     /GrIO
     +FileIO.cs ... REWRITING ... DONE
     +Infrastructure.cs ... REWRITING ... DONE
-      /obj
-        /Debug
-          /TempPE
-        /Release
-          /TempPE
       /Properties
+      +AssemblyInfo.cs ... REWRITING ... DONE
     /GrShell
     +Debugger.cs ... REWRITING ... DONE
     +GrShell.cs ... NO HEADER
@@ -185,29 +55,12 @@
     +TokenMgrError.cs ... NO HEADER
     +WorkaroundManager.cs ... REWRITING ... DONE
     +YCompClient.cs ... REWRITING ... DONE
-      /bin
-        /x86
-          /Release
-      /obj
-        /Debug
-          /TempPE
-        /Release
-          /TempPE
-        /x86
-          /Release
-            /TempPE
       /Properties
+      +AssemblyInfo.cs ... REWRITING ... DONE
     /GrShellBenchmarker
     +Program.cs ... REWRITING ... DONE
-      /bin
-        /Debug
-        /Release
-      /obj
-        /Debug
-          /TempPE
-        /Release
-          /TempPE
       /Properties
+      +AssemblyInfo.cs ... REWRITING ... DONE
     /lgspBackend
     +lgspActions.cs ... REWRITING ... DONE
     +lgspBackend.cs ... REWRITING ... DONE
@@ -229,12 +82,8 @@
     +SearchProgramBuilder.cs ... REWRITING ... DONE
     +SearchProgramCompleter.cs ... REWRITING ... DONE
     +SourceBuilder.cs ... REWRITING ... DONE
-      /obj
-        /Debug
-          /TempPE
-        /Release
-          /TempPE
       /Properties
+      +AssemblyInfo.cs ... REWRITING ... DONE
     /libGr
     +actionInterface.cs ... REWRITING ... DONE
     +backendInterface.cs ... REWRITING ... DONE
@@ -258,193 +107,60 @@
     +Token.cs ... NO HEADER
     +TokenMgrError.cs ... NO HEADER
     +VCGDumper.cs ... REWRITING ... DONE
-      /obj
-        /Debug
-          /TempPE
-        /Release
-          /TempPE
       /Properties
+      +AssemblyInfo.cs ... REWRITING ... DONE
     /out
-      /bin
-      /examples
-        /Agri
-        /Clique
-        /Connectivity
-        /DebugExec
-        /Dragon
-        /DTree
-        /FiniteStateMachine
-        /Firm-IFConv
-        /GrIO
-        /Ludo2
-        /Mutex
-        /Sierpinski
-        /Sierpinski2
-        /Sierpinski3
-        /Snowflake
-        /Turing
-        /Turing3
-        /TuringRubino
-        /UML
-        /UML2CSP
-        /UML2CSP2
       /examples-lgsp
         /AlternativeExample
         +AlternativesActions.cs ... NO HEADER
+        +AlternativesActions_intermediate.cs ... NO HEADER
         +AlternativesExample.cs ... REWRITING ... DONE
         +AlternativesModel.cs ... NO HEADER
-          /bin
-            /Debug
-            /Release
-          /obj
-            /Debug
-              /TempPE
-            /Release
-              /TempPE
-          /Properties
         /BusyBeaverExample
         +BusyBeaverExample.cs ... REWRITING ... DONE
         +Turing3Actions.cs ... NO HEADER
+        +Turing3Actions_intermediate.cs ... NO HEADER
         +Turing3Model.cs ... NO HEADER
-          /bin
-            /Debug
-            /Release
-          /obj
-            /Debug
-              /TempPE
-            /Release
-              /TempPE
-          /Properties
         /edge1Example
         +edge1Actions.cs ... NO HEADER
+        +edge1Actions_intermediate.cs ... NO HEADER
         +edge1Example.cs ... REWRITING ... DONE
         +StdModel.cs ... NO HEADER
-          /bin
-            /Debug
-            /Release
-          /obj
-            /Debug
-              /TempPE
-            /Release
-              /TempPE
-          /Properties
         /HelloMutex
         +HelloMutex.cs ... REWRITING ... DONE
-          /bin
-            /Debug
-            /Release
-          /obj
-            /Debug
-              /TempPE
-            /Release
-              /TempPE
-          /Properties
         /MutexDirectExample
         +MutexDirectExample.cs ... REWRITING ... DONE
         +MutexModel.cs ... NO HEADER
         +MutexPimpedActions.cs ... NO HEADER
-          /bin
-            /Debug
-            /Release
-          /obj
-            /Debug
-              /TempPE
-            /Release
-              /TempPE
-          /Properties
+        +MutexPimpedActions_intermediate.cs ... NO HEADER
         /RecursiveExample
         +RecursiveActions.cs ... NO HEADER
+        +RecursiveActions_intermediate.cs ... NO HEADER
         +RecursiveExample.cs ... REWRITING ... DONE
         +StdModel.cs ... NO HEADER
-          /bin
-            /Debug
-            /Release
-          /obj
-            /Debug
-              /TempPE
-            /Release
-              /TempPE
-          /Properties
+        /RefactoringExample
+        +RefactoringActions.cs ... NO HEADER
+        +RefactoringActions_intermediate.cs ... NO HEADER
+        +RefactoringExample.cs ... NO HEADER
+        +RefactoringModel.cs ... NO HEADER
         /TNTExample
         +TNTActions.cs ... NO HEADER
+        +TNTActions_intermediate.cs ... NO HEADER
         +TNTExample.cs ... REWRITING ... DONE
         +TNTModel.cs ... NO HEADER
-          /bin
-            /Debug
-            /Release
-          /obj
-            /Debug
-              /TempPE
-            /Release
-              /TempPE
-          /Properties
+        /TranskriptionExample
+        +TranskriptionAbstraktActions.cs ... NO HEADER
+        +TranskriptionAbstraktActions_intermediate.cs ... NO HEADER
+        +TranskriptionAbstraktExample.cs ... REWRITING ... DONE
+        +TranskriptionAbstraktModel.cs ... NO HEADER
         /YCompExample
         +YCompClient.cs ... REWRITING ... DONE
         +YCompExample.cs ... REWRITING ... DONE
-          /bin
-            /Debug
-            /Release
-          /obj
-            /Debug
-              /TempPE
-            /Release
-              /TempPE
-          /Properties
-      /tests
-        /ADUedge
-        /alternatives
-        /Clique
-        /Clique2
-        /Clique3
-        /Clique4
-        /dpo
-        /dpoHom
-        /dpoHom2
-        /dpoHom3
-        /Dragon
-        /edge1
-        /exact
-        /exec1
-        /hom1
-        /hom2
-        /hom3
-        /induced1
-        /induced2
-        /induced3
-        /induced4
-        /induced5
-        /inducedHom1
-        /inducedHom2
-        /lib
-        /Ludo2
-        /Mutex
-        /NegAndHom
-        /NegAndPartialEdge
-        /NegInNeg
-        /NegInNeg2
-        /NegPresetInCondition
-        /param
-        /PatternHomNeg
-        /Recursive
-        /Reuse
-        /reuse2
-        /Sierpinski
-        /Snowflake
-        /TNT
-        /Transkription
-        /Turing
-        /typeof
-        /typeof2
-        /UML2CSP
     /spBench
     +Kopie von spBench.cs ... REWRITING ... DONE
     +spBench.cs ... REWRITING ... DONE
-      /obj
-        /Debug
-          /TempPE
-        /Release
-          /TempPE
       /Properties
+      +AssemblyInfo.cs ... REWRITING ... DONE
     /test
     +complModelModel.cs ... NO HEADER
     +complModelModelStub.cs ... NO HEADER
@@ -452,41 +168,21 @@
     +Program.cs ... REWRITING ... DONE
     +testActions.cs ... NO HEADER
     +testActionsManual.cs ... REWRITING ... DONE
+    +testActions_intermediate.cs ... NO HEADER
     +testModelManual.cs ... REWRITING ... DONE
     +testModelManual2.cs ... REWRITING ... DONE
-      /bin
-        /Debug
-        /Release
-      /obj
-        /Debug
-          /TempPE
-        /Release
-          /TempPE
       /Properties
+      +AssemblyInfo.cs ... REWRITING ... DONE
+      /tmpgrgen0
+      +testActions_intermediate.cs ... NO HEADER
+      +testModel.cs ... NO HEADER
+      +testModelStub.cs ... NO HEADER
     /TestBench
     +TestBench.cs ... REWRITING ... DONE
-      /obj
-        /Debug
-          /TempPE
-        /Release
-          /TempPE
       /Properties
+      +AssemblyInfo.cs ... REWRITING ... DONE
   /frontend
-    /build
-      /de
-        /unika
-          /ipd
-            /grgen
-              /ast
-                /util
-              /be
-                /C
-                /Csharp
-              /ir
-              /parser
-                /antlr
-              /util
-                /report
+  +pattern_010Model.cs ... NO HEADER
     /de
       /unika
         /ipd
@@ -767,9 +463,3 @@
               +StreamHandler.java ... REWRITING ... DONE
               +TableHandler.java ... REWRITING ... DONE
               +TreeHandler.java ... REWRITING ... DONE
-    /jars
-    /test
-      /should_fail
-      /should_pass
-      /should_warn
-  /todo
