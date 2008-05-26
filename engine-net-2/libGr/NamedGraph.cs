@@ -170,11 +170,36 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Adds an existing node to the graph, names it, and assigns it to the given variable.
+        /// </summary>
+        /// <param name="node">The existing node.</param>
+        /// <param name="varName">The name of the variable.</param>
+        /// <param name="elemName">The name for the new node or null if it is to be auto-generated.</param>
+        public void AddNode(INode node, String varName, String elemName)
+        {
+            if(elemName != null && NameToElem.ContainsKey(elemName))
+                throw new ArgumentException("The name \"" + elemName + "\" is already used!");
+
+            skipNextEvent = true;
+            graph.AddNode(node, varName);
+            skipNextEvent = false;
+
+            if(elemName == null)
+                elemName = GetNextName();
+
+            NameToElem[elemName] = node;
+            ElemToName[node] = elemName;
+
+            NodeAddedHandler nodeAdded = onNodeAdded;
+            if(nodeAdded != null) nodeAdded(node);
+        }
+
+        /// <summary>
         /// Adds a new named node to the graph and assigns it to the given variable.
         /// </summary>
         /// <param name="nodeType">The node type for the new node.</param>
         /// <param name="varName">The name of the variable.</param>
-        /// <param name="elemName">The name for the new node.</param>
+        /// <param name="elemName">The name for the new node or null if it is to be auto-generated.</param>
         /// <returns>The newly created node.</returns>
         public INode AddNode(NodeType nodeType, String varName, String elemName)
         {
@@ -195,6 +220,29 @@ namespace de.unika.ipd.grGen.libGr
             if(nodeAdded != null) nodeAdded(node);
 
             return node;
+        }
+
+        /// <summary>
+        /// Adds an existing INode object to the graph and assigns it to the given variable.
+        /// The node must not be part of any graph, yet!
+        /// The node may not be connected to any other elements!
+        /// </summary>
+        /// <param name="node">The node to be added.</param>
+        /// <param name="varName">The name of the variable.</param>
+        public void AddNode(INode node, String varName)
+        {
+            AddNode(node, varName, null);
+        }
+
+        /// <summary>
+        /// Adds an existing INode object to the graph.
+        /// The node must not be part of any graph, yet!
+        /// The node may not be connected to any other elements!
+        /// </summary>
+        /// <param name="node">The node to be added.</param>
+        public void AddNode(INode node)
+        {
+            AddNode(node, null, null);
         }
 
         /// <summary>
@@ -219,13 +267,39 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Adds an existing edge to the graph, names it, and assigns it to the given variable.
+        /// </summary>
+        /// <param name="edge">The edge to be added.</param>
+        /// <param name="varName">The name of the variable.</param>
+        /// <param name="elemName">The name for the edge or null if it is to be auto-generated.</param>
+        /// <returns>The newly created edge.</returns>
+        public void AddEdge(IEdge edge, String varName, String elemName)
+        {
+            if(elemName != null && NameToElem.ContainsKey(elemName))
+                throw new ArgumentException("The name \"" + elemName + "\" is already used!");
+
+            skipNextEvent = true;
+            graph.AddEdge(edge, varName);
+            skipNextEvent = false;
+
+            if(elemName == null)
+                elemName = GetNextName();
+
+            NameToElem[elemName] = edge;
+            ElemToName[edge] = elemName;
+
+            EdgeAddedHandler edgeAdded = onEdgeAdded;
+            if(edgeAdded != null) edgeAdded(edge);
+        }
+
+        /// <summary>
         /// Adds a new named edge to the graph and assigns it to the given variable.
         /// </summary>
         /// <param name="edgeType">The edge type for the new edge.</param>
         /// <param name="source">The source of the edge.</param>
         /// <param name="target">The target of the edge.</param>
         /// <param name="varName">The name of the variable.</param>
-        /// <param name="elemName">The name for the edge.</param>
+        /// <param name="elemName">The name for the edge or null if it is to be auto-generated.</param>
         /// <returns>The newly created edge.</returns>
         public IEdge AddEdge(EdgeType edgeType, INode source, INode target, String varName, String elemName)
         {
@@ -246,6 +320,29 @@ namespace de.unika.ipd.grGen.libGr
             if(edgeAdded != null) edgeAdded(edge);
 
             return edge;
+        }
+
+        /// <summary>
+        /// Adds an existing IEdge object to the graph and assigns it to the given variable.
+        /// The edge must not be part of any graph, yet!
+        /// Source and target of the edge must already be part of the graph.
+        /// </summary>
+        /// <param name="edge">The edge to be added.</param>
+        /// <param name="varName">The name of the variable.</param>
+        public void AddEdge(IEdge edge, String varName)
+        {
+            AddEdge(edge, varName, null);
+        }
+
+        /// <summary>
+        /// Adds an existing IEdge object to the graph.
+        /// The edge must not be part of any graph, yet!
+        /// Source and target of the edge must already be part of the graph.
+        /// </summary>
+        /// <param name="edge">The edge to be added.</param>
+        public void AddEdge(IEdge edge)
+        {
+            AddEdge(edge, null, null);
         }
 
         /// <summary>

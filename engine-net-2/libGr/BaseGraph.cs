@@ -116,6 +116,23 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType);
 
         /// <summary>
+        /// Adds an existing INode object to the graph and assigns it to the given variable.
+        /// The node must not be part of any graph, yet!
+        /// The node may not be connected to any other elements!
+        /// </summary>
+        /// <param name="node">The node to be added.</param>
+        /// <param name="varName">The name of the variable.</param>
+        public abstract void AddNode(INode node, String varName);
+
+        /// <summary>
+        /// Adds an existing INode object to the graph.
+        /// The node must not be part of any graph, yet!
+        /// The node may not be connected to any other elements!
+        /// </summary>
+        /// <param name="node">The node to be added.</param>
+        public abstract void AddNode(INode node);
+
+        /// <summary>
         /// Adds a new node to the graph and assigns it to the given variable.
         /// </summary>
         /// <param name="nodeType">The node type for the new node.</param>
@@ -150,6 +167,23 @@ namespace de.unika.ipd.grGen.libGr
         {
             return AddINode(nodeType);
         }
+
+        /// <summary>
+        /// Adds an existing IEdge object to the graph and assigns it to the given variable.
+        /// The edge must not be part of any graph, yet!
+        /// Source and target of the edge must already be part of the graph.
+        /// </summary>
+        /// <param name="edge">The edge to be added.</param>
+        /// <param name="varName">The name of the variable.</param>
+        public abstract void AddEdge(IEdge edge, String varName);
+
+        /// <summary>
+        /// Adds an existing IEdge object to the graph.
+        /// The edge must not be part of any graph, yet!
+        /// Source and target of the edge must already be part of the graph.
+        /// </summary>
+        /// <param name="edge">The edge to be added.</param>
+        public abstract void AddEdge(IEdge edge);
 
         /// <summary>
         /// Adds a new edge to the graph and assigns it to the given variable.

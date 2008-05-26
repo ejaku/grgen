@@ -316,7 +316,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// A currently associated actions object.
         /// </summary>
-        public override BaseActions Actions { get { return curActions; } set { curActions = (LGSPActions) curActions; } }
+        public override BaseActions Actions { get { return curActions; } set { curActions = (LGSPActions) value; } }
 
         private bool reuseOptimization = true;
 
@@ -838,8 +838,31 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Adds an existing INode object to the graph and assigns it to the given variable.
+        /// The node must not be part of any graph, yet!
+        /// The node may not be connected to any other elements!
+        /// </summary>
+        /// <param name="node">The node to be added.</param>
+        /// <param name="varName">The name of the variable.</param>
+        public override void AddNode(INode node, String varName)
+        {
+            AddNode((LGSPNode) node, varName);
+        }
+
+        /// <summary>
         /// Adds an existing LGSPNode object to the graph.
-        /// The node must not be part of another graph, yet!
+        /// The node must not be part of any graph, yet!
+        /// The node may not be connected to any other elements!
+        /// </summary>
+        /// <param name="node">The node to be added.</param>
+        public override void AddNode(INode node)
+        {
+            AddNode((LGSPNode) node);
+        }
+
+        /// <summary>
+        /// Adds an existing LGSPNode object to the graph.
+        /// The node must not be part of any graph, yet!
         /// The node may not be connected to any other elements!
         /// </summary>
         /// <param name="node">The node to be added.</param>
@@ -876,7 +899,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Adds an existing LGSPNode object to the graph and assigns it to the given variable.
-        /// The node must not be part of another graph, yet!
+        /// The node must not be part of any graph, yet!
         /// The node may not be connected to any other elements!
         /// </summary>
         /// <param name="node">The node to be added.</param>
@@ -917,8 +940,31 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Adds an existing IEdge object to the graph and assigns it to the given variable.
+        /// The edge must not be part of any graph, yet!
+        /// Source and target of the edge must already be part of the graph.
+        /// </summary>
+        /// <param name="edge">The edge to be added.</param>
+        /// <param name="varName">The name of the variable.</param>
+        public override void AddEdge(IEdge edge, String varName)
+        {
+            AddEdge((LGSPEdge) edge, varName);
+        }
+
+        /// <summary>
         /// Adds an existing LGSPEdge object to the graph.
-        /// The edge must not be part of another graph, yet!
+        /// The edge must not be part of any graph, yet!
+        /// Source and target of the edge must already be part of the graph.
+        /// </summary>
+        /// <param name="edge">The edge to be added.</param>
+        public override void AddEdge(IEdge edge)
+        {
+            AddEdge((LGSPEdge) edge);
+        }
+
+        /// <summary>
+        /// Adds an existing LGSPEdge object to the graph.
+        /// The edge must not be part of any graph, yet!
         /// Source and target of the edge must already be part of the graph.
         /// </summary>
         /// <param name="edge">The edge to be added.</param>
@@ -958,7 +1004,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Adds an existing LGSPEdge object to the graph and assigns it to the given variable.
-        /// The edge must not be part of another graph, yet!
+        /// The edge must not be part of any graph, yet!
         /// Source and target of the edge must already be part of the graph.
         /// </summary>
         /// <param name="edge">The edge to be added.</param>
