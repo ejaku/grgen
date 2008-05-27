@@ -1,0 +1,23 @@
+// a test may not contain alternatives with modify or replace
+
+test Test1
+{
+    a:Node --> b:Node;
+    alternative
+    {
+        alt1
+        {
+            a --> c:Node;
+            modify {
+                delete(c);
+            }
+        }
+        alt2
+        {
+            b --> a; b-->:Node; b-->:Node;
+            replace {
+                b; :Node; :Node;
+            }
+        }
+    }
+}

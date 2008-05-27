@@ -1,0 +1,23 @@
+rule Test1
+{
+    a:Node --> b:Node;
+    alternative
+    {
+        alt1
+        {
+            a --> c:Node;
+            modify {
+                delete(c);
+                delete(b);      // Modifying elements from outer context not allowed, yet
+            }
+        }
+        alt2
+        {
+            b --> a; b-->:Node; b-->:Node;
+            replace {
+                b; :Node; :Node;
+            }
+        }
+    }
+    modify {}
+}
