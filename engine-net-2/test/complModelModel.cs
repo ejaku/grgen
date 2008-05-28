@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sat Apr 26 03:35:40 CEST 2008
+// Generated from "test.grg" on Wed May 28 22:11:06 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @Node() : base(NodeType_Node.typeVar)
 		{
 		}
+
+		public static NodeType_Node TypeInstance { get { return NodeType_Node.typeVar; } }
+
 		public override INode Clone() { return new @Node(this); }
 
 		private @Node(@Node oldElem) : base(NodeType_Node.typeVar)
@@ -48,7 +51,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -64,7 +67,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -132,6 +135,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @A1() : base(NodeType_A1.typeVar)
 		{
 		}
+
+		public static NodeType_A1 TypeInstance { get { return NodeType_A1.typeVar; } }
+
 		public override INode Clone() { return new @A1(this); }
 
 		private @A1(@A1 oldElem) : base(NodeType_A1.typeVar)
@@ -148,7 +154,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a1 = 0;
 			}
 			graph.AddNode(node);
@@ -165,7 +171,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a1 = 0;
 			}
 			graph.AddNode(node, varName);
@@ -278,6 +284,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @A2() : base(NodeType_A2.typeVar)
 		{
 		}
+
+		public static NodeType_A2 TypeInstance { get { return NodeType_A2.typeVar; } }
+
 		public override INode Clone() { return new @A2(this); }
 
 		private @A2(@A2 oldElem) : base(NodeType_A2.typeVar)
@@ -294,7 +303,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 			}
 			graph.AddNode(node);
@@ -311,7 +320,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 			}
 			graph.AddNode(node, varName);
@@ -431,6 +440,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @A3() : base(NodeType_A3.typeVar)
 		{
 		}
+
+		public static NodeType_A3 TypeInstance { get { return NodeType_A3.typeVar; } }
+
 		public override INode Clone() { return new @A3(this); }
 
 		private @A3(@A3 oldElem) : base(NodeType_A3.typeVar)
@@ -447,7 +459,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a3 = 0;
 			}
 			graph.AddNode(node);
@@ -464,7 +476,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a3 = 0;
 			}
 			graph.AddNode(node, varName);
@@ -577,6 +589,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @A4() : base(NodeType_A4.typeVar)
 		{
 		}
+
+		public static NodeType_A4 TypeInstance { get { return NodeType_A4.typeVar; } }
+
 		public override INode Clone() { return new @A4(this); }
 
 		private @A4(@A4 oldElem) : base(NodeType_A4.typeVar)
@@ -593,7 +608,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 			}
 			graph.AddNode(node);
@@ -610,7 +625,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 			}
 			graph.AddNode(node, varName);
@@ -731,6 +746,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @A5() : base(NodeType_A5.typeVar)
 		{
 		}
+
+		public static NodeType_A5 TypeInstance { get { return NodeType_A5.typeVar; } }
+
 		public override INode Clone() { return new @A5(this); }
 
 		private @A5(@A5 oldElem) : base(NodeType_A5.typeVar)
@@ -747,7 +765,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a5 = 0;
 			}
 			graph.AddNode(node);
@@ -764,7 +782,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a5 = 0;
 			}
 			graph.AddNode(node, varName);
@@ -878,6 +896,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @B21() : base(NodeType_B21.typeVar)
 		{
 		}
+
+		public static NodeType_B21 TypeInstance { get { return NodeType_B21.typeVar; } }
+
 		public override INode Clone() { return new @B21(this); }
 
 		private @B21(@B21 oldElem) : base(NodeType_B21.typeVar)
@@ -895,7 +916,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b21 = 0;
 			}
@@ -913,7 +934,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b21 = 0;
 			}
@@ -1053,6 +1074,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @B22() : base(NodeType_B22.typeVar)
 		{
 		}
+
+		public static NodeType_B22 TypeInstance { get { return NodeType_B22.typeVar; } }
+
 		public override INode Clone() { return new @B22(this); }
 
 		private @B22(@B22 oldElem) : base(NodeType_B22.typeVar)
@@ -1070,7 +1094,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b22 = 0;
 			}
@@ -1088,7 +1112,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b22 = 0;
 			}
@@ -1228,6 +1252,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @B23() : base(NodeType_B23.typeVar)
 		{
 		}
+
+		public static NodeType_B23 TypeInstance { get { return NodeType_B23.typeVar; } }
+
 		public override INode Clone() { return new @B23(this); }
 
 		private @B23(@B23 oldElem) : base(NodeType_B23.typeVar)
@@ -1245,7 +1272,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b23 = 0;
 			}
@@ -1263,7 +1290,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b23 = 0;
 			}
@@ -1403,6 +1430,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @B41() : base(NodeType_B41.typeVar)
 		{
 		}
+
+		public static NodeType_B41 TypeInstance { get { return NodeType_B41.typeVar; } }
+
 		public override INode Clone() { return new @B41(this); }
 
 		private @B41(@B41 oldElem) : base(NodeType_B41.typeVar)
@@ -1420,7 +1450,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 				node.@b41 = 0;
 			}
@@ -1438,7 +1468,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 				node.@b41 = 0;
 			}
@@ -1579,6 +1609,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @B42() : base(NodeType_B42.typeVar)
 		{
 		}
+
+		public static NodeType_B42 TypeInstance { get { return NodeType_B42.typeVar; } }
+
 		public override INode Clone() { return new @B42(this); }
 
 		private @B42(@B42 oldElem) : base(NodeType_B42.typeVar)
@@ -1596,7 +1629,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 				node.@b42 = 0;
 			}
@@ -1614,7 +1647,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 				node.@b42 = 0;
 			}
@@ -1754,6 +1787,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @B43() : base(NodeType_B43.typeVar)
 		{
 		}
+
+		public static NodeType_B43 TypeInstance { get { return NodeType_B43.typeVar; } }
+
 		public override INode Clone() { return new @B43(this); }
 
 		private @B43(@B43 oldElem) : base(NodeType_B43.typeVar)
@@ -1770,7 +1806,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 			}
 			graph.AddNode(node);
@@ -1787,7 +1823,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 			}
 			graph.AddNode(node, varName);
@@ -1912,6 +1948,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @C221() : base(NodeType_C221.typeVar)
 		{
 		}
+
+		public static NodeType_C221 TypeInstance { get { return NodeType_C221.typeVar; } }
+
 		public override INode Clone() { return new @C221(this); }
 
 		private @C221(@C221 oldElem) : base(NodeType_C221.typeVar)
@@ -1930,7 +1969,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -1949,7 +1988,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -2110,6 +2149,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @C222_411() : base(NodeType_C222_411.typeVar)
 		{
 		}
+
+		public static NodeType_C222_411 TypeInstance { get { return NodeType_C222_411.typeVar; } }
+
 		public override INode Clone() { return new @C222_411(this); }
 
 		private @C222_411(@C222_411 oldElem) : base(NodeType_C222_411.typeVar)
@@ -2130,7 +2172,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@a4 = 0;
@@ -2151,7 +2193,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@a4 = 0;
@@ -2370,6 +2412,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @C412_421_431_51() : base(NodeType_C412_421_431_51.typeVar)
 		{
 		}
+
+		public static NodeType_C412_421_431_51 TypeInstance { get { return NodeType_C412_421_431_51.typeVar; } }
+
 		public override INode Clone() { return new @C412_421_431_51(this); }
 
 		private @C412_421_431_51(@C412_421_431_51 oldElem) : base(NodeType_C412_421_431_51.typeVar)
@@ -2389,7 +2434,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@b42 = 0;
@@ -2409,7 +2454,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@b42 = 0;
@@ -2612,6 +2657,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @C432_422() : base(NodeType_C432_422.typeVar)
 		{
 		}
+
+		public static NodeType_C432_422 TypeInstance { get { return NodeType_C432_422.typeVar; } }
+
 		public override INode Clone() { return new @C432_422(this); }
 
 		private @C432_422(@C432_422 oldElem) : base(NodeType_C432_422.typeVar)
@@ -2630,7 +2678,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 				node.@b42 = 0;
 				node.@c432_422 = 0;
@@ -2649,7 +2697,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a4 = 0;
 				node.@b42 = 0;
 				node.@c432_422 = 0;
@@ -2826,6 +2874,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @D11_2221() : base(NodeType_D11_2221.typeVar)
 		{
 		}
+
+		public static NodeType_D11_2221 TypeInstance { get { return NodeType_D11_2221.typeVar; } }
+
 		public override INode Clone() { return new @D11_2221(this); }
 
 		private @D11_2221(@D11_2221 oldElem) : base(NodeType_D11_2221.typeVar)
@@ -2848,7 +2899,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a1 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -2871,7 +2922,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a1 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -3136,6 +3187,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @D2211_2222_31() : base(NodeType_D2211_2222_31.typeVar)
 		{
 		}
+
+		public static NodeType_D2211_2222_31 TypeInstance { get { return NodeType_D2211_2222_31.typeVar; } }
+
 		public override INode Clone() { return new @D2211_2222_31(this); }
 
 		private @D2211_2222_31(@D2211_2222_31 oldElem) : base(NodeType_D2211_2222_31.typeVar)
@@ -3159,7 +3213,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -3183,7 +3237,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -3470,6 +3524,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @D231_4121() : base(NodeType_D231_4121.typeVar)
 		{
 		}
+
+		public static NodeType_D231_4121 TypeInstance { get { return NodeType_D231_4121.typeVar; } }
+
 		public static @D231_4121 CreateNode(LGSPGraph graph)
 		{
 			@D231_4121 node;
@@ -3480,7 +3537,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b23 = 0;
 				node.@a4 = 0;
@@ -3503,7 +3560,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				node.@a2 = 0;
 				node.@b23 = 0;
 				node.@a4 = 0;
@@ -4250,6 +4307,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			: base(EdgeType_Edge.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_Edge TypeInstance { get { return EdgeType_Edge.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @Edge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -4265,7 +4325,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -4281,7 +4341,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -4349,6 +4409,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			: base(EdgeType_UEdge.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_UEdge TypeInstance { get { return EdgeType_UEdge.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @UEdge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -4364,7 +4427,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -4380,7 +4443,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}

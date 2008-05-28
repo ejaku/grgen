@@ -236,7 +236,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
             sourceCode.AppendFront("matches.matchesList.Clear();\n");
-            sourceCode.AppendFront("const int MAX_NEG_LEVEL = 5;\n");
             sourceCode.AppendFront("int negLevel = 0;\n");
 
             if (SetupSubpatternMatching)
@@ -346,7 +345,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Append(")\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
-            sourceCode.AppendFront("const int MAX_NEG_LEVEL = 5;\n");
             sourceCode.AppendFront("int negLevel = 0;\n");
 
             OperationsList.Emit(sourceCode);
@@ -409,7 +407,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("public override void " + Name + "(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
-            sourceCode.AppendFront("const int MAX_NEG_LEVEL = 5;\n");
 
             OperationsList.Emit(sourceCode);
 
@@ -459,7 +456,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("public override void " + Name + "(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
-            sourceCode.AppendFront("const int MAX_NEG_LEVEL = 5;\n");
 
             OperationsList.Emit(sourceCode);
 
@@ -1547,16 +1543,17 @@ namespace de.unika.ipd.grGen.lgsp
             // as this would cause a homomorphic match
             if (!NeverAboveMaxNegLevel)
             {
-                sourceCode.Append("(negLevel<=MAX_NEG_LEVEL ? ");
+                sourceCode.Append("(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? ");
             }
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED<<negLevel" : "LGSPEdge.IS_MATCHED<<negLevel";
+            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED << negLevel";
             sourceCode.AppendFormat("({0}.flags & {1}) == {1}", variableContainingCandidate, isMatchedBit);
 
             if (!NeverAboveMaxNegLevel)
             {
                 sourceCode.Append(" : ");
-                sourceCode.AppendFormat("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{0}.ContainsKey({1}))",
+                sourceCode.AppendFormat(
+                    "graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].{0}.ContainsKey({1}))",
                     IsNode ? "fst" : "snd", variableContainingCandidate);
             }
 
@@ -1670,8 +1667,7 @@ namespace de.unika.ipd.grGen.lgsp
             // (in another subpattern to another pattern element)
             // as this would cause a inter-pattern-homomorphic match
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN" 
-                : "LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN";
+            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
             sourceCode.AppendFrontFormat("if(({0}.flags & {1})=={1}",
                 variableContainingCandidate, isMatchedBit);
             if (GloballyHomomorphElements != null)
@@ -2055,11 +2051,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (!NeverAboveMaxNegLevel)
             {
-                sourceCode.AppendFront("if(negLevel <= MAX_NEG_LEVEL) {\n");
+                sourceCode.AppendFront("if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {\n");
                 sourceCode.Indent();
             }
 
-            string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED<<negLevel" : "LGSPEdge.IS_MATCHED<<negLevel";
+            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED << negLevel";
             sourceCode.AppendFrontFormat("{0} = {1}.flags & {2};\n",
                 variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
             sourceCode.AppendFrontFormat("{0}.flags |= {1};\n",
@@ -2071,9 +2067,11 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("} else {\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("{0} = graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
+                sourceCode.AppendFrontFormat(
+                    "{0} = graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
                     variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
-                sourceCode.AppendFrontFormat("if({0}==0) graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{1}.Add({2},{2});\n",
+                sourceCode.AppendFrontFormat(
+                    "if({0} == 0) graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.Add({2},{2});\n",
                     variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
 
                 sourceCode.Unindent();
@@ -2118,8 +2116,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMember);
 
-            string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN"
-                : "LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN";
+            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
             sourceCode.AppendFrontFormat("{0} = {1}.flags & {2};\n",
                 variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
             sourceCode.AppendFrontFormat("{0}.flags |= {1};\n",
@@ -2167,11 +2164,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (!NeverAboveMaxNegLevel)
             {
-                sourceCode.AppendFront("if(negLevel <= MAX_NEG_LEVEL) {\n");
+                sourceCode.AppendFront("if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {\n");
                 sourceCode.Indent();
             }
 
-            string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED<<negLevel" : "LGSPEdge.IS_MATCHED<<negLevel";
+            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED << negLevel";
             sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~({1}) | {2};\n",
                 variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
 
@@ -2184,7 +2181,8 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("if({0}==0)", variableContainingBackupOfMappedMember);
                 sourceCode.Append(" {\n"); // wtf? appending this string directly to string above throws exception
                 sourceCode.Indent();
-                sourceCode.AppendFrontFormat("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].{0}.Remove({1});\n",
+                sourceCode.AppendFrontFormat(
+                    "graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].{0}.Remove({1});\n",
                     IsNode ? "fst" : "snd", variableContainingCandidate);
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
@@ -2229,8 +2227,7 @@ namespace de.unika.ipd.grGen.lgsp
                 NamesOfEntities.VariableWithBackupOfIsMatchedBitGlobal(PatternElementName, NegativeNamePrefix);
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
 
-            string isMatchedBit = IsNode ? "LGSPNode.IS_MATCHED_BY_ENCLOSING_PATTERN" 
-                : "LGSPEdge.IS_MATCHED_BY_ENCLOSING_PATTERN";
+            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
             sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~({1}) | {2};\n",
                 variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
         }
@@ -3371,11 +3368,12 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("++negLevel;\n");
             if (!NeverAboveMaxNegLevel)
             {
-                sourceCode.AppendFront("if(negLevel > MAX_NEG_LEVEL && negLevel-MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {\n");
+                sourceCode.AppendFront(
+                    "if(negLevel > (int) LGSPElemFlags.MAX_NEG_LEVEL && negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {\n");
                 sourceCode.Indent();
                 sourceCode.AppendFront("graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());\n");
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst = new Dictionary<LGSPNode, LGSPNode>();\n");
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd = new Dictionary<LGSPEdge, LGSPEdge>();\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst = new Dictionary<LGSPNode, LGSPNode>();\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd = new Dictionary<LGSPEdge, LGSPEdge>();\n");
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
             }
@@ -3414,10 +3412,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if (!NeverAboveMaxNegLevel)
             {
-                sourceCode.AppendFront("if(negLevel > MAX_NEG_LEVEL) {\n");
+                sourceCode.AppendFront("if(negLevel > (int) LGSPElemFlags.MAX_NEG_LEVEL) {\n");
                 sourceCode.Indent();
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].fst.Clear();\n");
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel-MAX_NEG_LEVEL-1].snd.Clear();\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Clear();\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Clear();\n");
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
             }

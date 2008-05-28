@@ -265,6 +265,45 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>A new graph with the same structure as this graph.</returns>
         public abstract IGraph Clone(String newName);
 
+        /// <summary>
+        /// Allocates a clean visited flag on the graph elements.
+        /// If needed the flag is cleared on all graph elements, so this is an O(n) operation.
+        /// </summary>
+        /// <returns>A visitor ID to be used in
+        /// visited conditions in patterns ("if { !visited(elem, id); }"),
+        /// visited expressions in evals ("visited(elem, id) = true; b.flag = visited(elem, id) || c.flag; "}
+        /// and calls to other visitor functions.</returns>
+        public abstract int AllocateVisitedFlag();
+
+        /// <summary>
+        /// Frees a visited flag.
+        /// This is an O(1) operation.
+        /// </summary>
+        /// <param name="visitorID">The ID of the visited flag to be freed.</param>
+        public abstract void FreeVisitedFlag(int visitorID);
+
+        /// <summary>
+        /// Resets the visited flag with the given ID on all graph elements, if necessary.
+        /// </summary>
+        /// <param name="visitorID">The ID of the visited flag.</param>
+        public abstract void ResetVisitedFlag(int visitorID);
+
+        /// <summary>
+        /// Sets the visited flag of the given graph element.
+        /// </summary>
+        /// <param name="visitorID">The ID of the visited flag.</param>
+        /// <param name="elem">The graph element whose flag is to be set.</param>
+        /// <param name="visited">True for visited, false for not visited.</param>
+        public abstract void SetVisited(int visitorID, IGraphElement elem, bool visited);
+
+        /// <summary>
+        /// Returns whether the given graph element has been visited.
+        /// </summary>
+        /// <param name="visitorID">The ID of the visited flag.</param>
+        /// <param name="elem">The graph element to be examined.</param>
+        /// <returns>True for visited, false for not visited.</returns>
+        public abstract bool IsVisited(int visitorID, IGraphElement elem);
+
         #endregion Abstract and virtual members
 
         #region Variables management

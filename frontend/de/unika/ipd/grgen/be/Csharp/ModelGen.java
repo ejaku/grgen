@@ -366,7 +366,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tnode = pool[--poolLevel];\n"
 					+ "\t\t\t\tnode.inhead = null;\n"
 					+ "\t\t\t\tnode.outhead = null;\n"
-					+ "\t\t\t\tnode.flags &= ~LGSPNode.HAS_VARIABLES;\n");
+					+ "\t\t\t\tnode.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;\n");
 			initAllMembers(type, "node", "\t\t\t\t", true);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node);\n"
@@ -382,7 +382,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tnode = pool[--poolLevel];\n"
 					+ "\t\t\t\tnode.inhead = null;\n"
 					+ "\t\t\t\tnode.outhead = null;\n"
-					+ "\t\t\t\tnode.flags &= ~LGSPNode.HAS_VARIABLES;\n");
+					+ "\t\t\t\tnode.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;\n");
 			initAllMembers(type, "node", "\t\t\t\t", true);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node, varName);\n"
@@ -398,7 +398,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tedge = pool[--poolLevel];\n"
-					+ "\t\t\t\tedge.flags &= ~LGSPEdge.HAS_VARIABLES;\n"
+					+ "\t\t\t\tedge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;\n"
 					+ "\t\t\t\tedge.source = source;\n"
 					+ "\t\t\t\tedge.target = target;\n");
 			initAllMembers(type, "edge", "\t\t\t\t", true);
@@ -414,7 +414,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tedge = pool[--poolLevel];\n"
-					+ "\t\t\t\tedge.flags &= ~LGSPEdge.HAS_VARIABLES;\n"
+					+ "\t\t\t\tedge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;\n"
 					+ "\t\t\t\tedge.source = source;\n"
 					+ "\t\t\t\tedge.target = target;\n");
 			initAllMembers(type, "edge", "\t\t\t\t", true);

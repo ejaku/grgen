@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sat Apr 26 03:35:21 CEST 2008
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Wed May 28 22:10:16 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,9 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		public @Node() : base(NodeType_Node.typeVar)
 		{
 		}
+
+		public static NodeType_Node TypeInstance { get { return NodeType_Node.typeVar; } }
+
 		public override INode Clone() { return new @Node(this); }
 
 		private @Node(@Node oldElem) : base(NodeType_Node.typeVar)
@@ -48,7 +51,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -64,7 +67,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -131,6 +134,9 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		public @A() : base(NodeType_A.typeVar)
 		{
 		}
+
+		public static NodeType_A TypeInstance { get { return NodeType_A.typeVar; } }
+
 		public override INode Clone() { return new @A(this); }
 
 		private @A(@A oldElem) : base(NodeType_A.typeVar)
@@ -146,7 +152,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -162,7 +168,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -229,6 +235,9 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		public @B() : base(NodeType_B.typeVar)
 		{
 		}
+
+		public static NodeType_B TypeInstance { get { return NodeType_B.typeVar; } }
+
 		public override INode Clone() { return new @B(this); }
 
 		private @B(@B oldElem) : base(NodeType_B.typeVar)
@@ -244,7 +253,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -260,7 +269,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -327,6 +336,9 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		public @C() : base(NodeType_C.typeVar)
 		{
 		}
+
+		public static NodeType_C TypeInstance { get { return NodeType_C.typeVar; } }
+
 		public override INode Clone() { return new @C(this); }
 
 		private @C(@C oldElem) : base(NodeType_C.typeVar)
@@ -342,7 +354,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -358,7 +370,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -558,6 +570,9 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 			: base(EdgeType_Edge.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_Edge TypeInstance { get { return EdgeType_Edge.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @Edge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -573,7 +588,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -589,7 +604,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -657,6 +672,9 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 			: base(EdgeType_UEdge.typeVar, source, target)
 		{
 		}
+
+		public static EdgeType_UEdge TypeInstance { get { return EdgeType_UEdge.typeVar; } }
+
 		public override IEdge Clone(INode newSource, INode newTarget)
 		{ return new @UEdge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
@@ -672,7 +690,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -688,7 +706,7 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}

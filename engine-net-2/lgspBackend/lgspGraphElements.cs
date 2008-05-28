@@ -4,8 +4,6 @@
  * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
  */
 
-//#define ELEMENTKNOWSVARIABLES
-
 using System;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
@@ -13,7 +11,48 @@ using de.unika.ipd.grGen.libGr;
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// Class implementing nodes in the lib gr search plan backend
+    /// Flags for graph elements.
+    /// </summary>
+    [Flags]
+    public enum LGSPElemFlags : uint
+    {
+        /// <summary>
+        /// Some variable contains this element.
+        /// </summary>
+        HAS_VARIABLES = 1 << 0,
+
+        /// <summary>
+        /// This element has already been matched within some enclosing pattern
+        /// during the current matching process.
+        /// </summary>
+        IS_MATCHED_BY_ENCLOSING_PATTERN = 1 << 1,
+
+        /// <summary>
+        /// This element has already been matched within the local pattern
+        /// during the current matching process.
+        /// This mask must be shifted left by the current neg level.
+        /// </summary>
+        IS_MATCHED = 1 << 2,
+
+        /// <summary>
+        /// Maximum neg level which can be handled by the flags.
+        /// </summary>
+        MAX_NEG_LEVEL = 5,
+
+        /// <summary>
+        /// This element has already been visited by a visitor.
+        /// This mask must be shifted left by the according visitor ID.
+        /// </summary>
+        IS_VISITED = IS_MATCHED << (int) (MAX_NEG_LEVEL + 1),
+
+        /// <summary>
+        /// Number of visitors which can be handled by the flags.
+        /// </summary>
+        NUM_SUPPORTED_VISITOR_IDS = 8
+    }
+
+    /// <summary>
+    /// Class implementing nodes in the libGr search plan backend
     /// </summary>
     public abstract class LGSPNode : INode
     {
@@ -21,30 +60,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// The node type of the node.
         /// </summary>
         public NodeType type;
-
-#if ELEMENTKNOWSVARIABLES
-        /// <summary>
-        /// List of variables pointing to this element or null if there is no such variable
-        /// </summary>
-        public LinkedList<Variable> variableList;
-#endif
-
-        /// <summary>
-        /// Bit within flags at this position tells whether some variable contains this element
-        /// </summary>
-        public const uint HAS_VARIABLES = 1 << 0;
-
-        /// <summary>
-        /// Bit within flags at this position tells during the matching process whether the element 
-        /// is already matched within some enclosing pattern
-        /// </summary>
-        public const uint IS_MATCHED_BY_ENCLOSING_PATTERN = 1 << 1;
-
-        /// <summary>
-        /// Bit within flags at this position tells during the matching process whether the element 
-        /// is already matched within the local pattern, shifted by current neg level
-        /// </summary>
-        public const uint IS_MATCHED = 1 << 2;
 
         /// <summary>
         /// contains some booleans coded as bitvector
@@ -408,7 +423,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class implementing edges in the lib gr search plan backend
+    /// Class implementing edges in the libGr search plan backend
     /// </summary>
     public abstract class LGSPEdge : IEdge
     {
@@ -416,30 +431,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// The EdgeType of the edge.
         /// </summary>
         public EdgeType type;
-
-#if ELEMENTKNOWSVARIABLES
-        /// <summary>
-        /// List of variables pointing to this element or null if there is no such variable
-        /// </summary>
-        public LinkedList<Variable> variableList;
-#endif
-
-        /// <summary>
-        /// Bit within flags at this position tells whether some variable contains this element
-        /// </summary>
-        public const uint HAS_VARIABLES = 1 << 0;
-
-        /// <summary>
-        /// Bit within flags at this position tells during the matching process whether the element 
-        /// is already matched within some enclosing pattern
-        /// </summary>
-        public const uint IS_MATCHED_BY_ENCLOSING_PATTERN = 1 << 1;
-
-        /// <summary>
-        /// Bit within flags at this position tells during the matching process whether the element 
-        /// is already matched within the local pattern, shifted by current neg level
-        /// </summary>
-        public const uint IS_MATCHED = 1 << 2;
 
         /// <summary>
         /// contains some booleans coded as bitvector

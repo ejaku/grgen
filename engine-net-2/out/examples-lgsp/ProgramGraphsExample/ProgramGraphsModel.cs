@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Thu May 22 11:47:41 GMT+01:00 2008
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Wed May 28 22:10:39 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -67,7 +67,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -184,7 +184,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -200,7 +200,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -285,7 +285,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -301,7 +301,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -418,7 +418,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -434,7 +434,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -551,7 +551,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -567,7 +567,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -684,7 +684,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -700,7 +700,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -785,7 +785,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
@@ -801,7 +801,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~LGSPNode.HAS_VARIABLES;
+				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -1180,7 +1180,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1196,7 +1196,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1282,7 +1282,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1298,7 +1298,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1387,7 +1387,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1403,7 +1403,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1492,7 +1492,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1508,7 +1508,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1597,7 +1597,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1613,7 +1613,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1702,7 +1702,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1718,7 +1718,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1807,7 +1807,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1823,7 +1823,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1912,7 +1912,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1928,7 +1928,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -2017,7 +2017,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -2033,7 +2033,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}

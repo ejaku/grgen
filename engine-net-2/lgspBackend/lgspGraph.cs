@@ -1073,12 +1073,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             RemovingNode(node);
 
-            if((lnode.flags & LGSPNode.HAS_VARIABLES) == LGSPNode.HAS_VARIABLES)
+            if((lnode.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 foreach(Variable var in ElementMap[lnode])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(lnode);
-                lnode.flags &= ~LGSPNode.HAS_VARIABLES;
+                lnode.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
             }
             RemoveNodeWithoutEvents(lnode, lnode.type.TypeID);
         }
@@ -1093,12 +1093,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             RemovingEdge(edge);
 
-            if((ledge.flags & LGSPEdge.HAS_VARIABLES) == LGSPEdge.HAS_VARIABLES)
+            if((ledge.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 foreach(Variable var in ElementMap[ledge])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(ledge);
-                ledge.flags &= ~LGSPEdge.HAS_VARIABLES;
+                ledge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
             }
             ledge.source.RemoveOutgoing(ledge);
             ledge.target.RemoveIncoming(ledge);
@@ -1138,12 +1138,12 @@ namespace de.unika.ipd.grGen.lgsp
             RemoveEdges(node);
             RemovingNode(node);
 
-            if((node.flags & LGSPNode.HAS_VARIABLES) == LGSPNode.HAS_VARIABLES)
+            if((node.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 foreach(Variable var in ElementMap[node])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(node);
-                node.flags &= ~LGSPNode.HAS_VARIABLES;
+                node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
             }
 
             node.ResetAllAttributes();
@@ -1162,12 +1162,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             RemovingEdge(edge);
 
-            if((edge.flags & LGSPEdge.HAS_VARIABLES) == LGSPEdge.HAS_VARIABLES)
+            if((edge.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 foreach(Variable var in ElementMap[edge])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(edge);
-                edge.flags &= ~LGSPEdge.HAS_VARIABLES;
+                edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
             }
 
             if(newSource != null)
@@ -1316,14 +1316,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newNode">The replacement for the node.</param>
         public void ReplaceNode(LGSPNode oldNode, LGSPNode newNode)
         {
-            if((oldNode.flags & LGSPNode.HAS_VARIABLES) == LGSPNode.HAS_VARIABLES)
+            if((oldNode.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 LinkedList<Variable> varList = ElementMap[oldNode];
                 foreach(Variable var in varList)
                     var.Value = newNode;
                 ElementMap.Remove(oldNode);
                 ElementMap[newNode] = varList;
-                newNode.flags |= LGSPNode.HAS_VARIABLES;
+                newNode.flags |= (uint) LGSPElemFlags.HAS_VARIABLES;
             }
 
             if(oldNode.type != newNode.type)
@@ -1423,14 +1423,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newEdge">The replacement for the edge.</param>
         public void ReplaceEdge(LGSPEdge oldEdge, LGSPEdge newEdge)
         {
-            if((oldEdge.flags & LGSPEdge.HAS_VARIABLES) == LGSPEdge.HAS_VARIABLES)
+            if((oldEdge.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 LinkedList<Variable> varList = ElementMap[oldEdge];
                 foreach(Variable var in varList)
                     var.Value = newEdge;
                 ElementMap.Remove(oldEdge);
                 ElementMap[newEdge] = varList;
-                newEdge.flags |= LGSPEdge.HAS_VARIABLES;
+                newEdge.flags |= (uint) LGSPElemFlags.HAS_VARIABLES;
             }
 
             if(oldEdge.type != newEdge.type)
@@ -1505,6 +1505,188 @@ namespace de.unika.ipd.grGen.lgsp
             if(reuseOptimization)
                 oldEdge.Recycle();
         }
+
+        #region Visited flags management
+
+        private class VisitorData
+        {
+            /// <summary>
+            /// Specifies whether this visitor has already marked any nodes.
+            /// </summary>
+            public bool NodesMarked;
+
+            /// <summary>
+            /// Specifies whether this visitor has already marked any edges.
+            /// </summary>
+            public bool EdgesMarked;
+
+            /// <summary>
+            /// A hash map containing all visited elements (the values are not used).
+            /// This is unused (and thus null), if the graph element flags are used for this visitor ID.
+            /// </summary>
+            public Dictionary<IGraphElement, bool> VisitedElements;
+        }
+
+        int numUsedVisitorIDs = 0;
+        LinkedList<int> freeVisitorIDs = new LinkedList<int>();
+        List<VisitorData> visitorDataList = new List<VisitorData>();
+
+        /// <summary>
+        /// Allocates a clean visited flag on the graph elements.
+        /// If needed the flag is cleared on all graph elements, so this is an O(n) operation.
+        /// </summary>
+        /// <returns>A visitor ID to be used in
+        /// visited conditions in patterns ("if { !visited(elem, id); }"),
+        /// visited expressions in evals ("visited(elem, id) = true; b.flag = visited(elem, id) || c.flag; "}
+        /// and calls to other visitor functions.</returns>
+        public override int AllocateVisitedFlag()
+        {
+            int newID;
+            if(freeVisitorIDs.Count != 0)
+            {
+                newID = freeVisitorIDs.First.Value;
+                freeVisitorIDs.RemoveFirst();
+            }
+            else
+            {
+                newID = numUsedVisitorIDs;
+                if(newID == visitorDataList.Count)
+                    visitorDataList.Add(new VisitorData());
+            }
+            numUsedVisitorIDs++;
+
+            ResetVisitedFlag(newID);
+
+            return newID;
+        }
+
+        /// <summary>
+        /// Frees a visited flag.
+        /// This is an O(1) operation.
+        /// It adds visitor flags supported by the element flags to the front of the list
+        /// to prefer them when allocating a new one.
+        /// </summary>
+        /// <param name="visitorID">The ID of the visited flag to be freed.</param>
+        public override void FreeVisitedFlag(int visitorID)
+        {
+            if(visitorID < (int) LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)
+                freeVisitorIDs.AddFirst(visitorID);
+            else
+                freeVisitorIDs.AddLast(visitorID);
+            numUsedVisitorIDs--;
+        }
+
+        /// <summary>
+        /// Resets the visited flag with the given ID on all graph elements, if necessary.
+        /// </summary>
+        /// <param name="visitorID">The ID of the visited flag.</param>
+        public override void ResetVisitedFlag(int visitorID)
+        {
+            VisitorData data = visitorDataList[visitorID];
+            if(visitorID < (int) LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)     // id supported by flags?
+            {
+                if(data.NodesMarked)        // need to clear flag on nodes?
+                {
+                    for(int i = 0; i < nodesByTypeHeads.Length; i++)
+                    {
+                        for(LGSPNode head = nodesByTypeHeads[i], node = head.typePrev; node != head; node = node.typePrev)
+                            node.flags &= ~((uint) LGSPElemFlags.IS_VISITED << visitorID);
+                    }
+                    data.NodesMarked = false;
+                }
+                if(data.EdgesMarked)        // need to clear flag on nodes?
+                {
+                    for(int i = 0; i < edgesByTypeHeads.Length; i++)
+                    {
+                        for(LGSPEdge head = edgesByTypeHeads[i], edge = head.typePrev; edge != head; edge = edge.typePrev)
+                            edge.flags &= ~((uint) LGSPElemFlags.IS_VISITED << visitorID);
+                    }
+                    data.EdgesMarked = false;
+                }
+            }
+            else                                                    // no, use hash map
+            {
+                data.NodesMarked = data.EdgesMarked = false;
+                if(data.VisitedElements != null) data.VisitedElements.Clear();
+                else data.VisitedElements = new Dictionary<IGraphElement, bool>();
+            }
+        }
+
+        /// <summary>
+        /// Sets the visited flag of the given graph element.
+        /// </summary>
+        /// <param name="visitorID">The ID of the visited flag.</param>
+        /// <param name="elem">The graph element whose flag is to be set.</param>
+        /// <param name="visited">True for visited, false for not visited.</param>
+        public override void SetVisited(int visitorID, IGraphElement elem, bool visited)
+        {
+            VisitorData data = visitorDataList[visitorID];
+            LGSPNode node = elem as LGSPNode;
+            if(visitorID < (int) LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)     // id supported by flags?
+            {
+                uint mask = (uint) LGSPElemFlags.IS_VISITED << visitorID;
+                if(node != null)
+                {
+                    if(visited)
+                    {
+                        node.flags |= mask;
+                        data.NodesMarked = true;
+                    }
+                    else node.flags &= ~mask;
+                }
+                else
+                {
+                    LGSPEdge edge = (LGSPEdge) elem;
+                    if(visited)
+                    {
+                        edge.flags |= mask;
+                        data.NodesMarked = true;
+                    }
+                    else edge.flags &= ~mask;
+                }
+            }
+            else                                                        // no, use hash map
+            {
+                if(visited)
+                {
+                    if(node != null)
+                        data.NodesMarked = true;
+                    else
+                        data.EdgesMarked = true;
+                    data.VisitedElements[elem] = true;
+                }
+                else data.VisitedElements.Remove(elem);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the given graph element has been visited.
+        /// </summary>
+        /// <param name="visitorID">The ID of the visited flag.</param>
+        /// <param name="elem">The graph element to be examined.</param>
+        /// <returns>True for visited, false for not visited.</returns>
+        public override bool IsVisited(int visitorID, IGraphElement elem)
+        {
+            if(visitorID < (int) LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)        // id supported by flags?
+            {
+                uint mask = (uint) LGSPElemFlags.IS_VISITED << visitorID;
+                LGSPNode node = elem as LGSPNode;
+                if(node != null)
+                    return (node.flags & mask) != 0;
+                else
+                {
+                    LGSPEdge edge = (LGSPEdge) elem;
+                    return (edge.flags & mask) != 0;
+                }
+            }
+            else                                                        // no, use hash map
+            {
+                VisitorData data = visitorDataList[visitorID];
+                return data.VisitedElements.ContainsKey(elem);
+            }
+        }
+
+        #endregion Visited flags management
 
         #region Variables management
 
@@ -1586,11 +1768,11 @@ namespace de.unika.ipd.grGen.lgsp
                 ElementMap.Remove(elem);
 
                 LGSPNode oldNode = elem as LGSPNode;
-                if(oldNode != null) oldNode.flags &= ~LGSPNode.HAS_VARIABLES;
+                if(oldNode != null) oldNode.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
                 else
                 {
                     LGSPEdge oldEdge = (LGSPEdge) elem;
-                    oldEdge.flags &= ~LGSPEdge.HAS_VARIABLES;
+                    oldEdge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
                 }
             }
         }
@@ -1643,11 +1825,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             LGSPNode node = elem as LGSPNode;
             if(node != null)
-                node.flags |= LGSPNode.HAS_VARIABLES;
+                node.flags |= (uint) LGSPElemFlags.HAS_VARIABLES;
             else
             {
                 LGSPEdge edge = (LGSPEdge) elem;
-                edge.flags |= LGSPEdge.HAS_VARIABLES;
+                edge.flags |= (uint) LGSPElemFlags.HAS_VARIABLES;
             }
         }
 

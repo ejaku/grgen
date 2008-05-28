@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Apr 28 13:51:05 CEST 2008
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Wed May 28 22:10:35 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -87,11 +87,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p1 = match.Nodes[(int)newRule_NodeNums.@p1];
-			LGSPNode node_p2 = match.Nodes[(int)newRule_NodeNums.@p2];
-			LGSPEdge edge_n = match.Edges[(int)newRule_EdgeNums.@n];
+			LGSPNode node_p1 = curMatch.Nodes[(int)newRule_NodeNums.@p1];
+			LGSPNode node_p2 = curMatch.Nodes[(int)newRule_NodeNums.@p2];
+			LGSPEdge edge_n = curMatch.Edges[(int)newRule_EdgeNums.@n];
 			graph.SettingAddedNodeNames( newRule_addedNodeNames );
 			@Process node_p = @Process.CreateNode(graph);
 			graph.SettingAddedEdgeNames( newRule_addedEdgeNames );
@@ -113,11 +113,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] newRule_addedNodeNames = new String[] { "p" };
 		private static String[] newRule_addedEdgeNames = new String[] { "n1", "n2" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p1 = match.Nodes[(int)newRule_NodeNums.@p1];
-			LGSPNode node_p2 = match.Nodes[(int)newRule_NodeNums.@p2];
-			LGSPEdge edge_n = match.Edges[(int)newRule_EdgeNums.@n];
+			LGSPNode node_p1 = curMatch.Nodes[(int)newRule_NodeNums.@p1];
+			LGSPNode node_p2 = curMatch.Nodes[(int)newRule_NodeNums.@p2];
+			LGSPEdge edge_n = curMatch.Edges[(int)newRule_EdgeNums.@n];
 			graph.SettingAddedNodeNames( newRule_addedNodeNames );
 			@Process node_p = @Process.CreateNode(graph);
 			graph.SettingAddedEdgeNames( newRule_addedEdgeNames );
@@ -218,13 +218,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p1 = match.Nodes[(int)killRule_NodeNums.@p1];
-			LGSPNode node_p2 = match.Nodes[(int)killRule_NodeNums.@p2];
-			LGSPNode node_p = match.Nodes[(int)killRule_NodeNums.@p];
-			LGSPEdge edge_n1 = match.Edges[(int)killRule_EdgeNums.@n1];
-			LGSPEdge edge_n2 = match.Edges[(int)killRule_EdgeNums.@n2];
+			LGSPNode node_p1 = curMatch.Nodes[(int)killRule_NodeNums.@p1];
+			LGSPNode node_p2 = curMatch.Nodes[(int)killRule_NodeNums.@p2];
+			LGSPNode node_p = curMatch.Nodes[(int)killRule_NodeNums.@p];
+			LGSPEdge edge_n1 = curMatch.Edges[(int)killRule_EdgeNums.@n1];
+			LGSPEdge edge_n2 = curMatch.Edges[(int)killRule_EdgeNums.@n2];
 			graph.SettingAddedNodeNames( killRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( killRule_addedEdgeNames );
 			@next edge_n;
@@ -247,13 +247,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] killRule_addedNodeNames = new String[] {  };
 		private static String[] killRule_addedEdgeNames = new String[] { "n" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p1 = match.Nodes[(int)killRule_NodeNums.@p1];
-			LGSPNode node_p2 = match.Nodes[(int)killRule_NodeNums.@p2];
-			LGSPNode node_p = match.Nodes[(int)killRule_NodeNums.@p];
-			LGSPEdge edge_n1 = match.Edges[(int)killRule_EdgeNums.@n1];
-			LGSPEdge edge_n2 = match.Edges[(int)killRule_EdgeNums.@n2];
+			LGSPNode node_p1 = curMatch.Nodes[(int)killRule_NodeNums.@p1];
+			LGSPNode node_p2 = curMatch.Nodes[(int)killRule_NodeNums.@p2];
+			LGSPNode node_p = curMatch.Nodes[(int)killRule_NodeNums.@p];
+			LGSPEdge edge_n1 = curMatch.Edges[(int)killRule_EdgeNums.@n1];
+			LGSPEdge edge_n2 = curMatch.Edges[(int)killRule_EdgeNums.@n2];
 			graph.SettingAddedNodeNames( killRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( killRule_addedEdgeNames );
 			@next edge_n = @next.CreateEdge(graph, node_p1, node_p2);
@@ -325,9 +325,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p = match.Nodes[(int)mountRule_NodeNums.@p];
+			LGSPNode node_p = curMatch.Nodes[(int)mountRule_NodeNums.@p];
 			graph.SettingAddedNodeNames( mountRule_addedNodeNames );
 			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( mountRule_addedEdgeNames );
@@ -337,9 +337,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] mountRule_addedNodeNames = new String[] { "r" };
 		private static String[] mountRule_addedEdgeNames = new String[] { "t" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p = match.Nodes[(int)mountRule_NodeNums.@p];
+			LGSPNode node_p = curMatch.Nodes[(int)mountRule_NodeNums.@p];
 			graph.SettingAddedNodeNames( mountRule_addedNodeNames );
 			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( mountRule_addedEdgeNames );
@@ -424,10 +424,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)unmountRule_NodeNums.@r];
-			LGSPEdge edge_t = match.Edges[(int)unmountRule_EdgeNums.@t];
+			LGSPNode node_r = curMatch.Nodes[(int)unmountRule_NodeNums.@r];
+			LGSPEdge edge_t = curMatch.Edges[(int)unmountRule_EdgeNums.@t];
 			graph.SettingAddedNodeNames( unmountRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( unmountRule_addedEdgeNames );
 			graph.Remove(edge_t);
@@ -438,10 +438,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] unmountRule_addedNodeNames = new String[] {  };
 		private static String[] unmountRule_addedEdgeNames = new String[] {  };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)unmountRule_NodeNums.@r];
-			LGSPEdge edge_t = match.Edges[(int)unmountRule_EdgeNums.@t];
+			LGSPNode node_r = curMatch.Nodes[(int)unmountRule_NodeNums.@r];
+			LGSPEdge edge_t = curMatch.Edges[(int)unmountRule_EdgeNums.@t];
 			graph.SettingAddedNodeNames( unmountRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( unmountRule_addedEdgeNames );
 			graph.Remove(edge_t);
@@ -584,11 +584,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)passRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[(int)passRule_NodeNums.@p2];
-			LGSPEdge edge__edge0 = match.Edges[(int)passRule_EdgeNums.@_edge0];
+			LGSPNode node_r = curMatch.Nodes[(int)passRule_NodeNums.@r];
+			LGSPNode node_p2 = curMatch.Nodes[(int)passRule_NodeNums.@p2];
+			LGSPEdge edge__edge0 = curMatch.Edges[(int)passRule_EdgeNums.@_edge0];
 			graph.SettingAddedNodeNames( passRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( passRule_addedEdgeNames );
 			@token edge_t;
@@ -608,11 +608,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] passRule_addedNodeNames = new String[] {  };
 		private static String[] passRule_addedEdgeNames = new String[] { "t" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)passRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[(int)passRule_NodeNums.@p2];
-			LGSPEdge edge__edge0 = match.Edges[(int)passRule_EdgeNums.@_edge0];
+			LGSPNode node_r = curMatch.Nodes[(int)passRule_NodeNums.@r];
+			LGSPNode node_p2 = curMatch.Nodes[(int)passRule_NodeNums.@p2];
+			LGSPEdge edge__edge0 = curMatch.Edges[(int)passRule_EdgeNums.@_edge0];
 			graph.SettingAddedNodeNames( passRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( passRule_addedEdgeNames );
 			@token edge_t = @token.CreateEdge(graph, node_r, node_p2);
@@ -777,10 +777,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p = match.Nodes[(int)requestRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[(int)requestRule_NodeNums.@r];
+			LGSPNode node_p = curMatch.Nodes[(int)requestRule_NodeNums.@p];
+			LGSPNode node_r = curMatch.Nodes[(int)requestRule_NodeNums.@r];
 			graph.SettingAddedNodeNames( requestRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
@@ -789,10 +789,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] requestRule_addedNodeNames = new String[] {  };
 		private static String[] requestRule_addedEdgeNames = new String[] { "req" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p = match.Nodes[(int)requestRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[(int)requestRule_NodeNums.@r];
+			LGSPNode node_p = curMatch.Nodes[(int)requestRule_NodeNums.@p];
+			LGSPNode node_r = curMatch.Nodes[(int)requestRule_NodeNums.@r];
 			graph.SettingAddedNodeNames( requestRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
@@ -884,12 +884,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)takeRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int)takeRule_NodeNums.@p];
-			LGSPEdge edge_t = match.Edges[(int)takeRule_EdgeNums.@t];
-			LGSPEdge edge_req = match.Edges[(int)takeRule_EdgeNums.@req];
+			LGSPNode node_r = curMatch.Nodes[(int)takeRule_NodeNums.@r];
+			LGSPNode node_p = curMatch.Nodes[(int)takeRule_NodeNums.@p];
+			LGSPEdge edge_t = curMatch.Edges[(int)takeRule_EdgeNums.@t];
+			LGSPEdge edge_req = curMatch.Edges[(int)takeRule_EdgeNums.@req];
 			graph.SettingAddedNodeNames( takeRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( takeRule_addedEdgeNames );
 			@held_by edge_hb = @held_by.CreateEdge(graph, node_r, node_p);
@@ -900,12 +900,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] takeRule_addedNodeNames = new String[] {  };
 		private static String[] takeRule_addedEdgeNames = new String[] { "hb" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)takeRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int)takeRule_NodeNums.@p];
-			LGSPEdge edge_t = match.Edges[(int)takeRule_EdgeNums.@t];
-			LGSPEdge edge_req = match.Edges[(int)takeRule_EdgeNums.@req];
+			LGSPNode node_r = curMatch.Nodes[(int)takeRule_NodeNums.@r];
+			LGSPNode node_p = curMatch.Nodes[(int)takeRule_NodeNums.@p];
+			LGSPEdge edge_t = curMatch.Edges[(int)takeRule_EdgeNums.@t];
+			LGSPEdge edge_req = curMatch.Edges[(int)takeRule_EdgeNums.@req];
 			graph.SettingAddedNodeNames( takeRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( takeRule_addedEdgeNames );
 			@held_by edge_hb = @held_by.CreateEdge(graph, node_r, node_p);
@@ -1038,11 +1038,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)releaseRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int)releaseRule_NodeNums.@p];
-			LGSPEdge edge_hb = match.Edges[(int)releaseRule_EdgeNums.@hb];
+			LGSPNode node_r = curMatch.Nodes[(int)releaseRule_NodeNums.@r];
+			LGSPNode node_p = curMatch.Nodes[(int)releaseRule_NodeNums.@p];
+			LGSPEdge edge_hb = curMatch.Edges[(int)releaseRule_EdgeNums.@hb];
 			graph.SettingAddedNodeNames( releaseRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseRule_addedEdgeNames );
 			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
@@ -1052,11 +1052,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] releaseRule_addedNodeNames = new String[] {  };
 		private static String[] releaseRule_addedEdgeNames = new String[] { "rel" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)releaseRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int)releaseRule_NodeNums.@p];
-			LGSPEdge edge_hb = match.Edges[(int)releaseRule_EdgeNums.@hb];
+			LGSPNode node_r = curMatch.Nodes[(int)releaseRule_NodeNums.@r];
+			LGSPNode node_p = curMatch.Nodes[(int)releaseRule_NodeNums.@p];
+			LGSPEdge edge_hb = curMatch.Edges[(int)releaseRule_EdgeNums.@hb];
 			graph.SettingAddedNodeNames( releaseRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseRule_addedEdgeNames );
 			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
@@ -1155,11 +1155,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)giveRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[(int)giveRule_NodeNums.@p2];
-			LGSPEdge edge_rel = match.Edges[(int)giveRule_EdgeNums.@rel];
+			LGSPNode node_r = curMatch.Nodes[(int)giveRule_NodeNums.@r];
+			LGSPNode node_p2 = curMatch.Nodes[(int)giveRule_NodeNums.@p2];
+			LGSPEdge edge_rel = curMatch.Edges[(int)giveRule_EdgeNums.@rel];
 			graph.SettingAddedNodeNames( giveRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( giveRule_addedEdgeNames );
 			@token edge_t = @token.CreateEdge(graph, node_r, node_p2);
@@ -1169,11 +1169,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] giveRule_addedNodeNames = new String[] {  };
 		private static String[] giveRule_addedEdgeNames = new String[] { "t" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)giveRule_NodeNums.@r];
-			LGSPNode node_p2 = match.Nodes[(int)giveRule_NodeNums.@p2];
-			LGSPEdge edge_rel = match.Edges[(int)giveRule_EdgeNums.@rel];
+			LGSPNode node_r = curMatch.Nodes[(int)giveRule_NodeNums.@r];
+			LGSPNode node_p2 = curMatch.Nodes[(int)giveRule_NodeNums.@p2];
+			LGSPEdge edge_rel = curMatch.Edges[(int)giveRule_EdgeNums.@rel];
 			graph.SettingAddedNodeNames( giveRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( giveRule_addedEdgeNames );
 			@token edge_t = @token.CreateEdge(graph, node_r, node_p2);
@@ -1272,10 +1272,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)blockedRule_NodeNums.@r];
-			LGSPNode node_p1 = match.Nodes[(int)blockedRule_NodeNums.@p1];
+			LGSPNode node_r = curMatch.Nodes[(int)blockedRule_NodeNums.@r];
+			LGSPNode node_p1 = curMatch.Nodes[(int)blockedRule_NodeNums.@p1];
 			graph.SettingAddedNodeNames( blockedRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( blockedRule_addedEdgeNames );
 			@blocked edge_b = @blocked.CreateEdge(graph, node_r, node_p1);
@@ -1284,10 +1284,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] blockedRule_addedNodeNames = new String[] {  };
 		private static String[] blockedRule_addedEdgeNames = new String[] { "b" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)blockedRule_NodeNums.@r];
-			LGSPNode node_p1 = match.Nodes[(int)blockedRule_NodeNums.@p1];
+			LGSPNode node_r = curMatch.Nodes[(int)blockedRule_NodeNums.@r];
+			LGSPNode node_p1 = curMatch.Nodes[(int)blockedRule_NodeNums.@p1];
 			graph.SettingAddedNodeNames( blockedRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( blockedRule_addedEdgeNames );
 			@blocked edge_b = @blocked.CreateEdge(graph, node_r, node_p1);
@@ -1405,12 +1405,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r2 = match.Nodes[(int)waitingRule_NodeNums.@r2];
-			LGSPNode node_p2 = match.Nodes[(int)waitingRule_NodeNums.@p2];
-			LGSPNode node_r = match.Nodes[(int)waitingRule_NodeNums.@r];
-			LGSPEdge edge_b = match.Edges[(int)waitingRule_EdgeNums.@b];
+			LGSPNode node_r2 = curMatch.Nodes[(int)waitingRule_NodeNums.@r2];
+			LGSPNode node_p2 = curMatch.Nodes[(int)waitingRule_NodeNums.@p2];
+			LGSPNode node_r = curMatch.Nodes[(int)waitingRule_NodeNums.@r];
+			LGSPEdge edge_b = curMatch.Edges[(int)waitingRule_EdgeNums.@b];
 			graph.SettingAddedNodeNames( waitingRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( waitingRule_addedEdgeNames );
 			@blocked edge_bn;
@@ -1432,12 +1432,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] waitingRule_addedNodeNames = new String[] {  };
 		private static String[] waitingRule_addedEdgeNames = new String[] { "bn" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r2 = match.Nodes[(int)waitingRule_NodeNums.@r2];
-			LGSPNode node_p2 = match.Nodes[(int)waitingRule_NodeNums.@p2];
-			LGSPNode node_r = match.Nodes[(int)waitingRule_NodeNums.@r];
-			LGSPEdge edge_b = match.Edges[(int)waitingRule_EdgeNums.@b];
+			LGSPNode node_r2 = curMatch.Nodes[(int)waitingRule_NodeNums.@r2];
+			LGSPNode node_p2 = curMatch.Nodes[(int)waitingRule_NodeNums.@p2];
+			LGSPNode node_r = curMatch.Nodes[(int)waitingRule_NodeNums.@r];
+			LGSPEdge edge_b = curMatch.Edges[(int)waitingRule_EdgeNums.@b];
 			graph.SettingAddedNodeNames( waitingRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( waitingRule_addedEdgeNames );
 			@blocked edge_bn = @blocked.CreateEdge(graph, node_r2, node_p2);
@@ -1571,9 +1571,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPEdge edge_b = match.Edges[(int)ignoreRule_EdgeNums.@b];
+			LGSPEdge edge_b = curMatch.Edges[(int)ignoreRule_EdgeNums.@b];
 			graph.SettingAddedNodeNames( ignoreRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( ignoreRule_addedEdgeNames );
 			graph.Remove(edge_b);
@@ -1582,9 +1582,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] ignoreRule_addedNodeNames = new String[] {  };
 		private static String[] ignoreRule_addedEdgeNames = new String[] {  };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPEdge edge_b = match.Edges[(int)ignoreRule_EdgeNums.@b];
+			LGSPEdge edge_b = curMatch.Edges[(int)ignoreRule_EdgeNums.@b];
 			graph.SettingAddedNodeNames( ignoreRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( ignoreRule_addedEdgeNames );
 			graph.Remove(edge_b);
@@ -1676,12 +1676,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)unlockRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int)unlockRule_NodeNums.@p];
-			LGSPEdge edge_b = match.Edges[(int)unlockRule_EdgeNums.@b];
-			LGSPEdge edge_hb = match.Edges[(int)unlockRule_EdgeNums.@hb];
+			LGSPNode node_r = curMatch.Nodes[(int)unlockRule_NodeNums.@r];
+			LGSPNode node_p = curMatch.Nodes[(int)unlockRule_NodeNums.@p];
+			LGSPEdge edge_b = curMatch.Edges[(int)unlockRule_EdgeNums.@b];
+			LGSPEdge edge_hb = curMatch.Edges[(int)unlockRule_EdgeNums.@hb];
 			graph.SettingAddedNodeNames( unlockRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( unlockRule_addedEdgeNames );
 			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
@@ -1692,12 +1692,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] unlockRule_addedNodeNames = new String[] {  };
 		private static String[] unlockRule_addedEdgeNames = new String[] { "rel" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r = match.Nodes[(int)unlockRule_NodeNums.@r];
-			LGSPNode node_p = match.Nodes[(int)unlockRule_NodeNums.@p];
-			LGSPEdge edge_b = match.Edges[(int)unlockRule_EdgeNums.@b];
-			LGSPEdge edge_hb = match.Edges[(int)unlockRule_EdgeNums.@hb];
+			LGSPNode node_r = curMatch.Nodes[(int)unlockRule_NodeNums.@r];
+			LGSPNode node_p = curMatch.Nodes[(int)unlockRule_NodeNums.@p];
+			LGSPEdge edge_b = curMatch.Edges[(int)unlockRule_EdgeNums.@b];
+			LGSPEdge edge_hb = curMatch.Edges[(int)unlockRule_EdgeNums.@hb];
 			graph.SettingAddedNodeNames( unlockRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( unlockRule_addedEdgeNames );
 			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
@@ -1854,10 +1854,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p1 = match.Nodes[(int)requestStarRule_NodeNums.@p1];
-			LGSPNode node_r2 = match.Nodes[(int)requestStarRule_NodeNums.@r2];
+			LGSPNode node_p1 = curMatch.Nodes[(int)requestStarRule_NodeNums.@p1];
+			LGSPNode node_r2 = curMatch.Nodes[(int)requestStarRule_NodeNums.@r2];
 			graph.SettingAddedNodeNames( requestStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestStarRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p1, node_r2);
@@ -1866,10 +1866,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] requestStarRule_addedNodeNames = new String[] {  };
 		private static String[] requestStarRule_addedEdgeNames = new String[] { "req" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p1 = match.Nodes[(int)requestStarRule_NodeNums.@p1];
-			LGSPNode node_r2 = match.Nodes[(int)requestStarRule_NodeNums.@r2];
+			LGSPNode node_p1 = curMatch.Nodes[(int)requestStarRule_NodeNums.@p1];
+			LGSPNode node_r2 = curMatch.Nodes[(int)requestStarRule_NodeNums.@r2];
 			graph.SettingAddedNodeNames( requestStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestStarRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p1, node_r2);
@@ -1981,11 +1981,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r1 = match.Nodes[(int)releaseStarRule_NodeNums.@r1];
-			LGSPNode node_p2 = match.Nodes[(int)releaseStarRule_NodeNums.@p2];
-			LGSPEdge edge_h1 = match.Edges[(int)releaseStarRule_EdgeNums.@h1];
+			LGSPNode node_r1 = curMatch.Nodes[(int)releaseStarRule_NodeNums.@r1];
+			LGSPNode node_p2 = curMatch.Nodes[(int)releaseStarRule_NodeNums.@p2];
+			LGSPEdge edge_h1 = curMatch.Edges[(int)releaseStarRule_EdgeNums.@h1];
 			graph.SettingAddedNodeNames( releaseStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseStarRule_addedEdgeNames );
 			@release edge_rl = @release.CreateEdge(graph, node_r1, node_p2);
@@ -1995,11 +1995,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] releaseStarRule_addedNodeNames = new String[] {  };
 		private static String[] releaseStarRule_addedEdgeNames = new String[] { "rl" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_r1 = match.Nodes[(int)releaseStarRule_NodeNums.@r1];
-			LGSPNode node_p2 = match.Nodes[(int)releaseStarRule_NodeNums.@p2];
-			LGSPEdge edge_h1 = match.Edges[(int)releaseStarRule_EdgeNums.@h1];
+			LGSPNode node_r1 = curMatch.Nodes[(int)releaseStarRule_NodeNums.@r1];
+			LGSPNode node_p2 = curMatch.Nodes[(int)releaseStarRule_NodeNums.@p2];
+			LGSPEdge edge_h1 = curMatch.Edges[(int)releaseStarRule_EdgeNums.@h1];
 			graph.SettingAddedNodeNames( releaseStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseStarRule_addedEdgeNames );
 			@release edge_rl = @release.CreateEdge(graph, node_r1, node_p2);
@@ -2127,10 +2127,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p = match.Nodes[(int)requestSimpleRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[(int)requestSimpleRule_NodeNums.@r];
+			LGSPNode node_p = curMatch.Nodes[(int)requestSimpleRule_NodeNums.@p];
+			LGSPNode node_r = curMatch.Nodes[(int)requestSimpleRule_NodeNums.@r];
 			graph.SettingAddedNodeNames( requestSimpleRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestSimpleRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
@@ -2139,10 +2139,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] requestSimpleRule_addedNodeNames = new String[] {  };
 		private static String[] requestSimpleRule_addedEdgeNames = new String[] { "req" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p = match.Nodes[(int)requestSimpleRule_NodeNums.@p];
-			LGSPNode node_r = match.Nodes[(int)requestSimpleRule_NodeNums.@r];
+			LGSPNode node_p = curMatch.Nodes[(int)requestSimpleRule_NodeNums.@p];
+			LGSPNode node_r = curMatch.Nodes[(int)requestSimpleRule_NodeNums.@r];
 			graph.SettingAddedNodeNames( requestSimpleRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestSimpleRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
@@ -2257,9 +2257,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		public override object[] Modify(LGSPGraph graph, LGSPMatch match)
+		public override object[] Modify(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p = match.Nodes[(int)aux_attachResource_NodeNums.@p];
+			LGSPNode node_p = curMatch.Nodes[(int)aux_attachResource_NodeNums.@p];
 			graph.SettingAddedNodeNames( aux_attachResource_addedNodeNames );
 			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( aux_attachResource_addedEdgeNames );
@@ -2269,9 +2269,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] aux_attachResource_addedNodeNames = new String[] { "r" };
 		private static String[] aux_attachResource_addedEdgeNames = new String[] { "_edge0" };
 
-		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		public override object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch curMatch)
 		{
-			LGSPNode node_p = match.Nodes[(int)aux_attachResource_NodeNums.@p];
+			LGSPNode node_p = curMatch.Nodes[(int)aux_attachResource_NodeNums.@p];
 			graph.SettingAddedNodeNames( aux_attachResource_addedNodeNames );
 			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( aux_attachResource_addedEdgeNames );
@@ -2299,7 +2299,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup newRule_edge_n 
             int type_id_candidate_newRule_edge_n = 3;
@@ -2311,19 +2310,19 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                     continue;
                 }
                 uint prev__candidate_newRule_node_p1;
-                prev__candidate_newRule_node_p1 = candidate_newRule_node_p1.flags & LGSPNode.IS_MATCHED<<negLevel;
-                candidate_newRule_node_p1.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                prev__candidate_newRule_node_p1 = candidate_newRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_newRule_node_p1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target newRule_node_p2 from newRule_edge_n 
                 LGSPNode candidate_newRule_node_p2 = candidate_newRule_edge_n.target;
                 if(!NodeType_Process.isMyType[candidate_newRule_node_p2.type.TypeID]) {
-                    candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_newRule_node_p1;
+                    candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_newRule_node_p1;
                     continue;
                 }
-                if((candidate_newRule_node_p2.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                if((candidate_newRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                     && candidate_newRule_node_p2==candidate_newRule_node_p1
                     )
                 {
-                    candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_newRule_node_p1;
+                    candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_newRule_node_p1;
                     continue;
                 }
                 LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -2336,10 +2335,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(candidate_newRule_edge_n);
-                    candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_newRule_node_p1;
+                    candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_newRule_node_p1;
                     return matches;
                 }
-                candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_newRule_node_p1;
+                candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_newRule_node_p1;
             }
             return matches;
         }
@@ -2363,42 +2362,41 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup killRule_edge_n2 
             int type_id_candidate_killRule_edge_n2 = 3;
             for(LGSPEdge head_candidate_killRule_edge_n2 = graph.edgesByTypeHeads[type_id_candidate_killRule_edge_n2], candidate_killRule_edge_n2 = head_candidate_killRule_edge_n2.typeNext; candidate_killRule_edge_n2 != head_candidate_killRule_edge_n2; candidate_killRule_edge_n2 = candidate_killRule_edge_n2.typeNext)
             {
                 uint prev__candidate_killRule_edge_n2;
-                prev__candidate_killRule_edge_n2 = candidate_killRule_edge_n2.flags & LGSPEdge.IS_MATCHED<<negLevel;
-                candidate_killRule_edge_n2.flags |= LGSPEdge.IS_MATCHED<<negLevel;
+                prev__candidate_killRule_edge_n2 = candidate_killRule_edge_n2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_killRule_edge_n2.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Source killRule_node_p from killRule_edge_n2 
                 LGSPNode candidate_killRule_node_p = candidate_killRule_edge_n2.source;
                 if(!NodeType_Process.isMyType[candidate_killRule_node_p.type.TypeID]) {
-                    candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_killRule_edge_n2;
+                    candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_edge_n2;
                     continue;
                 }
                 uint prev__candidate_killRule_node_p;
-                prev__candidate_killRule_node_p = candidate_killRule_node_p.flags & LGSPNode.IS_MATCHED<<negLevel;
-                candidate_killRule_node_p.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                prev__candidate_killRule_node_p = candidate_killRule_node_p.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_killRule_node_p.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target killRule_node_p2 from killRule_edge_n2 
                 LGSPNode candidate_killRule_node_p2 = candidate_killRule_edge_n2.target;
                 if(!NodeType_Process.isMyType[candidate_killRule_node_p2.type.TypeID]) {
-                    candidate_killRule_node_p.flags = candidate_killRule_node_p.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_killRule_node_p;
-                    candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_killRule_edge_n2;
+                    candidate_killRule_node_p.flags = candidate_killRule_node_p.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_node_p;
+                    candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_edge_n2;
                     continue;
                 }
-                if((candidate_killRule_node_p2.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                if((candidate_killRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                     && candidate_killRule_node_p2==candidate_killRule_node_p
                     )
                 {
-                    candidate_killRule_node_p.flags = candidate_killRule_node_p.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_killRule_node_p;
-                    candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_killRule_edge_n2;
+                    candidate_killRule_node_p.flags = candidate_killRule_node_p.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_node_p;
+                    candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_edge_n2;
                     continue;
                 }
                 uint prev__candidate_killRule_node_p2;
-                prev__candidate_killRule_node_p2 = candidate_killRule_node_p2.flags & LGSPNode.IS_MATCHED<<negLevel;
-                candidate_killRule_node_p2.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                prev__candidate_killRule_node_p2 = candidate_killRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_killRule_node_p2.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Extend Incoming killRule_edge_n1 from killRule_node_p 
                 LGSPEdge head_candidate_killRule_edge_n1 = candidate_killRule_node_p.inhead;
                 if(head_candidate_killRule_edge_n1 != null)
@@ -2409,7 +2407,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                         if(!EdgeType_next.isMyType[candidate_killRule_edge_n1.type.TypeID]) {
                             continue;
                         }
-                        if((candidate_killRule_edge_n1.flags & LGSPEdge.IS_MATCHED<<negLevel) == LGSPEdge.IS_MATCHED<<negLevel
+                        if((candidate_killRule_edge_n1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                             && candidate_killRule_edge_n1==candidate_killRule_edge_n2
                             )
                         {
@@ -2420,7 +2418,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                         if(!NodeType_Process.isMyType[candidate_killRule_node_p1.type.TypeID]) {
                             continue;
                         }
-                        if((candidate_killRule_node_p1.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                        if((candidate_killRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                             && (candidate_killRule_node_p1==candidate_killRule_node_p
                                 || candidate_killRule_node_p1==candidate_killRule_node_p2
                                 )
@@ -2441,17 +2439,17 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                         {
                             candidate_killRule_node_p.MoveInHeadAfter(candidate_killRule_edge_n1);
                             graph.MoveHeadAfter(candidate_killRule_edge_n2);
-                            candidate_killRule_node_p2.flags = candidate_killRule_node_p2.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_killRule_node_p2;
-                            candidate_killRule_node_p.flags = candidate_killRule_node_p.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_killRule_node_p;
-                            candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_killRule_edge_n2;
+                            candidate_killRule_node_p2.flags = candidate_killRule_node_p2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_node_p2;
+                            candidate_killRule_node_p.flags = candidate_killRule_node_p.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_node_p;
+                            candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_edge_n2;
                             return matches;
                         }
                     }
                     while( (candidate_killRule_edge_n1 = candidate_killRule_edge_n1.inNext) != head_candidate_killRule_edge_n1 );
                 }
-                candidate_killRule_node_p2.flags = candidate_killRule_node_p2.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_killRule_node_p2;
-                candidate_killRule_node_p.flags = candidate_killRule_node_p.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_killRule_node_p;
-                candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_killRule_edge_n2;
+                candidate_killRule_node_p2.flags = candidate_killRule_node_p2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_node_p2;
+                candidate_killRule_node_p.flags = candidate_killRule_node_p.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_node_p;
+                candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_edge_n2;
             }
             return matches;
         }
@@ -2475,7 +2473,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup mountRule_node_p 
             int type_id_candidate_mountRule_node_p = 1;
@@ -2514,7 +2511,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup unmountRule_edge_t 
             int type_id_candidate_unmountRule_edge_t = 6;
@@ -2565,7 +2561,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup passRule_edge_n 
             int type_id_candidate_passRule_edge_n = 3;
@@ -2577,19 +2572,19 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                     continue;
                 }
                 uint prev__candidate_passRule_node_p1;
-                prev__candidate_passRule_node_p1 = candidate_passRule_node_p1.flags & LGSPNode.IS_MATCHED<<negLevel;
-                candidate_passRule_node_p1.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                prev__candidate_passRule_node_p1 = candidate_passRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_passRule_node_p1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target passRule_node_p2 from passRule_edge_n 
                 LGSPNode candidate_passRule_node_p2 = candidate_passRule_edge_n.target;
                 if(!NodeType_Process.isMyType[candidate_passRule_node_p2.type.TypeID]) {
-                    candidate_passRule_node_p1.flags = candidate_passRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_passRule_node_p1;
+                    candidate_passRule_node_p1.flags = candidate_passRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_passRule_node_p1;
                     continue;
                 }
-                if((candidate_passRule_node_p2.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                if((candidate_passRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                     && candidate_passRule_node_p2==candidate_passRule_node_p1
                     )
                 {
-                    candidate_passRule_node_p1.flags = candidate_passRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_passRule_node_p1;
+                    candidate_passRule_node_p1.flags = candidate_passRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_passRule_node_p1;
                     continue;
                 }
                 // Extend Incoming passRule_edge__edge0 from passRule_node_p1 
@@ -2644,14 +2639,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                         {
                             candidate_passRule_node_p1.MoveInHeadAfter(candidate_passRule_edge__edge0);
                             graph.MoveHeadAfter(candidate_passRule_edge_n);
-                            candidate_passRule_node_p1.flags = candidate_passRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_passRule_node_p1;
+                            candidate_passRule_node_p1.flags = candidate_passRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_passRule_node_p1;
                             return matches;
                         }
 label0: ;
                     }
                     while( (candidate_passRule_edge__edge0 = candidate_passRule_edge__edge0.inNext) != head_candidate_passRule_edge__edge0 );
                 }
-                candidate_passRule_node_p1.flags = candidate_passRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_passRule_node_p1;
+                candidate_passRule_node_p1.flags = candidate_passRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_passRule_node_p1;
             }
             return matches;
         }
@@ -2675,7 +2670,6 @@ label0: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup requestRule_node_r 
             int type_id_candidate_requestRule_node_r = 2;
@@ -2773,7 +2767,6 @@ label2: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup takeRule_edge_req 
             int type_id_candidate_takeRule_edge_req = 8;
@@ -2842,7 +2835,6 @@ label2: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup releaseRule_edge_hb 
             int type_id_candidate_releaseRule_edge_hb = 5;
@@ -2920,7 +2912,6 @@ label3: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup giveRule_edge_n 
             int type_id_candidate_giveRule_edge_n = 3;
@@ -2932,19 +2923,19 @@ label3: ;
                     continue;
                 }
                 uint prev__candidate_giveRule_node_p1;
-                prev__candidate_giveRule_node_p1 = candidate_giveRule_node_p1.flags & LGSPNode.IS_MATCHED<<negLevel;
-                candidate_giveRule_node_p1.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                prev__candidate_giveRule_node_p1 = candidate_giveRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_giveRule_node_p1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target giveRule_node_p2 from giveRule_edge_n 
                 LGSPNode candidate_giveRule_node_p2 = candidate_giveRule_edge_n.target;
                 if(!NodeType_Process.isMyType[candidate_giveRule_node_p2.type.TypeID]) {
-                    candidate_giveRule_node_p1.flags = candidate_giveRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_giveRule_node_p1;
+                    candidate_giveRule_node_p1.flags = candidate_giveRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_giveRule_node_p1;
                     continue;
                 }
-                if((candidate_giveRule_node_p2.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                if((candidate_giveRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                     && candidate_giveRule_node_p2==candidate_giveRule_node_p1
                     )
                 {
-                    candidate_giveRule_node_p1.flags = candidate_giveRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_giveRule_node_p1;
+                    candidate_giveRule_node_p1.flags = candidate_giveRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_giveRule_node_p1;
                     continue;
                 }
                 // Extend Incoming giveRule_edge_rel from giveRule_node_p1 
@@ -2975,13 +2966,13 @@ label3: ;
                         {
                             candidate_giveRule_node_p1.MoveInHeadAfter(candidate_giveRule_edge_rel);
                             graph.MoveHeadAfter(candidate_giveRule_edge_n);
-                            candidate_giveRule_node_p1.flags = candidate_giveRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_giveRule_node_p1;
+                            candidate_giveRule_node_p1.flags = candidate_giveRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_giveRule_node_p1;
                             return matches;
                         }
                     }
                     while( (candidate_giveRule_edge_rel = candidate_giveRule_edge_rel.inNext) != head_candidate_giveRule_edge_rel );
                 }
-                candidate_giveRule_node_p1.flags = candidate_giveRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_giveRule_node_p1;
+                candidate_giveRule_node_p1.flags = candidate_giveRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_giveRule_node_p1;
             }
             return matches;
         }
@@ -3005,7 +2996,6 @@ label3: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup blockedRule_edge_hb 
             int type_id_candidate_blockedRule_edge_hb = 5;
@@ -3022,8 +3012,8 @@ label3: ;
                     continue;
                 }
                 uint prev__candidate_blockedRule_node_p2;
-                prev__candidate_blockedRule_node_p2 = candidate_blockedRule_node_p2.flags & LGSPNode.IS_MATCHED<<negLevel;
-                candidate_blockedRule_node_p2.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                prev__candidate_blockedRule_node_p2 = candidate_blockedRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_blockedRule_node_p2.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Extend Incoming blockedRule_edge_req from blockedRule_node_r 
                 LGSPEdge head_candidate_blockedRule_edge_req = candidate_blockedRule_node_r.inhead;
                 if(head_candidate_blockedRule_edge_req != null)
@@ -3039,7 +3029,7 @@ label3: ;
                         if(!NodeType_Process.isMyType[candidate_blockedRule_node_p1.type.TypeID]) {
                             continue;
                         }
-                        if((candidate_blockedRule_node_p1.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                        if((candidate_blockedRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                             && candidate_blockedRule_node_p1==candidate_blockedRule_node_p2
                             )
                         {
@@ -3058,13 +3048,13 @@ label3: ;
                         {
                             candidate_blockedRule_node_r.MoveInHeadAfter(candidate_blockedRule_edge_req);
                             graph.MoveHeadAfter(candidate_blockedRule_edge_hb);
-                            candidate_blockedRule_node_p2.flags = candidate_blockedRule_node_p2.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_blockedRule_node_p2;
+                            candidate_blockedRule_node_p2.flags = candidate_blockedRule_node_p2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_blockedRule_node_p2;
                             return matches;
                         }
                     }
                     while( (candidate_blockedRule_edge_req = candidate_blockedRule_edge_req.inNext) != head_candidate_blockedRule_edge_req );
                 }
-                candidate_blockedRule_node_p2.flags = candidate_blockedRule_node_p2.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_blockedRule_node_p2;
+                candidate_blockedRule_node_p2.flags = candidate_blockedRule_node_p2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_blockedRule_node_p2;
             }
             return matches;
         }
@@ -3088,15 +3078,14 @@ label3: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup waitingRule_node_r 
             int type_id_candidate_waitingRule_node_r = 2;
             for(LGSPNode head_candidate_waitingRule_node_r = graph.nodesByTypeHeads[type_id_candidate_waitingRule_node_r], candidate_waitingRule_node_r = head_candidate_waitingRule_node_r.typeNext; candidate_waitingRule_node_r != head_candidate_waitingRule_node_r; candidate_waitingRule_node_r = candidate_waitingRule_node_r.typeNext)
             {
                 uint prev__candidate_waitingRule_node_r;
-                prev__candidate_waitingRule_node_r = candidate_waitingRule_node_r.flags & LGSPNode.IS_MATCHED<<negLevel;
-                candidate_waitingRule_node_r.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                prev__candidate_waitingRule_node_r = candidate_waitingRule_node_r.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_waitingRule_node_r.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Lookup waitingRule_edge_b 
                 int type_id_candidate_waitingRule_edge_b = 4;
                 for(LGSPEdge head_candidate_waitingRule_edge_b = graph.edgesByTypeHeads[type_id_candidate_waitingRule_edge_b], candidate_waitingRule_edge_b = head_candidate_waitingRule_edge_b.typeNext; candidate_waitingRule_edge_b != head_candidate_waitingRule_edge_b; candidate_waitingRule_edge_b = candidate_waitingRule_edge_b.typeNext)
@@ -3106,24 +3095,24 @@ label3: ;
                     if(!NodeType_Resource.isMyType[candidate_waitingRule_node_r2.type.TypeID]) {
                         continue;
                     }
-                    if((candidate_waitingRule_node_r2.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                    if((candidate_waitingRule_node_r2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                         && candidate_waitingRule_node_r2==candidate_waitingRule_node_r
                         )
                     {
                         continue;
                     }
                     uint prev__candidate_waitingRule_node_r2;
-                    prev__candidate_waitingRule_node_r2 = candidate_waitingRule_node_r2.flags & LGSPNode.IS_MATCHED<<negLevel;
-                    candidate_waitingRule_node_r2.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                    prev__candidate_waitingRule_node_r2 = candidate_waitingRule_node_r2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                    candidate_waitingRule_node_r2.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                     // Implicit Target waitingRule_node_p1 from waitingRule_edge_b 
                     LGSPNode candidate_waitingRule_node_p1 = candidate_waitingRule_edge_b.target;
                     if(!NodeType_Process.isMyType[candidate_waitingRule_node_p1.type.TypeID]) {
-                        candidate_waitingRule_node_r2.flags = candidate_waitingRule_node_r2.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_waitingRule_node_r2;
+                        candidate_waitingRule_node_r2.flags = candidate_waitingRule_node_r2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_waitingRule_node_r2;
                         continue;
                     }
                     uint prev__candidate_waitingRule_node_p1;
-                    prev__candidate_waitingRule_node_p1 = candidate_waitingRule_node_p1.flags & LGSPNode.IS_MATCHED<<negLevel;
-                    candidate_waitingRule_node_p1.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                    prev__candidate_waitingRule_node_p1 = candidate_waitingRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                    candidate_waitingRule_node_p1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                     // Extend Incoming waitingRule_edge_hb from waitingRule_node_p1 
                     LGSPEdge head_candidate_waitingRule_edge_hb = candidate_waitingRule_node_p1.inhead;
                     if(head_candidate_waitingRule_edge_hb != null)
@@ -3139,7 +3128,7 @@ label3: ;
                             if(!NodeType_Resource.isMyType[candidate_waitingRule_node_r1.type.TypeID]) {
                                 continue;
                             }
-                            if((candidate_waitingRule_node_r1.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                            if((candidate_waitingRule_node_r1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                                 && (candidate_waitingRule_node_r1==candidate_waitingRule_node_r
                                     || candidate_waitingRule_node_r1==candidate_waitingRule_node_r2
                                     )
@@ -3162,7 +3151,7 @@ label3: ;
                                     if(!NodeType_Process.isMyType[candidate_waitingRule_node_p2.type.TypeID]) {
                                         continue;
                                     }
-                                    if((candidate_waitingRule_node_p2.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                                    if((candidate_waitingRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                                         && candidate_waitingRule_node_p2==candidate_waitingRule_node_p1
                                         )
                                     {
@@ -3186,9 +3175,9 @@ label3: ;
                                         candidate_waitingRule_node_p1.MoveInHeadAfter(candidate_waitingRule_edge_hb);
                                         graph.MoveHeadAfter(candidate_waitingRule_edge_b);
                                         graph.MoveHeadAfter(candidate_waitingRule_node_r);
-                                        candidate_waitingRule_node_p1.flags = candidate_waitingRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_waitingRule_node_p1;
-                                        candidate_waitingRule_node_r2.flags = candidate_waitingRule_node_r2.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_waitingRule_node_r2;
-                                        candidate_waitingRule_node_r.flags = candidate_waitingRule_node_r.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_waitingRule_node_r;
+                                        candidate_waitingRule_node_p1.flags = candidate_waitingRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_waitingRule_node_p1;
+                                        candidate_waitingRule_node_r2.flags = candidate_waitingRule_node_r2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_waitingRule_node_r2;
+                                        candidate_waitingRule_node_r.flags = candidate_waitingRule_node_r.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_waitingRule_node_r;
                                         return matches;
                                     }
                                 }
@@ -3197,10 +3186,10 @@ label3: ;
                         }
                         while( (candidate_waitingRule_edge_hb = candidate_waitingRule_edge_hb.inNext) != head_candidate_waitingRule_edge_hb );
                     }
-                    candidate_waitingRule_node_p1.flags = candidate_waitingRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_waitingRule_node_p1;
-                    candidate_waitingRule_node_r2.flags = candidate_waitingRule_node_r2.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_waitingRule_node_r2;
+                    candidate_waitingRule_node_p1.flags = candidate_waitingRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_waitingRule_node_p1;
+                    candidate_waitingRule_node_r2.flags = candidate_waitingRule_node_r2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_waitingRule_node_r2;
                 }
-                candidate_waitingRule_node_r.flags = candidate_waitingRule_node_r.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_waitingRule_node_r;
+                candidate_waitingRule_node_r.flags = candidate_waitingRule_node_r.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_waitingRule_node_r;
             }
             return matches;
         }
@@ -3224,7 +3213,6 @@ label3: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup ignoreRule_edge_b 
             int type_id_candidate_ignoreRule_edge_b = 4;
@@ -3302,7 +3290,6 @@ label4: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup unlockRule_edge_b 
             int type_id_candidate_unlockRule_edge_b = 4;
@@ -3371,34 +3358,33 @@ label4: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup requestStarRule_edge_h1 
             int type_id_candidate_requestStarRule_edge_h1 = 5;
             for(LGSPEdge head_candidate_requestStarRule_edge_h1 = graph.edgesByTypeHeads[type_id_candidate_requestStarRule_edge_h1], candidate_requestStarRule_edge_h1 = head_candidate_requestStarRule_edge_h1.typeNext; candidate_requestStarRule_edge_h1 != head_candidate_requestStarRule_edge_h1; candidate_requestStarRule_edge_h1 = candidate_requestStarRule_edge_h1.typeNext)
             {
                 uint prev__candidate_requestStarRule_edge_h1;
-                prev__candidate_requestStarRule_edge_h1 = candidate_requestStarRule_edge_h1.flags & LGSPEdge.IS_MATCHED<<negLevel;
-                candidate_requestStarRule_edge_h1.flags |= LGSPEdge.IS_MATCHED<<negLevel;
+                prev__candidate_requestStarRule_edge_h1 = candidate_requestStarRule_edge_h1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_requestStarRule_edge_h1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Source requestStarRule_node_r1 from requestStarRule_edge_h1 
                 LGSPNode candidate_requestStarRule_node_r1 = candidate_requestStarRule_edge_h1.source;
                 if(!NodeType_Resource.isMyType[candidate_requestStarRule_node_r1.type.TypeID]) {
-                    candidate_requestStarRule_edge_h1.flags = candidate_requestStarRule_edge_h1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_requestStarRule_edge_h1;
+                    candidate_requestStarRule_edge_h1.flags = candidate_requestStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_edge_h1;
                     continue;
                 }
                 uint prev__candidate_requestStarRule_node_r1;
-                prev__candidate_requestStarRule_node_r1 = candidate_requestStarRule_node_r1.flags & LGSPNode.IS_MATCHED<<negLevel;
-                candidate_requestStarRule_node_r1.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                prev__candidate_requestStarRule_node_r1 = candidate_requestStarRule_node_r1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_requestStarRule_node_r1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target requestStarRule_node_p1 from requestStarRule_edge_h1 
                 LGSPNode candidate_requestStarRule_node_p1 = candidate_requestStarRule_edge_h1.target;
                 if(!NodeType_Process.isMyType[candidate_requestStarRule_node_p1.type.TypeID]) {
-                    candidate_requestStarRule_node_r1.flags = candidate_requestStarRule_node_r1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_requestStarRule_node_r1;
-                    candidate_requestStarRule_edge_h1.flags = candidate_requestStarRule_edge_h1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_requestStarRule_edge_h1;
+                    candidate_requestStarRule_node_r1.flags = candidate_requestStarRule_node_r1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_node_r1;
+                    candidate_requestStarRule_edge_h1.flags = candidate_requestStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_edge_h1;
                     continue;
                 }
                 uint prev__candidate_requestStarRule_node_p1;
-                prev__candidate_requestStarRule_node_p1 = candidate_requestStarRule_node_p1.flags & LGSPNode.IS_MATCHED<<negLevel;
-                candidate_requestStarRule_node_p1.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                prev__candidate_requestStarRule_node_p1 = candidate_requestStarRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_requestStarRule_node_p1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Extend Incoming requestStarRule_edge_n from requestStarRule_node_p1 
                 LGSPEdge head_candidate_requestStarRule_edge_n = candidate_requestStarRule_node_p1.inhead;
                 if(head_candidate_requestStarRule_edge_n != null)
@@ -3414,7 +3400,7 @@ label4: ;
                         if(!NodeType_Process.isMyType[candidate_requestStarRule_node_p2.type.TypeID]) {
                             continue;
                         }
-                        if((candidate_requestStarRule_node_p2.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                        if((candidate_requestStarRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                             && candidate_requestStarRule_node_p2==candidate_requestStarRule_node_p1
                             )
                         {
@@ -3430,7 +3416,7 @@ label4: ;
                                 if(!EdgeType_held_by.isMyType[candidate_requestStarRule_edge_h2.type.TypeID]) {
                                     continue;
                                 }
-                                if((candidate_requestStarRule_edge_h2.flags & LGSPEdge.IS_MATCHED<<negLevel) == LGSPEdge.IS_MATCHED<<negLevel
+                                if((candidate_requestStarRule_edge_h2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                                     && candidate_requestStarRule_edge_h2==candidate_requestStarRule_edge_h1
                                     )
                                 {
@@ -3441,7 +3427,7 @@ label4: ;
                                 if(!NodeType_Resource.isMyType[candidate_requestStarRule_node_r2.type.TypeID]) {
                                     continue;
                                 }
-                                if((candidate_requestStarRule_node_r2.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                                if((candidate_requestStarRule_node_r2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                                     && candidate_requestStarRule_node_r2==candidate_requestStarRule_node_r1
                                     )
                                 {
@@ -3487,9 +3473,9 @@ label4: ;
                                     candidate_requestStarRule_node_p2.MoveInHeadAfter(candidate_requestStarRule_edge_h2);
                                     candidate_requestStarRule_node_p1.MoveInHeadAfter(candidate_requestStarRule_edge_n);
                                     graph.MoveHeadAfter(candidate_requestStarRule_edge_h1);
-                                    candidate_requestStarRule_node_p1.flags = candidate_requestStarRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_requestStarRule_node_p1;
-                                    candidate_requestStarRule_node_r1.flags = candidate_requestStarRule_node_r1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_requestStarRule_node_r1;
-                                    candidate_requestStarRule_edge_h1.flags = candidate_requestStarRule_edge_h1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_requestStarRule_edge_h1;
+                                    candidate_requestStarRule_node_p1.flags = candidate_requestStarRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_node_p1;
+                                    candidate_requestStarRule_node_r1.flags = candidate_requestStarRule_node_r1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_node_r1;
+                                    candidate_requestStarRule_edge_h1.flags = candidate_requestStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_edge_h1;
                                     return matches;
                                 }
 label5: ;
@@ -3499,9 +3485,9 @@ label5: ;
                     }
                     while( (candidate_requestStarRule_edge_n = candidate_requestStarRule_edge_n.inNext) != head_candidate_requestStarRule_edge_n );
                 }
-                candidate_requestStarRule_node_p1.flags = candidate_requestStarRule_node_p1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_requestStarRule_node_p1;
-                candidate_requestStarRule_node_r1.flags = candidate_requestStarRule_node_r1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_requestStarRule_node_r1;
-                candidate_requestStarRule_edge_h1.flags = candidate_requestStarRule_edge_h1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_requestStarRule_edge_h1;
+                candidate_requestStarRule_node_p1.flags = candidate_requestStarRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_node_p1;
+                candidate_requestStarRule_node_r1.flags = candidate_requestStarRule_node_r1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_node_r1;
+                candidate_requestStarRule_edge_h1.flags = candidate_requestStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_edge_h1;
             }
             return matches;
         }
@@ -3525,34 +3511,33 @@ label5: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup releaseStarRule_edge_h1 
             int type_id_candidate_releaseStarRule_edge_h1 = 5;
             for(LGSPEdge head_candidate_releaseStarRule_edge_h1 = graph.edgesByTypeHeads[type_id_candidate_releaseStarRule_edge_h1], candidate_releaseStarRule_edge_h1 = head_candidate_releaseStarRule_edge_h1.typeNext; candidate_releaseStarRule_edge_h1 != head_candidate_releaseStarRule_edge_h1; candidate_releaseStarRule_edge_h1 = candidate_releaseStarRule_edge_h1.typeNext)
             {
                 uint prev__candidate_releaseStarRule_edge_h1;
-                prev__candidate_releaseStarRule_edge_h1 = candidate_releaseStarRule_edge_h1.flags & LGSPEdge.IS_MATCHED<<negLevel;
-                candidate_releaseStarRule_edge_h1.flags |= LGSPEdge.IS_MATCHED<<negLevel;
+                prev__candidate_releaseStarRule_edge_h1 = candidate_releaseStarRule_edge_h1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_releaseStarRule_edge_h1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Source releaseStarRule_node_r1 from releaseStarRule_edge_h1 
                 LGSPNode candidate_releaseStarRule_node_r1 = candidate_releaseStarRule_edge_h1.source;
                 if(!NodeType_Resource.isMyType[candidate_releaseStarRule_node_r1.type.TypeID]) {
-                    candidate_releaseStarRule_edge_h1.flags = candidate_releaseStarRule_edge_h1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_releaseStarRule_edge_h1;
+                    candidate_releaseStarRule_edge_h1.flags = candidate_releaseStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_edge_h1;
                     continue;
                 }
                 uint prev__candidate_releaseStarRule_node_r1;
-                prev__candidate_releaseStarRule_node_r1 = candidate_releaseStarRule_node_r1.flags & LGSPNode.IS_MATCHED<<negLevel;
-                candidate_releaseStarRule_node_r1.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                prev__candidate_releaseStarRule_node_r1 = candidate_releaseStarRule_node_r1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_releaseStarRule_node_r1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target releaseStarRule_node_p2 from releaseStarRule_edge_h1 
                 LGSPNode candidate_releaseStarRule_node_p2 = candidate_releaseStarRule_edge_h1.target;
                 if(!NodeType_Process.isMyType[candidate_releaseStarRule_node_p2.type.TypeID]) {
-                    candidate_releaseStarRule_node_r1.flags = candidate_releaseStarRule_node_r1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_releaseStarRule_node_r1;
-                    candidate_releaseStarRule_edge_h1.flags = candidate_releaseStarRule_edge_h1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_releaseStarRule_edge_h1;
+                    candidate_releaseStarRule_node_r1.flags = candidate_releaseStarRule_node_r1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_node_r1;
+                    candidate_releaseStarRule_edge_h1.flags = candidate_releaseStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_edge_h1;
                     continue;
                 }
                 uint prev__candidate_releaseStarRule_node_p2;
-                prev__candidate_releaseStarRule_node_p2 = candidate_releaseStarRule_node_p2.flags & LGSPNode.IS_MATCHED<<negLevel;
-                candidate_releaseStarRule_node_p2.flags |= LGSPNode.IS_MATCHED<<negLevel;
+                prev__candidate_releaseStarRule_node_p2 = candidate_releaseStarRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_releaseStarRule_node_p2.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Extend Incoming releaseStarRule_edge_rq from releaseStarRule_node_r1 
                 LGSPEdge head_candidate_releaseStarRule_edge_rq = candidate_releaseStarRule_node_r1.inhead;
                 if(head_candidate_releaseStarRule_edge_rq != null)
@@ -3568,7 +3553,7 @@ label5: ;
                         if(!NodeType_Process.isMyType[candidate_releaseStarRule_node_p1.type.TypeID]) {
                             continue;
                         }
-                        if((candidate_releaseStarRule_node_p1.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                        if((candidate_releaseStarRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                             && candidate_releaseStarRule_node_p1==candidate_releaseStarRule_node_p2
                             )
                         {
@@ -3584,7 +3569,7 @@ label5: ;
                                 if(!EdgeType_held_by.isMyType[candidate_releaseStarRule_edge_h2.type.TypeID]) {
                                     continue;
                                 }
-                                if((candidate_releaseStarRule_edge_h2.flags & LGSPEdge.IS_MATCHED<<negLevel) == LGSPEdge.IS_MATCHED<<negLevel
+                                if((candidate_releaseStarRule_edge_h2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                                     && candidate_releaseStarRule_edge_h2==candidate_releaseStarRule_edge_h1
                                     )
                                 {
@@ -3595,7 +3580,7 @@ label5: ;
                                 if(!NodeType_Resource.isMyType[candidate_releaseStarRule_node_r2.type.TypeID]) {
                                     continue;
                                 }
-                                if((candidate_releaseStarRule_node_r2.flags & LGSPNode.IS_MATCHED<<negLevel) == LGSPNode.IS_MATCHED<<negLevel
+                                if((candidate_releaseStarRule_node_r2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
                                     && candidate_releaseStarRule_node_r2==candidate_releaseStarRule_node_r1
                                     )
                                 {
@@ -3617,9 +3602,9 @@ label5: ;
                                     candidate_releaseStarRule_node_p2.MoveInHeadAfter(candidate_releaseStarRule_edge_h2);
                                     candidate_releaseStarRule_node_r1.MoveInHeadAfter(candidate_releaseStarRule_edge_rq);
                                     graph.MoveHeadAfter(candidate_releaseStarRule_edge_h1);
-                                    candidate_releaseStarRule_node_p2.flags = candidate_releaseStarRule_node_p2.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_releaseStarRule_node_p2;
-                                    candidate_releaseStarRule_node_r1.flags = candidate_releaseStarRule_node_r1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_releaseStarRule_node_r1;
-                                    candidate_releaseStarRule_edge_h1.flags = candidate_releaseStarRule_edge_h1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_releaseStarRule_edge_h1;
+                                    candidate_releaseStarRule_node_p2.flags = candidate_releaseStarRule_node_p2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_node_p2;
+                                    candidate_releaseStarRule_node_r1.flags = candidate_releaseStarRule_node_r1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_node_r1;
+                                    candidate_releaseStarRule_edge_h1.flags = candidate_releaseStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_edge_h1;
                                     return matches;
                                 }
                             }
@@ -3628,9 +3613,9 @@ label5: ;
                     }
                     while( (candidate_releaseStarRule_edge_rq = candidate_releaseStarRule_edge_rq.inNext) != head_candidate_releaseStarRule_edge_rq );
                 }
-                candidate_releaseStarRule_node_p2.flags = candidate_releaseStarRule_node_p2.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_releaseStarRule_node_p2;
-                candidate_releaseStarRule_node_r1.flags = candidate_releaseStarRule_node_r1.flags & ~(LGSPNode.IS_MATCHED<<negLevel) | prev__candidate_releaseStarRule_node_r1;
-                candidate_releaseStarRule_edge_h1.flags = candidate_releaseStarRule_edge_h1.flags & ~(LGSPEdge.IS_MATCHED<<negLevel) | prev__candidate_releaseStarRule_edge_h1;
+                candidate_releaseStarRule_node_p2.flags = candidate_releaseStarRule_node_p2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_node_p2;
+                candidate_releaseStarRule_node_r1.flags = candidate_releaseStarRule_node_r1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_node_r1;
+                candidate_releaseStarRule_edge_h1.flags = candidate_releaseStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_edge_h1;
             }
             return matches;
         }
@@ -3654,7 +3639,6 @@ label5: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup requestSimpleRule_edge_t 
             int type_id_candidate_requestSimpleRule_edge_t = 6;
@@ -3730,7 +3714,6 @@ label6: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.matchesList.Clear();
-            const int MAX_NEG_LEVEL = 5;
             int negLevel = 0;
             // Lookup aux_attachResource_node_p 
             int type_id_candidate_aux_attachResource_node_p = 1;

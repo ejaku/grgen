@@ -48,7 +48,7 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraph = rulePattern.patternGraph;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, false);
             negativeNames = new List<string>();
-            negLevelNeverAboveMaxNegLevel = computeMaxNegLevel(rulePattern.patternGraph) <= MAX_NEG_LEVEL;
+            negLevelNeverAboveMaxNegLevel = computeMaxNegLevel(rulePattern.patternGraph) <= (int) LGSPElemFlags.MAX_NEG_LEVEL;
 
             SearchProgram searchProgram;
             if (parametersList != null)
@@ -318,11 +318,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// the top of stack is the name of the negative pattern whose buildup is currently underway
         /// </summary>
         private List<string> negativeNames;
-
-        /// <summary>
-        /// maximum neg level which can be handled by flags
-        /// </summary>
-        private const int MAX_NEG_LEVEL = 5;
 
         /// <summary>
         /// true if statically determined that the neg level of the pattern getting constructed 
@@ -2369,8 +2364,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             int maxNegLevel = 0;
 
-            if (patternGraph.alternatives.Length > 0) return MAX_NEG_LEVEL + 1;
-            if (patternGraph.embeddedGraphs.Length > 0) return MAX_NEG_LEVEL + 1;
+            if(patternGraph.alternatives.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
+            if(patternGraph.embeddedGraphs.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
 
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
@@ -2392,8 +2387,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             int maxNegLevel = 1;
 
-            if (patternGraph.alternatives.Length > 0) return MAX_NEG_LEVEL + 1;
-            if (patternGraph.embeddedGraphs.Length > 0) return MAX_NEG_LEVEL + 1;
+            if(patternGraph.alternatives.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
+            if(patternGraph.embeddedGraphs.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
 
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
