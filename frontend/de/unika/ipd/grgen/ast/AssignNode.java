@@ -23,24 +23,24 @@ import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * AST node representing an assignment.
- * children: LHS:QualIdentNode, RHS:ExprNode
+ * children: LHS:QualIdentNode|VisitedNode, RHS:ExprNode
  */
 public class AssignNode extends BaseNode {
 	static {
 		setName(AssignNode.class, "Assign");
 	}
 
-	QualIdentNode lhs;
+	BaseNode lhs;
 	ExprNode rhs;
 
 	/**
 	 * @param coords The source code coordinates of = operator.
-	 * @param qual The left hand side.
+	 * @param target The left hand side.
 	 * @param expr The expression, that is assigned.
 	 */
-	public AssignNode(Coords coords, QualIdentNode qual, ExprNode expr) {
+	public AssignNode(Coords coords, BaseNode target, ExprNode expr) {
 		super(coords);
-		this.lhs = qual;
+		this.lhs = target;
 		becomeParent(this.lhs);
 		this.rhs = expr;
 		becomeParent(this.rhs);
@@ -69,24 +69,35 @@ public class AssignNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		DeclNode owner = lhs.getOwner();
-		TypeNode ty = owner.getDeclType();
-
-		if(lhs.getDecl().isConst()) {
-			error.error(getCoords(), "assignment to a const member is not allowed");
-			return false;
-		}
-
-		if(ty instanceof InheritanceTypeNode) {
-			InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
-
-			if(inhTy.isConst()) {
-				error.error(getCoords(), "assignment to a const type object not allowed");
+		if(lhs instanceof QualIdentNode) {
+			QualIdentNode qual = (QualIdentNode) lhs;
+			DeclNode owner = qual.getOwner();
+			TypeNode ty = owner.getDeclType();
+	
+			if(qual.getDecl().isConst()) {
+				error.error(getCoords(), "assignment to a const member is not allowed");
 				return false;
 			}
+	
+			if(ty instanceof InheritanceTypeNode) {
+				InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
+	
+				if(inhTy.isConst()) {
+					error.error(getCoords(), "assignment to a const type object not allowed");
+					return false;
+				}
+			}
+	
+			return typeCheckLocal();
 		}
-
-		return typeCheckLocal();
+		else if(lhs instanceof VisitedNode) {
+			if(rhs.getType() != BasicTypeNode.booleanType) {
+				error.error(getCoords(), "Visited flags may only be assigned boolean values");
+				return false;
+			}
+			return true;
+		}
+		else throw new UnsupportedOperationException("Unsupported target: \"" + lhs + "\"");
 	}
 
 	/**
@@ -95,9 +106,10 @@ public class AssignNode extends BaseNode {
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
 	protected boolean typeCheckLocal() {
+		QualIdentNode qual = (QualIdentNode) lhs;
 		ExprNode expr = rhs;
 
-		TypeNode targetType = lhs.getDecl().getDeclType();
+		TypeNode targetType = qual.getDecl().getDeclType();
 		TypeNode exprType = expr.getType();
 
 		if (! exprType.isEqual(targetType)) {

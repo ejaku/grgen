@@ -50,10 +50,11 @@ text returns [ UnitNode main = null ]
 		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
+		Token i;
 	}
 
 	: (
-		( a:ACTIONS i:IDENT
+		( a:ACTIONS i=ident
 			{
 				reportWarning(getCoords(a), "keyword \"actions\" is deprecated");
 				reportWarning(getCoords(i),
@@ -84,11 +85,6 @@ text returns [ UnitNode main = null ]
 			}
 			main = new UnitNode(actionsName, getFilename(), env.getStdModel(), modelChilds, patternChilds, actionChilds);
 		}
-	;
-
-identList [ Collection<String> strings ]
-	: fid:IDENT { strings.add(fid.getText()); }
-		( COMMA sid:IDENT { strings.add(sid.getText()); } )*
 	;
 
 usingDecl [ CollectNode<ModelNode> modelChilds ]

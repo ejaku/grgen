@@ -1,0 +1,41 @@
+using attrib_model_001;
+
+test VisitedNotAKeyword1(var visitorID:int) : (Node)
+{
+	visited:NINT;
+	if { typeof(visited) > Node; visited.a == 7; }
+	
+	return(visited);
+}
+
+test VisitedNotAKeyword2(var visited:boolean)
+{
+	if { visited; }
+}
+
+test FindUnvisitedNode1(var visitorID:int) : (Node)
+{
+	n:Node;
+	if { visited(visitorID, n); }
+	
+	return(n);
+}
+
+rule FindUnvisitedNode2(visitorIDNode:NINT) : (Node)
+{
+	n:Node;
+	if { !visited(visitorIDNode.a, n); }
+	
+	modify {
+		return(n);
+	}
+}
+
+// visitorIDNode.a + 1 doesn't make sense here, it's just to test the syntax
+test FindUnvisitedNode3(visitorIDNode:NINT) : (Node)
+{
+	n:Node;
+	if { !visited(visitorIDNode.a + 1, n); }
+	
+	return(n);
+}

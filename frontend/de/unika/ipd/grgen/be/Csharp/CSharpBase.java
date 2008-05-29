@@ -45,6 +45,7 @@ import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.VariableExpression;
+import de.unika.ipd.grgen.ir.Visited;
 import de.unika.ipd.grgen.ir.VoidType;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
@@ -393,6 +394,14 @@ public abstract class CSharpBase {
 		else if(expr instanceof GraphEntityExpression) {
 			GraphEntity ent = ((GraphEntityExpression) expr).getGraphEntity();
 			sb.append(formatEntity(ent));
+		}
+		else if(expr instanceof Visited) {
+			Visited vis = (Visited) expr;
+			sb.append("graph.IsVisited(");
+			genExpression(sb, vis.getVisitorID(), modifyGenerationState);
+			sb.append(", ");
+			sb.append(formatEntity(vis.getEntity()));
+			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

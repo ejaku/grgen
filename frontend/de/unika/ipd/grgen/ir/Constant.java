@@ -10,8 +10,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Set;
-
 public class Constant extends Expression {
 
 	/** The value of the constant. */
@@ -36,7 +34,5 @@ public class Constant extends Expression {
 		return getName() + " " + value;
 	}
 
-	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
-	public void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges, Set<Variable> vars) {
-	}
+	public void collectNeededEntities(NeededEntities needs) { }
 }

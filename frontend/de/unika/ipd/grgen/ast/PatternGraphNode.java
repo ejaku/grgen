@@ -27,6 +27,7 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -293,18 +294,17 @@ public class PatternGraphNode extends GraphNode {
 
 		// add Condition elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the condition)
-		Set<Node> neededNodes = new LinkedHashSet<Node>();
-		Set<Edge> neededEdges = new LinkedHashSet<Edge>();
+		NeededEntities needs = new NeededEntities(true, true, false);
 		for(Expression cond : gr.getConditions()) {
-			cond.collectElementsAndVars(neededNodes, neededEdges, null);
+			cond.collectNeededEntities(needs);
 		}
-		for(Node neededNode : neededNodes) {
+		for(Node neededNode : needs.nodes) {
 			if(!gr.hasNode(neededNode)) {
 				gr.addSingleNode(neededNode);
 				gr.addHomToAll(neededNode);
 			}
 		}
-		for(Edge neededEdge : neededEdges) {
+		for(Edge neededEdge : needs.edges) {
 			if(!gr.hasEdge(neededEdge)) {
 				gr.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
 				gr.addHomToAll(neededEdge);

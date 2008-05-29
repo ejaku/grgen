@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Wed May 28 22:10:20 CEST 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu May 29 22:33:15 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -58,7 +58,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			PatternNode readZeroRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1);
 			PatternNode readZeroRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1);
 			PatternEdge readZeroRule_edge_rv = new PatternEdge(true, (int) EdgeTypes.@readZero, "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1);
-			PatternCondition cond_0 = new PatternCondition(0, new String[] { "readZeroRule_node_bp" }, new String[] {  }, new String[] {  });
+			PatternCondition cond_0 = new PatternCondition(0, false, new String[] { "readZeroRule_node_bp" }, new String[] {  }, new String[] {  });
 			pat_readZeroRule = new PatternGraph(
 				"readZeroRule",
 				"",
@@ -176,7 +176,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			PatternNode readOneRule_node_wv = new PatternNode((int) NodeTypes.@WriteValue, "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1);
 			PatternNode readOneRule_node_bp = new PatternNode((int) NodeTypes.@BandPosition, "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1);
 			PatternEdge readOneRule_edge_rv = new PatternEdge(true, (int) EdgeTypes.@readOne, "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1);
-			PatternCondition cond_0 = new PatternCondition(0, new String[] { "readOneRule_node_bp" }, new String[] {  }, new String[] {  });
+			PatternCondition cond_0 = new PatternCondition(0, false, new String[] { "readOneRule_node_bp" }, new String[] {  }, new String[] {  });
 			pat_readOneRule = new PatternGraph(
 				"readOneRule",
 				"",

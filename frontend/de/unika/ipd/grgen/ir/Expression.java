@@ -10,7 +10,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Set;
 
 /**
  * Abstract base class for expression nodes
@@ -32,14 +31,11 @@ public abstract class Expression extends IR
 	public Type getType() {
 		return type;
 	}
-
+	
 	/**
 	 * Method collectElementsAndVars extracts the nodes, edges, and variables
 	 * occurring in this Expression.
-	 * @param nodes A set to receive the nodes. May be null, if not needed.
-	 * @param edges A set to receive the edges. May be null, if not needed.
-	 * @param vars  A set to receive the variables. May be null, if not needed.
+	 * @param needs A NeededEntities instance aggregating the needed elements.
 	 */
-	public abstract void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges,
-			Set<Variable> vars);
+	public abstract void collectNeededEntities(NeededEntities needs);
 }

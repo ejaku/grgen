@@ -10,9 +10,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-
-import java.util.Set;
-
 public class Qualification extends Expression {
 	/** The owner of the expression. */
 	private final Entity owner;
@@ -39,14 +36,12 @@ public class Qualification extends Expression {
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
-	public void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges, Set<Variable> vars) {
+	public void collectNeededEntities(NeededEntities needs) {
 		if(owner instanceof Node) {
-			if(nodes != null)
-				nodes.add((Node)owner);
+			needs.add((Node)owner);
 		}
 		else if(owner instanceof Edge) {
-			if(edges != null)
-				edges.add((Edge)owner);
+			needs.add((Edge)owner);
 		}
 		else
 			throw new UnsupportedOperationException("Unsupported Entity (" + owner + ")");

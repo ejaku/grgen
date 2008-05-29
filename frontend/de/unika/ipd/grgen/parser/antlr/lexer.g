@@ -64,6 +64,7 @@ tokens {
   UNDIRECTED = "undirected";
   USING = "using";
   VAR = "var";
+  VISITED = "visited";		// not a keyword
   NUM_INTEGER;
   NUM_FLOAT;
   NUM_DOUBLE;

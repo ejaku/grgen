@@ -10,8 +10,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Set;
-
 /**
  * A variable expression node.
  */
@@ -29,8 +27,7 @@ public class VariableExpression extends Expression {
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
-	public void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges, Set<Variable> vars) {
-		if(vars != null)
-			vars.add(var);
+	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(var);
 	}
 }

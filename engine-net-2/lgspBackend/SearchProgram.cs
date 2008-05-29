@@ -1869,12 +1869,14 @@ namespace de.unika.ipd.grGen.lgsp
         public CheckPartialMatchByCondition(
             string conditionID,
             string rulePatternTypeName,
+            bool needsGraph,
             string[] neededNodes,
             string[] neededEdges,
             string[] neededVariables)
         {
             ConditionID = conditionID;
             RulePatternTypeName = rulePatternTypeName;
+            NeedsGraph = needsGraph;
             NeededVariables = neededVariables;
             
             int i = 0;
@@ -1932,17 +1934,18 @@ namespace de.unika.ipd.grGen.lgsp
                 RulePatternTypeName, ConditionID);
             // emit call arguments
             sourceCode.Append("(");
-            bool first = true;
-            for (int i = 0; i < NeededElements.Length; ++i)
+            bool first;
+            if(NeedsGraph)
             {
-                if (!first)
-                {
-                    sourceCode.Append(", ");
-                }
-                else
-                {
-                    first = false;
-                }
+                sourceCode.Append("graph");
+                first = false;
+            }
+            else first = true;
+            for(int i = 0; i < NeededElements.Length; ++i)
+            {
+                if(!first) sourceCode.Append(", ");
+                else first = false;
+
                 sourceCode.Append(NamesOfEntities.CandidateVariable(NeededElements[i]));
             }
             for(int i = 0; i < NeededVariables.Length; i++)
@@ -1966,6 +1969,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public string ConditionID;
         public string RulePatternTypeName;
+        public bool NeedsGraph;
         public string[] NeededElements;
         public bool[] NeededElementIsNode;
         public string[] NeededVariables;

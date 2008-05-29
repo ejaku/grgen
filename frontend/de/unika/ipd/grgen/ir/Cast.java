@@ -7,12 +7,10 @@
 /**
  * @author G. Veit Batz
  * @version $Id$
- *
  */
 package de.unika.ipd.grgen.ir;
 
 import java.util.Collection;
-import java.util.Set;
 import java.util.Vector;
 
 public class Cast extends Expression
@@ -38,9 +36,7 @@ public class Cast extends Expression
 		return vec;
 	}
 
-	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
-	public void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges, Set<Variable> vars) {
-		getExpression().collectElementsAndVars(nodes, edges, vars);
+	public void collectNeededEntities(NeededEntities needs) {
+		getExpression().collectNeededEntities(needs);
 	}
 }
-

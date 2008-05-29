@@ -1077,6 +1077,7 @@ namespace de.unika.ipd.grGen.lgsp
             CheckPartialMatchByCondition checkCondition =
                 new CheckPartialMatchByCondition(condition.ID.ToString(),
                     rulePatternClassName,
+                    condition.NeedsGraph,
                     condition.NeededNodes,
                     condition.NeededEdges,
                     condition.NeededVariables);

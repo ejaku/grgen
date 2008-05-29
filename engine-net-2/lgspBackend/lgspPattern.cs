@@ -205,13 +205,16 @@ namespace de.unika.ipd.grGen.lgsp
     public class PatternCondition
     {
         public int ID;
+        public bool NeedsGraph;
         public String[] NeededNodes;
         public String[] NeededEdges;
         public String[] NeededVariables;
 
-        public PatternCondition(int id, String[] neededNodes, String[] neededEdges, String[] neededVariables)
+        public PatternCondition(int id, bool needsGraph, String[] neededNodes, String[] neededEdges,
+            String[] neededVariables)
         {
             ID = id;
+            NeedsGraph = needsGraph;
             NeededNodes = neededNodes;
             NeededEdges = neededEdges;
             NeededVariables = neededVariables;

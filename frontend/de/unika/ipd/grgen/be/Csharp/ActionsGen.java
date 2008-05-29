@@ -26,6 +26,7 @@ import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Model;
+import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Qualification;
@@ -37,9 +38,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ActionsGen extends CSharpBase {
 	public ActionsGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
@@ -593,16 +592,15 @@ public class ActionsGen extends CSharpBase {
 
 		int condCnt = condCntInit;
 		for(Expression expr : pattern.getConditions()) {
-			Set<Node> nodes = new LinkedHashSet<Node>();
-			Set<Edge> edges = new LinkedHashSet<Edge>();
-			Set<Variable> vars = new LinkedHashSet<Variable>();
-			expr.collectElementsAndVars(nodes, edges, vars);
-			sb.append("\t\t\tPatternCondition cond_" + condCnt + " = new PatternCondition(" + condCnt + ", new String[] ");
-			genEntitySet(sb, nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			NeededEntities needs = new NeededEntities(true, true, true);
+			expr.collectNeededEntities(needs);
+			sb.append("\t\t\tPatternCondition cond_" + condCnt + " = new PatternCondition(" + condCnt +
+					", " + (needs.isGraphUsed ? "true" : "false") + ", new String[] ");
+			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new String[] ");
-			genEntitySet(sb, edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new String[] ");
-			genEntitySet(sb, vars, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(");\n");
 			condCnt++;
 		}
@@ -727,22 +725,31 @@ public class ActionsGen extends CSharpBase {
 
 	private int genConditions(StringBuffer sb, Collection<Expression> conditions, int condCnt) {
 		for(Expression expr : conditions) {
-			Set<Node> nodes = new LinkedHashSet<Node>();
-			Set<Edge> edges = new LinkedHashSet<Edge>();
-			Set<Variable> vars = new LinkedHashSet<Variable>();
-			expr.collectElementsAndVars(nodes, edges, vars);
+			NeededEntities needs = new NeededEntities(true, true, true);
+			expr.collectNeededEntities(needs);
 			sb.append("\t\tpublic static bool Condition_" + condCnt + "(");
-			genSet(sb, nodes, "LGSPNode node_", "", false);
-			if(!edges.isEmpty())
-			{
-				if(!nodes.isEmpty())
-					sb.append(", ");
-				genSet(sb, edges, "LGSPEdge edge_", "", false);
+			boolean first = true;
+			if(needs.isGraphUsed) {
+				sb.append("LGSPGraph graph");
+				first = false;
 			}
-			if(!vars.isEmpty())
+			if(!needs.nodes.isEmpty())
 			{
-				boolean first = nodes.isEmpty() && edges.isEmpty();
-				for(Variable var : vars) {
+				if(!first) sb.append(", ");
+				genSet(sb, needs.nodes, "LGSPNode node_", "", false);
+				first = false;
+			}
+				
+			if(!needs.edges.isEmpty())
+			{
+				if(!first) sb.append(", ");
+				genSet(sb, needs.edges, "LGSPEdge edge_", "", false);
+				first = false;
+			}
+			
+			if(!needs.variables.isEmpty())
+			{
+				for(Variable var : needs.variables) {
 					if(first) first = false;
 					else sb.append(", ");
 					sb.append(formatAttributeType(var));

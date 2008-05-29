@@ -9,33 +9,33 @@
  */
 package de.unika.ipd.grgen.ir;
 
-public class Typeof extends Expression {
-	/** The entity whose type we want to know. */
-	private final Entity entity;
-
-	public Typeof(Entity entity) {
-		super("typeof", entity.getType());
+public class Visited extends Expression {
+	private Expression visitorID;
+	private Entity entity;
+	
+	public Visited(Expression visitorID, Entity entity) {
+		super("visited", visitorID.getType());
+		this.visitorID = visitorID;
 		this.entity = entity;
+	}
+	
+	public Expression getVisitorID() {
+		return visitorID;
 	}
 
 	public Entity getEntity() {
 		return entity;
 	}
-
-	public String getNodeLabel() {
-		return "typeof<" + entity + ">";
-	}
-
-	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
+	
 	public void collectNeededEntities(NeededEntities needs) {
-		if(entity instanceof Node) {
-			needs.add((Node)entity);
-		}
-		else if(entity instanceof Edge) {
-			needs.add((Edge)entity);
-		}
+		needs.needsGraph();
+		if(entity instanceof Node)
+			needs.add((Node) entity);
+		else if(entity instanceof Edge)
+			needs.add((Edge) entity);
 		else
 			throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
+		
+		visitorID.collectNeededEntities(needs);
 	}
 }
-

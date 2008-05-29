@@ -39,6 +39,7 @@ text returns [ ModelNode model = null ]
 		CollectNode<ModelNode> modelChilds = new CollectNode<ModelNode>();
 		CollectNode<IdentNode> types = new CollectNode<IdentNode>();
 		IdentNode id = env.getDummyIdent();
+		Token ignoredToken;
 
 		String modelName = Util.removeFileSuffix(Util.removePathPrefix(getFilename()), "gm");
 
@@ -47,7 +48,7 @@ text returns [ ModelNode model = null ]
 			new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
 	}
 
-	:   ( m:MODEL i:IDENT SEMI
+	:   ( m:MODEL ignoredToken=ident SEMI
 			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
 		)?
 		( usingDecl[modelChilds] )?
@@ -57,11 +58,6 @@ text returns [ ModelNode model = null ]
 				modelChilds.addChild(env.getStdModel());
 			model = new ModelNode(id, types, modelChilds);
 		}
-	;
-
-identList [ Collection<String> strings ]
-	: fid:IDENT { strings.add(fid.getText()); }
-		( COMMA sid:IDENT { strings.add(sid.getText()); } )*
 	;
 
 usingDecl [ CollectNode<ModelNode> modelChilds ]

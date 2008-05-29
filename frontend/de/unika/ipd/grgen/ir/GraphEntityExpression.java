@@ -10,8 +10,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Set;
-
 /**
  * A graph entity expression node.
  */
@@ -28,11 +26,12 @@ public class GraphEntityExpression extends Expression {
 		return graphEntity;
 	}
 
-	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
-	public void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges, Set<Variable> vars) {
-		if(nodes != null && graphEntity instanceof Node)
-			nodes.add((Node) graphEntity);
-		else if(edges != null && graphEntity instanceof Edge)
-			edges.add((Edge) graphEntity);
+	public void collectNeededEntities(NeededEntities needs) {
+		if(graphEntity instanceof Node)
+			needs.add((Node) graphEntity);
+		else if(graphEntity instanceof Edge)
+			needs.add((Edge) graphEntity);
+		else
+			throw new UnsupportedOperationException("Unsupported Entity (" + graphEntity + ")");
 	}
 }

@@ -132,6 +132,15 @@ options {
 	}
 }
 
+nonKeywordLiterals returns [ Token t = null ] options { defaultErrorHandler = false; }
+	: v:"visited" { t = v; }
+	;
+
+ident returns [ Token t = null ] options { defaultErrorHandler = false; }
+	: i:IDENT { t = i; }
+	| t=nonKeywordLiterals { t.setType(IDENT); }
+	; 
+
 pushScope [IdentNode name] options { defaultErrorHandler = false; }
 	{ env.pushScope(name); }
 
@@ -210,9 +219,9 @@ keyValuePairs [ DefaultAnnotations annots ]
 	;
 
 keyValuePair [ DefaultAnnotations annots ]
-	{ BaseNode c; }
+	{ BaseNode c; Token id; }
 
-	: id:IDENT
+	: id=ident
 		(
 			ASSIGN c=constant
 			{ annots.put(id.getText(), ((ConstNode) c).getValue()); }
@@ -221,13 +230,19 @@ keyValuePair [ DefaultAnnotations annots ]
 		)
 	;
 
+identList [ Collection<String> strings ]
+	{ Token fid, sid; }
+	: fid=ident { strings.add(fid.getText()); }
+		( COMMA sid=ident { strings.add(sid.getText()); } )*
+	;
+
 /**
  * declaration of an identifier
  */
 identDecl [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
-	{ Annotations annots; }
+	{ Annotations annots; Token i; }
 
-	: i:IDENT
+	: i=ident
 		{ res = new IdentNode(env.define(symTab, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
@@ -238,7 +253,8 @@ identDecl [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
  * created by the definition is returned.
  */
 identUse [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
-	: i:IDENT
+	{ Token i; }
+	: i=ident
 		{ res = new IdentNode(env.occurs(symTab, i.getText(), getCoords(i))); }
 	;
 
@@ -248,12 +264,13 @@ identUse [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
 
 assignment returns [ AssignNode res = null ]
 	{
-		QualIdentNode q;
+		BaseNode tgt;
 		ExprNode e;
 	}
 
-	: q=qualIdent a:ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
-		{ res = new AssignNode(getCoords(a), q, e); }
+	: ( tgt=qualIdent | tgt=visitedExpr )
+		a:ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
+		{ res = new AssignNode(getCoords(a), tgt, e); }
 	;
 
 expr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
@@ -438,7 +455,8 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	;
 
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: res=qualIdentExpr
+	: res=visitedExpr
+	| res=qualIdentExpr
 	| res=identExpr
 	| res=constant
 	| res=enumItemExpr
@@ -449,6 +467,13 @@ primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 		{ reportError(getCoords(q), "decrement operator \"--\" not supported"); }
 	| LPAREN res=expr[inEnumInit] RPAREN
 	;
+
+visitedExpr returns [ ExprNode res = env.initExprNode() ]
+	{ ExprNode idExpr; BaseNode elem; }
+	
+	: v:VISITED LPAREN idExpr=expr[false] COMMA elem=entIdentUse RPAREN
+	  { res = new VisitedNode(getCoords(v), idExpr, elem); }
+	; 
 
 typeOf returns [ ExprNode res = env.initExprNode() ]
 	{ BaseNode id; }
@@ -481,9 +506,9 @@ constant returns [ ExprNode res = env.initExprNode() ]
 	;
 
 identExpr returns [ ExprNode res = env.initExprNode() ]
-	{ IdentNode id; }
+	{ IdentNode id; Token i; }
 
-	: i:IDENT
+	: i=ident
 		{
 			if(env.test(ParserEnvironment.TYPES, i.getText())) {
 				id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
@@ -561,5 +586,3 @@ integerConst returns [ int value = 0 ]
 	: i:NUM_INTEGER
 		{ value = Integer.parseInt(i.getText()); }
 	;
-
-

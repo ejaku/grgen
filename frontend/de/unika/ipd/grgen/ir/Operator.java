@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ir;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * An operator in an expression.
@@ -102,8 +101,8 @@ public class Operator extends Expression {
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
-	public void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges, Set<Variable> vars) {
+	public void collectNeededEntities(NeededEntities needs) {
 		for(Expression child : getWalkableChildren())
-			child.collectElementsAndVars(nodes, edges, vars);
+			child.collectNeededEntities(needs);
 	}
 }

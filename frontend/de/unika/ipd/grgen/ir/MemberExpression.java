@@ -10,8 +10,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Set;
-
 /**
  * A member expression node.
  */
@@ -29,6 +27,6 @@ public class MemberExpression extends Expression {
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
-	public void collectElementsAndVars(Set<Node> nodes, Set<Edge> edges, Set<Variable> vars) {
+	public void collectNeededEntities(NeededEntities needs) {
 	}
 }
