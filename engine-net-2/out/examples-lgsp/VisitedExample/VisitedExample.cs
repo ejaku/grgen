@@ -7,6 +7,13 @@ using de.unika.ipd.grGen.libGr;
 
 namespace VisitedExample
 {
+    enum WalkerMode
+    {
+        Outgoing,
+        Incoming,
+        Adjacent
+    }
+
     enum WalkerResult
     {
         Proceed,
@@ -22,6 +29,7 @@ namespace VisitedExample
         public int VisitorID;
         public WalkerHandler PreHandler;
         public WalkerHandler PostHandler;
+        public WalkerMode Mode;
 
         public DFSWalker(IGraph graph, WalkerHandler pre, WalkerHandler post, int visitorID)
         {
@@ -46,10 +54,15 @@ namespace VisitedExample
                 if(!node.Valid) return WalkerResult.Proceed;
             }
 
-            // TODO: Introduce node.Adjacent
-            foreach(IEdge edge in node.Outgoing)
+            IEnumerable<IEdge> edgesToNext;
+            if(Mode == WalkerMode.Outgoing) edgesToNext = node.Outgoing;
+            else if(Mode == WalkerMode.Incoming) edgesToNext = node.Incoming;
+            else if(Mode == WalkerMode.Adjacent) edgesToNext = node.Adjacent;
+            else throw new InvalidOperationException("Invalid walker mode!");
+
+            foreach(IEdge edge in edgesToNext)
             {
-                INode next = edge.Target;
+                INode next = edge.GetOther(node);
 
                 WalkerResult res = DoDFS(next);
                 if(res == WalkerResult.Abort) return WalkerResult.Abort;
@@ -73,6 +86,7 @@ namespace VisitedExample
         public IGraph Graph;
         public int VisitorID;
         public WalkerHandler Handler;
+        public WalkerMode Mode;
 
         public BFSWalker(IGraph graph, WalkerHandler handler, int visitorID)
         {
@@ -104,9 +118,14 @@ namespace VisitedExample
                     if(!curNode.Valid) continue;
                 }
 
-                // TODO: Introduce node.Adjacent
-                foreach(IEdge edge in curNode.Outgoing)
-                    workList.AddLast(edge.Target);
+                IEnumerable<IEdge> edgesToNext;
+                if(Mode == WalkerMode.Outgoing) edgesToNext = curNode.Outgoing;
+                else if(Mode == WalkerMode.Incoming) edgesToNext = curNode.Incoming;
+                else if(Mode == WalkerMode.Adjacent) edgesToNext = curNode.Adjacent;
+                else throw new InvalidOperationException("Invalid walker mode!");
+
+                foreach(IEdge edge in edgesToNext)
+                    workList.AddLast(edge.GetOther(curNode));
             }
             while(workList.Count != 0);
 
@@ -146,7 +165,7 @@ namespace VisitedExample
             for(int i = 0; i < numNodes; i++)
                 nodes.Add(Node.CreateNode(graph));
 
-            Random rnd = new Random(3);
+            Random rnd = new Random(4);
             for(int i = 0; i < numEdges; i++)
                 Edge.CreateEdge(graph, nodes[rnd.Next(numNodes)], nodes[rnd.Next(numNodes)]);
 
@@ -161,6 +180,7 @@ namespace VisitedExample
             graph.ResetVisitedFlag(visitorID);
             countedNodesPre = 0;
             BFSWalker bfs = new BFSWalker(graph, PreWalker, visitorID);
+            bfs.Mode = WalkerMode.Adjacent;
             bfs.DoBFS(nodes[0]);
 
             Console.WriteLine("Visited nodes BFS: " + countedNodesPre);

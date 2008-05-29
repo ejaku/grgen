@@ -171,6 +171,42 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns an IEnumerable&lt;IEdge&gt; over all adjacent edges with the same type or a subtype of the given type
+        /// </summary>
+        public IEnumerable<IEdge> GetCompatibleAdjacent(EdgeType edgeType)
+        {
+            if(outhead != null)
+            {
+                LGSPEdge cur = outhead.outNext;
+                LGSPEdge next;
+                while(outhead != null && cur != outhead)
+                {
+                    next = cur.outNext;
+                    if(cur.Type.IsA(edgeType))
+                        yield return cur;
+                    cur = next;
+                }
+                if(outhead != null && outhead.Type.IsA(edgeType))
+                    yield return outhead;
+            }
+
+            if(inhead != null)
+            {
+                LGSPEdge cur = inhead.inNext;
+                LGSPEdge next;
+                while(inhead != null && cur != inhead)
+                {
+                    next = cur.inNext;
+                    if(cur.Type.IsA(edgeType))
+                        yield return cur;
+                    cur = next;
+                }
+                if(inhead != null && inhead.Type.IsA(edgeType))
+                    yield return inhead;
+            }
+        }
+
+        /// <summary>
         /// Returns an IEnumerable&lt;IEdge&gt; over all outgoing edges with exactly the given type
         /// </summary>
         public IEnumerable<IEdge> GetExactOutgoing(EdgeType edgeType)
@@ -206,6 +242,42 @@ namespace de.unika.ipd.grGen.lgsp
             }
             if(inhead != null && inhead.Type == edgeType)
                 yield return inhead;
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable&lt;IEdge&gt; over all adjacent edges with exactly the given type
+        /// </summary>
+        public IEnumerable<IEdge> GetExactAdjacent(EdgeType edgeType)
+        {
+            if(outhead != null)
+            {
+                LGSPEdge cur = outhead.outNext;
+                LGSPEdge next;
+                while(outhead != null && cur != outhead)
+                {
+                    next = cur.outNext;
+                    if(cur.Type == edgeType)
+                        yield return cur;
+                    cur = next;
+                }
+                if(outhead != null && outhead.Type == edgeType)
+                    yield return outhead;
+            }
+
+            if(inhead != null)
+            {
+                LGSPEdge cur = inhead.inNext;
+                LGSPEdge next;
+                while(inhead != null && cur != inhead)
+                {
+                    next = cur.inNext;
+                    if(cur.Type == edgeType)
+                        yield return cur;
+                    cur = next;
+                }
+                if(inhead != null && inhead.Type == edgeType)
+                    yield return inhead;
+            }
         }
 
         /// <summary>
@@ -249,6 +321,44 @@ namespace de.unika.ipd.grGen.lgsp
                     yield return inhead;
             }
         }
+
+        /// <summary>
+        /// Returns an IEnumerable&lt;IEdge&gt; over all adjacent edges
+        /// </summary>
+        public IEnumerable<IEdge> Adjacent
+        {
+            get
+            {
+                if(outhead != null)
+                {
+                    LGSPEdge cur = outhead.outNext;
+                    LGSPEdge next;
+                    while(outhead != null && cur != outhead)
+                    {
+                        next = cur.outNext;
+                        yield return cur;
+                        cur = next;
+                    }
+                    if(outhead != null)
+                        yield return outhead;
+                }
+
+                if(inhead != null)
+                {
+                    LGSPEdge cur = inhead.inNext;
+                    LGSPEdge next;
+                    while(inhead != null && cur != inhead)
+                    {
+                        next = cur.inNext;
+                        yield return cur;
+                        cur = next;
+                    }
+                    if(inhead != null)
+                        yield return inhead;
+                }
+            }
+        }
+
         internal bool HasOutgoing { get { return outhead != null; } }
         internal bool HasIncoming { get { return inhead != null; } }
 
@@ -520,6 +630,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// The target node of the edge.
         /// </summary>
         public INode Target { get { return target; } }
+
+        /// <summary>
+        /// Retrieves the other adjacent node of this edge.
+        /// </summary>
+        /// <remarks>If the given node is not the source, the source will be returned.</remarks>
+        /// <param name="sourceOrTarget">One node of this edge.</param>
+        /// <returns>The other node of this edge.</returns>
+        public INode GetOther(INode sourceOrTarget)
+        {
+            if(sourceOrTarget == source) return target;
+            else return source;
+        }
 
         /// <summary>
         /// The EdgeType of the edge.

@@ -1076,10 +1076,13 @@ namespace de.unika.ipd.grGen.libGr
             // TODO: Do we need to support this for other dumpers???
             public IEnumerable<IEdge> Outgoing { get { yield break; } }
             public IEnumerable<IEdge> Incoming { get { yield break; } }
+            public IEnumerable<IEdge> Adjacent { get { yield break; } }
             public IEnumerable<IEdge> GetCompatibleOutgoing(EdgeType edgeType) { yield break; }
             public IEnumerable<IEdge> GetCompatibleIncoming(EdgeType edgeType) { yield break; }
+            public IEnumerable<IEdge> GetCompatibleAdjacent(EdgeType edgeType) { yield break; }
             public IEnumerable<IEdge> GetExactOutgoing(EdgeType edgeType) { yield break; }
             public IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType) { yield break; }
+            public IEnumerable<IEdge> GetExactAdjacent(EdgeType edgeType) { yield break; }
 
             public INode Clone()
             {
