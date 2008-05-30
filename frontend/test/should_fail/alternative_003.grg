@@ -1,0 +1,11 @@
+pattern patWithAbstract
+{
+    a:Node ?--? b:Node;
+}
+
+rule instantiateAbstractPattern
+{
+    modify {
+        :patWithAbstract();
+    }
+}

@@ -161,3 +161,20 @@ rule SetVisitedEdge(var visID1:int, var visID2:int) : (boolean)
         return(visited(f, visID2));
     }
 }
+
+test FixedVisitedNode
+{
+    n:Node;
+    if { visited(n, 0); }
+}
+
+rule SetFixedVisitedNode
+{
+    n:Node;
+
+    modify {
+        eval {
+            visited(n, 0) = true;
+        }
+    }
+}

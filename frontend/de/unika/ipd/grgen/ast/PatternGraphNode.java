@@ -157,11 +157,6 @@ public class PatternGraphNode extends GraphNode {
 		return homs.getChildren();
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	protected boolean resolveLocal() {
-		return super.resolveLocal();
-	}
-
 	protected boolean checkLocal() {
 		boolean childs = super.checkLocal();
 
@@ -530,7 +525,7 @@ public class PatternGraphNode extends GraphNode {
 
 			for (Map.Entry<List<NodeDeclNode>, Boolean> candidateMarkedMap : candidate.getKey().entrySet()) {
 				// TODO also mark witness edge (and candidate as witness)
-				if (!candidateMarkedMap.getValue()) {
+				if (!candidateMarkedMap.getValue().booleanValue()) {
 					for (Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> witness : inducedEdgeMap.entrySet()) {
 						if (candidate != witness) {
 							// if witness contains edge

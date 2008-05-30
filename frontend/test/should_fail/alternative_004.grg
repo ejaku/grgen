@@ -1,0 +1,20 @@
+pattern patWithAlt
+{
+    alternative {
+        one {
+            a:Node;
+        }
+        two {
+            a:Node -- b:Node;
+        }
+    }
+}
+
+// trying to find a patWithAlt afterwards will not find anything,
+// so this should not be valid
+rule instantiatePatternWithAlternative
+{
+    modify {
+        p:patWithAlt();
+    }
+}

@@ -49,6 +49,11 @@ public class SubpatternUsageNode extends DeclNode {
 		return type.getDeclType();
 	}
 
+	public SubpatternDeclNode getSubpatternDeclNode() {
+		assert isResolved();
+		return type;
+	}
+
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();

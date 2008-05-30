@@ -345,11 +345,11 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 					res = false;
 					continue;
 				}
-				
+
 				if(right.getChildren().size()==0) continue;
-				
+
 				Vector<DeclNode> parameters = right.children.get(0).graph.getParamDecls(); // todo: choose the right one
-				Vector<DeclNode> parametersInNestedAlternativeCase = 
+				Vector<DeclNode> parametersInNestedAlternativeCase =
 					altCase.right.children.get(0).graph.getParamDecls(); // todo: choose the right one
 
 				if(parameters.size()!=parametersInNestedAlternativeCase.size()) {
@@ -365,16 +365,16 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 					ConstraintDeclNode parameterInNestedAlternativeCase = (ConstraintDeclNode)parametersInNestedAlternativeCase.get(i);
 					InheritanceTypeNode parameterType = parameter.getDeclType();
 					InheritanceTypeNode parameterInNestedAlternativeCaseType = parameterInNestedAlternativeCase.getDeclType();
-					
+
 					if(!parameterType.isEqual(parameterInNestedAlternativeCaseType)) {
-						parameterInNestedAlternativeCase.ident.reportError("Different type of replacement parameter in nested alternative case " + altCase.ident.toString() 
+						parameterInNestedAlternativeCase.ident.reportError("Different type of replacement parameter in nested alternative case " + altCase.ident.toString()
 								+ " at parameter " + parameterInNestedAlternativeCase.ident.toString() + " compared to replacement parameter in subpattern " + ident.toString());
 						res = false;
 					}
 				}
 			}
 		}
-		
+
 		return res;
 	}
 
@@ -564,6 +564,11 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		assert isResolved();
 
 		return type;
+	}
+
+	public PatternGraphNode getPattern() {
+		assert isResolved();
+		return pattern;
 	}
 
 	public static String getKindStr() {

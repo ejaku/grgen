@@ -48,6 +48,8 @@ public class GraphNode extends BaseNode {
 	CollectNode<BaseNode> imperativeStmts;
 	CollectNode<BaseNode> params;
 
+	protected boolean hasAbstractElements;
+
 	// Cache variables
 	private Set<BaseNode> nodes;
 	private Set<BaseNode> edges;
@@ -125,12 +127,20 @@ public class GraphNode extends BaseNode {
 			if (resolve.first != null) {
     			for (ConnectionNode conn : resolve.first.getChildren()) {
                     connections.addChild(conn);
+					if(!conn.resolve()) return false;
+					if(conn.getEdge().getDeclType().isAbstract()
+							|| conn.getSrc().getDeclType().isAbstract()
+							|| conn.getTgt().getDeclType().isAbstract())
+						hasAbstractElements = true;
                 }
 			}
 
         	if (resolve.second != null) {
             	for (SingleNodeConnNode conn : resolve.second.getChildren()) {
                     connections.addChild(conn);
+					if(!conn.resolve()) return false;
+					if(conn.getNode().getDeclType().isAbstract())
+						hasAbstractElements = true;
                 }
 			}
 
@@ -172,7 +182,21 @@ public class GraphNode extends BaseNode {
 			else paramsOK = false;
         }
 
-		return resolve != null && paramsOK;
+		boolean resSubUsages = true;
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+			for(SubpatternUsageNode subUsage : subpatterns.getChildren()) {
+				if(subUsage.resolve()) {
+					PatternGraphNode pattern = subUsage.getSubpatternDeclNode().getPattern();
+					if(pattern.hasAbstractElements) {
+						subUsage.reportError("Cannot instantiate pattern with abstract elements");
+						resSubUsages = false;
+					}
+				}
+				else resSubUsages = false;
+			}
+		}
+
+		return resolve != null && paramsOK && resSubUsages;
 	}
 
 	private static final Checker connectionsChecker = new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
@@ -287,7 +311,6 @@ public class GraphNode extends BaseNode {
 			gr.addSubpatternReplacement(n.checkIR(SubpatternDependentReplacement.class));
 		}
 
-		// TODO imperativeStmts
 		for(BaseNode imp : imperativeStmts.getChildren()) {
 			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
 		}

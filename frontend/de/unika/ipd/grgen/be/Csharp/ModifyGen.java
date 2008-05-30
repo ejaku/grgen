@@ -232,31 +232,33 @@ public class ModifyGen extends CSharpBase {
 		}
 
 		if(isSubpattern) {
-			// create subpattern into pattern
-			ModifyGenerationTask task = new ModifyGenerationTask();
-			task.typeOfTask = TYPE_OF_TASK_CREATION;
-			task.left = new PatternGraph(rule.getLeft().getNameOfGraph(), false); // empty graph
-			task.right = rule.getLeft();
-			task.parameters = rule.getParameters();
-			task.evals = emptyEvals;
-			task.replParameters = emptyParameters;
-			task.returns = emptyReturns;
-			task.isSubpattern = true;
-			for(Entity entity : task.parameters) { // add connections to empty graph so that they stay unchanged
-				if(entity instanceof Node) {
-					Node node = (Node)entity;
-					task.left.addSingleNode(node);
-				} else if(entity instanceof Edge) {
-					Edge edge = (Edge)entity;
-					task.left.addSingleEdge(edge);
-				} else {
-					assert false;
+			if(!hasAbstractElements(rule.getLeft())) {
+				// create subpattern into pattern
+				ModifyGenerationTask task = new ModifyGenerationTask();
+				task.typeOfTask = TYPE_OF_TASK_CREATION;
+				task.left = new PatternGraph(rule.getLeft().getNameOfGraph(), false); // empty graph
+				task.right = rule.getLeft();
+				task.parameters = rule.getParameters();
+				task.evals = emptyEvals;
+				task.replParameters = emptyParameters;
+				task.returns = emptyReturns;
+				task.isSubpattern = true;
+				for(Entity entity : task.parameters) { // add connections to empty graph so that they stay unchanged
+					if(entity instanceof Node) {
+						Node node = (Node)entity;
+						task.left.addSingleNode(node);
+					} else if(entity instanceof Edge) {
+						Edge edge = (Edge)entity;
+						task.left.addSingleEdge(edge);
+					} else {
+						assert false;
+					}
 				}
+				genModifyRuleOrSubrule(sb, task, pathPrefix);
 			}
-			genModifyRuleOrSubrule(sb, task, pathPrefix);
 
 			// delete subpattern from pattern
-			task = new ModifyGenerationTask();
+			ModifyGenerationTask task = new ModifyGenerationTask();
 			task.typeOfTask = TYPE_OF_TASK_DELETION;
 			task.left = rule.getLeft();
 			task.right = new PatternGraph(rule.getLeft().getNameOfGraph(), false); // empty graph
@@ -292,6 +294,19 @@ public class ModifyGen extends CSharpBase {
 			}
 			++i;
 		}
+	}
+
+	/**
+	 * Checks whether the given pattern contains abstract elements.
+	 */
+	private boolean hasAbstractElements(PatternGraph left) {
+		for(Node node : left.getNodes())
+			if(node.getNodeType().isAbstract()) return true;
+
+		for(Edge edge : left.getEdges())
+			if(edge.getEdgeType().isAbstract()) return true;
+
+		return false;
 	}
 
 	private void genModifyAlternative(StringBuffer sb, Rule rule, Alternative alt,
@@ -354,7 +369,7 @@ public class ModifyGen extends CSharpBase {
 			boolean isSubpattern) {
 		// Emit function header
 		sb.append("\n");
-		sb.append("\t\tpublic void " + pathPrefix+altName+"_"+"Delete(LGSPGraph graph, LGSPMatch curMatch)\n");
+		sb.append("\t\tpublic void " + pathPrefix+altName+"_Delete(LGSPGraph graph, LGSPMatch curMatch)\n");
 		sb.append("\t\t{\n");
 
 		// Emit dispatcher calling the delete-method of the alternative case which was matched
