@@ -1,0 +1,6 @@
+// visitor ID must be int
+test visitTest(var b:boolean)
+{
+    n:Node;
+    if { visited(n, b); }
+}

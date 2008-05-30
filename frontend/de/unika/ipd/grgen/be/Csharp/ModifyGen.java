@@ -178,7 +178,7 @@ public class ModifyGen extends CSharpBase {
 
 	final List<Entity> emptyParameters = new LinkedList<Entity>();
 	final List<Expression> emptyReturns = new LinkedList<Expression>();
-	final Collection<Assignment> emtpyEvals = new HashSet<Assignment>();
+	final Collection<Assignment> emptyEvals = new HashSet<Assignment>();
 
 	public ModifyGen(String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);
@@ -238,7 +238,7 @@ public class ModifyGen extends CSharpBase {
 			task.left = new PatternGraph(rule.getLeft().getNameOfGraph(), false); // empty graph
 			task.right = rule.getLeft();
 			task.parameters = rule.getParameters();
-			task.evals = emtpyEvals;
+			task.evals = emptyEvals;
 			task.replParameters = emptyParameters;
 			task.returns = emptyReturns;
 			task.isSubpattern = true;
@@ -261,7 +261,7 @@ public class ModifyGen extends CSharpBase {
 			task.left = rule.getLeft();
 			task.right = new PatternGraph(rule.getLeft().getNameOfGraph(), false); // empty graph
 			task.parameters = rule.getParameters();
-			task.evals = emtpyEvals;
+			task.evals = emptyEvals;
 			task.replParameters = emptyParameters;
 			task.returns = emptyReturns;
 			task.isSubpattern = true;
@@ -715,6 +715,7 @@ public class ModifyGen extends CSharpBase {
 				Emit emit = (Emit) istmt;
 				for(Expression arg : emit.getArguments())
 					collectNeededAttributes(arg, neededAttributes,
+							nodesNeededAsElements, edgesNeededAsElements,
 							nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
 			}
 			else if (istmt instanceof Exec) {
@@ -752,6 +753,7 @@ public class ModifyGen extends CSharpBase {
 				Visited visTgt = (Visited) target;
 				entity = visTgt.getEntity();
 				collectNeededAttributes(visTgt.getVisitorID(), neededAttributes,
+						nodesNeededAsElements, edgesNeededAsElements,
 						nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
 			}
 			else
@@ -765,8 +767,10 @@ public class ModifyGen extends CSharpBase {
 				throw new UnsupportedOperationException("Unsupported entity (" + entity + ")");
 
 			collectNeededAttributes(target, neededAttributes,
+					nodesNeededAsElements, edgesNeededAsElements,
 					nodesNeededAsAttributes, edgesNeededAsAttributes, null);
 			collectNeededAttributes(ass.getExpression(), neededAttributes,
+					nodesNeededAsElements, edgesNeededAsElements,
 					nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
 		}
 	}
@@ -789,6 +793,7 @@ public class ModifyGen extends CSharpBase {
 			}
 			else
 				collectNeededAttributes(expr, neededAttributes,
+						nodesNeededAsElements, edgesNeededAsElements,
 						nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
 		}
 	}
@@ -1115,12 +1120,14 @@ public class ModifyGen extends CSharpBase {
 	 * @param neededVariables This may be null, if not used.
 	 */
 	private void collectNeededAttributes(Expression expr, HashMap<GraphEntity, HashSet<Entity>> neededAttributes,
+			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
 			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes,
 			HashSet<Variable> neededVariables) {
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
 			for(int i = 0; i < op.arity(); i++)
 				collectNeededAttributes(op.getOperand(i), neededAttributes,
+						nodesNeededAsElements, edgesNeededAsElements,
 						nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
 		}
 		else if(expr instanceof Qualification) {
@@ -1141,11 +1148,25 @@ public class ModifyGen extends CSharpBase {
 		else if(expr instanceof Cast) {
 			Cast cast = (Cast) expr;
 			collectNeededAttributes(cast.getExpression(), neededAttributes,
+					nodesNeededAsElements, edgesNeededAsElements,
 					nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
 		}
 		else if(expr instanceof VariableExpression) {
 			if(neededVariables != null)
 				neededVariables.add(((VariableExpression) expr).getVariable());
+		}
+		else if(expr instanceof Visited) {
+			Visited vis = (Visited) expr;
+			GraphEntity entity = (GraphEntity) vis.getEntity();
+			if(entity instanceof Node)
+				nodesNeededAsElements.add((Node) entity);
+			else if(entity instanceof Edge)
+				edgesNeededAsElements.add((Edge) entity);
+			else
+				throw new UnsupportedOperationException("Unsupported entity (" + entity + ")");
+			collectNeededAttributes(vis.getVisitorID(), neededAttributes,
+					nodesNeededAsElements, edgesNeededAsElements,
+					nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
 		}
 	}
 
@@ -1480,9 +1501,9 @@ public class ModifyGen extends CSharpBase {
 			else if(target instanceof Visited) {
 				Visited visTgt = (Visited) target;
 
-				sb.append("\t\t\tgraph.SetVisited(");
+				sb.append("\t\t\tgraph.SetVisited(" + formatEntity(visTgt.getEntity()) + ", ");
 				genExpression(sb, visTgt.getVisitorID(), state);
-				sb.append(", " + formatEntity(visTgt.getEntity()) + ", ");
+				sb.append(", ");
 				genExpression(sb, ass.getTarget(), state);
 				sb.append(");\n");
 			}

@@ -59,7 +59,7 @@ public abstract class CSharpBase {
 		this.nodeTypePrefix = nodeTypePrefix;
 		this.edgeTypePrefix = edgeTypePrefix;
 	}
-	
+
 	/**
 	 * Write a character sequence to a file using the given path.
 	 * @param path The path for the file.
@@ -397,10 +397,8 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof Visited) {
 			Visited vis = (Visited) expr;
-			sb.append("graph.IsVisited(");
+			sb.append("graph.IsVisited(" + formatEntity(vis.getEntity()) + ", ");
 			genExpression(sb, vis.getVisitorID(), modifyGenerationState);
-			sb.append(", ");
-			sb.append(formatEntity(vis.getEntity()));
 			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");

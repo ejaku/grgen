@@ -147,9 +147,9 @@ public class Formatter {
 		}
 		else if(cond instanceof Visited) {
 			Visited vis = (Visited) cond;
-			sb.append("visited(");
+			sb.append("visited(" + formatIdentifiable(vis.getEntity()) + ", ");
 			formatConditionEvalAux(sb, vis.getVisitorID());
-			sb.append(", " + formatIdentifiable(vis.getEntity()) + ")");
+			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}

@@ -139,7 +139,7 @@ nonKeywordLiterals returns [ Token t = null ] options { defaultErrorHandler = fa
 ident returns [ Token t = null ] options { defaultErrorHandler = false; }
 	: i:IDENT { t = i; }
 	| t=nonKeywordLiterals { t.setType(IDENT); }
-	; 
+	;
 
 pushScope [IdentNode name] options { defaultErrorHandler = false; }
 	{ env.pushScope(name); }
@@ -469,11 +469,11 @@ primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	;
 
 visitedExpr returns [ ExprNode res = env.initExprNode() ]
-	{ ExprNode idExpr; BaseNode elem; }
-	
-	: v:VISITED LPAREN idExpr=expr[false] COMMA elem=entIdentUse RPAREN
+	{ BaseNode elem; ExprNode idExpr; }
+
+	: v:VISITED LPAREN elem=entIdentUse COMMA idExpr=expr[false] RPAREN
 	  { res = new VisitedNode(getCoords(v), idExpr, elem); }
-	; 
+	;
 
 typeOf returns [ ExprNode res = env.initExprNode() ]
 	{ BaseNode id; }
