@@ -1394,6 +1394,36 @@ namespace de.unika.ipd.grGen.grShell
             curShellGraph.Graph.SetVariableValue(varName, elem);
         }
 
+        public int AllocVisitFlag()
+        {
+            if(!GraphExists()) return -1;
+            return curShellGraph.Graph.AllocateVisitedFlag();
+        }
+
+        public bool FreeVisitFlag(object idObj)
+        {
+            if(!GraphExists()) return false;
+            if(!(idObj is int))
+            {
+                Console.WriteLine("Value of variable must be integer!");
+                return false;
+            }
+            curShellGraph.Graph.FreeVisitedFlag((int) idObj);
+            return true;
+        }
+
+        public bool ResetVisitFlag(object idObj)
+        {
+            if(!GraphExists()) return false;
+            if(!(idObj is int))
+            {
+                Console.WriteLine("Value of variable must be integer!");
+                return false;
+            }
+            curShellGraph.Graph.ResetVisitedFlag((int) idObj);
+            return true;
+        }
+
         public bool RedirectEmit(String filename)
         {
             if(!GraphExists()) return false;

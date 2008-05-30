@@ -224,6 +224,7 @@ TOKEN: {
 TOKEN: {
     < ACTIONS: "actions" >
 |   < ADD: "add" >
+|   < ALLOCVISITFLAG: "allocvisitflag" >
 |   < ATTRIBUTES: "attributes" >
 |   < BACKEND: "backend" >
 |   < BORDERCOLOR: "bordercolor" >
@@ -245,6 +246,7 @@ TOKEN: {
 |   < EXIT: "exit" >
 |   < FALSE: "false" >
 |   < FILE: "file" >
+|   < FREEVISITFLAG: "freevisitflag" >
 |   < GET: "get" >
 |   < GRAPH: "graph" >
 |   < GRAPHS: "graphs" >
@@ -274,6 +276,7 @@ TOKEN: {
 |   < QUIT: "quit" >
 |   < REDIRECT: "redirect" >
 |   < RESET: "reset" >
+|   < RESETVISITFLAG: "resetvisitflag" >
 |   < SAVE: "save" >
 |   < SELECT: "select" >
 |   < SET: "set" >
@@ -433,6 +436,21 @@ int Number():
 	}
 }
 
+object NumberOrVar():
+{
+	Token t;
+	object val;
+	String str;
+}
+{
+	t=<NUMBER>
+	{
+		return Convert.ToInt32(t.image);
+	}
+|
+	str=Word() { val = impl.GetVarValue(str); return val; }
+}
+
 String Filename():
 {
     Token tok;
@@ -580,7 +598,7 @@ void ShellCommand():
 {
 	String str1, str2;
 	IGraphElement elem;
-	object val;
+	object obj;
 	INode node1, node2;
 	IEdge edge1, edge2;
 	ShellGraph shellGraph = null;
@@ -747,6 +765,16 @@ void ShellCommand():
 	    }
 	)
 |
+	"freevisitflag" obj=NumberOrVar() LineEnd()
+	{
+		noError = impl.FreeVisitFlag(obj);
+	}
+|
+	"resetvisitflag" obj=NumberOrVar() LineEnd()
+	{
+		noError = impl.ResetVisitFlag(obj);
+	}
+|
     // TODO: Introduce prefix for the following commands to allow useful error handling!
     
     try
@@ -766,14 +794,20 @@ void ShellCommand():
     |
         str1=Word() "="
         (
-            val=GraphElementOrVarOrNull() LineEnd()
+			"allocvisitflag" LineEnd()
+			{
+				obj = impl.AllocVisitFlag();
+				if((int) obj < 0) noError = false;
+			}
         |
-            val=QuotedText() LineEnd()
+            obj=GraphElementOrVarOrNull() LineEnd()
         |
-            val=Number() LineEnd()
+            obj=QuotedText() LineEnd()
+        |
+            obj=Number() LineEnd()
         )
         {
-            impl.SetVariable(str1, val);
+			if(noError) impl.SetVariable(str1, obj);
         }
     }
     catch(ParseException ex)

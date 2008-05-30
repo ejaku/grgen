@@ -1,0 +1,13 @@
+node class N { id : int; }
+
+node class A extends N;
+node class B extends N;
+
+node class State {
+  nextNodeID : int;
+  maxNodeID : int;
+  rand1 : int;
+  rand2 : int;
+  randRes1 : int;
+  randRes2 : int;
+}

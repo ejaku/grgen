@@ -1,0 +1,14 @@
+new graph "visit1\visit"
+
+xgrs (state)=init
+state.maxNodeID = 10
+# state.rand1 = 1231579
+# state.rand2 = 165031
+
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[15]
+
+visID = allocvisitflag
+
+debug xgrs findComponent(visID)
+
+freevisitflag(visID)
