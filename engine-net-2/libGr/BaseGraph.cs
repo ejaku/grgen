@@ -291,18 +291,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Sets the visited flag of the given graph element.
         /// </summary>
-        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <param name="elem">The graph element whose flag is to be set.</param>
+        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <param name="visited">True for visited, false for not visited.</param>
-        public abstract void SetVisited(int visitorID, IGraphElement elem, bool visited);
+        public abstract void SetVisited(IGraphElement elem, int visitorID, bool visited);
 
         /// <summary>
         /// Returns whether the given graph element has been visited.
         /// </summary>
-        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <param name="elem">The graph element to be examined.</param>
+        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <returns>True for visited, false for not visited.</returns>
-        public abstract bool IsVisited(int visitorID, IGraphElement elem);
+        public abstract bool IsVisited(IGraphElement elem, int visitorID);
 
         #endregion Abstract and virtual members
 

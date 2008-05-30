@@ -1615,10 +1615,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Sets the visited flag of the given graph element.
         /// </summary>
-        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <param name="elem">The graph element whose flag is to be set.</param>
+        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <param name="visited">True for visited, false for not visited.</param>
-        public override void SetVisited(int visitorID, IGraphElement elem, bool visited)
+        public override void SetVisited(IGraphElement elem, int visitorID, bool visited)
         {
             VisitorData data = visitorDataList[visitorID];
             LGSPNode node = elem as LGSPNode;
@@ -1662,10 +1662,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Returns whether the given graph element has been visited.
         /// </summary>
-        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <param name="elem">The graph element to be examined.</param>
+        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <returns>True for visited, false for not visited.</returns>
-        public override bool IsVisited(int visitorID, IGraphElement elem)
+        public override bool IsVisited(IGraphElement elem, int visitorID)
         {
             if(visitorID < (int) LGSPElemFlags.NUM_SUPPORTED_VISITOR_IDS)        // id supported by flags?
             {

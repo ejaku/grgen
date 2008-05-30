@@ -690,19 +690,19 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Sets the visited flag of the given graph element.
         /// </summary>
-        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <param name="elem">The graph element whose flag is to be set.</param>
+        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <param name="visited">True for visited, false for not visited.</param>
-        public void SetVisited(int visitorID, IGraphElement elem, bool visited)
-        { graph.SetVisited(visitorID, elem, visited); }
+        public void SetVisited(IGraphElement elem, int visitorID, bool visited)
+        { graph.SetVisited(elem, visitorID, visited); }
 
         /// <summary>
         /// Returns whether the given graph element has been visited.
         /// </summary>
-        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <param name="elem">The graph element to be examined.</param>
+        /// <param name="visitorID">The ID of the visited flag.</param>
         /// <returns>True for visited, false for not visited.</returns>
-        public bool IsVisited(int visitorID, IGraphElement elem) { return graph.IsVisited(visitorID, elem); }
+        public bool IsVisited(IGraphElement elem, int visitorID) { return graph.IsVisited(elem, visitorID); }
 
         /// <summary>
         /// Returns a linked list of variables mapped to the given graph element

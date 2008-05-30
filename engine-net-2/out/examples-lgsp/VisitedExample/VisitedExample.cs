@@ -41,8 +41,8 @@ namespace VisitedExample
 
         public WalkerResult DoDFS(INode node)
         {
-            if(Graph.IsVisited(VisitorID, node)) return WalkerResult.Proceed;
-            Graph.SetVisited(VisitorID, node, true);
+            if(Graph.IsVisited(node, VisitorID)) return WalkerResult.Proceed;
+            Graph.SetVisited(node, VisitorID, true);
 
             if(PreHandler != null)
             {
@@ -105,8 +105,8 @@ namespace VisitedExample
                 INode curNode = workList.First.Value;
                 workList.RemoveFirst();
 
-                if(Graph.IsVisited(VisitorID, curNode)) continue;
-                Graph.SetVisited(VisitorID, curNode, true);
+                if(Graph.IsVisited(curNode, VisitorID)) continue;
+                Graph.SetVisited(curNode, VisitorID, true);
 
                 if(Handler != null)
                 {
