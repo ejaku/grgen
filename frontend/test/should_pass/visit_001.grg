@@ -39,3 +39,15 @@ test FindUnvisitedNode3(visitorIDNode:NINT) : (Node)
 	
 	return(n);
 }
+
+rule VisitUnvisitedNode(var visID:int)
+{
+    n:Node;
+    if { !visited(visID, n); }
+
+    modify {
+        eval {
+            visited(visID, n) = true;
+        }
+    }
+}

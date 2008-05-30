@@ -121,7 +121,7 @@ public class Dumper {
 
 			Assignment oldAsign = null;
 			for(Assignment a : evals) {
-				Qualification target = a.getTarget();
+				Expression target = a.getTarget();
 				Expression expr = a.getExpression();
 
 				if(compactCondEval) {

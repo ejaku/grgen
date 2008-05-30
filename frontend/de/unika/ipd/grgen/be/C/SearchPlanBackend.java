@@ -443,19 +443,23 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private void genEvalFunctions(StringBuffer sb, String indent, Rule rule, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
 	  	sb.append("/* function to do eval assignments */\n");
-	  	
+
 	  	StringBuffer ins = new StringBuffer();
 	  	StringBuffer outs = new StringBuffer();
-	  	
+
 
 		for(Assignment eval : rule.getEvals())
 		{
-			Qualification target = eval.getTarget();
+			Expression targetExpr = eval.getTarget();
+			if(!(targetExpr instanceof Qualification))
+				throw new UnsupportedOperationException(
+					"The C backend only supports assignments to qualified expressions, yet!");
+			Qualification target = (Qualification) targetExpr;
 			Entity targetOwner = target.getOwner();
 			Entity targetMember = target.getMember();
 			Expression expr = eval.getExpression();
 			StringBuffer cond_dummy = new StringBuffer();
-			
+
 			outs.append("static void grs_eval_out_func_" + eval.getId() + "(ir_node ** const rpl_node_map, ir_edge_t ** const rpl_edge_map, ir_node **pat_node_map, void *data) {\n");
 			outs.append(indent + "(void) pat_node_map;\n");
 			outs.append(indent + "(void) rpl_edge_map;\n");
@@ -477,14 +481,14 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			{
 				throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
 			}
-			
+
 			if (expr instanceof Constant) {
 				/* we don't need eval_in functions for constant values */
 				genConditionEval(cond_dummy, expr, nodeIds, edgeIds);
 				outs.append(cond_dummy);
 			} else {
 				/* generate the eval_in function */
-				ins.append("static void *grs_eval_in_func_"	+ eval.getId() 
+				ins.append("static void *grs_eval_in_func_"	+ eval.getId()
 						+ "(ir_node ** const pat_node_map, ir_edge_t ** pat_edge_map) {\n");
 				ins.append(indent + "return (void*)");
 				genConditionEval(ins, expr, nodeIds, edgeIds);
@@ -492,9 +496,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				sb.append(ins);
 				outs.append("data");
 			}
-			
+
 			outs.append(");\n}\n");
-		}	
+		}
 		sb.append(outs);
 	}
 
@@ -726,7 +730,13 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		}
 
 		for (Assignment a : rule.getEvals()) {
-			if (a.getTarget().getOwner().compareTo(node) == 0) {
+			Expression targetExpr = a.getTarget();
+			if(!(targetExpr instanceof Qualification))
+				throw new UnsupportedOperationException(
+					"The C backend only supports assignments to qualified expressions, yet!");
+			Qualification target = (Qualification) targetExpr;
+
+			if (target.getOwner().compareTo(node) == 0) {
 				return 1;
 			}
 		}

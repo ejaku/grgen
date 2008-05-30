@@ -17,18 +17,18 @@ package de.unika.ipd.grgen.ir;
 public class Assignment extends IR {
 
 	/** The lhs of the assignment. */
-	private Qualification target;
+	private Expression target;
 
 	/** The rhs of the assignment. */
 	private Expression expr;
 
-	public Assignment(Qualification target, Expression expr) {
+	public Assignment(Expression target, Expression expr) {
 		super("assignment");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public Qualification getTarget() {
+	public Expression getTarget() {
 		return target;
 	}
 

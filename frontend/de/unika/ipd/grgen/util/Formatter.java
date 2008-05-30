@@ -26,6 +26,7 @@ import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.VariableExpression;
+import de.unika.ipd.grgen.ir.Visited;
 
 public class Formatter {
 
@@ -143,6 +144,12 @@ public class Formatter {
 		else if(cond instanceof VariableExpression) {
 			Variable var = ((VariableExpression) cond).getVariable();
 			sb.append(var.getIdent());
+		}
+		else if(cond instanceof Visited) {
+			Visited vis = (Visited) cond;
+			sb.append("visited(");
+			formatConditionEvalAux(sb, vis.getVisitorID());
+			sb.append(", " + formatIdentifiable(vis.getEntity()) + ")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}

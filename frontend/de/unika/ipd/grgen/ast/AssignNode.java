@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.Visited;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -73,21 +74,21 @@ public class AssignNode extends BaseNode {
 			QualIdentNode qual = (QualIdentNode) lhs;
 			DeclNode owner = qual.getOwner();
 			TypeNode ty = owner.getDeclType();
-	
+
 			if(qual.getDecl().isConst()) {
 				error.error(getCoords(), "assignment to a const member is not allowed");
 				return false;
 			}
-	
+
 			if(ty instanceof InheritanceTypeNode) {
 				InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
-	
+
 				if(inhTy.isConst()) {
 					error.error(getCoords(), "assignment to a const type object not allowed");
 					return false;
 				}
 			}
-	
+
 			return typeCheckLocal();
 		}
 		else if(lhs instanceof VisitedNode) {
@@ -136,14 +137,24 @@ public class AssignNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		Qualification qual = lhs.checkIR(Qualification.class);
-		if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType()) {
-			error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
+		Expression target;
+
+		if(lhs instanceof QualIdentNode) {
+			Qualification qual = lhs.checkIR(Qualification.class);
+			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType()) {
+				error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
+			}
+			if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType()) {
+				error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
+			}
+			target = qual;
 		}
-		if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType()) {
-			error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
+		else if(lhs instanceof VisitedNode) {
+			target = lhs.checkIR(Visited.class);
 		}
-		return new Assignment(qual, rhs.evaluate().checkIR(Expression.class));
+		else throw new UnsupportedOperationException("Unsupported LHS of assignment: \"" + lhs + "\"");
+
+		return new Assignment(target, rhs.evaluate().checkIR(Expression.class));
 	}
 }
 

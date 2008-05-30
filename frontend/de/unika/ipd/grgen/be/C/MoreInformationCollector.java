@@ -90,7 +90,11 @@ public class MoreInformationCollector extends InformationCollector {
 				involvedEvalEdgeAttrIds.set(act_id.intValue(), new HashMap<Edge, Collection<Integer>>());
 
 				for(Assignment eval : rule_evals) {
-					Qualification target = eval.getTarget();
+					Expression targetExpr = eval.getTarget();
+					if(!(targetExpr instanceof Qualification))
+						throw new UnsupportedOperationException(
+							"The C backend only supports assignments to qualified expressions, yet!");
+					Qualification target = (Qualification) targetExpr;
 					Expression expr = eval.getExpression();
 
 					/* generate an expression that consists of both parts of the Assignment to use the already implemented methods for gathering InvolvedNodes/Edges etc. */

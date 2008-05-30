@@ -39,6 +39,7 @@ import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.VariableExpression;
+import de.unika.ipd.grgen.ir.Visited;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -742,7 +743,20 @@ public class ModifyGen extends CSharpBase {
 			HashSet<Variable> neededVariables)
 	{
 		for(Assignment ass : task.evals) {
-			Entity entity = ass.getTarget().getOwner();
+			Expression target = ass.getTarget();
+			Entity entity;
+
+			if(target instanceof Qualification)
+				entity = ((Qualification) target).getOwner();
+			else if(target instanceof Visited) {
+				Visited visTgt = (Visited) target;
+				entity = visTgt.getEntity();
+				collectNeededAttributes(visTgt.getVisitorID(), neededAttributes,
+						nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
+			}
+			else
+				throw new UnsupportedOperationException("Unsupported assignment target (" + target + ")");
+
 			if(entity instanceof Node)
 				nodesNeededAsElements.add((Node) entity);
 			else if(entity instanceof Edge)
@@ -750,7 +764,7 @@ public class ModifyGen extends CSharpBase {
 			else
 				throw new UnsupportedOperationException("Unsupported entity (" + entity + ")");
 
-			collectNeededAttributes(ass.getTarget(), neededAttributes,
+			collectNeededAttributes(target, neededAttributes,
 					nodesNeededAsAttributes, edgesNeededAsAttributes, null);
 			collectNeededAttributes(ass.getExpression(), neededAttributes,
 					nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
@@ -1388,76 +1402,90 @@ public class ModifyGen extends CSharpBase {
 	private void genEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<Assignment> assignments) {
 		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false, def_o = false;
 		for(Assignment ass : assignments) {
-			String varName, varType;
-			Entity entity = ass.getTarget().getOwner();
+			Expression target = ass.getTarget();
 
-			switch(ass.getTarget().getType().classify()) {
-				case Type.IS_BOOLEAN:
-					varName = "tempvar_b";
-					varType = def_b?"":"bool ";
-					def_b = true;
-					break;
-				case Type.IS_INTEGER:
-					varName = "tempvar_i";
-					varType = def_i?"":"int ";
-					def_i = true;
-					break;
-				case Type.IS_FLOAT:
-					varName = "tempvar_f";
-					varType = def_f?"":"float ";
-					def_f = true;
-					break;
-				case Type.IS_DOUBLE:
-					varName = "tempvar_d";
-					varType = def_d?"":"double ";
-					def_d = true;
-					break;
-				case Type.IS_STRING:
-					varName = "tempvar_s";
-					varType = def_s?"":"String ";
-					def_s = true;
-					break;
-				case Type.IS_OBJECT:
-					varName = "tempvar_o";
-					varType = def_o?"":"Object ";
-					def_o = true;
-					break;
-				default:
-					throw new IllegalArgumentException();
-			}
+			if(target instanceof Qualification) {
+				Qualification qualTgt = (Qualification) target;
+				Entity entity = qualTgt.getOwner();
 
-			sb.append("\t\t\t" + varType + varName + " = ");
-			if(ass.getTarget().getType() instanceof EnumType)
-				sb.append("(int) ");
-			genExpression(sb, ass.getExpression(), state);
-			sb.append(";\n");
+				String varName, varType;
+				switch(ass.getTarget().getType().classify()) {
+					case Type.IS_BOOLEAN:
+						varName = "tempvar_b";
+						varType = def_b?"":"bool ";
+						def_b = true;
+						break;
+					case Type.IS_INTEGER:
+						varName = "tempvar_i";
+						varType = def_i?"":"int ";
+						def_i = true;
+						break;
+					case Type.IS_FLOAT:
+						varName = "tempvar_f";
+						varType = def_f?"":"float ";
+						def_f = true;
+						break;
+					case Type.IS_DOUBLE:
+						varName = "tempvar_d";
+						varType = def_d?"":"double ";
+						def_d = true;
+						break;
+					case Type.IS_STRING:
+						varName = "tempvar_s";
+						varType = def_s?"":"String ";
+						def_s = true;
+						break;
+					case Type.IS_OBJECT:
+						varName = "tempvar_o";
+						varType = def_o?"":"Object ";
+						def_o = true;
+						break;
+					default:
+						throw new IllegalArgumentException();
+				}
 
-			String kindStr = null;
-			boolean isDeletedElem = false;
-			if(entity instanceof Node) {
-				kindStr = "Node";
-				isDeletedElem = state.delNodes().contains(entity);
-			}
-			else if(entity instanceof Edge) {
-				kindStr = "Edge";
-				isDeletedElem = state.delEdges().contains(entity);
-			}
-			else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
+				sb.append("\t\t\t" + varType + varName + " = ");
+				if(ass.getTarget().getType() instanceof EnumType)
+					sb.append("(int) ");
+				genExpression(sb, ass.getExpression(), state);
+				sb.append(";\n");
 
-			if(!isDeletedElem) {
-				sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
-							  ", " + kindStr + "Type_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
-							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
+				String kindStr = null;
+				boolean isDeletedElem = false;
+				if(entity instanceof Node) {
+					kindStr = "Node";
+					isDeletedElem = state.delNodes().contains(entity);
+				}
+				else if(entity instanceof Edge) {
+					kindStr = "Edge";
+					isDeletedElem = state.delEdges().contains(entity);
+				}
+				else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
+
+				if(!isDeletedElem) {
+					sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
+								  ", " + kindStr + "Type_" + formatIdentifiable(qualTgt.getMember().getOwner()) +
+								  ".AttributeType_" + formatIdentifiable(qualTgt.getMember()) + ", ");
+					genExpression(sb, ass.getTarget(), state);
+					sb.append(", " + varName + ");\n");
+				}
+
+				sb.append("\t\t\t");
 				genExpression(sb, ass.getTarget(), state);
-				sb.append(", " + varName + ");\n");
+				sb.append(" = ");
+				if(ass.getTarget().getType() instanceof EnumType)
+					sb.append("(ENUM_" + formatIdentifiable(ass.getTarget().getType()) + ") ");
+				sb.append(varName + ";\n");
 			}
+			else if(target instanceof Visited) {
+				Visited visTgt = (Visited) target;
 
-			sb.append("\t\t\t");
-			genExpression(sb, ass.getTarget(), state);
-			sb.append(" = ");
-			if(ass.getTarget().getType() instanceof EnumType)
-				sb.append("(ENUM_" + formatIdentifiable(ass.getTarget().getType()) + ") ");
-			sb.append(varName + ";\n");
+				sb.append("\t\t\tgraph.SetVisited(");
+				genExpression(sb, visTgt.getVisitorID(), state);
+				sb.append(", " + formatEntity(visTgt.getEntity()) + ", ");
+				genExpression(sb, ass.getTarget(), state);
+				sb.append(");\n");
+			}
 		}
 	}
 
