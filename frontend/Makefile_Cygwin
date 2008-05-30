@@ -8,11 +8,12 @@ JARGS_JAR  = jars/jargs.jar
 ANTLR = java -cp ../../../../../../$(ANTLR_JAR) antlr.Tool
 
 GRGENNET_DIR ?= ../engine-net-2/out/bin
+GRGEN_JAR = $(GRGENNET_DIR)/grgen.jar
 
 all:	grgen
 
 grgen: .grammar
-	@if [ ! -e .generator_build ]; then \
+	@if [ ! -e .generator_build -o ! -f $(GRGEN_JAR) ]; then \
 	  $(MAKE) -f Makefile_Cygwin .generator_build; \
 	else \
 	  if [ "`find . -type f -name "*.java" -cnewer .generator_build`" != "" ]; then \
@@ -21,7 +22,7 @@ grgen: .grammar
 	fi
 
 fast: .grammar
-	@if [ ! -e .generator_build -o ! -f grgen.jar ]; then \
+	@if [ ! -e .generator_build -o ! -f $(GRGEN_JAR) ]; then \
 	  $(MAKE) -f Makefile_Cygwin .generator_build; \
 	else \
 	  if [ "`find . -type f -name "*.java" -cnewer .generator_build`" != "" ]; then \
@@ -29,14 +30,14 @@ fast: .grammar
 	  fi; \
 	fi
 
-.generator_build: dir .grammar
+.generator_build: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
 	find de -type f -name "*.java" | xargs javac -encoding ISO8859_1 -d build -classpath "$(ANTLR_JAR);$(JARGS_JAR)" -source 1.5 -target 1.5
-	jar -cmf GrGenManifest.mf $(GRGENNET_DIR)/grgen.jar -C build .
+	jar -cmf GrGenManifest.mf $(GRGEN_JAR) -C build .
 	@touch .generator_build
 
 .generator_build_fast: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
 	find de -type f -name "*.java" -cnewer .generator_build | xargs javac -encoding ISO8859_1 -d build -classpath "$(ANTLR_JAR);$(JARGS_JAR);build" -source 1.5 -target 1.5
-	jar -cmf GrGenManifest.mf $(GRGENNET_DIR)/grgen.jar -C build .
+	jar -cmf GrGenManifest.mf $(GRGEN_JAR) -C build .
 	@touch .generator_build
 
 .PHONY: dir
@@ -51,5 +52,5 @@ dir:
 	@touch .grammar
 
 clean:
-	rm -rf build/ .generator_build .grammar grgen.jar
+	rm -rf build/ .generator_build .grammar $(GRGEN_JAR)
 	cd $(PARSER_DIR) && rm -f GRActionsParser.java GRActionsParserTokenTypes.java GRBaseParser.java GRBaseParserTokenTypes.java GRBaseTokenTypes.java GRLexer.java GRTypeParser.java GRTypeParserTokenTypes.java GRActionsParserTokenTypes.txt GRBaseParserTokenTypes.txt  GRTypeParserTokenTypes.txt expandedactions.g expandedtypes.g GRBaseParser.smap GRTypeParser.smap GRActionsParser.smap GRLexer.smap
