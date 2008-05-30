@@ -490,6 +490,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				/* generate the eval_in function */
 				ins.append("static void *grs_eval_in_func_"	+ eval.getId()
 						+ "(ir_node ** const pat_node_map, ir_edge_t ** pat_edge_map) {\n");
+				ins.append(indent + "(void) pat_edge_map;\n");
 				ins.append(indent + "return (void*)");
 				genConditionEval(ins, expr, nodeIds, edgeIds);
 				ins.append(";\n}\n\n");
