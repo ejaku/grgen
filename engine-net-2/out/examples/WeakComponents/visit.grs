@@ -1,0 +1,23 @@
+new graph "visit"
+
+# generate a pseudo random graph with 290 nodes of type N and 170 edges
+
+xgrs (state)=init
+state.maxNodeID = 290
+state.rand1 = 2147
+state.rand2 = 691501
+
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[170]
+
+echo ""
+echo "==========================================================================="
+echo "  The number of found matches for the next xgrs is the number of weakly"
+echo "  connected components consisting of nodes of type N in the current graph"
+echo "==========================================================================="
+echo ""
+
+visID = allocvisitflag
+
+xgrs findComponent*
+
+freevisitflag visID

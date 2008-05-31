@@ -1,0 +1,41 @@
+using visit;
+
+#include "graphgen.gri"
+
+pattern Component(n:Node)
+{
+    alternative {
+        more {
+            n ?--? m:Node;
+            c1:Component(n);
+            c2:Component(m);
+            
+            modify {
+                c1();
+                c2();
+            }
+        }
+        end {
+            negative { n ?--? m:Node; }
+            
+            modify {
+                eval {
+                    visited(n, 0) = true;
+                }
+            }
+        }
+    }
+    modify {}
+}
+
+rule findComponent()
+{
+    n:N;
+    if { !visited(n, 0); }
+    
+    comp:Component(n);
+    
+    modify {
+        comp();
+    }
+}

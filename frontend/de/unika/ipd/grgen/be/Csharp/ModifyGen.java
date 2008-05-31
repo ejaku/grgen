@@ -1519,7 +1519,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tgraph.SetVisited(" + formatEntity(visTgt.getEntity()) + ", ");
 				genExpression(sb, visTgt.getVisitorID(), state);
 				sb.append(", ");
-				genExpression(sb, ass.getTarget(), state);
+				genExpression(sb, ass.getExpression(), state);
 				sb.append(");\n");
 			}
 		}
