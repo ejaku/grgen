@@ -245,6 +245,9 @@ namespace de.unika.ipd.grGen.grGen
                     id++;
                 }
                 while(Directory.Exists(dirname));
+            }
+            if(!Directory.Exists(dirname))
+            {
                 try
                 {
                     Directory.CreateDirectory(dirname);
