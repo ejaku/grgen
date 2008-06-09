@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.parser.Symbol;
 
 /**
  * Base class for compound types, that allow inheritance.
@@ -88,6 +89,28 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	public InheritanceType getType() {
 		return checkIR(InheritanceType.class);
 	}
+
+	public abstract CollectNode<? extends InheritanceTypeNode> getExtends();
+
+    public boolean fixupDefinition(IdentNode id) {
+		assert isResolved();
+
+		if(super.fixupDefinition(id, false)) return true;
+
+		Symbol.Definition def = null;
+		for(InheritanceTypeNode inh : getExtends().getChildren()) {
+			if(inh.fixupDefinition(id)) {
+				Symbol.Definition newDef = id.getSymDef();
+				if(def == null) def = newDef;
+				else if(def != newDef) {
+					error.error(getIdentNode().getCoords(), "Identifier " + id
+							+ " is ambiguous (other definition at " + def.getCoords() + ")");
+				}
+			}
+		}
+
+		return def != null;
+    }
 
 	public void setModifiers(int modifiers) {
 		this.modifiers = modifiers;

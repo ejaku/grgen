@@ -107,26 +107,9 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		return nt;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode) */
-    public boolean fixupDefinition(IdentNode id) {
-		assert isResolved();
-
-		boolean found = super.fixupDefinition(id, false);
-
-		if(!found) {
-			for(InheritanceTypeNode inh : extend.getChildren()) {
-				boolean result = inh.fixupDefinition(id);
-
-				if(found && result) {
-					error.error(getIdentNode().getCoords(), "Identifier " + id + " is ambiguous");
-				}
-
-				found = found || result;
-			}
-		}
-
-		return found;
-    }
+	public CollectNode<? extends InheritanceTypeNode> getExtends() {
+		return extend;
+	}
 
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		assert isResolved();

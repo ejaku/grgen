@@ -77,27 +77,6 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode) */
-    public boolean fixupDefinition(IdentNode id) {
-		assert isResolved();
-
-		boolean found = super.fixupDefinition(id, false);
-
-		if(!found) {
-			for(InheritanceTypeNode inh : extend.getChildren()) {
-				boolean result = inh.fixupDefinition(id);
-
-				if(found && result) {
-					error.error(getIdentNode().getCoords(), "Identifier " + id + " is ambiguous");
-				}
-
-				found = found || result;
-			}
-		}
-
-		return found;
-    }
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		body = bodyResolver.resolve(bodyUnresolved, this);
@@ -112,6 +91,10 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	 */
 	public EdgeType getEdgeType() {
 		return checkIR(EdgeType.class);
+	}
+
+	public CollectNode<? extends InheritanceTypeNode> getExtends() {
+		return extend;
 	}
 
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
