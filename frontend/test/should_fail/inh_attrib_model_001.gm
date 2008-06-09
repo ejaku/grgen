@@ -1,8 +1,6 @@
 // A multiply inherited node attribute should be
 // rejected when it comes from different super classes
 
-model inh_attrib_model_001.gm;
-
 node class Type1 {
 }
 

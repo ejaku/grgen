@@ -1,8 +1,6 @@
 // A multiply inherited node attribute should be rejected when 
 // it is declared on a single path through the class hierarchy
 
-model inh_attrib_model_015.gm;
-
 node class Type1 {
 }
 

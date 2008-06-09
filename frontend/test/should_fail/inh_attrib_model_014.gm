@@ -1,7 +1,5 @@
 // A redeclaration of a directly inherited edge attribute should be rejected
 
-model inh_attrib_model_014.gm;
-
 edge class Type1 {
 }
 

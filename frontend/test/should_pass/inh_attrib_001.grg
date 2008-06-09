@@ -1,8 +1,11 @@
 using inh_attrib_model_001;
 
 rule r {
-
-	replace {
+    t:Type4;
+	modify {
+        eval {
+            t.a = 1;
+        }
 	}
 }
 

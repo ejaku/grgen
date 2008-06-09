@@ -1,8 +1,6 @@
 // A multiply inherited edge attribute should be
 // rejected when it comes from different non direct super classes
 
-model inh_attrib_model_012.gm;
-
 edge class Type1 {
 }
 
