@@ -460,7 +460,14 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			Expression expr = eval.getExpression();
 			StringBuffer cond_dummy = new StringBuffer();
 
-			outs.append("static void grs_eval_out_func_" + eval.getId() + "(ir_node ** const rpl_node_map, ir_edge_t ** const rpl_edge_map, ir_node **pat_node_map, void *data) {\n");
+			outs.append("static void grs_eval_out_func_" + eval.getId() + "(ir_node ** const rpl_node_map, ir_edge_t ** const rpl_edge_map, ir_node **pat_node_map, ");
+			if (target.getType().classify() == Type.IS_INTEGER) {
+				outs.append("int data) {\n");
+			}
+			else {
+				outs.append("void *data) {\n");
+			}
+
 			outs.append(indent + "(void) pat_node_map;\n");
 			outs.append(indent + "(void) rpl_edge_map;\n");
 			outs.append(indent + "(void) data;\n");
