@@ -8,9 +8,11 @@ svn export file:///ben/firm/svn/trunk/grgen $GRGENDIRSRC
 
 # delete doc-sources
 mv $GRGENDIRSRC/doc/grgen.pdf $GRGENDIRSRC/
+mv $GRGENDIRSRC/doc/VeryShortIntroductionToVersion2.txt $GRGENDIRSRC/
 rm -rf $GRGENDIRSRC/doc
 mkdir $GRGENDIRSRC/doc
 mv $GRGENDIRSRC/grgen.pdf $GRGENDIRSRC/doc/grgen.pdf
+mv $GRGENDIRSRC/VeryShortIntroductionToVersion2.txt $GRGENDIRSRC/doc/VeryShortIntroductionToVersion2.txt
 
 # delete old GrGen.NET 1.0 engine
 rm -rf $GRGENDIRSRC/engine-net
