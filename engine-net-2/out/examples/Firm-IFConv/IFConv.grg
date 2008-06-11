@@ -262,7 +262,7 @@ rule ICCopyPhi(block:Block, pred:Block, var i:int, pred_pred:Block, var j:int, v
     
     modify {
 //        exec(ICCopyTo(phi_pred, pred, pred_pred, j));
-        exec(((copy:IR_node)=ICCopyTo_otherBlock(phi_pred, pred)
+        exec(((copy:IR_node)=ICCopyTo_otherBlock(phi_pred, pred, pred_pred)
             || (copy)=ICCopyTo_isPhi(phi_pred, pred, pred_pred, j)
             || (copy)=ICCopyTo_default(phi_pred, pred, pred_pred, j))
             && ICAddPred(phi, nextPos, phi_pred)
@@ -294,7 +294,7 @@ rule ICSetPred(curNode:IR_node, var pos:int, newPred:IR_node)
     }
 }
 
-rule ICCopyTo_otherBlock(curNode:IR_node, block:Block) : (IR_node)
+rule ICCopyTo_otherBlock(curNode:IR_node, block:Block, pred_pred:Block) : (IR_node)
 {
     curNode -:df-> :Block;
 

@@ -39,7 +39,7 @@ PARSER_BEGIN(SequenceParser)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
-			return parser.RewriteSequence();
+			return parser.XGRS();
 		}		
 
         /// <summary>
@@ -59,7 +59,7 @@ PARSER_BEGIN(SequenceParser)
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
 			parser.varDecls = varDecls;
-			Sequence seq = parser.RewriteSequence();
+			Sequence seq = parser.XGRS();
 			parser.ResolveVars(ref seq);
 			return seq;
 		}		
@@ -79,7 +79,7 @@ PARSER_BEGIN(SequenceParser)
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
 			parser.namedGraph = namedGraph;
-			return parser.RewriteSequence();
+			return parser.XGRS();
 		}
 		
 		private void ResolveVars(ref Sequence seq)
@@ -188,8 +188,7 @@ TOKEN: {
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
 |	< SINGLEQUOTEDTEXT : "\'" (~["\'", "\n", "\r"])* "\'" >
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
-|	< WORD : ~["0"-"9", "=", ":", ";", ".", ",", "+", "-", "*", "/", "&", "%", "?", "$", "|", "^", "<", ">", "(", ")", "{", "}", "[", "]", "*", "!", "#", " ", "@", "\n", "\r"]
-	     (~["\'", "\"", "=", ":", ";", ".", ",", "+", "-", "*", "/", "&", "%", "?", "$", "|", "^", "<", ">", "(", ")", "{", "}", "[", "]", "*", "!", "#", " ", "@", "\n", "\r"])*	>
+|	< WORD : ["A"-"Z", "a"-"z", "_"] (["A"-"Z", "a"-"z", "_", "0"-"9"])* >
 }
 
 String Word():
@@ -271,6 +270,16 @@ void VariableList(List<String> variables):
 	str=Variable() { variables.Add(str); } ("," str=Variable() { variables.Add(str); })*
 }
 
+Sequence XGRS():
+{
+	Sequence seq;
+}
+{
+	seq=RewriteSequence() <EOF>
+	{
+		return seq;
+	}
+}
 
 /////////////////////////////////////////
 // Extended rewrite sequence           //
@@ -587,3 +596,5 @@ RuleObject CreateRuleObject(String ruleName, List<String> paramVars, List<String
         
     return ruleObj;
 }
+
+TOKEN: { < ERROR: ~[] > }

@@ -216,11 +216,12 @@ rule TFForkNext(lastPa:ProcessAssignment, lastConc:Concurrency, fn:ForkNode)
   modify {
     delete(fork);
     
-    lastPa -:processAssignments-> newPa:ProcessAssignment;
-    newPa -:processIdentifier-> forcProc:Process <-:leftHandSide- newConc:Concurrency;
-    newPa -:tempProcess-> tgt;
+    lastConc -:rightHandSide-> newConc:Concurrency;
+    newConc -:leftHandSide-> forcProc:Process;
     
-    lastConc -:rightHandSide-> newConc;
+    lastPa -:processAssignments-> newPa:ProcessAssignment;
+    newPa -:processIdentifier-> forcProc;
+    newPa -:tempProcess-> tgt;
   
     eval {
       forcProc.name = fork.name;
