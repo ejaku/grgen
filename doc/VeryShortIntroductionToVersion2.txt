@@ -2,31 +2,31 @@ Very short introduction into the new features of GrGen.NET 2.0
 --------------------------------------------------------------
 
 *Subpatterns:
-In addition to node declarations "Name:NodeType"
-and edge declarations "-Name:EdgeType->"
-you can now also declare subpattern entities of some specific shape "Name:SubpatternType()".
+In addition to node declarations "Name:NodeType" and edge declarations
+"-Name:EdgeType->" you can now also declare subpattern entities of some
+specific shape "Name:SubpatternType()".
 
 The shape is specified by a subpattern type specification
 
 pattern Name() {
-  // local content of nodes and edges and even subpatterns.
+  // local content: nodes, edges, and even subpatterns.
 }
 
-Subpattern can get connected to their containing pattern 
-by some kind of parameters "Name:SubpatternType([Name:Type]*)"
+Subpatterns can get connected to their containing pattern 
+by some kind of parameters:
 
 test t {
   x:Node <-- y:Node;
   f:Foo(x);
 }
 pattern Foo(bar:Node) {
-  bar --> bla;
+  bar --> :Node;
 }
 
 *Alternatives:
-With the alternative statement you can specify several alternative nested patterns,
-one of them must get matched for the matching of the entire pattern to succeed,
-which one is determined indeterministically.
+With the alternative statement you can specify several nested alternative
+patterns. One of them must get matched for the matching of the entire pattern
+to succeed. The order of matching the alternative patterns is unspecified.
 
 test t {
   x:Node <-- y:Node;
@@ -41,7 +41,7 @@ test t {
 }
 
 *Alternatives and subpatterns can be combined into recursive subpatterns
-(note the negative to ensure you get the longest possible match).
+(note the negative pattern to ensure you get the longest possible match):
 
 pattern Chain(prev:Node) {
   alternative {
@@ -57,15 +57,17 @@ pattern Chain(prev:Node) {
   }
 }
 
-*Subpatterns and alternatives may contain a dependent replacement, effectively turning subpatterns into subrules.
-The replacement nested within the alternative case chosen in matching will be used for doing the replacement.
-The replacement of subpattern entities is used by the syntax subpattern-entity-name();
+*Subpatterns and alternatives may contain a dependent replacement, effectively
+turning subpatterns into subrules:
+The replacement part nested within the alternative case chosen in matching
+will be used for carrying out the replacement. To trigger the replacement of a
+subpattern, use call-syntax on the pattern entity name:
 
 rule R {
   sub:FancySubrule();
 
   modify {
-    sub();
+    sub();        // trigger rewriting the FancySubrule instance
   }
 }
 
@@ -93,7 +95,8 @@ pattern FancySubrule {
   }
 }
 
-*The dependent replacement may get connected to the containing replacement graph by parameters, too.
+*The dependent replacement may get connected to the containing replacement
+graph by parameters, too.
 
 pattern ChainFromToReverseToCommon(from:Node, to:Node) {
   alternative {
@@ -124,8 +127,8 @@ pattern ChainFromToReverseToCommon(from:Node, to:Node) {
 }
 
 *As a straight-forward generalization of negatives within positive patterns,
-negatives may get nested to an arbitrary depth, 
-matching of the nested negative pattern makes matching of the nesting pattern fail.
+negatives may get nested to an arbitrary depth. Matching of the nested
+negative pattern causes the matching of the nesting pattern to fail.
 
 test foo {
   a:NA --> b:NB;
@@ -138,5 +141,4 @@ test foo {
 }
 
 *Further examples are available at the examples and tests directories,
-f.ex. examples/TranskriptionAbstrakt, examples/ProgramGraphs
-
+e.g. examples/TranskriptionAbstrakt, examples/ProgramGraphs

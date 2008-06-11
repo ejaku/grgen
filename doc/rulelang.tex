@@ -390,7 +390,7 @@ IGraphElement[] Modify(IGraph graph, IMatch match);
 In C\#, this might look like:
 \begin{csharplet}
 IMatches myMatches = myAction.Match(myGraph, -1, null); /* -1: get all the matches */
-for (int i = 0;  i < myMatches.NumMatches; i++)
+for (int i = 0; i < myMatches.NumMatches; i++)
 {
 	if (inspectCarefully(myMatches.GetMatch(i))
 	{
@@ -579,7 +579,7 @@ The semantics of the various replace statements are given below:
   Specifically both of them are available for evaluation, a respective evaluation could, e.g., look like this:
   \begin{grgenlet}
 eval {
-  y.b = (2*x.i == 42 );
+  y.b = ( 2*x.i == 42 );
   f.a = e.a;
 }
   \end{grgenlet}
@@ -610,8 +610,8 @@ Several evaluation parts are allowed within the replace part. Multiple evaluatio
 ...
 modify {
   ...
-  eval {y.i = 40;}
-  eval {y.j = 0;}
+  eval { y.i = 40; }
+  eval { y.j = 0;  }
   x:IJNode;
   y:IJNode;
   delete(x);
@@ -621,13 +621,14 @@ modify {
     x.i = x.i + 1;
     y.i = y.i + x.i;
   }
+}
 \end{grgen}
 This toy example yields $\texttt{y.i} = 42$, $\texttt{y.j} = 1$.
 \end{example}
 
 \begin{rail}  
   ExecStatement: 'emit' '(' StringExpr ')' ';' |
-    'exec' lbrace (RewriteSequence+';') rbrace
+    'exec' '(' RewriteSequence ')' ';'
 \end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
 The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
 That means, these statements are executed in the same order as they appear within the rule.
@@ -766,14 +767,14 @@ a = ((b,c) = R(x,y,z))
 
 \makeatletter
 \begin{rail}
-  RewriteSequence: ((() | '!') RewriteTerm (() | ('*' | lbrace Number rbrace))) + ((() | dollar) ('|' | ampersand | '||' | doubleampersand | xorhat));
+  RewriteSequence: ((() | '!') RewriteTerm (() | ('*' | '[' Number ']'))) + ((() | dollar) ('|' | ampersand | '||' | doubleampersand | xorhat));
 \end{rail}\ixnterm{RewriteSequence}
 A graph rewrite sequence consists of several, logically linked rewrite terms.
 The modifier \texttt{\$} flags the following operator to act commutative: Usually operands are executed / evaluated from left to right with respect to bracketing (left-\indexed{associative}). 
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
 A sequence can further be executed multiple times: The star (\texttt{*}) executes a sequence repeatedly as long as its execution does not fail. 
 Such a sequence always returns \texttt{true}.
-The braces (\texttt{\{\}}) let execute a sequence repeatedly as long as its execution does not fail but \emph{Number} times at most.
+The brackets (\texttt{[]}) execute a sequence repeatedly as long as its execution does not fail but \emph{Number} times at most.
 
 \begin{rail} 
   RewriteTerm: RuleExecution |
@@ -828,7 +829,7 @@ Table~\ref{ruletab} lists operations of graph rewrite expressions at a glance.
 \texttt{!s}		& Switch the result of \texttt{s} from successful to fail and vice versa.\\
 \texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. \\
 \texttt{s *}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
-\texttt{s \{n\}}	& Execute \texttt{s} repeatedly as long as its execution does not fail but \texttt{n} times at most.\\
+\texttt{s [n]}	& Execute \texttt{s} repeatedly as long as its execution does not fail but \texttt{n} times at most.\\
 \texttt{?\emph{Rule}} & Switches \emph{Rule} to a test. \\
 \texttt{\%\emph{Rule}} & This is the multi-purpose flag when accessed from \LibGr. Also used for graph dumping and break points. \\
 \texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}.\\
@@ -856,9 +857,9 @@ rule AddRedundancy {
   t: DestinationNode;	
   modify {
     emit ("Source node is " + s.name + ". Destination node is " + t.name + ".");
-    exec { (x) = DuplicateNode(s) & ConnectNeighbors(s, x)* }
-    exec { [DuplicateCriticalEdge] }
-    exec { MaxCapacityIncidentEdge(t)* }
+    exec ( (x) = DuplicateNode(s) & ConnectNeighbors(s, x)* );
+    exec ( [DuplicateCriticalEdge] );
+    exec ( MaxCapacityIncidentEdge(t)* );
     emit ("Redundancy added");
   }
 }  

@@ -413,8 +413,9 @@ The debug commands are shown in Table~\ref{tabdebug}.\\
   \texttt{s}(tep) & Execute the next rewrite rule (match and rewrite)\\
   \texttt{d}(etailed step) & Execute a rewrite rule in a three-step procedure: matching, highlighting elements to be changed, doing rewriting \\
   \texttt{n}(ext) & Ascend one level up within the \indexed{Kantorowitsch tree} of the current rewrite sequence (see Example~\ref{ex:debug})\\
-  (step) \texttt{o}(ut) & Continue a rewrite sequence until the end of the current loop. If the execution is not in a loop at this moment, the complete sequence will be executed\\
-  \texttt{r}(un) &  Continue execution without further stops\\
+  (step) \texttt{o}(ut) & Continue execution until the end of the current loop. If the execution is not in a loop at this moment, the complete sequence will be executed\\
+  (toggle) \texttt{b}(reakpoint) & Toggle a breakpoint at a rewrite rule, a true, or a false\\
+  \texttt{r}(un) & Continue execution\\
   \texttt{a}(bort) & Cancel the execution immediately\\ \hline 
   \end{tabularx}
   \caption{\GrShell\ debug commands}
@@ -431,7 +432,7 @@ The debug commands are shown in Table~\ref{tabdebug}.\\
 \begin{example}\label{ex:debug}  
 We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also Section~\ref{fractals}). The graph rewriting sequence is
 \begin{grshell}
-debug xgrs (makeFlake1* & (beautify & doNothing)* & makeFlake2* & beautify*){1}
+debug xgrs (makeFlake1* & (beautify & doNothing)* & makeFlake2* & beautify*)[1]
 \end{grshell}
 \yComp\ will be opened with an initial graph (resulting from \texttt{grs init}):
 \begin{center}

@@ -271,7 +271,7 @@ new sE_1 -:moveLeft-> sC
 We have an initial host graph now. The graph rewrite sequence is quite straight forward and generic to the Turing graph model. Note that for each state the ``\texttt{\dots Empty\dots} | \texttt{\dots One\dots}'' selection is unambiguous.
 %\pagebreak %HACK
 \begin{grshell}[firstnumber=last]
-  xgrs ((readOneRule | readEmptyRule) & (writeOneRule | writeEmptyRule) & (ensureMoveLeftValidRule | ensureMoveRightValidRule) & (moveLeftRule | moveRightRule)){32}
+  xgrs ((readOneRule | readEmptyRule) & (writeOneRule | writeEmptyRule) & (ensureMoveLeftValidRule | ensureMoveRightValidRule) & (moveLeftRule | moveRightRule))[32]
 
 \end{grshell}
 \quad\\We interrupt the machine after 32 iterations and look at the result so far:

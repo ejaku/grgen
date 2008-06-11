@@ -1,0 +1,4 @@
+- Explain var parameters and return values for rules and test
+  (not implemented for patterns, yet)
+- Explain visited flags
+  (see engine-net-2/out/examples/WeakComponents for an example)
