@@ -1,0 +1,142 @@
+Very short introduction into the new features of GrGen.NET 2.0
+--------------------------------------------------------------
+
+*Subpatterns:
+In addition to node declarations "Name:NodeType"
+and edge declarations "-Name:EdgeType->"
+you can now also declare subpattern entities of some specific shape "Name:SubpatternType()".
+
+The shape is specified by a subpattern type specification
+
+pattern Name() {
+  // local content of nodes and edges and even subpatterns.
+}
+
+Subpattern can get connected to their containing pattern 
+by some kind of parameters "Name:SubpatternType([Name:Type]*)"
+
+test t {
+  x:Node <-- y:Node;
+  f:Foo(x);
+}
+pattern Foo(bar:Node) {
+  bar --> bla;
+}
+
+*Alternatives:
+With the alternative statement you can specify several alternative nested patterns,
+one of them must get matched for the matching of the entire pattern to succeed,
+which one is determined indeterministically.
+
+test t {
+  x:Node <-- y:Node;
+  alternative {
+    A {
+      x --> y;
+    }
+    B {
+      x --> z:Node;
+    }
+  }
+}
+
+*Alternatives and subpatterns can be combined into recursive subpatterns
+(note the negative to ensure you get the longest possible match).
+
+pattern Chain(prev:Node) {
+  alternative {
+    Empty {
+      negative {
+        prev --> next:Node;
+      }
+    }
+    Further {
+      prev --> next:Node;
+      :Chain(next);
+    }
+  }
+}
+
+*Subpatterns and alternatives may contain a dependent replacement, effectively turning subpatterns into subrules.
+The replacement nested within the alternative case chosen in matching will be used for doing the replacement.
+The replacement of subpattern entities is used by the syntax subpattern-entity-name();
+
+rule R {
+  sub:FancySubrule();
+
+  modify {
+    sub();
+  }
+}
+
+pattern FancySubrule {
+  x:Node <-- y:Node;
+  alternative {
+    A {
+      x --> y;
+
+      modify {
+        x --> y2:Node;
+      }
+    }
+    B {
+      x --> z:Node;
+
+      modify {
+        delete(z);
+      }
+    }
+  }
+
+  modify {
+    delete(y);
+  }
+}
+
+*The dependent replacement may get connected to the containing replacement graph by parameters, too.
+
+pattern ChainFromToReverseToCommon(from:Node, to:Node) {
+  alternative {
+    base {
+      from --> to;
+
+      replace(common:Node) {
+        from <-- to;
+        from --> common;
+        to --> common;
+      }
+    }
+    rec {
+      from --> intermediate:Node;
+      cftrtc:ChainFromToReverseToCommon(intermediate, to);
+
+      replace(common:Node) {
+        from <-- intermediate;
+        from --> common;
+        cftrtc(common);
+      }
+    }
+  }
+
+  replace(common:Node) {
+    from; to;
+  }
+}
+
+*As a straight-forward generalization of negatives within positive patterns,
+negatives may get nested to an arbitrary depth, 
+matching of the nested negative pattern makes matching of the nesting pattern fail.
+
+test foo {
+  a:NA --> b:NB;
+  negative {
+    a --> c:NC;
+    negative {
+      b --> c;
+    }
+  }
+}
+
+*Further examples are available at the examples and tests directories,
+f.ex. examples/TranskriptionAbstrakt, examples/ProgramGraphs
+
