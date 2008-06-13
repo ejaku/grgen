@@ -4,8 +4,8 @@ rule r1 : (NINT) {
   x:NINT;
   negative { x <-- ; }
   modify{
-    exec(r2);
     return (x);
+    exec(r2);
   }
 }
 

@@ -299,7 +299,7 @@ SomeRule will only be executed, if a node of type \texttt{SeldomNodeType} exists
 \begin{rail}  
   ActionSignature: IdentDecl (() | Parameters) (() | ':' ReturnTypes) ;
 \end{rail}\ixnterm{ActionSignature}
-The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and optionally names and types of formal \indexed{parameter}s as well as a list of \indexed{return type}s. Parameters and return types provide users with the ability to exchange graph elements with rule. This is similar to parameters of procedural languages.
+The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and optionally names and types of formal \indexed{parameter}s as well as a list of \indexed{return type}s. Parameters and return types provide users with the ability to exchange graph elements between rules. This is similar to parameters of procedural languages.
 
 \begin{rail}
   Parameters: '(' ((IdentDecl ':' NodeType | '-' IdentDecl ':' EdgeType '->') + ',') ')' ;
@@ -364,9 +364,9 @@ We do not define \texttt{varnode} within the pattern part because this is alread
 %  Pattern: (() + ('exact' | 'induced')) 'pattern' lbrace (()+PatternStatement) rbrace ;
 %\end{rail}\ixkeyw{pattern}\ixkeyw{induced}\ixnterm{Pattern}
 \begin{rail}
-  Pattern: (()+PatternStatement);
+  Pattern: (()+PatternStatement) (() | ReturnStatement);
 \end{rail}
-A \indexed{pattern} consists of zero or more pattern statements. 
+A \indexed{pattern} consists of zero or more pattern statements and, in case of a test, an optional return statement.
 All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. 
 An \indexed{empty pattern} always produces exactly one (empty) match. 
 This is caused by the uniqueness of the total and totally undefined function.
@@ -412,9 +412,8 @@ See Section~\ref{sct:xgrs} for further information on graph rewrite sequences.
     'hom' '(' (Ident + ',') ')' ';' |
     'negative' lbrace (()+PatternStatement) rbrace |
     'if' lbrace (BooleanExpr ';' +) rbrace |
-    'return' '(' (Ident+',') ')' ';' |
     ('exact' | 'induced') '(' (Ident+',') ')';
-\end{rail}\ixkeyw{induced}\ixkeyw{exact}\ixkeyw{hom}\ixkeyw{negative}\ixkeyw{if}\ixkeyw{return}\ixnterm{PatternStatement}
+\end{rail}\ixkeyw{induced}\ixkeyw{exact}\ixkeyw{hom}\ixkeyw{negative}\ixkeyw{if}\ixnterm{PatternStatement}
 The semantics of the various pattern statements are given below:
 \begin{description}
   \item[Graphlet] \indexmain{graphlet}Graphlets specify connected subgraphs. See Section~\ref{rulebb} for a detailed explanation of graphlets.
@@ -461,10 +460,17 @@ The semantics of the various pattern statements are given below:
     \end{grgen}
   \end{example} 
   \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
-  \item[Return values] \indexmain{return value}The return statement is only allowed for tests. Otherwise the \texttt{return} statement belongs to the replace part. See Section~\ref{replacepart}, \emph{Return Values}.
   \item[Pattern Modifiers] Additionally to modifiers that apply to a pattern as a whole, you may also specify pattern modifiers for a specific set of nodes. Accordingly the list of identifiers for a pattern modifier must not contain any edge identifier. See section \ref{sct:patternmodifier} for an explanation of the \texttt{exact} and \texttt{induced} modifiers. 
 \end{description}
+
 Keep in mind that using type constraints or the \texttt{typeof} operator might be helpful. See Section~\ref{typeexpressions} for further information.
+
+
+\begin{rail}
+  ReturnStatement: 'return' '(' (Ident+',') ')' ';' ;
+\end{rail}\ixkeyw{return}\ixnterm{ReturnStatement}
+\indexmain{return value}Returned graph elements must be given in the same order as defined by the return types in the signature (see Section~\ref{ruledecls}, \texttt{ActionSignature}).
+Their types must be compatible to the return types.
 
 \section{Replace/Modify Part}\indexmain{replacement graph}
 \label{replacepart}
@@ -559,8 +565,8 @@ rule SomeRuleExtModify(varnode: Node): (Node, EdgeTypeB)  {
 \subsection{Syntax}
 
 \begin{rail}
-  Replace: ('replace' | 'modify') lbrace (()+ReplaceStatement) (()+ExecStatement) \\ 
-  	(() | ReturnStatement) rbrace ;
+  Replace: ('replace' | 'modify') lbrace (()+ReplaceStatement) (() | ReturnStatement) \\
+  (()+ExecStatement) rbrace ;
 \end{rail}\ixkeyw{replace}\ixkeyw{modify}\ixnterm{Replace}
 Selects whether the replace mode or the modify mode is used. Several replace statements describe the transformation from the pattern subgraph to the destination subgraph.
 
@@ -636,16 +642,9 @@ The execution statements take place after all the rewrite operations are done, i
 However, \emph{attribute} values of deleted graph elements are still available for reading.
 The \texttt{eval} statements are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
 \begin{description}
-  \item[Text Output] The \texttt{emit} statement prints a string to \texttt{stdout}. See section \ref{expressions} for a description of string expressions.
+  \item[Text Output] The \texttt{emit} statement prints a string to the currently associated output stream (default is \texttt{stdout}). See section \ref{expressions} for a description of string expressions.
   \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. See section \ref{sct:xgrs} for  a description of graph rewrite sequences.
 \end{description}
-
-\begin{rail}
-  ReturnStatement: 'return' '(' (Ident+',') ')' ';' ;
-\end{rail}\ixkeyw{return}\ixnterm{ReturnStatement}
-\indexmain{return value}Graph elements of the replace/modify part can be returned according to the return types in the signature (see Section~\ref{ruledecls}, \texttt{ActionSignature}). 
-The graph element names have to be in the same order as the corresponding return types in the signature. 
-The named elements must be compatible to the declared type.
 
 \section{Rule and Pattern Modifiers}\indexmain{modifier} 
 \label{sct:patternmodifier}

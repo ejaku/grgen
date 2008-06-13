@@ -322,9 +322,9 @@ rule ICCopyTo_default(curNode:IR_node, pred:Block, pred_pred:Block, var i:int) :
     modify {
         // TODO: Copy all attributes...
         copy:typeof(curNode) -:df-> pred_pred;
-        
-        exec([ICCopyPred(copy, curNode, pred, pred_pred, i)]);
         return (copy);
+
+        exec([ICCopyPred(copy, curNode, pred, pred_pred, i)]);
     }
 }
 
@@ -374,9 +374,9 @@ rule ICCopyPred(to:IR_node, from:IR_node, pred:Block, pred_pred:Block, var i:int
             modify {
                 // TODO: Copy all attributes...
                 copy:typeof(curNode) -:df-> pred_block;
+//                return (copy);
                 
                 exec([ICCopyPred(copy, curNode, block, i)]);
-//                return (copy);
             }
         }
     }
@@ -441,8 +441,9 @@ rule IFConvLeftEnd(cur:Block, bottom:Block, -left:df->) : (Block)
 {
     cur -:df-> :Proj -:df-> top:Block;
     modify {
-        exec(IFConvRightStart(bottom, top, left));
         return(top);
+
+        exec(IFConvRightStart(bottom, top, left));
     }
 }
 

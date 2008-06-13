@@ -4,7 +4,7 @@ header {
  * Copyright (C) 2005 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
  * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
  */
- 
+
 /**
  * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski
  * @version $Id$
@@ -309,12 +309,13 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context,
 	}
 
 	: ( patternStmt[connections, subpatterns, subpatternReplacements, alts, negs, conditions,
-			 returnz, homs, exact, induced, context] )*
+			 homs, exact, induced, context] )*
+	  ( rets[returnz, context] SEMI )?
 	;
 
 patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> cond,
-			CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
+			CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context]
 	{
 		AlternativeNode alt;
@@ -332,7 +333,6 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpa
 	| neg=negative[negCounter, context] { negs.addChild(neg); ++negCounter; }
 	| COND e=expr[false] { cond.addChild(e); } SEMI //'false' means that expr is not an enum item initializer
 	| COND LBRACE ( e=expr[false] { cond.addChild(e); } SEMI )* RBRACE
-	| rets[returnz, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
@@ -722,17 +722,19 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<AssignNod
 		res = new ReplaceDeclNode(nameOfRHS, graph, eval);
 	}
 
-	: ( replaceStmt[coords, connections, subpatterns, subpatternReplacements, returnz, eval, imperativeStmts, context] )*
+	: ( replaceStmt[coords, connections, subpatterns, subpatternReplacements, eval, context] )*
+	  ( rets[returnz, context] SEMI )?
+	  (
+	      execStmt[imperativeStmts] SEMI
+	  |
+	      emitStmt[imperativeStmts] SEMI
+	  )*
 	;
 
 replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
- 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<ExprNode> returnz,
-		CollectNode<AssignNode> eval, CollectNode<BaseNode> imperativeStmts, int context ]
+ 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<AssignNode> eval, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
-	| rets[returnz, context] SEMI
 	| evalPart[eval]
-	| execStmt[imperativeStmts] SEMI
-	| emitStmt[imperativeStmts] SEMI
 	;
 
 modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ModifyDeclNode res = null ]
@@ -746,18 +748,21 @@ modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode>
 		res = new ModifyDeclNode(nameOfRHS, graph, eval, dels);
 	}
 
-	: ( modifyStmt[coords, connections, subpatterns, subpatternReplacements, returnz, eval, dels, imperativeStmts, context] )*
+	: ( modifyStmt[coords, connections, subpatterns, subpatternReplacements, eval, dels, context] )*
+	  ( rets[returnz, context] SEMI )?
+	  (
+	      execStmt[imperativeStmts] SEMI
+	  |
+	      emitStmt[imperativeStmts] SEMI
+	  )*
 	;
 
 modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
- 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<ExprNode> returnz,
-		CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> imperativeStmts, int context ]
+ 		CollectNode<SubpatternReplNode> subpatternReplacements,
+		CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
-	| rets[returnz, context] SEMI
 	| deleteStmt[dels] SEMI
 	| evalPart[eval]
-	| execStmt[imperativeStmts] SEMI
-	| emitStmt[imperativeStmts] SEMI
 	;
 
 alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNode alt = new AlternativeNode(coords) ]

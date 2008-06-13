@@ -4,6 +4,7 @@ rule r(p : B) : (B) {
   l:B;
   modify{
     x:B;
+    return (x);
 
     exec(r(p));
     exec(r(l));
@@ -191,8 +192,6 @@ rule r(p : B) : (B) {
     exec(b=true & (b:boolean=((r(p))) & !b)[*]);
     exec(b=true & b:boolean=((r(p))) & !b[*]);
     exec(b=true & b:boolean=(r(p) & !b[*]));
-
-    return (x);
   }
 }
 

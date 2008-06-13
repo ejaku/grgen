@@ -5,7 +5,7 @@ rule r(y : Acc) : (B) {
   a : A;
   b : B;
   modify{
-    exec((b)=r(b));
     return (b);
+    exec((b)=r(b));
   }
 }

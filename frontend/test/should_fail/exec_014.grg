@@ -5,7 +5,7 @@ rule r(y : Bcc) : (B) {
   a : A;
   b : B;
   modify{
-    exec((c:Bcc)=r(y));     // subtype as return var
     return (b);
+    exec((c:Bcc)=r(y));     // subtype as return var
   }
 }

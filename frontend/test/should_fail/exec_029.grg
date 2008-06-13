@@ -1,6 +1,6 @@
 rule r : (Node) {
   modify{
-    exec( (y:Node)=r ); // y cannot leave exec scope
     return (y);
+    exec( (y:Node)=r ); // y cannot leave exec scope
   }
 }

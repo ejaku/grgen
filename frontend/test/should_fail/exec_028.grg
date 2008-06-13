@@ -1,7 +1,7 @@
 rule r : (Node) {
   y : Node;
   modify{
-    exec( (y)=r ); // nothing may be assigned to graph element y
     return (y);
+    exec( (y)=r ); // nothing may be assigned to graph element y
   }
 }

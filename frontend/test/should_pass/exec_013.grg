@@ -11,8 +11,8 @@ test UseIntTest(var i:int) : (int)
 rule UseIntRule(var i:int) : (int)
 {
     modify {
-        exec(UseIntTest(i));
         return (i + 7);
+        exec(UseIntTest(i));
     }
 }
 

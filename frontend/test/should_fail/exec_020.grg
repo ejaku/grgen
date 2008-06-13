@@ -2,7 +2,7 @@ using deep_model_001;
 
 rule r(y : Bcc) : (B) {
   modify{
-    exec(c:B=y & (c)=r(c)   & (c:B)=r(c));
     return (y);
+    exec(c:B=y & (c)=r(c)   & (c:B)=r(c));
   }
 }

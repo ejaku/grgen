@@ -92,10 +92,10 @@ rule writeXmiValueAttribute(parent:CMOF_NODE) {
 	// Metamodel property must have the connection assertion: upper = "1"
 	if { prop.isXmiIdReference == false; mmValue.value == prop.name; mmUpperConstraint.value == "1"; }
 	modify {
+		delete(prop);
 		emit (
 			" ", prop.name, "=\"", child.value, "\""
 		);
-		delete(prop);
 	}
 }
 
@@ -106,10 +106,10 @@ rule writeXmiReferenceElement(parent:CMOF_NODE) {
 	parent -prop:CMOFProperty-> child:CMOF_NODE;
 	if { prop.isXmiIdReference == true; }
 	modify {
+		delete(prop);
 		emit (
 			"\t<",  prop.name, " xmi:idref=\"G-", child.id, "\"", " />\n"
 		);
-		delete(prop);
 	}
 }
 
@@ -130,6 +130,8 @@ rule writeXmiElement(parent:CMOF_NODE) {
 	// Consider only NON-XmiIdReference attributes AND properties whose upper constraint is != "1"
 	if { prop.isXmiIdReference == false; prop.name == mmPropertyName.value; mmPropertyUpper.value != "1"; }
 	modify {
+		delete(prop);
+
 		emit (
 			"\t<",  prop.name," xmi:type=", "\"uml:", child.uuid, "\"", " xmi:id=\"G-", child.id, "\""
 		);
@@ -143,7 +145,6 @@ rule writeXmiElement(parent:CMOF_NODE) {
 		emit (
 			"\t</",  prop.name,">\n"
 		);
-		delete(prop);
 	}
 }
 
@@ -205,8 +206,8 @@ rule writeAttributereferenceIfValidMetaModelClass(parent:CMOF_NODE, mmClass:Meta
 	
 	if { prop.isXmiIdReference == false; mmClass_property_name.value == prop.name; mmClass_property_upper.value == "1"; }
 	modify {
-		emit (" ", prop.name, "=\"G-", child.id, "\"");
 		delete(prop);
+		emit (" ", prop.name, "=\"G-", child.id, "\"");
 	}
 }
 

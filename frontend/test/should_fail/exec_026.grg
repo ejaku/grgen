@@ -1,6 +1,6 @@
 rule r(y : Node) : (Node) {
   modify{
-    exec( (y)=r(y) ); // nothing may be assigned to graph element y
     return (y);
+    exec( (y)=r(y) ); // nothing may be assigned to graph element y
   }
 }

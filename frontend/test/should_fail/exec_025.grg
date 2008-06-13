@@ -2,7 +2,7 @@ using deep_model_001;
 
 rule r(y : Bcc) : (B) {
   modify{
-    exec( b:boolean = ((c:B)=r(b)) );
     return (y);
+    exec( b:boolean = ((c:B)=r(b)) );
   }
 }

@@ -4,9 +4,9 @@ rule r1(a:A, as:ASTR) : (AINT) {
   x:AINT;
   n:Node;
   modify{
+    return (x);
     exec(r2(a,as)&&r2(as,a)&&r2(as,as)||r2(a,a));
     exec(r2(n,as)&&r2(n,a)&&r2(as,n)||r2(a,n)||r2(n,n));
-    return (x);
   }
 }
 

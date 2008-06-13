@@ -5,11 +5,11 @@ rule r(y : Bcc) : (B) {
   a : A;
   b : B;
   modify{
+    return (b);
     exec(c:B=b && (c)=r(c));
     exec((c:B)   =r(y));     // exact type as return var
     exec((c:Node)=r(y));     // supertype as return var
     // exec((c:Bcc) =r(y));     subtype as return var    => should_fail
     // exec((c:A)   =r(y));     wrong type as return var => should_fail
-    return (b);
   }
 }
