@@ -244,6 +244,18 @@ namespace de.unika.ipd.grGen.lgsp
         {
             return GetEnumerator();
         }
+
+		public LGSPMatch RemoveMatch(int index)
+		{
+			if(index < 0 || index >= count)
+				throw new IndexOutOfRangeException("Index out of range: " + index);
+			LGSPMatch cur = root, last = null;
+			for(int i = 0; i < index; i++, last = cur, cur = cur.nextMatch) ;
+			if(last == null) root = cur.nextMatch;
+			else last.nextMatch = cur.nextMatch;
+			count--;
+			return cur;
+		}
     }
 
     /// <summary>
@@ -306,7 +318,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             return matchesList.GetEnumerator();
         }
-    }
+
+		public IMatch RemoveMatch(int index)
+		{
+			return matchesList.RemoveMatch(index);
+		}
+	}
 
     /// <summary>
     /// An object representing an executable rule of the LGSPBackend.

@@ -451,6 +451,14 @@ object NumberOrVar():
 	str=Word() { val = impl.GetVarValue(str); return val; }
 }
 
+bool Bool():
+{ }
+{
+	"true" { return true; }
+|
+	"false" { return false; }
+}
+
 String Filename():
 {
     Token tok;
@@ -805,6 +813,8 @@ void ShellCommand():
             obj=QuotedText() LineEnd()
         |
             obj=Number() LineEnd()
+        |
+			obj=Bool() LineEnd()
         )
         {
 			if(noError) impl.SetVariable(str1, obj);
@@ -1269,7 +1279,7 @@ Sequence OldSimpleSequence():
 		{
 			return null;
 		}
-		return new SequenceRuleAll(ruleObject, dump, false);
+		return new SequenceRuleAll(ruleObject, dump, false, 0);
 	}
 |
 	LOOKAHEAD(2)

@@ -354,30 +354,87 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceRuleAll : SequenceRule
     {
-        public SequenceRuleAll(RuleObject ruleObj, bool special, bool test)
+		public int NumChooseRandom;
+
+        public SequenceRuleAll(RuleObject ruleObj, bool special, bool test, int numChooseRandom)
             : base(ruleObj, special, test)
         {
             SequenceType = SequenceType.RuleAll;
+			NumChooseRandom = numChooseRandom;
         }
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            return graph.ApplyRewrite(RuleObj, -1, -1, Special, Test) > 0;
+			if(NumChooseRandom <= 0)
+				return graph.ApplyRewrite(RuleObj, -1, -1, Special, Test) > 0;
+			else
+			{
+				int curMaxMatches = graph.MaxMatches;
+
+				object[] parameters;
+				if(RuleObj.ParamVars.Length > 0)
+				{
+					parameters = RuleObj.Parameters;
+					for(int i = 0; i < RuleObj.ParamVars.Length; i++)
+						parameters[i] = graph.GetVariableValue(RuleObj.ParamVars[i]);
+				}
+				else parameters = null;
+
+				if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
+				IMatches matches = RuleObj.Action.Match(graph, curMaxMatches, parameters);
+				if(graph.PerformanceInfo != null)
+				{
+					graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
+					graph.PerformanceInfo.MatchesFound += matches.Count;
+				}
+
+				graph.Matched(matches, Special);
+				if(matches.Count == 0) return false;
+
+				if(Test) return matches.Count > 0;
+
+				graph.Finishing(matches, Special);
+
+				if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
+
+				object[] retElems = null;
+				for(int i = 0; i < NumChooseRandom; i++)
+				{
+					if(i != 0) graph.RewritingNextMatch();
+					IMatch match = matches.RemoveMatch(randomGenerator.Next(matches.Count));
+					retElems = matches.Producer.Modify(graph, match);
+					if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
+				}
+				if(retElems == null) retElems = BaseGraph.NoElems;
+
+				for(int i = 0; i < RuleObj.ReturnVars.Length; i++)
+					graph.SetVariableValue(RuleObj.ReturnVars[i], retElems[i]);
+				if(graph.PerformanceInfo != null) graph.PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
+
+				graph.Finished(matches, Special);
+
+				return matches.Count > 0;
+			}
         }
+
         public override string Symbol
         { 
             get 
             {
                 String prefix;
+				if(NumChooseRandom > 0)
+					prefix = "$" + NumChooseRandom;
+				else
+					prefix = "";
                 if(Special)
                 {
-                    if(Test) prefix = "%?[";
-                    else prefix = "%[";
+                    if(Test) prefix += "[%?";
+                    else prefix += "[%";
                 }
                 else
                 {
-                    if(Test) prefix = "?[";
-                    else prefix = "[";
+                    if(Test) prefix += "[?";
+                    else prefix += "[";
                 }
                 return prefix + GetRuleString() + "]"; 
             }

@@ -544,7 +544,7 @@ void RuleLookahead():
 {
 	("(" Word() (":" Word())? ("," Word() (":" Word())?)* ")" "=")?
 	(
-	    "["
+	    ("$" (Number())?)? "["
 	|
 	    ("%" | "?")* Word()
 	)
@@ -555,16 +555,28 @@ Sequence Rule():
 	bool special = false, test = false;
 	String str;
 	IAction action = null;
-	bool retSpecified = false;
+	bool retSpecified = false, numChooseRandSpecified = false;
+	long numChooseRand = 1;
 	List<String> paramVars = new List<String>();
 	List<String> returnVars = new List<String>();
 }
 {
 	("(" VariableList(returnVars) ")" "=" { retSpecified = true; })? 
 	(
+		(
+			"$" (numChooseRand=Number())?
+			{
+				numChooseRandSpecified = true;
+				if(numChooseRand <= 0)
+					throw new ParseException("The number of randomly chosen elements must be greater than zero!");
+				if(numChooseRand > Int32.MaxValue)
+					throw new ParseException("The number of randomly chosen elements must be less than 2147483648!");
+			}
+		)?
 	    "[" ("%" { special = true; } | "?" { test = true; })* str=Word() ("(" Parameters(paramVars) ")")? "]"
 	    {
-   		    return new SequenceRuleAll(CreateRuleObject(str, paramVars, returnVars, retSpecified), special, test);
+   		    return new SequenceRuleAll(CreateRuleObject(str, paramVars, returnVars, retSpecified), special, test,
+   				numChooseRandSpecified ? (int) numChooseRand : 0);
 	    }
 	|
 	    ("%" { special = true; } | "?" { test = true; })* str=Word() ("(" Parameters(paramVars) ")")?

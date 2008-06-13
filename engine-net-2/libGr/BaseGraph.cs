@@ -363,7 +363,7 @@ namespace de.unika.ipd.grGen.libGr
 
         #region Graph rewriting
 
-        private static IGraphElement[] noElems = new IGraphElement[] { };
+        public static readonly IGraphElement[] NoElems = new IGraphElement[] { };
 
         private PerformanceInfo perfInfo = null;
         private int maxMatches = 0;
@@ -442,7 +442,7 @@ namespace de.unika.ipd.grGen.libGr
                     retElems = matches.Producer.Modify(this, match);
                     if(PerformanceInfo != null) PerformanceInfo.RewritesPerformed++;
                 }
-                if(retElems == null) retElems = noElems;
+                if(retElems == null) retElems = NoElems;
             }
             return retElems;
         }

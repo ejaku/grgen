@@ -266,6 +266,13 @@ namespace de.unika.ipd.grGen.libGr
         /// This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
         /// </summary>
         IMatch GetMatch(int index);
+
+		/// <summary>
+		/// Removes the match at the given index and returns it.
+		/// </summary>
+		/// <param name="index">The index of the match to be removed.</param>
+		/// <returns>The removed match.</returns>
+		IMatch RemoveMatch(int index);
     }
 
     /// <summary>
