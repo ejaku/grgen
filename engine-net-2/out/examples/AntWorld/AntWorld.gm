@@ -1,0 +1,29 @@
+node class GridNode
+{
+    food:int;
+    pheromones:int;
+}
+node class GridCornerNode extends GridNode;
+node class AntHill extends GridNode
+{
+    foodCountdown:int = 0;
+}
+node class Ant
+{
+    hasFood:boolean;
+}
+
+node class GammelFix
+{
+    val:int;
+}
+
+node class MinusOne   extends GammelFix { val = -1; }
+node class MinusTwo   extends GammelFix { val = -2; }
+node class MinusThree extends GammelFix { val = -3; }
+
+edge class GridEdge;
+edge class PathToHill extends GridEdge;
+
+edge class AntPosition;
+edge class NextAnt;

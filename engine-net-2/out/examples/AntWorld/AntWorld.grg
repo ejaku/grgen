@@ -1,0 +1,282 @@
+using AntWorld;
+
+rule InitWorld : (Ant)
+{
+    modify {
+        // Create all grid nodes
+        
+        hill:AntHill;
+        a1:GridCornerNode; a2:GridNode;       a3:GridNode;       a4:GridCornerNode;
+        b1:GridNode;       b2:GridCornerNode; b3:GridCornerNode; b4:GridNode;
+        c1:GridNode;       c2:GridCornerNode; c3:GridCornerNode; c4:GridNode;
+        d1:GridCornerNode; d2:GridNode;       d3:GridNode;       d4:GridCornerNode;
+
+        // Connect first circle
+
+        hill <-:PathToHill- b2;
+        hill <-:PathToHill- b3;
+        hill <-:PathToHill- c3;
+        hill <-:PathToHill- c2;
+        
+        b2 -:GridEdge-> b3 -:GridEdge-> c3 -:GridEdge-> c2 -:GridEdge -> b2;
+        
+        // Connect second circle
+        
+        b2 <-:PathToHill- b1;
+        b2 <-:PathToHill- a1;
+        b2 <-:PathToHill- a2;
+
+        b3 <-:PathToHill- a3;
+        b3 <-:PathToHill- a4;
+        b3 <-:PathToHill- b4;
+
+        c3 <-:PathToHill- c4;
+        c3 <-:PathToHill- d4;
+        c3 <-:PathToHill- d3;
+
+        c2 <-:PathToHill- d2;
+        c2 <-:PathToHill- d1;
+        c2 <-:PathToHill- c1;
+
+        a1 -:GridEdge-> a2 -:GridEdge-> a3 -:GridEdge-> a4;
+        a4 -:GridEdge-> b4 -:GridEdge-> c4 -:GridEdge-> d4;
+        d4 -:GridEdge-> d3 -:GridEdge-> d2 -:GridEdge-> d1;
+        d1 -:GridEdge-> c1 -:GridEdge-> b1 -:GridEdge-> a1;
+
+        // Create nodes
+        
+        queen:Ant -:AntPosition-> hill;
+        atta:Ant -:AntPosition-> hill;
+        flick:Ant -:AntPosition-> hill;
+        dot:Ant -:AntPosition-> hill;
+        fred:Ant -:AntPosition-> hill;
+        slim:Ant -:AntPosition-> hill;
+        chewap:Ant -:AntPosition-> hill;
+        cici:Ant -:AntPosition-> hill;
+        
+        queen -:NextAnt-> atta -:NextAnt-> flick -:NextAnt-> dot -:NextAnt-> fred
+            -:NextAnt-> slim -:NextAnt-> chewap -:NextAnt-> cici;
+            
+        // The ultimate GAMMEL FIX(tm)!!!!
+        :MinusOne; :MinusTwo; :MinusThree;
+        
+        return (queen);
+    }
+}
+
+rule TakeFood(curAnt:Ant)
+{
+    curAnt -:AntPosition-> n:GridNode\AntHill;  // TODO: check whether it's faster without "\AntHill"
+    if { !curAnt.hasFood && n.food > 0; }
+    
+    modify {
+        eval {
+            curAnt.hasFood = true;
+            n.food = n.food - 1;
+        }
+    }
+}
+
+rule GoHome(curAnt:Ant)
+{
+    if { curAnt.hasFood; }
+    curAnt -oldPos:AntPosition-> old:GridNode -:PathToHill-> new:GridNode;
+    
+    modify {
+        eval {
+            old.pheromones = old.pheromones + 1024;
+        }
+        delete(oldPos);
+        curAnt -:AntPosition-> new;
+    }
+}
+
+rule DropFood(curAnt:Ant)
+{
+    curAnt -:AntPosition-> hill:AntHill;
+    if { curAnt.hasFood; }
+    
+    modify {
+        eval {
+            curAnt.hasFood = false;
+            hill.food = hill.food + 1;
+        }
+    }
+}
+
+rule SearchAlongPheromones(curAnt:Ant)
+{
+    curAnt -oldPos:AntPosition-> old:GridNode <-:PathToHill- new:GridNode;
+    if { new.pheromones > 9; }
+    
+    modify {
+        delete(oldPos);
+        curAnt -:AntPosition-> new;
+    }
+}
+
+rule SearchAimless(curAnt:Ant)
+{
+    curAnt -oldPos:AntPosition-> old:GridNode <-:GridEdge-> new:GridNode\AntHill;
+    
+    modify {
+        delete(oldPos);
+        curAnt -:AntPosition-> new;
+    }
+}
+
+test ReachedEndOfWorld(curAnt:Ant) : (GridNode)
+{
+    curAnt -:AntPosition-> n:GridNode\AntHill;
+    negative { n <-:PathToHill-; }
+    return (n);
+}
+
+//rule GrowFoodIfEqual(n:GridNode, var val:int)
+rule GrowFoodIfEqual(n:GridNode, val:GammelFix)
+{
+    hill:AntHill;
+//    if { hill.foodCountdown == val; }
+    if { hill.foodCountdown == val.val; }
+    modify {
+        eval {
+            n.food = n.food + 100;
+            hill.foodCountdown = hill.foodCountdown + 10;
+        }
+    }
+}
+
+// TODO: Check whether we can use alternatives
+rule GrowWorldFirstAtCorner(cur:GridCornerNode) : (GridNode, GridNode)
+{
+    cur -:GridEdge\PathToHill-> next:GridNode;
+    hill:AntHill;
+    
+    minusOne:MinusOne;
+    minusTwo:MinusTwo;
+    minusThree:MinusThree;
+    
+    modify {
+        cur <-:PathToHill- outer1:GridNode;
+        cur <-:PathToHill- outer2:GridCornerNode;
+        cur <-:PathToHill- outer3:GridNode;
+        outer1 -:GridEdge-> outer2 -:GridEdge-> outer3;
+        
+        eval {
+            hill.foodCountdown = hill.foodCountdown - 3;
+        }
+        
+        return (next, outer3);
+        
+//        exec(GrowFoodIfEqual(outer1, -3) || GrowFoodIfEqual(outer2, -2) || GrowFoodIfEqual(outer3, -1));
+        exec(GrowFoodIfEqual(outer1, minusThree) || GrowFoodIfEqual(outer2, minusTwo) || GrowFoodIfEqual(outer3, minusOne));
+    }
+}
+
+rule GrowWorldFirstNotAtCorner(cur:GridNode\GridCornerNode) : (GridNode, GridNode)
+{
+    cur -:GridEdge\PathToHill-> next:GridNode;
+    hill:AntHill;
+
+    minusOne:MinusOne;
+
+    modify {
+        cur <-:PathToHill- outer:GridNode;
+
+        eval {
+            hill.foodCountdown = hill.foodCountdown - 1;
+        }
+
+        return (next, outer);
+        
+//        exec(GrowFoodIfEqual(outer, -1));
+        exec(GrowFoodIfEqual(outer, minusOne));
+    }
+}
+
+rule GrowWorldNextAtCorner(cur:GridCornerNode, curOuter:GridNode) : (GridNode, GridNode)
+{
+    cur -:GridEdge\PathToHill-> next:GridNode;
+    negative { cur <-:PathToHill-; }
+    hill:AntHill;
+
+    minusOne:MinusOne;
+    minusTwo:MinusTwo;
+    minusThree:MinusThree;
+
+    modify {
+        cur <-:PathToHill- outer1:GridNode;
+        cur <-:PathToHill- outer2:GridCornerNode;
+        cur <-:PathToHill- outer3:GridNode;
+        curOuter -:GridEdge-> outer1 -:GridEdge-> outer2 -:GridEdge-> outer3;
+        
+        eval {
+            hill.foodCountdown = hill.foodCountdown - 3;
+        }
+        
+        return (next, outer3);
+//        exec(GrowFoodIfEqual(outer1, -3) || GrowFoodIfEqual(outer2, -2) || GrowFoodIfEqual(outer3, -1));
+        exec(GrowFoodIfEqual(outer1, minusThree) || GrowFoodIfEqual(outer2, minusTwo) || GrowFoodIfEqual(outer3, minusOne));
+    }
+}
+
+rule GrowWorldNextNotAtCorner(cur:GridNode\GridCornerNode, curOuter:GridNode) : (GridNode, GridNode)
+{
+    cur -:GridEdge\PathToHill-> next:GridNode;
+    negative { cur <-:PathToHill-; }
+    hill:AntHill;
+    
+    minusOne:MinusOne;
+    
+    modify {
+        cur <-:PathToHill- outer:GridNode;
+        curOuter -:GridEdge-> outer;
+
+        eval {
+            hill.foodCountdown = hill.foodCountdown - 1;
+        }
+        
+        return (next, outer);
+//        exec(GrowFoodIfEqual(outer, -1));
+        exec(GrowFoodIfEqual(outer, minusOne));
+    }
+}
+
+rule GrowWorldEnd(cur:GridNode, curOuter:GridNode)
+{
+    cur <-:PathToHill- nextOuter:GridNode;
+    modify {
+        curOuter -:GridEdge-> nextOuter;
+    }
+}
+
+test GetNextAnt(curAnt:Ant) : (Ant)
+{
+    curAnt -:NextAnt-> next:Ant;
+    return (next);
+}
+
+// TODO: Check whether using a parameter for hill is faster
+rule Food2Ant(lastAnt:Ant) : (Ant)
+{
+    hill:AntHill;
+    if { hill.food > 0; }
+    
+    modify {
+        lastAnt -:NextAnt-> newAnt:Ant -:AntPosition-> hill;
+        eval {
+            hill.food = hill.food - 1;
+        }
+        return (newAnt);
+    }
+}
+
+rule EvaporateWorld
+{
+    n:GridNode\AntHill;
+    modify {
+        eval {
+            n.pheromones = (int) (n.pheromones * 0.95);
+        }
+    }
+}
