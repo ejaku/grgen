@@ -632,7 +632,7 @@ namespace de.unika.ipd.grGen.libGr
             foreach(EdgeType type in changedEdgeTypes.Keys)
                 EdgeTypeAppearanceChanged(type);
 
-            foreach(EdgeType type in infoTags.Keys)
+            foreach(GrGenType type in infoTags.Keys)
                 TypeInfotagsChanged(type);
             infoTags.Clear();
 
