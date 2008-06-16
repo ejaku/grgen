@@ -1424,6 +1424,11 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
+        public void SetRandomSeed(int seed)
+        {
+            Sequence.randomGenerator = new Random(seed);
+        }
+
         public bool RedirectEmit(String filename)
         {
             if(!GraphExists()) return false;
@@ -1544,11 +1549,7 @@ namespace de.unika.ipd.grGen.grShell
                 curShellGraph.Graph.OnExitingSequence += new ExitSequenceHandler(DumpOnExitingSequence);
                 installedDumpHandlers = true;
             }
-            else
-            {
-                curShellGraph.Graph.OnEntereringSequence += new EnterSequenceHandler(NormalEnteringSequenceHandler);
-                curShellGraph.Graph.OnExitingSequence += new ExitSequenceHandler(NormalExitingSequenceHandler);
-            }
+            else curShellGraph.Graph.OnEntereringSequence += new EnterSequenceHandler(NormalEnteringSequenceHandler);
 
             curGRS = seq;
             curRule = null;
@@ -1594,17 +1595,13 @@ namespace de.unika.ipd.grGen.grShell
             StreamWriter emitWriter = curShellGraph.Graph.EmitWriter as StreamWriter;
             if(emitWriter != null)
                 emitWriter.Flush();
-            
+
             if(installedDumpHandlers)
             {
                 curShellGraph.Graph.OnEntereringSequence -= new EnterSequenceHandler(DumpOnEntereringSequence);
                 curShellGraph.Graph.OnExitingSequence -= new ExitSequenceHandler(DumpOnExitingSequence);
             }
-            else
-            {
-                curShellGraph.Graph.OnEntereringSequence -= new EnterSequenceHandler(NormalEnteringSequenceHandler);
-                curShellGraph.Graph.OnExitingSequence -= new ExitSequenceHandler(NormalExitingSequenceHandler);
-            }
+            else curShellGraph.Graph.OnEntereringSequence -= new EnterSequenceHandler(NormalEnteringSequenceHandler);
         }
 
         public void WarnDeprecatedGrs(Sequence seq)
@@ -1624,34 +1621,33 @@ namespace de.unika.ipd.grGen.grShell
             throw new OperationCanceledException();                 // abort rewrite sequence
         }
 
-        void NormalExitingSequenceHandler(Sequence seq)
+        void NormalEnteringSequenceHandler(Sequence seq)
         {
             if(cancelSequence)
                 Cancel();
-        }
 
-        void NormalEnteringSequenceHandler(Sequence seq)
-        {
-            SequenceRule ruleSeq = seq as SequenceRule;
-            if (ruleSeq != null) curRule = ruleSeq;
+            if(seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll)
+                curRule = (SequenceRule) seq;
         }
 
         void DumpOnEntereringSequence(Sequence seq)
         {
-            SequenceRule ruleSeq = seq as SequenceRule;
-            if(ruleSeq != null)
+            if(seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll)
             {
-                curRule = ruleSeq;
-                if(ruleSeq.Special)
+                curRule = (SequenceRule) seq;
+                if(curRule.Special)
                     curShellGraph.Graph.OnFinishing += new BeforeFinishHandler(DumpOnFinishing);
             }
         }
 
         void DumpOnExitingSequence(Sequence seq)
         {
-            SequenceRule ruleSeq = seq as SequenceRule;
-            if(ruleSeq != null && ruleSeq.Special)
-                curShellGraph.Graph.OnFinishing -= new BeforeFinishHandler(DumpOnFinishing);
+            if(seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll)
+            {
+                SequenceRule ruleSeq = (SequenceRule) seq;
+                if(ruleSeq != null && ruleSeq.Special)
+                    curShellGraph.Graph.OnFinishing -= new BeforeFinishHandler(DumpOnFinishing);
+            }
 
             if(cancelSequence)
                 Cancel();

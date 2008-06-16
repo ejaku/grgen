@@ -274,6 +274,7 @@ TOKEN: {
 |   < PARSE: "parse" >
 |   < PARSER: "parser" >
 |   < QUIT: "quit" >
+|   < RANDOMSEED: "randomseed" >
 |   < REDIRECT: "redirect" >
 |   < RESET: "reset" >
 |   < RESETVISITFLAG: "resetvisitflag" >
@@ -612,6 +613,7 @@ void ShellCommand():
 	ShellGraph shellGraph = null;
 	Sequence seq;
 	bool strict = false, shellGraphSpecified = false;
+	int num;
 }
 {
     "!" str1=CommandLine()
@@ -772,6 +774,24 @@ void ShellCommand():
 		    noError = impl.ParseString(str1);
 	    }
 	)
+|
+	"randomseed"
+	(
+		num=Number()
+		{
+			impl.SetRandomSeed(num);
+		}
+	|
+		str1=Word()
+		{
+			if(str1 != "time")
+			{
+				Console.WriteLine("The new seed as integer or the word \"time\" for setting the current time as seed expected!");
+				noError = false;
+			}
+			else impl.SetRandomSeed(Environment.TickCount);
+		}		
+	)	
 |
 	"freevisitflag" obj=NumberOrVar() LineEnd()
 	{
