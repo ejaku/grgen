@@ -473,14 +473,12 @@ namespace de.unika.ipd.grGen.libGr
 
             if(PerformanceInfo != null) PerformanceInfo.StartLocal();
             IMatches matches = ruleObject.Action.Match(this, curMaxMatches, parameters);
-            if(PerformanceInfo != null)
-            {
-                PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
-                PerformanceInfo.MatchesFound += matches.Count;
-            }
+            if(PerformanceInfo != null) PerformanceInfo.StopMatch();
 
             if(OnMatched != null) OnMatched(matches, special);
             if(matches.Count == 0) return 0;
+
+            if(PerformanceInfo != null) PerformanceInfo.MatchesFound += matches.Count;
 
             if(test) return matches.Count;
 
@@ -490,7 +488,7 @@ namespace de.unika.ipd.grGen.libGr
             object[] retElems = Replace(matches, which);
             for(int i = 0; i < ruleObject.ReturnVars.Length; i++)
                 SetVariableValue(ruleObject.ReturnVars[i], retElems[i]);
-            if(PerformanceInfo != null) PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
+            if(PerformanceInfo != null) PerformanceInfo.StopRewrite();
 
             if(OnFinished != null) OnFinished(matches, special);
 
