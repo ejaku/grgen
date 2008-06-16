@@ -915,18 +915,25 @@ iterSequence[ExecNode xg]
 	{
 		RangeSpecNode rsn = null;
 	}
-	: simpleSequence[xg] rsn=rangeSpec
-		{
-			if(rsn != null)
+	: simpleSequence[xg]
+		(
+			rsn=rangeSpec
 			{
-				if(rsn.getLower() == rsn.getUpper())
+				if(rsn != null)
 				{
-					if(rsn.getLower() != 1)
-						xg.append("[" + rsn.getLower() + "]");
+					if(rsn.getLower() == rsn.getUpper())
+					{
+						if(rsn.getLower() != 1)
+							xg.append("[" + rsn.getLower() + "]");
+					}
+					else xg.append("["+rsn.getLower()+":"+rsn.getUpper()+"]");
 				}
-				else xg.append("["+rsn.getLower()+":"+rsn.getUpper()+"]");
 			}
-		}
+		|
+			STAR { xg.append("*"); }
+		|
+			PLUS { xg.append("+"); }
+		)
 	;
 
 simpleSequence[ExecNode xg]
@@ -990,7 +997,15 @@ simpleSequence[ExecNode xg]
 	;
 
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
+	{
+		int numRndChoose = 0;
+	}
 	: (LBRACK) => LBRACK {xg.append("[");} callRule[xg, returns] RBRACK {xg.append("]");}
+	| (DOLLAR (NUM_INTEGER)? LBRACK) =>
+	  DOLLAR {xg.append("$");}
+	  (numRndChoose=integerConst {xg.append(numRndChoose);})?
+	  LBRACK {xg.append("[");}
+	  callRule[xg, returns] RBRACK {xg.append("]");}
 	| callRule[xg, returns]
 	;
 
@@ -1034,5 +1049,4 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 	| LPAREN res=typeAddExpr RPAREN
 	;
-
 
