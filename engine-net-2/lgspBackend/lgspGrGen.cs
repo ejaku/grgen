@@ -460,29 +460,50 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("else\n");
                     source.AppendFront("{\n");
                     source.Indent();
+                    source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_" + seqID + ".Count;\n");
                     source.AppendFront("graph.Finishing(mat_" + seqID + ", " + specialStr + ");\n");
                     source.AppendFront("object[] ret_" + seqID + " = ");
                     if(seq.SequenceType == SequenceType.Rule)
+                    {
                         source.Append("rule_" + ruleObj.RuleName + ".Modify(graph, mat_" + seqID + ".matchesList.First);\n");
-                    else
+                        source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
+                    }
+                    else if(((SequenceRuleAll) seq).NumChooseRandom <= 0)
                         source.Append("graph.Replace(mat_" + seqID + ", -1);\n");
-                    source.AppendFront("graph.Finished(mat_" + seqID + ", " + specialStr + ");\n");
+                    else
+                    {
+                        source.Append("null;\n");
+                        source.AppendFront("for(int repi_" + seqID + " = 0; repi_" + seqID + " < "
+                            + ((SequenceRuleAll) seq).NumChooseRandom + "; repi_" + seqID + "++)\n");
+                        source.AppendFront("{\n");
+                        source.Indent();
+                        source.AppendFront("if(repi_" + seqID + " != 0) graph.RewritingNextMatch();\n");
+                        source.AppendFront("IMatch curmat_" + seqID + " = mat_" + seqID
+                            + ".RemoveMatch(Sequence.randomGenerator.Next(mat_" + seqID + ".Count));\n");
+                        source.AppendFront("ret_" + seqID + " = mat_" + seqID + ".Producer.Modify(graph, curmat_" + seqID + ");\n");
+                        source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
 
                     if(ruleObj.ReturnVars.Length != 0)
-					{
-						source.AppendFront("if(ret_" + seqID + " != null)\n");
-						source.AppendFront("{\n");
-						source.Indent();
-						for(int i = 0; i < ruleObj.ReturnVars.Length; i++)
-							source.AppendFront("var_" + ruleObj.ReturnVars[i] + " = ret_" + seqID + "[" + i + "];\n");
-						source.Unindent();
-						source.AppendFront("}\n");
-					}
-					source.AppendFront("res_" + seqID + " = ret_" + seqID + " != null;\n");
-                    source.Unindent(); ;
+                    {
+                        source.AppendFront("if(ret_" + seqID + " != null)\n");
+                        source.AppendFront("{\n");
+                        source.Indent();
+                        for(int i = 0; i < ruleObj.ReturnVars.Length; i++)
+                            source.AppendFront("var_" + ruleObj.ReturnVars[i] + " = ret_" + seqID + "[" + i + "];\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+
+                    source.AppendFront("graph.Finished(mat_" + seqID + ", " + specialStr + ");\n");
+
+                    source.AppendFront("res_" + seqID + " = ret_" + seqID + " != null;\n");
+                    source.Unindent();
                     source.AppendFront("}\n");
                     break;
-				}
+                }
 
 				case SequenceType.VarPredicate:
 				{
