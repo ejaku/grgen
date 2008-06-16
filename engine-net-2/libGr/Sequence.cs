@@ -391,7 +391,7 @@ namespace de.unika.ipd.grGen.libGr
 				graph.Matched(matches, Special);
 				if(matches.Count == 0) return false;
 
-				if(Test) return matches.Count > 0;
+				if(Test) return false;
 
 				graph.Finishing(matches, Special);
 
@@ -413,7 +413,7 @@ namespace de.unika.ipd.grGen.libGr
 
 				graph.Finished(matches, Special);
 
-				return matches.Count > 0;
+				return true;
 			}
         }
 
