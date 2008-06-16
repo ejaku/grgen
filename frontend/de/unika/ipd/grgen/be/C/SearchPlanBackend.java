@@ -714,7 +714,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				sb.append(indent + "ext_grs_node_t *n_" + name + " = ");
 				if (graphType == GraphType.Negative) {
 					sb.append("ext_grs_act_add_related_node(pattern, \"" +
-						  	name + "\", n_" + related_name + ", " + nodeIds.getNewKey());
+						  	name + "\", mode_" + mode + ", mode_" + lsmode + ", n_" +
+						  	related_name + ", " + nodeIds.getNewKey());
 				} else {
 					sb.append("ext_grs_act_add_node_to_keep(pattern, \"" +
 							name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
