@@ -68,6 +68,8 @@ rule TakeFood(curAnt:Ant)
 {
     curAnt -:AntPosition-> n:GridNode\AntHill;  // TODO: check whether it's faster without "\AntHill"
     if { !curAnt.hasFood && n.food > 0; }
+//    if { !curAnt.hasFood; }                   // Damn .NET inliner doesn't inline these static functions...
+//    if { n.food > 0; }
     
     modify {
         eval {
@@ -93,8 +95,8 @@ rule GoHome(curAnt:Ant)
 
 rule DropFood(curAnt:Ant)
 {
-    curAnt -:AntPosition-> hill:AntHill;
     if { curAnt.hasFood; }
+    curAnt -:AntPosition-> hill:AntHill;
     
     modify {
         eval {
@@ -278,5 +280,36 @@ rule EvaporateWorld
         eval {
             n.pheromones = (int) (n.pheromones * 0.95);
         }
+    }
+}
+
+rule doAntWorld(firstAnt:Ant)
+{
+    modify {
+        exec((curAnt:Ant=firstAnt && (endReached:boolean = false | true) &&
+            ((
+                TakeFood(curAnt) | GoHome(curAnt) ||
+                DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] || $[SearchAimless(curAnt)])
+                    | (!endReached && (cur:GridNode)=ReachedEndOfWorld(curAnt)
+                        && ((cur, curOuter:GridNode)=GrowWorldFirstNotAtCorner(cur) || (cur, curOuter)=GrowWorldFirstAtCorner(cur))
+                        && ((cur, curOuter)=GrowWorldNextNotAtCorner(cur, curOuter) || (cur, curOuter)=GrowWorldNextAtCorner(cur, curOuter))*
+                        && GrowWorldEnd(cur, curOuter) && endReached = true)
+            ) && (curAnt)=GetNextAnt(curAnt))*
+            | (curAnt)=Food2Ant(curAnt)*
+            | [EvaporateWorld]
+            )[200]);
+
+/*        exec((curAnt:Ant=firstAnt &&
+            ((
+                (TakeFood(curAnt) && true) | (GoHome(curAnt) && true) ||
+                DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] || $[SearchAimless(curAnt)])
+                    | ((cur:GridNode)=ReachedEndOfWorld(curAnt)
+                        && ((cur, curOuter:GridNode)=GrowWorldFirstNotAtCorner(cur) || (cur, curOuter)=GrowWorldFirstAtCorner(cur))
+                        && ((cur, curOuter)=GrowWorldNextNotAtCorner(cur, curOuter) || (cur, curOuter)=GrowWorldNextAtCorner(cur, curOuter))*
+                        && GrowWorldEnd(cur, curOuter))
+            ) && (curAnt)=GetNextAnt(curAnt))*
+            | (curAnt)=Food2Ant(curAnt)*
+            | [EvaporateWorld]
+            )[200]);*/
     }
 }

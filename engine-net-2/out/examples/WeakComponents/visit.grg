@@ -2,6 +2,8 @@ using visit;
 
 #include "graphgen.gri"
 
+// If you want to use this pattern for multigraphs, you also have to match
+// all edges between n and m using another pattern.
 pattern Component(n:Node)
 {
     alternative {
