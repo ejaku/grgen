@@ -575,7 +575,12 @@ rangeSpec returns [ RangeSpecNode res = null ]
 			|
 				PLUS { lower=1; upper=RangeSpecNode.UNBOUND; }
 			|
-				lower=integerConst ( COLON ( STAR { upper=RangeSpecNode.UNBOUND; } | upper=integerConst ) )?
+				lower=integerConst
+				(
+					COLON ( STAR { upper=RangeSpecNode.UNBOUND; } | upper=integerConst )
+				|
+					{ upper = lower; }
+				)
 			)
 			RBRACK
 		)?
