@@ -222,6 +222,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * ------------------------------------------ */
 
 	NodeType CONST_TYPE = null;
+	NodeType COND_TYPE = null;
 	NodeType VPROJ_TYPE = null;
 	NodeType PROJ_TYPE  = null;
 	NodeType SYM_CONST  = null;
@@ -236,6 +237,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		{
 			if(node.getIdent().toString().equals("Const"))
 				CONST_TYPE = node;
+			if(node.getIdent().toString().equals("Cond"))
+				COND_TYPE = node;
 			if(node.getIdent().toString().equals("VProj"))
 				VPROJ_TYPE = node;
 			if(node.getIdent().toString().equals("Proj"))
@@ -1041,6 +1044,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				else if(n.getNodeType().isCastableTo(SYM_CONST))
 				{
 					sb.append("get_SymConst_entity(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
+				}
+				else if(n.getNodeType().isCastableTo(COND_TYPE))
+				{
+					sb.append("get_Cond_defaultProj(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else
 				{
