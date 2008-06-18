@@ -728,7 +728,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				}
 				sb.append(");\n");
 				sb.append(indent + "(void) n_" + name + ";\n");
-				System.out.println(relatedNodes + "; " + node + "; " + name);
+				//System.out.println(relatedNodes + "; " + node + "; " + name);
 				relatedNodes.put(node, name);								// Name was changed for neg nodes. Remember new
 																			// name for the creation of edges.
 			}
