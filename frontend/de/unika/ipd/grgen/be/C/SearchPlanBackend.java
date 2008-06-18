@@ -226,6 +226,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	NodeType VPROJ_TYPE = null;
 	NodeType PROJ_TYPE  = null;
 	NodeType SYM_CONST  = null;
+	NodeType FRAMEADDR  = null;
 	NodeType MULTIPLE_ADD_TYPE = null;
 	NodeType IA32_SUB = null;
 
@@ -249,6 +250,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				SYM_CONST = node;
 			if(node.getIdent().toString().equals("ia32_Sub"))
 				IA32_SUB = node;
+			if(node.getIdent().toString().equals("be_FrameAddr"))
+				FRAMEADDR = node;
 		}
 		if(CONST_TYPE == null)
 			System.out.println("Warning: CONST_TYPE not found!");
@@ -1048,6 +1051,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				else if(n.getNodeType().isCastableTo(COND_TYPE))
 				{
 					sb.append("get_Cond_defaultProj(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
+				}
+				else if(n.getNodeType().isCastableTo(FRAMEADDR))
+				{
+					sb.append("be_get_frame_entity(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else
 				{
