@@ -6,7 +6,7 @@ dump set edge Edge color black
 dump set node InitialNode shape Circle
 dump set node DecisionNode shape Rhomb
 dump set node FinalNode shape Circle
-dump add node Action infotag name
+dump add node ActionNode infotag name
 dump add edge ActivityEdge infotag name
 dump add edge ActivityEdge infotag guard
 dump add node Process infotag name
@@ -28,7 +28,7 @@ show num nodes "Process"
 show num nodes "ProcessAssignment"
 show num nodes "MergeNode"
 show num nodes "CspContainer"
-show num nodes "Action"
+show num nodes "ActionNode"
 show num nodes "grIO_OUTPUT"
 show num nodes "ForkNode"
 show num nodes "grIO_File"
@@ -70,7 +70,7 @@ show num nodes "Process"
 show num nodes "ProcessAssignment"
 show num nodes "MergeNode"
 show num nodes "CspContainer"
-show num nodes "Action"
+show num nodes "ActionNode"
 show num nodes "grIO_OUTPUT"
 show num nodes "ForkNode"
 show num nodes "grIO_File"
@@ -127,7 +127,7 @@ show num nodes "Process"
 show num nodes "ProcessAssignment"
 show num nodes "MergeNode"
 show num nodes "CspContainer"
-show num nodes "Action"
+show num nodes "ActionNode"
 show num nodes "grIO_OUTPUT"
 show num nodes "ForkNode"
 show num nodes "grIO_File"
@@ -180,7 +180,7 @@ show num nodes "Process"
 show num nodes "ProcessAssignment"
 show num nodes "MergeNode"
 show num nodes "CspContainer"
-show num nodes "Action"
+show num nodes "ActionNode"
 show num nodes "grIO_OUTPUT"
 show num nodes "ForkNode"
 show num nodes "grIO_File"
