@@ -29,7 +29,7 @@ public class NullConstNode extends ConstNode
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	protected ConstNode doCastTo(TypeNode type) {
 		// The null value is not castable to any the (besides object)
-		ConstNode res = ConstNode.getInvalid();
-		return res;
+		// TODO: String?
+		throw new UnsupportedOperationException();
 	}
 }

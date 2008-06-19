@@ -26,15 +26,14 @@ public class IntConstNode extends ConstNode
 	}
 
 	protected ConstNode doCastTo(TypeNode type) {
-		int value = ((Integer) getValue()).intValue();
-		ConstNode res = ConstNode.getInvalid();
+		Integer value = (Integer) getValue();
 
-		if (type.isEqual(BasicTypeNode.booleanType)) {
-			res = new BoolConstNode(getCoords(), value != 0 ? true : false);
+		if (type.isEqual(BasicTypeNode.floatType)) {
+			return new FloatConstNode(getCoords(), value);
+		} else if (type.isEqual(BasicTypeNode.doubleType)) {
+			return new DoubleConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.stringType)) {
-			res = new StringConstNode(getCoords(), "" + value);
-		}
-
-		return res;
+			return new StringConstNode(getCoords(), value.toString());
+		} else throw new UnsupportedOperationException();
 	}
 }

@@ -32,15 +32,17 @@ public class EnumConstNode extends ConstNode
 
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	protected ConstNode doCastTo(TypeNode type) {
-		ConstNode res = ConstNode.getInvalid();
+		int value = ((Integer) getValue()).intValue();
 
 		if (type.isEqual(BasicTypeNode.intType)) {
-			return new IntConstNode(getCoords(), ((Integer) getValue()).intValue());
+			return new IntConstNode(getCoords(), value);
+		} else if (type.isEqual(BasicTypeNode.floatType)) {
+			return new FloatConstNode(getCoords(), value);
+		} else if (type.isEqual(BasicTypeNode.doubleType)) {
+			return new DoubleConstNode(getCoords(), value);
 		} else if (type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), id.toString());
-		}
-
-		return res;
+		} else throw new UnsupportedOperationException();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */

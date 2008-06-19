@@ -33,13 +33,10 @@ public class TypeConstNode extends ConstNode
 
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	protected ConstNode doCastTo(TypeNode type)	{
-		ConstNode res = ConstNode.getInvalid();
-
+		// TODO: ??? How would this be possible?
 		if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), id.toString());
-		}
-
-		return res;
+		} else throw new UnsupportedOperationException();
 	}
 
     /** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */

@@ -25,19 +25,14 @@ public class FloatConstNode extends ConstNode
 	}
 
 	protected ConstNode doCastTo(TypeNode type) {
-		float value = ((Float) getValue()).floatValue();
-		ConstNode res = ConstNode.getInvalid();
+		Float value = (Float) getValue();
 
-		if (type.isEqual(BasicTypeNode.booleanType)) {
-			res = new BoolConstNode(getCoords(), value != 0 ? true : false);
-		} else if (type.isEqual(BasicTypeNode.stringType)) {
-			res = new StringConstNode(getCoords(), "" + value);
+		if (type.isEqual(BasicTypeNode.intType)) {
+			return new IntConstNode(getCoords(), (int)(float) value);
 		} else if (type.isEqual(BasicTypeNode.doubleType)) {
-			res = new DoubleConstNode(getCoords(), (double) value);
-		} else if (type.isEqual(BasicTypeNode.intType)) {
-			res = new IntConstNode(getCoords(), (int) value);
-		}
-
-		return res;
+			return new DoubleConstNode(getCoords(), value);
+		} else if (type.isEqual(BasicTypeNode.stringType)) {
+			return new StringConstNode(getCoords(), value.toString());
+		} else throw new UnsupportedOperationException();
 	}
 }

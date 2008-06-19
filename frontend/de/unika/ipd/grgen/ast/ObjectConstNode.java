@@ -27,10 +27,9 @@ public class ObjectConstNode extends ConstNode {
 	}
 
 	protected ConstNode doCastTo(TypeNode type)	{
-		if ( type.isEqual(BasicTypeNode.objectType) ) {
-			return this;
-		}
-		return ConstNode.getInvalid();
+		if (type.isEqual(BasicTypeNode.stringType) ) {
+			return new StringConstNode(getCoords(), getValue().toString());
+		} else throw new UnsupportedOperationException();
 	}
 
 	public String toString() {

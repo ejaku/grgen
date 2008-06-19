@@ -27,6 +27,6 @@ public class StringConstNode extends ConstNode
 
     /** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
     protected ConstNode doCastTo(TypeNode type) {
-        return ConstNode.getInvalid();
+		throw new UnsupportedOperationException();
     }
 }
