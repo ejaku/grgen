@@ -92,6 +92,7 @@ public class ArithmeticOpNode extends OpNode {
 		for(int i = 0; i < n; i++) {
 			ExprNode c = children.get(i);
 			args[i] = c.evaluate();
+			children.set(i, args[i]);
 		}
 
 		return getOperator().evaluate(this, args);
