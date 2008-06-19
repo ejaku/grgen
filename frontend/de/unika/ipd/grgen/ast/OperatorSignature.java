@@ -138,19 +138,8 @@ public class OperatorSignature extends FunctionSignature {
 	 *            The result type of the operator.
 	 * @param opTypes
 	 *            The operand types of the operator.
-	 */
-	/**
-	 * Method makeOp
-	 *
-	 * @param id
-	 *            an int
-	 * @param resType
-	 *            a TypeNode
-	 * @param opTypes
-	 *            a TypeNode[]
 	 * @param eval
 	 *            an Evaluator
-	 *
 	 */
 	public static final void makeOp(int id, TypeNode resType,
 			TypeNode[] opTypes, Evaluator eval) {
@@ -806,3 +795,4 @@ public class OperatorSignature extends FunctionSignature {
 	}
 
 }
+
