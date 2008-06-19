@@ -19,6 +19,7 @@ APPEND=""
 ONLY_FRONTEND=""
 ONLY_NEW=""
 VERBOSE=""
+WITHDEBUG=""
 
 do_diff()
 {
@@ -31,6 +32,7 @@ while [ "$1" ]; do
 		-a) shift; APPEND="TRUE";;
 		-c) rm -fr */*$OUTPUTSUFF; exit 0;;
 		-d) do_diff; exit 0;;
+        --debug) shift; WITHDEBUG=" -d";;
         -f) shift; ONLY_FRONTEND="TRUE"; LOG=summary_fe.log;;
 		-n) shift; ONLY_NEW="TRUE";;
 		-v) shift; VERBOSE="TRUE";;
@@ -50,7 +52,7 @@ else
 fi
 CLASSPATH=$JARGS$SEP$ANTLR$SEP$GRGENNET/grgen.jar
 
-JAVA_ARGS="-Xms256M -Xmx512M -cp $CLASSPATH -ea de.unika.ipd.grgen.Main -b $BE_CSC -t"
+JAVA_ARGS="-Xms256M -Xmx512M -cp $CLASSPATH -ea de.unika.ipd.grgen.Main -b $BE_CSC -t$WITHDEBUG"
 
 do_test()
 {
