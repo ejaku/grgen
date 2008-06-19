@@ -1,0 +1,24 @@
+using attrib_model_001;
+
+rule iftest
+{
+    t : NSTRING;
+
+    if {
+          t.a == "aaa" | t.a=="bbb" | t.a=="ccc"
+        | t.a == "aa1" | t.a=="bb1" | t.a=="cc1"
+        | t.a == "aa2" | t.a=="bb2" | t.a=="cc2"
+        | t.a == "aa3" | t.a=="bb3" | t.a=="cc3"
+        | t.a == "aa4" | t.a=="bb4" | t.a=="cc4"
+        | t.a == "aa5" | t.a=="bb5" | t.a=="cc5"
+        | t.a == "aa6" | t.a=="bb6" | t.a=="cc6"
+        | t.a == "aa7" | t.a=="bb7" | t.a=="cc7"
+        ;
+    }
+    
+    modify {
+        eval {
+            t.a = "wow";
+        }
+    }
+}
