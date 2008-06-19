@@ -738,6 +738,29 @@ namespace de.unika.ipd.grGen.lgsp
             String binPath = FixDirectorySeparators(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
                     + Path.DirectorySeparatorChar;
 
+            Process grGenJava = null;
+
+            // The code handling CTRL+C makes sure, the Java process is killed even if CTRL+C was pressed at the very
+            // begining of Process.Start without making the program hang in an indeterminate state.
+
+            bool ctrlCPressed = false;
+            bool delayCtrlC = true;    // between registering the handler and the end of Process.Start, delay actually handling of CTRL+C
+            ConsoleCancelEventHandler ctrlCHandler = delegate(object sender, ConsoleCancelEventArgs e)
+            {
+                if(!delayCtrlC)
+                {
+                    if(grGenJava == null || grGenJava.HasExited) return;
+
+                    Console.Error.WriteLine("Aborting...");
+                    System.Threading.Thread.Sleep(100);     // a short delay to make sure the process is correctly started
+                    if(!grGenJava.HasExited)
+                        grGenJava.Kill();
+                }
+                ctrlCPressed = true;
+                if(e != null)               // compare to null, as we also call this by ourself when handling has been delayed
+                    e.Cancel = true;        // we handled the cancel event
+            };
+
             try
             {
                 String javaString;
@@ -749,14 +772,30 @@ namespace de.unika.ipd.grGen.lgsp
                     + "-c " + tmpDir + Path.DirectorySeparatorChar + "printOutput.txt -o " + tmpDir
                     + " \"" + String.Join("\" \"", sourceFiles) + "\"");
                 startInfo.CreateNoWindow = true;
-                Process grGenJava = Process.Start(startInfo);
-                grGenJava.WaitForExit();
+                try
+                {
+                    Console.CancelKeyPress += ctrlCHandler;
+
+                    grGenJava = Process.Start(startInfo);
+
+                    delayCtrlC = false;
+                    if(ctrlCPressed) ctrlCHandler(null, null);
+
+                    grGenJava.WaitForExit();
+                }
+                finally
+                {
+                    Console.CancelKeyPress -= ctrlCHandler;
+                }
             }
             catch(Exception e)
             {
                 Console.Error.WriteLine("Unable to process specification: " + e.Message);
                 return false;
             }
+
+            if(ctrlCPressed)
+                return false;
 
             bool noError = true;
             using(StreamReader sr = new StreamReader(tmpDir + Path.DirectorySeparatorChar + "printOutput.txt"))
@@ -1146,9 +1185,13 @@ namespace de.unika.ipd.grGen.lgsp
                 if(ret == ErrorType.GrGenJavaError && File.Exists(intermediateDir + Path.DirectorySeparatorChar + "printOutput.txt"))
                 {
                     using(StreamReader sr = new StreamReader(intermediateDir + Path.DirectorySeparatorChar + "printOutput.txt"))
-                        throw new Exception("Error while processing specification:\n" + sr.ReadToEnd());
+                    {
+                        String output = sr.ReadToEnd();
+                        if(output.Length != 0)
+                            throw new Exception("Error while processing specification:\n" + output);
+                    }
                 }
-                else throw new Exception("Error while processing specification!");
+                throw new Exception("Error while processing specification!");
             }
         }
 
