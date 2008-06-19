@@ -80,19 +80,22 @@ public class EnumItemNode extends MemberDeclNode {
 		if(!checkValue(value, visitedEnumItems))
 			return false;
 
-		if(!value.isConst()) {
+		ExprNode newValue = value.evaluate();
+		if (!(newValue instanceof ConstNode)) {
 			reportError("Initialization of enum item is not constant");
 			return false;
 		}
 
 		// Adjust the values type to int, else emit an error.
-		if(value.getType().isCompatibleTo(BasicTypeNode.intType)) {
-			ExprNode adjusted = value.adjustType(BasicTypeNode.intType);
-			becomeParent(adjusted);
-			value = adjusted;
-		} else {
+		if(!newValue.getType().isCompatibleTo(BasicTypeNode.intType)) {
 			reportError("The type of the initializer must be integer");
 			return false;
+		}
+
+		newValue = ((ConstNode) newValue).castTo(BasicTypeNode.intType);
+		if(value != newValue) {
+			switchParenthood(value, newValue);
+			value = newValue;
 		}
 
 		return true;
@@ -147,8 +150,7 @@ public class EnumItemNode extends MemberDeclNode {
 	}
 
 	protected ConstNode getValue() {
-		// TODO are we allowed to cast to a ConstNode here???
-		ConstNode res = value.getConst().castTo(BasicTypeNode.intType);
+		ConstNode res = ((ConstNode)value).castTo(BasicTypeNode.intType);
 		debug.report(NOTE, "type: " + res.getType());
 
 		Object obj = res.getValue();

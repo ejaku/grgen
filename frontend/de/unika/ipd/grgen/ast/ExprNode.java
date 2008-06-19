@@ -87,27 +87,6 @@ public abstract class ExprNode extends BaseNode {
 	}
 
 	/**
-	 * Check, if the expression is constant.
-	 * @return True, if the expression can be evaluated to a constant.
-	 */
-	public boolean isConst() {
-		return false;
-	}
-
-	/**
-	 * Try to evaluate and return a constant version
-	 * of this expression
-	 */
-	public ConstNode getConst()	{
-		ExprNode expr = evaluate();
-		if(expr instanceof ConstNode) {
-			return (ConstNode)expr;
-		} else {
-			return ConstNode.getInvalid();
-		}
-	}
-
-	/**
 	 * This method is only called, if the expression is constant, so you don't
 	 * have to check for it.
 	 * @return The value of the expression.

@@ -90,15 +90,11 @@ public class ArithmeticOpNode extends OpNode {
 		ExprNode[] args = new ExprNode[n];
 
 		for(int i = 0; i < n; i++) {
-			ExprNode c = (ExprNode) children.get(i);
+			ExprNode c = children.get(i);
 			args[i] = c.evaluate();
 		}
 
 		return getOperator().evaluate(this, args);
-	}
-
-	public boolean isConst() {
-		return evaluate() instanceof ConstNode;
 	}
 
 	/** All children of this expression node must be expression nodes, too.

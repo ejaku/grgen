@@ -130,11 +130,8 @@ public class CastNode extends ExprNode {
 	public ExprNode evaluate() {
 		assert isResolved();
 
-		if(expr.isConst()) {
-			return expr.getConst().castTo(type);
-		} else {
-			return this;
-		}
+		expr = expr.evaluate();
+		return expr instanceof ConstNode ? ((ConstNode)expr).castTo(type): this;
 	}
 
 	/**

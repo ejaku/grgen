@@ -272,16 +272,14 @@ public class OperatorSignature extends FunctionSignature {
 
 		private Object checkValue(ExprNode e, Class<?> type)
 				throws ValueException {
-			if (e.isConst()) {
-				ConstNode c = (ConstNode) e.getConst();
-				Object v = c.getValue();
-
-				if (!type.isInstance(v))
-					throw new ValueException(e.getCoords());
-
-				return v;
-			} else
+			if (!(e instanceof ConstNode))
 				throw new ValueException(e.getCoords());
+
+			Object v = ((ConstNode)e).getValue();
+			if (!type.isInstance(v))
+				throw new ValueException(e.getCoords());
+
+			return v;
 		}
 
 		protected Object getArgValue(ExprNode[] args, OperatorSignature op,

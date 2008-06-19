@@ -108,11 +108,6 @@ public class DeclExprNode extends ExprNode {
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.ExprNode#isConstant() */
-	public boolean isConst() {
-		return validVersion.getDecl() instanceof EnumItemNode;
-	}
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
 		BaseNode decl = (BaseNode) validVersion;
