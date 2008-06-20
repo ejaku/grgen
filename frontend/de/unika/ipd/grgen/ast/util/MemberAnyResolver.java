@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.InvalidDeclNode;
-import de.unika.ipd.grgen.ast.RuleDeclNode;
+import de.unika.ipd.grgen.ast.ActionDeclNode;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
 import java.util.Map;
@@ -57,7 +57,7 @@ public class MemberAnyResolver<T> extends Base
 
 		if (unresolvedNode instanceof InvalidDeclNode) {
 			DeclNode scopeDecl = identNode.getScope().getIdentNode().getDecl();
-			if(scopeDecl instanceof RuleDeclNode) {
+			if(scopeDecl instanceof ActionDeclNode || scopeDecl instanceof InvalidDeclNode) {
 				identNode.reportError("Undefined identifier \"" + identNode.toString() + "\"");
 				return false;
 			}
