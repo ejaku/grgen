@@ -1,0 +1,5 @@
+test constfoldtest
+{
+    // condition is always true
+    if { 7 * 89 + (23 - 12) > (18 > 2 * 10 && (false | true || true ^ true) ? 5 : 10 - 9) * 50; }
+}
