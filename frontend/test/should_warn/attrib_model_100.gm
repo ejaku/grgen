@@ -51,6 +51,7 @@ edge class FINT extends F {
   x : string;
 }
 
+// C# backend: class name should be warned because of name clash
 node class String {
   s : string;
 }

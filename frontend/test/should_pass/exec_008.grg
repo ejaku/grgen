@@ -1,4 +1,4 @@
-using attrib_model_100;
+using attrib_model_101;
 
 rule r1(a:A, as:ASTR) : (AINT) {
   x:AINT;
