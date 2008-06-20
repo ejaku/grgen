@@ -1,0 +1,52 @@
+abstract node class A {
+  abstract value;
+}
+
+node class AINT extends A {
+  value : int;
+}
+
+node class AINTINT extends AINT {
+  foo : int;
+}
+
+abstract node class AINTINTA extends AINTINT {
+  abstract value2;
+  bar : int;
+}
+
+abstract node class AINTINTAA extends AINTINTA;
+
+node class AINTINTAAINT extends AINTINTAA {
+  value2 : int;
+}
+
+node class AINTINTAAINT2 extends AINTINTAA {
+  value2 : int;
+}
+
+node class ASTR extends A {
+  value : string;
+}
+
+abstract node class AaBOOL extends A {
+  somethingdifferent : boolean;
+}
+
+node class AcINT_BOOL extends AaBOOL {
+  value : int;
+}
+
+enum E { e, f }
+
+node class AENUM extends A {
+  value : E;
+}
+
+abstract edge class F {
+  abstract x;
+}
+
+edge class FINT extends F {
+  x : string;
+}
