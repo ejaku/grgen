@@ -1,0 +1,18 @@
+test alttest
+{
+    alternative
+    {
+        alt1
+        {
+            modify {
+                eval {
+                    x.a = 8;     // x is are undeclared
+                }
+            }
+        }
+        alt2
+        {
+            x:Node;
+        }
+    }
+}

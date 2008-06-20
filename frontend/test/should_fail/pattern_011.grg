@@ -1,0 +1,21 @@
+using patt;
+
+pattern Foo
+{
+	n:Node;
+    if { x3 == x1; }
+	
+	modify(a:A, b:B) {
+		a --> n <-- b;
+	}	
+}
+
+rule r {
+	foo:Foo();
+
+	modify {
+		a:A;
+		b:B; 
+		foo(a, b);
+	}
+}

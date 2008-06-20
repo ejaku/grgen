@@ -1,0 +1,23 @@
+using patt;
+
+pattern Foo
+{
+	n:Node;
+	
+	modify(a:A, b:B) {
+		a --> n <-- b;
+        eval {
+            x3.a = 7;
+        }
+	}	
+}
+
+rule r {
+	foo:Foo();
+
+	modify {
+		a:A;
+		b:B; 
+		foo(a, b);
+	}
+}

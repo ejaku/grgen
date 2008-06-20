@@ -1,0 +1,14 @@
+test alttest
+{
+    alternative
+    {
+        alt1
+        {
+            x;  // x is undeclared
+        }
+        alt2
+        {
+            x:Node;
+        }
+    }
+}

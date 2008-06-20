@@ -1,0 +1,6 @@
+test negTest
+{
+    negative {
+        if { x == y; }
+    }
+}
