@@ -45,7 +45,7 @@ rule r3 : (A, Type1, A)
 rule r4 : (Type1, Type1, A)
 {
     modify {
-        -t:Type1->;
+        a:Node -t:Type1-> a;
         return (t, null, null);
     }
 }
