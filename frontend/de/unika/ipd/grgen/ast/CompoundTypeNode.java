@@ -44,14 +44,10 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 		// the definition of the ident is rewritten to this definition,
 		// else, an error is emitted,
 		// since this ident was supposed to be defined in this scope.
-		if(res) {
+		if(res)
 			id.setSymDef(def);
-		} else {
-			if(reportErr) {
-				reportError("Identifier " + id + " not declared in this scope: "
-					+ scope);
-			}
-		}
+		else if(reportErr)
+			id.reportError("Identifier \"" + id + "\" not declared in this scope: " + scope);
 
 		return res;
 	}

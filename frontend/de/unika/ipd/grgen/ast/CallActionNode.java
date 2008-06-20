@@ -118,7 +118,7 @@ public class CallActionNode extends BaseNode {
 		if(res) {
 			id.setSymDef(def);
 		} else {
-			error.error(id.getCoords(), "Identifier " + id + " not declared in this scope: " + scope);
+			id.reportError("Identifier \"" + id + "\" not declared in this scope: " + scope);
 		}
 
 		return res;
