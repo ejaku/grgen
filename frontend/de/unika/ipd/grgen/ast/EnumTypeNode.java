@@ -13,6 +13,8 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ir.EnumExpression;
+import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
@@ -48,7 +50,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 		this.elements = body;
 		becomeParent(this.elements);
 
-		//the castability of the this enum type
+		//the castability of this enum type
 		addCastability(this, BasicTypeNode.stringType);
 		addCastability(this, BasicTypeNode.floatType);
 		addCastability(this, BasicTypeNode.doubleType);
@@ -95,24 +97,11 @@ public class EnumTypeNode extends CompoundTypeNode {
 		EnumType ty = new EnumType(name);
 
 		for (EnumItemNode item : elements.getChildren()) {
-			ty.addItem(item.getItem());
+			EnumItem it = item.getItem();
+			it.getValue().lateInit(ty, it);
+			ty.addItem(it);
 		}
-		/*
-		 for(Iterator i = elements.getChildren(); i.hasNext();) {
-		 EnumItemNode item = (EnumItemNode) i.next();
 
-		 ty.addItem(item.getEnumItem()
-		 EnumItem ir = (EnumItem) item.checkIR(EnumItem.class);
-
-		 }
-
-		 Ident name = (Ident) getIdentNode().checkIR(Ident.class);
-		 EnumType ty = new EnumType(name);
-		 for(Iterator i = elements.getChildren(); i.hasNext();) {
-		 BaseNode child = (BaseNode) i.next();
-		 Ident id = (Ident) child.checkIR(Ident.class);
-		 ty.addItem(id);
-		 }*/
 		return ty;
 	}
 
@@ -141,4 +130,3 @@ public class EnumTypeNode extends CompoundTypeNode {
 		return "enum";
 	}
 }
-

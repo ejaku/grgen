@@ -10,6 +10,10 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ir.EnumExpression;
+import de.unika.ipd.grgen.ir.EnumItem;
+import de.unika.ipd.grgen.ir.EnumType;
+import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -48,5 +52,15 @@ public class EnumConstNode extends ConstNode
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	public TypeNode getType() {
 		return BasicTypeNode.enumItemType;
+	}
+
+	public EnumExpression getConstant() {
+		return checkIR(EnumExpression.class);
+	}
+
+	protected IR constructIR() {
+		// The EnumExpression is initialized later in EnumTypeNode.constructIR()
+		// to break the circular dependency.
+		return new EnumExpression((int)(Integer) value);
 	}
 }

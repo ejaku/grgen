@@ -160,7 +160,7 @@ public class OperatorSignature extends FunctionSignature {
 	 * Enter a binary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	public static final void makeBinOp(int id, TypeNode res, TypeNode op0,
+	private static final void makeBinOp(int id, TypeNode res, TypeNode op0,
 			TypeNode op1, Evaluator eval) {
 		makeOp(id, res, new TypeNode[] { op0, op1 }, eval);
 	}
@@ -169,7 +169,7 @@ public class OperatorSignature extends FunctionSignature {
 	 * Enter an unary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	public static final void makeUnOp(int id, TypeNode res, TypeNode op0,
+	private static final void makeUnOp(int id, TypeNode res, TypeNode op0,
 			Evaluator eval) {
 		makeOp(id, res, new TypeNode[] { op0 }, eval);
 	}
@@ -793,6 +793,4 @@ public class OperatorSignature extends FunctionSignature {
 		res += ")";
 		return res;
 	}
-
 }
-

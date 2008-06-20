@@ -28,6 +28,7 @@ public class EnumItemNode extends MemberDeclNode {
 	}
 
 	private ExprNode value;
+	private EnumConstNode constValue;
 	private EnumTypeNode type;
 
 	/** Position of this item in the enum. */
@@ -149,19 +150,16 @@ public class EnumItemNode extends MemberDeclNode {
 		return type;
 	}
 
-	protected ConstNode getValue() {
-		ConstNode res = ((ConstNode)value).castTo(BasicTypeNode.intType);
-		debug.report(NOTE, "type: " + res.getType());
+	protected EnumConstNode getValue() {
+		if(constValue != null) return constValue;
 
-		Object obj = res.getValue();
-		if ( ! (obj instanceof Integer) ) {
-			return ConstNode.getInvalid();
-		}
-
+		// value must be an integer ConstNode as checkLocal has already been executed
+		Object obj = ((ConstNode)value).getValue();
 		int v = ((Integer) obj).intValue();
-		debug.report(NOTE, "result: " + res);
+		debug.report(NOTE, "result: " + value);
 
-		return new EnumConstNode(getCoords(), getIdentNode(), v);
+		constValue = new EnumConstNode(getCoords(), getIdentNode(), v);
+		return constValue;
 	}
 
 	protected EnumItem getItem() {
@@ -172,14 +170,9 @@ public class EnumItemNode extends MemberDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		IdentNode id = ident;
-		ConstNode c = getValue();
+		EnumConstNode c = getValue();
 
-		assert ( ! c.equals(ConstNode.getInvalid()) ):
-			"an error should have been reported in an earlier phase";
-
-		c.castTo(BasicTypeNode.intType);
-		return new EnumItem(id.getIdent(), c.getConstant());
+		return new EnumItem(ident.getIdent(), c.getConstant());
 	}
 
 	public static String getUseStr() {

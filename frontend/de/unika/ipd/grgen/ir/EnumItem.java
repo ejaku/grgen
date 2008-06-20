@@ -16,14 +16,14 @@ import java.util.Set;
 public class EnumItem extends Identifiable {
 	private final Ident id;
 
-	private final Constant value;
+	private final EnumExpression value;
 
 	/**
 	 * Make a new enumeration value.
 	 * @param id The enumeration item identifier.
 	 * @param value The associated value.
 	 */
-	public EnumItem(Ident id, Constant value) {
+	public EnumItem(Ident id, EnumExpression value) {
 		super("enum item", id);
 		this.id = id;
 		this.value = value;
@@ -41,7 +41,7 @@ public class EnumItem extends Identifiable {
 	}
 
 	/** @return The value of the enum item. */
-	public Constant getValue() {
+	public EnumExpression getValue() {
 		return value;
 	}
 
