@@ -14,6 +14,8 @@ rule r {
 			es.a = e.a + es.a;
 			ns.a = ns.a + null;
 			ns.a = null;
+			ns.a = null + "blub";
+			ns.a = "blub2" + null;
 		}
 	}
 }
