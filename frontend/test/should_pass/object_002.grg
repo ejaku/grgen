@@ -4,8 +4,7 @@ rule test1 {
     a:A -x:e-> b:A;
     if { 
         b.obj == x.obj; 
-        b.obj == null;
-        null == null;
+        b.obj == null && null == null;
 	}
 
     modify {
