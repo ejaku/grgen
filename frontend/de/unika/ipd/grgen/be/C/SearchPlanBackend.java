@@ -652,18 +652,19 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 		// generate retyped nodes first
 		Collection<Node> retyped = new Vector<Node>();
-		Collection<Node> nonRetyped = new Vector<Node>();
 		for(Node node : graph.getNodes()) {
-			if (node.isRetyped()) {
+			if (node.getRetypedNode() != null) {
 				retyped.add(node);
-			} else {
-				nonRetyped.add(node);
 			}
 		}
 
 		Vector<Node> allNodes = new Vector<Node>();
 		allNodes.addAll(retyped);
-		allNodes.addAll(nonRetyped);
+		for(Node node : graph.getNodes()) {
+			if (!allNodes.contains(node)) {
+				allNodes.add(node);
+			}
+		}
 
 		for(Node node : allNodes) {
 			// Don't dump mode nodes
