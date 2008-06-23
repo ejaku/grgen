@@ -3,7 +3,7 @@ using attrib_model_001;
 rule r {
 	ns:NSTRING -e:ESTRING-> ns2:NSTRING;
 
-	if {ns.a == null || ns2.a != null; null == null; null != null;}
+	if {ns.a == null || ns2.a != null && null == null || null != null;}
 	
 	modify {
 		ns -es:ESTRING-> ns;
