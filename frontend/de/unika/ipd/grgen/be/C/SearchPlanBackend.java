@@ -20,10 +20,12 @@ package de.unika.ipd.grgen.be.C;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
+import java.util.Vector;
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
@@ -648,8 +650,22 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private void genPatternNodes(StringBuffer sb, String indent, Graph graph, IdGenerator<Node> nodeIds, GraphType graphType, Rule rule) {
 		sb.append(indent + "/* The nodes of the pattern */\n");
 
+		// generate retyped nodes first
+		Collection<Node> retyped = new Vector<Node>();
+		Collection<Node> nonRetyped = new Vector<Node>();
 		for(Node node : graph.getNodes()) {
+			if (node.isRetyped()) {
+				retyped.add(node);
+			} else {
+				nonRetyped.add(node);
+			}
+		}
 
+		Vector<Node> allNodes = new Vector<Node>();
+		allNodes.addAll(retyped);
+		allNodes.addAll(nonRetyped);
+
+		for(Node node : allNodes) {
 			// Don't dump mode nodes
 			if(node.getNodeType().isCastableTo(MODE_TYPE))
 				continue;
