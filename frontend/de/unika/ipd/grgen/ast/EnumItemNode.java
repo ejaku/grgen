@@ -150,10 +150,11 @@ public class EnumItemNode extends MemberDeclNode {
 		return type;
 	}
 
-	protected EnumConstNode getValue() {
+	protected ExprNode getValue() {
 		if(constValue != null) return constValue;
 
-		// value must be an integer ConstNode as checkLocal has already been executed
+		if(!(value instanceof ConstNode)) return value;
+
 		Object obj = ((ConstNode)value).getValue();
 		int v = ((Integer) obj).intValue();
 		debug.report(NOTE, "result: " + value);
@@ -170,7 +171,7 @@ public class EnumItemNode extends MemberDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		EnumConstNode c = getValue();
+		EnumConstNode c = (EnumConstNode) getValue();
 
 		return new EnumItem(ident.getIdent(), c.getConstant());
 	}

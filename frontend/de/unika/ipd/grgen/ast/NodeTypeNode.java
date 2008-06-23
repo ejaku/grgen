@@ -155,7 +155,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
     }
 
 	@Override
-		protected void getMembers(Map<String, DeclNode> members) {
+	protected void getMembers(Map<String, DeclNode> members) {
 		assert isResolved();
 
 		for(BaseNode n : body.getChildren()) {

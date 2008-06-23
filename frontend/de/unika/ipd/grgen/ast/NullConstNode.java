@@ -10,7 +10,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
-
+import de.unika.ipd.grgen.ir.Constant;
+import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -18,18 +19,45 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class NullConstNode extends ConstNode
 {
+	private TypeNode type;
+
 	public NullConstNode(Coords coords) {
-		super(coords, "null", null);
+		super(coords, "null", Value.NULL);
+		type = BasicTypeNode.nullType;
+	}
+
+	/**
+	 * Singleton class representing the only constant value 'null' that
+	 * the basic type 'object' has.
+	 */
+	public static class Value {
+		public static Value NULL = new Value() {
+			public String toString() { return "Const null"; }
+		};
+
+		private Value() {}
+
+		public boolean equals(Object val) {
+			return (this == val);
+		}
 	}
 
 	public TypeNode getType() {
-		return BasicTypeNode.objectType;
+		return type;
 	}
+
+	public String toString() {
+		return "Const (" + type + ") null";
+	}
+	
+	protected IR constructIR() {
+		return new Constant(getType().getType(), null);
+	}	
 
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	protected ConstNode doCastTo(TypeNode type) {
-		// The null value is not castable to any the (besides object)
-		// TODO: String?
-		throw new UnsupportedOperationException();
+		NullConstNode castedNull = new NullConstNode(getCoords());
+		castedNull.type = type;
+		return castedNull;
 	}
 }

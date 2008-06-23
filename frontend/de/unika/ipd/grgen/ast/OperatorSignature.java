@@ -13,6 +13,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 import de.unika.ipd.grgen.parser.Coords;
@@ -117,6 +118,9 @@ public class OperatorSignature extends FunctionSignature {
 	/** Just a short form for the object type. */
 	static final TypeNode OBJECT = BasicTypeNode.objectType;
 
+	/** Just a short form for the null type. */
+	static final TypeNode NULL = BasicTypeNode.nullType;
+
 	/** Just a short form for the enum type. */
 	static final TypeNode ENUM = BasicTypeNode.enumItemType;
 
@@ -145,11 +149,12 @@ public class OperatorSignature extends FunctionSignature {
 			TypeNode[] opTypes, Evaluator eval) {
 
 		Integer oid = new Integer(id);
-
-		if (operators.get(oid) == null)
-			operators.put(oid, new HashSet<OperatorSignature>());
-
-		HashSet<OperatorSignature> typeMap = operators.get(oid);
+		
+		HashSet<OperatorSignature> typeMap = operators.get(oid); 
+		if(typeMap == null) {
+			typeMap = new LinkedHashSet<OperatorSignature>();
+			operators.put(oid, typeMap);
+		}
 
 		OperatorSignature newOpSig = new OperatorSignature(id, resType,
 				opTypes, eval);
@@ -306,21 +311,51 @@ public class OperatorSignature extends FunctionSignature {
 		}
 	};
 
-	private static final Evaluator stringEvaluator = new Evaluator() {
+	private static final Evaluator nullEvaluator = new Evaluator() {
 		protected ExprNode eval(Coords coords, OperatorSignature op,
 				ExprNode[] e) throws NotEvaluatableException {
 
-			String a0, a1;
+			NullConstNode.Value a0, a1;
+
+			if (getArity(op.getOpId()) != 2)
+				throw new NotEvaluatableException(coords);
 
 			try {
-				a0 = (String) getArgValue(e, op, 0);
-				a1 = (String) getArgValue(e, op, 1);
+				a0 = (NullConstNode.Value) getArgValue(e, op, 0);
+				a1 = (NullConstNode.Value) getArgValue(e, op, 1);
 			} catch (ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
 
 			switch (op.id) {
-				case ADD: return new StringConstNode(coords, a0 + a1);
+				case EQ: return new BoolConstNode(coords, true);
+				case NE: return new BoolConstNode(coords, false);
+
+				default: throw new NotEvaluatableException(coords);
+			}
+		}
+	};
+
+	private static final Evaluator stringEvaluator = new Evaluator() {
+		protected ExprNode eval(Coords coords, OperatorSignature op,
+				ExprNode[] e) throws NotEvaluatableException {
+
+			String a0;
+			Object aobj1;
+
+			try {
+				a0 = (String) getArgValue(e, op, 0);
+				aobj1 = getArgValue(e, op, 1);
+			} catch (ValueException x) {
+				throw new NotEvaluatableException(coords);
+			}
+			
+			if(op.id == ADD)
+				return new StringConstNode(coords, a0 + aobj1);
+			
+			String a1 = (String) aobj1;
+
+			switch (op.id) {
 				case EQ:  return new BoolConstNode(coords, a0.equals(a1));
 				case NE:  return new BoolConstNode(coords, !a0.equals(a1));
 				case GE:  return new BoolConstNode(coords, a0.compareTo(a1) >= 0);
@@ -527,7 +562,6 @@ public class OperatorSignature extends FunctionSignature {
 
 	// Initialize the operators map.
 	static {
-
 		// String operators
 		makeBinOp(EQ, BOOLEAN, STRING, STRING, stringEvaluator);
 		makeBinOp(NE, BOOLEAN, STRING, STRING, stringEvaluator);
@@ -539,6 +573,10 @@ public class OperatorSignature extends FunctionSignature {
 		// object operators
 		makeBinOp(EQ, BOOLEAN, OBJECT, OBJECT, objectEvaluator);
 		makeBinOp(NE, BOOLEAN, OBJECT, OBJECT, objectEvaluator);
+
+		// null operators
+		makeBinOp(EQ, BOOLEAN, NULL, NULL, nullEvaluator);
+		makeBinOp(NE, BOOLEAN, NULL, NULL, nullEvaluator);
 
 		// Integer comparison
 		makeBinOp(EQ, BOOLEAN, INT, INT, intEvaluator);
@@ -692,6 +730,22 @@ public class OperatorSignature extends FunctionSignature {
 		Integer oid = new Integer(id);
 		OperatorSignature res = INVALID;
 		int nearest = Integer.MAX_VALUE;
+		
+		boolean hasVoid = false;
+		boolean checkEnums = false;
+		boolean[] isEnum = null;
+		
+		for(int i = 0; i < opTypes.length; i++) {
+			if(opTypes[i] == BasicTypeNode.voidType)
+				hasVoid = true;
+			else if(opTypes[i] instanceof EnumTypeNode) {
+				if(isEnum == null) {
+					isEnum = new boolean[opTypes.length];	// initialized to false
+					checkEnums = true;
+				}
+				isEnum[i] = true;
+			}
+		}
 
 		assert operators.get(oid) != null : "Operator \"" + getName(id)
 				+ "\" must be registered";
@@ -702,12 +756,33 @@ public class OperatorSignature extends FunctionSignature {
 			int dist = op.getDistance(opTypes);
 
 			debug.report(NOTE, "dist: " + dist + "\n signature: " + op);
+			
+			if(dist == Integer.MAX_VALUE) continue;
+			
+			if(checkEnums) {
+				// Make implicit casts from enum to int for half the price
+				dist *= 2;
+				
+				TypeNode[] resOpTypes = op.getOperandTypes();
+				for(int i = 0; i < opTypes.length; i++) {
+					if(isEnum[i] && resOpTypes[i] == BasicTypeNode.intType)
+						dist--;
+				}
+			}
 
 			if (dist < nearest) {
 				nearest = dist;
 				res = op;
+				if(nearest == 0) break;
 			}
 		}
+
+		// Don't allow "null+a.obj" to be turned into "(string) null + (string) a.obj".
+		// But allow "a + b" being enums to be turned into "(int) a + (int) b".
+		// Also allow "a == b" being void (abstract attribute) to become "(string) a == (string) b".
+		if(!hasVoid && (checkEnums && nearest >= 4				// costs doubled
+						|| !checkEnums && nearest >= 2))
+			res = INVALID;
 
 		debug.report(NOTE, "selected: " + res);
 

@@ -325,7 +325,11 @@ public abstract class CSharpBase {
 
 			switch (type.classify()) {
 				case Type.IS_STRING: //emit C-code for string constants
-					sb.append("\"" + constant.getValue() + "\"");
+					Object value = constant.getValue();
+					if(value == null)
+						sb.append("null");
+					else
+						sb.append("\"" + constant.getValue() + "\"");
 					break;
 				case Type.IS_BOOLEAN: //emit C-code for boolean constans
 					Boolean bool_const = (Boolean) constant.getValue();

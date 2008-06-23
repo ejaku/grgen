@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.IR;
@@ -50,11 +49,6 @@ public class EnumTypeNode extends CompoundTypeNode {
 		this.elements = body;
 		becomeParent(this.elements);
 
-		//the castability of this enum type
-		addCastability(this, BasicTypeNode.stringType);
-		addCastability(this, BasicTypeNode.floatType);
-		addCastability(this, BasicTypeNode.doubleType);
-
 		//enumerations can be used with the conditional operator
 		OperatorSignature.makeOp(OperatorSignature.COND, this,
 								 new TypeNode[] { BasicTypeNode.booleanType, this, this },
@@ -63,6 +57,9 @@ public class EnumTypeNode extends CompoundTypeNode {
 
 		//the compatibility of the this enum type
 		addCompatibility(this, BasicTypeNode.intType);
+		addCompatibility(this, BasicTypeNode.floatType);
+		addCompatibility(this, BasicTypeNode.doubleType);
+		addCompatibility(this, BasicTypeNode.stringType);
 	}
 
 	/*

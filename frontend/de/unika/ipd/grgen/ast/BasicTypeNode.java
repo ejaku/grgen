@@ -30,6 +30,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static final BasicTypeNode objectType = ObjectTypeNode.OBJECT_TYPE;
 	public static final BasicTypeNode enumItemType = new EnumItemTypeNode();
 	public static final BasicTypeNode voidType = new VoidTypeNode();
+	public static final BasicTypeNode nullType = new NullTypeNode();
 
 	public static final TypeNode errorType = new ErrorTypeNode(IdentNode.getInvalid());
 
@@ -68,6 +69,8 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 
 		addCompatibility(doubleType, stringType);
 
+		addCompatibility(objectType, stringType);
+
 		//require explicit cast
 		addCastability(floatType, intType);
 
@@ -81,6 +84,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		valueMap.put(stringType, String.class);
 		valueMap.put(enumItemType, Integer.class);
 		valueMap.put(objectType, ObjectTypeNode.Value.class);
+		valueMap.put(nullType, NullConstNode.Value.class);
 
 //		addCompatibility(voidType, intType);
 //		addCompatibility(voidType, booleanType);

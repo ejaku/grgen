@@ -24,6 +24,7 @@ public class ObjectTypeNode extends BasicTypeNode {
 	 * Singleton class representing the only constant value 'null' that
 	 * the basic type 'object' has.
 	 */
+	// TODO: No instance is ever used! Probably useless...
 	public static class Value {
 		public static Value NULL = new Value() {
 			public String toString() { return "Const null"; }
