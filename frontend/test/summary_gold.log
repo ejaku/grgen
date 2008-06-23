@@ -30,12 +30,10 @@ OK     should_pass/attrib_025.grg
 OK     should_pass/attrib_026.grg
 OK     should_pass/attrib_030.grg
 OK     should_pass/attrib_031.grg
-ERROR  should_pass/attrib_032.grg
+OK     should_pass/attrib_032.grg
 OK     should_pass/attrib_092.grg
-OK     should_pass/attrib_100.grg
 OK     should_pass/basic_001.grg
 OK     should_pass/basic_002.grg
-OK     should_pass/basic_003.grg
 OK     should_pass/basic_004.grg
 OK     should_pass/basic_005.grg
 OK     should_pass/basic_006.grg
@@ -57,7 +55,6 @@ OK     should_pass/basic_021.grg
 OK     should_pass/basic_022.grg
 OK     should_pass/basic_023.grg
 OK     should_pass/basic_024.grg
-OK     should_pass/basic_025.grg
 OK     should_pass/basic_026.grg
 OK     should_pass/basic_027.grg
 OK     should_pass/basic_040.grg
@@ -79,10 +76,6 @@ OK     should_pass/basic_067.grg
 OK     should_pass/basic_068.grg
 OK     should_pass/basic_069.grg
 OK     should_pass/basic_100.grg
-OK     should_pass/basic_200.grg
-OK     should_pass/basic_201.grg
-OK     should_pass/basic_202.grg
-OK     should_pass/basic_203.grg
 OK     should_pass/basic_300.grg
 OK     should_pass/basic_400.grg
 OK     should_pass/cast_001.grg
@@ -161,6 +154,7 @@ OK     should_pass/exec_009.grg
 OK     should_pass/exec_010.grg
 OK     should_pass/exec_011.grg
 OK     should_pass/exec_012.grg
+OK     should_pass/exec_013.grg
 OK     should_pass/external_001.grg
 OK     should_pass/hom_001.grg
 OK     should_pass/hom_002.grg
@@ -181,6 +175,7 @@ OK     should_pass/hom_016.grg
 OK     should_pass/hom_017.grg
 OK     should_pass/hom_018.grg
 OK     should_pass/hom_ret_001.grg
+OK     should_pass/if_001.grg
 OK     should_pass/induced_001.grg
 OK     should_pass/induced_002.grg
 OK     should_pass/induced_003.grg
@@ -229,7 +224,7 @@ OK     should_pass/ret_004.grg
 OK     should_pass/ret_005.grg
 OK     should_pass/ret_006.grg
 OK     should_pass/ret_007.grg
-ERROR  should_pass/ret_008.grg
+OK     should_pass/ret_008.grg
 OK     should_pass/retype_001.grg
 OK     should_pass/retype_002.grg
 OK     should_pass/retype_003.grg
@@ -264,6 +259,16 @@ OK     should_pass/to_008.grg
 OK     should_pass/to_009.grg
 OK     should_pass/typeof_001.grg
 OK     should_pass/unary_001.grg
+OK     should_pass/visit_001.grg
+WARNED should_warn/attrib_100.grg
+WARNED should_warn/basic_003.grg
+WARNED should_warn/basic_025.grg
+WARNED should_warn/basic_200.grg
+WARNED should_warn/basic_201.grg
+WARNED should_warn/basic_202.grg
+WARNED should_warn/basic_203.grg
+WARNED should_warn/constfold_001.grg
+WARNED should_warn/constfold_002.grg
 WARNED should_warn/del_001.grg
 WARNED should_warn/del_004.grg
 WARNED should_warn/dpo_001.grg
@@ -288,6 +293,14 @@ WARNED should_warn/induced_004.grg
 WARNED should_warn/induced_005.grg
 FAILED should_warn/retype_001.grg
 FAILED should_warn/retype_101.grg
+OK     should_fail/alternative_001.grg
+OK     should_fail/alternative_002.grg
+ERROR  should_fail/alternative_003.grg
+OK     should_fail/alternative_004.grg
+ERROR  should_fail/alternative_005.grg
+ERROR  should_fail/alternative_006.grg
+ERROR  should_fail/alternative_007.grg
+ERROR  should_fail/alternative_008.grg
 ERROR  should_fail/annot_001.grg
 ERROR  should_fail/annot_002.grg
 ERROR  should_fail/annot_003.grg
@@ -471,8 +484,8 @@ ERROR  should_fail/edge_014.grg
 ERROR  should_fail/edge_015.grg
 ERROR  should_fail/edge_016.grg
 ERROR  should_fail/edge_017.grg
-ERROR  should_fail/edge_018.grg
 ERROR  should_fail/edge_019.grg
+ERROR  should_fail/edge_020.grg
 ERROR  should_fail/edge_into_neg_001.grg
 ERROR  should_fail/edge_into_neg_002.grg
 ERROR  should_fail/edge_into_neg_003.grg
@@ -572,6 +585,8 @@ ERROR  should_fail/inh_attrib_017.grg
 ERROR  should_fail/inh_model_008.grg
 ERROR  should_fail/model_init_001.grg
 ERROR  should_fail/model_init_002.grg
+ERROR  should_fail/negative_001.grg
+ERROR  should_fail/negative_002.grg
 ERROR  should_fail/object_001.grg
 ERROR  should_fail/object_002.grg
 ERROR  should_fail/object_003.grg
@@ -598,6 +613,11 @@ ERROR  should_fail/pattern_005a.grg
 ERROR  should_fail/pattern_005b.grg
 ERROR  should_fail/pattern_006a.grg
 ERROR  should_fail/pattern_006b.grg
+ERROR  should_fail/pattern_007.grg
+ERROR  should_fail/pattern_008.grg
+ERROR  should_fail/pattern_009.grg
+ERROR  should_fail/pattern_010.grg
+ERROR  should_fail/pattern_011.grg
 ERROR  should_fail/range_001.grg
 ERROR  should_fail/repl_000.grg
 ERROR  should_fail/repl_001a.grg
@@ -630,6 +650,7 @@ ERROR  should_fail/ret_023.grg
 WARNED should_fail/ret_025.grg
 OK     should_fail/ret_026.grg
 OK     should_fail/ret_027.grg
+ERROR  should_fail/ret_028.grg
 ERROR  should_fail/retype_001.grg
 ERROR  should_fail/retype_002.grg
 ERROR  should_fail/retype_003.grg
@@ -677,3 +698,4 @@ ERROR  should_fail/unary_005.grg
 ERROR  should_fail/unary_006.grg
 ERROR  should_fail/unary_007.grg
 ERROR  should_fail/unary_008.grg
+ERROR  should_fail/visit_001.grg
