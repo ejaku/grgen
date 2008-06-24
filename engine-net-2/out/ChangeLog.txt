@@ -8,6 +8,9 @@ v2.0 beta 2 (2008-06-24)
   - Added random-match-selector
     (e.g. "$7[r1]" searches for all matches and then randomly selects
      7 of them to be rewritten. "$[r1]" is equivalent to "$1[r1]")
+  - Added nameof()-operator
+    (e.g. "nameof(blub)" yields the name of the graph entity "blub";
+     "nameof()" yields the name of the graph)
 
  Features for GrShell:
   - Added "silent"" keyword to new node/edge commands to prevent
