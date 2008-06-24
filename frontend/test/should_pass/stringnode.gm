@@ -1,0 +1,4 @@
+node class StringNode
+{
+	str:string;
+}

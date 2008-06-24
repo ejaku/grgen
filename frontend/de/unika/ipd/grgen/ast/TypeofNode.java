@@ -28,11 +28,11 @@ public class TypeofNode extends ExprNode {
 		setName(TypeofNode.class, "typeof");
 	}
 
-	BaseNode entityUnresolved;
+	IdentNode entityUnresolved;
 	EdgeDeclNode entityEdgeDecl = null;
 	NodeDeclNode entityNodeDecl = null;
 
-	public TypeofNode(Coords coords, BaseNode entity) {
+	public TypeofNode(Coords coords, IdentNode entity) {
 		super(coords);
 		this.entityUnresolved= entity;
 		becomeParent(this.entityUnresolved);
@@ -52,7 +52,8 @@ public class TypeofNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<EdgeDeclNode, NodeDeclNode> entityResolver = new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
+	private static final DeclarationPairResolver<EdgeDeclNode, NodeDeclNode> entityResolver =
+		new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {

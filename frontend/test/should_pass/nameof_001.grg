@@ -1,0 +1,17 @@
+using stringnode;
+
+rule r {
+	x : StringNode;
+
+	if { nameof(x)=="foo"; } // name of node x
+	if { nameof()!="bar"; } // name of graph
+	
+	modify {
+		x --> y : StringNode;
+		eval {
+			y.str = nameof(x);
+			x.str = nameof(y) + nameof();
+		}
+	}
+}
+

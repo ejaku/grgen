@@ -43,6 +43,7 @@ import de.unika.ipd.grgen.ir.StringType;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Typeof;
+import de.unika.ipd.grgen.ir.Nameof;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.VariableExpression;
 import de.unika.ipd.grgen.ir.Visited;
@@ -357,6 +358,15 @@ public abstract class CSharpBase {
 					}
 				default:
 					throw new UnsupportedOperationException("unsupported type");
+			}
+		}
+		else if(expr instanceof Nameof) {
+			Nameof no = (Nameof) expr;
+			if(no.getEntity()==null) {
+				sb.append("graph.Name"); // name of graph
+			}
+			else {
+				sb.append("graph.GetElementName(" + formatEntity(no.getEntity()) + ")"); // name of entity
 			}
 		}
 		else if(expr instanceof Typeof) {

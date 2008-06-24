@@ -50,6 +50,7 @@ tokens {
   INDUCED = "induced";
   MODEL = "model";
   MODIFY = "modify";
+  NAMEOF = "nameof";
   NEGATIVE = "negative";
   NODE = "node";
   NULL = "null";

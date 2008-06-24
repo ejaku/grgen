@@ -456,6 +456,7 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: res=visitedExpr
+	| res=nameOf
 	| res=qualIdentExpr
 	| res=identExpr
 	| res=constant
@@ -475,8 +476,14 @@ visitedExpr returns [ ExprNode res = env.initExprNode() ]
 	  { res = new VisitedNode(getCoords(v), idExpr, elem); }
 	;
 
+nameOf returns [ ExprNode res = env.initExprNode() ]
+	{ IdentNode id = null; }
+
+	: n:NAMEOF LPAREN (id=entIdentUse)? RPAREN { res = new NameofNode(getCoords(n), id); }
+	;
+
 typeOf returns [ ExprNode res = env.initExprNode() ]
-	{ BaseNode id; }
+	{ IdentNode id; }
 
 	: t:TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
 	;
