@@ -1,9 +1,133 @@
-v2.0 beta (2008-4-28)
+v2.0 beta 2 (2008-06-24)
+ Features:
+  - Allow assignments of the result of a sequence to a variable
+    (e.g. "res=(r1 || r2[5])")
+  - Allow boolean variables as sequences (only works in execs, yet)
+    (e.g. "res && r1")
+  - Added visited flags
+  - Added random-match-selector
+    (e.g. "$7[r1]" searches for all matches and then randomly selects
+     7 of them to be rewritten. "$[r1]" is equivalent to "$1[r1]")
+
+ Features for GrShell:
+  - Added "silent"" keyword to new node/edge commands to prevent
+    "element successfully created"-messages
+    => Shell scripts creating a lot of elements run much faster when
+       using this keyword
+    (e.g. "new state:State silent" or "new a1 -:Edge-> a2 silent")
+  - Added post build step to grshell to increase stack size to 16MB
+    (so that matching engine can handle much larger recursive structures)
+  - Added visited flags support
+  - Support assignments of "true" and "false" to variables
+  - Added "randomseed" command
+    (e.g. "randomseed 13" sets the random seed to 13 for reproducible
+     results when using the $-operator-prefix or the random-match-selector;
+     "randomseed time" sets the random seed to the current time in ms)
+  - Reduced GrShell overhead of XGRS execution significantly
+
+ API changes:
+  - Moved PerformanceInfo, MaxMatches, Replace, ApplyRewrite,
+    ApplyGraphRewriteSequence(Sequence), ValidateWithSequence(Sequence)
+    and the events from BaseActions to IGraph
+  - Sequence.Apply now takes an IGraph instead of a BaseActions instance
+  - Removed BaseActions.ApplyGraphRewrite
+  - Added GetNewestActionVersion and SetNewestActionVersion to IGraph
+    (perhaps only temporarily...)
+  - Added AddNode and AddEdge variants to IGraph to allow adding
+    e.g. cloned elements to the graph
+  - Added INode.Adjacent, INode.GetCompatibleAdjacent,
+    INode.GetExactAdjacent and IEdge.GetOther
+  - PerformanceInfo.MatchesFound is now always changed after firing the
+    IGraph.OnMatched event
+
+ Fixes:
+  - Allow identifiers to begin with an underscore
+  - yComp: Remove related reference nodes, when a node is moved to
+    another subgraph
+  - Don't generate pattern creation functions, when the pattern contains
+    abstract members
+  - Fixed inheritance of same attribute over multiple inheritance paths
+  - Fixed crash of SequenceParser on lexer error
+  - Don't ignore wrong text after correct sequence prefix
+  - Allow to write "r1*" instead of "r1[*]" in execs
+  - Fixed range specifications of the form "[200]" in .gm and .grg files
+  - Fixed the performed rewrites counter for compiled XGRSs (exec)
+  - Replaced exponential constant folding algorithm in Java frontend
+    by a linear-time one
+
+ Examples:
+  - Updated BusyBeaver API example
+  - Added TranskriptionAbstrakt example
+    (doing transcription on chains instead of chemical structure graphs;
+     Viatra2 R2 solution included)
+  - Added TranskriptionAbstraktNachAtom example
+    (transforming the abstract dna chains of TranskriptionAbstrakt into
+     the chemical structure graphs of Transkription)
+  - Added ProgramGraphs example and API example
+    (implementing program graphs as specified in "Adaptive Star Grammars
+     for Graph Models" plus PullUpMethod refactoring on these program
+     graphs)
+  - Added WeakComponents examples and VisitedExample API example
+    (using visited flags)
+  - Added AntWorld example for the GraBats 2008
+    (using the random-match-selector)
+
+ Other changes:
+  - Return statements now only allowed after all normal statements;
+    exec/emit statements only as last statements
+
+
+v2.0 beta (2008-04-28)
+ Features:
   - Introduced subpatterns, alternative patterns, and recursive patterns
   - Introduced dependent replacement and recursive rules
-  - No documentation yet, see *.grg in examples/Recursive, examples/Transkription
-  - A lot more
+  - Introduced "var" parameters and return values for basic types
+    like int and string
+  - Allow expressions as return arguments
+  - Added "arbitrary" and optional "directed" keywords for edge classes
+  - Added "using" statement for models
+  - Implemented dpo/exact/induced also for the new edge kinds
+  - Graph variables are objects now, and not only graph elements anymore
+
+ Features for GrShell:
+  - Added support for variable assignments with literals
+  - Variable to variable assignments
+  - "show graph" and "dump graph" now use the layouter configured
+    via "debug set layout"
+
+ API changes:
+  - The classes for Node/Edge and for elements inheriting from Node/Edge
+    now inherit from INode/IEdge directly instead of the IAttributes
+  - Removed obsolete IAttributes
+  - Renamed IGraphModel.Name to IGraphModel.ModelName
+  - Special classes being a graph an a model at the same time
+    are now generated for each model. They also contain specialized
+    element creation methods for each element type
+  - Removed deprecated IDumperFactory
+  - The VCGDumper can now specify a layouter to be used
+  - Added static type property "TypeInstance" to element classes
+    for easier access to the appropriate type instance
+  - Generated C# element class names are not prefixed anymore as long
+    as the would be no name clash (a warning is generated then, too)
+  - Added EdgeType.Directedness property
+  - Renamed Condition to PatternCondition
+  - Added IGraph.Actions property as a currently associated actions object
+    (perhaps only temporarily...)
+ 
+ Fixes:
+  - Dangling edges in nested negative patterns
+  - Fixed several frontend tests
+
+ Examples:
+  - Updated examples
+  - Added "Recursive" example
+  - Added "Transkription" example
+  - Continued Firm-IFConv example (now also using var parameters and return values)
+
+ Other changes:
   - Changed License to GPL v3
+  - The names of the generated model files now depend on the model name
+
 
 v1.4 (2008-03-20)
  Features:

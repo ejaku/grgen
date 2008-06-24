@@ -4084,6 +4084,13 @@
             This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatches.RemoveMatch(System.Int32)">
+            <summary>
+            Removes the match at the given index and returns it.
+            </summary>
+            <param name="index">The index of the match to be removed.</param>
+            <returns>The removed match.</returns>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatches.Producer">
             <summary>
             The action object used to generate this IMatches object

@@ -1,4 +1,4 @@
-GrGen.NET v2.0 beta (2008-04-28)
+GrGen.NET v2.0 beta 2 (2008-06-24)
 --------------------------------
 
 This is the GrGen.NET system for graph rewriting.
