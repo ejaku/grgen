@@ -189,6 +189,7 @@ OK     should_pass/inh_attrib_002.grg
 OK     should_pass/inh_attrib_003.grg
 OK     should_pass/model_init_001.grg
 OK     should_pass/model_init_002.grg
+OK     should_pass/nameof_001.grg
 OK     should_pass/object_001.grg
 OK     should_pass/object_002.grg
 OK     should_pass/param_001.grg
