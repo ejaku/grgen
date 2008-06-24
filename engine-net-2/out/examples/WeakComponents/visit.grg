@@ -2,6 +2,12 @@ using visit;
 
 #include "graphgen.gri"
 
+// HACK: The visitor ID should be passed to the rule and to the subpattern,
+//       but as subpatterns don't support value variables yet and the first
+//       allocated visited flag is always 0, we use the constant value 0
+//       inside the rule and the subpattern...
+
+
 // If you want to use this pattern for multigraphs, you also have to match
 // all edges between n and m using another pattern.
 pattern Component(n:Node)

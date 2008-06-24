@@ -18,6 +18,10 @@ echo ""
 
 visID = allocvisitflag
 
+# HACK: The visID variable should be given to the findComponent rule,
+#       but as subpatterns don't support value variables yet and the first
+#       allocated visited flag is always 0, we use the constant value 0
+#       inside the rules...
 xgrs findComponent*
 
 freevisitflag visID
