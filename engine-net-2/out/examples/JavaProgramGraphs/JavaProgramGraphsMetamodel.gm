@@ -1,0 +1,100 @@
+node class Package
+{
+	name:string;
+}
+
+node class Classifier
+{
+	name:string;
+	visibility:string;
+	isAbstract:boolean;
+}
+
+node class Class extends Classifier
+{
+	isFinal:boolean;
+}
+
+node class Interface extends Classifier;
+
+node class Variable
+{
+	name:string;
+	visibility:string;
+	isStatic:boolean;
+	isFinal:boolean;
+}
+
+node class Operation
+{
+	name:string;
+	visibility:string;
+	isAbstract:boolean;
+	isStatic:boolean;
+	isFinal:boolean;
+}
+
+node class MethodBody 
+{
+}
+
+node class Expression
+{
+}
+
+node class Access extends Expression
+{
+	this:boolean;
+}
+
+node class Update extends Expression
+{
+	this:boolean;
+}
+
+node class Call extends Expression
+{
+	this:boolean;
+	super:boolean;
+}
+
+node class Instantiation extends Expression;
+
+node class Operator extends Expression
+{
+	name:string;
+}
+
+node class Return extends Expression;
+
+node class Block extends Expression;
+
+node class Literal
+{
+	value:string;
+}
+
+node class Parameter;
+
+///////////////////////////////////////////////////////////////////
+
+edge class belongsTo;
+
+edge class type;
+
+edge class extendss;
+
+edge class imports;
+
+edge class implements;
+
+edge class parameter;
+
+edge class actualParameter;
+
+edge class binding;
+
+edge class link;
+
+edge class expression;
+

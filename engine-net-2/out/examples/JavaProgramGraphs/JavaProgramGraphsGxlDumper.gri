@@ -1,0 +1,420 @@
+// dumps java program graph into gxl
+rule dumpGxl
+{
+
+	modify {
+		emit("<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+			"<!DOCTYPE gxl SYSTEM \"http://www.gupro.de/GXL/gxl-1.0.dtd\">",
+			"<gxl>",
+			"<graph id=\"", nameof(), "\" edgeids=\"true\">",
+			"<type xlink:href=\"javaProgramGraphsSchema\"/>");
+		exec( (dumpNodePackage || dumpNodeClass || dumpNodeInterface || dumpNodeVariable 
+				|| dumpNodeOperation || dumpNodeMethodBody  || dumpNodeAccess || dumpNodeUpdate
+				|| dumpNodeCall || dumpNodeIstantiation || dumpNodeOperator || dumpNodeReturn
+				|| dumpNodeBlock  || dumpNodeLiteral || dumpNodeParameter)*
+				&& 
+				(dumpEdgeBelongsTo || dumpEdgeType || dumpEdgeExtends || dumpEdgeImports
+				|| dumpEdgeImplements || dumpEdgeParameter|| dumpEdgeBinding || dumpEdgeLink 
+				|| dumpEdgeExpression || dumpEdgeActualParameter)* );
+		emit("</graph>",
+			"</gxl>");
+	}
+}
+
+rule dumpNodePackage
+{
+	n:Package;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+	    eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Package\"/>",
+			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
+			"</node>");
+	}
+}
+
+rule dumpNodeClass
+{
+	n:Class;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Class\"/>",
+			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
+			"<attr name=\"visibility\"> <string>", n.visibility, "</string> </attr>",
+			"<attr name=\"isAbstract\"> <bool>", n.isAbstract, "</bool> </attr>",
+			"<attr name=\"isFinal\"> <bool>", n.isFinal, "</bool> </attr>",
+			"</node>");
+	}
+}
+
+rule dumpNodeInterface
+{
+	n:Interface;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Interface\"/>",
+			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
+			"<attr name=\"visibility\"> <string>", n.visibility, "</string> </attr>",
+			"<attr name=\"isAbstract\"> <bool>", n.isAbstract, "</bool> </attr>",
+			"</node>");
+	}
+}
+
+rule dumpNodeVariable
+{
+	n:Variable;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Variable\"/>",
+			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
+			"<attr name=\"visibility\"> <string>", n.visibility, "</string> </attr>",
+			"<attr name=\"isStatic\"> <bool>", n.isStatic, "</bool> </attr>",
+			"<attr name=\"isFinal\"> <bool>", n.isFinal, "</bool> </attr>",
+			"</node>");
+	}
+}
+
+rule dumpNodeOperation
+{
+	n:Operation;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Operation\"/>",
+			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
+			"<attr name=\"visibility\"> <string>", n.visibility, "</string> </attr>",
+			"<attr name=\"isAbstract\"> <bool>", n.isAbstract, "</bool> </attr>",
+			"<attr name=\"isStatic\"> <bool>", n.isStatic, "</bool> </attr>",
+			"<attr name=\"isFinal\"> <bool>", n.isFinal, "</bool> </attr>",
+			"</node>");
+	}
+}
+
+rule dumpNodeMethodBody 
+{
+	n:MethodBody;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"MethodBody\"/>",
+			"</node>");
+	}
+}
+
+rule dumpNodeAccess
+{
+	n:Access;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Access\"/>",
+			"<attr name=\"this\"> <bool>", n.this, "</bool> </attr>",
+			"</node>");
+	}
+}
+
+rule dumpNodeUpdate
+{
+	n:Update;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Update\"/>",
+			"<attr name=\"this\"> <bool>", n.this, "</bool> </attr>",
+			"</node>");
+	}
+}
+
+rule dumpNodeCall
+{
+	n:Call;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Call\"/>",
+			"<attr name=\"this\"> <bool>", n.this, "</bool> </attr>",
+			"<attr name=\"super\"> <bool>", n.super, "</bool> </attr>",
+			"</node>");
+	}
+}
+
+rule dumpNodeIstantiation
+{
+	n:Instantiation;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Instantiation\"/>",
+			"</node>");
+	}
+}
+
+rule dumpNodeOperator
+{
+	n:Operator;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Operator\"/>",
+			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
+			"</node>");
+	}
+}
+
+rule dumpNodeReturn 
+{
+	n:Return;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Return\"/>",
+			"</node>");
+	}
+}
+
+rule dumpNodeBlock 
+{
+	n:Block;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Block\"/>",
+			"</node>");
+	}
+}
+
+rule dumpNodeLiteral
+{
+	n:Literal;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Literal\"/>",
+			"<attr name=\"value\"> <string>", n.value, "</string> </attr>",
+			"</node>");
+	}
+}
+
+rule dumpNodeParameter
+{
+	n:Parameter;
+	
+	if { !visited(n, 0); }
+	
+	modify {
+		eval { visited(n, 0) = true; }
+		
+		emit("<node id=\"", nameof(n), "\">",
+			"<type xlink:href=\"Parameter\"/>",
+			"</node>");
+	}
+}
+
+rule dumpEdgeBelongsTo
+{
+	src:Node -e:belongsTo-> tgt:Node;
+
+	if { !visited(e, 0); }
+	
+	modify {
+		eval { visited(e, 0) = true; }
+
+		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
+			"<type xlink:href=\"belongsTo\"/>",
+			"</edge>");
+	}
+}
+
+rule dumpEdgeType
+{
+	src:Node -e:type-> tgt:Node;
+	
+	if { !visited(e, 0); }
+	
+	modify {
+		eval { visited(e, 0) = true; }
+		
+		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
+			"<type xlink:href=\"type\"/>",
+			"</edge>");
+	}
+}
+
+rule dumpEdgeExtends
+{
+	src:Node -e:extendss-> tgt:Node;
+	
+	if { !visited(e, 0); }
+	
+	modify {
+		eval { visited(e, 0) = true; }
+		
+		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
+			"<type xlink:href=\"extends\"/>",
+			"</edge>");
+	}
+}
+
+rule dumpEdgeImports
+{
+	src:Node -e:imports-> tgt:Node;
+	
+	if { !visited(e, 0); }
+	
+	modify {
+		eval { visited(e, 0) = true; }
+		
+		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
+			"<type xlink:href=\"imports\"/>",
+			"</edge>");
+	}
+}
+
+rule dumpEdgeImplements
+{
+	src:Node -e:implements-> tgt:Node;
+	
+	if { !visited(e, 0); }
+	
+	modify {
+		eval { visited(e, 0) = true; }
+		
+		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
+			"<type xlink:href=\"implements\"/>",
+			"</edge>");
+	}
+}
+
+rule dumpEdgeParameter
+{
+	src:Node -e:parameter-> tgt:Node;
+	
+	if { !visited(e, 0); }
+	
+	modify {
+		eval { visited(e, 0) = true; }
+		
+		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
+			"<type xlink:href=\"parameter\"/>",
+			"</edge>");
+	}
+}
+
+rule dumpEdgeBinding
+{
+	src:Node -e:binding-> tgt:Node;
+	
+	if { !visited(e, 0); }
+	
+	modify {
+		eval { visited(e, 0) = true; }
+		
+		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
+			"<type xlink:href=\"binding\"/>",
+			"</edge>");
+	}
+}
+
+rule dumpEdgeLink
+{
+	src:Node -e:link-> tgt:Node;
+	
+	if { !visited(e, 0); }
+	
+	modify {
+		eval { visited(e, 0) = true; }
+		
+		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
+			"<type xlink:href=\"link\"/>",
+			"</edge>");
+	}
+}
+
+rule dumpEdgeExpression
+{
+	src:Node -e:expression-> tgt:Node;
+	
+	if { !visited(e, 0); }
+	
+	modify {
+		eval { visited(e, 0) = true; }
+		
+		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
+			"<type xlink:href=\"expression\"/>",
+			"</edge>");
+	}
+}
+
+rule dumpEdgeActualParameter
+{
+	src:Node -e:actualParameter-> tgt:Node;
+
+	if { !visited(e, 0); }
+		
+	modify {
+		eval { visited(e, 0) = true; }
+		
+		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
+			"<type xlink:href=\"actualParameter\"/>",
+			"</edge>");
+	}
+}
