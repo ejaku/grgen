@@ -27,6 +27,7 @@ import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
+import de.unika.ipd.grgen.ir.Nameof;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -1182,6 +1183,18 @@ public class ModifyGen extends CSharpBase {
 			collectNeededAttributes(vis.getVisitorID(), neededAttributes,
 					nodesNeededAsElements, edgesNeededAsElements,
 					nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
+		}
+		else if(expr instanceof Nameof) {
+			Nameof no = (Nameof) expr;
+			Entity entity = no.getEntity();
+			if(entity!=null) { // null = nameof graph
+				if(entity instanceof Node)
+					nodesNeededAsElements.add((Node) entity);
+				else if(entity instanceof Edge)
+					edgesNeededAsElements.add((Edge) entity);
+				else
+					throw new UnsupportedOperationException("Unsupported entity (" + entity + ")");
+			}
 		}
 	}
 
