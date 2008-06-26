@@ -24,8 +24,8 @@ new I236:MethodBody
 new I237:MethodBody
 new I238:MethodBody
 new I239:MethodBody
-new I240:Variable(name="_content",visibility="protected",isStatic=false,isfinal=false)
-new I246:Variable(name="_name",visibility="protected",isStatic=false,isfinal=false)
+new I240:Variabel(name="_content",visibility="protected",isStatic=false,isFinal=false)
+new I246:Variabel(name="_name",visibility="protected",isStatic=false,isFinal=false)
 new I252:Operation(name="Document",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
 new I259:Operation(name="setContent",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
 new I266:Operation(name="getContent",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
@@ -36,7 +36,7 @@ new I282:MethodBody
 new I283:MethodBody
 new I284:Package(name="java")
 new I287:Package(name="util")
-new I290:Variable(name="figures",visibility="private",isStatic=false,isfinal=false)
+new I290:Variabel(name="figures",visibility="private",isStatic=false,isFinal=false)
 new I296:Class(visibility="public",isAbstract=false,name="Vector",isFinal=false)
 new I302:Operation(name="PostscriptDocument",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
 new I309:Operation(name="includeFigure",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
@@ -50,8 +50,8 @@ new I346:MethodBody
 new I347:MethodBody
 new I348:MethodBody
 new I349:MethodBody
-new I350:Variable(name="_name",visibility="public",isStatic=false,isfinal=false)
-new I356:Variable(name="_nextNode",visibility="public",isStatic=false,isfinal=false)
+new I350:Variabel(name="_name",visibility="public",isStatic=false,isFinal=false)
+new I356:Variabel(name="_nextNode",visibility="public",isStatic=false,isFinal=false)
 new I362:Operation(name="Node",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
 new I369:Operation(name="Node",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
 new I376:Operation(name="setName",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
@@ -64,7 +64,7 @@ new I406:MethodBody
 new I407:MethodBody
 new I408:MethodBody
 new I409:MethodBody
-new I410:Variable(name="lastDocument",visibility="private",isStatic=false,isfinal=false)
+new I410:Variabel(name="lastDocument",visibility="private",isStatic=false,isFinal=false)
 new I416:Operation(name="Workstation",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
 new I423:Operation(name="Workstation",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
 new I430:Operation(name="setPacketOriginator",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
@@ -85,11 +85,11 @@ new I492:MethodBody
 new I493:MethodBody
 new I494:MethodBody
 new I495:MethodBody
-new I496:Variable(name="_jumps",visibility="public",isStatic=false,isfinal=false)
-new I502:Variable(name="_document",visibility="private",isStatic=false,isfinal=false)
-new I508:Variable(name="_content",visibility="private",isStatic=false,isfinal=false)
-new I514:Variable(name="_originator",visibility="private",isStatic=false,isfinal=false)
-new I520:Variable(name="_destination",visibility="private",isStatic=false,isfinal=false)
+new I496:Variabel(name="_jumps",visibility="public",isStatic=false,isFinal=false)
+new I502:Variabel(name="_document",visibility="private",isStatic=false,isFinal=false)
+new I508:Variabel(name="_content",visibility="private",isStatic=false,isFinal=false)
+new I514:Variabel(name="_originator",visibility="private",isStatic=false,isFinal=false)
+new I520:Variabel(name="_destination",visibility="private",isStatic=false,isFinal=false)
 new I526:Operation(name="getDocument",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
 new I533:Operation(name="getOriginator",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
 new I540:Operation(name="getContent",visibility="pubic",isStatic=false,isAbstract=false,isFinal=false)
@@ -179,7 +179,7 @@ new I715:Literal(value="1")
 new I718:Access
 new I720:Class(visibility="public",isAbstract=false,name="System",isFinal=true)
 new I726:Operation(name="println",visibility="public",isStatic=false,isAbstract=false,isFinal=false)
-new I733:Variable(name="out",visibility="public",isStatic=true,isfinal=true)
+new I733:Variabel(name="out",visibility="public",isStatic=true,isFinal=true)
 new I739:Access
 new I741:Access
 new I743:Call
@@ -347,28 +347,28 @@ new I152 -I958:extendss-> I158
 new I410 -I959:belongsTo-> I182
 new I617 -I960:belongsTo-> I614
 new I614 -I961:belongsTo-> I284
-new I221 -I962:type-> I617
-new I214 -I963:type-> I617
-new I240 -I964:type-> I617
-new I246 -I965:type-> I617
-new I266 -I966:type-> I617
-new I273 -I967:type-> I617
-new I316 -I968:type-> I296
-new I323 -I969:type-> I617
-new I337 -I970:type-> I617
-new I290 -I971:type-> I296
-new I350 -I972:type-> I617
-new I356 -I973:type-> I176
-new I410 -I974:type-> I158
-new I470 -I975:type-> I617
-new I508 -I976:type-> I617
-new I514 -I977:type-> I176
-new I520 -I978:type-> I176
-new I502 -I979:type-> I158
-new I547 -I980:type-> I176
-new I540 -I981:type-> I617
-new I533 -I982:type-> I176
-new I526 -I983:type-> I158
+new I221 -I962:ttype-> I617
+new I214 -I963:ttype-> I617
+new I240 -I964:ttype-> I617
+new I246 -I965:ttype-> I617
+new I266 -I966:ttype-> I617
+new I273 -I967:ttype-> I617
+new I316 -I968:ttype-> I296
+new I323 -I969:ttype-> I617
+new I337 -I970:ttype-> I617
+new I290 -I971:ttype-> I296
+new I350 -I972:ttype-> I617
+new I356 -I973:ttype-> I176
+new I410 -I974:ttype-> I158
+new I470 -I975:ttype-> I617
+new I508 -I976:ttype-> I617
+new I514 -I977:ttype-> I176
+new I520 -I978:ttype-> I176
+new I502 -I979:ttype-> I158
+new I547 -I980:ttype-> I176
+new I540 -I981:ttype-> I617
+new I533 -I982:ttype-> I176
+new I526 -I983:ttype-> I158
 new I200 -I984:parameter(order=1) -> I623
 new I200 -I987:parameter(order=2) -> I624
 new I207 -I990:parameter(order=1) -> I625
@@ -405,42 +405,42 @@ new I589 -I1080:parameter(order=1) -> I655
 new I589 -I1083:parameter(order=2) -> I656
 new I554 -I1086:parameter(order=1) -> I657
 new I554 -I1089:parameter(order=2) -> I658
-new I623 -I1092:type-> I617
-new I624 -I1093:type-> I617
-new I626 -I1094:type-> I617
-new I625 -I1095:type-> I164
-new I628 -I1096:type-> I617
-new I629 -I1097:type-> I617
-new I627 -I1098:type-> I617
-new I633 -I1099:type-> I617
-new I631 -I1100:type-> I617
-new I630 -I1101:type-> I617
-new I632 -I1102:type-> I164
-new I634 -I1103:type-> I617
-new I635 -I1104:type-> I617
-new I637 -I1105:type-> I617
-new I636 -I1106:type-> I176
-new I638 -I1107:type-> I194
-new I639 -I1108:type-> I194
-new I640 -I1109:type-> I194
-new I645 -I1110:type-> I617
-new I646 -I1111:type-> I617
-new I647 -I1112:type-> I176
-new I648 -I1113:type-> I194
-new I649 -I1114:type-> I194
-new I650 -I1115:type-> I194
-new I641 -I1116:type-> I617
-new I642 -I1117:type-> I617
-new I643 -I1118:type-> I176
-new I644 -I1119:type-> I194
-new I656 -I1120:type-> I176
-new I658 -I1121:type-> I176
-new I657 -I1122:type-> I617
-new I655 -I1123:type-> I158
-new I651 -I1124:type-> I158
-new I653 -I1125:type-> I617
-new I652 -I1126:type-> I176
-new I654 -I1127:type-> I176
+new I623 -I1092:ttype-> I617
+new I624 -I1093:ttype-> I617
+new I626 -I1094:ttype-> I617
+new I625 -I1095:ttype-> I164
+new I628 -I1096:ttype-> I617
+new I629 -I1097:ttype-> I617
+new I627 -I1098:ttype-> I617
+new I633 -I1099:ttype-> I617
+new I631 -I1100:ttype-> I617
+new I630 -I1101:ttype-> I617
+new I632 -I1102:ttype-> I164
+new I634 -I1103:ttype-> I617
+new I635 -I1104:ttype-> I617
+new I637 -I1105:ttype-> I617
+new I636 -I1106:ttype-> I176
+new I638 -I1107:ttype-> I194
+new I639 -I1108:ttype-> I194
+new I640 -I1109:ttype-> I194
+new I645 -I1110:ttype-> I617
+new I646 -I1111:ttype-> I617
+new I647 -I1112:ttype-> I176
+new I648 -I1113:ttype-> I194
+new I649 -I1114:ttype-> I194
+new I650 -I1115:ttype-> I194
+new I641 -I1116:ttype-> I617
+new I642 -I1117:ttype-> I617
+new I643 -I1118:ttype-> I176
+new I644 -I1119:ttype-> I194
+new I656 -I1120:ttype-> I176
+new I658 -I1121:ttype-> I176
+new I657 -I1122:ttype-> I617
+new I655 -I1123:ttype-> I158
+new I651 -I1124:ttype-> I158
+new I653 -I1125:ttype-> I617
+new I652 -I1126:ttype-> I176
+new I654 -I1127:ttype-> I176
 new I666 -I1128:belongsTo-> I405
 new I666 -I1129:expression(order=1) -> I659
 new I659 -I1132:expression-> I662
@@ -482,7 +482,7 @@ new I702 -I1189:belongsTo-> I408
 new I706 -I1190:link-> I496
 new I710 -I1191:link-> I496
 new I743 -I1192:actualParameter-> I745
-new I755 -I1194:type-> I617
+new I755 -I1194:ttype-> I617
 new I739 -I1195:expression-> I741
 new I741 -I1197:expression-> I743
 new I745 -I1199:expression-> I747
@@ -518,7 +518,7 @@ new I791 -I1245:expression(order=1) -> I758
 new I773 -I1248:link-> I350
 new I787 -I1249:link-> I356
 new I789 -I1250:link-> I350
-new I779 -I1251:type-> I617
+new I779 -I1251:ttype-> I617
 new I791 -I1252:expression(order=2) -> I793
 new I791 -I1255:expression(order=3) -> I764
 new I791 -I1258:expression(order=4) -> I796
@@ -541,11 +541,11 @@ new I819 -I1285:expression-> I821
 new I821 -I1287:expression-> I824
 new I824 -I1289:link-> I826
 new I809 -I1290:link-> I811
-new I811 -I1291:type-> I617
-new I826 -I1292:type-> I617
+new I811 -I1291:ttype-> I617
+new I826 -I1292:ttype-> I617
 new I819 -I1293:link-> I496
 new I733 -I1294:belongsTo-> I720
 new I720 -I1295:belongsTo-> I614
-new I496 -I1296:type-> I829
+new I496 -I1296:ttype-> I829
 new I829 -I1297:belongsTo-> I614
-new I715 -I1298:type-> I829
+new I715 -I1298:ttype-> I829

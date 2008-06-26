@@ -17,7 +17,7 @@ node class Class extends Classifier
 
 node class Interface extends Classifier;
 
-node class Variable
+node class Variabel
 {
 	name:string;
 	visibility:string;
@@ -80,7 +80,7 @@ node class Parameter;
 
 edge class belongsTo;
 
-edge class type;
+edge class ttype;
 
 edge class extendss;
 
@@ -88,7 +88,10 @@ edge class imports;
 
 edge class implements;
 
-edge class parameter;
+edge class parameter
+{
+	order:int;
+}
 
 edge class actualParameter;
 
@@ -96,5 +99,7 @@ edge class binding;
 
 edge class link;
 
-edge class expression;
-
+edge class expression
+{
+	order:int;
+}

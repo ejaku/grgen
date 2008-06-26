@@ -52,10 +52,12 @@ namespace gxl2grs
                     string[] pathAndType = typeNAttr.Attributes.Item(0).InnerText.Split(separators);
                     bool onlyType = pathAndType.Length==1;
                     type = pathAndType[onlyType ? 0 : 1];
+                    if (type == "Variable") type = "Variabel"; // Variable is class name in generated code, can't use as type
                 }
                 else if (typeNAttr.Name == "attr")
                 {
                     String attrName = typeNAttr.Attributes.Item(0).InnerText;
+                    if (attrName == "isfinal") attrName = "isFinal"; // case insensitive input file or error? 
                     String attrValue = "";
                     if (typeNAttr.ChildNodes.Item(0).Name == "string")
                     {
@@ -109,6 +111,7 @@ namespace gxl2grs
                     bool onlyType = pathAndType.Length == 1;
                     type = pathAndType[onlyType ? 0 : 1];
                     if (type == "extends") type = "extendss"; // extends is keyword in gm, can't use as type
+                    if (type == "type") type = "ttype"; // type is keyword in .grs, can't use as type
                 }
                 else if (typeNAttr.Name == "attr")
                 {
