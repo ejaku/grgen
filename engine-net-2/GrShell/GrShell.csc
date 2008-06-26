@@ -426,6 +426,17 @@ String TextOrNumber():
 	}
 }
 
+String TextOrNumberOrBoolLit():
+{
+	Token tok;
+}
+{
+	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<TRUE> | tok=<FALSE>)
+	{
+		return tok.image;		
+	}
+}
+
 int Number():
 {
 	Token t;
@@ -911,7 +922,7 @@ void SingleAttribute(ArrayList attributes):
 	String a, b;
 }
 {
-	a=Text() "=" b=TextOrNumber()
+	a=Text() "=" b=TextOrNumberOrBoolLit()
 	{
 		attributes.Add(new Param(a, b));
 	}
