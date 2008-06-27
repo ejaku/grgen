@@ -219,8 +219,7 @@ public class CallActionNode extends BaseNode {
 							+ "\" are incommensurable.");
 					res = false;
 				}
-
-				if(actualParamType instanceof InheritanceType) {
+				else if(actualParamType instanceof InheritanceType) {
 					InheritanceType fpt = (InheritanceType)formalParamType;
 					InheritanceType apt = (InheritanceType)actualParamType;
 					if(fpt!=apt && !fpt.isRoot() && !apt.isRoot()

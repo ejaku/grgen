@@ -1,0 +1,6 @@
+rule r(var i:int) {
+  n:Node;
+  modify{
+    exec(r(n));   // node instead of integer
+  }
+}
