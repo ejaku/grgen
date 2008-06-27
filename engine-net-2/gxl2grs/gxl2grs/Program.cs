@@ -21,7 +21,22 @@ namespace gxl2grs
             StreamWriter grs = new StreamWriter(graphName+".grs", false, Encoding.Default, 4096);
 
             grs.WriteLine("new graph \"" + graphName + "\"");
-            grs.WriteLine("debug set layout Tree");
+            grs.WriteLine("debug set layout Hierarchic");
+            grs.WriteLine("debug set layout option NODE_PLACEMENT TREE");
+            grs.WriteLine("debug set layout option ORIENTATION BOTTOM_TO_TOP");
+            grs.WriteLine("dump set node Package color gold");
+            grs.WriteLine("dump set node Class color yellow");
+            grs.WriteLine("dump set node Literal color lightgrey");
+            grs.WriteLine("dump set node MethodBody color pink");
+            grs.WriteLine("dump set node Operation color orchid");
+            grs.WriteLine("dump set node Block color darkmagenta");
+            grs.WriteLine("dump set node Variabel color cyan");
+            grs.WriteLine("dump set node Parameter color lightcyan");
+            grs.WriteLine("dump set node Access color lightgreen");
+            grs.WriteLine("dump set node Operator color green");
+            grs.WriteLine("dump set node Call color green");
+            grs.WriteLine("dump set node Update color darkgreen");
+
             grs.WriteLine();
 
             foreach(XmlNode element in graph.ChildNodes)

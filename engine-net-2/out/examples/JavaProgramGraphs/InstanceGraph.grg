@@ -2,3 +2,219 @@ using JavaProgramGraphsMetamodel;
 
 #include "JavaProgramGraphsGxlDumper.gri"
 
+rule deleteSpanningTree
+{
+	mrp:MultipleRootPackages();
+	
+	replace {
+	}
+}
+
+pattern MultipleRootPackages
+{
+	alternative
+	{
+		OneAndAgain {
+			p:Package;
+			negative {
+				<-:belongsTo- p; 
+			}
+			:MultipleRootPackages();
+			:MultipleContainedPackagesOrClasses(p);
+		}
+		NoRootPackageLeft {
+			negative {
+				p:Package;
+				negative {
+					<-:belongsTo- p; 
+				}
+			}
+		}
+	}
+}
+
+pattern MultipleContainedPackagesOrClasses(p:Package)
+{
+	alternative
+	{
+		OneAndAgain {
+			:ContainedPackageOrClass(p);
+			:MultipleContainedPackagesOrClasses(p);
+		}
+		NoPackageOrClassLeft {
+			negative {
+				p <-:belongsTo-;
+			}
+		}
+	}
+}
+
+pattern ContainedPackageOrClass(p:Package)
+{
+	alternative 
+	{
+		Package {
+			p <-:belongsTo- sub:Package;
+			:MultipleContainedPackagesOrClasses(sub);	
+		}
+		Class {
+			p <-:belongsTo- c:Class;
+			:MultipleMethodBodies(c);
+			:MultipleVariables(c);
+		}
+	}
+}
+
+pattern MultipleVariables(c:Class)
+{
+	alternative 
+	{
+		OneAndAgain {
+			c <-:belongsTo- :Variabel;
+			:MultipleVariables(c);	
+		}
+		NoVariableLeft {
+			negative {
+				c <-:belongsTo- :Variabel;
+			}
+		}
+	}
+}
+
+pattern MultipleMethodBodies(c:Class)
+{
+	alternative 
+	{
+		OneAndAgain {
+			:MethodBodyAndImplementation(c);
+			:MultipleMethodBodies(c);	
+		}
+		NoMethodBodyLeft {
+			negative {
+				c <-:belongsTo- mb:MethodBody;
+			}
+		}
+	}
+}
+
+pattern MethodBodyAndImplementation(c:Class)
+{
+	c <-:belongsTo- mb:MethodBody;
+	
+	alternative {
+		BoundOperation {
+			mb <-:binding- op:Operation;
+			:MultipleParameters(op);
+		}
+		Empty {
+			// operation can get matched only once, and it might happen that it was already matched
+		}
+	}
+	
+	alternative {
+		Implemented {
+			mb <-:belongsTo- b:Block;
+			:MultipleExpressions(b);
+		}
+		Unimplemented {
+			negative {
+				mb <-:belongsTo- b:Block;
+			}
+		}
+	}
+}
+
+pattern MultipleParameters(op:Operation)
+{
+	alternative 
+	{
+		OneAndAgain {
+			op -:parameter-> :Parameter;
+			:MultipleParameters(op);	
+		}
+		NoParameterLeft {
+			negative {
+				op -:parameter->;
+			}
+		}
+	}
+}
+
+pattern MultipleExpressions(b:Block)
+{
+	alternative {
+		NoExpressionLeft {
+			negative {
+				b -:expression-> :Expression;
+			}
+		}
+		OneAndAgain {
+			:ExpressionChain(b);	
+			:MultipleExpressions(b);	
+		}
+	}
+}
+
+pattern ExpressionChain(e:Expression)
+{
+	alternative {
+		ExprAndAgain {
+			e -:expression-> next:Expression\Call;
+			:ExpressionChain(next);	
+		}
+		CallAndAgain {
+			e -:expression-> call:Call;
+			:ExpressionChain(call);
+			:MultipleActualParameters(call);
+		}
+		End {
+			negative {
+				e -:expression->;
+			}
+		}
+	}
+}
+
+pattern MultipleActualParameters(c:Call)
+{
+	alternative {
+		ExprAndAgain {
+			c -:actualParameter-> next:Expression\Call;
+			:ExpressionChain(next);	
+			:MultipleActualParameters(c);
+		}
+		CallAndAgain {
+			c -:actualParameter-> call:Call;
+			:ExpressionChain(call);
+			:MultipleActualParameters(call);
+			:MultipleActualParameters(c);
+		}
+		NoParameterLeft {
+			negative {
+				c -:actualParameter->;
+			}
+		}
+	}
+}
+
+pattern MultipleExtendingClasses(c:Class)
+{
+	alternative
+	{
+		OneAndAgain {
+			:ExtendingClass(c);
+			:MultipleExtendingClasses(c);
+		}
+		NoClassLeft {
+			negative {
+				c <-:extendss-;
+			}
+		}
+	}
+}
+
+pattern ExtendingClass(c:Class)
+{
+	c <-:extendss- sub:Class;
+	:MultipleExtendingClasses(sub);
+}

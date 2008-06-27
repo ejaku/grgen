@@ -1,5 +1,19 @@
 new graph "InstanceGraph"
-debug set layout Tree
+debug set layout Hierarchic
+debug set layout option NODE_PLACEMENT TREE
+debug set layout option ORIENTATION BOTTOM_TO_TOP
+dump set node Package color gold
+dump set node Class color yellow
+dump set node Literal color lightgrey
+dump set node MethodBody color pink
+dump set node Operation color orchid
+dump set node Block color darkmagenta
+dump set node Variabel color cyan
+dump set node Parameter color lightcyan
+dump set node Access color lightgreen
+dump set node Operator color green
+dump set node Call color green
+dump set node Update color darkgreen
 
 new I134:Package(name="lansimulation")
 new I137:Package(name="files")
