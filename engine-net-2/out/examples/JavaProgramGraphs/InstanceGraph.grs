@@ -563,3 +563,19 @@ new I720 -I1295:belongsTo-> I614
 new I496 -I1296:ttype-> I829
 new I829 -I1297:belongsTo-> I614
 new I715 -I1298:ttype-> I829
+
+c = I176
+v = I350
+getterName = "getName"
+setterName = "setName"
+debug xgrs (isStatic) = variableInClass(c, v) \
+	&& (!((getter) = methodExists(c, getterName)) || sameStaticness(v, getter)) \
+	&& (!((setter) = methodExists(c, setterName)) || sameStaticness(v, setter)) \
+	&& ((getter) = methodExists(c, getterName) || (getter) = insertMethodGetter(c, v, getterName, isStatic)) \
+	&& ((setter) = methodExists(c, setterName) || (setter) = insertMethodSetter(c, v, setterName, isStatic)) \
+	&& changeVisibility(v) \
+	&& adaptAccess(c, v, getter)* \
+	&& adaptUpdate(c, v, setter)*
+
+#Knoten I726/println hängt in der Luft
+#Metamodell und Graph stimmen nicht genau überein

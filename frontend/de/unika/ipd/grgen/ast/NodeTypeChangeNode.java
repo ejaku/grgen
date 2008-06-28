@@ -94,12 +94,17 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		BaseNode curr = old;
 		BaseNode prev = null;
 
-		while (!(curr instanceof RuleDeclNode)) {
+		while (!(curr instanceof RuleDeclNode 
+					|| curr instanceof SubpatternDeclNode 
+					|| curr instanceof AlternativeCaseNode))
+		{
 			prev = curr;
-			// doesn't matter which parent you choose, in the end you reach RuleDeclNode
+			// doesn't matter which parent you choose, in the end you reach RuleDeclNode/SubpatternDeclNode/AlternativeCaseNode
 			curr = curr.getParents().iterator().next();
 		}
-		if (prev == ((RuleDeclNode)curr).right) {
+		if (curr instanceof RuleDeclNode && prev == ((RuleDeclNode)curr).right
+				|| curr instanceof SubpatternDeclNode && prev == ((SubpatternDeclNode)curr).right
+				|| curr instanceof AlternativeCaseNode && prev == ((AlternativeCaseNode)curr).right) {
 			reportError("Source node of retype may not be declared in replace/modify part");
 			res = false;
 		}

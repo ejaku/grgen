@@ -2,6 +2,161 @@ using JavaProgramGraphsMetamodel;
 
 #include "JavaProgramGraphsGxlDumper.gri"
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// encapsulateField
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// test preconditions
+
+test variableInClass(c:Class, v:Variabel) : (boolean)
+{
+	c <-:belongsTo- v;
+	v -:ttype-> :Class; // ensure v is typed with a class, needed for setter method insertion
+	return(v.isStatic);
+}
+
+test methodExists(c:Class, var name:string) : (Operation)
+{
+	c <-:belongsTo- mb:MethodBody;
+	mb <-:binding- op:Operation;
+	if { op.name==name; }
+	return(op);
+}
+
+test sameStaticness(v:Variabel, op:Operation)
+{
+	if { v.isStatic==op.isStatic; }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// insert accessor operations and change visibility of variable
+
+rule insertMethodGetter(c:Class, v:Variabel, var name:string, var isStatic:boolean) : (Operation)
+{
+	// getter: return von access variable
+	modify {
+		c <-:belongsTo- mb:MethodBody;
+		mb <-:binding- op:Operation;
+		eval { op.name = name; 
+			op.visibility = "public"; 
+			op.isAbstract = false; 
+			op.isStatic = isStatic; 
+			op.isFinal = false; }
+			
+		mb <-:belongsTo- :Block -:expression-> :Return -:expression-> :Access -:link-> v;
+		return(op);
+	}
+}
+
+rule insertMethodSetter(c:Class, v:Variabel, var name:string, var isStatic:boolean) : (Operation)
+{
+	v -:ttype-> type:Class;
+	
+	// setter: update von variable mit parameter
+	modify {
+		c <-:belongsTo- mb:MethodBody;
+		mb <-:binding- op:Operation;
+		eval { op.name = name; 
+			op.visibility = "public"; 
+			op.isAbstract = false; 
+			op.isStatic = isStatic; 
+			op.isFinal = false; }
+			
+		op -:parameter-> p:Parameter -:ttype-> type;
+		mb <-:belongsTo- :Block -:expression-> u:Update;
+		u -:link-> v;
+		u -:expression-> :Access -:link-> p;
+		return(op);
+	}
+}
+
+rule changeVisibility(v:Variabel)
+{
+	modify {
+		eval { v.visibility = "private"; }
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// updateReferences only if not in same class
+
+rule adaptAccess(c:Class, v:Variabel, getter:Operation)
+{	
+	a:Access -l:link-> v;
+	
+	negative {
+		:InClass(a, c);
+	}
+
+	modify {
+		call:Call<a> -:link-> getter;
+		delete(l);
+	}		
+}
+
+rule adaptUpdate(c:Class, v:Variabel, setter:Operation)
+{	
+	u:Update -l:link-> v;
+	u -e:expression-> exp:Expression;
+
+	negative {
+		:InClass(u, c);
+	}
+	
+	modify {
+		call:Call<u> -:link-> setter;
+		call -:actualParameter-> exp;
+		delete(l);
+		delete(e);
+	}
+}
+
+pattern InClass(e:Expression, c:Class)
+{
+	alternative {
+		Previous {
+			prev:Expression\Block -:expression-> e;
+			:InClass(prev, c);	
+		}
+		End {
+			prev:Block -:expression-> e;
+			mb:MethodBody <-:belongsTo- b:Block;
+			c <-:belongsTo- mb;
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// updateReferences use accessors always
+
+rule adaptAccessUseAccessorsAlways(c:Class, v:Variabel, getter:Operation)
+{	
+	a:Access -l:link-> v;
+	
+	modify {
+		call:Call<a> -:link-> getter;
+		delete(l);
+	}		
+}
+
+rule adaptUpdateUseAccessorsAlways(c:Class, v:Variabel, setter:Operation)
+{	
+	u:Update -l:link-> v;
+	u -e:expression-> exp:Expression;
+
+	modify {
+		call:Call<u> -:link-> setter;
+		call -:actualParameter-> exp;
+		delete(l);
+		delete(e);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// spanning tree of java program graphs (not part of contest, just for fun)
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 rule deleteSpanningTree
 {
 	mrp:MultipleRootPackages();
