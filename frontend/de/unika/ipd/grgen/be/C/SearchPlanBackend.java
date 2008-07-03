@@ -63,8 +63,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	}
 
 	/* binary operator symbols of the C-language */
-	// ATTENTION: the forst two shift operations are signed shifts
-	// 		the second right shift is signed. This Backend simply gens
+	// ATTENTION: the first two shift operations are signed shifts
+	// 		the second right shift is signed. This backend simply gens
 	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
 	private String[] opSymbols = {
 		null, "||", "&&", "|", "^", "&",
@@ -612,10 +612,31 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		// Generate the graph
 		genGraph(sb, indent, funcName, graph, nodeIds, edgeIds, graphType, rule);
 
+		// Generate the hom statements
+		genHom(sb, graph, nodeIds, edgeIds, rule);
+
 		// code for the conditions
 		genConditions(sb, indent, graph);
 
 	}
+
+	private void genHom(StringBuffer sb, PatternGraph graph,
+			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds, Rule rule) {
+		int actId = actionRuleMap.get(rule).intValue();
+
+		for (Node src : graph.getNodes()) {
+			int srcId = pattern_node_num.get(actId).get(src).intValue();
+			for (Node tgt : graph.getNodes()) {
+				int tgtId = pattern_node_num.get(actId).get(tgt).intValue();
+				if(potHomNodeMatrices[actId][srcId][tgtId] == 1) {
+					sb.append("ext_grs_act_allow_nodes_hom(");
+					sb.append(src.getIdent() + ", " + tgt.getIdent() + ");\n");
+				}
+			}
+		}
+	}
+
+
 
 	private void genGraph(StringBuffer sb, String indent, String funcName,
 						  Graph graph,
