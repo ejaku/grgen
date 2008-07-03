@@ -479,7 +479,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			outs.append(indent + "(void) pat_node_map;\n");
 			outs.append(indent + "(void) rpl_edge_map;\n");
 			outs.append(indent + "(void) data;\n");
-			outs.append(indent + "set_" + targetMember.getIdent() +"(");
+			outs.append(indent + "set_grgen_" + targetMember.getIdent() +"(");
 			// Each node type has to be treated differently when accessing attributes
 			// Care about that here.
 			if(targetOwner instanceof Node)
@@ -1024,27 +1024,20 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			{
 				Node n = (Node) entity;
 
+
 				// We have to treat special FIRM nodes specially
 
-				// Query the tarval of const nodes.
-				// Only integer supported so far
-				if(n.getNodeType().isCastableTo(CONST_TYPE))
-				{
-					sb.append("get_tarval_long(get_Const_tarval(pat_node_map["+ nodeIds.computeId(n) +
-							  "/* "+ entity.getIdent() + " */]))");
-				}
+				
+				
+				
 				// Query the proj_nr of a vproj_node
-				else if(n.getNodeType().isCastableTo(VPROJ_TYPE))
+				if(n.getNodeType().isCastableTo(VPROJ_TYPE))
 				{
 					sb.append("get_VProj_proj(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else if(n.getNodeType().isCastableTo(MULTIPLE_ADD_TYPE))
 				{
 					sb.append("get_irn_arity(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
-				}
-				else if(n.getNodeType().isCastableTo(PROJ_TYPE))
-				{
-					sb.append("get_Proj_proj(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else if(n.getNodeType().isCastableTo(SYM_CONST))
 				{
@@ -1054,14 +1047,15 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				{
 					sb.append("get_Cond_defaultProj(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
-				else if(n.getNodeType().isCastableTo(FRAMEADDR))
-				{
-					sb.append("be_get_frame_entity(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
-				}
 				else
 				{
-					throw new UnsupportedOperationException("Unsupported Node type in condition for node " + entity.getIdent());
+					String attribute = qual.getMember().getIdent().toString();
+
+					sb.append("get_grgen_"+attribute+
+							"(pat_node_map["+ nodeIds.computeId(n) +
+							"/* "+ entity.getIdent() + " */])");
 				}
+				
 			}
 			else if (entity instanceof Edge)
 			{
