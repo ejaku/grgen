@@ -622,15 +622,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private void genHom(StringBuffer sb, PatternGraph graph,
 			IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds, Rule rule) {
-		int actId = actionRuleMap.get(rule).intValue();
-
-		for (Node src : graph.getNodes()) {
-			int srcId = pattern_node_num.get(actId).get(src).intValue();
-			for (Node tgt : graph.getNodes()) {
-				int tgtId = pattern_node_num.get(actId).get(tgt).intValue();
-				if(potHomNodeMatrices[actId][srcId][tgtId] == 1) {
+		for (Node n1 : graph.getNodes()) {
+			for (Node n2 : graph.getNodes()) {
+				if(n1 != n2 && graph.isHomomorphic(n1, n2)) {
 					sb.append("ext_grs_act_allow_nodes_hom(");
-					sb.append(src.getIdent() + ", " + tgt.getIdent() + ");\n");
+					sb.append(n1.getIdent() + ", " + n2.getIdent() + ");\n");
 				}
 			}
 		}
@@ -1048,9 +1044,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 				// We have to treat special FIRM nodes specially
 
-				
-				
-				
+
+
+
 				// Query the proj_nr of a vproj_node
 				if(n.getNodeType().isCastableTo(VPROJ_TYPE))
 				{
@@ -1076,7 +1072,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 							"(pat_node_map["+ nodeIds.computeId(n) +
 							"/* "+ entity.getIdent() + " */])");
 				}
-				
+
 			}
 			else if (entity instanceof Edge)
 			{
