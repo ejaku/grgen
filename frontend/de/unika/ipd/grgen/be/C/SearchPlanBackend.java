@@ -337,8 +337,6 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 				genPattern(sb2, action, nodeIds, edgeIds);
 
-				sb2.append(indent + "check = ext_grs_act_mature(act);\n");
-				sb2.append(indent + "assert(check);\n");
 				sb2.append(indent + "return act;\n");
 				sb2.append("} /* " + actionName + " */\n\n\n");
 
@@ -581,6 +579,13 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append(indent + "  /* Eval functions */\n");
 		registerEvalFunctions(sb, indent + "\t", rule);
 
+		// This is necessary to set the hom statements
+		sb.append(indent + "check = ext_grs_act_mature(act);\n");
+		sb.append(indent + "assert(check);\n");
+
+		// Generate the hom statements.
+		genHom(sb, rule.getLeft(), nodeIds, edgeIds, rule);
+
 		sb.append(indent + "} /* The Action */\n\n");
 	}
 
@@ -612,9 +617,6 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		// Generate the graph
 		genGraph(sb, indent, funcName, graph, nodeIds, edgeIds, graphType, rule);
 
-		// Generate the hom statements
-		genHom(sb, graph, nodeIds, edgeIds, rule);
-
 		// code for the conditions
 		genConditions(sb, indent, graph);
 
@@ -626,7 +628,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			for (Node n2 : graph.getNodes()) {
 				if(n1 != n2 && graph.isHomomorphic(n1, n2)) {
 					sb.append("ext_grs_act_allow_nodes_hom(");
-					sb.append(n1.getIdent() + ", " + n2.getIdent() + ");\n");
+					sb.append("n_" + n1.getIdent() + ", " + "n_" + n2.getIdent() + ");\n");
 				}
 			}
 		}
