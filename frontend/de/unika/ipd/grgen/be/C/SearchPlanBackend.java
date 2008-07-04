@@ -705,7 +705,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 					// Found the "mode" edge. Save the mode of the current node for dumping
 					Node modeNode = graph.getTarget(e);
 					//System.out.println("'" + modeNode.getNodeType().getIdent().toString() + "'");
-					if (null != modeNode) {
+					if (null != modeNode && (mode.equals("ANY") || !rule.getCommonEdges().contains(e))) {
 						mode = modeNode.getNodeType().getIdent().toString().substring(5);
 					}
 				}
@@ -722,7 +722,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			//			  " \\ " + node.getConstraints()  +"*/\n");
 
 
-			// Check if the node is related to a positiv node
+			// Check if the node is related to a positive node
 			if(!related)
 			{
 				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_rd_" + type;
