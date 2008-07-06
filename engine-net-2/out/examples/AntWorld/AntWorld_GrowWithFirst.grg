@@ -196,10 +196,12 @@ rule GrowWorldFirstNotAtCorner(cur:GridNode\GridCornerNode) : (GridNode, GridNod
     }
 }
 
-rule GrowWorldNextAtCorner(cur:GridCornerNode, curOuter:GridNode) : (GridNode, GridNode)
+rule GrowWorldNextAtCorner(cur:GridCornerNode, curOuter:GridNode, first:GridNode)
+        : (GridNode, GridNode)
 {
+    hom(first, next);
     cur -:GridEdge\PathToHill-> next:GridNode;
-    negative { cur <-:PathToHill-; }
+    //negative { cur <-:PathToHill-; }
     hill:AntHill;
 
     zero:Zero;
@@ -222,10 +224,12 @@ rule GrowWorldNextAtCorner(cur:GridCornerNode, curOuter:GridNode) : (GridNode, G
     }
 }
 
-rule GrowWorldNextNotAtCorner(cur:GridNode\GridCornerNode, curOuter:GridNode) : (GridNode, GridNode)
+rule GrowWorldNextNotAtCorner(cur:GridNode\GridCornerNode, curOuter:GridNode,
+        first:GridNode) : (GridNode, GridNode)
 {
+    hom(first, next);
     cur -:GridEdge\PathToHill-> next:GridNode;
-    negative { cur <-:PathToHill-; }
+    //negative { cur <-:PathToHill-; }
     hill:AntHill;
     
     zero:Zero;
@@ -291,11 +295,12 @@ rule doAntWorld(firstAnt:Ant)
                 TakeFood(curAnt) | GoHome(curAnt) ||
                 DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] ||
                                     $[SearchAimless(curAnt)])
-                    | (!endReached && (cur:GridNode)=ReachedEndOfWorld(curAnt)
+                    | (!endReached && (first:GridNode)=ReachedEndOfWorld(curAnt)
+                        && cur:GridNode=first
                         && ((cur, curOuter:GridNode)=GrowWorldFirstNotAtCorner(cur)
                             || (cur, curOuter)=GrowWorldFirstAtCorner(cur))
-                        && ((cur, curOuter)=GrowWorldNextNotAtCorner(cur, curOuter)
-                            || (cur, curOuter)=GrowWorldNextAtCorner(cur, curOuter))*
+                        && ((cur, curOuter)=GrowWorldNextNotAtCorner(cur, curOuter, first)
+                            || (cur, curOuter)=GrowWorldNextAtCorner(cur, curOuter, first))*
                         && GrowWorldEnd(cur, curOuter) && endReached = true)
             ) && (curAnt)=GetNextAnt(curAnt))*
             | (curAnt)=Food2Ant(curAnt)*
