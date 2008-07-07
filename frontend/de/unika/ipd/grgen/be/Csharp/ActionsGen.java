@@ -96,6 +96,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate static Pattern_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
 		sb.append("\t\tpublic static Pattern_" + actionName + " Instance { get { if (instance==null) { instance = new Pattern_" + actionName + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
+		sb.append("\t\tprivate static object[] ReturnArray = new object[" + subpatternRule.getReturns().size() + "];\n\n");
+
 		String patGraphVarName = "pat_" + subpatternRule.getPattern().getNameOfGraph();
 		genTypeConditionsAndEnums(sb, subpatternRule.getPattern(), patGraphVarName,
 				subpatternRule.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
@@ -105,9 +107,7 @@ public class ActionsGen extends CSharpBase {
 		genActionConditions(sb, subpatternRule);
 		sb.append("\n");
 
-		Rule rule = (Rule) subpatternRule;
-
-		mg.genModify(sb, rule, true);
+		mg.genModify(sb, subpatternRule, true);
 
 		sb.append("\t}\n");
 		sb.append("\n");
@@ -124,6 +124,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate static Rule_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
 		sb.append("\t\tpublic static Rule_" + actionName + " Instance { get { if (instance==null) { instance = new Rule_" + actionName + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
+		sb.append("\t\tprivate static object[] ReturnArray = new object[" + actionRule.getReturns().size() + "];\n\n");
+
 		String patGraphVarName = "pat_" + actionRule.getPattern().getNameOfGraph();
 		genTypeConditionsAndEnums(sb, actionRule.getPattern(), patGraphVarName,
 				actionRule.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
@@ -133,12 +135,10 @@ public class ActionsGen extends CSharpBase {
 		genActionConditions(sb, actionRule);
 		sb.append("\n");
 
-		Rule rule = (Rule) actionRule;
+		mg.genModify(sb, actionRule, false);
 
-		mg.genModify(sb, rule, false);
-
-		if(rule.getRight()!=null) {
-			genEmit(sb, rule, false);
+		if(actionRule.getRight()!=null) {
+			genEmit(sb, actionRule, false);
 		}
 
 		sb.append("\t}\n");
@@ -739,14 +739,14 @@ public class ActionsGen extends CSharpBase {
 				genSet(sb, needs.nodes, "LGSPNode node_", "", false);
 				first = false;
 			}
-				
+
 			if(!needs.edges.isEmpty())
 			{
 				if(!first) sb.append(", ");
 				genSet(sb, needs.edges, "LGSPEdge edge_", "", false);
 				first = false;
 			}
-			
+
 			if(!needs.variables.isEmpty())
 			{
 				for(Variable var : needs.variables) {

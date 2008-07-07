@@ -198,7 +198,8 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The host graph for this modification.</param>
         /// <param name="match">The match which is used for this rewrite.</param>
-        /// <returns>An array of values returned by the rule</returns>
+        /// <returns>An array of objects returned by the rule.
+        /// It is only valid until the next graph rewrite with this rule.</returns>
         object[] Modify(IGraph graph, IMatch match);
     }
 }

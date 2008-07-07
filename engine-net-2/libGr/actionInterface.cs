@@ -91,7 +91,8 @@ namespace de.unika.ipd.grGen.libGr
         /// Performs the rule specific modifications to the given graph with the given match.
         /// The graph and match object must have the correct type for the used backend.
         /// </summary>
-        /// <returns>An array of objects returned by the rule.</returns>
+        /// <returns>An array of objects returned by the rule.
+        /// It is only valid until the next graph rewrite with this rule.</returns>
         object[] Modify(IGraph graph, IMatch match);
 
         /// <summary>
@@ -99,7 +100,8 @@ namespace de.unika.ipd.grGen.libGr
         /// The graph and match object must have the correct type for the used backend.
         /// No OnRewritingNextMatch events are triggered by this function.
         /// </summary>
-        /// <returns>An array of objects returned by the rule.</returns>
+        /// <returns>An array of objects returned by the last applicance of the rule.
+        /// It is only valid until the next graph rewrite with this rule.</returns>
         object[] ModifyAll(IGraph graph, IMatches matches);
 
         /// <summary>
@@ -109,6 +111,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
         /// <returns>A possibly empty array of objects returned by the rule,
+        /// which is only valid until the next graph rewrite with this rule,
         /// or null, if no match was found.</returns>
         object[] Apply(IGraph graph);
 
@@ -120,6 +123,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>A possibly empty array of objects returned by the rule,
+        /// which is only valid until the next graph rewrite with this rule,
         /// or null, if no match was found.</returns>
         object[] Apply(IGraph graph, params object[] parameters);
 
@@ -131,6 +135,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="maxMatches">The maximum number of matches to be rewritten.</param>
         /// <param name="graph">Host graph for this rule</param>
         /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
+        /// which is only valid until the next graph rewrite with this rule,
         /// or null, if no match was found.</returns>
         object[] ApplyAll(int maxMatches, IGraph graph);
 
@@ -143,6 +148,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
         /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
+        /// which is only valid until the next graph rewrite with this rule,
         /// or null, if no match was found.</returns>
         object[] ApplyAll(int maxMatches, IGraph graph, params object[] parameters);
 

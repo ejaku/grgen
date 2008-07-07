@@ -1060,13 +1060,14 @@ public class ModifyGen extends CSharpBase {
 		if(returns.isEmpty())
 			sb.append("\t\t\treturn EmptyReturnElements;\n");
 		else {
-			sb.append("\t\t\treturn new object[] { ");
-			for(Expression expr : returns)
+			for(int i = 0; i < returns.size(); i++)
 			{
+				sb.append("\t\t\tReturnArray[" + i + "] = ");
+				Expression expr = returns.get(i);
 				genExpression(sb, expr, state);
-				sb.append(", ");
+				sb.append(";\n");
 			}
-			sb.append("};\n");
+			sb.append("\t\t\treturn ReturnArray;\n");
 		}
 	}
 
