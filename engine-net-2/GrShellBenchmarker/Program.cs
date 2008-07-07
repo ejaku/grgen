@@ -8,11 +8,26 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 namespace GrShellBenchmarker
 {
     class Program
     {
+        /// <summary>
+        /// Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system 
+        /// </summary>
+        /// <param name="path">The original path string potentially with wrong chars</param>
+        /// <returns>The corrected path string</returns>
+        static String FixDirectorySeparators(String path)
+        {
+            if(Path.DirectorySeparatorChar != '\\')
+                path = path.Replace('\\', Path.DirectorySeparatorChar);
+            if(Path.DirectorySeparatorChar != '/')
+                path = path.Replace('/', Path.DirectorySeparatorChar);
+            return path;
+        }
+
         static void Main(string[] args)
         {
             int totaltime = 0;
@@ -130,6 +145,19 @@ namespace GrShellBenchmarker
             int mintime = int.MaxValue, minbenchtime = int.MaxValue;
             int minanalyzetime = int.MaxValue, mingenmatchertime = int.MaxValue;
 
+            String filename, arguments;
+            if(Type.GetType("System.Int32").GetType().ToString() == "System.MonoType")
+            {
+                filename = "mono";
+                arguments = '"' + FixDirectorySeparators(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
+                    + Path.DirectorySeparatorChar + "GrShell.exe" + '"';
+            }
+            else
+            {
+                filename = "GrShell.exe";
+                arguments = "";
+            }
+
             try
             {
                 for(int i = 0; i < N; i++)
@@ -139,10 +167,9 @@ namespace GrShellBenchmarker
                     Process grshell = new Process();
                     grshell.StartInfo.UseShellExecute = false;
                     grshell.StartInfo.RedirectStandardOutput = true;
-                    grshell.StartInfo.FileName = "GrShell.exe";
+                    grshell.StartInfo.FileName = filename;
                     grshell.StartInfo.RedirectStandardInput = true;
-//                    grshell.StartInfo.Arguments = testName + " " + size;
-//                    grshell.StartInfo.WorkingDirectory = "..\\..\\..\\release";
+                    grshell.StartInfo.Arguments = arguments;
                     grshell.Start();
 
                     grshell.StandardInput.Write(grsScript);
