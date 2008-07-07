@@ -134,7 +134,7 @@ namespace GrShellBenchmarker
 
             int Q02 = (int) (N * 0.2);
 
-            Console.WriteLine("\n{0,4}{1,8}{2,8}{3,8}{4,8}", "", "total", "analyze", "gensp", "bench");
+            Console.WriteLine();
 
             int[] time = new int[N];
             int[] matchtime = new int[N];
@@ -160,6 +160,7 @@ namespace GrShellBenchmarker
 
             try
             {
+                bool first = true;
                 for(int i = 0; i < N; i++)
                 {
                     int startms = Environment.TickCount;
@@ -174,6 +175,17 @@ namespace GrShellBenchmarker
 
                     grshell.StandardInput.Write(grsScript);
                     StreamReader reader = grshell.StandardOutput;
+
+                    if(first)
+                    {
+                        Console.WriteLine("Executing warmup run...");
+                        reader.ReadToEnd();
+                        grshell.Close();
+                        first = false;
+                        i--;
+                        Console.WriteLine("Starting benchmark:\n{0,4}{1,8}{2,8}{3,8}{4,8}", "", "total", "analyze", "gensp", "bench");
+                        continue;
+                    }
 
                     time[i] = 0;
                     matchtime[i] = 0;
