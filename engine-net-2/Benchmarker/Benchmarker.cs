@@ -22,7 +22,8 @@ namespace benchmarker
             Console.WriteLine("Usage: Benchmarker [OPTIONS] <test application> [test app params]");
             Console.WriteLine("Default mode: The test app will get a size parameter as the last parameter");
             Console.WriteLine("Options:");
-            Console.WriteLine(" -grshellmutex  GrShell mode");
+            Console.WriteLine(" -grshell       GrShell mode");
+            Console.WriteLine(" -grshellmutex  GrShell Mutex mode");
             Console.WriteLine(" -nosize        No size mode");
             Console.WriteLine(" -start <size>  Size the benchmark begins with");
             Console.WriteLine(" -end <size>    Size the benchmark ends with");
