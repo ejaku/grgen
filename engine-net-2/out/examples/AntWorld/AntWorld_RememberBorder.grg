@@ -1,6 +1,6 @@
 using AntWorld;
 
-rule InitWorld : (Ant)
+rule InitWorld : (Ant, GridNode)
 {
     modify {
         // Create all grid nodes
@@ -60,7 +60,7 @@ rule InitWorld : (Ant)
         // The ultimate GAMMEL FIX(tm)!!!!
         :Zero; :MinusOne; :MinusTwo;
         
-        return (queen);
+        return (queen, a2);
     }
 }
 
@@ -139,6 +139,19 @@ test ReachedEndOfWorldAnywhere : (GridNode)
     [prio=10000]:Ant -:AntPosition-> n:GridNode\AntHill;
     negative { n <-:PathToHill-; }
     return (n);
+}
+
+test ReachedEndOfWorldAt(cur:GridNode, end:GridNode) : (GridNode)
+{
+    hom(cur, end);
+    negative { cur <-:AntPosition-; }
+    cur -:GridEdge\PathToHill-> next:GridNode;
+    return (next);
+}
+
+test FieldHasAnt(n:GridNode)
+{
+    n <-:AntPosition-;
 }
 
 //rule GrowFoodIfEqual(n:GridNode, var val:int)
@@ -290,33 +303,18 @@ rule EvaporateWorld
     }
 }
 
-rule doAntWorld(firstAnt:Ant)
+rule doAntWorld(firstAnt:Ant, outer:GridNode)
 {
     modify {
-/*        exec((curAnt:Ant=firstAnt && (endReached:boolean=false | true) &&
-            ((
-                TakeFood(curAnt) | GoHome(curAnt) ||
-                DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] ||
-                                    $[SearchAimless(curAnt)])
-                    | (!endReached && (cur:GridNode)=ReachedEndOfWorld(curAnt)
-                        && ((cur, curOuter:GridNode)=GrowWorldFirstNotAtCorner(cur)
-                            || (cur, curOuter)=GrowWorldFirstAtCorner(cur))
-                        && ((cur, curOuter)=GrowWorldNextNotAtCorner(cur, curOuter)
-                            || (cur, curOuter)=GrowWorldNextAtCorner(cur, curOuter))*
-                        && GrowWorldEnd(cur, curOuter) && endReached = true)
-            ) && (curAnt)=GetNextAnt(curAnt))*
-            | (curAnt)=Food2Ant(curAnt)*
-            | [EvaporateWorld]
-            )[250]);*/
-
-        exec((curAnt:Ant=firstAnt && (endReached:boolean=false | true) &&
+        exec(curOuter:GridNode=outer && (curAnt:Ant=firstAnt &&
             ((
                 TakeFood(curAnt) | GoHome(curAnt) ||
                 DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] ||
                                     $[SearchAimless(curAnt)])
             ) && (curAnt)=GetNextAnt(curAnt))*
-            | ((cur:GridNode)=ReachedEndOfWorldAnywhere
-                && ((cur, curOuter:GridNode)=GrowWorldFirstNotAtCorner(cur)
+            | (cur:GridNode=curOuter && (cur)=ReachedEndOfWorldAt(cur, curOuter)*
+                && FieldHasAnt(cur)
+                && ((cur, curOuter)=GrowWorldFirstNotAtCorner(cur)
                     || (cur, curOuter)=GrowWorldFirstAtCorner(cur))
                 && ((cur, curOuter)=GrowWorldNextNotAtCorner(cur, curOuter)
                     || (cur, curOuter)=GrowWorldNextAtCorner(cur, curOuter))*
@@ -324,18 +322,5 @@ rule doAntWorld(firstAnt:Ant)
             | (curAnt)=Food2Ant(curAnt)*
             | [EvaporateWorld]
             )[250]);
-
-/*        exec((curAnt:Ant=firstAnt &&
-            ((
-                (TakeFood(curAnt) && true) | (GoHome(curAnt) && true) ||
-                DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] || $[SearchAimless(curAnt)])
-                    | ((cur:GridNode)=ReachedEndOfWorld(curAnt)
-                        && ((cur, curOuter:GridNode)=GrowWorldFirstNotAtCorner(cur) || (cur, curOuter)=GrowWorldFirstAtCorner(cur))
-                        && ((cur, curOuter)=GrowWorldNextNotAtCorner(cur, curOuter) || (cur, curOuter)=GrowWorldNextAtCorner(cur, curOuter))*
-                        && GrowWorldEnd(cur, curOuter))
-            ) && (curAnt)=GetNextAnt(curAnt))*
-            | (curAnt)=Food2Ant(curAnt)*
-            | [EvaporateWorld]
-            )[200]);*/
     }
 }

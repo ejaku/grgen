@@ -1,4 +1,4 @@
-new graph AntWorld_BorderNodes
+new graph AntWorld_ExtendAtEndOfRound
 
 debug set layout Organic
 dump set node Ant color red

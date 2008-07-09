@@ -1,4 +1,4 @@
-new graph AntWorld
+new graph AntWorld_RememberBorder
 
 debug set layout Organic
 dump set node Ant color red
@@ -8,9 +8,26 @@ dump add node GammelFix exclude
 
 randomseed 13
 
-xgrs (firstAnt)=InitWorld
+xgrs (firstAnt, outer)=InitWorld
 
-xgrs doAntWorld(firstAnt)
+xgrs doAntWorld(firstAnt, outer)
+
+#debug xgrs curOuter=outer && (curAnt=firstAnt && \
+#    (( \
+#        TakeFood(curAnt) | GoHome(curAnt) || \
+#        DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] || \
+#                            $[SearchAimless(curAnt)]) \
+#    ) && (curAnt)=GetNextAnt(curAnt))* \
+#    | (cur=curOuter && (cur)=ReachedEndOfWorldAt(cur, curOuter)* \
+#        && FieldHasAnt(cur) \
+#        && ((cur, curOuter)=GrowWorldFirstNotAtCorner(cur) \
+#            || (cur, curOuter)=GrowWorldFirstAtCorner(cur)) \
+#        && ((cur, curOuter)=GrowWorldNextNotAtCorner(cur, curOuter) \
+#            || (cur, curOuter)=GrowWorldNextAtCorner(cur, curOuter))* \
+#        && GrowWorldEnd(cur, curOuter)) \
+#    | (curAnt)=Food2Ant(curAnt)* \
+#    | [EvaporateWorld] \
+#    )[250]
 
 #xgrs (curAnt=firstAnt &&                                                                                                                \
 #    ((                                                                                                                                  \
