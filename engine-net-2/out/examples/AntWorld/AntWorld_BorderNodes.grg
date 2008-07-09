@@ -1,4 +1,4 @@
-using AntWorld;
+using AntWorld_BorderNodes;
 
 rule InitWorld : (Ant)
 {
@@ -6,10 +6,10 @@ rule InitWorld : (Ant)
         // Create all grid nodes
         
         hill:AntHill;
-        a1:GridCornerNode; a2:GridNode;       a3:GridNode;       a4:GridCornerNode;
-        b1:GridNode;       b2:GridCornerNode; b3:GridCornerNode; b4:GridNode;
-        c1:GridNode;       c2:GridCornerNode; c3:GridCornerNode; c4:GridNode;
-        d1:GridCornerNode; d2:GridNode;       d3:GridNode;       d4:GridCornerNode;
+        a1:GridBorderCornerNode; a2:GridBorderNode; a3:GridBorderNode; a4:GridBorderCornerNode;
+        b1:GridBorderNode;       b2:GridNode;             b3:GridNode;       b4:GridBorderNode;
+        c1:GridBorderNode;       c2:GridNode;             c3:GridNode;       c4:GridBorderNode;
+        d1:GridBorderCornerNode; d2:GridBorderNode; d3:GridBorderNode; d4:GridBorderCornerNode;
 
         // Connect first circle
 
@@ -66,10 +66,8 @@ rule InitWorld : (Ant)
 
 rule TakeFood(curAnt:Ant)
 {
-    curAnt -:AntPosition-> n:GridNode\AntHill;  // TODO: check whether it's faster without "\AntHill"
+    curAnt -:AntPosition-> n:GridNode\AntHill;
     if { !curAnt.hasFood && n.food > 0; }
-//    if { !curAnt.hasFood; }                   // Damn .NET inliner doesn't inline these static functions...
-//    if { n.food > 0; }
     
     modify {
         eval {
@@ -136,7 +134,7 @@ test ReachedEndOfWorld(curAnt:Ant) : (GridNode)
 
 test ReachedEndOfWorldAnywhere : (GridNode)
 {
-    [prio=10000]:Ant -:AntPosition-> n:GridNode\AntHill;
+    :Ant -:AntPosition-> n[prio=10000]:GridBorderNode;
     negative { n <-:PathToHill-; }
     return (n);
 }
@@ -156,9 +154,9 @@ rule GrowFoodIfEqual(n:GridNode, val:GammelFix)
 }
 
 // TODO: Check whether we can use alternatives
-rule GrowWorldFirstAtCorner(cur:GridCornerNode) : (GridNode, GridNode)
+rule GrowWorldFirstAtCorner(cur:GridBorderCornerNode) : (GridNode, GridBorderNode)
 {
-    cur -:GridEdge\PathToHill-> next:GridNode;
+    cur -:GridEdge\PathToHill-> next:GridBorderNode;
     hill:AntHill;
     
     zero:Zero;
@@ -166,9 +164,10 @@ rule GrowWorldFirstAtCorner(cur:GridCornerNode) : (GridNode, GridNode)
     minusTwo:MinusTwo;
     
     modify {
-        cur <-:PathToHill- outer1:GridNode;
-        cur <-:PathToHill- outer2:GridCornerNode;
-        cur <-:PathToHill- outer3:GridNode;
+        retypedCur:GridNode<cur>;
+        retypedCur <-:PathToHill- outer1:GridBorderNode;
+        retypedCur <-:PathToHill- outer2:GridBorderCornerNode;
+        retypedCur <-:PathToHill- outer3:GridBorderNode;
         outer1 -:GridEdge-> outer2 -:GridEdge-> outer3;
         
         eval {
@@ -182,15 +181,16 @@ rule GrowWorldFirstAtCorner(cur:GridCornerNode) : (GridNode, GridNode)
     }
 }
 
-rule GrowWorldFirstNotAtCorner(cur:GridNode\GridCornerNode) : (GridNode, GridNode)
+rule GrowWorldFirstNotAtCorner(cur:GridBorderNode\GridBorderCornerNode) : (GridNode, GridBorderNode)
 {
-    cur -:GridEdge\PathToHill-> next:GridNode;
+    cur -:GridEdge\PathToHill-> next:GridBorderNode;
     hill:AntHill;
 
     zero:Zero;
 
     modify {
-        cur <-:PathToHill- outer:GridNode;
+        retypedCur:GridNode<cur>;
+        retypedCur <-:PathToHill- outer:GridBorderNode;
 
         eval {
             hill.foodCountdown = hill.foodCountdown - 1;
@@ -203,10 +203,10 @@ rule GrowWorldFirstNotAtCorner(cur:GridNode\GridCornerNode) : (GridNode, GridNod
     }
 }
 
-rule GrowWorldNextAtCorner(cur:GridCornerNode, curOuter:GridNode) : (GridNode, GridNode)
+rule GrowWorldNextAtCorner(cur:GridBorderCornerNode, curOuter:GridBorderNode) : (GridNode, GridBorderNode)
 {
     cur -:GridEdge\PathToHill-> next:GridNode;
-    negative { cur <-:PathToHill-; }
+    //negative { cur <-:PathToHill-; }
     hill:AntHill;
 
     zero:Zero;
@@ -214,9 +214,10 @@ rule GrowWorldNextAtCorner(cur:GridCornerNode, curOuter:GridNode) : (GridNode, G
     minusTwo:MinusTwo;
 
     modify {
-        cur <-:PathToHill- outer1:GridNode;
-        cur <-:PathToHill- outer2:GridCornerNode;
-        cur <-:PathToHill- outer3:GridNode;
+        retypedCur:GridNode<cur>;
+        retypedCur <-:PathToHill- outer1:GridBorderNode;
+        retypedCur <-:PathToHill- outer2:GridBorderCornerNode;
+        retypedCur <-:PathToHill- outer3:GridBorderNode;
         curOuter -:GridEdge-> outer1 -:GridEdge-> outer2 -:GridEdge-> outer3;
         
         eval {
@@ -229,16 +230,17 @@ rule GrowWorldNextAtCorner(cur:GridCornerNode, curOuter:GridNode) : (GridNode, G
     }
 }
 
-rule GrowWorldNextNotAtCorner(cur:GridNode\GridCornerNode, curOuter:GridNode) : (GridNode, GridNode)
+rule GrowWorldNextNotAtCorner(cur:GridBorderNode\GridBorderCornerNode, curOuter:GridBorderNode) : (GridNode, GridBorderNode)
 {
     cur -:GridEdge\PathToHill-> next:GridNode;
-    negative { cur <-:PathToHill-; }
+//    negative { cur <-:PathToHill-; }
     hill:AntHill;
     
     zero:Zero;
     
     modify {
-        cur <-:PathToHill- outer:GridNode;
+        retypedCur:GridNode<cur>;
+        retypedCur <-:PathToHill- outer:GridBorderNode;
         curOuter -:GridEdge-> outer;
 
         eval {
@@ -251,9 +253,9 @@ rule GrowWorldNextNotAtCorner(cur:GridNode\GridCornerNode, curOuter:GridNode) : 
     }
 }
 
-rule GrowWorldEnd(cur:GridNode, curOuter:GridNode)
+rule GrowWorldEnd(cur:GridNode, curOuter:GridBorderNode)
 {
-    cur <-:PathToHill- nextOuter:GridNode;
+    cur <-:PathToHill- nextOuter:GridBorderNode;
     modify {
         curOuter -:GridEdge-> nextOuter;
     }
