@@ -50,6 +50,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private static final int nodesInUse = 1;
 	private static final int edgesInUse = 2;
 
+	/* for modified-flags */
+	private static final int MOD_DELETED  = 4;
+	private static final int MOD_ASSIGNED = 2;
+	private static final int MOD_RETYPED  = 1;
+
 	private final String MODE_EDGE_NAME = "has_mode";
 	private final String LS_MODE_EDGE_NAME = "has_ls_mode";
 
@@ -730,7 +735,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 						  " = ext_grs_act_add_node(pattern, \"" +
 						  name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
 						  ", " + nodeId + ", &" + construction_func +
-  						  ", " + isModifiedNode(rule, node) + ");\n");
+  						  ", " + getModifiedFlags(rule, node) + ");\n");
 
 			}
 			else
@@ -747,7 +752,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 					sb.append("ext_grs_act_add_node_to_keep(pattern, \"" +
 							name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
 							", " + nodeId + ", n_" + related_name +
-							", &" +	construction_func + ", " +  isModifiedNode(rule, node));
+							", &" +	construction_func + ", " +  getModifiedFlags(rule, node));
 
 				}
 				sb.append(");\n");
@@ -759,10 +764,14 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		}
 	}
 
-	private int isModifiedNode(Rule rule, Node node) {
-		if (node.isRetyped() || node.getRetypedEntity() != null
-				|| !rule.getCommonNodes().contains(node)) {
-			return 1;
+	private int getModifiedFlags(Rule rule, Node node) {
+		int flags = 0;
+		if (node.isRetyped() || node.getRetypedEntity() != null) {
+			flags |= MOD_RETYPED;
+		}
+
+		if (!rule.getCommonNodes().contains(node)) {
+			flags |= MOD_DELETED;
 		}
 
 		for (Assignment a : rule.getEvals()) {
@@ -773,11 +782,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			Qualification target = (Qualification) targetExpr;
 
 			if (target.getOwner().compareTo(node) == 0) {
-				return 1;
+				flags |= MOD_ASSIGNED;
 			}
 		}
 
-		return 0;
+		return flags;
 	}
 
 	/* ----------------------------
