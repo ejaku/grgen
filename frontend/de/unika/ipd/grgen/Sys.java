@@ -25,8 +25,6 @@ public interface Sys {
 
 	OutputStream createDebugFile(File file);
 
-	boolean backendEmitDebugFiles();
-
 	boolean mayFireEvents();
 }
 

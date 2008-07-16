@@ -89,9 +89,6 @@ public class Main extends Base implements Sys {
 	private Reporter debugReporter;
 	private Handler debugHandler;
 
-	/** backend emit debug files. */
-	private boolean backendEmitDebugFiles;
-
 	private boolean noEvents;
 
 	private boolean enableDebug;
@@ -167,7 +164,6 @@ public class Main extends Base implements Sys {
 		System.out.println("  -a, --dump-ast                    dump the AST");
 		System.out.println("  -i, --dump-ir                     dump the intermidiate representation");
 		System.out.println("  -j, --dump-ir-rules               dump each ir rule in a seperate file");
-		System.out.println("  -B, --backend-files               allow the backend to emit some debug files");
 		System.out.println("  -g, --graphic                     opens a graphical debug window");
 		System.out.println("  -b, --backend=BE                  select backend BE");
 		System.out.println("  -f, --debug-filter=REGEX          only debug messages matching this filter will be displayd");
@@ -348,7 +344,6 @@ public class Main extends Base implements Sys {
 			if(parser.getOptionValue(ntOpt) != null)
 				System.err.println("-n is an obsolete switch, please do not use any more.");
 			printTiming = parser.getOptionValue(timeOpt) != null;
-			backendEmitDebugFiles = parser.getOptionValue(backendDebugOpt) != null;
 			noEvents = parser.getOptionValue(noEventsOpt) != null;
 
 			/* deactivate graphic if no debug output */
@@ -375,10 +370,6 @@ public class Main extends Base implements Sys {
 			printUsage();
 			System.exit(2);
 		}
-	}
-
-	public boolean backendEmitDebugFiles() {
-		return backendEmitDebugFiles;
 	}
 
 	public boolean mayFireEvents() {
@@ -705,3 +696,4 @@ public class Main extends Base implements Sys {
 	}
 
 }
+
