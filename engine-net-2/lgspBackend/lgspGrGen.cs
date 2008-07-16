@@ -355,6 +355,7 @@ namespace de.unika.ipd.grGen.lgsp
 		Dictionary<Sequence, int> xgrsSequenceIDs = new Dictionary<Sequence, int>();
 		Dictionary<String, object> xgrsVars = new Dictionary<string, object>();
 		Dictionary<String, object> xgrsRules = new Dictionary<string, object>();
+        Dictionary<int, object> xgrsParamArrays = new Dictionary<int, object>();
 
 		void EmitElementVarIfNew(String varName, SourceBuilder source)
 		{
@@ -453,17 +454,15 @@ namespace de.unika.ipd.grGen.lgsp
 					SequenceRule seqRule = (SequenceRule) seq;
 					RuleObject ruleObj = seqRule.RuleObj;
                     String specialStr = seqRule.Special ? "true" : "false";
-					source.AppendFront("LGSPMatches mat_" + seqID + " = rule_" + ruleObj.RuleName
-						+ ".Match(graph, " + (seq.SequenceType == SequenceType.Rule ? "1" : "graph.MaxMatches"));
-                    if(ruleObj.ParamVars.Length != 0)
+                    int paramLen = ruleObj.ParamVars.Length;
+                    if(paramLen != 0)
                     {
-                        source.Append(", new object[] {");
-                        foreach(String paramName in ruleObj.ParamVars)
-                            source.Append("var_" + paramName + ", ");
-                        source.Append("}");
+                        for(int i = 0; i < paramLen; i++)
+                            source.AppendFront("__xgrs_paramarray_" + paramLen + "[" + i + "] = var_" + ruleObj.ParamVars[i] + ";\n");
                     }
-                    else source.Append(", null");
-                    source.Append(");\n");
+                    source.AppendFront("LGSPMatches mat_" + seqID + " = rule_" + ruleObj.RuleName
+                        + ".Match(graph, " + (seq.SequenceType == SequenceType.Rule ? "1" : "graph.MaxMatches")
+                        + (paramLen == 0 ? ", null);\n" : ", __xgrs_paramarray_" + paramLen + ");\n"));
                     if(FireEvents) source.AppendFront("graph.Matched(mat_" + seqID + ", " + specialStr + ");\n");
                     source.AppendFront("if(mat_" + seqID + ".Count == 0)\n");
                     source.AppendFront("\tres_" + seqID + " = false;\n");
@@ -489,7 +488,7 @@ namespace de.unika.ipd.grGen.lgsp
                             + ((SequenceRuleAll) seq).NumChooseRandom + "; repi_" + seqID + "++)\n");
                         source.AppendFront("{\n");
                         source.Indent();
-                        source.AppendFront("if(repi_" + seqID + " != 0) graph.RewritingNextMatch();\n");
+                        if(FireEvents) source.AppendFront("if(repi_" + seqID + " != 0) graph.RewritingNextMatch();\n");
                         source.AppendFront("IMatch curmat_" + seqID + " = mat_" + seqID
                             + ".RemoveMatch(Sequence.randomGenerator.Next(mat_" + seqID + ".Count));\n");
                         source.AppendFront("ret_" + seqID + " = mat_" + seqID + ".Producer.Modify(graph, curmat_" + seqID + ");\n");
@@ -690,7 +689,33 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
-		public bool GenerateXGRSCode(String xgrsName, String xgrsStr, String[] paramNames, SourceBuilder source)
+        // Must be called after EmitNeededVars as sequence IDs are needed.
+        void EmitStaticVars(Sequence seq, SourceBuilder source)
+        {
+            switch(seq.SequenceType)
+            {
+                case SequenceType.Rule:
+                case SequenceType.RuleAll:
+                    {
+                        SequenceRule seqRule = (SequenceRule) seq;
+                        int paramLen = seqRule.RuleObj.ParamVars.Length;
+                        if(!xgrsParamArrays.ContainsKey(paramLen))
+                        {
+                            xgrsParamArrays[paramLen] = null;
+                            source.AppendFront("private static object[] __xgrs_paramarray_" + paramLen
+                                + " = new object[" + paramLen + "];\n");
+                        }
+                        break;
+                    }
+
+                default:
+                    foreach(Sequence childSeq in seq.Children)
+                        EmitStaticVars(childSeq, source);
+                    break;
+            }
+        }
+
+		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, String[] paramNames, SourceBuilder source)
 		{
 			Dictionary<String, String> varDecls = new Dictionary<String, String>();
 
@@ -706,7 +731,7 @@ namespace de.unika.ipd.grGen.lgsp
 				return false;
 			}
 
-			source.AppendFront("public static bool ApplyXGRS_" + xgrsName + "(LGSPGraph graph");
+			source.AppendFront("public static bool ApplyXGRS_" + xgrsID + "(LGSPGraph graph");
 			for(int i = 0; i < paramNames.Length; i++)
 			{
 				source.Append(", object var_");
@@ -722,6 +747,8 @@ namespace de.unika.ipd.grGen.lgsp
 			xgrsNextSequenceID = 0;
 			xgrsSequenceIDs.Clear();
 			xgrsRules.Clear();
+            if(xgrsID == 0)                     // First XGRS in this rule?
+                xgrsParamArrays.Clear();        // No param arrays created, yet
 
 			foreach(String param in paramNames)
 				xgrsVars.Add(param, null);
@@ -731,6 +758,8 @@ namespace de.unika.ipd.grGen.lgsp
 			source.AppendFront("return res_" + xgrsSequenceIDs[seq] + ";\n");
 			source.Unindent();
 			source.AppendFront("}\n");
+
+            EmitStaticVars(seq, source);
 
 			return true;
 		}
@@ -1017,8 +1046,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 FieldInfo fieldInfo = ruleType.GetField("XGRSInfo_" + xgrsID);
                                 if(fieldInfo == null) break;
                                 LGSPXGRSInfo xgrsInfo = (LGSPXGRSInfo) fieldInfo.GetValue(null);
-                                if(!GenerateXGRSCode(xgrsID.ToString(), xgrsInfo.XGRS,
-                                        xgrsInfo.Parameters, source))
+                                if(!GenerateXGRSCode(xgrsID, xgrsInfo.XGRS, xgrsInfo.Parameters, source))
                                     return ErrorType.GrGenNetError;
                                 xgrsID++;
                             }
