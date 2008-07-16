@@ -764,8 +764,8 @@ namespace de.unika.ipd.grGen.lgsp
 			return true;
 		}
 
-        public static bool ExecuteGrGenJava(String tmpDir, out List<String> genModelFiles, out List<String> genModelStubFiles,
-                out List<String> genActionsFiles, params String[] sourceFiles)
+        public static bool ExecuteGrGenJava(String tmpDir, ProcessSpecFlags flags, out List<String> genModelFiles,
+                out List<String> genModelStubFiles, out List<String> genActionsFiles, params String[] sourceFiles)
         {
             genModelFiles = new List<string>();
             genModelStubFiles = new List<string>();
@@ -812,6 +812,7 @@ namespace de.unika.ipd.grGen.lgsp
                 ProcessStartInfo startInfo = new ProcessStartInfo(javaString, "-Xmx1024M -jar \"" + binPath + "grgen.jar\" "
                     + "-b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
                     + "-c " + tmpDir + Path.DirectorySeparatorChar + "printOutput.txt -o " + tmpDir
+                    + ((flags & ProcessSpecFlags.NoEvents) != 0 ? " --noevents" : "")
                     + " \"" + String.Join("\" \"", sourceFiles) + "\"");
                 startInfo.CreateNoWindow = true;
                 try
@@ -899,7 +900,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 List<String> genModelFiles, genModelStubFiles, genActionsFiles;
 
-                if(!ExecuteGrGenJava(tmpDir, out genModelFiles, out genModelStubFiles,
+                if(!ExecuteGrGenJava(tmpDir, Flags, out genModelFiles, out genModelStubFiles,
                         out genActionsFiles, specFile))
                     return ErrorType.GrGenJavaError;
 
