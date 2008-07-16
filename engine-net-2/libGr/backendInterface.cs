@@ -53,7 +53,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Do not compile the generated final actions file.
         /// </summary>
-        NoCreateActionsAssembly = 32
+        NoCreateActionsAssembly = 32,
+
+        /// <summary>
+        /// Do not fire any events in the generated code. Used for optimization.
+        /// </summary>
+        NoEvents = 64,
+
+        /// <summary>
+        /// Do not try to update the performance info object. Used for optimization.
+        /// </summary>
+        NoPerformanceInfoUpdates = 128
     }
 
     /// <summary>
