@@ -33,13 +33,13 @@ public class ExecNode extends BaseNode {
 		setName(ExecNode.class, "exec");
 	}
 
-	private static final CollectTripleResolver<VarDeclNode, NodeDeclNode, EdgeDeclNode> graphElementUsageOutsideOfCallResolver =
-		new CollectTripleResolver<VarDeclNode, NodeDeclNode, EdgeDeclNode>(
-		new DeclarationTripleResolver<VarDeclNode, NodeDeclNode, EdgeDeclNode>(VarDeclNode.class, NodeDeclNode.class, EdgeDeclNode.class));
+	private static final CollectTripleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode> graphElementUsageOutsideOfCallResolver =
+		new CollectTripleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode>(
+		new DeclarationTripleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode>(ExecVarDeclNode.class, NodeDeclNode.class, EdgeDeclNode.class));
 
 	private StringBuilder sb = new StringBuilder();
 	protected CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
-	private CollectNode<VarDeclNode> varDecls = new CollectNode<VarDeclNode>();
+	private CollectNode<ExecVarDeclNode> varDecls = new CollectNode<ExecVarDeclNode>();
 	private CollectNode<IdentNode> graphElementUsageOutsideOfCallUnresolved = new CollectNode<IdentNode>();
 	private CollectNode<DeclNode> graphElementUsageOutsideOfCall = new CollectNode<DeclNode>();
 
@@ -63,7 +63,7 @@ public class ExecNode extends BaseNode {
 		callActions.addChild(n);
 	}
 
-	public void addVarDecls(VarDeclNode varDecl) {
+	public void addVarDecls(ExecVarDeclNode varDecl) {
 		assert !isResolved();
 		becomeParent(varDecl);
 		varDecls.addChild(varDecl);
@@ -95,12 +95,12 @@ public class ExecNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		Triple<CollectNode<VarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>> resolve =
+		Triple<CollectNode<ExecVarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>> resolve =
 			graphElementUsageOutsideOfCallResolver.resolve(graphElementUsageOutsideOfCallUnresolved);
 
 		if (resolve != null) {
 			if (resolve.first != null) {
-				for (VarDeclNode c : resolve.first.getChildren()) {
+				for (ExecVarDeclNode c : resolve.first.getChildren()) {
 					graphElementUsageOutsideOfCall.addChild(c);
 				}
 			}
@@ -132,8 +132,8 @@ public class ExecNode extends BaseNode {
 	}
 
 	protected IR constructIR() {
-		Set<VarDeclNode> localVars = new HashSet<VarDeclNode>();
-		for(VarDeclNode node : varDecls.getChildren())
+		Set<ExecVarDeclNode> localVars = new HashSet<ExecVarDeclNode>();
+		for(ExecVarDeclNode node : varDecls.getChildren())
 			localVars.add(node);
 		Set<Entity> parameters = new LinkedHashSet<Entity>();
 		for(DeclNode dn : graphElementUsageOutsideOfCall.getChildren())

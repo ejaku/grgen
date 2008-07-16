@@ -13,9 +13,9 @@ package de.unika.ipd.grgen.ir;
 /**
  * A variable containing nodes, edges or primitive types.
  */
-public class Variable extends Entity {
+public class ExecVariable extends Entity {
 
-	public Variable(String name, Ident ident, Type type) {
+	public ExecVariable(String name, Ident ident, Type type) {
 		super(name, ident, type);
 		// TODO Auto-generated constructor stub
 	}

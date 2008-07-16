@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Typeof;
-import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.ExecVariable;
 import de.unika.ipd.grgen.ir.VariableExpression;
 import de.unika.ipd.grgen.ir.Visited;
 
@@ -142,7 +142,7 @@ public class Formatter {
 			}
 		}
 		else if(cond instanceof VariableExpression) {
-			Variable var = ((VariableExpression) cond).getVariable();
+			ExecVariable var = ((VariableExpression) cond).getVariable();
 			sb.append(var.getIdent());
 		}
 		else if(cond instanceof Visited) {

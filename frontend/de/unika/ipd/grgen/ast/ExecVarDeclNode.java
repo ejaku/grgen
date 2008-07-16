@@ -6,7 +6,7 @@
 
 /**
  * @author Rubino Geiss
- * @version $Id$
+ * @version $Id: ExecVarDeclNode.java 19421 2008-04-28 17:07:35Z eja $
  */
 package de.unika.ipd.grgen.ast;
 
@@ -20,12 +20,12 @@ import de.unika.ipd.grgen.ir.ExecVariable;
 /**
  * Declaration of a variable.
  */
-public class VarDeclNode extends DeclNode {
+public class ExecVarDeclNode extends DeclNode {
 	private static final DeclarationResolver<DeclNode> declOfTypeResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
 
 	private TypeNode type;
 
-	public VarDeclNode(IdentNode id, IdentNode type) {
+	public ExecVarDeclNode(IdentNode id, IdentNode type) {
 		super(id, type);
     }
 
@@ -76,11 +76,11 @@ public class VarDeclNode extends DeclNode {
 	}
 
 	public static String getKindStr() {
-		return "variable declaration";
+		return "exec variable declaration";
 	}
 
 	public static String getUseStr() {
-		return "variable";
+		return "exec variable";
 	}
 
 	/**

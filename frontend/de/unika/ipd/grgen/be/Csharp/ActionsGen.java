@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.ExecVariable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -286,7 +286,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "VariableNums { ");
-		for(Variable var : pattern.getVars()) {
+		for(ExecVariable var : pattern.getVars()) {
 			sb.append("@" + formatIdentifiable(var) + ", ");
 		}
 		sb.append("};\n");
@@ -563,7 +563,7 @@ public class ActionsGen extends CSharpBase {
 			edge.setPointOfDefinition(pattern);
 		}
 
-		for(Variable var : pattern.getVars()) {
+		for(ExecVariable var : pattern.getVars()) {
 			if(alreadyDefinedEntityToName.get(var)!=null) {
 				continue;
 			}
@@ -652,7 +652,7 @@ public class ActionsGen extends CSharpBase {
 	private void genRuleParamResult(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
 		sb.append("\t\t\tinputs = new GrGenType[] { ");
 		for(Entity ent : action.getParameters()) {
-			if(ent instanceof Variable)
+			if(ent instanceof ExecVariable)
 				sb.append("VarType.GetVarType(typeof(" + formatAttributeType(ent) + ")), ");
 			else sb.append(formatTypeClass(ent.getType()) + ".typeVar, ");
 		}
@@ -749,7 +749,7 @@ public class ActionsGen extends CSharpBase {
 
 			if(!needs.variables.isEmpty())
 			{
-				for(Variable var : needs.variables) {
+				for(ExecVariable var : needs.variables) {
 					if(first) first = false;
 					else sb.append(", ");
 					sb.append(formatAttributeType(var));

@@ -835,25 +835,25 @@ paramListOfEntIdentUse[CollectNode<IdentNode> res]
 	: id=entIdentUse { res.addChild(id); }	( COMMA id=entIdentUse { res.addChild(id); } )*
 	;
 
-paramListOfEntIdentUseOrEntIdentDecl[CollectNode<BaseNode> res]
+paramListOfExecEntIdentUseOrEntIdentDecl[CollectNode<BaseNode> res]
 	{ BaseNode child; }
-	: child=entIdentUseOrEntIdentDecl { res.addChild(child); }
-		( COMMA child=entIdentUseOrEntIdentDecl { res.addChild(child); } )*
+	: child=execEntIdentUseOrEntIdentDecl { res.addChild(child); }
+		( COMMA child=execEntIdentUseOrEntIdentDecl { res.addChild(child); } )*
 	;
 
-entIdentUseOrEntIdentDecl returns [BaseNode res = null]
+execEntIdentUseOrEntIdentDecl returns [BaseNode res = null]
 	{ IdentNode id, type; }
 	:
 		id=entIdentUse { res = id; } // var of node, edge, or basic type
 	|
 		id=entIdentDecl COLON type=typeIdentUse // node decl
 		{
-			res = new VarDeclNode(id, type);
+			res = new ExecVarDeclNode(id, type);
 		}
 	|
 		MINUS id=entIdentDecl COLON type=typeIdentUse  RARROW // edge decl
 		{
-			res = new VarDeclNode(id, type);
+			res = new ExecVarDeclNode(id, type);
 		}
 	;
 
@@ -945,12 +945,12 @@ simpleSequence[ExecNode xg]
 	: LPAREN {xg.append("(");}
 		(
 			(entIdentUse COMMA | entIdentUse RPAREN ASSIGN | entIdentUse COLON typeIdentUse COMMA | entIdentUse COLON typeIdentUse RPAREN | MINUS) =>
-				paramListOfEntIdentUseOrEntIdentDecl[returns]
+				paramListOfExecEntIdentUseOrEntIdentDecl[returns]
 					{
 						for(Iterator<BaseNode> i =returns.getChildren().iterator(); i.hasNext();) {
 							BaseNode r = i.next();
-							if(r instanceof VarDeclNode) {
-								VarDeclNode decl = (VarDeclNode)r;
+							if(r instanceof ExecVarDeclNode) {
+								ExecVarDeclNode decl = (ExecVarDeclNode)r;
 								xg.append(decl.getIdentNode().getIdent());
 								xg.append(':');
 								xg.append(decl.typeUnresolved);
@@ -964,10 +964,10 @@ simpleSequence[ExecNode xg]
 			| xgrs[xg] RPAREN {xg.append(")");}
 		)
 	| (entIdentUse ASSIGN | entIdentDecl COLON | MINUS) =>
-	lhs=entIdentUseOrEntIdentDecl ASSIGN
+	lhs=execEntIdentUseOrEntIdentDecl ASSIGN
 		{
-			if(lhs instanceof VarDeclNode) {
-				VarDeclNode decl = (VarDeclNode)lhs;
+			if(lhs instanceof ExecVarDeclNode) {
+				ExecVarDeclNode decl = (ExecVarDeclNode)lhs;
 				xg.append(decl.getIdentNode().getIdent());
 				xg.append(':');
 				xg.append(decl.typeUnresolved);

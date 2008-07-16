@@ -44,7 +44,7 @@ import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.ir.Nameof;
-import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.ExecVariable;
 import de.unika.ipd.grgen.ir.VariableExpression;
 import de.unika.ipd.grgen.ir.Visited;
 import de.unika.ipd.grgen.ir.VoidType;
@@ -252,7 +252,7 @@ public abstract class CSharpBase {
 		else if (entity instanceof Edge) {
 			return pathPrefix + "edge_" + formatIdentifiable(entity);
 		}
-		else if (entity instanceof Variable) {
+		else if (entity instanceof ExecVariable) {
 			return pathPrefix + "var_" + formatIdentifiable(entity);
 		}
 		else {
@@ -402,7 +402,7 @@ public abstract class CSharpBase {
 			}
 		}
 		else if(expr instanceof VariableExpression) {
-			Variable var = ((VariableExpression) expr).getVariable();
+			ExecVariable var = ((VariableExpression) expr).getVariable();
 			sb.append("var_" + var.getIdent());
 		}
 		else if(expr instanceof GraphEntityExpression) {

@@ -38,7 +38,7 @@ import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.ExecVariable;
 import de.unika.ipd.grgen.ir.VariableExpression;
 import de.unika.ipd.grgen.ir.Visited;
 import java.util.Collection;
@@ -101,7 +101,7 @@ public class ModifyGen extends CSharpBase {
 		Map<GraphEntity, HashSet<Entity>> neededAttributes();
 		Map<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete();
 
-		Collection<Variable> neededVariables();
+		Collection<ExecVariable> neededVariables();
 
 		Collection<Node> nodesNeededAsElements();
 		Collection<Edge> edgesNeededAsElements();
@@ -133,7 +133,7 @@ public class ModifyGen extends CSharpBase {
 		public Map<GraphEntity, HashSet<Entity>> neededAttributes() { return Collections.unmodifiableMap(neededAttributes); }
 		public Map<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete() { return Collections.unmodifiableMap(attributesStoredBeforeDelete); }
 
-		public Collection<Variable> neededVariables() { return Collections.unmodifiableCollection(neededVariables); }
+		public Collection<ExecVariable> neededVariables() { return Collections.unmodifiableCollection(neededVariables); }
 
 		public Collection<Node> nodesNeededAsElements() { return Collections.unmodifiableCollection(nodesNeededAsElements); }
 		public Collection<Edge> edgesNeededAsElements() { return Collections.unmodifiableCollection(edgesNeededAsElements); }
@@ -165,7 +165,7 @@ public class ModifyGen extends CSharpBase {
 		public HashMap<GraphEntity, HashSet<Entity>> neededAttributes = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 		public HashMap<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 
-		public HashSet<Variable> neededVariables = new LinkedHashSet<Variable>();
+		public HashSet<ExecVariable> neededVariables = new LinkedHashSet<ExecVariable>();
 
 		public HashSet<Node> nodesNeededAsElements = new LinkedHashSet<Node>();
 		public HashSet<Edge> edgesNeededAsElements = new LinkedHashSet<Edge>();
@@ -728,7 +728,7 @@ public class ModifyGen extends CSharpBase {
 			HashMap<GraphEntity, HashSet<Entity>> neededAttributes,
 			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
 			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes,
-			HashSet<Variable> neededVariables)
+			HashSet<ExecVariable> neededVariables)
 	{
 		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
 			if(istmt instanceof Emit) {
@@ -745,9 +745,9 @@ public class ModifyGen extends CSharpBase {
 						nodesNeededAsElements.add((Node) param);
 					else if(param instanceof Edge)
 						edgesNeededAsElements.add((Edge) param);
-					else if(param instanceof Variable) {
+					else if(param instanceof ExecVariable) {
 						if(neededVariables != null)
-							neededVariables.add((Variable) param);
+							neededVariables.add((ExecVariable) param);
 					}
 					else
 						assert false : "XGRS argument of unknown type: " + param.getClass();
@@ -761,7 +761,7 @@ public class ModifyGen extends CSharpBase {
 			HashMap<GraphEntity, HashSet<Entity>> neededAttributes,
 			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
 			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes,
-			HashSet<Variable> neededVariables)
+			HashSet<ExecVariable> neededVariables)
 	{
 		for(Assignment ass : task.evals) {
 			Expression target = ass.getTarget();
@@ -799,7 +799,7 @@ public class ModifyGen extends CSharpBase {
 			HashMap<GraphEntity, HashSet<Entity>> neededAttributes,
 			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
 			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes,
-			HashSet<Variable> neededVariables)
+			HashSet<ExecVariable> neededVariables)
 	{
 		for(Expression expr : task.returns) {
 			if(expr instanceof GraphEntityExpression) {
@@ -1111,7 +1111,7 @@ public class ModifyGen extends CSharpBase {
 
 	private void genExtractVariablesFromMatch(StringBuffer sb, ModifyGenerationStateConst state,
 			String pathPrefix, String patternName) {
-		for(Variable var : state.neededVariables()) {
+		for(ExecVariable var : state.neededVariables()) {
 			String type = formatAttributeType(var);
 			sb.append("\t\t\t" + type + " " + formatEntity(var) + " = ("
 					+ type + ") curMatch.Variables[(int)" + pathPrefix + patternName
@@ -1143,7 +1143,7 @@ public class ModifyGen extends CSharpBase {
 	private void collectNeededAttributes(Expression expr, HashMap<GraphEntity, HashSet<Entity>> neededAttributes,
 			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
 			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes,
-			HashSet<Variable> neededVariables) {
+			HashSet<ExecVariable> neededVariables) {
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
 			for(int i = 0; i < op.arity(); i++)

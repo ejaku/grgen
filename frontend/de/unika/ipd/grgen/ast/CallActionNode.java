@@ -43,9 +43,9 @@ public class CallActionNode extends BaseNode {
 	private CollectNode<BaseNode> returnsUnresolved;
 
 	private TestDeclNode action;
-	private VarDeclNode booleVar;
+	private ExecVarDeclNode booleVar;
 	protected CollectNode<DeclNode> params;
-	protected CollectNode<VarDeclNode> returns;
+	protected CollectNode<ExecVarDeclNode> returns;
 
 	/**
 	 * @param    ruleUnresolved      an IdentNode: thr rule/test name
@@ -92,7 +92,7 @@ public class CallActionNode extends BaseNode {
 	 *
 	 * @return    a  CollectNode<IdentNode>
 	 */
-	public CollectNode<VarDeclNode> getReturns() {
+	public CollectNode<ExecVarDeclNode> getReturns() {
 		assert isResolved();
 		return returns;
 	}
@@ -124,19 +124,19 @@ public class CallActionNode extends BaseNode {
 		return res;
 	}
 
-	private static final DeclarationPairResolver<TestDeclNode, VarDeclNode> actionResolver =
-		new DeclarationPairResolver<TestDeclNode, VarDeclNode>(TestDeclNode.class, VarDeclNode.class);
+	private static final DeclarationPairResolver<TestDeclNode, ExecVarDeclNode> actionResolver =
+		new DeclarationPairResolver<TestDeclNode, ExecVarDeclNode>(TestDeclNode.class, ExecVarDeclNode.class);
 
 	private static final CollectResolver<DeclNode> paramNodeResolver = new CollectResolver<DeclNode>(new DeclarationResolver<DeclNode>(DeclNode.class));
 
-	private static final CollectResolver<VarDeclNode> varDeclNodeResolver =
-		new CollectResolver<VarDeclNode>(new DeclarationResolver<VarDeclNode>(VarDeclNode.class));
+	private static final CollectResolver<ExecVarDeclNode> varDeclNodeResolver =
+		new CollectResolver<ExecVarDeclNode>(new DeclarationResolver<ExecVarDeclNode>(ExecVarDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		fixupDefinition(actionUnresolved, actionUnresolved.getScope());
-		Pair<TestDeclNode, VarDeclNode> resolved = actionResolver.resolve(actionUnresolved, this);
+		Pair<TestDeclNode, ExecVarDeclNode> resolved = actionResolver.resolve(actionUnresolved, this);
 		if(resolved!=null)
 			if(resolved.fst!=null)
 				action = resolved.fst;
@@ -236,11 +236,11 @@ public class CallActionNode extends BaseNode {
 	 * Method checkReturns
 	 *
 	 * @param    formalReturns a  CollectNode<IdentNode>
-	 * @param    actualReturns a  CollectNode<VarDeclNode>
+	 * @param    actualReturns a  CollectNode<ExecVarDeclNode>
 	 *
 	 * @return   a  boolean
 	 */
-	private boolean checkReturns(CollectNode<IdentNode> formalReturns, CollectNode<VarDeclNode> actualReturns) {
+	private boolean checkReturns(CollectNode<IdentNode> formalReturns, CollectNode<ExecVarDeclNode> actualReturns) {
 		boolean res = true;
 		// It is ok to have no actual returns, but if there are some, then they have to fit.
 		if(actualReturns.children.size() > 0 && formalReturns.children.size() != actualReturns.children.size()) {
@@ -249,7 +249,7 @@ public class CallActionNode extends BaseNode {
 					+ " vs. " + actualReturns.children.size() +")");
 			res = false;
 		} else if(actualReturns.children.size() > 0) {
-			Iterator<VarDeclNode> iterAR = actualReturns.getChildren().iterator();
+			Iterator<ExecVarDeclNode> iterAR = actualReturns.getChildren().iterator();
 			for(IdentNode formalReturn : formalReturns.getChildren()) {
 				Type     formalReturnType = formalReturn.getDecl().getDeclType().getType();
 

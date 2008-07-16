@@ -16,7 +16,7 @@ public class NeededEntities {
 	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars) {
 		if(collectNodes) nodes     = new LinkedHashSet<Node>();
 		if(collectEdges) edges     = new LinkedHashSet<Edge>();
-		if(collectVars)  variables = new LinkedHashSet<Variable>();
+		if(collectVars)  variables = new LinkedHashSet<ExecVariable>();
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class NeededEntities {
 	/**
 	 * The variables needed.
 	 */
-	public Set<Variable> variables;
+	public Set<ExecVariable> variables;
 	
 	/**
 	 * Adds a needed node.
@@ -60,7 +60,7 @@ public class NeededEntities {
 	 * Adds a needed variable.
 	 * @param var The needed variable.
 	 */
-	public void add(Variable var) {
+	public void add(ExecVariable var) {
 		if(variables != null) variables.add(var);
 	}
 	
