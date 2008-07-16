@@ -27,9 +27,11 @@ public class SearchPlanBackend2 implements Backend, BackendFactory {
 	/** The unit to generate code for. */
 	protected Unit unit;
 
+	protected Sys system;
+
 	/** The output path as handed over by the frontend. */
 	public File path;
-	
+
 	private HashSet<String> reservedWords;
 
 	/**
@@ -46,9 +48,10 @@ public class SearchPlanBackend2 implements Backend, BackendFactory {
 	 */
 	public void init(Unit unit, Sys system, File outputPath) {
 		this.unit = unit;
+		this.system = system;
 		this.path = outputPath;
 		path.mkdirs();
-		
+
 		// These names are declared as "reserved" as most of them
 		// are needed in their original meaning in the generated code.
 		reservedWords = new HashSet<String>();
@@ -63,7 +66,7 @@ public class SearchPlanBackend2 implements Backend, BackendFactory {
 		reservedWords.add("string");
 		reservedWords.add("String");
 		reservedWords.add("void");
-		
+
 		reservedWords.add("Action");
 		reservedWords.add("Graph");
 		reservedWords.add("IAction");
@@ -80,14 +83,14 @@ public class SearchPlanBackend2 implements Backend, BackendFactory {
 	 */
 	public void generate() {
 		System.out.println("The " + this.getClass() + " GrGen backend...");
-		
+
 		// Check whether type prefixes are needed because type names
 		// use one of the names from reservedWords (results in a warning)
 		String nodeTypePrefix = "", edgeTypePrefix = "";
 modloop:for(Model model : unit.getModels()) {
 			for(Type type : model.getTypes()) {
 				if(!(type instanceof InheritanceType)) continue;
-				
+
 				String typeName = type.getIdent().toString();
 				if(reservedWords.contains(typeName)) {
 					BaseNode.error.warning(type.getIdent().getCoords(),
@@ -96,7 +99,7 @@ modloop:for(Model model : unit.getModels()) {
 							+ " prefixes are applied to the C# element class names to avoid errors.");
 					nodeTypePrefix = "Node_";
 					edgeTypePrefix = "Edge_";
-					break modloop;					
+					break modloop;
 				}
 			}
 		}

@@ -92,6 +92,8 @@ public class Main extends Base implements Sys {
 	/** backend emit debug files. */
 	private boolean backendEmitDebugFiles;
 
+	private boolean noEvents;
+
 	private boolean enableDebug;
 
 	/** enable ast printing */
@@ -173,6 +175,7 @@ public class Main extends Base implements Sys {
 		System.out.println("  -p, --prefs=FILE                  import preferences from FILE");
 		System.out.println("  -x, --prefs-export=FILE           export preferences to FILE");
 		System.out.println("  -o, --output=DIRECTORY            write generated files to DIRECTORY");
+		System.out.println("  -e, --noevents                    the generated code may not fire any events");
 	}
 
 	// TODO use or remove it
@@ -307,6 +310,7 @@ public class Main extends Base implements Sys {
 			CmdLineParser.Option ntOpt = parser.addBooleanOption('n', "new-technology");
 			CmdLineParser.Option timeOpt = parser.addBooleanOption('t', "timing");
 			CmdLineParser.Option backendDebugOpt = parser.addBooleanOption('B', "backend-files");
+			CmdLineParser.Option noEventsOpt = parser.addBooleanOption('e', "noevents");
 
 			CmdLineParser.Option dumpOutputToFileOpt =
 				parser.addStringOption('c', "dump-output-to-file");
@@ -345,6 +349,7 @@ public class Main extends Base implements Sys {
 				System.err.println("-n is an obsolete switch, please do not use any more.");
 			printTiming = parser.getOptionValue(timeOpt) != null;
 			backendEmitDebugFiles = parser.getOptionValue(backendDebugOpt) != null;
+			noEvents = parser.getOptionValue(noEventsOpt) != null;
 
 			/* deactivate graphic if no debug output */
 			if (!enableDebug)
@@ -374,6 +379,10 @@ public class Main extends Base implements Sys {
 
 	public boolean backendEmitDebugFiles() {
 		return backendEmitDebugFiles;
+	}
+
+	public boolean mayFireEvents() {
+		return !noEvents;
 	}
 
 	public OutputStream createDebugFile(File file) {

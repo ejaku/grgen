@@ -27,5 +27,6 @@ public interface Sys {
 
 	boolean backendEmitDebugFiles();
 
+	boolean mayFireEvents();
 }
 

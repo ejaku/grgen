@@ -45,7 +45,7 @@ public class ActionsGen extends CSharpBase {
 		super(nodeTypePrefix, edgeTypePrefix);
 		be = backend;
 		model = be.unit.getActionsGraphModel();
-		mg = new ModifyGen(nodeTypePrefix, edgeTypePrefix);
+		mg = new ModifyGen(backend, nodeTypePrefix, edgeTypePrefix);
 	}
 
 	/**
@@ -845,3 +845,4 @@ public class ActionsGen extends CSharpBase {
 	private ModifyGen mg;
 	private Model model;
 }
+

@@ -181,8 +181,11 @@ public class ModifyGen extends CSharpBase {
 	final List<Expression> emptyReturns = new LinkedList<Expression>();
 	final Collection<Assignment> emptyEvals = new HashSet<Assignment>();
 
-	public ModifyGen(String nodeTypePrefix, String edgeTypePrefix) {
+	SearchPlanBackend2 be;
+
+	public ModifyGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);
+		be = backend;
 	}
 
 	//////////////////////////////////
@@ -401,8 +404,9 @@ public class ModifyGen extends CSharpBase {
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
 
-		boolean useAddedElementNames = task.typeOfTask==TYPE_OF_TASK_CREATION ||
-			(task.typeOfTask==TYPE_OF_TASK_MODIFY && task.left!=task.right);
+		boolean useAddedElementNames = be.system.mayFireEvents()
+			&& (task.typeOfTask==TYPE_OF_TASK_CREATION
+				|| (task.typeOfTask==TYPE_OF_TASK_MODIFY && task.left!=task.right));
 		boolean createAddedElementNames = task.typeOfTask==TYPE_OF_TASK_CREATION ||
 			(task.typeOfTask==TYPE_OF_TASK_MODIFY && task.left!=task.right && task.reuseNodesAndEdges);
 		String prefix = (task.typeOfTask==TYPE_OF_TASK_CREATION ? "create_" : "")
@@ -1512,10 +1516,10 @@ public class ModifyGen extends CSharpBase {
 				}
 				else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
 
-				if(!isDeletedElem) {
+				if(!isDeletedElem && be.system.mayFireEvents()) {
 					sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
-								  ", " + kindStr + "Type_" + formatIdentifiable(qualTgt.getMember().getOwner()) +
-								  ".AttributeType_" + formatIdentifiable(qualTgt.getMember()) + ", ");
+							  ", " + kindStr + "Type_" + formatIdentifiable(qualTgt.getMember().getOwner()) +
+							  ".AttributeType_" + formatIdentifiable(qualTgt.getMember()) + ", ");
 					genExpression(sb, ass.getTarget(), state);
 					sb.append(", " + varName + ");\n");
 				}
