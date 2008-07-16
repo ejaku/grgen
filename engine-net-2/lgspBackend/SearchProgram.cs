@@ -1268,18 +1268,31 @@ namespace de.unika.ipd.grGen.lgsp
         public CheckCandidateForType(
             CheckCandidateForTypeType type,
             string patternElementName,
-            string rulePatternTypeNameOrTypeNameOrTypeID,
+            string rulePatternTypeNameOrTypeName,
             bool isNode)
         {
             Type = type;
             PatternElementName = patternElementName;
             if (type == CheckCandidateForTypeType.ByIsAllowedType) {
-                RulePatternTypeName = rulePatternTypeNameOrTypeNameOrTypeID;
+                RulePatternTypeName = rulePatternTypeNameOrTypeName;
             } else if (type == CheckCandidateForTypeType.ByIsMyType) {
-                TypeName = rulePatternTypeNameOrTypeNameOrTypeID;
+                TypeName = rulePatternTypeNameOrTypeName;
             } else { // CheckCandidateForTypeType.ByTypeID
-                TypeID = rulePatternTypeNameOrTypeNameOrTypeID;
+                Debug.Assert(false);
             }
+            IsNode = isNode;
+        }
+
+        public CheckCandidateForType(
+            CheckCandidateForTypeType type,
+            string patternElementName,
+            string[] typeIDs,
+            bool isNode)
+        {
+            Debug.Assert(type == CheckCandidateForTypeType.ByTypeID);
+            Type = type;
+            PatternElementName = patternElementName;
+            TypeIDs = (string[])typeIDs.Clone();
             IsNode = isNode;
         }
 
@@ -1297,8 +1310,8 @@ namespace de.unika.ipd.grGen.lgsp
                     PatternElementName, TypeName, IsNode);
             } else { // Type == CheckCandidateForTypeType.ByTypeID
                 builder.Append("ByTypeID ");
-                builder.AppendFormat("on {0} id:{1} node:{2}\n",
-                    PatternElementName, TypeID, IsNode);
+                builder.AppendFormat("on {0} ids:{1} node:{2}\n",
+                    PatternElementName, string.Join(",", TypeIDs), IsNode);
             }
             
             // then operations for case check failed
@@ -1329,8 +1342,17 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else // Type == CheckCandidateForTypeType.ByTypeID)
             {
-                sourceCode.AppendFrontFormat("if({0}.type.TypeID != {1}) ",
-                    variableContainingCandidate, TypeID);
+                sourceCode.AppendFront("if(");
+                bool first = true;
+                foreach (string typeID in TypeIDs)
+                {
+                    if (first) first = false;
+                    else sourceCode.Append(" && ");
+
+                    sourceCode.AppendFormat("{0}.type.TypeID!={1}",
+                        variableContainingCandidate, typeID);
+                }
+                sourceCode.Append(") ");
             }
             // emit check failed code
             sourceCode.Append("{\n");
@@ -1344,7 +1366,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public string RulePatternTypeName; // only valid if ByIsAllowedType
         public string TypeName; // only valid if ByIsMyType
-        public string TypeID; // only valid if ByTypeID
+        public string[] TypeIDs; // only valid if ByTypeID
 
         public bool IsNode; // node|edge
     }

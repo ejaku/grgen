@@ -325,6 +325,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private bool negLevelNeverAboveMaxNegLevel;
 
+        /// <summary>
+        /// name says everything
+        /// </summary>
+        private const int MAXIMUM_NUMBER_OF_TYPES_TO_CHECK_BY_TYPE_ID = 2;
+
         ///////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -1827,13 +1832,34 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (target.PatternElement.IsAllowedType != null)
             { // the allowed types are given by an array for checking against them
-                CheckCandidateForType checkType =
-                    new CheckCandidateForType(
-                        CheckCandidateForTypeType.ByIsAllowedType,
-                        target.PatternElement.Name,
-                        rulePatternClassName,
-                        isNode);
-                insertionPoint = insertionPoint.Append(checkType);
+                Debug.Assert(target.PatternElement.AllowedTypes != null);
+
+                if (target.PatternElement.AllowedTypes.Length <= MAXIMUM_NUMBER_OF_TYPES_TO_CHECK_BY_TYPE_ID)
+                {
+                    string[] typeIDs = new string[target.PatternElement.AllowedTypes.Length];
+                    for (int i = 0; i < target.PatternElement.AllowedTypes.Length; ++i)
+                    {
+                        typeIDs[i] = target.PatternElement.AllowedTypes[i].TypeID.ToString();
+                    }
+
+                    CheckCandidateForType checkType =
+                        new CheckCandidateForType(
+                            CheckCandidateForTypeType.ByTypeID,
+                            target.PatternElement.Name,
+                            typeIDs,
+                            isNode);
+                    insertionPoint = insertionPoint.Append(checkType);
+                }
+                else
+                {
+                    CheckCandidateForType checkType =
+                        new CheckCandidateForType(
+                            CheckCandidateForTypeType.ByIsAllowedType,
+                            target.PatternElement.Name,
+                            rulePatternClassName,
+                            isNode);
+                    insertionPoint = insertionPoint.Append(checkType);
+                }
 
                 return insertionPoint;
             }
@@ -1846,13 +1872,19 @@ namespace de.unika.ipd.grGen.lgsp
                     return insertionPoint;
                 }
 
-                if(targetType.directSubGrGenTypes.Length == 0)
+                if (targetType.subOrSameGrGenTypes.Length <= MAXIMUM_NUMBER_OF_TYPES_TO_CHECK_BY_TYPE_ID)
                 { // the target type has no sub types, it must be exactly this type
+                    string[] typeIDs = new string[targetType.subOrSameGrGenTypes.Length];
+                    for (int i = 0; i < targetType.subOrSameGrGenTypes.Length; ++i)
+                    {
+                        typeIDs[i] = targetType.subOrSameGrGenTypes[i].TypeID.ToString();
+                    }
+
                     CheckCandidateForType checkType =
                         new CheckCandidateForType(
                             CheckCandidateForTypeType.ByTypeID,
                             target.PatternElement.Name,
-                            targetType.TypeID.ToString(),
+                            typeIDs,
                             isNode);
                     insertionPoint = insertionPoint.Append(checkType);
                 }
@@ -1881,11 +1913,14 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else // (target.PatternElement.AllowedTypes.Length == 1)
             { // only one type allowed
+                string[] typeIDs = new string[1];
+                typeIDs[0] = target.PatternElement.AllowedTypes[0].TypeID.ToString();
+
                 CheckCandidateForType checkType =
                     new CheckCandidateForType(
                         CheckCandidateForTypeType.ByTypeID,
                         target.PatternElement.Name,
-                        target.PatternElement.AllowedTypes[0].TypeID.ToString(),
+                        typeIDs,
                         isNode);
                 insertionPoint = insertionPoint.Append(checkType);
             }
