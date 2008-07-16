@@ -1256,8 +1256,8 @@ namespace de.unika.ipd.grGen.lgsp
     enum CheckCandidateForTypeType
     {
         ByIsAllowedType, //check by inspecting the IsAllowedType array of the rule pattern
-        ByIsMyType, // check by inspecting the IsMyType array of the graph element's type model
-        ByAllowedTypes // check by comparing against a member of the AllowedTypes array of the rule pattern
+        ByIsMyType,      // check by inspecting the IsMyType array of the graph element's type model
+        ByTypeID         // check by comparing against a given type ID
     }
 
     /// <summary>
@@ -1277,7 +1277,7 @@ namespace de.unika.ipd.grGen.lgsp
                 RulePatternTypeName = rulePatternTypeNameOrTypeNameOrTypeID;
             } else if (type == CheckCandidateForTypeType.ByIsMyType) {
                 TypeName = rulePatternTypeNameOrTypeNameOrTypeID;
-            } else { // CheckCandidateForTypeType.ByAllowedTypes
+            } else { // CheckCandidateForTypeType.ByTypeID
                 TypeID = rulePatternTypeNameOrTypeNameOrTypeID;
             }
             IsNode = isNode;
@@ -1295,8 +1295,8 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.Append("ByIsMyType ");
                 builder.AppendFormat("on {0} in {1} node:{2}\n",
                     PatternElementName, TypeName, IsNode);
-            } else { // Type == CheckCandidateForTypeType.ByAllowedTypes
-                builder.Append("ByAllowedTypes ");
+            } else { // Type == CheckCandidateForTypeType.ByTypeID
+                builder.Append("ByTypeID ");
                 builder.AppendFormat("on {0} id:{1} node:{2}\n",
                     PatternElementName, TypeID, IsNode);
             }
@@ -1327,7 +1327,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("if(!{0}.isMyType[{1}.type.TypeID]) ",
                     TypeName, variableContainingCandidate);
             }
-            else // Type == CheckCandidateForTypeType.ByAllowedTypes)
+            else // Type == CheckCandidateForTypeType.ByTypeID)
             {
                 sourceCode.AppendFrontFormat("if({0}.type.TypeID != {1}) ",
                     variableContainingCandidate, TypeID);
@@ -1344,7 +1344,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public string RulePatternTypeName; // only valid if ByIsAllowedType
         public string TypeName; // only valid if ByIsMyType
-        public string TypeID; // only valid if ByAllowedTypes
+        public string TypeID; // only valid if ByTypeID
 
         public bool IsNode; // node|edge
     }
@@ -1547,7 +1547,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
             string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED << negLevel";
-            sourceCode.AppendFormat("({0}.flags & {1}) == {1}", variableContainingCandidate, isMatchedBit);
+            sourceCode.AppendFormat("({0}.flags & {1}) != 0", variableContainingCandidate, isMatchedBit);
 
             if (!NeverAboveMaxNegLevel)
             {
@@ -2182,8 +2182,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("} else { \n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("if({0}==0)", variableContainingBackupOfMappedMember);
-                sourceCode.Append(" {\n"); // wtf? appending this string directly to string above throws exception
+                sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat(
                     "graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].{0}.Remove({1});\n",
