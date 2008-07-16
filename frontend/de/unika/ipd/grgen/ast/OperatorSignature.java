@@ -149,8 +149,8 @@ public class OperatorSignature extends FunctionSignature {
 			TypeNode[] opTypes, Evaluator eval) {
 
 		Integer oid = new Integer(id);
-		
-		HashSet<OperatorSignature> typeMap = operators.get(oid); 
+
+		HashSet<OperatorSignature> typeMap = operators.get(oid);
 		if(typeMap == null) {
 			typeMap = new LinkedHashSet<OperatorSignature>();
 			operators.put(oid, typeMap);
@@ -315,14 +315,12 @@ public class OperatorSignature extends FunctionSignature {
 		protected ExprNode eval(Coords coords, OperatorSignature op,
 				ExprNode[] e) throws NotEvaluatableException {
 
-			NullConstNode.Value a0, a1;
-
 			if (getArity(op.getOpId()) != 2)
 				throw new NotEvaluatableException(coords);
 
 			try {
-				a0 = (NullConstNode.Value) getArgValue(e, op, 0);
-				a1 = (NullConstNode.Value) getArgValue(e, op, 1);
+				getArgValue(e, op, 0);
+				getArgValue(e, op, 1);
 			} catch (ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
@@ -349,10 +347,10 @@ public class OperatorSignature extends FunctionSignature {
 			} catch (ValueException x) {
 				throw new NotEvaluatableException(coords);
 			}
-			
+
 			if(op.id == ADD)
 				return new StringConstNode(coords, a0 + aobj1);
-			
+
 			String a1 = (String) aobj1;
 
 			switch (op.id) {
@@ -730,11 +728,11 @@ public class OperatorSignature extends FunctionSignature {
 		Integer oid = new Integer(id);
 		OperatorSignature res = INVALID;
 		int nearest = Integer.MAX_VALUE;
-		
+
 		boolean hasVoid = false;
 		boolean checkEnums = false;
 		boolean[] isEnum = null;
-		
+
 		for(int i = 0; i < opTypes.length; i++) {
 			if(opTypes[i] == BasicTypeNode.voidType)
 				hasVoid = true;
@@ -756,13 +754,13 @@ public class OperatorSignature extends FunctionSignature {
 			int dist = op.getDistance(opTypes);
 
 			debug.report(NOTE, "dist: " + dist + "\n signature: " + op);
-			
+
 			if(dist == Integer.MAX_VALUE) continue;
-			
+
 			if(checkEnums) {
 				// Make implicit casts from enum to int for half the price
 				dist *= 2;
-				
+
 				TypeNode[] resOpTypes = op.getOperandTypes();
 				for(int i = 0; i < opTypes.length; i++) {
 					if(isEnum[i] && resOpTypes[i] == BasicTypeNode.intType)
