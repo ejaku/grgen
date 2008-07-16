@@ -1840,19 +1840,32 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (target.PatternElement.AllowedTypes == null)
             { // the pattern element type and all subtypes are allowed
-
-                if (typeModel.Types[target.PatternElement.TypeID] == typeModel.RootType)
+                GrGenType targetType = typeModel.Types[target.PatternElement.TypeID];
+                if (targetType == typeModel.RootType)
                 { // every type matches the root type == element type -> no check needed
                     return insertionPoint;
                 }
 
-                CheckCandidateForType checkType =
-                    new CheckCandidateForType(
-                        CheckCandidateForTypeType.ByIsMyType,
-                        target.PatternElement.Name,
-                        typeModel.TypeTypes[target.PatternElement.TypeID].Name,
-                        isNode);
-                insertionPoint = insertionPoint.Append(checkType);
+                if(targetType.directSubGrGenTypes.Length == 0)
+                { // the target type has no sub types, it must be exactly this type
+                    CheckCandidateForType checkType =
+                        new CheckCandidateForType(
+                            CheckCandidateForTypeType.ByTypeID,
+                            target.PatternElement.Name,
+                            targetType.TypeID.ToString(),
+                            isNode);
+                    insertionPoint = insertionPoint.Append(checkType);
+                }
+                else
+                {
+                    CheckCandidateForType checkType =
+                        new CheckCandidateForType(
+                            CheckCandidateForTypeType.ByIsMyType,
+                            target.PatternElement.Name,
+                            typeModel.TypeTypes[target.PatternElement.TypeID].Name,
+                            isNode);
+                    insertionPoint = insertionPoint.Append(checkType);
+                }
 
                 return insertionPoint;
             }
@@ -1870,7 +1883,7 @@ namespace de.unika.ipd.grGen.lgsp
             { // only one type allowed
                 CheckCandidateForType checkType =
                     new CheckCandidateForType(
-                        CheckCandidateForTypeType.ByAllowedTypes,
+                        CheckCandidateForTypeType.ByTypeID,
                         target.PatternElement.Name,
                         target.PatternElement.AllowedTypes[0].TypeID.ToString(),
                         isNode);
