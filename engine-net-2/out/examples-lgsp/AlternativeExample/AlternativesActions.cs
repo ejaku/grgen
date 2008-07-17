@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Wed May 28 22:10:16 CEST 2008
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Thu Jul 17 11:12:49 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	{
 		private static Pattern_toAorB instance = null;
 		public static Pattern_toAorB Instance { get { if (instance==null) { instance = new Pattern_toAorB(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] toAorB_node_x_AllowedTypes = null;
 		public static bool[] toAorB_node_x_IsAllowedType = null;
@@ -229,6 +231,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		private static Rule_createA instance = null;
 		public static Rule_createA Instance { get { if (instance==null) { instance = new Rule_createA(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public enum createA_NodeNums { };
 		public enum createA_EdgeNums { };
 		public enum createA_VariableNums { };
@@ -299,6 +303,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	{
 		private static Rule_createB instance = null;
 		public static Rule_createB Instance { get { if (instance==null) { instance = new Rule_createB(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public enum createB_NodeNums { };
 		public enum createB_EdgeNums { };
@@ -371,6 +377,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		private static Rule_createC instance = null;
 		public static Rule_createC Instance { get { if (instance==null) { instance = new Rule_createC(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public enum createC_NodeNums { };
 		public enum createC_EdgeNums { };
 		public enum createC_VariableNums { };
@@ -441,6 +449,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	{
 		private static Rule_createAtoB instance = null;
 		public static Rule_createAtoB Instance { get { if (instance==null) { instance = new Rule_createAtoB(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public enum createAtoB_NodeNums { };
 		public enum createAtoB_EdgeNums { };
@@ -516,6 +526,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	{
 		private static Rule_leer instance = null;
 		public static Rule_leer Instance { get { if (instance==null) { instance = new Rule_leer(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public enum leer_NodeNums { };
 		public enum leer_EdgeNums { };
@@ -619,6 +631,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	{
 		private static Rule_AorB instance = null;
 		public static Rule_AorB Instance { get { if (instance==null) { instance = new Rule_AorB(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public enum AorB_NodeNums { };
 		public enum AorB_EdgeNums { };
@@ -773,6 +787,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	{
 		private static Rule_AandnotCorB instance = null;
 		public static Rule_AandnotCorB Instance { get { if (instance==null) { instance = new Rule_AandnotCorB(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public enum AandnotCorB_NodeNums { };
 		public enum AandnotCorB_EdgeNums { };
@@ -962,6 +978,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	{
 		private static Rule_AorBorC instance = null;
 		public static Rule_AorBorC Instance { get { if (instance==null) { instance = new Rule_AorBorC(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public enum AorBorC_NodeNums { };
 		public enum AorBorC_EdgeNums { };
@@ -1160,6 +1178,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		private static Rule_AtoAorB instance = null;
 		public static Rule_AtoAorB Instance { get { if (instance==null) { instance = new Rule_AtoAorB(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] AtoAorB_node_a_AllowedTypes = null;
 		public static bool[] AtoAorB_node_a_IsAllowedType = null;
 		public enum AtoAorB_NodeNums { @a, };
@@ -1346,6 +1366,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		private static Rule_createComplex instance = null;
 		public static Rule_createComplex Instance { get { if (instance==null) { instance = new Rule_createComplex(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public enum createComplex_NodeNums { };
 		public enum createComplex_EdgeNums { };
 		public enum createComplex_VariableNums { };
@@ -1440,6 +1462,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	{
 		private static Rule_Complex instance = null;
 		public static Rule_Complex Instance { get { if (instance==null) { instance = new Rule_Complex(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] Complex_node_a_AllowedTypes = null;
 		public static NodeType[] Complex_node_b_AllowedTypes = null;
@@ -1833,6 +1857,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	{
 		private static Rule_ComplexMax instance = null;
 		public static Rule_ComplexMax Instance { get { if (instance==null) { instance = new Rule_ComplexMax(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] ComplexMax_node_a_AllowedTypes = null;
 		public static NodeType[] ComplexMax_node_b_AllowedTypes = null;
@@ -2274,6 +2300,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		private static Rule_createABA instance = null;
 		public static Rule_createABA Instance { get { if (instance==null) { instance = new Rule_createABA(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public enum createABA_NodeNums { };
 		public enum createABA_EdgeNums { };
 		public enum createABA_VariableNums { };
@@ -2354,6 +2382,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 	{
 		private static Rule_homm instance = null;
 		public static Rule_homm Instance { get { if (instance==null) { instance = new Rule_homm(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] homm_node_a_AllowedTypes = null;
 		public static NodeType[] homm_node_b_AllowedTypes = null;
@@ -2583,6 +2613,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		private static Rule_XtoAorB instance = null;
 		public static Rule_XtoAorB Instance { get { if (instance==null) { instance = new Rule_XtoAorB(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] XtoAorB_node_x_AllowedTypes = null;
 		public static bool[] XtoAorB_node_x_IsAllowedType = null;
 		public enum XtoAorB_NodeNums { @x, };
@@ -2706,7 +2738,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                 LGSPEdge candidate_toAorB_edge_y = head_candidate_toAorB_edge_y;
                 do
                 {
-                    if(!EdgeType_Edge.isMyType[candidate_toAorB_edge_y.type.TypeID]) {
+                    if(candidate_toAorB_edge_y.type.TypeID!=1) {
                         continue;
                     }
                     if((candidate_toAorB_edge_y.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -2815,7 +2847,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                 LGSPEdge candidate_toAorB_edge_y = toAorB_edge_y;
                 // Implicit Target toAorB_alt_0_toA_node_a from toAorB_edge_y 
                 LGSPNode candidate_toAorB_alt_0_toA_node_a = candidate_toAorB_edge_y.target;
-                if(!NodeType_A.isMyType[candidate_toAorB_alt_0_toA_node_a.type.TypeID]) {
+                if(candidate_toAorB_alt_0_toA_node_a.type.TypeID!=1) {
                     continue;
                 }
                 if((candidate_toAorB_alt_0_toA_node_a.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -2893,7 +2925,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
                 LGSPEdge candidate_toAorB_edge_y = toAorB_edge_y;
                 // Implicit Target toAorB_alt_0_toB_node_b from toAorB_edge_y 
                 LGSPNode candidate_toAorB_alt_0_toB_node_b = candidate_toAorB_edge_y.target;
-                if(!NodeType_B.isMyType[candidate_toAorB_alt_0_toB_node_b.type.TypeID]) {
+                if(candidate_toAorB_alt_0_toB_node_b.type.TypeID!=2) {
                     continue;
                 }
                 if((candidate_toAorB_alt_0_toB_node_b.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4170,7 +4202,7 @@ label0: ;
                     LGSPEdge candidate_AtoAorB_alt_0_toA_edge__edge0 = head_candidate_AtoAorB_alt_0_toA_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_AtoAorB_alt_0_toA_edge__edge0.type.TypeID]) {
+                        if(candidate_AtoAorB_alt_0_toA_edge__edge0.type.TypeID!=1) {
                             continue;
                         }
                         if((candidate_AtoAorB_alt_0_toA_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4179,12 +4211,10 @@ label0: ;
                         }
                         // Implicit Target AtoAorB_alt_0_toA_node__node0 from AtoAorB_alt_0_toA_edge__edge0 
                         LGSPNode candidate_AtoAorB_alt_0_toA_node__node0 = candidate_AtoAorB_alt_0_toA_edge__edge0.target;
-                        if(!NodeType_A.isMyType[candidate_AtoAorB_alt_0_toA_node__node0.type.TypeID]) {
+                        if(candidate_AtoAorB_alt_0_toA_node__node0.type.TypeID!=1) {
                             continue;
                         }
-                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_AtoAorB_alt_0_toA_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_AtoAorB_alt_0_toA_node__node0))
-                            && candidate_AtoAorB_alt_0_toA_node__node0==candidate_AtoAorB_node_a
-                            )
+                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_AtoAorB_alt_0_toA_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_AtoAorB_alt_0_toA_node__node0)))
                         {
                             continue;
                         }
@@ -4279,7 +4309,7 @@ label0: ;
                     LGSPEdge candidate_AtoAorB_alt_0_toB_edge__edge0 = head_candidate_AtoAorB_alt_0_toB_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_AtoAorB_alt_0_toB_edge__edge0.type.TypeID]) {
+                        if(candidate_AtoAorB_alt_0_toB_edge__edge0.type.TypeID!=1) {
                             continue;
                         }
                         if((candidate_AtoAorB_alt_0_toB_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4288,7 +4318,7 @@ label0: ;
                         }
                         // Implicit Target AtoAorB_alt_0_toB_node__node0 from AtoAorB_alt_0_toB_edge__edge0 
                         LGSPNode candidate_AtoAorB_alt_0_toB_node__node0 = candidate_AtoAorB_alt_0_toB_edge__edge0.target;
-                        if(!NodeType_B.isMyType[candidate_AtoAorB_alt_0_toB_node__node0.type.TypeID]) {
+                        if(candidate_AtoAorB_alt_0_toB_node__node0.type.TypeID!=2) {
                             continue;
                         }
                         if((candidate_AtoAorB_alt_0_toB_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4432,11 +4462,11 @@ label0: ;
                 }
                 // Implicit Source Complex_node_a from Complex_edge__edge0 
                 LGSPNode candidate_Complex_node_a = candidate_Complex_edge__edge0.source;
-                if(!NodeType_A.isMyType[candidate_Complex_node_a.type.TypeID]) {
+                if(candidate_Complex_node_a.type.TypeID!=1) {
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_Complex_edge__edge0.flags = candidate_Complex_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_edge__edge0;
                     } else { 
-                        if(prev__candidate_Complex_edge__edge0==0) {
+                        if(prev__candidate_Complex_edge__edge0 == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_edge__edge0);
                         }
                     }
@@ -4444,11 +4474,11 @@ label0: ;
                 }
                 // Implicit Target Complex_node_b from Complex_edge__edge0 
                 LGSPNode candidate_Complex_node_b = candidate_Complex_edge__edge0.target;
-                if(!NodeType_B.isMyType[candidate_Complex_node_b.type.TypeID]) {
+                if(candidate_Complex_node_b.type.TypeID!=2) {
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_Complex_edge__edge0.flags = candidate_Complex_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_edge__edge0;
                     } else { 
-                        if(prev__candidate_Complex_edge__edge0==0) {
+                        if(prev__candidate_Complex_edge__edge0 == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_edge__edge0);
                         }
                     }
@@ -4461,15 +4491,13 @@ label0: ;
                     LGSPEdge candidate_Complex_edge__edge1 = head_candidate_Complex_edge__edge1;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_Complex_edge__edge1.type.TypeID]) {
+                        if(candidate_Complex_edge__edge1.type.TypeID!=1) {
                             continue;
                         }
                         if(candidate_Complex_edge__edge1.target != candidate_Complex_node_a) {
                             continue;
                         }
-                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_edge__edge1))
-                            && candidate_Complex_edge__edge1==candidate_Complex_edge__edge0
-                            )
+                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_edge__edge1)))
                         {
                             continue;
                         }
@@ -4520,7 +4548,7 @@ label0: ;
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_Complex_edge__edge0.flags = candidate_Complex_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_edge__edge0;
                                 } else { 
-                                    if(prev__candidate_Complex_edge__edge0==0) {
+                                    if(prev__candidate_Complex_edge__edge0 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_edge__edge0);
                                     }
                                 }
@@ -4542,7 +4570,7 @@ label0: ;
                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                     candidate_Complex_edge__edge0.flags = candidate_Complex_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_edge__edge0;
                 } else { 
-                    if(prev__candidate_Complex_edge__edge0==0) {
+                    if(prev__candidate_Complex_edge__edge0 == 0) {
                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_edge__edge0);
                     }
                 }
@@ -4610,7 +4638,7 @@ label0: ;
                     LGSPEdge candidate_Complex_alt_0_ExtendAv_edge__edge0 = head_candidate_Complex_alt_0_ExtendAv_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendAv_edge__edge0.type.TypeID]) {
+                        if(candidate_Complex_alt_0_ExtendAv_edge__edge0.type.TypeID!=1) {
                             continue;
                         }
                         if((candidate_Complex_alt_0_ExtendAv_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4627,24 +4655,22 @@ label0: ;
                         }
                         // Implicit Target Complex_alt_0_ExtendAv_node_b2 from Complex_alt_0_ExtendAv_edge__edge0 
                         LGSPNode candidate_Complex_alt_0_ExtendAv_node_b2 = candidate_Complex_alt_0_ExtendAv_edge__edge0.target;
-                        if(!NodeType_B.isMyType[candidate_Complex_alt_0_ExtendAv_node_b2.type.TypeID]) {
+                        if(candidate_Complex_alt_0_ExtendAv_node_b2.type.TypeID!=2) {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_Complex_alt_0_ExtendAv_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge0;
                             } else { 
-                                if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0==0) {
+                                if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge0);
                                 }
                             }
                             continue;
                         }
-                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendAv_node_b2))
-                            && candidate_Complex_alt_0_ExtendAv_node_b2==candidate_Complex_node_b
-                            )
+                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendAv_node_b2)))
                         {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_Complex_alt_0_ExtendAv_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge0;
                             } else { 
-                                if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0==0) {
+                                if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge0);
                                 }
                             }
@@ -4655,7 +4681,7 @@ label0: ;
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_Complex_alt_0_ExtendAv_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge0;
                             } else { 
-                                if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0==0) {
+                                if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge0);
                                 }
                             }
@@ -4668,12 +4694,10 @@ label0: ;
                             LGSPEdge candidate_Complex_alt_0_ExtendAv_edge__edge2 = head_candidate_Complex_alt_0_ExtendAv_edge__edge2;
                             do
                             {
-                                if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendAv_edge__edge2.type.TypeID]) {
+                                if(candidate_Complex_alt_0_ExtendAv_edge__edge2.type.TypeID!=1) {
                                     continue;
                                 }
-                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv_edge__edge2))
-                                    && candidate_Complex_alt_0_ExtendAv_edge__edge2==candidate_Complex_alt_0_ExtendAv_edge__edge0
-                                    )
+                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv_edge__edge2)))
                                 {
                                     continue;
                                 }
@@ -4691,11 +4715,11 @@ label0: ;
                                 }
                                 // Implicit Target Complex_alt_0_ExtendAv_node__node0 from Complex_alt_0_ExtendAv_edge__edge2 
                                 LGSPNode candidate_Complex_alt_0_ExtendAv_node__node0 = candidate_Complex_alt_0_ExtendAv_edge__edge2.target;
-                                if(!NodeType_C.isMyType[candidate_Complex_alt_0_ExtendAv_node__node0.type.TypeID]) {
+                                if(candidate_Complex_alt_0_ExtendAv_node__node0.type.TypeID!=3) {
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_Complex_alt_0_ExtendAv_edge__edge2.flags = candidate_Complex_alt_0_ExtendAv_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge2==0) {
+                                        if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge2);
                                         }
                                     }
@@ -4706,7 +4730,7 @@ label0: ;
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_Complex_alt_0_ExtendAv_edge__edge2.flags = candidate_Complex_alt_0_ExtendAv_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge2==0) {
+                                        if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge2);
                                         }
                                     }
@@ -4727,17 +4751,13 @@ label0: ;
                                     LGSPEdge candidate_Complex_alt_0_ExtendAv_edge__edge1 = head_candidate_Complex_alt_0_ExtendAv_edge__edge1;
                                     do
                                     {
-                                        if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendAv_edge__edge1.type.TypeID]) {
+                                        if(candidate_Complex_alt_0_ExtendAv_edge__edge1.type.TypeID!=1) {
                                             continue;
                                         }
                                         if(candidate_Complex_alt_0_ExtendAv_edge__edge1.target != candidate_Complex_node_a) {
                                             continue;
                                         }
-                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv_edge__edge1))
-                                            && (candidate_Complex_alt_0_ExtendAv_edge__edge1==candidate_Complex_alt_0_ExtendAv_edge__edge0
-                                                || candidate_Complex_alt_0_ExtendAv_edge__edge1==candidate_Complex_alt_0_ExtendAv_edge__edge2
-                                                )
-                                            )
+                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv_edge__edge1)))
                                         {
                                             continue;
                                         }
@@ -4760,15 +4780,10 @@ label0: ;
                                             LGSPEdge candidate_Complex_alt_0_ExtendAv_edge__edge3 = head_candidate_Complex_alt_0_ExtendAv_edge__edge3;
                                             do
                                             {
-                                                if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendAv_edge__edge3.type.TypeID]) {
+                                                if(candidate_Complex_alt_0_ExtendAv_edge__edge3.type.TypeID!=1) {
                                                     continue;
                                                 }
-                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv_edge__edge3))
-                                                    && (candidate_Complex_alt_0_ExtendAv_edge__edge3==candidate_Complex_alt_0_ExtendAv_edge__edge0
-                                                        || candidate_Complex_alt_0_ExtendAv_edge__edge3==candidate_Complex_alt_0_ExtendAv_edge__edge2
-                                                        || candidate_Complex_alt_0_ExtendAv_edge__edge3==candidate_Complex_alt_0_ExtendAv_edge__edge1
-                                                        )
-                                                    )
+                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv_edge__edge3)))
                                                 {
                                                     continue;
                                                 }
@@ -4778,12 +4793,10 @@ label0: ;
                                                 }
                                                 // Implicit Target Complex_alt_0_ExtendAv_node__node1 from Complex_alt_0_ExtendAv_edge__edge3 
                                                 LGSPNode candidate_Complex_alt_0_ExtendAv_node__node1 = candidate_Complex_alt_0_ExtendAv_edge__edge3.target;
-                                                if(!NodeType_C.isMyType[candidate_Complex_alt_0_ExtendAv_node__node1.type.TypeID]) {
+                                                if(candidate_Complex_alt_0_ExtendAv_node__node1.type.TypeID!=3) {
                                                     continue;
                                                 }
-                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv_node__node1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendAv_node__node1))
-                                                    && candidate_Complex_alt_0_ExtendAv_node__node1==candidate_Complex_alt_0_ExtendAv_node__node0
-                                                    )
+                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv_node__node1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendAv_node__node1)))
                                                 {
                                                     continue;
                                                 }
@@ -4814,28 +4827,28 @@ label0: ;
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendAv_edge__edge1.flags = candidate_Complex_alt_0_ExtendAv_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge1;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge1==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge1 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge1);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendAv_node__node0.flags = candidate_Complex_alt_0_ExtendAv_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_node__node0;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendAv_node__node0==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendAv_node__node0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendAv_node__node0);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendAv_edge__edge2.flags = candidate_Complex_alt_0_ExtendAv_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge2;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge2==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge2 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge2);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendAv_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge0;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge0);
                                                             }
                                                         }
@@ -4906,28 +4919,28 @@ label0: ;
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendAv_edge__edge1.flags = candidate_Complex_alt_0_ExtendAv_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge1;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge1==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge1 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge1);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendAv_node__node0.flags = candidate_Complex_alt_0_ExtendAv_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_node__node0;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendAv_node__node0==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendAv_node__node0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendAv_node__node0);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendAv_edge__edge2.flags = candidate_Complex_alt_0_ExtendAv_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge2;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge2==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge2 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge2);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendAv_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge0;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge0);
                                                             }
                                                         }
@@ -4956,7 +4969,7 @@ label0: ;
                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                             candidate_Complex_alt_0_ExtendAv_edge__edge1.flags = candidate_Complex_alt_0_ExtendAv_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge1;
                                         } else { 
-                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge1==0) {
+                                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge1 == 0) {
                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge1);
                                             }
                                         }
@@ -4966,14 +4979,14 @@ label0: ;
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_Complex_alt_0_ExtendAv_node__node0.flags = candidate_Complex_alt_0_ExtendAv_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_node__node0;
                                 } else { 
-                                    if(prev__candidate_Complex_alt_0_ExtendAv_node__node0==0) {
+                                    if(prev__candidate_Complex_alt_0_ExtendAv_node__node0 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendAv_node__node0);
                                     }
                                 }
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_Complex_alt_0_ExtendAv_edge__edge2.flags = candidate_Complex_alt_0_ExtendAv_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge2;
                                 } else { 
-                                    if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge2==0) {
+                                    if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge2 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge2);
                                     }
                                 }
@@ -4983,7 +4996,7 @@ label0: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_Complex_alt_0_ExtendAv_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv_edge__edge0;
                         } else { 
-                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0==0) {
+                            if(prev__candidate_Complex_alt_0_ExtendAv_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv_edge__edge0);
                             }
                         }
@@ -5015,7 +5028,7 @@ label0: ;
                     LGSPEdge candidate_Complex_alt_0_ExtendAv2_edge__edge0 = head_candidate_Complex_alt_0_ExtendAv2_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendAv2_edge__edge0.type.TypeID]) {
+                        if(candidate_Complex_alt_0_ExtendAv2_edge__edge0.type.TypeID!=1) {
                             continue;
                         }
                         if((candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5032,24 +5045,22 @@ label0: ;
                         }
                         // Implicit Target Complex_alt_0_ExtendAv2_node_b2 from Complex_alt_0_ExtendAv2_edge__edge0 
                         LGSPNode candidate_Complex_alt_0_ExtendAv2_node_b2 = candidate_Complex_alt_0_ExtendAv2_edge__edge0.target;
-                        if(!NodeType_B.isMyType[candidate_Complex_alt_0_ExtendAv2_node_b2.type.TypeID]) {
+                        if(candidate_Complex_alt_0_ExtendAv2_node_b2.type.TypeID!=2) {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0;
                             } else { 
-                                if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0==0) {
+                                if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge0);
                                 }
                             }
                             continue;
                         }
-                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendAv2_node_b2))
-                            && candidate_Complex_alt_0_ExtendAv2_node_b2==candidate_Complex_node_b
-                            )
+                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendAv2_node_b2)))
                         {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0;
                             } else { 
-                                if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0==0) {
+                                if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge0);
                                 }
                             }
@@ -5060,7 +5071,7 @@ label0: ;
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0;
                             } else { 
-                                if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0==0) {
+                                if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge0);
                                 }
                             }
@@ -5073,12 +5084,10 @@ label0: ;
                             LGSPEdge candidate_Complex_alt_0_ExtendAv2_edge__edge2 = head_candidate_Complex_alt_0_ExtendAv2_edge__edge2;
                             do
                             {
-                                if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendAv2_edge__edge2.type.TypeID]) {
+                                if(candidate_Complex_alt_0_ExtendAv2_edge__edge2.type.TypeID!=1) {
                                     continue;
                                 }
-                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv2_edge__edge2))
-                                    && candidate_Complex_alt_0_ExtendAv2_edge__edge2==candidate_Complex_alt_0_ExtendAv2_edge__edge0
-                                    )
+                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv2_edge__edge2)))
                                 {
                                     continue;
                                 }
@@ -5096,11 +5105,11 @@ label0: ;
                                 }
                                 // Implicit Target Complex_alt_0_ExtendAv2_node__node0 from Complex_alt_0_ExtendAv2_edge__edge2 
                                 LGSPNode candidate_Complex_alt_0_ExtendAv2_node__node0 = candidate_Complex_alt_0_ExtendAv2_edge__edge2.target;
-                                if(!NodeType_C.isMyType[candidate_Complex_alt_0_ExtendAv2_node__node0.type.TypeID]) {
+                                if(candidate_Complex_alt_0_ExtendAv2_node__node0.type.TypeID!=3) {
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2==0) {
+                                        if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge2);
                                         }
                                     }
@@ -5111,7 +5120,7 @@ label0: ;
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2==0) {
+                                        if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge2);
                                         }
                                     }
@@ -5132,17 +5141,13 @@ label0: ;
                                     LGSPEdge candidate_Complex_alt_0_ExtendAv2_edge__edge1 = head_candidate_Complex_alt_0_ExtendAv2_edge__edge1;
                                     do
                                     {
-                                        if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendAv2_edge__edge1.type.TypeID]) {
+                                        if(candidate_Complex_alt_0_ExtendAv2_edge__edge1.type.TypeID!=1) {
                                             continue;
                                         }
                                         if(candidate_Complex_alt_0_ExtendAv2_edge__edge1.target != candidate_Complex_node_a) {
                                             continue;
                                         }
-                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv2_edge__edge1))
-                                            && (candidate_Complex_alt_0_ExtendAv2_edge__edge1==candidate_Complex_alt_0_ExtendAv2_edge__edge0
-                                                || candidate_Complex_alt_0_ExtendAv2_edge__edge1==candidate_Complex_alt_0_ExtendAv2_edge__edge2
-                                                )
-                                            )
+                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv2_edge__edge1)))
                                         {
                                             continue;
                                         }
@@ -5165,15 +5170,10 @@ label0: ;
                                             LGSPEdge candidate_Complex_alt_0_ExtendAv2_edge__edge3 = head_candidate_Complex_alt_0_ExtendAv2_edge__edge3;
                                             do
                                             {
-                                                if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendAv2_edge__edge3.type.TypeID]) {
+                                                if(candidate_Complex_alt_0_ExtendAv2_edge__edge3.type.TypeID!=1) {
                                                     continue;
                                                 }
-                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv2_edge__edge3))
-                                                    && (candidate_Complex_alt_0_ExtendAv2_edge__edge3==candidate_Complex_alt_0_ExtendAv2_edge__edge0
-                                                        || candidate_Complex_alt_0_ExtendAv2_edge__edge3==candidate_Complex_alt_0_ExtendAv2_edge__edge2
-                                                        || candidate_Complex_alt_0_ExtendAv2_edge__edge3==candidate_Complex_alt_0_ExtendAv2_edge__edge1
-                                                        )
-                                                    )
+                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv2_edge__edge3)))
                                                 {
                                                     continue;
                                                 }
@@ -5191,24 +5191,22 @@ label0: ;
                                                 }
                                                 // Implicit Target Complex_alt_0_ExtendAv2_node__node1 from Complex_alt_0_ExtendAv2_edge__edge3 
                                                 LGSPNode candidate_Complex_alt_0_ExtendAv2_node__node1 = candidate_Complex_alt_0_ExtendAv2_edge__edge3.target;
-                                                if(!NodeType_C.isMyType[candidate_Complex_alt_0_ExtendAv2_node__node1.type.TypeID]) {
+                                                if(candidate_Complex_alt_0_ExtendAv2_node__node1.type.TypeID!=3) {
                                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                         candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3;
                                                     } else { 
-                                                        if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3==0) {
+                                                        if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge3);
                                                         }
                                                     }
                                                     continue;
                                                 }
-                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_node__node1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendAv2_node__node1))
-                                                    && candidate_Complex_alt_0_ExtendAv2_node__node1==candidate_Complex_alt_0_ExtendAv2_node__node0
-                                                    )
+                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_node__node1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendAv2_node__node1)))
                                                 {
                                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                         candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3;
                                                     } else { 
-                                                        if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3==0) {
+                                                        if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge3);
                                                         }
                                                     }
@@ -5219,7 +5217,7 @@ label0: ;
                                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                         candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3;
                                                     } else { 
-                                                        if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3==0) {
+                                                        if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge3);
                                                         }
                                                     }
@@ -5240,16 +5238,10 @@ label0: ;
                                                     LGSPEdge candidate_Complex_alt_0_ExtendAv2_edge__edge4 = head_candidate_Complex_alt_0_ExtendAv2_edge__edge4;
                                                     do
                                                     {
-                                                        if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendAv2_edge__edge4.type.TypeID]) {
+                                                        if(candidate_Complex_alt_0_ExtendAv2_edge__edge4.type.TypeID!=1) {
                                                             continue;
                                                         }
-                                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_edge__edge4.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv2_edge__edge4))
-                                                            && (candidate_Complex_alt_0_ExtendAv2_edge__edge4==candidate_Complex_alt_0_ExtendAv2_edge__edge0
-                                                                || candidate_Complex_alt_0_ExtendAv2_edge__edge4==candidate_Complex_alt_0_ExtendAv2_edge__edge2
-                                                                || candidate_Complex_alt_0_ExtendAv2_edge__edge4==candidate_Complex_alt_0_ExtendAv2_edge__edge1
-                                                                || candidate_Complex_alt_0_ExtendAv2_edge__edge4==candidate_Complex_alt_0_ExtendAv2_edge__edge3
-                                                                )
-                                                            )
+                                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_edge__edge4.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendAv2_edge__edge4)))
                                                         {
                                                             continue;
                                                         }
@@ -5259,14 +5251,10 @@ label0: ;
                                                         }
                                                         // Implicit Target Complex_alt_0_ExtendAv2_node__node2 from Complex_alt_0_ExtendAv2_edge__edge4 
                                                         LGSPNode candidate_Complex_alt_0_ExtendAv2_node__node2 = candidate_Complex_alt_0_ExtendAv2_edge__edge4.target;
-                                                        if(!NodeType_C.isMyType[candidate_Complex_alt_0_ExtendAv2_node__node2.type.TypeID]) {
+                                                        if(candidate_Complex_alt_0_ExtendAv2_node__node2.type.TypeID!=3) {
                                                             continue;
                                                         }
-                                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_node__node2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendAv2_node__node2))
-                                                            && (candidate_Complex_alt_0_ExtendAv2_node__node2==candidate_Complex_alt_0_ExtendAv2_node__node0
-                                                                || candidate_Complex_alt_0_ExtendAv2_node__node2==candidate_Complex_alt_0_ExtendAv2_node__node1
-                                                                )
-                                                            )
+                                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendAv2_node__node2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendAv2_node__node2)))
                                                         {
                                                             continue;
                                                         }
@@ -5299,42 +5287,42 @@ label0: ;
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_node__node1.flags = candidate_Complex_alt_0_ExtendAv2_node__node1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_node__node1;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node1==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node1 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendAv2_node__node1);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge3);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_edge__edge1.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge1;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge1==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge1 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge1);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_node__node0.flags = candidate_Complex_alt_0_ExtendAv2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_node__node0;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node0==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node0 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendAv2_node__node0);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge2);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge0);
                                                                     }
                                                                 }
@@ -5415,42 +5403,42 @@ label0: ;
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_node__node1.flags = candidate_Complex_alt_0_ExtendAv2_node__node1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_node__node1;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node1==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node1 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendAv2_node__node1);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge3);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_edge__edge1.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge1;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge1==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge1 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge1);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_node__node0.flags = candidate_Complex_alt_0_ExtendAv2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_node__node0;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node0==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node0 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendAv2_node__node0);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge2);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0;
                                                                 } else { 
-                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0==0) {
+                                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge0);
                                                                     }
                                                                 }
@@ -5483,14 +5471,14 @@ label0: ;
                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                     candidate_Complex_alt_0_ExtendAv2_node__node1.flags = candidate_Complex_alt_0_ExtendAv2_node__node1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_node__node1;
                                                 } else { 
-                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node1==0) {
+                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node1 == 0) {
                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendAv2_node__node1);
                                                     }
                                                 }
                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                     candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3;
                                                 } else { 
-                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3==0) {
+                                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge3);
                                                     }
                                                 }
@@ -5500,7 +5488,7 @@ label0: ;
                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                             candidate_Complex_alt_0_ExtendAv2_edge__edge1.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge1;
                                         } else { 
-                                            if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge1==0) {
+                                            if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge1 == 0) {
                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge1);
                                             }
                                         }
@@ -5510,14 +5498,14 @@ label0: ;
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_Complex_alt_0_ExtendAv2_node__node0.flags = candidate_Complex_alt_0_ExtendAv2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_node__node0;
                                 } else { 
-                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node0==0) {
+                                    if(prev__candidate_Complex_alt_0_ExtendAv2_node__node0 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendAv2_node__node0);
                                     }
                                 }
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2;
                                 } else { 
-                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2==0) {
+                                    if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge2 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge2);
                                     }
                                 }
@@ -5527,7 +5515,7 @@ label0: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags = candidate_Complex_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0;
                         } else { 
-                            if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0==0) {
+                            if(prev__candidate_Complex_alt_0_ExtendAv2_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendAv2_edge__edge0);
                             }
                         }
@@ -5559,7 +5547,7 @@ label0: ;
                     LGSPEdge candidate_Complex_alt_0_ExtendNA2_edge__edge0 = head_candidate_Complex_alt_0_ExtendNA2_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendNA2_edge__edge0.type.TypeID]) {
+                        if(candidate_Complex_alt_0_ExtendNA2_edge__edge0.type.TypeID!=1) {
                             continue;
                         }
                         if((candidate_Complex_alt_0_ExtendNA2_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5576,11 +5564,11 @@ label0: ;
                         }
                         // Implicit Target Complex_alt_0_ExtendNA2_node__node0 from Complex_alt_0_ExtendNA2_edge__edge0 
                         LGSPNode candidate_Complex_alt_0_ExtendNA2_node__node0 = candidate_Complex_alt_0_ExtendNA2_edge__edge0.target;
-                        if(!NodeType_C.isMyType[candidate_Complex_alt_0_ExtendNA2_node__node0.type.TypeID]) {
+                        if(candidate_Complex_alt_0_ExtendNA2_node__node0.type.TypeID!=3) {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_Complex_alt_0_ExtendNA2_edge__edge0.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0;
                             } else { 
-                                if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0==0) {
+                                if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge0);
                                 }
                             }
@@ -5591,7 +5579,7 @@ label0: ;
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_Complex_alt_0_ExtendNA2_edge__edge0.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0;
                             } else { 
-                                if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0==0) {
+                                if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge0);
                                 }
                             }
@@ -5612,12 +5600,10 @@ label0: ;
                             LGSPEdge candidate_Complex_alt_0_ExtendNA2_edge__edge2 = head_candidate_Complex_alt_0_ExtendNA2_edge__edge2;
                             do
                             {
-                                if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendNA2_edge__edge2.type.TypeID]) {
+                                if(candidate_Complex_alt_0_ExtendNA2_edge__edge2.type.TypeID!=1) {
                                     continue;
                                 }
-                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendNA2_edge__edge2))
-                                    && candidate_Complex_alt_0_ExtendNA2_edge__edge2==candidate_Complex_alt_0_ExtendNA2_edge__edge0
-                                    )
+                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendNA2_edge__edge2)))
                                 {
                                     continue;
                                 }
@@ -5635,24 +5621,22 @@ label0: ;
                                 }
                                 // Implicit Target Complex_alt_0_ExtendNA2_node_b2 from Complex_alt_0_ExtendNA2_edge__edge2 
                                 LGSPNode candidate_Complex_alt_0_ExtendNA2_node_b2 = candidate_Complex_alt_0_ExtendNA2_edge__edge2.target;
-                                if(!NodeType_B.isMyType[candidate_Complex_alt_0_ExtendNA2_node_b2.type.TypeID]) {
+                                if(candidate_Complex_alt_0_ExtendNA2_node_b2.type.TypeID!=2) {
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2==0) {
+                                        if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge2);
                                         }
                                     }
                                     continue;
                                 }
-                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendNA2_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendNA2_node_b2))
-                                    && candidate_Complex_alt_0_ExtendNA2_node_b2==candidate_Complex_node_b
-                                    )
+                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendNA2_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendNA2_node_b2)))
                                 {
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2==0) {
+                                        if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge2);
                                         }
                                     }
@@ -5663,7 +5647,7 @@ label0: ;
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2==0) {
+                                        if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge2);
                                         }
                                     }
@@ -5676,14 +5660,10 @@ label0: ;
                                     LGSPEdge candidate_Complex_alt_0_ExtendNA2_edge__edge1 = head_candidate_Complex_alt_0_ExtendNA2_edge__edge1;
                                     do
                                     {
-                                        if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendNA2_edge__edge1.type.TypeID]) {
+                                        if(candidate_Complex_alt_0_ExtendNA2_edge__edge1.type.TypeID!=1) {
                                             continue;
                                         }
-                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendNA2_edge__edge1))
-                                            && (candidate_Complex_alt_0_ExtendNA2_edge__edge1==candidate_Complex_alt_0_ExtendNA2_edge__edge0
-                                                || candidate_Complex_alt_0_ExtendNA2_edge__edge1==candidate_Complex_alt_0_ExtendNA2_edge__edge2
-                                                )
-                                            )
+                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendNA2_edge__edge1)))
                                         {
                                             continue;
                                         }
@@ -5701,24 +5681,22 @@ label0: ;
                                         }
                                         // Implicit Target Complex_alt_0_ExtendNA2_node__node1 from Complex_alt_0_ExtendNA2_edge__edge1 
                                         LGSPNode candidate_Complex_alt_0_ExtendNA2_node__node1 = candidate_Complex_alt_0_ExtendNA2_edge__edge1.target;
-                                        if(!NodeType_C.isMyType[candidate_Complex_alt_0_ExtendNA2_node__node1.type.TypeID]) {
+                                        if(candidate_Complex_alt_0_ExtendNA2_node__node1.type.TypeID!=3) {
                                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                 candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1;
                                             } else { 
-                                                if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1==0) {
+                                                if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge1);
                                                 }
                                             }
                                             continue;
                                         }
-                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendNA2_node__node1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendNA2_node__node1))
-                                            && candidate_Complex_alt_0_ExtendNA2_node__node1==candidate_Complex_alt_0_ExtendNA2_node__node0
-                                            )
+                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendNA2_node__node1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Complex_alt_0_ExtendNA2_node__node1)))
                                         {
                                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                 candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1;
                                             } else { 
-                                                if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1==0) {
+                                                if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge1);
                                                 }
                                             }
@@ -5729,7 +5707,7 @@ label0: ;
                                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                 candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1;
                                             } else { 
-                                                if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1==0) {
+                                                if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge1);
                                                 }
                                             }
@@ -5742,18 +5720,13 @@ label0: ;
                                             LGSPEdge candidate_Complex_alt_0_ExtendNA2_edge__edge3 = head_candidate_Complex_alt_0_ExtendNA2_edge__edge3;
                                             do
                                             {
-                                                if(!EdgeType_Edge.isMyType[candidate_Complex_alt_0_ExtendNA2_edge__edge3.type.TypeID]) {
+                                                if(candidate_Complex_alt_0_ExtendNA2_edge__edge3.type.TypeID!=1) {
                                                     continue;
                                                 }
                                                 if(candidate_Complex_alt_0_ExtendNA2_edge__edge3.target != candidate_Complex_node_b) {
                                                     continue;
                                                 }
-                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendNA2_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendNA2_edge__edge3))
-                                                    && (candidate_Complex_alt_0_ExtendNA2_edge__edge3==candidate_Complex_alt_0_ExtendNA2_edge__edge0
-                                                        || candidate_Complex_alt_0_ExtendNA2_edge__edge3==candidate_Complex_alt_0_ExtendNA2_edge__edge2
-                                                        || candidate_Complex_alt_0_ExtendNA2_edge__edge3==candidate_Complex_alt_0_ExtendNA2_edge__edge1
-                                                        )
-                                                    )
+                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Complex_alt_0_ExtendNA2_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Complex_alt_0_ExtendNA2_edge__edge3)))
                                                 {
                                                     continue;
                                                 }
@@ -5784,28 +5757,28 @@ label0: ;
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge1);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge2);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendNA2_node__node0.flags = candidate_Complex_alt_0_ExtendNA2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_node__node0;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_node__node0==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_node__node0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendNA2_node__node0);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendNA2_edge__edge0.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge0);
                                                             }
                                                         }
@@ -5876,28 +5849,28 @@ label0: ;
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge1);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge2);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendNA2_node__node0.flags = candidate_Complex_alt_0_ExtendNA2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_node__node0;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_node__node0==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_node__node0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendNA2_node__node0);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_Complex_alt_0_ExtendNA2_edge__edge0.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0;
                                                         } else { 
-                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0==0) {
+                                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge0);
                                                             }
                                                         }
@@ -5926,7 +5899,7 @@ label0: ;
                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                             candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1;
                                         } else { 
-                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1==0) {
+                                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge1);
                                             }
                                         }
@@ -5936,7 +5909,7 @@ label0: ;
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2;
                                 } else { 
-                                    if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2==0) {
+                                    if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge2 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge2);
                                     }
                                 }
@@ -5946,14 +5919,14 @@ label0: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_Complex_alt_0_ExtendNA2_node__node0.flags = candidate_Complex_alt_0_ExtendNA2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_node__node0;
                         } else { 
-                            if(prev__candidate_Complex_alt_0_ExtendNA2_node__node0==0) {
+                            if(prev__candidate_Complex_alt_0_ExtendNA2_node__node0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_Complex_alt_0_ExtendNA2_node__node0);
                             }
                         }
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_Complex_alt_0_ExtendNA2_edge__edge0.flags = candidate_Complex_alt_0_ExtendNA2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0;
                         } else { 
-                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0==0) {
+                            if(prev__candidate_Complex_alt_0_ExtendNA2_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Complex_alt_0_ExtendNA2_edge__edge0);
                             }
                         }
@@ -6002,11 +5975,11 @@ label0: ;
                 }
                 // Implicit Source ComplexMax_node_a from ComplexMax_edge__edge0 
                 LGSPNode candidate_ComplexMax_node_a = candidate_ComplexMax_edge__edge0.source;
-                if(!NodeType_A.isMyType[candidate_ComplexMax_node_a.type.TypeID]) {
+                if(candidate_ComplexMax_node_a.type.TypeID!=1) {
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_ComplexMax_edge__edge0.flags = candidate_ComplexMax_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_edge__edge0;
                     } else { 
-                        if(prev__candidate_ComplexMax_edge__edge0==0) {
+                        if(prev__candidate_ComplexMax_edge__edge0 == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_edge__edge0);
                         }
                     }
@@ -6014,11 +5987,11 @@ label0: ;
                 }
                 // Implicit Target ComplexMax_node_b from ComplexMax_edge__edge0 
                 LGSPNode candidate_ComplexMax_node_b = candidate_ComplexMax_edge__edge0.target;
-                if(!NodeType_B.isMyType[candidate_ComplexMax_node_b.type.TypeID]) {
+                if(candidate_ComplexMax_node_b.type.TypeID!=2) {
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_ComplexMax_edge__edge0.flags = candidate_ComplexMax_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_edge__edge0;
                     } else { 
-                        if(prev__candidate_ComplexMax_edge__edge0==0) {
+                        if(prev__candidate_ComplexMax_edge__edge0 == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_edge__edge0);
                         }
                     }
@@ -6031,15 +6004,13 @@ label0: ;
                     LGSPEdge candidate_ComplexMax_edge__edge1 = head_candidate_ComplexMax_edge__edge1;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_ComplexMax_edge__edge1.type.TypeID]) {
+                        if(candidate_ComplexMax_edge__edge1.type.TypeID!=1) {
                             continue;
                         }
                         if(candidate_ComplexMax_edge__edge1.target != candidate_ComplexMax_node_a) {
                             continue;
                         }
-                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_edge__edge1))
-                            && candidate_ComplexMax_edge__edge1==candidate_ComplexMax_edge__edge0
-                            )
+                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_edge__edge1)))
                         {
                             continue;
                         }
@@ -6090,7 +6061,7 @@ label0: ;
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_ComplexMax_edge__edge0.flags = candidate_ComplexMax_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_edge__edge0;
                                 } else { 
-                                    if(prev__candidate_ComplexMax_edge__edge0==0) {
+                                    if(prev__candidate_ComplexMax_edge__edge0 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_edge__edge0);
                                     }
                                 }
@@ -6112,7 +6083,7 @@ label0: ;
                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                     candidate_ComplexMax_edge__edge0.flags = candidate_ComplexMax_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_edge__edge0;
                 } else { 
-                    if(prev__candidate_ComplexMax_edge__edge0==0) {
+                    if(prev__candidate_ComplexMax_edge__edge0 == 0) {
                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_edge__edge0);
                     }
                 }
@@ -6180,7 +6151,7 @@ label0: ;
                     LGSPEdge candidate_ComplexMax_alt_0_ExtendAv_edge__edge0 = head_candidate_ComplexMax_alt_0_ExtendAv_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.type.TypeID]) {
+                        if(candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.type.TypeID!=1) {
                             continue;
                         }
                         if((candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6197,24 +6168,22 @@ label0: ;
                         }
                         // Implicit Target ComplexMax_alt_0_ExtendAv_node_b2 from ComplexMax_alt_0_ExtendAv_edge__edge0 
                         LGSPNode candidate_ComplexMax_alt_0_ExtendAv_node_b2 = candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.target;
-                        if(!NodeType_B.isMyType[candidate_ComplexMax_alt_0_ExtendAv_node_b2.type.TypeID]) {
+                        if(candidate_ComplexMax_alt_0_ExtendAv_node_b2.type.TypeID!=2) {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0;
                             } else { 
-                                if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0==0) {
+                                if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge0);
                                 }
                             }
                             continue;
                         }
-                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_node_b2))
-                            && candidate_ComplexMax_alt_0_ExtendAv_node_b2==candidate_ComplexMax_node_b
-                            )
+                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_node_b2)))
                         {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0;
                             } else { 
-                                if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0==0) {
+                                if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge0);
                                 }
                             }
@@ -6225,7 +6194,7 @@ label0: ;
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0;
                             } else { 
-                                if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0==0) {
+                                if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge0);
                                 }
                             }
@@ -6238,12 +6207,10 @@ label0: ;
                             LGSPEdge candidate_ComplexMax_alt_0_ExtendAv_edge__edge2 = head_candidate_ComplexMax_alt_0_ExtendAv_edge__edge2;
                             do
                             {
-                                if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.type.TypeID]) {
+                                if(candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.type.TypeID!=1) {
                                     continue;
                                 }
-                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_edge__edge2))
-                                    && candidate_ComplexMax_alt_0_ExtendAv_edge__edge2==candidate_ComplexMax_alt_0_ExtendAv_edge__edge0
-                                    )
+                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_edge__edge2)))
                                 {
                                     continue;
                                 }
@@ -6261,11 +6228,11 @@ label0: ;
                                 }
                                 // Implicit Target ComplexMax_alt_0_ExtendAv_node__node0 from ComplexMax_alt_0_ExtendAv_edge__edge2 
                                 LGSPNode candidate_ComplexMax_alt_0_ExtendAv_node__node0 = candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.target;
-                                if(!NodeType_C.isMyType[candidate_ComplexMax_alt_0_ExtendAv_node__node0.type.TypeID]) {
+                                if(candidate_ComplexMax_alt_0_ExtendAv_node__node0.type.TypeID!=3) {
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2==0) {
+                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge2);
                                         }
                                     }
@@ -6276,7 +6243,7 @@ label0: ;
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2==0) {
+                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge2);
                                         }
                                     }
@@ -6297,17 +6264,13 @@ label0: ;
                                     LGSPEdge candidate_ComplexMax_alt_0_ExtendAv_edge__edge1 = head_candidate_ComplexMax_alt_0_ExtendAv_edge__edge1;
                                     do
                                     {
-                                        if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendAv_edge__edge1.type.TypeID]) {
+                                        if(candidate_ComplexMax_alt_0_ExtendAv_edge__edge1.type.TypeID!=1) {
                                             continue;
                                         }
                                         if(candidate_ComplexMax_alt_0_ExtendAv_edge__edge1.target != candidate_ComplexMax_node_a) {
                                             continue;
                                         }
-                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_edge__edge1))
-                                            && (candidate_ComplexMax_alt_0_ExtendAv_edge__edge1==candidate_ComplexMax_alt_0_ExtendAv_edge__edge0
-                                                || candidate_ComplexMax_alt_0_ExtendAv_edge__edge1==candidate_ComplexMax_alt_0_ExtendAv_edge__edge2
-                                                )
-                                            )
+                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_edge__edge1)))
                                         {
                                             continue;
                                         }
@@ -6330,15 +6293,10 @@ label0: ;
                                             LGSPEdge candidate_ComplexMax_alt_0_ExtendAv_edge__edge3 = head_candidate_ComplexMax_alt_0_ExtendAv_edge__edge3;
                                             do
                                             {
-                                                if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendAv_edge__edge3.type.TypeID]) {
+                                                if(candidate_ComplexMax_alt_0_ExtendAv_edge__edge3.type.TypeID!=1) {
                                                     continue;
                                                 }
-                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_edge__edge3))
-                                                    && (candidate_ComplexMax_alt_0_ExtendAv_edge__edge3==candidate_ComplexMax_alt_0_ExtendAv_edge__edge0
-                                                        || candidate_ComplexMax_alt_0_ExtendAv_edge__edge3==candidate_ComplexMax_alt_0_ExtendAv_edge__edge2
-                                                        || candidate_ComplexMax_alt_0_ExtendAv_edge__edge3==candidate_ComplexMax_alt_0_ExtendAv_edge__edge1
-                                                        )
-                                                    )
+                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_edge__edge3)))
                                                 {
                                                     continue;
                                                 }
@@ -6348,12 +6306,10 @@ label0: ;
                                                 }
                                                 // Implicit Target ComplexMax_alt_0_ExtendAv_node_c from ComplexMax_alt_0_ExtendAv_edge__edge3 
                                                 LGSPNode candidate_ComplexMax_alt_0_ExtendAv_node_c = candidate_ComplexMax_alt_0_ExtendAv_edge__edge3.target;
-                                                if(!NodeType_C.isMyType[candidate_ComplexMax_alt_0_ExtendAv_node_c.type.TypeID]) {
+                                                if(candidate_ComplexMax_alt_0_ExtendAv_node_c.type.TypeID!=3) {
                                                     continue;
                                                 }
-                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_node_c.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_node_c))
-                                                    && candidate_ComplexMax_alt_0_ExtendAv_node_c==candidate_ComplexMax_alt_0_ExtendAv_node__node0
-                                                    )
+                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_node_c.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_node_c)))
                                                 {
                                                     continue;
                                                 }
@@ -6384,7 +6340,7 @@ label0: ;
                                                         LGSPEdge candidate_ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0 = head_candidate_ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0;
                                                         do
                                                         {
-                                                            if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0.type.TypeID]) {
+                                                            if(candidate_ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0.type.TypeID!=1) {
                                                                 continue;
                                                             }
                                                             if((candidate_ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6393,12 +6349,10 @@ label0: ;
                                                             }
                                                             // Implicit Target ComplexMax_alt_0_ExtendAv_neg_0_node__node0 from ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0 
                                                             LGSPNode candidate_ComplexMax_alt_0_ExtendAv_neg_0_node__node0 = candidate_ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0.target;
-                                                            if(!NodeType_C.isMyType[candidate_ComplexMax_alt_0_ExtendAv_neg_0_node__node0.type.TypeID]) {
+                                                            if(candidate_ComplexMax_alt_0_ExtendAv_neg_0_node__node0.type.TypeID!=3) {
                                                                 continue;
                                                             }
-                                                            if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_neg_0_node__node0))
-                                                                && candidate_ComplexMax_alt_0_ExtendAv_neg_0_node__node0==candidate_ComplexMax_alt_0_ExtendAv_node_c
-                                                                )
+                                                            if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv_neg_0_node__node0)))
                                                             {
                                                                 continue;
                                                             }
@@ -6410,7 +6364,7 @@ label0: ;
                                                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                 candidate_ComplexMax_alt_0_ExtendAv_node_c.flags = candidate_ComplexMax_alt_0_ExtendAv_node_c.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ComplexMax_alt_0_ExtendAv_node_c;
                                                             } else { 
-                                                                if(prev_neg_0__candidate_ComplexMax_alt_0_ExtendAv_node_c==0) {
+                                                                if(prev_neg_0__candidate_ComplexMax_alt_0_ExtendAv_node_c == 0) {
                                                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendAv_node_c);
                                                                 }
                                                             }
@@ -6426,7 +6380,7 @@ label0: ;
                                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                         candidate_ComplexMax_alt_0_ExtendAv_node_c.flags = candidate_ComplexMax_alt_0_ExtendAv_node_c.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ComplexMax_alt_0_ExtendAv_node_c;
                                                     } else { 
-                                                        if(prev_neg_0__candidate_ComplexMax_alt_0_ExtendAv_node_c==0) {
+                                                        if(prev_neg_0__candidate_ComplexMax_alt_0_ExtendAv_node_c == 0) {
                                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendAv_node_c);
                                                         }
                                                     }
@@ -6459,28 +6413,28 @@ label0: ;
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendAv_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge1;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge1==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge1 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge1);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendAv_node__node0.flags = candidate_ComplexMax_alt_0_ExtendAv_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_node__node0;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_node__node0==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_node__node0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendAv_node__node0);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge2);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge0);
                                                             }
                                                         }
@@ -6551,28 +6505,28 @@ label0: ;
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendAv_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge1;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge1==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge1 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge1);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendAv_node__node0.flags = candidate_ComplexMax_alt_0_ExtendAv_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_node__node0;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_node__node0==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_node__node0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendAv_node__node0);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge2);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge0);
                                                             }
                                                         }
@@ -6604,7 +6558,7 @@ label3: ;
                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                             candidate_ComplexMax_alt_0_ExtendAv_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge1;
                                         } else { 
-                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge1==0) {
+                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge1 == 0) {
                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge1);
                                             }
                                         }
@@ -6614,14 +6568,14 @@ label3: ;
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_ComplexMax_alt_0_ExtendAv_node__node0.flags = candidate_ComplexMax_alt_0_ExtendAv_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_node__node0;
                                 } else { 
-                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv_node__node0==0) {
+                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv_node__node0 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendAv_node__node0);
                                     }
                                 }
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2;
                                 } else { 
-                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2==0) {
+                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge2 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge2);
                                     }
                                 }
@@ -6631,7 +6585,7 @@ label3: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0;
                         } else { 
-                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0==0) {
+                            if(prev__candidate_ComplexMax_alt_0_ExtendAv_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv_edge__edge0);
                             }
                         }
@@ -6663,7 +6617,7 @@ label3: ;
                     LGSPEdge candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0 = head_candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.type.TypeID]) {
+                        if(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.type.TypeID!=1) {
                             continue;
                         }
                         if((candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6680,24 +6634,22 @@ label3: ;
                         }
                         // Implicit Target ComplexMax_alt_0_ExtendAv2_node_b2 from ComplexMax_alt_0_ExtendAv2_edge__edge0 
                         LGSPNode candidate_ComplexMax_alt_0_ExtendAv2_node_b2 = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.target;
-                        if(!NodeType_B.isMyType[candidate_ComplexMax_alt_0_ExtendAv2_node_b2.type.TypeID]) {
+                        if(candidate_ComplexMax_alt_0_ExtendAv2_node_b2.type.TypeID!=2) {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0;
                             } else { 
-                                if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0==0) {
+                                if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0);
                                 }
                             }
                             continue;
                         }
-                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_node_b2))
-                            && candidate_ComplexMax_alt_0_ExtendAv2_node_b2==candidate_ComplexMax_node_b
-                            )
+                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_node_b2)))
                         {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0;
                             } else { 
-                                if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0==0) {
+                                if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0);
                                 }
                             }
@@ -6708,7 +6660,7 @@ label3: ;
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0;
                             } else { 
-                                if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0==0) {
+                                if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0);
                                 }
                             }
@@ -6721,12 +6673,10 @@ label3: ;
                             LGSPEdge candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2 = head_candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2;
                             do
                             {
-                                if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.type.TypeID]) {
+                                if(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.type.TypeID!=1) {
                                     continue;
                                 }
-                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2))
-                                    && candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2==candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0
-                                    )
+                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2)))
                                 {
                                     continue;
                                 }
@@ -6744,11 +6694,11 @@ label3: ;
                                 }
                                 // Implicit Target ComplexMax_alt_0_ExtendAv2_node__node0 from ComplexMax_alt_0_ExtendAv2_edge__edge2 
                                 LGSPNode candidate_ComplexMax_alt_0_ExtendAv2_node__node0 = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.target;
-                                if(!NodeType_C.isMyType[candidate_ComplexMax_alt_0_ExtendAv2_node__node0.type.TypeID]) {
+                                if(candidate_ComplexMax_alt_0_ExtendAv2_node__node0.type.TypeID!=3) {
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2==0) {
+                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2);
                                         }
                                     }
@@ -6759,7 +6709,7 @@ label3: ;
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2==0) {
+                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2);
                                         }
                                     }
@@ -6780,17 +6730,13 @@ label3: ;
                                     LGSPEdge candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1 = head_candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1;
                                     do
                                     {
-                                        if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1.type.TypeID]) {
+                                        if(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1.type.TypeID!=1) {
                                             continue;
                                         }
                                         if(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1.target != candidate_ComplexMax_node_a) {
                                             continue;
                                         }
-                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1))
-                                            && (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1==candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0
-                                                || candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1==candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2
-                                                )
-                                            )
+                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1)))
                                         {
                                             continue;
                                         }
@@ -6813,15 +6759,10 @@ label3: ;
                                             LGSPEdge candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3 = head_candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3;
                                             do
                                             {
-                                                if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.type.TypeID]) {
+                                                if(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.type.TypeID!=1) {
                                                     continue;
                                                 }
-                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3))
-                                                    && (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3==candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0
-                                                        || candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3==candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2
-                                                        || candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3==candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1
-                                                        )
-                                                    )
+                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3)))
                                                 {
                                                     continue;
                                                 }
@@ -6839,24 +6780,22 @@ label3: ;
                                                 }
                                                 // Implicit Target ComplexMax_alt_0_ExtendAv2_node__node1 from ComplexMax_alt_0_ExtendAv2_edge__edge3 
                                                 LGSPNode candidate_ComplexMax_alt_0_ExtendAv2_node__node1 = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.target;
-                                                if(!NodeType_C.isMyType[candidate_ComplexMax_alt_0_ExtendAv2_node__node1.type.TypeID]) {
+                                                if(candidate_ComplexMax_alt_0_ExtendAv2_node__node1.type.TypeID!=3) {
                                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                         candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3;
                                                     } else { 
-                                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3==0) {
+                                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3);
                                                         }
                                                     }
                                                     continue;
                                                 }
-                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_node__node1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_node__node1))
-                                                    && candidate_ComplexMax_alt_0_ExtendAv2_node__node1==candidate_ComplexMax_alt_0_ExtendAv2_node__node0
-                                                    )
+                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_node__node1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_node__node1)))
                                                 {
                                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                         candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3;
                                                     } else { 
-                                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3==0) {
+                                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3);
                                                         }
                                                     }
@@ -6867,7 +6806,7 @@ label3: ;
                                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                         candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3;
                                                     } else { 
-                                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3==0) {
+                                                        if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3);
                                                         }
                                                     }
@@ -6888,16 +6827,10 @@ label3: ;
                                                     LGSPEdge candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4 = head_candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4;
                                                     do
                                                     {
-                                                        if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4.type.TypeID]) {
+                                                        if(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4.type.TypeID!=1) {
                                                             continue;
                                                         }
-                                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4))
-                                                            && (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4==candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0
-                                                                || candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4==candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2
-                                                                || candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4==candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1
-                                                                || candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4==candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3
-                                                                )
-                                                            )
+                                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4)))
                                                         {
                                                             continue;
                                                         }
@@ -6907,14 +6840,10 @@ label3: ;
                                                         }
                                                         // Implicit Target ComplexMax_alt_0_ExtendAv2_node__node2 from ComplexMax_alt_0_ExtendAv2_edge__edge4 
                                                         LGSPNode candidate_ComplexMax_alt_0_ExtendAv2_node__node2 = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge4.target;
-                                                        if(!NodeType_C.isMyType[candidate_ComplexMax_alt_0_ExtendAv2_node__node2.type.TypeID]) {
+                                                        if(candidate_ComplexMax_alt_0_ExtendAv2_node__node2.type.TypeID!=3) {
                                                             continue;
                                                         }
-                                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_node__node2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_node__node2))
-                                                            && (candidate_ComplexMax_alt_0_ExtendAv2_node__node2==candidate_ComplexMax_alt_0_ExtendAv2_node__node0
-                                                                || candidate_ComplexMax_alt_0_ExtendAv2_node__node2==candidate_ComplexMax_alt_0_ExtendAv2_node__node1
-                                                                )
-                                                            )
+                                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendAv2_node__node2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendAv2_node__node2)))
                                                         {
                                                             continue;
                                                         }
@@ -6947,42 +6876,42 @@ label3: ;
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_node__node1.flags = candidate_ComplexMax_alt_0_ExtendAv2_node__node1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node1;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node1==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node1 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendAv2_node__node1);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_node__node0.flags = candidate_ComplexMax_alt_0_ExtendAv2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node0;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node0==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node0 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendAv2_node__node0);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0);
                                                                     }
                                                                 }
@@ -7063,42 +6992,42 @@ label3: ;
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_node__node1.flags = candidate_ComplexMax_alt_0_ExtendAv2_node__node1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node1;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node1==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node1 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendAv2_node__node1);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_node__node0.flags = candidate_ComplexMax_alt_0_ExtendAv2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node0;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node0==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node0 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendAv2_node__node0);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2);
                                                                     }
                                                                 }
                                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                                     candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0;
                                                                 } else { 
-                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0==0) {
+                                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0 == 0) {
                                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0);
                                                                     }
                                                                 }
@@ -7131,14 +7060,14 @@ label3: ;
                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                     candidate_ComplexMax_alt_0_ExtendAv2_node__node1.flags = candidate_ComplexMax_alt_0_ExtendAv2_node__node1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node1;
                                                 } else { 
-                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node1==0) {
+                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node1 == 0) {
                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendAv2_node__node1);
                                                     }
                                                 }
                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                     candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3;
                                                 } else { 
-                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3==0) {
+                                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3 == 0) {
                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge3);
                                                     }
                                                 }
@@ -7148,7 +7077,7 @@ label3: ;
                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                             candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1;
                                         } else { 
-                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1==0) {
+                                            if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1 == 0) {
                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge1);
                                             }
                                         }
@@ -7158,14 +7087,14 @@ label3: ;
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_ComplexMax_alt_0_ExtendAv2_node__node0.flags = candidate_ComplexMax_alt_0_ExtendAv2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node0;
                                 } else { 
-                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node0==0) {
+                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_node__node0 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendAv2_node__node0);
                                     }
                                 }
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2;
                                 } else { 
-                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2==0) {
+                                    if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge2);
                                     }
                                 }
@@ -7175,7 +7104,7 @@ label3: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0;
                         } else { 
-                            if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0==0) {
+                            if(prev__candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendAv2_edge__edge0);
                             }
                         }
@@ -7207,7 +7136,7 @@ label3: ;
                     LGSPEdge candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0 = head_candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.type.TypeID]) {
+                        if(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.type.TypeID!=1) {
                             continue;
                         }
                         if((candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -7224,11 +7153,11 @@ label3: ;
                         }
                         // Implicit Target ComplexMax_alt_0_ExtendNA2_node__node0 from ComplexMax_alt_0_ExtendNA2_edge__edge0 
                         LGSPNode candidate_ComplexMax_alt_0_ExtendNA2_node__node0 = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.target;
-                        if(!NodeType_C.isMyType[candidate_ComplexMax_alt_0_ExtendNA2_node__node0.type.TypeID]) {
+                        if(candidate_ComplexMax_alt_0_ExtendNA2_node__node0.type.TypeID!=3) {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0;
                             } else { 
-                                if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0==0) {
+                                if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0);
                                 }
                             }
@@ -7239,7 +7168,7 @@ label3: ;
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0;
                             } else { 
-                                if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0==0) {
+                                if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0);
                                 }
                             }
@@ -7260,12 +7189,10 @@ label3: ;
                             LGSPEdge candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2 = head_candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2;
                             do
                             {
-                                if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.type.TypeID]) {
+                                if(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.type.TypeID!=1) {
                                     continue;
                                 }
-                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2))
-                                    && candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2==candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0
-                                    )
+                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2)))
                                 {
                                     continue;
                                 }
@@ -7283,24 +7210,22 @@ label3: ;
                                 }
                                 // Implicit Target ComplexMax_alt_0_ExtendNA2_node_b2 from ComplexMax_alt_0_ExtendNA2_edge__edge2 
                                 LGSPNode candidate_ComplexMax_alt_0_ExtendNA2_node_b2 = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.target;
-                                if(!NodeType_B.isMyType[candidate_ComplexMax_alt_0_ExtendNA2_node_b2.type.TypeID]) {
+                                if(candidate_ComplexMax_alt_0_ExtendNA2_node_b2.type.TypeID!=2) {
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2==0) {
+                                        if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2);
                                         }
                                     }
                                     continue;
                                 }
-                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendNA2_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendNA2_node_b2))
-                                    && candidate_ComplexMax_alt_0_ExtendNA2_node_b2==candidate_ComplexMax_node_b
-                                    )
+                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendNA2_node_b2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendNA2_node_b2)))
                                 {
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2==0) {
+                                        if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2);
                                         }
                                     }
@@ -7311,7 +7236,7 @@ label3: ;
                                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                         candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2;
                                     } else { 
-                                        if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2==0) {
+                                        if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2 == 0) {
                                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2);
                                         }
                                     }
@@ -7324,14 +7249,10 @@ label3: ;
                                     LGSPEdge candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1 = head_candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1;
                                     do
                                     {
-                                        if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.type.TypeID]) {
+                                        if(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.type.TypeID!=1) {
                                             continue;
                                         }
-                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1))
-                                            && (candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1==candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0
-                                                || candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1==candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2
-                                                )
-                                            )
+                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1)))
                                         {
                                             continue;
                                         }
@@ -7349,24 +7270,22 @@ label3: ;
                                         }
                                         // Implicit Target ComplexMax_alt_0_ExtendNA2_node__node1 from ComplexMax_alt_0_ExtendNA2_edge__edge1 
                                         LGSPNode candidate_ComplexMax_alt_0_ExtendNA2_node__node1 = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.target;
-                                        if(!NodeType_C.isMyType[candidate_ComplexMax_alt_0_ExtendNA2_node__node1.type.TypeID]) {
+                                        if(candidate_ComplexMax_alt_0_ExtendNA2_node__node1.type.TypeID!=3) {
                                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                 candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1;
                                             } else { 
-                                                if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1==0) {
+                                                if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1);
                                                 }
                                             }
                                             continue;
                                         }
-                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendNA2_node__node1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendNA2_node__node1))
-                                            && candidate_ComplexMax_alt_0_ExtendNA2_node__node1==candidate_ComplexMax_alt_0_ExtendNA2_node__node0
-                                            )
+                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendNA2_node__node1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ComplexMax_alt_0_ExtendNA2_node__node1)))
                                         {
                                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                 candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1;
                                             } else { 
-                                                if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1==0) {
+                                                if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1);
                                                 }
                                             }
@@ -7377,7 +7296,7 @@ label3: ;
                                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                 candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1;
                                             } else { 
-                                                if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1==0) {
+                                                if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1);
                                                 }
                                             }
@@ -7390,18 +7309,13 @@ label3: ;
                                             LGSPEdge candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3 = head_candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3;
                                             do
                                             {
-                                                if(!EdgeType_Edge.isMyType[candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3.type.TypeID]) {
+                                                if(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3.type.TypeID!=1) {
                                                     continue;
                                                 }
                                                 if(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3.target != candidate_ComplexMax_node_b) {
                                                     continue;
                                                 }
-                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3))
-                                                    && (candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3==candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0
-                                                        || candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3==candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2
-                                                        || candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3==candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1
-                                                        )
-                                                    )
+                                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge3)))
                                                 {
                                                     continue;
                                                 }
@@ -7432,28 +7346,28 @@ label3: ;
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendNA2_node__node0.flags = candidate_ComplexMax_alt_0_ExtendNA2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_node__node0;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_node__node0==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_node__node0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendNA2_node__node0);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0);
                                                             }
                                                         }
@@ -7524,28 +7438,28 @@ label3: ;
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendNA2_node__node0.flags = candidate_ComplexMax_alt_0_ExtendNA2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_node__node0;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_node__node0==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_node__node0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendNA2_node__node0);
                                                             }
                                                         }
                                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                             candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0;
                                                         } else { 
-                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0==0) {
+                                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0 == 0) {
                                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0);
                                                             }
                                                         }
@@ -7574,7 +7488,7 @@ label3: ;
                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                             candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1;
                                         } else { 
-                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1==0) {
+                                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1 == 0) {
                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge1);
                                             }
                                         }
@@ -7584,7 +7498,7 @@ label3: ;
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2;
                                 } else { 
-                                    if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2==0) {
+                                    if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge2);
                                     }
                                 }
@@ -7594,14 +7508,14 @@ label3: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_ComplexMax_alt_0_ExtendNA2_node__node0.flags = candidate_ComplexMax_alt_0_ExtendNA2_node__node0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_node__node0;
                         } else { 
-                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_node__node0==0) {
+                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_node__node0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_ComplexMax_alt_0_ExtendNA2_node__node0);
                             }
                         }
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.flags = candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0;
                         } else { 
-                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0==0) {
+                            if(prev__candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_ComplexMax_alt_0_ExtendNA2_edge__edge0);
                             }
                         }
@@ -7681,11 +7595,11 @@ label3: ;
                 }
                 // Implicit Source homm_node_a from homm_edge__edge0 
                 LGSPNode candidate_homm_node_a = candidate_homm_edge__edge0.source;
-                if(!NodeType_A.isMyType[candidate_homm_node_a.type.TypeID]) {
+                if(candidate_homm_node_a.type.TypeID!=1) {
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_homm_edge__edge0.flags = candidate_homm_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_edge__edge0;
                     } else { 
-                        if(prev__candidate_homm_edge__edge0==0) {
+                        if(prev__candidate_homm_edge__edge0 == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_edge__edge0);
                         }
                     }
@@ -7693,11 +7607,11 @@ label3: ;
                 }
                 // Implicit Target homm_node_b from homm_edge__edge0 
                 LGSPNode candidate_homm_node_b = candidate_homm_edge__edge0.target;
-                if(!NodeType_B.isMyType[candidate_homm_node_b.type.TypeID]) {
+                if(candidate_homm_node_b.type.TypeID!=2) {
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_homm_edge__edge0.flags = candidate_homm_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_edge__edge0;
                     } else { 
-                        if(prev__candidate_homm_edge__edge0==0) {
+                        if(prev__candidate_homm_edge__edge0 == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_edge__edge0);
                         }
                     }
@@ -7710,15 +7624,13 @@ label3: ;
                     LGSPEdge candidate_homm_edge__edge1 = head_candidate_homm_edge__edge1;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_homm_edge__edge1.type.TypeID]) {
+                        if(candidate_homm_edge__edge1.type.TypeID!=1) {
                             continue;
                         }
                         if(candidate_homm_edge__edge1.target != candidate_homm_node_a) {
                             continue;
                         }
-                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_homm_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_homm_edge__edge1))
-                            && candidate_homm_edge__edge1==candidate_homm_edge__edge0
-                            )
+                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_homm_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_homm_edge__edge1)))
                         {
                             continue;
                         }
@@ -7769,7 +7681,7 @@ label3: ;
                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_homm_edge__edge0.flags = candidate_homm_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_edge__edge0;
                                 } else { 
-                                    if(prev__candidate_homm_edge__edge0==0) {
+                                    if(prev__candidate_homm_edge__edge0 == 0) {
                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_edge__edge0);
                                     }
                                 }
@@ -7791,7 +7703,7 @@ label3: ;
                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                     candidate_homm_edge__edge0.flags = candidate_homm_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_edge__edge0;
                 } else { 
-                    if(prev__candidate_homm_edge__edge0==0) {
+                    if(prev__candidate_homm_edge__edge0 == 0) {
                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_edge__edge0);
                     }
                 }
@@ -7859,7 +7771,7 @@ label3: ;
                     LGSPEdge candidate_homm_alt_0_case1_edge__edge0 = head_candidate_homm_alt_0_case1_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_homm_alt_0_case1_edge__edge0.type.TypeID]) {
+                        if(candidate_homm_alt_0_case1_edge__edge0.type.TypeID!=1) {
                             continue;
                         }
                         if((candidate_homm_alt_0_case1_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -7876,11 +7788,11 @@ label3: ;
                         }
                         // Implicit Target homm_alt_0_case1_node_b2 from homm_alt_0_case1_edge__edge0 
                         LGSPNode candidate_homm_alt_0_case1_node_b2 = candidate_homm_alt_0_case1_edge__edge0.target;
-                        if(!NodeType_B.isMyType[candidate_homm_alt_0_case1_node_b2.type.TypeID]) {
+                        if(candidate_homm_alt_0_case1_node_b2.type.TypeID!=2) {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_homm_alt_0_case1_edge__edge0.flags = candidate_homm_alt_0_case1_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_alt_0_case1_edge__edge0;
                             } else { 
-                                if(prev__candidate_homm_alt_0_case1_edge__edge0==0) {
+                                if(prev__candidate_homm_alt_0_case1_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_alt_0_case1_edge__edge0);
                                 }
                             }
@@ -7891,7 +7803,7 @@ label3: ;
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_homm_alt_0_case1_edge__edge0.flags = candidate_homm_alt_0_case1_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_alt_0_case1_edge__edge0;
                             } else { 
-                                if(prev__candidate_homm_alt_0_case1_edge__edge0==0) {
+                                if(prev__candidate_homm_alt_0_case1_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_alt_0_case1_edge__edge0);
                                 }
                             }
@@ -7904,15 +7816,13 @@ label3: ;
                             LGSPEdge candidate_homm_alt_0_case1_edge__edge1 = head_candidate_homm_alt_0_case1_edge__edge1;
                             do
                             {
-                                if(!EdgeType_Edge.isMyType[candidate_homm_alt_0_case1_edge__edge1.type.TypeID]) {
+                                if(candidate_homm_alt_0_case1_edge__edge1.type.TypeID!=1) {
                                     continue;
                                 }
                                 if(candidate_homm_alt_0_case1_edge__edge1.target != candidate_homm_node_a) {
                                     continue;
                                 }
-                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_homm_alt_0_case1_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_homm_alt_0_case1_edge__edge1))
-                                    && candidate_homm_alt_0_case1_edge__edge1==candidate_homm_alt_0_case1_edge__edge0
-                                    )
+                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_homm_alt_0_case1_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_homm_alt_0_case1_edge__edge1)))
                                 {
                                     continue;
                                 }
@@ -7939,7 +7849,7 @@ label3: ;
                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                             candidate_homm_alt_0_case1_edge__edge0.flags = candidate_homm_alt_0_case1_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_alt_0_case1_edge__edge0;
                                         } else { 
-                                            if(prev__candidate_homm_alt_0_case1_edge__edge0==0) {
+                                            if(prev__candidate_homm_alt_0_case1_edge__edge0 == 0) {
                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_alt_0_case1_edge__edge0);
                                             }
                                         }
@@ -7990,7 +7900,7 @@ label3: ;
                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                             candidate_homm_alt_0_case1_edge__edge0.flags = candidate_homm_alt_0_case1_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_alt_0_case1_edge__edge0;
                                         } else { 
-                                            if(prev__candidate_homm_alt_0_case1_edge__edge0==0) {
+                                            if(prev__candidate_homm_alt_0_case1_edge__edge0 == 0) {
                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_alt_0_case1_edge__edge0);
                                             }
                                         }
@@ -8011,7 +7921,7 @@ label3: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_homm_alt_0_case1_edge__edge0.flags = candidate_homm_alt_0_case1_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_alt_0_case1_edge__edge0;
                         } else { 
-                            if(prev__candidate_homm_alt_0_case1_edge__edge0==0) {
+                            if(prev__candidate_homm_alt_0_case1_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_alt_0_case1_edge__edge0);
                             }
                         }
@@ -8041,7 +7951,7 @@ label3: ;
                     LGSPEdge candidate_homm_alt_0_case2_edge__edge0 = head_candidate_homm_alt_0_case2_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_homm_alt_0_case2_edge__edge0.type.TypeID]) {
+                        if(candidate_homm_alt_0_case2_edge__edge0.type.TypeID!=1) {
                             continue;
                         }
                         if((candidate_homm_alt_0_case2_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -8058,11 +7968,11 @@ label3: ;
                         }
                         // Implicit Target homm_alt_0_case2_node_b2 from homm_alt_0_case2_edge__edge0 
                         LGSPNode candidate_homm_alt_0_case2_node_b2 = candidate_homm_alt_0_case2_edge__edge0.target;
-                        if(!NodeType_B.isMyType[candidate_homm_alt_0_case2_node_b2.type.TypeID]) {
+                        if(candidate_homm_alt_0_case2_node_b2.type.TypeID!=2) {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_homm_alt_0_case2_edge__edge0.flags = candidate_homm_alt_0_case2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_alt_0_case2_edge__edge0;
                             } else { 
-                                if(prev__candidate_homm_alt_0_case2_edge__edge0==0) {
+                                if(prev__candidate_homm_alt_0_case2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_alt_0_case2_edge__edge0);
                                 }
                             }
@@ -8073,7 +7983,7 @@ label3: ;
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_homm_alt_0_case2_edge__edge0.flags = candidate_homm_alt_0_case2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_alt_0_case2_edge__edge0;
                             } else { 
-                                if(prev__candidate_homm_alt_0_case2_edge__edge0==0) {
+                                if(prev__candidate_homm_alt_0_case2_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_alt_0_case2_edge__edge0);
                                 }
                             }
@@ -8086,15 +7996,13 @@ label3: ;
                             LGSPEdge candidate_homm_alt_0_case2_edge__edge1 = head_candidate_homm_alt_0_case2_edge__edge1;
                             do
                             {
-                                if(!EdgeType_Edge.isMyType[candidate_homm_alt_0_case2_edge__edge1.type.TypeID]) {
+                                if(candidate_homm_alt_0_case2_edge__edge1.type.TypeID!=1) {
                                     continue;
                                 }
                                 if(candidate_homm_alt_0_case2_edge__edge1.target != candidate_homm_node_a) {
                                     continue;
                                 }
-                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_homm_alt_0_case2_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_homm_alt_0_case2_edge__edge1))
-                                    && candidate_homm_alt_0_case2_edge__edge1==candidate_homm_alt_0_case2_edge__edge0
-                                    )
+                                if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_homm_alt_0_case2_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_homm_alt_0_case2_edge__edge1)))
                                 {
                                     continue;
                                 }
@@ -8120,7 +8028,7 @@ label3: ;
                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                             candidate_homm_alt_0_case2_edge__edge0.flags = candidate_homm_alt_0_case2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_alt_0_case2_edge__edge0;
                                         } else { 
-                                            if(prev__candidate_homm_alt_0_case2_edge__edge0==0) {
+                                            if(prev__candidate_homm_alt_0_case2_edge__edge0 == 0) {
                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_alt_0_case2_edge__edge0);
                                             }
                                         }
@@ -8170,7 +8078,7 @@ label3: ;
                                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                             candidate_homm_alt_0_case2_edge__edge0.flags = candidate_homm_alt_0_case2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_alt_0_case2_edge__edge0;
                                         } else { 
-                                            if(prev__candidate_homm_alt_0_case2_edge__edge0==0) {
+                                            if(prev__candidate_homm_alt_0_case2_edge__edge0 == 0) {
                                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_alt_0_case2_edge__edge0);
                                             }
                                         }
@@ -8191,7 +8099,7 @@ label3: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_homm_alt_0_case2_edge__edge0.flags = candidate_homm_alt_0_case2_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_homm_alt_0_case2_edge__edge0;
                         } else { 
-                            if(prev__candidate_homm_alt_0_case2_edge__edge0==0) {
+                            if(prev__candidate_homm_alt_0_case2_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_homm_alt_0_case2_edge__edge0);
                             }
                         }

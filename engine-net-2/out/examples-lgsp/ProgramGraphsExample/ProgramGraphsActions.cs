@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Wed May 28 22:10:39 CEST 2008
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Thu Jul 17 11:13:00 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 	{
 		private static Pattern_MultipleSubclasses instance = null;
 		public static Pattern_MultipleSubclasses Instance { get { if (instance==null) { instance = new Pattern_MultipleSubclasses(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] MultipleSubclasses_node_c_AllowedTypes = null;
 		public static bool[] MultipleSubclasses_node_c_IsAllowedType = null;
@@ -274,6 +276,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		private static Pattern_Subclass instance = null;
 		public static Pattern_Subclass Instance { get { if (instance==null) { instance = new Pattern_Subclass(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] Subclass_node_sub_AllowedTypes = null;
 		public static bool[] Subclass_node_sub_IsAllowedType = null;
 		public enum Subclass_NodeNums { @sub, };
@@ -355,6 +359,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 	{
 		private static Pattern_MultipleFeatures instance = null;
 		public static Pattern_MultipleFeatures Instance { get { if (instance==null) { instance = new Pattern_MultipleFeatures(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] MultipleFeatures_node_c_AllowedTypes = null;
 		public static bool[] MultipleFeatures_node_c_IsAllowedType = null;
@@ -590,6 +596,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 	{
 		private static Pattern_FeaturePattern instance = null;
 		public static Pattern_FeaturePattern Instance { get { if (instance==null) { instance = new Pattern_FeaturePattern(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] FeaturePattern_node_c_AllowedTypes = null;
 		public static bool[] FeaturePattern_node_c_IsAllowedType = null;
@@ -967,6 +975,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		private static Pattern_MultipleParameters instance = null;
 		public static Pattern_MultipleParameters Instance { get { if (instance==null) { instance = new Pattern_MultipleParameters(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] MultipleParameters_node_b_AllowedTypes = null;
 		public static bool[] MultipleParameters_node_b_IsAllowedType = null;
 		public enum MultipleParameters_NodeNums { @b, };
@@ -1202,6 +1212,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		private static Pattern_Parameter instance = null;
 		public static Pattern_Parameter Instance { get { if (instance==null) { instance = new Pattern_Parameter(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] Parameter_node_b_AllowedTypes = null;
 		public static bool[] Parameter_node_b_IsAllowedType = null;
 		public enum Parameter_NodeNums { @b, };
@@ -1425,6 +1437,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 	{
 		private static Pattern_MultipleStatements instance = null;
 		public static Pattern_MultipleStatements Instance { get { if (instance==null) { instance = new Pattern_MultipleStatements(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] MultipleStatements_node_b_AllowedTypes = null;
 		public static bool[] MultipleStatements_node_b_IsAllowedType = null;
@@ -1660,6 +1674,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 	{
 		private static Pattern_Statement instance = null;
 		public static Pattern_Statement Instance { get { if (instance==null) { instance = new Pattern_Statement(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] Statement_node_b_AllowedTypes = null;
 		public static bool[] Statement_node_b_IsAllowedType = null;
@@ -1993,6 +2009,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		private static Pattern_MultipleExpressions instance = null;
 		public static Pattern_MultipleExpressions Instance { get { if (instance==null) { instance = new Pattern_MultipleExpressions(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] MultipleExpressions_node_e_AllowedTypes = null;
 		public static bool[] MultipleExpressions_node_e_IsAllowedType = null;
 		public enum MultipleExpressions_NodeNums { @e, };
@@ -2228,6 +2246,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		private static Pattern_ExpressionPattern instance = null;
 		public static Pattern_ExpressionPattern Instance { get { if (instance==null) { instance = new Pattern_ExpressionPattern(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] ExpressionPattern_node_e_AllowedTypes = null;
 		public static NodeType[] ExpressionPattern_node_sub_AllowedTypes = null;
 		public static bool[] ExpressionPattern_node_e_IsAllowedType = null;
@@ -2455,6 +2475,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 	{
 		private static Pattern_MultipleBodies instance = null;
 		public static Pattern_MultipleBodies Instance { get { if (instance==null) { instance = new Pattern_MultipleBodies(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] MultipleBodies_node_m5_AllowedTypes = null;
 		public static NodeType[] MultipleBodies_node_c1_AllowedTypes = null;
@@ -2771,6 +2793,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		private static Pattern_Body instance = null;
 		public static Pattern_Body Instance { get { if (instance==null) { instance = new Pattern_Body(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] Body_node_c1_AllowedTypes = null;
 		public static NodeType[] Body_node_c2_AllowedTypes = null;
 		public static NodeType[] Body_node_b_AllowedTypes = null;
@@ -2949,6 +2973,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 	{
 		private static Rule_createProgramGraphExample instance = null;
 		public static Rule_createProgramGraphExample Instance { get { if (instance==null) { instance = new Rule_createProgramGraphExample(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public enum createProgramGraphExample_NodeNums { };
 		public enum createProgramGraphExample_EdgeNums { };
@@ -3143,6 +3169,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		private static Rule_createProgramGraphPullUp instance = null;
 		public static Rule_createProgramGraphPullUp Instance { get { if (instance==null) { instance = new Rule_createProgramGraphPullUp(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[2];
+
 		public enum createProgramGraphPullUp_NodeNums { };
 		public enum createProgramGraphPullUp_EdgeNums { };
 		public enum createProgramGraphPullUp_VariableNums { };
@@ -3238,7 +3266,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			@calls edge__edge23 = @calls.CreateEdge(graph, node_ex4, node_m8);
 			@contains edge__edge24 = @contains.CreateEdge(graph, node_ex4, node_ex5);
 			@uses edge__edge25 = @uses.CreateEdge(graph, node_ex5, node_v7b);
-			return new object[] { node_c1, node_b4, };
+			ReturnArray[0] = node_c1;
+			ReturnArray[1] = node_b4;
+			return ReturnArray;
 		}
 		private static String[] createProgramGraphPullUp_addedNodeNames = new String[] { "c1", "c2", "c3", "c4", "m5", "b2", "v7a", "b3", "v7b", "b4", "m8", "v9", "ex1", "ex", "ex2", "ex3", "ex4", "ex5" };
 		private static String[] createProgramGraphPullUp_addedEdgeNames = new String[] { "_edge0", "_edge1", "_edge2", "_edge3", "_edge4", "_edge5", "_edge6", "_edge7", "_edge8", "_edge9", "_edge10", "_edge11", "_edge12", "_edge13", "_edge14", "_edge15", "_edge16", "_edge17", "_edge18", "_edge19", "_edge20", "_edge21", "_edge22", "_edge23", "_edge24", "_edge25" };
@@ -3291,7 +3321,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			@calls edge__edge23 = @calls.CreateEdge(graph, node_ex4, node_m8);
 			@contains edge__edge24 = @contains.CreateEdge(graph, node_ex4, node_ex5);
 			@uses edge__edge25 = @uses.CreateEdge(graph, node_ex5, node_v7b);
-			return new object[] { node_c1, node_b4, };
+			ReturnArray[0] = node_c1;
+			ReturnArray[1] = node_b4;
+			return ReturnArray;
 		}
 	}
 
@@ -3299,6 +3331,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 	{
 		private static Rule_pullUpMethod instance = null;
 		public static Rule_pullUpMethod Instance { get { if (instance==null) { instance = new Rule_pullUpMethod(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] pullUpMethod_node_c1_AllowedTypes = null;
 		public static NodeType[] pullUpMethod_node_c3_AllowedTypes = null;
@@ -3446,6 +3480,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 	{
 		private static Rule_matchAll instance = null;
 		public static Rule_matchAll Instance { get { if (instance==null) { instance = new Rule_matchAll(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] matchAll_node_c1_AllowedTypes = null;
 		public static bool[] matchAll_node_c1_IsAllowedType = null;
@@ -3661,7 +3697,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
                     LGSPEdge candidate_MultipleSubclasses_alt_0_OneAndAgain_edge__edge0 = head_candidate_MultipleSubclasses_alt_0_OneAndAgain_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_MultipleSubclasses_alt_0_OneAndAgain_edge__edge0.type.TypeID]) {
+                        if(candidate_MultipleSubclasses_alt_0_OneAndAgain_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_MultipleSubclasses_alt_0_OneAndAgain_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -3670,12 +3706,10 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
                         }
                         // Implicit Target MultipleSubclasses_alt_0_OneAndAgain_node_sub from MultipleSubclasses_alt_0_OneAndAgain_edge__edge0 
                         LGSPNode candidate_MultipleSubclasses_alt_0_OneAndAgain_node_sub = candidate_MultipleSubclasses_alt_0_OneAndAgain_edge__edge0.target;
-                        if(!NodeType_Class.isMyType[candidate_MultipleSubclasses_alt_0_OneAndAgain_node_sub.type.TypeID]) {
+                        if(candidate_MultipleSubclasses_alt_0_OneAndAgain_node_sub.type.TypeID!=5) {
                             continue;
                         }
-                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_MultipleSubclasses_alt_0_OneAndAgain_node_sub.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_MultipleSubclasses_alt_0_OneAndAgain_node_sub))
-                            && candidate_MultipleSubclasses_alt_0_OneAndAgain_node_sub==candidate_MultipleSubclasses_node_c
-                            )
+                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_MultipleSubclasses_alt_0_OneAndAgain_node_sub.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_MultipleSubclasses_alt_0_OneAndAgain_node_sub)))
                         {
                             continue;
                         }
@@ -3783,7 +3817,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
                         LGSPEdge candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_edge__edge0 = head_candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_contains.isMyType[candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_edge__edge0.type.TypeID]) {
+                            if(candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_edge__edge0.type.TypeID!=3) {
                                 continue;
                             }
                             if((candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -3792,12 +3826,10 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
                             }
                             // Implicit Target MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_node_sub from MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_edge__edge0 
                             LGSPNode candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_node_sub = candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_edge__edge0.target;
-                            if(!NodeType_Class.isMyType[candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_node_sub.type.TypeID]) {
+                            if(candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_node_sub.type.TypeID!=5) {
                                 continue;
                             }
-                            if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_node_sub.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_node_sub))
-                                && candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_node_sub==candidate_MultipleSubclasses_node_c
-                                )
+                            if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_node_sub.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_node_sub)))
                             {
                                 continue;
                             }
@@ -3809,7 +3841,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_MultipleSubclasses_node_c.flags = candidate_MultipleSubclasses_node_c.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_MultipleSubclasses_node_c;
                             } else { 
-                                if(prev_neg_0__candidate_MultipleSubclasses_node_c==0) {
+                                if(prev_neg_0__candidate_MultipleSubclasses_node_c == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_MultipleSubclasses_node_c);
                                 }
                             }
@@ -3825,7 +3857,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_MultipleSubclasses_node_c.flags = candidate_MultipleSubclasses_node_c.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_MultipleSubclasses_node_c;
                     } else { 
-                        if(prev_neg_0__candidate_MultipleSubclasses_node_c==0) {
+                        if(prev_neg_0__candidate_MultipleSubclasses_node_c == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_MultipleSubclasses_node_c);
                         }
                     }
@@ -4195,7 +4227,7 @@ label2: ;
                         LGSPEdge candidate_MultipleFeatures_alt_0_NoFeatureLeft_neg_0_edge__edge0 = head_candidate_MultipleFeatures_alt_0_NoFeatureLeft_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_contains.isMyType[candidate_MultipleFeatures_alt_0_NoFeatureLeft_neg_0_edge__edge0.type.TypeID]) {
+                            if(candidate_MultipleFeatures_alt_0_NoFeatureLeft_neg_0_edge__edge0.type.TypeID!=3) {
                                 continue;
                             }
                             if((candidate_MultipleFeatures_alt_0_NoFeatureLeft_neg_0_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4424,7 +4456,7 @@ label5: ;
                     LGSPEdge candidate_FeaturePattern_alt_0_MethodBody_edge__edge0 = head_candidate_FeaturePattern_alt_0_MethodBody_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_FeaturePattern_alt_0_MethodBody_edge__edge0.type.TypeID]) {
+                        if(candidate_FeaturePattern_alt_0_MethodBody_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_FeaturePattern_alt_0_MethodBody_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4433,7 +4465,7 @@ label5: ;
                         }
                         // Implicit Target FeaturePattern_alt_0_MethodBody_node_b from FeaturePattern_alt_0_MethodBody_edge__edge0 
                         LGSPNode candidate_FeaturePattern_alt_0_MethodBody_node_b = candidate_FeaturePattern_alt_0_MethodBody_edge__edge0.target;
-                        if(!NodeType_MethodBody.isMyType[candidate_FeaturePattern_alt_0_MethodBody_node_b.type.TypeID]) {
+                        if(candidate_FeaturePattern_alt_0_MethodBody_node_b.type.TypeID!=2) {
                             continue;
                         }
                         if((candidate_FeaturePattern_alt_0_MethodBody_node_b.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4524,7 +4556,7 @@ label5: ;
                     LGSPEdge candidate_FeaturePattern_alt_0_MethodSignature_edge__edge0 = head_candidate_FeaturePattern_alt_0_MethodSignature_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_FeaturePattern_alt_0_MethodSignature_edge__edge0.type.TypeID]) {
+                        if(candidate_FeaturePattern_alt_0_MethodSignature_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_FeaturePattern_alt_0_MethodSignature_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4533,7 +4565,7 @@ label5: ;
                         }
                         // Implicit Target FeaturePattern_alt_0_MethodSignature_node__node0 from FeaturePattern_alt_0_MethodSignature_edge__edge0 
                         LGSPNode candidate_FeaturePattern_alt_0_MethodSignature_node__node0 = candidate_FeaturePattern_alt_0_MethodSignature_edge__edge0.target;
-                        if(!NodeType_MethodSignature.isMyType[candidate_FeaturePattern_alt_0_MethodSignature_node__node0.type.TypeID]) {
+                        if(candidate_FeaturePattern_alt_0_MethodSignature_node__node0.type.TypeID!=7) {
                             continue;
                         }
                         if((candidate_FeaturePattern_alt_0_MethodSignature_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4627,7 +4659,7 @@ label5: ;
                     LGSPEdge candidate_FeaturePattern_alt_0_Variable_edge__edge0 = head_candidate_FeaturePattern_alt_0_Variable_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_FeaturePattern_alt_0_Variable_edge__edge0.type.TypeID]) {
+                        if(candidate_FeaturePattern_alt_0_Variable_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_FeaturePattern_alt_0_Variable_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4636,7 +4668,7 @@ label5: ;
                         }
                         // Implicit Target FeaturePattern_alt_0_Variable_node__node0 from FeaturePattern_alt_0_Variable_edge__edge0 
                         LGSPNode candidate_FeaturePattern_alt_0_Variable_node__node0 = candidate_FeaturePattern_alt_0_Variable_edge__edge0.target;
-                        if(!NodeType_Variabel.isMyType[candidate_FeaturePattern_alt_0_Variable_node__node0.type.TypeID]) {
+                        if(candidate_FeaturePattern_alt_0_Variable_node__node0.type.TypeID!=10) {
                             continue;
                         }
                         if((candidate_FeaturePattern_alt_0_Variable_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4730,7 +4762,7 @@ label5: ;
                     LGSPEdge candidate_FeaturePattern_alt_0_Konstante_edge__edge0 = head_candidate_FeaturePattern_alt_0_Konstante_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_FeaturePattern_alt_0_Konstante_edge__edge0.type.TypeID]) {
+                        if(candidate_FeaturePattern_alt_0_Konstante_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_FeaturePattern_alt_0_Konstante_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -4739,7 +4771,7 @@ label5: ;
                         }
                         // Implicit Target FeaturePattern_alt_0_Konstante_node__node0 from FeaturePattern_alt_0_Konstante_edge__edge0 
                         LGSPNode candidate_FeaturePattern_alt_0_Konstante_node__node0 = candidate_FeaturePattern_alt_0_Konstante_edge__edge0.target;
-                        if(!NodeType_Constant.isMyType[candidate_FeaturePattern_alt_0_Konstante_node__node0.type.TypeID]) {
+                        if(candidate_FeaturePattern_alt_0_Konstante_node__node0.type.TypeID!=9) {
                             continue;
                         }
                         if((candidate_FeaturePattern_alt_0_Konstante_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5027,7 +5059,7 @@ label5: ;
                         LGSPEdge candidate_MultipleParameters_alt_0_NoStatementLeft_neg_0_edge__edge0 = head_candidate_MultipleParameters_alt_0_NoStatementLeft_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_contains.isMyType[candidate_MultipleParameters_alt_0_NoStatementLeft_neg_0_edge__edge0.type.TypeID]) {
+                            if(candidate_MultipleParameters_alt_0_NoStatementLeft_neg_0_edge__edge0.type.TypeID!=3) {
                                 continue;
                             }
                             if((candidate_MultipleParameters_alt_0_NoStatementLeft_neg_0_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5256,7 +5288,7 @@ label8: ;
                     LGSPEdge candidate_Parameter_alt_0_Variable_edge__edge0 = head_candidate_Parameter_alt_0_Variable_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_Parameter_alt_0_Variable_edge__edge0.type.TypeID]) {
+                        if(candidate_Parameter_alt_0_Variable_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_Parameter_alt_0_Variable_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5265,7 +5297,7 @@ label8: ;
                         }
                         // Implicit Target Parameter_alt_0_Variable_node_v from Parameter_alt_0_Variable_edge__edge0 
                         LGSPNode candidate_Parameter_alt_0_Variable_node_v = candidate_Parameter_alt_0_Variable_edge__edge0.target;
-                        if(!NodeType_Variabel.isMyType[candidate_Parameter_alt_0_Variable_node_v.type.TypeID]) {
+                        if(candidate_Parameter_alt_0_Variable_node_v.type.TypeID!=10) {
                             continue;
                         }
                         if((candidate_Parameter_alt_0_Variable_node_v.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5359,7 +5391,7 @@ label8: ;
                     LGSPEdge candidate_Parameter_alt_0_Konstante_edge__edge0 = head_candidate_Parameter_alt_0_Konstante_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_Parameter_alt_0_Konstante_edge__edge0.type.TypeID]) {
+                        if(candidate_Parameter_alt_0_Konstante_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_Parameter_alt_0_Konstante_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5368,7 +5400,7 @@ label8: ;
                         }
                         // Implicit Target Parameter_alt_0_Konstante_node_c from Parameter_alt_0_Konstante_edge__edge0 
                         LGSPNode candidate_Parameter_alt_0_Konstante_node_c = candidate_Parameter_alt_0_Konstante_edge__edge0.target;
-                        if(!NodeType_Constant.isMyType[candidate_Parameter_alt_0_Konstante_node_c.type.TypeID]) {
+                        if(candidate_Parameter_alt_0_Konstante_node_c.type.TypeID!=9) {
                             continue;
                         }
                         if((candidate_Parameter_alt_0_Konstante_node_c.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5656,7 +5688,7 @@ label8: ;
                         LGSPEdge candidate_MultipleStatements_alt_0_NoStatementLeft_neg_0_edge__edge0 = head_candidate_MultipleStatements_alt_0_NoStatementLeft_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_contains.isMyType[candidate_MultipleStatements_alt_0_NoStatementLeft_neg_0_edge__edge0.type.TypeID]) {
+                            if(candidate_MultipleStatements_alt_0_NoStatementLeft_neg_0_edge__edge0.type.TypeID!=3) {
                                 continue;
                             }
                             if((candidate_MultipleStatements_alt_0_NoStatementLeft_neg_0_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5665,7 +5697,7 @@ label8: ;
                             }
                             // Implicit Target MultipleStatements_alt_0_NoStatementLeft_neg_0_node_e from MultipleStatements_alt_0_NoStatementLeft_neg_0_edge__edge0 
                             LGSPNode candidate_MultipleStatements_alt_0_NoStatementLeft_neg_0_node_e = candidate_MultipleStatements_alt_0_NoStatementLeft_neg_0_edge__edge0.target;
-                            if(!NodeType_Expression.isMyType[candidate_MultipleStatements_alt_0_NoStatementLeft_neg_0_node_e.type.TypeID]) {
+                            if(candidate_MultipleStatements_alt_0_NoStatementLeft_neg_0_node_e.type.TypeID!=3) {
                                 continue;
                             }
                             if((candidate_MultipleStatements_alt_0_NoStatementLeft_neg_0_node_e.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5885,7 +5917,7 @@ label11: ;
                     LGSPEdge candidate_Statement_alt_0_Assignment_edge__edge0 = head_candidate_Statement_alt_0_Assignment_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_Statement_alt_0_Assignment_edge__edge0.type.TypeID]) {
+                        if(candidate_Statement_alt_0_Assignment_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_Statement_alt_0_Assignment_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5894,7 +5926,7 @@ label11: ;
                         }
                         // Implicit Target Statement_alt_0_Assignment_node_e from Statement_alt_0_Assignment_edge__edge0 
                         LGSPNode candidate_Statement_alt_0_Assignment_node_e = candidate_Statement_alt_0_Assignment_edge__edge0.target;
-                        if(!NodeType_Expression.isMyType[candidate_Statement_alt_0_Assignment_node_e.type.TypeID]) {
+                        if(candidate_Statement_alt_0_Assignment_node_e.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_Statement_alt_0_Assignment_node_e.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -5908,7 +5940,7 @@ label11: ;
                             LGSPEdge candidate_Statement_alt_0_Assignment_edge__edge1 = head_candidate_Statement_alt_0_Assignment_edge__edge1;
                             do
                             {
-                                if(!EdgeType_writesTo.isMyType[candidate_Statement_alt_0_Assignment_edge__edge1.type.TypeID]) {
+                                if(candidate_Statement_alt_0_Assignment_edge__edge1.type.TypeID!=8) {
                                     continue;
                                 }
                                 if((candidate_Statement_alt_0_Assignment_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6001,7 +6033,7 @@ label11: ;
                     LGSPEdge candidate_Statement_alt_0_Call_edge__edge0 = head_candidate_Statement_alt_0_Call_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_Statement_alt_0_Call_edge__edge0.type.TypeID]) {
+                        if(candidate_Statement_alt_0_Call_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_Statement_alt_0_Call_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6010,7 +6042,7 @@ label11: ;
                         }
                         // Implicit Target Statement_alt_0_Call_node_e from Statement_alt_0_Call_edge__edge0 
                         LGSPNode candidate_Statement_alt_0_Call_node_e = candidate_Statement_alt_0_Call_edge__edge0.target;
-                        if(!NodeType_Expression.isMyType[candidate_Statement_alt_0_Call_node_e.type.TypeID]) {
+                        if(candidate_Statement_alt_0_Call_node_e.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_Statement_alt_0_Call_node_e.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6024,7 +6056,7 @@ label11: ;
                             LGSPEdge candidate_Statement_alt_0_Call_edge__edge1 = head_candidate_Statement_alt_0_Call_edge__edge1;
                             do
                             {
-                                if(!EdgeType_calls.isMyType[candidate_Statement_alt_0_Call_edge__edge1.type.TypeID]) {
+                                if(candidate_Statement_alt_0_Call_edge__edge1.type.TypeID!=9) {
                                     continue;
                                 }
                                 if((candidate_Statement_alt_0_Call_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6117,7 +6149,7 @@ label11: ;
                     LGSPEdge candidate_Statement_alt_0_Return_edge__edge0 = head_candidate_Statement_alt_0_Return_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_Statement_alt_0_Return_edge__edge0.type.TypeID]) {
+                        if(candidate_Statement_alt_0_Return_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_Statement_alt_0_Return_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6126,7 +6158,7 @@ label11: ;
                         }
                         // Implicit Target Statement_alt_0_Return_node_e from Statement_alt_0_Return_edge__edge0 
                         LGSPNode candidate_Statement_alt_0_Return_node_e = candidate_Statement_alt_0_Return_edge__edge0.target;
-                        if(!NodeType_Expression.isMyType[candidate_Statement_alt_0_Return_node_e.type.TypeID]) {
+                        if(candidate_Statement_alt_0_Return_node_e.type.TypeID!=3) {
                             continue;
                         }
                         if((candidate_Statement_alt_0_Return_node_e.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6140,7 +6172,7 @@ label11: ;
                             LGSPEdge candidate_Statement_alt_0_Return_edge__edge1 = head_candidate_Statement_alt_0_Return_edge__edge1;
                             do
                             {
-                                if(!EdgeType_uses.isMyType[candidate_Statement_alt_0_Return_edge__edge1.type.TypeID]) {
+                                if(candidate_Statement_alt_0_Return_edge__edge1.type.TypeID!=7) {
                                     continue;
                                 }
                                 if((candidate_Statement_alt_0_Return_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6447,7 +6479,7 @@ label11: ;
                         LGSPEdge candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_edge__edge0 = head_candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_contains.isMyType[candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_edge__edge0.type.TypeID]) {
+                            if(candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_edge__edge0.type.TypeID!=3) {
                                 continue;
                             }
                             if((candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6456,12 +6488,10 @@ label11: ;
                             }
                             // Implicit Target MultipleExpressions_alt_0_NoExpressionLeft_neg_0_node_sub from MultipleExpressions_alt_0_NoExpressionLeft_neg_0_edge__edge0 
                             LGSPNode candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_node_sub = candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_edge__edge0.target;
-                            if(!NodeType_Expression.isMyType[candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_node_sub.type.TypeID]) {
+                            if(candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_node_sub.type.TypeID!=3) {
                                 continue;
                             }
-                            if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_node_sub.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_node_sub))
-                                && candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_node_sub==candidate_MultipleExpressions_node_e
-                                )
+                            if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_node_sub.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_MultipleExpressions_alt_0_NoExpressionLeft_neg_0_node_sub)))
                             {
                                 continue;
                             }
@@ -6473,7 +6503,7 @@ label11: ;
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_MultipleExpressions_node_e.flags = candidate_MultipleExpressions_node_e.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_MultipleExpressions_node_e;
                             } else { 
-                                if(prev_neg_0__candidate_MultipleExpressions_node_e==0) {
+                                if(prev_neg_0__candidate_MultipleExpressions_node_e == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_MultipleExpressions_node_e);
                                 }
                             }
@@ -6489,7 +6519,7 @@ label11: ;
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_MultipleExpressions_node_e.flags = candidate_MultipleExpressions_node_e.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_MultipleExpressions_node_e;
                     } else { 
-                        if(prev_neg_0__candidate_MultipleExpressions_node_e==0) {
+                        if(prev_neg_0__candidate_MultipleExpressions_node_e == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_MultipleExpressions_node_e);
                         }
                     }
@@ -6605,7 +6635,7 @@ label14: ;
                 LGSPEdge candidate_ExpressionPattern_edge__edge0 = head_candidate_ExpressionPattern_edge__edge0;
                 do
                 {
-                    if(!EdgeType_contains.isMyType[candidate_ExpressionPattern_edge__edge0.type.TypeID]) {
+                    if(candidate_ExpressionPattern_edge__edge0.type.TypeID!=3) {
                         continue;
                     }
                     if((candidate_ExpressionPattern_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6614,12 +6644,10 @@ label14: ;
                     }
                     // Implicit Target ExpressionPattern_node_sub from ExpressionPattern_edge__edge0 
                     LGSPNode candidate_ExpressionPattern_node_sub = candidate_ExpressionPattern_edge__edge0.target;
-                    if(!NodeType_Expression.isMyType[candidate_ExpressionPattern_node_sub.type.TypeID]) {
+                    if(candidate_ExpressionPattern_node_sub.type.TypeID!=3) {
                         continue;
                     }
-                    if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ExpressionPattern_node_sub.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ExpressionPattern_node_sub))
-                        && candidate_ExpressionPattern_node_sub==candidate_ExpressionPattern_node_e
-                        )
+                    if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_ExpressionPattern_node_sub.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_ExpressionPattern_node_sub)))
                     {
                         continue;
                     }
@@ -6741,7 +6769,7 @@ label14: ;
                     LGSPEdge candidate_ExpressionPattern_alt_0_Call_edge__edge0 = head_candidate_ExpressionPattern_alt_0_Call_edge__edge0;
                     do
                     {
-                        if(!EdgeType_calls.isMyType[candidate_ExpressionPattern_alt_0_Call_edge__edge0.type.TypeID]) {
+                        if(candidate_ExpressionPattern_alt_0_Call_edge__edge0.type.TypeID!=9) {
                             continue;
                         }
                         if((candidate_ExpressionPattern_alt_0_Call_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -6817,7 +6845,7 @@ label14: ;
                     LGSPEdge candidate_ExpressionPattern_alt_0_Use_edge__edge0 = head_candidate_ExpressionPattern_alt_0_Use_edge__edge0;
                     do
                     {
-                        if(!EdgeType_uses.isMyType[candidate_ExpressionPattern_alt_0_Use_edge__edge0.type.TypeID]) {
+                        if(candidate_ExpressionPattern_alt_0_Use_edge__edge0.type.TypeID!=7) {
                             continue;
                         }
                         if((candidate_ExpressionPattern_alt_0_Use_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -7244,7 +7272,7 @@ label17: ;
                 LGSPEdge candidate_Body_edge__edge0 = head_candidate_Body_edge__edge0;
                 do
                 {
-                    if(!EdgeType_contains.isMyType[candidate_Body_edge__edge0.type.TypeID]) {
+                    if(candidate_Body_edge__edge0.type.TypeID!=3) {
                         continue;
                     }
                     if((candidate_Body_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -7261,24 +7289,22 @@ label17: ;
                     }
                     // Implicit Target Body_node_c2 from Body_edge__edge0 
                     LGSPNode candidate_Body_node_c2 = candidate_Body_edge__edge0.target;
-                    if(!NodeType_Class.isMyType[candidate_Body_node_c2.type.TypeID]) {
+                    if(candidate_Body_node_c2.type.TypeID!=5) {
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_Body_edge__edge0.flags = candidate_Body_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Body_edge__edge0;
                         } else { 
-                            if(prev__candidate_Body_edge__edge0==0) {
+                            if(prev__candidate_Body_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Body_edge__edge0);
                             }
                         }
                         continue;
                     }
-                    if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Body_node_c2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Body_node_c2))
-                        && candidate_Body_node_c2==candidate_Body_node_c1
-                        )
+                    if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Body_node_c2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_Body_node_c2)))
                     {
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_Body_edge__edge0.flags = candidate_Body_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Body_edge__edge0;
                         } else { 
-                            if(prev__candidate_Body_edge__edge0==0) {
+                            if(prev__candidate_Body_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Body_edge__edge0);
                             }
                         }
@@ -7289,7 +7315,7 @@ label17: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_Body_edge__edge0.flags = candidate_Body_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Body_edge__edge0;
                         } else { 
-                            if(prev__candidate_Body_edge__edge0==0) {
+                            if(prev__candidate_Body_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Body_edge__edge0);
                             }
                         }
@@ -7302,12 +7328,10 @@ label17: ;
                         LGSPEdge candidate_Body_edge__edge1 = head_candidate_Body_edge__edge1;
                         do
                         {
-                            if(!EdgeType_contains.isMyType[candidate_Body_edge__edge1.type.TypeID]) {
+                            if(candidate_Body_edge__edge1.type.TypeID!=3) {
                                 continue;
                             }
-                            if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Body_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Body_edge__edge1))
-                                && candidate_Body_edge__edge1==candidate_Body_edge__edge0
-                                )
+                            if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_Body_edge__edge1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_Body_edge__edge1)))
                             {
                                 continue;
                             }
@@ -7317,7 +7341,7 @@ label17: ;
                             }
                             // Implicit Target Body_node_b from Body_edge__edge1 
                             LGSPNode candidate_Body_node_b = candidate_Body_edge__edge1.target;
-                            if(!NodeType_MethodBody.isMyType[candidate_Body_node_b.type.TypeID]) {
+                            if(candidate_Body_node_b.type.TypeID!=2) {
                                 continue;
                             }
                             if((candidate_Body_node_b.flags & (uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
@@ -7331,7 +7355,7 @@ label17: ;
                                 LGSPEdge candidate_Body_edge__edge2 = head_candidate_Body_edge__edge2;
                                 do
                                 {
-                                    if(!EdgeType_bindsTo.isMyType[candidate_Body_edge__edge2.type.TypeID]) {
+                                    if(candidate_Body_edge__edge2.type.TypeID!=6) {
                                         continue;
                                     }
                                     if(candidate_Body_edge__edge2.target != candidate_Body_node_m5) {
@@ -7409,7 +7433,7 @@ label17: ;
                                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                 candidate_Body_edge__edge0.flags = candidate_Body_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Body_edge__edge0;
                                             } else { 
-                                                if(prev__candidate_Body_edge__edge0==0) {
+                                                if(prev__candidate_Body_edge__edge0 == 0) {
                                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Body_edge__edge0);
                                                 }
                                             }
@@ -7437,7 +7461,7 @@ label17: ;
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_Body_edge__edge0.flags = candidate_Body_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Body_edge__edge0;
                     } else { 
-                        if(prev__candidate_Body_edge__edge0==0) {
+                        if(prev__candidate_Body_edge__edge0 == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_Body_edge__edge0);
                         }
                     }
@@ -7544,7 +7568,7 @@ label17: ;
                 }
                 return matches;
             }
-            if(!NodeType_Class.isMyType[candidate_pullUpMethod_node_c1.type.TypeID]) {
+            if(candidate_pullUpMethod_node_c1.type.TypeID!=5) {
                 return matches;
             }
             uint prev__candidate_pullUpMethod_node_c1;
@@ -7565,7 +7589,7 @@ label17: ;
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_pullUpMethod_node_c1.flags = candidate_pullUpMethod_node_c1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_node_c1;
                     } else { 
-                        if(prev__candidate_pullUpMethod_node_c1==0) {
+                        if(prev__candidate_pullUpMethod_node_c1 == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_pullUpMethod_node_c1);
                         }
                     }
@@ -7574,17 +7598,17 @@ label17: ;
                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                     candidate_pullUpMethod_node_c1.flags = candidate_pullUpMethod_node_c1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_node_c1;
                 } else { 
-                    if(prev__candidate_pullUpMethod_node_c1==0) {
+                    if(prev__candidate_pullUpMethod_node_c1 == 0) {
                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_pullUpMethod_node_c1);
                     }
                 }
                 return matches;
             }
-            if(!NodeType_MethodBody.isMyType[candidate_pullUpMethod_node_b4.type.TypeID]) {
+            if(candidate_pullUpMethod_node_b4.type.TypeID!=2) {
                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                     candidate_pullUpMethod_node_c1.flags = candidate_pullUpMethod_node_c1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_node_c1;
                 } else { 
-                    if(prev__candidate_pullUpMethod_node_c1==0) {
+                    if(prev__candidate_pullUpMethod_node_c1 == 0) {
                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_pullUpMethod_node_c1);
                     }
                 }
@@ -7597,7 +7621,7 @@ label17: ;
                 LGSPEdge candidate_pullUpMethod_edge__edge0 = head_candidate_pullUpMethod_edge__edge0;
                 do
                 {
-                    if(!EdgeType_contains.isMyType[candidate_pullUpMethod_edge__edge0.type.TypeID]) {
+                    if(candidate_pullUpMethod_edge__edge0.type.TypeID!=3) {
                         continue;
                     }
                     uint prev__candidate_pullUpMethod_edge__edge0;
@@ -7610,24 +7634,22 @@ label17: ;
                     }
                     // Implicit Target pullUpMethod_node_c3 from pullUpMethod_edge__edge0 
                     LGSPNode candidate_pullUpMethod_node_c3 = candidate_pullUpMethod_edge__edge0.target;
-                    if(!NodeType_Class.isMyType[candidate_pullUpMethod_node_c3.type.TypeID]) {
+                    if(candidate_pullUpMethod_node_c3.type.TypeID!=5) {
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                         } else { 
-                            if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                            if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                             }
                         }
                         continue;
                     }
-                    if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_node_c3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_pullUpMethod_node_c3))
-                        && candidate_pullUpMethod_node_c3==candidate_pullUpMethod_node_c1
-                        )
+                    if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_node_c3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_pullUpMethod_node_c3)))
                     {
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                         } else { 
-                            if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                            if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                             }
                         }
@@ -7640,12 +7662,12 @@ label17: ;
                         LGSPEdge candidate_pullUpMethod_edge__edge1 = head_candidate_pullUpMethod_edge__edge1;
                         do
                         {
-                            if(!EdgeType_bindsTo.isMyType[candidate_pullUpMethod_edge__edge1.type.TypeID]) {
+                            if(candidate_pullUpMethod_edge__edge1.type.TypeID!=6) {
                                 continue;
                             }
                             // Implicit Target pullUpMethod_node_m5 from pullUpMethod_edge__edge1 
                             LGSPNode candidate_pullUpMethod_node_m5 = candidate_pullUpMethod_edge__edge1.target;
-                            if(!NodeType_MethodSignature.isMyType[candidate_pullUpMethod_node_m5.type.TypeID]) {
+                            if(candidate_pullUpMethod_node_m5.type.TypeID!=7) {
                                 continue;
                             }
                             // Extend Outgoing pullUpMethod_edge_m from pullUpMethod_node_c3 
@@ -7655,15 +7677,13 @@ label17: ;
                                 LGSPEdge candidate_pullUpMethod_edge_m = head_candidate_pullUpMethod_edge_m;
                                 do
                                 {
-                                    if(!EdgeType_contains.isMyType[candidate_pullUpMethod_edge_m.type.TypeID]) {
+                                    if(candidate_pullUpMethod_edge_m.type.TypeID!=3) {
                                         continue;
                                     }
                                     if(candidate_pullUpMethod_edge_m.target != candidate_pullUpMethod_node_b4) {
                                         continue;
                                     }
-                                    if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_edge_m.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_pullUpMethod_edge_m))
-                                        && candidate_pullUpMethod_edge_m==candidate_pullUpMethod_edge__edge0
-                                        )
+                                    if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_edge_m.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_pullUpMethod_edge_m)))
                                     {
                                         continue;
                                     }
@@ -7729,14 +7749,14 @@ label17: ;
                                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                 candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                                             } else { 
-                                                if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                                                if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                                                 }
                                             }
                                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                 candidate_pullUpMethod_node_c1.flags = candidate_pullUpMethod_node_c1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_node_c1;
                                             } else { 
-                                                if(prev__candidate_pullUpMethod_node_c1==0) {
+                                                if(prev__candidate_pullUpMethod_node_c1 == 0) {
                                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_pullUpMethod_node_c1);
                                                 }
                                             }
@@ -7767,7 +7787,7 @@ label17: ;
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                     } else { 
-                        if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                        if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                         }
                     }
@@ -7777,7 +7797,7 @@ label17: ;
             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                 candidate_pullUpMethod_node_c1.flags = candidate_pullUpMethod_node_c1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_node_c1;
             } else { 
-                if(prev__candidate_pullUpMethod_node_c1==0) {
+                if(prev__candidate_pullUpMethod_node_c1 == 0) {
                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_pullUpMethod_node_c1);
                 }
             }
@@ -7808,7 +7828,7 @@ label17: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_pullUpMethod_node_c1.flags = candidate_pullUpMethod_node_c1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_node_c1;
                         } else { 
-                            if(prev__candidate_pullUpMethod_node_c1==0) {
+                            if(prev__candidate_pullUpMethod_node_c1 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_pullUpMethod_node_c1);
                             }
                         }
@@ -7817,17 +7837,17 @@ label17: ;
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_pullUpMethod_node_c1.flags = candidate_pullUpMethod_node_c1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_node_c1;
                     } else { 
-                        if(prev__candidate_pullUpMethod_node_c1==0) {
+                        if(prev__candidate_pullUpMethod_node_c1 == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_pullUpMethod_node_c1);
                         }
                     }
                     continue;
                 }
-                if(!NodeType_MethodBody.isMyType[candidate_pullUpMethod_node_b4.type.TypeID]) {
+                if(candidate_pullUpMethod_node_b4.type.TypeID!=2) {
                     if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                         candidate_pullUpMethod_node_c1.flags = candidate_pullUpMethod_node_c1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_node_c1;
                     } else { 
-                        if(prev__candidate_pullUpMethod_node_c1==0) {
+                        if(prev__candidate_pullUpMethod_node_c1 == 0) {
                             graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_pullUpMethod_node_c1);
                         }
                     }
@@ -7840,7 +7860,7 @@ label17: ;
                     LGSPEdge candidate_pullUpMethod_edge__edge0 = head_candidate_pullUpMethod_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_pullUpMethod_edge__edge0.type.TypeID]) {
+                        if(candidate_pullUpMethod_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         uint prev__candidate_pullUpMethod_edge__edge0;
@@ -7853,24 +7873,22 @@ label17: ;
                         }
                         // Implicit Target pullUpMethod_node_c3 from pullUpMethod_edge__edge0 
                         LGSPNode candidate_pullUpMethod_node_c3 = candidate_pullUpMethod_edge__edge0.target;
-                        if(!NodeType_Class.isMyType[candidate_pullUpMethod_node_c3.type.TypeID]) {
+                        if(candidate_pullUpMethod_node_c3.type.TypeID!=5) {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                             } else { 
-                                if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                                if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                                 }
                             }
                             continue;
                         }
-                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_node_c3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_pullUpMethod_node_c3))
-                            && candidate_pullUpMethod_node_c3==candidate_pullUpMethod_node_c1
-                            )
+                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_node_c3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_pullUpMethod_node_c3)))
                         {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                             } else { 
-                                if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                                if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                                 }
                             }
@@ -7883,12 +7901,12 @@ label17: ;
                             LGSPEdge candidate_pullUpMethod_edge__edge1 = head_candidate_pullUpMethod_edge__edge1;
                             do
                             {
-                                if(!EdgeType_bindsTo.isMyType[candidate_pullUpMethod_edge__edge1.type.TypeID]) {
+                                if(candidate_pullUpMethod_edge__edge1.type.TypeID!=6) {
                                     continue;
                                 }
                                 // Implicit Target pullUpMethod_node_m5 from pullUpMethod_edge__edge1 
                                 LGSPNode candidate_pullUpMethod_node_m5 = candidate_pullUpMethod_edge__edge1.target;
-                                if(!NodeType_MethodSignature.isMyType[candidate_pullUpMethod_node_m5.type.TypeID]) {
+                                if(candidate_pullUpMethod_node_m5.type.TypeID!=7) {
                                     continue;
                                 }
                                 // Extend Outgoing pullUpMethod_edge_m from pullUpMethod_node_c3 
@@ -7898,15 +7916,13 @@ label17: ;
                                     LGSPEdge candidate_pullUpMethod_edge_m = head_candidate_pullUpMethod_edge_m;
                                     do
                                     {
-                                        if(!EdgeType_contains.isMyType[candidate_pullUpMethod_edge_m.type.TypeID]) {
+                                        if(candidate_pullUpMethod_edge_m.type.TypeID!=3) {
                                             continue;
                                         }
                                         if(candidate_pullUpMethod_edge_m.target != candidate_pullUpMethod_node_b4) {
                                             continue;
                                         }
-                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_edge_m.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_pullUpMethod_edge_m))
-                                            && candidate_pullUpMethod_edge_m==candidate_pullUpMethod_edge__edge0
-                                            )
+                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_edge_m.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_pullUpMethod_edge_m)))
                                         {
                                             continue;
                                         }
@@ -7972,14 +7988,14 @@ label17: ;
                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                     candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                                                 } else { 
-                                                    if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                                                    if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                                                     }
                                                 }
                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                     candidate_pullUpMethod_node_c1.flags = candidate_pullUpMethod_node_c1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_node_c1;
                                                 } else { 
-                                                    if(prev__candidate_pullUpMethod_node_c1==0) {
+                                                    if(prev__candidate_pullUpMethod_node_c1 == 0) {
                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_pullUpMethod_node_c1);
                                                     }
                                                 }
@@ -8010,7 +8026,7 @@ label17: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                         } else { 
-                            if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                            if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                             }
                         }
@@ -8020,7 +8036,7 @@ label17: ;
                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                     candidate_pullUpMethod_node_c1.flags = candidate_pullUpMethod_node_c1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_node_c1;
                 } else { 
-                    if(prev__candidate_pullUpMethod_node_c1==0) {
+                    if(prev__candidate_pullUpMethod_node_c1 == 0) {
                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_pullUpMethod_node_c1);
                     }
                 }
@@ -8041,7 +8057,7 @@ label17: ;
                     LGSPEdge candidate_pullUpMethod_edge__edge0 = head_candidate_pullUpMethod_edge__edge0;
                     do
                     {
-                        if(!EdgeType_contains.isMyType[candidate_pullUpMethod_edge__edge0.type.TypeID]) {
+                        if(candidate_pullUpMethod_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         uint prev__candidate_pullUpMethod_edge__edge0;
@@ -8054,24 +8070,22 @@ label17: ;
                         }
                         // Implicit Target pullUpMethod_node_c3 from pullUpMethod_edge__edge0 
                         LGSPNode candidate_pullUpMethod_node_c3 = candidate_pullUpMethod_edge__edge0.target;
-                        if(!NodeType_Class.isMyType[candidate_pullUpMethod_node_c3.type.TypeID]) {
+                        if(candidate_pullUpMethod_node_c3.type.TypeID!=5) {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                             } else { 
-                                if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                                if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                                 }
                             }
                             continue;
                         }
-                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_node_c3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_pullUpMethod_node_c3))
-                            && candidate_pullUpMethod_node_c3==candidate_pullUpMethod_node_c1
-                            )
+                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_node_c3.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_pullUpMethod_node_c3)))
                         {
                             if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                             } else { 
-                                if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                                if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                                     graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                                 }
                             }
@@ -8084,12 +8098,12 @@ label17: ;
                             LGSPEdge candidate_pullUpMethod_edge__edge1 = head_candidate_pullUpMethod_edge__edge1;
                             do
                             {
-                                if(!EdgeType_bindsTo.isMyType[candidate_pullUpMethod_edge__edge1.type.TypeID]) {
+                                if(candidate_pullUpMethod_edge__edge1.type.TypeID!=6) {
                                     continue;
                                 }
                                 // Implicit Target pullUpMethod_node_m5 from pullUpMethod_edge__edge1 
                                 LGSPNode candidate_pullUpMethod_node_m5 = candidate_pullUpMethod_edge__edge1.target;
-                                if(!NodeType_MethodSignature.isMyType[candidate_pullUpMethod_node_m5.type.TypeID]) {
+                                if(candidate_pullUpMethod_node_m5.type.TypeID!=7) {
                                     continue;
                                 }
                                 // Extend Outgoing pullUpMethod_edge_m from pullUpMethod_node_c3 
@@ -8099,15 +8113,13 @@ label17: ;
                                     LGSPEdge candidate_pullUpMethod_edge_m = head_candidate_pullUpMethod_edge_m;
                                     do
                                     {
-                                        if(!EdgeType_contains.isMyType[candidate_pullUpMethod_edge_m.type.TypeID]) {
+                                        if(candidate_pullUpMethod_edge_m.type.TypeID!=3) {
                                             continue;
                                         }
                                         if(candidate_pullUpMethod_edge_m.target != candidate_pullUpMethod_node_b4) {
                                             continue;
                                         }
-                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_edge_m.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_pullUpMethod_edge_m))
-                                            && candidate_pullUpMethod_edge_m==candidate_pullUpMethod_edge__edge0
-                                            )
+                                        if((negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_pullUpMethod_edge_m.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_pullUpMethod_edge_m)))
                                         {
                                             continue;
                                         }
@@ -8173,7 +8185,7 @@ label17: ;
                                                 if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                                                     candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                                                 } else { 
-                                                    if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                                                    if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                                                         graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                                                     }
                                                 }
@@ -8204,7 +8216,7 @@ label17: ;
                         if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_pullUpMethod_edge__edge0.flags = candidate_pullUpMethod_edge__edge0.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_pullUpMethod_edge__edge0;
                         } else { 
-                            if(prev__candidate_pullUpMethod_edge__edge0==0) {
+                            if(prev__candidate_pullUpMethod_edge__edge0 == 0) {
                                 graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_pullUpMethod_edge__edge0);
                             }
                         }
@@ -8249,7 +8261,7 @@ label17: ;
                 }
                 return matches;
             }
-            if(!NodeType_Class.isMyType[candidate_matchAll_node_c1.type.TypeID]) {
+            if(candidate_matchAll_node_c1.type.TypeID!=5) {
                 return matches;
             }
             // Push subpattern matching task for _subpattern0

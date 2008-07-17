@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Wed May 28 22:11:06 CEST 2008
+// Generated from "test.grg" on Thu Jul 17 11:13:10 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,8 @@ namespace de.unika.ipd.grGen.Action_test
 	{
 		private static Rule_testRule instance = null;
 		public static Rule_testRule Instance { get { if (instance==null) { instance = new Rule_testRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] testRule_node_a_AllowedTypes = null;
 		public static NodeType[] testRule_node_f_AllowedTypes = null;
@@ -183,13 +185,13 @@ namespace de.unika.ipd.grGen.Action_test
                 candidate_testRule_edge__edge1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Source testRule_node_f from testRule_edge__edge1 
                 LGSPNode candidate_testRule_node_f = candidate_testRule_edge__edge1.source;
-                if(!NodeType_B21.isMyType[candidate_testRule_node_f.type.TypeID]) {
+                if(candidate_testRule_node_f.type.TypeID!=6) {
                     candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testRule_edge__edge1;
                     continue;
                 }
                 // Implicit Target testRule_node_m from testRule_edge__edge1 
                 LGSPNode candidate_testRule_node_m = candidate_testRule_edge__edge1.target;
-                if(!NodeType_D2211_2222_31.isMyType[candidate_testRule_node_m.type.TypeID]) {
+                if(candidate_testRule_node_m.type.TypeID!=17) {
                     candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testRule_edge__edge1;
                     continue;
                 }
@@ -200,18 +202,16 @@ namespace de.unika.ipd.grGen.Action_test
                     LGSPEdge candidate_testRule_edge__edge0 = head_candidate_testRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_Edge.isMyType[candidate_testRule_edge__edge0.type.TypeID]) {
+                        if(candidate_testRule_edge__edge0.type.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_testRule_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                            && candidate_testRule_edge__edge0==candidate_testRule_edge__edge1
-                            )
+                        if((candidate_testRule_edge__edge0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
                         // Implicit Source testRule_node_a from testRule_edge__edge0 
                         LGSPNode candidate_testRule_node_a = candidate_testRule_edge__edge0.source;
-                        if(!NodeType_D231_4121.isMyType[candidate_testRule_node_a.type.TypeID]) {
+                        if(candidate_testRule_node_a.type.TypeID!=18) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();

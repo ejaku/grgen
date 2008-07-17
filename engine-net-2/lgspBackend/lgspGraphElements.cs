@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Maximum neg level which can be handled by the flags.
         /// </summary>
-        MAX_NEG_LEVEL = 5,
+        MAX_NEG_LEVEL = 12,
 
         /// <summary>
         /// This element has already been visited by a visitor.

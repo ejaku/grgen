@@ -882,7 +882,7 @@ exitSecondLoop: ;
             if (homToAll)
             {
                 // operation is allowed to be homomorph with everything
-                // no checks for isomorphy or restricted homomorphy needed
+                // no checks for isomorphy or restricted homomorphy needed at all
                 return;
             }
 
@@ -906,6 +906,7 @@ exitSecondLoop: ;
             // order operation to check against all elements it's not allowed to be homomorph to
 
             // iterate through the operations before our position
+            bool homomorphyPossibleAndAllowed = false;
             for (int i = 0; i < j; ++i)
             {
                 // only check operations computing nodes or edges
@@ -922,16 +923,8 @@ exitSecondLoop: ;
                 {
                     continue;
                 }
-
-                // don't check homomorph elements
-                if (hom[spn_i.ElementID - 1, spn_j.ElementID - 1])
-                {
-                    continue;
-                }
                 
                 // find out whether element types are disjoint
-                    // todo: optimization: check type constraints
-                    // todo: why not check it before and combine it into hom-matrix?
                 GrGenType type_i = types[spn_i.PatternElement.TypeID];
                 GrGenType type_j = types[spn_j.PatternElement.TypeID];
                 bool disjoint = true;
@@ -950,7 +943,17 @@ exitSecondLoop: ;
                     continue;
                 }
 
-                // the generated matcher code has to check 
+                // at this position we found out that spn_i and spn_j 
+                // might get matched to the same host graph element, i.e. homomorphy is possible
+                
+                // if that's ok we don't need to insert checks to prevent this from happening
+                if (hom[spn_i.ElementID - 1, spn_j.ElementID - 1])
+                {
+                    homomorphyPossibleAndAllowed = true;
+                    continue;
+                }
+
+                // otherwise the generated matcher code has to check 
                 // that pattern element j doesn't get bound to the same graph element
                 // the pattern element i is already bound to 
                 if (ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst == null) {
@@ -958,7 +961,8 @@ exitSecondLoop: ;
                 }
                 ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst.Add(spn_i);
 
-                // order operation to set the is-matched-bit after all checks succeeded
+                // if spn_j might get matched to the same host graph element as spn_i and this is not allowed
+                // make spn_i set the is-matched-bit so that spn_j can detect this situation
                 ssp.Operations[i].Isomorphy.SetIsMatchedBit = true;
             }
 
@@ -970,6 +974,15 @@ exitSecondLoop: ;
             {
                 // order operation to check whether the is-matched-bit is set
                 ssp.Operations[j].Isomorphy.CheckIsMatchedBit = true;
+            }
+
+            // if no check for isomorphy was skipped due to homomorphy being allowed
+            // pure isomorphy is to be guaranteed - simply check the is-matched-bit and be done
+            // the pattern elements to check against are only needed 
+            // if spn_j is allowed to be homomorph to some elements but must be isomorph to some others
+            if (ssp.Operations[j].Isomorphy.CheckIsMatchedBit && !homomorphyPossibleAndAllowed)
+            {
+                ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst = null;
             }
         }
 

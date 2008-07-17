@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu May 29 22:33:15 CEST 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu Jul 17 11:12:22 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 	{
 		private static Rule_readZeroRule instance = null;
 		public static Rule_readZeroRule Instance { get { if (instance==null) { instance = new Rule_readZeroRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[1];
 
 		public static NodeType[] readZeroRule_node_s_AllowedTypes = null;
 		public static NodeType[] readZeroRule_node_wv_AllowedTypes = null;
@@ -109,7 +111,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			int tempvar_i = inode_wv.@value;
 			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, tempvar_i);
 			inode_bp.@value = tempvar_i;
-			return new object[] { node_wv, };
+			ReturnArray[0] = node_wv;
+			return ReturnArray;
 		}
 		private static String[] readZeroRule_addedNodeNames = new String[] {  };
 		private static String[] readZeroRule_addedEdgeNames = new String[] {  };
@@ -125,7 +128,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			int tempvar_i = inode_wv.@value;
 			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, tempvar_i);
 			inode_bp.@value = tempvar_i;
-			return new object[] { node_wv, };
+			ReturnArray[0] = node_wv;
+			return ReturnArray;
 		}
 	}
 
@@ -133,6 +137,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 	{
 		private static Rule_readOneRule instance = null;
 		public static Rule_readOneRule Instance { get { if (instance==null) { instance = new Rule_readOneRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[1];
 
 		public static NodeType[] readOneRule_node_s_AllowedTypes = null;
 		public static NodeType[] readOneRule_node_wv_AllowedTypes = null;
@@ -227,7 +233,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			int tempvar_i = inode_wv.@value;
 			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, tempvar_i);
 			inode_bp.@value = tempvar_i;
-			return new object[] { node_wv, };
+			ReturnArray[0] = node_wv;
+			return ReturnArray;
 		}
 		private static String[] readOneRule_addedNodeNames = new String[] {  };
 		private static String[] readOneRule_addedEdgeNames = new String[] {  };
@@ -243,7 +250,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			int tempvar_i = inode_wv.@value;
 			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, tempvar_i);
 			inode_bp.@value = tempvar_i;
-			return new object[] { node_wv, };
+			ReturnArray[0] = node_wv;
+			return ReturnArray;
 		}
 	}
 
@@ -251,6 +259,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 	{
 		private static Rule_ensureMoveLeftValidRule instance = null;
 		public static Rule_ensureMoveLeftValidRule Instance { get { if (instance==null) { instance = new Rule_ensureMoveLeftValidRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] ensureMoveLeftValidRule_node_wv_AllowedTypes = null;
 		public static NodeType[] ensureMoveLeftValidRule_node__node0_AllowedTypes = null;
@@ -404,6 +414,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private static Rule_ensureMoveRightValidRule instance = null;
 		public static Rule_ensureMoveRightValidRule Instance { get { if (instance==null) { instance = new Rule_ensureMoveRightValidRule(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] ensureMoveRightValidRule_node_wv_AllowedTypes = null;
 		public static NodeType[] ensureMoveRightValidRule_node__node0_AllowedTypes = null;
 		public static NodeType[] ensureMoveRightValidRule_node_bp_AllowedTypes = null;
@@ -556,6 +568,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private static Rule_moveLeftRule instance = null;
 		public static Rule_moveLeftRule Instance { get { if (instance==null) { instance = new Rule_moveLeftRule(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[2];
+
 		public static NodeType[] moveLeftRule_node_wv_AllowedTypes = null;
 		public static NodeType[] moveLeftRule_node_s_AllowedTypes = null;
 		public static NodeType[] moveLeftRule_node_lbp_AllowedTypes = null;
@@ -653,7 +667,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			LGSPNode node_lbp = curMatch.Nodes[(int)moveLeftRule_NodeNums.@lbp];
 			graph.SettingAddedNodeNames( moveLeftRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( moveLeftRule_addedEdgeNames );
-			return new object[] { node_s, node_lbp, };
+			ReturnArray[0] = node_s;
+			ReturnArray[1] = node_lbp;
+			return ReturnArray;
 		}
 		private static String[] moveLeftRule_addedNodeNames = new String[] {  };
 		private static String[] moveLeftRule_addedEdgeNames = new String[] {  };
@@ -664,7 +680,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			LGSPNode node_lbp = curMatch.Nodes[(int)moveLeftRule_NodeNums.@lbp];
 			graph.SettingAddedNodeNames( moveLeftRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( moveLeftRule_addedEdgeNames );
-			return new object[] { node_s, node_lbp, };
+			ReturnArray[0] = node_s;
+			ReturnArray[1] = node_lbp;
+			return ReturnArray;
 		}
 	}
 
@@ -672,6 +690,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 	{
 		private static Rule_moveRightRule instance = null;
 		public static Rule_moveRightRule Instance { get { if (instance==null) { instance = new Rule_moveRightRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[2];
 
 		public static NodeType[] moveRightRule_node_wv_AllowedTypes = null;
 		public static NodeType[] moveRightRule_node_s_AllowedTypes = null;
@@ -770,7 +790,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			LGSPNode node_rbp = curMatch.Nodes[(int)moveRightRule_NodeNums.@rbp];
 			graph.SettingAddedNodeNames( moveRightRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( moveRightRule_addedEdgeNames );
-			return new object[] { node_s, node_rbp, };
+			ReturnArray[0] = node_s;
+			ReturnArray[1] = node_rbp;
+			return ReturnArray;
 		}
 		private static String[] moveRightRule_addedNodeNames = new String[] {  };
 		private static String[] moveRightRule_addedEdgeNames = new String[] {  };
@@ -781,7 +803,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			LGSPNode node_rbp = curMatch.Nodes[(int)moveRightRule_NodeNums.@rbp];
 			graph.SettingAddedNodeNames( moveRightRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( moveRightRule_addedEdgeNames );
-			return new object[] { node_s, node_rbp, };
+			ReturnArray[0] = node_s;
+			ReturnArray[1] = node_rbp;
+			return ReturnArray;
 		}
 	}
 
@@ -816,7 +840,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(!NodeType_State.isMyType[candidate_readZeroRule_node_s.type.TypeID]) {
+            if(candidate_readZeroRule_node_s.type.TypeID!=2) {
                 return matches;
             }
             // Preset readZeroRule_node_bp 
@@ -830,7 +854,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[candidate_readZeroRule_node_bp.type.TypeID]) {
+            if(candidate_readZeroRule_node_bp.type.TypeID!=1) {
                 return matches;
             }
             // Condition 
@@ -844,12 +868,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
                 do
                 {
-                    if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
+                    if(candidate_readZeroRule_edge_rv.type.TypeID!=4) {
                         continue;
                     }
                     // Implicit Target readZeroRule_node_wv from readZeroRule_edge_rv 
                     LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
-                    if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
+                    if(candidate_readZeroRule_node_wv.type.TypeID!=3) {
                         continue;
                     }
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -888,7 +912,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     }
                     continue;
                 }
-                if(!NodeType_BandPosition.isMyType[candidate_readZeroRule_node_bp.type.TypeID]) {
+                if(candidate_readZeroRule_node_bp.type.TypeID!=1) {
                     continue;
                 }
                 // Condition 
@@ -902,12 +926,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
                     do
                     {
-                        if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
+                        if(candidate_readZeroRule_edge_rv.type.TypeID!=4) {
                             continue;
                         }
                         // Implicit Target readZeroRule_node_wv from readZeroRule_edge_rv 
                         LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
+                        if(candidate_readZeroRule_node_wv.type.TypeID!=3) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -948,12 +972,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
                     do
                     {
-                        if(!EdgeType_readZero.isMyType[candidate_readZeroRule_edge_rv.type.TypeID]) {
+                        if(candidate_readZeroRule_edge_rv.type.TypeID!=4) {
                             continue;
                         }
                         // Implicit Target readZeroRule_node_wv from readZeroRule_edge_rv 
                         LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[candidate_readZeroRule_node_wv.type.TypeID]) {
+                        if(candidate_readZeroRule_node_wv.type.TypeID!=3) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -1008,7 +1032,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(!NodeType_State.isMyType[candidate_readOneRule_node_s.type.TypeID]) {
+            if(candidate_readOneRule_node_s.type.TypeID!=2) {
                 return matches;
             }
             // Preset readOneRule_node_bp 
@@ -1022,7 +1046,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[candidate_readOneRule_node_bp.type.TypeID]) {
+            if(candidate_readOneRule_node_bp.type.TypeID!=1) {
                 return matches;
             }
             // Condition 
@@ -1036,12 +1060,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
                 do
                 {
-                    if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
+                    if(candidate_readOneRule_edge_rv.type.TypeID!=5) {
                         continue;
                     }
                     // Implicit Target readOneRule_node_wv from readOneRule_edge_rv 
                     LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
-                    if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
+                    if(candidate_readOneRule_node_wv.type.TypeID!=3) {
                         continue;
                     }
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -1080,7 +1104,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     }
                     continue;
                 }
-                if(!NodeType_BandPosition.isMyType[candidate_readOneRule_node_bp.type.TypeID]) {
+                if(candidate_readOneRule_node_bp.type.TypeID!=1) {
                     continue;
                 }
                 // Condition 
@@ -1094,12 +1118,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
                     do
                     {
-                        if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
+                        if(candidate_readOneRule_edge_rv.type.TypeID!=5) {
                             continue;
                         }
                         // Implicit Target readOneRule_node_wv from readOneRule_edge_rv 
                         LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
+                        if(candidate_readOneRule_node_wv.type.TypeID!=3) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -1140,12 +1164,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
                     do
                     {
-                        if(!EdgeType_readOne.isMyType[candidate_readOneRule_edge_rv.type.TypeID]) {
+                        if(candidate_readOneRule_edge_rv.type.TypeID!=5) {
                             continue;
                         }
                         // Implicit Target readOneRule_node_wv from readOneRule_edge_rv 
                         LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
-                        if(!NodeType_WriteValue.isMyType[candidate_readOneRule_node_wv.type.TypeID]) {
+                        if(candidate_readOneRule_node_wv.type.TypeID!=3) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -1200,7 +1224,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(!NodeType_WriteValue.isMyType[candidate_ensureMoveLeftValidRule_node_wv.type.TypeID]) {
+            if(candidate_ensureMoveLeftValidRule_node_wv.type.TypeID!=3) {
                 return matches;
             }
             // Preset ensureMoveLeftValidRule_node_bp 
@@ -1214,7 +1238,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_node_bp.type.TypeID]) {
+            if(candidate_ensureMoveLeftValidRule_node_bp.type.TypeID!=1) {
                 return matches;
             }
             // NegativePattern 
@@ -1230,17 +1254,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     LGSPEdge candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0;
                     do
                     {
-                        if(!EdgeType_right.isMyType[candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
+                        if(candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         // Implicit Source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
                         LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
-                        if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
+                        if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                            && candidate_ensureMoveLeftValidRule_neg_0_node__node0==candidate_ensureMoveLeftValidRule_node_bp
-                            )
+                        if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
@@ -1261,12 +1283,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 LGSPEdge candidate_ensureMoveLeftValidRule_edge__edge0 = head_candidate_ensureMoveLeftValidRule_edge__edge0;
                 do
                 {
-                    if(!EdgeType_moveLeft.isMyType[candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
+                    if(candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID!=6) {
                         continue;
                     }
                     // Implicit Target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
                     LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
-                    if(!NodeType_State.isMyType[candidate_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
+                    if(candidate_ensureMoveLeftValidRule_node__node0.type.TypeID!=2) {
                         continue;
                     }
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -1305,7 +1327,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     }
                     continue;
                 }
-                if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_node_bp.type.TypeID]) {
+                if(candidate_ensureMoveLeftValidRule_node_bp.type.TypeID!=1) {
                     continue;
                 }
                 // NegativePattern 
@@ -1321,17 +1343,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         LGSPEdge candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_right.isMyType[candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
+                            if(candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
                             LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
-                            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
+                            if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                && candidate_ensureMoveLeftValidRule_neg_0_node__node0==candidate_ensureMoveLeftValidRule_node_bp
-                                )
+                            if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
@@ -1352,12 +1372,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     LGSPEdge candidate_ensureMoveLeftValidRule_edge__edge0 = head_candidate_ensureMoveLeftValidRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveLeft.isMyType[candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
+                        if(candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID!=6) {
                             continue;
                         }
                         // Implicit Target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
                         LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[candidate_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
+                        if(candidate_ensureMoveLeftValidRule_node__node0.type.TypeID!=2) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -1401,17 +1421,15 @@ label0: ;
                         LGSPEdge candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_right.isMyType[candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID]) {
+                            if(candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
                             LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
-                            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID]) {
+                            if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                && candidate_ensureMoveLeftValidRule_neg_0_node__node0==candidate_ensureMoveLeftValidRule_node_bp
-                                )
+                            if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
@@ -1432,12 +1450,12 @@ label0: ;
                     LGSPEdge candidate_ensureMoveLeftValidRule_edge__edge0 = head_candidate_ensureMoveLeftValidRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveLeft.isMyType[candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID]) {
+                        if(candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID!=6) {
                             continue;
                         }
                         // Implicit Target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
                         LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[candidate_ensureMoveLeftValidRule_node__node0.type.TypeID]) {
+                        if(candidate_ensureMoveLeftValidRule_node__node0.type.TypeID!=2) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -1493,7 +1511,7 @@ label1: ;
                 }
                 return matches;
             }
-            if(!NodeType_WriteValue.isMyType[candidate_ensureMoveRightValidRule_node_wv.type.TypeID]) {
+            if(candidate_ensureMoveRightValidRule_node_wv.type.TypeID!=3) {
                 return matches;
             }
             // Preset ensureMoveRightValidRule_node_bp 
@@ -1507,7 +1525,7 @@ label1: ;
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_node_bp.type.TypeID]) {
+            if(candidate_ensureMoveRightValidRule_node_bp.type.TypeID!=1) {
                 return matches;
             }
             // NegativePattern 
@@ -1523,17 +1541,15 @@ label1: ;
                     LGSPEdge candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0;
                     do
                     {
-                        if(!EdgeType_right.isMyType[candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
+                        if(candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID!=3) {
                             continue;
                         }
                         // Implicit Target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
                         LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
-                        if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
+                        if(candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                            && candidate_ensureMoveRightValidRule_neg_0_node__node0==candidate_ensureMoveRightValidRule_node_bp
-                            )
+                        if((candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
@@ -1554,12 +1570,12 @@ label1: ;
                 LGSPEdge candidate_ensureMoveRightValidRule_edge__edge0 = head_candidate_ensureMoveRightValidRule_edge__edge0;
                 do
                 {
-                    if(!EdgeType_moveRight.isMyType[candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
+                    if(candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID!=7) {
                         continue;
                     }
                     // Implicit Target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
                     LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
-                    if(!NodeType_State.isMyType[candidate_ensureMoveRightValidRule_node__node0.type.TypeID]) {
+                    if(candidate_ensureMoveRightValidRule_node__node0.type.TypeID!=2) {
                         continue;
                     }
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -1598,7 +1614,7 @@ label1: ;
                     }
                     continue;
                 }
-                if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_node_bp.type.TypeID]) {
+                if(candidate_ensureMoveRightValidRule_node_bp.type.TypeID!=1) {
                     continue;
                 }
                 // NegativePattern 
@@ -1614,17 +1630,15 @@ label1: ;
                         LGSPEdge candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_right.isMyType[candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
+                            if(candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
                             LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
-                            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
+                            if(candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                && candidate_ensureMoveRightValidRule_neg_0_node__node0==candidate_ensureMoveRightValidRule_node_bp
-                                )
+                            if((candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
@@ -1645,12 +1659,12 @@ label1: ;
                     LGSPEdge candidate_ensureMoveRightValidRule_edge__edge0 = head_candidate_ensureMoveRightValidRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveRight.isMyType[candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
+                        if(candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID!=7) {
                             continue;
                         }
                         // Implicit Target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
                         LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[candidate_ensureMoveRightValidRule_node__node0.type.TypeID]) {
+                        if(candidate_ensureMoveRightValidRule_node__node0.type.TypeID!=2) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -1694,17 +1708,15 @@ label2: ;
                         LGSPEdge candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_right.isMyType[candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID]) {
+                            if(candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
                             LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
-                            if(!NodeType_BandPosition.isMyType[candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID]) {
+                            if(candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                && candidate_ensureMoveRightValidRule_neg_0_node__node0==candidate_ensureMoveRightValidRule_node_bp
-                                )
+                            if((candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
@@ -1725,12 +1737,12 @@ label2: ;
                     LGSPEdge candidate_ensureMoveRightValidRule_edge__edge0 = head_candidate_ensureMoveRightValidRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveRight.isMyType[candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID]) {
+                        if(candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID!=7) {
                             continue;
                         }
                         // Implicit Target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
                         LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[candidate_ensureMoveRightValidRule_node__node0.type.TypeID]) {
+                        if(candidate_ensureMoveRightValidRule_node__node0.type.TypeID!=2) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -1786,7 +1798,7 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_WriteValue.isMyType[candidate_moveLeftRule_node_wv.type.TypeID]) {
+            if(candidate_moveLeftRule_node_wv.type.TypeID!=3) {
                 return matches;
             }
             // Preset moveLeftRule_node_bp 
@@ -1800,7 +1812,7 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_bp.type.TypeID]) {
+            if(candidate_moveLeftRule_node_bp.type.TypeID!=1) {
                 return matches;
             }
             uint prev__candidate_moveLeftRule_node_bp;
@@ -1813,12 +1825,12 @@ label3: ;
                 LGSPEdge candidate_moveLeftRule_edge__edge0 = head_candidate_moveLeftRule_edge__edge0;
                 do
                 {
-                    if(!EdgeType_moveLeft.isMyType[candidate_moveLeftRule_edge__edge0.type.TypeID]) {
+                    if(candidate_moveLeftRule_edge__edge0.type.TypeID!=6) {
                         continue;
                     }
                     // Implicit Target moveLeftRule_node_s from moveLeftRule_edge__edge0 
                     LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
-                    if(!NodeType_State.isMyType[candidate_moveLeftRule_node_s.type.TypeID]) {
+                    if(candidate_moveLeftRule_node_s.type.TypeID!=2) {
                         continue;
                     }
                     // Extend Incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
@@ -1828,17 +1840,15 @@ label3: ;
                         LGSPEdge candidate_moveLeftRule_edge__edge1 = head_candidate_moveLeftRule_edge__edge1;
                         do
                         {
-                            if(!EdgeType_right.isMyType[candidate_moveLeftRule_edge__edge1.type.TypeID]) {
+                            if(candidate_moveLeftRule_edge__edge1.type.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
                             LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
-                            if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_lbp.type.TypeID]) {
+                            if(candidate_moveLeftRule_node_lbp.type.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_moveLeftRule_node_lbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                && candidate_moveLeftRule_node_lbp==candidate_moveLeftRule_node_bp
-                                )
+                            if((candidate_moveLeftRule_node_lbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
@@ -1886,7 +1896,7 @@ label3: ;
                     }
                     continue;
                 }
-                if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_bp.type.TypeID]) {
+                if(candidate_moveLeftRule_node_bp.type.TypeID!=1) {
                     continue;
                 }
                 uint prev__candidate_moveLeftRule_node_bp;
@@ -1899,12 +1909,12 @@ label3: ;
                     LGSPEdge candidate_moveLeftRule_edge__edge0 = head_candidate_moveLeftRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveLeft.isMyType[candidate_moveLeftRule_edge__edge0.type.TypeID]) {
+                        if(candidate_moveLeftRule_edge__edge0.type.TypeID!=6) {
                             continue;
                         }
                         // Implicit Target moveLeftRule_node_s from moveLeftRule_edge__edge0 
                         LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[candidate_moveLeftRule_node_s.type.TypeID]) {
+                        if(candidate_moveLeftRule_node_s.type.TypeID!=2) {
                             continue;
                         }
                         // Extend Incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
@@ -1914,17 +1924,15 @@ label3: ;
                             LGSPEdge candidate_moveLeftRule_edge__edge1 = head_candidate_moveLeftRule_edge__edge1;
                             do
                             {
-                                if(!EdgeType_right.isMyType[candidate_moveLeftRule_edge__edge1.type.TypeID]) {
+                                if(candidate_moveLeftRule_edge__edge1.type.TypeID!=3) {
                                     continue;
                                 }
                                 // Implicit Source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
                                 LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
-                                if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_lbp.type.TypeID]) {
+                                if(candidate_moveLeftRule_node_lbp.type.TypeID!=1) {
                                     continue;
                                 }
-                                if((candidate_moveLeftRule_node_lbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                    && candidate_moveLeftRule_node_lbp==candidate_moveLeftRule_node_bp
-                                    )
+                                if((candidate_moveLeftRule_node_lbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
@@ -1973,12 +1981,12 @@ label3: ;
                     LGSPEdge candidate_moveLeftRule_edge__edge0 = head_candidate_moveLeftRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveLeft.isMyType[candidate_moveLeftRule_edge__edge0.type.TypeID]) {
+                        if(candidate_moveLeftRule_edge__edge0.type.TypeID!=6) {
                             continue;
                         }
                         // Implicit Target moveLeftRule_node_s from moveLeftRule_edge__edge0 
                         LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[candidate_moveLeftRule_node_s.type.TypeID]) {
+                        if(candidate_moveLeftRule_node_s.type.TypeID!=2) {
                             continue;
                         }
                         // Extend Incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
@@ -1988,17 +1996,15 @@ label3: ;
                             LGSPEdge candidate_moveLeftRule_edge__edge1 = head_candidate_moveLeftRule_edge__edge1;
                             do
                             {
-                                if(!EdgeType_right.isMyType[candidate_moveLeftRule_edge__edge1.type.TypeID]) {
+                                if(candidate_moveLeftRule_edge__edge1.type.TypeID!=3) {
                                     continue;
                                 }
                                 // Implicit Source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
                                 LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
-                                if(!NodeType_BandPosition.isMyType[candidate_moveLeftRule_node_lbp.type.TypeID]) {
+                                if(candidate_moveLeftRule_node_lbp.type.TypeID!=1) {
                                     continue;
                                 }
-                                if((candidate_moveLeftRule_node_lbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                    && candidate_moveLeftRule_node_lbp==candidate_moveLeftRule_node_bp
-                                    )
+                                if((candidate_moveLeftRule_node_lbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
@@ -2062,7 +2068,7 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_WriteValue.isMyType[candidate_moveRightRule_node_wv.type.TypeID]) {
+            if(candidate_moveRightRule_node_wv.type.TypeID!=3) {
                 return matches;
             }
             // Preset moveRightRule_node_bp 
@@ -2076,7 +2082,7 @@ label3: ;
                 }
                 return matches;
             }
-            if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_bp.type.TypeID]) {
+            if(candidate_moveRightRule_node_bp.type.TypeID!=1) {
                 return matches;
             }
             uint prev__candidate_moveRightRule_node_bp;
@@ -2089,12 +2095,12 @@ label3: ;
                 LGSPEdge candidate_moveRightRule_edge__edge0 = head_candidate_moveRightRule_edge__edge0;
                 do
                 {
-                    if(!EdgeType_moveRight.isMyType[candidate_moveRightRule_edge__edge0.type.TypeID]) {
+                    if(candidate_moveRightRule_edge__edge0.type.TypeID!=7) {
                         continue;
                     }
                     // Implicit Target moveRightRule_node_s from moveRightRule_edge__edge0 
                     LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
-                    if(!NodeType_State.isMyType[candidate_moveRightRule_node_s.type.TypeID]) {
+                    if(candidate_moveRightRule_node_s.type.TypeID!=2) {
                         continue;
                     }
                     // Extend Outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
@@ -2104,17 +2110,15 @@ label3: ;
                         LGSPEdge candidate_moveRightRule_edge__edge1 = head_candidate_moveRightRule_edge__edge1;
                         do
                         {
-                            if(!EdgeType_right.isMyType[candidate_moveRightRule_edge__edge1.type.TypeID]) {
+                            if(candidate_moveRightRule_edge__edge1.type.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Target moveRightRule_node_rbp from moveRightRule_edge__edge1 
                             LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
-                            if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_rbp.type.TypeID]) {
+                            if(candidate_moveRightRule_node_rbp.type.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_moveRightRule_node_rbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                && candidate_moveRightRule_node_rbp==candidate_moveRightRule_node_bp
-                                )
+                            if((candidate_moveRightRule_node_rbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
@@ -2162,7 +2166,7 @@ label3: ;
                     }
                     continue;
                 }
-                if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_bp.type.TypeID]) {
+                if(candidate_moveRightRule_node_bp.type.TypeID!=1) {
                     continue;
                 }
                 uint prev__candidate_moveRightRule_node_bp;
@@ -2175,12 +2179,12 @@ label3: ;
                     LGSPEdge candidate_moveRightRule_edge__edge0 = head_candidate_moveRightRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveRight.isMyType[candidate_moveRightRule_edge__edge0.type.TypeID]) {
+                        if(candidate_moveRightRule_edge__edge0.type.TypeID!=7) {
                             continue;
                         }
                         // Implicit Target moveRightRule_node_s from moveRightRule_edge__edge0 
                         LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[candidate_moveRightRule_node_s.type.TypeID]) {
+                        if(candidate_moveRightRule_node_s.type.TypeID!=2) {
                             continue;
                         }
                         // Extend Outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
@@ -2190,17 +2194,15 @@ label3: ;
                             LGSPEdge candidate_moveRightRule_edge__edge1 = head_candidate_moveRightRule_edge__edge1;
                             do
                             {
-                                if(!EdgeType_right.isMyType[candidate_moveRightRule_edge__edge1.type.TypeID]) {
+                                if(candidate_moveRightRule_edge__edge1.type.TypeID!=3) {
                                     continue;
                                 }
                                 // Implicit Target moveRightRule_node_rbp from moveRightRule_edge__edge1 
                                 LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
-                                if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_rbp.type.TypeID]) {
+                                if(candidate_moveRightRule_node_rbp.type.TypeID!=1) {
                                     continue;
                                 }
-                                if((candidate_moveRightRule_node_rbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                    && candidate_moveRightRule_node_rbp==candidate_moveRightRule_node_bp
-                                    )
+                                if((candidate_moveRightRule_node_rbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
@@ -2249,12 +2251,12 @@ label3: ;
                     LGSPEdge candidate_moveRightRule_edge__edge0 = head_candidate_moveRightRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_moveRight.isMyType[candidate_moveRightRule_edge__edge0.type.TypeID]) {
+                        if(candidate_moveRightRule_edge__edge0.type.TypeID!=7) {
                             continue;
                         }
                         // Implicit Target moveRightRule_node_s from moveRightRule_edge__edge0 
                         LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
-                        if(!NodeType_State.isMyType[candidate_moveRightRule_node_s.type.TypeID]) {
+                        if(candidate_moveRightRule_node_s.type.TypeID!=2) {
                             continue;
                         }
                         // Extend Outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
@@ -2264,17 +2266,15 @@ label3: ;
                             LGSPEdge candidate_moveRightRule_edge__edge1 = head_candidate_moveRightRule_edge__edge1;
                             do
                             {
-                                if(!EdgeType_right.isMyType[candidate_moveRightRule_edge__edge1.type.TypeID]) {
+                                if(candidate_moveRightRule_edge__edge1.type.TypeID!=3) {
                                     continue;
                                 }
                                 // Implicit Target moveRightRule_node_rbp from moveRightRule_edge__edge1 
                                 LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
-                                if(!NodeType_BandPosition.isMyType[candidate_moveRightRule_node_rbp.type.TypeID]) {
+                                if(candidate_moveRightRule_node_rbp.type.TypeID!=1) {
                                     continue;
                                 }
-                                if((candidate_moveRightRule_node_rbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                    && candidate_moveRightRule_node_rbp==candidate_moveRightRule_node_bp
-                                    )
+                                if((candidate_moveRightRule_node_rbp.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }

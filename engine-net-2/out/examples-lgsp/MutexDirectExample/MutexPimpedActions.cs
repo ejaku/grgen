@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Wed May 28 22:10:35 CEST 2008
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Thu Jul 17 11:12:29 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	{
 		private static Rule_newRule instance = null;
 		public static Rule_newRule Instance { get { if (instance==null) { instance = new Rule_newRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] newRule_node_p1_AllowedTypes = null;
 		public static NodeType[] newRule_node_p2_AllowedTypes = null;
@@ -132,6 +134,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	{
 		private static Rule_killRule instance = null;
 		public static Rule_killRule Instance { get { if (instance==null) { instance = new Rule_killRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] killRule_node_p1_AllowedTypes = null;
 		public static NodeType[] killRule_node_p_AllowedTypes = null;
@@ -270,6 +274,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static Rule_mountRule instance = null;
 		public static Rule_mountRule Instance { get { if (instance==null) { instance = new Rule_mountRule(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] mountRule_node_p_AllowedTypes = null;
 		public static bool[] mountRule_node_p_IsAllowedType = null;
 		public enum mountRule_NodeNums { @p, };
@@ -352,6 +358,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	{
 		private static Rule_unmountRule instance = null;
 		public static Rule_unmountRule Instance { get { if (instance==null) { instance = new Rule_unmountRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] unmountRule_node_r_AllowedTypes = null;
 		public static NodeType[] unmountRule_node_p_AllowedTypes = null;
@@ -455,6 +463,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	{
 		private static Rule_passRule instance = null;
 		public static Rule_passRule Instance { get { if (instance==null) { instance = new Rule_passRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] passRule_node_r_AllowedTypes = null;
 		public static NodeType[] passRule_node_p1_AllowedTypes = null;
@@ -625,6 +635,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	{
 		private static Rule_requestRule instance = null;
 		public static Rule_requestRule Instance { get { if (instance==null) { instance = new Rule_requestRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] requestRule_node_p_AllowedTypes = null;
 		public static NodeType[] requestRule_node_r_AllowedTypes = null;
@@ -805,6 +817,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static Rule_takeRule instance = null;
 		public static Rule_takeRule Instance { get { if (instance==null) { instance = new Rule_takeRule(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] takeRule_node_r_AllowedTypes = null;
 		public static NodeType[] takeRule_node_p_AllowedTypes = null;
 		public static bool[] takeRule_node_r_IsAllowedType = null;
@@ -919,6 +933,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	{
 		private static Rule_releaseRule instance = null;
 		public static Rule_releaseRule Instance { get { if (instance==null) { instance = new Rule_releaseRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] releaseRule_node_r_AllowedTypes = null;
 		public static NodeType[] releaseRule_node_p_AllowedTypes = null;
@@ -1070,6 +1086,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static Rule_giveRule instance = null;
 		public static Rule_giveRule Instance { get { if (instance==null) { instance = new Rule_giveRule(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] giveRule_node_r_AllowedTypes = null;
 		public static NodeType[] giveRule_node_p1_AllowedTypes = null;
 		public static NodeType[] giveRule_node_p2_AllowedTypes = null;
@@ -1187,6 +1205,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static Rule_blockedRule instance = null;
 		public static Rule_blockedRule Instance { get { if (instance==null) { instance = new Rule_blockedRule(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] blockedRule_node_p1_AllowedTypes = null;
 		public static NodeType[] blockedRule_node_r_AllowedTypes = null;
 		public static NodeType[] blockedRule_node_p2_AllowedTypes = null;
@@ -1299,6 +1319,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	{
 		private static Rule_waitingRule instance = null;
 		public static Rule_waitingRule Instance { get { if (instance==null) { instance = new Rule_waitingRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] waitingRule_node_r2_AllowedTypes = null;
 		public static NodeType[] waitingRule_node_p1_AllowedTypes = null;
@@ -1453,6 +1475,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static Rule_ignoreRule instance = null;
 		public static Rule_ignoreRule Instance { get { if (instance==null) { instance = new Rule_ignoreRule(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] ignoreRule_node_r_AllowedTypes = null;
 		public static NodeType[] ignoreRule_node_p_AllowedTypes = null;
 		public static bool[] ignoreRule_node_r_IsAllowedType = null;
@@ -1597,6 +1621,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static Rule_unlockRule instance = null;
 		public static Rule_unlockRule Instance { get { if (instance==null) { instance = new Rule_unlockRule(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] unlockRule_node_r_AllowedTypes = null;
 		public static NodeType[] unlockRule_node_p_AllowedTypes = null;
 		public static bool[] unlockRule_node_r_IsAllowedType = null;
@@ -1711,6 +1737,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	{
 		private static Rule_requestStarRule instance = null;
 		public static Rule_requestStarRule Instance { get { if (instance==null) { instance = new Rule_requestStarRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] requestStarRule_node_r1_AllowedTypes = null;
 		public static NodeType[] requestStarRule_node_p1_AllowedTypes = null;
@@ -1882,6 +1910,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static Rule_releaseStarRule instance = null;
 		public static Rule_releaseStarRule Instance { get { if (instance==null) { instance = new Rule_releaseStarRule(); instance.initialize(); } return instance; } }
 
+		private static object[] ReturnArray = new object[0];
+
 		public static NodeType[] releaseStarRule_node_p1_AllowedTypes = null;
 		public static NodeType[] releaseStarRule_node_r1_AllowedTypes = null;
 		public static NodeType[] releaseStarRule_node_p2_AllowedTypes = null;
@@ -2012,6 +2042,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	{
 		private static Rule_requestSimpleRule instance = null;
 		public static Rule_requestSimpleRule Instance { get { if (instance==null) { instance = new Rule_requestSimpleRule(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] requestSimpleRule_node_r_AllowedTypes = null;
 		public static NodeType[] requestSimpleRule_node_p_AllowedTypes = null;
@@ -2154,6 +2186,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 	{
 		private static Rule_aux_attachResource instance = null;
 		public static Rule_aux_attachResource Instance { get { if (instance==null) { instance = new Rule_aux_attachResource(); instance.initialize(); } return instance; } }
+
+		private static object[] ReturnArray = new object[0];
 
 		public static NodeType[] aux_attachResource_node_p_AllowedTypes = null;
 		public static bool[] aux_attachResource_node_p_IsAllowedType = null;
@@ -2306,7 +2340,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             {
                 // Implicit Source newRule_node_p1 from newRule_edge_n 
                 LGSPNode candidate_newRule_node_p1 = candidate_newRule_edge_n.source;
-                if(!NodeType_Process.isMyType[candidate_newRule_node_p1.type.TypeID]) {
+                if(candidate_newRule_node_p1.type.TypeID!=1) {
                     continue;
                 }
                 uint prev__candidate_newRule_node_p1;
@@ -2314,13 +2348,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                 candidate_newRule_node_p1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target newRule_node_p2 from newRule_edge_n 
                 LGSPNode candidate_newRule_node_p2 = candidate_newRule_edge_n.target;
-                if(!NodeType_Process.isMyType[candidate_newRule_node_p2.type.TypeID]) {
+                if(candidate_newRule_node_p2.type.TypeID!=1) {
                     candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_newRule_node_p1;
                     continue;
                 }
-                if((candidate_newRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                    && candidate_newRule_node_p2==candidate_newRule_node_p1
-                    )
+                if((candidate_newRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                 {
                     candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_newRule_node_p1;
                     continue;
@@ -2372,7 +2404,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                 candidate_killRule_edge_n2.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Source killRule_node_p from killRule_edge_n2 
                 LGSPNode candidate_killRule_node_p = candidate_killRule_edge_n2.source;
-                if(!NodeType_Process.isMyType[candidate_killRule_node_p.type.TypeID]) {
+                if(candidate_killRule_node_p.type.TypeID!=1) {
                     candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_edge_n2;
                     continue;
                 }
@@ -2381,14 +2413,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                 candidate_killRule_node_p.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target killRule_node_p2 from killRule_edge_n2 
                 LGSPNode candidate_killRule_node_p2 = candidate_killRule_edge_n2.target;
-                if(!NodeType_Process.isMyType[candidate_killRule_node_p2.type.TypeID]) {
+                if(candidate_killRule_node_p2.type.TypeID!=1) {
                     candidate_killRule_node_p.flags = candidate_killRule_node_p.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_node_p;
                     candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_edge_n2;
                     continue;
                 }
-                if((candidate_killRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                    && candidate_killRule_node_p2==candidate_killRule_node_p
-                    )
+                if((candidate_killRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                 {
                     candidate_killRule_node_p.flags = candidate_killRule_node_p.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_node_p;
                     candidate_killRule_edge_n2.flags = candidate_killRule_edge_n2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_killRule_edge_n2;
@@ -2404,25 +2434,19 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                     LGSPEdge candidate_killRule_edge_n1 = head_candidate_killRule_edge_n1;
                     do
                     {
-                        if(!EdgeType_next.isMyType[candidate_killRule_edge_n1.type.TypeID]) {
+                        if(candidate_killRule_edge_n1.type.TypeID!=3) {
                             continue;
                         }
-                        if((candidate_killRule_edge_n1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                            && candidate_killRule_edge_n1==candidate_killRule_edge_n2
-                            )
+                        if((candidate_killRule_edge_n1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
                         // Implicit Source killRule_node_p1 from killRule_edge_n1 
                         LGSPNode candidate_killRule_node_p1 = candidate_killRule_edge_n1.source;
-                        if(!NodeType_Process.isMyType[candidate_killRule_node_p1.type.TypeID]) {
+                        if(candidate_killRule_node_p1.type.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_killRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                            && (candidate_killRule_node_p1==candidate_killRule_node_p
-                                || candidate_killRule_node_p1==candidate_killRule_node_p2
-                                )
-                            )
+                        if((candidate_killRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
@@ -2518,12 +2542,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             {
                 // Implicit Source unmountRule_node_r from unmountRule_edge_t 
                 LGSPNode candidate_unmountRule_node_r = candidate_unmountRule_edge_t.source;
-                if(!NodeType_Resource.isMyType[candidate_unmountRule_node_r.type.TypeID]) {
+                if(candidate_unmountRule_node_r.type.TypeID!=2) {
                     continue;
                 }
                 // Implicit Target unmountRule_node_p from unmountRule_edge_t 
                 LGSPNode candidate_unmountRule_node_p = candidate_unmountRule_edge_t.target;
-                if(!NodeType_Process.isMyType[candidate_unmountRule_node_p.type.TypeID]) {
+                if(candidate_unmountRule_node_p.type.TypeID!=1) {
                     continue;
                 }
                 LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -2568,7 +2592,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             {
                 // Implicit Source passRule_node_p1 from passRule_edge_n 
                 LGSPNode candidate_passRule_node_p1 = candidate_passRule_edge_n.source;
-                if(!NodeType_Process.isMyType[candidate_passRule_node_p1.type.TypeID]) {
+                if(candidate_passRule_node_p1.type.TypeID!=1) {
                     continue;
                 }
                 uint prev__candidate_passRule_node_p1;
@@ -2576,13 +2600,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                 candidate_passRule_node_p1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target passRule_node_p2 from passRule_edge_n 
                 LGSPNode candidate_passRule_node_p2 = candidate_passRule_edge_n.target;
-                if(!NodeType_Process.isMyType[candidate_passRule_node_p2.type.TypeID]) {
+                if(candidate_passRule_node_p2.type.TypeID!=1) {
                     candidate_passRule_node_p1.flags = candidate_passRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_passRule_node_p1;
                     continue;
                 }
-                if((candidate_passRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                    && candidate_passRule_node_p2==candidate_passRule_node_p1
-                    )
+                if((candidate_passRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                 {
                     candidate_passRule_node_p1.flags = candidate_passRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_passRule_node_p1;
                     continue;
@@ -2594,12 +2616,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                     LGSPEdge candidate_passRule_edge__edge0 = head_candidate_passRule_edge__edge0;
                     do
                     {
-                        if(!EdgeType_token.isMyType[candidate_passRule_edge__edge0.type.TypeID]) {
+                        if(candidate_passRule_edge__edge0.type.TypeID!=6) {
                             continue;
                         }
                         // Implicit Source passRule_node_r from passRule_edge__edge0 
                         LGSPNode candidate_passRule_node_r = candidate_passRule_edge__edge0.source;
-                        if(!NodeType_Resource.isMyType[candidate_passRule_node_r.type.TypeID]) {
+                        if(candidate_passRule_node_r.type.TypeID!=2) {
                             continue;
                         }
                         // NegativePattern 
@@ -2612,7 +2634,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                                 LGSPEdge candidate_passRule_neg_0_edge_req = head_candidate_passRule_neg_0_edge_req;
                                 do
                                 {
-                                    if(!EdgeType_request.isMyType[candidate_passRule_neg_0_edge_req.type.TypeID]) {
+                                    if(candidate_passRule_neg_0_edge_req.type.TypeID!=8) {
                                         continue;
                                     }
                                     if(candidate_passRule_neg_0_edge_req.target != candidate_passRule_node_r) {
@@ -2689,7 +2711,7 @@ label0: ;
                             LGSPEdge candidate_requestRule_neg_0_edge_hb = head_candidate_requestRule_neg_0_edge_hb;
                             do
                             {
-                                if(!EdgeType_held_by.isMyType[candidate_requestRule_neg_0_edge_hb.type.TypeID]) {
+                                if(candidate_requestRule_neg_0_edge_hb.type.TypeID!=5) {
                                     continue;
                                 }
                                 if(candidate_requestRule_neg_0_edge_hb.target != candidate_requestRule_node_p) {
@@ -2713,12 +2735,12 @@ label0: ;
                             LGSPEdge candidate_requestRule_neg_1_edge_req = head_candidate_requestRule_neg_1_edge_req;
                             do
                             {
-                                if(!EdgeType_request.isMyType[candidate_requestRule_neg_1_edge_req.type.TypeID]) {
+                                if(candidate_requestRule_neg_1_edge_req.type.TypeID!=8) {
                                     continue;
                                 }
                                 // Implicit Target requestRule_neg_1_node_m from requestRule_neg_1_edge_req 
                                 LGSPNode candidate_requestRule_neg_1_node_m = candidate_requestRule_neg_1_edge_req.target;
-                                if(!NodeType_Resource.isMyType[candidate_requestRule_neg_1_node_m.type.TypeID]) {
+                                if(candidate_requestRule_neg_1_node_m.type.TypeID!=2) {
                                     continue;
                                 }
                                 // negative pattern found
@@ -2774,7 +2796,7 @@ label2: ;
             {
                 // Implicit Target takeRule_node_r from takeRule_edge_req 
                 LGSPNode candidate_takeRule_node_r = candidate_takeRule_edge_req.target;
-                if(!NodeType_Resource.isMyType[candidate_takeRule_node_r.type.TypeID]) {
+                if(candidate_takeRule_node_r.type.TypeID!=2) {
                     continue;
                 }
                 // Extend Outgoing takeRule_edge_t from takeRule_node_r 
@@ -2784,12 +2806,12 @@ label2: ;
                     LGSPEdge candidate_takeRule_edge_t = head_candidate_takeRule_edge_t;
                     do
                     {
-                        if(!EdgeType_token.isMyType[candidate_takeRule_edge_t.type.TypeID]) {
+                        if(candidate_takeRule_edge_t.type.TypeID!=6) {
                             continue;
                         }
                         // Implicit Target takeRule_node_p from takeRule_edge_t 
                         LGSPNode candidate_takeRule_node_p = candidate_takeRule_edge_t.target;
-                        if(!NodeType_Process.isMyType[candidate_takeRule_node_p.type.TypeID]) {
+                        if(candidate_takeRule_node_p.type.TypeID!=1) {
                             continue;
                         }
                         if(candidate_takeRule_edge_req.source != candidate_takeRule_node_p) {
@@ -2842,12 +2864,12 @@ label2: ;
             {
                 // Implicit Source releaseRule_node_r from releaseRule_edge_hb 
                 LGSPNode candidate_releaseRule_node_r = candidate_releaseRule_edge_hb.source;
-                if(!NodeType_Resource.isMyType[candidate_releaseRule_node_r.type.TypeID]) {
+                if(candidate_releaseRule_node_r.type.TypeID!=2) {
                     continue;
                 }
                 // Implicit Target releaseRule_node_p from releaseRule_edge_hb 
                 LGSPNode candidate_releaseRule_node_p = candidate_releaseRule_edge_hb.target;
-                if(!NodeType_Process.isMyType[candidate_releaseRule_node_p.type.TypeID]) {
+                if(candidate_releaseRule_node_p.type.TypeID!=1) {
                     continue;
                 }
                 // NegativePattern 
@@ -2860,12 +2882,12 @@ label2: ;
                         LGSPEdge candidate_releaseRule_neg_0_edge_req = head_candidate_releaseRule_neg_0_edge_req;
                         do
                         {
-                            if(!EdgeType_request.isMyType[candidate_releaseRule_neg_0_edge_req.type.TypeID]) {
+                            if(candidate_releaseRule_neg_0_edge_req.type.TypeID!=8) {
                                 continue;
                             }
                             // Implicit Target releaseRule_neg_0_node_m from releaseRule_neg_0_edge_req 
                             LGSPNode candidate_releaseRule_neg_0_node_m = candidate_releaseRule_neg_0_edge_req.target;
-                            if(!NodeType_Resource.isMyType[candidate_releaseRule_neg_0_node_m.type.TypeID]) {
+                            if(candidate_releaseRule_neg_0_node_m.type.TypeID!=2) {
                                 continue;
                             }
                             // negative pattern found
@@ -2919,7 +2941,7 @@ label3: ;
             {
                 // Implicit Source giveRule_node_p1 from giveRule_edge_n 
                 LGSPNode candidate_giveRule_node_p1 = candidate_giveRule_edge_n.source;
-                if(!NodeType_Process.isMyType[candidate_giveRule_node_p1.type.TypeID]) {
+                if(candidate_giveRule_node_p1.type.TypeID!=1) {
                     continue;
                 }
                 uint prev__candidate_giveRule_node_p1;
@@ -2927,13 +2949,11 @@ label3: ;
                 candidate_giveRule_node_p1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target giveRule_node_p2 from giveRule_edge_n 
                 LGSPNode candidate_giveRule_node_p2 = candidate_giveRule_edge_n.target;
-                if(!NodeType_Process.isMyType[candidate_giveRule_node_p2.type.TypeID]) {
+                if(candidate_giveRule_node_p2.type.TypeID!=1) {
                     candidate_giveRule_node_p1.flags = candidate_giveRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_giveRule_node_p1;
                     continue;
                 }
-                if((candidate_giveRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                    && candidate_giveRule_node_p2==candidate_giveRule_node_p1
-                    )
+                if((candidate_giveRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                 {
                     candidate_giveRule_node_p1.flags = candidate_giveRule_node_p1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_giveRule_node_p1;
                     continue;
@@ -2945,12 +2965,12 @@ label3: ;
                     LGSPEdge candidate_giveRule_edge_rel = head_candidate_giveRule_edge_rel;
                     do
                     {
-                        if(!EdgeType_release.isMyType[candidate_giveRule_edge_rel.type.TypeID]) {
+                        if(candidate_giveRule_edge_rel.type.TypeID!=7) {
                             continue;
                         }
                         // Implicit Source giveRule_node_r from giveRule_edge_rel 
                         LGSPNode candidate_giveRule_node_r = candidate_giveRule_edge_rel.source;
-                        if(!NodeType_Resource.isMyType[candidate_giveRule_node_r.type.TypeID]) {
+                        if(candidate_giveRule_node_r.type.TypeID!=2) {
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -3003,12 +3023,12 @@ label3: ;
             {
                 // Implicit Source blockedRule_node_r from blockedRule_edge_hb 
                 LGSPNode candidate_blockedRule_node_r = candidate_blockedRule_edge_hb.source;
-                if(!NodeType_Resource.isMyType[candidate_blockedRule_node_r.type.TypeID]) {
+                if(candidate_blockedRule_node_r.type.TypeID!=2) {
                     continue;
                 }
                 // Implicit Target blockedRule_node_p2 from blockedRule_edge_hb 
                 LGSPNode candidate_blockedRule_node_p2 = candidate_blockedRule_edge_hb.target;
-                if(!NodeType_Process.isMyType[candidate_blockedRule_node_p2.type.TypeID]) {
+                if(candidate_blockedRule_node_p2.type.TypeID!=1) {
                     continue;
                 }
                 uint prev__candidate_blockedRule_node_p2;
@@ -3021,17 +3041,15 @@ label3: ;
                     LGSPEdge candidate_blockedRule_edge_req = head_candidate_blockedRule_edge_req;
                     do
                     {
-                        if(!EdgeType_request.isMyType[candidate_blockedRule_edge_req.type.TypeID]) {
+                        if(candidate_blockedRule_edge_req.type.TypeID!=8) {
                             continue;
                         }
                         // Implicit Source blockedRule_node_p1 from blockedRule_edge_req 
                         LGSPNode candidate_blockedRule_node_p1 = candidate_blockedRule_edge_req.source;
-                        if(!NodeType_Process.isMyType[candidate_blockedRule_node_p1.type.TypeID]) {
+                        if(candidate_blockedRule_node_p1.type.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_blockedRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                            && candidate_blockedRule_node_p1==candidate_blockedRule_node_p2
-                            )
+                        if((candidate_blockedRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
@@ -3092,12 +3110,10 @@ label3: ;
                 {
                     // Implicit Source waitingRule_node_r2 from waitingRule_edge_b 
                     LGSPNode candidate_waitingRule_node_r2 = candidate_waitingRule_edge_b.source;
-                    if(!NodeType_Resource.isMyType[candidate_waitingRule_node_r2.type.TypeID]) {
+                    if(candidate_waitingRule_node_r2.type.TypeID!=2) {
                         continue;
                     }
-                    if((candidate_waitingRule_node_r2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                        && candidate_waitingRule_node_r2==candidate_waitingRule_node_r
-                        )
+                    if((candidate_waitingRule_node_r2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                     {
                         continue;
                     }
@@ -3106,7 +3122,7 @@ label3: ;
                     candidate_waitingRule_node_r2.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                     // Implicit Target waitingRule_node_p1 from waitingRule_edge_b 
                     LGSPNode candidate_waitingRule_node_p1 = candidate_waitingRule_edge_b.target;
-                    if(!NodeType_Process.isMyType[candidate_waitingRule_node_p1.type.TypeID]) {
+                    if(candidate_waitingRule_node_p1.type.TypeID!=1) {
                         candidate_waitingRule_node_r2.flags = candidate_waitingRule_node_r2.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_waitingRule_node_r2;
                         continue;
                     }
@@ -3120,19 +3136,15 @@ label3: ;
                         LGSPEdge candidate_waitingRule_edge_hb = head_candidate_waitingRule_edge_hb;
                         do
                         {
-                            if(!EdgeType_held_by.isMyType[candidate_waitingRule_edge_hb.type.TypeID]) {
+                            if(candidate_waitingRule_edge_hb.type.TypeID!=5) {
                                 continue;
                             }
                             // Implicit Source waitingRule_node_r1 from waitingRule_edge_hb 
                             LGSPNode candidate_waitingRule_node_r1 = candidate_waitingRule_edge_hb.source;
-                            if(!NodeType_Resource.isMyType[candidate_waitingRule_node_r1.type.TypeID]) {
+                            if(candidate_waitingRule_node_r1.type.TypeID!=2) {
                                 continue;
                             }
-                            if((candidate_waitingRule_node_r1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                && (candidate_waitingRule_node_r1==candidate_waitingRule_node_r
-                                    || candidate_waitingRule_node_r1==candidate_waitingRule_node_r2
-                                    )
-                                )
+                            if((candidate_waitingRule_node_r1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
@@ -3143,17 +3155,15 @@ label3: ;
                                 LGSPEdge candidate_waitingRule_edge_req = head_candidate_waitingRule_edge_req;
                                 do
                                 {
-                                    if(!EdgeType_request.isMyType[candidate_waitingRule_edge_req.type.TypeID]) {
+                                    if(candidate_waitingRule_edge_req.type.TypeID!=8) {
                                         continue;
                                     }
                                     // Implicit Source waitingRule_node_p2 from waitingRule_edge_req 
                                     LGSPNode candidate_waitingRule_node_p2 = candidate_waitingRule_edge_req.source;
-                                    if(!NodeType_Process.isMyType[candidate_waitingRule_node_p2.type.TypeID]) {
+                                    if(candidate_waitingRule_node_p2.type.TypeID!=1) {
                                         continue;
                                     }
-                                    if((candidate_waitingRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                        && candidate_waitingRule_node_p2==candidate_waitingRule_node_p1
-                                        )
+                                    if((candidate_waitingRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                     {
                                         continue;
                                     }
@@ -3220,12 +3230,12 @@ label3: ;
             {
                 // Implicit Source ignoreRule_node_r from ignoreRule_edge_b 
                 LGSPNode candidate_ignoreRule_node_r = candidate_ignoreRule_edge_b.source;
-                if(!NodeType_Resource.isMyType[candidate_ignoreRule_node_r.type.TypeID]) {
+                if(candidate_ignoreRule_node_r.type.TypeID!=2) {
                     continue;
                 }
                 // Implicit Target ignoreRule_node_p from ignoreRule_edge_b 
                 LGSPNode candidate_ignoreRule_node_p = candidate_ignoreRule_edge_b.target;
-                if(!NodeType_Process.isMyType[candidate_ignoreRule_node_p.type.TypeID]) {
+                if(candidate_ignoreRule_node_p.type.TypeID!=1) {
                     continue;
                 }
                 // NegativePattern 
@@ -3238,12 +3248,12 @@ label3: ;
                         LGSPEdge candidate_ignoreRule_neg_0_edge_hb = head_candidate_ignoreRule_neg_0_edge_hb;
                         do
                         {
-                            if(!EdgeType_held_by.isMyType[candidate_ignoreRule_neg_0_edge_hb.type.TypeID]) {
+                            if(candidate_ignoreRule_neg_0_edge_hb.type.TypeID!=5) {
                                 continue;
                             }
                             // Implicit Source ignoreRule_neg_0_node_m from ignoreRule_neg_0_edge_hb 
                             LGSPNode candidate_ignoreRule_neg_0_node_m = candidate_ignoreRule_neg_0_edge_hb.source;
-                            if(!NodeType_Resource.isMyType[candidate_ignoreRule_neg_0_node_m.type.TypeID]) {
+                            if(candidate_ignoreRule_neg_0_node_m.type.TypeID!=2) {
                                 continue;
                             }
                             // negative pattern found
@@ -3297,12 +3307,12 @@ label4: ;
             {
                 // Implicit Source unlockRule_node_r from unlockRule_edge_b 
                 LGSPNode candidate_unlockRule_node_r = candidate_unlockRule_edge_b.source;
-                if(!NodeType_Resource.isMyType[candidate_unlockRule_node_r.type.TypeID]) {
+                if(candidate_unlockRule_node_r.type.TypeID!=2) {
                     continue;
                 }
                 // Implicit Target unlockRule_node_p from unlockRule_edge_b 
                 LGSPNode candidate_unlockRule_node_p = candidate_unlockRule_edge_b.target;
-                if(!NodeType_Process.isMyType[candidate_unlockRule_node_p.type.TypeID]) {
+                if(candidate_unlockRule_node_p.type.TypeID!=1) {
                     continue;
                 }
                 // Extend Outgoing unlockRule_edge_hb from unlockRule_node_r 
@@ -3312,7 +3322,7 @@ label4: ;
                     LGSPEdge candidate_unlockRule_edge_hb = head_candidate_unlockRule_edge_hb;
                     do
                     {
-                        if(!EdgeType_held_by.isMyType[candidate_unlockRule_edge_hb.type.TypeID]) {
+                        if(candidate_unlockRule_edge_hb.type.TypeID!=5) {
                             continue;
                         }
                         if(candidate_unlockRule_edge_hb.target != candidate_unlockRule_node_p) {
@@ -3368,7 +3378,7 @@ label4: ;
                 candidate_requestStarRule_edge_h1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Source requestStarRule_node_r1 from requestStarRule_edge_h1 
                 LGSPNode candidate_requestStarRule_node_r1 = candidate_requestStarRule_edge_h1.source;
-                if(!NodeType_Resource.isMyType[candidate_requestStarRule_node_r1.type.TypeID]) {
+                if(candidate_requestStarRule_node_r1.type.TypeID!=2) {
                     candidate_requestStarRule_edge_h1.flags = candidate_requestStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_edge_h1;
                     continue;
                 }
@@ -3377,7 +3387,7 @@ label4: ;
                 candidate_requestStarRule_node_r1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target requestStarRule_node_p1 from requestStarRule_edge_h1 
                 LGSPNode candidate_requestStarRule_node_p1 = candidate_requestStarRule_edge_h1.target;
-                if(!NodeType_Process.isMyType[candidate_requestStarRule_node_p1.type.TypeID]) {
+                if(candidate_requestStarRule_node_p1.type.TypeID!=1) {
                     candidate_requestStarRule_node_r1.flags = candidate_requestStarRule_node_r1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_node_r1;
                     candidate_requestStarRule_edge_h1.flags = candidate_requestStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_requestStarRule_edge_h1;
                     continue;
@@ -3392,17 +3402,15 @@ label4: ;
                     LGSPEdge candidate_requestStarRule_edge_n = head_candidate_requestStarRule_edge_n;
                     do
                     {
-                        if(!EdgeType_next.isMyType[candidate_requestStarRule_edge_n.type.TypeID]) {
+                        if(candidate_requestStarRule_edge_n.type.TypeID!=3) {
                             continue;
                         }
                         // Implicit Source requestStarRule_node_p2 from requestStarRule_edge_n 
                         LGSPNode candidate_requestStarRule_node_p2 = candidate_requestStarRule_edge_n.source;
-                        if(!NodeType_Process.isMyType[candidate_requestStarRule_node_p2.type.TypeID]) {
+                        if(candidate_requestStarRule_node_p2.type.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_requestStarRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                            && candidate_requestStarRule_node_p2==candidate_requestStarRule_node_p1
-                            )
+                        if((candidate_requestStarRule_node_p2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
@@ -3413,23 +3421,19 @@ label4: ;
                             LGSPEdge candidate_requestStarRule_edge_h2 = head_candidate_requestStarRule_edge_h2;
                             do
                             {
-                                if(!EdgeType_held_by.isMyType[candidate_requestStarRule_edge_h2.type.TypeID]) {
+                                if(candidate_requestStarRule_edge_h2.type.TypeID!=5) {
                                     continue;
                                 }
-                                if((candidate_requestStarRule_edge_h2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                    && candidate_requestStarRule_edge_h2==candidate_requestStarRule_edge_h1
-                                    )
+                                if((candidate_requestStarRule_edge_h2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
                                 // Implicit Source requestStarRule_node_r2 from requestStarRule_edge_h2 
                                 LGSPNode candidate_requestStarRule_node_r2 = candidate_requestStarRule_edge_h2.source;
-                                if(!NodeType_Resource.isMyType[candidate_requestStarRule_node_r2.type.TypeID]) {
+                                if(candidate_requestStarRule_node_r2.type.TypeID!=2) {
                                     continue;
                                 }
-                                if((candidate_requestStarRule_node_r2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                    && candidate_requestStarRule_node_r2==candidate_requestStarRule_node_r1
-                                    )
+                                if((candidate_requestStarRule_node_r2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
@@ -3443,7 +3447,7 @@ label4: ;
                                         LGSPEdge candidate_requestStarRule_neg_0_edge_req = head_candidate_requestStarRule_neg_0_edge_req;
                                         do
                                         {
-                                            if(!EdgeType_request.isMyType[candidate_requestStarRule_neg_0_edge_req.type.TypeID]) {
+                                            if(candidate_requestStarRule_neg_0_edge_req.type.TypeID!=8) {
                                                 continue;
                                             }
                                             if(candidate_requestStarRule_neg_0_edge_req.target != candidate_requestStarRule_node_r2) {
@@ -3521,7 +3525,7 @@ label5: ;
                 candidate_releaseStarRule_edge_h1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Source releaseStarRule_node_r1 from releaseStarRule_edge_h1 
                 LGSPNode candidate_releaseStarRule_node_r1 = candidate_releaseStarRule_edge_h1.source;
-                if(!NodeType_Resource.isMyType[candidate_releaseStarRule_node_r1.type.TypeID]) {
+                if(candidate_releaseStarRule_node_r1.type.TypeID!=2) {
                     candidate_releaseStarRule_edge_h1.flags = candidate_releaseStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_edge_h1;
                     continue;
                 }
@@ -3530,7 +3534,7 @@ label5: ;
                 candidate_releaseStarRule_node_r1.flags |= (uint) LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Target releaseStarRule_node_p2 from releaseStarRule_edge_h1 
                 LGSPNode candidate_releaseStarRule_node_p2 = candidate_releaseStarRule_edge_h1.target;
-                if(!NodeType_Process.isMyType[candidate_releaseStarRule_node_p2.type.TypeID]) {
+                if(candidate_releaseStarRule_node_p2.type.TypeID!=1) {
                     candidate_releaseStarRule_node_r1.flags = candidate_releaseStarRule_node_r1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_node_r1;
                     candidate_releaseStarRule_edge_h1.flags = candidate_releaseStarRule_edge_h1.flags & ~((uint) LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_releaseStarRule_edge_h1;
                     continue;
@@ -3545,17 +3549,15 @@ label5: ;
                     LGSPEdge candidate_releaseStarRule_edge_rq = head_candidate_releaseStarRule_edge_rq;
                     do
                     {
-                        if(!EdgeType_request.isMyType[candidate_releaseStarRule_edge_rq.type.TypeID]) {
+                        if(candidate_releaseStarRule_edge_rq.type.TypeID!=8) {
                             continue;
                         }
                         // Implicit Source releaseStarRule_node_p1 from releaseStarRule_edge_rq 
                         LGSPNode candidate_releaseStarRule_node_p1 = candidate_releaseStarRule_edge_rq.source;
-                        if(!NodeType_Process.isMyType[candidate_releaseStarRule_node_p1.type.TypeID]) {
+                        if(candidate_releaseStarRule_node_p1.type.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_releaseStarRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                            && candidate_releaseStarRule_node_p1==candidate_releaseStarRule_node_p2
-                            )
+                        if((candidate_releaseStarRule_node_p1.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
@@ -3566,23 +3568,19 @@ label5: ;
                             LGSPEdge candidate_releaseStarRule_edge_h2 = head_candidate_releaseStarRule_edge_h2;
                             do
                             {
-                                if(!EdgeType_held_by.isMyType[candidate_releaseStarRule_edge_h2.type.TypeID]) {
+                                if(candidate_releaseStarRule_edge_h2.type.TypeID!=5) {
                                     continue;
                                 }
-                                if((candidate_releaseStarRule_edge_h2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                    && candidate_releaseStarRule_edge_h2==candidate_releaseStarRule_edge_h1
-                                    )
+                                if((candidate_releaseStarRule_edge_h2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
                                 // Implicit Source releaseStarRule_node_r2 from releaseStarRule_edge_h2 
                                 LGSPNode candidate_releaseStarRule_node_r2 = candidate_releaseStarRule_edge_h2.source;
-                                if(!NodeType_Resource.isMyType[candidate_releaseStarRule_node_r2.type.TypeID]) {
+                                if(candidate_releaseStarRule_node_r2.type.TypeID!=2) {
                                     continue;
                                 }
-                                if((candidate_releaseStarRule_node_r2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) == (uint) LGSPElemFlags.IS_MATCHED << negLevel
-                                    && candidate_releaseStarRule_node_r2==candidate_releaseStarRule_node_r1
-                                    )
+                                if((candidate_releaseStarRule_node_r2.flags & (uint) LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
@@ -3646,12 +3644,12 @@ label5: ;
             {
                 // Implicit Source requestSimpleRule_node_r from requestSimpleRule_edge_t 
                 LGSPNode candidate_requestSimpleRule_node_r = candidate_requestSimpleRule_edge_t.source;
-                if(!NodeType_Resource.isMyType[candidate_requestSimpleRule_node_r.type.TypeID]) {
+                if(candidate_requestSimpleRule_node_r.type.TypeID!=2) {
                     continue;
                 }
                 // Implicit Target requestSimpleRule_node_p from requestSimpleRule_edge_t 
                 LGSPNode candidate_requestSimpleRule_node_p = candidate_requestSimpleRule_edge_t.target;
-                if(!NodeType_Process.isMyType[candidate_requestSimpleRule_node_p.type.TypeID]) {
+                if(candidate_requestSimpleRule_node_p.type.TypeID!=1) {
                     continue;
                 }
                 // NegativePattern 
@@ -3664,7 +3662,7 @@ label5: ;
                         LGSPEdge candidate_requestSimpleRule_neg_0_edge_req = head_candidate_requestSimpleRule_neg_0_edge_req;
                         do
                         {
-                            if(!EdgeType_request.isMyType[candidate_requestSimpleRule_neg_0_edge_req.type.TypeID]) {
+                            if(candidate_requestSimpleRule_neg_0_edge_req.type.TypeID!=8) {
                                 continue;
                             }
                             if(candidate_requestSimpleRule_neg_0_edge_req.target != candidate_requestSimpleRule_node_r) {
@@ -3729,12 +3727,12 @@ label6: ;
                         LGSPEdge candidate_aux_attachResource_neg_0_edge__edge0 = head_candidate_aux_attachResource_neg_0_edge__edge0;
                         do
                         {
-                            if(!EdgeType_held_by.isMyType[candidate_aux_attachResource_neg_0_edge__edge0.type.TypeID]) {
+                            if(candidate_aux_attachResource_neg_0_edge__edge0.type.TypeID!=5) {
                                 continue;
                             }
                             // Implicit Source aux_attachResource_neg_0_node_r from aux_attachResource_neg_0_edge__edge0 
                             LGSPNode candidate_aux_attachResource_neg_0_node_r = candidate_aux_attachResource_neg_0_edge__edge0.source;
-                            if(!NodeType_Resource.isMyType[candidate_aux_attachResource_neg_0_node_r.type.TypeID]) {
+                            if(candidate_aux_attachResource_neg_0_node_r.type.TypeID!=2) {
                                 continue;
                             }
                             // negative pattern found
