@@ -114,17 +114,20 @@ public class RuleDeclNode extends TestDeclNode {
 		boolean res = true;
 		Set<DeclNode> dels = getDelete();
 		for (BaseNode x : right.imperativeStmts.getChildren()) {
-			if(x instanceof ExecNode) {
-				ExecNode exec = (ExecNode)x;
-				for(CallActionNode callAction : exec.callActions.getChildren())
-					if(!Collections.disjoint(callAction.params.getChildren(), dels)) {
-						// FIXME error message
-						callAction.reportError("Parameter of call \"" + callAction.getName() + "\"");
-						// TODO ...
+			if(!(x instanceof ExecNode)) continue;
+
+			ExecNode exec = (ExecNode) x;
+			for(CallActionNode callAction : exec.callActions.getChildren()) {
+				for(ExprNode arg : callAction.params.getChildren()) {
+					if(!(arg instanceof DeclExprNode)) continue;
+
+					ConstraintDeclNode declNode = ((DeclExprNode) arg).getConstraintDeclNode();
+					if(declNode != null && dels.contains(declNode)) {
+						callAction.reportError("The deleted " + declNode.getUseString()
+								+ " \"" + declNode.ident + "\" must not be passed to an exec statement");
 						res = false;
 					}
-
-
+				}
 			}
 		}
 		return res;

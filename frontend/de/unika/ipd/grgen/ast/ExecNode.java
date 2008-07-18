@@ -20,8 +20,10 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.Triple;
-import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Exec;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -50,7 +52,31 @@ public class ExecNode extends BaseNode {
 
 	public void append(Object n) {
 		assert !isResolved();
-		sb.append(n);
+		if(n instanceof ConstNode) {
+			ConstNode constant = (ConstNode) n;
+			TypeNode type = constant.getType();
+			Object value = constant.getValue();
+
+			if(type instanceof StringTypeNode) {
+				if(value == null)
+					sb.append("null");
+				else
+					sb.append("\"" + value + "\"");
+			}
+			else if(type instanceof IntTypeNode || type instanceof DoubleTypeNode || type instanceof FloatTypeNode)
+				sb.append(value);
+			else if(type instanceof BooleanTypeNode)
+				sb.append(((Boolean) value).booleanValue() ? "true" : "false");
+			else if(type instanceof NullTypeNode)
+				sb.append("null");
+			else
+				throw new UnsupportedOperationException("unsupported type");
+		}
+		else if(n instanceof DeclExprNode) {
+			DeclExprNode declExpr = (DeclExprNode) n;
+			sb.append(declExpr.declUnresolved);
+		}
+		else sb.append(n);
 	}
 
 	public String getXGRSString() {
@@ -135,15 +161,15 @@ public class ExecNode extends BaseNode {
 		Set<ExecVarDeclNode> localVars = new HashSet<ExecVarDeclNode>();
 		for(ExecVarDeclNode node : varDecls.getChildren())
 			localVars.add(node);
-		Set<Entity> parameters = new LinkedHashSet<Entity>();
+		Set<Expression> parameters = new LinkedHashSet<Expression>();
 		for(DeclNode dn : graphElementUsageOutsideOfCall.getChildren())
 			if(dn instanceof ConstraintDeclNode)
-				parameters.add(dn.checkIR(Entity.class));
+				parameters.add(new GraphEntityExpression(dn.checkIR(GraphEntity.class)));
 		for(CallActionNode callActionNode : callActions.getChildren()) {
 			callActionNode.checkPost();
-			for(DeclNode param : callActionNode.getParams().getChildren()) {
+			for(ExprNode param : callActionNode.getParams().getChildren()) {
 				if(localVars.contains(param)) continue;
-				parameters.add(param.checkIR(Entity.class));
+				parameters.add(param.checkIR(Expression.class));
 			}
 		}
 		Exec res = new Exec(getXGRSString(), parameters);

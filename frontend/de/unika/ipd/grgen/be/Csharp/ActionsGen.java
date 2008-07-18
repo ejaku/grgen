@@ -686,15 +686,16 @@ public class ActionsGen extends CSharpBase {
 			} else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
 				sb.append("\t\tpublic static LGSPXGRSInfo XGRSInfo_" + xgrsID + " = new LGSPXGRSInfo(new String[] {");
-				for(Entity param : exec.getArguments()) {
-					sb.append("\"" + param.getIdent() + "\", ");
+				for(Expression param : exec.getArguments()) {
+					if(param instanceof GraphEntityExpression)
+						sb.append("\"" + ((GraphEntityExpression) param).getGraphEntity().getIdent() + "\", ");
 				}
 				sb.append("},\n");
-				sb.append("\t\t\t\"" + exec.getXGRSString() + "\");\n");
+				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\"", "\\\"") + "\");\n");
 				sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(LGSPGraph graph");
-				for(Entity param : exec.getArguments()) {
-					sb.append(", object var_");
-					sb.append(param.getIdent());
+				for(Expression param : exec.getArguments()) {
+					if(param instanceof GraphEntityExpression)
+						sb.append(", object var_" + ((GraphEntityExpression) param).getGraphEntity().getIdent());
 				}
 				sb.append(") {}\n");
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;

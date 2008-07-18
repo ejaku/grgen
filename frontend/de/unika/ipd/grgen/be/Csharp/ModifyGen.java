@@ -28,11 +28,13 @@ import java.util.Map;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Cast;
+import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.Exec;
+import de.unika.ipd.grgen.ir.ExecVariableExpression;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
@@ -741,17 +743,10 @@ public class ModifyGen extends CSharpBase {
 			}
 			else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
-				for(Entity param : exec.getArguments()) {
-					if(param instanceof Node)
-						nodesNeededAsElements.add((Node) param);
-					else if(param instanceof Edge)
-						edgesNeededAsElements.add((Edge) param);
-					else if(param instanceof Variable) {
-						if(neededVariables != null)
-							neededVariables.add((Variable) param);
-					}
-					else
-						assert false : "XGRS argument of unknown type: " + param.getClass();
+				for(Expression arg : exec.getArguments()) {
+					collectNeededAttributes(arg, neededAttributes,
+						nodesNeededAsElements, edgesNeededAsElements,
+						nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
 				}
 			}
 			else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
@@ -803,19 +798,9 @@ public class ModifyGen extends CSharpBase {
 			HashSet<Variable> neededVariables)
 	{
 		for(Expression expr : task.returns) {
-			if(expr instanceof GraphEntityExpression) {
-				GraphEntity entity = ((GraphEntityExpression) expr).getGraphEntity();
-				if(entity instanceof Node)
-					nodesNeededAsElements.add((Node) entity);
-				else if(entity instanceof Edge)
-					edgesNeededAsElements.add((Edge) entity);
-				else
-					throw new UnsupportedOperationException("Unsupported entity (" + entity + ")");
-			}
-			else
-				collectNeededAttributes(expr, neededAttributes,
-						nodesNeededAsElements, edgesNeededAsElements,
-						nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
+			collectNeededAttributes(expr, neededAttributes,
+					nodesNeededAsElements, edgesNeededAsElements,
+					nodesNeededAsAttributes, edgesNeededAsAttributes, neededVariables);
 		}
 	}
 
@@ -877,9 +862,10 @@ public class ModifyGen extends CSharpBase {
 			} else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
 				sb.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
-				for(Entity param : exec.getArguments()) {
+				for(Expression arg : exec.getArguments()) {
+					if(!(arg instanceof GraphEntityExpression)) continue;
 					sb.append(", ");
-					sb.append(formatEntity(param));
+					genExpression(sb, arg, state);
 				}
 				sb.append(");\n");
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
@@ -1176,6 +1162,15 @@ public class ModifyGen extends CSharpBase {
 		else if(expr instanceof VariableExpression) {
 			if(neededVariables != null)
 				neededVariables.add(((VariableExpression) expr).getVariable());
+		}
+		else if(expr instanceof GraphEntityExpression) {
+			GraphEntity grEnt = ((GraphEntityExpression) expr).getGraphEntity();
+			if(grEnt instanceof Node)
+				nodesNeededAsElements.add((Node) grEnt);
+			else if(grEnt instanceof Edge)
+				edgesNeededAsElements.add((Edge) grEnt);
+			else
+				throw new UnsupportedOperationException("Unsupported graph entity (" + grEnt + ")");
 		}
 		else if(expr instanceof Visited) {
 			Visited vis = (Visited) expr;

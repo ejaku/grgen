@@ -39,20 +39,21 @@ public class CallActionNode extends BaseNode {
 	}
 
 	private IdentNode actionUnresolved;
-	private CollectNode<IdentNode> paramsUnresolved;
+	private CollectNode<BaseNode> paramsUnresolved;
 	private CollectNode<BaseNode> returnsUnresolved;
 
 	private TestDeclNode action;
 	private ExecVarDeclNode booleVar;
-	protected CollectNode<DeclNode> params;
+	protected CollectNode<ExprNode> params;
 	protected CollectNode<ExecVarDeclNode> returns;
 
 	/**
 	 * @param    ruleUnresolved      an IdentNode: thr rule/test name
-	 * @param    paramsUnresolved    a  CollectNode<IdentNode>
-	 * @param    returnsUnresolved   a  CollectNode<IdentNode>
+	 * @param    paramsUnresolved    a  CollectNode<BaseNode>
+	 * @param    returnsUnresolved   a  CollectNode<BaseNode>
 	 */
-	public CallActionNode(Coords coords, IdentNode ruleUnresolved, CollectNode<IdentNode> paramsUnresolved, CollectNode<BaseNode> returnsUnresolved) {
+	public CallActionNode(Coords coords, IdentNode ruleUnresolved, CollectNode<BaseNode> paramsUnresolved,
+			CollectNode<BaseNode> returnsUnresolved) {
 		super(coords);
 		this.actionUnresolved = ruleUnresolved;
 		this.paramsUnresolved = paramsUnresolved;
@@ -82,7 +83,7 @@ public class CallActionNode extends BaseNode {
 	 *
 	 * @return    a  CollectNode<IdentNode>
 	 */
-	public CollectNode<DeclNode> getParams() {
+	public CollectNode<ExprNode> getParams() {
 		assert isResolved();
 		return params;
 	}
@@ -127,7 +128,8 @@ public class CallActionNode extends BaseNode {
 	private static final DeclarationPairResolver<TestDeclNode, ExecVarDeclNode> actionResolver =
 		new DeclarationPairResolver<TestDeclNode, ExecVarDeclNode>(TestDeclNode.class, ExecVarDeclNode.class);
 
-	private static final CollectResolver<DeclNode> paramNodeResolver = new CollectResolver<DeclNode>(new DeclarationResolver<DeclNode>(DeclNode.class));
+	private static final CollectResolver<ExprNode> paramNodeResolver =
+		new CollectResolver<ExprNode>(new DeclarationResolver<ExprNode>(ExprNode.class));
 
 	private static final CollectResolver<ExecVarDeclNode> varDeclNodeResolver =
 		new CollectResolver<ExecVarDeclNode>(new DeclarationResolver<ExecVarDeclNode>(ExecVarDeclNode.class));
@@ -186,19 +188,19 @@ public class CallActionNode extends BaseNode {
 	 *
 	 * @return   a  boolean
 	 */
-	private boolean checkParams(Collection<? extends DeclNode> formalParams, Collection<? extends DeclNode> actualParams) {
+	private boolean checkParams(Collection<? extends DeclNode> formalParams, Collection<? extends ExprNode> actualParams) {
 		boolean res = true;
 		if(formalParams.size() != actualParams.size()) {
 			error.error(getCoords(), "Formal and actual parameter(s) of action " + this.getUseString()
 					+ " mismatch in number (" + formalParams.size() + " vs. " + actualParams.size() +")");
 			res = false;
 		} else if(actualParams.size() > 0) {
-			Iterator<? extends DeclNode> iterAP = actualParams.iterator();
+			Iterator<? extends ExprNode> iterAP = actualParams.iterator();
 			for(DeclNode formalParam : formalParams) {
 				Type     formalParamType = formalParam.getDecl().getDeclType().getType();
 
-				DeclNode actualParam     = iterAP.next();
-				Type     actualParamType = actualParam.getDecl().getDeclType().getType();
+				ExprNode actualParam     = iterAP.next();
+				Type     actualParamType = actualParam.getType().getType();
 
 				boolean incommensurable = false;
 

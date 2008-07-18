@@ -34,4 +34,13 @@ public class GraphEntityExpression extends Expression {
 		else
 			throw new UnsupportedOperationException("Unsupported Entity (" + graphEntity + ")");
 	}
+
+	public boolean equals(Object other) {
+		if(!(other instanceof GraphEntityExpression)) return false;
+		return graphEntity == ((GraphEntityExpression) other).getGraphEntity();
+	}
+
+	public int hashCode() {
+		return graphEntity.hashCode();
+	}
 }

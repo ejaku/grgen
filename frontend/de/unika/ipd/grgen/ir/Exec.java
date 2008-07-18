@@ -18,12 +18,11 @@ import java.util.Set;
  * A XGRS in an emit statement.
  */
 public class Exec extends IR implements ImperativeStmt {
-
-	private Set<Entity> parameters = new LinkedHashSet<Entity>();
+	private Set<Expression> parameters = new LinkedHashSet<Expression>();
 
 	private String xgrsString;
 
-	public Exec(String xgrsString, Set<Entity> parameters) {
+	public Exec(String xgrsString, Set<Expression> parameters) {
 		super("exec");
 		this.xgrsString = xgrsString;
 		this.parameters = parameters;
@@ -40,7 +39,7 @@ public class Exec extends IR implements ImperativeStmt {
 	/**
 	 * Returns Parameters
 	 */
-	public Set<Entity> getArguments() {
+	public Set<Expression> getArguments() {
 		return Collections.unmodifiableSet(parameters);
 	}
 }

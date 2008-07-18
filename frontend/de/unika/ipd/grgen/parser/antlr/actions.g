@@ -1011,24 +1011,36 @@ parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 
 callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	{
-		CollectNode<IdentNode> params = new CollectNode<IdentNode>();
+		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 		IdentNode id;
 	}
 	: ( | MOD { xg.append("%"); } | MOD QUESTION { xg.append("%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?%"); } )
 		id=actionIdentUse {xg.append(id);}
-		(LPAREN paramListOfEntIdentUse[params] RPAREN)?
-			{
-				xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns));
-				if(params.getChildren().iterator().hasNext()) {
-					xg.append("(");
-					for(Iterator<IdentNode> i = params.getChildren().iterator(); i.hasNext();) {
-						IdentNode p = i.next();
-						xg.append(p);
-						if(i.hasNext()) xg.append(",");
-					}
-					xg.append(")");
+		(LPAREN ruleParams[params] RPAREN)?
+		{
+			xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns));
+			if(params.getChildren().iterator().hasNext()) {
+				xg.append("(");
+				for(Iterator<BaseNode> i = params.getChildren().iterator(); i.hasNext();) {
+					BaseNode p = i.next();
+					xg.append(p);
+					if(i.hasNext()) xg.append(", ");
 				}
+				xg.append(")");
 			}
+		}
+	;
+
+ruleParam[CollectNode<BaseNode> parameters]
+	{
+		ExprNode exp;
+	}
+	: exp=identExpr { parameters.addChild(exp); }
+	| exp=constant { parameters.addChild(exp); }
+	;
+
+ruleParams[CollectNode<BaseNode> parameters]
+	: ruleParam[parameters]	( COMMA ruleParam[parameters] )*
 	;
 
 typeConstraint returns [ TypeExprNode constr = null ]

@@ -12,6 +12,8 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.MemberAnyResolver;
 import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.ExecVariable;
+import de.unika.ipd.grgen.ir.ExecVariableExpression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
@@ -33,6 +35,7 @@ public class DeclExprNode extends ExprNode {
 	MemberDeclNode declMember;
 	QualIdentNode qualIdent;
 	VarDeclNode declVar;
+	ExecVarDeclNode declExecVar;
 	ConstraintDeclNode declElem;
 
 	DeclaredCharacter validVersion;
@@ -72,6 +75,7 @@ public class DeclExprNode extends ExprNode {
 		declMember    = memberResolver.getResult(MemberDeclNode.class);
 		qualIdent     = memberResolver.getResult(QualIdentNode.class);
 		declVar       = memberResolver.getResult(VarDeclNode.class);
+		declExecVar   = memberResolver.getResult(ExecVarDeclNode.class);
 		declElem      = memberResolver.getResult(ConstraintDeclNode.class);
 
 		validVersion  = memberResolver.getResult();
@@ -115,6 +119,8 @@ public class DeclExprNode extends ExprNode {
 			return new MemberExpression(decl.checkIR(Entity.class));
 		else if(decl instanceof VarDeclNode)
 			return new VariableExpression(decl.checkIR(Variable.class));
+		else if(decl instanceof ExecVarDeclNode)
+			return new ExecVariableExpression(decl.checkIR(ExecVariable.class));
 		else if(decl instanceof ConstraintDeclNode)
 			return new GraphEntityExpression((GraphEntity) decl.getIR());
 		else

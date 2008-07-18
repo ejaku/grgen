@@ -11,29 +11,28 @@
 package de.unika.ipd.grgen.ir;
 
 /**
- * A variable expression node.
+ * A exec variable expression node.
  */
-public class VariableExpression extends Expression {
-	private Variable var;
+public class ExecVariableExpression extends Expression {
+	private ExecVariable var;
 
-	public VariableExpression(Variable var) {
-		super("variable", var.getType());
+	public ExecVariableExpression(ExecVariable var) {
+		super("exec variable", var.getType());
 		this.var = var;
 	}
 
-	/** Returns the variable of this variable expression. */
-	public Variable getVariable() {
+	/** Returns the exec variable of this exec variable expression. */
+	public ExecVariable getVariable() {
 		return var;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
 	public void collectNeededEntities(NeededEntities needs) {
-		needs.add(var);
 	}
 
 	public boolean equals(Object other) {
-		if(!(other instanceof VariableExpression)) return false;
-		return var == ((VariableExpression) other).getVariable();
+		if(!(other instanceof ExecVariableExpression)) return false;
+		return var == ((ExecVariableExpression) other).getVariable();
 	}
 
 	public int hashCode() {
