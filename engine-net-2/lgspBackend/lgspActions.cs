@@ -583,6 +583,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// The rule may not require any parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
+        /// <param name="maxMatches">The maximum number of matches to be rewritten or 0 for no limit.</param>
         /// <param name="graph">Host graph for this rule</param>
         /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
         /// which is only valid until the next graph rewrite with this rule,
@@ -596,6 +597,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Tries to apply this rule to all occurrences in the given graph "at once".
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
+        /// <param name="maxMatches">The maximum number of matches to be rewritten or 0 for no limit.</param>
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>

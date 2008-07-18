@@ -293,11 +293,13 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
             if(action.RulePattern.Inputs.Length != ex.NumGivenInputs && action.RulePattern.Outputs.Length != ex.NumGivenOutputs)
-                Console.WriteLine("Wrong number of parameters and return values for action \"{0}\"!", ex.RuleName);
+                Console.WriteLine("Wrong number of parameters and return values for action \"" + ex.RuleName + "\"!");
             else if(action.RulePattern.Inputs.Length != ex.NumGivenInputs)
-                Console.WriteLine("Wrong number of parameters for action \"{0}\"!", ex.RuleName);
+                Console.WriteLine("Wrong number of parameters for action \"" + ex.RuleName + "\"!");
+            else if(action.RulePattern.Outputs.Length != ex.NumGivenOutputs)
+                Console.WriteLine("Wrong number of return values for action \"" + ex.RuleName + "\"!");
             else
-                Console.WriteLine("Wrong number of return values for action \"{0}\"!", ex.RuleName);
+                Console.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for action \"" + ex.RuleName + "\"!");
             Console.Write("Prototype: {0}", ex.RuleName);
             if(action.RulePattern.Inputs.Length != 0)
             {

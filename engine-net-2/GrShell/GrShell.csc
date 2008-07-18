@@ -1386,7 +1386,8 @@ RuleObject Rule():
 		{
 			returnVars = ArrayList.Repeat(null, action.RulePattern.Outputs.Length);
 		}
-		return new RuleObject(action, (String[]) paramVars.ToArray(typeof(String)), (String[]) returnVars.ToArray(typeof(String)));
+		return new RuleObject(action, (String[]) paramVars.ToArray(typeof(String)),
+				new object[paramVars.Count], (String[]) returnVars.ToArray(typeof(String)));
 	}
 }
 

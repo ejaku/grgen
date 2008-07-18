@@ -356,7 +356,7 @@ namespace de.unika.ipd.grGen.libGr
         /// If elem is null, the variable is unset
         /// </summary>
         /// <param name="varName">The name of the variable</param>
-        /// <param name="elem">The new value of the variable</param>
+        /// <param name="val">The new value of the variable</param>
         public abstract void SetVariableValue(String varName, object val);
 
         #endregion Variables management
@@ -467,7 +467,13 @@ namespace de.unika.ipd.grGen.libGr
             {
                 parameters = ruleObject.Parameters;
                 for(int i = 0; i < ruleObject.ParamVars.Length; i++)
-                    parameters[i] = GetVariableValue(ruleObject.ParamVars[i]);
+                {
+                    // If this parameter is not constant, the according ParamVars entry holds the
+                    // name of a variable to be used for the parameter.
+                    // Otherwise the parameters entry remains unchanged (it already contains the constant)
+                    if(ruleObject.ParamVars[i] != null)
+                        parameters[i] = GetVariableValue(ruleObject.ParamVars[i]);
+                }
             }
             else parameters = null;
 

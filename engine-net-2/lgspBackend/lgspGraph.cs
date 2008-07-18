@@ -1783,7 +1783,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// If elem is null, the variable is unset.
         /// </summary>
         /// <param name="varName">The name of the variable.</param>
-        /// <param name="elem">The new value of the variable or null to unset the variable.</param>
+        /// <param name="val">The new value of the variable or null to unset the variable.</param>
         public override void SetVariableValue(String varName, object val)
         {
             if(varName == null) return;

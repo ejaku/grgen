@@ -31,7 +31,9 @@ namespace de.unika.ipd.grGen.libGr
         public String RuleName;
 
         /// <summary>
-        /// An array of variable names used for the parameters
+        /// An array of variable names used for the parameters.
+        /// It must have the same length as Parameters.
+        /// If an entry is null, the according entry in parameters is used unchanged.
         /// </summary>
         public String[] ParamVars;
 
@@ -41,7 +43,8 @@ namespace de.unika.ipd.grGen.libGr
         public String[] ReturnVars;
 
         /// <summary>
-        /// Buffer to store parameters used by libGr to avoid unneccessary memory allocation
+        /// Buffer to store parameters used by libGr to avoid unneccessary memory allocation.
+        /// Also holds constant parameters at the positions where ParamVars has null entries.
         /// </summary>
         public object[] Parameters;
 
@@ -50,15 +53,19 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="action">The IAction instance to be used</param>
         /// <param name="paramVars">An array of variable names used for the parameters</param>
+        /// <param name="paramConsts">An array of constants used for the parameters.</param>
         /// <param name="returnVars">An array of variable names used for the return values</param>
-        public RuleObject(IAction action, String[] paramVars, String[] returnVars)
+        public RuleObject(IAction action, String[] paramVars, object[] paramConsts, String[] returnVars)
         {
+            if(paramVars.Length != paramConsts.Length)
+                throw new ArgumentException("Lengths of variable and constant parameter array do not match");
+
             Action = action;
             if(action != null) RuleName = action.Name;
             else RuleName = "<Unknown rule>";
             ParamVars = paramVars;
             ReturnVars = returnVars;
-            Parameters = new object[paramVars.Length];
+            Parameters = paramConsts;
         }
     }
 

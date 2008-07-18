@@ -35,6 +35,11 @@ namespace de.unika.ipd.grGen.libGr
         public int NumGivenOutputs;
 
         /// <summary>
+        /// The index of a bad parameter or -1 if another error occurred.
+        /// </summary>
+        public int BadParamIndex;
+
+        /// <summary>
         /// Creates an instance of a SequenceParserRuleException used by the SequenceParser, when the rule with the
         /// given name does not exist or input or output parameters do not match.
         /// </summary>
@@ -43,12 +48,14 @@ namespace de.unika.ipd.grGen.libGr
         /// If it is null, there was no rule with the name specified in RuleName.</param>
         /// <param name="numGivenInputs">The number of inputs given to the rule.</param>
         /// <param name="numGivenOutputs">The number of outputs given to the rule.</param>
-        public SequenceParserRuleException(String ruleName, IAction action, int numGivenInputs, int numGivenOutputs)
+        /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
+        public SequenceParserRuleException(String ruleName, IAction action, int numGivenInputs, int numGivenOutputs, int badParamIndex)
         {
             RuleName = ruleName;
             Action = action;
             NumGivenInputs = numGivenInputs;
             NumGivenOutputs = numGivenOutputs;
+            BadParamIndex = badParamIndex;
         }
     }
 }

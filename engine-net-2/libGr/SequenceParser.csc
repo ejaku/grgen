@@ -183,7 +183,21 @@ TOKEN: {
 }
 
 TOKEN: {
-	< NUM: (["0"-"9"])+ >
+	< NUMFLOAT:
+			("-")? (["0"-"9"])+ ("." (["0"-"9"])+)? (<EXPONENT>)? ["f", "F"]
+		|	("-")? "." (["0"-"9"])+ (<EXPONENT>)? ["f", "F"]
+	>
+|
+	< NUMDOUBLE:
+			("-")? (["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
+		|	("-")? "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
+		|	("-")? (["0"-"9"])+ <EXPONENT> (["d", "D"])?
+		|	("-")? (["0"-"9"])+ ["d", "D"]
+	>
+|
+	< #EXPONENT: ["e", "E"] (["+", "-"])? (["0"-"9"])+ >
+|
+	< NUM: (("-")? ["0"-"9"])+ >
 |	< DOUBLEQUOTEDTEXT : "\"" (~["\"", "\n", "\r"])* "\"" >
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
 |	< SINGLEQUOTEDTEXT : "\'" (~["\'", "\n", "\r"])* "\'" >
@@ -199,6 +213,17 @@ String Word():
 	tok=<WORD>
 	{
 		return tok.image;		
+	}
+}
+
+String TextString():
+{
+	Token tok;
+}
+{
+	tok=<DOUBLEQUOTEDTEXT>
+	{
+		return tok.image;
 	}
 }
 
@@ -221,9 +246,46 @@ long Number():
 {
 	t=<NUM>
 	{
-	    if(!long.TryParse(t.image, out val))
-	        throw new ParseException("64-bit integer expected but found: \"" + t.image + "\"");
-	    return val;
+		if(!long.TryParse(t.image, out val))
+			throw new ParseException("64-bit integer expected but found: \"" + t + "\" (" + t.kind + ")");
+		return val;
+	}
+}
+
+float FloatNumber():
+{
+	Token t;
+	float val;
+}
+{
+	t=<NUMFLOAT>
+	{
+		// Remove 'F' from the end of the image to parse it
+		if(!float.TryParse(t.image.Substring(0, t.image.Length - 1), System.Globalization.NumberStyles.Float,
+				System.Globalization.CultureInfo.InvariantCulture, out val))
+			throw new ParseException("float expected but found: \"" + t + "\" (" + t.kind + ")");
+		return val;
+	}
+}
+
+double DoubleNumber():
+{
+	Token t;
+	String img;
+	double val;
+}
+{
+	t=<NUMDOUBLE>
+	{
+		// Remove optional 'D' from the end of the image to parse it if necessary
+		if(t.image[t.image.Length - 1] == 'd' || t.image[t.image.Length - 1] == 'D')
+			img = t.image.Substring(0, t.image.Length - 1);
+		else
+			img = t.image;
+		if(!double.TryParse(img, System.Globalization.NumberStyles.Float,
+				System.Globalization.CultureInfo.InvariantCulture, out val))
+			throw new ParseException("double expected but found: \"" + t + "\" (" + t.kind + ")");
+		return val;
 	}
 }
 
@@ -234,6 +296,45 @@ void Parameters(List<String> parameters):
 {
 	str=Word() { parameters.Add(str); } ("," str=Word() { parameters.Add(str); })*
 }
+
+void RuleParameter(List<String> paramVars, List<Object> paramConsts):
+{
+	String str;
+	object constant;
+	long number;
+}
+{
+	str=Word()
+	{
+		paramVars.Add(str);
+		paramConsts.Add(null);
+	}
+|
+	(
+		number=Number() { constant = (int) number; }
+	|
+		constant=FloatNumber()
+	|
+		constant=DoubleNumber()
+	|
+		constant=TextString()
+	|
+		<TRUE> { constant = true; }
+	|
+		<FALSE> { constant = false; }
+	)
+	{
+		paramVars.Add(null);
+		paramConsts.Add(constant);
+	}
+}
+
+void RuleParameters(List<String> paramVars, List<Object> paramConsts):
+{ }
+{
+	RuleParameter(paramVars, paramConsts) ("," RuleParameter(paramVars, paramConsts))*
+}
+
 
 String Variable():
 {
@@ -558,6 +659,7 @@ Sequence Rule():
 	bool retSpecified = false, numChooseRandSpecified = false;
 	long numChooseRand = 1;
 	List<String> paramVars = new List<String>();
+	List<Object> paramConsts = new List<Object>();
 	List<String> returnVars = new List<String>();
 }
 {
@@ -573,40 +675,56 @@ Sequence Rule():
 					throw new ParseException("The number of randomly chosen elements must be less than 2147483648!");
 			}
 		)?
-	    "[" ("%" { special = true; } | "?" { test = true; })* str=Word() ("(" Parameters(paramVars) ")")? "]"
-	    {
-   		    return new SequenceRuleAll(CreateRuleObject(str, paramVars, returnVars, retSpecified), special, test,
-   				numChooseRandSpecified ? (int) numChooseRand : 0);
-	    }
+		"[" ("%" { special = true; } | "?" { test = true; })* str=Word()
+		("(" RuleParameters(paramVars, paramConsts) ")")?
+		"]"
+		{
+			return new SequenceRuleAll(CreateRuleObject(str, paramVars, paramConsts, returnVars, retSpecified),
+					special, test, numChooseRandSpecified ? (int) numChooseRand : 0);
+		}
 	|
-	    ("%" { special = true; } | "?" { test = true; })* str=Word() ("(" Parameters(paramVars) ")")?
-	    {
-   		    return new SequenceRule(CreateRuleObject(str, paramVars, returnVars, retSpecified), special, test);
-	    }
+		("%" { special = true; } | "?" { test = true; })*
+		str=Word() ("(" RuleParameters(paramVars, paramConsts) ")")?
+		{
+			return new SequenceRule(CreateRuleObject(str, paramVars, paramConsts, returnVars, retSpecified),
+					special, test);
+		}
 	)
 }
 
 CSHARPCODE
-RuleObject CreateRuleObject(String ruleName, List<String> paramVars, List<String> returnVars, bool retSpecified)
+RuleObject CreateRuleObject(String ruleName, List<String> paramVars, List<Object> paramConsts,
+		List<String> returnVars, bool retSpecified)
 {
-    IAction action = null;
-    if(actions != null)
-    {
-        action = actions.GetAction(ruleName);
-        if(action == null || action.RulePattern.Inputs.Length != paramVars.Count
-                          || retSpecified && action.RulePattern.Outputs.Length != returnVars.Count)
-	        throw new SequenceParserRuleException(ruleName, action, paramVars.Count, returnVars.Count);
-        if(!retSpecified && action.RulePattern.Outputs.Length > 0)
-        {
-            for(int i = action.RulePattern.Outputs.Length; i > 0; i--)
-                returnVars.Add(null);
-        }
-    }
-    RuleObject ruleObj = new RuleObject(action, paramVars.ToArray(), returnVars.ToArray());
-    if(actions == null)
-        ruleObj.RuleName = ruleName;
-        
-    return ruleObj;
+	IAction action = null;
+	if(actions != null)
+	{
+		action = actions.GetAction(ruleName);
+		if(action == null || action.RulePattern.Inputs.Length != paramVars.Count
+				|| retSpecified && action.RulePattern.Outputs.Length != returnVars.Count)
+			throw new SequenceParserRuleException(ruleName, action, paramVars.Count, returnVars.Count, -1);
+		for(int i = 0; i < paramVars.Count; i++)
+		{
+			// CSharpCC does not support as-expressions, yet...
+			VarType inputType = (VarType) (action.RulePattern.Inputs[i] is VarType ? action.RulePattern.Inputs[i] : null);
+
+			// If input type is not a VarType, a variable must be specified.
+			// Otherwise, if a constant is specified, the VarType must match the type of the constant
+			if(inputType == null && paramVars[i] == null
+					|| inputType != null && paramConsts[i] != null && inputType.Type != paramConsts[i].GetType())
+				throw new SequenceParserRuleException(ruleName, action, paramVars.Count, returnVars.Count, i);
+		}
+		if(!retSpecified && action.RulePattern.Outputs.Length > 0)
+		{
+			for(int i = action.RulePattern.Outputs.Length; i > 0; i--)
+			returnVars.Add(null);
+		}
+	}
+	RuleObject ruleObj = new RuleObject(action, paramVars.ToArray(), paramConsts.ToArray(), returnVars.ToArray());
+	if(actions == null)
+		ruleObj.RuleName = ruleName;
+
+	return ruleObj;
 }
 
 TOKEN: { < ERROR: ~[] > }
