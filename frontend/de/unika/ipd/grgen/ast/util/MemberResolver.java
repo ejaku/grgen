@@ -27,7 +27,7 @@ import java.util.Vector;
 /**
  * A resolver, that resolves a declaration node from an identifier.
  */
-public class MemberAnyResolver<T> extends Base
+public class MemberResolver<T> extends Base
 {
 	// for error message
 	private BaseNode orginalNode;

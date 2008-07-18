@@ -10,7 +10,7 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.MemberAnyResolver;
+import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.ExecVariable;
 import de.unika.ipd.grgen.ir.ExecVariableExpression;
@@ -63,7 +63,7 @@ public class DeclExprNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static MemberAnyResolver<DeclaredCharacter> memberResolver = new MemberAnyResolver<DeclaredCharacter>();
+	private static MemberResolver<DeclaredCharacter> memberResolver = new MemberResolver<DeclaredCharacter>();
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {

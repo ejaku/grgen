@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.MemberAnyResolver;
+import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -63,7 +63,7 @@ public class MemberInitNode extends BaseNode {
 		return childrenNames;
 	}
 
-	private static final MemberAnyResolver<DeclNode> lhsResolver = new MemberAnyResolver<DeclNode>();
+	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
