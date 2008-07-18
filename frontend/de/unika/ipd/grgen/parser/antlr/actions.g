@@ -1037,6 +1037,15 @@ ruleParam[CollectNode<BaseNode> parameters]
 	}
 	: exp=identExpr { parameters.addChild(exp); }
 	| exp=constant { parameters.addChild(exp); }
+	| MINUS
+		(
+			i:NUM_INTEGER
+				{ parameters.addChild(new IntConstNode(getCoords(i), Integer.parseInt("-" + i.getText(), 10))); }
+		|	f:NUM_FLOAT
+				{ parameters.addChild(new FloatConstNode(getCoords(f), Float.parseFloat("-" + f.getText()))); }
+		| 	d:NUM_DOUBLE
+				{ parameters.addChild(new DoubleConstNode(getCoords(d), Double.parseDouble("-" + d.getText()))); }
+		)
 	;
 
 ruleParams[CollectNode<BaseNode> parameters]
