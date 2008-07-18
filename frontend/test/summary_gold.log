@@ -543,6 +543,7 @@ ERROR  should_fail/exec_030.grg
 ERROR  should_fail/exec_031.grg
 ERROR  should_fail/exec_032.grg
 ERROR  should_fail/exec_033.grg
+ERROR  should_fail/exec_034.grg
 ERROR  should_fail/hom_001.grg
 ERROR  should_fail/hom_002.grg
 ERROR  should_fail/hom_003.grg
