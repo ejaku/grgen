@@ -17,7 +17,6 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;

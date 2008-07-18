@@ -32,13 +32,10 @@ public class DeclExprNode extends ExprNode {
 	}
 
 	BaseNode declUnresolved;
-	MemberDeclNode declMember;
-	QualIdentNode qualIdent;
-	VarDeclNode declVar;
 	ExecVarDeclNode declExecVar;
 	ConstraintDeclNode declElem;
 
-	DeclaredCharacter validVersion;
+	DeclaredCharacter decl;
 
 	/**
 	 * Make a new declaration expression.
@@ -48,14 +45,14 @@ public class DeclExprNode extends ExprNode {
 	public DeclExprNode(BaseNode declCharacter) {
 		super(declCharacter.getCoords());
 		this.declUnresolved = declCharacter;
-		this.validVersion = (DeclaredCharacter) declCharacter;
+		this.decl = (DeclaredCharacter) declCharacter;
 		becomeParent(this.declUnresolved);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add((BaseNode) validVersion);
+		children.add((BaseNode) decl);
 		return children;
 	}
 
@@ -72,20 +69,20 @@ public class DeclExprNode extends ExprNode {
 	protected boolean resolveLocal() {
 		if(!memberResolver.resolve(declUnresolved)) return false;
 
-		declMember    = memberResolver.getResult(MemberDeclNode.class);
-		qualIdent     = memberResolver.getResult(QualIdentNode.class);
-		declVar       = memberResolver.getResult(VarDeclNode.class);
+						memberResolver.getResult(MemberDeclNode.class);
+						memberResolver.getResult(QualIdentNode.class);
+						memberResolver.getResult(VarDeclNode.class);
 		declExecVar   = memberResolver.getResult(ExecVarDeclNode.class);
 		declElem      = memberResolver.getResult(ConstraintDeclNode.class);
 
-		validVersion  = memberResolver.getResult();
+		decl  = memberResolver.getResult();
 
 		return memberResolver.finish();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	public TypeNode getType() {
-		return validVersion.getDecl().getDeclType();
+		return decl.getDecl().getDeclType();
 	}
 
 	/**
@@ -99,10 +96,10 @@ public class DeclExprNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.ExprNode#evaluate() */
 	public ExprNode evaluate() {
 		ExprNode res = this;
-		DeclNode decl = validVersion.getDecl();
+		DeclNode declNode = decl.getDecl();
 
-		if(decl instanceof EnumItemNode)
-			res = ((EnumItemNode) decl).getValue();
+		if(declNode instanceof EnumItemNode)
+			res = ((EnumItemNode) declNode).getValue();
 
 		return res;
 	}
@@ -114,17 +111,17 @@ public class DeclExprNode extends ExprNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
-		BaseNode decl = (BaseNode) validVersion;
-		if(decl instanceof MemberDeclNode)
-			return new MemberExpression(decl.checkIR(Entity.class));
-		else if(decl instanceof VarDeclNode)
-			return new VariableExpression(decl.checkIR(Variable.class));
-		else if(decl instanceof ExecVarDeclNode)
-			return new ExecVariableExpression(decl.checkIR(ExecVariable.class));
-		else if(decl instanceof ConstraintDeclNode)
-			return new GraphEntityExpression((GraphEntity) decl.getIR());
+		BaseNode declNode = (BaseNode) decl;
+		if(declNode instanceof MemberDeclNode)
+			return new MemberExpression(declNode.checkIR(Entity.class));
+		else if(declNode instanceof VarDeclNode)
+			return new VariableExpression(declNode.checkIR(Variable.class));
+		else if(declNode instanceof ExecVarDeclNode)
+			return new ExecVariableExpression(declNode.checkIR(ExecVariable.class));
+		else if(declNode instanceof ConstraintDeclNode)
+			return new GraphEntityExpression((GraphEntity) declNode.getIR());
 		else
-			return decl.getIR();
+			return declNode.getIR();
 	}
 }
 
