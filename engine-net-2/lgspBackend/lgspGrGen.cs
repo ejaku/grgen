@@ -414,8 +414,11 @@ namespace de.unika.ipd.grGen.lgsp
 						source.Append(ruleName);
 						source.Append(" = actions.GetAction(\"" + ruleName + "\");\n");
 					}
-					foreach(String varName in seqRule.RuleObj.ParamVars)
-						EmitElementVarIfNew(varName, source);
+                    foreach(String varName in seqRule.RuleObj.ParamVars)
+                    {
+                        if(varName != null)
+                            EmitElementVarIfNew(varName, source);
+                    }
 					foreach(String varName in seqRule.RuleObj.ReturnVars)
 						EmitElementVarIfNew(varName, source);
 					break;
@@ -458,7 +461,26 @@ namespace de.unika.ipd.grGen.lgsp
                     if(paramLen != 0)
                     {
                         for(int i = 0; i < paramLen; i++)
-                            source.AppendFront("__xgrs_paramarray_" + paramLen + "[" + i + "] = var_" + ruleObj.ParamVars[i] + ";\n");
+                        {
+                            source.AppendFront("__xgrs_paramarray_" + paramLen + "[" + i + "] = ");
+                            if(ruleObj.ParamVars[i] != null)
+                                source.Append("var_" + ruleObj.ParamVars[i]);
+                            else
+                            {
+                                object arg = ruleObj.Parameters[i];
+                                if(arg is bool)
+                                    source.Append((bool) arg ? "true" : "false");
+                                else if(arg is string)
+                                    source.Append("\"" + (string) arg + "\"");
+                                else if(arg is float)
+                                    source.Append(((float) arg).ToString(System.Globalization.CultureInfo.InvariantCulture) + "f");
+                                else if(arg is double)
+                                    source.Append(((double) arg).ToString(System.Globalization.CultureInfo.InvariantCulture));
+                                else
+                                    source.Append(arg.ToString());
+                            }
+                            source.Append(";\n");
+                        }
                     }
                     source.AppendFront("LGSPMatches mat_" + seqID + " = rule_" + ruleObj.RuleName
                         + ".Match(graph, " + (seq.SequenceType == SequenceType.Rule ? "1" : "graph.MaxMatches")
