@@ -85,14 +85,14 @@ public class ExecVarDeclNode extends DeclNode {
 
 	/**
 	 * Get the IR object correctly casted.
-	 * @return The Variable IR object.
+	 * @return The ExecVariable IR object.
 	 */
 	public ExecVariable getVariable() {
-		return (ExecVariable) checkIR(ExecVariable.class);
+		return checkIR(ExecVariable.class);
 	}
 
 	protected IR constructIR() {
-		return new ExecVariable("Var", getIdentNode().getIdent(), type.getType());
+		return new ExecVariable("ExecVar", getIdentNode().getIdent(), type.getType());
 	}
 }
 

@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberExpression;
-import de.unika.ipd.grgen.ir.ExecVariable;
+import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.VariableExpression;
 import java.util.Collection;
 import java.util.Vector;
@@ -114,7 +114,7 @@ public class DeclExprNode extends ExprNode {
 		if(decl instanceof MemberDeclNode)
 			return new MemberExpression(decl.checkIR(Entity.class));
 		else if(decl instanceof VarDeclNode)
-			return new VariableExpression(decl.checkIR(ExecVariable.class));
+			return new VariableExpression(decl.checkIR(Variable.class));
 		else if(decl instanceof ConstraintDeclNode)
 			return new GraphEntityExpression((GraphEntity) decl.getIR());
 		else

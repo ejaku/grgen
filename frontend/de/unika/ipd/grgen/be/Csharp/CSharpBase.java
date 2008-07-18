@@ -15,6 +15,12 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
+import java.io.File;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.Cast;
 import de.unika.ipd.grgen.ir.Constant;
@@ -32,6 +38,7 @@ import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IntType;
 import de.unika.ipd.grgen.ir.MemberExpression;
+import de.unika.ipd.grgen.ir.Nameof;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.ObjectType;
@@ -43,17 +50,13 @@ import de.unika.ipd.grgen.ir.StringType;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Typeof;
-import de.unika.ipd.grgen.ir.Nameof;
-import de.unika.ipd.grgen.ir.ExecVariable;
+import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.VariableExpression;
 import de.unika.ipd.grgen.ir.Visited;
 import de.unika.ipd.grgen.ir.VoidType;
+
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
-import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 
 public abstract class CSharpBase {
 	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix) {
@@ -252,7 +255,7 @@ public abstract class CSharpBase {
 		else if (entity instanceof Edge) {
 			return pathPrefix + "edge_" + formatIdentifiable(entity);
 		}
-		else if (entity instanceof ExecVariable) {
+		else if (entity instanceof Variable) {
 			return pathPrefix + "var_" + formatIdentifiable(entity);
 		}
 		else {
@@ -402,7 +405,7 @@ public abstract class CSharpBase {
 			}
 		}
 		else if(expr instanceof VariableExpression) {
-			ExecVariable var = ((VariableExpression) expr).getVariable();
+			Variable var = ((VariableExpression) expr).getVariable();
 			sb.append("var_" + var.getIdent());
 		}
 		else if(expr instanceof GraphEntityExpression) {

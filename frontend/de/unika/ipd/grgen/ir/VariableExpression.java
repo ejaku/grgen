@@ -14,15 +14,15 @@ package de.unika.ipd.grgen.ir;
  * A variable expression node.
  */
 public class VariableExpression extends Expression {
-	private ExecVariable var;
+	private Variable var;
 
-	public VariableExpression(ExecVariable var) {
+	public VariableExpression(Variable var) {
 		super("variable", var.getType());
 		this.var = var;
 	}
 
 	/** Returns the variable of this variable expression. */
-	public ExecVariable getVariable() {
+	public Variable getVariable() {
 		return var;
 	}
 

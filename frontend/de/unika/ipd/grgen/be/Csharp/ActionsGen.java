@@ -15,6 +15,12 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
@@ -33,12 +39,7 @@ import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.ir.ExecVariable;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import de.unika.ipd.grgen.ir.Variable;
 
 public class ActionsGen extends CSharpBase {
 	public ActionsGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
@@ -286,7 +287,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "VariableNums { ");
-		for(ExecVariable var : pattern.getVars()) {
+		for(Variable var : pattern.getVars()) {
 			sb.append("@" + formatIdentifiable(var) + ", ");
 		}
 		sb.append("};\n");
@@ -563,7 +564,7 @@ public class ActionsGen extends CSharpBase {
 			edge.setPointOfDefinition(pattern);
 		}
 
-		for(ExecVariable var : pattern.getVars()) {
+		for(Variable var : pattern.getVars()) {
 			if(alreadyDefinedEntityToName.get(var)!=null) {
 				continue;
 			}
@@ -652,7 +653,7 @@ public class ActionsGen extends CSharpBase {
 	private void genRuleParamResult(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
 		sb.append("\t\t\tinputs = new GrGenType[] { ");
 		for(Entity ent : action.getParameters()) {
-			if(ent instanceof ExecVariable)
+			if(ent instanceof Variable)
 				sb.append("VarType.GetVarType(typeof(" + formatAttributeType(ent) + ")), ");
 			else sb.append(formatTypeClass(ent.getType()) + ".typeVar, ");
 		}
@@ -749,7 +750,7 @@ public class ActionsGen extends CSharpBase {
 
 			if(!needs.variables.isEmpty())
 			{
-				for(ExecVariable var : needs.variables) {
+				for(Variable var : needs.variables) {
 					if(first) first = false;
 					else sb.append(", ");
 					sb.append(formatAttributeType(var));

@@ -15,7 +15,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.ExecVariable;
+import de.unika.ipd.grgen.ir.Variable;
 
 /**
  * Declaration of a variable.
@@ -87,12 +87,12 @@ public class VarDeclNode extends DeclNode {
 	 * Get the IR object correctly casted.
 	 * @return The Variable IR object.
 	 */
-	public ExecVariable getVariable() {
-		return (ExecVariable) checkIR(ExecVariable.class);
+	public Variable getVariable() {
+		return checkIR(Variable.class);
 	}
 
 	protected IR constructIR() {
-		return new ExecVariable("Var", getIdentNode().getIdent(), type.getType());
+		return new Variable("Var", getIdentNode().getIdent(), type.getType());
 	}
 }
 

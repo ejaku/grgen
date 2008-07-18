@@ -4,7 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * Holds a collection of entities needed by an expression.  
+ * Holds a collection of entities needed by an expression.
  */
 public class NeededEntities {
 	/**
@@ -16,11 +16,11 @@ public class NeededEntities {
 	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars) {
 		if(collectNodes) nodes     = new LinkedHashSet<Node>();
 		if(collectEdges) edges     = new LinkedHashSet<Edge>();
-		if(collectVars)  variables = new LinkedHashSet<ExecVariable>();
+		if(collectVars)  variables = new LinkedHashSet<Variable>();
 	}
-	
+
 	/**
-	 * Specifies whether the graph is needed. 
+	 * Specifies whether the graph is needed.
 	 */
 	public boolean isGraphUsed;
 
@@ -38,8 +38,8 @@ public class NeededEntities {
 	/**
 	 * The variables needed.
 	 */
-	public Set<ExecVariable> variables;
-	
+	public Set<Variable> variables;
+
 	/**
 	 * Adds a needed node.
 	 * @param node The needed node.
@@ -47,7 +47,7 @@ public class NeededEntities {
 	public void add(Node node) {
 		if(nodes != null) nodes.add(node);
 	}
-	
+
 	/**
 	 * Adds a needed edge.
 	 * @param edge The needed edge.
@@ -55,15 +55,15 @@ public class NeededEntities {
 	public void add(Edge edge) {
 		if(edges != null) edges.add(edge);
 	}
-	
+
 	/**
 	 * Adds a needed variable.
 	 * @param var The needed variable.
 	 */
-	public void add(ExecVariable var) {
+	public void add(Variable var) {
 		if(variables != null) variables.add(var);
 	}
-	
+
 	public void needsGraph() {
 		isGraphUsed = true;
 	}
