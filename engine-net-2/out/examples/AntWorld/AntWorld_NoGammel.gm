@@ -1,0 +1,20 @@
+node class GridNode
+{
+    food:int;
+    pheromones:int;
+}
+node class GridCornerNode extends GridNode;
+node class AntHill extends GridNode
+{
+    foodCountdown:int = 10;
+}
+node class Ant
+{
+    hasFood:boolean;
+}
+
+edge class GridEdge connect GridNode[1] -> GridNode[1];
+edge class PathToHill extends GridEdge;
+
+edge class AntPosition;
+edge class NextAnt;
