@@ -11,15 +11,14 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
+[assembly: AssemblyTitle("gxl2grs")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Universität Karlsruhe, IPD")]
+[assembly: AssemblyProduct("gxl2grs")]
+[assembly: AssemblyCopyright("Copyright © 2008 Universität Karlsruhe, IPD")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
-[assembly: AssemblyTitle("gxl2grs")]
-[assembly: AssemblyProduct("gxl2grs")]
-[assembly: AssemblyCompany("Universität Karlsruhe, IPD")]
-[assembly: AssemblyCopyright("Copyright © 2008 Universität Karlsruhe, IPD")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -36,6 +35,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyCompany("Universität Karlsruhe, IPD")]
-[assembly: AssemblyProduct("Benchmarker")]
-[assembly: AssemblyCopyright("Copyright © 2008 Universität Karlsruhe, IPD")]
+[assembly: AssemblyVersion("2.0.20554.0")]
+[assembly: AssemblyFileVersion("2.0.20554.0")]
