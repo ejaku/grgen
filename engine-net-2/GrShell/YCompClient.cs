@@ -507,30 +507,29 @@ namespace de.unika.ipd.grGen.grShell
             {
                 GroupNodeType srcGroupNodeType = dumpInfo.GetGroupNodeType(edge.Source.Type);
                 GroupNodeType tgtGroupNodeType = dumpInfo.GetGroupNodeType(edge.Target.Type);
-                INode groupNode = null;
-                if(srcGroupNodeType != null) groupNode = edge.Source;
-                if(tgtGroupNodeType != null
-                            && (groupNode == null || tgtGroupNodeType.Priority > srcGroupNodeType.Priority))
-                    groupNode = edge.Target;
+                INode groupNodeFirst = null, groupNodeSecond = null;
+                if(tgtGroupNodeType != null) groupNodeFirst = edge.Target;
+                if(srcGroupNodeType != null)
+                {
+                    if(groupNodeFirst == null) groupNodeFirst = edge.Source;
+                    else if(srcGroupNodeType.Priority > tgtGroupNodeType.Priority)
+                    {
+                        groupNodeSecond = groupNodeFirst;
+                        groupNodeFirst = edge.Source;
+                    }
+                    else groupNodeSecond = edge.Source;
+                }
 
-                GroupMode grpMode;
-                if(groupNode == edge.Target)
+                GroupMode grpMode = GroupMode.None;
+                bool groupedNode = false;
+                if(groupNodeFirst != null)
                 {
-                    grpMode = tgtGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
-                    if((grpMode & GroupMode.GroupIncomingNodes) != 0)
-                        ycompStream.Write("moveNode \"n" + srcName + "\" \"n" + tgtName + "\"\n");
-                    else
-                        grpMode = GroupMode.None;
+                    groupedNode = TryGroupNode(groupNodeFirst, edge, srcName, tgtName, srcGroupNodeType,
+                            tgtGroupNodeType, ref grpMode);
+                    if(!groupedNode && groupNodeSecond != null)
+                        groupedNode = TryGroupNode(groupNodeSecond, edge, srcName, tgtName, srcGroupNodeType,
+                                tgtGroupNodeType, ref grpMode);
                 }
-                else if(groupNode == edge.Source)
-                {
-                    grpMode = srcGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
-                    if((grpMode & GroupMode.GroupOutgoingNodes) != 0)
-                        ycompStream.Write("moveNode \"n" + tgtName + "\" \"n" + srcName + "\"\n");
-                    else
-                        grpMode = GroupMode.None;
-                }
-                else grpMode = GroupMode.None;
 
                 // If no grouping rule applies, grpMode is GroupMode.None (= 0)
                 if((grpMode & GroupMode.Hidden) != 0)
@@ -553,6 +552,30 @@ namespace de.unika.ipd.grGen.grShell
             }
             isDirty = true;
             isLayoutDirty = true;
+        }
+
+        private bool TryGroupNode(INode groupNode, IEdge edge, String srcName, String tgtName,
+            GroupNodeType srcGroupNodeType, GroupNodeType tgtGroupNodeType, ref GroupMode grpMode)
+        {
+            if(groupNode == edge.Target)
+            {
+                grpMode = tgtGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
+                if((grpMode & GroupMode.GroupIncomingNodes) != 0)
+                {
+                    ycompStream.Write("moveNode \"n" + srcName + "\" \"n" + tgtName + "\"\n");
+                    return true;
+                }
+            }
+            else if(groupNode == edge.Source)
+            {
+                grpMode = srcGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
+                if((grpMode & GroupMode.GroupOutgoingNodes) != 0)
+                {
+                    ycompStream.Write("moveNode \"n" + tgtName + "\" \"n" + srcName + "\"\n");
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
