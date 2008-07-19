@@ -33,7 +33,7 @@
       +Program.cs ... REWRITING ... DONE
     /GenerateGraphs
       /GenerateGraphs
-      +Program.cs ... NO HEADER
+      +Program.cs ... REWRITING ... DONE
     /GrGen
     +GrGen.cs ... REWRITING ... DONE
       /Properties
@@ -61,6 +61,11 @@
     +Program.cs ... REWRITING ... DONE
       /Properties
       +AssemblyInfo.cs ... REWRITING ... DONE
+    /gxl2grs
+      /gxl2grs
+      +Program.cs ... REWRITING ... DONE
+        /Properties
+        +AssemblyInfo.cs ... REWRITING ... DONE
     /lgspBackend
     +lgspActions.cs ... REWRITING ... DONE
     +lgspBackend.cs ... REWRITING ... DONE
@@ -133,26 +138,26 @@
         +MutexModel.cs ... NO HEADER
         +MutexPimpedActions.cs ... NO HEADER
         +MutexPimpedActions_intermediate.cs ... NO HEADER
+        /ProgramGraphsExample
+        +ProgramGraphsActions.cs ... NO HEADER
+        +ProgramGraphsActions_intermediate.cs ... NO HEADER
+        +ProgramGraphsExample.cs ... REWRITING ... DONE
+        +ProgramGraphsModel.cs ... NO HEADER
         /RecursiveExample
         +RecursiveActions.cs ... NO HEADER
         +RecursiveActions_intermediate.cs ... NO HEADER
         +RecursiveExample.cs ... REWRITING ... DONE
         +StdModel.cs ... NO HEADER
-        /RefactoringExample
-        +RefactoringActions.cs ... NO HEADER
-        +RefactoringActions_intermediate.cs ... NO HEADER
-        +RefactoringExample.cs ... NO HEADER
-        +RefactoringModel.cs ... NO HEADER
         /TNTExample
         +TNTActions.cs ... NO HEADER
         +TNTActions_intermediate.cs ... NO HEADER
         +TNTExample.cs ... REWRITING ... DONE
         +TNTModel.cs ... NO HEADER
-        /TranskriptionExample
-        +TranskriptionAbstraktActions.cs ... NO HEADER
-        +TranskriptionAbstraktActions_intermediate.cs ... NO HEADER
-        +TranskriptionAbstraktExample.cs ... REWRITING ... DONE
-        +TranskriptionAbstraktModel.cs ... NO HEADER
+        /VisitedExample
+        +StdModel.cs ... NO HEADER
+        +VisitedExample.cs ... REWRITING ... DONE
+        +VisitedExampleActions.cs ... NO HEADER
+        +VisitedExampleActions_intermediate.cs ... NO HEADER
         /YCompExample
         +YCompClient.cs ... REWRITING ... DONE
         +YCompExample.cs ... REWRITING ... DONE
@@ -234,6 +239,7 @@
             +ErrorTypeNode.java ... REWRITING ... DONE
             +ExactNode.java ... REWRITING ... DONE
             +ExecNode.java ... REWRITING ... DONE
+            +ExecVarDeclNode.java ... REWRITING ... DONE
             +ExprNode.java ... REWRITING ... DONE
             +FloatConstNode.java ... REWRITING ... DONE
             +FloatTypeNode.java ... REWRITING ... DONE
@@ -253,13 +259,14 @@
             +ModelNode.java ... REWRITING ... DONE
             +ModelTypeNode.java ... REWRITING ... DONE
             +ModifyDeclNode.java ... REWRITING ... DONE
+            +NameofNode.java ... REWRITING ... DONE
             +NodeCharacter.java ... REWRITING ... DONE
             +NodeDeclNode.java ... REWRITING ... DONE
             +NodeTypeChangeNode.java ... REWRITING ... DONE
             +NodeTypeNode.java ... REWRITING ... DONE
             +NullConstNode.java ... REWRITING ... DONE
             +NullNode.java ... REWRITING ... DONE
-            +ObjectConstNode.java ... REWRITING ... DONE
+            +NullTypeNode.java ... REWRITING ... DONE
             +ObjectTypeNode.java ... REWRITING ... DONE
             +OperatorSignature.java ... REWRITING ... DONE
             +OpNode.java ... REWRITING ... DONE
@@ -293,6 +300,7 @@
             +UndirectedEdgeTypeNode.java ... REWRITING ... DONE
             +UnitNode.java ... REWRITING ... DONE
             +VarDeclNode.java ... REWRITING ... DONE
+            +VisitedNode.java ... REWRITING ... DONE
             +VoidTypeNode.java ... REWRITING ... DONE
               /util
               +ChainChecker.java ... REWRITING ... DONE
@@ -305,10 +313,7 @@
               +DeclarationResolver.java ... REWRITING ... DONE
               +DeclarationTripleResolver.java ... REWRITING ... DONE
               +DeclarationTypeResolver.java ... REWRITING ... DONE
-              +MemberAnyResolver.java ... REWRITING ... DONE
-              +MemberPairResolver.java ... REWRITING ... DONE
               +MemberResolver.java ... REWRITING ... DONE
-              +MemberTripleResolver.java ... REWRITING ... DONE
               +Pair.java ... REWRITING ... DONE
               +Resolver.java ... REWRITING ... DONE
               +SimpleChecker.java ... REWRITING ... DONE
@@ -355,6 +360,8 @@
             +EnumType.java ... REWRITING ... DONE
             +Evaluation.java ... REWRITING ... DONE
             +Exec.java ... REWRITING ... DONE
+            +ExecVariable.java ... REWRITING ... DONE
+            +ExecVariableExpression.java ... REWRITING ... DONE
             +Expression.java ... REWRITING ... DONE
             +FloatType.java ... REWRITING ... DONE
             +Graph.java ... REWRITING ... DONE
@@ -370,6 +377,8 @@
             +MemberExpression.java ... REWRITING ... DONE
             +MemberInit.java ... REWRITING ... DONE
             +Model.java ... REWRITING ... DONE
+            +Nameof.java ... REWRITING ... DONE
+            +NeededEntities.java ... REWRITING ... DONE
             +Node.java ... REWRITING ... DONE
             +NodeType.java ... REWRITING ... DONE
             +ObjectType.java ... REWRITING ... DONE
@@ -394,6 +403,7 @@
             +Unit.java ... REWRITING ... DONE
             +Variable.java ... REWRITING ... DONE
             +VariableExpression.java ... REWRITING ... DONE
+            +Visited.java ... REWRITING ... DONE
             +VoidType.java ... REWRITING ... DONE
             /parser
             +Coords.java ... REWRITING ... DONE

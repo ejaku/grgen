@@ -1,5 +1,5 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET v2 beta
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 2.0
  * Copyright (C) 2008 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
  * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
  */
@@ -129,7 +129,7 @@ namespace ChangeFileHeaders
             string[] lines = File.ReadAllLines(file.FullName, encoding);
 
             lines[0] = "/*";
-            lines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET v2 beta";
+            lines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET 2.0";
             lines[2] = " * Copyright (C) 2008 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos";
             lines[3] = " * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)";
             lines[4] = " */";
@@ -148,7 +148,7 @@ namespace ChangeFileHeaders
             lines.CopyTo(extendedLines, NUM_LINES_TO_ADD);
             
             extendedLines[0] = "/*";
-            extendedLines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET v2 beta";
+            extendedLines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET 2.0";
             extendedLines[2] = " * Copyright (C) 2008 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos";
             extendedLines[3] = " * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)";
             extendedLines[4] = " */";
