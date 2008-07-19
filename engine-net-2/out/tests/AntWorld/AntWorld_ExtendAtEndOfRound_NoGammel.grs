@@ -1,0 +1,82 @@
+new graph "AntWorld/AntWorld_ExtendAtEndOfRound_NoGammel"
+
+randomseed 13
+
+show num nodes
+show num edges
+show num nodes "Ant"
+show num nodes "GridNode"
+show num nodes "GridCornerNode"
+show num nodes "AntHill"
+show num edges "NextAnt"
+show num edges "GridEdge"
+show num edges "PathToHill"
+show num edges "AntPosition"
+xgrs (firstAnt)=InitWorld
+show num nodes
+show num edges
+show num nodes "Ant"
+show num nodes "GridNode"
+show num nodes "GridCornerNode"
+show num nodes "AntHill"
+show num edges "NextAnt"
+show num edges "GridEdge"
+show num edges "PathToHill"
+show num edges "AntPosition"
+
+xgrs doAntWorld(firstAnt)
+show num nodes
+show num edges
+show num nodes "Ant"
+show num nodes "GridNode"
+show num nodes "GridCornerNode"
+show num nodes "AntHill"
+show num edges "NextAnt"
+show num edges "GridEdge"
+show num edges "PathToHill"
+show num edges "AntPosition"
+xgrs doAntWorld(firstAnt)
+show num nodes
+show num edges
+show num nodes "Ant"
+show num nodes "GridNode"
+show num nodes "GridCornerNode"
+show num nodes "AntHill"
+show num edges "NextAnt"
+show num edges "GridEdge"
+show num edges "PathToHill"
+show num edges "AntPosition"
+xgrs doAntWorld(firstAnt)
+show num nodes
+show num edges
+show num nodes "Ant"
+show num nodes "GridNode"
+show num nodes "GridCornerNode"
+show num nodes "AntHill"
+show num edges "NextAnt"
+show num edges "GridEdge"
+show num edges "PathToHill"
+show num edges "AntPosition"
+xgrs doAntWorld(firstAnt)
+show num nodes
+show num edges
+show num nodes "Ant"
+show num nodes "GridNode"
+show num nodes "GridCornerNode"
+show num nodes "AntHill"
+show num edges "NextAnt"
+show num edges "GridEdge"
+show num edges "PathToHill"
+show num edges "AntPosition"
+xgrs doAntWorld(firstAnt)
+show num nodes
+show num edges
+show num nodes "Ant"
+show num nodes "GridNode"
+show num nodes "GridCornerNode"
+show num nodes "AntHill"
+show num edges "NextAnt"
+show num edges "GridEdge"
+show num edges "PathToHill"
+show num edges "AntPosition"
+quit
