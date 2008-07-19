@@ -334,7 +334,7 @@ rule ICCopyPred(to:IR_node, from:IR_node, pred:Block, pred_pred:Block, var i:int
     
     modify {
 //        exec(ICCopyTo(target, block, i));
-        exec(((pred_copy:IR_node)=ICCopyTo_otherBlock(target, pred)
+        exec(((pred_copy:IR_node)=ICCopyTo_otherBlock(target, pred, pred_pred)
             || (pred_copy)=ICCopyTo_isPhi(target, pred, pred_pred, i)
             || (pred_copy)=ICCopyTo_default(target, pred, pred_pred, i))
             && (pos:int)=ICGetPos(dfrom) && ICAddPred(to, pos, pred_copy));

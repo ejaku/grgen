@@ -1,4 +1,4 @@
-rule moritz
+rule ifconvTest1
 {
   replace
   {
