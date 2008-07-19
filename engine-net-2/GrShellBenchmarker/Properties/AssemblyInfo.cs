@@ -11,14 +11,15 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("GrShellBenchmarker")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Universität Karlsruhe, IPD")]
-[assembly: AssemblyProduct("GrShellBenchmarker")]
-[assembly: AssemblyCopyright("Copyright © 2008 Universität Karlsruhe, IPD")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+
+[assembly: AssemblyTitle("GrShellBenchmarker")]
+[assembly: AssemblyProduct("GrShellBenchmarker")]
+[assembly: AssemblyCompany("Universität Karlsruhe, IPD")]
+[assembly: AssemblyCopyright("Copyright © 2008 Universität Karlsruhe, IPD")]
 
 // Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
 // für COM-Komponenten. Wenn Sie auf einen Typ in dieser Assembly von 
@@ -35,6 +36,6 @@ using System.Runtime.InteropServices;
 //      Buildnummer
 //      Revision
 //
-[assembly: AssemblyVersion("2.0.19422.0")]
-[assembly: AssemblyInformationalVersionAttribute("GrGen.NET v2 beta")]
-[assembly: AssemblyFileVersion("2.0.19422.0")]
+[assembly: AssemblyVersion("2.0.20552.0")]
+[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 2.0")]
+[assembly: AssemblyFileVersion("2.0.20552.0")]
