@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -376,7 +377,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Enumerates all enum members.
         /// </summary>
-        public IEnumerable<EnumMember> Members { get { return members; } }
+        public IEnumerable<EnumMember> Members { [DebuggerStepThrough] get { return members; } }
     }
 
     /// <summary>
@@ -454,22 +455,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Array containing this type first and following all sub types.
         /// </summary>
-        public GrGenType[] SubOrSameTypes { get { return subOrSameGrGenTypes; } }
+        public GrGenType[] SubOrSameTypes { [DebuggerStepThrough] get { return subOrSameGrGenTypes; } }
 
         /// <summary>
         /// Array containing all direct sub types of this type.
         /// </summary>
-        public GrGenType[] DirectSubTypes { get { return directSubGrGenTypes; } }
+        public GrGenType[] DirectSubTypes { [DebuggerStepThrough] get { return directSubGrGenTypes; } }
 
         /// <summary>
         /// Array containing this type first and following all super types.
         /// </summary>
-        public GrGenType[] SuperOrSameTypes { get { return superOrSameGrGenTypes; } }
+        public GrGenType[] SuperOrSameTypes { [DebuggerStepThrough] get { return superOrSameGrGenTypes; } }
 
         /// <summary>
         /// Array containing all direct super types of this type.
         /// </summary>
-        public GrGenType[] DirectSuperTypes { get { return directSuperGrGenTypes; } }
+        public GrGenType[] DirectSuperTypes { [DebuggerStepThrough] get { return directSuperGrGenTypes; } }
 
         /// <summary>
         /// Enumerates over all real subtypes of this type
@@ -502,12 +503,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// True, if this type has any super types, i.e. if it is not the node/edge root type.
         /// </summary>
-        public bool HasSuperTypes { get { return SuperOrSameTypes.Length > 1; } }
+        public bool HasSuperTypes { [DebuggerStepThrough] get { return SuperOrSameTypes.Length > 1; } }
 
         /// <summary>
         /// True, if this type has any sub types.
         /// </summary>
-        public bool HasSubTypes { get { return SubOrSameTypes.Length > 1; } }
+        public bool HasSubTypes { [DebuggerStepThrough] get { return SubOrSameTypes.Length > 1; } }
 
         /// <summary>
         /// True, if this type is a node type.
@@ -583,6 +584,15 @@ namespace de.unika.ipd.grGen.libGr
         {
             return type != otherType && type.IsA(otherType);
         }
+
+        /// <summary>
+        /// Returns the name of the type.
+        /// </summary>
+        /// <returns>The name of the type.</returns>
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     /// <summary>
@@ -599,7 +609,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Always returns true.
         /// </summary>
-        public override bool IsNodeType { get { return true; } }
+        public override bool IsNodeType { [DebuggerStepThrough] get { return true; } }
 
         /// <summary>
         /// Creates an INode object according to this type.
@@ -635,22 +645,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Array containing this type first and following all sub types
         /// </summary>
-        public new NodeType[] SubOrSameTypes { get { return subOrSameTypes; } }
+        public new NodeType[] SubOrSameTypes { [DebuggerStepThrough] get { return subOrSameTypes; } }
 
         /// <summary>
         /// Array containing all direct sub types of this type.
         /// </summary>
-        public new NodeType[] DirectSubTypes { get { return directSubTypes; } }
+        public new NodeType[] DirectSubTypes { [DebuggerStepThrough] get { return directSubTypes; } }
 
         /// <summary>
         /// Array containing this type first and following all super types
         /// </summary>
-        public new NodeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
+        public new NodeType[] SuperOrSameTypes { [DebuggerStepThrough] get { return superOrSameTypes; } }
 
         /// <summary>
         /// Array containing all direct super types of this type.
         /// </summary>
-        public new NodeType[] DirectSuperTypes { get { return directSuperTypes; } }
+        public new NodeType[] DirectSuperTypes { [DebuggerStepThrough] get { return directSuperTypes; } }
     }
 
     /// <summary>
@@ -680,7 +690,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Always returns false.
         /// </summary>
-        public override bool IsNodeType { get { return false; } }
+        public override bool IsNodeType { [DebuggerStepThrough] get { return false; } }
 
         /// <summary>
         /// Specifies the directedness of this edge type.
@@ -725,22 +735,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Array containing this type first and following all sub types
         /// </summary>
-        public new EdgeType[] SubOrSameTypes { get { return subOrSameTypes; } }
+        public new EdgeType[] SubOrSameTypes { [DebuggerStepThrough] get { return subOrSameTypes; } }
 
         /// <summary>
         /// Array containing all direct sub types of this type.
         /// </summary>
-        public new EdgeType[] DirectSubTypes { get { return directSubTypes; } }
+        public new EdgeType[] DirectSubTypes { [DebuggerStepThrough] get { return directSubTypes; } }
 
         /// <summary>
         /// Array containing this type first and following all super types
         /// </summary>
-        public new EdgeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
+        public new EdgeType[] SuperOrSameTypes { [DebuggerStepThrough] get { return superOrSameTypes; } }
 
         /// <summary>
         /// Array containing all direct super types of this type.
         /// </summary>
-        public new EdgeType[] DirectSuperTypes { get { return directSuperTypes; } }
+        public new EdgeType[] DirectSuperTypes { [DebuggerStepThrough] get { return directSuperTypes; } }
     }
 
     /// <summary>
@@ -780,13 +790,14 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public override string Name
         {
+            [DebuggerStepThrough]
             get { return type.Name; }
         }
 
         /// <summary>
         /// The .NET type of the variable.
         /// </summary>
-        public Type Type { get { return type; } }
+        public Type Type { [DebuggerStepThrough] get { return type; } }
 
         public override bool IsNodeType
         {

@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
+using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -54,6 +55,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Class implementing nodes in the libGr search plan backend
     /// </summary>
+    [DebuggerDisplay("LGSPNode ({Type})")]
     public abstract class LGSPNode : INode
     {
         /// <summary>
@@ -101,6 +103,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public bool Valid
         {
+            [DebuggerStepThrough]
             get { return typePrev != null; }
         }
 
@@ -110,7 +113,8 @@ namespace de.unika.ipd.grGen.lgsp
 		/// </summary>
 		public IGraphElement ReplacedByElement
 		{
-			get { return ReplacedByNode; }
+            [DebuggerStepThrough]
+            get { return ReplacedByNode; }
 		}
 
 		/// <summary>
@@ -119,6 +123,7 @@ namespace de.unika.ipd.grGen.lgsp
 		/// </summary>
 		public LGSPNode ReplacedByNode
         {
+            [DebuggerStepThrough]
             get { return typePrev != null ? null : typeNext; }
         }
 
@@ -128,7 +133,8 @@ namespace de.unika.ipd.grGen.lgsp
 		/// </summary>
         INode INode.ReplacedByNode
         {
-			get { return ReplacedByNode; }
+            [DebuggerStepThrough]
+            get { return ReplacedByNode; }
         }
     
 
@@ -359,8 +365,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        internal bool HasOutgoing { get { return outhead != null; } }
-        internal bool HasIncoming { get { return inhead != null; } }
+        internal bool HasOutgoing { [DebuggerStepThrough] get { return outhead != null; } }
+        internal bool HasIncoming { [DebuggerStepThrough] get { return inhead != null; } }
 
         internal void AddOutgoing(LGSPEdge edge)
         {
@@ -449,12 +455,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The NodeType of the node.
         /// </summary>
-        public NodeType Type { get { return type; } }
+        public NodeType Type { [DebuggerStepThrough] get { return type; } }
 
         /// <summary>
         /// The GrGenType of the node.
         /// </summary>
-        GrGenType IGraphElement.Type { get { return type; } }
+        GrGenType IGraphElement.Type { [DebuggerStepThrough] get { return type; } }
 
         /// <summary>
         /// Returns true, if the graph element is compatible to the given type.
@@ -497,6 +503,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// Recycles this node. This may pool the node or just ignore it.
         /// </summary>
         public abstract void Recycle();
+
+        /// <summary>
+        /// Returns the name of the type of this node.
+        /// </summary>
+        /// <returns>The name of the type of this node.</returns>
+        public override string ToString()
+        {
+            return Type.ToString();
+        }
     }
 
     /// <summary>
@@ -535,6 +550,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Class implementing edges in the libGr search plan backend
     /// </summary>
+    [DebuggerDisplay("LGSPEdge ({Source} -{Type}-> {Target})")]
     public abstract class LGSPEdge : IEdge
     {
         /// <summary>
@@ -591,6 +607,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public bool Valid
         {
+            [DebuggerStepThrough]
             get { return typePrev != null; }
         }
 
@@ -600,7 +617,8 @@ namespace de.unika.ipd.grGen.lgsp
 		/// </summary>
 		public IGraphElement ReplacedByElement
 		{
-			get { return ReplacedByEdge; }
+            [DebuggerStepThrough]
+            get { return ReplacedByEdge; }
 		}
 
 		/// <summary>
@@ -618,18 +636,19 @@ namespace de.unika.ipd.grGen.lgsp
 		/// </summary>
 		IEdge IEdge.ReplacedByEdge
         {
-			get { return ReplacedByEdge; }
+            [DebuggerStepThrough]
+            get { return ReplacedByEdge; }
         }
 
         /// <summary>
         /// The source node of the edge.
         /// </summary>
-        public INode Source { get { return source; } }
+        public INode Source { [DebuggerStepThrough] get { return source; } }
 
         /// <summary>
         /// The target node of the edge.
         /// </summary>
-        public INode Target { get { return target; } }
+        public INode Target { [DebuggerStepThrough] get { return target; } }
 
         /// <summary>
         /// Retrieves the other adjacent node of this edge.
@@ -646,12 +665,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The EdgeType of the edge.
         /// </summary>
-        public EdgeType Type { get { return type; } }
+        public EdgeType Type { [DebuggerStepThrough] get { return type; } }
 
         /// <summary>
         /// The GrGenType of the edge.
         /// </summary>
-        GrGenType IGraphElement.Type { get { return type; } }
+        GrGenType IGraphElement.Type { [DebuggerStepThrough] get { return type; } }
 
         /// <summary>
         /// Returns true, if the graph element is compatible to the given type
@@ -696,6 +715,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// Recycles this edge. This may pool the edge or just ignore it.
         /// </summary>
         public abstract void Recycle();
+
+        /// <summary>
+        /// Returns the name of the type of this edge.
+        /// </summary>
+        /// <returns>The name of the type of this edge.</returns>
+        public override string ToString()
+        {
+            return Type.ToString();
+        }
     }
 
     /// <summary>

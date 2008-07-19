@@ -3616,6 +3616,12 @@
             Recycles this node. This may pool the node or just ignore it.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.ToString">
+            <summary>
+            Returns the name of the type of this node.
+            </summary>
+            <returns>The name of the type of this node.</returns>
+        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPNode.Valid">
             <summary>
             This is true, if this node is a valid graph element, i.e. it is part of a graph.
@@ -3792,6 +3798,12 @@
             <summary>
             Recycles this edge. This may pool the edge or just ignore it.
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.ToString">
+            <summary>
+            Returns the name of the type of this edge.
+            </summary>
+            <returns>The name of the type of this edge.</returns>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPEdge.Valid">
             <summary>
