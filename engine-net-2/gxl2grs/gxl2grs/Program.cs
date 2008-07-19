@@ -21,6 +21,7 @@ namespace gxl2grs
             StreamWriter grs = new StreamWriter(graphName+".grs", false, Encoding.Default, 4096);
 
             grs.WriteLine("new graph \"" + graphName + "\"");
+            /* for java program graphs, refactoring case grabats 08
             grs.WriteLine("debug set layout Hierarchic");
             grs.WriteLine("debug set layout option NODE_PLACEMENT TREE");
             grs.WriteLine("debug set layout option ORIENTATION BOTTOM_TO_TOP");
@@ -36,7 +37,7 @@ namespace gxl2grs
             grs.WriteLine("dump set node Operator color green");
             grs.WriteLine("dump set node Call color green");
             grs.WriteLine("dump set node Update color darkgreen");
-
+            */
             grs.WriteLine();
 
             foreach(XmlNode element in graph.ChildNodes)
