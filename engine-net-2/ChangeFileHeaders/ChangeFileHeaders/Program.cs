@@ -134,6 +134,25 @@ namespace ChangeFileHeaders
             lines[3] = " * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)";
             lines[4] = " */";
 
+            if (file.Name == "AssemblyInfo.cs")
+            {
+                output.Append("ASSEMBLY INFOS ... ");
+
+                for (int i = 0; i < lines.Length; ++i)
+                {
+                    if (lines[i].StartsWith("[assembly: AssemblyVersion("))
+                        lines[i] = "[assembly: AssemblyVersion(\"2.0.20554.0\")]";
+                    if (lines[i].StartsWith("[assembly: AssemblyInformationalVersionAttribute("))
+                        lines[i] = "[assembly: AssemblyInformationalVersionAttribute(\"GrGen.NET 2.0\")]";
+                    if (lines[i].StartsWith("[assembly: AssemblyFileVersion("))
+                        lines[i] = "[assembly: AssemblyFileVersion(\"2.0.20554.0\")]";
+                    if (lines[i].StartsWith("[assembly: AssemblyCopyright("))
+                        lines[i] = "[assembly: AssemblyCopyright(\"Copyright © 2008 Universität Karlsruhe, IPD\")]";
+                    if (lines[i].StartsWith("[assembly: AssemblyCompany("))
+                        lines[i] = "[assembly: AssemblyCompany(\"Universität Karlsruhe, IPD\")]";
+                }
+            }
+
             File.WriteAllLines(file.FullName, lines, encoding);
 
             output.AppendLine("DONE");
