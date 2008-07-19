@@ -1809,9 +1809,15 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!GraphExists()) return;
 
-            VCGDumper dump = new VCGDumper(filename, curShellGraph.VcgFlags, debugLayout);
-            curShellGraph.Graph.Dump(dump, curShellGraph.DumpInfo);
-            dump.FinishDump();
+            try
+            {
+                using(VCGDumper dump = new VCGDumper(filename, curShellGraph.VcgFlags, debugLayout))
+                    curShellGraph.Graph.Dump(dump, curShellGraph.DumpInfo);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Unable to dump graph: " + ex.Message);
+            }
         }
 
         private GrColor? ParseGrColor(String colorName)
