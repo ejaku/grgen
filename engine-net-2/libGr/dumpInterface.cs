@@ -243,7 +243,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Used as priorities for GroupNodeType objects.
         /// </summary>
-        int nextGroupID = 0x7fffffff;
+        int nextGroupID = 0;
 
         GrColor[] nodeColors = new GrColor[4];
         GrColor[] nodeBorderColors = new GrColor[4];
@@ -348,7 +348,7 @@ namespace de.unika.ipd.grGen.libGr
                 GroupNodeType groupNodeType;
                 if(!nodeTypeToGroupNodeType.TryGetValue(subType, out groupNodeType))
                 {
-                    groupNodeType = new GroupNodeType(subType, nextGroupID++);
+                    groupNodeType = new GroupNodeType(subType, nextGroupID--);
                     nodeTypeToGroupNodeType[subType] = groupNodeType;
                     groupNodeTypes.Add(groupNodeType);
                 }

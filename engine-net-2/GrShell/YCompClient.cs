@@ -505,30 +505,40 @@ namespace de.unika.ipd.grGen.grShell
 
             if(edge.Source != edge.Target)
             {
-                GroupNodeType groupNodeType = dumpInfo.GetGroupNodeType(edge.Target.Type);
-                if(groupNodeType != null)
+                GroupNodeType srcGroupNodeType = dumpInfo.GetGroupNodeType(edge.Source.Type);
+                GroupNodeType tgtGroupNodeType = dumpInfo.GetGroupNodeType(edge.Target.Type);
+                INode groupNode = null;
+                if(srcGroupNodeType != null) groupNode = edge.Source;
+                if(tgtGroupNodeType != null
+                            && (groupNode == null || tgtGroupNodeType.Priority > srcGroupNodeType.Priority))
+                    groupNode = edge.Target;
+
+                GroupMode grpMode;
+                if(groupNode == edge.Target)
                 {
-                    GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
+                    grpMode = tgtGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
                     if((grpMode & GroupMode.GroupIncomingNodes) != 0)
                         ycompStream.Write("moveNode \"n" + srcName + "\" \"n" + tgtName + "\"\n");
                     else
-                    {
-                        groupNodeType = dumpInfo.GetGroupNodeType(edge.Source.Type);
-                        if(groupNodeType != null)
-                        {
-                            grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
-                            if((grpMode & GroupMode.GroupOutgoingNodes) != 0)
-                                ycompStream.Write("moveNode \"n" + tgtName + "\" \"n" + srcName + "\"\n");
-                        }
-                    }
-                    // If no grouping rule applies, grpMode is GroupMode.No (= 0)
-                    if((grpMode & GroupMode.Hidden) != 0)
-                    {
-                        hiddenEdges[edge] = true;
-                        isDirty = true;
-                        isLayoutDirty = true;
-                        return;
-                    }
+                        grpMode = GroupMode.None;
+                }
+                else if(groupNode == edge.Source)
+                {
+                    grpMode = srcGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
+                    if((grpMode & GroupMode.GroupOutgoingNodes) != 0)
+                        ycompStream.Write("moveNode \"n" + tgtName + "\" \"n" + srcName + "\"\n");
+                    else
+                        grpMode = GroupMode.None;
+                }
+                else grpMode = GroupMode.None;
+
+                // If no grouping rule applies, grpMode is GroupMode.None (= 0)
+                if((grpMode & GroupMode.Hidden) != 0)
+                {
+                    hiddenEdges[edge] = true;
+                    isDirty = true;
+                    isLayoutDirty = true;
+                    return;
                 }
             }
 
