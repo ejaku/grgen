@@ -19,7 +19,7 @@
     +MakeModel.cs ... REWRITING ... DONE
     +ParserPackage.cs ... REWRITING ... DONE
       /Properties
-      +AssemblyInfo.cs ... REWRITING ... DONE
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
       /test
       +CalcLexer.cs ... NO HEADER
       +CalcParser.cs ... NO HEADER
@@ -27,7 +27,7 @@
     /Benchmarker
     +Benchmarker.cs ... REWRITING ... DONE
       /Properties
-      +AssemblyInfo.cs ... REWRITING ... DONE
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /ChangeFileHeaders
       /ChangeFileHeaders
       +Program.cs ... REWRITING ... DONE
@@ -37,12 +37,12 @@
     /GrGen
     +GrGen.cs ... REWRITING ... DONE
       /Properties
-      +AssemblyInfo.cs ... REWRITING ... DONE
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /GrIO
     +FileIO.cs ... REWRITING ... DONE
     +Infrastructure.cs ... REWRITING ... DONE
       /Properties
-      +AssemblyInfo.cs ... REWRITING ... DONE
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /GrShell
     +Debugger.cs ... REWRITING ... DONE
     +GrShell.cs ... NO HEADER
@@ -56,16 +56,16 @@
     +WorkaroundManager.cs ... REWRITING ... DONE
     +YCompClient.cs ... REWRITING ... DONE
       /Properties
-      +AssemblyInfo.cs ... REWRITING ... DONE
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /GrShellBenchmarker
     +Program.cs ... REWRITING ... DONE
       /Properties
-      +AssemblyInfo.cs ... REWRITING ... DONE
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /gxl2grs
       /gxl2grs
       +Program.cs ... REWRITING ... DONE
         /Properties
-        +AssemblyInfo.cs ... REWRITING ... DONE
+        +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /lgspBackend
     +lgspActions.cs ... REWRITING ... DONE
     +lgspBackend.cs ... REWRITING ... DONE
@@ -88,7 +88,7 @@
     +SearchProgramCompleter.cs ... REWRITING ... DONE
     +SourceBuilder.cs ... REWRITING ... DONE
       /Properties
-      +AssemblyInfo.cs ... REWRITING ... DONE
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /libGr
     +actionInterface.cs ... REWRITING ... DONE
     +backendInterface.cs ... REWRITING ... DONE
@@ -113,7 +113,7 @@
     +TokenMgrError.cs ... NO HEADER
     +VCGDumper.cs ... REWRITING ... DONE
       /Properties
-      +AssemblyInfo.cs ... REWRITING ... DONE
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /out
       /examples-lgsp
         /AlternativeExample
@@ -165,7 +165,7 @@
     +Kopie von spBench.cs ... REWRITING ... DONE
     +spBench.cs ... REWRITING ... DONE
       /Properties
-      +AssemblyInfo.cs ... REWRITING ... DONE
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /test
     +complModelModel.cs ... NO HEADER
     +complModelModelStub.cs ... NO HEADER
@@ -177,7 +177,7 @@
     +testModelManual.cs ... REWRITING ... DONE
     +testModelManual2.cs ... REWRITING ... DONE
       /Properties
-      +AssemblyInfo.cs ... REWRITING ... DONE
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
       /tmpgrgen0
       +testActions_intermediate.cs ... NO HEADER
       +testModel.cs ... NO HEADER
@@ -185,7 +185,7 @@
     /TestBench
     +TestBench.cs ... REWRITING ... DONE
       /Properties
-      +AssemblyInfo.cs ... REWRITING ... DONE
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
   /frontend
   +pattern_010Model.cs ... NO HEADER
     /de
