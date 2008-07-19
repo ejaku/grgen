@@ -384,7 +384,16 @@ namespace de.unika.ipd.grGen.libGr
         private int totalRewriteTime;
         private int totalTime;
 
+        /// <summary>
+        /// The time needed for the last matching.
+        /// </summary>
+        /// <remarks>Only updated if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
         public long LastMatchTime;
+
+        /// <summary>
+        /// The time needed for the last rewriting.
+        /// </summary>
+        /// <remarks>Only updated if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
         public long LastRewriteTime;
 
         /// <summary>
@@ -413,7 +422,8 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Stops time measurement and increases the TotalTimeMS by the elapsed time between this call and the last call to Start().
+        /// Stops time measurement and increases the TotalTimeMS by the elapsed time between this call
+        /// and the last call to Start().
         /// </summary>
         public void Stop()
         {
@@ -429,12 +439,21 @@ namespace de.unika.ipd.grGen.libGr
             LastMatchTime = LastRewriteTime = 0;
         }
 
+        /// <summary>
+        /// Starts a local time measurement to be used with either StopMatch() or StopRewrite().
+        /// </summary>
+        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
         [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
         public void StartLocal()
         {
             localStart = Environment.TickCount;
         }
 
+        /// <summary>
+        /// Stops a local time measurement, sets LastMatchTime to the elapsed time between this call
+        /// and the last call to StartLocal() and increases the TotalMatchTime by this amount.
+        /// </summary>
+        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
         [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
         public void StopMatch()
         {
@@ -444,6 +463,11 @@ namespace de.unika.ipd.grGen.libGr
             LastRewriteTime = 0;
         }
 
+        /// <summary>
+        /// Stops a local time measurement, sets LastRewriteTime to the elapsed time between this call
+        /// and the last call to StartLocal() and increases the TotalRewriteTime by this amount.
+        /// </summary>
+        /// <remarks>Only usable if either DEBUGACTIONS or MATCHREWRITEDETAIL has been defined.</remarks>
         [Conditional("DEBUGACTIONS"), Conditional("MATCHREWRITEDETAIL")]
         public void StopRewrite()
         {

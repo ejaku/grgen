@@ -19,32 +19,56 @@ using de.unika.ipd.grGen.libGr.sequenceParser;
 
 namespace de.unika.ipd.grGen.lgsp
 {
+    /// <summary>
+    /// Represents an XGRS used in an exec statement.
+    /// </summary>
 	public class LGSPXGRSInfo
 	{
+        /// <summary>
+        /// Constructs an LGSPXGRSInfo object.
+        /// </summary>
+        /// <param name="parameters">The names of the needed graph elements of the containing action.</param>
+        /// <param name="xgrs">The XGRS string.</param>
 		public LGSPXGRSInfo(String[] parameters, String xgrs)
 		{
 			Parameters = parameters;
 			XGRS = xgrs;
 		}
 
+        /// <summary>
+        /// The names of the needed graph elements of the containing action.
+        /// </summary>
 		public String[] Parameters;
+
+        /// <summary>
+        /// The XGRS string.
+        /// </summary>
 		public String XGRS;
 	}
     
+    /// <summary>
+    /// The C#-part of the GrGen.NET frontend.
+    /// It is responsible for compiling the XGRSs of the exec statements
+    /// and generating initial actions with static search plans.
+    /// </summary>
     public class LGSPGrGen
     {
         private Dictionary<String, Assembly> loadedAssemblies = new Dictionary<string, Assembly>();
         private bool assemblyHandlerInstalled = false;
 
-        public ProcessSpecFlags Flags;
+        private ProcessSpecFlags flags;
 
+        /// <summary>
+        /// Constructs an LGSPGrGen object.
+        /// </summary>
+        /// <param name="flags">Flags specifying how the specification should be processed.</param>
         public LGSPGrGen(ProcessSpecFlags flags)
         {
-            Flags = flags;
+            this.flags = flags;
         }
 
-        public bool FireEvents { get { return (Flags & ProcessSpecFlags.NoEvents) == 0; } }
-        public bool UsePerfInfo { get { return (Flags & ProcessSpecFlags.NoPerformanceInfoUpdates) == 0; } }
+        private bool FireEvents { get { return (flags & ProcessSpecFlags.NoEvents) == 0; } }
+        private bool UsePerfInfo { get { return (flags & ProcessSpecFlags.NoPerformanceInfoUpdates) == 0; } }
 
         /// <summary>
         /// Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system 
@@ -92,7 +116,7 @@ namespace de.unika.ipd.grGen.lgsp
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IBackend)).Location);
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPActions)).Location);
 
-            compParams.CompilerOptions = (Flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
+            compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
             compParams.OutputAssembly = destDir  + "lgsp-" + modelName + ".dll";
 
             CompilerResults compResults;
@@ -918,11 +942,11 @@ namespace de.unika.ipd.grGen.lgsp
             String modelStubFilename = null;
             String actionsFilename = null;
 
-            if((Flags & ProcessSpecFlags.UseExistingMask) == ProcessSpecFlags.UseNoExistingFiles)
+            if((flags & ProcessSpecFlags.UseExistingMask) == ProcessSpecFlags.UseNoExistingFiles)
             {
                 List<String> genModelFiles, genModelStubFiles, genActionsFiles;
 
-                if(!ExecuteGrGenJava(tmpDir, Flags, out genModelFiles, out genModelStubFiles,
+                if(!ExecuteGrGenJava(tmpDir, flags, out genModelFiles, out genModelStubFiles,
                         out genActionsFiles, specFile))
                     return ErrorType.GrGenJavaError;
 
@@ -989,7 +1013,7 @@ namespace de.unika.ipd.grGen.lgsp
             IGraphModel model = GetGraphModel(modelAssembly);
             if(model == null) return ErrorType.GrGenNetError;
 
-            if((Flags & ProcessSpecFlags.NoProcessActions) != 0) return ErrorType.NoError;
+            if((flags & ProcessSpecFlags.NoProcessActions) != 0) return ErrorType.NoError;
 
             String actionsName = Path.GetFileNameWithoutExtension(actionsFilename);
             actionsName = actionsName.Substring(0, actionsName.Length - 13);    // remove "_intermediate" suffix
@@ -1003,7 +1027,7 @@ namespace de.unika.ipd.grGen.lgsp
             compParams.ReferencedAssemblies.Add(modelAssemblyName);
 
             String actionsOutputSource;
-            if((Flags & ProcessSpecFlags.UseExistingMask) != ProcessSpecFlags.UseAllGeneratedFiles)
+            if((flags & ProcessSpecFlags.UseExistingMask) != ProcessSpecFlags.UseAllGeneratedFiles)
             {
                 compParams.GenerateInMemory = true;
                 compParams.CompilerOptions = "/optimize /d:INITIAL_WARMUP";
@@ -1042,7 +1066,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // take action intermediate file until action insertion point as base for action file 
                 ///////////////////////////////////////////////
 
-                SourceBuilder source = new SourceBuilder((Flags & ProcessSpecFlags.KeepGeneratedFiles) != 0);
+                SourceBuilder source = new SourceBuilder((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0);
                 source.Indent();
                 source.Indent();
                 bool actionPointFound = false;
@@ -1107,7 +1131,7 @@ namespace de.unika.ipd.grGen.lgsp
                 ///////////////////////////////////////////////
 
                 LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
-                if((Flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
+                if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
 
                 String unitName;
                 int lastDot = actionsNamespace.LastIndexOf(".");
@@ -1164,7 +1188,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 actionsOutputSource = source.ToString();
 
-                if((Flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
+                if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
                 {
                     StreamWriter writer = new StreamWriter(actionsOutputFilename);
                     writer.Write(actionsOutputSource);
@@ -1185,7 +1209,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            if((Flags & ProcessSpecFlags.NoCreateActionsAssembly) != 0) return ErrorType.NoError;
+            if((flags & ProcessSpecFlags.NoCreateActionsAssembly) != 0) return ErrorType.NoError;
 
             ///////////////////////////////////////////////
             // finally compile the action source file into action assembly
@@ -1198,12 +1222,12 @@ namespace de.unika.ipd.grGen.lgsp
             ///////////////////////////////////////////////
 
             compParams.GenerateInMemory = false;
-            compParams.IncludeDebugInformation = (Flags & ProcessSpecFlags.CompileWithDebug) != 0;
-            compParams.CompilerOptions = (Flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
+            compParams.IncludeDebugInformation = (flags & ProcessSpecFlags.CompileWithDebug) != 0;
+            compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
             compParams.OutputAssembly = destDir + "lgsp-" + actionsName + ".dll";
 
             CompilerResults compResults;
-            if((Flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
+            if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
             {
                 compResults = compiler.CompileAssemblyFromFile(compParams, actionsOutputFilename);
             }

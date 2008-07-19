@@ -870,9 +870,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public event RetypingEdgeHandler OnRetypingEdge { add { graph.OnRetypingEdge += value; } remove { graph.OnRetypingEdge -= value; } }
 
+        /// <summary>
+        /// Fired before each rewrite step (also rewrite steps of subpatterns) to indicate the names
+        /// of the nodes added in this rewrite step in order of addition.
+        /// </summary>
         public event SettingAddedElementNamesHandler OnSettingAddedNodeNames
         { add { graph.OnSettingAddedNodeNames += value; } remove { graph.OnSettingAddedNodeNames -= value; } }
 
+        /// <summary>
+        /// Fired before each rewrite step (also rewrite steps of subpatterns) to indicate the names
+        /// of the edges added in this rewrite step in order of addition.
+        /// </summary>
         public event SettingAddedElementNamesHandler OnSettingAddedEdgeNames
         { add { graph.OnSettingAddedEdgeNames += value; } remove { graph.OnSettingAddedEdgeNames -= value; } }
 

@@ -369,14 +369,22 @@ namespace de.unika.ipd.grGen.libGr
 				return graph.ApplyRewrite(RuleObj, -1, -1, Special, Test) > 0;
 			else
 			{
+                // TODO: Code duplication! Compare with BaseGraph.ApplyRewrite.
+
 				int curMaxMatches = graph.MaxMatches;
 
 				object[] parameters;
 				if(RuleObj.ParamVars.Length > 0)
 				{
 					parameters = RuleObj.Parameters;
-					for(int i = 0; i < RuleObj.ParamVars.Length; i++)
-						parameters[i] = graph.GetVariableValue(RuleObj.ParamVars[i]);
+                    for(int i = 0; i < RuleObj.ParamVars.Length; i++)
+                    {
+                        // If this parameter is not constant, the according ParamVars entry holds the
+                        // name of a variable to be used for the parameter.
+                        // Otherwise the parameters entry remains unchanged (it already contains the constant)
+                        if(RuleObj.ParamVars[i] != null)
+                            parameters[i] = graph.GetVariableValue(RuleObj.ParamVars[i]);
+                    }
 				}
 				else parameters = null;
 

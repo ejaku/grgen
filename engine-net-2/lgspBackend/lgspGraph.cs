@@ -394,15 +394,33 @@ namespace de.unika.ipd.grGen.lgsp
 
         protected static String GetNextGraphName() { return "lgspGraph_" + graphID++; }
 
+        /// <summary>
+        /// Constructs an LGSPGraph object with the given model and an automatically generated name.
+        /// </summary>
+        /// <param name="grmodel">The graph model.</param>
         public LGSPGraph(IGraphModel grmodel) : this(grmodel, GetNextGraphName())
         {
         }
 
-        public LGSPGraph(IGraphModel grmodel, String grname) : this(grname)
+        /// <summary>
+        /// Constructs an LGSPGraph object with the given model and name.
+        /// </summary>
+        /// <param name="grmodel">The graph model.</param>
+        /// <param name="grname">The name for the graph.</param>
+        public LGSPGraph(IGraphModel grmodel, String grname)
+            : this(grname)
         {
             InitializeGraph(grmodel);
         }
 
+        /// <summary>
+        /// Constructs an LGSPGraph object.
+        /// Deprecated.
+        /// </summary>
+        /// <param name="lgspBackend">The responsible backend object.</param>
+        /// <param name="grmodel">The graph model.</param>
+        /// <param name="grname">The name for the graph.</param>
+        /// <param name="modelassemblyname">The name of the model assembly.</param>
         public LGSPGraph(LGSPBackend lgspBackend, IGraphModel grmodel, String grname, String modelassemblyname)
             : this(grmodel, grname)
         {
@@ -410,6 +428,10 @@ namespace de.unika.ipd.grGen.lgsp
             modelAssemblyName = modelassemblyname;
         }
 
+        /// <summary>
+        /// Constructs an LGSPGraph object without initializing it.
+        /// </summary>
+        /// <param name="grname">The name for the graph.</param>
         protected LGSPGraph(String grname)
         {
             name = grname;
@@ -491,6 +513,10 @@ namespace de.unika.ipd.grGen.lgsp
                 meanOutDegree = (float[]) dataSource.meanOutDegree.Clone();
         }
 
+        /// <summary>
+        /// Initializes the graph with the given model.
+        /// </summary>
+        /// <param name="grmodel">The model for this graph.</param>
         protected void InitializeGraph(IGraphModel grmodel)
         {
             model = grmodel;

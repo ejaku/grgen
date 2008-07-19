@@ -28,7 +28,15 @@ namespace de.unika.ipd.grGen.lgsp
         private bool assemblyHandlerInstalled = false;
         private static char[] dirSepChars = new char[] { '/', '\\' };
 
+        /// <summary>
+        /// The name of the backend.
+        /// </summary>
         public String Name { get { return "lgspBackend"; } }
+
+        /// <summary>
+        /// Enumerates the names of the arguments which can be optionally passed to the create/open functions.
+        /// Not currently used...
+        /// </summary>
         public IEnumerable<String> ArgumentNames { get { yield break; } }
 
         private String GetNextGraphName()

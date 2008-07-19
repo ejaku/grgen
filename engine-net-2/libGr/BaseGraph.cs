@@ -363,7 +363,10 @@ namespace de.unika.ipd.grGen.libGr
 
         #region Graph rewriting
 
-        public static readonly IGraphElement[] NoElems = new IGraphElement[] { };
+        /// <summary>
+        /// A singleton object array used when no elements are returned.
+        /// </summary>
+        public static readonly object[] NoElems = new object[] { };
 
         private PerformanceInfo perfInfo = null;
         private int maxMatches = 0;
@@ -592,7 +595,16 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public event RetypingEdgeHandler OnRetypingEdge;
 
+        /// <summary>
+        /// Fired before each rewrite step (also rewrite steps of subpatterns) to indicate the names
+        /// of the nodes added in this rewrite step in order of addition.
+        /// </summary>
         public event SettingAddedElementNamesHandler OnSettingAddedNodeNames;
+
+        /// <summary>
+        /// Fired before each rewrite step (also rewrite steps of subpatterns) to indicate the names
+        /// of the edges added in this rewrite step in order of addition.
+        /// </summary>
         public event SettingAddedElementNamesHandler OnSettingAddedEdgeNames;
 
         /// <summary>
@@ -686,12 +698,18 @@ namespace de.unika.ipd.grGen.libGr
             if(clearingGraph != null) clearingGraph();
         }
 
+        /// <summary>
+        /// Fires an OnSettingAddedNodeNames event.
+        /// </summary>
         public void SettingAddedNodeNames(String[] addedNodeNames)
         {
             SettingAddedElementNamesHandler handler = OnSettingAddedNodeNames;
             if(handler != null) handler(addedNodeNames);
         }
 
+        /// <summary>
+        /// Fires an OnSettingAddedEdgeNames event.
+        /// </summary>
         public void SettingAddedEdgeNames(String[] addedEdgeNames)
         {
             SettingAddedElementNamesHandler handler = OnSettingAddedEdgeNames;

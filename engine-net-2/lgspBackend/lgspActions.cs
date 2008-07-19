@@ -20,6 +20,14 @@ using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.lgsp
 {
+    /// <summary>
+    /// Represents a matcher method.
+    /// </summary>
+    /// <param name="graph">The host graph.</param>
+    /// <param name="maxMatches">The maximum number of matches to be searched for, or zero for an unlimited search.</param>
+    /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
+    /// The array must contain the correct number of elements.</param>
+    /// <returns>An IMatches object containing the found matches.</returns>
     public delegate LGSPMatches MatchInvoker(LGSPGraph graph, int maxMatches, object[] parameters);
 
     /// <summary>
@@ -177,7 +185,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private LGSPMatch last;
 
-
+        /// <summary>
+        /// Constructs a new LGSPMatchesList instance.
+        /// </summary>
+        /// <param name="numNodes">The number of nodes which will be matched by the given action.</param>
+        /// <param name="numEdges">The number of edges which will be matched by the given action.</param>
+        /// <param name="numVars">The number of variables which will be used by the given action.</param>
+        /// <param name="numSubpats">The number of subpatterns which will be matched by the given action.</param>
         public LGSPMatchesList(int numNodes, int numEdges, int numVars, int numSubpats)
         {
             this.numNodes = numNodes;
@@ -187,7 +201,14 @@ namespace de.unika.ipd.grGen.lgsp
             last = root = new LGSPMatch(new LGSPNode[numNodes], new LGSPEdge[numEdges], new object[numVars], new LGSPMatch[numSubpats]);
         }
 
+        /// <summary>
+        /// The number of matches in this list.
+        /// </summary>
         public int Count { get { return count; } }
+
+        /// <summary>
+        /// The first match of this list.
+        /// </summary>
         public LGSPMatch First { get { return count > 0 ? root : null; } }
 
         /// <summary>
@@ -221,6 +242,11 @@ namespace de.unika.ipd.grGen.lgsp
             last = last.nextMatch;
         }
 
+        /// <summary>
+        /// Returns the match with the given index.
+        /// This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
+        /// </summary>
+        /// <exception cref="System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
         public LGSPMatch this[int index]
         {
             get
@@ -233,6 +259,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        /// <summary>
+        /// Returns an enumerator over all found matches.
+        /// </summary>
         public IEnumerator<IMatch> GetEnumerator()
         {
             LGSPMatch cur = root;
@@ -245,6 +274,12 @@ namespace de.unika.ipd.grGen.lgsp
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Removes the match at the given index and returns it.
+        /// </summary>
+        /// <param name="index">The index of the match to be removed.</param>
+        /// <returns>The removed match.</returns>
+        /// <exception cref="System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
 		public LGSPMatch RemoveMatch(int index)
 		{
 			if(index < 0 || index >= count)
@@ -301,9 +336,10 @@ namespace de.unika.ipd.grGen.lgsp
         public int Count { get { return matchesList.Count; } }
 
         /// <summary>
-        /// Returns the match with the given index. Invalid indices cause an IndexOutOfRangeException.
+        /// Returns the match with the given index.
         /// This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
         /// </summary>
+        /// <exception cref="System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
         public IMatch GetMatch(int index) { return matchesList[index]; }
 
         /// <summary>
@@ -319,7 +355,13 @@ namespace de.unika.ipd.grGen.lgsp
             return matchesList.GetEnumerator();
         }
 
-		public IMatch RemoveMatch(int index)
+        /// <summary>
+        /// Removes the match at the given index and returns it.
+        /// </summary>
+        /// <param name="index">The index of the match to be removed.</param>
+        /// <returns>The removed match.</returns>
+        /// <exception cref="System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
+        public IMatch RemoveMatch(int index)
 		{
 			return matchesList.RemoveMatch(index);
 		}
@@ -766,9 +808,16 @@ namespace de.unika.ipd.grGen.lgsp
         private LGSPMatcherGenerator matcherGenerator;
         private String modelAssemblyName, actionsAssemblyName;
 
+        /// <summary>
+        /// A map from action names to LGSPAction objects.
+        /// </summary>
         protected Dictionary<String, LGSPAction> actions = new Dictionary<String, LGSPAction>();
 
 
+        /// <summary>
+        /// Constructs a new LGSPActions instance.
+        /// </summary>
+        /// <param name="lgspgraph">The associated graph.</param>
         public LGSPActions(LGSPGraph lgspgraph)
         {
             graph = lgspgraph;
@@ -783,6 +832,13 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
         }
 
+        /// <summary>
+        /// Constructs a new LGSPActions instance.
+        /// This constructor is deprecated.
+        /// </summary>
+        /// <param name="lgspgraph">The associated graph.</param>
+        /// <param name="modelAsmName">The name of the model assembly.</param>
+        /// <param name="actionsAsmName">The name of the actions assembly.</param>
         public LGSPActions(LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
         {
             graph = lgspgraph;
@@ -834,6 +890,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public override IGraph Graph { get { return graph; } set { graph = (LGSPGraph) value; } }
 
+        /// <summary>
+        /// Replaces the given action by a new action instance with a search plan adapted
+        /// to the current analysis data of the associated graph.
+        /// </summary>
+        /// <param name="action">The action to be replaced.</param>
+        /// <returns>The new action instance.</returns>
         public LGSPAction GenerateAction(LGSPAction action)
         {
             LGSPAction newAction;
@@ -842,6 +904,12 @@ namespace de.unika.ipd.grGen.lgsp
             return newAction;
         }
 
+        /// <summary>
+        /// Replaces the given action by a new action instance with a search plan adapted
+        /// to the current analysis data of the associated graph.
+        /// </summary>
+        /// <param name="actionName">The name of the action to be replaced.</param>
+        /// <returns>The new action instance.</returns>
         public LGSPAction GenerateAction(String actionName)
         {
             LGSPAction action = (LGSPAction) GetAction(actionName);
@@ -850,6 +918,12 @@ namespace de.unika.ipd.grGen.lgsp
             return GenerateAction(action);
         }
 
+        /// <summary>
+        /// Replaces the given actions by new action instances with a search plan adapted
+        /// to the current analysis data of the associated graph.
+        /// </summary>
+        /// <param name="oldActions">An array of actions to be replaced.</param>
+        /// <returns>An array with the new action instances.</returns>
         public LGSPAction[] GenerateActions(params LGSPAction[] oldActions)
         {
             LGSPAction[] newActions = matcherGenerator.GenerateActions(graph, modelAssemblyName,
@@ -860,18 +934,29 @@ namespace de.unika.ipd.grGen.lgsp
             return newActions;
         }
 
-        public LGSPAction[] GenerateActions(params String[] actionName)
+        /// <summary>
+        /// Replaces the given actions by new action instances with a search plan adapted
+        /// to the current analysis data of the associated graph.
+        /// </summary>
+        /// <param name="actionNames">An array of names of actions to be replaced.</param>
+        /// <returns>An array with the new action instances.</returns>
+        public LGSPAction[] GenerateActions(params String[] actionNames)
         {
-            LGSPAction[] oldActions = new LGSPAction[actionName.Length];
+            LGSPAction[] oldActions = new LGSPAction[actionNames.Length];
             for(int i = 0; i < oldActions.Length; i++)
             {
-                oldActions[i] = (LGSPAction) GetAction((String) actionName[i]);
+                oldActions[i] = (LGSPAction) GetAction((String) actionNames[i]);
                 if(oldActions[i] == null)
-                    throw new ArgumentException("\"" + (String) actionName[i] + "\"' is not the name of an action!");
+                    throw new ArgumentException("\"" + (String) actionNames[i] + "\"' is not the name of an action!");
             }
             return GenerateActions(oldActions);
         }
 
+        /// <summary>
+        /// Replaces a given action by another one.
+        /// </summary>
+        /// <param name="actionName">The name of the action to be replaced.</param>
+        /// <param name="newAction">The new action.</param>
         public void ReplaceAction(String actionName, LGSPAction newAction)
         {
             actions[actionName] = newAction;

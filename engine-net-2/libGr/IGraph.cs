@@ -170,11 +170,44 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public delegate void SettingAddedElementNamesHandler(String[] namesOfElementsAdded);
 
+    /// <summary>
+    /// Represents a method called after all requested matches of an action have been matched.
+    /// </summary>
+    /// <param name="matches">The matches found.</param>
+    /// <param name="special">Specifies whether the "special" flag has been used.</param>
     public delegate void AfterMatchHandler(IMatches matches, bool special);
+
+    /// <summary>
+    /// Represents a method called before the rewrite step of an action, when at least one match has been found.
+    /// </summary>
+    /// <param name="matches">The matches found.</param>
+    /// <param name="special">Specifies whether the "special" flag has been used.</param>
     public delegate void BeforeFinishHandler(IMatches matches, bool special);
+
+    /// <summary>
+    /// Represents a method called during rewriting a set of matches before the next match is rewritten.
+    /// It is not fired before rewriting the first match.
+    /// </summary>
     public delegate void RewriteNextMatchHandler();
+
+    /// <summary>
+    /// Represents a method called after the rewrite step of a rule.
+    /// </summary>
+    /// <param name="matches">The matches found.
+    /// This may contain invalid entries, because parts of the matches may have been deleted.</param>
+    /// <param name="special">Specifies whether the "special" flag has been used.</param>
     public delegate void AfterFinishHandler(IMatches matches, bool special);
+
+    /// <summary>
+    /// Represents a method called directly after a sequence has been entered.
+    /// </summary>
+    /// <param name="seq">The current sequence object.</param>
     public delegate void EnterSequenceHandler(Sequence seq);
+
+    /// <summary>
+    /// Represents a method called before a sequence is left.
+    /// </summary>
+    /// <param name="seq">The current sequence object.</param>
     public delegate void ExitSequenceHandler(Sequence seq);
 
     #endregion GraphDelegates
