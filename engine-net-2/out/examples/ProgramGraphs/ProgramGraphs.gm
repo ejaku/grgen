@@ -29,3 +29,7 @@ edge class writesTo extends references
 	connect Expression[0:1] -> Variabel[+];
 edge class calls extends references
 	connect Expression[0:1] -> MethodSignature[+];
+
+// helper edge for nested layout //
+edge class containedInClass;
+edge class containedInMethodBody;

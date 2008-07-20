@@ -277,3 +277,53 @@ test matchAll(c1:Class)
 {
 	:Subclass(c1);
 }
+
+
+// helper rules for nested layout //
+
+rule InsertHelperEdgesForNestedLayout
+{
+	modify {
+		exec(LinkMethodBodyToContainedEntity* && LinkMethodBodyToContainedExpressionTransitive* && LinkClassToFeature*);
+	}
+}
+
+rule LinkMethodBodyToContainedEntity
+{
+	mb:MethodBody -:contains-> e:Entity;
+	
+	negative {
+		mb -:containedInMethodBody-> e;
+	}
+	
+	modify {
+		mb -:containedInMethodBody-> e;
+	}
+}
+
+rule LinkMethodBodyToContainedExpressionTransitive
+{
+	mb:MethodBody -:containedInMethodBody-> e1:Expression -:contains-> e2:Expression;
+	
+	negative {
+		e1 -:containedInMethodBody-> e2;
+	}
+	
+	modify {
+		e1 -:containedInMethodBody-> e2;
+		mb -:containedInMethodBody-> e2;
+	}
+}
+
+rule LinkClassToFeature
+{
+	c:Class -:contains-> e:Entity\Class;
+	
+	negative {
+		c -:containedInClass-> e;
+	}
+	
+	modify {
+		c -:containedInClass-> e;
+	}
+}
