@@ -103,3 +103,10 @@ edge class expression
 {
 	order:int;
 }
+
+///////////////////////////////////////////////////////////////////
+// helper edges for nested layout
+
+edge class inBlock;
+
+edge class inClass;

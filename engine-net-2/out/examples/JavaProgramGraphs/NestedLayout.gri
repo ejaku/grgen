@@ -1,0 +1,53 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// insert helper edges for nested layout
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+rule InsertHelperEdgesForNestedLayout
+{
+	modify {
+		exec(BindOperations* && InitMoveIntoBlocks* && MoveIntoBlocks*);
+	}
+}
+
+induced rule BindOperations
+{
+	op:Operation -:binding-> body:MethodBody -:belongsTo-> cl:Class;
+	
+	/*negative {
+		op -:inClass-> cl;
+	}
+	
+	negative {
+		body;
+		op -:binding-> :MethodBody;
+	}*/
+	
+	modify {
+		op -:inClass-> cl;
+	}
+}
+
+rule InitMoveIntoBlocks
+{
+	b:Block -:expression-> exp:Expression;
+	negative {
+		b <-:inBlock- exp;
+	}
+	
+	modify {
+		b <-:inBlock- exp;
+	}
+}
+
+rule MoveIntoBlocks
+{
+	b:Block <-:inBlock- :Expression -e:Edge-> exp:Expression;
+	if { typeof(e) == expression || typeof(e) == actualParameter; }
+	negative {
+		b <-:inBlock- exp;
+	}
+	
+	modify {
+		b <-:inBlock- exp;
+	}
+}

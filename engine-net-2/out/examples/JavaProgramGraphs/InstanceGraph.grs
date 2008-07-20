@@ -1,12 +1,13 @@
 new graph "InstanceGraph"
+
 debug set layout Hierarchic
 debug set layout option NODE_PLACEMENT TREE
 debug set layout option ORIENTATION BOTTOM_TO_TOP
-dump set node Package color gold
+dump set node Package color lightgrey
 dump set node Class color yellow
-dump set node Literal color lightgrey
-dump set node MethodBody color pink
-dump set node Operation color orchid
+dump set node Literal color gold
+dump set node MethodBody color orchid
+dump set node Operation color pink
 dump set node Block color darkmagenta
 dump set node Variabel color cyan
 dump set node Parameter color lightcyan
@@ -14,6 +15,14 @@ dump set node Access color lightgreen
 dump set node Operator color green
 dump set node Call color green
 dump set node Update color darkgreen
+dump add node Package group by hidden incoming belongsTo
+dump add node Class group by hidden incoming belongsTo
+dump add node Class group by hidden incoming inClass
+dump add node Operation group by hidden outgoing parameter
+#dump add node Operation group by hidden outgoing binding
+dump add node MethodBody group by hidden incoming belongsTo
+dump add node Block group by hidden incoming inBlock
+
 
 new I134:Package(name="lansimulation")
 new I137:Package(name="files")
@@ -563,6 +572,8 @@ new I720 -I1295:belongsTo-> I614
 new I496 -I1296:ttype-> I829
 new I829 -I1297:belongsTo-> I614
 new I715 -I1298:ttype-> I829
+
+xgrs InsertHelperEdgesForNestedLayout
 
 c = I176
 v = I350
