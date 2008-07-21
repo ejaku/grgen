@@ -1,0 +1,65 @@
+using attrib_model_001;
+
+rule r1(n:Node)
+{
+	modify {
+		emit(n);
+	}
+}
+
+rule r2(n:NINT)
+{
+	modify {
+		emit(n);
+	}
+}
+
+rule r3(-e:Edge->)
+{
+	modify {
+		emit(e);
+	}
+}
+
+rule r4(-e:ESTRING->)
+{
+	modify {
+		emit(e);
+	}
+}
+
+rule r5(var i:int)
+{
+	modify {
+		emit(i);
+	}
+}
+
+rule r6(var s:string)
+{
+	modify {
+		emit(s);
+	}
+}
+
+rule testrule(n:NINT, var ival:int, var text:string, -e:ESTRING->)
+{
+	modify {
+		exec(r1(n) && r2(n));
+		exec(r3(e) && r4(e));
+		exec(r5(ival) && r2(n));
+		exec(r6(text));
+	}
+}
+
+rule callexec
+{
+    modify {
+		n:NINT -e:ESTRING-> n;
+		eval {
+			n.a = 47;
+			e.a = "bluB";
+		}
+        exec(/*testrule(n, n.a, e.a, e) &&*/ testrule(n, 19, "teeeest", e));
+    }
+}
