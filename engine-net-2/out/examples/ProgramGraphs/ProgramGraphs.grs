@@ -9,6 +9,7 @@ dump set node Class color yellow
 
 dump add node Class group by hidden outgoing containedInClass
 dump add node MethodBody group by hidden outgoing containedInMethodBody
+dump add node MethodBody group by hidden outgoing contains
 
 #xgrs createProgramGraphExample
 xgrs (c1,b4) = createProgramGraphPullUp
