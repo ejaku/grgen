@@ -1,5 +1,5 @@
-GrGen.NET v2.0 beta 2 (2008-06-24)
---------------------------------
+GrGen.NET v2.0 (2008-07-22)
+---------------------------
 
 This is the GrGen.NET system for graph rewriting.
 Its core is the Graph Rewrite Generator, which turns declarative rewrite
