@@ -10,10 +10,10 @@ using JavaProgramGraphsMetamodel;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // test preconditions
 
-test variableInClass(c:Class, v:Variabel) : (boolean)
+test variableInClass(c:Class, v:Variable) : (boolean)
 {
 	c <-:belongsTo- v;
-	v -:ttype-> :Class; // ensure v is typed with a class, needed for setter method insertion
+	v -:type_-> :Class; // ensure v is typed with a class, needed for setter method insertion
 	return(v.isStatic);
 }
 
@@ -25,7 +25,7 @@ test methodExists(c:Class, var name:string) : (Operation)
 	return(op);
 }
 
-test sameStaticness(v:Variabel, op:Operation)
+test sameStaticness(v:Variable, op:Operation)
 {
 	if { v.isStatic==op.isStatic; }
 }
@@ -33,7 +33,7 @@ test sameStaticness(v:Variabel, op:Operation)
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // insert accessor operations and change visibility of variable
 
-rule insertMethodGetter(c:Class, v:Variabel, var name:string, var isStatic:boolean) : (Operation)
+rule insertMethodGetter(c:Class, v:Variable, var name:string, var isStatic:boolean) : (Operation)
 {
 	// getter: return von access variable
 	modify {
@@ -50,9 +50,9 @@ rule insertMethodGetter(c:Class, v:Variabel, var name:string, var isStatic:boole
 	}
 }
 
-rule insertMethodSetter(c:Class, v:Variabel, var name:string, var isStatic:boolean) : (Operation)
+rule insertMethodSetter(c:Class, v:Variable, var name:string, var isStatic:boolean) : (Operation)
 {
-	v -:ttype-> type:Class;
+	v -:type_-> type:Class;
 	
 	// setter: update von variable mit parameter
 	modify {
@@ -64,7 +64,7 @@ rule insertMethodSetter(c:Class, v:Variabel, var name:string, var isStatic:boole
 			op.isStatic = isStatic; 
 			op.isFinal = false; }
 			
-		op -:parameter-> p:Parameter -:ttype-> type;
+		op -:parameter-> p:Parameter -:type_-> type;
 		mb <-:belongsTo- :Block -:expression-> u:Update;
 		u -:link-> v;
 		u -:expression-> :Access -:link-> p;
@@ -72,7 +72,7 @@ rule insertMethodSetter(c:Class, v:Variabel, var name:string, var isStatic:boole
 	}
 }
 
-rule changeVisibility(v:Variabel)
+rule changeVisibility(v:Variable)
 {
 	modify {
 		eval { v.visibility = "private"; }
@@ -82,7 +82,7 @@ rule changeVisibility(v:Variabel)
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // updateReferences only if not in same class
 
-rule adaptAccess(c:Class, v:Variabel, getter:Operation)
+rule adaptAccess(c:Class, v:Variable, getter:Operation)
 {	
 	a:Access -l:link-> v;
 	
@@ -96,7 +96,7 @@ rule adaptAccess(c:Class, v:Variabel, getter:Operation)
 	}		
 }
 
-rule adaptUpdate(c:Class, v:Variabel, setter:Operation)
+rule adaptUpdate(c:Class, v:Variable, setter:Operation)
 {	
 	u:Update -l:link-> v;
 	u -e:expression-> exp:Expression;
@@ -131,7 +131,7 @@ pattern InClass(e:Expression, c:Class)
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // updateReferences use accessors always
 
-rule adaptAccessUseAccessorsAlways(c:Class, v:Variabel, getter:Operation)
+rule adaptAccessUseAccessorsAlways(c:Class, v:Variable, getter:Operation)
 {	
 	a:Access -l:link-> v;
 	
@@ -141,7 +141,7 @@ rule adaptAccessUseAccessorsAlways(c:Class, v:Variabel, getter:Operation)
 	}		
 }
 
-rule adaptUpdateUseAccessorsAlways(c:Class, v:Variabel, setter:Operation)
+rule adaptUpdateUseAccessorsAlways(c:Class, v:Variable, setter:Operation)
 {	
 	u:Update -l:link-> v;
 	u -e:expression-> exp:Expression;
@@ -226,12 +226,12 @@ pattern MultipleVariables(c:Class)
 	alternative 
 	{
 		OneAndAgain {
-			c <-:belongsTo- :Variabel;
+			c <-:belongsTo- :Variable;
 			:MultipleVariables(c);	
 		}
 		NoVariableLeft {
 			negative {
-				c <-:belongsTo- :Variabel;
+				c <-:belongsTo- :Variable;
 			}
 		}
 	}
@@ -363,7 +363,7 @@ pattern MultipleExtendingClasses(c:Class)
 		}
 		NoClassLeft {
 			negative {
-				c <-:extendss-;
+				c <-:extends_-;
 			}
 		}
 	}
@@ -371,6 +371,6 @@ pattern MultipleExtendingClasses(c:Class)
 
 pattern ExtendingClass(c:Class)
 {
-	c <-:extendss- sub:Class;
+	c <-:extends_- sub:Class;
 	:MultipleExtendingClasses(sub);
 }

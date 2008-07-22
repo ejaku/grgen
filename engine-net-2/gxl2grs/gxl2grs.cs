@@ -75,25 +75,7 @@ namespace gxl2grs
 
             using(StreamWriter grs = new StreamWriter(graphName + ".grs", false, Encoding.Default, 4096))
             {
-                grs.WriteLine("new graph \"" + graphName + "\"");
-                /* for java program graphs, refactoring case grabats 08
-                grs.WriteLine("debug set layout Hierarchic");
-                grs.WriteLine("debug set layout option NODE_PLACEMENT TREE");
-                grs.WriteLine("debug set layout option ORIENTATION BOTTOM_TO_TOP");
-                grs.WriteLine("dump set node Package color gold");
-                grs.WriteLine("dump set node Class color yellow");
-                grs.WriteLine("dump set node Literal color lightgrey");
-                grs.WriteLine("dump set node MethodBody color pink");
-                grs.WriteLine("dump set node Operation color orchid");
-                grs.WriteLine("dump set node Block color darkmagenta");
-                grs.WriteLine("dump set node Variabel color cyan");
-                grs.WriteLine("dump set node Parameter color lightcyan");
-                grs.WriteLine("dump set node Access color lightgreen");
-                grs.WriteLine("dump set node Operator color green");
-                grs.WriteLine("dump set node Call color green");
-                grs.WriteLine("dump set node Update color darkgreen");
-                */
-                grs.WriteLine();
+                grs.WriteLine("new graph \"" + graphName + "\"\n");
 
                 foreach(XmlNode element in graph.ChildNodes)
                 {
@@ -123,7 +105,6 @@ namespace gxl2grs
                     string[] pathAndType = typeNAttr.Attributes[0].Value.Split(separators);
                     bool onlyType = pathAndType.Length==1;
                     type = pathAndType[onlyType ? 0 : 1];
-                    if (type == "Variable") type = "Variabel"; // Variable is class name in generated code, can't use as type
                 }
                 else if (typeNAttr.Name == "attr")
                 {
@@ -174,8 +155,8 @@ namespace gxl2grs
                     string[] pathAndType = typeNAttr.Attributes[0].Value.Split(separators);
                     bool onlyType = pathAndType.Length == 1;
                     type = pathAndType[onlyType ? 0 : 1];
-                    if (type == "extends") type = "extendss"; // extends is keyword in gm, can't use as type
-                    if (type == "type") type = "ttype"; // type is keyword in .grs, can't use as type
+                    if (type == "extends") type = "extends_"; // extends is keyword in gm, can't use as type
+                    if (type == "type") type = "type_"; // type is keyword in .grs, can't use as type
                 }
                 else if (typeNAttr.Name == "attr")
                 {

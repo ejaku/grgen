@@ -8,12 +8,12 @@ rule dumpGxl
 			"<gxl>",
 			"<graph id=\"", nameof(), "\" edgeids=\"true\">",
 			"<type xlink:href=\"javaProgramGraphsSchema\"/>");
-		exec( (dumpNodePackage || dumpNodeClass || dumpNodeInterface || dumpNodeVariabel 
+		exec( (dumpNodePackage || dumpNodeClass || dumpNodeInterface || dumpNodeVariable 
 				|| dumpNodeOperation || dumpNodeMethodBody  || dumpNodeAccess || dumpNodeUpdate
 				|| dumpNodeCall || dumpNodeIstantiation || dumpNodeOperator || dumpNodeReturn
 				|| dumpNodeBlock  || dumpNodeLiteral || dumpNodeParameter)*
 				&& 
-				(dumpEdgeBelongsTo || dumpEdgeTtype || dumpEdgeExtends || dumpEdgeImports
+				(dumpEdgeBelongsTo || dumpEdgeType || dumpEdgeExtends || dumpEdgeImports
 				|| dumpEdgeImplements || dumpEdgeParameter|| dumpEdgeBinding || dumpEdgeLink 
 				|| dumpEdgeExpression || dumpEdgeActualParameter)* );
 		emit("</graph>",
@@ -74,9 +74,9 @@ rule dumpNodeInterface
 	}
 }
 
-rule dumpNodeVariabel
+rule dumpNodeVariable
 {
-	n:Variabel;
+	n:Variable;
 	
 	if { !visited(n, 0); }
 	
@@ -284,9 +284,9 @@ rule dumpEdgeBelongsTo
 	}
 }
 
-rule dumpEdgeTtype
+rule dumpEdgeType
 {
-	src:Node -e:ttype-> tgt:Node;
+	src:Node -e:type_-> tgt:Node;
 	
 	if { !visited(e, 0); }
 	
@@ -301,7 +301,7 @@ rule dumpEdgeTtype
 
 rule dumpEdgeExtends
 {
-	src:Node -e:extendss-> tgt:Node;
+	src:Node -e:extends_-> tgt:Node;
 	
 	if { !visited(e, 0); }
 	
