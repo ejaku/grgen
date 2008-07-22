@@ -70,9 +70,13 @@ v2.0 beta 2 (2008-06-24)
     (implementing program graphs as specified in "Adaptive Star Grammars
      for Graph Models" plus PullUpMethod refactoring on these program
      graphs)
+  - Added JavaProgramGraphs example as a partial solution for GraBaTs 2008
+    (contains rules for a specialized GXL dumper making use of the nameof
+     operator and rules inserting helper edges for a nested layout of the
+     program graph assisting the GrShell "group by" dump commands)
   - Added WeakComponents examples and VisitedExample API example
     (using visited flags)
-  - Added AntWorld example for the GraBats 2008
+  - Added AntWorld example for GraBaTs 2008
     (using the random-match-selector)
 
  Other changes:
