@@ -126,6 +126,24 @@ pattern ChainFromToReverseToCommon(from:Node, to:Node) {
   }
 }
 
+*Creation, Deletion and Preservation of subpatterns
+In addition to the fine-grain dependent replacement, 
+subpatterns may get created or deleted or kept as a whole.
+Creation currently works only for subpatterns without alternatives,
+as the capability to choose the case to create is missing.
+
+rule R {
+  foo:Foo();
+  bar:Bar();
+
+  replace {
+    foo; // is kept
+    // bar not included here - will be deleted
+    blub:Blub(); // will be created
+    // foo(); -- would apply dependent replacement
+  }
+}
+
 *As a straight-forward generalization of negatives within positive patterns,
 negatives may get nested to an arbitrary depth. Matching of the nested
 negative pattern causes the matching of the nesting pattern to fail.
