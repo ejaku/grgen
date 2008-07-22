@@ -155,6 +155,8 @@ OK     should_pass/exec_010.grg
 OK     should_pass/exec_011.grg
 OK     should_pass/exec_012.grg
 OK     should_pass/exec_013.grg
+OK     should_pass/exec_014.grg
+OK     should_pass/exec_015.grg
 OK     should_pass/external_001.grg
 OK     should_pass/hom_001.grg
 OK     should_pass/hom_002.grg
