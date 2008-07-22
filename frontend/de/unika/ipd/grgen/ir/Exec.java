@@ -19,6 +19,7 @@ import java.util.Set;
  */
 public class Exec extends IR implements ImperativeStmt {
 	private Set<Expression> parameters = new LinkedHashSet<Expression>();
+	private Set<Entity> neededEntities;
 
 	private String xgrsString;
 
@@ -41,5 +42,16 @@ public class Exec extends IR implements ImperativeStmt {
 	 */
 	public Set<Expression> getArguments() {
 		return Collections.unmodifiableSet(parameters);
+	}
+	
+	public Set<Entity> getNeededEntities() {
+		if(neededEntities == null) {
+			NeededEntities needs = new NeededEntities(false, false, false, true);    // collect all entities
+			for(Expression param : getArguments())
+				param.collectNeededEntities(needs);
+			
+			neededEntities = needs.entities;
+		}
+		return neededEntities;
 	}
 }

@@ -593,7 +593,7 @@ public class ActionsGen extends CSharpBase {
 
 		int condCnt = condCntInit;
 		for(Expression expr : pattern.getConditions()) {
-			NeededEntities needs = new NeededEntities(true, true, true);
+			NeededEntities needs = new NeededEntities(true, true, true, false);
 			expr.collectNeededEntities(needs);
 			sb.append("\t\t\tPatternCondition cond_" + condCnt + " = new PatternCondition(" + condCnt +
 					", " + (needs.isGraphUsed ? "true" : "false") + ", new String[] ");
@@ -685,17 +685,16 @@ public class ActionsGen extends CSharpBase {
 				// nothing to do
 			} else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
+				
 				sb.append("\t\tpublic static LGSPXGRSInfo XGRSInfo_" + xgrsID + " = new LGSPXGRSInfo(new String[] {");
-				for(Expression param : exec.getArguments()) {
-					if(param instanceof GraphEntityExpression)
-						sb.append("\"" + ((GraphEntityExpression) param).getGraphEntity().getIdent() + "\", ");
+				for(Entity neededEntity : exec.getNeededEntities()) {
+					sb.append("\"" + neededEntity.getIdent() + "\", ");
 				}
 				sb.append("},\n");
 				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\"", "\\\"") + "\");\n");
 				sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(LGSPGraph graph");
-				for(Expression param : exec.getArguments()) {
-					if(param instanceof GraphEntityExpression)
-						sb.append(", object var_" + ((GraphEntityExpression) param).getGraphEntity().getIdent());
+				for(Entity neededEntity : exec.getNeededEntities()) {
+					sb.append(", object var_" + neededEntity.getIdent());
 				}
 				sb.append(") {}\n");
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;
@@ -727,7 +726,7 @@ public class ActionsGen extends CSharpBase {
 
 	private int genConditions(StringBuffer sb, Collection<Expression> conditions, int condCnt) {
 		for(Expression expr : conditions) {
-			NeededEntities needs = new NeededEntities(true, true, true);
+			NeededEntities needs = new NeededEntities(true, true, true, false);
 			expr.collectNeededEntities(needs);
 			sb.append("\t\tpublic static bool Condition_" + condCnt + "(");
 			boolean first = true;

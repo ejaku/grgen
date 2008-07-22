@@ -860,11 +860,15 @@ public class ModifyGen extends CSharpBase {
 			} else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
 				sb.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
-				for(Expression arg : exec.getArguments()) {
+				for(Entity neededEntity : exec.getNeededEntities()) {
+					sb.append(", ");
+					sb.append(formatEntity(neededEntity));
+				}
+/*				for(Expression arg : exec.getArguments()) {
 					if(!(arg instanceof GraphEntityExpression)) continue;
 					sb.append(", ");
 					genExpression(sb, arg, state);
-				}
+				}*/
 				sb.append(");\n");
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
 		}

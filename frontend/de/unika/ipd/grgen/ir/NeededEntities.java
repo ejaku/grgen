@@ -18,11 +18,13 @@ public class NeededEntities {
 	 * @param collectNodes Specifies, whether needed nodes shall be collected.
 	 * @param collectEdges Specifies, whether needed edges shall be collected.
 	 * @param collectVars Specifies, whether needed variables shall be collected.
+	 * @param collectAllEntities Specifies, whether all needed entities (nodes, edges, vars) shall be collected.
 	 */
-	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars) {
-		if(collectNodes) nodes     = new LinkedHashSet<Node>();
-		if(collectEdges) edges     = new LinkedHashSet<Edge>();
-		if(collectVars)  variables = new LinkedHashSet<Variable>();
+	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars, boolean collectAllEntities) {
+		if(collectNodes)       nodes     = new LinkedHashSet<Node>();
+		if(collectEdges)       edges     = new LinkedHashSet<Edge>();
+		if(collectVars)        variables = new LinkedHashSet<Variable>();
+		if(collectAllEntities) entities  = new LinkedHashSet<Entity>();
 	}
 
 	/**
@@ -32,7 +34,6 @@ public class NeededEntities {
 
 	/**
 	 * The nodes needed.
-	 * May be null, if not needed.
 	 */
 	public Set<Node> nodes;
 
@@ -47,11 +48,17 @@ public class NeededEntities {
 	public Set<Variable> variables;
 
 	/**
+	 * The entities needed (nodes, edges, and variables).
+	 */
+	public Set<Entity> entities;
+
+	/**
 	 * Adds a needed node.
 	 * @param node The needed node.
 	 */
 	public void add(Node node) {
 		if(nodes != null) nodes.add(node);
+		if(entities != null) entities.add(node);
 	}
 
 	/**
@@ -60,6 +67,7 @@ public class NeededEntities {
 	 */
 	public void add(Edge edge) {
 		if(edges != null) edges.add(edge);
+		if(entities != null) entities.add(edge);
 	}
 
 	/**
@@ -68,6 +76,7 @@ public class NeededEntities {
 	 */
 	public void add(Variable var) {
 		if(variables != null) variables.add(var);
+		if(entities != null) entities.add(var);
 	}
 
 	public void needsGraph() {
