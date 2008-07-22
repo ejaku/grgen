@@ -3,7 +3,7 @@ node class FinalNode extends ActivityNode;
 node class InitialNode extends ActivityNode;
 node class JoinNode extends ActivityNode;
 node class MergeNode extends ActivityNode;
-node class ActionNode extends ActivityNode { name:string; }
+node class Action extends ActivityNode { name:string; }
 node class ForkNode extends ActivityNode;
 node class DecisionNode extends ActivityNode;
 

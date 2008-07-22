@@ -30,8 +30,8 @@ rule PAWriteProcess(curPa:ProcessAssignment) : (ProcessAssignment)
   curPa -:processAssignments-> nextPa:ProcessAssignment;
 
   modify {
-    emit(procID.name, " = ", proc.name, "\n");
     return (nextPa);
+    emit(procID.name, " = ", proc.name, "\n");
   }
 }
 
@@ -47,8 +47,8 @@ rule PAWritePrefix(curPa:ProcessAssignment) : (ProcessAssignment)
   curPa -:processAssignments-> nextPa:ProcessAssignment;
 
   modify {
-    emit(procID.name, " = ", ev.name, " -> ", tgt.name, "\n");
     return (nextPa);
+    emit(procID.name, " = ", ev.name, " -> ", tgt.name, "\n");
   }
 }
 
@@ -62,10 +62,10 @@ rule PAWriteConditionStart(curPa:ProcessAssignment) : (ProcessAssignment)
   curPa -:processAssignments-> nextPa:ProcessAssignment;
 
   modify {
+    return (nextPa);
     emit(procID.name, " = ");
     exec((PAWriteConditionNext(cond) || PAWriteConditionLast(cond)) | PAWriteConditionEnd[*]);
     emit("\n");
-    return (nextPa);
   }
 }
 
@@ -117,10 +117,10 @@ rule PAWriteConcurrencyStart(curPa:ProcessAssignment) : (ProcessAssignment)
   curPa -:processAssignments-> nextPa:ProcessAssignment;
 
   modify {
+    return (nextPa);
     emit(procID.name, " = ", forkProc.name);
     exec(PAWriteConcurrencyNext(conc) || PAWriteConcurrencyLast(conc));
     emit("\n");
-    return (nextPa);
   }
 }
 
