@@ -35,8 +35,8 @@ v2.0 (2008-07-22)
 
 v2.0 beta 2 (2008-06-24)
  Features:
-  - Allow assignments of the result of a sequence to a variable
-    (e.g. "res=(r1 || r2[5])")
+  - Allow assignments of the success of a sequence to a variable
+    (e.g. "res:boolean=(r1 || r2[5])")
   - Allow boolean variables as sequences (only works in execs, yet)
     (e.g. "res && r1")
   - Added visited flags
