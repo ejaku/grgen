@@ -76,8 +76,8 @@ public class ModelGen extends CSharpBase {
 				+ "\n"
 				+ "using System;\n"
 				+ "using System.Collections.Generic;\n"
-//				+ "using de.unika.ipd.grGen.libGr;\n"
-//				+ "using de.unika.ipd.grGen.lgsp;\n"
+                + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
+                + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
 				+ "\n"
 				+ "namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n"
 				+ "{\n");
@@ -125,8 +125,8 @@ public class ModelGen extends CSharpBase {
 					+ "\n"
 					+ "using System;\n"
 					+ "using System.Collections.Generic;\n"
-//					+ "using de.unika.ipd.grGen.libGr;\n"
-//					+ "using de.unika.ipd.grGen.lgsp;\n"
+					+ "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
+					+ "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
 					+ "using de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n");
 		}
 		return stubsb;
@@ -149,11 +149,11 @@ public class ModelGen extends CSharpBase {
 		sb.append("\tpublic class Enums\n");
 		sb.append("\t{\n");
 		for(EnumType enumt : model.getEnumTypes()) {
-			sb.append("\t\tpublic static de.unika.ipd.grGen.libGr.EnumAttributeType @" + formatIdentifiable(enumt)
-					+ " = new de.unika.ipd.grGen.libGr.EnumAttributeType(\"ENUM_" + formatIdentifiable(enumt)
-					+ "\", new de.unika.ipd.grGen.libGr.EnumMember[] {\n");
+			sb.append("\t\tpublic static GRGEN_LIBGR.EnumAttributeType @" + formatIdentifiable(enumt)
+					+ " = new GRGEN_LIBGR.EnumAttributeType(\"ENUM_" + formatIdentifiable(enumt)
+					+ "\", new GRGEN_LIBGR.EnumMember[] {\n");
 			for(EnumItem enumi : enumt.getItems()) {
-				sb.append("\t\t\tnew de.unika.ipd.grGen.libGr.EnumMember(" + enumi.getValue().getValue()
+				sb.append("\t\t\tnew GRGEN_LIBGR.EnumMember(" + enumi.getValue().getValue()
 						+ ", \"" + formatIdentifiable(enumi) + "\"),\n");
 			}
 			sb.append("\t\t});\n");
@@ -222,7 +222,7 @@ public class ModelGen extends CSharpBase {
 
 		if(directSuperTypes.isEmpty())
 		{
-			sb.append("de.unika.ipd.grGen.libGr.I" + formatNodeOrEdge(type));		// INode or IEdge
+			sb.append("GRGEN_LIBGR.I" + formatNodeOrEdge(type));		// INode or IEdge
 		}
 
 		boolean hasRootType = false;
@@ -236,7 +236,7 @@ public class ModelGen extends CSharpBase {
 
 				if(first) first = false;
 				else sb.append(", ");
-				sb.append("de.unika.ipd.grGen.libGr.I" + elemKind);
+				sb.append("GRGEN_LIBGR.I" + elemKind);
 			}
 			else {
 				if(first) first = false;
@@ -279,7 +279,7 @@ public class ModelGen extends CSharpBase {
 		String tname = formatTypeClass(type);
 		String iname;
 		if(rootTypes.contains(type.getIdent().toString()))
-			iname = "de.unika.ipd.grGen.libGr.I" + elemKind;
+			iname = "GRGEN_LIBGR.I" + elemKind;
 		else
 			iname = "I" + cname;
 		cname = "@" + cname;		// prefix class name to allow keywords as element types
@@ -288,7 +288,7 @@ public class ModelGen extends CSharpBase {
 		String routedClassName = cname;
 
 		if(extName == null) {
-			sb.append("\n\tpublic sealed class " + cname + " : de.unika.ipd.grGen.lgsp.LGSP"
+			sb.append("\n\tpublic sealed class " + cname + " : GRGEN_LGSP.LGSP"
 					+ elemKind + ", " + iname + "\n\t{\n");
 		}
 		else {
@@ -310,7 +310,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t{\n"
 					+ "\t\tpublic " + extClassName + "() : base() { }\n\n");
 
-			sb.append("\n\tpublic abstract class " + cname + " : de.unika.ipd.grGen.lgsp.LGSP"
+			sb.append("\n\tpublic abstract class " + cname + " : GRGEN_LGSP.LGSP"
 					+ elemKind + ", " + iname + "\n\t{\n");
 		}
 		sb.append("\t\tprivate static int poolLevel = 0;\n"
@@ -324,8 +324,8 @@ public class ModelGen extends CSharpBase {
 			sb.append("\t\t}\n\n");
 		}
 		else {
-			sb.append("\t\tpublic " + cname + "(de.unika.ipd.grGen.lgsp.LGSPNode source, "
-						+ "de.unika.ipd.grGen.lgsp.LGSPNode target)\n"
+			sb.append("\t\tpublic " + cname + "(GRGEN_LGSP.LGSPNode source, "
+						+ "GRGEN_LGSP.LGSPNode target)\n"
 					+ "\t\t\t: base("+ tname + ".typeVar, source, target)\n"
 					+ "\t\t{\n");
 			initAllMembers(type, "this", "\t\t\t", false);
@@ -337,19 +337,19 @@ public class ModelGen extends CSharpBase {
 
 		// Generate the clone and copy constructor
 		if(isNode)
-			routedSB.append("\t\tpublic override de.unika.ipd.grGen.libGr.INode Clone() { return new "
+			routedSB.append("\t\tpublic override GRGEN_LIBGR.INode Clone() { return new "
 						+ routedClassName + "(this); }\n"
 					+ "\n"
 					+ "\t\tprivate " + routedClassName + "(" + routedClassName + " oldElem) : base("
 					+ (extName == null ? tname + ".typeVar" : "") + ")\n");
 		else
-			routedSB.append("\t\tpublic override de.unika.ipd.grGen.libGr.IEdge Clone("
-						+ "de.unika.ipd.grGen.libGr.INode newSource, de.unika.ipd.grGen.libGr.INode newTarget)\n"
-					+ "\t\t{ return new " + routedClassName + "(this, (de.unika.ipd.grGen.lgsp.LGSPNode) newSource, "
-						+ "(de.unika.ipd.grGen.lgsp.LGSPNode) newTarget); }\n"
+			routedSB.append("\t\tpublic override GRGEN_LIBGR.IEdge Clone("
+						+ "GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)\n"
+					+ "\t\t{ return new " + routedClassName + "(this, (GRGEN_LGSP.LGSPNode) newSource, "
+						+ "(GRGEN_LGSP.LGSPNode) newTarget); }\n"
 					+ "\n"
 					+ "\t\tprivate " + routedClassName + "(" + routedClassName
-						+ " oldElem, de.unika.ipd.grGen.lgsp.LGSPNode newSource, de.unika.ipd.grGen.lgsp.LGSPNode newTarget)\n"
+						+ " oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)\n"
 					+ "\t\t\t: base("
 					+ (extName == null ? tname + ".typeVar, " : "") + "newSource, newTarget)\n");
 		routedSB.append("\t\t{\n");
@@ -361,7 +361,7 @@ public class ModelGen extends CSharpBase {
 
 		// Generate element creators
 		if(isNode) {
-			sb.append("\t\tpublic static " + cname + " CreateNode(de.unika.ipd.grGen.lgsp.LGSPGraph graph)\n"
+			sb.append("\t\tpublic static " + cname + " CreateNode(GRGEN_LGSP.LGSPGraph graph)\n"
 					+ "\t\t{\n"
 					+ "\t\t\t" + cname + " node;\n"
 					+ "\t\t\tif(poolLevel == 0)\n"
@@ -371,13 +371,13 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tnode = pool[--poolLevel];\n"
 					+ "\t\t\t\tnode.inhead = null;\n"
 					+ "\t\t\t\tnode.outhead = null;\n"
-					+ "\t\t\t\tnode.flags &= ~(uint) de.unika.ipd.grGen.lgsp.LGSPElemFlags.HAS_VARIABLES;\n");
+					+ "\t\t\t\tnode.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
 			initAllMembers(type, "node", "\t\t\t\t", true);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node);\n"
 					+ "\t\t\treturn node;\n"
 					+ "\t\t}\n\n"
-					+ "\t\tpublic static " + cname + " CreateNode(de.unika.ipd.grGen.lgsp.LGSPGraph graph, String varName)\n"
+					+ "\t\tpublic static " + cname + " CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)\n"
 					+ "\t\t{\n"
 					+ "\t\t\t" + cname + " node;\n"
 					+ "\t\t\tif(poolLevel == 0)\n"
@@ -387,7 +387,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tnode = pool[--poolLevel];\n"
 					+ "\t\t\t\tnode.inhead = null;\n"
 					+ "\t\t\t\tnode.outhead = null;\n"
-					+ "\t\t\t\tnode.flags &= ~(uint) de.unika.ipd.grGen.lgsp.LGSPElemFlags.HAS_VARIABLES;\n");
+					+ "\t\t\t\tnode.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
 			initAllMembers(type, "node", "\t\t\t\t", true);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node, varName);\n"
@@ -395,8 +395,8 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t}\n\n");
 		}
 		else {
-			sb.append("\t\tpublic static " + cname + " CreateEdge(de.unika.ipd.grGen.lgsp.LGSPGraph graph, "
-						+ "de.unika.ipd.grGen.lgsp.LGSPNode source, de.unika.ipd.grGen.lgsp.LGSPNode target)\n"
+			sb.append("\t\tpublic static " + cname + " CreateEdge(GRGEN_LGSP.LGSPGraph graph, "
+						+ "GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)\n"
 					+ "\t\t{\n"
 					+ "\t\t\t" + cname + " edge;\n"
 					+ "\t\t\tif(poolLevel == 0)\n"
@@ -404,7 +404,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tedge = pool[--poolLevel];\n"
-					+ "\t\t\t\tedge.flags &= ~(uint) de.unika.ipd.grGen.lgsp.LGSPElemFlags.HAS_VARIABLES;\n"
+					+ "\t\t\t\tedge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n"
 					+ "\t\t\t\tedge.source = source;\n"
 					+ "\t\t\t\tedge.target = target;\n");
 			initAllMembers(type, "edge", "\t\t\t\t", true);
@@ -412,8 +412,8 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\tgraph.AddEdge(edge);\n"
 					+ "\t\t\treturn edge;\n"
 					+ "\t\t}\n\n"
-					+ "\t\tpublic static " + cname + " CreateEdge(de.unika.ipd.grGen.lgsp.LGSPGraph graph, "
-						+ "de.unika.ipd.grGen.lgsp.LGSPNode source, de.unika.ipd.grGen.lgsp.LGSPNode target, String varName)\n"
+					+ "\t\tpublic static " + cname + " CreateEdge(GRGEN_LGSP.LGSPGraph graph, "
+						+ "GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)\n"
 					+ "\t\t{\n"
 					+ "\t\t\t" + cname + " edge;\n"
 					+ "\t\t\tif(poolLevel == 0)\n"
@@ -421,7 +421,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tedge = pool[--poolLevel];\n"
-					+ "\t\t\t\tedge.flags &= ~(uint) de.unika.ipd.grGen.lgsp.LGSPElemFlags.HAS_VARIABLES;\n"
+					+ "\t\t\t\tedge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n"
 					+ "\t\t\t\tedge.source = source;\n"
 					+ "\t\t\t\tedge.target = target;\n");
 			initAllMembers(type, "edge", "\t\t\t\t", true);
@@ -598,7 +598,7 @@ public class ModelGen extends CSharpBase {
 		String elemKind = isNode ? "Node" : "Edge";
 
 		sb.append("\n");
-		sb.append("\tpublic sealed class " + tname + " : de.unika.ipd.grGen.libGr." + elemKind + "Type\n");
+		sb.append("\tpublic sealed class " + tname + " : GRGEN_LIBGR." + elemKind + "Type\n");
 		sb.append("\t{\n");
 		sb.append("\t\tpublic static " + tname + " typeVar = new " + tname + "();\n");
 		genIsA(types, type);
@@ -611,7 +611,7 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t\tpublic override String Name { get { return \"" + typeName + "\"; } }\n");
 
 		if(isNode) {
-			sb.append("\t\tpublic override de.unika.ipd.grGen.libGr.INode CreateNode()\n"
+			sb.append("\t\tpublic override GRGEN_LIBGR.INode CreateNode()\n"
 					+ "\t\t{\n");
 			if(type.isAbstract())
 				sb.append("\t\t\tthrow new Exception(\"The abstract node type "
@@ -622,8 +622,8 @@ public class ModelGen extends CSharpBase {
 		}
 		else {
 			EdgeType edgeType = (EdgeType) type;
-			sb.append("\t\tpublic override de.unika.ipd.grGen.libGr.Directedness Directedness "
-					+ "{ get { return de.unika.ipd.grGen.libGr.Directedness.");
+			sb.append("\t\tpublic override GRGEN_LIBGR.Directedness Directedness "
+					+ "{ get { return GRGEN_LIBGR.Directedness.");
 			switch(edgeType.getDirectedness()) {
 				case Arbitrary:
 					sb.append("Arbitrary; } }\n");
@@ -638,15 +638,15 @@ public class ModelGen extends CSharpBase {
 					throw new UnsupportedOperationException("Illegal directedness of edge type \""
 							+ formatIdentifiable(type) + "\"");
 			}
-			sb.append("\t\tpublic override de.unika.ipd.grGen.libGr.IEdge CreateEdge("
-						+ "de.unika.ipd.grGen.libGr.INode source, de.unika.ipd.grGen.libGr.INode target)\n"
+			sb.append("\t\tpublic override GRGEN_LIBGR.IEdge CreateEdge("
+						+ "GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)\n"
 					+ "\t\t{\n");
 			if(type.isAbstract())
 				sb.append("\t\t\tthrow new Exception(\"The abstract edge type "
 						+ typeName + " cannot be instantiated!\");\n");
 			else
 				sb.append("\t\t\treturn new " + allocName
-						+ "((de.unika.ipd.grGen.lgsp.LGSPNode) source, (de.unika.ipd.grGen.lgsp.LGSPNode) target);\n");
+						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
 			sb.append("\t\t}\n");
 		}
 
@@ -654,7 +654,7 @@ public class ModelGen extends CSharpBase {
 		genAttributeTypesEnum(type);
 		genGetAttributeType(type);
 
-		sb.append("\t\tpublic override bool IsA(de.unika.ipd.grGen.libGr.GrGenType other)\n");
+		sb.append("\t\tpublic override bool IsA(GRGEN_LIBGR.GrGenType other)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\treturn (this == other) || isA[other.TypeID];\n");
 		sb.append("\t\t}\n");
@@ -687,13 +687,13 @@ public class ModelGen extends CSharpBase {
 
 	private void genAttributeAttributes(InheritanceType type) {
 		for(Entity member : type.getMembers()) // only for locally defined members
-			sb.append("\t\tpublic static de.unika.ipd.grGen.libGr.AttributeType " + formatAttributeTypeName(member) + ";\n");
+			sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member) + ";\n");
 	}
 
 	private void genAttributeInit(InheritanceType type) {
 		for(Entity e : type.getMembers()) {
-			sb.append("\t\t\t" + formatAttributeTypeName(e) + " = new de.unika.ipd.grGen.libGr.AttributeType(");
-			sb.append("\"" + formatIdentifiable(e) + "\", this, de.unika.ipd.grGen.libGr.AttributeKind.");
+			sb.append("\t\t\t" + formatAttributeTypeName(e) + " = new GRGEN_LIBGR.AttributeType(");
+			sb.append("\"" + formatIdentifiable(e) + "\", this, GRGEN_LIBGR.AttributeKind.");
 			Type t = e.getType();
 
 			if (t instanceof IntType)
@@ -718,7 +718,7 @@ public class ModelGen extends CSharpBase {
 
 	private void genAttributeTypesEnum(InheritanceType type) {
 		Collection<Entity> allMembers = type.getAllMembers();
-		sb.append("\t\tpublic override IEnumerable<de.unika.ipd.grGen.libGr.AttributeType> AttributeTypes");
+		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes");
 
 		if(allMembers.isEmpty())
 			sb.append(" { get { yield break; } }\n");
@@ -740,7 +740,7 @@ public class ModelGen extends CSharpBase {
 
 	private void genGetAttributeType(InheritanceType type) {
 		Collection<Entity> allMembers = type.getAllMembers();
-		sb.append("\t\tpublic override de.unika.ipd.grGen.libGr.AttributeType GetAttributeType(String name)");
+		sb.append("\t\tpublic override GRGEN_LIBGR.AttributeType GetAttributeType(String name)");
 
 		if(allMembers.isEmpty())
 			sb.append(" { return null; }\n");
@@ -780,14 +780,14 @@ public class ModelGen extends CSharpBase {
 		String kindName = isNode ? "Node" : "Edge";
 
 		if(isNode) {
-			sb.append("\t\tpublic override de.unika.ipd.grGen.libGr.INode CreateNodeWithCopyCommons("
-						+ "de.unika.ipd.grGen.libGr.INode oldINode)\n"
+			sb.append("\t\tpublic override GRGEN_LIBGR.INode CreateNodeWithCopyCommons("
+						+ "GRGEN_LIBGR.INode oldINode)\n"
 					+ "\t\t{\n");
 		}
 		else {
-			sb.append("\t\tpublic override de.unika.ipd.grGen.libGr.IEdge CreateEdgeWithCopyCommons("
-						+ "de.unika.ipd.grGen.libGr.INode source, de.unika.ipd.grGen.libGr.INode target, "
-						+ "de.unika.ipd.grGen.libGr.IEdge oldIEdge)\n"
+			sb.append("\t\tpublic override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons("
+						+ "GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, "
+						+ "GRGEN_LIBGR.IEdge oldIEdge)\n"
 					+ "\t\t{\n");
 		}
 
@@ -852,12 +852,12 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 		if(commonGroups.size() != 0) {
 			if(isNode)
-				sb.append("\t\t\tde.unika.ipd.grGen.lgsp.LGSPNode oldNode = (de.unika.ipd.grGen.lgsp.LGSPNode) oldINode;\n"
+				sb.append("\t\t\tGRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;\n"
 						+ "\t\t\t" + cname + " newNode = new " + allocName + "();\n");
 			else
-				sb.append("\t\t\tde.unika.ipd.grGen.lgsp.LGSPEdge oldEdge = (de.unika.ipd.grGen.lgsp.LGSPEdge) oldIEdge;\n"
+				sb.append("\t\t\tGRGEN_LGSP.LGSPEdge oldEdge = (GRGEN_LGSP.LGSPEdge) oldIEdge;\n"
 						+ "\t\t\t" + cname + " newEdge = new " + allocName
-						+ "((de.unika.ipd.grGen.lgsp.LGSPNode) source, (de.unika.ipd.grGen.lgsp.LGSPNode) target);\n");
+						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
 			sb.append("\t\t\tswitch(old" + kindName + ".Type.TypeID)\n"
 					+ "\t\t\t{\n");
 			for(Map.Entry<BitSet, LinkedList<InheritanceType>> entry : commonGroups.entrySet()) {
@@ -918,7 +918,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 					+ "\t\t}\n\n");
 			} else {
 				sb.append("\t\t\treturn new " + allocName
-						+ "((de.unika.ipd.grGen.lgsp.LGSPNode) source, (de.unika.ipd.grGen.lgsp.LGSPNode) target);\n"
+						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n"
 					+ "\t\t}\n\n");
 			}
 		}
@@ -937,17 +937,17 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t//\n");
 		sb.append("\n");
 		sb.append("\tpublic sealed class " + model.getIdent() + formatNodeOrEdge(isNode)
-				+ "Model : de.unika.ipd.grGen.libGr.I" + (isNode ? "Node" : "Edge") + "Model\n");
+				+ "Model : GRGEN_LIBGR.I" + (isNode ? "Node" : "Edge") + "Model\n");
 		sb.append("\t{\n");
 
 		InheritanceType rootType = genModelConstructor(isNode, types);
 
 		sb.append("\t\tpublic bool IsNodeModel { get { return " + (isNode?"true":"false") +"; } }\n");
-		sb.append("\t\tpublic de.unika.ipd.grGen.libGr." + (isNode ? "Node" : "Edge") + "Type RootType { get { return "
+		sb.append("\t\tpublic GRGEN_LIBGR." + (isNode ? "Node" : "Edge") + "Type RootType { get { return "
 				+ formatTypeClass(rootType) + ".typeVar; } }\n");
-		sb.append("\t\tde.unika.ipd.grGen.libGr.GrGenType de.unika.ipd.grGen.libGr.ITypeModel.RootType { get { return "
+		sb.append("\t\tGRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return "
 				+ formatTypeClass(rootType) + ".typeVar; } }\n");
-		sb.append("\t\tpublic de.unika.ipd.grGen.libGr." + (isNode ? "Node" : "Edge") + "Type GetType(String name)\n");
+		sb.append("\t\tpublic GRGEN_LIBGR." + (isNode ? "Node" : "Edge") + "Type GetType(String name)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tswitch(name)\n");
 		sb.append("\t\t\t{\n");
@@ -956,18 +956,18 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\t}\n");
 		sb.append("\t\t\treturn null;\n");
 		sb.append("\t\t}\n");
-		sb.append("\t\tde.unika.ipd.grGen.libGr.GrGenType de.unika.ipd.grGen.libGr.ITypeModel.GetType(String name)\n");
+		sb.append("\t\tGRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(String name)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\treturn GetType(name);\n");
 		sb.append("\t\t}\n");
 
 		String elemKind = isNode ? "Node" : "Edge";
-		sb.append("\t\tprivate de.unika.ipd.grGen.libGr." + elemKind + "Type[] types = {\n");
+		sb.append("\t\tprivate GRGEN_LIBGR." + elemKind + "Type[] types = {\n");
 		for(InheritanceType type : types)
 			sb.append("\t\t\t" + formatTypeClass(type) + ".typeVar,\n");
 		sb.append("\t\t};\n");
-		sb.append("\t\tpublic de.unika.ipd.grGen.libGr." + elemKind + "Type[] Types { get { return types; } }\n");
-		sb.append("\t\tde.unika.ipd.grGen.libGr.GrGenType[] de.unika.ipd.grGen.libGr.ITypeModel.Types "
+		sb.append("\t\tpublic GRGEN_LIBGR." + elemKind + "Type[] Types { get { return types; } }\n");
+		sb.append("\t\tGRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types "
 				+ "{ get { return types; } }\n");
 
 		sb.append("\t\tprivate Type[] typeTypes = {\n");
@@ -976,14 +976,14 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t};\n");
 		sb.append("\t\tpublic Type[] TypeTypes { get { return typeTypes; } }\n");
 
-		sb.append("\t\tprivate de.unika.ipd.grGen.libGr.AttributeType[] attributeTypes = {\n");
+		sb.append("\t\tprivate GRGEN_LIBGR.AttributeType[] attributeTypes = {\n");
 		for(InheritanceType type : types) {
 			String ctype = formatTypeClass(type);
 			for(Entity member : type.getMembers())
 				sb.append("\t\t\t" + ctype + "." + formatAttributeTypeName(member) + ",\n");
 		}
 		sb.append("\t\t};\n");
-		sb.append("\t\tpublic IEnumerable<de.unika.ipd.grGen.libGr.AttributeType> AttributeTypes "
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes "
 				+ "{ get { return attributeTypes; } }\n");
 
 		sb.append("\t}\n");
@@ -997,7 +997,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		for(InheritanceType type : types) {
 			String ctype = formatTypeClass(type);
 			sb.append("\t\t\t" + ctype + ".typeVar.subOrSameGrGenTypes = "
-					+ formatTypeClass(type) + ".typeVar.subOrSameTypes = new de.unika.ipd.grGen.libGr."
+					+ formatTypeClass(type) + ".typeVar.subOrSameTypes = new GRGEN_LIBGR."
 					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
 			sb.append("\t\t\t\t" + ctype + ".typeVar,\n");
 			for(InheritanceType otherType : types) {
@@ -1007,7 +1007,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t\t};\n");
 
 			sb.append("\t\t\t" + ctype + ".typeVar.directSubGrGenTypes = "
-					+ formatTypeClass(type) + ".typeVar.directSubTypes = new de.unika.ipd.grGen.libGr."
+					+ formatTypeClass(type) + ".typeVar.directSubTypes = new GRGEN_LIBGR."
 					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
 			for(InheritanceType subType : type.getDirectSubTypes()) {
 				// TODO: HACK, because direct sub types may also contain types from other models...
@@ -1018,7 +1018,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t\t};\n");
 
 			sb.append("\t\t\t" + ctype + ".typeVar.superOrSameGrGenTypes = "
-					+ formatTypeClass(type) + ".typeVar.superOrSameTypes = new de.unika.ipd.grGen.libGr."
+					+ formatTypeClass(type) + ".typeVar.superOrSameTypes = new GRGEN_LIBGR."
 					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
 			sb.append("\t\t\t\t" + ctype + ".typeVar,\n");
 			for(InheritanceType otherType : types) {
@@ -1028,7 +1028,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append("\t\t\t};\n");
 
 			sb.append("\t\t\t" + ctype + ".typeVar.directSuperGrGenTypes = "
-					+ formatTypeClass(type) + ".typeVar.directSuperTypes = new de.unika.ipd.grGen.libGr."
+					+ formatTypeClass(type) + ".typeVar.directSuperTypes = new GRGEN_LIBGR."
 					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
 			for(InheritanceType superType : type.getDirectSuperTypes()) {
 				sb.append("\t\t\t\t" + formatTypeClass(superType) + ".typeVar,\n");
@@ -1053,7 +1053,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t//\n");
 		sb.append("\n");
 
-		sb.append("\tpublic sealed class " + modelName + "GraphModel : de.unika.ipd.grGen.libGr.IGraphModel\n");
+		sb.append("\tpublic sealed class " + modelName + "GraphModel : GRGEN_LIBGR.IGraphModel\n");
 		sb.append("\t{\n");
 		genGraphModelBody(modelName);
 		sb.append("\t}\n");
@@ -1064,7 +1064,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\n");
 
 		sb.append(
-			  "\tpublic class " + modelName + " : de.unika.ipd.grGen.lgsp.LGSPGraph, de.unika.ipd.grGen.libGr.IGraphModel\n"
+			  "\tpublic class " + modelName + " : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel\n"
 			+ "\t{\n"
 			+ "\t\tpublic " + modelName + "() : base(GetNextGraphName())\n"
 			+ "\t\t{\n"
@@ -1094,12 +1094,12 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			String typeName = formatElementClass(edgeType);
 			sb.append(
 				  "\t\tpublic @" + typeName + " CreateEdge" + typeName
-					+ "(de.unika.ipd.grGen.lgsp.LGSPNode source, de.unika.ipd.grGen.lgsp.LGSPNode target)\n"
+					+ "(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)\n"
 				+ "\t\t{\n"
 				+ "\t\t\treturn @" + typeName + ".CreateEdge(this, source, target);\n"
 				+ "\t\t}\n\n"
 				+ "\t\tpublic @" + typeName + " CreateEdge" + name
-					+ "(de.unika.ipd.grGen.lgsp.LGSPNode source, de.unika.ipd.grGen.lgsp.LGSPNode target, String varName)\n"
+					+ "(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)\n"
 				+ "\t\t{\n"
 				+ "\t\t\treturn @" + typeName + ".CreateEdge(this, source, target, varName);\n"
 				+ "\t\t}\n\n"
@@ -1117,19 +1117,19 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\n");
 
 		sb.append("\t\tpublic String ModelName { get { return \"" + modelName + "\"; } }\n");
-		sb.append("\t\tpublic de.unika.ipd.grGen.libGr.INodeModel NodeModel { get { return nodeModel; } }\n");
-		sb.append("\t\tpublic de.unika.ipd.grGen.libGr.IEdgeModel EdgeModel { get { return edgeModel; } }\n");
-		sb.append("\t\tpublic IEnumerable<de.unika.ipd.grGen.libGr.ValidateInfo> ValidateInfo "
+		sb.append("\t\tpublic GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }\n");
+		sb.append("\t\tpublic GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo "
 				+ "{ get { return validateInfos; } }\n");
 		sb.append("\t\tpublic String MD5Hash { get { return \"" + be.unit.getTypeDigest() + "\"; } }\n");
 	}
 
 	private void genValidate() {
-		sb.append("\t\tprivate de.unika.ipd.grGen.libGr.ValidateInfo[] validateInfos = {\n");
+		sb.append("\t\tprivate GRGEN_LIBGR.ValidateInfo[] validateInfos = {\n");
 
 		for(EdgeType edgeType : model.getEdgeTypes()) {
 			for(ConnAssert ca : edgeType.getConnAsserts()) {
-				sb.append("\t\t\tnew de.unika.ipd.grGen.libGr.ValidateInfo(");
+				sb.append("\t\t\tnew GRGEN_LIBGR.ValidateInfo(");
 				sb.append(formatTypeClass(edgeType) + ".typeVar, ");
 				sb.append(formatTypeClass(ca.getSrcType()) + ".typeVar, ");
 				sb.append(formatTypeClass(ca.getTgtType()) + ".typeVar, ");
@@ -1156,3 +1156,4 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private String nsIndent = "\t";
 	private HashSet<String> rootTypes;
 }
+
