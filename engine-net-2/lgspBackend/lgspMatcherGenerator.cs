@@ -1419,7 +1419,9 @@ exitSecondLoop: ;
         public void GenerateFileHeaderForActionsFile(SourceBuilder sb,
                 String namespaceOfModel, String namespaceOfRulePatterns)
         {
-            sb.AppendFront("using System;\nusing System.Collections.Generic;\nusing de.unika.ipd.grGen.libGr;\nusing de.unika.ipd.grGen.lgsp;\n"
+            sb.AppendFront("using System;\nusing System.Collections.Generic;\n"
+                + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
+                + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
                 + "using " + namespaceOfModel + ";\n"
                 + "using " + namespaceOfRulePatterns + ";\n\n");
             sb.AppendFront("namespace de.unika.ipd.grGen.lgspActions\n");
@@ -1438,7 +1440,7 @@ exitSecondLoop: ;
             String namePrefix = (isInitialStatic ? "" : "Dyn") + "Action_";
             String className = namePrefix + rulePattern.name;
 
-            sb.AppendFront("public class " + className + " : LGSPAction\n");
+            sb.AppendFront("public class " + className + " : GRGEN_LGSP.LGSPAction\n");
             sb.AppendFront("{\n");
             sb.Indent(); // class level
 
@@ -1447,7 +1449,7 @@ exitSecondLoop: ;
             sb.AppendFront("rulePattern = " + rulePattern.GetType().Name + ".Instance;\n");
             sb.AppendFront("patternGraph = rulePattern.patternGraph;\n");
             sb.AppendFront("DynamicMatch = myMatch;\n");
-            sb.AppendFront("matches = new LGSPMatches(this, "
+            sb.AppendFront("matches = new GRGEN_LGSP.LGSPMatches(this, "
                 + patternGraph.Nodes.Length + ", "
                 + patternGraph.Edges.Length + ", "
                 + patternGraph.Variables.Length + ", "
@@ -1457,10 +1459,10 @@ exitSecondLoop: ;
             sb.AppendFront("}\n\n");
 
             sb.AppendFront("public override string Name { get { return \"" + rulePattern.name + "\"; } }\n");
-            sb.AppendFront("private LGSPMatches matches;\n\n");
+            sb.AppendFront("private GRGEN_LGSP.LGSPMatches matches;\n\n");
             if (isInitialStatic)
             {
-                sb.AppendFront("public static LGSPAction Instance { get { return instance; } }\n");
+                sb.AppendFront("public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }\n");
                 sb.AppendFront("private static " + className + " instance = new " + className + "();\n\n");
             }
         }
@@ -1477,11 +1479,11 @@ exitSecondLoop: ;
             String namePrefix = (isInitialStatic ? "" : "Dyn") + "PatternAction_";
             String className = namePrefix + matchingPattern.name;
 
-            sb.AppendFront("public class " + className + " : LGSPSubpatternAction\n");
+            sb.AppendFront("public class " + className + " : GRGEN_LGSP.LGSPSubpatternAction\n");
             sb.AppendFront("{\n");
             sb.Indent(); // class level
 
-            sb.AppendFront("private " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {\n");
+            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
             sb.Indent(); // method body level
             sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
             sb.AppendFront("patternGraph = " + matchingPattern.GetType().Name + ".Instance.patternGraph;\n");
@@ -1495,7 +1497,7 @@ exitSecondLoop: ;
                 PatternNode node = patternGraph.nodes[i];
                 if (node.PointOfDefinition == null)
                 {
-                    sb.AppendFront("public LGSPNode " + node.name + ";\n");
+                    sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.name + ";\n");
                 }
             }
             for (int i = 0; i < patternGraph.edges.Length; ++i)
@@ -1503,7 +1505,7 @@ exitSecondLoop: ;
                 PatternEdge edge = patternGraph.edges[i];
                 if (edge.PointOfDefinition == null)
                 {
-                    sb.AppendFront("public LGSPEdge " + edge.name + ";\n");
+                    sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.name + ";\n");
                 }
             }
             sb.AppendFront("\n");
@@ -1520,10 +1522,11 @@ exitSecondLoop: ;
             String namePrefix = (isInitialStatic ? "" : "Dyn") + "AlternativeAction_";
             String className = namePrefix + alternative.pathPrefix+alternative.name;
 
-            sb.AppendFront("public class " + className + " : LGSPSubpatternAction\n");
+            sb.AppendFront("public class " + className + " : GRGEN_LGSP.LGSPSubpatternAction\n");
             sb.AppendFront("{\n");
             sb.Indent(); // class level
-            sb.AppendFront("private " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {\n");
+            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPGraph graph_, "
+                + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {\n");
             sb.Indent(); // method body level
             sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
             // pfadausdruck gebraucht, da das alternative-objekt im pattern graph steckt
@@ -1541,11 +1544,11 @@ exitSecondLoop: ;
             }
             foreach(KeyValuePair<string, bool> node in neededNodes)
             {
-                sb.AppendFront("public LGSPNode " + node.Key + ";\n");
+                sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.Key + ";\n");
             }
             foreach(KeyValuePair<string, bool> edge in neededEdges)
             {
-                sb.AppendFront("public LGSPEdge " + edge.Key + ";\n");
+                sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.Key + ";\n");
             }
             sb.AppendFront("\n");
         }
@@ -1557,9 +1560,11 @@ exitSecondLoop: ;
         {
             // getNewTask method handing out new task from pool or creating task if pool is empty
             if (isAlternative)
-                sb.AppendFront("public static " + className + " getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {\n");
+                sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPGraph graph_, "
+                    + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {\n");
             else
-                sb.AppendFront("public static " + className + " getNewTask(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {\n");
+                sb.AppendFront("public static " + className + " getNewTask(GRGEN_LGSP.LGSPGraph graph_, "
+                    + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
             sb.Indent();
             sb.AppendFront(className + " newTask;\n");
             sb.AppendFront("if(numFreeTasks>0) {\n");

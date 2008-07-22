@@ -232,7 +232,8 @@ namespace de.unika.ipd.grGen.lgsp
 #if RANDOM_LOOKUP_LIST_START
             sourceCode.AppendFront("private Random random = new Random(13795661);\n");
 #endif
-            sourceCode.AppendFront("public LGSPMatches " + Name + "(LGSPGraph graph, int maxMatches, object[] parameters)\n");
+            sourceCode.AppendFront("public GRGEN_LGSP.LGSPMatches " + Name + "("
+                    + "GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
             sourceCode.AppendFront("matches.matchesList.Clear();\n");
@@ -240,9 +241,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (SetupSubpatternMatching)
             {
-                sourceCode.AppendFront("Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();\n");
-                sourceCode.AppendFront("List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();\n");
-                sourceCode.AppendFront("List<Stack<LGSPMatch>> matchesList = foundPartialMatches;\n");
+                sourceCode.AppendFront("Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<"
+                        + "GRGEN_LGSP.LGSPSubpatternAction>();\n");
+                sourceCode.AppendFront("List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches = new List<Stack<"
+                        + "GRGEN_LGSP.LGSPMatch>>();\n");
+                sourceCode.AppendFront("List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList = foundPartialMatches;\n");
             }
 
             OperationsList.Emit(sourceCode);
@@ -297,7 +300,7 @@ namespace de.unika.ipd.grGen.lgsp
                     ParameterIsNode[i] ? "LGSPNode" : "LGSPEdge";
                 string parameterVariableContainingCandidate =
                     NamesOfEntities.CandidateVariable(Parameters[i]);
-                builder.AppendFormat(", {0} {1}",
+                builder.AppendFormat(", GRGEN_LGSP.{0} {1}",
                     typeOfParameterVariableContainingCandidate,
                     parameterVariableContainingCandidate);
             }
@@ -331,14 +334,17 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("private Random random = new Random(13795661);\n");
 #endif
 
-            sourceCode.AppendFront("public void " + Name + "(LGSPGraph graph, int maxMatches, object[] parameters, Stack<LGSPSubpatternAction> openTasks, List<Stack<LGSPMatch>> foundPartialMatches, List<Stack<LGSPMatch>> matchesList");
+            sourceCode.AppendFront("public void " + Name + "(GRGEN_LGSP.LGSPGraph graph, int maxMatches, "
+                    + "object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<"
+                    + "GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<"
+                    + "GRGEN_LGSP.LGSPMatch>> matchesList");
             for (int i = 0; i < Parameters.Length; ++i)
             {
                 string typeOfParameterVariableContainingCandidate =
                     ParameterIsNode[i] ? "LGSPNode" : "LGSPEdge";
                 string parameterVariableContainingCandidate =
                     NamesOfEntities.CandidateVariable(Parameters[i]);
-                sourceCode.AppendFormat(", {0} {1}",
+                sourceCode.AppendFormat(", GRGEN_LGSP.{0} {1}",
                     typeOfParameterVariableContainingCandidate,
                     parameterVariableContainingCandidate);
             }
@@ -404,7 +410,8 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("private Random random = new Random(13795661);\n");
 #endif
 
-            sourceCode.AppendFront("public override void " + Name + "(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)\n");
+            sourceCode.AppendFront("public override void " + Name + "(List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, "
+                + "int maxMatches, int negLevel)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -453,7 +460,8 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("private Random random = new Random(13795661);\n");
 #endif
 
-            sourceCode.AppendFront("public override void " + Name + "(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches, int negLevel)\n");
+            sourceCode.AppendFront("public override void " + Name + "(List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, "
+                + "int maxMatches, int negLevel)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -811,8 +819,8 @@ namespace de.unika.ipd.grGen.lgsp
                 // open loop header 
                 sourceCode.AppendFrontFormat("for(");
                 // emit declaration of variable containing graph elements list head
-                string typeOfVariableContainingListHead =
-                    IsNode ? "LGSPNode" : "LGSPEdge";
+                string typeOfVariableContainingListHead = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
                 string variableContainingListHead =
                     NamesOfEntities.CandidateIterationListHead(PatternElementName);
                 sourceCode.AppendFormat("{0} {1}",
@@ -862,7 +870,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // emit declaration of variable containing incident edges list head
                     string variableContainingListHead =
                         NamesOfEntities.CandidateIterationListHead(PatternElementName);
-                    sourceCode.AppendFrontFormat("LGSPEdge {0}", variableContainingListHead);
+                    sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0}", variableContainingListHead);
                     // emit initialization of variable containing incident edges list head
                     string variableContainingStartingPointNode =
                         NamesOfEntities.CandidateVariable(StartingPointNodeName);
@@ -878,7 +886,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.Indent();
 
                     // emit declaration and initialization of variable containing candidates
-                    string typeOfVariableContainingCandidate = "LGSPEdge";
+                    string typeOfVariableContainingCandidate = "GRGEN_LGSP.LGSPEdge";
                     string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
                     sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
                         typeOfVariableContainingCandidate, variableContainingCandidate,
@@ -915,7 +923,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // emit declaration of variable containing incident edges list head
                     string variableContainingListHead =
                         NamesOfEntities.CandidateIterationListHead(PatternElementName);
-                    sourceCode.AppendFrontFormat("LGSPEdge {0}", variableContainingListHead);
+                    sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0}", variableContainingListHead);
                     // emit initialization of variable containing incident edges list head
                     string variableContainingStartingPointNode =
                         NamesOfEntities.CandidateVariable(StartingPointNodeName);
@@ -929,7 +937,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.Indent();
 
                     // emit declaration and initialization of variable containing candidates
-                    string typeOfVariableContainingCandidate = "LGSPEdge";
+                    string typeOfVariableContainingCandidate = "GRGEN_LGSP.LGSPEdge";
                     string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
                     sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
                         typeOfVariableContainingCandidate, variableContainingCandidate,
@@ -1101,7 +1109,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // emit declaration of variable containing candidate node
                     string variableContainingCandidate =
                         NamesOfEntities.CandidateVariable(PatternElementName);
-                    sourceCode.AppendFrontFormat("LGSPNode {0}", variableContainingCandidate);
+                    sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPNode {0}", variableContainingCandidate);
                     // emit initialization with demanded node from variable containing edge
                     string variableContainingStartingPointEdge =
                         NamesOfEntities.CandidateVariable(StartingPointEdgeName);
@@ -1118,7 +1126,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // emit declaration of variable containing candidate node
                     string variableContainingCandidate = 
                         NamesOfEntities.CandidateVariable(PatternElementName);
-                    sourceCode.AppendFrontFormat("LGSPNode {0}", variableContainingCandidate);
+                    sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPNode {0}", variableContainingCandidate);
                     // emit initialization with demanded node from variable containing edge
                     string variableContainingStartingPointEdge =
                         NamesOfEntities.CandidateVariable(StartingPointEdgeName);
@@ -1130,7 +1138,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // emit declaration of variable containing candidate node
                     string variableContainingCandidate =
                         NamesOfEntities.CandidateVariable(PatternElementName);
-                    sourceCode.AppendFrontFormat("LGSPNode {0}", variableContainingCandidate);
+                    sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPNode {0}", variableContainingCandidate);
                     // emit initialization with other node from edge
                     string variableContainingStartingPointEdge =
                         NamesOfEntities.CandidateVariable(StartingPointEdgeName);
@@ -1145,8 +1153,8 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.AppendFrontFormat("// Preset {0} \n", PatternElementName);
 
                 // emit declaration of variable containing candidate node
-                string typeOfVariableContainingCandidate =
-                    IsNode ? "LGSPNode" : "LGSPEdge";
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
                 string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
                 sourceCode.AppendFrontFormat("{0} {1}",
                     typeOfVariableContainingCandidate, variableContainingCandidate);
@@ -1161,8 +1169,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                 // emit declaration of variable containing candidate node
                 // and initialization with element from subpattern connections
-                string typeOfVariableContainingCandidate =
-                    IsNode ? "LGSPNode" : "LGSPEdge";
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
                 string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
                 sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
                     typeOfVariableContainingCandidate, variableContainingCandidate, PatternElementName);
@@ -1565,18 +1573,17 @@ namespace de.unika.ipd.grGen.lgsp
             // as this would cause a homomorphic match
             if (!NeverAboveMaxNegLevel)
             {
-                sourceCode.Append("(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL ? ");
+                sourceCode.Append("(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? ");
             }
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED << negLevel";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel";
             sourceCode.AppendFormat("({0}.flags & {1}) != 0", variableContainingCandidate, isMatchedBit);
 
             if (!NeverAboveMaxNegLevel)
             {
                 sourceCode.Append(" : ");
-                sourceCode.AppendFormat(
-                    "graph.atNegLevelMatchedElements[negLevel-(int)LGSPElemFlags.MAX_NEG_LEVEL-1].{0}.ContainsKey({1}))",
-                    IsNode ? "fst" : "snd", variableContainingCandidate);
+                sourceCode.AppendFormat("graph.atNegLevelMatchedElements[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1]"
+                    + ".{0}.ContainsKey({1}))", IsNode ? "fst" : "snd", variableContainingCandidate);
             }
 
             // but only if isomorphy is demanded (NamesOfPatternElementsToCheckAgainst empty)
@@ -1689,7 +1696,7 @@ namespace de.unika.ipd.grGen.lgsp
             // (in another subpattern to another pattern element)
             // as this would cause a inter-pattern-homomorphic match
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
             sourceCode.AppendFrontFormat("if(({0}.flags & {1})=={1}",
                 variableContainingCandidate, isMatchedBit);
             if (GloballyHomomorphElements != null)
@@ -2077,11 +2084,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (!NeverAboveMaxNegLevel)
             {
-                sourceCode.AppendFront("if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {\n");
+                sourceCode.AppendFront("if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {\n");
                 sourceCode.Indent();
             }
 
-            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED << negLevel";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel";
             sourceCode.AppendFrontFormat("{0} = {1}.flags & {2};\n",
                 variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
             sourceCode.AppendFrontFormat("{0}.flags |= {1};\n",
@@ -2093,11 +2100,11 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("} else {\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat(
-                    "{0} = graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
+                sourceCode.AppendFrontFormat("{0} = graph.atNegLevelMatchedElements[negLevel - (int) "
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
                     variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
-                sourceCode.AppendFrontFormat(
-                    "if({0} == 0) graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.Add({2},{2});\n",
+                sourceCode.AppendFrontFormat("if({0} == 0) graph.atNegLevelMatchedElements[negLevel - (int) "
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.Add({2},{2});\n",
                     variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
 
                 sourceCode.Unindent();
@@ -2142,7 +2149,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMember);
 
-            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
             sourceCode.AppendFrontFormat("{0} = {1}.flags & {2};\n",
                 variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
             sourceCode.AppendFrontFormat("{0}.flags |= {1};\n",
@@ -2190,11 +2197,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (!NeverAboveMaxNegLevel)
             {
-                sourceCode.AppendFront("if(negLevel <= (int) LGSPElemFlags.MAX_NEG_LEVEL) {\n");
+                sourceCode.AppendFront("if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {\n");
                 sourceCode.Indent();
             }
 
-            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED << negLevel";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel";
             sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~({1}) | {2};\n",
                 variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
 
@@ -2207,7 +2214,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
                 sourceCode.Indent();
                 sourceCode.AppendFrontFormat(
-                    "graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].{0}.Remove({1});\n",
+                    "graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{0}.Remove({1});\n",
                     IsNode ? "fst" : "snd", variableContainingCandidate);
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
@@ -2252,7 +2259,7 @@ namespace de.unika.ipd.grGen.lgsp
                 NamesOfEntities.VariableWithBackupOfIsMatchedBitGlobal(PatternElementName, NegativeNamePrefix);
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
 
-            string isMatchedBit = "(uint) LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
             sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~({1}) | {2};\n",
                 variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
         }
@@ -2286,7 +2293,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();\n");
+            sourceCode.AppendFront("GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();\n");
             sourceCode.AppendFront("match.patternGraph = rulePattern.patternGraph;\n");
 
             // emit match building operations
@@ -2325,11 +2332,11 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();\n");
+            sourceCode.AppendFront("Stack<GRGEN_LGSP.LGSPMatch> currentFoundPartialMatch = new Stack<GRGEN_LGSP.LGSPMatch>();\n");
             sourceCode.AppendFront("foundPartialMatches.Add(currentFoundPartialMatch);\n");
 
-            sourceCode.AppendFrontFormat("LGSPMatch match = new LGSPMatch(new LGSPNode[{0}], new LGSPEdge[{1}], new object[{2}], new LGSPMatch[0]);\n",
-                NumNodes, NumEdges, NumVariables);
+            sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPMatch match = new GRGEN_LGSP.LGSPMatch(new GRGEN_LGSP.LGSPNode[{0}], "
+                + "new GRGEN_LGSP.LGSPEdge[{1}], new object[{2}], new GRGEN_LGSP.LGSPMatch[0]);\n", NumNodes, NumEdges, NumVariables);
             sourceCode.AppendFront("match.patternGraph = patternGraph;\n");
             MatchBuildingOperations.Emit(sourceCode); // emit match building operations
             sourceCode.AppendFront("currentFoundPartialMatch.Push(match);\n");
@@ -2383,11 +2390,12 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if (sourceCode.CommentSourceCode)
                     sourceCode.AppendFront("// subpatterns/alternatives were found, extend the partial matches by our local match object\n");
-                sourceCode.AppendFront("foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)\n");
+                sourceCode.AppendFront("foreach(Stack<GRGEN_LGSP.LGSPMatch> currentFoundPartialMatch in matchesList)\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFrontFormat("LGSPMatch match = new LGSPMatch(new LGSPNode[{0}], new LGSPEdge[{1}], new object[{2}], new LGSPMatch[{3}+{4}]);\n",
+                sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPMatch match = new GRGEN_LGSP.LGSPMatch(new GRGEN_LGSP.LGSPNode[{0}], "
+                    + "new GRGEN_LGSP.LGSPEdge[{1}], new object[{2}], new GRGEN_LGSP.LGSPMatch[{3}+{4}]);\n",
                     NumNodes, NumEdges, NumVariables, NumSubpatterns, NumAlternatives);
                 sourceCode.AppendFrontFormat("match.patternGraph = patternGraph;\n");
                 MatchBuildingOperations.Emit(sourceCode); // emit match building operations
@@ -2400,11 +2408,11 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if (sourceCode.CommentSourceCode)
                     sourceCode.AppendFront("// subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it\n");
-                sourceCode.AppendFront("foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)\n");
+                sourceCode.AppendFront("foreach(Stack<GRGEN_LGSP.LGSPMatch> currentFoundPartialMatch in matchesList)\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFront("LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();\n");
+                sourceCode.AppendFront("GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();\n");
                 sourceCode.AppendFront("match.patternGraph = rulePattern.patternGraph;\n");
                 MatchBuildingOperations.Emit(sourceCode); // emit match building operations
                 sourceCode.AppendFront("matches.matchesList.PositionWasFilledFixIt();\n");
@@ -2976,8 +2984,8 @@ namespace de.unika.ipd.grGen.lgsp
                     graphMemberContainingElementListCountsByType,
                     variableContainingTypeIDForCandidate);
                 // emit declaration of variable containing element at random position
-                string typeOfVariableContainingElementAtRandomPosition =
-                    IsNode ? "LGSPNode" : "LGSPEdge";
+                string typeOfVariableContainingElementAtRandomPosition = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
                 string variableContainingElementAtRandomPosition =
                     "random_element_" + PatternElementName;
                 sourceCode.AppendFrontFormat("{0} {1}",
@@ -3017,7 +3025,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // misuse variable to store length of list which is computed within the follwing iteration
                 string memberOfEdgeContainingNextEdge =
                     IsIncoming ? "inNext" : "outNext";
-                sourceCode.AppendFrontFormat("for(LGSPEdge edge = {0}.{1}; edge!={0}.{1}; edge=edge.{2}) ++{3};\n",
+                sourceCode.AppendFrontFormat("for(GRGEN_LGSP.LGSPEdge edge = {0}.{1}; edge!={0}.{1}; edge=edge.{2}) ++{3};\n",
                     variableContainingStartingPointNode, memberOfNodeContainingListHead,
                     memberOfEdgeContainingNextEdge, variableContainingRandomPosition);
                 // emit initialization of variable containing ramdom position
@@ -3028,7 +3036,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // emit declaration of variable containing edge at random position
                 string variableContainingEdgeAtRandomPosition =
                     "random_element_" + PatternElementName;
-                sourceCode.AppendFrontFormat("LGSPEdge {0}",
+                sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPEdge {0}",
                     variableContainingEdgeAtRandomPosition);
                 // emit initialization with edge list head
                 sourceCode.AppendFormat(" = {0}.{1};\n",
@@ -3307,9 +3315,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             sourceCode.AppendFront("if(matchesList==foundPartialMatches) {\n");
-            sourceCode.AppendFront("    matchesList = new List<Stack<LGSPMatch>>();\n");
+            sourceCode.AppendFront("    matchesList = new List<Stack<GRGEN_LGSP.LGSPMatch>>();\n");
             sourceCode.AppendFront("} else {\n");
-            sourceCode.AppendFront("    foreach(Stack<LGSPMatch> match in matchesList) {\n");
+            sourceCode.AppendFront("    foreach(Stack<GRGEN_LGSP.LGSPMatch> match in matchesList) {\n");
             sourceCode.AppendFront("        foundPartialMatches.Add(match);\n");
             sourceCode.AppendFront("    }\n");
             sourceCode.AppendFront("    matchesList.Clear();\n");
@@ -3342,7 +3350,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFront("openTasks.Pop();\n");
-            sourceCode.AppendFront("List<Stack<LGSPMatch>> matchesList = foundPartialMatches;\n");
+            sourceCode.AppendFront("List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList = foundPartialMatches;\n");
             sourceCode.AppendFront("if(matchesList.Count!=0) throw new ApplicationException(); //debug assert\n");
         }
     }
@@ -3393,22 +3401,25 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("++negLevel;\n");
             if (!NeverAboveMaxNegLevel)
             {
-                sourceCode.AppendFront(
-                    "if(negLevel > (int) LGSPElemFlags.MAX_NEG_LEVEL && negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {\n");
+                sourceCode.AppendFront("if(negLevel > (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL && "
+                    + "negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL > graph.atNegLevelMatchedElements.Count) {\n");
                 sourceCode.Indent();
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements.Add(new Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>());\n");
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst = new Dictionary<LGSPNode, LGSPNode>();\n");
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd = new Dictionary<LGSPEdge, LGSPEdge>();\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements.Add(new GRGEN_LGSP.Pair<Dictionary<GRGEN_LGSP.LGSPNode, "
+                    + "GRGEN_LGSP.LGSPNode>, Dictionary<GRGEN_LGSP.LGSPEdge, GRGEN_LGSP.LGSPEdge>>());\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1]"
+                    + ".fst = new Dictionary<GRGEN_LGSP.LGSPNode, GRGEN_LGSP.LGSPNode>();\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1]"
+                    + ".snd = new Dictionary<GRGEN_LGSP.LGSPEdge, GRGEN_LGSP.LGSPEdge>();\n");
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
             }
             if (SetupSubpatternMatching)
             {
-                sourceCode.AppendFrontFormat("Stack<LGSPSubpatternAction> {0}openTasks ="
-                    + " new Stack<LGSPSubpatternAction>();\n", NegativePrefix);
-                sourceCode.AppendFrontFormat("List<Stack<LGSPMatch>> {0}foundPartialMatches ="
-                    + " new List<Stack<LGSPMatch>>();\n", NegativePrefix);
-                sourceCode.AppendFrontFormat("List<Stack<LGSPMatch>> {0}matchesList ="
+                sourceCode.AppendFrontFormat("Stack<GRGEN_LGSP.LGSPSubpatternAction> {0}openTasks ="
+                    + " new Stack<GRGEN_LGSP.LGSPSubpatternAction>();\n", NegativePrefix);
+                sourceCode.AppendFrontFormat("List<Stack<GRGEN_LGSP.LGSPMatch>> {0}foundPartialMatches ="
+                    + " new List<Stack<GRGEN_LGSP.LGSPMatch>>();\n", NegativePrefix);
+                sourceCode.AppendFrontFormat("List<Stack<GRGEN_LGSP.LGSPMatch>> {0}matchesList ="
                     + " {0}foundPartialMatches;\n", NegativePrefix);
             }
         }
@@ -3437,10 +3448,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if (!NeverAboveMaxNegLevel)
             {
-                sourceCode.AppendFront("if(negLevel > (int) LGSPElemFlags.MAX_NEG_LEVEL) {\n");
+                sourceCode.AppendFront("if(negLevel > (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {\n");
                 sourceCode.Indent();
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Clear();\n");
-                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - (int) LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Clear();\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - "
+                    + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Clear();\n");
+                sourceCode.AppendFront("graph.atNegLevelMatchedElements[negLevel - "
+                    + "(int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Clear();\n");
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
             }

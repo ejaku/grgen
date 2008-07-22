@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public static string TypeOfVariableContainingType(bool isNode)
         {
-            return (isNode ? "Node" : "Edge") + "Type";
+            return "GRGEN_LIBGR." + (isNode ? "Node" : "Edge") + "Type";
         }
 
         /// <summary>

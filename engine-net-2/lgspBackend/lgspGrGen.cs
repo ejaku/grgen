@@ -536,7 +536,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.Indent();
                         if(FireEvents) source.AppendFront("if(repi_" + seqID + " != 0) graph.RewritingNextMatch();\n");
                         source.AppendFront("de.unika.ipd.grGen.libGr.IMatch curmat_" + seqID + " = mat_" + seqID
-                            + ".RemoveMatch(Sequence.randomGenerator.Next(mat_" + seqID + ".Count));\n");
+                            + ".RemoveMatch(de.unika.ipd.grGen.libGr.Sequence.randomGenerator.Next(mat_" + seqID + ".Count));\n");
                         source.AppendFront("ret_" + seqID + " = mat_" + seqID + ".Producer.Modify(graph, curmat_" + seqID + ");\n");
                         if(UsePerfInfo)
                             source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
