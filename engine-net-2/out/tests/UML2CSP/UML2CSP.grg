@@ -42,13 +42,13 @@ rule TFDelUnused(unused:Node)
 }
 
 //
-// ActionNode
+// Action
 //
 
 rule TFAction(lastPa:ProcessAssignment) : (ProcessAssignment)
 {
 	hom(lastPa, pa);
-	pa:ProcessAssignment -tmp:tempProcess-> action:ActionNode;
+	pa:ProcessAssignment -tmp:tempProcess-> action:Action;
 	
 	action -b:ActivityEdge-> tgt:Node;
 	
