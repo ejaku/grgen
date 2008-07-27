@@ -1,3 +1,13 @@
+HEAD
+ API changes:
+  - Allow newlines in XGRS strings (enables use of verbatim strings in user
+    source code to reduce noise caused by string concatenation)
+
+ Fixes:
+  - Fixed handling of variable declarations in XGRS
+    (fixes LGSP example BusyBeaver)
+
+
 v2.0 (2008-07-22)
  Features:
   - Added support for literals as parameters for XGRSs
