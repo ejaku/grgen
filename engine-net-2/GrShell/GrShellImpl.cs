@@ -292,14 +292,35 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine("Unknown rule: \"{0}\"", ex.RuleName);
                 return;
             }
-            if(action.RulePattern.Inputs.Length != ex.NumGivenInputs && action.RulePattern.Outputs.Length != ex.NumGivenOutputs)
-                Console.WriteLine("Wrong number of parameters and return values for action \"" + ex.RuleName + "\"!");
-            else if(action.RulePattern.Inputs.Length != ex.NumGivenInputs)
-                Console.WriteLine("Wrong number of parameters for action \"" + ex.RuleName + "\"!");
-            else if(action.RulePattern.Outputs.Length != ex.NumGivenOutputs)
-                Console.WriteLine("Wrong number of return values for action \"" + ex.RuleName + "\"!");
-            else
-                Console.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for action \"" + ex.RuleName + "\"!");
+            switch(ex.Kind)
+            {
+                case SequenceParserError.BadNumberOfParametersOrReturnParameters:
+                    if(action.RulePattern.Inputs.Length != ex.NumGivenInputs && action.RulePattern.Outputs.Length != ex.NumGivenOutputs)
+                        Console.WriteLine("Wrong number of parameters and return values for action \"" + ex.RuleName + "\"!");
+                    else if(action.RulePattern.Inputs.Length != ex.NumGivenInputs)
+                        Console.WriteLine("Wrong number of parameters for action \"" + ex.RuleName + "\"!");
+                    else if(action.RulePattern.Outputs.Length != ex.NumGivenOutputs)
+                        Console.WriteLine("Wrong number of return values for action \"" + ex.RuleName + "\"!");
+                    else
+                        goto default;
+                    break;
+
+                case SequenceParserError.BadParameter:
+                    Console.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for action \"" + ex.RuleName + "\"!");
+                    break;
+
+                case SequenceParserError.RuleNameUsedByVariable:
+                    Console.WriteLine("The name of the variable conflicts with the name of action \"" + ex.RuleName + "\"!");
+                    return;
+
+                case SequenceParserError.VariableUsedWithParametersOrReturnParameters:
+                    Console.WriteLine("The variable \"" + ex.RuleName + "\" may neither receive parameters nor return values!");
+                    return;
+
+                default:
+                    throw new ArgumentException("Invalid error kind: " + ex.Kind);
+            }
+
             Console.Write("Prototype: {0}", ex.RuleName);
             if(action.RulePattern.Inputs.Length != 0)
             {

@@ -79,15 +79,15 @@ namespace BusyBeaver
             // A little warm up for the beaver
             // Using a graph rewrite sequence with the new and more expressive syntax
             actions.ApplyGraphRewriteSequence(
-                  "("
-                + "    ((curValue:WriteValue)=readOneRule(curState, curPos)"
-                + "    || (curValue)=readZeroRule(curState,curPos))"
-                + " && (ensureMoveLeftValidRule(curValue, curPos)"
-                + "    || ensureMoveRightValidRule(curValue, curPos)"
-                + "    || true)"
-                + " && ((curState, curPos)=moveLeftRule(curValue, curPos)"
-                + "    || (curState, curPos)=moveRightRule(curValue, curPos))"
-                + ")[100]");
+                  @"(
+                       (vla=((curValue:WriteValue)=readOneRule(curState, curPos)) && !vla
+                       || (curValue)=readZeroRule(curState,curPos))
+                    && (ensureMoveLeftValidRule(curValue, curPos)
+                       || ensureMoveRightValidRule(curValue, curPos)
+                       || true)
+                    && ((curState, curPos)=moveLeftRule(curValue, curPos)
+                       || (curState, curPos)=moveRightRule(curValue, curPos))
+                   )[100]");
 
 			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
 
@@ -102,15 +102,15 @@ namespace BusyBeaver
             // Go, beaver, go!
 
             actions.ApplyGraphRewriteSequence(
-                  "("
-                + "    ((curValue:WriteValue)=readOneRule(curState, curPos)"
-                + "    || (curValue)=readZeroRule(curState,curPos))"
-                + " && (ensureMoveLeftValidRule(curValue, curPos)"
-                + "    || ensureMoveRightValidRule(curValue, curPos)"
-                + "    || true)"
-                + " && ((curState, curPos)=moveLeftRule(curValue, curPos)"
-                + "    || (curState, curPos)=moveRightRule(curValue, curPos))"
-                + ")*");
+                  @"(
+                       ((curValue:WriteValue)=readOneRule(curState, curPos)
+                       || (curValue)=readZeroRule(curState,curPos))
+                    && (ensureMoveLeftValidRule(curValue, curPos)
+                       || ensureMoveRightValidRule(curValue, curPos)
+                       || true)
+                    && ((curState, curPos)=moveLeftRule(curValue, curPos)
+                       || (curState, curPos)=moveRightRule(curValue, curPos))
+                   )*");
 
             int stopTime = Environment.TickCount;
 

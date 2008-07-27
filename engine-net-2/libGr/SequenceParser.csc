@@ -37,9 +37,7 @@ PARSER_BEGIN(SequenceParser)
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, BaseActions actions)
 		{
-			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
-			parser.actions = actions;
-			return parser.XGRS();
+			return ParseSequence(sequenceStr, actions, new Dictionary<String, String>(), null);
 		}		
 
         /// <summary>
@@ -56,12 +54,7 @@ PARSER_BEGIN(SequenceParser)
 		public static Sequence ParseSequence(String sequenceStr, BaseActions actions,
 		        Dictionary<String, String> varDecls)
 		{
-			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
-			parser.actions = actions;
-			parser.varDecls = varDecls;
-			Sequence seq = parser.XGRS();
-			parser.ResolveVars(ref seq);
-			return seq;
+			return ParseSequence(sequenceStr, actions, varDecls, null);
 		}		
 
         /// <summary>
@@ -76,13 +69,34 @@ PARSER_BEGIN(SequenceParser)
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, BaseActions actions, NamedGraph namedGraph)
 		{
-			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
-			parser.actions = actions;
-			parser.namedGraph = namedGraph;
-			return parser.XGRS();
+			return ParseSequence(sequenceStr, actions, new Dictionary<String, String>(), namedGraph);
 		}
 		
-		private void ResolveVars(ref Sequence seq)
+        /// <summary>
+        /// Parses a given string in xgrs syntax and builds a Sequence object.
+        /// </summary>
+        /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
+        /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
+        /// <param name="varDecls">A map from variables to types which will be filled for the
+        /// given sequence. It may already contain predefined variables.</param>
+        /// <param name="namedGraph">A NamedGraph object to be used for named element access (@-operator).</param>
+        /// <returns>The sequence object according to sequenceStr.</returns>
+        /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
+        /// <exception cref="SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
+        /// or return parameters.</exception>
+		public static Sequence ParseSequence(String sequenceStr, BaseActions actions,
+		        Dictionary<String, String> varDecls, NamedGraph namedGraph)
+		{
+			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
+			parser.actions = actions;
+			parser.varDecls = varDecls;
+			parser.namedGraph = namedGraph;
+			Sequence seq = parser.XGRS();
+			parser.Resolve(ref seq);
+			return seq;
+		}		
+		
+		private void Resolve(ref Sequence seq)
 		{
 			switch(seq.SequenceType)
 			{
@@ -93,8 +107,8 @@ PARSER_BEGIN(SequenceParser)
 				case SequenceType.StrictAnd:
 				{
 					SequenceBinary binSeq = (SequenceBinary) seq;
-					ResolveVars(ref binSeq.Left);
-					ResolveVars(ref binSeq.Right);
+					Resolve(ref binSeq.Left);
+					Resolve(ref binSeq.Right);
 					break;
 				}
 				
@@ -104,7 +118,7 @@ PARSER_BEGIN(SequenceParser)
 				case SequenceType.Transaction:
 				{
 					SequenceUnary unSeq = (SequenceUnary) seq;
-					ResolveVars(ref unSeq.Seq);
+					Resolve(ref unSeq.Seq);
 					break;
 				}
 				
@@ -113,14 +127,59 @@ PARSER_BEGIN(SequenceParser)
 					SequenceRule ruleSeq = (SequenceRule) seq;
 					RuleObject ruleObj = ruleSeq.RuleObj;
 					
+					// Was the parser supplied with a BaseActions object and found an according rule?
+					if(ruleObj.Action != null)
+					{
+						IAction action = ruleObj.Action;
+						
+						// Check whether number of parameters and return parameters match
+						if(action.RulePattern.Inputs.Length != ruleObj.ParamVars.Length
+								|| ruleObj.ReturnVars.Length != 0 && action.RulePattern.Outputs.Length != ruleObj.ReturnVars.Length)
+							throw new SequenceParserRuleException(ruleObj, SequenceParserError.BadNumberOfParametersOrReturnParameters);
+						
+						// Check parameter types
+						for(int i = 0; i < ruleObj.ParamVars.Length; i++)
+						{
+							// CSharpCC does not support as-expressions, yet...
+							VarType inputType = (VarType) (action.RulePattern.Inputs[i] is VarType ? action.RulePattern.Inputs[i] : null);
+
+							// If input type is not a VarType, a variable must be specified.
+							// Otherwise, if a constant is specified, the VarType must match the type of the constant
+							if(inputType == null && ruleObj.ParamVars[i] == null
+									|| inputType != null && ruleObj.Parameters[i] != null && inputType.Type != ruleObj.Parameters[i].GetType())
+								throw new SequenceParserRuleException(ruleObj, SequenceParserError.BadParameter, i);
+						}
+						
+						// When no return parameters were specified for a rule with returns, create an according array with null entries
+						if(ruleObj.ReturnVars.Length == 0 && action.RulePattern.Outputs.Length > 0)
+							ruleObj.ReturnVars = new String[action.RulePattern.Outputs.Length];
+						
+						// No variable with this name may exist
+						if(varDecls.ContainsKey(ruleObj.RuleName))
+							throw new SequenceParserRuleException(ruleObj, SequenceParserError.RuleNameUsedByVariable);
+						break;
+					}
+
+					// Does no variable exist with this "rule" name?
+					if(!varDecls.ContainsKey(ruleObj.RuleName))
+					{
+						// Yes, so we have an unknown rule, which is an error, if an BaseActions object was provided
+						if(actions != null)
+							throw new SequenceParserRuleException(ruleObj, SequenceParserError.UnknownRule);
+						else
+							break;
+					}
+
 					// This can only be a predicate, if this "rule" has neither parameters nor returns
-					if(ruleObj.ParamVars.Length != 0 || ruleObj.ReturnVars.Length != 0) break;
+					if(ruleObj.ParamVars.Length != 0 || ruleObj.ReturnVars.Length != 0)
+						throw new SequenceParserRuleException(ruleObj, SequenceParserError.VariableUsedWithParametersOrReturnParameters);
 					
-					// Does a boolean variable exist with the "rule" name?
+					// Is the variable non-boolean? (i.e. it is not a typeless variable and the type is not boolean)
 					String typeName;
-					if(!varDecls.TryGetValue(ruleObj.RuleName, out typeName) || typeName != "boolean") break;
-					
-					// Yes, so transform this SequenceRule into a SequenceVarPredicate
+					if(!varDecls.TryGetValue(ruleObj.RuleName, out typeName) || typeName != null && typeName != "boolean")
+						throw new SequenceParserRuleException(ruleObj, SequenceParserError.InvalidUseOfVariable);
+
+					// This should be a valid predicate, so transform this SequenceRule into a SequenceVarPredicate
 					seq = new SequenceVarPredicate(ruleObj.RuleName, ruleSeq.Special);
 					break;
 				}
@@ -128,7 +187,7 @@ PARSER_BEGIN(SequenceParser)
 				case SequenceType.AssignSequenceResultToVar:
 				{
 					SequenceAssignSequenceResultToVar assignSeq = (SequenceAssignSequenceResultToVar) seq;
-					ResolveVars(ref assignSeq.Seq);
+					Resolve(ref assignSeq.Seq);
 					break;
 				}
 				
@@ -152,6 +211,7 @@ PARSER_END(SequenceParser)
 SKIP: {
 	" " |
 	"\t" |
+	"\n" |
 	"\r"
 }
 
@@ -698,30 +758,10 @@ RuleObject CreateRuleObject(String ruleName, List<String> paramVars, List<Object
 {
 	IAction action = null;
 	if(actions != null)
-	{
 		action = actions.GetAction(ruleName);
-		if(action == null || action.RulePattern.Inputs.Length != paramVars.Count
-				|| retSpecified && action.RulePattern.Outputs.Length != returnVars.Count)
-			throw new SequenceParserRuleException(ruleName, action, paramVars.Count, returnVars.Count, -1);
-		for(int i = 0; i < paramVars.Count; i++)
-		{
-			// CSharpCC does not support as-expressions, yet...
-			VarType inputType = (VarType) (action.RulePattern.Inputs[i] is VarType ? action.RulePattern.Inputs[i] : null);
-
-			// If input type is not a VarType, a variable must be specified.
-			// Otherwise, if a constant is specified, the VarType must match the type of the constant
-			if(inputType == null && paramVars[i] == null
-					|| inputType != null && paramConsts[i] != null && inputType.Type != paramConsts[i].GetType())
-				throw new SequenceParserRuleException(ruleName, action, paramVars.Count, returnVars.Count, i);
-		}
-		if(!retSpecified && action.RulePattern.Outputs.Length > 0)
-		{
-			for(int i = action.RulePattern.Outputs.Length; i > 0; i--)
-			returnVars.Add(null);
-		}
-	}
+		
 	RuleObject ruleObj = new RuleObject(action, paramVars.ToArray(), paramConsts.ToArray(), returnVars.ToArray());
-	if(actions == null)
+	if(action == null)
 		ruleObj.RuleName = ruleName;
 
 	return ruleObj;
