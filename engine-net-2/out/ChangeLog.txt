@@ -1,14 +1,4 @@
-HEAD
- API changes:
-  - Allow newlines in XGRS strings (enables use of verbatim strings in user
-    source code to reduce noise caused by string concatenation)
-
- Fixes:
-  - Fixed handling of variable declarations in XGRS
-    (fixes LGSP example BusyBeaver)
-
-
-v2.0 (2008-07-22)
+v2.0 (2008-07-28)
  Features:
   - Added support for literals as parameters for XGRSs
   - Improved performance of matching a bit
@@ -23,6 +13,8 @@ v2.0 (2008-07-22)
  API changes:
   - Improved debugger support by using some DebuggerStepThrough and
     DebuggerDisplay attributes on GraphElements and Types
+  - Allow newlines in XGRS strings (enables use of verbatim strings in user
+    source code to reduce noise caused by string concatenation)
 
  Fixes:
   - Elements used by nameof()-operator if not mentioned otherwise in modify

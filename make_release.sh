@@ -17,6 +17,8 @@ mv $GRGENDIRSRC/VeryShortIntroductionToVersion2.txt $GRGENDIRSRC/doc/VeryShortIn
 # delete old GrGen.NET 1.0 engine
 rm -rf $GRGENDIRSRC/engine-net
 
+rm -rf $GRGENDIRSRC/engine-net-2/ChangeFileHeaders
+rm -rf $GRGENDIRSRC/engine-net-2/test
 rm -rf  $GRGENDIRSRC/engine-net-2/out/examples/UML
 rm -rf  $GRGENDIRSRC/engine-net-2/out/examples/Firm-IFConv
 
@@ -32,4 +34,3 @@ rm -rf  $GRGENDIR/examples/Firm-IFConv
 
 # make tar
 tar cjf $GRGENDIR.tar.bz2 $GRGENDIR
-
