@@ -1,5 +1,22 @@
 new graph "TranskriptionAbstrakt"
+
 debug set layout Organic
+dump set node A color green
+dump set node A shape lparallelogram
+dump set node G color blue
+dump set node G shape lparallelogram
+dump set node C color red
+dump set node C shape lparallelogram
+dump set node T color purple
+dump set node T shape lparallelogram
+dump set node U color orchid
+dump set node U shape lparallelogram
+dump set node H color cyan
+dump set node H shape lparallelogram
+dump set node D color yellow
+dump set node D shape rparallelogram
+dump set node R color orange
+dump set node R shape rparallelogram
 
 echo "creating elements"
 new N0:D silent #/first of 10
@@ -303,7 +320,9 @@ new N295 -E297:Edge-> N296 silent
 new N291 -E298:PG-> N295 silent
 echo "done: 299 elements created"
 
+debug enable
+
 #following xgrs
-xgrs < (prev,rprev) = TATABox && ( !TerminationSequence(prev) && (prev,rprev)=NextChainElement(prev,rprev) && (A(prev,rprev) || C(prev,rprev) || G(prev,rprev) || T(prev,rprev)) )* && TerminationSequence(prev) >
-#is equivalent to
+#xgrs < (prev,rprev) = TATABox && ( !TerminationSequence(prev) && (prev,rprev)=NextChainElement(prev,rprev) && (A(prev,rprev) || C(prev,rprev) || G(prev,rprev) || T(prev,rprev)) )* && TerminationSequence(prev) >
+#is roughly equivalent to
 xgrs transcription

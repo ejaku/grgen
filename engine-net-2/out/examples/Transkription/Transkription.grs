@@ -1,12 +1,22 @@
 new graph "Transkription"
 
 debug set layout Organic
+dump set node C color grey
+dump set node H color white
+dump set node H shape circle
+dump set node O color red
+dump set node N color blue
+dump set node P color orange
+dump set node S color yellow
+dump set node Cl color green
 
 #ACGTA
 xgrs createDNAChain
 
 custom graph analyze_graph
 custom actions gen_searchplan Transkription
+
+debug enable
 
 #A->U, C->G, G->C, T->A
 xgrs Transkription

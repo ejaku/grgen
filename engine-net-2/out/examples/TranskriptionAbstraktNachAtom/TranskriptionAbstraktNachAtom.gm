@@ -21,4 +21,5 @@ node class A_H; // Atom H
 node class A_O; // Atom O
 node class A_N; // Atom N
 node class A_P; // Atom P
-
+node class A_S; // Atom S
+node class A_Cl; // Atom Cl

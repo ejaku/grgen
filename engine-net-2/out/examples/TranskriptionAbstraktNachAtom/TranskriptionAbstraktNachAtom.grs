@@ -1,5 +1,32 @@
 new graph "TranskriptionAbstraktNachAtom"
+
 debug set layout Organic
+
+dump set node A color green
+dump set node A shape lparallelogram
+dump set node G color blue
+dump set node G shape lparallelogram
+dump set node C color red
+dump set node C shape lparallelogram
+dump set node T color purple
+dump set node T shape lparallelogram
+dump set node U color orchid
+dump set node U shape lparallelogram
+dump set node H color cyan
+dump set node H shape lparallelogram
+dump set node D color yellow
+dump set node D shape rparallelogram
+dump set node R color orange
+dump set node R shape rparallelogram
+
+dump set node A_C color grey
+dump set node A_H color white
+dump set node A_H shape circle
+dump set node A_O color red
+dump set node A_N color blue
+dump set node A_P color orange
+dump set node A_S color yellow
+dump set node A_Cl color green
 
 debug enable
 xgrs createDNAChain
