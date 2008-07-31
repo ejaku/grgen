@@ -334,6 +334,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				IdGenerator<Node> nodeIds = new IdGenerator<Node>(); // To generate uique numbers per rule
 				IdGenerator<Edge> edgeIds = new IdGenerator<Edge>();
 
+				// Initialize function
 				sb2.append("/* functions for building the pattern of action " + actionName + " */\n");
 				sb2.append("static INLINE ext_grs_action_t *grs_action_" + actionName + "_init(void) {\n");
 				sb2.append(indent + "ext_grs_action_t *act = ext_grs_new_action(ext_grs_k_rule, \"" +
@@ -345,6 +346,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				sb2.append(indent + "return act;\n");
 				sb2.append("} /* " + actionName + " */\n\n\n");
 
+				// Conditions and Evals
 				genConditionFunctions(sb, indent, actionName, action, nodeIds, edgeIds);
 				genEvalFunctions(sb, indent, action, nodeIds, edgeIds);
 
@@ -1155,6 +1157,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		array_sb.append("unsigned int ext_grs_all_actions_count = "+action_count+";\n");
 		array_sb.append("ext_grs_action_t **ext_grs_all_actions["+action_count+"] = {\n");
 		sb.append("/* global variables containing the actions */\n");
+
+		// Initialize the actions.
 		initsb.append("void ext_grs_action_init_" + unitName + "(void) {\n");
 		initsb.append(indent + "init();\n");
 		for(Rule action : unit.getActionRules()) {
@@ -1185,6 +1189,34 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		initsb.append(indent+"ext_grs_inheritance_mature();\n");
 		initsb.append(indent+"return;\n");
 		initsb.append("}\n\n");
+
+		// Delete functions
+		for(Rule action : unit.getActionRules()) {
+			if(action.getRight() != null) {
+				String actionName = action.getIdent().toString();
+
+				initsb.append("/* functions for building the pattern of action " + actionName + " */\n");
+				initsb.append("static INLINE void grs_action_" + actionName + "_del(void) {\n");
+				initsb.append(indent + "ext_grs_del_action(ext_grs_action_" +
+							   unit.getUnitName() + "_" + actionName + ");\n");
+				initsb.append(indent + "return;\n");
+
+				initsb.append("} /* " + actionName + " */\n\n\n");
+			}
+		}
+
+		// Delete the actions.
+		initsb.append("void ext_grs_action_del_" + unitName + "(void) {\n");
+		for(Rule action : unit.getActionRules()) {
+			if(action.getRight() != null) {
+				String actionName = action.getIdent().toString();
+
+				initsb.append(indent + "grs_action_" + actionName + "_del();\n");
+			}
+		}
+		initsb.append(indent+"return;\n");
+		initsb.append("}\n\n");
+
 		sb.append("\n"+initsb);
 	}
 
