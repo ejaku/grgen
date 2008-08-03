@@ -1,6 +1,11 @@
 #! /bin/bash
 
 (
+if [ $# != 0 -a "$1" == "--mono" ]; then
+  exeprefix=mono
+  shift
+fi
+
 if [ $# != 0 ]; then
   targets=$*
   for filename in $targets; do
@@ -15,6 +20,10 @@ fi
 
 if [[ "$(uname -s)" == "Linux" ]]; then
   exeprefix=mono
+fi
+
+if [ exeprefix ]; then
+  echo "Using $exeprefix"
 fi
 
 for filename in $targets; do
