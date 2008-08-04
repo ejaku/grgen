@@ -1423,6 +1423,40 @@ namespace de.unika.ipd.grGen.grShell
             return curShellGraph.Graph.AllocateVisitedFlag();
         }
 
+        public bool IsVisited(IGraphElement elem, object idObj, bool printResult, out bool val)
+        {
+            val = false;    // make compiler happy
+
+            if(!GraphExists()) return false;
+            if(!(idObj is int))
+            {
+                Console.WriteLine("Value of variable must be integer!");
+                return false;
+            }
+            val = curShellGraph.Graph.IsVisited(elem, (int) idObj);
+            if(printResult)
+                Console.WriteLine("\"" + curShellGraph.Graph.GetElementName(elem)
+                    + (val ? "\" has already been visited." : "\" has not been visited yet."));
+            return true;
+        }
+
+        public bool SetVisited(IGraphElement elem, object idObj, object val)
+        {
+            if(!GraphExists()) return false;
+            if(!(idObj is int))
+            {
+                Console.WriteLine("Value of the visitor ID variable must be integer!");
+                return false;
+            }
+            if(!(val is bool))
+            {
+                Console.WriteLine("Value of variable for new flag value must be boolean!");
+                return false;
+            }
+            curShellGraph.Graph.SetVisited(elem, (int) idObj, (bool) val);
+            return true;
+        }
+
         public bool FreeVisitFlag(object idObj)
         {
             if(!GraphExists()) return false;

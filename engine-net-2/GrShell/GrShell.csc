@@ -258,6 +258,7 @@ TOKEN: {
 |   < INFOTAG: "infotag" >
 |   < IO: "io" >
 |   < IS: "is" >
+|   < ISVISITED: "isvisited" >
 |   < LABELS: "labels" >
 |   < LAYOUT: "layout" >
 |   < NEW: "new" >
@@ -281,6 +282,7 @@ TOKEN: {
 |   < SAVE: "save" >
 |   < SELECT: "select" >
 |   < SET: "set" >
+|   < SETVISITED: "setvisited" >
 |   < SHAPE: "shape" >
 |   < SHOW: "show" >
 |   < SILENT: "silent" >
@@ -471,6 +473,20 @@ bool Bool():
 	"false" { return false; }
 }
 
+object BoolOrVar():
+{
+	Token t;
+	object val;
+	String str;
+}
+{
+	"true" { return true; }
+|
+	"false" { return false; }
+|
+	str=Word() { val = impl.GetVarValue(str); return val; }
+}
+
 String Filename():
 {
     Token tok;
@@ -618,12 +634,12 @@ void ShellCommand():
 {
 	String str1, str2;
 	IGraphElement elem;
-	object obj;
+	object obj, obj2;
 	INode node1, node2;
 	IEdge edge1, edge2;
 	ShellGraph shellGraph = null;
 	Sequence seq;
-	bool strict = false, shellGraphSpecified = false;
+	bool strict = false, shellGraphSpecified = false, boolVal;
 	int num;
 }
 {
@@ -804,6 +820,16 @@ void ShellCommand():
 		}		
 	)	
 |
+	"isvisited" elem=GraphElement() obj=NumberOrVar() LineEnd()
+	{
+		noError = impl.IsVisited(elem, obj, true, out boolVal);
+	}
+|
+	"setvisited" elem=GraphElement() obj=NumberOrVar() obj2=BoolOrVar() LineEnd()
+	{
+		noError = impl.SetVisited(elem, obj, obj2);
+	}
+|
 	"freevisitflag" obj=NumberOrVar() LineEnd()
 	{
 		noError = impl.FreeVisitFlag(obj);
@@ -837,6 +863,12 @@ void ShellCommand():
 			{
 				obj = impl.AllocVisitFlag();
 				if((int) obj < 0) noError = false;
+			}
+		|
+			"isvisited" elem=GraphElement() obj=NumberOrVar() LineEnd()
+			{
+				noError = impl.IsVisited(elem, obj, false, out boolVal);
+				obj = boolVal;
 			}
         |
             obj=GraphElementOrVarOrNull() LineEnd()
