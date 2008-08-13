@@ -514,12 +514,12 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				ins.append(indent + "return (void*)");
 				genConditionEval(ins, expr, nodeIds, edgeIds);
 				ins.append(";\n}\n\n");
-				sb.append(ins);
 				outs.append("data");
 			}
 
 			outs.append(");\n}\n");
 		}
+		sb.append(ins);
 		sb.append(outs);
 	}
 
