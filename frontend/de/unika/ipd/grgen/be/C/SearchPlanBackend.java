@@ -832,6 +832,13 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			{
 				edgePos = edge.getIdent().toString().substring(3, 4);
 			}
+			if(edge.getEdgeType().getIdent().toString().equals("dep")) {
+				/* dependency edges don't have a position.
+				 * The edge type isn't put out, so we code the dep
+				 * kindness into the position.
+				 */
+				edgePos = "ext_grs_DEPENDENCY_EDGE_POS";
+			}
 
 			Node src = graph.getSource(edge);
 			Node tgt = graph.getTarget(edge);
