@@ -396,7 +396,7 @@ public class RuleDeclNode extends TestDeclNode {
 		constructImplicitNegs(left);
 		constructIRaux(rule, this.right.graph.returns);
 
-		// add Eval statements to the IR
+		// add eval statements to the IR
 		for (Assignment n : this.right.getAssignments()) {
 			rule.addEval(n);
 		}

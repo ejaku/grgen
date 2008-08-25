@@ -151,10 +151,12 @@ public class Unit extends IR {
 			actionRule.pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodes, alreadyDefinedEdges);
 			alreadyDefinedNodes.clear();
+			alreadyDefinedEdges.clear();
 		}
 		for(Rule subpatternRule : subpatternRules) {
 			subpatternRule.pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodes, alreadyDefinedEdges);
+			alreadyDefinedNodes.clear();
 			alreadyDefinedEdges.clear();
 		}
 	}
