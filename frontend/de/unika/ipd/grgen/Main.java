@@ -303,9 +303,7 @@ public class Main extends Base implements Sys {
 			CmdLineParser.Option irDumpOpt = parser.addBooleanOption('i', "dump-ir");
 			CmdLineParser.Option ruleDumpOpt = parser.addBooleanOption('j', "dump-ir-rules");
 			CmdLineParser.Option graphicOpt = parser.addBooleanOption('g', "graphic");
-			CmdLineParser.Option ntOpt = parser.addBooleanOption('n', "new-technology");
 			CmdLineParser.Option timeOpt = parser.addBooleanOption('t', "timing");
-			CmdLineParser.Option backendDebugOpt = parser.addBooleanOption('B', "backend-files");
 			CmdLineParser.Option noEventsOpt = parser.addBooleanOption('e', "noevents");
 
 			CmdLineParser.Option dumpOutputToFileOpt =
@@ -341,8 +339,6 @@ public class Main extends Base implements Sys {
 			dumpRules = parser.getOptionValue(ruleDumpOpt) != null;
 			enableDebug = parser.getOptionValue(debugOpt) != null;
 			graphic = parser.getOptionValue(graphicOpt) != null;
-			if(parser.getOptionValue(ntOpt) != null)
-				System.err.println("-n is an obsolete switch, please do not use any more.");
 			printTiming = parser.getOptionValue(timeOpt) != null;
 			noEvents = parser.getOptionValue(noEventsOpt) != null;
 
