@@ -37,7 +37,6 @@ import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
 import java.io.File;
-import java.util.Hashtable;
 
 public abstract class ParserEnvironment extends Base {
 	public static final String MODEL_SUFFIX = ".gm";
@@ -75,9 +74,6 @@ public abstract class ParserEnvironment extends Base {
 	private final Sys system;
 
 	private final ModelNode stdModel;
-
-	/** Known literals of the lexer */
-	protected Hashtable literals;
 
 	/**
 	 * Make a new parser environment.
