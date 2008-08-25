@@ -28,4 +28,6 @@ public interface Annotations {
 	boolean isString(String key);
 
 	boolean isFlagSet(String key);
+	
+	void put(String key, Object value);
 }

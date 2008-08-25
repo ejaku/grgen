@@ -13,19 +13,15 @@
 
 package de.unika.ipd.grgen.parser.antlr;
 
-import antlr.ANTLRException;
-import antlr.ANTLRHashString;
-import antlr.Parser;
-import antlr.TokenStreamException;
-import antlr.TokenStreamSelector;
+import org.antlr.runtime.*;
+
 import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.util.Pair;
 import de.unika.ipd.grgen.ast.ModelNode;
 import de.unika.ipd.grgen.ast.UnitNode;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
@@ -35,65 +31,70 @@ import java.util.Stack;
  */
 public class GRParserEnvironment extends ParserEnvironment {
 	private boolean hadError = false;
-	private Stack<Parser> parsers = new Stack<Parser>();
-	private Stack<TokenStreamSelector> selectors = new Stack<TokenStreamSelector>();
+	private Stack<GrGenParser> parsers = new Stack<GrGenParser>();
+	private Stack<Pair<CharStream, Integer>> streams = new Stack<Pair<CharStream, Integer>>();
 	private HashSet<String> filesOnStack = new HashSet<String>();
 	private HashSet<String> modelsOnStack = new HashSet<String>();
 	private HashMap<String, ModelNode> models = new HashMap<String, ModelNode>();
 
-	private ANTLRHashString hashString;
-
 	/** The base directory of the specification or null for the current directory */
 	private File baseDir = null;
+	
+	private String filename; 
 
 	public GRParserEnvironment(Sys system) {
 		super(system);
 	}
 
-    public void pushFile(File file) throws TokenStreamException {
+    public void pushFile(Lexer lexer, File file) throws RecognitionException {
 		if(baseDir != null)
 			file = new File(baseDir, file.getPath());
 
 		String filePath = file.getPath();
 		if(filesOnStack.contains(filePath)) {
-			GRLexer curlexer = (GRLexer) selectors.peek().getCurrentStream();
-			System.err.println("GrGen: [ERROR at " + getFilename() + ":" + curlexer.getLine()
-					+ "," + curlexer.getColumn() + "] found circular include with file \""
+			System.err.println("GrGen: [ERROR at " + getFilename() + ":" + lexer.getLine()
+					+ "," + lexer.getCharPositionInLine() + "] found circular include with file \""
 					+ filePath + "\"");
 			System.exit(1);
 		}
 		filesOnStack.add(filePath);
 
 		try {
-    		FileInputStream stream = new FileInputStream(file);
-			GRLexer sublexer = new GRLexer(new BufferedInputStream(stream)) {
-				public void uponEOF() throws TokenStreamException {
-		            env.popFile();
-			    }
-			};
-
-			sublexer.setTabSize(1);
-			sublexer.setEnv(this);
-			sublexer.setFilename(file.getPath());
-			selectors.peek().push(sublexer);
- 			selectors.peek().retry();
+			// save current lexer's state
+			CharStream input = lexer.getCharStream();
+	        int marker = input.mark();
+	        streams.push(new Pair<CharStream, Integer>(input, marker));
+	        
+	        // switch on new input stream
+	        ANTLRFileStream stream = new ANTLRFileStream(file.getPath());
+	        lexer.setCharStream(stream);
+	        lexer.reset();
+	        filename = file.getPath();
     	}
-    	catch (FileNotFoundException e) {
+    	catch (IOException e) {
 			System.out.println("could not find file: " + file);
 			System.exit(1);
 	  	}
 	}
 
-    public void popFile() throws TokenStreamException {
-    	GRLexer sublexer = (GRLexer) selectors.peek().pop();
-		filesOnStack.remove(sublexer.getFilename());
-    	selectors.peek().retry();
+    public boolean popFile(Lexer lexer) {
+    	// We've got EOF and have a non empty stack.
+    	if(!streams.empty()){
+			filesOnStack.remove(lexer.getSourceName());
+
+			Pair<CharStream, Integer> stream = streams.pop();
+			lexer.setCharStream(stream.first);
+			lexer.getCharStream().rewind(stream.second);
+			filename = lexer.getCharStream().getSourceName();
+			return true;
+    	}
+    	
+    	return false;
 	}
 
 	@Override
 	public String getFilename() {
-		String file = ((GRLexer)selectors.peek().getCurrentStream()).getFilename();
-		return file;
+		return filename;
 	}
 
     public UnitNode parseActions(File inputFile) {
@@ -102,34 +103,28 @@ public class GRParserEnvironment extends ParserEnvironment {
 		baseDir = inputFile.getParentFile();
 
 		try {
-			TokenStreamSelector selector = new TokenStreamSelector();
-			GRLexer mainLexer = new GRLexer(new BufferedInputStream(new FileInputStream(inputFile)));
-			mainLexer.setTabSize(1);
-			mainLexer.setEnv(this);
-			mainLexer.setFilename(inputFile.getPath());
-			hashString = mainLexer.getHashString();
-			literals = mainLexer.getLiterals();
-			selector.select(mainLexer);
-			GRActionsParser parser = new GRActionsParser(selector);
-
-			selectors.push(selector);
+			ANTLRFileStream stream = new ANTLRFileStream(inputFile.getPath());
+			GrGenLexer lexer = new GrGenLexer(stream);
+			lexer.setEnv(this);
+			CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+			GrGenParser parser = new GrGenParser(tokenStream);
 			parsers.push(parser);
+			filename = inputFile.getPath();
 
 			try {
 				parser.setEnv(this);
-				root = parser.text();
+				root = parser.textActions();
 				hadError = hadError || parser.hadError();
 			}
-			catch(ANTLRException e) {
+			catch(RecognitionException e) {
 				e.printStackTrace(System.err);
 				System.err.println("parser exception: " + e.getMessage());
 				System.exit(1);
 			}
 
-			selectors.pop();
 			parsers.pop();
 		}
-		catch(FileNotFoundException e) {
+		catch(IOException e) {
 			System.err.println("input file not found: " + e.getMessage());
 			System.exit(1);
 		}
@@ -142,45 +137,43 @@ public class GRParserEnvironment extends ParserEnvironment {
 
 		String filePath = inputFile.getAbsolutePath();
 		if(modelsOnStack.contains(filePath)) {
-			GRLexer curlexer = (GRLexer) selectors.peek().getCurrentStream();
-			System.err.println("GrGen: [ERROR at " + getFilename() + ":" + curlexer.getLine()
-					+ "," + curlexer.getColumn() + "] found circular model usage with file \""
+			System.err.println("GrGen: [ERROR at " + getFilename() + /*":" + curlexer.getLine()
+					+ "," + curlexer.getCharPositionInLine() +*/ "] found circular model usage with file \""
 					+ filePath + "\"");
 			System.exit(1);
 		}
-
+		
 		root = models.get(filePath);
 		if(root != null) return root;
 
 		modelsOnStack.add(filePath);
 
 		try {
-			TokenStreamSelector selector = new TokenStreamSelector();
-			GRLexer mainLexer = new GRLexer(new BufferedInputStream(new FileInputStream(inputFile)));
-			mainLexer.setTabSize(1);
-			mainLexer.setEnv(this);
-			mainLexer.setFilename(inputFile.getPath());
-			selector.select(mainLexer);
-			GRTypeParser parser = new GRTypeParser(selector);
-
-			selectors.push(selector);
+			ANTLRFileStream stream = new ANTLRFileStream(inputFile.getPath());
+			GrGenLexer lexer = new GrGenLexer(stream);
+			lexer.setEnv(this);
+			CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+			GrGenParser parser = new GrGenParser(tokenStream);
 			parsers.push(parser);
-
+			String oldFilename = filename;
+			filename = inputFile.getPath();
+			
 			try {
 				parser.setEnv(this);
-				root = parser.text();
+				root = parser.textTypes();
 				hadError = hadError || parser.hadError();
 			}
-			catch(ANTLRException e) {
+			catch(RecognitionException e) {
 				e.printStackTrace(System.err);
 				System.err.println("parser exception: " + e.getMessage());
 				System.exit(1);
 			}
+			
+			filename = oldFilename;
 
-			selectors.pop();
 			parsers.pop();
 		}
-		catch(FileNotFoundException e) {
+		catch(IOException e) {
 			System.err.println("cannot load graph model: " + e.getMessage());
 			System.exit(1);
 		}
@@ -194,10 +187,5 @@ public class GRParserEnvironment extends ParserEnvironment {
 
 	public boolean hadError() {
 		return hadError;
-	}
-
-	public boolean isKeyword(String str) {
-		hashString.setString(str);
-		return literals.containsKey(hashString);
 	}
 }

@@ -13,7 +13,8 @@
 
 package de.unika.ipd.grgen.parser;
 
-import antlr.TokenStreamException;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.Lexer;
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.ArbitraryEdgeTypeNode;
 import de.unika.ipd.grgen.ast.BaseNode;
@@ -295,12 +296,10 @@ public abstract class ParserEnvironment extends Base {
 		return Coords.getInvalid();
 	}
 
-	public abstract boolean isKeyword(String str);
-
 	public abstract UnitNode parseActions(File inputFile);
 	public abstract ModelNode parseModel(File inputFile);
-	public abstract void pushFile(File inputFile) throws TokenStreamException;
-	public abstract void popFile() throws TokenStreamException;
+	public abstract void pushFile(Lexer lexer, File inputFile) throws RecognitionException;
+	public abstract boolean popFile(Lexer lexer);
 	public abstract String getFilename();
 
 	public abstract boolean hadError();

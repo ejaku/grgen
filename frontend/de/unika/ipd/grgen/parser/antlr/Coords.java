@@ -16,26 +16,28 @@ package de.unika.ipd.grgen.parser.antlr;
 public class Coords extends de.unika.ipd.grgen.parser.Coords {
 
 	/**
-	 * Construct coordinates from an ANTLR token. The filename is set
-	 * to the default filename.
+	 * Construct coordinates from an ANTLR token. 
 	 * @param tok The ANTLR token.
 	 */
-	public Coords(antlr.Token tok) {
-		super(tok.getLine(), tok.getColumn());
+	public Coords(org.antlr.runtime.Token tok) {
+		if(tok!=null) {
+			line = tok.getLine();
+			col = tok.getCharPositionInLine();
+			filename = tok.getInputStream().getSourceName();
+		}
 	}
 
 	/**
 	 * Get the coordinates from an ANTLR recognition exception.
 	 * @param e The ANTLR recognition exception.
 	 */
-	public Coords(antlr.RecognitionException e) {
-		super(e.getLine(), e.getColumn(), e.getFilename());
+	public Coords(org.antlr.runtime.RecognitionException e) {
+		if(e!=null) {
+			line = e.line;
+			col = e.charPositionInLine;
+			if(e.input!=null) {
+				filename = e.input.getSourceName();
+			}
+		}
 	}
-
-	public Coords(antlr.Token tok, antlr.Parser parser) {
-		this(tok);
-		filename = parser.getFilename();
-	}
-
-
 }
