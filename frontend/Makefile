@@ -2,10 +2,11 @@
 # build the grgen-tool, grrr
 #
 PARSER_DIR = de/unika/ipd/grgen/parser/antlr
-ANTLR_JAR  = $(PWD)/jars/antlr.jar
+ANTLR_JAR  = $(PWD)/jars/antlr-3.1.jar
+ANTLR_RUNTIME_JAR = $(PWD)/jars/antlr-runtime-3.1.jar
 JARGS_JAR  = $(PWD)/jars/jargs.jar
 
-ANTLR = java -cp $(ANTLR_JAR) antlr.Tool
+ANTLR = java -cp $(ANTLR_JAR) org.antlr.Tool
 
 GRGENNET_DIR ?= ../engine-net-2/out/bin
 GRGEN_JAR = $(GRGENNET_DIR)/grgen.jar
@@ -31,12 +32,12 @@ fast: .grammar
 	fi
 
 .generator_build: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
-	find de -type f -name "*.java" | xargs javac -encoding ISO8859_1 -d build -classpath $(ANTLR_JAR):$(JARGS_JAR) -source 1.5 -target 1.5
+	find de -type f -name "*.java" | xargs javac -encoding ISO8859_1 -d build -classpath $(ANTLR_RUNTIME_JAR):$(JARGS_JAR) -source 1.5 -target 1.5
 	jar -cmf GrGenManifest.mf $(GRGEN_JAR) -C build/ .
 	@touch .generator_build
 
 .generator_build_fast: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
-	find de -type f -name "*.java" -cnewer .generator_build | xargs javac -encoding ISO8859_1 -d build -classpath $(ANTLR_JAR):$(JARGS_JAR):build -source 1.5 -target 1.5
+	find de -type f -name "*.java" -cnewer .generator_build | xargs javac -encoding ISO8859_1 -d build -classpath $(ANTLR_RUNTIME_JAR):$(JARGS_JAR):build -source 1.5 -target 1.5
 	jar -cmf GrGenManifest.mf $(GRGEN_JAR) -C build/ .
 	@touch .generator_build
 
@@ -44,13 +45,10 @@ fast: .grammar
 dir:
 	test -d build || mkdir build
 
-.grammar: $(PARSER_DIR)/lexer.g $(PARSER_DIR)/base.g $(PARSER_DIR)/types.g $(PARSER_DIR)/actions.g $(ANTLR_JAR)
-	cd $(PARSER_DIR) && $(ANTLR) lexer.g
-	cd $(PARSER_DIR) && $(ANTLR) base.g
-	cd $(PARSER_DIR) && $(ANTLR) -glib base.g types.g
-	cd $(PARSER_DIR) && $(ANTLR) -glib base.g actions.g
+.grammar: $(PARSER_DIR)/GrGen.g $(ANTLR_JAR)
+	cd $(PARSER_DIR) && $(ANTLR) GrGen.g
 	@touch .grammar
 
 clean:
 	rm -rf build/ .generator_build .grammar $(GRGEN_JAR)
-	cd $(PARSER_DIR) && rm -f GRActionsParser.java GRActionsParserTokenTypes.java GRBaseParser.java GRBaseParserTokenTypes.java GRBaseTokenTypes.java GRLexer.java GRTypeParser.java GRTypeParserTokenTypes.java GRActionsParserTokenTypes.txt GRBaseParserTokenTypes.txt  GRTypeParserTokenTypes.txt expandedactions.g expandedtypes.g GRBaseParser.smap GRTypeParser.smap GRActionsParser.smap GRLexer.smap
+	cd $(PARSER_DIR) && rm -f GrGenParser.java GrGenLexer.java GrGen.tokens
