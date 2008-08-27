@@ -727,6 +727,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			// sb.append(indent + "/* TODO typeof("+name+") = " + type +
 			//			  " \\ " + node.getConstraints()  +"*/\n");
 
+			name = name.replace('$','_');
 
 			// Check if the node is related to a positive node
 			if(!related)
@@ -858,6 +859,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			else
 				targetName = tgt.getIdent().toString();	// No, get regular node name
 
+			sourceName = sourceName.replace('$','_');
+			targetName = targetName.replace('$','_');
+			
 			// Check if the edge is related to a positive edge
 			if(!related)
 			{
