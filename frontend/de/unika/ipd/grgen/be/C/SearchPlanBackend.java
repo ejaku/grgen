@@ -180,7 +180,6 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("#include \"grs.h\"\n");
 		sb.append("#include \"ia32_new_nodes.h\"\n");
 		sb.append("#include \"ia32_getset.h\"\n");
-		sb.append("#include \"simd/firm_node_ext.h\"\n\n");
 
 		findModeType();
 		findConstType();
