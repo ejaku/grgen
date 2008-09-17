@@ -13,12 +13,19 @@ test transitive {
 	hom(x,y,z);
 }
 
+// demonstrate a way to create non-transitive hom statements
 test nonTransitive {
 	x:Node;
 	y:Node;
 	z:Node;
-	hom(x,y,z);
+
+	// instead of
+	// hom(x,y);
+	// hom(y,z);
 	
+	// we use
+	hom(x,y,z);
+	// and assure that x and z are matched isomorphic
 	negative {
 		negative {
 			x;
