@@ -1,0 +1,7 @@
+new graph "nonTransitiveHom\nonTransitiveHom" "Graph to demonstrate non-transitive hom statements"
+
+xgrs init
+xgrs [tranisitive]
+xgrs [nonTranisitive]
+
+quit

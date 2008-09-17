@@ -1,0 +1,28 @@
+rule init {
+	replace {
+		x:Node;
+		y:Node;
+		z:Node;
+	}
+}
+
+test transitive {
+	x:Node;
+	y:Node;
+	z:Node;
+	hom(x,y,z);
+}
+
+test nonTransitive {
+	x:Node;
+	y:Node;
+	z:Node;
+	hom(x,y,z);
+	
+	negative {
+		negative {
+			x;
+			z;
+		}
+	}
+}
