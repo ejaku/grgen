@@ -1161,6 +1161,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		StringBuffer array_sb = new StringBuffer();
 		String unitName = unit.getUnitName();
 
+		initsb.append("static int init_firm_actions_done = 0;\n");
+
 		initsb.append("/* function for initializing the actions */\n");
 		array_sb.append("/* array of all actions */\n");
 		int action_count = unit.getActionRules().size();
@@ -1170,6 +1172,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 		// Initialize the actions.
 		initsb.append("void ext_grs_action_init_" + unitName + "(void) {\n");
+		initsb.append("if (init_firm_actions_done) return;\n");
+		initsb.append("init_firm_actions_done = 1;\n");
 		initsb.append(indent + "init();\n");
 		for(Rule action : unit.getActionRules()) {
 			if(action.getRight() != null) {
@@ -1217,6 +1221,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 		// Delete the actions.
 		initsb.append("void ext_grs_action_del_" + unitName + "(void) {\n");
+		initsb.append("if(!init_firm_actions_done) return;\n");
+		initsb.append("init_firm_actions_done = 0;\n");
 		for(Rule action : unit.getActionRules()) {
 			if(action.getRight() != null) {
 				String actionName = action.getIdent().toString();
