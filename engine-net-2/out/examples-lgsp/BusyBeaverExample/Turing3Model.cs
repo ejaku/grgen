@@ -1,11 +1,11 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu Jul 17 11:12:22 GMT+01:00 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Sep 21 16:42:07 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
-using de.unika.ipd.grGen.libGr;
-using de.unika.ipd.grGen.lgsp;
+using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
+using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.Model_Turing3
 {
@@ -26,7 +26,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// *** Node Node ***
 
 
-	public sealed class @Node : LGSPNode, INode
+	public sealed class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
 		private static int poolLevel = 0;
 		private static @Node[] pool = new @Node[10];
@@ -36,12 +36,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static NodeType_Node TypeInstance { get { return NodeType_Node.typeVar; } }
 
-		public override INode Clone() { return new @Node(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new @Node(this); }
 
 		private @Node(@Node oldElem) : base(NodeType_Node.typeVar)
 		{
 		}
-		public static @Node CreateNode(LGSPGraph graph)
+		public static @Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			@Node node;
 			if(poolLevel == 0)
@@ -51,13 +51,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
 		}
 
-		public static @Node CreateNode(LGSPGraph graph, String varName)
+		public static @Node CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
 		{
 			@Node node;
 			if(poolLevel == 0)
@@ -67,7 +67,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -94,7 +94,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class NodeType_Node : NodeType
+	public sealed class NodeType_Node : GRGEN_LIBGR.NodeType
 	{
 		public static NodeType_Node typeVar = new NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, false, false, };
@@ -103,18 +103,18 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "Node"; } }
-		public override INode CreateNode()
+		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new @Node();
 		}
 		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode CreateNodeWithCopyCommons(INode oldINode)
+		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			return new @Node();
 		}
@@ -123,12 +123,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Node BandPosition ***
 
-	public interface IBandPosition : INode
+	public interface IBandPosition : GRGEN_LIBGR.INode
 	{
 		int @value { get; set; }
 	}
 
-	public sealed class @BandPosition : LGSPNode, IBandPosition
+	public sealed class @BandPosition : GRGEN_LGSP.LGSPNode, IBandPosition
 	{
 		private static int poolLevel = 0;
 		private static @BandPosition[] pool = new @BandPosition[10];
@@ -138,13 +138,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static NodeType_BandPosition TypeInstance { get { return NodeType_BandPosition.typeVar; } }
 
-		public override INode Clone() { return new @BandPosition(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new @BandPosition(this); }
 
 		private @BandPosition(@BandPosition oldElem) : base(NodeType_BandPosition.typeVar)
 		{
 			_value = oldElem._value;
 		}
-		public static @BandPosition CreateNode(LGSPGraph graph)
+		public static @BandPosition CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			@BandPosition node;
 			if(poolLevel == 0)
@@ -154,14 +154,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				node.@value = 0;
 			}
 			graph.AddNode(node);
 			return node;
 		}
 
-		public static @BandPosition CreateNode(LGSPGraph graph, String varName)
+		public static @BandPosition CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
 		{
 			@BandPosition node;
 			if(poolLevel == 0)
@@ -171,7 +171,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				node.@value = 0;
 			}
 			graph.AddNode(node, varName);
@@ -215,30 +215,30 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class NodeType_BandPosition : NodeType
+	public sealed class NodeType_BandPosition : GRGEN_LIBGR.NodeType
 	{
 		public static NodeType_BandPosition typeVar = new NodeType_BandPosition();
 		public static bool[] isA = new bool[] { true, true, false, false, };
 		public static bool[] isMyType = new bool[] { false, true, false, false, };
-		public static AttributeType AttributeType_value;
+		public static GRGEN_LIBGR.AttributeType AttributeType_value;
 		public NodeType_BandPosition() : base((int) NodeTypes.@BandPosition)
 		{
-			AttributeType_value = new AttributeType("value", this, AttributeKind.IntegerAttr, null);
+			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "BandPosition"; } }
-		public override INode CreateNode()
+		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new @BandPosition();
 		}
 		public override int NumAttributes { get { return 1; } }
-		public override IEnumerable<AttributeType> AttributeTypes
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
 			get
 			{
 				yield return AttributeType_value;
 			}
 		}
-		public override AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
@@ -246,13 +246,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 			return null;
 		}
-		public override bool IsA(GrGenType other)
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode CreateNodeWithCopyCommons(INode oldINode)
+		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
-			LGSPNode oldNode = (LGSPNode) oldINode;
+			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
 			@BandPosition newNode = new @BandPosition();
 			switch(oldNode.Type.TypeID)
 			{
@@ -271,11 +271,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Node State ***
 
-	public interface IState : INode
+	public interface IState : GRGEN_LIBGR.INode
 	{
 	}
 
-	public sealed class @State : LGSPNode, IState
+	public sealed class @State : GRGEN_LGSP.LGSPNode, IState
 	{
 		private static int poolLevel = 0;
 		private static @State[] pool = new @State[10];
@@ -285,12 +285,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static NodeType_State TypeInstance { get { return NodeType_State.typeVar; } }
 
-		public override INode Clone() { return new @State(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new @State(this); }
 
 		private @State(@State oldElem) : base(NodeType_State.typeVar)
 		{
 		}
-		public static @State CreateNode(LGSPGraph graph)
+		public static @State CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			@State node;
 			if(poolLevel == 0)
@@ -300,13 +300,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node);
 			return node;
 		}
 
-		public static @State CreateNode(LGSPGraph graph, String varName)
+		public static @State CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
 		{
 			@State node;
 			if(poolLevel == 0)
@@ -316,7 +316,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -343,7 +343,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class NodeType_State : NodeType
+	public sealed class NodeType_State : GRGEN_LIBGR.NodeType
 	{
 		public static NodeType_State typeVar = new NodeType_State();
 		public static bool[] isA = new bool[] { true, false, true, false, };
@@ -352,18 +352,18 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "State"; } }
-		public override INode CreateNode()
+		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new @State();
 		}
 		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode CreateNodeWithCopyCommons(INode oldINode)
+		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			return new @State();
 		}
@@ -372,12 +372,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	// *** Node WriteValue ***
 
-	public interface IWriteValue : INode
+	public interface IWriteValue : GRGEN_LIBGR.INode
 	{
 		int @value { get; set; }
 	}
 
-	public sealed class @WriteValue : LGSPNode, IWriteValue
+	public sealed class @WriteValue : GRGEN_LGSP.LGSPNode, IWriteValue
 	{
 		private static int poolLevel = 0;
 		private static @WriteValue[] pool = new @WriteValue[10];
@@ -387,13 +387,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public static NodeType_WriteValue TypeInstance { get { return NodeType_WriteValue.typeVar; } }
 
-		public override INode Clone() { return new @WriteValue(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new @WriteValue(this); }
 
 		private @WriteValue(@WriteValue oldElem) : base(NodeType_WriteValue.typeVar)
 		{
 			_value = oldElem._value;
 		}
-		public static @WriteValue CreateNode(LGSPGraph graph)
+		public static @WriteValue CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
 			@WriteValue node;
 			if(poolLevel == 0)
@@ -403,14 +403,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				node.@value = 0;
 			}
 			graph.AddNode(node);
 			return node;
 		}
 
-		public static @WriteValue CreateNode(LGSPGraph graph, String varName)
+		public static @WriteValue CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
 		{
 			@WriteValue node;
 			if(poolLevel == 0)
@@ -420,7 +420,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = pool[--poolLevel];
 				node.inhead = null;
 				node.outhead = null;
-				node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				node.@value = 0;
 			}
 			graph.AddNode(node, varName);
@@ -464,30 +464,30 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class NodeType_WriteValue : NodeType
+	public sealed class NodeType_WriteValue : GRGEN_LIBGR.NodeType
 	{
 		public static NodeType_WriteValue typeVar = new NodeType_WriteValue();
 		public static bool[] isA = new bool[] { true, false, false, true, };
 		public static bool[] isMyType = new bool[] { false, false, false, true, };
-		public static AttributeType AttributeType_value;
+		public static GRGEN_LIBGR.AttributeType AttributeType_value;
 		public NodeType_WriteValue() : base((int) NodeTypes.@WriteValue)
 		{
-			AttributeType_value = new AttributeType("value", this, AttributeKind.IntegerAttr, null);
+			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "WriteValue"; } }
-		public override INode CreateNode()
+		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new @WriteValue();
 		}
 		public override int NumAttributes { get { return 1; } }
-		public override IEnumerable<AttributeType> AttributeTypes
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
 			get
 			{
 				yield return AttributeType_value;
 			}
 		}
-		public override AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
@@ -495,13 +495,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 			return null;
 		}
-		public override bool IsA(GrGenType other)
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode CreateNodeWithCopyCommons(INode oldINode)
+		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
-			LGSPNode oldNode = (LGSPNode) oldINode;
+			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
 			@WriteValue newNode = new @WriteValue();
 			switch(oldNode.Type.TypeID)
 			{
@@ -522,67 +522,67 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// Node model
 	//
 
-	public sealed class Turing3NodeModel : INodeModel
+	public sealed class Turing3NodeModel : GRGEN_LIBGR.INodeModel
 	{
 		public Turing3NodeModel()
 		{
-			NodeType_Node.typeVar.subOrSameGrGenTypes = NodeType_Node.typeVar.subOrSameTypes = new NodeType[] {
+			NodeType_Node.typeVar.subOrSameGrGenTypes = NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_Node.typeVar,
 				NodeType_BandPosition.typeVar,
 				NodeType_State.typeVar,
 				NodeType_WriteValue.typeVar,
 			};
-			NodeType_Node.typeVar.directSubGrGenTypes = NodeType_Node.typeVar.directSubTypes = new NodeType[] {
+			NodeType_Node.typeVar.directSubGrGenTypes = NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_BandPosition.typeVar,
 				NodeType_State.typeVar,
 				NodeType_WriteValue.typeVar,
 			};
-			NodeType_Node.typeVar.superOrSameGrGenTypes = NodeType_Node.typeVar.superOrSameTypes = new NodeType[] {
+			NodeType_Node.typeVar.superOrSameGrGenTypes = NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_Node.typeVar,
 			};
-			NodeType_Node.typeVar.directSuperGrGenTypes = NodeType_Node.typeVar.directSuperTypes = new NodeType[] {
+			NodeType_Node.typeVar.directSuperGrGenTypes = NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
 			};
-			NodeType_BandPosition.typeVar.subOrSameGrGenTypes = NodeType_BandPosition.typeVar.subOrSameTypes = new NodeType[] {
+			NodeType_BandPosition.typeVar.subOrSameGrGenTypes = NodeType_BandPosition.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_BandPosition.typeVar,
 			};
-			NodeType_BandPosition.typeVar.directSubGrGenTypes = NodeType_BandPosition.typeVar.directSubTypes = new NodeType[] {
+			NodeType_BandPosition.typeVar.directSubGrGenTypes = NodeType_BandPosition.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
 			};
-			NodeType_BandPosition.typeVar.superOrSameGrGenTypes = NodeType_BandPosition.typeVar.superOrSameTypes = new NodeType[] {
+			NodeType_BandPosition.typeVar.superOrSameGrGenTypes = NodeType_BandPosition.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_BandPosition.typeVar,
 				NodeType_Node.typeVar,
 			};
-			NodeType_BandPosition.typeVar.directSuperGrGenTypes = NodeType_BandPosition.typeVar.directSuperTypes = new NodeType[] {
+			NodeType_BandPosition.typeVar.directSuperGrGenTypes = NodeType_BandPosition.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_Node.typeVar,
 			};
-			NodeType_State.typeVar.subOrSameGrGenTypes = NodeType_State.typeVar.subOrSameTypes = new NodeType[] {
+			NodeType_State.typeVar.subOrSameGrGenTypes = NodeType_State.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_State.typeVar,
 			};
-			NodeType_State.typeVar.directSubGrGenTypes = NodeType_State.typeVar.directSubTypes = new NodeType[] {
+			NodeType_State.typeVar.directSubGrGenTypes = NodeType_State.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
 			};
-			NodeType_State.typeVar.superOrSameGrGenTypes = NodeType_State.typeVar.superOrSameTypes = new NodeType[] {
+			NodeType_State.typeVar.superOrSameGrGenTypes = NodeType_State.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_State.typeVar,
 				NodeType_Node.typeVar,
 			};
-			NodeType_State.typeVar.directSuperGrGenTypes = NodeType_State.typeVar.directSuperTypes = new NodeType[] {
+			NodeType_State.typeVar.directSuperGrGenTypes = NodeType_State.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_Node.typeVar,
 			};
-			NodeType_WriteValue.typeVar.subOrSameGrGenTypes = NodeType_WriteValue.typeVar.subOrSameTypes = new NodeType[] {
+			NodeType_WriteValue.typeVar.subOrSameGrGenTypes = NodeType_WriteValue.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_WriteValue.typeVar,
 			};
-			NodeType_WriteValue.typeVar.directSubGrGenTypes = NodeType_WriteValue.typeVar.directSubTypes = new NodeType[] {
+			NodeType_WriteValue.typeVar.directSubGrGenTypes = NodeType_WriteValue.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
 			};
-			NodeType_WriteValue.typeVar.superOrSameGrGenTypes = NodeType_WriteValue.typeVar.superOrSameTypes = new NodeType[] {
+			NodeType_WriteValue.typeVar.superOrSameGrGenTypes = NodeType_WriteValue.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_WriteValue.typeVar,
 				NodeType_Node.typeVar,
 			};
-			NodeType_WriteValue.typeVar.directSuperGrGenTypes = NodeType_WriteValue.typeVar.directSuperTypes = new NodeType[] {
+			NodeType_WriteValue.typeVar.directSuperGrGenTypes = NodeType_WriteValue.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_Node.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return true; } }
-		public NodeType RootType { get { return NodeType_Node.typeVar; } }
-		GrGenType ITypeModel.RootType { get { return NodeType_Node.typeVar; } }
-		public NodeType GetType(String name)
+		public GRGEN_LIBGR.NodeType RootType { get { return NodeType_Node.typeVar; } }
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return NodeType_Node.typeVar; } }
+		public GRGEN_LIBGR.NodeType GetType(String name)
 		{
 			switch(name)
 			{
@@ -593,18 +593,18 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 			return null;
 		}
-		GrGenType ITypeModel.GetType(String name)
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(String name)
 		{
 			return GetType(name);
 		}
-		private NodeType[] types = {
+		private GRGEN_LIBGR.NodeType[] types = {
 			NodeType_Node.typeVar,
 			NodeType_BandPosition.typeVar,
 			NodeType_State.typeVar,
 			NodeType_WriteValue.typeVar,
 		};
-		public NodeType[] Types { get { return types; } }
-		GrGenType[] ITypeModel.Types { get { return types; } }
+		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
+		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
 		private Type[] typeTypes = {
 			typeof(NodeType_Node),
 			typeof(NodeType_BandPosition),
@@ -612,11 +612,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			typeof(NodeType_WriteValue),
 		};
 		public Type[] TypeTypes { get { return typeTypes; } }
-		private AttributeType[] attributeTypes = {
+		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 			NodeType_BandPosition.AttributeType_value,
 			NodeType_WriteValue.AttributeType_value,
 		};
-		public IEnumerable<AttributeType> AttributeTypes { get { return attributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
 	}
 
 	//
@@ -628,7 +628,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// *** Edge AEdge ***
 
 
-	public sealed class EdgeType_AEdge : EdgeType
+	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static EdgeType_AEdge typeVar = new EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, };
@@ -637,19 +637,19 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "AEdge"; } }
-		public override Directedness Directedness { get { return Directedness.Arbitrary; } }
-		public override IEdge CreateEdge(INode source, INode target)
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
 		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
 			throw new Exception("Cannot retype to the abstract type AEdge!");
 		}
@@ -658,25 +658,25 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// *** Edge Edge ***
 
 
-	public sealed class @Edge : LGSPEdge, IEdge
+	public sealed class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
 		private static @Edge[] pool = new @Edge[10];
-		public @Edge(LGSPNode source, LGSPNode target)
+		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_Edge.typeVar, source, target)
 		{
 		}
 
 		public static EdgeType_Edge TypeInstance { get { return EdgeType_Edge.typeVar; } }
 
-		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new @Edge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new @Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @Edge(@Edge oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @Edge(@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
-		public static @Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			@Edge edge;
 			if(poolLevel == 0)
@@ -684,7 +684,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -692,7 +692,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static @Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			@Edge edge;
 			if(poolLevel == 0)
@@ -700,7 +700,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -729,7 +729,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_Edge : EdgeType
+	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
 	{
 		public static EdgeType_Edge typeVar = new EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, };
@@ -738,21 +738,21 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "Edge"; } }
-		public override Directedness Directedness { get { return Directedness.Directed; } }
-		public override IEdge CreateEdge(INode source, INode target)
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @Edge((LGSPNode) source, (LGSPNode) target);
+			return new @Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @Edge((LGSPNode) source, (LGSPNode) target);
+			return new @Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -760,25 +760,25 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// *** Edge UEdge ***
 
 
-	public sealed class @UEdge : LGSPEdge, IEdge
+	public sealed class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
 		private static @UEdge[] pool = new @UEdge[10];
-		public @UEdge(LGSPNode source, LGSPNode target)
+		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_UEdge.typeVar, source, target)
 		{
 		}
 
 		public static EdgeType_UEdge TypeInstance { get { return EdgeType_UEdge.typeVar; } }
 
-		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new @UEdge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new @UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @UEdge(@UEdge oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @UEdge(@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
-		public static @UEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			@UEdge edge;
 			if(poolLevel == 0)
@@ -786,7 +786,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -794,7 +794,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static @UEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			@UEdge edge;
 			if(poolLevel == 0)
@@ -802,7 +802,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -831,7 +831,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_UEdge : EdgeType
+	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static EdgeType_UEdge typeVar = new EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, };
@@ -840,50 +840,50 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "UEdge"; } }
-		public override Directedness Directedness { get { return Directedness.Undirected; } }
-		public override IEdge CreateEdge(INode source, INode target)
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @UEdge((LGSPNode) source, (LGSPNode) target);
+			return new @UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @UEdge((LGSPNode) source, (LGSPNode) target);
+			return new @UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge right ***
 
-	public interface Iright : IEdge
+	public interface Iright : GRGEN_LIBGR.IEdge
 	{
 	}
 
-	public sealed class @right : LGSPEdge, Iright
+	public sealed class @right : GRGEN_LGSP.LGSPEdge, Iright
 	{
 		private static int poolLevel = 0;
 		private static @right[] pool = new @right[10];
-		public @right(LGSPNode source, LGSPNode target)
+		public @right(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_right.typeVar, source, target)
 		{
 		}
 
 		public static EdgeType_right TypeInstance { get { return EdgeType_right.typeVar; } }
 
-		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new @right(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new @right(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @right(@right oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @right(@right oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(EdgeType_right.typeVar, newSource, newTarget)
 		{
 		}
-		public static @right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @right CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			@right edge;
 			if(poolLevel == 0)
@@ -891,7 +891,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -899,7 +899,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static @right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @right CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			@right edge;
 			if(poolLevel == 0)
@@ -907,7 +907,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -936,7 +936,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_right : EdgeType
+	public sealed class EdgeType_right : GRGEN_LIBGR.EdgeType
 	{
 		public static EdgeType_right typeVar = new EdgeType_right();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, };
@@ -945,50 +945,50 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "right"; } }
-		public override Directedness Directedness { get { return Directedness.Directed; } }
-		public override IEdge CreateEdge(INode source, INode target)
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @right((LGSPNode) source, (LGSPNode) target);
+			return new @right((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @right((LGSPNode) source, (LGSPNode) target);
+			return new @right((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge readZero ***
 
-	public interface IreadZero : IEdge
+	public interface IreadZero : GRGEN_LIBGR.IEdge
 	{
 	}
 
-	public sealed class @readZero : LGSPEdge, IreadZero
+	public sealed class @readZero : GRGEN_LGSP.LGSPEdge, IreadZero
 	{
 		private static int poolLevel = 0;
 		private static @readZero[] pool = new @readZero[10];
-		public @readZero(LGSPNode source, LGSPNode target)
+		public @readZero(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_readZero.typeVar, source, target)
 		{
 		}
 
 		public static EdgeType_readZero TypeInstance { get { return EdgeType_readZero.typeVar; } }
 
-		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new @readZero(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new @readZero(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @readZero(@readZero oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @readZero(@readZero oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(EdgeType_readZero.typeVar, newSource, newTarget)
 		{
 		}
-		public static @readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @readZero CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			@readZero edge;
 			if(poolLevel == 0)
@@ -996,7 +996,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1004,7 +1004,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static @readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @readZero CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			@readZero edge;
 			if(poolLevel == 0)
@@ -1012,7 +1012,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1041,7 +1041,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_readZero : EdgeType
+	public sealed class EdgeType_readZero : GRGEN_LIBGR.EdgeType
 	{
 		public static EdgeType_readZero typeVar = new EdgeType_readZero();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, };
@@ -1050,50 +1050,50 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "readZero"; } }
-		public override Directedness Directedness { get { return Directedness.Directed; } }
-		public override IEdge CreateEdge(INode source, INode target)
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @readZero((LGSPNode) source, (LGSPNode) target);
+			return new @readZero((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @readZero((LGSPNode) source, (LGSPNode) target);
+			return new @readZero((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge readOne ***
 
-	public interface IreadOne : IEdge
+	public interface IreadOne : GRGEN_LIBGR.IEdge
 	{
 	}
 
-	public sealed class @readOne : LGSPEdge, IreadOne
+	public sealed class @readOne : GRGEN_LGSP.LGSPEdge, IreadOne
 	{
 		private static int poolLevel = 0;
 		private static @readOne[] pool = new @readOne[10];
-		public @readOne(LGSPNode source, LGSPNode target)
+		public @readOne(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_readOne.typeVar, source, target)
 		{
 		}
 
 		public static EdgeType_readOne TypeInstance { get { return EdgeType_readOne.typeVar; } }
 
-		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new @readOne(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new @readOne(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @readOne(@readOne oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @readOne(@readOne oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(EdgeType_readOne.typeVar, newSource, newTarget)
 		{
 		}
-		public static @readOne CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @readOne CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			@readOne edge;
 			if(poolLevel == 0)
@@ -1101,7 +1101,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1109,7 +1109,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static @readOne CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @readOne CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			@readOne edge;
 			if(poolLevel == 0)
@@ -1117,7 +1117,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1146,7 +1146,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_readOne : EdgeType
+	public sealed class EdgeType_readOne : GRGEN_LIBGR.EdgeType
 	{
 		public static EdgeType_readOne typeVar = new EdgeType_readOne();
 		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, false, };
@@ -1155,50 +1155,50 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "readOne"; } }
-		public override Directedness Directedness { get { return Directedness.Directed; } }
-		public override IEdge CreateEdge(INode source, INode target)
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @readOne((LGSPNode) source, (LGSPNode) target);
+			return new @readOne((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @readOne((LGSPNode) source, (LGSPNode) target);
+			return new @readOne((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge moveLeft ***
 
-	public interface ImoveLeft : IEdge
+	public interface ImoveLeft : GRGEN_LIBGR.IEdge
 	{
 	}
 
-	public sealed class @moveLeft : LGSPEdge, ImoveLeft
+	public sealed class @moveLeft : GRGEN_LGSP.LGSPEdge, ImoveLeft
 	{
 		private static int poolLevel = 0;
 		private static @moveLeft[] pool = new @moveLeft[10];
-		public @moveLeft(LGSPNode source, LGSPNode target)
+		public @moveLeft(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_moveLeft.typeVar, source, target)
 		{
 		}
 
 		public static EdgeType_moveLeft TypeInstance { get { return EdgeType_moveLeft.typeVar; } }
 
-		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new @moveLeft(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new @moveLeft(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @moveLeft(@moveLeft oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @moveLeft(@moveLeft oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(EdgeType_moveLeft.typeVar, newSource, newTarget)
 		{
 		}
-		public static @moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @moveLeft CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			@moveLeft edge;
 			if(poolLevel == 0)
@@ -1206,7 +1206,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1214,7 +1214,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static @moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @moveLeft CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			@moveLeft edge;
 			if(poolLevel == 0)
@@ -1222,7 +1222,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1251,7 +1251,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_moveLeft : EdgeType
+	public sealed class EdgeType_moveLeft : GRGEN_LIBGR.EdgeType
 	{
 		public static EdgeType_moveLeft typeVar = new EdgeType_moveLeft();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, false, };
@@ -1260,50 +1260,50 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "moveLeft"; } }
-		public override Directedness Directedness { get { return Directedness.Directed; } }
-		public override IEdge CreateEdge(INode source, INode target)
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @moveLeft((LGSPNode) source, (LGSPNode) target);
+			return new @moveLeft((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @moveLeft((LGSPNode) source, (LGSPNode) target);
+			return new @moveLeft((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
 
 	// *** Edge moveRight ***
 
-	public interface ImoveRight : IEdge
+	public interface ImoveRight : GRGEN_LIBGR.IEdge
 	{
 	}
 
-	public sealed class @moveRight : LGSPEdge, ImoveRight
+	public sealed class @moveRight : GRGEN_LGSP.LGSPEdge, ImoveRight
 	{
 		private static int poolLevel = 0;
 		private static @moveRight[] pool = new @moveRight[10];
-		public @moveRight(LGSPNode source, LGSPNode target)
+		public @moveRight(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_moveRight.typeVar, source, target)
 		{
 		}
 
 		public static EdgeType_moveRight TypeInstance { get { return EdgeType_moveRight.typeVar; } }
 
-		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new @moveRight(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new @moveRight(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @moveRight(@moveRight oldElem, LGSPNode newSource, LGSPNode newTarget)
+		private @moveRight(@moveRight oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(EdgeType_moveRight.typeVar, newSource, newTarget)
 		{
 		}
-		public static @moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static @moveRight CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			@moveRight edge;
 			if(poolLevel == 0)
@@ -1311,7 +1311,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1319,7 +1319,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return edge;
 		}
 
-		public static @moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static @moveRight CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			@moveRight edge;
 			if(poolLevel == 0)
@@ -1327,7 +1327,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
 			}
@@ -1356,7 +1356,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 	}
 
-	public sealed class EdgeType_moveRight : EdgeType
+	public sealed class EdgeType_moveRight : GRGEN_LIBGR.EdgeType
 	{
 		public static EdgeType_moveRight typeVar = new EdgeType_moveRight();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, true, };
@@ -1365,21 +1365,21 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override String Name { get { return "moveRight"; } }
-		public override Directedness Directedness { get { return Directedness.Directed; } }
-		public override IEdge CreateEdge(INode source, INode target)
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @moveRight((LGSPNode) source, (LGSPNode) target);
+			return new @moveRight((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @moveRight((LGSPNode) source, (LGSPNode) target);
+			return new @moveRight((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -1388,11 +1388,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	// Edge model
 	//
 
-	public sealed class Turing3EdgeModel : IEdgeModel
+	public sealed class Turing3EdgeModel : GRGEN_LIBGR.IEdgeModel
 	{
 		public Turing3EdgeModel()
 		{
-			EdgeType_AEdge.typeVar.subOrSameGrGenTypes = EdgeType_AEdge.typeVar.subOrSameTypes = new EdgeType[] {
+			EdgeType_AEdge.typeVar.subOrSameGrGenTypes = EdgeType_AEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 				EdgeType_UEdge.typeVar,
@@ -1402,16 +1402,16 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				EdgeType_moveLeft.typeVar,
 				EdgeType_moveRight.typeVar,
 			};
-			EdgeType_AEdge.typeVar.directSubGrGenTypes = EdgeType_AEdge.typeVar.directSubTypes = new EdgeType[] {
+			EdgeType_AEdge.typeVar.directSubGrGenTypes = EdgeType_AEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_Edge.typeVar,
 				EdgeType_UEdge.typeVar,
 			};
-			EdgeType_AEdge.typeVar.superOrSameGrGenTypes = EdgeType_AEdge.typeVar.superOrSameTypes = new EdgeType[] {
+			EdgeType_AEdge.typeVar.superOrSameGrGenTypes = EdgeType_AEdge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_AEdge.typeVar,
 			};
-			EdgeType_AEdge.typeVar.directSuperGrGenTypes = EdgeType_AEdge.typeVar.directSuperTypes = new EdgeType[] {
+			EdgeType_AEdge.typeVar.directSuperGrGenTypes = EdgeType_AEdge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new EdgeType[] {
+			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_Edge.typeVar,
 				EdgeType_right.typeVar,
 				EdgeType_readZero.typeVar,
@@ -1419,102 +1419,102 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				EdgeType_moveLeft.typeVar,
 				EdgeType_moveRight.typeVar,
 			};
-			EdgeType_Edge.typeVar.directSubGrGenTypes = EdgeType_Edge.typeVar.directSubTypes = new EdgeType[] {
+			EdgeType_Edge.typeVar.directSubGrGenTypes = EdgeType_Edge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_right.typeVar,
 				EdgeType_readZero.typeVar,
 				EdgeType_readOne.typeVar,
 				EdgeType_moveLeft.typeVar,
 				EdgeType_moveRight.typeVar,
 			};
-			EdgeType_Edge.typeVar.superOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new EdgeType[] {
+			EdgeType_Edge.typeVar.superOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_Edge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
-			EdgeType_Edge.typeVar.directSuperGrGenTypes = EdgeType_Edge.typeVar.directSuperTypes = new EdgeType[] {
+			EdgeType_Edge.typeVar.directSuperGrGenTypes = EdgeType_Edge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_AEdge.typeVar,
 			};
-			EdgeType_UEdge.typeVar.subOrSameGrGenTypes = EdgeType_UEdge.typeVar.subOrSameTypes = new EdgeType[] {
+			EdgeType_UEdge.typeVar.subOrSameGrGenTypes = EdgeType_UEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_UEdge.typeVar,
 			};
-			EdgeType_UEdge.typeVar.directSubGrGenTypes = EdgeType_UEdge.typeVar.directSubTypes = new EdgeType[] {
+			EdgeType_UEdge.typeVar.directSubGrGenTypes = EdgeType_UEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_UEdge.typeVar.superOrSameGrGenTypes = EdgeType_UEdge.typeVar.superOrSameTypes = new EdgeType[] {
+			EdgeType_UEdge.typeVar.superOrSameGrGenTypes = EdgeType_UEdge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_UEdge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
-			EdgeType_UEdge.typeVar.directSuperGrGenTypes = EdgeType_UEdge.typeVar.directSuperTypes = new EdgeType[] {
+			EdgeType_UEdge.typeVar.directSuperGrGenTypes = EdgeType_UEdge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_AEdge.typeVar,
 			};
-			EdgeType_right.typeVar.subOrSameGrGenTypes = EdgeType_right.typeVar.subOrSameTypes = new EdgeType[] {
+			EdgeType_right.typeVar.subOrSameGrGenTypes = EdgeType_right.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_right.typeVar,
 			};
-			EdgeType_right.typeVar.directSubGrGenTypes = EdgeType_right.typeVar.directSubTypes = new EdgeType[] {
+			EdgeType_right.typeVar.directSubGrGenTypes = EdgeType_right.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_right.typeVar.superOrSameGrGenTypes = EdgeType_right.typeVar.superOrSameTypes = new EdgeType[] {
+			EdgeType_right.typeVar.superOrSameGrGenTypes = EdgeType_right.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_right.typeVar,
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 			};
-			EdgeType_right.typeVar.directSuperGrGenTypes = EdgeType_right.typeVar.directSuperTypes = new EdgeType[] {
+			EdgeType_right.typeVar.directSuperGrGenTypes = EdgeType_right.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_Edge.typeVar,
 			};
-			EdgeType_readZero.typeVar.subOrSameGrGenTypes = EdgeType_readZero.typeVar.subOrSameTypes = new EdgeType[] {
+			EdgeType_readZero.typeVar.subOrSameGrGenTypes = EdgeType_readZero.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_readZero.typeVar,
 			};
-			EdgeType_readZero.typeVar.directSubGrGenTypes = EdgeType_readZero.typeVar.directSubTypes = new EdgeType[] {
+			EdgeType_readZero.typeVar.directSubGrGenTypes = EdgeType_readZero.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_readZero.typeVar.superOrSameGrGenTypes = EdgeType_readZero.typeVar.superOrSameTypes = new EdgeType[] {
+			EdgeType_readZero.typeVar.superOrSameGrGenTypes = EdgeType_readZero.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_readZero.typeVar,
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 			};
-			EdgeType_readZero.typeVar.directSuperGrGenTypes = EdgeType_readZero.typeVar.directSuperTypes = new EdgeType[] {
+			EdgeType_readZero.typeVar.directSuperGrGenTypes = EdgeType_readZero.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_Edge.typeVar,
 			};
-			EdgeType_readOne.typeVar.subOrSameGrGenTypes = EdgeType_readOne.typeVar.subOrSameTypes = new EdgeType[] {
+			EdgeType_readOne.typeVar.subOrSameGrGenTypes = EdgeType_readOne.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_readOne.typeVar,
 			};
-			EdgeType_readOne.typeVar.directSubGrGenTypes = EdgeType_readOne.typeVar.directSubTypes = new EdgeType[] {
+			EdgeType_readOne.typeVar.directSubGrGenTypes = EdgeType_readOne.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_readOne.typeVar.superOrSameGrGenTypes = EdgeType_readOne.typeVar.superOrSameTypes = new EdgeType[] {
+			EdgeType_readOne.typeVar.superOrSameGrGenTypes = EdgeType_readOne.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_readOne.typeVar,
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 			};
-			EdgeType_readOne.typeVar.directSuperGrGenTypes = EdgeType_readOne.typeVar.directSuperTypes = new EdgeType[] {
+			EdgeType_readOne.typeVar.directSuperGrGenTypes = EdgeType_readOne.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_Edge.typeVar,
 			};
-			EdgeType_moveLeft.typeVar.subOrSameGrGenTypes = EdgeType_moveLeft.typeVar.subOrSameTypes = new EdgeType[] {
+			EdgeType_moveLeft.typeVar.subOrSameGrGenTypes = EdgeType_moveLeft.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_moveLeft.typeVar,
 			};
-			EdgeType_moveLeft.typeVar.directSubGrGenTypes = EdgeType_moveLeft.typeVar.directSubTypes = new EdgeType[] {
+			EdgeType_moveLeft.typeVar.directSubGrGenTypes = EdgeType_moveLeft.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_moveLeft.typeVar.superOrSameGrGenTypes = EdgeType_moveLeft.typeVar.superOrSameTypes = new EdgeType[] {
+			EdgeType_moveLeft.typeVar.superOrSameGrGenTypes = EdgeType_moveLeft.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_moveLeft.typeVar,
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 			};
-			EdgeType_moveLeft.typeVar.directSuperGrGenTypes = EdgeType_moveLeft.typeVar.directSuperTypes = new EdgeType[] {
+			EdgeType_moveLeft.typeVar.directSuperGrGenTypes = EdgeType_moveLeft.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_Edge.typeVar,
 			};
-			EdgeType_moveRight.typeVar.subOrSameGrGenTypes = EdgeType_moveRight.typeVar.subOrSameTypes = new EdgeType[] {
+			EdgeType_moveRight.typeVar.subOrSameGrGenTypes = EdgeType_moveRight.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_moveRight.typeVar,
 			};
-			EdgeType_moveRight.typeVar.directSubGrGenTypes = EdgeType_moveRight.typeVar.directSubTypes = new EdgeType[] {
+			EdgeType_moveRight.typeVar.directSubGrGenTypes = EdgeType_moveRight.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_moveRight.typeVar.superOrSameGrGenTypes = EdgeType_moveRight.typeVar.superOrSameTypes = new EdgeType[] {
+			EdgeType_moveRight.typeVar.superOrSameGrGenTypes = EdgeType_moveRight.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_moveRight.typeVar,
 				EdgeType_AEdge.typeVar,
 				EdgeType_Edge.typeVar,
 			};
-			EdgeType_moveRight.typeVar.directSuperGrGenTypes = EdgeType_moveRight.typeVar.directSuperTypes = new EdgeType[] {
+			EdgeType_moveRight.typeVar.directSuperGrGenTypes = EdgeType_moveRight.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_Edge.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return false; } }
-		public EdgeType RootType { get { return EdgeType_AEdge.typeVar; } }
-		GrGenType ITypeModel.RootType { get { return EdgeType_AEdge.typeVar; } }
-		public EdgeType GetType(String name)
+		public GRGEN_LIBGR.EdgeType RootType { get { return EdgeType_AEdge.typeVar; } }
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return EdgeType_AEdge.typeVar; } }
+		public GRGEN_LIBGR.EdgeType GetType(String name)
 		{
 			switch(name)
 			{
@@ -1529,11 +1529,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 			return null;
 		}
-		GrGenType ITypeModel.GetType(String name)
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(String name)
 		{
 			return GetType(name);
 		}
-		private EdgeType[] types = {
+		private GRGEN_LIBGR.EdgeType[] types = {
 			EdgeType_AEdge.typeVar,
 			EdgeType_Edge.typeVar,
 			EdgeType_UEdge.typeVar,
@@ -1543,8 +1543,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			EdgeType_moveLeft.typeVar,
 			EdgeType_moveRight.typeVar,
 		};
-		public EdgeType[] Types { get { return types; } }
-		GrGenType[] ITypeModel.Types { get { return types; } }
+		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
+		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
 		private Type[] typeTypes = {
 			typeof(EdgeType_AEdge),
 			typeof(EdgeType_Edge),
@@ -1556,34 +1556,34 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			typeof(EdgeType_moveRight),
 		};
 		public Type[] TypeTypes { get { return typeTypes; } }
-		private AttributeType[] attributeTypes = {
+		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
-		public IEnumerable<AttributeType> AttributeTypes { get { return attributeTypes; } }
+		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
 	}
 
 	//
 	// IGraphModel implementation
 	//
 
-	public sealed class Turing3GraphModel : IGraphModel
+	public sealed class Turing3GraphModel : GRGEN_LIBGR.IGraphModel
 	{
 		private Turing3NodeModel nodeModel = new Turing3NodeModel();
 		private Turing3EdgeModel edgeModel = new Turing3EdgeModel();
-		private ValidateInfo[] validateInfos = {
-			new ValidateInfo(EdgeType_right.typeVar, NodeType_BandPosition.typeVar, NodeType_BandPosition.typeVar, 0, 1, 0, 1),
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+			new GRGEN_LIBGR.ValidateInfo(EdgeType_right.typeVar, NodeType_BandPosition.typeVar, NodeType_BandPosition.typeVar, 0, 1, 0, 1),
 		};
 
 		public String ModelName { get { return "Turing3"; } }
-		public INodeModel NodeModel { get { return nodeModel; } }
-		public IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
+		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public String MD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
 	}
 	//
 	// IGraph/IGraphModel implementation
 	//
 
-	public class Turing3 : LGSPGraph, IGraphModel
+	public class Turing3 : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
 		public Turing3() : base(GetNextGraphName())
 		{
@@ -1630,86 +1630,86 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return @WriteValue.CreateNode(this, varName);
 		}
 
-		public @Edge CreateEdgeEdge(LGSPNode source, LGSPNode target)
+		public @Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @Edge.CreateEdge(this, source, target);
 		}
 
-		public @Edge CreateEdgeEdge(LGSPNode source, LGSPNode target, String varName)
+		public @Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			return @Edge.CreateEdge(this, source, target, varName);
 		}
 
-		public @UEdge CreateEdgeUEdge(LGSPNode source, LGSPNode target)
+		public @UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @UEdge.CreateEdge(this, source, target);
 		}
 
-		public @UEdge CreateEdgeUEdge(LGSPNode source, LGSPNode target, String varName)
+		public @UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			return @UEdge.CreateEdge(this, source, target, varName);
 		}
 
-		public @right CreateEdgeright(LGSPNode source, LGSPNode target)
+		public @right CreateEdgeright(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @right.CreateEdge(this, source, target);
 		}
 
-		public @right CreateEdgeright(LGSPNode source, LGSPNode target, String varName)
+		public @right CreateEdgeright(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			return @right.CreateEdge(this, source, target, varName);
 		}
 
-		public @readZero CreateEdgereadZero(LGSPNode source, LGSPNode target)
+		public @readZero CreateEdgereadZero(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @readZero.CreateEdge(this, source, target);
 		}
 
-		public @readZero CreateEdgereadZero(LGSPNode source, LGSPNode target, String varName)
+		public @readZero CreateEdgereadZero(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			return @readZero.CreateEdge(this, source, target, varName);
 		}
 
-		public @readOne CreateEdgereadOne(LGSPNode source, LGSPNode target)
+		public @readOne CreateEdgereadOne(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @readOne.CreateEdge(this, source, target);
 		}
 
-		public @readOne CreateEdgereadOne(LGSPNode source, LGSPNode target, String varName)
+		public @readOne CreateEdgereadOne(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			return @readOne.CreateEdge(this, source, target, varName);
 		}
 
-		public @moveLeft CreateEdgemoveLeft(LGSPNode source, LGSPNode target)
+		public @moveLeft CreateEdgemoveLeft(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @moveLeft.CreateEdge(this, source, target);
 		}
 
-		public @moveLeft CreateEdgemoveLeft(LGSPNode source, LGSPNode target, String varName)
+		public @moveLeft CreateEdgemoveLeft(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			return @moveLeft.CreateEdge(this, source, target, varName);
 		}
 
-		public @moveRight CreateEdgemoveRight(LGSPNode source, LGSPNode target)
+		public @moveRight CreateEdgemoveRight(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
 			return @moveRight.CreateEdge(this, source, target);
 		}
 
-		public @moveRight CreateEdgemoveRight(LGSPNode source, LGSPNode target, String varName)
+		public @moveRight CreateEdgemoveRight(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
 		{
 			return @moveRight.CreateEdge(this, source, target, varName);
 		}
 
 		private Turing3NodeModel nodeModel = new Turing3NodeModel();
 		private Turing3EdgeModel edgeModel = new Turing3EdgeModel();
-		private ValidateInfo[] validateInfos = {
-			new ValidateInfo(EdgeType_right.typeVar, NodeType_BandPosition.typeVar, NodeType_BandPosition.typeVar, 0, 1, 0, 1),
+		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
+			new GRGEN_LIBGR.ValidateInfo(EdgeType_right.typeVar, NodeType_BandPosition.typeVar, NodeType_BandPosition.typeVar, 0, 1, 0, 1),
 		};
 
 		public String ModelName { get { return "Turing3"; } }
-		public INodeModel NodeModel { get { return nodeModel; } }
-		public IEdgeModel EdgeModel { get { return edgeModel; } }
-		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
+		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
+		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public String MD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
 	}
 }

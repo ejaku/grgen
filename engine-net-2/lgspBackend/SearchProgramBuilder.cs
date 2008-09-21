@@ -309,7 +309,7 @@ namespace de.unika.ipd.grGen.lgsp
         private Alternative alternative;
 
         /// <summary>
-        /// name of the rule pattern class containing the condition checkers of the pattern graph
+        /// name of the rule pattern class of the pattern graph
         /// </summary>
         string rulePatternClassName;
 
@@ -1078,11 +1078,13 @@ namespace de.unika.ipd.grGen.lgsp
             int currentOperationIndex,
             PatternCondition condition)
         {
+            // generate c#-code-string out of condition expression ast
+            SourceBuilder conditionExpression = new SourceBuilder();
+            condition.ConditionExpression.Emit(conditionExpression);
+
             // check condition with current partial match
             CheckPartialMatchByCondition checkCondition =
-                new CheckPartialMatchByCondition(condition.ID.ToString(),
-                    rulePatternClassName,
-                    condition.NeedsGraph,
+                new CheckPartialMatchByCondition(conditionExpression.ToString(),
                     condition.NeededNodes,
                     condition.NeededEdges,
                     condition.NeededVariables);

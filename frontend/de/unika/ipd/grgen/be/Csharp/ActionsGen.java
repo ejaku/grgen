@@ -22,24 +22,33 @@ import java.util.HashSet;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.Alternative;
+import de.unika.ipd.grgen.ir.Cast;
+import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Model;
+import de.unika.ipd.grgen.ir.Nameof;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.VariableExpression;
+import de.unika.ipd.grgen.ir.Visited;
 
 public class ActionsGen extends CSharpBase {
 	public ActionsGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
@@ -67,6 +76,7 @@ public class ActionsGen extends CSharpBase {
 				+ "using System.Text;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
+                + "using GRGEN_EXPR = de.unika.ipd.grGen.expression;\n"
 				+ "using de.unika.ipd.grGen.Model_" + be.unit.getActionsGraphModelName() + ";\n"
 				+ "\n"
 				+ "namespace de.unika.ipd.grGen.Action_" + be.unit.getUnitName() + "\n"
@@ -106,8 +116,6 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\n");
 		genRuleOrSubpatternInit(sb, subpatternRule, true);
 		sb.append("\n");
-		genActionConditions(sb, subpatternRule);
-		sb.append("\n");
 
 		mg.genModify(sb, subpatternRule, true);
 
@@ -134,8 +142,6 @@ public class ActionsGen extends CSharpBase {
 				actionRule.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
 		sb.append("\n");
 		genRuleOrSubpatternInit(sb, actionRule, false);
-		sb.append("\n");
-		genActionConditions(sb, actionRule);
 		sb.append("\n");
 
 		mg.genModify(sb, actionRule, false);
@@ -602,8 +608,11 @@ public class ActionsGen extends CSharpBase {
 			NeededEntities needs = new NeededEntities(true, true, true, false);
 			expr.collectNeededEntities(needs);
 			sb.append("\t\t\tGRGEN_LGSP.PatternCondition cond_" + condCnt
-					+ " = new GRGEN_LGSP.PatternCondition(" + condCnt
-					+ ", " + (needs.isGraphUsed ? "true" : "false") + ", new String[] ");
+					+ " = new GRGEN_LGSP.PatternCondition(\n"
+					+ "\t\t\t\t");
+			genExpressionTree(sb, expr, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(",\n");
+			sb.append("\t\t\t\tnew String[] ");
 			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new String[] ");
 			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
@@ -710,73 +719,92 @@ public class ActionsGen extends CSharpBase {
 		sb.append("#endif\n");
 	}
 
-	//////////////////////////
-	// Condition generation //
-	//////////////////////////
+	//////////////////////////////////////////
+	// Condition expression tree generation //
+	//////////////////////////////////////////
 
-	private void genActionConditions(StringBuffer sb, MatchingAction action) {
-		genPatternConditions(sb, action.getPattern(), 0);
-	}
-
-	private int genPatternConditions(StringBuffer sb, PatternGraph pattern, int condCnt) {
-		condCnt = genConditions(sb, pattern.getConditions(), condCnt);
-		for(Alternative alt : pattern.getAlts()) {
-			for(Rule altCase : alt.getAlternativeCases()) {
-				PatternGraph altCasePattern = altCase.getLeft();
-				condCnt = genPatternConditions(sb, altCasePattern, condCnt);
+	private void genExpressionTree(StringBuffer sb, Expression expr,
+			String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		if(expr instanceof Operator) {
+			Operator op = (Operator) expr;
+			sb.append("new GRGEN_EXPR." + Operator.opNames[op.getOpCode()] + "(");
+			switch (op.arity()) {
+				case 1:
+					genExpressionTree(sb, op.getOperand(0), pathPrefix, alreadyDefinedEntityToName);
+					break;
+				case 2:
+					genExpressionTree(sb, op.getOperand(0), pathPrefix, alreadyDefinedEntityToName);
+					sb.append(", ");
+					genExpressionTree(sb, op.getOperand(1), pathPrefix, alreadyDefinedEntityToName);
+					break;
+				case 3:
+					if(op.getOpCode()==Operator.COND) {
+						genExpressionTree(sb, op.getOperand(0), pathPrefix, alreadyDefinedEntityToName);
+						sb.append(", ");
+						genExpressionTree(sb, op.getOperand(1), pathPrefix, alreadyDefinedEntityToName);
+						sb.append(", ");
+						genExpressionTree(sb, op.getOperand(2), pathPrefix, alreadyDefinedEntityToName);
+						break;
+					}
+					// FALLTHROUGH
+				default:
+					throw new UnsupportedOperationException(
+						"Unsupported operation arity (" + op.arity() + ")");
 			}
+			sb.append(")");
 		}
-		for(PatternGraph neg : pattern.getNegs()) {
-			condCnt = genPatternConditions(sb, neg, condCnt);
+		else if(expr instanceof Qualification) {
+			Qualification qual = (Qualification) expr;
+			Entity owner = qual.getOwner();
+			Entity member = qual.getMember();
+			sb.append("new GRGEN_EXPR.Qualification(\"" + "I"+getNodeOrEdgeTypePrefix(owner)+formatIdentifiable(owner.getType())
+				+ "\", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
+		
 		}
-		return condCnt;
-	}
-
-	private int genConditions(StringBuffer sb, Collection<Expression> conditions, int condCnt) {
-		for(Expression expr : conditions) {
-			NeededEntities needs = new NeededEntities(true, true, true, false);
-			expr.collectNeededEntities(needs);
-			sb.append("\t\tpublic static bool Condition_" + condCnt + "(");
-			boolean first = true;
-			if(needs.isGraphUsed) {
-				sb.append("GRGEN_LGSP.LGSPGraph graph");
-				first = false;
-			}
-			if(!needs.nodes.isEmpty())
-			{
-				if(!first) sb.append(", ");
-				genSet(sb, needs.nodes, "GRGEN_LGSP.LGSPNode node_", "", false);
-				first = false;
-			}
-
-			if(!needs.edges.isEmpty())
-			{
-				if(!first) sb.append(", ");
-				genSet(sb, needs.edges, "GRGEN_LGSP.LGSPEdge edge_", "", false);
-				first = false;
-			}
-
-			if(!needs.variables.isEmpty())
-			{
-				for(Variable var : needs.variables) {
-					if(first) first = false;
-					else sb.append(", ");
-					sb.append(formatAttributeType(var));
-					sb.append(" var_");
-					sb.append(formatIdentifiable(var));
-				}
-			}
-			sb.append(")\n");
-			sb.append("\t\t{\n");
-			sb.append("\t\t\treturn ");
-			genExpression(sb, expr, null);
-			sb.append(";\n");
-			sb.append("\t\t}\n");
-			++condCnt;
+		else if(expr instanceof EnumExpression) {
+			EnumExpression enumExp = (EnumExpression) expr;
+			sb.append("new GRGEN_EXPR.EnumExpression(\"" + enumExp.getType().getIdent().toString()
+					+ "\", \"" + enumExp.getEnumItem().toString() + "\")");
 		}
-		return condCnt;
+		else if(expr instanceof Constant) { // gen C-code for constant expressions
+			Constant constant = (Constant) expr;
+			sb.append("new GRGEN_EXPR.Constant(\"" + escapeDoubleQuotes(getValueAsCSSharpString(constant)) + "\")");
+		}
+		else if(expr instanceof Nameof) {
+			Nameof no = (Nameof) expr;
+			sb.append("new GRGEN_EXPR.Nameof(" 
+					+ (no.getEntity()==null ? "null" : "\""+formatEntity(no.getEntity(), pathPrefix, alreadyDefinedEntityToName)+"\"")
+					+ ")");
+		}
+		else if(expr instanceof Typeof) {
+			Typeof to = (Typeof) expr;
+			sb.append("new GRGEN_EXPR.Typeof(\"" + formatEntity(to.getEntity(), pathPrefix, alreadyDefinedEntityToName) + "\")");
+		}
+		else if(expr instanceof Cast) {
+			Cast cast = (Cast) expr;
+			sb.append("new GRGEN_EXPR.Cast(\"" + getTypeNameForCast(cast) + "\", ");
+			genExpressionTree(sb, cast.getExpression(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if(expr instanceof VariableExpression) {
+			Variable var = ((VariableExpression) expr).getVariable();
+			sb.append("new GRGEN_EXPR.VariableExpression(\"" + formatEntity(var, pathPrefix, alreadyDefinedEntityToName) + "\")");
+		}
+		else if(expr instanceof GraphEntityExpression) {
+			GraphEntity ent = ((GraphEntityExpression) expr).getGraphEntity();
+			sb.append("new GRGEN_EXPR.GraphEntityExpression(\"" + formatEntity(ent, pathPrefix, alreadyDefinedEntityToName) + "\")");
+		}
+		else if(expr instanceof Visited) {
+			Visited vis = (Visited) expr;
+			sb.append("new GRGEN_EXPR.Visited(\"" + formatEntity(vis.getEntity(), pathPrefix, alreadyDefinedEntityToName) + "\", ");
+			genExpressionTree(sb, vis.getVisitorID(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		//else if(expr instanceof MemberExpression)
+		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
-
+	
 	///////////////////////////////////////
 	// Static searchplan cost generation //
 	///////////////////////////////////////

@@ -325,43 +325,7 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof Constant) { // gen C-code for constant expressions
 			Constant constant = (Constant) expr;
-			Type type = constant.getType();
-
-			switch (type.classify()) {
-				case Type.IS_STRING: //emit C-code for string constants
-					Object value = constant.getValue();
-					if(value == null)
-						sb.append("null");
-					else
-						sb.append("\"" + constant.getValue() + "\"");
-					break;
-				case Type.IS_BOOLEAN: //emit C-code for boolean constans
-					Boolean bool_const = (Boolean) constant.getValue();
-					if(bool_const.booleanValue())
-						sb.append("true"); /* true-value */
-					else
-						sb.append("false"); /* false-value */
-					break;
-				case Type.IS_INTEGER: //emit C-code for integer constants
-				case Type.IS_DOUBLE: //emit C-code for double constants
-					sb.append(constant.getValue().toString());
-					break;
-				case Type.IS_FLOAT: //emit C-code for float constants
-					sb.append(constant.getValue().toString()); /* this also applys to enum constants */
-					sb.append('f');
-					break;
-				case Type.IS_TYPE: //emit code for type constants
-					InheritanceType it = (InheritanceType) constant.getValue();
-					sb.append(formatTypeClass(it) + ".typeVar");
-					break;
-				case Type.IS_OBJECT: // If value is not null throw Exc
-					if(constant.getValue() == null) {
-						sb.append("null");
-						break;
-					}
-				default:
-					throw new UnsupportedOperationException("unsupported type");
-			}
+			sb.append(getValueAsCSSharpString(constant));
 		}
 		else if(expr instanceof Nameof) {
 			Nameof no = (Nameof) expr;
@@ -378,27 +342,13 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof Cast) {
 			Cast cast = (Cast) expr;
-			Type type = cast.getType();
+			String typeName = getTypeNameForCast(cast);
 
-			if(type.classify() == Type.IS_STRING) {
+			if(typeName == "string") {
 				genExpression(sb, cast.getExpression(), modifyGenerationState);
 				sb.append(".ToString()");
 			}
 			else {
-				String typeName = "";
-
-				switch(type.classify()) {
-					case Type.IS_INTEGER: typeName = "int"; break;
-					case Type.IS_FLOAT: typeName = "float"; break;
-					case Type.IS_DOUBLE: typeName = "double"; break;
-					case Type.IS_BOOLEAN: typeName = "bool"; break;
-					default:
-						throw new UnsupportedOperationException(
-							"This is either a forbidden cast, which should have been " +
-								"rejected on building the IR, or an allowed cast, which " +
-								"should have been processed by the above code.");
-				}
-
 				sb.append("((" + typeName  + ") ");
 				genExpression(sb, cast.getExpression(), modifyGenerationState);
 				sb.append(")");
@@ -419,6 +369,75 @@ public abstract class CSharpBase {
 			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
+	}
+	
+	protected String getValueAsCSSharpString(Constant constant)
+	{
+		Type type = constant.getType();
+
+		switch (type.classify()) {
+			case Type.IS_STRING: //emit C-code for string constants
+				Object value = constant.getValue();
+				if(value == null)
+					return "null";
+				else
+					return "\"" + constant.getValue() + "\"";
+			case Type.IS_BOOLEAN: //emit C-code for boolean constans
+				Boolean bool_const = (Boolean) constant.getValue();
+				if(bool_const.booleanValue())
+					return "true"; /* true-value */
+				else
+					return "false"; /* false-value */
+			case Type.IS_INTEGER: //emit C-code for integer constants
+			case Type.IS_DOUBLE: //emit C-code for double constants
+				return constant.getValue().toString();
+			case Type.IS_FLOAT: //emit C-code for float constants
+				return constant.getValue().toString() + "f"; /* this also applys to enum constants */
+			case Type.IS_TYPE: //emit code for type constants
+				InheritanceType it = (InheritanceType) constant.getValue();
+				return formatTypeClass(it) + ".typeVar";
+			case Type.IS_OBJECT: // If value is not null throw Exc
+				if(constant.getValue() == null) {
+					return "null";
+				}
+			default:
+				throw new UnsupportedOperationException("unsupported type");
+		}
+	}
+	
+	protected String getTypeNameForCast(Cast cast)
+	{
+		Type type = cast.getType();
+
+		String typeName = "";
+
+		switch(type.classify()) {
+			case Type.IS_STRING: typeName = "string"; break;
+			case Type.IS_INTEGER: typeName = "int"; break;
+			case Type.IS_FLOAT: typeName = "float"; break;
+			case Type.IS_DOUBLE: typeName = "double"; break;
+			case Type.IS_BOOLEAN: typeName = "bool"; break;
+			default:
+				throw new UnsupportedOperationException(
+					"This is either a forbidden cast, which should have been " +
+						"rejected on building the IR, or an allowed cast, which " +
+						"should have been processed by the above code.");
+		}
+		
+		return typeName;
+	}
+	
+	protected String escapeDoubleQuotes(String input)
+	{
+		StringBuffer sb = new StringBuffer(input.length()+2);
+		for(int i=0; i<input.length(); ++i) {
+			if(input.charAt(i)=='"') {
+				sb.append("\\\"");
+			} else {
+				sb.append(input.charAt(i));
+			}
+		}		
+		return sb.toString();
 	}
 
 	protected abstract void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState);

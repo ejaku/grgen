@@ -10,6 +10,7 @@ using System.Text;
 
 using de.unika.ipd.grGen.libGr;
 using System.Diagnostics;
+using de.unika.ipd.grGen.expression;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -255,14 +256,9 @@ namespace de.unika.ipd.grGen.lgsp
     public class PatternCondition
     {
         /// <summary>
-        /// The ID of this condition.
+        /// The condition expression to evaluate
         /// </summary>
-        public int ID;
-
-        /// <summary>
-        /// Specifies, whether this conditions needs a graph object.
-        /// </summary>
-        public bool NeedsGraph;
+        public Expression ConditionExpression;
 
         /// <summary>
         /// An array of node names needed by this condition.
@@ -282,16 +278,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Constructs a PatternCondition object.
         /// </summary>
-        /// <param name="id">The ID of this condition.</param>
-        /// <param name="needsGraph">Specifies, whether this conditions needs a graph object.</param>
+        /// <param name="conditionExpression">The condition expression to evaluate.</param>
         /// <param name="neededNodes">An array of node names needed by this condition.</param>
         /// <param name="neededEdges">An array of edge names needed by this condition.</param>
         /// <param name="neededVariables">An array of variable names needed by this condition.</param>
-        public PatternCondition(int id, bool needsGraph, String[] neededNodes, String[] neededEdges,
-            String[] neededVariables)
+        public PatternCondition(Expression conditionExpression, 
+            String[] neededNodes, String[] neededEdges, String[] neededVariables)
         {
-            ID = id;
-            NeedsGraph = needsGraph;
+            ConditionExpression = conditionExpression;
             NeededNodes = neededNodes;
             NeededEdges = neededEdges;
             NeededVariables = neededVariables;

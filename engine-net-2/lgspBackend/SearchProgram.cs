@@ -532,6 +532,9 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchProgramList OperationsList;
     }
 
+    /// <summary>
+    /// Class representing "draw variable from input parameters array" operation
+    /// </summary>
     class ExtractVariable : SearchProgramOperation
     {
         public ExtractVariable(string varType, string varName, int paramIndex)
@@ -548,7 +551,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront(VarType + " var_" + VarName + " = (" + VarType + ") parameters[" + ParamIndex + "];\n");
+            sourceCode.AppendFront(VarType + " " + NamesOfEntities.Variable(VarName) + " = (" + VarType + ") parameters[" + ParamIndex + "];\n");
         }
 
         public string VarType;
@@ -1896,16 +1899,12 @@ namespace de.unika.ipd.grGen.lgsp
     class CheckPartialMatchByCondition : CheckPartialMatch
     {
         public CheckPartialMatchByCondition(
-            string conditionID,
-            string rulePatternTypeName,
-            bool needsGraph,
+            string conditionExpression,
             string[] neededNodes,
             string[] neededEdges,
             string[] neededVariables)
         {
-            ConditionID = conditionID;
-            RulePatternTypeName = rulePatternTypeName;
-            NeedsGraph = needsGraph;
+            ConditionExpression = conditionExpression;
             NeededVariables = neededVariables;
             
             int i = 0;
@@ -1929,8 +1928,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // first dump check
             builder.AppendFront("CheckPartialMatch ByCondition ");
-            builder.AppendFormat("id:{0} in {1} with ",
-                ConditionID, RulePatternTypeName);
+            builder.AppendFormat("{0} with ", ConditionExpression);
             foreach(string neededElement in NeededElements)
             {
                 builder.Append(neededElement);
@@ -1958,33 +1956,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             // open decision
             sourceCode.AppendFront("if(");
-            // emit call to condition checking code
-            sourceCode.AppendFormat("!{0}.Condition_{1}",
-                RulePatternTypeName, ConditionID);
-            // emit call arguments
-            sourceCode.Append("(");
-            bool first;
-            if(NeedsGraph)
-            {
-                sourceCode.Append("graph");
-                first = false;
-            }
-            else first = true;
-            for(int i = 0; i < NeededElements.Length; ++i)
-            {
-                if(!first) sourceCode.Append(", ");
-                else first = false;
-
-                sourceCode.Append(NamesOfEntities.CandidateVariable(NeededElements[i]));
-            }
-            for(int i = 0; i < NeededVariables.Length; i++)
-            {
-                if(!first) sourceCode.Append(", ");
-                else first = false;
-
-                sourceCode.Append("var_" + NeededVariables[i]);
-            }
-            sourceCode.Append(")");
+            // emit condition expression
+            sourceCode.AppendFormat("!({0})", ConditionExpression);
             // close decision
             sourceCode.Append(") ");
 
@@ -1996,9 +1969,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public string ConditionID;
-        public string RulePatternTypeName;
-        public bool NeedsGraph;
+        public string ConditionExpression;
         public string[] NeededElements;
         public bool[] NeededElementIsNode;
         public string[] NeededVariables;
@@ -2542,8 +2513,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(Type == BuildMatchObjectType.Variable)
             {
-                sourceCode.AppendFrontFormat("match.Variables[(int){0}.{1}VariableNums.@{2}] = var_{3};\n",
-                    RulePatternClassName, PathPrefixForEnum, PatternElementUnprefixedName, PatternElementName);
+                string variableName = NamesOfEntities.Variable(PatternElementName);
+                sourceCode.AppendFrontFormat("match.Variables[(int){0}.{1}VariableNums.@{2}] = {3};\n",
+                    RulePatternClassName, PathPrefixForEnum, PatternElementUnprefixedName, variableName);
             }
             else if(Type == BuildMatchObjectType.Subpattern)
             {

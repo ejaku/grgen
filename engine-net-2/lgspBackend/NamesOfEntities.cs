@@ -33,6 +33,14 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns name of non-graph-element variable 
+        /// </summary>
+        public static string Variable(string variableName)
+        {
+            return "var_" + variableName;
+        }
+
+        /// <summary>
         /// Returns name of the type of the type variable
         /// </summary>
         public static string TypeOfVariableContainingType(bool isNode)

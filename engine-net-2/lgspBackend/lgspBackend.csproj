@@ -60,6 +60,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expression.cs" />
     <Compile Include="lgspGrGen.cs" />
     <Compile Include="lgspActions.cs" />
     <Compile Include="lgspBackend.cs" />
