@@ -285,7 +285,7 @@ TOKEN: {
 |   < SETVISITED: "setvisited" >
 |   < SHAPE: "shape" >
 |   < SHOW: "show" >
-|   < SILENT: "silent" >
+|   < SILENCE: "silence" >
 |   < STRICT: "strict" >
 |   < SUB: "sub" >
 |   < SUPER: "super" >
@@ -673,6 +673,13 @@ void ShellCommand():
 |
 	"select" SelectCommand()
 |
+	"silence"
+	(
+		"on" { impl.Silence = true; }
+		|
+		"off" { impl.Silence = false; }
+	)
+|
 	"delete" DeleteCommand()
 |
 	"clear" "graph" (shellGraph=Graph() { shellGraphSpecified = true; })? LineEnd()
@@ -898,7 +905,6 @@ void NewCommand():
 	String modelFilename, graphName = "DefaultGraph";
 	INode srcNode, tgtNode;
 	ElementDef elemDef;
-	bool silent = false;
 }
 {
 	"graph" modelFilename=Filename() (graphName=Text())? LineEnd()
@@ -907,15 +913,15 @@ void NewCommand():
 	}
 |
 	LOOKAHEAD(2)
-	srcNode=Node() "-" elemDef=ElementDefinition() "->" tgtNode=Node() ("silent" { silent = true;} )? LineEnd()
+	srcNode=Node() "-" elemDef=ElementDefinition() "->" tgtNode=Node() LineEnd()
 	{
-		noError = impl.NewEdge(elemDef, srcNode, tgtNode, silent) != null;
+		noError = impl.NewEdge(elemDef, srcNode, tgtNode) != null;
 	}
 	
 |
-	elemDef=ElementDefinition() ("silent" { silent = true;} )? LineEnd()
+	elemDef=ElementDefinition() LineEnd()
 	{
-		noError = impl.NewNode(elemDef, silent) != null;
+		noError = impl.NewNode(elemDef) != null;
 	}
 }
 

@@ -80,6 +80,7 @@ namespace de.unika.ipd.grGen.grShell
         List<ShellGraph> graphs = new List<ShellGraph>();
         ShellGraph curShellGraph = null;
 
+        bool silence = false; // node/edge created successfully messages
         bool cancelSequence = false;
         Debugger debugger = null;
         bool pendingDebugEnable = false;
@@ -156,6 +157,20 @@ namespace de.unika.ipd.grGen.grShell
             {
                 if (!ActionsExists()) return null;
                 return curShellGraph.Actions;
+            }
+        }
+
+        public bool Silence
+        {
+            get
+            {
+                return silence;
+            }
+            set
+            {
+                silence = value;
+                if (silence) Console.WriteLine("Disabled \"new node/edge created successfully\"-messages");
+                else Console.WriteLine("Enabled \"new node/edge created successfully\"-messages");
             }
         }
 
@@ -690,7 +705,7 @@ namespace de.unika.ipd.grGen.grShell
         #endregion Model operations
 
         #region "new" graph element commands
-        public INode NewNode(ElementDef elemDef, bool silent)
+        public INode NewNode(ElementDef elemDef)
         {
             if(!GraphExists()) return null;
 
@@ -735,7 +750,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
 
-            if (!silent)
+            if (!silence)
             {
                 if (elemDef.ElemName == null)
                     Console.WriteLine("New node \"{0}\" of type \"{1}\" has been created.", curShellGraph.Graph.GetElementName(node), node.Type.Name);
@@ -746,7 +761,7 @@ namespace de.unika.ipd.grGen.grShell
             return node;
         }
 
-        public IEdge NewEdge(ElementDef elemDef, INode node1, INode node2, bool silent)
+        public IEdge NewEdge(ElementDef elemDef, INode node1, INode node2)
         {
             if(node1 == null || node2 == null) return null;
 
@@ -790,7 +805,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
 
-            if (!silent)
+            if (!silence)
             {
                 if (elemDef.ElemName == null)
                     Console.WriteLine("New edge \"{0}\" of type \"{1}\" has been created.", curShellGraph.Graph.GetElementName(edge), edge.Type.Name);

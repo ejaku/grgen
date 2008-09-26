@@ -101,19 +101,36 @@ namespace GenerateGraphs
         {
             grs.WriteLine("new graph \"TranskriptionAbstrakt\"");
             grs.WriteLine("debug set layout Organic");
+            grs.WriteLine("dump set node A color green");
+            grs.WriteLine("dump set node A shape lparallelogram");
+            grs.WriteLine("dump set node G color blue");
+            grs.WriteLine("dump set node G shape lparallelogram");
+            grs.WriteLine("dump set node C color red");
+            grs.WriteLine("dump set node C shape lparallelogram");
+            grs.WriteLine("dump set node T color purple");
+            grs.WriteLine("dump set node T shape lparallelogram");
+            grs.WriteLine("dump set node U color orchid");
+            grs.WriteLine("dump set node U shape lparallelogram");
+            grs.WriteLine("dump set node H color cyan");
+            grs.WriteLine("dump set node H shape lparallelogram");
+            grs.WriteLine("dump set node D color yellow");
+            grs.WriteLine("dump set node D shape rparallelogram");
+            grs.WriteLine("dump set node R color orange");
+            grs.WriteLine("dump set node R shape rparallelogram");
             grs.WriteLine();
 
             int i = 0;
+            grs.WriteLine("silence on");
             grs.WriteLine("echo \"creating elements\"");
             foreach (Element element in elements)
             {
                 if (element.src == null || element.tgt == null)
                 {
-                    grs.WriteLine("new " + element.name + ":" + element.type + " silent #" + element.comment);
+                    grs.WriteLine("new " + element.name + ":" + element.type + " #" + element.comment);
                 }
                 else
                 {
-                    grs.WriteLine("new " + element.src.name + " -" + element.name + ":" + element.type + "-> " + element.tgt.name + " silent");
+                    grs.WriteLine("new " + element.src.name + " -" + element.name + ":" + element.type + "-> " + element.tgt.name);
                 }
                 ++i;
                 if (i % 1000 == 0) grs.WriteLine("echo \"" + i.ToString() + " elements created\"");

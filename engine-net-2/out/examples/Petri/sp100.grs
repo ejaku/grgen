@@ -11,6 +11,7 @@ dump set edge inhibitorArc color red
 dump add node PetriNet group by hidden outgoing places
 dump add node PetriNet group by hidden outgoing transitions
 
+silence on
 new net:PetriNet
 new place_uN2352_84:Place
 new net -:places-> place_uN2352_84
