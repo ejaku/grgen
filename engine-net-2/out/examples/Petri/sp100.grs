@@ -1,0 +1,531 @@
+new graph "Petri.grg"
+
+debug set layout Organic
+dump set node Place shape circle
+dump set node Token shape circle
+dump set node Place color white
+dump set node Transition color grey
+dump set node Token color black
+dump set node PetriNet color lightgrey
+dump set edge inhibitorArc color red
+dump add node PetriNet group by hidden outgoing places
+dump add node PetriNet group by hidden outgoing transitions
+
+new net:PetriNet
+new place_uN2352_84:Place
+new net -:places-> place_uN2352_84
+new place_uN2378_84:Place
+new net -:places-> place_uN2378_84
+new place_uN2408_84:Place
+new net -:places-> place_uN2408_84
+new place_uN2444_84:Place
+new net -:places-> place_uN2444_84
+new place_uN2692_84:Place
+new net -:places-> place_uN2692_84
+new place_uN2740_84:Place
+new net -:places-> place_uN2740_84
+new place_uN2438_84:Place
+new net -:places-> place_uN2438_84
+new place_uN2324_84:Place
+new net -:places-> place_uN2324_84
+new place_uN2494_84:Place
+new net -:places-> place_uN2494_84
+new place_P1:Place
+new net -:places-> place_P1
+new place_uN2530_84:Place
+new net -:places-> place_uN2530_84
+new place_uN2818_84:Place
+new net -:places-> place_uN2818_84
+new place_uN2784_84:Place
+new net -:places-> place_uN2784_84
+new place_uN2362_84:Place
+new net -:places-> place_uN2362_84
+new place_uN2382_84:Place
+new net -:places-> place_uN2382_84
+new place_uN2432_84:Place
+new net -:places-> place_uN2432_84
+new place_uN2546_84:Place
+new net -:places-> place_uN2546_84
+new place_uN2414_84:Place
+new net -:places-> place_uN2414_84
+new place_uN2404_84:Place
+new net -:places-> place_uN2404_84
+new place_uN2766_84:Place
+new net -:places-> place_uN2766_84
+new place_uN2792_84:Place
+new net -:places-> place_uN2792_84
+new place_uN2386_84:Place
+new net -:places-> place_uN2386_84
+new place_uN2424_84:Place
+new net -:places-> place_uN2424_84
+new place_uN2596_84:Place
+new net -:places-> place_uN2596_84
+new place_uN2688_84:Place
+new net -:places-> place_uN2688_84
+new place_uN2666_84:Place
+new net -:places-> place_uN2666_84
+new place_uN2788_84:Place
+new net -:places-> place_uN2788_84
+new place_uN2592_84:Place
+new net -:places-> place_uN2592_84
+new place_uN2334_84:Place
+new net -:places-> place_uN2334_84
+new place_uN2602_84:Place
+new net -:places-> place_uN2602_84
+new place_uN2760_84:Place
+new net -:places-> place_uN2760_84
+new place_uN2576_84:Place
+new net -:places-> place_uN2576_84
+new place_uN2656_84:Place
+new net -:places-> place_uN2656_84
+new place_uN2506_84:Place
+new net -:places-> place_uN2506_84
+new place_uN2808_84:Place
+new net -:places-> place_uN2808_84
+new place_uN2706_84:Place
+new net -:places-> place_uN2706_84
+new place_uN2454_84:Place
+new net -:places-> place_uN2454_84
+new place_uN2474_84:Place
+new net -:places-> place_uN2474_84
+new place_uN2522_84:Place
+new net -:places-> place_uN2522_84
+new place_uN2562_84:Place
+new net -:places-> place_uN2562_84
+new place_uN2670_84:Place
+new net -:places-> place_uN2670_84
+new place_uN2712_84:Place
+new net -:places-> place_uN2712_84
+new place_uN2372_84:Place
+new net -:places-> place_uN2372_84
+new place_uN2674_84:Place
+new net -:places-> place_uN2674_84
+new place_uN2486_84:Place
+new net -:places-> place_uN2486_84
+new token_uN2677_ee:Token
+new place_uN2486_84 -:tokens-> token_uN2677_ee
+new place_uN2728_84:Place
+new net -:places-> place_uN2728_84
+new token_uN2828_84:Token
+new place_uN2728_84 -:tokens-> token_uN2828_84
+new token_uN2838_84:Token
+new place_uN2728_84 -:tokens-> token_uN2838_84
+new token_uN2830_84:Token
+new place_uN2728_84 -:tokens-> token_uN2830_84
+new token_uN2834_84:Token
+new place_uN2728_84 -:tokens-> token_uN2834_84
+new token_uN2824_84:Token
+new place_uN2728_84 -:tokens-> token_uN2824_84
+new token_uN2832_84:Token
+new place_uN2728_84 -:tokens-> token_uN2832_84
+new token_uN2826_84:Token
+new place_uN2728_84 -:tokens-> token_uN2826_84
+new token_uN2836_84:Token
+new place_uN2728_84 -:tokens-> token_uN2836_84
+new place_uN2344_84:Place
+new net -:places-> place_uN2344_84
+new place_uN2634_84:Place
+new net -:places-> place_uN2634_84
+new place_uN2624_84:Place
+new net -:places-> place_uN2624_84
+new place_uN2606_84:Place
+new net -:places-> place_uN2606_84
+new place_uN2802_84:Place
+new net -:places-> place_uN2802_84
+new place_uN2662_84:Place
+new net -:places-> place_uN2662_84
+new place_uN2584_84:Place
+new net -:places-> place_uN2584_84
+new place_uN2366_84:Place
+new net -:places-> place_uN2366_84
+new place_uN2480_84:Place
+new net -:places-> place_uN2480_84
+new place_uN2568_84:Place
+new net -:places-> place_uN2568_84
+new place_uN2746_84:Place
+new net -:places-> place_uN2746_84
+new place_uN2580_84:Place
+new net -:places-> place_uN2580_84
+new place_uN2698_84:Place
+new net -:places-> place_uN2698_84
+new place_uN2720_84:Place
+new net -:places-> place_uN2720_84
+new place_uN2512_84:Place
+new net -:places-> place_uN2512_84
+new place_uN2330_84:Place
+new net -:places-> place_uN2330_84
+new place_uN2390_84:Place
+new net -:places-> place_uN2390_84
+new place_uN2618_84:Place
+new net -:places-> place_uN2618_84
+new place_uN2682_84:Place
+new net -:places-> place_uN2682_84
+new place_P2:Place
+new net -:places-> place_P2
+new token_uN2675_ee:Token
+new place_P2 -:tokens-> token_uN2675_ee
+new token_uN2322_84:Token
+new place_P2 -:tokens-> token_uN2322_84
+new place_uN2814_84:Place
+new net -:places-> place_uN2814_84
+new place_uN2640_84:Place
+new net -:places-> place_uN2640_84
+new place_uN2716_84:Place
+new net -:places-> place_uN2716_84
+new place_uN2340_84:Place
+new net -:places-> place_uN2340_84
+new place_uN2502_84:Place
+new net -:places-> place_uN2502_84
+new place_uN2614_84:Place
+new net -:places-> place_uN2614_84
+new place_uN2450_84:Place
+new net -:places-> place_uN2450_84
+new place_uN2534_84:Place
+new net -:places-> place_uN2534_84
+new place_uN2702_84:Place
+new net -:places-> place_uN2702_84
+new place_uN2724_84:Place
+new net -:places-> place_uN2724_84
+new place_uN2756_84:Place
+new net -:places-> place_uN2756_84
+new place_uN2780_84:Place
+new net -:places-> place_uN2780_84
+new place_uN2464_84:Place
+new net -:places-> place_uN2464_84
+new place_uN2538_84:Place
+new net -:places-> place_uN2538_84
+new place_uN2772_84:Place
+new net -:places-> place_uN2772_84
+new transition_uN2396_84:Transition
+new net -:transitions-> transition_uN2396_84
+new transition_uN2804_84:Transition
+new net -:transitions-> transition_uN2804_84
+new transition_uN2686_84:Transition
+new net -:transitions-> transition_uN2686_84
+new transition_uN2638_84:Transition
+new net -:transitions-> transition_uN2638_84
+new transition_uN2658_84:Transition
+new net -:transitions-> transition_uN2658_84
+new transition_uN2560_84:Transition
+new net -:transitions-> transition_uN2560_84
+new transition_uN2442_84:Transition
+new net -:transitions-> transition_uN2442_84
+new transition_uN2470_84:Transition
+new net -:transitions-> transition_uN2470_84
+new transition_uN2370_84:Transition
+new net -:transitions-> transition_uN2370_84
+new transition_uN2466_84:Transition
+new net -:transitions-> transition_uN2466_84
+new transition_uN2328_84:Transition
+new net -:transitions-> transition_uN2328_84
+new transition_uN2376_84:Transition
+new net -:transitions-> transition_uN2376_84
+new transition_uN2360_84:Transition
+new net -:transitions-> transition_uN2360_84
+new transition_uN2548_84:Transition
+new net -:transitions-> transition_uN2548_84
+new transition_uN2496_84:Transition
+new net -:transitions-> transition_uN2496_84
+new transition_uN2652_84:Transition
+new net -:transitions-> transition_uN2652_84
+new transition_uN2612_84:Transition
+new net -:transitions-> transition_uN2612_84
+new transition_uN2516_84:Transition
+new net -:transitions-> transition_uN2516_84
+new transition_uN2644_84:Transition
+new net -:transitions-> transition_uN2644_84
+new transition_uN2620_84:Transition
+new net -:transitions-> transition_uN2620_84
+new transition_uN2762_84:Transition
+new net -:transitions-> transition_uN2762_84
+new transition_uN2586_84:Transition
+new net -:transitions-> transition_uN2586_84
+new transition_uN2542_84:Transition
+new net -:transitions-> transition_uN2542_84
+new transition_uN2456_84:Transition
+new net -:transitions-> transition_uN2456_84
+new transition_uN2350_84:Transition
+new net -:transitions-> transition_uN2350_84
+new transition_T2:Transition
+new net -:transitions-> transition_T2
+new transition_uN2356_84:Transition
+new net -:transitions-> transition_uN2356_84
+new transition_uN2448_84:Transition
+new net -:transitions-> transition_uN2448_84
+new transition_uN2400_84:Transition
+new net -:transitions-> transition_uN2400_84
+new transition_uN2590_84:Transition
+new net -:transitions-> transition_uN2590_84
+new transition_uN2552_84:Transition
+new net -:transitions-> transition_uN2552_84
+new transition_uN2820_84:Transition
+new net -:transitions-> transition_uN2820_84
+new transition_uN2556_84:Transition
+new net -:transitions-> transition_uN2556_84
+new transition_uN2730_84:Transition
+new net -:transitions-> transition_uN2730_84
+new transition_uN2794_84:Transition
+new net -:transitions-> transition_uN2794_84
+new transition_uN2632_84:Transition
+new net -:transitions-> transition_uN2632_84
+new transition_uN2508_84:Transition
+new net -:transitions-> transition_uN2508_84
+new transition_uN2410_84:Transition
+new net -:transitions-> transition_uN2410_84
+new transition_uN2678_84:Transition
+new net -:transitions-> transition_uN2678_84
+new transition_uN2490_84:Transition
+new net -:transitions-> transition_uN2490_84
+new transition_uN2430_84:Transition
+new net -:transitions-> transition_uN2430_84
+new transition_uN2420_84:Transition
+new net -:transitions-> transition_uN2420_84
+new transition_uN2476_84:Transition
+new net -:transitions-> transition_uN2476_84
+new transition_uN2600_84:Transition
+new net -:transitions-> transition_uN2600_84
+new transition_uN2526_84:Transition
+new net -:transitions-> transition_uN2526_84
+new transition_uN2520_84:Transition
+new net -:transitions-> transition_uN2520_84
+new transition_T1:Transition
+new net -:transitions-> transition_T1
+new transition_uN2566_84:Transition
+new net -:transitions-> transition_uN2566_84
+new transition_uN2750_84:Transition
+new net -:transitions-> transition_uN2750_84
+new transition_uN2436_84:Transition
+new net -:transitions-> transition_uN2436_84
+new transition_uN2608_84:Transition
+new net -:transitions-> transition_uN2608_84
+new transition_uN2798_84:Transition
+new net -:transitions-> transition_uN2798_84
+new transition_uN2812_84:Transition
+new net -:transitions-> transition_uN2812_84
+new transition_uN2734_84:Transition
+new net -:transitions-> transition_uN2734_84
+new transition_uN2460_84:Transition
+new net -:transitions-> transition_uN2460_84
+new transition_uN2774_84:Transition
+new net -:transitions-> transition_uN2774_84
+new transition_uN2426_84:Transition
+new net -:transitions-> transition_uN2426_84
+new transition_uN2754_84:Transition
+new net -:transitions-> transition_uN2754_84
+new transition_uN2694_84:Transition
+new net -:transitions-> transition_uN2694_84
+new transition_uN2768_84:Transition
+new net -:transitions-> transition_uN2768_84
+new transition_uN2346_84:Transition
+new net -:transitions-> transition_uN2346_84
+new transition_uN2778_84:Transition
+new net -:transitions-> transition_uN2778_84
+new transition_uN2744_84:Transition
+new net -:transitions-> transition_uN2744_84
+new transition_uN2572_84:Transition
+new net -:transitions-> transition_uN2572_84
+new transition_uN2648_84:Transition
+new net -:transitions-> transition_uN2648_84
+new transition_uN2416_84:Transition
+new net -:transitions-> transition_uN2416_84
+new transition_uN2738_84:Transition
+new net -:transitions-> transition_uN2738_84
+new transition_uN2708_84:Transition
+new net -:transitions-> transition_uN2708_84
+new transition_uN2484_84:Transition
+new net -:transitions-> transition_uN2484_84
+new transition_uN2500_84:Transition
+new net -:transitions-> transition_uN2500_84
+new transition_uN2336_84:Transition
+new net -:transitions-> transition_uN2336_84
+new transition_uN2392_84:Transition
+new net -:transitions-> transition_uN2392_84
+new transition_uN2628_84:Transition
+new net -:transitions-> transition_uN2628_84
+new place_uN2546_84 -outarc_uN2588_84:outArc-> transition_uN2586_84
+new place_uN2330_84 -outarc_uN2338_84:outArc-> transition_uN2336_84
+new place_uN2760_84 -outarc_uN2710_84:outArc-> transition_uN2708_84
+new place_P1 -outarc_uN2645_84:outArc-> transition_uN2644_84
+new place_uN2720_84 -outarc_uN2722_84:outArc-> transition_uN2336_84
+new place_uN2802_84 -outarc_uN2796_84:outArc-> transition_uN2794_84
+new place_uN2808_84 -outarc_uN2810_84:outArc-> transition_uN2336_84
+new place_uN2614_84 -outarc_uN2622_84:outArc-> transition_uN2620_84
+new place_uN2746_84 -outarc_uN2749_84:outArc-> transition_uN2744_84
+new place_uN2576_84 -outarc_uN2578_84:outArc-> transition_uN2376_84
+new place_P1 -outarc_uN2397_84:outArc-> transition_uN2396_84
+new place_uN2334_84 -outarc_uN2527_84:outArc-> transition_uN2526_84
+new place_uN2444_84 -outarc_uN2447_84:outArc-> transition_uN2442_84
+new place_uN2792_84 -outarc_uN2776_84:outArc-> transition_uN2774_84
+new place_uN2506_84 -outarc_uN2732_84:outArc-> transition_uN2730_84
+new place_uN2634_84 -outarc_uN2637_84:outArc-> transition_uN2632_84
+new place_uN2788_84 -outarc_uN2790_84:outArc-> transition_uN2336_84
+new place_uN2424_84 -outarc_uN2418_84:outArc-> transition_uN2416_84
+new place_uN2334_84 -outarc_uN2461_84:outArc-> transition_uN2460_84
+new place_uN2438_84 -outarc_uN2441_84:outArc-> transition_uN2436_84
+new place_uN2780_84 -outarc_uN2783_84:outArc-> transition_uN2778_84
+new place_uN2596_84 -outarc_uN2610_84:outArc-> transition_uN2608_84
+new place_uN2340_84 -outarc_uN2468_84:outArc-> transition_uN2466_84
+new place_uN2530_84 -outarc_uN2532_84:outArc-> transition_uN2376_84
+new place_uN2606_84 -outarc_uN2598_84:outArc-> transition_uN2376_84
+new place_P1 -outarc_uN2679_84:outArc-> transition_uN2678_84
+new place_uN2756_84 -outarc_uN2759_84:outArc-> transition_uN2754_84
+new place_uN2682_84 -outarc_uN2684_84:outArc-> transition_uN2336_84
+new place_uN2534_84 -outarc_uN2536_84:outArc-> transition_uN2376_84
+new place_P2 -outarc_uN2318_84:outArc-> transition_T2
+new place_uN2382_84 -outarc_uN2384_84:outArc-> transition_uN2376_84
+new place_uN2766_84 -outarc_uN2764_84:outArc-> transition_uN2762_84
+new place_uN2624_84 -outarc_uN2626_84:outArc-> transition_uN2336_84
+new place_uN2640_84 -outarc_uN2643_84:outArc-> transition_uN2638_84
+new place_uN2662_84 -outarc_uN2664_84:outArc-> transition_uN2336_84
+new place_uN2352_84 -outarc_uN2355_84:outArc-> transition_uN2350_84
+new place_uN2414_84 -outarc_uN2510_84:outArc-> transition_uN2508_84
+new place_uN2432_84 -outarc_uN2435_84:outArc-> transition_uN2430_84
+new place_uN2656_84 -outarc_uN2550_84:outArc-> transition_uN2548_84
+new place_uN2486_84 -outarc_uN2489_84:outArc-> transition_uN2484_84
+new place_uN2378_84 -outarc_uN2381_84:outArc-> transition_uN2376_84
+new place_uN2464_84 -outarc_uN2458_84:outArc-> transition_uN2456_84
+new place_uN2698_84 -outarc_uN2700_84:outArc-> transition_uN2336_84
+new place_uN2362_84 -outarc_uN2365_84:outArc-> transition_uN2360_84
+new place_uN2740_84 -outarc_uN2743_84:outArc-> transition_uN2738_84
+new place_uN2366_84 -outarc_uN2368_84:outArc-> transition_T1
+new place_uN2818_84 -outarc_uN2806_84:outArc-> transition_uN2804_84
+new place_uN2324_84 -outarc_uN2326_84:outArc-> transition_T1
+new place_uN2666_84 -outarc_uN2668_84:outArc-> transition_uN2336_84
+new place_uN2334_84 -outarc_uN2491_84:outArc-> transition_uN2490_84
+new place_uN2592_84 -outarc_uN2595_84:outArc-> transition_uN2590_84
+new place_uN2372_84 -outarc_uN2375_84:outArc-> transition_uN2370_84
+new place_uN2670_84 -outarc_uN2672_84:outArc-> transition_uN2336_84
+new place_uN2674_84 -outarc_uN2676_84:outArc-> transition_uN2336_84
+new place_uN2512_84 -outarc_uN2514_84:outArc-> transition_uN2376_84
+new place_uN2716_84 -outarc_uN2718_84:outArc-> transition_uN2336_84
+new place_uN2772_84 -outarc_uN2770_84:outArc-> transition_uN2768_84
+new place_uN2602_84 -outarc_uN2605_84:outArc-> transition_uN2600_84
+new place_uN2494_84 -outarc_uN2478_84:outArc-> transition_uN2476_84
+new place_uN2712_84 -outarc_uN2714_84:outArc-> transition_uN2336_84
+new place_uN2580_84 -outarc_uN2582_84:outArc-> transition_uN2376_84
+new place_uN2450_84 -outarc_uN2453_84:outArc-> transition_uN2448_84
+new place_uN2474_84 -outarc_uN2412_84:outArc-> transition_uN2410_84
+new place_uN2688_84 -outarc_uN2691_84:outArc-> transition_uN2686_84
+new place_P1 -outarc_uN2316_84:outArc-> transition_T1
+new place_uN2404_84 -outarc_uN2406_84:outArc-> transition_T2
+new place_P1 -outarc_uN2629_84:outArc-> transition_uN2628_84
+new place_uN2522_84 -outarc_uN2525_84:outArc-> transition_uN2520_84
+new place_uN2408_84 -outarc_uN2394_84:outArc-> transition_uN2392_84
+new place_uN2454_84 -outarc_uN2428_84:outArc-> transition_uN2426_84
+new place_uN2706_84 -outarc_uN2696_84:outArc-> transition_uN2694_84
+new place_uN2584_84 -outarc_uN2498_84:outArc-> transition_uN2496_84
+new place_uN2814_84 -outarc_uN2817_84:outArc-> transition_uN2812_84
+new place_uN2386_84 -outarc_uN2388_84:outArc-> transition_uN2376_84
+new place_uN2692_84 -outarc_uN2660_84:outArc-> transition_uN2658_84
+new place_uN2538_84 -outarc_uN2540_84:outArc-> transition_uN2376_84
+new place_uN2784_84 -outarc_uN2786_84:outArc-> transition_uN2336_84
+new place_uN2724_84 -outarc_uN2726_84:outArc-> transition_uN2336_84
+new place_P1 -outarc_uN2573_84:outArc-> transition_uN2572_84
+new place_uN2562_84 -outarc_uN2565_84:outArc-> transition_uN2560_84
+new place_uN2702_84 -outarc_uN2704_84:outArc-> transition_uN2336_84
+new place_uN2334_84 -outarc_uN2517_84:outArc-> transition_uN2516_84
+new place_uN2618_84 -outarc_uN2617_84:outArc-> transition_uN2612_84
+new place_uN2568_84 -outarc_uN2571_84:outArc-> transition_uN2566_84
+new place_uN2502_84 -outarc_uN2505_84:outArc-> transition_uN2500_84
+new place_uN2480_84 -outarc_uN2482_84:outArc-> transition_uN2376_84
+new place_uN2334_84 -outarc_uN2333_84:outArc-> transition_uN2328_84
+new place_uN2344_84 -outarc_uN2342_84:outArc-> transition_T1
+new place_uN2728_84 -outarc_uN2822_84:outArc-> transition_uN2820_84
+new place_uN2334_84 -outarc_uN2553_84:outArc-> transition_uN2552_84
+new place_uN2390_84 -outarc_uN2348_84:outArc-> transition_uN2346_84
+new transition_T1 -inarc_uN2317_84:inArc-> place_P2
+new transition_uN2416_84 -inarc_uN2419_84:inArc-> place_uN2414_84
+new transition_uN2350_84 -inarc_uN2332_84:inArc-> place_uN2330_84
+new transition_uN2376_84 -inarc_uN2374_84:inArc-> place_uN2372_84
+new transition_uN2500_84 -inarc_uN2816_84:inArc-> place_uN2814_84
+new transition_uN2336_84 -inarc_uN2339_84:inArc-> place_uN2334_84
+new transition_uN2754_84 -inarc_uN2748_84:inArc-> place_uN2746_84
+new transition_uN2794_84 -inarc_uN2797_84:inArc-> place_uN2792_84
+new transition_uN2460_84 -inarc_uN2462_84:inArc-> place_uN2324_84
+new transition_uN2350_84 -inarc_uN2809_84:inArc-> place_uN2808_84
+new transition_uN2350_84 -inarc_uN2703_84:inArc-> place_uN2702_84
+new transition_uN2360_84 -inarc_uN2513_84:inArc-> place_uN2512_84
+new transition_uN2360_84 -inarc_uN2440_84:inArc-> place_uN2438_84
+new transition_uN2572_84 -inarc_uN2574_84:inArc-> place_P2
+new transition_uN2778_84 -inarc_uN2758_84:inArc-> place_uN2756_84
+new transition_uN2730_84 -inarc_uN2733_84:inArc-> place_uN2728_84
+new transition_uN2350_84 -inarc_uN2319_84:inArc-> place_P1
+new transition_uN2812_84 -inarc_uN2782_84:inArc-> place_uN2780_84
+new transition_uN2350_84 -inarc_uN2789_84:inArc-> place_uN2788_84
+new transition_uN2520_84 -inarc_uN2499_84:inArc-> place_uN2494_84
+new transition_T2 -inarc_uN2354_84:inArc-> place_uN2352_84
+new transition_uN2744_84 -inarc_uN2742_84:inArc-> place_uN2740_84
+new transition_uN2526_84 -inarc_uN2528_84:inArc-> place_uN2324_84
+new transition_uN2658_84 -inarc_uN2661_84:inArc-> place_uN2656_84
+new transition_uN2396_84 -inarc_uN2398_84:inArc-> place_P2
+new transition_uN2350_84 -inarc_uN2663_84:inArc-> place_uN2662_84
+new transition_uN2678_84 -inarc_uN2680_84:inArc-> place_P2
+new transition_uN2738_84 -inarc_uN2690_84:inArc-> place_uN2688_84
+new transition_uN2490_84 -inarc_uN2492_84:inArc-> place_uN2324_84
+new transition_uN2328_84 -inarc_uN2325_84:inArc-> place_uN2324_84
+new transition_uN2430_84 -inarc_uN2383_84:inArc-> place_uN2382_84
+new transition_uN2768_84 -inarc_uN2771_84:inArc-> place_uN2766_84
+new transition_uN2508_84 -inarc_uN2511_84:inArc-> place_uN2506_84
+new transition_uN2804_84 -inarc_uN2807_84:inArc-> place_uN2802_84
+new transition_uN2516_84 -inarc_uN2518_84:inArc-> place_uN2324_84
+new transition_uN2350_84 -inarc_uN2671_84:inArc-> place_uN2670_84
+new transition_uN2566_84 -inarc_uN2564_84:inArc-> place_uN2562_84
+new transition_uN2430_84 -inarc_uN2380_84:inArc-> place_uN2378_84
+new transition_uN2612_84 -inarc_uN2604_84:inArc-> place_uN2602_84
+new transition_uN2360_84 -inarc_uN2531_84:inArc-> place_uN2530_84
+new transition_uN2346_84 -inarc_uN2349_84:inArc-> place_uN2344_84
+new transition_uN2350_84 -inarc_uN2713_84:inArc-> place_uN2712_84
+new transition_uN2350_84 -inarc_uN2721_84:inArc-> place_uN2720_84
+new transition_uN2600_84 -inarc_uN2594_84:inArc-> place_uN2592_84
+new transition_uN2686_84 -inarc_uN2642_84:inArc-> place_uN2640_84
+new transition_uN2410_84 -inarc_uN2413_84:inArc-> place_uN2408_84
+new transition_uN2350_84 -inarc_uN2667_84:inArc-> place_uN2666_84
+new transition_uN2360_84 -inarc_uN2535_84:inArc-> place_uN2534_84
+new transition_uN2560_84 -inarc_uN2524_84:inArc-> place_uN2522_84
+new transition_uN2360_84 -inarc_uN2597_84:inArc-> place_uN2596_84
+new transition_uN2350_84 -inarc_uN2717_84:inArc-> place_uN2716_84
+new transition_uN2350_84 -inarc_uN2675_84:inArc-> place_uN2674_84
+new transition_uN2350_84 -inarc_uN2367_84:inArc-> place_uN2366_84
+new transition_uN2552_84 -inarc_uN2554_84:inArc-> place_uN2324_84
+new transition_uN2774_84 -inarc_uN2777_84:inArc-> place_uN2772_84
+new transition_uN2360_84 -inarc_uN2481_84:inArc-> place_uN2480_84
+new transition_uN2694_84 -inarc_uN2697_84:inArc-> place_uN2692_84
+new transition_uN2708_84 -inarc_uN2711_84:inArc-> place_uN2706_84
+new transition_uN2350_84 -inarc_uN2785_84:inArc-> place_uN2784_84
+new transition_uN2396_84 -inarc_uN2488_84:inArc-> place_uN2486_84
+new transition_uN2496_84 -inarc_uN2504_84:inArc-> place_uN2502_84
+new transition_uN2350_84 -inarc_uN2699_84:inArc-> place_uN2698_84
+new transition_uN2356_84 -inarc_uN2364_84:inArc-> place_uN2362_84
+new transition_uN2638_84 -inarc_uN2636_84:inArc-> place_uN2634_84
+new transition_uN2620_84 -inarc_uN2623_84:inArc-> place_uN2618_84
+new transition_uN2466_84 -inarc_uN2469_84:inArc-> place_uN2464_84
+new transition_uN2644_84 -inarc_uN2646_84:inArc-> place_P2
+new transition_uN2448_84 -inarc_uN2446_84:inArc-> place_uN2444_84
+new transition_uN2442_84 -inarc_uN2434_84:inArc-> place_uN2432_84
+new transition_uN2590_84 -inarc_uN2570_84:inArc-> place_uN2568_84
+new transition_uN2350_84 -inarc_uN2683_84:inArc-> place_uN2682_84
+new transition_uN2628_84 -inarc_uN2630_84:inArc-> place_P2
+new transition_uN2360_84 -inarc_uN2577_84:inArc-> place_uN2576_84
+new transition_uN2608_84 -inarc_uN2611_84:inArc-> place_uN2606_84
+new transition_uN2586_84 -inarc_uN2589_84:inArc-> place_uN2584_84
+new transition_T2 -inarc_uN2341_84:inArc-> place_uN2340_84
+new transition_uN2762_84 -inarc_uN2765_84:inArc-> place_uN2760_84
+new transition_uN2456_84 -inarc_uN2459_84:inArc-> place_uN2454_84
+new transition_uN2484_84 -inarc_uN2405_84:inArc-> place_uN2404_84
+new transition_uN2476_84 -inarc_uN2479_84:inArc-> place_uN2474_84
+new transition_uN2392_84 -inarc_uN2395_84:inArc-> place_uN2390_84
+new transition_uN2632_84 -inarc_uN2616_84:inArc-> place_uN2614_84
+new transition_uN2360_84 -inarc_uN2539_84:inArc-> place_uN2538_84
+new transition_uN2350_84 -inarc_uN2625_84:inArc-> place_uN2624_84
+new transition_uN2436_84 -inarc_uN2452_84:inArc-> place_uN2450_84
+new transition_uN2548_84 -inarc_uN2551_84:inArc-> place_uN2546_84
+new transition_uN2350_84 -inarc_uN2725_84:inArc-> place_uN2724_84
+new transition_uN2426_84 -inarc_uN2429_84:inArc-> place_uN2424_84
+new transition_uN2820_84 -inarc_uN2823_84:inArc-> place_uN2818_84
+new transition_uN2360_84 -inarc_uN2581_84:inArc-> place_uN2580_84
+new transition_uN2360_84 -inarc_uN2387_84:inArc-> place_uN2386_84
+
+custom graph analyze
+custom actions gen_searchplan fireRule emitTokens consumeTokens deleteToken
+
+debug xgrs fireRule[1000]

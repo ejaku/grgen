@@ -1,0 +1,47 @@
+// GrGen-version of the Petri net simulation benchmark from 
+// A Benchmark Evaluation of Incremental Pattern Matching in Graph Transformation
+
+using PetriModel;
+
+rule fireRule {
+  pattern {
+    net:PetriNet -ts:transitions-> t:Transition;
+    negative {
+      t <-o:outArc- pEmpty:Place;
+      negative {
+        pEmpty -ksn:tokens-> ;
+      }
+    }
+    negative {
+      t <-i:inhibitorArc- pFilled:Place -ks:tokens-> ;
+    }
+  }
+  modify {
+    exec( [emitTokens(t)] && [consumeTokens(t)] );
+  }
+}
+
+rule emitTokens(t:Transition) {
+  pattern {
+    t -i:inArc-> p:Place;
+  }
+  modify {
+    p -ks:tokens-> k:Token; 
+  }
+}
+rule consumeTokens(t:Transition) {
+  pattern {
+    t <-o:outArc- p:Place;
+  }
+  modify {
+    exec(deleteToken(p));
+  }
+}
+rule deleteToken(p:Place) {
+  pattern {
+    p -ks:tokens-> k:Token;
+  }
+  replace{
+    p; 
+  }
+}
