@@ -1,0 +1,29 @@
+new graph "ObjectToSchema.grg"
+
+debug set layout Compilergraph
+
+dump set node Package color lightgrey
+dump add node Package group by hidden incoming EO_UML
+dump set node Class color green
+dump add node Class group by hidden incoming CF_UML
+dump set node Assoc color darkgreen
+dump add node Assoc group by hidden incoming CF_UML
+dump set node AssocEnd color lightgreen
+dump set node Attribut color lightgreen
+dump set node General color green
+
+dump set node Schema color lightgrey
+dump add node Schema group by hidden incoming EO_DB
+dump set node Table color blue
+dump add node Table group by hidden incoming EO_DB
+dump add node Table group by hidden incoming CF_DB
+dump set node FKey color darkblue
+dump set node PKey color orchid
+dump set node Column color lightblue
+
+xgrs createUMLModel
+
+custom graph analyze
+custom actions gen_searchplan schemaRule classRule associationRule assocEndRule generalizationRule attributeRule
+
+debug xgrs schemaRule* && classRule* && associationRule* && assocEndRule* && generalizationRule* && attributeRule*

@@ -1,0 +1,124 @@
+// Varró "Benchmark"(bah, where's a suffieciently large benchmark graph?) Object to Relational Mapping
+
+using ObjectToSchema;
+
+rule schemaRule
+{
+	p:Package;
+	negative {
+		p -rn:Ref-> sn:Schema;
+	}
+	
+	modify {
+		p -r:Ref-> s:Schema;
+	}
+}
+
+rule classRule
+{
+	p:Package <-eo1:EO_UML- c:Class;
+	p -r1:Ref-> s:Schema;
+	negative {
+		c -refn:Ref-> tn:Table;
+	}
+	
+	modify {
+		c -r2:Ref-> t:Table;
+		s <-eo2:EO_DB- t;
+		t <-eo3:EO_DB- tpk:PKey;
+		t <-cf:CF_DB- tid:Column;
+		tpk -uf:UF- tid;
+	}
+}
+
+rule associationRule
+{
+	p:Package <-eo1:EO_UML- rel:Assoc;
+	p -r1:Ref-> s:Schema;
+	negative {
+		rel -refn:Ref-> tn:Table;
+	}
+	
+	modify {
+		rel -r2:Ref-> t:Table;
+		s <-eo2:EO_DB- t;
+		t <-eo3:EO_DB- relpk:PKey;
+		t <-cf:CF_DB- relid:Column;
+		relpk -uf:UF- relid;
+	}
+}
+
+rule assocEndRule
+{
+	c:Class -s:SFT- ae:AssocEnd -cf1:CF_UML-> rel:Assoc;
+	c -r1:Ref-> t_c:Table <-e1:EO_DB- cpk:PKey;
+	rel -r2:Ref-> t_rel:Table;
+	negative {
+		ae -refn:Ref-> fkn:FKey;
+	}
+	
+	modify {
+		ae -r3:Ref-> rel2dir:FKey -eo1:EO_DB-> t_rel;
+		rel2dir -u:UKR- cpk;
+		rel2dir -k:KRF- relid:Column -cf2:CF_DB-> t_rel;
+	}
+}
+
+rule generalizationRule
+{
+	sup:Class -pe:PE- gen:General -ce:CE- sub:Class;
+	sup -r1:Ref-> t_sup:Table <-eo1:EO_DB- suppk:PKey;
+	sub -r2:Ref-> t_sub:Table <-eo2:EO_DB- subpk:PKey;
+	t_sub <-cf1:CF_DB- subid:Column -uf1:UF- subpk;
+	negative {
+		gen -refn:Ref-> fkn:FKey;
+	}
+	
+	modify {
+		gen -r3:Ref-> subsup:FKey;
+		subsup -u:UKR- suppk;
+		subsup -k:KRF- subid;
+	}
+}
+
+rule attributeRule
+{
+	c:Class <-cf1:CF_UML- a:Attribut;
+	c -r1:Ref-> t:Table;
+	negative {
+		a -refn:Ref-> coln:Column;
+	}
+	
+	modify {
+		a -r2:Ref-> col:Column -cf2:CF_DB-> t;
+	}
+}
+
+rule createUMLModel
+{
+
+	modify {
+		p:Package;
+		
+		p <-:EO_UML- left:Assoc;
+		p <-:EO_UML- right:Assoc;
+		p <-:EO_UML- hold:Assoc;
+
+		p <-:EO_UML- phil:Class;
+		p <-:EO_UML- fork:Class;
+		
+		ae1:AssocEnd -:CF_UML-> left <-:CF_UML- ae2:AssocEnd;
+		ae3:AssocEnd -:CF_UML-> right <-:CF_UML- ae4:AssocEnd;
+		ae5:AssocEnd -:CF_UML-> hold <-:CF_UML- ae6:AssocEnd;
+		
+		ae1 -:SFT- phil;
+		ae3 -:SFT- phil;
+		ae5 -:SFT- phil;
+		
+		ae2 -:SFT- fork;
+		ae4 -:SFT- fork;
+		ae6 -:SFT- fork;
+		
+		status:Attribut -:CF_UML-> phil;
+	}
+}

@@ -1,0 +1,32 @@
+// UML part
+
+node class Package;
+node class Class;
+node class General;
+node class Assoc;
+node class AssocEnd;
+node class Attribut; // Attribute causes name clash with System.Attribute
+
+edge class EO_UML; // element ownership (of)
+edge class CF_UML; // classifier feature (of)
+undirected edge class SFT; // structural feature type
+undirected edge class PE; // parent element
+undirected edge class CE; // child element
+
+// DB part
+
+node class Schema;
+node class Table;
+node class Column;
+node class FKey;
+node class PKey;
+
+edge class EO_DB; // element ownership (of)
+edge class CF_DB; // classifier feature (of)
+undirected edge class KRF; // key relationship features
+undirected edge class UF; // unique features
+undirected edge class UKR; // unique key relationship
+
+// crossing edges
+
+edge class Ref;
