@@ -139,21 +139,11 @@ tokens {
 		env.getSystem().getErrorReporter().error(c, s);
 	}
 
-	public void reportError(String arg0) {
-		reportError(Coords.getInvalid(), arg0);
-	}
-
-	public void reportError(RecognitionException e) {
-		reportError(new Coords(e), e.getMessage());
-	}
-
-	public void reportError(RecognitionException e, String s) {
-		reportError(new Coords(e), s);
-	}
-
-	public void reportWarning(String arg0) {
-		env.getSystem().getErrorReporter().warning(arg0);
-	}
+	public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
+        String hdr = getErrorHeader(e);
+        String msg = getErrorMessage(e, tokenNames);
+        reportError(new Coords(e), msg);
+    }
 
 	public void reportWarning(de.unika.ipd.grgen.parser.Coords c, String s) {
 		env.getSystem().getErrorReporter().warning(c, s);
