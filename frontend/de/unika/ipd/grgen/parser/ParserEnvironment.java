@@ -37,6 +37,7 @@ import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
 import java.io.File;
+import java.util.HashSet;
 
 public abstract class ParserEnvironment extends Base {
 	public static final String MODEL_SUFFIX = ".gm";
@@ -74,6 +75,8 @@ public abstract class ParserEnvironment extends Base {
 	private final Sys system;
 
 	private final ModelNode stdModel;
+	
+	private HashSet<String> keywords = new HashSet<String>();
 
 	/**
 	 * Make a new parser environment.
@@ -86,7 +89,7 @@ public abstract class ParserEnvironment extends Base {
 		currScope = new Scope(system.getErrorReporter());
 		BaseNode.setCurrScope(currScope);
 
-		// Add keywords to the symbol table
+		// Add some keywords to the symbol table
 		for(int i = 0; i < symTabs.length; i++) {
 			symTabs[i].enterKeyword("int");
 			symTabs[i].enterKeyword("string");
@@ -95,7 +98,10 @@ public abstract class ParserEnvironment extends Base {
 			symTabs[i].enterKeyword("double");
 			symTabs[i].enterKeyword("object");
 		}
+		
+		initKeywords();
 
+		// The standard model
 		CollectNode<IdentNode> stdModelChilds = new CollectNode<IdentNode>();
 		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelChilds, new CollectNode<ModelNode>());
 
@@ -104,7 +110,6 @@ public abstract class ParserEnvironment extends Base {
 				new NodeTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0, null));
 
 		// The edge type roots
-
 		arbitraryEdgeRoot = predefineType("AEdge",
 				new ArbitraryEdgeTypeNode(new CollectNode<IdentNode>(), new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), InheritanceTypeNode.MOD_ABSTRACT, null));
 		CollectNode<IdentNode> superTypes = new CollectNode<IdentNode>();
@@ -291,6 +296,62 @@ public abstract class ParserEnvironment extends Base {
 	{
 		return Coords.getInvalid();
 	}
+	
+	public boolean isKeyword(String str) {
+		return keywords.contains(str);
+	}
+	
+	/**
+	 * Initializes the keywords hash set.
+	 */
+	private void initKeywords()
+	{
+		// To automatically generate the following lines, copy the keyword lines
+		// at the end of antlr/GrGen.g to the file antlr/keywords.txt and
+		// execute antlr/gen-keywords-code.sh writing to antlr/keywords.out
+		
+		keywords.add("abstract");
+		keywords.add("actions");
+		keywords.add("alternative");
+		keywords.add("arbitrary");
+		keywords.add("class");
+		keywords.add("if");
+		keywords.add("connect");
+		keywords.add("const");
+		keywords.add("delete");
+		keywords.add("directed");
+		keywords.add("dpo");
+		keywords.add("edge");
+		keywords.add("emit");
+		keywords.add("emitf");
+		keywords.add("enum");
+		keywords.add("eval");
+		keywords.add("exact");
+		keywords.add("exec");
+		keywords.add("extends");
+		keywords.add("false");
+		keywords.add("hom");
+		keywords.add("independent");
+		keywords.add("induced");
+		keywords.add("model");
+		keywords.add("modify");
+		keywords.add("nameof");
+		keywords.add("negative");
+		keywords.add("node");
+		keywords.add("null");
+		keywords.add("pattern");
+		keywords.add("replace");
+		keywords.add("return");
+		keywords.add("rule");
+		keywords.add("term");
+		keywords.add("test");
+		keywords.add("true");
+		keywords.add("typeof");
+		keywords.add("undirected");
+		keywords.add("using");
+		keywords.add("var");
+		keywords.add("visited");
+	}
 
 	public abstract UnitNode parseActions(File inputFile);
 	public abstract ModelNode parseModel(File inputFile);
@@ -300,4 +361,3 @@ public abstract class ParserEnvironment extends Base {
 
 	public abstract boolean hadError();
 }
-

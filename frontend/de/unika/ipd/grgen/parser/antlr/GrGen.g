@@ -1255,13 +1255,8 @@ nodeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 validIdent returns [ String id = "" ]
 	:	i=~GT
 		{
-			if(i.getType()!=IDENT) {
-				RecognitionException e = new RecognitionException();
-				e.token = i;
-				e.line = i.getLine();
-				e.charPositionInLine = i.getCharPositionInLine();
-				throw e;
-			}
+			if(i.getType() != IDENT && !env.isKeyword(i.getText()))
+				reportError(getCoords(i), "\"" + i.getText() + "\" is not a valid identifier");
 			id = i.getText();
 		}
 	;
@@ -1941,6 +1936,9 @@ ML_COMMENT
 	:   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
 	;
 
+fragment NUM_INTEGER: ;
+fragment NUM_FLOAT: ;
+fragment NUM_DOUBLE: ;
 NUMBER
    : ('0'..'9')+
    ( '.' ('0'..'9')*
