@@ -35,12 +35,13 @@ while [ "$1" ]; do
         --debug) shift; WITHDEBUG=" -d";;
         -f) shift; ONLY_FRONTEND="TRUE"; LOG=summary_fe.log;;
 		-n) shift; ONLY_NEW="TRUE";;
+		-t) shift; JUST_TEST="TRUE"; LOG=/dev/null;;
 		-v) shift; VERBOSE="TRUE";;
 		* ) break;;
 	esac
 done
 
-[ "$APPEND" ] || rm -f $LOG
+[ "$JUST_TEST" -o "$APPEND" ] || rm -f $LOG
 touch $LOG
 
 if uname -s | grep -iq "cygwin"; then
@@ -111,4 +112,4 @@ else
 	for i in $TESTS; do do_test "$i"; done
 fi
 
-do_diff
+[ "$JUST_TEST" ] || do_diff
