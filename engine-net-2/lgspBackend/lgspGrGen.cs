@@ -855,7 +855,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(Environment.OSVersion.Platform == PlatformID.Unix) javaString = "java";
                 else javaString = "javaw";
 
-                ProcessStartInfo startInfo = new ProcessStartInfo(javaString, "-Xmx1024M -jar \"" + binPath + "grgen.jar\" "
+                ProcessStartInfo startInfo = new ProcessStartInfo(javaString, "-Xss1M -Xmx1024M -jar \"" + binPath + "grgen.jar\" "
                     + "-b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
                     + "-c " + tmpDir + Path.DirectorySeparatorChar + "printOutput.txt -o " + tmpDir
                     + ((flags & ProcessSpecFlags.NoEvents) != 0 ? " --noevents" : "")
