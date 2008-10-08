@@ -193,6 +193,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(curChar == '/')
                 {
                     IgnoreComment(charStream);
+                    curChar = ' ';
                     continue;
                 }
             }
@@ -209,6 +210,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(curChar == '/')
                 {
                     IgnoreComment(charStream);
+                    curChar = ' ';
                     continue;
                 }
             }
