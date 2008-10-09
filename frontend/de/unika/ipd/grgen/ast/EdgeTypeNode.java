@@ -34,9 +34,8 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	protected static final CollectResolver<EdgeTypeNode> extendResolver = new CollectResolver<EdgeTypeNode>(
     		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class));
 
-	protected CollectNode<BaseNode> body;
-	protected CollectNode<ConnAssertNode> cas;
 	protected CollectNode<EdgeTypeNode> extend;
+	protected CollectNode<ConnAssertNode> cas;
 
 	/**
 	 * Make a new edge type node.
@@ -92,7 +91,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	public EdgeType getEdgeType() {
 		return checkIR(EdgeType.class);
 	}
-
+	
 	public CollectNode<? extends InheritanceTypeNode> getExtends() {
 		return extend;
 	}
@@ -105,7 +104,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 			coll.addAll(inh.getCompatibleToTypes());
 		}
     }
-
+	
 	public Collection<EdgeTypeNode> getDirectSuperTypes() {
 		assert isResolved();
 
@@ -153,7 +152,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 				et.addMemberInit(mi.checkIR(MemberInit.class));
 			}
 		}
-		for(InheritanceTypeNode inh : extend.getChildren()) {
+		for(EdgeTypeNode inh : extend.getChildren()) {
 			et.addDirectSuperType(inh.getType());
 		}
 

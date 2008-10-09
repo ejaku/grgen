@@ -37,6 +37,8 @@ public abstract class InheritanceType extends CompoundType {
 
 	private Set<InheritanceType> allSuperTypes = null;
 	private Set<InheritanceType> allSubTypes = null;
+	
+	private List<Constructor> constructors = new LinkedList<Constructor>();
 
 	/** The list of member initializers */
 	private List<MemberInit> memberInitializers = new LinkedList<MemberInit>();
@@ -178,6 +180,14 @@ public abstract class InheritanceType extends CompoundType {
 	 */
 	public Entity getOverriddenMember(Entity overridingMember) {
 		return overridingMembers.get(overridingMember);
+	}
+	
+	public void addConstructor(Constructor constr) {
+		constructors.add(constr);
+	}
+	
+	public Collection<Constructor> getConstructor() {
+		return constructors;
 	}
 
 	/** Adds the given member initializer to this type. */

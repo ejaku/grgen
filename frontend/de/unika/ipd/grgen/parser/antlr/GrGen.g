@@ -1214,7 +1214,7 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 		EDGE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 	  	ext=edgeExtends[id, arbitrary, undirected] cas=connectAssertions pushScope[id]
 		(
-			LBRACE body=edgeClassBody RBRACE
+			LBRACE body=edgeClassBody[id] RBRACE
 		|	SEMI
 			{ body = new CollectNode<BaseNode>(); }
 		)
@@ -1240,7 +1240,7 @@ nodeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	: 	NODE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 	  	ext=nodeExtends[id] pushScope[id]
 		(
-			LBRACE body=nodeClassBody RBRACE
+			LBRACE body=nodeClassBody[id] RBRACE
 		|	SEMI
 			{ body = new CollectNode<BaseNode>(); }
 		)
@@ -1344,28 +1344,32 @@ nodeExtendsCont [IdentNode clsId, CollectNode<IdentNode> c ]
 		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getNodeRoot()); }
 	;
 
-nodeClassBody returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
+nodeClassBody [IdentNode clsId] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
 	:	(
 			(
 				b1=basicDecl { c.addChild(b1); }
 				(
-					b2=initExprDecl[((DeclNode)b1).getIdentNode()] { c.addChild(b2); }
+					b2=initExprDecl[b1.getIdentNode()] { c.addChild(b2); }
 				)?
 			|
 				b3=initExpr { c.addChild(b3); }
+			|
+				b4=constrDecl[clsId] { c.addChild(b4); }
 			) SEMI
 		)*
 	;
 
-edgeClassBody returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
+edgeClassBody [IdentNode clsId] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
 	:	(
 			(
 				b1=basicDecl { c.addChild(b1); }
 				(
-					b2=initExprDecl[((DeclNode)b1).getIdentNode()] { c.addChild(b2); }
+					b2=initExprDecl[b1.getIdentNode()] { c.addChild(b2); }
 				)?
 			|
 				b3=initExpr { c.addChild(b3); }
+			|
+				b4=constrDecl[clsId] { c.addChild(b4); }
 			) SEMI
 		)*
 	;
@@ -1446,14 +1450,37 @@ initExpr returns [ MemberInitNode res = null ]
 		}
 	;
 
-initExprDecl[IdentNode id] returns [ MemberInitNode res = null ]
+initExprDecl [IdentNode id] returns [ MemberInitNode res = null ]
 	: a=ASSIGN e=expr[false]
 		{
 			res = new MemberInitNode(getCoords(a), id, e);
 		}
 	;
 
+constrDecl [IdentNode clsId] returns [ ConstructorDeclNode res = null ]
+	@init {
+		CollectNode<ConstructorParamNode> params = new CollectNode<ConstructorParamNode>();
+	}
+	
+	: id=typeIdentUse LPAREN constrParamList[params] RPAREN
+		{
+			res = new ConstructorDeclNode(id, params);
+			
+			if(!id.toString().equals(clsId.toString()) )
+				reportError(id.getCoords(), "A constructor must have the name of the containing class");
+		}
+	;
 
+constrParamList [ CollectNode<ConstructorParamNode> params ]
+	: p=constrParam { params.addChild(p); } ( COMMA p=constrParam { params.addChild(p); } )*
+	;
+
+constrParam returns [ ConstructorParamNode res = null ]
+	: id=entIdentUse ( ASSIGN e=expr[false] )?
+		{
+			res = new ConstructorParamNode(id, e);
+		}
+	;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Base

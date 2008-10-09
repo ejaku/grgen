@@ -324,11 +324,15 @@ public abstract class BaseNode extends Base
 		adopt.parents.add(this);
 	}
 
-	/** helper: become parent of child to adopt */
-	public void becomeParent(BaseNode adopt) {
+	/**
+	 * helper: become parent of child to adopt
+	 * @return The given parameter
+	 **/
+	public <T extends BaseNode> T becomeParent(T adopt) {
 		if(adopt!=null) {
 			adopt.parents.add(this);
 		}
+		return adopt;
 	}
 
 	/** helper: if resolution yielded some new node, become parent of it and return it; otherwise just return old node */

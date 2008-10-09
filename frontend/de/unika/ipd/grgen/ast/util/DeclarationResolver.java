@@ -19,9 +19,14 @@ import de.unika.ipd.grgen.util.Util;
 public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 {
 	private Class<R> cls;
+	private Class<? extends R>[] classes;
 
 	public DeclarationResolver(Class<R> cls) {
 		this.cls = cls;
+	}
+
+	public DeclarationResolver(Class<? extends R>[] classes) {
+		this.classes = classes;
 	}
 
 	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
@@ -32,11 +37,12 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 			parent.becomeParent(resolved);
 			return resolved;
 		}
-		if(cls.isInstance(n)) {
-			return cls.cast(n);
-		}
+		
+		R res = tryCast(n);
+		if(res != null) return res;
+		
 		n.reportError("\"" + n + "\" is a " + n.getUseString() +
-				" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");
+				" but a " + getAllowedNames() + " is expected");
 		return null;
 	}
 
@@ -44,11 +50,29 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 	 *  returns null if n's declaration can't be cast to R */
 	public R resolve(IdentNode n) {
 		DeclNode resolved = n.getDecl();
-		if(cls.isInstance(resolved)) {
-			return cls.cast(resolved);
-		}
+		
+		R res = tryCast(resolved);
+		if(res != null) return res;
+		
 		n.reportError("\"" + n + "\" is a " + resolved.getUseString() +
-				" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");
+				" but a " + getAllowedNames() + " is expected");
 		return null;
+	}
+	
+	private R tryCast(BaseNode n) {
+		if(cls == null) {
+			for(Class<? extends R> curCls : classes) {
+				if(curCls.isInstance(n))
+					return curCls.cast(n);
+			}
+		} else if(cls.isInstance(n)) {
+			return cls.cast(n);
+		}
+		return null;
+	}
+	
+	private String getAllowedNames() {
+		if(cls != null) return Util.getStr(cls, BaseNode.class, "getUseStr");
+		else return Util.getStrListWithOr(classes, BaseNode.class, "getUseStr");
 	}
 }

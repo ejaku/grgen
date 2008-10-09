@@ -108,28 +108,14 @@ public class AssignNode extends BaseNode {
 	 */
 	protected boolean typeCheckLocal() {
 		QualIdentNode qual = (QualIdentNode) lhs;
-		ExprNode expr = rhs;
-
 		TypeNode targetType = qual.getDecl().getDeclType();
-		TypeNode exprType = expr.getType();
+		TypeNode exprType = rhs.getType();
 
-		if (! exprType.isEqual(targetType)) {
-			expr = expr.adjustType(targetType);
-			becomeParent(expr);
-			rhs = expr;
-
-			if (expr == ConstNode.getInvalid()) {
-				String msg;
-				if (exprType.isCastableTo(targetType)) {
-					msg = "Assignment of " + exprType + " to " + targetType + " without a cast";
-				} else {
-					msg = "Incompatible assignment from " + exprType + " to " + targetType;
-				}
-				error.error(getCoords(), msg);
-				return false;
-			}
-		}
-		return true;
+		if (exprType.isEqual(targetType))
+			return true;
+		
+		rhs = becomeParent(rhs.adjustType(targetType, getCoords()));
+		return rhs != ConstNode.getInvalid();
 	}
 
 	/**

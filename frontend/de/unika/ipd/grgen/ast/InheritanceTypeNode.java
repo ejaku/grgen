@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.parser.Symbol;
 
 /**
@@ -29,6 +30,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	protected CollectNode<IdentNode> extendUnresolved;
 	protected CollectNode<BaseNode> bodyUnresolved;
 
+	protected CollectNode<BaseNode> body;
+	
 	/**
 	 * The modifiers for this type.
 	 * An ORed combination of the constants above.
@@ -156,4 +159,27 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 
 		return allMembers;
 	}
+	
+	protected void constructIR(InheritanceType inhType) {
+		for(BaseNode n : body.getChildren()) {
+			if(n instanceof ConstructorDeclNode) {
+				ConstructorDeclNode cd = (ConstructorDeclNode) n;
+				inhType.addConstructor(cd.getConstructor());
+			}
+			else if(n instanceof DeclNode) {
+				DeclNode decl = (DeclNode)n;
+				inhType.addMember(decl.getEntity());
+			}
+			else if(n instanceof MemberInitNode) {
+				MemberInitNode mi = (MemberInitNode)n;
+				inhType.addMemberInit(mi.checkIR(MemberInit.class));
+			}
+		}
+		for(InheritanceTypeNode inh : getExtends().getChildren()) {
+			inhType.addDirectSuperType((InheritanceType)inh.getType());
+		}
+
+		// to check overwriting of attributes
+		inhType.getAllMembers();
+    }
 }

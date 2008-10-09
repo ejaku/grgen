@@ -86,6 +86,22 @@ public abstract class ExprNode extends BaseNode {
 		return ConstNode.getInvalid();
 	}
 
+	public ExprNode adjustType(TypeNode targetType, Coords errorCoords)
+	{
+		ExprNode expr = adjustType(targetType);
+
+		if (expr == ConstNode.getInvalid()) {
+			String msg;
+			if (getType().isCastableTo(targetType)) {
+				msg = "Assignment of " + getType() + " to " + targetType + " without a cast";
+			} else {
+				msg = "Incompatible assignment from " + getType() + " to " + targetType;
+			}
+			error.error(errorCoords, msg);
+		}
+		return expr;
+	}
+
 	/**
 	 * This method is only called, if the expression is constant, so you don't
 	 * have to check for it.

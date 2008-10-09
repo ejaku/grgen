@@ -5,81 +5,66 @@
  */
 
 /**
- * @author Rubino Geiss
+ * @author Moritz Kroll
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
-
 
 import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.MemberResolver;
+import de.unika.ipd.grgen.ir.ConstructorParam;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.MemberInit;
-import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * AST node representing a member initialization.
- * children: LHS:IdentNode, RHS:ExprNode
+ * AST node representing a parameter of a constructor.
+ * children: LHS:IdentNode, RHS:optional ExprNode
  */
-public class MemberInitNode extends BaseNode {
+public class ConstructorParamNode extends BaseNode {
 	static {
-		setName(MemberInitNode.class, "member init");
+		setName(ConstructorParamNode.class, "constructor parameter declaration");
 	}
-
-	BaseNode lhsUnresolved;
+	
+	IdentNode lhsUnresolved;
 	DeclNode lhs;
 	ExprNode rhs;
-
-	/**
-	 * @param coords The source code coordinates of = operator.
-	 * @param member The member to be initialized.
-	 * @param expr The expression, that is assigned.
-	 */
-	public MemberInitNode(Coords coords, IdentNode member, ExprNode expr) {
-		super(coords);
-		this.lhsUnresolved = member;
-		becomeParent(this.lhsUnresolved);
-		this.rhs = expr;
-		becomeParent(this.rhs);
+	
+	public ConstructorParamNode(IdentNode paramNode, ExprNode expr) {
+		super(paramNode.getCoords());
+		lhsUnresolved = becomeParent(paramNode);
+		rhs = becomeParent(expr);
 	}
 
-	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(lhsUnresolved, lhs));
-		children.add(rhs);
+		if(rhs != null)
+			children.add(rhs);
 		return children;
 	}
 
-	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("lhs");
-		childrenNames.add("rhs");
+		if(rhs != null)
+			childrenNames.add("rhs");
 		return childrenNames;
 	}
-
+	
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
-		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
 		if(!lhsResolver.resolve(lhsUnresolved)) return false;
 		lhs = lhsResolver.getResult(DeclNode.class);
 
 		return lhsResolver.finish();
 	}
-
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
+	
 	protected boolean checkLocal() {
-		return typeCheckLocal();
+		return rhs == null || typeCheckLocal();
 	}
 
 	/**
@@ -97,12 +82,9 @@ public class MemberInitNode extends BaseNode {
 		rhs = becomeParent(rhs.adjustType(targetType, getCoords()));
 		return rhs != ConstNode.getInvalid();
 	}
-
-	/**
-	 * Construct the intermediate representation from a member init.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
+	
 	protected IR constructIR() {
-		return new MemberInit(lhs.checkIR(Entity.class), rhs.checkIR(Expression.class));
+		Expression expr = rhs == null ? null : rhs.checkIR(Expression.class);
+		return new ConstructorParam(lhs.checkIR(Entity.class), expr);
 	}
 }

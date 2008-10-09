@@ -14,13 +14,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.ir.NodeType;
 
 /**
@@ -31,8 +28,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		setName(NodeTypeNode.class, "node type");
 	}
 
-	CollectNode<BaseNode> body;
-	CollectNode<NodeTypeNode> extend;
+	protected CollectNode<NodeTypeNode> extend;
 
 	/**
 	 * Create a new node type
@@ -70,8 +66,11 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	private static final CollectResolver<NodeTypeNode> extendResolver =	new CollectResolver<NodeTypeNode>(
 			new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class));
 
-	private static final CollectPairResolver<BaseNode> bodyResolver = new CollectPairResolver<BaseNode>(
-			new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class));
+	@SuppressWarnings("unchecked")
+	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
+			new DeclarationResolver<BaseNode>(new Class[] {
+					MemberDeclNode.class, MemberInitNode.class, ConstructorDeclNode.class
+				}));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
@@ -114,29 +113,10 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		assert isResolved();
 
-		for(InheritanceTypeNode inh : extend.getChildren()) {
+		for(NodeTypeNode inh : extend.getChildren()) {
 			coll.add(inh);
 			coll.addAll(inh.getCompatibleToTypes());
 		}
-    }
-
-	protected void constructIR(InheritanceType inhType) {
-		for(BaseNode n : body.getChildren()) {
-			if(n instanceof DeclNode) {
-				DeclNode decl = (DeclNode)n;
-				inhType.addMember(decl.getEntity());
-			}
-			else if(n instanceof MemberInitNode) {
-				MemberInitNode mi = (MemberInitNode)n;
-				inhType.addMemberInit(mi.checkIR(MemberInit.class));
-			}
-		}
-		for(InheritanceTypeNode inh : extend.getChildren()) {
-			inhType.addDirectSuperType((InheritanceType)inh.getType());
-		}
-
-		// to check overwriting of attributes
-		inhType.getAllMembers();
     }
 
 	public static String getKindStr() {
@@ -146,7 +126,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	public static String getUseStr() {
 		return "node type";
 	}
-
+	
 	@Override
 	public Collection<NodeTypeNode> getDirectSuperTypes() {
 		assert isResolved();
