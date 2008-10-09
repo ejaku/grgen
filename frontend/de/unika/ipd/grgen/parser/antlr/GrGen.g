@@ -13,7 +13,7 @@
 grammar GrGen;
 
 options {
-	k = 4;
+	k = 2;
 }
 
 tokens {
@@ -1027,7 +1027,7 @@ simpleSequence[ExecNode xg]
 	
 	: LPAREN {xg.append("(");}
 		(
-			(entIdentUse COMMA | entIdentUse RPAREN ASSIGN | entIdentUse COLON typeIdentUse COMMA | entIdentUse COLON typeIdentUse RPAREN | MINUS) =>
+			(entIdentUse COMMA | entIdentUse RPAREN ASSIGN | entIdentUse COLON typeIdentUse (COMMA | RPAREN) | MINUS) =>
 				paramListOfExecEntIdentUseOrEntIdentDecl[returns]
 					{
 						for(Iterator<BaseNode> i =returns.getChildren().iterator(); i.hasNext();) {
