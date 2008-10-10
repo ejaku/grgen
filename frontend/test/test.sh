@@ -42,7 +42,7 @@ while [ "$1" ]; do
 done
 
 [ "$JUST_TEST" -o "$APPEND" ] || rm -f $LOG
-touch $LOG
+[ "$JUST_TEST" ] || touch $LOG
 
 if uname -s | grep -iq "cygwin"; then
 	SEP=";"
