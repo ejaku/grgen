@@ -111,7 +111,14 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 					else if(param1.lhs.getDeclType() != param2.lhs.getDeclType())
 						break;           // found a difference => not ambiguous
 				}
-				if(p == numParams1 || p == numParams2) ambiguous = true;
+				
+				// Constructors are also ambiguous, if both have identical parameter types,
+				// or if their non-optional parts have identical types and one also has an optional part.
+				if(p == numParams1 && p == numParams2
+						|| p == numParams1 && params2.get(p).rhs != null
+						|| p == numParams2 && params1.get(p).rhs != null)
+					ambiguous = true;
+				
 				if(ambiguous) {
 					c1.reportError("Constructor is ambiguous (see constructor at "
 							+ c2.getCoords() + ")");
