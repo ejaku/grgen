@@ -28,7 +28,7 @@ public class ConstructorDeclNode extends DeclNode {
 	
 	private static final TypeNode constructorType = new ConstructorTypeNode();
 	
-	CollectNode<ConstructorParamNode> parameters;
+	private CollectNode<ConstructorParamNode> parameters;
 	
 	public ConstructorDeclNode(IdentNode n, CollectNode<ConstructorParamNode> params) {
 		super(n, constructorType);
@@ -54,6 +54,10 @@ public class ConstructorDeclNode extends DeclNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("parameters");
 		return childrenNames;
+	}
+	
+	public CollectNode<ConstructorParamNode> getParameters() {
+		return parameters;
 	}
 
 	protected boolean resolveLocal() {

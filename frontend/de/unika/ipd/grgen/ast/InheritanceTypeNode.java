@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
@@ -73,13 +74,51 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		boolean res = true;
 		getAllSuperTypes();
 
-		for(DeclNode member : getAllMembers().values())
+		for(DeclNode member : getAllMembers().values()) {
 			if(member instanceof AbstractMemberDeclNode && !isAbstract()) {
 				error.error(getIdentNode().getCoords(),
 						getUseStr() + " \"" + getIdentNode() + "\" must be declared abstract, because member \"" +
 						member + "\" is abstract.");
 				res = false;
 			}
+		}
+
+		// Check constructors for ambiguity
+		Vector<ConstructorDeclNode> constrs = new Vector<ConstructorDeclNode>();
+		for(BaseNode n : body.getChildren()) {
+			if(n instanceof ConstructorDeclNode)
+				constrs.add((ConstructorDeclNode) n);
+		}
+		
+		for(int i = 0; i < constrs.size(); i++) {
+			ConstructorDeclNode c1 = constrs.get(i);
+			Vector<ConstructorParamNode> params1 = c1.getParameters().children;
+			int numParams1 = params1.size();
+			for(int j = i + 1; j < constrs.size(); j++) {
+				ConstructorDeclNode c2 = constrs.get(j);
+				Vector<ConstructorParamNode> params2 = c2.getParameters().children;
+				int numParams2 = params2.size();
+				int p = 0;
+				boolean ambiguous = false;
+				for(; p < numParams1 && p < numParams2; p++) {
+					ConstructorParamNode param1 = params1.get(p);
+					ConstructorParamNode param2 = params2.get(p);
+					if(param1.rhs != null && param2.rhs != null)
+					{
+						ambiguous = true;  // non-optional part is identical => ambiguous
+						break;
+					}
+					else if(param1.lhs.getDeclType() != param2.lhs.getDeclType())
+						break;           // found a difference => not ambiguous
+				}
+				if(p == numParams1 || p == numParams2) ambiguous = true;
+				if(ambiguous) {
+					c1.reportError("Constructor is ambiguous (see constructor at "
+							+ c2.getCoords() + ")");
+					res = false;
+				}
+			}
+		}
 
 		return res;
 	}

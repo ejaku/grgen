@@ -7,6 +7,6 @@ node class Font {
 
 	Font(height, fontname="Arial", bold=false, italic=false, underlined=false);
 	Font(fontname);
-	Font(fontname, bold, height);
-	Font(fontname, italic, bold=true);
+	Font(bold);
+	Font(italic, height=12);  // Constructor with boolean as non-optional-part already defined
 }

@@ -139,6 +139,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		assert isResolved();
 
 		for(BaseNode n : body.getChildren()) {
+			if(n instanceof ConstructorDeclNode) continue;
 			if(n instanceof DeclNode) {
 				DeclNode decl = (DeclNode)n;
 
