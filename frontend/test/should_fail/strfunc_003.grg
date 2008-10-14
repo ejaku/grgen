@@ -1,0 +1,8 @@
+using attrib_model_001;
+
+test r1
+{
+	str:NSTRING;
+
+	if { substring(str.a, "test", 9) != "bla"; }   // "test" not an int
+}

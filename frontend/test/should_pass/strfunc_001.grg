@@ -1,0 +1,20 @@
+using attrib_model_001;
+
+rule r1
+{
+	str:NSTRING;
+
+	if {
+		indexOf(str.a, "test") != -1;
+		lastIndexOf(str.a, "test") == indexOf(str.a, "test");
+	}
+
+	modify {
+		eval {
+			str.a = substring(str.a, 0, indexOf(str.a, "test"))
+				+ "rule"
+				+ substring(str.a, indexOf(str.a, "test") + length("test"),
+					length(str.a) - indexOf(str.a, "test") - 4);
+		}
+	}
+}

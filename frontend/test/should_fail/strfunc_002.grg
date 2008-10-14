@@ -1,0 +1,8 @@
+using attrib_model_001;
+
+test r1
+{
+	str:NSTRING;
+
+	if { indexOf(str.a, 7.3f) != -1; }   // 7.4f is a float not a string
+}
