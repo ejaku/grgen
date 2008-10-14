@@ -740,4 +740,100 @@ namespace de.unika.ipd.grGen.expression
         String Entity;
         Expression Nested;
     }
+
+    /// <summary>
+    /// Class representing a string length expression.
+    /// </summary>
+    public class StringLength : Expression
+    {
+        public StringLength(Expression stringExpr)
+        {
+            StringExpr = stringExpr;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(").Length");
+        }
+
+        Expression StringExpr;
+    }
+
+    /// <summary>
+    /// Class representing a substring expression.
+    /// </summary>
+    public class StringSubstring : Expression
+    {
+        public StringSubstring(Expression stringExpr, Expression startExpr, Expression lengthExpr)
+        {
+            StringExpr = stringExpr;
+            StartExpr = startExpr;
+            LengthExpr = lengthExpr;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(").Substring(");
+            StartExpr.Emit(sourceCode);
+            sourceCode.Append(", ");
+            LengthExpr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StringExpr;
+        Expression StartExpr;
+        Expression LengthExpr;
+    }
+
+    /// <summary>
+    /// Class representing a string indexOf expression.
+    /// </summary>
+    public class StringIndexOf : Expression
+    {
+        public StringIndexOf(Expression stringExpr, Expression stringToSearchForExpr)
+        {
+            StringExpr = stringExpr;
+            StringToSearchForExpr = stringToSearchForExpr;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(").IndexOf(");
+            StringToSearchForExpr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StringExpr;
+        Expression StringToSearchForExpr;
+    }
+
+    /// <summary>
+    /// Class representing a string lastIndexOf expression.
+    /// </summary>
+    public class StringLastIndexOf : Expression
+    {
+        public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr)
+        {
+            StringExpr = stringExpr;
+            StringToSearchForExpr = stringToSearchForExpr;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(").LastIndexOf(");
+            StringToSearchForExpr.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression StringExpr;
+        Expression StringToSearchForExpr;
+    }
 }
