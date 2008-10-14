@@ -10,6 +10,8 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ast.BasicTypeNode;
+
 
 /**
  * A Type type.
@@ -23,5 +25,9 @@ public class TypeType extends PrimitiveType {
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
 		return IS_TYPE;
+	}
+	
+	public static Type getType() {
+		return BasicTypeNode.typeType.checkIR(Type.class);
 	}
 }

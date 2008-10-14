@@ -10,11 +10,12 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ast.BasicTypeNode;
+
 /**
  * A Integer type.
  */
 public class IntType extends PrimitiveType {
-
 	public IntType(Ident ident) {
 		super("integer type", ident);
 	}
@@ -22,5 +23,9 @@ public class IntType extends PrimitiveType {
 	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
 		return IS_INTEGER;
+	}
+	
+	public static Type getType() {
+		return BasicTypeNode.intType.checkIR(Type.class);
 	}
 }

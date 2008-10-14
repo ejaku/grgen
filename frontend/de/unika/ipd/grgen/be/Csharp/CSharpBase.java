@@ -46,6 +46,10 @@ import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.StringIndexOf;
+import de.unika.ipd.grgen.ir.StringLastIndexOf;
+import de.unika.ipd.grgen.ir.StringLength;
+import de.unika.ipd.grgen.ir.StringSubstring;
 import de.unika.ipd.grgen.ir.StringType;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
@@ -366,6 +370,38 @@ public abstract class CSharpBase {
 			Visited vis = (Visited) expr;
 			sb.append("graph.IsVisited(" + formatEntity(vis.getEntity()) + ", ");
 			genExpression(sb, vis.getVisitorID(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof StringLength) {
+			StringLength strlen = (StringLength) expr;
+			sb.append("(");
+			genExpression(sb, strlen.getStringExpr(), modifyGenerationState);
+			sb.append(").Length");
+		}
+		else if (expr instanceof StringSubstring) {
+			StringSubstring strsubstr = (StringSubstring) expr;
+			sb.append("(");
+			genExpression(sb, strsubstr.getStringExpr(), modifyGenerationState);
+			sb.append(").Substring(");
+			genExpression(sb, strsubstr.getStartExpr(), modifyGenerationState);
+			sb.append(", ");
+			genExpression(sb, strsubstr.getLengthExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof StringIndexOf) {
+			StringIndexOf strio = (StringIndexOf) expr;
+			sb.append("(");
+			genExpression(sb, strio.getStringExpr(), modifyGenerationState);
+			sb.append(").IndexOf(");
+			genExpression(sb, strio.getStringToSearchForExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof StringLastIndexOf) {
+			StringLastIndexOf strlio = (StringLastIndexOf) expr;
+			sb.append("(");
+			genExpression(sb, strlio.getStringExpr(), modifyGenerationState);
+			sb.append(").LastIndexOf(");
+			genExpression(sb, strlio.getStringToSearchForExpr(), modifyGenerationState);
 			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");

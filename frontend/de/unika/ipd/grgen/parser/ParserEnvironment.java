@@ -332,7 +332,10 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("false");
 		keywords.add("hom");
 		keywords.add("independent");
+		keywords.add("indexOf");
 		keywords.add("induced");
+		keywords.add("lastIndexOf");
+		keywords.add("length");
 		keywords.add("model");
 		keywords.add("modify");
 		keywords.add("nameof");
@@ -343,6 +346,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("replace");
 		keywords.add("return");
 		keywords.add("rule");
+		keywords.add("substring");
 		keywords.add("term");
 		keywords.add("test");
 		keywords.add("true");

@@ -43,6 +43,10 @@ import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.StringIndexOf;
+import de.unika.ipd.grgen.ir.StringLastIndexOf;
+import de.unika.ipd.grgen.ir.StringLength;
+import de.unika.ipd.grgen.ir.StringSubstring;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Typeof;
@@ -799,6 +803,38 @@ public class ActionsGen extends CSharpBase {
 			Visited vis = (Visited) expr;
 			sb.append("new GRGEN_EXPR.Visited(\"" + formatEntity(vis.getEntity(), pathPrefix, alreadyDefinedEntityToName) + "\", ");
 			genExpressionTree(sb, vis.getVisitorID(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof StringLength) {
+			StringLength strlen = (StringLength) expr;
+			sb.append("new GRGEN_EXPR.StringLength(");
+			genExpressionTree(sb, strlen.getStringExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof StringSubstring) {
+			StringSubstring strsubstr = (StringSubstring) expr;
+			sb.append("new GRGEN_EXPR.StringSubstring(");
+			genExpressionTree(sb, strsubstr.getStringExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, strsubstr.getStartExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, strsubstr.getLengthExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof StringIndexOf) {
+			StringIndexOf strio = (StringIndexOf) expr;
+			sb.append("new GRGEN_EXPR.StringIndexOf(");
+			genExpressionTree(sb, strio.getStringExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, strio.getStringToSearchForExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof StringLastIndexOf) {
+			StringLastIndexOf strlio = (StringLastIndexOf) expr;
+			sb.append("new GRGEN_EXPR.StringLastIndexOf(");
+			genExpressionTree(sb, strlio.getStringExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, strlio.getStringToSearchForExpr(), pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		//else if(expr instanceof MemberExpression)

@@ -1769,6 +1769,7 @@ primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	| e=constant { res = e; }
 	| e=enumItemExpr { res = e; }
 	| e=typeOf { res = e; }
+	| e=stringFuncExpr[inEnumInit] { res = e; }
 	| p=PLUSPLUS 
 		{ reportError(getCoords(p), "increment operator \"++\" not supported"); }
 	| q=MINUSMINUS
@@ -1787,6 +1788,18 @@ nameOf returns [ ExprNode res = env.initExprNode() ]
 
 typeOf returns [ ExprNode res = env.initExprNode() ]
 	: t=TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
+	;
+
+stringFuncExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: f=LENGTH LPAREN strExpr=expr[inEnumInit] RPAREN
+	  { res = new StringLengthNode(getCoords(f), strExpr); }	
+	| f=SUBSTRING LPAREN strExpr=expr[inEnumInit] COMMA startExpr=expr[inEnumInit]
+	  COMMA lenExpr=expr[inEnumInit] RPAREN
+	  { res = new StringSubstringNode(getCoords(f), strExpr, startExpr, lenExpr); }	
+	| f=INDEXOF LPAREN strExpr=expr[inEnumInit] COMMA strToSearchForExpr=expr[inEnumInit] RPAREN
+	  { res = new StringIndexOfNode(getCoords(f), strExpr, strToSearchForExpr); }	
+	| f=LASTINDEXOF LPAREN strExpr=expr[inEnumInit] COMMA strToSearchForExpr=expr[inEnumInit] RPAREN
+	  { res = new StringLastIndexOfNode(getCoords(f), strExpr, strToSearchForExpr); }	
 	;
 
 constant returns [ ExprNode res = env.initExprNode() ]
@@ -2028,7 +2041,10 @@ EXTENDS : 'extends';
 FALSE : 'false';
 HOM : 'hom';
 INDEPENDENT : 'independent';
+INDEXOF : 'indexOf';
 INDUCED : 'induced';
+LASTINDEXOF : 'lastIndexOf';
+LENGTH : 'length';
 MODEL : 'model';
 MODIFY : 'modify';
 NAMEOF : 'nameof';
@@ -2039,6 +2055,7 @@ PATTERN : 'pattern';
 REPLACE : 'replace';
 RETURN : 'return';
 RULE : 'rule';
+SUBSTRING : 'substring';
 TERM : 'term';
 TEST : 'test';
 TRUE : 'true';

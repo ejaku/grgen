@@ -10,6 +10,8 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ast.BasicTypeNode;
+
 /**
  * The void type.
  */
@@ -25,5 +27,9 @@ public class VoidType extends PrimitiveType {
 
 	public boolean isEqual(Type t) {
 		return t.isVoid();
+	}
+	
+	public static Type getType() {
+		return BasicTypeNode.voidType.checkIR(Type.class);
 	}
 }
