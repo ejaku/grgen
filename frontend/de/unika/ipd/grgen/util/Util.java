@@ -242,7 +242,11 @@ public class Util
 		try {
 			if(isSubClass(c, sc) && containsMethod(c, m)) {
 				if(c.getMethod(m).getReturnType() == String.class) {
-					return ((String) c.getMethod(m).invoke(null));
+					String str = (String) c.getMethod(m).invoke(null);
+					if(str.equals("base node"))
+						str += " <" + c.toString() + ">";
+
+					return str;
 				}
 			}
 			return "<invalid>";
