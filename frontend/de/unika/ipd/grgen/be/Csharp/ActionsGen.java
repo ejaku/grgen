@@ -46,6 +46,7 @@ import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.StringIndexOf;
 import de.unika.ipd.grgen.ir.StringLastIndexOf;
 import de.unika.ipd.grgen.ir.StringLength;
+import de.unika.ipd.grgen.ir.StringReplace;
 import de.unika.ipd.grgen.ir.StringSubstring;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
@@ -835,6 +836,18 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, strlio.getStringExpr(), pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, strlio.getStringToSearchForExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof StringReplace) {
+			StringReplace strrepl = (StringReplace) expr;
+			sb.append("new GRGEN_EXPR.StringReplace(");
+			genExpressionTree(sb, strrepl.getStringExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, strrepl.getStartExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, strrepl.getLengthExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, strrepl.getReplaceStrExpr(), pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		//else if(expr instanceof MemberExpression)

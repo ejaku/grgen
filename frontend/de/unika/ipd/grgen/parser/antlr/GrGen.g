@@ -1799,7 +1799,10 @@ stringFuncExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode(
 	| f=INDEXOF LPAREN strExpr=expr[inEnumInit] COMMA strToSearchForExpr=expr[inEnumInit] RPAREN
 	  { res = new StringIndexOfNode(getCoords(f), strExpr, strToSearchForExpr); }	
 	| f=LASTINDEXOF LPAREN strExpr=expr[inEnumInit] COMMA strToSearchForExpr=expr[inEnumInit] RPAREN
-	  { res = new StringLastIndexOfNode(getCoords(f), strExpr, strToSearchForExpr); }	
+	  { res = new StringLastIndexOfNode(getCoords(f), strExpr, strToSearchForExpr); }
+	| f=REPLACE LPAREN strExpr=expr[inEnumInit] COMMA startExpr=expr[inEnumInit]
+	  COMMA lenExpr=expr[inEnumInit] COMMA replaceStrExpr=expr[inEnumInit] RPAREN
+	  { res = new StringReplaceNode(getCoords(f), strExpr, startExpr, lenExpr, replaceStrExpr); }
 	;
 
 constant returns [ ExprNode res = env.initExprNode() ]

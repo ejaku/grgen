@@ -49,6 +49,7 @@ import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.StringIndexOf;
 import de.unika.ipd.grgen.ir.StringLastIndexOf;
 import de.unika.ipd.grgen.ir.StringLength;
+import de.unika.ipd.grgen.ir.StringReplace;
 import de.unika.ipd.grgen.ir.StringSubstring;
 import de.unika.ipd.grgen.ir.StringType;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
@@ -403,6 +404,22 @@ public abstract class CSharpBase {
 			sb.append(").LastIndexOf(");
 			genExpression(sb, strlio.getStringToSearchForExpr(), modifyGenerationState);
 			sb.append(")");
+		}
+		else if (expr instanceof StringReplace) {
+			StringReplace strrepl = (StringReplace) expr;
+			sb.append("((");
+			genExpression(sb, strrepl.getStringExpr(), modifyGenerationState);
+			sb.append(").Substring(0, ");
+			genExpression(sb, strrepl.getStartExpr(), modifyGenerationState);
+			sb.append(") + ");
+			genExpression(sb, strrepl.getReplaceStrExpr(), modifyGenerationState);
+			sb.append(" + (");
+			genExpression(sb, strrepl.getStringExpr(), modifyGenerationState);
+			sb.append(").Substring(");
+			genExpression(sb, strrepl.getStartExpr(), modifyGenerationState);
+			sb.append(" + ");
+			genExpression(sb, strrepl.getLengthExpr(), modifyGenerationState);
+			sb.append("))");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
