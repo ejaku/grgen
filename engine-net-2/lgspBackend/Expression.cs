@@ -836,4 +836,40 @@ namespace de.unika.ipd.grGen.expression
         Expression StringExpr;
         Expression StringToSearchForExpr;
     }
+
+    /// <summary>
+    /// Class representing a string replace expression.
+    /// </summary>
+    public class StringReplace : Expression
+    {
+        public StringReplace(Expression stringExpr, Expression startExpr, Expression lengthExpr, Expression replaceStrExpr)
+        {
+            StringExpr = stringExpr;
+            StartExpr = startExpr;
+            LengthExpr = lengthExpr;
+            ReplaceStrExpr = replaceStrExpr;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(").Substring(0, ");
+            StartExpr.Emit(sourceCode);
+            sourceCode.Append(") + ");
+            ReplaceStrExpr.Emit(sourceCode);
+            sourceCode.Append(" + (");
+            StringExpr.Emit(sourceCode);
+            sourceCode.Append(").Substring(");
+            StartExpr.Emit(sourceCode);
+            sourceCode.Append(" + ");
+            LengthExpr.Emit(sourceCode);
+            sourceCode.Append("))");
+        }
+
+        Expression StringExpr;
+        Expression StartExpr;
+        Expression LengthExpr;
+        Expression ReplaceStrExpr;
+    }
 }
