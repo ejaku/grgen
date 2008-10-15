@@ -610,7 +610,7 @@ public class ActionsGen extends CSharpBase {
 
 		int condCnt = condCntInit;
 		for(Expression expr : pattern.getConditions()) {
-			NeededEntities needs = new NeededEntities(true, true, true, false);
+			NeededEntities needs = new NeededEntities(true, true, true, false, false);
 			expr.collectNeededEntities(needs);
 			sb.append("\t\t\tGRGEN_LGSP.PatternCondition cond_" + condCnt
 					+ " = new GRGEN_LGSP.PatternCondition(\n"

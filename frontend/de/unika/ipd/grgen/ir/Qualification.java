@@ -35,16 +35,9 @@ public class Qualification extends Expression {
 		return "<" + owner + ">.<" + member + ">";
 	}
 
-	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
+	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		if(owner instanceof Node) {
-			needs.add((Node)owner);
-		}
-		else if(owner instanceof Edge) {
-			needs.add((Edge)owner);
-		}
-		else
-			throw new UnsupportedOperationException("Unsupported Entity (" + owner + ")");
+		needs.addAttr((GraphEntity) owner, member);
 	}
 }
 

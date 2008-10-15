@@ -22,20 +22,14 @@ public class Nameof extends Expression {
 		return entity;
 	}
 
-	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
+	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		if(entity==null) {
+		
+		if(entity==null)
 			return;
-		}
-		else if(entity instanceof Node) {
-			needs.add((Node)entity);
-		}
-		else if(entity instanceof Edge) {
-			needs.add((Edge)entity);
-		}
 		else
-			throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
+			needs.add((GraphEntity) entity);
 	}
 }
 

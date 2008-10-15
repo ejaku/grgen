@@ -99,7 +99,7 @@ public class Operator extends Expression {
 		return operands;
 	}
 
-	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
+	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		for(Expression child : getWalkableChildren())
 			child.collectNeededEntities(needs);

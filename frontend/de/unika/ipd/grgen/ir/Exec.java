@@ -46,7 +46,7 @@ public class Exec extends IR implements ImperativeStmt {
 	
 	public Set<Entity> getNeededEntities() {
 		if(neededEntities == null) {
-			NeededEntities needs = new NeededEntities(false, false, false, true);    // collect all entities
+			NeededEntities needs = new NeededEntities(false, false, false, true, false);  // collect all entities
 			for(Expression param : getArguments())
 				param.collectNeededEntities(needs);
 			

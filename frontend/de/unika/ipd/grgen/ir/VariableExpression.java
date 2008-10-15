@@ -26,7 +26,7 @@ public class VariableExpression extends Expression {
 		return var;
 	}
 
-	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
+	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.add(var);
 	}

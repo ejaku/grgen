@@ -26,16 +26,9 @@ public class Typeof extends Expression {
 		return "typeof<" + entity + ">";
 	}
 
-	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
+	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
-		if(entity instanceof Node) {
-			needs.add((Node)entity);
-		}
-		else if(entity instanceof Edge) {
-			needs.add((Edge)entity);
-		}
-		else
-			throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
+		needs.add((GraphEntity) entity);
 	}
 }
 

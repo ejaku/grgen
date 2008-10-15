@@ -29,13 +29,7 @@ public class Visited extends Expression {
 	
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		if(entity instanceof Node)
-			needs.add((Node) entity);
-		else if(entity instanceof Edge)
-			needs.add((Edge) entity);
-		else
-			throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
-		
+		needs.add((GraphEntity) entity);
 		visitorID.collectNeededEntities(needs);
 	}
 }

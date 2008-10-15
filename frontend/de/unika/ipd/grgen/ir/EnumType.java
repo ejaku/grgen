@@ -15,8 +15,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.unika.ipd.grgen.ast.BasicTypeNode;
-
 /**
  * An enumeration type.
  */

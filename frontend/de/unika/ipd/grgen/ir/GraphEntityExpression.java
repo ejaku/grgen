@@ -27,12 +27,7 @@ public class GraphEntityExpression extends Expression {
 	}
 
 	public void collectNeededEntities(NeededEntities needs) {
-		if(graphEntity instanceof Node)
-			needs.add((Node) graphEntity);
-		else if(graphEntity instanceof Edge)
-			needs.add((Edge) graphEntity);
-		else
-			throw new UnsupportedOperationException("Unsupported Entity (" + graphEntity + ")");
+		needs.add(graphEntity);
 	}
 
 	public boolean equals(Object other) {
