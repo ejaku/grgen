@@ -886,7 +886,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(ctrlCPressed)
                 return false;
 
-            bool noError = true;
+            bool noError = true, doneFound = false;
             using(StreamReader sr = new StreamReader(tmpDir + Path.DirectorySeparatorChar + "printOutput.txt"))
             {
                 String frontStr = "  generating the ";
@@ -922,10 +922,12 @@ namespace de.unika.ipd.grGen.lgsp
                         if(filename.EndsWith("ModelStub.cs"))
                             genModelStubFiles.Add(tmpDir + Path.DirectorySeparatorChar + filename);
                     }
+                    else if(line.StartsWith("done!"))
+                        doneFound = true;
                 }
             }
 
-            return noError;
+            return noError && doneFound;
         }
 
         enum ErrorType { NoError, GrGenJavaError, GrGenNetError };
