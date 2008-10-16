@@ -14,6 +14,11 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.MapAssignItem;
+import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MapAssignItemNode extends EvalStatementNode
@@ -57,5 +62,13 @@ public class MapAssignItemNode extends EvalStatementNode
 
 	protected boolean checkLocal() {
 		return true;		// MAP TODO
+	}
+	
+	protected IR constructIR() {
+		Entity ownerIR = target.getOwner().checkIR(Entity.class);
+		Entity memberIR = target.getDecl().checkIR(Entity.class);
+
+		return new MapAssignItem(new Qualification(ownerIR, memberIR),
+				keyExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
 	}
 }

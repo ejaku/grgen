@@ -37,6 +37,7 @@ import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IntType;
+import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.MemberExpression;
 import de.unika.ipd.grgen.ir.Nameof;
@@ -426,6 +427,14 @@ public abstract class CSharpBase {
 			sb.append(" + ");
 			genExpression(sb, strrepl.getLengthExpr(), modifyGenerationState);
 			sb.append("))");
+		}
+		else if (expr instanceof MapAccessExpr) {
+			MapAccessExpr ma = (MapAccessExpr)expr;
+			sb.append("new GRGEN_EXPR.MapAccess(");
+			// MAP TODO: target generieren
+			sb.append(", ");
+			genExpression(sb, ma.getTarget(), modifyGenerationState);
+			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

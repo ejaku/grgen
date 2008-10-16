@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
+import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Nameof;
@@ -850,7 +851,14 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, strrepl.getReplaceStrExpr(), pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
-		//else if(expr instanceof MemberExpression)
+		else if (expr instanceof MapAccessExpr) {
+			MapAccessExpr ma = (MapAccessExpr)expr;
+			sb.append("new GRGEN_EXPR.MapAccess(");
+			// MAP TODO: target generieren
+			sb.append(", ");
+			genExpressionTree(sb, ma.getTarget(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
 	

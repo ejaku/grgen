@@ -55,6 +55,7 @@ public class ArithmeticOpNode extends OpNode {
 		assocOpCode(OperatorSignature.LOG_NOT, Operator.LOG_NOT);
 		assocOpCode(OperatorSignature.BIT_NOT, Operator.BIT_NOT);
 		assocOpCode(OperatorSignature.NEG, Operator.NEG);
+		assocOpCode(OperatorSignature.IN, Operator.IN);
 	}
 
 

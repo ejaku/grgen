@@ -25,6 +25,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ast.MapAssignItemNode;
+import de.unika.ipd.grgen.ast.MapRemoveItemNode;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
@@ -37,6 +39,9 @@ import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
+import de.unika.ipd.grgen.ir.MapAssignItem;
+import de.unika.ipd.grgen.ir.MapAccessExpr;
+import de.unika.ipd.grgen.ir.MapRemoveItem;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -1452,6 +1457,12 @@ public class ModifyGen extends CSharpBase {
 					genExpression(sb, ass.getExpression(), state);
 					sb.append(");\n");
 				}
+			}
+			else if(evalStmt instanceof MapRemoveItem) {
+				// MAP TODO
+			}
+			else if(evalStmt instanceof MapAssignItem) {
+				// MAP TODO
 			}
 			else
 				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");

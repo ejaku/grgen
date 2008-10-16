@@ -41,11 +41,12 @@ public class Operator extends Expression {
 	public static final int LOG_NOT = 20;
 	public static final int BIT_NOT = 21;
 	public static final int NEG = 22;
+	public static final int IN = 23;
 
 	public static final String[] opNames = {
 		"COND",	"LOG_OR", "LOG_AND", "BIT_OR", "BIT_XOR", "BIT_AND",
 			"EQ", "NE", "LT", "LE", "GT", "GE", "SHL", "SHR", "BIT_SHR", "ADD",
-			"SUB", "MUL", "DIV", "MOD", "LOG_NOT", "BIT_NOT", "NEG",
+			"SUB", "MUL", "DIV", "MOD", "LOG_NOT", "BIT_NOT", "NEG", "IN"
 	};
 
 	/** The operands of the expression. */

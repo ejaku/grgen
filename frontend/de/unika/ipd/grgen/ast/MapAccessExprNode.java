@@ -14,6 +14,11 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.MapAccessExpr;
+import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MapAccessExprNode extends ExprNode
@@ -21,22 +26,20 @@ public class MapAccessExprNode extends ExprNode
 	static {
 		setName(MapAccessExprNode.class, "map access expression");
 	}
-
-	QualIdentNode targetUnresolved;
+	
+	QualIdentNode target;
 	ExprNode keyExpr;
-
-	DeclNode target;
-
+	
 	public MapAccessExprNode(Coords coords, QualIdentNode target, ExprNode keyExpr)
 	{
 		super(coords);
-		this.targetUnresolved = becomeParent(target);
+		this.target = becomeParent(target);
 		this.keyExpr = becomeParent(keyExpr);
 	}
 
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(targetUnresolved, target));
+		children.add(target);
 		children.add(keyExpr);
 		return children;
 	}
@@ -49,18 +52,18 @@ public class MapAccessExprNode extends ExprNode
 	}
 
 /*	private static MemberResolver<DeclNode> memberResolver = new MemberResolver<DeclNode>();
-
+	
 	protected boolean resolveLocal() {
 		if(!memberResolver.resolve(target)) return false;
 
 		target = memberResolver.getResult(MemberDeclNode.class);
-
+		
 		return memberResolver.finish();
 	}*/
 
 	protected boolean checkLocal() {
 		boolean success = true;
-		TypeNode targetType = target.getDeclType();
+		/*TypeNode targetType = target.getDeclType();
 		assert targetType instanceof MapTypeNode: target + " should have a map type";
 		MapTypeNode targetMapType = (MapTypeNode) targetType;
 
@@ -69,12 +72,20 @@ public class MapAccessExprNode extends ExprNode
 					+ "\" doesn't fit to key type \""
 					+ targetMapType.keyType + "\".");
 			success = false;
-		}
+		}*/
 
 		return success;
 	}
 
 	public TypeNode getType() {
 		return target.getDecl().getDeclType();
+	}
+	
+	protected IR constructIR() {
+		Entity ownerIR = target.getOwner().checkIR(Entity.class);
+		Entity memberIR = target.getDecl().checkIR(Entity.class);
+
+		return new MapAccessExpr(new Qualification(ownerIR, memberIR),
+				keyExpr.checkIR(Expression.class));
 	}
 }
