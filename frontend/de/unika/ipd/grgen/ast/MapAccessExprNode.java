@@ -21,12 +21,12 @@ public class MapAccessExprNode extends ExprNode
 	static {
 		setName(MapAccessExprNode.class, "map access expression");
 	}
-	
+
 	QualIdentNode targetUnresolved;
 	ExprNode keyExpr;
-	
+
 	DeclNode target;
-	
+
 	public MapAccessExprNode(Coords coords, QualIdentNode target, ExprNode keyExpr)
 	{
 		super(coords);
@@ -49,17 +49,29 @@ public class MapAccessExprNode extends ExprNode
 	}
 
 /*	private static MemberResolver<DeclNode> memberResolver = new MemberResolver<DeclNode>();
-	
+
 	protected boolean resolveLocal() {
 		if(!memberResolver.resolve(target)) return false;
 
 		target = memberResolver.getResult(MemberDeclNode.class);
-		
+
 		return memberResolver.finish();
 	}*/
-	
+
 	protected boolean checkLocal() {
-		return true;		// MAP TODO
+		boolean success = true;
+		TypeNode targetType = target.getDeclType();
+		assert targetType instanceof MapTypeNode: target + " should have a map type";
+		MapTypeNode targetMapType = (MapTypeNode) targetType;
+
+		if (keyExpr.getType() != targetMapType.keyType) {
+			keyExpr.reportError("Type \"" + keyExpr.getType()
+					+ "\" doesn't fit to key type \""
+					+ targetMapType.keyType + "\".");
+			success = false;
+		}
+
+		return success;
 	}
 
 	public TypeNode getType() {
