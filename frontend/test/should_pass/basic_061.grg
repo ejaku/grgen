@@ -8,7 +8,7 @@ rule r {
 
 	replace {
 		eval {
-			n.in = 42;
+			n.inn = 42;
 		}
 	}
 }
