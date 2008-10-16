@@ -63,6 +63,7 @@ public class MapInitNode extends BaseNode
 	}
 
 	protected boolean checkLocal() {
+		boolean success = true;
 		TypeNode type = lhs.getDeclType();
 		assert type instanceof MapTypeNode: "Lhs should be a Map[Key]";
 		MapTypeNode mapType = (MapTypeNode) type;
@@ -72,15 +73,17 @@ public class MapInitNode extends BaseNode
 				item.keyExpr.reportError("Key type \"" + item.keyExpr.getType()
 						+ "\" of initializer doesn't fit to key type \""
 						+ mapType.keyType + "\" of map.");
+				success = false;
 			}
 			if (item.valueExpr.getType() != mapType.valueType) {
 				item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
 						+ "\" of initializer doesn't fit to value type \""
 						+ mapType.valueType + "\" of map.");
+				success = false;
 			}
 		}
 
-		return true;
+		return success;
 	}
 
 	protected IR constructIR() {
