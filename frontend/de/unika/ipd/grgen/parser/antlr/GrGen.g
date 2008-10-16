@@ -1214,7 +1214,7 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 		EDGE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 	  	ext=edgeExtends[id, arbitrary, undirected] cas=connectAssertions pushScope[id]
 		(
-			LBRACE body=edgeClassBody[id] RBRACE
+			LBRACE body=classBody[id] RBRACE
 		|	SEMI
 			{ body = new CollectNode<BaseNode>(); }
 		)
@@ -1240,7 +1240,7 @@ nodeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	: 	NODE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 	  	ext=nodeExtends[id] pushScope[id]
 		(
-			LBRACE body=nodeClassBody[id] RBRACE
+			LBRACE body=classBody[id] RBRACE
 		|	SEMI
 			{ body = new CollectNode<BaseNode>(); }
 		)
@@ -1344,22 +1344,7 @@ nodeExtendsCont [IdentNode clsId, CollectNode<IdentNode> c ]
 		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getNodeRoot()); }
 	;
 
-nodeClassBody [IdentNode clsId] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
-	:	(
-			(
-				b1=basicDecl { c.addChild(b1); }
-				(
-					b2=initExprDecl[b1.getIdentNode()] { c.addChild(b2); }
-				)?
-			|
-				b3=initExpr { c.addChild(b3); }
-			|
-				b4=constrDecl[clsId] { c.addChild(b4); }
-			) SEMI
-		)*
-	;
-
-edgeClassBody [IdentNode clsId] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
+classBody [IdentNode clsId] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
 	:	(
 			(
 				b1=basicDecl { c.addChild(b1); }
