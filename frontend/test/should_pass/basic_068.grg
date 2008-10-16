@@ -1,9 +1,9 @@
 using basic_model_068;
 
-rule A {
+rule B {
 	a : A;
 	replace {
-		exec(A);
+		exec(B);
 		emit(typeof(a)!=A);
 	}
 }

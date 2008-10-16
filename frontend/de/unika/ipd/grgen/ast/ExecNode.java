@@ -78,6 +78,10 @@ public class ExecNode extends BaseNode {
 			DeclExprNode declExpr = (DeclExprNode) n;
 			sb.append(declExpr.declUnresolved);
 		}
+		else if(n instanceof IdentExprNode) {
+			IdentExprNode identExpr = (IdentExprNode) n;
+			sb.append(identExpr.getIdent());
+		}
 		else sb.append(n);
 	}
 

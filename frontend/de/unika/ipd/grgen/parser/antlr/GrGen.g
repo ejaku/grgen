@@ -1834,13 +1834,8 @@ identExpr returns [ ExprNode res = env.initExprNode() ]
 
 	: i=ident
 		{
-			if(env.test(ParserEnvironment.TYPES, i.getText())) {
-				id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
-				res = new TypeConstNode(id);
-			} else {
-				id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-				res = new DeclExprNode(id);
-			}
+			id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
+			res = new IdentExprNode(id);
 		}
 	;
 

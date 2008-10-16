@@ -80,7 +80,9 @@ public abstract class OpNode extends ExprNode
 
 		for(int i = 0; i < n; i++) {
 			ExprNode op = (ExprNode) children.get(i);
-			argTypes[i] = op.getType();
+			TypeNode type = op.getType();
+			if(type instanceof InheritanceTypeNode) type = OperatorSignature.TYPE;
+			argTypes[i] = type;
 		}
 
 		operator = OperatorSignature.getNearest(opId, argTypes);
