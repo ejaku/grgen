@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.parser.MapTypeNode;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
 
@@ -109,7 +110,8 @@ public class MemberDeclNode extends DeclNode {
 		return type;
 	}
 
-	private static final Checker typeChecker = new SimpleChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
+	private static final Checker typeChecker = new SimpleChecker(
+			new Class[] { BasicTypeNode.class, EnumTypeNode.class, MapTypeNode.class});
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {

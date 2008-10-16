@@ -220,6 +220,10 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 				MemberInitNode mi = (MemberInitNode)n;
 				inhType.addMemberInit(mi.checkIR(MemberInit.class));
 			}
+			else if(n instanceof MapInitNode) {
+				MapInitNode mi = (MapInitNode) n;
+				inhType.addMapInit(mi.getMapInit());
+			}
 		}
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {
 			inhType.addDirectSuperType((InheritanceType)inh.getType());

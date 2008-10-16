@@ -37,6 +37,7 @@ import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public abstract class ParserEnvironment extends Base {
@@ -76,6 +77,8 @@ public abstract class ParserEnvironment extends Base {
 	private final ModelNode stdModel;
 	
 	private HashSet<String> keywords = new HashSet<String>();
+	
+	private HashMap<String, MapTypeNode> mapTypes = new HashMap<String, MapTypeNode>();
 
 	/**
 	 * Make a new parser environment.
@@ -298,6 +301,16 @@ public abstract class ParserEnvironment extends Base {
 	
 	public boolean isKeyword(String str) {
 		return keywords.contains(str);
+	}
+	
+	public MapTypeNode getMapType(IdentNode keyTypeIdent, IdentNode valueTypeIdent) {
+		String keyStr = keyTypeIdent.toString() + "->" + valueTypeIdent.toString();
+		MapTypeNode mapTypeNode = mapTypes.get(keyStr);
+		
+		if(mapTypeNode == null)
+			mapTypes.put(keyStr, mapTypeNode = new MapTypeNode(keyTypeIdent, valueTypeIdent));
+		
+		return mapTypeNode;
 	}
 	
 	/**

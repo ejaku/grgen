@@ -1347,10 +1347,7 @@ nodeExtendsCont [IdentNode clsId, CollectNode<IdentNode> c ]
 classBody [IdentNode clsId] returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
 	:	(
 			(
-				b1=basicDecl { c.addChild(b1); }
-				(
-					b2=initExprDecl[b1.getIdentNode()] { c.addChild(b2); }
-				)?
+				b1=basicAndContainerDecl[c]
 			|
 				b3=initExpr { c.addChild(b3); }
 			|
@@ -1406,39 +1403,68 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemNode> coll, ExprNode defInit,
 		}
 	;
 
-basicDecl returns [ MemberDeclNode res = null ]
+basicAndContainerDecl [ CollectNode<BaseNode> c ]
 	@init{
 		id = env.getDummyIdent();
-		MemberDeclNode decl;
+		MemberDeclNode decl = null;
 		boolean isConst = false;
 	}
 
 	:	(
 			ABSTRACT ( CONST { isConst = true; } )? id=entIdentDecl
 			{
-				res = new AbstractMemberDeclNode(id, isConst);
+				decl = new AbstractMemberDeclNode(id, isConst);
+				c.addChild(decl);
 			}
 		|
-			( CONST { isConst = true; } )? id=entIdentDecl COLON type=typeIdentUse
-			{
-				decl = new MemberDeclNode(id, type, isConst);
-				id.setDecl(decl);
-				res = decl;
-			}
+			( CONST { isConst = true; } )? id=entIdentDecl COLON 
+			(
+				type=typeIdentUse
+				{
+					decl = new MemberDeclNode(id, type, isConst);
+					id.setDecl(decl);
+					c.addChild(decl);
+				}
+				(
+					init=initExprDecl[decl.getIdentNode()] { c.addChild(init); }
+				)?
+			|
+				MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
+				{
+					decl = new MemberDeclNode(id, env.getMapType(keyType, valueType), isConst);
+					id.setDecl(decl);
+					c.addChild(decl);
+				}
+				(
+					init2=initMapExprDecl[decl.getIdentNode()] { c.addChild(init2); }
+				)?
+			)
 		)
 	;
 
 initExpr returns [ MemberInitNode res = null ]
-	: id=entIdentUse a=ASSIGN e=expr[false]
-		{
-			res = new MemberInitNode(getCoords(a), id, e);
-		}
+	: id=entIdentUse init=initExprDecl[id] { res = init; }
 	;
 
 initExprDecl [IdentNode id] returns [ MemberInitNode res = null ]
 	: a=ASSIGN e=expr[false]
 		{
 			res = new MemberInitNode(getCoords(a), id, e);
+		}
+	;
+
+initMapExprDecl [IdentNode id] returns [ MapInitNode res = null ]
+	: a=ASSIGN { res = new MapInitNode(getCoords(a), id); }	
+	  LBRACE
+	          item1=mapItem { res.addMapItem(item1); }
+	  ( COMMA item2=mapItem { res.addMapItem(item2); } )*
+	  RBRACE
+	;
+
+mapItem returns [ MapItemNode res = null ]
+	: key=expr[false] a=RARROW value=expr[false]
+		{
+			res = new MapItemNode(getCoords(a), key, value);
 		}
 	;
 
@@ -2028,6 +2054,7 @@ INDEXOF : 'indexOf';
 INDUCED : 'induced';
 LASTINDEXOF : 'lastIndexOf';
 LENGTH : 'length';
+MAP : 'map';
 MODEL : 'model';
 MODIFY : 'modify';
 NAMEOF : 'nameof';

@@ -37,6 +37,7 @@ import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IntType;
+import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.MemberExpression;
 import de.unika.ipd.grgen.ir.Nameof;
 import de.unika.ipd.grgen.ir.Node;
@@ -238,6 +239,11 @@ public abstract class CSharpBase {
 			return "ENUM_" + formatIdentifiable(t);
 		else if (t instanceof ObjectType || t instanceof VoidType)
 			return "Object"; //TODO maybe we need another output type
+		else if (t instanceof MapType) {
+			MapType mapType = (MapType) t;
+			return "Dictionary<" + formatIdentifiable(mapType.getKeyType())
+					+ ", " + formatIdentifiable(mapType.getValueType()) + ">";
+		}
 		else throw new IllegalArgumentException("Illegal type: " + t);
 	}
 

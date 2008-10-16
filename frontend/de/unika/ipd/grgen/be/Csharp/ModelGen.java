@@ -38,6 +38,9 @@ import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.FloatType;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IntType;
+import de.unika.ipd.grgen.ir.MapInit;
+import de.unika.ipd.grgen.ir.MapItem;
+import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.NodeType;
@@ -453,9 +456,12 @@ public class ModelGen extends CSharpBase {
 
 		if(withDefaultInits) {
 			for(Entity member : type.getAllMembers()) {
+				Type t = member.getType();
+				if(t instanceof MapType) 
+					continue; // maps are handled below
+				
 				String attrName = formatIdentifiable(member);
 				sb.append(indentString + varName + ".@" + attrName + " = ");
-				Type t = member.getType();
 				if(t instanceof IntType || t instanceof DoubleType || t instanceof EnumType)
 					sb.append("0;\n");
 				else if(t instanceof FloatType)
@@ -469,9 +475,29 @@ public class ModelGen extends CSharpBase {
 			}
 		}
 
+		for(Entity member : type.getAllMembers()) {
+			Type t = member.getType();
+			if(!(t instanceof MapType)) continue;
+			MapType mapType = (MapType) t;
+			String attrName = formatIdentifiable(member);
+			sb.append(indentString + varName + ".@" + attrName + " = new "
+					+ formatAttributeType(mapType) + "();\n");
+		}
+		
 		for(InheritanceType superType : type.getAllSuperTypes())
 			genMemberInit(superType, indentString, varName);
 		genMemberInit(type, indentString, varName);
+		
+		for(MapInit mapInit : type.getMapInits()) {
+			String attrName = formatIdentifiable(mapInit.getMember());
+			for(MapItem item : mapInit.getMapItems()) {
+				sb.append(indentString + varName + ".@" + attrName + "[");
+				genExpression(sb, item.getKeyExpr(), null);
+				sb.append("] = ");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append(";\n");
+			}
+		}
 
 		curMemberOwner = null;
 	}
@@ -710,6 +736,8 @@ public class ModelGen extends CSharpBase {
 				sb.append("EnumAttr, Enums.@" + formatIdentifiable(t));
 			else if (t instanceof ObjectType || t instanceof VoidType)
 				sb.append("ObjectAttr, null");
+			else if (t instanceof MapType)
+				sb.append("MapAttr, null");      // MAP TODO: info about key and value type missing 
 			else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");
 
 			sb.append(");\n");
