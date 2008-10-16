@@ -82,6 +82,7 @@ OK     should_pass/cast_001.grg
 OK     should_pass/cast_002.grg
 OK     should_pass/cast_003.grg
 OK     should_pass/conn_001.grg
+OK     should_pass/constr_001.grg
 OK     should_pass/dangle_001.grg
 OK     should_pass/dangle_002.grg
 OK     should_pass/dangle_003.grg
@@ -251,6 +252,7 @@ OK     should_pass/reuse_006.grg
 OK     should_pass/reuse_007.grg
 OK     should_pass/reuse_008.grg
 OK     should_pass/snowflakeAGTIVE.grg
+OK     should_pass/strfunc_001.grg
 OK     should_pass/to_001.grg
 OK     should_pass/to_002.grg
 OK     should_pass/to_003.grg
@@ -452,6 +454,9 @@ ERROR  should_fail/cast_005.grg
 ERROR  should_fail/cast_006.grg
 ERROR  should_fail/cast_007.grg
 ERROR  should_fail/cast_008.grg
+ERROR  should_fail/constr_001.grg
+ERROR  should_fail/constr_002.grg
+ERROR  should_fail/constr_003.grg
 ERROR  should_fail/constraint_in_replacement.grg
 ERROR  should_fail/dangle_001.grg
 ERROR  should_fail/dangle_002.grg
@@ -691,6 +696,9 @@ ERROR  should_fail/rhs_004.grg
 WARNED should_fail/rhs_005.grg
 WARNED should_fail/rhs_006.grg
 OK     should_fail/rhs_007.grg
+ERROR  should_fail/strfunc_001.grg
+ERROR  should_fail/strfunc_002.grg
+ERROR  should_fail/strfunc_003.grg
 ERROR  should_fail/typeof_001.grg
 ERROR  should_fail/typeof_002.grg
 ERROR  should_fail/typeof_003.grg
