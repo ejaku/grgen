@@ -29,12 +29,12 @@ public class MapInitNode extends BaseNode
 	BaseNode lhsUnresolved;
 	DeclNode lhs;
 	CollectNode<MapItemNode> mapItems = new CollectNode<MapItemNode>();
-	
+
 	public MapInitNode(Coords coords, IdentNode member) {
 		super(coords);
 		lhsUnresolved = becomeParent(member);
 	}
-	
+
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(lhsUnresolved, lhs));
@@ -48,7 +48,7 @@ public class MapInitNode extends BaseNode
 		childrenNames.add("mapItems");
 		return childrenNames;
 	}
-	
+
 	public void addMapItem(MapItemNode item) {
 		mapItems.addChild(item);
 	}
@@ -61,11 +61,28 @@ public class MapInitNode extends BaseNode
 
 		return lhsResolver.finish();
 	}
-	
+
 	protected boolean checkLocal() {
-		return true;	// TODO
+		TypeNode type = lhs.getDeclType();
+		assert type instanceof MapTypeNode: "Lhs should be a Map[Key]";
+		MapTypeNode mapType = (MapTypeNode) type;
+
+		for(MapItemNode item : mapItems.getChildren()) {
+			if (item.keyExpr.getType() != mapType.keyType) {
+				item.keyExpr.reportError("Key type \"" + item.keyExpr.getType()
+						+ "\" of initializer doesn't fit to key type \""
+						+ mapType.keyType + "\" of map.");
+			}
+			if (item.valueExpr.getType() != mapType.valueType) {
+				item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
+						+ "\" of initializer doesn't fit to value type \""
+						+ mapType.valueType + "\" of map.");
+			}
+		}
+
+		return true;
 	}
-	
+
 	protected IR constructIR() {
 		Vector<MapItem> items = new Vector<MapItem>();
 		for(MapItemNode item : mapItems.getChildren()) {
@@ -73,7 +90,7 @@ public class MapInitNode extends BaseNode
 		}
 		return new MapInit(lhs.getEntity(), items);
 	}
-	
+
 	public MapInit getMapInit() {
 		return checkIR(MapInit.class);
 	}
