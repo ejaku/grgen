@@ -47,8 +47,9 @@ public class OperatorSignature extends FunctionSignature {
 	public static final int NEG = 22;
 	public static final int CONST = 23;
 	public static final int COND = 24;
+	public static final int IN = 25;
 
-	private static final int OPERATORS = COND + 1;
+	private static final int OPERATORS = IN + 1;
 
 	/** Arity map of the operators. */
 	private static final Map<Integer, Integer> arities = new HashMap<Integer, Integer>();
@@ -97,6 +98,7 @@ public class OperatorSignature extends FunctionSignature {
 		names.put(new Integer(BIT_NOT), "BitNot");
 		names.put(new Integer(NEG), "Neg");
 		names.put(new Integer(CONST), "Const");
+		names.put(new Integer(IN), "In");
 		names.put(new Integer(ERROR), "Error");
 	}
 
@@ -165,7 +167,7 @@ public class OperatorSignature extends FunctionSignature {
 	 * Enter a binary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	private static final void makeBinOp(int id, TypeNode res, TypeNode op0,
+	public static final void makeBinOp(int id, TypeNode res, TypeNode op0,
 			TypeNode op1, Evaluator eval) {
 		makeOp(id, res, new TypeNode[] { op0, op1 }, eval);
 	}
@@ -174,7 +176,7 @@ public class OperatorSignature extends FunctionSignature {
 	 * Enter an unary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	private static final void makeUnOp(int id, TypeNode res, TypeNode op0,
+	public static final void makeUnOp(int id, TypeNode res, TypeNode op0,
 			Evaluator eval) {
 		makeOp(id, res, new TypeNode[] { op0 }, eval);
 	}
@@ -556,6 +558,14 @@ public class OperatorSignature extends FunctionSignature {
 		}
 	};
 
+	public static final Evaluator mapEvaluator = new Evaluator() {
+		protected ExprNode eval(Coords coords, OperatorSignature op,
+				ExprNode[] e) throws NotEvaluatableException {
+			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate if const
+		}
+	};
+	
+	
 	private static final Evaluator emptyEvaluator = new Evaluator();
 
 	// Initialize the operators map.

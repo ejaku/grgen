@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 
@@ -31,7 +31,7 @@ public abstract class RhsDeclNode extends DeclNode {
 	}
 
 	GraphNode graph;
-	CollectNode<AssignNode> eval;
+	CollectNode<EvalStatementNode> eval;
 	RhsTypeNode type;
 
 	/** Type for this declaration. */
@@ -43,7 +43,7 @@ public abstract class RhsDeclNode extends DeclNode {
 	 * @param graph The right hand side graph.
 	 * @param eval The evaluations.
 	 */
-	public RhsDeclNode(IdentNode id, GraphNode graph, CollectNode<AssignNode> eval) {
+	public RhsDeclNode(IdentNode id, GraphNode graph, CollectNode<EvalStatementNode> eval) {
 		super(id, rhsType);
 		this.graph = graph;
 		becomeParent(this.graph);
@@ -169,11 +169,11 @@ public abstract class RhsDeclNode extends DeclNode {
 		return null;
 	}
 
-	protected Collection<Assignment> getAssignments() {
-		Collection<Assignment> ret = new LinkedHashSet<Assignment>();
+	protected Collection<EvalStatement> getEvalStatements() {
+		Collection<EvalStatement> ret = new LinkedHashSet<EvalStatement>();
 
-		for (AssignNode n : eval.getChildren()) {
-			ret.add(n.checkIR(Assignment.class));
+		for (EvalStatementNode n : eval.getChildren()) {
+			ret.add(n.checkIR(EvalStatement.class));
 		}
 
 		return ret;

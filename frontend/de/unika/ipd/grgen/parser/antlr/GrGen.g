@@ -268,7 +268,7 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 
 patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, int mod ]
 	@init{
-		CollectNode<AssignNode> eval = new CollectNode<AssignNode>();
+		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
@@ -373,7 +373,9 @@ patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, int mod, int 
 	| n=patternBody[pattern_coords, params, mod, context, nameOfGraph] { res = n; }
 	;
 
-replacePart [ CollectNode<AssignNode> eval, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ReplaceDeclNode res = null ]
+replacePart [ CollectNode<EvalStatementNode> eval, CollectNode<BaseNode> params,
+              int context, IdentNode nameOfRHS ]
+            returns [ ReplaceDeclNode res = null ]
 	: r=REPLACE ( id=rhsIdentDecl { nameOfRHS = id; } )?
 		p=parameters[context] { params = p; } 
 		LBRACE
@@ -381,7 +383,9 @@ replacePart [ CollectNode<AssignNode> eval, CollectNode<BaseNode> params, int co
 		RBRACE
 	;
 
-modifyPart [ CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ModifyDeclNode res = null ]
+modifyPart [ CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels,
+             CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ]
+           returns [ ModifyDeclNode res = null ]
 	: m=MODIFY ( id=rhsIdentDecl { nameOfRHS = id; } )?
 		p=parameters[context] { params = p; } 
 		LBRACE
@@ -389,13 +393,13 @@ modifyPart [ CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectN
 		RBRACE
 	;
 
-evalPart [ CollectNode<AssignNode> n ]
+evalPart [ CollectNode<EvalStatementNode> n ]
 	: EVAL LBRACE
 		evalBody[n]
 		RBRACE
 	;
 
-evalBody [ CollectNode<AssignNode> n  ]
+evalBody [ CollectNode<EvalStatementNode> n  ]
 	: ( a=assignment { n.addChild(a); } SEMI )*
 	;
 
@@ -785,7 +789,7 @@ inducedStatement returns [ InducedNode res = null ]
 		RPAREN
 	;
 
-replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<AssignNode> eval, int context, IdentNode nameOfRHS ] returns [ ReplaceDeclNode res = null ]
+replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<EvalStatementNode> eval, int context, IdentNode nameOfRHS ] returns [ ReplaceDeclNode res = null ]
 	@init{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -806,12 +810,12 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<AssignNod
 	;
 
 replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
- 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<AssignNode> eval, int context ]
+ 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<EvalStatementNode> eval, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
 	| evalPart[eval]
 	;
 
-modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ModifyDeclNode res = null ]
+modifyBody [ Coords coords, CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ModifyDeclNode res = null ]
 	@init{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -833,7 +837,7 @@ modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode>
 
 modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
  		CollectNode<SubpatternReplNode> subpatternReplacements,
-		CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, int context ]
+		CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
 	| deleteStmt[dels] SEMI
 	| evalPart[eval]
@@ -846,7 +850,7 @@ alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNo
 alternativeCase [ AlternativeNode alt, int altCount, int context ]
 	@init{
 		int mod = 0;
-		CollectNode<AssignNode> eval = new CollectNode<AssignNode>();
+		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
@@ -1625,12 +1629,25 @@ identUse [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
 //////////////////////////////////////////
 
 
-assignment returns [ AssignNode res = null ]
-	@init { BaseNode tgt = null; }
-
-	: ( tgt1=qualIdent { tgt = tgt1; } | tgt2=visitedExpr { tgt = tgt2; } ) 
-		a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
-		{ res = new AssignNode(getCoords(a), tgt, e); }
+assignment returns [ EvalStatementNode res = null ]
+	:
+	(
+		tgt=qualIdent 
+		(
+			a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
+			{ res = new AssignNode(getCoords(a), tgt, e); }
+		|
+			LBRACK key=expr[false] RBRACK a=ASSIGN val=expr[false]
+			{ res = new MapAssignItemNode(getCoords(a), tgt, key, val); }
+		|
+			a=MINUSASSIGN key=expr[false]
+			{ res = new MapRemoveItemNode(getCoords(a), tgt, key); }
+		) 
+	|
+		tgt2=visitedExpr 
+		a=ASSIGN e=expr[false]
+		{ res = new AssignNode(getCoords(a), tgt2, e); }
+	)
 	;
 
 expr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
@@ -1702,6 +1719,7 @@ relOp returns [ Token t = null ]
 	| le=LE { t = le; }
 	| gt=GT { t = gt; }
 	| ge=GE { t = ge; }
+	| in=IN { t = in; }
 	;
 
 relExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
@@ -1869,7 +1887,12 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 	;
 
 qualIdentExpr returns [ ExprNode res = env.initExprNode() ]
-	: n=qualIdent { res = new DeclExprNode(n); }
+	: n=qualIdent
+		(
+			l=LBRACK key=expr[false] RBRACK { res = new MapAccessExprNode(getCoords(l), n, key); }
+		|
+			{ res = new DeclExprNode(n); }
+		)
 	;
 
 
@@ -1942,7 +1965,9 @@ SR				:	'>>'	;
 BSR				:	'>>>'	;
 DIV				:	'/'		;
 PLUS			:	'+'		;
+PLUSASSIGN		:	'+='	;
 MINUS			:	'-'		;
+MINUSASSIGN		:	'-='	;
 STAR			:	'*'		;
 MOD				:	'%'		;
 GE				:	'>='	;
@@ -2049,6 +2074,7 @@ EXEC : 'exec';
 EXTENDS : 'extends';
 FALSE : 'false';
 HOM : 'hom';
+IN : 'in';
 INDEPENDENT : 'independent';
 INDEXOF : 'indexOf';
 INDUCED : 'induced';

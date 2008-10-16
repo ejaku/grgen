@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.InheritanceType;
@@ -461,8 +462,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	  	StringBuffer outs = new StringBuffer();
 
 
-		for(Assignment eval : rule.getEvals())
+		for(EvalStatement evalStmt : rule.getEvals())
 		{
+			if(!(evalStmt instanceof Assignment)) continue;
+			Assignment eval = (Assignment) evalStmt;
 			Expression targetExpr = eval.getTarget();
 			if(!(targetExpr instanceof Qualification))
 				throw new UnsupportedOperationException(
@@ -533,8 +536,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private void registerEvalFunctions(StringBuffer sb, String indent, Rule rule)
 	{
-		for(Assignment eval : rule.getEvals())
+		for(EvalStatement evalStmt : rule.getEvals())
 		{
+			if(!(evalStmt instanceof Assignment)) continue;
+			Assignment eval = (Assignment) evalStmt;
+			
 			sb.append(indent + "ext_grs_act_register_eval(act, ");
 			if (eval.getExpression() instanceof Constant) {
 				sb.append("NULL");
@@ -777,7 +783,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			flags |= MOD_DELETED;
 		}
 
-		for (Assignment a : rule.getEvals()) {
+		for(EvalStatement evalStmt : rule.getEvals())
+		{
+			if(!(evalStmt instanceof Assignment)) continue;
+			Assignment a = (Assignment) evalStmt;
+
 			Expression targetExpr = a.getTarget();
 			if(!(targetExpr instanceof Qualification))
 				throw new UnsupportedOperationException(

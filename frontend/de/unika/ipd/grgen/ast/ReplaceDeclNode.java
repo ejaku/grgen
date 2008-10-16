@@ -37,7 +37,7 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	 * @param graph The right hand side graph.
 	 * @param eval The evaluations.
 	 */
-	public ReplaceDeclNode(IdentNode id, GraphNode graph, CollectNode<AssignNode> eval) {
+	public ReplaceDeclNode(IdentNode id, GraphNode graph, CollectNode<EvalStatementNode> eval) {
 		super(id, graph, eval);
 	}
 

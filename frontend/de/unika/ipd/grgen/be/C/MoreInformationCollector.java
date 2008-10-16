@@ -25,6 +25,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
@@ -79,7 +80,11 @@ public class MoreInformationCollector extends InformationCollector {
 			if (act.getRight() != null) {
 				Integer act_id = actionRuleMap.get(act);
 
-				Collection<Assignment> rule_evals = act.getEvals();
+				Collection<Assignment> rule_evals = new LinkedList<Assignment>();
+				for(EvalStatement evalStmt : act.getEvals()) {
+					if(evalStmt instanceof Assignment)
+						rule_evals.add((Assignment) evalStmt);
+				}
 
 				evalListMap.put( rule_evals, act_id );
 				evalActions.put( rule_evals, act );

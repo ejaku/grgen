@@ -112,30 +112,35 @@ public class Dumper {
 		if(act instanceof Rule && ((Rule)act).getRight()!=null) {
 			Rule r = (Rule) act;
 			graphs.add(r.getRight());
-			Collection<Assignment> evals = r.getEvals();
+			Collection<EvalStatement> evals = r.getEvals();
 
 			if(!evals.isEmpty()) {
 				gd.beginSubgraph("evals");
 				gd.edge(r.getRight(), evals.iterator().next(), "eval", GraphDumper.DASHED, Color.GRAY);
 			}
 
-			Assignment oldAsign = null;
-			for(Assignment a : evals) {
-				Expression target = a.getTarget();
-				Expression expr = a.getExpression();
-
-				if(compactCondEval) {
-					dump(a.getId(), Formatter.formatConditionEval(target) + " = " + Formatter.formatConditionEval(expr), gd);
-					if(oldAsign != null)
-						gd.edge(oldAsign, a, "next", GraphDumper.DASHED, Color.RED);
-				} else {
-					gd.node(a);
-					gd.node(target);
-					gd.edge(a, target);
-					dump(expr, gd);
-					gd.edge(a, expr);
+			EvalStatement oldEvalStatement = null;
+			for(EvalStatement e : evals) {
+				if(e instanceof Assignment) {
+					Assignment a = (Assignment) e;
+					Expression target = a.getTarget();
+					Expression expr = a.getExpression();
+	
+					if(compactCondEval) {
+						dump(a.getId(), Formatter.formatConditionEval(target) + " = " + Formatter.formatConditionEval(expr), gd);
+						if(oldEvalStatement != null)
+							gd.edge(oldEvalStatement, a, "next", GraphDumper.DASHED, Color.RED);
+					} else {
+						gd.node(a);
+						gd.node(target);
+						gd.edge(a, target);
+						dump(expr, gd);
+						gd.edge(a, expr);
+					}
 				}
-				oldAsign = a;
+				else 
+					throw new UnsupportedOperationException("Unknown EvalStatement \"" + e + "\"");
+				oldEvalStatement = e;
 			}
 
 			if(!evals.isEmpty())

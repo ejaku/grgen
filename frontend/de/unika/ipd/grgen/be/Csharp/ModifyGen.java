@@ -31,6 +31,7 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumType;
+import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
@@ -60,7 +61,7 @@ public class ModifyGen extends CSharpBase {
 		PatternGraph left;
 		PatternGraph right;
 		List<Entity> parameters;
-		Collection<Assignment> evals;
+		Collection<EvalStatement> evals;
 		List<Entity> replParameters;
 		List<Expression> returns;
 		boolean isSubpattern;
@@ -187,7 +188,7 @@ public class ModifyGen extends CSharpBase {
 
 	final List<Entity> emptyParameters = new LinkedList<Entity>();
 	final List<Expression> emptyReturns = new LinkedList<Expression>();
-	final Collection<Assignment> emptyEvals = new HashSet<Assignment>();
+	final Collection<EvalStatement> emptyEvals = new HashSet<EvalStatement>();
 
 	SearchPlanBackend2 be;
 
@@ -751,29 +752,34 @@ public class ModifyGen extends CSharpBase {
 
 	private void collectElementsAndAttributesNeededByEvals(ModifyGenerationTask task, NeededEntities needs)
 	{
-		for(Assignment ass : task.evals) {
-			Expression target = ass.getTarget();
-			Entity entity;
-
-			if(target instanceof Qualification)
-				entity = ((Qualification) target).getOwner();
-			else if(target instanceof Visited) {
-				Visited visTgt = (Visited) target;
-				entity = visTgt.getEntity();
-				visTgt.getVisitorID().collectNeededEntities(needs);
+		for(EvalStatement evalStmt : task.evals) {
+			if(evalStmt instanceof Assignment) {
+				Assignment ass = (Assignment) evalStmt;
+				Expression target = ass.getTarget();
+				Entity entity;
+	
+				if(target instanceof Qualification)
+					entity = ((Qualification) target).getOwner();
+				else if(target instanceof Visited) {
+					Visited visTgt = (Visited) target;
+					entity = visTgt.getEntity();
+					visTgt.getVisitorID().collectNeededEntities(needs);
+				}
+				else
+					throw new UnsupportedOperationException("Unsupported assignment target (" + target + ")");
+	
+				needs.add((GraphEntity) entity);
+	
+				// Temporarily do not collect variables for target
+				HashSet<Variable> varSet = needs.variables;
+				needs.variables = null;
+				target.collectNeededEntities(needs);
+				needs.variables = varSet;
+				
+				ass.getExpression().collectNeededEntities(needs);
 			}
 			else
-				throw new UnsupportedOperationException("Unsupported assignment target (" + target + ")");
-
-			needs.add((GraphEntity) entity);
-
-			// Temporarily do not collect variables for target
-			HashSet<Variable> varSet = needs.variables;
-			needs.variables = null;
-			target.collectNeededEntities(needs);
-			needs.variables = varSet;
-			
-			ass.getExpression().collectNeededEntities(needs);
+				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");
 		}
 	}
 
@@ -1357,93 +1363,98 @@ public class ModifyGen extends CSharpBase {
 	// Eval part generation //
 	//////////////////////////
 
-	private void genEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<Assignment> assignments) {
+	private void genEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<EvalStatement> evalStatements) {
 		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false, def_o = false;
-		for(Assignment ass : assignments) {
-			Expression target = ass.getTarget();
-
-			if(target instanceof Qualification) {
-				Qualification qualTgt = (Qualification) target;
-				Entity entity = qualTgt.getOwner();
-
-				String varName, varType;
-				switch(ass.getTarget().getType().classify()) {
-					case Type.IS_BOOLEAN:
-						varName = "tempvar_b";
-						varType = def_b?"":"bool ";
-						def_b = true;
-						break;
-					case Type.IS_INTEGER:
-						varName = "tempvar_i";
-						varType = def_i?"":"int ";
-						def_i = true;
-						break;
-					case Type.IS_FLOAT:
-						varName = "tempvar_f";
-						varType = def_f?"":"float ";
-						def_f = true;
-						break;
-					case Type.IS_DOUBLE:
-						varName = "tempvar_d";
-						varType = def_d?"":"double ";
-						def_d = true;
-						break;
-					case Type.IS_STRING:
-						varName = "tempvar_s";
-						varType = def_s?"":"String ";
-						def_s = true;
-						break;
-					case Type.IS_OBJECT:
-						varName = "tempvar_o";
-						varType = def_o?"":"Object ";
-						def_o = true;
-						break;
-					default:
-						throw new IllegalArgumentException();
-				}
-
-				sb.append("\t\t\t" + varType + varName + " = ");
-				if(ass.getTarget().getType() instanceof EnumType)
-					sb.append("(int) ");
-				genExpression(sb, ass.getExpression(), state);
-				sb.append(";\n");
-
-				String kindStr = null;
-				boolean isDeletedElem = false;
-				if(entity instanceof Node) {
-					kindStr = "Node";
-					isDeletedElem = state.delNodes().contains(entity);
-				}
-				else if(entity instanceof Edge) {
-					kindStr = "Edge";
-					isDeletedElem = state.delEdges().contains(entity);
-				}
-				else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
-
-				if(!isDeletedElem && be.system.mayFireEvents()) {
-					sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
-							  ", " + kindStr + "Type_" + formatIdentifiable(qualTgt.getMember().getOwner()) +
-							  ".AttributeType_" + formatIdentifiable(qualTgt.getMember()) + ", ");
+		for(EvalStatement evalStmt : evalStatements) {
+			if(evalStmt instanceof Assignment) {
+				Assignment ass = (Assignment) evalStmt;
+				Expression target = ass.getTarget();
+	
+				if(target instanceof Qualification) {
+					Qualification qualTgt = (Qualification) target;
+					Entity entity = qualTgt.getOwner();
+	
+					String varName, varType;
+					switch(ass.getTarget().getType().classify()) {
+						case Type.IS_BOOLEAN:
+							varName = "tempvar_b";
+							varType = def_b?"":"bool ";
+							def_b = true;
+							break;
+						case Type.IS_INTEGER:
+							varName = "tempvar_i";
+							varType = def_i?"":"int ";
+							def_i = true;
+							break;
+						case Type.IS_FLOAT:
+							varName = "tempvar_f";
+							varType = def_f?"":"float ";
+							def_f = true;
+							break;
+						case Type.IS_DOUBLE:
+							varName = "tempvar_d";
+							varType = def_d?"":"double ";
+							def_d = true;
+							break;
+						case Type.IS_STRING:
+							varName = "tempvar_s";
+							varType = def_s?"":"String ";
+							def_s = true;
+							break;
+						case Type.IS_OBJECT:
+							varName = "tempvar_o";
+							varType = def_o?"":"Object ";
+							def_o = true;
+							break;
+						default:
+							throw new IllegalArgumentException();
+					}
+	
+					sb.append("\t\t\t" + varType + varName + " = ");
+					if(ass.getTarget().getType() instanceof EnumType)
+						sb.append("(int) ");
+					genExpression(sb, ass.getExpression(), state);
+					sb.append(";\n");
+	
+					String kindStr = null;
+					boolean isDeletedElem = false;
+					if(entity instanceof Node) {
+						kindStr = "Node";
+						isDeletedElem = state.delNodes().contains(entity);
+					}
+					else if(entity instanceof Edge) {
+						kindStr = "Edge";
+						isDeletedElem = state.delEdges().contains(entity);
+					}
+					else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
+	
+					if(!isDeletedElem && be.system.mayFireEvents()) {
+						sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
+								  ", " + kindStr + "Type_" + formatIdentifiable(qualTgt.getMember().getOwner()) +
+								  ".AttributeType_" + formatIdentifiable(qualTgt.getMember()) + ", ");
+						genExpression(sb, ass.getTarget(), state);
+						sb.append(", " + varName + ");\n");
+					}
+	
+					sb.append("\t\t\t");
 					genExpression(sb, ass.getTarget(), state);
-					sb.append(", " + varName + ");\n");
+					sb.append(" = ");
+					if(ass.getTarget().getType() instanceof EnumType)
+						sb.append("(ENUM_" + formatIdentifiable(ass.getTarget().getType()) + ") ");
+					sb.append(varName + ";\n");
 				}
-
-				sb.append("\t\t\t");
-				genExpression(sb, ass.getTarget(), state);
-				sb.append(" = ");
-				if(ass.getTarget().getType() instanceof EnumType)
-					sb.append("(ENUM_" + formatIdentifiable(ass.getTarget().getType()) + ") ");
-				sb.append(varName + ";\n");
+				else if(target instanceof Visited) {
+					Visited visTgt = (Visited) target;
+	
+					sb.append("\t\t\tgraph.SetVisited(" + formatEntity(visTgt.getEntity()) + ", ");
+					genExpression(sb, visTgt.getVisitorID(), state);
+					sb.append(", ");
+					genExpression(sb, ass.getExpression(), state);
+					sb.append(");\n");
+				}
 			}
-			else if(target instanceof Visited) {
-				Visited visTgt = (Visited) target;
-
-				sb.append("\t\t\tgraph.SetVisited(" + formatEntity(visTgt.getEntity()) + ", ");
-				genExpression(sb, visTgt.getVisitorID(), state);
-				sb.append(", ");
-				genExpression(sb, ass.getExpression(), state);
-				sb.append(");\n");
-			}
+			else
+				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");
 		}
 	}
 

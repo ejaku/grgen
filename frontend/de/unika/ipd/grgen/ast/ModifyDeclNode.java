@@ -50,7 +50,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 	 * @param graph The right hand side graph.
 	 * @param eval The evaluations.
 	 */
-	public ModifyDeclNode(IdentNode id, GraphNode graph, CollectNode<AssignNode> eval,
+	public ModifyDeclNode(IdentNode id, GraphNode graph, CollectNode<EvalStatementNode> eval,
 			CollectNode<IdentNode> dels) {
 		super(id, graph, eval);
 		this.deleteUnresolved = dels;

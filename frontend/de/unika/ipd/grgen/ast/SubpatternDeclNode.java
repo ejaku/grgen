@@ -19,9 +19,9 @@ import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -503,7 +503,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		// add Eval statements to the IR
 		// TODO choose the right one
 		if(this.right.children.size() > 0) {
-			for (Assignment n : this.right.children.get(0).getAssignments()) {
+			for (EvalStatement n : this.right.children.get(0).getEvalStatements()) {
 				rule.addEval(n);
 			}
 		}

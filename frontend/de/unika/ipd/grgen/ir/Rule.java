@@ -29,7 +29,7 @@ public class Rule extends MatchingAction {
 	private final PatternGraph right;
 
 	/** The evaluation assignments of this rule. */
-	private final Collection<Assignment> evals = new LinkedList<Assignment>();
+	private final Collection<EvalStatement> evals = new LinkedList<EvalStatement>();
 
 	/** A list of the replacement parameters */
 	private final List<Entity> replParams = new LinkedList<Entity>();
@@ -55,12 +55,12 @@ public class Rule extends MatchingAction {
 	}
 
 	/** @return A collection containing all eval assignments of this rule. */
-	public Collection<Assignment> getEvals() {
+	public Collection<EvalStatement> getEvals() {
 		return Collections.unmodifiableCollection(evals);
 	}
 
 	/** Add an assignment to the list of evaluations. */
-	public void addEval(Assignment a) {
+	public void addEval(EvalStatement a) {
 		evals.add(a);
 	}
 

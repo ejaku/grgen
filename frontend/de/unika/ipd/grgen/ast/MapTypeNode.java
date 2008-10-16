@@ -9,15 +9,11 @@
  * @version $Id$
  */
 
-package de.unika.ipd.grgen.parser;
+package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.DeclaredTypeNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MapType;
@@ -55,7 +51,12 @@ public class MapTypeNode extends DeclaredTypeNode {
 		keyType   = typeResolver.resolve(keyTypeUnresolved, this);
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
 
-		return keyType != null && valueType != null;
+		if(keyType == null || valueType == null) return false;
+		
+		OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
+				keyType, this, OperatorSignature.mapEvaluator);
+		
+		return true;
 	}
 	
 	protected IR constructIR() {

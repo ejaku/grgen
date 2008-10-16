@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ir;
 /**
  * Represents an assignment statement in the IR.
  */
-public class Assignment extends IR {
+public class Assignment extends EvalStatement {
 
 	/** The lhs of the assignment. */
 	private Expression target;

@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
  * AST node representing an assignment.
  * children: LHS:QualIdentNode|VisitedNode, RHS:ExprNode
  */
-public class AssignNode extends BaseNode {
+public class AssignNode extends EvalStatementNode {
 	static {
 		setName(AssignNode.class, "Assign");
 	}
