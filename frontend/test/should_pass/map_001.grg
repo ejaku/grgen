@@ -1,1 +1,32 @@
 using map_model_001;
+
+rule addToMap {
+	a:A;
+	
+	modify {
+		eval {
+			a.niceMap[5] = "yeah";
+		}
+	}
+}
+
+rule copyMap {
+	a:A;
+	
+	modify {
+		b:A;
+		eval {
+			b.niceMap[0] = a.niceMap[0];
+		}
+	}
+}
+
+rule removeFromMap {
+	a:A;
+	
+	modify {
+		eval {
+			a.niceMap -= 0;
+		}
+	}
+}
