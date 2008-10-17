@@ -431,7 +431,7 @@ public abstract class CSharpBase {
 		else if (expr instanceof MapAccessExpr) {
 			MapAccessExpr ma = (MapAccessExpr)expr;
 			sb.append("(");
-			genExpression(sb, ma.getTarget(), modifyGenerationState);
+			genExpression(sb, ma.getTargetExpr(), modifyGenerationState);
 			sb.append("[");
 			genExpression(sb, ma.getKeyExpr(), modifyGenerationState);
 			sb.append("])");

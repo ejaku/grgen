@@ -1781,15 +1781,13 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 			res = neg;
 		}
 	| PLUS e=unaryExpr[inEnumInit] { res = e; }
-	|   ( 
-			(LPAREN typeIdentUse RPAREN unaryExpr[false])
-			=> p=LPAREN id=typeIdentUse RPAREN op=unaryExpr[inEnumInit]
-				{
-					res = new CastNode(getCoords(p), id, op);
-				}
-		| e=primaryExpr[inEnumInit] { res = e; }
-		)
-	;
+	| (LPAREN typeIdentUse RPAREN unaryExpr[false])
+		=> p=LPAREN id=typeIdentUse RPAREN op=unaryExpr[inEnumInit]
+		{
+			res = new CastNode(getCoords(p), id, op);
+		}
+	| e=primaryExpr[inEnumInit] (e=selectorExpr[e, inEnumInit])* { res = e; }
+	; 
 
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: e=visitedExpr { res = e; }
@@ -1888,14 +1886,12 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 	;
 
 qualIdentExpr returns [ ExprNode res = env.initExprNode() ]
-	: n=qualIdent
-		(
-			l=LBRACK key=expr[false] RBRACK { res = new MapAccessExprNode(getCoords(l), n, key); }
-		|
-			{ res = new DeclExprNode(n); }
-		)
+	: n=qualIdent { res = new DeclExprNode(n); }
 	;
 
+selectorExpr [ ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: l=LBRACK key=expr[inEnumInit] RBRACK { res = new MapAccessExprNode(getCoords(l), target, key); }
+	;
 
 //////////////////////////////////////////
 // Range Spec

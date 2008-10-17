@@ -12,22 +12,22 @@
 package de.unika.ipd.grgen.ir;
 
 public class MapAccessExpr extends Expression {
-	Qualification target;
+	Expression targetExpr;
 	Expression keyExpr;
 	
-	public MapAccessExpr(Qualification target, Expression keyExpr) {
-		super("map access expression", VoidType.getType()); // MAP TODO: richtiger typ
-		this.target = target;
+	public MapAccessExpr(Expression targetExpr, Expression keyExpr) {
+		super("map access expression", targetExpr.getType());
+		this.targetExpr = targetExpr;
 		this.keyExpr = keyExpr;
 	}
 	
 	public void collectNeededEntities(NeededEntities needs) {
 		keyExpr.collectNeededEntities(needs);
-		target.collectNeededEntities(needs);
+		targetExpr.collectNeededEntities(needs);
 	}
 	
-	public Qualification getTarget() {
-		return target;
+	public Expression getTargetExpr() {
+		return targetExpr;
 	}
 	
 	public Expression getKeyExpr() {

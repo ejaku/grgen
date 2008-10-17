@@ -14,11 +14,9 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
-import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MapAccessExprNode extends ExprNode
@@ -27,39 +25,29 @@ public class MapAccessExprNode extends ExprNode
 		setName(MapAccessExprNode.class, "map access expression");
 	}
 	
-	QualIdentNode target;
+	ExprNode targetExpr;
 	ExprNode keyExpr;
 	
-	public MapAccessExprNode(Coords coords, QualIdentNode target, ExprNode keyExpr)
+	public MapAccessExprNode(Coords coords, ExprNode targetExpr, ExprNode keyExpr)
 	{
 		super(coords);
-		this.target = becomeParent(target);
+		this.targetExpr = becomeParent(targetExpr);
 		this.keyExpr = becomeParent(keyExpr);
 	}
 
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(target);
+		children.add(targetExpr);
 		children.add(keyExpr);
 		return children;
 	}
 
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("target");
+		childrenNames.add("targetExpr");
 		childrenNames.add("keyExpr");
 		return childrenNames;
 	}
-
-/*	private static MemberResolver<DeclNode> memberResolver = new MemberResolver<DeclNode>();
-	
-	protected boolean resolveLocal() {
-		if(!memberResolver.resolve(target)) return false;
-
-		target = memberResolver.getResult(MemberDeclNode.class);
-		
-		return memberResolver.finish();
-	}*/
 
 	protected boolean checkLocal() {
 		boolean success = true;
@@ -78,14 +66,11 @@ public class MapAccessExprNode extends ExprNode
 	}
 
 	public TypeNode getType() {
-		return target.getDecl().getDeclType();
+		return targetExpr.getType();
 	}
 	
 	protected IR constructIR() {
-		Entity ownerIR = target.getOwner().checkIR(Entity.class);
-		Entity memberIR = target.getDecl().checkIR(Entity.class);
-
-		return new MapAccessExpr(new Qualification(ownerIR, memberIR),
+		return new MapAccessExpr(targetExpr.checkIR(Expression.class),
 				keyExpr.checkIR(Expression.class));
 	}
 }

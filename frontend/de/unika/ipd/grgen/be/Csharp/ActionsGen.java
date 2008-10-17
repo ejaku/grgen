@@ -854,7 +854,7 @@ public class ActionsGen extends CSharpBase {
 		else if (expr instanceof MapAccessExpr) {
 			MapAccessExpr ma = (MapAccessExpr)expr;
 			sb.append("new GRGEN_EXPR.MapAccess(");
-			genExpressionTree(sb, ma.getTarget(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, ma.getTargetExpr(), pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, ma.getKeyExpr(), pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
