@@ -102,7 +102,7 @@ public abstract class ParserEnvironment extends Base {
 			symTabs[i].enterKeyword("object");
 		}
 		
-		initKeywords();
+		initLexerKeywords();
 
 		// The standard model
 		CollectNode<IdentNode> stdModelChilds = new CollectNode<IdentNode>();
@@ -300,7 +300,7 @@ public abstract class ParserEnvironment extends Base {
 		return Coords.getInvalid();
 	}
 	
-	public boolean isKeyword(String str) {
+	public boolean isLexerKeyword(String str) {
 		return keywords.contains(str);
 	}
 	
@@ -315,9 +315,9 @@ public abstract class ParserEnvironment extends Base {
 	}
 	
 	/**
-	 * Initializes the keywords hash set.
+	 * Initializes the lexer keywords hash set (i.e. all identifiers considered as keyword by the lexer (not the parser)).
 	 */
-	private void initKeywords()
+	private void initLexerKeywords()
 	{
 		// To automatically generate the following lines, copy the keyword lines
 		// at the end of antlr/GrGen.g to the file antlr/keywords.txt and

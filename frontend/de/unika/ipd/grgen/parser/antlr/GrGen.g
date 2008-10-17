@@ -1260,7 +1260,7 @@ nodeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 validIdent returns [ String id = "" ]
 	:	i=~GT
 		{
-			if(i.getType() != IDENT && !env.isKeyword(i.getText()))
+			if(i.getType() != IDENT && !env.isLexerKeyword(i.getText()))
 				reportError(getCoords(i), "\"" + i.getText() + "\" is not a valid identifier");
 			id = i.getText();
 		}
@@ -1505,7 +1505,7 @@ constrParam returns [ ConstructorParamNode res = null ]
 
 
 nonKeywordLiterals returns [ Token t = null ]
-	: v='visited' { t = v; }
+	: v=VISITED { t = v; }
 	;
 
 ident returns [ Token t = null ]
@@ -2016,7 +2016,7 @@ fragment NUM_FLOAT: ;
 fragment NUM_DOUBLE: ;
 NUMBER
    : ('0'..'9')+
-   ( '.' ('0'..'9')*
+   ( ('.' '0'..'9') => '.' ('0'..'9')+
      (   ('f'|'F')    { $type = NUM_FLOAT; }
        | ('d'|'D')?   { $type = NUM_DOUBLE; }
      )
