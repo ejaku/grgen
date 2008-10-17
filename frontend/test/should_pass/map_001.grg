@@ -10,6 +10,12 @@ rule addToMap {
 	}
 }
 
+test containedInMap {
+	a:A;
+	
+	if { 5 in a.niceMap; }
+}
+
 rule copyMap {
 	a:A;
 	
@@ -17,6 +23,18 @@ rule copyMap {
 		b:A;
 		eval {
 			b.niceMap[0] = a.niceMap[0];
+		}
+	}
+}
+
+rule mapIndexedMap {
+	a:A;
+	//if { a.shiceMap[a.spiceMap["blubb"]] != null; } MAP TODO
+	
+	modify {
+		b:A;
+		eval {
+			a.spiceMap[b.niceMap[0]] = 3.141f;
 		}
 	}
 }

@@ -25,8 +25,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.unika.ipd.grgen.ast.MapAssignItemNode;
-import de.unika.ipd.grgen.ast.MapRemoveItemNode;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
@@ -40,7 +38,6 @@ import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.MapAssignItem;
-import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
@@ -783,8 +780,38 @@ public class ModifyGen extends CSharpBase {
 				
 				ass.getExpression().collectNeededEntities(needs);
 			}
-			else
+			else if(evalStmt instanceof MapAssignItem) {
+				MapAssignItem mai = (MapAssignItem) evalStmt;
+				Qualification target = mai.getTarget();
+				Entity entity = ((Qualification) target).getOwner();
+				needs.add((GraphEntity) entity);
+	
+				// Temporarily do not collect variables for target
+				HashSet<Variable> varSet = needs.variables;
+				needs.variables = null;
+				target.collectNeededEntities(needs);
+				needs.variables = varSet;
+				
+				mai.getKeyExpr().collectNeededEntities(needs);
+				mai.getValueExpr().collectNeededEntities(needs);
+			}
+			else if(evalStmt instanceof MapRemoveItem) {
+				MapRemoveItem mri = (MapRemoveItem) evalStmt;
+				Qualification target = mri.getTarget();
+				Entity entity = ((Qualification) target).getOwner();
+				needs.add((GraphEntity) entity);
+	
+				// Temporarily do not collect variables for target
+				HashSet<Variable> varSet = needs.variables;
+				needs.variables = null;
+				target.collectNeededEntities(needs);
+				needs.variables = varSet;
+				
+				mri.getKeyExpr().collectNeededEntities(needs);
+			}
+			else {
 				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");
+			}
 		}
 	}
 
@@ -1459,10 +1486,24 @@ public class ModifyGen extends CSharpBase {
 				}
 			}
 			else if(evalStmt instanceof MapRemoveItem) {
-				// MAP TODO
+				MapRemoveItem mri = (MapRemoveItem) evalStmt;
+				sb.append("\t\t\t");
+				genExpression(sb, mri.getTarget(), state);
+				sb.append(".Remove(");
+				genExpression(sb, mri.getKeyExpr(), state);
+				sb.append(");\n");
+				// MAP TODO: wofür ist das temp_var-Zeuch drüber beim assignemt - brauch ich das hier auch?
 			}
 			else if(evalStmt instanceof MapAssignItem) {
-				// MAP TODO
+				MapAssignItem mai = (MapAssignItem) evalStmt;
+				sb.append("\t\t\t");
+				genExpression(sb, mai.getTarget(), state);
+				sb.append("[");
+				genExpression(sb, mai.getKeyExpr(), state);
+				sb.append("] = ");
+				genExpression(sb, mai.getValueExpr(), state);
+				sb.append(";\n");
+				// MAP TODO: wofür ist das temp_var-Zeuch drüber beim assignemt - brauch ich das hier auch?
 			}
 			else
 				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");

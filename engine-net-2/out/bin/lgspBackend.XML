@@ -2437,6 +2437,10 @@
             <summary>
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.IN">
+            <summary>
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.Cast">
             <summary>
             Class representing cast expression
@@ -2480,6 +2484,36 @@
         <member name="T:de.unika.ipd.grGen.expression.Visited">
             <summary>
             Class representing visited expression
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.StringLength">
+            <summary>
+            Class representing a string length expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.StringSubstring">
+            <summary>
+            Class representing a substring expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.StringIndexOf">
+            <summary>
+            Class representing a string indexOf expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.StringLastIndexOf">
+            <summary>
+            Class representing a string lastIndexOf expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.StringReplace">
+            <summary>
+            Class representing a string replace expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.MapAccess">
+            <summary>
+            Class representing a map access expression.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.IsomorphyInformation.CheckIsMatchedBit">

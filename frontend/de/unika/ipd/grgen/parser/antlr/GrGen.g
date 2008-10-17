@@ -103,6 +103,7 @@ tokens {
 		putOpId(BXOR, OperatorSignature.BIT_XOR);
 		putOpId(LAND, OperatorSignature.LOG_AND);
 		putOpId(LOR, OperatorSignature.LOG_OR);
+		putOpId(IN, OperatorSignature.IN);
 	};
 
 	private OpNode makeOp(org.antlr.runtime.Token t) {

@@ -552,6 +552,29 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// </summary>
+    public class IN : Operator
+    {
+        public IN(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            Right.Emit(sourceCode);
+            sourceCode.Append(").ContainsKey(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Left;
+        Expression Right;
+    }
+
+    /// <summary>
     /// Class representing cast expression
     /// </summary>
     public class Cast : Expression
@@ -871,5 +894,29 @@ namespace de.unika.ipd.grGen.expression
         Expression StartExpr;
         Expression LengthExpr;
         Expression ReplaceStrExpr;
+    }
+
+    /// <summary>
+    /// Class representing a map access expression.
+    /// </summary>
+    public class MapAccess : Expression
+    {
+        public MapAccess(Expression target, Expression keyExpr)
+        {
+            Target = target;
+            KeyExpr = keyExpr;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            Target.Emit(sourceCode);
+            sourceCode.Append("[");
+            KeyExpr.Emit(sourceCode);
+            sourceCode.Append("])");
+        }
+
+        Expression Target;
+        Expression KeyExpr;
     }
 }

@@ -138,8 +138,15 @@ public class Dumper {
 						gd.edge(a, expr);
 					}
 				}
-				else 
+				else if(e instanceof MapAssignItem) {
+					// MAP TODO
+				}
+				else if(e instanceof MapRemoveItem) {
+					// MAP TODO
+				}
+				else {
 					throw new UnsupportedOperationException("Unknown EvalStatement \"" + e + "\"");
+				}
 				oldEvalStatement = e;
 			}
 

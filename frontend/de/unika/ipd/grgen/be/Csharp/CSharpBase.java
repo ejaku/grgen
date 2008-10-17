@@ -430,11 +430,11 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof MapAccessExpr) {
 			MapAccessExpr ma = (MapAccessExpr)expr;
-			sb.append("new GRGEN_EXPR.MapAccess(");
-			// MAP TODO: target generieren
-			sb.append(", ");
+			sb.append("(");
 			genExpression(sb, ma.getTarget(), modifyGenerationState);
-			sb.append(")");
+			sb.append("[");
+			genExpression(sb, ma.getKeyExpr(), modifyGenerationState);
+			sb.append("])");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

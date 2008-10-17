@@ -854,9 +854,9 @@ public class ActionsGen extends CSharpBase {
 		else if (expr instanceof MapAccessExpr) {
 			MapAccessExpr ma = (MapAccessExpr)expr;
 			sb.append("new GRGEN_EXPR.MapAccess(");
-			// MAP TODO: target generieren
-			sb.append(", ");
 			genExpressionTree(sb, ma.getTarget(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ma.getKeyExpr(), pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");

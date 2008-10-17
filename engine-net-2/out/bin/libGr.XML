@@ -820,6 +820,9 @@
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.ObjectAttr">
             <summary>The attribute is an object.</summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.MapAttr">
+            <summary>The attribute is a map.</summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.AttributeType">
             <summary>
             Describes a GrGen attribute.

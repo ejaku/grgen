@@ -280,7 +280,10 @@ namespace de.unika.ipd.grGen.libGr
         DoubleAttr,
 
         /// <summary>The attribute is an object.</summary>
-        ObjectAttr
+        ObjectAttr,
+
+        /// <summary>The attribute is a map.</summary>
+        MapAttr
     }
 
     /// <summary>

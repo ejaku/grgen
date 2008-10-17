@@ -23,7 +23,7 @@ public class MapAccessExpr extends Expression {
 	
 	public void collectNeededEntities(NeededEntities needs) {
 		keyExpr.collectNeededEntities(needs);
-		// MAP TODO: qualification hinzu
+		target.collectNeededEntities(needs);
 	}
 	
 	public Qualification getTarget() {
