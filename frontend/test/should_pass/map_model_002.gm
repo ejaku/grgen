@@ -1,0 +1,6 @@
+node class A
+{
+	intValue: int;
+	stringValue: string;
+	intToString: map<int, string>;	
+}
