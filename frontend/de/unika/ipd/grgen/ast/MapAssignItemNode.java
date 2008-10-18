@@ -26,11 +26,11 @@ public class MapAssignItemNode extends EvalStatementNode
 	static {
 		setName(MapAssignItemNode.class, "map assign item");
 	}
-	
+
 	QualIdentNode target;
 	ExprNode keyExpr;
     ExprNode valueExpr;
-	
+
 	public MapAssignItemNode(Coords coords, QualIdentNode target, ExprNode keyExpr,
 	                         ExprNode valueExpr)
 	{
@@ -61,9 +61,43 @@ public class MapAssignItemNode extends EvalStatementNode
 	}
 
 	protected boolean checkLocal() {
-		return true;		// MAP TODO
+		boolean success = true;
+		TypeNode targetType = target.getDecl().getDeclType();
+		assert targetType instanceof MapTypeNode: target + " should have a map type";
+		MapTypeNode targetMapType = (MapTypeNode) targetType;
+
+		if (keyExpr.getType() != targetMapType.keyType) {
+			keyExpr.reportError("Type \"" + keyExpr.getType()
+					+ "\" doesn't fit to key type \""
+					+ targetMapType.keyType + "\".");
+			success = false;
+		}
+
+		success &= typeCheckLocal();
+
+		return success;
 	}
-	
+
+	/**
+	 * Checks whether the expression has a type equal, compatible or castable
+	 * to the type of the target. Inserts implicit cast if compatible.
+	 * @return true, if the types are equal or compatible, false otherwise
+	 */
+	protected boolean typeCheckLocal() {
+		TypeNode targetDeclType = target.getDecl().getDeclType();
+		assert targetDeclType instanceof MapTypeNode: targetDeclType + " should have a map type";
+		MapTypeNode targetMapType = (MapTypeNode) targetDeclType;
+
+		TypeNode targetType = targetMapType.valueType;
+		TypeNode exprType = valueExpr.getType();
+
+		if (exprType.isEqual(targetType))
+			return true;
+
+		valueExpr = becomeParent(valueExpr.adjustType(targetType, getCoords()));
+		return valueExpr != ConstNode.getInvalid();
+	}
+
 	protected IR constructIR() {
 		Entity ownerIR = target.getOwner().checkIR(Entity.class);
 		Entity memberIR = target.getDecl().checkIR(Entity.class);

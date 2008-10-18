@@ -3,4 +3,5 @@ node class A
 	intValue: int;
 	stringValue: string;
 	intToString: map<int, string>;	
+	stringToInt: map<string, int>;	
 }
