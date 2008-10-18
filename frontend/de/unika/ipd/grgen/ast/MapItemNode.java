@@ -26,13 +26,13 @@ public class MapItemNode extends BaseNode {
 
 	ExprNode keyExpr;
 	ExprNode valueExpr;
-	
+
 	public MapItemNode(Coords coords, ExprNode keyExpr, ExprNode valueExpr) {
 		super(coords);
 		this.keyExpr   = becomeParent(keyExpr);
 		this.valueExpr = becomeParent(valueExpr);
 	}
-	
+
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(keyExpr);
@@ -50,15 +50,16 @@ public class MapItemNode extends BaseNode {
 	protected boolean resolveLocal() {
 		return true;
 	}
-	
+
 	protected boolean checkLocal() {
-		return true;	// TODO
+		// All checks are done in MapInitNode
+		return true;
 	}
-	
+
 	protected IR constructIR() {
 		return new MapItem(keyExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
 	}
-	
+
 	public MapItem getMapItem() {
 		return checkIR(MapItem.class);
 	}
