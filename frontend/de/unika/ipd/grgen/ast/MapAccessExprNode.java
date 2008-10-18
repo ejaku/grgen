@@ -24,10 +24,10 @@ public class MapAccessExprNode extends ExprNode
 	static {
 		setName(MapAccessExprNode.class, "map access expression");
 	}
-	
+
 	ExprNode targetExpr;
 	ExprNode keyExpr;
-	
+
 	public MapAccessExprNode(Coords coords, ExprNode targetExpr, ExprNode keyExpr)
 	{
 		super(coords);
@@ -66,9 +66,13 @@ public class MapAccessExprNode extends ExprNode
 	}
 
 	public TypeNode getType() {
-		return targetExpr.getType();
+		TypeNode targetExprType = targetExpr.getType();
+		assert targetExprType instanceof MapTypeNode: targetExprType + " should have a map type";
+		MapTypeNode targetExprMapType = (MapTypeNode) targetExprType;
+
+		return targetExprMapType.valueType;
 	}
-	
+
 	protected IR constructIR() {
 		return new MapAccessExpr(targetExpr.checkIR(Expression.class),
 				keyExpr.checkIR(Expression.class));
