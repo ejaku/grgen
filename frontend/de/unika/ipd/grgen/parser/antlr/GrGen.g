@@ -327,7 +327,7 @@ paramList [ CollectNode<BaseNode> params, int context ]
 	: p=param[context] { params.addChild(p); } ( COMMA p=param[context] { params.addChild(p); } )*
 	;
 
-param [ int context ] returns [ BaseNode res = null ]
+param [ int context ] returns [ BaseNode res = env.initNode() ]
 	: MINUS edge=edgeDecl[context] direction = forwardOrUndirectedEdgeParam
 	{
 		BaseNode dummy = env.getDummyNodeDecl(context);
@@ -645,7 +645,7 @@ nodeTypeContinuation [ IdentNode id, int context ] returns [ BaseNode res = env.
 			}
 	;
 
-nodeDecl [ int context ] returns [ NodeDeclNode res = null ]
+nodeDecl [ int context ] returns [ BaseNode res = env.initNode() ]
 	@init{
 		constr = TypeExprNode.getEmpty();
 	}
@@ -665,7 +665,7 @@ nodeDecl [ int context ] returns [ NodeDeclNode res = null ]
 			}
 	;
 
-varDecl [ int context ] returns [ VarDeclNode res = null ]
+varDecl [ int context ] returns [ BaseNode res = env.initNode() ]
 	: VAR id=entIdentDecl COLON type=typeIdentUse
 		{
 			res = new VarDeclNode(id, type);
@@ -1513,6 +1513,12 @@ ident returns [ Token t = null ]
 	| l=nonKeywordLiterals { l.setType(IDENT); t = l; }
 	;
 
+memberIdent returns [ Token t = null ]
+	: i=IDENT { t = i; }
+	| l=nonKeywordLiterals { l.setType(IDENT); t = l; }
+	| r=REPLACE { r.setType(IDENT); t = r; }             // HACK: For string replace function... better choose another name?
+	; 
+
 pushScope [IdentNode name]
 	@init{ env.pushScope(name); }
 
@@ -1624,6 +1630,10 @@ identUse [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
 		{ if(i!=null) res = new IdentNode(env.occurs(symTab, i.getText(), getCoords(i))); }
 	;
 
+memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+	: i=memberIdent
+		{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
+	;
 
 //////////////////////////////////////////
 // Expressions
@@ -1792,12 +1802,10 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: e=visitedExpr { res = e; }
 	| e=nameOf { res = e; }
-	| e=qualIdentExpr { res = e; }
 	| e=identExpr { res = e; }
 	| e=constant { res = e; }
 	| e=enumItemExpr { res = e; }
 	| e=typeOf { res = e; }
-	| e=stringFuncExpr[inEnumInit] { res = e; }
 	| p=PLUSPLUS 
 		{ reportError(getCoords(p), "increment operator \"++\" not supported"); }
 	| q=MINUSMINUS
@@ -1816,21 +1824,6 @@ nameOf returns [ ExprNode res = env.initExprNode() ]
 
 typeOf returns [ ExprNode res = env.initExprNode() ]
 	: t=TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
-	;
-
-stringFuncExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: f=LENGTH LPAREN strExpr=expr[inEnumInit] RPAREN
-	  { res = new StringLengthNode(getCoords(f), strExpr); }	
-	| f=SUBSTRING LPAREN strExpr=expr[inEnumInit] COMMA startExpr=expr[inEnumInit]
-	  COMMA lenExpr=expr[inEnumInit] RPAREN
-	  { res = new StringSubstringNode(getCoords(f), strExpr, startExpr, lenExpr); }	
-	| f=INDEXOF LPAREN strExpr=expr[inEnumInit] COMMA strToSearchForExpr=expr[inEnumInit] RPAREN
-	  { res = new StringIndexOfNode(getCoords(f), strExpr, strToSearchForExpr); }	
-	| f=LASTINDEXOF LPAREN strExpr=expr[inEnumInit] COMMA strToSearchForExpr=expr[inEnumInit] RPAREN
-	  { res = new StringLastIndexOfNode(getCoords(f), strExpr, strToSearchForExpr); }
-	| f=REPLACE LPAREN strExpr=expr[inEnumInit] COMMA startExpr=expr[inEnumInit]
-	  COMMA lenExpr=expr[inEnumInit] COMMA replaceStrExpr=expr[inEnumInit] RPAREN
-	  { res = new StringReplaceNode(getCoords(f), strExpr, startExpr, lenExpr, replaceStrExpr); }
 	;
 
 constant returns [ ExprNode res = env.initExprNode() ]
@@ -1885,12 +1878,28 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 	: n=enumItemAcc { res = new DeclExprNode(n); }
 	;
 
-qualIdentExpr returns [ ExprNode res = env.initExprNode() ]
-	: n=qualIdent { res = new DeclExprNode(n); }
-	;
-
 selectorExpr [ ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: l=LBRACK key=expr[inEnumInit] RBRACK { res = new MapAccessExprNode(getCoords(l), target, key); }
+	:	l=LBRACK key=expr[inEnumInit] RBRACK { res = new MapAccessExprNode(getCoords(l), target, key); }
+	|	d=DOT id=memberIdentUse
+		(
+			params=paramExprs[inEnumInit]
+			{
+				res = new MethodInvocationExprNode(target, id, params);
+			}
+		| 
+			{
+				res = new MemberAccessExprNode(getCoords(d), target, id);
+			}
+		)
+	;
+	
+paramExprs [boolean inEnumInit] returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
+	:	LPAREN
+		(
+			e=expr[inEnumInit] { params.addChild(e); }
+			( COMMA e=expr[inEnumInit] { params.addChild(e); } ) *
+		)?
+		RPAREN
 	;
 
 //////////////////////////////////////////
@@ -2073,10 +2082,7 @@ FALSE : 'false';
 HOM : 'hom';
 IN : 'in';
 INDEPENDENT : 'independent';
-INDEXOF : 'indexOf';
 INDUCED : 'induced';
-LASTINDEXOF : 'lastIndexOf';
-LENGTH : 'length';
 MAP : 'map';
 MODEL : 'model';
 MODIFY : 'modify';
@@ -2088,7 +2094,6 @@ PATTERN : 'pattern';
 REPLACE : 'replace';
 RETURN : 'return';
 RULE : 'rule';
-SUBSTRING : 'substring';
 TERM : 'term';
 TEST : 'test';
 TRUE : 'true';

@@ -41,6 +41,14 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 	public Collection<T> getChildren() {
 		return children;
 	}
+	
+	public T get(int i) {
+		return children.get(i);
+	}
+	
+	public int size() {
+		return children.size();
+	}
 
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {

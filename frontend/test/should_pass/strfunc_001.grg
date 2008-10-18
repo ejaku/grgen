@@ -7,27 +7,27 @@ rule r1
 	b:NBOOL;
 
 	if {
-		indexOf(str.a, "test") != -1;
-		lastIndexOf(str.a, "test") == indexOf(str.a, "test");
-		indexOf(str2.a, "test") != -1;
-		lastIndexOf(str2.a, "test") == indexOf(str2.a, "test");
+		str.a.indexOf("test") != -1;
+		str.a.lastIndexOf("test") == str.a.indexOf("test");
+		str2.a.indexOf("test") != -1;
+		str2.a.lastIndexOf("test") == str2.a.indexOf("test");
 
-		substring(str.a, 0, indexOf(str.a, "test"))
+		str.a.substring(0, str.a.indexOf("test"))
 				+ "rules"
-				+ substring(str.a, indexOf(str.a, "test") + length("test"),
-					length(str.a) - indexOf(str.a, "test") - 4)
+				+ str.a.substring(str.a.indexOf("test") + "test".length(),
+					str.a.length() - str.a.indexOf("test") - 4)
 		==
-		replace(str2.a, indexOf(str2.a, "test"), 4, "rules");
+		str2.a.replace(str2.a.indexOf("test"), 4, "rules");
 	}
 
 	modify {
 		eval {
-			str.a = substring(str.a, 0, indexOf(str.a, "test"))
+			str.a = str.a.substring(0, str.a.indexOf("test")).length()
 				+ "rules"
-				+ substring(str.a, indexOf(str.a, "test") + length("test"),
-					length(str.a) - indexOf(str.a, "test") - 4);
+				+ str.a.substring(str.a.indexOf("test") + "test".length(),
+					str.a.length() - str.a.indexOf("test") - 4);
 
-			str2.a = replace(str2.a, indexOf(str2.a, "test"), 4, "rules");
+			str2.a = str2.a.replace(str2.a.indexOf("test"), 4, "rules");
 
 			b.a = str.a == str2.a;
 		}
