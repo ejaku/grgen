@@ -65,12 +65,15 @@ public class MapAssignItemNode extends EvalStatementNode
 		TypeNode targetType = target.getDecl().getDeclType();
 		assert targetType instanceof MapTypeNode: target + " should have a map type";
 		MapTypeNode targetMapType = (MapTypeNode) targetType;
+		TypeNode keyType = targetMapType.keyType;
+		TypeNode keyExprType = keyExpr.getType();
 
-		if (keyExpr.getType() != targetMapType.keyType) {
-			keyExpr.reportError("Type \"" + keyExpr.getType()
-					+ "\" doesn't fit to key type \""
-					+ targetMapType.keyType + "\".");
-			success = false;
+		if (!keyExprType.isEqual(keyType)) {
+			keyExpr = becomeParent(keyExpr.adjustType(keyType, getCoords()));
+
+			if (keyExpr == ConstNode.getInvalid()) {
+				success = false;
+			}
 		}
 
 		success &= typeCheckLocal();

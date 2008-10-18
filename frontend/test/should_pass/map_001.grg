@@ -29,7 +29,7 @@ rule copyMap {
 
 rule mapIndexedMap {
 	a:A;
-	//if { a.shiceMap[a.spiceMap["blubb"]] != null; } MAP TODO
+	if { a.shiceMap[a.spiceMap["blubb"]] != null; }
 	
 	modify {
 		b:A;
