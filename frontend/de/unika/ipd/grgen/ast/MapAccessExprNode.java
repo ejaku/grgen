@@ -51,8 +51,8 @@ public class MapAccessExprNode extends ExprNode
 
 	protected boolean checkLocal() {
 		boolean success = true;
-		/*TypeNode targetType = target.getDeclType();
-		assert targetType instanceof MapTypeNode: target + " should have a map type";
+		TypeNode targetType = targetExpr.getType();
+		assert targetType instanceof MapTypeNode: targetExpr + " should have a map type";
 		MapTypeNode targetMapType = (MapTypeNode) targetType;
 
 		if (keyExpr.getType() != targetMapType.keyType) {
@@ -60,7 +60,7 @@ public class MapAccessExprNode extends ExprNode
 					+ "\" doesn't fit to key type \""
 					+ targetMapType.keyType + "\".");
 			success = false;
-		}*/
+		}
 
 		return success;
 	}
