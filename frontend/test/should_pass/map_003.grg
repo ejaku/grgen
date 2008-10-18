@@ -1,4 +1,4 @@
-using map_model_001;
+using map_model_002;
 
 rule assignWrongType {
 	a:A;
