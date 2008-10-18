@@ -11,7 +11,7 @@ abstract const node class C {
 }
 
 node class N {
-	in : int;
+	inn : int;
 }
 
 node class Nconstx {
