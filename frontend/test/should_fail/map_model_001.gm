@@ -2,6 +2,7 @@ node class A
 {
 	intValue: int;
 	stringValue: string;
-	intToString: map<int, string>;	
-	stringToInt: map<string, int>;	
+	intToString: map<int, string>;
+	stringToInt: map<string, int>;
+	const conststringToInt: map<string,int>;
 }

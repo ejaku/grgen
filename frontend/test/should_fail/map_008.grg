@@ -1,0 +1,11 @@
+using map_model_001;
+
+rule constAssignment {
+	a:A;
+	
+	modify {
+		eval {
+			a.conststringToInt -= 2;
+		}
+	}
+}

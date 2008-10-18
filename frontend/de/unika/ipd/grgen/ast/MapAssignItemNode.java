@@ -62,7 +62,14 @@ public class MapAssignItemNode extends EvalStatementNode
 
 	protected boolean checkLocal() {
 		boolean success = true;
-		TypeNode targetType = target.getDecl().getDeclType();
+		MemberDeclNode targetDecl = target.getDecl();
+
+		if (targetDecl.isConst()) {
+			error.error(getCoords(), "assignment to items of a const map is not allowed");
+			success = false;
+		}
+
+		TypeNode targetType = targetDecl.getDeclType();
 		assert targetType instanceof MapTypeNode: target + " should have a map type";
 		MapTypeNode targetMapType = (MapTypeNode) targetType;
 		TypeNode keyType = targetMapType.keyType;
