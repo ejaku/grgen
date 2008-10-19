@@ -1,0 +1,25 @@
+node class A
+{
+	val:int;
+	niceMap:map<int, string> = {
+		1 -> "foo",
+		2 -> "bar"
+	};
+	spiceMap:map<string, float> = {
+		"pi" -> 3.141592654f
+	};
+	shiceMap:map<double, object>;
+}
+
+edge class E
+{
+	val:int;
+	niceMap:map<int, string> = {
+		1 -> "foo",
+		2 -> "bar"
+	};
+	spiceMap:map<string, float> = {
+		"pi" -> 3.141592654f
+	};
+	shiceMap:map<double, object>;
+}

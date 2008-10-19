@@ -1,0 +1,11 @@
+using map_model_002;
+
+rule assignMapToMap {
+	a:A -e:E-> a; 
+		
+	modify {
+		eval {
+			a.niceMap = e.spiceMap;
+		}
+	}
+}

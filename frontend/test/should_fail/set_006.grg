@@ -1,0 +1,11 @@
+using set_model_002;
+
+rule assignSetToSet {
+	a:A -e:E-> a; 
+		
+	modify {
+		eval {
+			a.niceSet = e.spiceSet;
+		}
+	}
+}
