@@ -144,6 +144,14 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new MapRemoveItemNode(getCoords(), target, params.get(0));
   			}
+  			else if(methodName.equals("size")) {
+  				if(params.size() != 0) {
+  					reportError("map<S,T>.size() does not take any parameters.");
+					return false;
+				}
+  				else
+  					result = new MapSizeNode(getCoords(), target);
+  			}
   			else {
   				reportError("map<S,T> does not have a method named \"" + methodName + "\"");
   				return false;
@@ -171,6 +179,14 @@ public class MethodInvocationExprNode extends ExprNode
 				}
   				else
   					result = new SetRemoveItemNode(getCoords(), target, params.get(0));
+  			}
+  			else if(methodName.equals("size")) {
+  				if(params.size() != 0) {
+  					reportError("set<T>.size() does not take any parameters.");
+					return false;
+				}
+  				else
+  					result = new SetSizeNode(getCoords(), target);
   			}
   			else {
   				reportError("set<T> does not have a method named \"" + methodName + "\"");

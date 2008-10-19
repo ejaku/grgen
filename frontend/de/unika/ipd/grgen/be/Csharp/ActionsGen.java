@@ -35,6 +35,8 @@ import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
+import de.unika.ipd.grgen.ir.MapSizeExpr;
+import de.unika.ipd.grgen.ir.SetSizeExpr;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Nameof;
@@ -857,6 +859,18 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, ma.getTargetExpr(), pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, ma.getKeyExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof MapSizeExpr) {
+			MapSizeExpr ms = (MapSizeExpr)expr;
+			sb.append("new GRGEN_EXPR.MapSize(");
+			genExpressionTree(sb, ms.getTargetExpr(), pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof SetSizeExpr) {
+			SetSizeExpr ss = (SetSizeExpr)expr;
+			sb.append("new GRGEN_EXPR.SetSize(");
+			genExpressionTree(sb, ss.getTargetExpr(), pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");

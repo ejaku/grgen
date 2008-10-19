@@ -1,0 +1,13 @@
+using map_model_002;
+
+rule mapSize {
+	a:A;
+	
+	if { a.intToString.size()==42; }
+	
+	modify {
+		eval {
+			a.intValue = a.stringToInt.size();
+		}
+	}
+}

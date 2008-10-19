@@ -1,0 +1,13 @@
+using set_model_002;
+
+rule setSize {
+	a:A;
+	
+	if { a.intSet.size()==42; }
+	
+	modify {
+		eval {
+			a.intValue = a.stringSet.size();
+		}
+	}
+}

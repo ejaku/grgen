@@ -919,4 +919,44 @@ namespace de.unika.ipd.grGen.expression
         Expression Target;
         Expression KeyExpr;
     }
+
+    /// <summary>
+    /// Class representing a map size expression.
+    /// </summary>
+    public class MapSize : Expression
+    {
+        public MapSize(Expression target)
+        {
+            Target = target;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(").Count");
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing a set size expression.
+    /// </summary>
+    public class SetSize : Expression
+    {
+        public SetSize(Expression target)
+        {
+            Target = target;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(").Count");
+        }
+
+        Expression Target;
+    }
 }
