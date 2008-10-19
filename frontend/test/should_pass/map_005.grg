@@ -5,7 +5,7 @@ rule assignWrongType {
 	
 	modify {
 		eval {
-			a.stringToInt -= a.intValue;
+			a.stringToInt = a.stringToInt.remove(a.intValue);
 		}
 	}
 }

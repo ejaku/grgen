@@ -29,7 +29,7 @@ public class MemberAccessExprNode extends ExprNode
 	
 	ExprNode targetExpr;
 	IdentNode memberIdent;
-	DeclNode member;
+	MemberDeclNode member;
 	
 	public MemberAccessExprNode(Coords coords, ExprNode targetExpr, IdentNode memberIdent) {
 		super(coords);
@@ -77,6 +77,12 @@ public class MemberAccessExprNode extends ExprNode
 	
 	protected boolean checkLocal() {
 		return true;
+	}
+	
+	public MemberDeclNode getDecl() {
+		assert isResolved();
+
+		return member;
 	}
 	
 	public TypeNode getType() {

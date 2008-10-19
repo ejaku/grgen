@@ -14,23 +14,22 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapRemoveItemNode extends EvalStatementNode
+public class MapRemoveItemNode extends ExprNode
 {
 	static {
 		setName(MapRemoveItemNode.class, "map remove item");
 	}
 
-	QualIdentNode target;
+	MemberAccessExprNode target;
 	ExprNode keyExpr;
 
-	public MapRemoveItemNode(Coords coords, QualIdentNode target, ExprNode keyExpr)
+	public MapRemoveItemNode(Coords coords, MemberAccessExprNode target, ExprNode keyExpr)
 	{
 		super(coords);
 		this.target = becomeParent(target);
@@ -81,10 +80,15 @@ public class MapRemoveItemNode extends EvalStatementNode
 	}
 
 	protected IR constructIR() {
-		Entity ownerIR = target.getOwner().checkIR(Entity.class);
-		Entity memberIR = target.getDecl().checkIR(Entity.class);
-
-		return new MapRemoveItem(new Qualification(ownerIR, memberIR),
+		return new MapRemoveItem(target.checkIR(Qualification.class),
 				keyExpr.checkIR(Expression.class));
+	}
+	
+	public TypeNode getType() {
+		return target.getDecl().getDeclType();
+	}
+	
+	public MemberAccessExprNode getTarget() {
+		return target;
 	}
 }

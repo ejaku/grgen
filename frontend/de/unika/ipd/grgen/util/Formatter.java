@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.Qualification;
@@ -150,6 +151,9 @@ public class Formatter {
 			sb.append("visited(" + formatIdentifiable(vis.getEntity()) + ", ");
 			formatConditionEvalAux(sb, vis.getVisitorID());
 			sb.append(")");
+		}
+		else if(cond instanceof MapAccessExpr) {
+			// MAP TODO
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}

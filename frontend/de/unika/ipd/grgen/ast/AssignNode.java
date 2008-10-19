@@ -17,6 +17,8 @@ import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.MapAssignItem;
+import de.unika.ipd.grgen.ir.MapRemoveItem;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Visited;
@@ -123,8 +125,31 @@ public class AssignNode extends EvalStatementNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
+		if(rhs instanceof MethodInvocationExprNode) {
+			MethodInvocationExprNode mi = (MethodInvocationExprNode)rhs;
+			
+			if(mi.getResult() instanceof MapAssignItemNode) {
+				Qualification qual = lhs.checkIR(Qualification.class);
+				MapAssignItem mapass = rhs.checkIR(MapAssignItem.class);
+				if(qual.getOwner()!=mapass.getTarget().getOwner() 
+						|| qual.getMember()!=mapass.getTarget().getMember()) {
+					error.error(getCoords(), "Map modified by put must be assigned to the same original map");
+				}
+				return mapass;
+			}
+			
+			if(mi.getResult() instanceof MapRemoveItemNode) {
+				Qualification qual = lhs.checkIR(Qualification.class);
+				MapRemoveItem maprem = rhs.checkIR(MapRemoveItem.class);
+				if(qual.getOwner()!=maprem.getTarget().getOwner() 
+						|| qual.getMember()!=maprem.getTarget().getMember()) {
+					error.error(getCoords(), "Map modified by remove must be assigned to the same original map");
+				}
+				return maprem;
+			}
+		}
+		
 		Expression target;
-
 		if(lhs instanceof QualIdentNode) {
 			Qualification qual = lhs.checkIR(Qualification.class);
 			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType()) {

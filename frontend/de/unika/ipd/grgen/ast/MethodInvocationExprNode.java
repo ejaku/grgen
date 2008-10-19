@@ -121,6 +121,34 @@ public class MethodInvocationExprNode extends ExprNode
   				return false;
   			}  				
 		}
+		else if(targetType instanceof MapTypeNode) {
+			if(!(targetExpr instanceof MemberAccessExprNode)) {
+				reportError("map<S,T>.put/remove can only access a non-computed member entity.");
+				return false;
+			}
+			MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
+			
+			if(methodName.equals("put")) {
+  				if(params.size() != 2) {
+  					reportError("map<S,T>.put(key, value) takes two parameters.");
+					return false;
+				}
+  				else
+  					result = new MapAssignItemNode(getCoords(), target, params.get(0), params.get(1));
+  			}
+  			else if(methodName.equals("remove")) {
+  				if(params.size() != 1) {
+  					reportError("map<S,T>.remove(key) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new MapRemoveItemNode(getCoords(), target, params.get(0));
+  			}
+  			else {
+  				reportError("map<S,T> does not have a method named \"" + methodName + "\"");
+  				return false;
+  			}
+		}
 		else {
 			reportError(targetType.toString() + " does not have any methods");
 			return false;
@@ -134,6 +162,10 @@ public class MethodInvocationExprNode extends ExprNode
 
 	public TypeNode getType() {
 		return result.getType();
+	}
+	
+	public ExprNode getResult() {
+		return result;
 	}
 	
 	protected IR constructIR() {

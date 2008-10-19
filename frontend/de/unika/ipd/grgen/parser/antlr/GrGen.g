@@ -1641,24 +1641,11 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 
 
 assignment returns [ EvalStatementNode res = null ]
-	:
-	(
-		tgt=qualIdent 
-		(
-			a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
-			{ res = new AssignNode(getCoords(a), tgt, e); }
-		|
-			LBRACK key=expr[false] RBRACK a=ASSIGN val=expr[false]
-			{ res = new MapAssignItemNode(getCoords(a), tgt, key, val); }
-		|
-			a=MINUSASSIGN key=expr[false]
-			{ res = new MapRemoveItemNode(getCoords(a), tgt, key); }
-		) 
+	: tgt=qualIdent a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
+		{ res = new AssignNode(getCoords(a), tgt, e); }
 	|
-		tgt2=visitedExpr 
-		a=ASSIGN e=expr[false]
+	  tgt2=visitedExpr a=ASSIGN e=expr[false]
 		{ res = new AssignNode(getCoords(a), tgt2, e); }
-	)
 	;
 
 expr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
@@ -1973,7 +1960,6 @@ DIV				:	'/'		;
 PLUS			:	'+'		;
 PLUSASSIGN		:	'+='	;
 MINUS			:	'-'		;
-MINUSASSIGN		:	'-='	;
 STAR			:	'*'		;
 MOD				:	'%'		;
 GE				:	'>='	;

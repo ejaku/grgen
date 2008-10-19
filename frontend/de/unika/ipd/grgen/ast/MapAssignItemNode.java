@@ -14,24 +14,23 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MapAssignItem;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapAssignItemNode extends EvalStatementNode
+public class MapAssignItemNode extends ExprNode
 {
 	static {
 		setName(MapAssignItemNode.class, "map assign item");
 	}
 
-	QualIdentNode target;
+	MemberAccessExprNode target;
 	ExprNode keyExpr;
     ExprNode valueExpr;
 
-	public MapAssignItemNode(Coords coords, QualIdentNode target, ExprNode keyExpr,
+	public MapAssignItemNode(Coords coords, MemberAccessExprNode target, ExprNode keyExpr,
 	                         ExprNode valueExpr)
 	{
 		super(coords);
@@ -109,10 +108,15 @@ public class MapAssignItemNode extends EvalStatementNode
 	}
 
 	protected IR constructIR() {
-		Entity ownerIR = target.getOwner().checkIR(Entity.class);
-		Entity memberIR = target.getDecl().checkIR(Entity.class);
-
-		return new MapAssignItem(new Qualification(ownerIR, memberIR),
+		return new MapAssignItem(target.checkIR(Qualification.class),
 				keyExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
+	}
+	
+	public TypeNode getType() {
+		return target.getDecl().getDeclType();
+	}
+	
+	public MemberAccessExprNode getTarget() {
+		return target;
 	}
 }

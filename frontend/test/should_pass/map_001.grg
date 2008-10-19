@@ -5,7 +5,7 @@ rule addToMap {
 	
 	modify {
 		eval {
-			a.niceMap[5] = "yeah";
+			a.niceMap = a.niceMap.put(5, "yeah");
 		}
 	}
 }
@@ -22,7 +22,7 @@ rule copyMap {
 	modify {
 		b:A;
 		eval {
-			b.niceMap[0] = a.niceMap[0];
+			b.niceMap = b.niceMap.put(0, a.niceMap[0]);
 		}
 	}
 }
@@ -34,7 +34,7 @@ rule mapIndexedMap {
 	modify {
 		b:A;
 		eval {
-			a.spiceMap[b.niceMap[0]] = 3.141f;
+			a.spiceMap = a.spiceMap.put(b.niceMap[0], 3.141f);
 		}
 	}
 }
@@ -44,7 +44,7 @@ rule removeFromMap {
 	
 	modify {
 		eval {
-			a.niceMap -= 0;
+			a.niceMap = a.niceMap.remove(0);
 		}
 	}
 }

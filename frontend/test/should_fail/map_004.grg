@@ -5,7 +5,7 @@ rule wrongKeyType {
 	
 	modify {
 		eval {
-			a.intToString[a.stringValue] = a.stringValue;
+			a.intToString = a.intToString.put(a.stringValue, a.stringValue);
 		}
 	}
 }
