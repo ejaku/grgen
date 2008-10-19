@@ -73,7 +73,7 @@ tokens {
 @members {
 	boolean hadError = false;
 
-	private static Map opIds = new HashMap();
+	private static Map<Integer, Integer> opIds = new HashMap<Integer, Integer>();
 
 	private static final void putOpId(int tokenId, int opId) {
 		opIds.put(new Integer(tokenId), new Integer(opId));
@@ -107,7 +107,7 @@ tokens {
 	};
 
 	private OpNode makeOp(org.antlr.runtime.Token t) {
-		Integer opId = (Integer) opIds.get(new Integer(t.getType()));
+		Integer opId = opIds.get(new Integer(t.getType()));
 		assert opId != null : "Invalid operator ID";
 		return new ArithmeticOpNode(getCoords(t), opId.intValue());
 	}
