@@ -1435,7 +1435,7 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 				)?
 			|
 				MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
-				{ // MAP TODO: das sollte eigentlich kein Schlüsselwort sein, sondern ein Typbezeichner
+				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 					decl = new MemberDeclNode(id, env.getMapType(keyType, valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
