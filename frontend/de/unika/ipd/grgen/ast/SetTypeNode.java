@@ -23,6 +23,10 @@ public class SetTypeNode extends DeclaredTypeNode {
 		setName(SetTypeNode.class, "set type");
 	}
 	
+	public String getName() {
+		return "set<" + valueTypeUnresolved.toString() + "> type";
+	}
+	
 	IdentNode valueTypeUnresolved;
 	TypeNode valueType;
 	
@@ -50,7 +54,7 @@ public class SetTypeNode extends DeclaredTypeNode {
 		if(valueType == null) return false;
 		
 		OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
-				valueType, this, OperatorSignature.mapEvaluator);
+				valueType, this, OperatorSignature.setEvaluator);
 		
 		return true;
 	}

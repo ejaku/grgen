@@ -283,7 +283,10 @@ namespace de.unika.ipd.grGen.libGr
         ObjectAttr,
 
         /// <summary>The attribute is a map.</summary>
-        MapAttr
+        MapAttr,
+
+        /// <summary>The attribute is a set.</summary>
+        SetAttr
     }
 
     /// <summary>

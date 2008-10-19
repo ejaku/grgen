@@ -69,7 +69,8 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	@SuppressWarnings("unchecked")
 	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
 			new DeclarationResolver<BaseNode>(new Class[] {
-					MemberDeclNode.class, MemberInitNode.class, MapInitNode.class,
+					MemberDeclNode.class, MemberInitNode.class,
+					MapInitNode.class, SetInitNode.class,
 					ConstructorDeclNode.class
 				}));
 

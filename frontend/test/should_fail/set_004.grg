@@ -1,0 +1,11 @@
+using set_model_001;
+
+rule constAssignment {
+	a:A;
+	
+	modify {
+		eval {
+			a.constStringSet = a.constStringSet.put("bla");
+		}
+	}
+}

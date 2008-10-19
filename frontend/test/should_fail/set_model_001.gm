@@ -1,0 +1,9 @@
+node class A
+{
+	intValue: int;
+	stringValue: string;
+	intSet: set<int>;
+	stringSet: set<string>;
+	const constIntSet: set<int>;
+	const constStringSet: set<string>;
+}

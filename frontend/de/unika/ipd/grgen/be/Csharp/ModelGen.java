@@ -41,6 +41,9 @@ import de.unika.ipd.grgen.ir.IntType;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapItem;
 import de.unika.ipd.grgen.ir.MapType;
+import de.unika.ipd.grgen.ir.SetInit;
+import de.unika.ipd.grgen.ir.SetItem;
+import de.unika.ipd.grgen.ir.SetType;
 import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.NodeType;
@@ -457,8 +460,8 @@ public class ModelGen extends CSharpBase {
 		if(withDefaultInits) {
 			for(Entity member : type.getAllMembers()) {
 				Type t = member.getType();
-				if(t instanceof MapType) 
-					continue; // maps are handled below
+				if(t instanceof MapType || t instanceof SetType) 
+					continue; // maps and sets are handled below
 				
 				String attrName = formatIdentifiable(member);
 				sb.append(indentString + varName + ".@" + attrName + " = ");
@@ -477,13 +480,22 @@ public class ModelGen extends CSharpBase {
 
 		for(Entity member : type.getAllMembers()) {
 			Type t = member.getType();
-			if(!(t instanceof MapType)) continue;
-			MapType mapType = (MapType) t;
-			String attrName = formatIdentifiable(member);
-			sb.append(indentString + varName + ".@" + attrName + " = new "
-					+ formatAttributeType(mapType) + "();\n");
+			if(t instanceof MapType)
+			{
+				MapType mapType = (MapType) t;
+				String attrName = formatIdentifiable(member);
+				sb.append(indentString + varName + ".@" + attrName + " = new "
+						+ formatAttributeType(mapType) + "();\n");
+			}
+			else if(t instanceof SetType)
+			{
+				SetType setType = (SetType) t;
+				String attrName = formatIdentifiable(member);
+				sb.append(indentString + varName + ".@" + attrName + " = new "
+						+ formatAttributeType(setType) + "();\n");
+			}
 		}
-		
+	
 		for(InheritanceType superType : type.getAllSuperTypes())
 			genMemberInit(superType, indentString, varName);
 		genMemberInit(type, indentString, varName);
@@ -496,6 +508,15 @@ public class ModelGen extends CSharpBase {
 				sb.append("] = ");
 				genExpression(sb, item.getValueExpr(), null);
 				sb.append(";\n");
+			}
+		}
+		
+		for(SetInit setInit : type.getSetInits()) {
+			String attrName = formatIdentifiable(setInit.getMember());
+			for(SetItem item : setInit.getSetItems()) {
+				sb.append(indentString + varName + ".@" + attrName + "[");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append("] = null;\n");
 			}
 		}
 
@@ -738,6 +759,8 @@ public class ModelGen extends CSharpBase {
 				sb.append("ObjectAttr, null");
 			else if (t instanceof MapType)
 				sb.append("MapAttr, null");      // MAP TODO: info about key and value type missing 
+			else if (t instanceof SetType)
+				sb.append("SetAttr, null");      // MAP TODO: info about value type missing
 			else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");
 
 			sb.append(");\n");

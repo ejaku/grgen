@@ -564,7 +564,13 @@ public class OperatorSignature extends FunctionSignature {
 			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate if const
 		}
 	};
-	
+
+	public static final Evaluator setEvaluator = new Evaluator() {
+		protected ExprNode eval(Coords coords, OperatorSignature op,
+				ExprNode[] e) throws NotEvaluatableException {
+			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate if const
+		}
+	};
 	
 	private static final Evaluator emptyEvaluator = new Evaluator();
 

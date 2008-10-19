@@ -39,6 +39,8 @@ import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.MapAssignItem;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
+import de.unika.ipd.grgen.ir.SetAssignItem;
+import de.unika.ipd.grgen.ir.SetRemoveItem;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -809,6 +811,34 @@ public class ModifyGen extends CSharpBase {
 				
 				mri.getKeyExpr().collectNeededEntities(needs);
 			}
+			else if(evalStmt instanceof SetAssignItem) {
+				SetAssignItem sai = (SetAssignItem) evalStmt;
+				Qualification target = sai.getTarget();
+				Entity entity = ((Qualification) target).getOwner();
+				needs.add((GraphEntity) entity);
+	
+				// Temporarily do not collect variables for target
+				HashSet<Variable> varSet = needs.variables;
+				needs.variables = null;
+				target.collectNeededEntities(needs);
+				needs.variables = varSet;
+				
+				sai.getValueExpr().collectNeededEntities(needs);
+			}
+			else if(evalStmt instanceof SetRemoveItem) {
+				SetRemoveItem sri = (SetRemoveItem) evalStmt;
+				Qualification target = sri.getTarget();
+				Entity entity = ((Qualification) target).getOwner();
+				needs.add((GraphEntity) entity);
+	
+				// Temporarily do not collect variables for target
+				HashSet<Variable> varSet = needs.variables;
+				needs.variables = null;
+				target.collectNeededEntities(needs);
+				needs.variables = varSet;
+				
+				sri.getValueExpr().collectNeededEntities(needs);
+			}
 			else {
 				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");
 			}
@@ -1503,6 +1533,24 @@ public class ModifyGen extends CSharpBase {
 				sb.append("] = ");
 				genExpression(sb, mai.getValueExpr(), state);
 				sb.append(";\n");
+				// MAP TODO: wofür ist das temp_var-Zeuch drüber beim assignemt - brauch ich das hier auch?
+			}
+			else if(evalStmt instanceof SetRemoveItem) {
+				SetRemoveItem sri = (SetRemoveItem) evalStmt;
+				sb.append("\t\t\t");
+				genExpression(sb, sri.getTarget(), state);
+				sb.append(".Remove(");
+				genExpression(sb, sri.getValueExpr(), state);
+				sb.append(");\n");
+				// MAP TODO: wofür ist das temp_var-Zeuch drüber beim assignemt - brauch ich das hier auch?
+			}
+			else if(evalStmt instanceof SetAssignItem) {
+				SetAssignItem sai = (SetAssignItem) evalStmt;
+				sb.append("\t\t\t");
+				genExpression(sb, sai.getTarget(), state);
+				sb.append("[");
+				genExpression(sb, sai.getValueExpr(), state);
+				sb.append("] = null;\n");
 				// MAP TODO: wofür ist das temp_var-Zeuch drüber beim assignemt - brauch ich das hier auch?
 			}
 			else

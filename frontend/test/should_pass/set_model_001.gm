@@ -1,0 +1,23 @@
+node class A
+{
+	val:int;
+	niceSet:set<string> = {
+		"foo",
+		"bar"
+	};
+	spiceSet:set<int> = {
+		42
+	};
+}
+
+edge class E
+{
+	val:int;
+	niceSet:set<string> = {
+		"foo",
+		"bar"
+	};
+	spiceSet:set<int> = {
+		42
+	};
+}

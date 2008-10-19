@@ -39,6 +39,7 @@ import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IntType;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.MapType;
+import de.unika.ipd.grgen.ir.SetType;
 import de.unika.ipd.grgen.ir.MemberExpression;
 import de.unika.ipd.grgen.ir.Nameof;
 import de.unika.ipd.grgen.ir.Node;
@@ -244,6 +245,11 @@ public abstract class CSharpBase {
 			MapType mapType = (MapType) t;
 			return "Dictionary<" + formatIdentifiable(mapType.getKeyType())
 					+ ", " + formatIdentifiable(mapType.getValueType()) + ">";
+		}
+		else if (t instanceof SetType) {
+			SetType setType = (SetType) t;
+			return "Dictionary<" + formatIdentifiable(setType.getValueType())
+					+ ", string>";
 		}
 		else throw new IllegalArgumentException("Illegal type: " + t);
 	}

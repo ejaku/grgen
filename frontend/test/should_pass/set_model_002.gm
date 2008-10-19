@@ -1,0 +1,7 @@
+node class A
+{
+	intValue: int;
+	stringValue: string;
+	intSet: set<int>;
+	stringSet: set<string>;
+}

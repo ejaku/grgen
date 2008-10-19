@@ -1,0 +1,53 @@
+using set_model_001;
+
+rule addToSet {
+	a:A;
+	
+	modify {
+		eval {
+			a.niceSet = a.niceSet.put("yeah");
+		}
+	}
+}
+
+test containedInSet {
+	a:A;
+	
+	if { "yeah" in a.niceSet; }
+}
+
+rule removeFromSet {
+	a:A;
+	
+	modify {
+		eval {
+			a.niceSet = a.niceSet.remove("yeah");
+		}
+	}
+}
+
+rule computedAddToSet {
+	a:A; b:A;
+	
+	modify {
+		eval {
+			a.spiceSet = a.spiceSet.put(a.val + b.val*2);
+		}
+	}
+}
+
+test computedContainedInSet {
+	a:A; b:A;
+	
+	if { a.val+b.val*2 in a.spiceSet; }
+}
+
+rule computedRemoveFromSet {
+	a:A; b:A;
+	
+	modify {
+		eval {
+			a.spiceSet = a.spiceSet.remove(a.val + b.val*2);
+		}
+	}
+}

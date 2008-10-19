@@ -44,6 +44,8 @@ public abstract class InheritanceType extends CompoundType {
 	private List<MemberInit> memberInitializers = new LinkedList<MemberInit>();
 	
 	private List<MapInit> mapInitializers = new LinkedList<MapInit>();
+	
+	private List<SetInit> setInitializers = new LinkedList<SetInit>();
 
 	/** Collection containing all members defined in that type and in its supertype.
 	 *  This field is used for caching. */
@@ -208,6 +210,14 @@ public abstract class InheritanceType extends CompoundType {
 
 	public Collection<MapInit> getMapInits() {
 		return mapInitializers;
+	}
+	
+	public void addSetInit(SetInit init) {
+		setInitializers.add(init);
+	}
+
+	public Collection<SetInit> getSetInits() {
+		return setInitializers;
 	}
 	
 	/**

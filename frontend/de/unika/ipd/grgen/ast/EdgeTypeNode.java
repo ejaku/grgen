@@ -14,9 +14,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
@@ -28,8 +27,13 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 		setName(EdgeTypeNode.class, "edge type");
 	}
 
-	protected static final CollectPairResolver<BaseNode> bodyResolver = new CollectPairResolver<BaseNode>(
-    		new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class));
+	@SuppressWarnings("unchecked")
+	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
+			new DeclarationResolver<BaseNode>(new Class[] {
+					MemberDeclNode.class, MemberInitNode.class,
+					MapInitNode.class, SetInitNode.class,
+					ConstructorDeclNode.class
+				}));
 
 	protected static final CollectResolver<EdgeTypeNode> extendResolver = new CollectResolver<EdgeTypeNode>(
     		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class));

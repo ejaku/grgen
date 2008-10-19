@@ -149,6 +149,34 @@ public class MethodInvocationExprNode extends ExprNode
   				return false;
   			}
 		}
+		else if(targetType instanceof SetTypeNode) {
+			if(!(targetExpr instanceof MemberAccessExprNode)) {
+				reportError("set<T>.put/remove can only access a non-computed member entity.");
+				return false;
+			}
+			MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
+			
+			if(methodName.equals("put")) {
+  				if(params.size() != 1) {
+  					reportError("set<T>.put(value) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new SetAssignItemNode(getCoords(), target, params.get(0));
+  			}
+  			else if(methodName.equals("remove")) {
+  				if(params.size() != 1) {
+  					reportError("set<T>.remove(value) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new SetRemoveItemNode(getCoords(), target, params.get(0));
+  			}
+  			else {
+  				reportError("set<T> does not have a method named \"" + methodName + "\"");
+  				return false;
+  			}
+		}
 		else {
 			reportError(targetType.toString() + " does not have any methods");
 			return false;

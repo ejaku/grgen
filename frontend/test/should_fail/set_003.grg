@@ -1,0 +1,11 @@
+using set_model_001;
+
+rule removeWrongType {
+	a:A;
+	
+	modify {
+		eval {
+			a.intSet = a.intSet.remove(a.stringValue);
+		}
+	}
+}

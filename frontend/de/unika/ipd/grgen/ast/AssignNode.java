@@ -19,6 +19,8 @@ import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MapAssignItem;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
+import de.unika.ipd.grgen.ir.SetAssignItem;
+import de.unika.ipd.grgen.ir.SetRemoveItem;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Visited;
@@ -146,6 +148,26 @@ public class AssignNode extends EvalStatementNode {
 					error.error(getCoords(), "Map modified by remove must be assigned to the same original map");
 				}
 				return maprem;
+			}
+			
+			if(mi.getResult() instanceof SetAssignItemNode) {
+				Qualification qual = lhs.checkIR(Qualification.class);
+				SetAssignItem setass = rhs.checkIR(SetAssignItem.class);
+				if(qual.getOwner()!=setass.getTarget().getOwner() 
+						|| qual.getMember()!=setass.getTarget().getMember()) {
+					error.error(getCoords(), "Set modified by put must be assigned to the same original set");
+				}
+				return setass;
+			}
+			
+			if(mi.getResult() instanceof SetRemoveItemNode) {
+				Qualification qual = lhs.checkIR(Qualification.class);
+				SetRemoveItem setrem = rhs.checkIR(SetRemoveItem.class);
+				if(qual.getOwner()!=setrem.getTarget().getOwner() 
+						|| qual.getMember()!=setrem.getTarget().getMember()) {
+					error.error(getCoords(), "Set modified by remove must be assigned to the same original set");
+				}
+				return setrem;
 			}
 		}
 		

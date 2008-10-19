@@ -1,0 +1,7 @@
+using set_model_002;
+
+test testWrongType {
+	a:A;
+	
+	if { a.intValue in a.stringSet; }
+}

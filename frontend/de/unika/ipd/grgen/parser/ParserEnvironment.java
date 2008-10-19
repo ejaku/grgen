@@ -374,6 +374,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("replace");
 		keywords.add("return");
 		keywords.add("rule");
+		keywords.add("set");
 		keywords.add("substring");
 		keywords.add("term");
 		keywords.add("test");

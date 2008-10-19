@@ -23,6 +23,10 @@ public class MapTypeNode extends DeclaredTypeNode {
 		setName(MapTypeNode.class, "map type");
 	}
 	
+	public String getName() {
+		return "map<" + keyTypeUnresolved.toString() + "," + valueTypeUnresolved.toString() + "> type";
+	}
+	
 	IdentNode keyTypeUnresolved;
 	TypeNode keyType;
 	IdentNode valueTypeUnresolved;
