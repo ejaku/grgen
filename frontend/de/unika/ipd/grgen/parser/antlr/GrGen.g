@@ -1435,13 +1435,23 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 				)?
 			|
 				MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
-				{
+				{ // MAP TODO: das sollte eigentlich kein Schlüsselwort sein, sondern ein Typbezeichner
 					decl = new MemberDeclNode(id, env.getMapType(keyType, valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
 				}
 				(
 					init2=initMapExprDecl[decl.getIdentNode()] { c.addChild(init2); }
+				)?
+			|
+				SET LT valueType=typeIdentUse GT
+				{
+					decl = new MemberDeclNode(id, env.getSetType(valueType), isConst);
+					id.setDecl(decl);
+					c.addChild(decl);
+				}
+				(
+					init3=initSetExprDecl[decl.getIdentNode()] { c.addChild(init3); }
 				)?
 			)
 		)
@@ -1466,10 +1476,25 @@ initMapExprDecl [IdentNode id] returns [ MapInitNode res = null ]
 	  RBRACE
 	;
 
+initSetExprDecl [IdentNode id] returns [ SetInitNode res = null ]
+	: a=ASSIGN { res = new SetInitNode(getCoords(a), id); }	
+	  LBRACE
+	          item1=setItem { res.addSetItem(item1); }
+	  ( COMMA item2=setItem { res.addSetItem(item2); } )*
+	  RBRACE
+	;
+
 mapItem returns [ MapItemNode res = null ]
 	: key=expr[false] a=RARROW value=expr[false]
 		{
 			res = new MapItemNode(getCoords(a), key, value);
+		}
+	;
+
+setItem returns [ SetItemNode res = null ]
+	: value=expr[false]
+		{
+			res = new SetItemNode(value.getCoords(), value);
 		}
 	;
 
@@ -2080,7 +2105,8 @@ PATTERN : 'pattern';
 REPLACE : 'replace';
 RETURN : 'return';
 RULE : 'rule';
-TERM : 'term';
+SET : 'set';
+TERM: 'term';
 TEST : 'test';
 TRUE : 'true';
 TYPEOF : 'typeof';

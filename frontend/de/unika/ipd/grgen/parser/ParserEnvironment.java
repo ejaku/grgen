@@ -27,6 +27,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.IntConstNode;
 import de.unika.ipd.grgen.ast.MapTypeNode;
+import de.unika.ipd.grgen.ast.SetTypeNode;
 import de.unika.ipd.grgen.ast.ModelNode;
 import de.unika.ipd.grgen.ast.NodeDeclNode;
 import de.unika.ipd.grgen.ast.NodeTypeNode;
@@ -80,6 +81,8 @@ public abstract class ParserEnvironment extends Base {
 	private HashSet<String> keywords = new HashSet<String>();
 	
 	private HashMap<String, MapTypeNode> mapTypes = new HashMap<String, MapTypeNode>();
+
+	private HashMap<String, SetTypeNode> setTypes = new HashMap<String, SetTypeNode>();
 
 	/**
 	 * Make a new parser environment.
@@ -313,7 +316,17 @@ public abstract class ParserEnvironment extends Base {
 		
 		return mapTypeNode;
 	}
-	
+
+	public SetTypeNode getSetType(IdentNode valueTypeIdent) {
+		String keyStr = valueTypeIdent.toString();
+		SetTypeNode setTypeNode = setTypes.get(keyStr);
+		
+		if(setTypeNode == null)
+			setTypes.put(keyStr, setTypeNode = new SetTypeNode(valueTypeIdent));
+		
+		return setTypeNode;
+	}
+
 	/**
 	 * Initializes the lexer keywords hash set (i.e. all identifiers considered as keyword by the lexer (not the parser)).
 	 */
