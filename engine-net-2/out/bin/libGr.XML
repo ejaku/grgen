@@ -4205,7 +4205,20 @@
             The enum type description, if Kind == AttributeKind.EnumAttr. Otherwise it is null.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType)">
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeType.ValueKind">
+            <summary>
+            The kind of the value of the set, if Kind == AttributeKind.SetAttr.
+            The kind of the value of the map, if Kind == AttributeKind.MapAttr.
+            Undefined otherwise.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeType.KeyKind">
+            <summary>
+            The kind of the key of the map, if Kind == AttributeKind.MapAttr.
+            Undefined otherwise.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.AttributeKind)">
             <summary>
             Initializes an AttributeType instance.
             </summary>
@@ -4213,6 +4226,8 @@
             <param name="ownerType">The owner model type.</param>
             <param name="kind">The kind of the attribute.</param>
             <param name="enumType">The enum type description, if Kind == AttributeKind.EnumAttr, otherwise null.</param>
+            <param name="valueKind">The kind of the value of the set, if Kind == AttributeKind.SetAttr. The kind of the value of the map, if Kind == AttributeKind.MapAttr. Undefined otherwise. </param>
+            <param name="keyKind">The kind of the key of the map, if Kind == AttributeKind.MapAttr. Undefined otherwise.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.EnumMember">
             <summary>

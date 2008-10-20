@@ -740,31 +740,49 @@ public class ModelGen extends CSharpBase {
 	private void genAttributeInit(InheritanceType type) {
 		for(Entity e : type.getMembers()) {
 			sb.append("\t\t\t" + formatAttributeTypeName(e) + " = new GRGEN_LIBGR.AttributeType(");
-			sb.append("\"" + formatIdentifiable(e) + "\", this, GRGEN_LIBGR.AttributeKind.");
+			sb.append("\"" + formatIdentifiable(e) + "\", this, ");
 			Type t = e.getType();
 
-			if (t instanceof IntType)
-				sb.append("IntegerAttr, null");
-			else if (t instanceof FloatType)
-				sb.append("FloatAttr, null");
-			else if (t instanceof DoubleType)
-				sb.append("DoubleAttr, null");
-			else if (t instanceof BooleanType)
-				sb.append("BooleanAttr, null");
-			else if (t instanceof StringType)
-				sb.append("StringAttr, null");
-			else if (t instanceof EnumType)
-				sb.append("EnumAttr, Enums.@" + formatIdentifiable(t));
-			else if (t instanceof ObjectType || t instanceof VoidType)
-				sb.append("ObjectAttr, null");
-			else if (t instanceof MapType)
-				sb.append("MapAttr, null");      // MAP TODO: info about key and value type missing 
-			else if (t instanceof SetType)
-				sb.append("SetAttr, null");      // MAP TODO: info about value type missing
-			else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");
+			if (t instanceof EnumType) {
+				sb.append(getAttributeKind(t) + ", Enums.@" + formatIdentifiable(t) +", "
+						+ getAttributeKind(t) + ", " + getAttributeKind(t));
+			} else if (t instanceof MapType) {
+				MapType mt = (MapType)t;
+				sb.append(getAttributeKind(t) + ", null, " 
+						+ getAttributeKind(mt.getValueType()) + ", " + getAttributeKind(mt.getKeyType()));	
+			} else if (t instanceof SetType) {
+				SetType st = (SetType)t;
+				sb.append(getAttributeKind(t) + ", null, "
+						+ getAttributeKind(st.getValueType()) + ", " + getAttributeKind(st.getValueType()));	
+			} else {
+				sb.append(getAttributeKind(t) + ", null, " 
+						+ getAttributeKind(t) + ", " + getAttributeKind(t));	
+			}
 
 			sb.append(");\n");
 		}
+	}
+	
+	private String getAttributeKind(Type t) {
+		if (t instanceof IntType)
+			return "GRGEN_LIBGR.AttributeKind.IntegerAttr";
+		else if (t instanceof FloatType)
+			return "GRGEN_LIBGR.AttributeKind.FloatAttr";
+		else if (t instanceof DoubleType)
+			return "GRGEN_LIBGR.AttributeKind.DoubleAttr";
+		else if (t instanceof BooleanType)
+			return "GRGEN_LIBGR.AttributeKind.BooleanAttr";
+		else if (t instanceof StringType)
+			return "GRGEN_LIBGR.AttributeKind.StringAttr";
+		else if (t instanceof EnumType)
+			return "GRGEN_LIBGR.AttributeKind.EnumAttr";
+		else if (t instanceof ObjectType || t instanceof VoidType)
+			return "GRGEN_LIBGR.AttributeKind.ObjectAttr";
+		else if (t instanceof MapType)
+			return "GRGEN_LIBGR.AttributeKind.MapAttr";
+		else if (t instanceof SetType)
+			return "GRGEN_LIBGR.AttributeKind.SetAttr";
+		else throw new IllegalArgumentException("Unknown Type: " + t);
 	}
 
 	private void genAttributeTypesEnum(InheritanceType type) {

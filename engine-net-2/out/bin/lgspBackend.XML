@@ -669,6 +669,16 @@
             Class representing a map access expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.MapSize">
+            <summary>
+            Class representing a map size expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetSize">
+            <summary>
+            Class representing a set size expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator">
             <summary>
             Class generating matcher programs out of rules.

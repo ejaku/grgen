@@ -315,18 +315,36 @@ namespace de.unika.ipd.grGen.libGr
         public readonly EnumAttributeType EnumType;
 
         /// <summary>
+        /// The kind of the value of the set, if Kind == AttributeKind.SetAttr.
+        /// The kind of the value of the map, if Kind == AttributeKind.MapAttr.
+        /// Undefined otherwise.
+        /// </summary>
+        public readonly AttributeKind ValueKind;
+
+        /// <summary>
+        /// The kind of the key of the map, if Kind == AttributeKind.MapAttr.
+        /// Undefined otherwise.
+        /// </summary>
+        public readonly AttributeKind KeyKind;
+
+        /// <summary>
         /// Initializes an AttributeType instance.
         /// </summary>
         /// <param name="name">The name for the attribute.</param>
         /// <param name="ownerType">The owner model type.</param>
         /// <param name="kind">The kind of the attribute.</param>
         /// <param name="enumType">The enum type description, if Kind == AttributeKind.EnumAttr, otherwise null.</param>
-        public AttributeType(String name, GrGenType ownerType, AttributeKind kind, EnumAttributeType enumType)
+        /// <param name="valueKind">The kind of the value of the set, if Kind == AttributeKind.SetAttr. The kind of the value of the map, if Kind == AttributeKind.MapAttr. Undefined otherwise. </param>
+        /// <param name="keyKind">The kind of the key of the map, if Kind == AttributeKind.MapAttr. Undefined otherwise.</param>
+        public AttributeType(String name, GrGenType ownerType, AttributeKind kind,
+            EnumAttributeType enumType, AttributeKind valueKind, AttributeKind keyKind)
         {
             Name = name;
             OwnerType = ownerType;
             Kind = kind;
             EnumType = enumType;
+            ValueKind = valueKind;
+            KeyKind = keyKind;
         }
     }
 
