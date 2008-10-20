@@ -48,3 +48,11 @@ rule removeFromMap {
 		}
 	}
 }
+
+rule emitFromMap {
+	a:A;
+	
+	modify {
+		emit("entry for \"5\" = " + a.niceMap[5] + ", mapsize = " + a.niceMap.size());
+	}
+}

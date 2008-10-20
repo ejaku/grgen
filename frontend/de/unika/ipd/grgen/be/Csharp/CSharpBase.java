@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.Cast;
@@ -69,6 +70,11 @@ import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
 
 public abstract class CSharpBase {
+	public interface ExpressionGenerationState {
+		Map<Expression, String> mapExprToTempVar();
+		boolean useVarForMapResult();
+	}	
+	
 	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix) {
 		this.nodeTypePrefix = nodeTypePrefix;
 		this.edgeTypePrefix = edgeTypePrefix;
@@ -298,7 +304,8 @@ public abstract class CSharpBase {
 		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();
 	}
 
-	public strictfp void genExpression(StringBuffer sb, Expression expr, Object modifyGenerationState) {
+	public strictfp void genExpression(StringBuffer sb, Expression expr,
+			ExpressionGenerationState modifyGenerationState) {
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
 			switch (op.arity()) {
@@ -438,23 +445,38 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof MapAccessExpr) {
 			MapAccessExpr ma = (MapAccessExpr)expr;
-			sb.append("(");
-			genExpression(sb, ma.getTargetExpr(), modifyGenerationState);
-			sb.append("[");
-			genExpression(sb, ma.getKeyExpr(), modifyGenerationState);
-			sb.append("])");
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ma));
+			}
+			else {
+				sb.append("(");
+				genExpression(sb, ma.getTargetExpr(), modifyGenerationState);
+				sb.append("[");
+				genExpression(sb, ma.getKeyExpr(), modifyGenerationState);
+				sb.append("])");
+			}
 		}
 		else if (expr instanceof MapSizeExpr) {
 			MapSizeExpr ms = (MapSizeExpr)expr;
-			sb.append("(");
-			genExpression(sb, ms.getTargetExpr(), modifyGenerationState);
-			sb.append(").Count");
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ms));
+			}
+			else {
+				sb.append("(");
+				genExpression(sb, ms.getTargetExpr(), modifyGenerationState);
+				sb.append(").Count");
+			}
 		}
 		else if (expr instanceof SetSizeExpr) {
 			SetSizeExpr ss = (SetSizeExpr)expr;
-			sb.append("(");
-			genExpression(sb, ss.getTargetExpr(), modifyGenerationState);
-			sb.append(").Count");
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ss));
+			}
+			else {
+				sb.append("(");
+				genExpression(sb, ss.getTargetExpr(), modifyGenerationState);
+				sb.append(").Count");
+			}
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

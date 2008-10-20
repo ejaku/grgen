@@ -20,6 +20,7 @@ public class MapSizeExpr extends Expression {
 	}
 	
 	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}
 	

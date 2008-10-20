@@ -5,8 +5,8 @@
  */
 
 /**
- * @author Moritz Kroll, Edgar Jakumeit
- * @version $Id: MapInit.java 22945 2008-10-16 16:02:13Z moritz $
+ * @author Edgar Jakumeit
+ * @version $Id$
  */
 
 package de.unika.ipd.grgen.ir;
@@ -20,6 +20,7 @@ public class SetSizeExpr extends Expression {
 	}
 	
 	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}
 	

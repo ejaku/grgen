@@ -86,7 +86,7 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	interface ModifyGenerationStateConst {
+	interface ModifyGenerationStateConst extends ExpressionGenerationState {
 		Collection<Node> commonNodes();
 		Collection<Edge> commonEdges();
 		Collection<SubpatternUsage> commonSubpatternUsages();
@@ -149,6 +149,9 @@ public class ModifyGen extends CSharpBase {
 
 		public Map<GraphEntity, HashSet<Entity>> forceAttributeToVar() { return Collections.unmodifiableMap(forceAttributeToVar); }
 
+		public Map<Expression, String> mapExprToTempVar() { return Collections.unmodifiableMap(mapExprToTempVar); }
+		public boolean useVarForMapResult() { return useVarForMapResult; }
+		
 		// --------------------
 
 		public HashSet<Node> commonNodes = new LinkedHashSet<Node>();
@@ -182,6 +185,10 @@ public class ModifyGen extends CSharpBase {
 
 		public HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 		
+		public HashMap<Expression, String> mapExprToTempVar = new LinkedHashMap<Expression, String>();
+		public boolean useVarForMapResult;
+		
+		
 		public void InitNeeds(NeededEntities needs) {
 			neededAttributes = needs.attrEntityMap;
 			nodesNeededAsElements = needs.nodes;
@@ -189,6 +196,12 @@ public class ModifyGen extends CSharpBase {
 			nodesNeededAsAttributes = needs.attrNodes;
 			edgesNeededAsAttributes = needs.attrEdges;
 			neededVariables = needs.variables;
+			
+			int i = 0;
+			for(Expression expr : needs.mapSetExprs) {
+				mapExprToTempVar.put(expr, "tempmapsetvar_" + i);
+				i++;
+			}
 		}
 	}
 
@@ -474,7 +487,7 @@ public class ModifyGen extends CSharpBase {
 
 		collectElementsAccessedByInterface(task, state.accessViaInterface);
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, true); 
+		NeededEntities needs = new NeededEntities(true, true, true, false, true, true); 
 		collectElementsAndAttributesNeededByImperativeStatements(task, needs);
 		collectElementsAndAttributesNeededByReturns(task, needs);
 
@@ -524,7 +537,11 @@ public class ModifyGen extends CSharpBase {
 
 		genDelSubpatternCalls(sb3, stateConst);
 
+		genMapAndSetVariablesBeforeImperativeStatements(sb3, stateConst);
+
+		state.useVarForMapResult = true;
 		genImperativeStatements(sb3, stateConst, task);
+		state.useVarForMapResult = false;
 
 		genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(sb3, task);
 
@@ -897,6 +914,16 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tif(!" + formatEntity(grEnt) + ".Valid) " + formatEntity(grEnt) + " = null;\n");
 		}
 	}
+	
+	private void genMapAndSetVariablesBeforeImperativeStatements(StringBuffer sb, ModifyGenerationStateConst state) {
+		for(Map.Entry<Expression, String> entry : state.mapExprToTempVar().entrySet()) {
+			Expression expr = entry.getKey();
+			String varName = entry.getValue();
+			sb.append("\t\t\t" + formatAttributeType(expr.getType()) + " " + varName + " = ");
+			genExpression(sb, expr, state);
+			sb.append(";\n");
+		}
+	}
 
 	private void genImperativeStatements(StringBuffer sb, ModifyGenerationStateConst state, ModifyGenerationTask task)
 	{
@@ -935,6 +962,8 @@ public class ModifyGen extends CSharpBase {
 
 			String grEntName = formatEntity(owner);
 			for(Entity entity : entry.getValue()) {
+				if(entity.getType() instanceof MapType) continue;
+				
 				genVariable(sb, grEntName, entity);
 				sb.append(" = ");
 				genQualAccess(sb, state, owner, entity);
@@ -1578,7 +1607,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append(".Remove(");
 				genExpression(sb, mri.getKeyExpr(), state);
 				sb.append(");\n");
-				// MAP TODO: wofür ist das temp_var-Zeuch drüber beim assignemt - brauch ich das hier auch?
+				// MAP TODO: wofuer ist das temp_var-Zeuch drueber beim assignment - brauch ich das hier auch?
 			}
 			else if(evalStmt instanceof MapAssignItem) {
 				MapAssignItem mai = (MapAssignItem) evalStmt;
@@ -1589,7 +1618,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append("] = ");
 				genExpression(sb, mai.getValueExpr(), state);
 				sb.append(";\n");
-				// MAP TODO: wofür ist das temp_var-Zeuch drüber beim assignemt - brauch ich das hier auch?
+				// MAP TODO: wofuer ist das temp_var-Zeuch drueber beim assignment - brauch ich das hier auch?
 			}
 			else if(evalStmt instanceof SetRemoveItem) {
 				SetRemoveItem sri = (SetRemoveItem) evalStmt;
@@ -1598,7 +1627,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append(".Remove(");
 				genExpression(sb, sri.getValueExpr(), state);
 				sb.append(");\n");
-				// MAP TODO: wofür ist das temp_var-Zeuch drüber beim assignemt - brauch ich das hier auch?
+				// MAP TODO: wofuer ist das temp_var-Zeuch drueber beim assignment - brauch ich das hier auch?
 			}
 			else if(evalStmt instanceof SetAssignItem) {
 				SetAssignItem sai = (SetAssignItem) evalStmt;
@@ -1607,7 +1636,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append("[");
 				genExpression(sb, sai.getValueExpr(), state);
 				sb.append("] = null;\n");
-				// MAP TODO: wofür ist das temp_var-Zeuch drüber beim assignemt - brauch ich das hier auch?
+				// MAP TODO: wofuer ist das temp_var-Zeuch drueber beim assignment - brauch ich das hier auch?
 			}
 			else
 				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");

@@ -27,9 +27,10 @@ public class NeededEntities {
 	 *      the graph entities used to access the attributes will not be
 	 *      automatically added to the nodes, edges, and entities sets, but only
 	 *      in the attrNodes and attrEdges sets.
+	 * @param collectMapSetExprs Specifies, whether map and set expressions shall be collected.
 	 */
 	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars,
-			boolean collectAllEntities, boolean collectAllAttributes) {
+			boolean collectAllEntities, boolean collectAllAttributes, boolean collectMapSetExprs) {
 		if(collectNodes)       nodes     = new LinkedHashSet<Node>();
 		if(collectEdges)       edges     = new LinkedHashSet<Edge>();
 		if(collectVars)        variables = new LinkedHashSet<Variable>();
@@ -39,6 +40,8 @@ public class NeededEntities {
 			attrNodes     = new LinkedHashSet<Node>();
 			attrEdges     = new LinkedHashSet<Edge>();
 		}
+		if(collectMapSetExprs)
+			mapSetExprs = new LinkedHashSet<Expression>();
 	}
 
 	/**
@@ -80,6 +83,11 @@ public class NeededEntities {
 	 * The edges needed for attributes.
 	 */
 	public HashSet<Edge> attrEdges;
+	
+	/**
+	 * The map and set expressions.
+	 */
+	public HashSet<Expression> mapSetExprs;
 	
 	/**
 	 * Adds a needed graph entity.
@@ -147,7 +155,15 @@ public class NeededEntities {
 			attrEdges.add((Edge) grEnt);
 		else
 			throw new UnsupportedOperationException("Unsupported entity (" + grEnt + ")");
-	}	
+	}
+	
+	/**
+	 * Adds a map or set expression.
+	 * @param expr The map or set expressions.
+	 */
+	public void add(Expression expr) {
+		if(mapSetExprs != null) mapSetExprs.add(expr);
+	}
 
 	public void needsGraph() {
 		isGraphUsed = true;

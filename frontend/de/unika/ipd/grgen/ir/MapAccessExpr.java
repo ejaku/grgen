@@ -16,12 +16,13 @@ public class MapAccessExpr extends Expression {
 	Expression keyExpr;
 	
 	public MapAccessExpr(Expression targetExpr, Expression keyExpr) {
-		super("map access expression", targetExpr.getType());
+		super("map access expression", ((MapType) targetExpr.getType()).getValueType());
 		this.targetExpr = targetExpr;
 		this.keyExpr = keyExpr;
 	}
 	
 	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(this);
 		keyExpr.collectNeededEntities(needs);
 		targetExpr.collectNeededEntities(needs);
 	}

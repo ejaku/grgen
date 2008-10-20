@@ -297,7 +297,7 @@ public class PatternGraphNode extends GraphNode {
 
 		// add Condition elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the condition)
-		NeededEntities needs = new NeededEntities(true, true, false, false, false);
+		NeededEntities needs = new NeededEntities(true, true, false, false, false, false);
 		for(Expression cond : gr.getConditions()) {
 			cond.collectNeededEntities(needs);
 		}
