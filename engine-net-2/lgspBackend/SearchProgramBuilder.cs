@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using de.unika.ipd.grGen.libGr;
+using System.Text;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -87,7 +88,25 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < patternGraph.variables.Length; i++)
             {
                 PatternVariable var = patternGraph.variables[i];
-                insertionPoint = insertionPoint.Append(new ExtractVariable(var.Type.Type.Name, var.Name, var.ParameterIndex));
+                Type varType = var.Type.Type;
+                String varTypeName;
+                if(varType.IsGenericType)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(varType.Name.Substring(0, varType.Name.IndexOf('`')));
+                    sb.Append('<');
+                    bool first = true;
+                    foreach(Type typeArg in varType.GetGenericArguments())
+                    {
+                        if(first) first = false;
+                        else sb.Append(", ");
+                        sb.Append(typeArg.Name);
+                    }
+                    sb.Append('>');
+                    varTypeName = sb.ToString();
+                }
+                else varTypeName = varType.Name;
+                insertionPoint = insertionPoint.Append(new ExtractVariable(varTypeName, var.Name, var.ParameterIndex));
             }
 
             // start building with first operation in scheduled search plan
