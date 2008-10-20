@@ -51,12 +51,14 @@ public abstract class ParserEnvironment extends Base {
 	public static final int ALTERNATIVES = 1;
 	public static final int REPLACES = 2;
 	public static final int MODELS = 3;
+	public static final int PATTERNS = 4;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types"),    // types, actions, and entities
 		new SymbolTable("alternatives"),
 		new SymbolTable("replaces"),
-		new SymbolTable("models")
+		new SymbolTable("models"),
+		new SymbolTable("patterns")
 	};
 
 	private final IntConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
@@ -77,9 +79,9 @@ public abstract class ParserEnvironment extends Base {
 	private final Sys system;
 
 	private final ModelNode stdModel;
-	
+
 	private HashSet<String> keywords = new HashSet<String>();
-	
+
 	private HashMap<String, MapTypeNode> mapTypes = new HashMap<String, MapTypeNode>();
 
 	private HashMap<String, SetTypeNode> setTypes = new HashMap<String, SetTypeNode>();
@@ -104,7 +106,7 @@ public abstract class ParserEnvironment extends Base {
 			symTabs[i].enterKeyword("double");
 			symTabs[i].enterKeyword("object");
 		}
-		
+
 		initLexerKeywords();
 
 		// The standard model
@@ -302,28 +304,28 @@ public abstract class ParserEnvironment extends Base {
 	{
 		return Coords.getInvalid();
 	}
-	
+
 	public boolean isLexerKeyword(String str) {
 		return keywords.contains(str);
 	}
-	
+
 	public MapTypeNode getMapType(IdentNode keyTypeIdent, IdentNode valueTypeIdent) {
 		String keyStr = keyTypeIdent.toString() + "->" + valueTypeIdent.toString();
 		MapTypeNode mapTypeNode = mapTypes.get(keyStr);
-		
+
 		if(mapTypeNode == null)
 			mapTypes.put(keyStr, mapTypeNode = new MapTypeNode(keyTypeIdent, valueTypeIdent));
-		
+
 		return mapTypeNode;
 	}
 
 	public SetTypeNode getSetType(IdentNode valueTypeIdent) {
 		String keyStr = valueTypeIdent.toString();
 		SetTypeNode setTypeNode = setTypes.get(keyStr);
-		
+
 		if(setTypeNode == null)
 			setTypes.put(keyStr, setTypeNode = new SetTypeNode(valueTypeIdent));
-		
+
 		return setTypeNode;
 	}
 
@@ -335,7 +337,7 @@ public abstract class ParserEnvironment extends Base {
 		// To automatically generate the following lines, copy the keyword lines
 		// at the end of antlr/GrGen.g to the file antlr/keywords.txt and
 		// execute antlr/gen-keywords-code.sh writing to antlr/keywords.out
-		
+
 		keywords.add("abstract");
 		keywords.add("actions");
 		keywords.add("alternative");

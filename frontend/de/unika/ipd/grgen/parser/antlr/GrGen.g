@@ -300,7 +300,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			}
 		)
 		RBRACE popScope
-	| p=PATTERN id=typeIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS] LBRACE
+	| p=PATTERN id=patIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS] LBRACE
 		left=patternPart[getCoords(p), params, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
 			{
@@ -503,7 +503,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 			}
 			firstEdgeContinuation[n, conn, context] // and continue looking for first edge
 		| // subpattern declaration
-			type=typeIdentUse LPAREN subpatternConnections[subpatternConn] RPAREN
+			type=patIdentUse LPAREN subpatternConnections[subpatternConn] RPAREN
 			{ subpatterns.addChild(new SubpatternUsageNode(id, type, subpatternConn)); }
 		)
 	| ( annots=annotations { hasAnnots = true; } )?
@@ -536,7 +536,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				firstEdgeContinuation[n, conn, context] // and continue looking for first edge
 			| // subpattern declaration
 				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
-				type=typeIdentUse LPAREN subpatternConnections[subpatternConn] RPAREN
+				type=patIdentUse LPAREN subpatternConnections[subpatternConn] RPAREN
 				{ subpatterns.addChild(new SubpatternUsageNode(id, type, subpatternConn)); }
 			)
 			{ if (hasAnnots) { id.setAnnotations(annots); } }
@@ -1582,6 +1582,10 @@ altIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: i=identDecl[ParserEnvironment.ALTERNATIVES] { res = i; }
 	;
 
+patIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+	: i=identDecl[ParserEnvironment.PATTERNS] { res = i; }
+	;
+
 typeIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=identUse[ParserEnvironment.TYPES] { res = i; }
 	;
@@ -1600,6 +1604,10 @@ actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 
 altIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=identUse[ParserEnvironment.ALTERNATIVES] { res = i; }
+	;
+
+patIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+	: i=identUse[ParserEnvironment.PATTERNS] { res = i; }
 	;
 
 annotations returns [ Annotations annots = new DefaultAnnotations() ]
