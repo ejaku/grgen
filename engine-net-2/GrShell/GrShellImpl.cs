@@ -1385,6 +1385,18 @@ namespace de.unika.ipd.grGen.grShell
                 ShowAvailableAttributes(edgeType.AttributeTypes, showOnly ? edgeType : null);
         }
 
+        public AttributeType GetElementAttributeType(IGraphElement elem, String attributeName)
+        {
+            AttributeType attrType = elem.Type.GetAttributeType(attributeName);
+            if(attrType == null)
+            {
+                Console.WriteLine(((elem is INode) ? "Node" : "Edge") + " \"" + curShellGraph.Graph.GetElementName(elem)
+                    + "\" does not have an attribute \"" + attributeName + "\"!");
+                return attrType;
+            }
+            return attrType;
+        }
+
         public void ShowElementAttributes(IGraphElement elem)
         {
             if(elem == null) return;
@@ -1405,17 +1417,23 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(elem == null) return;
 
-            AttributeType attrType = elem.Type.GetAttributeType(attributeName);
-            if(attrType == null)
-            {
-                Console.WriteLine(((elem is INode) ? "Node" : "Edge") + " \"" + curShellGraph.Graph.GetElementName(elem)
-                    + "\" does not have an attribute \"" + attributeName + "\"!");
-                return;
-            }
+            AttributeType attrType = GetElementAttributeType(elem, attributeName);
+            if(attrType == null) return;
+
             Console.WriteLine("The value of attribute \"" + attributeName + "\" is: \"" + elem.GetAttribute(attributeName) + "\".");
         }
 
         #endregion "show" commands
+
+        public object GetElementAttribute(IGraphElement elem, String attributeName)
+        {
+            if(elem == null) return null;
+
+            AttributeType attrType = GetElementAttributeType(elem, attributeName);
+            if(attrType == null) return null;
+
+            return elem.GetAttribute(attributeName);
+        }
 
         public void SetElementAttribute(IGraphElement elem, String attributeName, String attributeValue)
         {
@@ -2088,6 +2106,117 @@ namespace de.unika.ipd.grGen.grShell
                 debugger.UpdateYCompDisplay();
         }
         #endregion "dump" commands
+
+        #region "map" commands
+
+        public String GetMapIdentifier(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
+        {
+            if(usedGraphElement) return curShellGraph.Graph.GetElementName(elem) + "." + attrOrVarName;
+            else return attrOrVarName;
+        }
+
+        public IDictionary GetMapTypes(object map, out Type keyType, out Type valueType)
+        {
+            if(!(map is IDictionary))
+            {
+                keyType = null;
+                valueType = null;
+                return null;
+            }
+            Type mapType = map.GetType();
+            Type[] mapTypeArgs = mapType.GetGenericArguments();
+            keyType = mapTypeArgs[0];
+            valueType = mapTypeArgs[1];
+            return (IDictionary) map;
+        }
+
+        public void MapAdd(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr, object valueExpr)
+        {
+            object map;
+
+            if(usedGraphElement)
+            {
+                if(elem == null) return;
+                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
+                if(attrType == null) return;
+                map = elem.GetAttribute(attrOrVarName);
+            }
+            else
+            {
+                map = GetVarValue(attrOrVarName);
+                if(map == null) return;
+            }
+
+            Type keyType, valueType;
+            IDictionary dict = GetMapTypes(map, out keyType, out valueType);
+            if(dict == null)
+            {
+                Console.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a map.");
+            }
+            if(keyType != keyExpr.GetType())
+            {
+                Console.WriteLine("Key type must be " + keyType + ", but is " + keyExpr.GetType() + ".");
+                return;
+            }
+            if(valueType != valueExpr.GetType())
+            {
+                Console.WriteLine("Value type must be " + valueType + ", but is " + valueExpr.GetType() + ".");
+                return;
+            }
+            dict[keyExpr] = valueExpr;
+        }
+
+        public void MapRemove(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr)
+        {
+            object map;
+
+            if(usedGraphElement)
+            {
+                if(elem == null) return;
+                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
+                if(attrType == null) return;
+                map = elem.GetAttribute(attrOrVarName);
+            }
+            else
+            {
+                map = GetVarValue(attrOrVarName);
+                if(map == null) return;
+            }
+
+            Type keyType, valueType;
+            IDictionary dict = GetMapTypes(map, out keyType, out valueType);
+            if(dict == null) return;
+            if(keyType != keyExpr.GetType())
+            {
+                Console.WriteLine("Key type must be " + keyType + ", but is " + keyExpr.GetType() + ".");
+                return;
+            }
+            dict.Remove(keyExpr);
+        }
+
+        public void MapSize(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
+        {
+            object map;
+
+            if(usedGraphElement)
+            {
+                if(elem == null) return;
+                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
+                if(attrType == null) return;
+                map = elem.GetAttribute(attrOrVarName);
+            }
+            else
+            {
+                map = GetVarValue(attrOrVarName);
+                if(map == null) return;
+            }
+
+            Type keyType, valueType;
+            IDictionary dict = GetMapTypes(map, out keyType, out valueType);
+            if(dict == null) return;
+            Console.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " contains " + dict.Count + " entries.");
+        }
+        #endregion "map" commands
 
         private String StringToTextToken(String str)
         {

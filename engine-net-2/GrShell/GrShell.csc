@@ -6,6 +6,7 @@ PARSER_BEGIN(GrShell)
     namespace de.unika.ipd.grGen.grShell;
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.IO;
     using System.Text.RegularExpressions;
     using de.unika.ipd.grGen.libGr;
@@ -261,6 +262,7 @@ TOKEN: {
 |   < ISVISITED: "isvisited" >
 |   < LABELS: "labels" >
 |   < LAYOUT: "layout" >
+|   < MAP: "map" >
 |   < NEW: "new" >
 |   < NODE: "node" >
 |   < NODES: "nodes" >
@@ -277,12 +279,14 @@ TOKEN: {
 |   < QUIT: "quit" >
 |   < RANDOMSEED: "randomseed" >
 |   < REDIRECT: "redirect" >
+|   < REMOVE: "remove" >
 |   < RESET: "reset" >
 |   < RESETVISITFLAG: "resetvisitflag" >
 |   < SAVE: "save" >
 |   < SELECT: "select" >
 |   < SET: "set" >
 |   < SETVISITED: "setvisited" >
+|   < SIZE: "size" >
 |   < SHAPE: "shape" >
 |   < SHOW: "show" >
 |   < SILENCE: "silence" >
@@ -527,6 +531,21 @@ IGraphElement GraphElement():
 	{ return elem; }
 }
 
+object GraphElementOrVar():
+{
+	object val;
+	String str;
+}
+{
+	(
+		"@" "(" str=Text() ")" { val = impl.GetElemByName(str); }
+	|
+		str=Word() { val = impl.GetVarValue(str); }
+	)
+	{ return val; }
+}
+
+
 object GraphElementOrVarOrNull():
 {
 	object val;
@@ -600,6 +619,40 @@ ShellGraph Graph():
 	)
 }
 
+object Expr():
+{
+	Object obj;
+	String str;
+}
+{
+    (
+		"null" { obj = null; }
+	|
+        obj=GraphElementOrVar()
+        ( "." str=Text() { obj = impl.GetElementAttribute((IGraphElement) obj, str); } )?
+    |
+        obj=QuotedText()
+    |
+        obj=Number()
+    |
+		obj=Bool()
+    )
+    { return obj; }
+}
+
+List<Object> ExprList():
+{
+	List<Object> exprList = new List<Object>();
+	Object obj;
+}
+{
+	(
+		obj=Expr() { exprList.Add(obj); }
+		( "," obj=Expr() { exprList.Add(obj); } )*
+	)?
+	{ return exprList; }
+}
+
 void LineEnd():
 {}
 {
@@ -641,6 +694,7 @@ void ShellCommand():
 	Sequence seq;
 	bool strict = false, shellGraphSpecified = false, boolVal;
 	int num;
+	List<Object> paramList;
 }
 {
     "!" str1=CommandLine()
@@ -676,7 +730,7 @@ void ShellCommand():
 	"silence"
 	(
 		"on" { impl.Silence = true; }
-		|
+	|
 		"off" { impl.Silence = false; }
 	)
 |
@@ -847,6 +901,8 @@ void ShellCommand():
 		noError = impl.ResetVisitFlag(obj);
 	}
 |
+	"map" MapCommand()
+|
     // TODO: Introduce prefix for the following commands to allow useful error handling!
     
     try
@@ -877,15 +933,9 @@ void ShellCommand():
 				noError = impl.IsVisited(elem, obj, false, out boolVal);
 				obj = boolVal;
 			}
-        |
-            obj=GraphElementOrVarOrNull() LineEnd()
-        |
-            obj=QuotedText() LineEnd()
-        |
-            obj=Number() LineEnd()
-        |
-			obj=Bool() LineEnd()
-        )
+		|
+			obj=Expr() LineEnd()
+		)
         {
 			if(noError) impl.SetVariable(str1, obj);
         }
@@ -1572,6 +1622,41 @@ void DumpAdd():
 	    {
             impl.AddDumpInfoTag(edgeType, attrName, only);
         }
+	)
+}
+
+////////////////////
+// "map" commands //
+////////////////////
+
+void MapCommand():
+{
+	bool usedGraphElement = false;
+	IGraphElement elem = null;
+	String str;
+	object keyExpr, valueExpr;
+}
+{
+	(
+		LOOKAHEAD(2) elem=GraphElement() "." str=Text() { usedGraphElement = true; }
+	|
+		str=Word()
+	)
+	(
+		"add" keyExpr=Expr() valueExpr=Expr() LineEnd()
+		{
+			impl.MapAdd(usedGraphElement, elem, str, keyExpr, valueExpr);
+		}
+	|
+		"remove" keyExpr=Expr() LineEnd()
+		{
+			impl.MapRemove(usedGraphElement, elem, str, keyExpr);
+		}
+	|
+		"size" LineEnd()
+		{
+			impl.MapSize(usedGraphElement, elem, str);
+		}
 	)
 }
 

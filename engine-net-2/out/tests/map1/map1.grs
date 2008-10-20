@@ -1,0 +1,14 @@
+new graph map1/map1
+
+new n:A
+map n.m add "Hallo" 9
+map n.m add "Handtuch" 534
+v=n.m
+
+xgrs getMapValue("Hallo") & getMapValue("Handtuch") & useMapVar(v)
+
+map n.m remove "Hallo"
+
+xgrs getMapValue("Hallo") & getMapValue("Handtuch") & useMapVar(v)
+
+exit

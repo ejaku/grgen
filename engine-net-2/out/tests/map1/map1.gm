@@ -1,0 +1,4 @@
+node class A
+{
+    m:map<string, int>;
+}
