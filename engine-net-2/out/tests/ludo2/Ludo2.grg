@@ -250,7 +250,7 @@ rule chooseNextFigure {
 	}
 }
 
-rule nextPlayer {
+rule chooseNextPlayer {
 	next:Player <-:nextPlayer- old:Player -h:holds-> d:Dice;
 	if { d.dots != 6; }
 

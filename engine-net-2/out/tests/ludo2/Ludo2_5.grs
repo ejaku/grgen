@@ -102,7 +102,7 @@ show num edges "anyPath"
 show num edges "red"
 show num edges "holds"
 show num edges "blue"
-xgrs (((nextRandom && !trimRandom)* | (!(((put || move1 || move2 || move3 || move4 || move5 || move6) && ((knockout || noKnockout) && (removeOldOccupies || true) && removeIntends || !removeIntends) && resetFigureChoice) || !(chooseNextFigure || !resetFigureChoice)))* | nextPlayer) & !won)*
+xgrs (((nextRandom && !trimRandom)* | (!(((put || move1 || move2 || move3 || move4 || move5 || move6) && ((knockout || noKnockout) && (removeOldOccupies || true) && removeIntends || !removeIntends) && resetFigureChoice) || !(chooseNextFigure || !resetFigureChoice)))* | chooseNextPlayer) & !won)*
 show num nodes
 show num edges
 show num nodes "Figure"
