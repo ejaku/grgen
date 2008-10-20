@@ -629,13 +629,15 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.ClearGraph();
         }
 
-        void DebugChangingNodeAttribute(INode node, AttributeType attrType, object oldValue, object newValue)
+        void DebugChangingNodeAttribute(INode node, AttributeType attrType, object oldValue, object newValue, bool insert)
         {
+            // MAP TODO: sth to change here?
             ycompClient.ChangeNodeAttribute(node, attrType, newValue.ToString());
         }
 
-        void DebugChangingEdgeAttribute(IEdge edge, AttributeType attrType, object oldValue, object newValue)
+        void DebugChangingEdgeAttribute(IEdge edge, AttributeType attrType, object oldValue, object newValue, bool insert)
         {
+            // MAP TODO: sth to change here?
             ycompClient.ChangeEdgeAttribute(edge, attrType, newValue.ToString());
         }
 

@@ -448,23 +448,29 @@
             <param name="seq">The sequence to be executed</param>
             <returns>True, iff the sequence succeeds on the cloned graph </returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraph.ChangingNodeAttribute(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object)">
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.ChangingNodeAttribute(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object,System.Boolean)">
             <summary>
             Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.
             </summary>
             <param name="node">The node whose attribute is changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
-            <param name="oldValue">The old value of the attribute.</param>
-            <param name="newValue">The new value of the attribute.</param>
+            <param name="oldValue">The old value of the attribute. 
+                                   Or the value to be inserted/removed if attribute is set/map.</param>
+            <param name="newValue">The new value of the attribute.
+                                   Or the key-value to be inserted/removed if attribute is map</param>
+            <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraph.ChangingEdgeAttribute(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object)">
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.ChangingEdgeAttribute(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object,System.Boolean)">
             <summary>
             Fires an OnChangingEdgeAttribute event. This should be called before an attribute of a edge is changed.
             </summary>
             <param name="edge">The edge whose attribute is changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
-            <param name="oldValue">The old value of the attribute.</param>
-            <param name="newValue">The new value of the attribute.</param>
+            <param name="oldValue">The old value of the attribute. 
+                                   Or the value to be inserted/removed if attribute is set/map.</param>
+            <param name="newValue">The new value of the attribute.
+                                   Or the key-value to be inserted/removed if attribute is map</param>
+            <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.Matched(de.unika.ipd.grGen.libGr.IMatches,System.Boolean)">
             <summary>
@@ -1095,23 +1101,29 @@
             Fires an OnSettingAddedEdgeNames event.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.ChangingNodeAttribute(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object)">
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.ChangingNodeAttribute(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object,System.Boolean)">
             <summary>
             Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.
             </summary>
             <param name="node">The node whose attribute is changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
-            <param name="oldValue">The old value of the attribute.</param>
-            <param name="newValue">The new value of the attribute.</param>
+            <param name="oldValue">The old value of the attribute. 
+                                   Or the value to be inserted/removed if attribute is set/map.</param>
+            <param name="newValue">The new value of the attribute.
+                                   Or the key-value to be inserted/removed if attribute is map</param>
+            <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.ChangingEdgeAttribute(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object)">
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.ChangingEdgeAttribute(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object,System.Boolean)">
             <summary>
             Fires an OnChangingEdgeAttribute event. This should be called before an attribute of a edge is changed.
             </summary>
             <param name="edge">The edge whose attribute is changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
-            <param name="oldValue">The old value of the attribute.</param>
-            <param name="newValue">The new value of the attribute.</param>
+            <param name="oldValue">The old value of the attribute. 
+                                   Or the value to be inserted/removed if attribute is set/map.</param>
+            <param name="newValue">The new value of the attribute.
+                                   Or the key-value to be inserted/removed if attribute is map</param>
+            <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.RetypingNode(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
             <summary>
@@ -2300,14 +2312,17 @@
             </summary>
             <param name="elem">The element to be deleted.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ITransactionManager.ChangingElementAttribute(de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object)">
+        <member name="M:de.unika.ipd.grGen.libGr.ITransactionManager.ChangingElementAttribute(de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object,System.Boolean)">
             <summary>
             Event handler for IGraph.OnChangingNodeAttribute and IGraph.OnChangingEdgeAttribute.
             </summary>
             <param name="elem">The element whose attribute is changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
-            <param name="oldValue">The old value of the attribute.</param>
-            <param name="newValue">The new value of the attribute.</param>
+            <param name="oldValue">The old value of the attribute. 
+                                   Or the value to be inserted/removed if attribute is set/map.</param>
+            <param name="newValue">The new value of the attribute.
+                                   Or the key-value to be inserted/removed if attribute is map</param>
+            <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ITransactionManager.RetypingElement(de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
@@ -2362,17 +2377,23 @@
             </summary>
             <param name="node">The node whose attribute is changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
-            <param name="oldValue">The old value of the attribute.</param>
-            <param name="newValue">The new value of the attribute.</param>
+            <param name="oldValue">The old value of the attribute. 
+                                   Or the value to be inserted/removed if attribute is set/map.</param>
+            <param name="newValue">The new value of the attribute.
+                                   Or the key-value to be inserted/removed if attribute is map</param>
+            <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ChangingEdgeAttributeHandler">
             <summary>
-            Represents a method called before a edge attribute is changed.
+            Represents a method called before an edge attribute is changed.
             </summary>
             <param name="edge">The edge whose attribute is changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
-            <param name="oldValue">The old value of the attribute.</param>
-            <param name="newValue">The new value of the attribute.</param>
+            <param name="oldValue">The old value of the attribute. 
+                                   Or the value to be inserted/removed if attribute is set/map.</param>
+            <param name="newValue">The new value of the attribute.
+                                   Or the key-value to be inserted/removed if attribute is map</param>
+            <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.RetypingNodeHandler">
             <summary>
@@ -3367,23 +3388,29 @@
             <param name="staticAction">The original action generated by GrGen.exe.</param>
             <param name="newAction">A new action instance.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.ChangingNodeAttribute(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object)">
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.ChangingNodeAttribute(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object,System.Boolean)">
             <summary>
             Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.
             </summary>
             <param name="node">The node whose attribute is changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
-            <param name="oldValue">The old value of the attribute.</param>
-            <param name="newValue">The new value of the attribute.</param>
+            <param name="oldValue">The old value of the attribute. 
+                                   Or the value to be inserted/removed if attribute is set/map.</param>
+            <param name="newValue">The new value of the attribute.
+                                   Or the key-value to be inserted/removed if attribute is map</param>
+            <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.ChangingEdgeAttribute(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object)">
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.ChangingEdgeAttribute(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.Object,System.Boolean)">
             <summary>
             Fires an OnChangingEdgeAttribute event. This should be called before an attribute of a edge is changed.
             </summary>
             <param name="edge">The edge whose attribute is changed.</param>
             <param name="attrType">The type of the attribute to be changed.</param>
-            <param name="oldValue">The old value of the attribute.</param>
-            <param name="newValue">The new value of the attribute.</param>
+            <param name="oldValue">The old value of the attribute. 
+                                   Or the value to be inserted/removed if attribute is set/map.</param>
+            <param name="newValue">The new value of the attribute.
+                                   Or the key-value to be inserted/removed if attribute is map</param>
+            <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.Matched(de.unika.ipd.grGen.libGr.IMatches,System.Boolean)">
             <summary>

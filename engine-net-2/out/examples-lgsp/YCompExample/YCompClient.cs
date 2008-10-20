@@ -648,9 +648,20 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        public void ChangeNodeAttribute(INode node, AttributeType attrType, object oldValue, object newValue)
+        public void ChangeNodeAttribute(INode node, AttributeType attrType, object oldValue, object newValue, bool insert)
         {
-            ChangeNodeAttribute(node, attrType, newValue.ToString());
+            if (attrType.Kind == AttributeKind.SetAttr)
+            {
+                // MAP TODO
+            }
+            else if (attrType.Kind == AttributeKind.MapAttr)
+            {
+                // MAP TODO
+            }
+            else
+            {
+                ChangeNodeAttribute(node, attrType, newValue.ToString());
+            }
         }
 
         public void ChangeNodeAttribute(INode node, AttributeType attrType, String attrValue)
@@ -667,9 +678,20 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType, object oldValue, object newValue)
+        public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType, object oldValue, object newValue, bool insert)
         {
-            ChangeEdgeAttribute(edge, attrType, newValue.ToString());
+            if (attrType.Kind == AttributeKind.SetAttr)
+            {
+                // MAP TODO
+            }
+            else if (attrType.Kind == AttributeKind.MapAttr)
+            {
+                // MAP TODO
+            }
+            else
+            {
+                ChangeEdgeAttribute(edge, attrType, newValue.ToString());
+            }
         }
 
         public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType, String attrValue)

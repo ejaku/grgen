@@ -99,10 +99,12 @@ namespace de.unika.ipd.grGen.lgsp
         private IGraphElement _elem;
         private AttributeType _attrType;
         private Object _oldValue;
+        private Object _newValue;
+        private bool _insert;
 
-        public LGSPUndoAttributeChanged(IGraphElement elem, AttributeType attrType, Object oldValue)
+        public LGSPUndoAttributeChanged(IGraphElement elem, AttributeType attrType, Object oldValue, Object newValue, bool insert)
         {
-            _elem = elem; _attrType = attrType; _oldValue = oldValue;
+            _elem = elem; _attrType = attrType; _oldValue = oldValue; _newValue = newValue; _insert = insert;
         }
 
         public void DoUndo(IGraph graph)
@@ -110,19 +112,43 @@ namespace de.unika.ipd.grGen.lgsp
             String attrName = _attrType.Name;
             LGSPNode node = _elem as LGSPNode;
             if(node != null)
-                graph.ChangingNodeAttribute(node, _attrType, node.GetAttribute(attrName), _oldValue);
+            {
+                if (_attrType.Kind == AttributeKind.SetAttr)
+                {
+                    // MAP TODO
+                }
+                else if (_attrType.Kind == AttributeKind.MapAttr)
+                {
+                    // MAP TODO
+                }
+                else
+                {
+                    graph.ChangingNodeAttribute(node, _attrType, node.GetAttribute(attrName), _oldValue, _insert);
+                    _elem.SetAttribute(attrName, _oldValue);
+                }
+            }
             else
             {
                 LGSPEdge edge = (LGSPEdge) _elem;
-                graph.ChangingEdgeAttribute(edge, _attrType, edge.GetAttribute(attrName), _oldValue);
+                if (_attrType.Kind == AttributeKind.SetAttr)
+                {
+                    // MAP TODO
+                }
+                else if (_attrType.Kind == AttributeKind.MapAttr)
+                {
+                    // MAP TODO
+                }
+                else
+                {
+                    graph.ChangingEdgeAttribute(edge, _attrType, edge.GetAttribute(attrName), _oldValue, _insert);
+                    _elem.SetAttribute(attrName, _oldValue);
+                }
             }
-
-            _elem.SetAttribute(attrName, _oldValue);
         }
 
         public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
-            return new LGSPUndoAttributeChanged(oldToNewMap[_elem], _attrType, _oldValue);
+            return new LGSPUndoAttributeChanged(oldToNewMap[_elem], _attrType, _oldValue, _newValue, _insert);
         }
     }
 
@@ -265,9 +291,10 @@ namespace de.unika.ipd.grGen.lgsp
             if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemRemoved(elem, graph));
         }
 
-        public void ChangingElementAttribute(IGraphElement elem, AttributeType attrType, Object oldValue, Object newValue)
+        public void ChangingElementAttribute(IGraphElement elem, AttributeType attrType, 
+            Object oldValue, Object newValue, bool insert)
         {
-            if(recording && !undoing) undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType, oldValue));
+            if(recording && !undoing) undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType, oldValue, newValue, insert));
         }
 
         public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)

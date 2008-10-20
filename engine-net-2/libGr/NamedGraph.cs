@@ -921,20 +921,26 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="node">The node whose attribute is changed.</param>
         /// <param name="attrType">The type of the attribute to be changed.</param>
-        /// <param name="oldValue">The old value of the attribute.</param>
-        /// <param name="newValue">The new value of the attribute.</param>
-        public void ChangingNodeAttribute(INode node, AttributeType attrType, Object oldValue, Object newValue)
-        { graph.ChangingNodeAttribute(node, attrType, oldValue, newValue); }
+        /// <param name="oldValue">The old value of the attribute. 
+        ///                        Or the value to be inserted/removed if attribute is set/map.</param>
+        /// <param name="newValue">The new value of the attribute.
+        ///                        Or the key-value to be inserted/removed if attribute is map</param>
+        /// <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
+        public void ChangingNodeAttribute(INode node, AttributeType attrType, Object oldValue, Object newValue, bool insert)
+        { graph.ChangingNodeAttribute(node, attrType, oldValue, newValue, insert); }
 
         /// <summary>
         /// Fires an OnChangingEdgeAttribute event. This should be called before an attribute of a edge is changed.
         /// </summary>
         /// <param name="edge">The edge whose attribute is changed.</param>
         /// <param name="attrType">The type of the attribute to be changed.</param>
-        /// <param name="oldValue">The old value of the attribute.</param>
-        /// <param name="newValue">The new value of the attribute.</param>
-        public void ChangingEdgeAttribute(IEdge edge, AttributeType attrType, Object oldValue, Object newValue)
-        { graph.ChangingEdgeAttribute(edge, attrType, oldValue, newValue); }
+        /// <param name="oldValue">The old value of the attribute. 
+        ///                        Or the value to be inserted/removed if attribute is set/map.</param>
+        /// <param name="newValue">The new value of the attribute.
+        ///                        Or the key-value to be inserted/removed if attribute is map</param>
+        /// <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
+        public void ChangingEdgeAttribute(IEdge edge, AttributeType attrType, Object oldValue, Object newValue, bool insert)
+        { graph.ChangingEdgeAttribute(edge, attrType, oldValue, newValue, insert); }
 
         /// <summary>
         /// Fires an OnMatched event.

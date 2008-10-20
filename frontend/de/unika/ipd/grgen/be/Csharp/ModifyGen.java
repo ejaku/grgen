@@ -1580,7 +1580,7 @@ public class ModifyGen extends CSharpBase {
 								  ", " + kindStr + "Type_" + formatIdentifiable(qualTgt.getMember().getOwner()) +
 								  ".AttributeType_" + formatIdentifiable(qualTgt.getMember()) + ", ");
 						genExpression(sb, ass.getTarget(), state);
-						sb.append(", " + varName + ");\n");
+						sb.append(", " + varName + ", true);\n");
 					}
 	
 					sb.append("\t\t\t");
@@ -1607,7 +1607,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append(".Remove(");
 				genExpression(sb, mri.getKeyExpr(), state);
 				sb.append(");\n");
-				// MAP TODO: wofuer ist das temp_var-Zeuch drueber beim assignment - brauch ich das hier auch?
+				// MAP TODO: attribute changing
 			}
 			else if(evalStmt instanceof MapAssignItem) {
 				MapAssignItem mai = (MapAssignItem) evalStmt;
@@ -1618,7 +1618,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append("] = ");
 				genExpression(sb, mai.getValueExpr(), state);
 				sb.append(";\n");
-				// MAP TODO: wofuer ist das temp_var-Zeuch drueber beim assignment - brauch ich das hier auch?
+				// MAP TODO: attribute changing
 			}
 			else if(evalStmt instanceof SetRemoveItem) {
 				SetRemoveItem sri = (SetRemoveItem) evalStmt;
@@ -1627,7 +1627,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append(".Remove(");
 				genExpression(sb, sri.getValueExpr(), state);
 				sb.append(");\n");
-				// MAP TODO: wofuer ist das temp_var-Zeuch drueber beim assignment - brauch ich das hier auch?
+				// MAP TODO: attribute changing
 			}
 			else if(evalStmt instanceof SetAssignItem) {
 				SetAssignItem sai = (SetAssignItem) evalStmt;
@@ -1636,7 +1636,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append("[");
 				genExpression(sb, sai.getValueExpr(), state);
 				sb.append("] = null;\n");
-				// MAP TODO: wofuer ist das temp_var-Zeuch drueber beim assignment - brauch ich das hier auch?
+				// MAP TODO: attribute changing
 			}
 			else
 				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");
