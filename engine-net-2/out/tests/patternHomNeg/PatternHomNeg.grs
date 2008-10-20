@@ -1,4 +1,4 @@
-new graph "PatternHomNeg/PatternHomNeg"
+new graph "patternHomNeg/PatternHomNeg"
 
 new n1:N
 show num nodes

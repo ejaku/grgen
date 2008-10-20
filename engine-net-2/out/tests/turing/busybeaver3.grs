@@ -1,4 +1,4 @@
-new graph "Turing\Turing" "Busy beaver 3"
+new graph "turing\Turing" "Busy beaver 3"
 
 new bp:BandPosition($="Startposition")
 new bp-:empty->bp

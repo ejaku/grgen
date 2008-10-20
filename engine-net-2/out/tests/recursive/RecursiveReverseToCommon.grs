@@ -1,4 +1,4 @@
-new graph "Recursive\Recursive"
+new graph "recursive\Recursive"
 
 debug set layout Organic
 

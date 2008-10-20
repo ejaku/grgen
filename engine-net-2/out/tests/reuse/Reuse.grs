@@ -1,4 +1,4 @@
-new graph "Reuse/Reuse"
+new graph "reuse/Reuse"
 
 show num nodes
 show num edges

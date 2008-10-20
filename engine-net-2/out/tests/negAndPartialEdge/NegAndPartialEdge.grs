@@ -1,4 +1,4 @@
-new graph NegAndPartialEdge/NegAndPartialEdge
+new graph negAndPartialEdge/NegAndPartialEdge
 
 xgrs init
 xgrs [negAndPartialEdgeNoNodeTwoNodes]

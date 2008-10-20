@@ -1,4 +1,4 @@
-new graph NegInNeg/NegInNeg
+new graph negInNeg/NegInNeg
 
 xgrs createGraphForNegTestWith2LevelsFail
 xgrs [?negTestWith2Levels]

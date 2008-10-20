@@ -1,4 +1,4 @@
-new graph "Sierpinski\Sierpinski" "Sierpinski-Triangle"
+new graph "sierpinski\Sierpinski" "Sierpinski-Triangle"
 
 show num nodes
 show num edges

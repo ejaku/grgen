@@ -1,4 +1,4 @@
-new graph "TNT\TNT"
+new graph "tnt\TNT"
 
 debug set layout Circular
 

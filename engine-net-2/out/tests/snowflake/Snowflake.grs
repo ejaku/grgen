@@ -1,4 +1,4 @@
-new graph "Snowflake\Snowflake" "Koch snowflake"
+new graph "snowflake\Snowflake" "Koch snowflake"
 
 new a:Node1
 new b:Node1

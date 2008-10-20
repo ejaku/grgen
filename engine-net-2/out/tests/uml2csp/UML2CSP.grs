@@ -1,4 +1,4 @@
-new graph UML2CSP\UML2CSP
+new graph uml2csp\UML2CSP
 
 dump set node Node color White
 dump set node Node bordercolor black

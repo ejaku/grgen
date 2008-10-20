@@ -1,4 +1,4 @@
-new graph "Mutex\Mutex" "mutex graph"
+new graph "mutex\Mutex" "mutex graph"
 
 new p1:Process
 new p2:Process

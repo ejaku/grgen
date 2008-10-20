@@ -1,4 +1,4 @@
-new graph "NegPresetInCondition/NegPresetInCondition"
+new graph "negPresetInCondition/NegPresetInCondition"
 new n1:N
 new n2:N
 new n1-e1:E->n2

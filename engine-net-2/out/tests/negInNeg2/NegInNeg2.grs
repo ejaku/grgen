@@ -1,4 +1,4 @@
-new graph NegInNeg2\NegInNeg2.grg
+new graph negInNeg2\NegInNeg2.grg
 
 show num nodes
 show num edges

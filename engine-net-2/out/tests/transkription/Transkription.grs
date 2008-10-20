@@ -1,4 +1,4 @@
-new graph "Transkription\Transkription"
+new graph "transkription\Transkription"
 
 debug set layout Organic
 

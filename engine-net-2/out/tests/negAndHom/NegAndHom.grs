@@ -1,4 +1,4 @@
-new graph NegAndHom/NegAndHom
+new graph negAndHom/NegAndHom
 
 new :intNode($="3",val=3)
 

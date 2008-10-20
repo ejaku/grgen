@@ -1,4 +1,4 @@
-new graph "Clique3\Clique3"
+new graph "clique3\Clique3"
 
 dump add node State infotag rand1
 dump add node State infotag rand2

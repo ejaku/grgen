@@ -1,4 +1,4 @@
-new graph "AntWorld/AntWorld_ExtendAtEndOfRound_NoGammel"
+new graph "antWorld/AntWorld_ExtendAtEndOfRound_NoGammel"
 
 randomseed 13
 

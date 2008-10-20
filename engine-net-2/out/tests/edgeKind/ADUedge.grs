@@ -1,4 +1,4 @@
-new graph "ADUedge\ADUedge"
+new graph "edgeKind\ADUedge"
 
 xgrs initDirected
 xgrs [Clique4Directed]

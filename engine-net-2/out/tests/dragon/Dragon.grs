@@ -1,4 +1,4 @@
-new graph Dragon\Dragon.grg
+new graph dragon\Dragon.grg
 
 debug set layout Organic
 dump set node GridNode color white
