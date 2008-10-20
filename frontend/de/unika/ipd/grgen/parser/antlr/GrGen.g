@@ -856,7 +856,7 @@ alternativeCase [ AlternativeNode alt, int altCount, int context ]
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
 	
-	: id=entIdentDecl l=LBRACE pushScopeStr["alt"+altCount+id.toString(), getCoords(l)]
+	: id=altIdentDecl l=LBRACE pushScopeStr["alt"+altCount+id.toString(), getCoords(l)]
 		left=patternBody[getCoords(l), new CollectNode<BaseNode>(), mod, context, id.toString()]
 		(
 			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, id]
