@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Mon Oct 20 20:29:27 CEST 2008
+// Generated from "test.grg" on Mon Oct 20 22:58:42 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -117,13 +117,13 @@ namespace de.unika.ipd.grGen.Action_test
 			@ID11_2221 inode_mre = (@ID11_2221) node_mre;
 			graph.SettingAddedEdgeNames( testRule_addedEdgeNames );
 			int tempvar_i = 1234;
-			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, inode_are.@d2211_2222_31, tempvar_i);
+			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, inode_are.@d2211_2222_31, tempvar_i, true);
 			inode_are.@d2211_2222_31 = tempvar_i;
 			tempvar_i = 5678;
-			graph.ChangingNodeAttribute(node_fre, NodeType_D231_4121.AttributeType_d231_4121, inode_fre.@d231_4121, tempvar_i);
+			graph.ChangingNodeAttribute(node_fre, NodeType_D231_4121.AttributeType_d231_4121, inode_fre.@d231_4121, tempvar_i, true);
 			inode_fre.@d231_4121 = tempvar_i;
 			tempvar_i = 9012;
-			graph.ChangingNodeAttribute(node_mre, NodeType_D11_2221.AttributeType_d11_2221, inode_mre.@d11_2221, tempvar_i);
+			graph.ChangingNodeAttribute(node_mre, NodeType_D11_2221.AttributeType_d11_2221, inode_mre.@d11_2221, tempvar_i, true);
 			inode_mre.@d11_2221 = tempvar_i;
 			return EmptyReturnElements;
 		}
@@ -144,13 +144,13 @@ namespace de.unika.ipd.grGen.Action_test
 			@ID11_2221 inode_mre = (@ID11_2221) node_mre;
 			graph.SettingAddedEdgeNames( testRule_addedEdgeNames );
 			int tempvar_i = 1234;
-			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, inode_are.@d2211_2222_31, tempvar_i);
+			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, inode_are.@d2211_2222_31, tempvar_i, true);
 			inode_are.@d2211_2222_31 = tempvar_i;
 			tempvar_i = 5678;
-			graph.ChangingNodeAttribute(node_fre, NodeType_D231_4121.AttributeType_d231_4121, inode_fre.@d231_4121, tempvar_i);
+			graph.ChangingNodeAttribute(node_fre, NodeType_D231_4121.AttributeType_d231_4121, inode_fre.@d231_4121, tempvar_i, true);
 			inode_fre.@d231_4121 = tempvar_i;
 			tempvar_i = 9012;
-			graph.ChangingNodeAttribute(node_mre, NodeType_D11_2221.AttributeType_d11_2221, inode_mre.@d11_2221, tempvar_i);
+			graph.ChangingNodeAttribute(node_mre, NodeType_D11_2221.AttributeType_d11_2221, inode_mre.@d11_2221, tempvar_i, true);
 			inode_mre.@d11_2221 = tempvar_i;
 			return EmptyReturnElements;
 		}
