@@ -28,6 +28,11 @@ public class VarDeclNode extends DeclNode {
 	public VarDeclNode(IdentNode id, IdentNode type) {
 		super(id, type);
     }
+	
+	public VarDeclNode(IdentNode id, TypeNode type) {
+		super(id, type);
+		this.type = type;
+	}
 
 	/** returns children of this node */
 	public Collection<? extends BaseNode> getChildren() {
@@ -51,6 +56,9 @@ public class VarDeclNode extends DeclNode {
 	 * false, if there was some error.
 	 */
 	protected boolean resolveLocal() {
+		// Type was already known at construction?
+		if(type != null) return true;
+		
 		DeclNode typeDecl = declOfTypeResolver.resolve(typeUnresolved, this);
 		if(typeDecl instanceof InvalidDeclNode) {
 			typeUnresolved.reportError("Unknown type: \"" + typeUnresolved + "\"");

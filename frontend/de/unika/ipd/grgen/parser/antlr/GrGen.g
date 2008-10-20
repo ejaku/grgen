@@ -666,10 +666,23 @@ nodeDecl [ int context ] returns [ BaseNode res = env.initNode() ]
 	;
 
 varDecl [ int context ] returns [ BaseNode res = env.initNode() ]
-	: VAR id=entIdentDecl COLON type=typeIdentUse
-		{
-			res = new VarDeclNode(id, type);
-		}
+	: VAR id=entIdentDecl COLON
+		(
+			type=typeIdentUse
+			{
+				res = new VarDeclNode(id, type);
+			}
+		|
+			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				res = new VarDeclNode(id, env.getMapType(keyType, valueType));
+			}
+		|
+			SET LT keyType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				res = new VarDeclNode(id, env.getSetType(keyType));
+			}
+		)
 	;
 
 

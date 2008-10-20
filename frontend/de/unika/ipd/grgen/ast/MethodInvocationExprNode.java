@@ -122,13 +122,13 @@ public class MethodInvocationExprNode extends ExprNode
   			}  				
 		}
 		else if(targetType instanceof MapTypeNode) {
-			if(!(targetExpr instanceof MemberAccessExprNode)) {
-				reportError("map<S,T>.put/remove can only access a non-computed member entity.");
-				return false;
-			}
-			MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
-			
 			if(methodName.equals("put")) {
+				if(!(targetExpr instanceof MemberAccessExprNode)) {
+					reportError("map<S,T>.put can only access a non-computed member entity.");
+					return false;
+				}
+				MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
+
   				if(params.size() != 2) {
   					reportError("map<S,T>.put(key, value) takes two parameters.");
 					return false;
@@ -137,6 +137,12 @@ public class MethodInvocationExprNode extends ExprNode
   					result = new MapAssignItemNode(getCoords(), target, params.get(0), params.get(1));
   			}
   			else if(methodName.equals("remove")) {
+  				if(!(targetExpr instanceof MemberAccessExprNode)) {
+  					reportError("map<S,T>.remove can only access a non-computed member entity.");
+  					return false;
+  				}
+  				MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
+  				
   				if(params.size() != 1) {
   					reportError("map<S,T>.remove(key) takes one parameter.");
 					return false;
@@ -150,7 +156,7 @@ public class MethodInvocationExprNode extends ExprNode
 					return false;
 				}
   				else
-  					result = new MapSizeNode(getCoords(), target);
+  					result = new MapSizeNode(getCoords(), targetExpr);
   			}
   			else {
   				reportError("map<S,T> does not have a method named \"" + methodName + "\"");
@@ -158,13 +164,13 @@ public class MethodInvocationExprNode extends ExprNode
   			}
 		}
 		else if(targetType instanceof SetTypeNode) {
-			if(!(targetExpr instanceof MemberAccessExprNode)) {
-				reportError("set<T>.put/remove can only access a non-computed member entity.");
-				return false;
-			}
-			MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
-			
 			if(methodName.equals("put")) {
+				if(!(targetExpr instanceof MemberAccessExprNode)) {
+					reportError("set<T>.put can only access a non-computed member entity.");
+					return false;
+				}
+				MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
+				
   				if(params.size() != 1) {
   					reportError("set<T>.put(value) takes one parameter.");
 					return false;
@@ -173,6 +179,12 @@ public class MethodInvocationExprNode extends ExprNode
   					result = new SetAssignItemNode(getCoords(), target, params.get(0));
   			}
   			else if(methodName.equals("remove")) {
+  				if(!(targetExpr instanceof MemberAccessExprNode)) {
+  					reportError("set<T>.remove can only access a non-computed member entity.");
+  					return false;
+  				}
+  				MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
+
   				if(params.size() != 1) {
   					reportError("set<T>.remove(value) takes one parameter.");
 					return false;
@@ -186,7 +198,7 @@ public class MethodInvocationExprNode extends ExprNode
 					return false;
 				}
   				else
-  					result = new SetSizeNode(getCoords(), target);
+  					result = new SetSizeNode(getCoords(), targetExpr);
   			}
   			else {
   				reportError("set<T> does not have a method named \"" + methodName + "\"");

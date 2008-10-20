@@ -51,8 +51,17 @@ rule removeFromMap {
 
 rule emitFromMap {
 	a:A;
+	if { 5 in a.niceMap; }
 	
 	modify {
 		emit("entry for \"5\" = " + a.niceMap[5] + ", mapsize = " + a.niceMap.size());
+	}
+}
+
+rule mapVarContains(var m:map<string, int>) {
+	if { "yeah" in m; }
+	
+	modify {
+		emit("entry for \"yeah\" = " + m["yeah"] + ", mapsize = " + m.size());
 	}
 }
