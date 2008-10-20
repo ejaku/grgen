@@ -1,12 +1,12 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
 // Rename this file or use a copy!
-// Generated from "test.grg" on Thu Jul 17 11:13:10 GMT+01:00 2008
+// Generated from "test.grg" on Mon Oct 20 20:29:27 CEST 2008
 
 using System;
 using System.Collections.Generic;
-using de.unika.ipd.grGen.libGr;
-using de.unika.ipd.grGen.lgsp;
+using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
+using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.Model_complModel;
 
 namespace test
@@ -15,7 +15,7 @@ namespace test
 	{
 		public D231_4121_Impl() : base() { }
 
-		public override INode Clone() { return new D231_4121_Impl(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new D231_4121_Impl(this); }
 
 		private D231_4121_Impl(D231_4121_Impl oldElem) : base()
 		{
