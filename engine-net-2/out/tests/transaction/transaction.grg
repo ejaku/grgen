@@ -1,0 +1,35 @@
+using transaction;
+
+rule init1 {
+	modify {
+		a:N-->a; b:N-->b; c:N-->c;
+	}
+}
+
+rule transform1 {
+	a:N;
+
+	replace {
+		:NN;
+	}
+}
+
+test fail1 {
+	:N;
+}
+
+rule transform2 {
+	a:N;
+	if{ a.stringVal!="foo"; }
+	
+	modify {
+		eval {
+			a.stringVal = "foo";
+		}
+	}
+}
+
+test fail2 {
+	a:N;
+	if{ a.stringVal!="foo"; }
+}

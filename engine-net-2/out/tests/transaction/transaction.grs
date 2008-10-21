@@ -1,0 +1,44 @@
+new graph "transaction/transaction"
+
+xgrs init1
+show num nodes N
+show num nodes NN
+show num edges
+xgrs < transform1* && fail1 > 
+show num nodes N
+show num nodes NN
+show num edges
+
+clear graph
+
+xgrs init1
+show num nodes N
+show num nodes NN
+show num edges
+xgrs transform1* && fail1
+show num nodes N
+show num nodes NN
+show num edges
+
+clear graph
+
+new n1:N
+new n2:N
+new n1 -e1:E-> n2
+n1.stringVal
+n2.stringVal
+xgrs < transform2* && fail2 > 
+n1.stringVal
+n2.stringVal
+
+clear graph
+
+new n1:N
+new n2:N
+new n1 -e1:E-> n2
+n1.stringVal
+n2.stringVal
+xgrs transform2* && fail2 
+n1.stringVal
+n2.stringVal
+quit
