@@ -2109,6 +2109,39 @@ namespace de.unika.ipd.grGen.grShell
 
         #region "map" commands
 
+        private Type GetTypeFromNameForMap(String typeName)
+        {
+            switch(typeName)
+            {
+                case "int": return typeof(int);
+                case "float": return typeof(float);
+                case "double": return typeof(double);
+                case "string": return typeof(string);
+                case "object": return typeof(object);
+            }
+
+            // No standard type, so check enums
+            foreach(EnumAttributeType enumAttrType in curShellGraph.Graph.Model.EnumAttributeTypes)
+            {
+                if(enumAttrType.Name == typeName)
+                    return enumAttrType.EnumType;
+            }
+
+            Console.WriteLine("\"" + typeName + "\" is not a valid type for a map.");
+            return null;
+        }
+
+        public object MapNew(String keyTypeName, String valueTypeName)
+        {
+            Type keyType = GetTypeFromNameForMap(keyTypeName);
+            Type valueType = GetTypeFromNameForMap(valueTypeName);
+            if(keyType == null || valueType == null) return null;
+
+            Type genDictType = typeof(Dictionary<,>);
+            Type dictType = genDictType.MakeGenericType(keyType, valueType);
+            return Activator.CreateInstance(dictType);
+        }
+
         public String GetMapIdentifier(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
         {
             if(usedGraphElement) return curShellGraph.Graph.GetElementName(elem) + "." + attrOrVarName;

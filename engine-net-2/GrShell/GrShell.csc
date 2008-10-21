@@ -685,7 +685,7 @@ bool ParseShellCommand():
 
 void ShellCommand():
 {
-	String str1, str2;
+	String str1, str2, str3;
 	IGraphElement elem;
 	object obj, obj2;
 	INode node1, node2;
@@ -932,6 +932,12 @@ void ShellCommand():
 			{
 				noError = impl.IsVisited(elem, obj, false, out boolVal);
 				obj = boolVal;
+			}
+		|
+			"new" "map" str2=Word() str3=Word()
+			{
+				obj = impl.MapNew(str2, str3);
+				if(obj == null) noError = false;
 			}
 		|
 			obj=Expr() LineEnd()
