@@ -98,3 +98,18 @@ rule dumpIntValue(var key:int)
         emit("1 value of attribute 5 6 " + a.m[key] + "\n");
     }
 }
+
+rule insertStringKeyIfEmpty(var key:string, var value:int)
+{
+	a:A;
+	
+	if { a.m.size() == 0; }
+	
+	modify
+	{
+		eval
+		{
+			a.m = a.m.put(key, value);
+		}
+	}
+}

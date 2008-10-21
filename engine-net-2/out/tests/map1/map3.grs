@@ -1,0 +1,11 @@
+new graph map1/map2
+
+xgrs addNode
+
+xgrs [insertStringKeyIfEmpty("4", 5)]
+xgrs dumpIntValue(4)
+
+xgrs [insertStringKeyIfEmpty("4", 7)]
+xgrs dumpIntValue(4)
+
+exit
