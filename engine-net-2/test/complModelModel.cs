@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Mon Oct 20 22:58:42 CEST 2008
+// Generated from "test.grg" on Tue Oct 21 13:43:55 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -4592,11 +4592,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private complModelEdgeModel edgeModel = new complModelEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 
 		public String ModelName { get { return "complModel"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public String MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
 	}
 	//
@@ -4824,11 +4827,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private complModelEdgeModel edgeModel = new complModelEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 
 		public String ModelName { get { return "complModel"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public String MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
 	}
 }

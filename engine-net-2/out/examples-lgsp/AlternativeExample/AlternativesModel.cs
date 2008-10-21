@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Sep 21 16:41:54 GMT+01:00 2008
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Tue Oct 21 13:43:15 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -855,11 +855,14 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		private AlternativesEdgeModel edgeModel = new AlternativesEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 
 		public String ModelName { get { return "Alternatives"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public String MD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }
 	}
 	//
@@ -937,11 +940,14 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		private AlternativesEdgeModel edgeModel = new AlternativesEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 
 		public String ModelName { get { return "Alternatives"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public String MD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }
 	}
 }

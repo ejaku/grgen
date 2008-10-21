@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Sun Sep 21 16:42:44 GMT+01:00 2008
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Tue Oct 21 13:43:34 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -2580,11 +2580,14 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			new GRGEN_LIBGR.ValidateInfo(EdgeType_writesTo.typeVar, NodeType_Expression.typeVar, NodeType_Variabel.typeVar, 0, 1, 1, long.MaxValue),
 			new GRGEN_LIBGR.ValidateInfo(EdgeType_calls.typeVar, NodeType_Expression.typeVar, NodeType_MethodSignature.typeVar, 0, 1, 1, long.MaxValue),
 		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 
 		public String ModelName { get { return "ProgramGraphs"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public String MD5Hash { get { return "e6271fc2f2794368b53b1fb118947e8d"; } }
 	}
 	//
@@ -2789,11 +2792,14 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			new GRGEN_LIBGR.ValidateInfo(EdgeType_writesTo.typeVar, NodeType_Expression.typeVar, NodeType_Variabel.typeVar, 0, 1, 1, long.MaxValue),
 			new GRGEN_LIBGR.ValidateInfo(EdgeType_calls.typeVar, NodeType_Expression.typeVar, NodeType_MethodSignature.typeVar, 0, 1, 1, long.MaxValue),
 		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 
 		public String ModelName { get { return "ProgramGraphs"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public String MD5Hash { get { return "e6271fc2f2794368b53b1fb118947e8d"; } }
 	}
 }

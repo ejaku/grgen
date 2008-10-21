@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Sep 21 16:42:32 GMT+01:00 2008
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Tue Oct 21 13:43:29 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -1487,11 +1487,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			new GRGEN_LIBGR.ValidateInfo(EdgeType_release.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
 			new GRGEN_LIBGR.ValidateInfo(EdgeType_request.typeVar, NodeType_Process.typeVar, NodeType_Resource.typeVar, 0, long.MaxValue, 0, long.MaxValue),
 		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 
 		public String ModelName { get { return "Mutex"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public String MD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
 	}
 	//
@@ -1625,11 +1628,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			new GRGEN_LIBGR.ValidateInfo(EdgeType_release.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
 			new GRGEN_LIBGR.ValidateInfo(EdgeType_request.typeVar, NodeType_Process.typeVar, NodeType_Resource.typeVar, 0, long.MaxValue, 0, long.MaxValue),
 		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 
 		public String ModelName { get { return "Mutex"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public String MD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
 	}
 }

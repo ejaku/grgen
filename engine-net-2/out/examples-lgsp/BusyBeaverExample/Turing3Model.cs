@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Oct 20 22:58:28 CEST 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Oct 21 13:43:21 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -1572,11 +1572,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 			new GRGEN_LIBGR.ValidateInfo(EdgeType_right.typeVar, NodeType_BandPosition.typeVar, NodeType_BandPosition.typeVar, 0, 1, 0, 1),
 		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 
 		public String ModelName { get { return "Turing3"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public String MD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
 	}
 	//
@@ -1705,11 +1708,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 			new GRGEN_LIBGR.ValidateInfo(EdgeType_right.typeVar, NodeType_BandPosition.typeVar, NodeType_BandPosition.typeVar, 0, 1, 0, 1),
 		};
+		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
+		};
 
 		public String ModelName { get { return "Turing3"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
+		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public String MD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
 	}
 }
