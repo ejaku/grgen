@@ -1183,6 +1183,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\tprivate " + modelName + "NodeModel nodeModel = new " + modelName + "NodeModel();\n");
 		sb.append("\t\tprivate " + modelName + "EdgeModel edgeModel = new " + modelName + "EdgeModel();\n");
 		genValidate();
+		genEnumAttributeTypeArray();
 		sb.append("\n");
 
 		sb.append("\t\tpublic String ModelName { get { return \"" + modelName + "\"; } }\n");
@@ -1190,6 +1191,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\tpublic GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }\n");
 		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo "
 				+ "{ get { return validateInfos; } }\n");
+		sb.append("\t\tpublic IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes "
+				+ "{ get { return enumAttributeTypes; } }\n");
 		sb.append("\t\tpublic String MD5Hash { get { return \"" + be.unit.getTypeDigest() + "\"; } }\n");
 	}
 
@@ -1210,6 +1213,14 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			}
 		}
 
+		sb.append("\t\t};\n");
+	}
+	
+	private void genEnumAttributeTypeArray() {
+		sb.append("\t\tprivate GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {\n");
+		for(EnumType enumt : model.getEnumTypes()) {
+			sb.append("\t\t\tEnums.@" + formatIdentifiable(enumt) + ",\n");
+		}
 		sb.append("\t\t};\n");
 	}
 
