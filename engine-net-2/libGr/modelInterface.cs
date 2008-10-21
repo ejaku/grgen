@@ -244,6 +244,11 @@ namespace de.unika.ipd.grGen.libGr
         IEdgeModel EdgeModel { get; }
 
         /// <summary>
+        /// Enumerates all enum attribute types declared for this model.
+        /// </summary>
+        IEnumerable<EnumAttributeType> EnumAttributeTypes { get; }
+
+        /// <summary>
         /// Enumerates all ValidateInfo objects describing constraints on the graph structure.
         /// </summary>
         IEnumerable<ValidateInfo> ValidateInfo { get; }
@@ -385,16 +390,23 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly String Name;
 
+        /// <summary>
+        /// The .NET type for the enum type.
+        /// </summary>
+        public readonly Type EnumType;
+
         private EnumMember[] members;
 
         /// <summary>
         /// Initializes an EnumAttributeType instance.
         /// </summary>
         /// <param name="name">The name of the enum type.</param>
+        /// <param name="enumType">The .NET type for the enum type.</param>
         /// <param name="memberArray">An array of all enum members.</param>
-        public EnumAttributeType(String name, EnumMember[] memberArray)
+        public EnumAttributeType(String name, Type enumType, EnumMember[] memberArray)
         {
             Name = name;
+            EnumType = enumType;
             members = memberArray;
         }
 
