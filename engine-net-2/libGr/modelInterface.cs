@@ -417,6 +417,13 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// A dummy type used as value type for dictionaries representing sets.
+    /// </summary>
+    public abstract class SetValueType
+    {
+    }
+
+    /// <summary>
     /// A representation of a GrGen graph element type.
     /// </summary>
     public abstract class GrGenType

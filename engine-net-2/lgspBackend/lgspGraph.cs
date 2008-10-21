@@ -694,10 +694,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(actionsType == null)
                 throw new ArgumentException("The given action file doesn't contain an LGSPActions implementation!");
 
-            LGSPActions actions = (LGSPActions) assembly.CreateInstance(
-                actionsType.FullName, false, BindingFlags.CreateInstance, null,
-                new Object[] { this, modelAssemblyName, assemblyName },
-                null, null);
+            LGSPActions actions = (LGSPActions) Activator.CreateInstance(actionsType, this, modelAssemblyName, assemblyName);
 
             if(Model.MD5Hash != actions.ModelMD5Hash)
                 throw new ArgumentException("The given action file has been compiled with another model assembly!");

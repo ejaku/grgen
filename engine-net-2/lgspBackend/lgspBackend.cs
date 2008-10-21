@@ -135,7 +135,7 @@ namespace de.unika.ipd.grGen.lgsp
                 throw new ArgumentException("The given model does not contain an IGraphModel implementation!");
             }
 
-            IGraphModel graphModel = (IGraphModel) assembly.CreateInstance(modelType.FullName);
+            IGraphModel graphModel = (IGraphModel) Activator.CreateInstance(modelType);
             LGSPGraph graph = new LGSPGraph(this, graphModel, graphName, assemblyName);
 
             return graph;

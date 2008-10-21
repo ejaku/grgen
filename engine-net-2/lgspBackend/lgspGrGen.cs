@@ -178,7 +178,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return null;
             }
 
-            return (IGraphModel) modelAssembly.CreateInstance(modelType.FullName);
+            return (IGraphModel) Activator.CreateInstance(modelType);
         }
 
         /// <summary>
@@ -1165,7 +1165,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(!type.IsClass || type.IsNotPublic) continue;
                     if(type.BaseType == typeof(LGSPMatchingPattern) || type.BaseType == typeof(LGSPRulePattern))
                     {
-                        LGSPMatchingPattern matchingPattern = (LGSPMatchingPattern) initialAssembly.CreateInstance(type.FullName);
+                        LGSPMatchingPattern matchingPattern = (LGSPMatchingPattern) Activator.CreateInstance(type);
                         matchingPattern.initialize();
 
                         GenerateScheduledSearchPlans(matchingPattern.patternGraph, matcherGen, !(matchingPattern is LGSPRulePattern), false);
