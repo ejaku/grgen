@@ -11,6 +11,8 @@ xgrs [insertStringKey("4", 5)]
 xgrs dumpIntValue(4)
 xgrs [insertIntKey(4, 6)]
 
+xgrs [insertIntKeyIfNotExists(4, 8)]
+
 xgrs dumpIntValue(4)
 
 xgrs removeIntKey(4)

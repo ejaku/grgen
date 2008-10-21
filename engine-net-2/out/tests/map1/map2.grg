@@ -51,6 +51,21 @@ rule insertIntKey(var key:int, var value:int)
 	}
 }
 
+rule insertIntKeyIfNotExists(var key:int, var value:int)
+{
+	a:A;
+	
+	if { !(key in a.m); } 
+	
+	modify
+	{
+		eval
+		{
+			a.m = a.m.put(key, value);
+		}
+	}
+}
+
 rule insertStringKey(var key:string, var value:int)
 {
 	a:A;
