@@ -189,6 +189,8 @@ OK     should_pass/induced_102.grg
 OK     should_pass/inh_attrib_001.grg
 OK     should_pass/inh_attrib_002.grg
 OK     should_pass/inh_attrib_003.grg
+OK     should_pass/map_001.grg
+OK     should_pass/map_002.grg
 OK     should_pass/model_init_001.grg
 OK     should_pass/model_init_002.grg
 OK     should_pass/nameof_001.grg
@@ -250,6 +252,8 @@ OK     should_pass/reuse_005.grg
 OK     should_pass/reuse_006.grg
 OK     should_pass/reuse_007.grg
 OK     should_pass/reuse_008.grg
+OK     should_pass/set_001.grg
+OK     should_pass/set_002.grg
 OK     should_pass/snowflakeAGTIVE.grg
 OK     should_pass/strfunc_001.grg
 OK     should_pass/to_001.grg
@@ -592,6 +596,16 @@ ERROR  should_fail/inh_attrib_015.grg
 ERROR  should_fail/inh_attrib_016.grg
 ERROR  should_fail/inh_attrib_017.grg
 ERROR  should_fail/inh_model_008.grg
+ERROR  should_fail/map_001.grg
+ERROR  should_fail/map_002.grg
+ERROR  should_fail/map_003.grg
+ERROR  should_fail/map_004.grg
+ERROR  should_fail/map_005.grg
+ERROR  should_fail/map_006.grg
+ERROR  should_fail/map_007.grg
+ERROR  should_fail/map_008.grg
+ERROR  should_fail/map_009.grg
+ABEND  should_fail/map_010.grg
 ERROR  should_fail/model_init_001.grg
 ERROR  should_fail/model_init_002.grg
 ERROR  should_fail/negative_001.grg
@@ -696,6 +710,12 @@ ERROR  should_fail/rhs_004.grg
 WARNED should_fail/rhs_005.grg
 WARNED should_fail/rhs_006.grg
 OK     should_fail/rhs_007.grg
+ERROR  should_fail/set_001.grg
+ERROR  should_fail/set_002.grg
+ERROR  should_fail/set_003.grg
+ERROR  should_fail/set_004.grg
+ERROR  should_fail/set_005.grg
+ERROR  should_fail/set_006.grg
 ERROR  should_fail/strfunc_001.grg
 ERROR  should_fail/strfunc_002.grg
 ERROR  should_fail/strfunc_003.grg
