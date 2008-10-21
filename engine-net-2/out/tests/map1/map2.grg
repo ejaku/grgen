@@ -1,0 +1,85 @@
+using map1;
+
+rule addNode
+{
+	modify
+	{
+		a:A;
+	}
+}
+
+rule removeIntKey(var key:int)
+{
+	a:A;
+	
+	if { key in a.m; }
+	
+	modify
+	{
+		eval
+		{
+			a.m = a.m.remove(key);
+		}
+	}
+}
+
+rule removeStringKey(var key:string)
+{
+	a:A;
+	
+	if { key in a.m; }
+	
+	modify
+	{
+		eval
+		{
+			a.m = a.m.remove(key);
+		}
+	}
+}
+
+rule insertIntKey(var key:int, var value:int)
+{
+	a:A;
+	
+	modify
+	{
+		eval
+		{
+			a.m = a.m.put(key, value);
+		}
+	}
+}
+
+rule insertStringKey(var key:string, var value:int)
+{
+	a:A;
+	
+	modify
+	{
+		eval
+		{
+			a.m = a.m.put(key, value);
+		}
+	}
+}
+
+rule getIntValue(var key:int):(int)
+{
+	a:A;
+	
+	modify {
+		return(a.m[key]);
+	}
+}
+
+rule dumpIntValue(var key:int)
+{
+	a:A;
+    
+    if { key in a.m; }
+    
+    modify {
+        emit("1 value of attribute 5 6 " + a.m[key] + "\n");
+    }
+}

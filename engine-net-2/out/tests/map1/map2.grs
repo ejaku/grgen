@@ -1,0 +1,20 @@
+new graph map1/map2
+
+xgrs addNode
+xgrs addNode
+
+xgrs removeIntKey(4)
+xgrs removeStringKey("2")
+
+xgrs [insertStringKey("4", 5)]
+
+xgrs dumpIntValue(4)
+xgrs [insertIntKey(4, 6)]
+
+xgrs dumpIntValue(4)
+
+xgrs removeIntKey(4)
+xgrs removeStringKey("4")
+xgrs dumpIntValue(4)
+
+exit
