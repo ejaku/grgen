@@ -85,21 +85,24 @@ for filename in $targets; do
       /generated in/ { time += \$(NF-1) }
       /matches found/ {
         testnum++
-        getline correctmatches < \"$grs.data\"
+        if ((getline correctmatches < \"$grs.data\") <= 0)
+          fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctmatches)
         if(\$2 != correctmatches)
           fail(testnum, \"\n  Test \" testnum \" failed: Expected matches = \" correctmatches \", Found matches = \" \$2)
       }
       /rewrites performed/ {
         testnum++
-        getline correctrewrites < \"$grs.data\"
+        if ((getline correctrewrites < \"$grs.data\") <= 0)
+          fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctrewrites)
         if(\$2 != correctrewrites)
           fail(testnum, \"\n  Test \" testnum \" failed: Expected rewrites = \" correctrewrites \", Found rewrites = \" \$2)
       }
       /Number/ {
         testnum++
-        getline correctnum < \"$grs.data\"
+        if ((getline correctnum < \"$grs.data\") <= 0)
+          fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctnum)
         if(\$8 != correctnum)
           fail(testnum, \"\n  Test \" testnum \" failed: Expected number = \" correctnum \", Found \" \$0)
@@ -107,7 +110,8 @@ for filename in $targets; do
       /value of attribute/ {
         testnum++
         value = getAttribute(7)
-        getline correctvalue < \"$grs.data\"
+        if ((getline correctvalue < \"$grs.data\") <= 0)
+          fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
         sub(\"\\r\$\", \"\", correctvalue)
         if(value != correctvalue)
           fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
