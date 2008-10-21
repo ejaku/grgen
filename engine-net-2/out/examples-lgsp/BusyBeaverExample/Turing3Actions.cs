@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Oct 21 13:43:21 CEST 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Oct 21 19:34:10 CEST 2008
 
 using System;
 using System.Collections.Generic;
@@ -107,7 +107,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			graph.SettingAddedNodeNames( readZeroRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readZeroRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, tempvar_i, true);
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
 			inode_bp.@value = tempvar_i;
 			ReturnArray[0] = node_wv;
 			return ReturnArray;
@@ -124,7 +124,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			graph.SettingAddedNodeNames( readZeroRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readZeroRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, tempvar_i, true);
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
 			inode_bp.@value = tempvar_i;
 			ReturnArray[0] = node_wv;
 			return ReturnArray;
@@ -226,7 +226,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			graph.SettingAddedNodeNames( readOneRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readOneRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, tempvar_i, true);
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
 			inode_bp.@value = tempvar_i;
 			ReturnArray[0] = node_wv;
 			return ReturnArray;
@@ -243,7 +243,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			graph.SettingAddedNodeNames( readOneRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readOneRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, tempvar_i, true);
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
 			inode_bp.@value = tempvar_i;
 			ReturnArray[0] = node_wv;
 			return ReturnArray;

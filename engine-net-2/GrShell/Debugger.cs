@@ -629,16 +629,38 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.ClearGraph();
         }
 
-        void DebugChangingNodeAttribute(INode node, AttributeType attrType, object oldValue, object newValue, bool insert)
+        void DebugChangingNodeAttribute(INode node, AttributeType attrType,
+            AttributeChangeType changeType, Object newValue, Object keyValue)
         {
-            // MAP TODO: sth to change here?
-            ycompClient.ChangeNodeAttribute(node, attrType, newValue.ToString());
+            if (attrType.Kind == AttributeKind.SetAttr)
+            {
+                // MAP TODO
+            }
+            else if (attrType.Kind == AttributeKind.MapAttr)
+            {
+                // MAP TODO
+            }
+            else
+            {
+                ycompClient.ChangeNodeAttribute(node, attrType, newValue.ToString());
+            }
         }
 
-        void DebugChangingEdgeAttribute(IEdge edge, AttributeType attrType, object oldValue, object newValue, bool insert)
+        void DebugChangingEdgeAttribute(IEdge edge, AttributeType attrType,
+            AttributeChangeType changeType, Object newValue, Object keyValue)
         {
-            // MAP TODO: sth to change here?
-            ycompClient.ChangeEdgeAttribute(edge, attrType, newValue.ToString());
+            if (attrType.Kind == AttributeKind.SetAttr)
+            {
+                // MAP TODO
+            }
+            else if (attrType.Kind == AttributeKind.MapAttr)
+            {
+                // MAP TODO
+            }
+            else
+            {
+                ycompClient.ChangeEdgeAttribute(edge, attrType, newValue.ToString());
+            }
         }
 
         void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)

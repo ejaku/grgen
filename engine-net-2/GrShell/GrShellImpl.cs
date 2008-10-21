@@ -903,7 +903,6 @@ namespace de.unika.ipd.grGen.grShell
                     Console.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", elem.Type.Name, par.Key);
                     return false;
                 }
-                bool insert = true;
                 object value = null;
                 switch(attrType.Kind)
                 {
@@ -1000,10 +999,12 @@ namespace de.unika.ipd.grGen.grShell
                     }
                       
                 }
-                if(elem is INode)
-                    curShellGraph.Graph.ChangingNodeAttribute((INode) elem, attrType, elem.GetAttribute(par.Key), value, insert);
+
+                AttributeChangeType changeType = AttributeChangeType.Assign;
+                if (elem is INode)
+                    curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
                 else
-                    curShellGraph.Graph.ChangingEdgeAttribute((IEdge) elem, attrType, elem.GetAttribute(par.Key), value, insert);
+                    curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
                 elem.SetAttribute(par.Key, value);
             }
             return true;

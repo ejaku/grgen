@@ -648,7 +648,8 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        public void ChangeNodeAttribute(INode node, AttributeType attrType, object oldValue, object newValue, bool insert)
+        public void ChangeNodeAttribute(INode node, AttributeType attrType,
+            AttributeChangeType changeType, Object newValue, Object keyValue)
         {
             if (attrType.Kind == AttributeKind.SetAttr)
             {
@@ -678,7 +679,8 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType, object oldValue, object newValue, bool insert)
+        public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType,
+            AttributeChangeType changeType, Object newValue, Object keyValue)
         {
             if (attrType.Kind == AttributeKind.SetAttr)
             {

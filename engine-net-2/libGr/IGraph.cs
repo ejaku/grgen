@@ -38,6 +38,28 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// The changes which might occur to graph element attributes.
+    /// </summary>
+    public enum AttributeChangeType
+    {
+        /// <summary>
+        /// Assignment of a value to some attribute.
+        /// Value semantics, even if assigned attribute is a set or a map, not a primitive type.
+        /// </summary>
+        Assign,
+
+        /// <summary>
+        /// Inserting a value into some set or a key value pair into some map.
+        /// </summary>
+        PutElement,
+
+        /// <summary>
+        /// Removing a value from some set or a key value pair from some map.
+        /// </summary>
+        RemoveElement
+    }
+
+    /// <summary>
     /// An interface for managing graph transactions.
     /// </summary>
     public interface ITransactionManager
@@ -77,12 +99,13 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="elem">The element whose attribute is changed.</param>
         /// <param name="attrType">The type of the attribute to be changed.</param>
-        /// <param name="oldValue">The old value of the attribute. 
-        ///                        Or the value to be inserted/removed if attribute is set/map.</param>
-        /// <param name="newValue">The new value of the attribute.
-        ///                        Or the key-value to be inserted/removed if attribute is map</param>
-        /// <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
-        void ChangingElementAttribute(IGraphElement elem, AttributeType attrType, Object oldValue, Object newValue, bool insert);
+        /// <param name="changeType">The type of the change which will be made.</param>
+        /// <param name="newValue">The new value of the attribute, if changeType==Assign.
+        ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.</param>
+        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
+        void ChangingElementAttribute(IGraphElement elem, AttributeType attrType,
+                AttributeChangeType changeType, Object newValue, Object keyValue);
 
         /// <summary>
         /// Event handler for IGraph.OnRetypingNode and IGraph.OnRetypingEdge.
@@ -137,28 +160,34 @@ namespace de.unika.ipd.grGen.libGr
     public delegate void ClearingGraphHandler();
 
     /// <summary>
-    /// Represents a method called before a node attribute is changed.
+    /// Represents a method called just before a node attribute is changed,
+    /// with exact information about the change to occur,
+    /// to allow rollback of changes, in case a transaction is underway.
     /// </summary>
     /// <param name="node">The node whose attribute is changed.</param>
     /// <param name="attrType">The type of the attribute to be changed.</param>
-    /// <param name="oldValue">The old value of the attribute. 
-    ///                        Or the value to be inserted/removed if attribute is set/map.</param>
-    /// <param name="newValue">The new value of the attribute.
-    ///                        Or the key-value to be inserted/removed if attribute is map</param>
-    /// <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
-    public delegate void ChangingNodeAttributeHandler(INode node, AttributeType attrType, Object oldValue, Object newValue, bool insert);
+    /// <param name="changeType">The type of the change which will be made.</param>
+    /// <param name="newValue">The new value of the attribute, if changeType==Assign.
+    ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+    ///                        Or the new map pair value to be inserted if changeType==PutElement on map.</param>
+    /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
+    public delegate void ChangingNodeAttributeHandler(INode node, AttributeType attrType,
+            AttributeChangeType changeType, Object newValue, Object keyValue);
 
     /// <summary>
-    /// Represents a method called before an edge attribute is changed.
+    /// Represents a method called just before an edge attribute is changed,
+    /// with exact information about the change to occur,
+    /// to allow rollback of changes, in case a transaction is underway.
     /// </summary>
     /// <param name="edge">The edge whose attribute is changed.</param>
     /// <param name="attrType">The type of the attribute to be changed.</param>
-    /// <param name="oldValue">The old value of the attribute. 
-    ///                        Or the value to be inserted/removed if attribute is set/map.</param>
-    /// <param name="newValue">The new value of the attribute.
-    ///                        Or the key-value to be inserted/removed if attribute is map</param>
-    /// <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
-    public delegate void ChangingEdgeAttributeHandler(IEdge edge, AttributeType attrType, Object oldValue, Object newValue, bool insert);
+    /// <param name="changeType">The type of the change which will be made.</param>
+    /// <param name="newValue">The new value of the attribute, if changeType==Assign.
+    ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+    ///                        Or the new map pair value to be inserted if changeType==PutElement on map.</param>
+    /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
+    public delegate void ChangingEdgeAttributeHandler(IEdge edge, AttributeType attrType,
+            AttributeChangeType changeType, Object newValue, Object keyValue);
 
     /// <summary>
     /// Represents a method called before a node is retyped.
@@ -734,30 +763,36 @@ namespace de.unika.ipd.grGen.libGr
         event ExitSequenceHandler OnExitingSequence;
 
         /// <summary>
-        /// Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.
+        /// Fires an OnChangingNodeAttribute event.
+        /// To be called before changing an attribute of a node,
+        /// with exact information about the change to occur,
+        /// to allow rollback of changes, in case a transaction is underway.
         /// </summary>
         /// <param name="node">The node whose attribute is changed.</param>
         /// <param name="attrType">The type of the attribute to be changed.</param>
-        /// <param name="oldValue">The old value of the attribute. 
-        ///                        Or the value to be inserted/removed if attribute is set/map.</param>
-        /// <param name="newValue">The new value of the attribute.
-        ///                        Or the key-value to be inserted/removed if attribute is map</param>
-        /// <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
+        /// <param name="changeType">The type of the change which will be made.</param>
+        /// <param name="newValue">The new value of the attribute, if changeType==Assign.
+        ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.</param>
+        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
         void ChangingNodeAttribute(INode node, AttributeType attrType,
-            Object oldValue, Object newValue, bool insert);
+            AttributeChangeType changeType, Object newValue, Object keyValue);
 
         /// <summary>
-        /// Fires an OnChangingEdgeAttribute event. This should be called before an attribute of a edge is changed.
+        /// Fires an OnChangingEdgeAttribute event.
+        /// To be called before changing an attribute of an edge,
+        /// with exact information about the change to occur,
+        /// to allow rollback of changes, in case a transaction is underway.
         /// </summary>
         /// <param name="edge">The edge whose attribute is changed.</param>
         /// <param name="attrType">The type of the attribute to be changed.</param>
-        /// <param name="oldValue">The old value of the attribute. 
-        ///                        Or the value to be inserted/removed if attribute is set/map.</param>
-        /// <param name="newValue">The new value of the attribute.
-        ///                        Or the key-value to be inserted/removed if attribute is map</param>
-        /// <param name="insert">if attribute is set/map: true if element is inserted, false if element is removed; otherwise undefined.</param>
+        /// <param name="changeType">The type of the change which will be made.</param>
+        /// <param name="newValue">The new value of the attribute, if changeType==Assign.
+        ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.</param>
+        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
         void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
-            Object oldValue, Object newValue, bool insert);
+            AttributeChangeType changeType, Object newValue, Object keyValue);
 
         /// <summary>
         /// Fires an OnMatched event.
