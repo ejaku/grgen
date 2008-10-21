@@ -1508,7 +1508,7 @@ public class ModifyGen extends CSharpBase {
 						String enumeratorName = "Enumerator_"+valueTypeString;
 						sb.append("\t\t\t" + targetSetName + ".Clear();\n");
 						if(!alreadyDeclaredSetEnumerators.contains(enumeratorName)) {
-							sb.append("\t\t\tDictionary<" + valueTypeString + ", string>.Enumerator ");
+							sb.append("\t\t\tDictionary<" + valueTypeString + ", GRGEN_LIBGR.SetValueType>.Enumerator ");
 							alreadyDeclaredSetEnumerators.add(enumeratorName);
 						} else {
 							sb.append("\t\t\t");

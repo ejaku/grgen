@@ -257,7 +257,7 @@ public abstract class CSharpBase {
 		else if (t instanceof SetType) {
 			SetType setType = (SetType) t;
 			return "Dictionary<" + formatIdentifiable(setType.getValueType())
-					+ ", string>";
+					+ ", GRGEN_LIBGR.SetValueType>";
 		}
 		else throw new IllegalArgumentException("Illegal type: " + t);
 	}
