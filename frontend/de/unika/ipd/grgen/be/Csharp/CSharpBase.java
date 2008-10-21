@@ -251,12 +251,12 @@ public abstract class CSharpBase {
 			return "Object"; //TODO maybe we need another output type
 		else if (t instanceof MapType) {
 			MapType mapType = (MapType) t;
-			return "Dictionary<" + formatIdentifiable(mapType.getKeyType())
-					+ ", " + formatIdentifiable(mapType.getValueType()) + ">";
+			return "Dictionary<" + formatAttributeType(mapType.getKeyType())
+					+ ", " + formatAttributeType(mapType.getValueType()) + ">";
 		}
 		else if (t instanceof SetType) {
 			SetType setType = (SetType) t;
-			return "Dictionary<" + formatIdentifiable(setType.getValueType())
+			return "Dictionary<" + formatAttributeType(setType.getValueType())
 					+ ", GRGEN_LIBGR.SetValueType>";
 		}
 		else throw new IllegalArgumentException("Illegal type: " + t);

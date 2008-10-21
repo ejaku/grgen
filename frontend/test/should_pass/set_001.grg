@@ -64,3 +64,19 @@ rule assignSetToSet {
 		}
 	}
 }
+
+rule useEnumSet {
+	a:A -e:E-> a;
+
+	if {
+		et::a in e.enumSet;
+		et::c in a.enumSet;
+	}
+	
+	modify {
+		eval {
+			e.val = (et::b in a.enumSet) ? 7 : 19;
+			a.val = (et::b in e.enumSet) ? 71 : 819;
+		}
+	}
+}

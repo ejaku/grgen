@@ -10,10 +10,16 @@ rule addToMap {
 	}
 }
 
-test containedInMap {
+rule containedInMap {
 	a:A;
 	
 	if { 5 in a.niceMap; }
+
+	modify {
+		eval {
+			a.val = (6 in a.niceMap) ? 2489 : -23488;
+		}
+	}
 }
 
 rule copyMap {
@@ -75,6 +81,20 @@ rule assignMapToMap {
 			a.niceMap = e.niceMap;
 			e.spiceMap = a.spiceMap;
 			e.niceMap = a.niceMap;
+		}
+	}
+}
+
+rule useEnumMap {
+	a:A -e:E-> a;
+
+	if { "another c" in e.enumMap2
+		&& e.enumMap2["another c"] in a.enumMap
+		&& a.enumMap[e.enumMap2["another c"]].replace(0, 3, "another") in e.enumMap2; }
+	
+	modify {
+		eval {
+			e.enumMap2 = e.enumMap2.put(a.enumMap[e.enumMap2["another c"]].replace(0, 3, "another"), et::a);
 		}
 	}
 }

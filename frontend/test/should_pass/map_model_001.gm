@@ -1,3 +1,8 @@
+enum et
+{
+	a, b, c = 7
+}
+
 node class A
 {
 	val:int;
@@ -9,6 +14,16 @@ node class A
 		"pi" -> 3.141592654f
 	};
 	shiceMap:map<double, object>;
+	enumMap:map<et, string> = {
+		et::a -> "the a",
+		et::c -> "the c",
+		et::b -> "the b"
+	};
+	enumMap2:map<string, et> = {
+		"the c" -> et::c,
+		"the a" -> et::a,
+		"the b" -> et::b
+	};
 }
 
 edge class E
@@ -22,4 +37,14 @@ edge class E
 		"pi" -> 3.141592654f
 	};
 	shiceMap:map<double, object>;
+	enumMap:map<et, string> = {
+		et::a -> "another a",
+		et::c -> "another c",
+		et::b -> "another b"
+	};
+	enumMap2:map<string, et> = {
+		"another c" -> et::c,
+		"another a" -> et::a,
+		"another b" -> et::b
+	};
 }

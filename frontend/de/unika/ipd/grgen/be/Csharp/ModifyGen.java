@@ -487,7 +487,7 @@ public class ModifyGen extends CSharpBase {
 
 		collectElementsAccessedByInterface(task, state.accessViaInterface);
 
-		NeededEntities needs = new NeededEntities(true, true, true, false, true, true); 
+		NeededEntities needs = new NeededEntities(true, true, true, false, true, true);
 		collectElementsAndAttributesNeededByImperativeStatements(task, needs);
 		collectElementsAndAttributesNeededByReturns(task, needs);
 
@@ -502,7 +502,10 @@ public class ModifyGen extends CSharpBase {
 			attributesStoredBeforeDelete.addAll(neededAttrs);
 		}
 
-		collectElementsAndAttributesNeededByEvals(task, needs); 
+		// Do not collect map and set expressions for evals
+		needs.collectMapSetExprs = false;
+		collectElementsAndAttributesNeededByEvals(task, needs);
+		needs.collectMapSetExprs = true;
 
 		// Fill state with information gathered in needs
 		state.InitNeeds(needs);
@@ -1458,8 +1461,6 @@ public class ModifyGen extends CSharpBase {
 
 	private void genEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<EvalStatement> evalStatements) {
 		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false, def_o = false;
-		HashSet<String> alreadyDeclaredMapEnumerators = new HashSet<String>();
-		HashSet<String> alreadyDeclaredSetEnumerators = new HashSet<String>();
 		for(EvalStatement evalStmt : evalStatements) {
 			if(evalStmt instanceof Assignment) {
 				Assignment ass = (Assignment) evalStmt;
@@ -1469,55 +1470,14 @@ public class ModifyGen extends CSharpBase {
 					Qualification qualTgt = (Qualification) target;
 					Entity entity = qualTgt.getOwner();
 
-					if(qualTgt.getType() instanceof MapType) {
-						// ASSUME: there are no map expressions, so the expression is a map entity
-						StringBuffer sbtemp = new StringBuffer();
-						genExpression(sbtemp, ass.getTarget(), state);
-						String targetDictName = sbtemp.toString();
-						sbtemp.delete(0, sbtemp.length());
-						genExpression(sbtemp, ass.getExpression(), state);
-						String sourceDictName = sbtemp.toString();
-						MapType mapType = (MapType)qualTgt.getType();
-						String keyTypeString = mapType.getKeyType().getIdent().toString();
-						String valueTypeString = mapType.getValueType().getIdent().toString();
-						String enumeratorName = "Enumerator_"+keyTypeString+"_"+valueTypeString;
-						sb.append("\t\t\t" + targetDictName + ".Clear();\n");
-						if(!alreadyDeclaredMapEnumerators.contains(enumeratorName)) {
-							sb.append("\t\t\tDictionary<" + keyTypeString + "," + valueTypeString + ">.Enumerator ");
-							alreadyDeclaredMapEnumerators.add(enumeratorName);
-						} else {
-							sb.append("\t\t\t");
-						}
-						sb.append(enumeratorName + " = " + sourceDictName + ".GetEnumerator();\n");
-						sb.append("\t\t\tdo {\n");
-						sb.append("\t\t\t\t" + targetDictName + ".Add(");
-						sb.append(enumeratorName + ".Current.Key, " + enumeratorName + ".Current.Value);\n");
-						sb.append("\t\t\t} while(" + enumeratorName + ".MoveNext());\n");
-						continue;
-					}
-					if(qualTgt.getType() instanceof SetType) {
-						// ASSUME: there are no set expressions, so the expression is a set entity
-						StringBuffer sbtemp = new StringBuffer();
-						genExpression(sbtemp, ass.getTarget(), state);
-						String targetSetName = sbtemp.toString();
-						sbtemp.delete(0, sbtemp.length());
-						genExpression(sbtemp, ass.getExpression(), state);
-						String sourceSetName = sbtemp.toString();
-						SetType setType = (SetType)qualTgt.getType();
-						String valueTypeString = setType.getValueType().getIdent().toString();
-						String enumeratorName = "Enumerator_"+valueTypeString;
-						sb.append("\t\t\t" + targetSetName + ".Clear();\n");
-						if(!alreadyDeclaredSetEnumerators.contains(enumeratorName)) {
-							sb.append("\t\t\tDictionary<" + valueTypeString + ", GRGEN_LIBGR.SetValueType>.Enumerator ");
-							alreadyDeclaredSetEnumerators.add(enumeratorName);
-						} else {
-							sb.append("\t\t\t");
-						}
-						sb.append(enumeratorName + " = " + sourceSetName + ".GetEnumerator();\n");
-						sb.append("\t\t\tdo {\n");
-						sb.append("\t\t\t\t" + targetSetName + ".Add(");
-						sb.append(enumeratorName + ".Current.Key, null);\n");
-						sb.append("\t\t\t} while(" + enumeratorName + ".MoveNext());\n");
+					if(qualTgt.getType() instanceof MapType || qualTgt.getType() instanceof SetType) {
+						// ASSUME: there are no map/set expressions, so the expression is a map/set entity
+						sb.append("\t\t\t");
+						genExpression(sb, ass.getTarget(), state);
+						sb.append(" = new " + formatAttributeType(qualTgt.getType()) + "(");
+						genExpression(sb, ass.getExpression(), state);
+						sb.append(");\n");
+						
 						continue;
 					}
 					

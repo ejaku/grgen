@@ -1,0 +1,12 @@
+using map_model_002;
+
+rule useEnumMap {
+	a:A -e:E-> a;
+
+	modify {
+		eval {
+			// missing "e.enumMap2 = "
+			e.enumMap2.put(a.enumMap[e.enumMap2["another c"]].replace(0, 3, "another"), et::a);
+		}
+	}
+}

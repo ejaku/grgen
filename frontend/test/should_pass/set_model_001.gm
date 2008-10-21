@@ -1,3 +1,8 @@
+enum et
+{
+	a, b, c = 7
+}
+
 node class A
 {
 	val:int;
@@ -7,6 +12,10 @@ node class A
 	};
 	spiceSet:set<int> = {
 		42
+	};
+	enumSet:set<et> = {
+		et::b,
+		et::c
 	};
 }
 
@@ -19,5 +28,8 @@ edge class E
 	};
 	spiceSet:set<int> = {
 		42
+	};
+	enumSet:set<et> = {
+		et::a
 	};
 }

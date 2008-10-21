@@ -40,8 +40,10 @@ public class NeededEntities {
 			attrNodes     = new LinkedHashSet<Node>();
 			attrEdges     = new LinkedHashSet<Edge>();
 		}
-		if(collectMapSetExprs)
+		if(collectMapSetExprs) {
+			this.collectMapSetExprs = true;
 			mapSetExprs = new LinkedHashSet<Expression>();
+		}
 	}
 
 	/**
@@ -83,6 +85,11 @@ public class NeededEntities {
 	 * The edges needed for attributes.
 	 */
 	public HashSet<Edge> attrEdges;
+	
+	/**
+	 * Specifies whether map and set expressions should be collected.
+	 */
+	public boolean collectMapSetExprs;
 	
 	/**
 	 * The map and set expressions.
@@ -162,7 +169,7 @@ public class NeededEntities {
 	 * @param expr The map or set expressions.
 	 */
 	public void add(Expression expr) {
-		if(mapSetExprs != null) mapSetExprs.add(expr);
+		if(collectMapSetExprs) mapSetExprs.add(expr);
 	}
 
 	public void needsGraph() {
