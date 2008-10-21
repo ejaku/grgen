@@ -316,9 +316,17 @@ public abstract class CSharpBase {
 					break;
 				case 2:
 					sb.append("(");
-					genExpression(sb, op.getOperand(0), modifyGenerationState);
-					sb.append(" " + opSymbols[op.getOpCode()] + " ");
-					genExpression(sb, op.getOperand(1), modifyGenerationState);
+					if(op.getOpCode() == Operator.IN) { 
+						genExpression(sb, op.getOperand(1), modifyGenerationState);
+						sb.append(".ContainsKey(");
+						genExpression(sb, op.getOperand(0), modifyGenerationState);
+						sb.append(")");
+					}
+					else {
+						genExpression(sb, op.getOperand(0), modifyGenerationState);
+						sb.append(" " + opSymbols[op.getOpCode()] + " ");
+						genExpression(sb, op.getOperand(1), modifyGenerationState);
+					}
 					sb.append(")");
 					break;
 				case 3:
@@ -565,12 +573,8 @@ public abstract class CSharpBase {
 	private String[] opSymbols = {
 		null, "||", "&&", "|", "^", "&",
 			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",
-			"-", "*", "/", "%", "!", "~", "-", "(cast)"
+			"-", "*", "/", "%", "!", "~", "-"
 	};
-
-	// TODO use or remove it
-	// private HashSet<Node> nodesNeededAsAttributes = new LinkedHashSet<Node>();
-	// private HashSet<Edge> edgesNeededAsAttributes = new LinkedHashSet<Edge>();
 
 	private String nodeTypePrefix;
 	private String edgeTypePrefix;

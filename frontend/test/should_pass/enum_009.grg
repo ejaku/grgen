@@ -3,6 +3,8 @@ using attrib_model_001, enum_model_004;
 rule r {
 	x:NINT - l:B -> k:A;
 
+	if { k.e == te2::y; }
+
 	modify{
 		eval { x.a = (k.e == te2::y) ? 0 : 1; }
 	}

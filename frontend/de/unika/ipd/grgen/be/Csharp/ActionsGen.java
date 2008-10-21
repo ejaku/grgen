@@ -772,7 +772,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if(expr instanceof EnumExpression) {
 			EnumExpression enumExp = (EnumExpression) expr;
-			sb.append("new GRGEN_EXPR.EnumExpression(\"" + enumExp.getType().getIdent().toString()
+			sb.append("new GRGEN_EXPR.ConstantEnumExpression(\"" + enumExp.getType().getIdent().toString()
 					+ "\", \"" + enumExp.getEnumItem().toString() + "\")");
 		}
 		else if(expr instanceof Constant) { // gen C-code for constant expressions
