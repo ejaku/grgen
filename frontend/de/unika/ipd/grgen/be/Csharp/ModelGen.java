@@ -156,7 +156,7 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t{\n");
 		for(EnumType enumt : model.getEnumTypes()) {
 			sb.append("\t\tpublic static GRGEN_LIBGR.EnumAttributeType @" + formatIdentifiable(enumt)
-					+ " = new GRGEN_LIBGR.EnumAttributeType(\"ENUM_" + formatIdentifiable(enumt)
+					+ " = new GRGEN_LIBGR.EnumAttributeType(\"" + formatIdentifiable(enumt)
 					+ "\", typeof(ENUM_" + formatIdentifiable(enumt)
 					+ "), new GRGEN_LIBGR.EnumMember[] {\n");
 			for(EnumItem enumi : enumt.getItems()) {
