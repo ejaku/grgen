@@ -51,3 +51,16 @@ rule computedRemoveFromSet {
 		}
 	}
 }
+
+// This clones the sets
+rule assignSetToSet {
+	a:A -e:E-> a; 
+		
+	modify {
+		eval {
+			a.niceSet = e.niceSet;
+			e.spiceSet = a.spiceSet;
+			e.niceSet = a.niceSet;
+		}
+	}
+}

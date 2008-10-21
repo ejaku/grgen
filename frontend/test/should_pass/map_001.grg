@@ -65,3 +65,16 @@ rule mapVarContains(var m:map<string, int>) {
 		emit("entry for \"yeah\" = " + m["yeah"] + ", mapsize = " + m.size());
 	}
 }
+
+// This clones the maps
+rule assignMapToMap {
+	a:A -e:E-> a; 
+		
+	modify {
+		eval {
+			a.niceMap = e.niceMap;
+			e.spiceMap = a.spiceMap;
+			e.niceMap = a.niceMap;
+		}
+	}
+}

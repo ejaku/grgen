@@ -1,11 +1,53 @@
 using map_model_002;
 
-rule assignWrongType {
+rule getValue {
 	a:A;
 	
 	modify {
 		eval {
 			a.stringValue = a.intToString[5];
+		}
+	}
+}
+
+rule putValue {
+	a:A;
+	
+	modify {
+		eval {
+			a.intToString = a.intToString.put(5, a.intValue);
+		}
+	}
+}
+
+rule putValueWithKeyCast {
+	a:A;
+	
+	modify {
+		eval {
+			a.stringToInt = a.stringToInt.put(a.intValue, a.intValue);
+		}
+	}
+}
+
+rule removeWithCast {
+	a:A;
+	
+	modify {
+		eval {
+			a.stringToInt = a.stringToInt.remove(a.intValue);
+		}
+	}
+}
+
+rule mapSize {
+	a:A;
+	
+	if { a.intToString.size()==42; }
+	
+	modify {
+		eval {
+			a.intValue = a.stringToInt.size();
 		}
 	}
 }
