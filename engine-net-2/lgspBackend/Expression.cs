@@ -959,4 +959,44 @@ namespace de.unika.ipd.grGen.expression
 
         Expression Target;
     }
+
+    /// <summary>
+    /// Class representing a rule-local map.
+    /// </summary>
+    public class LocalMap : Expression
+    {
+        public LocalMap(String className, String mapName)
+        {
+            ClassName = className;
+            MapName = mapName;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(ClassName+"."+MapName);
+        }
+
+        String ClassName;
+        String MapName;
+    }
+
+    /// <summary>
+    /// Class representing a rule-local set.
+    /// </summary>
+    public class LocalSet : Expression
+    {
+        public LocalSet(String className, String setName)
+        {
+            ClassName = className;
+            SetName = setName;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(ClassName+"." + SetName);
+        }
+
+        String ClassName;
+        String SetName;
+    }
 }

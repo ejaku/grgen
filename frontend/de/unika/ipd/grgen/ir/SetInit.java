@@ -13,21 +13,41 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.Collection;
 
-public class SetInit extends IR {
-	private Entity member; 
+public class SetInit extends Expression {
 	private Collection<SetItem> setItems;
+	private Entity member;
+	private SetType setType;
+	private int localSetId;
+	static private int localSetCounter;
 	
-	public SetInit(Entity member, Collection<SetItem> setItems) {
-		super("set init");
-		this.member = member;
+	public SetInit(Collection<SetItem> setItems, Entity member, SetType setType) {
+		super("set init", member!=null ? member.getType() : setType);
 		this.setItems = setItems;
+		this.member = member;
+		this.setType = setType;
+		if(member==null) {
+			localSetId = localSetCounter;
+			++localSetCounter;
+		}
+	}
+	
+	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(this);
+	}
+
+	public Collection<SetItem> getSetItems() {
+		return setItems;
 	}
 	
 	public Entity getMember() {
 		return member;
 	}
 	
-	public Collection<SetItem> getSetItems() {
-		return setItems;
+	public SetType getSetType() {
+		return setType;
+	}
+	
+	public String getSetName() {
+		return "local_map_" + localSetId;
 	}
 }

@@ -39,7 +39,9 @@ import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IntType;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
+import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
+import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetSizeExpr;
 import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.SetType;
@@ -485,6 +487,14 @@ public abstract class CSharpBase {
 				genExpression(sb, ss.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count");
 			}
+		}
+		else if (expr instanceof MapInit) {
+			MapInit mi = (MapInit)expr;
+			sb.append(mi.getMapName());
+		}
+		else if (expr instanceof SetInit) {
+			SetInit si = (SetInit)expr;
+			sb.append(si.getSetName());
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

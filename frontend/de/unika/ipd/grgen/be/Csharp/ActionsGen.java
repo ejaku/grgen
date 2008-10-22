@@ -35,7 +35,11 @@ import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
+import de.unika.ipd.grgen.ir.MapInit;
+import de.unika.ipd.grgen.ir.MapItem;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
+import de.unika.ipd.grgen.ir.SetInit;
+import de.unika.ipd.grgen.ir.SetItem;
 import de.unika.ipd.grgen.ir.SetSizeExpr;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Model;
@@ -109,12 +113,13 @@ public class ActionsGen extends CSharpBase {
 	 */
 	private void genSubpattern(StringBuffer sb, Rule subpatternRule) {
 		String actionName = formatIdentifiable(subpatternRule);
+		String className = "Pattern_"+actionName;
 
-		sb.append("\tpublic class Pattern_" + actionName + " : GRGEN_LGSP.LGSPMatchingPattern\n");
+		sb.append("\tpublic class " + className + " : GRGEN_LGSP.LGSPMatchingPattern\n");
 		sb.append("\t{\n");
-		sb.append("\t\tprivate static Pattern_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
-		sb.append("\t\tpublic static Pattern_" + actionName + " Instance { get { if (instance==null) { "
-				+ "instance = new Pattern_" + actionName + "(); instance.initialize(); } return instance; } }\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n"); //new Rule_" + actionName + "();\n");
+		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
+				+ "instance = new " + className + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
 		sb.append("\t\tprivate static object[] ReturnArray = new object[" + subpatternRule.getReturns().size() + "];\n\n");
 
@@ -136,12 +141,13 @@ public class ActionsGen extends CSharpBase {
 	 */
 	private void genAction(StringBuffer sb, Rule actionRule) {
 		String actionName = formatIdentifiable(actionRule);
+		String className = "Rule_"+actionName;
 
-		sb.append("\tpublic class Rule_" + actionName + " : GRGEN_LGSP.LGSPRulePattern\n");
+		sb.append("\tpublic class " + className + " : GRGEN_LGSP.LGSPRulePattern\n");
 		sb.append("\t{\n");
-		sb.append("\t\tprivate static Rule_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
-		sb.append("\t\tpublic static Rule_" + actionName + " Instance { get { if (instance==null) { "
-				+ "instance = new Rule_" + actionName + "(); instance.initialize(); } return instance; } }\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n"); //new Rule_" + actionName + "();\n");
+		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
+				+ "instance = new " + className + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
 		sb.append("\t\tprivate static object[] ReturnArray = new object[" + actionRule.getReturns().size() + "];\n\n");
 
@@ -170,6 +176,7 @@ public class ActionsGen extends CSharpBase {
 										   String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
+		genLocalMapsAndSets(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		sb.append("\t\tGRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
 
@@ -332,6 +339,56 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append("};\n");
 	}
+	
+	///////////////////////////////////
+	// Rule-Local Set/Map generation //
+	///////////////////////////////////
+	
+	private void genLocalMapsAndSets(StringBuffer sb, PatternGraph pattern,
+			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		for(Expression expr : pattern.getConditions()) {
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
+			expr.collectNeededEntities(needs);
+			for(Expression mapSetExpr : needs.mapSetExprs)
+			{
+				if(mapSetExpr instanceof MapInit) {
+					MapInit mapInit = (MapInit)mapSetExpr;
+					String mapKeyTypeStr = formatAttributeType(mapInit.getMapType().getKeyType());
+					String mapValueTypeStr = formatAttributeType(mapInit.getMapType().getValueType());
+					sb.append("\t\tpublic static readonly Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + "> "
+							+ mapInit.getMapName() + " = " +
+							"new Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + ">();\n");
+					sb.append("\t\tstatic void init_" + mapInit.getMapName() + "() {\n");
+					for(MapItem item : mapInit.getMapItems()) {
+						sb.append("\t\t\t");
+						sb.append(mapInit.getMapName());
+						sb.append("[");
+						genExpression(sb, item.getKeyExpr(), null);
+						sb.append("] = ");
+						genExpression(sb, item.getValueExpr(), null);
+						sb.append(";\n");
+					}
+					sb.append("\t\t}\n");
+				}
+				else if(mapSetExpr instanceof SetInit) {
+					SetInit setInit = (SetInit)mapSetExpr;
+					String setValueTypeStr = formatAttributeType(setInit.getSetType().getValueType());
+					sb.append("\t\tpublic static readonly Dictionary<" + setValueTypeStr + ", string> "
+							+ setInit.getSetName() + " = " +
+							"new Dictionary<" + setValueTypeStr + ", string>();\n");
+					sb.append("\t\tstatic void init_" + setInit.getSetName() + "() {\n");
+					for(SetItem item : setInit.getSetItems()) {
+						sb.append("\t\t\t");
+						sb.append(setInit.getSetName());
+						sb.append("[");
+						genExpression(sb, item.getValueExpr(), null);
+						sb.append("] = null;\n");
+					}
+					sb.append("\t\t}\n");
+				}
+			}
+		}
+	}
 
 	/////////////////////////////////////////
 	// Rule/Subpattern metadata generation //
@@ -339,11 +396,12 @@ public class ActionsGen extends CSharpBase {
 
 	private void genRuleOrSubpatternInit(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
 		PatternGraph pattern = action.getPattern();
+		String className = (isSubpattern ? "Pattern_" : "Rule_") + formatIdentifiable(action);
 
 		sb.append("#if INITIAL_WARMUP\n");
-		sb.append("\t\tpublic " + (isSubpattern ? "Pattern_" : "Rule_") + formatIdentifiable(action) + "()\n");
+		sb.append("\t\tpublic " + className + "()\n");
 		sb.append("#else\n");
-		sb.append("\t\tprivate " + (isSubpattern ? "Pattern_" : "Rule_") + formatIdentifiable(action) + "()\n");
+		sb.append("\t\tprivate " + className + "()\n");
 		sb.append("#endif\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tname = \"" + formatIdentifiable(action) + "\";\n");
@@ -361,8 +419,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tpublic override void initialize()\n");
 		sb.append("\t\t{\n");
 
-		genPatternGraph(sb, aux, pattern, "", pattern.getNameOfGraph(), patGraphVarName, alreadyDefinedEntityToName,
-						alreadyDefinedIdentifiableToName, 0, action.getParameters(), max);
+		genPatternGraph(sb, aux, pattern, "", pattern.getNameOfGraph(), patGraphVarName, className,
+				alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, 0, action.getParameters(), max);
 		sb.append(aux);
 		sb.append("\n");
 		sb.append("\t\t\tpatternGraph = " + patGraphVarName + ";\n");
@@ -372,11 +430,11 @@ public class ActionsGen extends CSharpBase {
 
 	private int genPatternGraph(StringBuffer sb, StringBuilder aux, PatternGraph pattern,
 								String pathPrefix, String patternName, // negatives without name, have to compute it and hand it in
-								String patGraphVarName,
+								String patGraphVarName, String className,
 								HashMap<Entity, String> alreadyDefinedEntityToName,
 								HashMap<Identifiable, String> alreadyDefinedIdentifiableToName,
 								int condCntInit, List<Entity> parameters, double max) {
-		genElementsRequiredByPatternGraph(sb, aux, pattern, pathPrefix, patternName, patGraphVarName,
+		genElementsRequiredByPatternGraph(sb, aux, pattern, pathPrefix, patternName, patGraphVarName, className,
 										  alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, condCntInit, parameters, max);
 
 		sb.append("\t\t\t" + patGraphVarName + " = new GRGEN_LGSP.PatternGraph(\n");
@@ -503,7 +561,8 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	private void genElementsRequiredByPatternGraph(StringBuffer sb, StringBuilder aux, PatternGraph pattern,
-												   String pathPrefix, String patternName, String patGraphVarName,
+												   String pathPrefix, String patternName,
+												   String patGraphVarName, String className,
 												   HashMap<Entity, String> alreadyDefinedEntityToName,
 												   HashMap<Identifiable, String> alreadyDefinedIdentifiableToName,
 												   int condCntInit, List<Entity> parameters, double max) {
@@ -613,12 +672,12 @@ public class ActionsGen extends CSharpBase {
 
 		int condCnt = condCntInit;
 		for(Expression expr : pattern.getConditions()) {
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, false);
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
 			expr.collectNeededEntities(needs);
 			sb.append("\t\t\tGRGEN_LGSP.PatternCondition cond_" + condCnt
 					+ " = new GRGEN_LGSP.PatternCondition(\n"
 					+ "\t\t\t\t");
-			genExpressionTree(sb, expr, pathPrefixForElements, alreadyDefinedEntityToName);
+			genExpressionTree(sb, expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(",\n");
 			sb.append("\t\t\t\tnew String[] ");
 			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
@@ -640,7 +699,7 @@ public class ActionsGen extends CSharpBase {
 				HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 				condCnt = genPatternGraph(sb, aux, altCasePattern,
 										  pathPrefixForElements+altName+"_", altCasePattern.getNameOfGraph(),
-										  altPatGraphVarName,
+										  altPatGraphVarName, className,
 										  alreadyDefinedEntityToNameClone,
 										  alreadyDefinedIdentifiableToNameClone,
 										  condCnt, parameters, max);
@@ -666,7 +725,8 @@ public class ActionsGen extends CSharpBase {
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 			condCnt = genPatternGraph(sb, aux, neg,
-									  pathPrefixForElements, negName, pathPrefixForElements+negName,
+									  pathPrefixForElements, negName, 
+									  pathPrefixForElements+negName, className,
 									  alreadyDefinedEntityToNameClone,
 									  alreadyDefinedIdentifiableToNameClone,
 									  condCnt, parameters, max);
@@ -731,7 +791,7 @@ public class ActionsGen extends CSharpBase {
 	// Condition expression tree generation //
 	//////////////////////////////////////////
 
-	private void genExpressionTree(StringBuffer sb, Expression expr,
+	private void genExpressionTree(StringBuffer sb, Expression expr, String className,
 			String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		if(expr instanceof Operator) {
@@ -739,20 +799,20 @@ public class ActionsGen extends CSharpBase {
 			sb.append("new GRGEN_EXPR." + Operator.opNames[op.getOpCode()] + "(");
 			switch (op.arity()) {
 				case 1:
-					genExpressionTree(sb, op.getOperand(0), pathPrefix, alreadyDefinedEntityToName);
+					genExpressionTree(sb, op.getOperand(0), className, pathPrefix, alreadyDefinedEntityToName);
 					break;
 				case 2:
-					genExpressionTree(sb, op.getOperand(0), pathPrefix, alreadyDefinedEntityToName);
+					genExpressionTree(sb, op.getOperand(0), className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
-					genExpressionTree(sb, op.getOperand(1), pathPrefix, alreadyDefinedEntityToName);
+					genExpressionTree(sb, op.getOperand(1), className, pathPrefix, alreadyDefinedEntityToName);
 					break;
 				case 3:
 					if(op.getOpCode()==Operator.COND) {
-						genExpressionTree(sb, op.getOperand(0), pathPrefix, alreadyDefinedEntityToName);
+						genExpressionTree(sb, op.getOperand(0), className, pathPrefix, alreadyDefinedEntityToName);
 						sb.append(", ");
-						genExpressionTree(sb, op.getOperand(1), pathPrefix, alreadyDefinedEntityToName);
+						genExpressionTree(sb, op.getOperand(1), className, pathPrefix, alreadyDefinedEntityToName);
 						sb.append(", ");
-						genExpressionTree(sb, op.getOperand(2), pathPrefix, alreadyDefinedEntityToName);
+						genExpressionTree(sb, op.getOperand(2), className, pathPrefix, alreadyDefinedEntityToName);
 						break;
 					}
 					// FALLTHROUGH
@@ -792,7 +852,7 @@ public class ActionsGen extends CSharpBase {
 		else if(expr instanceof Cast) {
 			Cast cast = (Cast) expr;
 			sb.append("new GRGEN_EXPR.Cast(\"" + getTypeNameForCast(cast) + "\", ");
-			genExpressionTree(sb, cast.getExpression(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, cast.getExpression(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if(expr instanceof VariableExpression) {
@@ -806,72 +866,80 @@ public class ActionsGen extends CSharpBase {
 		else if(expr instanceof Visited) {
 			Visited vis = (Visited) expr;
 			sb.append("new GRGEN_EXPR.Visited(\"" + formatEntity(vis.getEntity(), pathPrefix, alreadyDefinedEntityToName) + "\", ");
-			genExpressionTree(sb, vis.getVisitorID(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, vis.getVisitorID(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof StringLength) {
 			StringLength strlen = (StringLength) expr;
 			sb.append("new GRGEN_EXPR.StringLength(");
-			genExpressionTree(sb, strlen.getStringExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strlen.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof StringSubstring) {
 			StringSubstring strsubstr = (StringSubstring) expr;
 			sb.append("new GRGEN_EXPR.StringSubstring(");
-			genExpressionTree(sb, strsubstr.getStringExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strsubstr.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			genExpressionTree(sb, strsubstr.getStartExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strsubstr.getStartExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			genExpressionTree(sb, strsubstr.getLengthExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strsubstr.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof StringIndexOf) {
 			StringIndexOf strio = (StringIndexOf) expr;
 			sb.append("new GRGEN_EXPR.StringIndexOf(");
-			genExpressionTree(sb, strio.getStringExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strio.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			genExpressionTree(sb, strio.getStringToSearchForExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strio.getStringToSearchForExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof StringLastIndexOf) {
 			StringLastIndexOf strlio = (StringLastIndexOf) expr;
 			sb.append("new GRGEN_EXPR.StringLastIndexOf(");
-			genExpressionTree(sb, strlio.getStringExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strlio.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			genExpressionTree(sb, strlio.getStringToSearchForExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strlio.getStringToSearchForExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof StringReplace) {
 			StringReplace strrepl = (StringReplace) expr;
 			sb.append("new GRGEN_EXPR.StringReplace(");
-			genExpressionTree(sb, strrepl.getStringExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strrepl.getStringExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			genExpressionTree(sb, strrepl.getStartExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strrepl.getStartExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			genExpressionTree(sb, strrepl.getLengthExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strrepl.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			genExpressionTree(sb, strrepl.getReplaceStrExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, strrepl.getReplaceStrExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof MapAccessExpr) {
 			MapAccessExpr ma = (MapAccessExpr)expr;
 			sb.append("new GRGEN_EXPR.MapAccess(");
-			genExpressionTree(sb, ma.getTargetExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, ma.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			genExpressionTree(sb, ma.getKeyExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, ma.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof MapSizeExpr) {
 			MapSizeExpr ms = (MapSizeExpr)expr;
 			sb.append("new GRGEN_EXPR.MapSize(");
-			genExpressionTree(sb, ms.getTargetExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, ms.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof SetSizeExpr) {
 			SetSizeExpr ss = (SetSizeExpr)expr;
 			sb.append("new GRGEN_EXPR.SetSize(");
-			genExpressionTree(sb, ss.getTargetExpr(), pathPrefix, alreadyDefinedEntityToName);
+			genExpressionTree(sb, ss.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
+		}
+		else if (expr instanceof MapInit) {
+			MapInit mi = (MapInit)expr;
+			sb.append("new GRGEN_EXPR.LocalMap(\"" + className + "\", \"" + mi.getMapName() + "\")");
+		}
+		else if (expr instanceof SetInit) {
+			SetInit si = (SetInit)expr;
+			sb.append("new GRGEN_EXPR.LocalSet(\"" + className + "\", \"" + si.getSetName() + "\")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

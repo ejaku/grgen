@@ -38,8 +38,10 @@ import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.MapAssignItem;
+import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
 import de.unika.ipd.grgen.ir.SetAssignItem;
+import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetRemoveItem;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
@@ -199,6 +201,7 @@ public class ModifyGen extends CSharpBase {
 			
 			int i = 0;
 			for(Expression expr : needs.mapSetExprs) {
+				if(expr instanceof MapInit || expr instanceof SetInit) continue;
 				mapExprToTempVar.put(expr, "tempmapsetvar_" + i);
 				i++;
 			}

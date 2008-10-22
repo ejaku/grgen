@@ -13,21 +13,41 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.Collection;
 
-public class MapInit extends IR {
-	private Entity member; 
+public class MapInit extends Expression {
 	private Collection<MapItem> mapItems;
+	private Entity member;
+	private MapType mapType;
+	private int localMapId;
+	static private int localMapCounter;
 	
-	public MapInit(Entity member, Collection<MapItem> mapItems) {
-		super("map init");
-		this.member = member;
+	public MapInit(Collection<MapItem> mapItems, Entity member, MapType mapType) {
+		super("map init", member!=null ? member.getType() : mapType);
 		this.mapItems = mapItems;
+		this.member = member;
+		this.mapType = mapType;
+		if(member==null) {
+			localMapId = localMapCounter;
+			++localMapCounter;
+		}
+	}
+	
+	public void collectNeededEntities(NeededEntities needs) {
+		needs.add(this);
+	}
+	
+	public Collection<MapItem> getMapItems() {
+		return mapItems;
 	}
 	
 	public Entity getMember() {
 		return member;
 	}
 	
-	public Collection<MapItem> getMapItems() {
-		return mapItems;
+	public MapType getMapType() {
+		return mapType;
+	}
+	
+	public String getMapName() {
+		return "local_map_" + localMapId;
 	}
 }

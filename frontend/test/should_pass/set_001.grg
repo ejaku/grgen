@@ -80,3 +80,22 @@ rule useEnumSet {
 		}
 	}
 }
+
+test anonymousSet {
+	a:A -e:E-> a;
+	
+	if { 
+		a.val in set<int>{ 1, 3, 5, 7, 11, 13, 17 }
+		|| e.strval in set<string>{ "foo", "bar", "blubb" };
+	}
+}
+
+/*rule anonymousSetInRewrite {
+	a:A -e:E-> a;
+
+	modify {
+		eval {
+			a.val = (5 in set<int>{1,2,3,4,5}) ? 1 : 0;
+		}
+	}
+}*/

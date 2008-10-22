@@ -1454,17 +1454,17 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 					c.addChild(decl);
 				}
 				(
-					init2=initMapExprDecl[decl.getIdentNode()] { c.addChild(init2); }
+					ASSIGN init2=initMapExpr[decl.getIdentNode(), null] { c.addChild(init2); }
 				)?
 			|
 				SET LT valueType=typeIdentUse GT
-				{
+				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 					decl = new MemberDeclNode(id, env.getSetType(valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
 				}
 				(
-					init3=initSetExprDecl[decl.getIdentNode()] { c.addChild(init3); }
+					ASSIGN init3=initSetExpr[decl.getIdentNode(), null] { c.addChild(init3); }
 				)?
 			)
 		)
@@ -1481,17 +1481,15 @@ initExprDecl [IdentNode id] returns [ MemberInitNode res = null ]
 		}
 	;
 
-initMapExprDecl [IdentNode id] returns [ MapInitNode res = null ]
-	: a=ASSIGN { res = new MapInitNode(getCoords(a), id); }	
-	  LBRACE
+initMapExpr [IdentNode id, MapTypeNode mapType] returns [ MapInitNode res = null ]
+	: l=LBRACE { res = new MapInitNode(getCoords(l), id, mapType); }
 	          item1=mapItem { res.addMapItem(item1); }
 	  ( COMMA item2=mapItem { res.addMapItem(item2); } )*
 	  RBRACE
 	;
 
-initSetExprDecl [IdentNode id] returns [ SetInitNode res = null ]
-	: a=ASSIGN { res = new SetInitNode(getCoords(a), id); }	
-	  LBRACE
+initSetExpr [IdentNode id, SetTypeNode setType] returns [ SetInitNode res = null ]
+	: l=LBRACE { res = new SetInitNode(getCoords(l), id, setType); }	
 	          item1=setItem { res.addSetItem(item1); }
 	  ( COMMA item2=setItem { res.addSetItem(item2); } )*
 	  RBRACE
@@ -1839,11 +1837,11 @@ primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	| e=constant { res = e; }
 	| e=enumItemExpr { res = e; }
 	| e=typeOf { res = e; }
-	| p=PLUSPLUS 
-		{ reportError(getCoords(p), "increment operator \"++\" not supported"); }
-	| q=MINUSMINUS
-		{ reportError(getCoords(q), "decrement operator \"--\" not supported"); }
+	| MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e=initMapExpr[null, env.getMapType(keyType, valueType)] { res = e; }
+	| SET LT valueType=typeIdentUse GT e=initSetExpr[null, env.getSetType(valueType)] { res = e; }
 	| LPAREN e=expr[inEnumInit] { res = e; } RPAREN
+	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
+	| q=MINUSMINUS { reportError(getCoords(q), "decrement operator \"--\" not supported"); }
 	;
 
 visitedExpr returns [ ExprNode res = env.initExprNode() ]

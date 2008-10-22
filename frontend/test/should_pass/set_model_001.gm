@@ -6,6 +6,7 @@ enum et
 node class A
 {
 	val:int;
+	strval:string;
 	niceSet:set<string> = {
 		"foo",
 		"bar"
@@ -22,6 +23,7 @@ node class A
 edge class E
 {
 	val:int;
+	strval:string;
 	niceSet:set<string> = {
 		"foo",
 		"bar"

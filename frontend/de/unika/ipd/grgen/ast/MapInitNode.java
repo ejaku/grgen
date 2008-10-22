@@ -18,33 +18,41 @@ import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapItem;
+import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapInitNode extends BaseNode
+public class MapInitNode extends ExprNode
 {
 	static {
 		setName(MapInitNode.class, "map init");
 	}
 
-	BaseNode lhsUnresolved;
-	DeclNode lhs;
 	CollectNode<MapItemNode> mapItems = new CollectNode<MapItemNode>();
 
-	public MapInitNode(Coords coords, IdentNode member) {
+	// if map init node is used in model, for member init then lhs != null
+	// if map init node is used in actions, for anonymous const map then mapType != null 
+	BaseNode lhsUnresolved;
+	DeclNode lhs;
+	MapTypeNode mapType;
+
+	public MapInitNode(Coords coords, IdentNode member, MapTypeNode mapType) {
 		super(coords);
-		lhsUnresolved = becomeParent(member);
+		
+		if(member!=null) {
+			lhsUnresolved = becomeParent(member);
+		} else { // mapType!=null
+			this.mapType = mapType;
+		}
 	}
 
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(lhsUnresolved, lhs));
 		children.add(mapItems);
 		return children;
 	}
 
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("lhs");
 		childrenNames.add("mapItems");
 		return childrenNames;
 	}
@@ -56,17 +64,26 @@ public class MapInitNode extends BaseNode
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
 	protected boolean resolveLocal() {
-		if(!lhsResolver.resolve(lhsUnresolved)) return false;
-		lhs = lhsResolver.getResult(DeclNode.class);
-
-		return lhsResolver.finish();
+		if(lhsUnresolved!=null) {
+			if(!lhsResolver.resolve(lhsUnresolved)) return false;
+			lhs = lhsResolver.getResult(DeclNode.class);
+			return lhsResolver.finish();
+		} else {
+			return mapType.resolve();
+		}
 	}
 
 	protected boolean checkLocal() {
 		boolean success = true;
-		TypeNode type = lhs.getDeclType();
-		assert type instanceof MapTypeNode: "Lhs should be a Map[Key]";
-		MapTypeNode mapType = (MapTypeNode) type;
+
+		MapTypeNode mapType;
+		if(lhs!=null) {
+			TypeNode type = lhs.getDeclType();
+			assert type instanceof MapTypeNode: "Lhs should be a Map<Key,Value>";
+			mapType = (MapTypeNode) type;
+		} else {
+			mapType = this.mapType;
+		}
 
 		for(MapItemNode item : mapItems.getChildren()) {
 			if (item.keyExpr.getType() != mapType.keyType) {
@@ -86,12 +103,21 @@ public class MapInitNode extends BaseNode
 		return success;
 	}
 
+	public TypeNode getType() {
+		if(lhs!=null) {
+			TypeNode type = lhs.getDeclType();
+			return (MapTypeNode) type; 
+		} else {
+			return mapType;
+		}
+	}
+	
 	protected IR constructIR() {
 		Vector<MapItem> items = new Vector<MapItem>();
 		for(MapItemNode item : mapItems.getChildren()) {
 			items.add(item.getMapItem());
 		}
-		return new MapInit(lhs.getEntity(), items);
+		return new MapInit(items, lhs!=null ? lhs.getEntity() : null, mapType!=null ? (MapType)mapType.getIR() : null);
 	}
 
 	public MapInit getMapInit() {
