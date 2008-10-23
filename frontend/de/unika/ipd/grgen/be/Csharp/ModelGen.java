@@ -266,7 +266,11 @@ public class ModelGen extends CSharpBase {
 			sb.append("\t\t" + modifiers);
 			if(type.getOverriddenMember(e) != null)
 				sb.append("new ");
-			sb.append(formatAttributeType(e) + " @" + formatIdentifiable(e) + " { get; set; }\n");
+			if(e.isConst()) {
+				sb.append(formatAttributeType(e) + " @" + formatIdentifiable(e) + " { get; }\n");
+			} else {
+				sb.append(formatAttributeType(e) + " @" + formatIdentifiable(e) + " { get; set; }\n");
+			}
 		}
 	}
 
@@ -323,6 +327,9 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t\tprivate static int poolLevel = 0;\n"
 				+ "\t\tprivate static " + cname + "[] pool = new " + cname + "[10];\n");
 
+		// Static initialization for constant sets and maps
+		initConstSetsAndMaps(type, "this");
+		
 		// Generate constructor
 		if(isNode) {
 			sb.append("\t\tpublic " + cname + "() : base("+ tname + ".typeVar)\n"
@@ -362,7 +369,14 @@ public class ModelGen extends CSharpBase {
 		routedSB.append("\t\t{\n");
 		for(Entity member : type.getAllMembers()) {
 			String attrName = formatIdentifiable(member);
-			routedSB.append("\t\t\t_" + attrName + " = oldElem._" + attrName + ";\n");
+			if(member.getType() instanceof MapType || member.getType() instanceof SetType) {
+				if(!member.isConst()) { 
+					routedSB.append("\t\t\t_" + attrName + " = new " + formatAttributeType(member.getType()) 
+							+ "(oldElem._" + attrName + ");\n");
+				}
+			} else {
+				routedSB.append("\t\t\t_" + attrName + " = oldElem._" + attrName + ";\n");
+			}
 		}
 		routedSB.append("\t\t}\n");
 
@@ -480,6 +494,9 @@ public class ModelGen extends CSharpBase {
 		}
 
 		for(Entity member : type.getAllMembers()) {
+			if(member.isConst())
+				continue;
+			
 			Type t = member.getType();
 			if(t instanceof MapType)
 			{
@@ -502,6 +519,9 @@ public class ModelGen extends CSharpBase {
 		genMemberInit(type, indentString, varName);
 		
 		for(MapInit mapInit : type.getMapInits()) {
+			if(mapInit.getMember().isConst())
+				continue;
+			
 			String attrName = formatIdentifiable(mapInit.getMember());
 			for(MapItem item : mapInit.getMapItems()) {
 				sb.append(indentString + varName + ".@" + attrName + "[");
@@ -513,6 +533,9 @@ public class ModelGen extends CSharpBase {
 		}
 		
 		for(SetInit setInit : type.getSetInits()) {
+			if(setInit.getMember().isConst())
+				continue;
+			
 			String attrName = formatIdentifiable(setInit.getMember());
 			for(SetItem item : setInit.getSetItems()) {
 				sb.append(indentString + varName + ".@" + attrName + "[");
@@ -521,6 +544,59 @@ public class ModelGen extends CSharpBase {
 			}
 		}
 
+		curMemberOwner = null;
+	}
+
+	private void initConstSetsAndMaps(InheritanceType type, String varName) {
+		curMemberOwner = varName;
+
+		sb.append("\t\t\n");
+		
+		for(MapInit mapInit : type.getMapInits()) {
+			if(!mapInit.getMember().isConst())
+				continue;
+			
+			MapType mapType = (MapType)mapInit.getMember().getType();
+			String mapKeyTypeStr = formatAttributeType(mapType.getKeyType());
+			String mapValueTypeStr = formatAttributeType(mapType.getValueType());
+			sb.append("\t\tpublic static readonly Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + "> "
+					+ mapInit.getMapName() + " = " +
+					"new Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + ">();\n");
+			sb.append("\t\tstatic void init_" + mapInit.getMapName() + "() {\n");
+			for(MapItem item : mapInit.getMapItems()) {
+				sb.append("\t\t\t");
+				sb.append(mapInit.getMapName());
+				sb.append("[");
+				genExpression(sb, item.getKeyExpr(), null);
+				sb.append("] = ");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append(";\n");
+			}
+			sb.append("\t\t}\n");
+		}
+		
+		for(SetInit setInit : type.getSetInits()) {
+			if(!setInit.getMember().isConst())
+				continue;
+			
+			SetType setType = (SetType)setInit.getMember().getType();
+			String setValueTypeStr = formatAttributeType(setType.getValueType());
+			sb.append("\t\tpublic static readonly Dictionary<" + setValueTypeStr + ", string> "
+					+ setInit.getSetName() + " = " +
+					"new Dictionary<" + setValueTypeStr + ", string>();\n");
+			sb.append("\t\tstatic void init_" + setInit.getSetName() + "() {\n");
+			for(SetItem item : setInit.getSetItems()) {
+				sb.append("\t\t\t");
+				sb.append(setInit.getSetName());
+				sb.append("[");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append("] = null;\n");
+			}
+			sb.append("\t\t}\n");
+		}
+
+		sb.append("\t\t\n");
+		
 		curMemberOwner = null;
 	}
 
@@ -571,10 +647,14 @@ public class ModelGen extends CSharpBase {
 			String attrName = formatIdentifiable(e);
 			routedSB.append("\n\t\tprivate " + attrType + " _" + attrName + ";\n"
 					+ "\t\tpublic " + extModifier + attrType + " @" + attrName + "\n"
-					+ "\t\t{\n"
-					+ "\t\t\tget { return _" + attrName + "; }\n"
-					+ "\t\t\tset { _" + attrName + " = value; }\n"
-					+ "\t\t}\n");
+					+ "\t\t{\n");
+			
+			routedSB.append("\t\t\tget { return _" + attrName + "; }\n");
+			if(!e.isConst()) {
+				routedSB.append("\t\t\tset { _" + attrName + " = value; }\n");
+			}
+			
+			routedSB.append("\t\t}\n");
 
 			Entity overriddenMember = type.getOverriddenMember(e);
 			if(overriddenMember != null) {
@@ -612,8 +692,16 @@ public class ModelGen extends CSharpBase {
 			sb.append("\t\t\t{\n");
 			for(Entity e : type.getAllMembers()) {
 				String name = formatIdentifiable(e);
-				sb.append("\t\t\t\tcase \"" + name + "\": this.@" + name + " = ("
-						+ formatAttributeType(e) + ") value; return;\n");
+				if(e.isConst()) {
+					sb.append("\t\t\t\tcase \"" + name + "\": ");
+					sb.append("throw new NullReferenceException(");
+					sb.append("\"The attribute " + name + " of the " + (type instanceof NodeType ? "node" : "edge")
+							+ " type \\\"" + formatIdentifiable(type)
+							+ "\\\" is read only!\");\n");
+				} else {
+					sb.append("\t\t\t\tcase \"" + name + "\": this.@" + name + " = ("
+							+ formatAttributeType(e) + ") value; return;\n");
+				}
 			}
 			sb.append("\t\t\t}\n");
 		}
@@ -945,6 +1033,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 								+ formatIdentifiable(commonType) + "\n");
 						boolean alreadyCasted = false;
 						for(Entity member : members) {
+							if(member.isConst()) {
+								sb.append("\t\t\t\t\t\t// is const: " + formatIdentifiable(member) + "\n");
+								continue;
+							}
 							if(member.getType().isVoid()) {
 								sb.append("\t\t\t\t\t\t// is abstract: " + formatIdentifiable(member) + "\n");
 								continue;

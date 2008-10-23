@@ -115,3 +115,15 @@ rule evalAndEmitFromAnonymousMap {
 		emit("entry for \"5\" = " + map<int,string>{5->"foo"}[5] + ", mapsize = " + map<int,string>{5->"foo"}.size());
 	}
 }
+
+rule constantMapContainedInPatternAndRewrite {
+	a:A;
+	
+	if { a.constNiceMap[42]=="foo"; }
+	
+	modify {
+		eval {
+			a.val = (int)a.constSpiceMap["bar"];
+		}
+	}
+}

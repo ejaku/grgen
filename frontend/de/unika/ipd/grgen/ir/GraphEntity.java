@@ -47,7 +47,7 @@ public abstract class GraphEntity extends Entity {
 	 */
 	protected GraphEntity(String name, Ident ident, InheritanceType type, Annotations annots,
 			boolean maybeDeleted, boolean maybeRetyped) {
-		super(name, ident, type);
+		super(name, ident, type, false);
 		setChildrenNames(childrenNames);
 		this.type = type;
 		this.annotations = annots;

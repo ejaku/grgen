@@ -17,17 +17,17 @@ public class SetInit extends Expression {
 	private Collection<SetItem> setItems;
 	private Entity member;
 	private SetType setType;
-	private int localSetId;
-	static private int localSetCounter;
+	private int staticSetId;
+	static private int staticSetCounter;
 	
 	public SetInit(Collection<SetItem> setItems, Entity member, SetType setType) {
 		super("set init", member!=null ? member.getType() : setType);
 		this.setItems = setItems;
 		this.member = member;
 		this.setType = setType;
-		if(member==null) {
-			localSetId = localSetCounter;
-			++localSetCounter;
+		if(member==null || member.isConst()) {
+			staticSetId = staticSetCounter;
+			++staticSetCounter;
 		}
 	}
 	
@@ -48,6 +48,6 @@ public class SetInit extends Expression {
 	}
 	
 	public String getSetName() {
-		return "local_map_" + localSetId;
+		return "static_set_" + staticSetId;
 	}
 }

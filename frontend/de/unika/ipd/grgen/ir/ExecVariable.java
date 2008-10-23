@@ -15,6 +15,6 @@ package de.unika.ipd.grgen.ir;
  */
 public class ExecVariable extends Entity {
 	public ExecVariable(String name, Ident ident, Type type) {
-		super(name, ident, type);
+		super(name, ident, type, false);
 	}
 }

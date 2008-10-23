@@ -15,7 +15,7 @@ package de.unika.ipd.grgen.ir;
 
 public class Variable extends Entity {
 	public Variable(String name, Ident ident, Type type) {
-		super(name, ident, type);
+		super(name, ident, type, false);
 	}
 }
 

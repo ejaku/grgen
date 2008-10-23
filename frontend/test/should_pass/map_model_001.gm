@@ -11,7 +11,14 @@ node class A
 		1 -> "foo",
 		2 -> "bar"
 	};
+	const constNiceMap:map<int, string> = {
+		1 -> "foo",
+		2 -> "bar"
+	};
 	spiceMap:map<string, float> = {
+		"pi" -> 3.141592654f
+	};
+	const constSpiceMap:map<string, float> = {
 		"pi" -> 3.141592654f
 	};
 	shiceMap:map<double, object>;
@@ -35,7 +42,14 @@ edge class E
 		1 -> "foo",
 		2 -> "bar"
 	};
+	const constNiceMap:map<int, string> = {
+		1 -> "foo",
+		2 -> "bar"
+	};
 	spiceMap:map<string, float> = {
+		"pi" -> 3.141592654f
+	};
+	const constSpiceMap:map<string, float> = {
 		"pi" -> 3.141592654f
 	};
 	shiceMap:map<double, object>;

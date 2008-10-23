@@ -11,7 +11,14 @@ node class A
 		"foo",
 		"bar"
 	};
+	const constNiceSet:set<string> = {
+		"foo",
+		"bar"
+	};
 	spiceSet:set<int> = {
+		42
+	};
+	const constSpiceSet:set<int> = {
 		42
 	};
 	enumSet:set<et> = {
@@ -28,7 +35,14 @@ edge class E
 		"foo",
 		"bar"
 	};
+	const constNiceSet:set<string> = {
+		"foo",
+		"bar"
+	};
 	spiceSet:set<int> = {
+		42
+	};
+	const constSpiceSet:set<int> = {
 		42
 	};
 	enumSet:set<et> = {

@@ -26,6 +26,9 @@ public class Entity extends Identifiable {
 
 	/** The entity's owner. */
 	protected Type owner = null;
+	
+	/** Is the entity constant - (only) relevant in backend for node/edge attributes. */
+	protected boolean isConst = false;
 
 
 	/**
@@ -33,11 +36,13 @@ public class Entity extends Identifiable {
 	 * @param name The name of the entity.
 	 * @param ident The declaring identifier.
 	 * @param type The type used in the declaration.
+	 * @param isConst Is the entity constant.
 	 */
-	public Entity(String name, Ident ident, Type type) {
+	public Entity(String name, Ident ident, Type type, boolean isConst) {
 		super(name, ident);
 		setChildrenNames(childrenNames);
 		this.type = type;
+		this.isConst = isConst;
 	}
 
 	/** @return The entity's type. */
@@ -75,6 +80,11 @@ public class Entity extends Identifiable {
 		return false;
 	}
 
+	/** @return true, if this is a constant entity, else false */
+	public boolean isConst() {
+		return isConst;
+	}
+	
 	/** The only walkable child here is the type
 	 *  @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Set<? extends IR> getWalkableChildren() {

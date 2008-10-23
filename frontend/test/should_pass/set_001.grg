@@ -99,3 +99,15 @@ rule anonymousSetInRewrite {
 		}
 	}
 }
+
+rule constantSetContainedInPatternAndRewrite {
+	a:A;
+	
+	if { "yeah" in a.constNiceSet; }
+	
+	modify {
+		eval {
+			a.val = (13 in a.constSpiceSet) ? 1 : 0;
+		}
+	}
+}

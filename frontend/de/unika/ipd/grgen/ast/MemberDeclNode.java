@@ -119,7 +119,7 @@ public class MemberDeclNode extends DeclNode {
 
 	protected IR constructIR() {
 		Type type = getDeclType().checkIR(Type.class);
-		return new Entity("entity", getIdentNode().getIdent(), type);
+		return new Entity("entity", getIdentNode().getIdent(), type, isConst);
 	}
 
 	public static String getKindStr() {
