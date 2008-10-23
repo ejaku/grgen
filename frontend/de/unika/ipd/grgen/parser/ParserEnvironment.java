@@ -46,19 +46,19 @@ public abstract class ParserEnvironment extends Base {
 	public static final String MODEL_SUFFIX = ".gm";
 
 	public static final int TYPES = 0;
-	public static final int ACTIONS = TYPES;    // actions are also entities (= types) to get exec working
-	public static final int ENTITIES = TYPES;   // entities are also types because of constructors
-	public static final int ALTERNATIVES = 1;
-	public static final int REPLACES = 2;
-	public static final int MODELS = 3;
-	public static final int PATTERNS = 4;
+	public static final int PATTERNS = TYPES;   // patterns are also constructible, like types
+	public static final int ENTITIES = 1;
+	public static final int ACTIONS = ENTITIES; // actions are also entities to get exec working
+	public static final int ALTERNATIVES = 2;
+	public static final int REPLACES = 3;
+	public static final int MODELS = 4;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
-		new SymbolTable("types"),    // types, actions, and entities
+		new SymbolTable("types"),        // types and patterns
+		new SymbolTable("entities"),     // entities and actions
 		new SymbolTable("alternatives"),
 		new SymbolTable("replaces"),
 		new SymbolTable("models"),
-		new SymbolTable("patterns")
 	};
 
 	private final IntConstNode one = new IntConstNode(Coords.getBuiltin(), 1);

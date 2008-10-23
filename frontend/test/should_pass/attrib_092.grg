@@ -1,4 +1,4 @@
-using attrib_model_093;
+using attrib_model_092;
 
 rule dummy {
   replace {

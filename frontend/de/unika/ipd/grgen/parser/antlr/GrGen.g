@@ -1886,7 +1886,11 @@ identExpr returns [ ExprNode res = env.initExprNode() ]
 
 	: i=ident
 		{
-			id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
+			// Entity names can overwrite type names
+			if(env.test(ParserEnvironment.ENTITIES, i.getText()) || !env.test(ParserEnvironment.TYPES, i.getText()))
+				id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
+			else
+				id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
 			res = new IdentExprNode(id);
 		}
 	;
