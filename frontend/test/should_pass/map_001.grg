@@ -106,11 +106,12 @@ test anonymousMap {
 	if { map<string,string>{ "a"->"b", "b"->"c", "c"->"a" }["a"]=="b"; }
 }
 
-/*rule emitFromAnonymousMap {
+rule evalAndEmitFromAnonymousMap {
 	a:A;
 	if { 5 in map<int,string>{5->"foo"}; }
 	
 	modify {
+		eval { a.val = map<int,int>{ 1->2, 2->3, 3->1 }[2]; }
 		emit("entry for \"5\" = " + map<int,string>{5->"foo"}[5] + ", mapsize = " + map<int,string>{5->"foo"}.size());
 	}
-}*/
+}

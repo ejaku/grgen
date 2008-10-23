@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.Alternative;
+import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Cast;
 import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.Edge;
@@ -30,6 +31,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
@@ -124,7 +126,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate static object[] ReturnArray = new object[" + subpatternRule.getReturns().size() + "];\n\n");
 
 		String patGraphVarName = "pat_" + subpatternRule.getPattern().getNameOfGraph();
-		genTypeConditionsAndEnums(sb, subpatternRule.getPattern(), patGraphVarName,
+		genRuleOrSubpatternClassEntities(sb, subpatternRule, patGraphVarName,
 				subpatternRule.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
 		sb.append("\n");
 		genRuleOrSubpatternInit(sb, subpatternRule, true);
@@ -152,7 +154,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate static object[] ReturnArray = new object[" + actionRule.getReturns().size() + "];\n\n");
 
 		String patGraphVarName = "pat_" + actionRule.getPattern().getNameOfGraph();
-		genTypeConditionsAndEnums(sb, actionRule.getPattern(), patGraphVarName,
+		genRuleOrSubpatternClassEntities(sb, actionRule, patGraphVarName,
 				actionRule.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
 		sb.append("\n");
 		genRuleOrSubpatternInit(sb, actionRule, false);
@@ -168,15 +170,20 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\n");
 	}
 
-	////////////////////////////////
-	// Type conditions generation //
-	////////////////////////////////
+	//////////////////////////////////////////////////
+	// rule or subpattern class entities generation //
+	//////////////////////////////////////////////////
 
-	private void genTypeConditionsAndEnums(StringBuffer sb, PatternGraph pattern, String patGraphVarName,
-										   String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
+	private void genRuleOrSubpatternClassEntities(StringBuffer sb, Rule rule, String patGraphVarName,
+							String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		PatternGraph pattern = rule.getPattern();
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
-		genLocalMapsAndSets(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
+		genLocalMapsAndSets(sb, rule.getLeft(), pathPrefixForElements, alreadyDefinedEntityToName);
+		genLocalMapsAndSets(sb, rule.getEvals(), pathPrefixForElements, alreadyDefinedEntityToName);
+		if(rule.getRight()!=null) {
+			genLocalMapsAndSets(sb, rule.getRight().getImperativeStmts(), pathPrefixForElements, alreadyDefinedEntityToName);
+		}
 		sb.append("\t\tGRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
 
@@ -184,7 +191,7 @@ public class ActionsGen extends CSharpBase {
 		for(PatternGraph neg : pattern.getNegs()) {
 			String negName = "neg_" + i;
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
-			genTypeConditionsAndEnums(sb, neg, pathPrefixForElements+negName,
+			genRuleOrSubpatternClassEntities(sb, neg, pathPrefixForElements+negName,
 					pathPrefixForElements + negName + "_",
 					alreadyDefinedEntityToNameClone);
 			++i;
@@ -198,10 +205,44 @@ public class ActionsGen extends CSharpBase {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
-				genTypeConditionsAndEnums(sb, altCasePattern, altPatGraphVarName,
+				genRuleOrSubpatternClassEntities(sb, altCase, altPatGraphVarName,
 						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_",
 						alreadyDefinedEntityToNameClone);
 			}
+			++i;
+		}
+	}
+
+	private void genRuleOrSubpatternClassEntities(StringBuffer sb, PatternGraph pattern, String patGraphVarName,
+							String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
+		genEnums(sb, pattern, pathPrefixForElements);
+		genLocalMapsAndSets(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
+		sb.append("\t\tGRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
+		sb.append("\n");
+		
+		int i = 0;
+		for(PatternGraph neg : pattern.getNegs()) {
+			String negName = "neg_" + i;
+			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
+			genRuleOrSubpatternClassEntities(sb, neg, pathPrefixForElements+negName,
+					pathPrefixForElements + negName + "_",
+					alreadyDefinedEntityToNameClone);
+			++i;
+		}
+		
+		i = 0;
+		for(Alternative alt : pattern.getAlts()) {
+			String altName = "alt_" + i;
+			genCaseEnum(sb, alt, pathPrefixForElements+altName+"_");
+			for(Rule altCase : alt.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
+				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
+				genRuleOrSubpatternClassEntities(sb, altCase, altPatGraphVarName,
+						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_",
+						alreadyDefinedEntityToNameClone);
+				}
 			++i;
 		}
 	}
@@ -294,10 +335,6 @@ public class ActionsGen extends CSharpBase {
 		sb.append(aux);
 	}
 
-	//////////////////////
-	// Enums generation //
-	//////////////////////
-
 	private void genEnums(StringBuffer sb, PatternGraph pattern, String pathPrefixForElements) {
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "NodeNums { ");
 		for(Node node : pattern.getNodes()) {
@@ -340,52 +377,84 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 	}
 	
-	///////////////////////////////////
-	// Rule-Local Set/Map generation //
-	///////////////////////////////////
-	
 	private void genLocalMapsAndSets(StringBuffer sb, PatternGraph pattern,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
 		for(Expression expr : pattern.getConditions()) {
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
 			expr.collectNeededEntities(needs);
-			for(Expression mapSetExpr : needs.mapSetExprs)
-			{
-				if(mapSetExpr instanceof MapInit) {
-					MapInit mapInit = (MapInit)mapSetExpr;
-					String mapKeyTypeStr = formatAttributeType(mapInit.getMapType().getKeyType());
-					String mapValueTypeStr = formatAttributeType(mapInit.getMapType().getValueType());
-					sb.append("\t\tpublic static readonly Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + "> "
-							+ mapInit.getMapName() + " = " +
-							"new Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + ">();\n");
-					sb.append("\t\tstatic void init_" + mapInit.getMapName() + "() {\n");
-					for(MapItem item : mapInit.getMapItems()) {
-						sb.append("\t\t\t");
-						sb.append(mapInit.getMapName());
-						sb.append("[");
-						genExpression(sb, item.getKeyExpr(), null);
-						sb.append("] = ");
-						genExpression(sb, item.getValueExpr(), null);
-						sb.append(";\n");
-					}
-					sb.append("\t\t}\n");
+		}
+		genLocalMapsAndSets(sb, needs);
+	}
+	
+	private void genLocalMapsAndSets(StringBuffer sb, Collection<EvalStatement> evals,
+			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
+		for(EvalStatement eval : evals) {
+			if(eval instanceof Assignment) {
+				Assignment assignment = (Assignment)eval;
+				assignment.getExpression().collectNeededEntities(needs);
+			}
+		}
+		genLocalMapsAndSets(sb, needs);
+	}
+
+	private void genLocalMapsAndSets(StringBuffer sb, List<ImperativeStmt> istmts,
+			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
+		for(ImperativeStmt istmt : istmts) {
+			if(istmt instanceof Emit) {
+				Emit emit = (Emit) istmt;
+				for(Expression arg : emit.getArguments())
+					arg.collectNeededEntities(needs);
+			}
+			else if (istmt instanceof Exec) {
+				Exec exec = (Exec) istmt;
+				for(Expression arg : exec.getArguments())
+					arg.collectNeededEntities(needs);
+			}
+			else assert false : "unknown ImperativeStmt: " + istmt;
+		}
+		genLocalMapsAndSets(sb, needs);
+	}
+	
+	private void genLocalMapsAndSets(StringBuffer sb, NeededEntities needs) {
+		for(Expression mapSetExpr : needs.mapSetExprs)
+		{
+			if(mapSetExpr instanceof MapInit) {
+				MapInit mapInit = (MapInit)mapSetExpr;
+				String mapKeyTypeStr = formatAttributeType(mapInit.getMapType().getKeyType());
+				String mapValueTypeStr = formatAttributeType(mapInit.getMapType().getValueType());
+				sb.append("\t\tpublic static readonly Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + "> "
+						+ mapInit.getMapName() + " = " +
+						"new Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + ">();\n");
+				sb.append("\t\tstatic void init_" + mapInit.getMapName() + "() {\n");
+				for(MapItem item : mapInit.getMapItems()) {
+					sb.append("\t\t\t");
+					sb.append(mapInit.getMapName());
+					sb.append("[");
+					genExpression(sb, item.getKeyExpr(), null);
+					sb.append("] = ");
+					genExpression(sb, item.getValueExpr(), null);
+					sb.append(";\n");
 				}
-				else if(mapSetExpr instanceof SetInit) {
-					SetInit setInit = (SetInit)mapSetExpr;
-					String setValueTypeStr = formatAttributeType(setInit.getSetType().getValueType());
-					sb.append("\t\tpublic static readonly Dictionary<" + setValueTypeStr + ", string> "
-							+ setInit.getSetName() + " = " +
-							"new Dictionary<" + setValueTypeStr + ", string>();\n");
-					sb.append("\t\tstatic void init_" + setInit.getSetName() + "() {\n");
-					for(SetItem item : setInit.getSetItems()) {
-						sb.append("\t\t\t");
-						sb.append(setInit.getSetName());
-						sb.append("[");
-						genExpression(sb, item.getValueExpr(), null);
-						sb.append("] = null;\n");
-					}
-					sb.append("\t\t}\n");
+				sb.append("\t\t}\n");
+			}
+			else if(mapSetExpr instanceof SetInit) {
+				SetInit setInit = (SetInit)mapSetExpr;
+				String setValueTypeStr = formatAttributeType(setInit.getSetType().getValueType());
+				sb.append("\t\tpublic static readonly Dictionary<" + setValueTypeStr + ", string> "
+						+ setInit.getSetName() + " = " +
+						"new Dictionary<" + setValueTypeStr + ", string>();\n");
+				sb.append("\t\tstatic void init_" + setInit.getSetName() + "() {\n");
+				for(SetItem item : setInit.getSetItems()) {
+					sb.append("\t\t\t");
+					sb.append(setInit.getSetName());
+					sb.append("[");
+					genExpression(sb, item.getValueExpr(), null);
+					sb.append("] = null;\n");
 				}
+				sb.append("\t\t}\n");
 			}
 		}
 	}
