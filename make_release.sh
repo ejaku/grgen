@@ -14,7 +14,7 @@ mkdir $GRGENDIRSRC/doc
 mv $GRGENDIRSRC/grgen.pdf $GRGENDIRSRC/doc/grgen.pdf
 mv $GRGENDIRSRC/VeryShortIntroductionToVersion2.txt $GRGENDIRSRC/doc/VeryShortIntroductionToVersion2.txt
 
-# delete todo folder
+rm $GRGENDIRSRC/make_release.sh
 rm -rf $GRGENDIRSRC/todo
 
 # delete old GrGen.NET 1.0 engine
