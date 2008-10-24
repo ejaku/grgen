@@ -1471,7 +1471,6 @@ public class ModifyGen extends CSharpBase {
 	
 				if(target instanceof Qualification) {
 					Qualification qualTgt = (Qualification) target;
-					Entity entity = qualTgt.getOwner();
 
 					if(qualTgt.getType() instanceof MapType || qualTgt.getType() instanceof SetType) {
 						// ASSUME: there are no map/set expressions, so the expression is a map/set entity
@@ -1526,25 +1525,7 @@ public class ModifyGen extends CSharpBase {
 					genExpression(sb, ass.getExpression(), state);
 					sb.append(";\n");
 	
-					String kindStr = null;
-					boolean isDeletedElem = false;
-					if(entity instanceof Node) {
-						kindStr = "Node";
-						isDeletedElem = state.delNodes().contains(entity);
-					}
-					else if(entity instanceof Edge) {
-						kindStr = "Edge";
-						isDeletedElem = state.delEdges().contains(entity);
-					}
-					else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
-	
-					if(!isDeletedElem && be.system.mayFireEvents()) {
-						sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
-								  ", " + kindStr + "Type_" + formatIdentifiable(qualTgt.getMember().getOwner()) +
-								  ".AttributeType_" + formatIdentifiable(qualTgt.getMember()) + ", ");
-						sb.append("GRGEN_LIBGR.AttributeChangeType.Assign, ");
-						sb.append(varName + ", null);\n");
-					}
+					genChangingAttribute(sb, state, qualTgt, "Assign", varName, "null");
 	
 					sb.append("\t\t\t");
 					genExpression(sb, ass.getTarget(), state);
@@ -1566,136 +1547,70 @@ public class ModifyGen extends CSharpBase {
 			else if(evalStmt instanceof MapRemoveItem) {
 				MapRemoveItem mri = (MapRemoveItem) evalStmt;
 				Qualification target = mri.getTarget();
-				Entity entity = target.getOwner();
-				
-				String kindStr = null;
-				boolean isDeletedElem = false;
-				if(entity instanceof Node) {
-					kindStr = "Node";
-					isDeletedElem = state.delNodes().contains(entity);
-				}
-				else if(entity instanceof Edge) {
-					kindStr = "Edge";
-					isDeletedElem = state.delEdges().contains(entity);
-				}
-				else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
 
-				if(!isDeletedElem && be.system.mayFireEvents()) {
-					sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
-							  ", " + kindStr + "Type_" + formatIdentifiable(target.getMember().getOwner()) +
-							  ".AttributeType_" + formatIdentifiable(target.getMember()) + ", ");
-					sb.append("GRGEN_LIBGR.AttributeChangeType.RemoveElement, ");
-					sb.append("null, ");
-					genExpression(sb, mri.getKeyExpr(), state);
-					sb.append(");\n");
-				}
+				StringBuffer sbtmp = new StringBuffer();
+				genExpression(sbtmp, mri.getKeyExpr(), state);
+				String keyExprStr = sbtmp.toString();
+				
+				genChangingAttribute(sb, state, target, "RemoveElement", "null", keyExprStr);
 				
 				sb.append("\t\t\t");
-				genExpression(sb, mri.getTarget(), state);
+				genExpression(sb, target, state);
 				sb.append(".Remove(");
-				genExpression(sb, mri.getKeyExpr(), state);
+				sb.append(keyExprStr);
 				sb.append(");\n");
 			}
 			else if(evalStmt instanceof MapAssignItem) {
 				MapAssignItem mai = (MapAssignItem) evalStmt;
 				Qualification target = mai.getTarget();
-				Entity entity = target.getOwner();
 				
-				String kindStr = null;
-				boolean isDeletedElem = false;
-				if(entity instanceof Node) {
-					kindStr = "Node";
-					isDeletedElem = state.delNodes().contains(entity);
-				}
-				else if(entity instanceof Edge) {
-					kindStr = "Edge";
-					isDeletedElem = state.delEdges().contains(entity);
-				}
-				else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
+				StringBuffer sbtmp = new StringBuffer();
+				genExpression(sbtmp, mai.getValueExpr(), state);
+				String valueExprStr = sbtmp.toString();
+				sbtmp.delete(0, sbtmp.length());
+				genExpression(sbtmp, mai.getKeyExpr(), state);
+				String keyExprStr = sbtmp.toString();
+				
+				genChangingAttribute(sb, state, target, "PutElement", valueExprStr, keyExprStr);
 
-				if(!isDeletedElem && be.system.mayFireEvents()) {
-					sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
-							  ", " + kindStr + "Type_" + formatIdentifiable(target.getMember().getOwner()) +
-							  ".AttributeType_" + formatIdentifiable(target.getMember()) + ", ");
-					sb.append("GRGEN_LIBGR.AttributeChangeType.PutElement, ");
-					genExpression(sb, mai.getValueExpr(), state);
-					sb.append(", ");
-					genExpression(sb, mai.getKeyExpr(), state);
-					sb.append(");\n");
-				}
-				
 				sb.append("\t\t\t");
-				genExpression(sb, mai.getTarget(), state);
+				genExpression(sb, target, state);
 				sb.append("[");
-				genExpression(sb, mai.getKeyExpr(), state);
+				sb.append(keyExprStr);
 				sb.append("] = ");
-				genExpression(sb, mai.getValueExpr(), state);
+				sb.append(valueExprStr);
 				sb.append(";\n");
 			}
 			else if(evalStmt instanceof SetRemoveItem) {
 				SetRemoveItem sri = (SetRemoveItem) evalStmt;
 				Qualification target = sri.getTarget();
-				Entity entity = target.getOwner();
 				
-				String kindStr = null;
-				boolean isDeletedElem = false;
-				if(entity instanceof Node) {
-					kindStr = "Node";
-					isDeletedElem = state.delNodes().contains(entity);
-				}
-				else if(entity instanceof Edge) {
-					kindStr = "Edge";
-					isDeletedElem = state.delEdges().contains(entity);
-				}
-				else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
-
-				if(!isDeletedElem && be.system.mayFireEvents()) {
-					sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
-							  ", " + kindStr + "Type_" + formatIdentifiable(target.getMember().getOwner()) +
-							  ".AttributeType_" + formatIdentifiable(target.getMember()) + ", ");
-					sb.append("GRGEN_LIBGR.AttributeChangeType.RemoveElement, ");
-					genExpression(sb, sri.getValueExpr(), state);
-					sb.append(", ");
-					sb.append("null);\n");
-				}
+				StringBuffer sbtmp = new StringBuffer();
+				genExpression(sbtmp, sri.getValueExpr(), state);
+				String valueExprStr = sbtmp.toString();
+				
+				genChangingAttribute(sb, state, target, "RemoveElement", valueExprStr, "null");
 				
 				sb.append("\t\t\t");
-				genExpression(sb, sri.getTarget(), state);
+				genExpression(sb, target, state);
 				sb.append(".Remove(");
-				genExpression(sb, sri.getValueExpr(), state);
+				sb.append(valueExprStr);
 				sb.append(");\n");
 			}
 			else if(evalStmt instanceof SetAssignItem) {
 				SetAssignItem sai = (SetAssignItem) evalStmt;
 				Qualification target = sai.getTarget();
-				Entity entity = target.getOwner();
 				
-				String kindStr = null;
-				boolean isDeletedElem = false;
-				if(entity instanceof Node) {
-					kindStr = "Node";
-					isDeletedElem = state.delNodes().contains(entity);
-				}
-				else if(entity instanceof Edge) {
-					kindStr = "Edge";
-					isDeletedElem = state.delEdges().contains(entity);
-				}
-				else assert false : "Entity is neither a node nor an edge (" + entity + ")!";
-
-				if(!isDeletedElem && be.system.mayFireEvents()) {
-					sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" + formatEntity(entity) +
-							  ", " + kindStr + "Type_" + formatIdentifiable(target.getMember().getOwner()) +
-							  ".AttributeType_" + formatIdentifiable(target.getMember()) + ", ");
-					sb.append("GRGEN_LIBGR.AttributeChangeType.PutElement, ");
-					genExpression(sb, sai.getValueExpr(), state);
-					sb.append(", ");
-					sb.append("null);\n");
-				}
+				StringBuffer sbtmp = new StringBuffer();
+				genExpression(sbtmp, sai.getValueExpr(), state);
+				String valueExprStr = sbtmp.toString();
+				
+				genChangingAttribute(sb, state, target, "PutElement", valueExprStr, "null");
 				
 				sb.append("\t\t\t");
-				genExpression(sb, sai.getTarget(), state);
+				genExpression(sb, target, state);
 				sb.append("[");
-				genExpression(sb, sai.getValueExpr(), state);
+				sb.append(valueExprStr);
 				sb.append("] = null;\n");
 			}
 			else
@@ -1703,6 +1618,35 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	protected void genChangingAttribute(StringBuffer sb, ModifyGenerationStateConst state,
+			Qualification target, String attributeChangeType, String newValue, String keyValue)
+	{
+		Entity element = target.getOwner();
+		Entity attribute = target.getMember();
+		Type elementType = attribute.getOwner();
+		
+		String kindStr = null;
+		boolean isDeletedElem = false;
+		if(element instanceof Node) {
+			kindStr = "Node";
+			isDeletedElem = state.delNodes().contains(element);
+		}
+		else if(element instanceof Edge) {
+			kindStr = "Edge";
+			isDeletedElem = state.delEdges().contains(element);
+		}
+		else assert false : "Entity is neither a node nor an edge (" + element + ")!";
+
+		if(!isDeletedElem && be.system.mayFireEvents()) {
+			sb.append("\t\t\tgraph.Changing" + kindStr + "Attribute(" +
+					formatEntity(element) +	", " +
+					kindStr + "Type_" + formatIdentifiable(elementType) +
+					".AttributeType_" + formatIdentifiable(attribute) + ", " +
+					"GRGEN_LIBGR.AttributeChangeType." + attributeChangeType + ", " +
+					newValue + ", " + keyValue + ");\n");
+		}
+	}
+	
 	//////////////////////
 	// Expression stuff //
 	//////////////////////

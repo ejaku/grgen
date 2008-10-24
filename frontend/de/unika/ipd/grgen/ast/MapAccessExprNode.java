@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MapAccessExprNode extends ExprNode
+// MAP TODO: hieraus einen operator machen 
 {
 	static {
 		setName(MapAccessExprNode.class, "map access expression");

@@ -47,7 +47,7 @@ public class OperatorSignature extends FunctionSignature {
 	public static final int NEG = 22;
 	public static final int CONST = 23;
 	public static final int COND = 24;
-	public static final int IN = 25;
+	public static final int IN = 25; // MAP TODO: den operator richtig implementieren, mit typbalancing etc.
 
 	private static final int OPERATORS = IN + 1;
 
@@ -561,14 +561,14 @@ public class OperatorSignature extends FunctionSignature {
 	public static final Evaluator mapEvaluator = new Evaluator() {
 		protected ExprNode eval(Coords coords, OperatorSignature op,
 				ExprNode[] e) throws NotEvaluatableException {
-			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate if const
+			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate in, map access if map const
 		}
 	};
 
 	public static final Evaluator setEvaluator = new Evaluator() {
 		protected ExprNode eval(Coords coords, OperatorSignature op,
 				ExprNode[] e) throws NotEvaluatableException {
-			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate if const
+			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate in if set const
 		}
 	};
 	
