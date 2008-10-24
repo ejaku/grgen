@@ -12,10 +12,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using de.unika.ipd.grGen.libGr;
-using ASTdapter;
 using System.Threading;
+using ASTdapter;
 using grIO;
+using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.grShell
@@ -1421,7 +1421,44 @@ namespace de.unika.ipd.grGen.grShell
             AttributeType attrType = GetElementAttributeType(elem, attributeName);
             if(attrType == null) return;
 
-            Console.WriteLine("The value of attribute \"" + attributeName + "\" is: \"" + elem.GetAttribute(attributeName) + "\".");
+            if (attrType.Kind == AttributeKind.MapAttr)
+            {
+                Type keyType, valueType;
+                IDictionary dict = DictionaryHelper.GetDictionaryTypes(
+                    elem.GetAttribute(attributeName), out keyType, out valueType);
+                Console.Write("The value of attribute \"" + attributeName + "\" is: \"{");
+                bool first = true;
+                foreach(DictionaryEntry entry in dict)
+                {
+                    if (first)
+                        first = false;
+                    else
+                        Console.Write(", ");
+                    Console.Write(entry.Key + "->" + entry.Value);
+                }
+                Console.WriteLine("}\".");
+            }
+            else if (attrType.Kind == AttributeKind.SetAttr)
+            {
+                Type keyType, valueType;
+                IDictionary dict = DictionaryHelper.GetDictionaryTypes(
+                    elem.GetAttribute(attributeName), out keyType, out valueType);
+                Console.Write("The value of attribute \"" + attributeName + "\" is: \"{");
+                bool first = true;
+                foreach (DictionaryEntry entry in dict)
+                {
+                    if (first)
+                        first = false;
+                    else
+                        Console.Write(", ");
+                    Console.Write(entry.Key);
+                }
+                Console.WriteLine("}\".");
+            }
+            else
+            {
+                Console.WriteLine("The value of attribute \"" + attributeName + "\" is: \"" + elem.GetAttribute(attributeName) + "\".");
+            }
         }
 
         #endregion "show" commands
@@ -2110,58 +2147,19 @@ namespace de.unika.ipd.grGen.grShell
 
         #region "map" commands
 
-        private Type GetTypeFromNameForMap(String typeName)
-        {
-            switch(typeName)
-            {
-                case "int": return typeof(int);
-                case "float": return typeof(float);
-                case "double": return typeof(double);
-                case "string": return typeof(string);
-                case "object": return typeof(object);
-            }
-
-            // No standard type, so check enums
-            foreach(EnumAttributeType enumAttrType in curShellGraph.Graph.Model.EnumAttributeTypes)
-            {
-                if(enumAttrType.Name == typeName)
-                    return enumAttrType.EnumType;
-            }
-
-            Console.WriteLine("\"" + typeName + "\" is not a valid type for a map.");
-            return null;
-        }
-
         public object MapNew(String keyTypeName, String valueTypeName)
         {
-            Type keyType = GetTypeFromNameForMap(keyTypeName);
-            Type valueType = GetTypeFromNameForMap(valueTypeName);
-            if(keyType == null || valueType == null) return null;
-
-            Type genDictType = typeof(Dictionary<,>);
-            Type dictType = genDictType.MakeGenericType(keyType, valueType);
-            return Activator.CreateInstance(dictType);
+            Type keyType = DictionaryHelper.GetTypeFromNameForDictionary(keyTypeName, curShellGraph.Graph);
+            if (keyType == null) Console.WriteLine("\"" + keyTypeName + "\" is not a valid type for a map.");
+            Type valueType = DictionaryHelper.GetTypeFromNameForDictionary(valueTypeName, curShellGraph.Graph);
+            if (valueType == null) Console.WriteLine("\"" + valueTypeName + "\" is not a valid type for a map.");
+            return DictionaryHelper.NewDictionary(keyType, valueType);
         }
 
         public String GetMapIdentifier(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
         {
             if(usedGraphElement) return curShellGraph.Graph.GetElementName(elem) + "." + attrOrVarName;
             else return attrOrVarName;
-        }
-
-        public IDictionary GetMapTypes(object map, out Type keyType, out Type valueType)
-        {
-            if(!(map is IDictionary))
-            {
-                keyType = null;
-                valueType = null;
-                return null;
-            }
-            Type mapType = map.GetType();
-            Type[] mapTypeArgs = mapType.GetGenericArguments();
-            keyType = mapTypeArgs[0];
-            valueType = mapTypeArgs[1];
-            return (IDictionary) map;
         }
 
         public void MapAdd(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr, object valueExpr)
@@ -2182,7 +2180,7 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             Type keyType, valueType;
-            IDictionary dict = GetMapTypes(map, out keyType, out valueType);
+            IDictionary dict = DictionaryHelper.GetDictionaryTypes(map, out keyType, out valueType);
             if(dict == null)
             {
                 Console.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a map.");
@@ -2218,7 +2216,7 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             Type keyType, valueType;
-            IDictionary dict = GetMapTypes(map, out keyType, out valueType);
+            IDictionary dict = DictionaryHelper.GetDictionaryTypes(map, out keyType, out valueType);
             if(dict == null) return;
             if(keyType != keyExpr.GetType())
             {
@@ -2246,7 +2244,7 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             Type keyType, valueType;
-            IDictionary dict = GetMapTypes(map, out keyType, out valueType);
+            IDictionary dict = DictionaryHelper.GetDictionaryTypes(map, out keyType, out valueType);
             if(dict == null) return;
             Console.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " contains " + dict.Count + " entries.");
         }

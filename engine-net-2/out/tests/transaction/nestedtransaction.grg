@@ -1,0 +1,27 @@
+using transaction;
+
+rule init1 {
+	modify {
+		a:N-->a; b:N-->b; c:N-->c;
+	}
+}
+
+rule transform1a {
+	a:N;
+
+	replace {
+		:NN;
+	}
+}
+
+rule transform1b {
+	a:NN;
+
+	replace {
+		:NNN;
+	}
+}
+
+test fail1b {
+	:NN;
+}

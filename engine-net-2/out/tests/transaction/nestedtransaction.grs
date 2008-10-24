@@ -1,0 +1,27 @@
+new graph "transaction/nestedtransaction"
+
+xgrs init1
+show num nodes N
+show num nodes NN
+show num nodes NNN
+show num edges
+xgrs < transform1a* && < transform1b* && fail1b > > 
+show num nodes N
+show num nodes NN
+show num nodes NNN
+show num edges
+
+clear graph
+
+xgrs init1
+show num nodes N
+show num nodes NN
+show num nodes NNN
+show num edges
+xgrs < transform1a* | < transform1b* && fail1b > > 
+show num nodes N
+show num nodes NN
+show num nodes NNN
+show num edges
+
+quit

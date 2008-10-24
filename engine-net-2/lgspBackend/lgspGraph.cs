@@ -95,210 +95,188 @@ namespace de.unika.ipd.grGen.lgsp
         }
     }
 
+    enum UndoOperation
+    {
+        None,
+        Assign,
+        PutElement,
+        RemoveElement
+    }
+
     public class LGSPUndoAttributeChanged : IUndoItem
     {
         private IGraphElement _elem;
         private AttributeType _attrType;
-        private AttributeChangeType _changeType;
-        private Object _oldValue;
-        private Object _newValue;
-        private Object _keyValue;
+        private UndoOperation _undoOperation;
+        private Object _value;
+        private Object _keyOfValue;
 
         public LGSPUndoAttributeChanged(IGraphElement elem, AttributeType attrType,
                 AttributeChangeType changeType, Object newValue, Object keyValue)
         {
             _elem = elem; _attrType = attrType;
-            _changeType = changeType; _newValue = newValue; _keyValue = keyValue;
 
             if (_attrType.Kind == AttributeKind.SetAttr)
             {
-                if (_changeType == AttributeChangeType.PutElement)
+                if (changeType == AttributeChangeType.PutElement)
                 {
                     IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
                     if (dict.Contains(newValue))
-                        _oldValue = null;
+                    {
+                        _undoOperation = UndoOperation.None;
+                    }
                     else
-                        _oldValue = _newValue;
+                    {
+                        _undoOperation = UndoOperation.RemoveElement;
+                        _value = newValue;
+                    }
                 }
-                else if (_changeType == AttributeChangeType.RemoveElement)
+                else if (changeType == AttributeChangeType.RemoveElement)
                 {
                     IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
                     if (dict.Contains(newValue))
-                        _oldValue = _newValue;
+                    {
+                        _undoOperation = UndoOperation.PutElement;
+                        _value = newValue;
+                    }
                     else
-                        _oldValue = null;
-
+                    {
+                        _undoOperation = UndoOperation.None;
+                    }
                 }
                 else // Assign
                 {
-                    // MAP TODO: clone set
+                    Type keyType, valueType;
+                    IDictionary dict = DictionaryHelper.GetDictionaryTypes(
+                        _elem.GetAttribute(_attrType.Name), out keyType, out valueType);
+                    IDictionary clonedDict = DictionaryHelper.NewDictionary(keyType, valueType, dict);
+                    _undoOperation = UndoOperation.Assign;
+                    _value = clonedDict;
                 }
             }
             else if (_attrType.Kind == AttributeKind.MapAttr)
             {
-                if (_changeType == AttributeChangeType.PutElement)
+                if (changeType == AttributeChangeType.PutElement)
                 {
-                    _oldValue = _elem.GetAttribute(_attrType.Name);
-                    IDictionary dict = (IDictionary)_oldValue;
+                    IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
                     if (dict.Contains(keyValue))
-                        _oldValue = dict[_keyValue];
+                    {
+                        if (dict[keyValue] == newValue)
+                        {
+                            _undoOperation = UndoOperation.None;
+                        }
+                        else
+                        {
+                            _undoOperation = UndoOperation.PutElement;
+                            _value = dict[keyValue];
+                            _keyOfValue = keyValue;
+                        }
+                    }
                     else
-                        _oldValue = null;
+                    {
+                        _undoOperation = UndoOperation.RemoveElement;
+                        _value = newValue;
+                        _keyOfValue = keyValue;
+                    }
                 }
-                else if (_changeType == AttributeChangeType.RemoveElement)
+                else if (changeType == AttributeChangeType.RemoveElement)
                 {
-                    _oldValue = _elem.GetAttribute(_attrType.Name);
-                    IDictionary dict = (IDictionary)_oldValue;
+                    IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
                     if (dict.Contains(keyValue))
-                        _oldValue = null;
+                    {
+                        _undoOperation = UndoOperation.PutElement;
+                        _value = dict[keyValue];
+                        _keyOfValue = keyValue;
+                    }
                     else
-                        _oldValue = dict[_keyValue];
+                    {
+                        _undoOperation = UndoOperation.None;
+                    }
                 }
                 else // Assign
                 {
-                    // MAP TODO: clone map
+                    Type keyType, valueType;
+                    IDictionary dict = DictionaryHelper.GetDictionaryTypes(
+                        _elem.GetAttribute(_attrType.Name), out keyType, out valueType);
+                    IDictionary clonedDict = DictionaryHelper.NewDictionary(keyType, valueType, dict);
+                    _undoOperation = UndoOperation.Assign;
+                    _value = clonedDict;
                 }
             }
             else // Primitve Type Assign
             {
-                _oldValue = _elem.GetAttribute(_attrType.Name);
+                _undoOperation = UndoOperation.Assign;
+                _value = _elem.GetAttribute(_attrType.Name);
             }
         }
 
         public void DoUndo(IGraph graph)
         {
             String attrName = _attrType.Name;
-            LGSPNode node = _elem as LGSPNode;
-            if(node != null)
+            if (_undoOperation == UndoOperation.PutElement)
             {
                 if (_attrType.Kind == AttributeKind.SetAttr)
                 {
-                    if (_changeType == AttributeChangeType.PutElement)
-                    {
-                        if (_oldValue != null)
-                        {
-                            graph.ChangingNodeAttribute(node, _attrType,
-                                AttributeChangeType.RemoveElement, _newValue, _keyValue);
-                            IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
-                            dict.Remove(_oldValue);
-                        }
-                    }
-                    else if (_changeType == AttributeChangeType.RemoveElement)
-                    {
-                        if (_oldValue != null)
-                        {
-                            graph.ChangingNodeAttribute(node, _attrType,
-                                AttributeChangeType.PutElement, _newValue, _keyValue);
-                            IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
-                            dict.Add(_oldValue, null);
-                        }
-                    }
-                    else // Assign
-                    {
-                        // MAP TODO: restore old set
-                    }
+                    ChangingElementAttribute(graph);
+                    IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
+                    dict.Add(_value, null);
                 }
-                else if (_attrType.Kind == AttributeKind.MapAttr)
+                else // AttributeKind.MapAttr
                 {
-                    if (_changeType == AttributeChangeType.PutElement)
-                    {
-                        if (_oldValue != null)
-                        {
-                            graph.ChangingNodeAttribute(node, _attrType,
-                                AttributeChangeType.RemoveElement, _newValue, _keyValue);
-                            IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
-                            dict.Remove(_keyValue);
-                        }
-                    }
-                    else if (_changeType == AttributeChangeType.RemoveElement)
-                    {
-                        if (_oldValue != null)
-                        {
-                            graph.ChangingNodeAttribute(node, _attrType,
-                                AttributeChangeType.PutElement, _newValue, _keyValue);
-                            IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
-                            dict.Add(_keyValue, _oldValue);
-                        }
-                    }
-                    else // Assign
-                    {
-                        // MAP TODO: restore old map
-                    }
+                    ChangingElementAttribute(graph);
+                    IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
+                    dict.Add(_keyOfValue, _value);
                 }
-                else
+            }
+            else if (_undoOperation == UndoOperation.RemoveElement)
+            {
+                if (_attrType.Kind == AttributeKind.SetAttr)
                 {
-                    graph.ChangingNodeAttribute(node, _attrType, _changeType, _oldValue, _keyValue);
-                    _elem.SetAttribute(attrName, _oldValue);
+                    ChangingElementAttribute(graph);
+                    IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
+                    dict.Remove(_value);
                 }
+                else // AttributeKind.MapAttr
+                {
+                    ChangingElementAttribute(graph);
+                    IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
+                    dict.Remove(_keyOfValue);
+                }
+            }
+            else if (_undoOperation == UndoOperation.Assign)
+            {
+                ChangingElementAttribute(graph);
+                _elem.SetAttribute(attrName, _value);
+            }
+            // otherwise UndoOperation.None
+        }
+
+        private void ChangingElementAttribute(IGraph graph)
+        {
+            AttributeChangeType changeType;
+            switch (_undoOperation)
+            {
+                case UndoOperation.Assign: changeType = AttributeChangeType.Assign; break;
+                case UndoOperation.PutElement: changeType = AttributeChangeType.PutElement; break;
+                case UndoOperation.RemoveElement: changeType = AttributeChangeType.RemoveElement; break;
+                default: throw new Exception("Internal error during transaction handling");
+            }
+
+            LGSPNode node = _elem as LGSPNode;
+            if (node != null)
+            {
+                graph.ChangingNodeAttribute(node, _attrType, changeType, _value, _keyOfValue);
             }
             else
             {
-                LGSPEdge edge = (LGSPEdge) _elem;
-                if (_attrType.Kind == AttributeKind.SetAttr)
-                {
-                    if (_changeType == AttributeChangeType.PutElement)
-                    {
-                        if (_oldValue != null)
-                        {
-                            graph.ChangingEdgeAttribute(edge, _attrType,
-                                AttributeChangeType.RemoveElement, _newValue, _keyValue);
-                            IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
-                            dict.Remove(_oldValue);
-                        }
-                    }
-                    else if (_changeType == AttributeChangeType.RemoveElement)
-                    {
-                        if (_oldValue != null)
-                        {
-                            graph.ChangingEdgeAttribute(edge, _attrType,
-                                AttributeChangeType.PutElement, _newValue, _keyValue);
-                            IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
-                            dict.Add(_oldValue, null);
-                        }
-                    }
-                    else // Assign
-                    {
-                        // MAP TODO: restore old set
-                    }
-                }
-                else if (_attrType.Kind == AttributeKind.MapAttr)
-                {
-                    if (_changeType == AttributeChangeType.PutElement)
-                    {
-                        if (_oldValue != null)
-                        {
-                            graph.ChangingEdgeAttribute(edge, _attrType,
-                                AttributeChangeType.RemoveElement, _newValue, _keyValue);
-                            IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
-                            dict.Remove(_keyValue);
-                        }
-                    }
-                    else if (_changeType == AttributeChangeType.RemoveElement)
-                    {
-                        if (_oldValue != null)
-                        {
-                            graph.ChangingEdgeAttribute(edge, _attrType,
-                                AttributeChangeType.PutElement, _newValue, _keyValue);
-                            IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
-                            dict.Add(_keyValue, _oldValue);
-                        }
-                    }
-                    else // Assign
-                    {
-                        // MAP TODO: restore old map
-                    }
-                }
-                else
-                {
-                    graph.ChangingEdgeAttribute(edge, _attrType, _changeType, _oldValue, _keyValue);
-                    _elem.SetAttribute(attrName, _oldValue);
-                }
+                LGSPEdge edge = (LGSPEdge)_elem;
+                graph.ChangingEdgeAttribute(edge, _attrType, changeType, _value, _keyOfValue);
             }
         }
 
         public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
-            Debug.Assert(false);
+            throw new Exception("Not implemented yet!");
             //return new LGSPUndoAttributeChanged(oldToNewMap[_elem], _attrType, _oldValue, _newValue);
             return null;
         }

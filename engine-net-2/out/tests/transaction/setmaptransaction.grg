@@ -1,0 +1,34 @@
+using setmaptransaction;
+
+rule transform1 {
+	a:N;
+	if{ "foo" in a.setVal; }
+	if{ "foo" in a.mapVal; }
+	
+	modify {
+		eval {
+			a.setVal = a.setVal.remove("foo");
+			a.setVal = a.setVal.put("bar");
+			a.mapVal = a.mapVal.remove("foo");
+			a.mapVal = a.mapVal.put("bar","foo");
+		}
+	}
+}
+
+rule transform2 {
+	a:N;
+	if{ "foo" in a.setVal; }
+	if{ "foo" in a.mapVal; }
+	
+	modify {
+		eval {
+			a.setVal = a.setVal2;
+			a.mapVal = a.mapVal2;
+		}
+	}
+}
+
+test fail {
+	a:N;
+	if{ "foo" in a.setVal; }
+}

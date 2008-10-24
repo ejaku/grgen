@@ -1,0 +1,7 @@
+node class N
+{
+	setVal:set<string> = {"foo"};
+	mapVal:map<string, string> = {"foo"->"bar"};
+	setVal2:set<string> = {"haha","hoho","huhu"};
+	mapVal2:map<string, string> = {"hui"->"buh"};
+}

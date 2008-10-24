@@ -1474,10 +1474,16 @@ public class ModifyGen extends CSharpBase {
 
 					if(qualTgt.getType() instanceof MapType || qualTgt.getType() instanceof SetType) {
 						// ASSUME: there are no map/set expressions, so the expression is a map/set entity
+						StringBuffer sbtmp = new StringBuffer();
+						genExpression(sbtmp, ass.getExpression(), state);
+						String exprStr = sbtmp.toString();
+						
+						genChangingAttribute(sb, state, qualTgt, "Assign", exprStr , "null");
+						
 						sb.append("\t\t\t");
 						genExpression(sb, ass.getTarget(), state);
 						sb.append(" = new " + formatAttributeType(qualTgt.getType()) + "(");
-						genExpression(sb, ass.getExpression(), state);
+						sb.append(exprStr);
 						sb.append(");\n");
 						
 						continue;
