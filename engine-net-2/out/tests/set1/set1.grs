@@ -1,0 +1,50 @@
+new graph set1/set1
+
+new na:A
+na.a
+na.ac
+na.val
+
+new nb:B
+nb.a
+nb.ac
+nb.val
+nb.b
+nb.bc
+
+new na -ea:EA-> na
+ea.a
+ea.ac
+
+new nb -eb:EB-> nb
+eb.a
+eb.ac
+eb.b
+eb.bc
+
+xgrs aWithFoo
+
+na.a
+xgrs addFooNoEffect
+na.a
+nb.b
+xgrs addFoo
+nb.b
+
+xgrs bWithBar
+
+nb.a
+xgrs removeBar
+nb.a
+nb.a
+xgrs removeBarNoEffect
+nb.a
+
+xgrs bWithBar
+
+na.val
+nb.val
+xgrs [anonymousSet]
+xgrs anonymousSetNA
+
+quit

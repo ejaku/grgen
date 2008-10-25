@@ -1,0 +1,42 @@
+"{foo, bar}".
+"{1, 2}".
+"argl".
+"{foo, bar}".
+"{1, 2}".
+"gurgl".
+"{blubb}".
+"{3}".
+"{foo, bar}".
+"{1, 2}".
+"{foo, bar}".
+"{1, 2}".
+"{blubb}".
+"{3}".
+1
+1
+"{foo, bar}".
+1
+1
+"{foo, bar}".
+"{blubb}".
+1
+1
+"{blubb, foo}".
+1
+1
+"{foo, bar}".
+1
+1
+"{foo}".
+"{foo}".
+1
+1
+"{foo}".
+0
+0
+"argl".
+"gurgl".
+1
+1
+0
+0

@@ -1,0 +1,25 @@
+node class A
+{
+    a:set<string> = { "foo","bar" } ;
+    const ac:set<int> = { 1,2 } ;
+	val:string = "argl";
+}
+
+node class B extends A
+{
+    b:set<string> = { "blubb" } ;
+    const bc:set<int> = { 3 } ;
+	val = "gurgl";
+}
+
+edge class EA
+{
+    a:set<string> = { "foo","bar" } ;
+    const ac:set<int> = { 1,2 } ;
+}
+
+edge class EB extends EA
+{
+    b:set<string> = { "blubb" } ;
+    const bc:set<int> = { 3 } ;
+}
