@@ -1,0 +1,73 @@
+node class A
+{
+    a:map<string, int> = { "foo"->1 } ;
+    const ac:map<string, int> = { "fool"->1 } ;
+    aa:string = "foo";
+    const aac:string = "fool";
+}
+
+node class B extends A
+{
+    b:map<string, int> = { "bar"->42 } ;
+    const bc:map<string, int> = { "barrel"->42 } ;
+    bb:string = "bar";
+    const bbc:string = "barrel";
+}
+
+node class Large
+{
+    ll:map<int,int> = { 1->1,2->2,3->3,4->4,5->5,6->6,7->7,8->8,9->9,10->10,11->11,12->12,13->13,14->14,15->15 };
+    const llc:map<int,int> = { 1->1,2->2,3->3,4->4,5->5,6->6,7->7,8->8,9->9,10->10,11->11,12->12,13->13,14->14,15->15 };
+    aa:string = "foo";
+    const aac:string = "fool";
+    defaultint:int;
+}
+
+node class Huge extends Large // to see how initialization inlining stops
+{
+    hh:map<int,int> = { 16->16,17->17,18->18,19->19,20->20,21->21,22->22,23->23,24->24,25->25 };
+    const hhc:map<int,int> = { 16->16,17->17,18->18,19->19,20->20,21->21,22->22,23->23,24->24,25->25 };
+    aa = "FOO!";
+    aac = "FOOL!";
+    bb:string = "bar";
+    const bbc:string = "barrel";
+    defaultint = 42;
+    defaulttint:int;
+}
+
+edge class EA
+{
+    a:map<string, int> = { "foo"->1 } ;
+    const ac:map<string, int> = { "fool"->1 } ;
+    aa:string = "foo";
+    const aac:string = "fool";
+}
+
+edge class EB extends EA
+{
+    b:map<string, int> = { "bar"->42 } ;
+    const bc:map<string, int> = { "barrel"->42 } ;
+    bb:string = "bar";
+    const bbc:string = "barrel";
+}
+
+edge class ELarge
+{
+    ll:map<int,int> = { 1->1,2->2,3->3,4->4,5->5,6->6,7->7,8->8,9->9,10->10,11->11,12->12,13->13,14->14,15->15 };
+    const llc:map<int,int> = { 1->1,2->2,3->3,4->4,5->5,6->6,7->7,8->8,9->9,10->10,11->11,12->12,13->13,14->14,15->15 };
+    aa:string = "foo";
+    const aac:string = "fool";
+    defaultint:int;
+}
+
+edge class EHuge extends ELarge // to see how initialization inlining stops
+{
+    hh:map<int,int> = { 16->16,17->17,18->18,19->19,20->20,21->21,22->22,23->23,24->24,25->25 };
+    const hhc:map<int,int> = { 16->16,17->17,18->18,19->19,20->20,21->21,22->22,23->23,24->24,25->25 };
+    aa = "FOO!";
+    aac = "FOOL!";
+    bb:string = "bar";
+    const bbc:string = "barrel";
+    defaultint = 42;
+    defaulttint:int;
+}

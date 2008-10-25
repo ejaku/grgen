@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -54,6 +55,8 @@ import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.VoidType;
 
 public class ModelGen extends CSharpBase {
+	private final int MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING = 20;
+	
 	public ModelGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);
 		be = backend;
@@ -302,7 +305,7 @@ public class ModelGen extends CSharpBase {
 			sb.append("\n\tpublic sealed class " + cname + " : GRGEN_LGSP.LGSP"
 					+ elemKind + ", " + iname + "\n\t{\n");
 		}
-		else {
+		else { // what's that?
 			routedSB = getStubBuffer();
 			int lastDot = extName.lastIndexOf('.');
 			String extClassName;
@@ -327,14 +330,14 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t\tprivate static int poolLevel = 0;\n"
 				+ "\t\tprivate static " + cname + "[] pool = new " + cname + "[10];\n");
 
-		// Static initialization for constant sets and maps
-		initConstSetsAndMaps(type, "this");
+		// Static initialization for constants = static members
+		initAllMembersConst(type, cname, "this", "\t\t\t");
 		
 		// Generate constructor
 		if(isNode) {
 			sb.append("\t\tpublic " + cname + "() : base("+ tname + ".typeVar)\n"
 					+ "\t\t{\n");
-			initAllMembers(type, "this", "\t\t\t", false);
+			initAllMembersNonConst(type, "this", "\t\t\t", false, false);
 			sb.append("\t\t}\n\n");
 		}
 		else {
@@ -342,7 +345,7 @@ public class ModelGen extends CSharpBase {
 						+ "GRGEN_LGSP.LGSPNode target)\n"
 					+ "\t\t\t: base("+ tname + ".typeVar, source, target)\n"
 					+ "\t\t{\n");
-			initAllMembers(type, "this", "\t\t\t", false);
+			initAllMembersNonConst(type, "this", "\t\t\t", false, false);
 			sb.append("\t\t}\n\n");
 		}
 
@@ -368,12 +371,13 @@ public class ModelGen extends CSharpBase {
 					+ (extName == null ? tname + ".typeVar, " : "") + "newSource, newTarget)\n");
 		routedSB.append("\t\t{\n");
 		for(Entity member : type.getAllMembers()) {
+			if(member.isConst())
+				continue;
+			
 			String attrName = formatIdentifiable(member);
 			if(member.getType() instanceof MapType || member.getType() instanceof SetType) {
-				if(!member.isConst()) { 
-					routedSB.append("\t\t\t_" + attrName + " = new " + formatAttributeType(member.getType()) 
-							+ "(oldElem._" + attrName + ");\n");
-				}
+				routedSB.append("\t\t\t_" + attrName + " = new " + formatAttributeType(member.getType()) 
+						+ "(oldElem._" + attrName + ");\n");
 			} else {
 				routedSB.append("\t\t\t_" + attrName + " = oldElem._" + attrName + ";\n");
 			}
@@ -393,7 +397,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tnode.inhead = null;\n"
 					+ "\t\t\t\tnode.outhead = null;\n"
 					+ "\t\t\t\tnode.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
-			initAllMembers(type, "node", "\t\t\t\t", true);
+			initAllMembersNonConst(type, "node", "\t\t\t\t", true, false);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node);\n"
 					+ "\t\t\treturn node;\n"
@@ -409,7 +413,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tnode.inhead = null;\n"
 					+ "\t\t\t\tnode.outhead = null;\n"
 					+ "\t\t\t\tnode.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
-			initAllMembers(type, "node", "\t\t\t\t", true);
+			initAllMembersNonConst(type, "node", "\t\t\t\t", true, false);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node, varName);\n"
 					+ "\t\t\treturn node;\n"
@@ -428,7 +432,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tedge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n"
 					+ "\t\t\t\tedge.source = source;\n"
 					+ "\t\t\t\tedge.target = target;\n");
-			initAllMembers(type, "edge", "\t\t\t\t", true);
+			initAllMembersNonConst(type, "edge", "\t\t\t\t", true, false);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddEdge(edge);\n"
 					+ "\t\t\treturn edge;\n"
@@ -445,7 +449,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tedge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n"
 					+ "\t\t\t\tedge.source = source;\n"
 					+ "\t\t\t\tedge.target = target;\n");
-			initAllMembers(type, "edge", "\t\t\t\t", true);
+			initAllMembersNonConst(type, "edge", "\t\t\t\t", true, false);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddEdge(edge, varName);\n"
 					+ "\t\t\treturn edge;\n"
@@ -457,7 +461,7 @@ public class ModelGen extends CSharpBase {
 				+ "\t\t\t\tpool[poolLevel++] = this;\n"
 				+ "\t\t}\n\n");
 
-		genAttributeAccessImpl(type);
+		genAttributesAndAttributeAccessImpl(type);
 
 		sb.append("\t}\n");
 
@@ -468,59 +472,202 @@ public class ModelGen extends CSharpBase {
 		}
 	}
 
-	private void initAllMembers(InheritanceType type, String varName,
-			String indentString, boolean withDefaultInits) {
+	private void initAllMembersNonConst(InheritanceType type, String varName,
+			String indentString, boolean withDefaultInits, boolean isResetAllAttributes) {
 		curMemberOwner = varName;
 
+		// if we don't currently create the method ResetAllAttributes
+		// we replace the initialization code by a call to ResetAllAttributes, if it gets to large
+		if(!isResetAllAttributes
+				&& initializationOperationsCount(type) > MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING)
+		{
+			sb.append(indentString + varName +  ".ResetAllAttributes();\n");
+			curMemberOwner = null;
+			return;
+		}
+	
+		sb.append(indentString + "// implicit initialization, map/set creation of " + formatIdentifiable(type) + "\n");
+		
+		// default attribute inits need to be generated if code must overwrite old values
+		// only in constructor not needed, cause there taken care of by c# 
+		// if there is explicit initialization code, it's not needed, too,
+		// but that's left for the compiler to optimize away
 		if(withDefaultInits) {
 			for(Entity member : type.getAllMembers()) {
+				if(member.isConst())
+					continue;
+				
 				Type t = member.getType();
-				if(t instanceof MapType || t instanceof SetType) 
-					continue; // maps and sets are handled below
+				// handled down below, as maps/sets must be created independent of initialization
+				if(t instanceof MapType || t instanceof SetType)  
+					continue;
 				
 				String attrName = formatIdentifiable(member);
 				sb.append(indentString + varName + ".@" + attrName + " = ");
-				if(t instanceof IntType || t instanceof DoubleType || t instanceof EnumType)
+				if(t instanceof IntType || t instanceof DoubleType || t instanceof EnumType) {
 					sb.append("0;\n");
-				else if(t instanceof FloatType)
+				} else if(t instanceof FloatType) {
 					sb.append("0f;\n");
-				else if(t instanceof BooleanType)
+				} else if(t instanceof BooleanType) {
 					sb.append("false;\n");
-				else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType)
+				} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType) {
 					sb.append("null;\n");
-				else
+				} else {
 					throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
+				}
 			}
 		}
-
+		
+		// create maps and sets
 		for(Entity member : type.getAllMembers()) {
 			if(member.isConst())
 				continue;
 			
 			Type t = member.getType();
-			if(t instanceof MapType)
-			{
+			if(!(t instanceof MapType || t instanceof SetType))  
+				continue;
+			
+			String attrName = formatIdentifiable(member);
+			sb.append(indentString + varName + ".@" + attrName + " = ");
+			if(t instanceof MapType) {
 				MapType mapType = (MapType) t;
-				String attrName = formatIdentifiable(member);
-				sb.append(indentString + varName + ".@" + attrName + " = new "
-						+ formatAttributeType(mapType) + "();\n");
-			}
-			else if(t instanceof SetType)
-			{
+				sb.append("new " + formatAttributeType(mapType) + "();\n");
+			} else if(t instanceof SetType) {
 				SetType setType = (SetType) t;
-				String attrName = formatIdentifiable(member);
-				sb.append(indentString + varName + ".@" + attrName + " = new "
-						+ formatAttributeType(setType) + "();\n");
+				sb.append("new " + formatAttributeType(setType) + "();\n");
 			}
 		}
-	
-		for(InheritanceType superType : type.getAllSuperTypes())
-			genMemberInit(superType, indentString, varName);
-		genMemberInit(type, indentString, varName);
 		
+		// generate the user defined initializations, first for super types
+		for(InheritanceType superType : type.getAllSuperTypes())
+			genMemberInitNonConst(superType, type, indentString, varName,
+					withDefaultInits, isResetAllAttributes);
+		// then for current type
+		genMemberInitNonConst(type, type, indentString, varName,
+				withDefaultInits, isResetAllAttributes);
+		
+		curMemberOwner = null;
+	}
+	
+	private int initializationOperationsCount(InheritanceType targetType) {
+		int initializationOperations = 0;
+
+		// attribute initializations from super classes not overridden in target class
+		for(InheritanceType superType : targetType.getAllSuperTypes()) {
+member_init_loop:
+			for(MemberInit memberInit : superType.getMemberInits()) {
+				if(memberInit.getMember().isConst())
+					continue;
+				for(MemberInit tmi : targetType.getMemberInits()) {
+					if(memberInit.getMember() == tmi.getMember())
+						continue member_init_loop;
+				}
+				++initializationOperations;
+			}
+map_init_loop:
+			for(MapInit mapInit : superType.getMapInits()) {
+				if(mapInit.getMember().isConst())
+					continue;
+				for(MapInit tmi : targetType.getMapInits()) {
+					if(mapInit.getMember() == tmi.getMember())
+						continue map_init_loop;
+				}
+				initializationOperations += mapInit.getMapItems().size();
+			}
+set_init_loop:
+			for(SetInit setInit : superType.getSetInits()) {
+				if(setInit.getMember().isConst())
+					continue;
+				for(SetInit tsi : targetType.getSetInits()) {
+					if(setInit.getMember() == tsi.getMember())
+						continue set_init_loop;
+				}
+				initializationOperations += setInit.getSetItems().size();
+			}
+		}
+		
+		// attribute initializations of target class
+		for(MemberInit memberInit : targetType.getMemberInits()) {
+			if(!memberInit.getMember().isConst())
+				++initializationOperations;
+		}
+		
+		for(MapInit mapInit : targetType.getMapInits()) {
+			if(!mapInit.getMember().isConst())
+				initializationOperations += mapInit.getMapItems().size();
+		}
+		
+		for(SetInit setInit : targetType.getSetInits()) {
+			if(!setInit.getMember().isConst())
+				initializationOperations += setInit.getSetItems().size();
+		}
+		
+		return initializationOperations;
+	}
+
+	private void initAllMembersConst(InheritanceType type, String className,
+			String varName, String indentString) {
+		curMemberOwner = varName;
+		
+		List<String> staticInitializers = new LinkedList<String>();
+		
+		sb.append("\t\t\n");
+		
+		// generate the user defined initializations, first for super types
+		for(InheritanceType superType : type.getAllSuperTypes())
+			genMemberInitConst(superType, type, staticInitializers);
+		// then for current type
+		genMemberInitConst(type, type, staticInitializers);
+
+		sb.append("\t\tstatic " + className + "() {\n");
+		for(String staticInit : staticInitializers) {
+			sb.append("\t\t\t" + staticInit + "();\n");
+		}
+		sb.append("\t\t}\n");
+		
+		sb.append("\t\t\n");
+		
+		curMemberOwner = null;
+	}
+
+	private void genMemberInitNonConst(InheritanceType type, InheritanceType targetType,
+			String indentString, String varName, 
+			boolean withDefaultInits, boolean isResetAllAttributes) {
+		if(rootTypes.contains(type.getIdent().toString())) // skip root types, they don't possess attributes
+			return;
+		sb.append(indentString + "// explicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
+		
+		// init members of primitive value with explicit initialization
+member_init_loop:
+		for(MemberInit memberInit : type.getMemberInits()) {
+			if(memberInit.getMember().isConst())
+				continue;
+			
+			if(type!=targetType) { // don't generate superclass init if target type contains own init
+				for(MemberInit tmi : targetType.getMemberInits()) {
+					if(memberInit.getMember() == tmi.getMember())
+						continue member_init_loop;
+				}
+			}
+			
+			String attrName = formatIdentifiable(memberInit.getMember());
+			sb.append(indentString + varName + ".@" + attrName + " = ");
+			genExpression(sb, memberInit.getExpression(), null);
+			sb.append(";\n");
+		}
+		
+		// init members of map value with explicit initialization
+map_init_loop:
 		for(MapInit mapInit : type.getMapInits()) {
 			if(mapInit.getMember().isConst())
 				continue;
+			
+			if(type!=targetType) { // don't generate superclass init if target type contains own init
+				for(MapInit tmi : targetType.getMapInits()) {
+					if(mapInit.getMember() == tmi.getMember())
+						continue map_init_loop;
+				}
+			}
 			
 			String attrName = formatIdentifiable(mapInit.getMember());
 			for(MapItem item : mapInit.getMapItems()) {
@@ -532,9 +679,18 @@ public class ModelGen extends CSharpBase {
 			}
 		}
 		
+		// init members of set value with explicit initialization
+set_init_loop:
 		for(SetInit setInit : type.getSetInits()) {
 			if(setInit.getMember().isConst())
 				continue;
+			
+			if(type!=targetType) { // don't generate superclass init if target type contains own init
+				for(SetInit tsi : targetType.getSetInits()) {
+					if(setInit.getMember() == tsi.getMember())
+						continue set_init_loop;
+				}
+			}
 			
 			String attrName = formatIdentifiable(setInit.getMember());
 			for(SetItem item : setInit.getSetItems()) {
@@ -543,29 +699,56 @@ public class ModelGen extends CSharpBase {
 				sb.append("] = null;\n");
 			}
 		}
-
-		curMemberOwner = null;
 	}
 
-	private void initConstSetsAndMaps(InheritanceType type, String varName) {
-		curMemberOwner = varName;
-
-		sb.append("\t\t\n");
+	private void genMemberInitConst(InheritanceType type, InheritanceType targetType, 
+			List<String> staticInitializers) {
+		if(rootTypes.contains(type.getIdent().toString())) // skip root types, they don't possess attributes
+			return;
+		sb.append("\t\t// explicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
 		
+		// init const members of primitive value with explicit initialization
+member_init_loop:
+		for(MemberInit memberInit : type.getMemberInits()) {
+			if(!memberInit.getMember().isConst())
+				continue;
+			
+			if(type!=targetType) { // don't generate superclass init if target type contains own init
+				for(MemberInit tmi : targetType.getMemberInits()) {
+					if(memberInit.getMember() == tmi.getMember())
+						continue member_init_loop;
+				}
+			}
+			
+			String attrType = formatAttributeType(memberInit.getMember());
+			String attrName = formatIdentifiable(memberInit.getMember());
+			sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + " = ");
+			genExpression(sb, memberInit.getExpression(), null);
+			sb.append(";\n");
+		}
+		
+		// init const members of map value with explicit initialization
+map_init_loop:
 		for(MapInit mapInit : type.getMapInits()) {
 			if(!mapInit.getMember().isConst())
 				continue;
 			
-			MapType mapType = (MapType)mapInit.getMember().getType();
-			String mapKeyTypeStr = formatAttributeType(mapType.getKeyType());
-			String mapValueTypeStr = formatAttributeType(mapType.getValueType());
-			sb.append("\t\tpublic static readonly Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + "> "
-					+ mapInit.getMapName() + " = " +
-					"new Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + ">();\n");
-			sb.append("\t\tstatic void init_" + mapInit.getMapName() + "() {\n");
+			if(type!=targetType) { // don't generate superclass init if target type contains own init
+				for(MapInit tmi : targetType.getMapInits()) {
+					if(mapInit.getMember() == tmi.getMember())
+						continue map_init_loop;
+				}
+			}
+			
+			String attrType = formatAttributeType(mapInit.getMember());
+			String attrName = formatIdentifiable(mapInit.getMember());
+			sb.append("\t\tprivate static readonly " + attrType + "_" + attrName + " = " +
+					"new " + attrType + "();\n");
+			staticInitializers.add("init_" + attrName);
+			sb.append("\t\tstatic void init_" + attrName + "() {\n");
 			for(MapItem item : mapInit.getMapItems()) {
 				sb.append("\t\t\t");
-				sb.append(mapInit.getMapName());
+				sb.append("_" + attrName);
 				sb.append("[");
 				genExpression(sb, item.getKeyExpr(), null);
 				sb.append("] = ");
@@ -575,40 +758,36 @@ public class ModelGen extends CSharpBase {
 			sb.append("\t\t}\n");
 		}
 		
+		// init const members of set value with explicit initialization
+set_init_loop:
 		for(SetInit setInit : type.getSetInits()) {
 			if(!setInit.getMember().isConst())
 				continue;
 			
-			SetType setType = (SetType)setInit.getMember().getType();
-			String setValueTypeStr = formatAttributeType(setType.getValueType());
-			sb.append("\t\tpublic static readonly Dictionary<" + setValueTypeStr + ", string> "
-					+ setInit.getSetName() + " = " +
-					"new Dictionary<" + setValueTypeStr + ", string>();\n");
-			sb.append("\t\tstatic void init_" + setInit.getSetName() + "() {\n");
+			if(type!=targetType) { // don't generate superclass init if target type contains own init
+				for(SetInit tsi : targetType.getSetInits()) {
+					if(setInit.getMember() == tsi.getMember())
+						continue set_init_loop;
+				}
+			}
+			
+			String attrType = formatAttributeType(setInit.getMember());
+			String attrName = formatIdentifiable(setInit.getMember());
+			sb.append("\t\tprivate static readonly " + attrType + "_" + attrName + " = " +
+					"new " + attrType + "();\n");
+			staticInitializers.add("init_" + attrName);
+			sb.append("\t\tstatic void init_" + attrName + "() {\n");
 			for(SetItem item : setInit.getSetItems()) {
 				sb.append("\t\t\t");
-				sb.append(setInit.getSetName());
+				sb.append("_" + attrName);
 				sb.append("[");
 				genExpression(sb, item.getValueExpr(), null);
 				sb.append("] = null;\n");
 			}
 			sb.append("\t\t}\n");
 		}
-
-		sb.append("\t\t\n");
-		
-		curMemberOwner = null;
 	}
-
-	private void genMemberInit(InheritanceType type, String indentString, String varName) {
-		for(MemberInit mi : type.getMemberInits()) {
-			String attrName = formatIdentifiable(mi.getMember());
-			sb.append(indentString + varName + ".@" + attrName + " = ");
-			genExpression(sb, mi.getExpression(), null);
-			sb.append(";\n");
-		}
-	}
-
+	
 	protected void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState) {
 		Entity owner = qual.getOwner();
 		sb.append("((I" + getNodeOrEdgeTypePrefix(owner) +
@@ -626,11 +805,12 @@ public class ModelGen extends CSharpBase {
 	/**
 	 * Generate the attribute accessor implementations of the given type
 	 */
-	private void genAttributeAccessImpl(InheritanceType type) {
+	private void genAttributesAndAttributeAccessImpl(InheritanceType type) {
 		StringBuffer routedSB = sb;
 		String extName = type.getExternalName();
 		String extModifier = "";
 
+		// what's that?
 		if(extName != null) {
 			routedSB = getStubBuffer();
 			extModifier = "override ";
@@ -642,20 +822,29 @@ public class ModelGen extends CSharpBase {
 		// If an external name is given for this type, this is written
 		// into the stub file with an "override" modifier on the accessors.
 
+		// member, getter, setter for attributes
 		for(Entity e : type.getAllMembers()) {
 			String attrType = formatAttributeType(e);
 			String attrName = formatIdentifiable(e);
-			routedSB.append("\n\t\tprivate " + attrType + " _" + attrName + ";\n"
-					+ "\t\tpublic " + extModifier + attrType + " @" + attrName + "\n"
-					+ "\t\t{\n");
 			
-			routedSB.append("\t\t\tget { return _" + attrName + "; }\n");
-			if(!e.isConst()) {
+			if(e.isConst()) {
+				// no member for const attributes, no setter for const attributes
+				// they are class static, the member is created at the point of initialization
+				routedSB.append("\t\tpublic " + extModifier + attrType + " @" + attrName + "\n");
+				routedSB.append("\t\t{\n");
+				routedSB.append("\t\t\tget { return _" + attrName + "; }\n");
+				routedSB.append("\t\t}\n");
+			} else {
+				// member, getter, setter for non-const attributes
+				routedSB.append("\n\t\tprivate " + attrType + " _" + attrName + ";\n");
+				routedSB.append("\t\tpublic " + extModifier + attrType + " @" + attrName + "\n");
+				routedSB.append("\t\t{\n");
+				routedSB.append("\t\t\tget { return _" + attrName + "; }\n");
 				routedSB.append("\t\t\tset { _" + attrName + " = value; }\n");
+				routedSB.append("\t\t}\n");
 			}
-			
-			routedSB.append("\t\t}\n");
 
+			// what's that?
 			Entity overriddenMember = type.getOverriddenMember(e);
 			if(overriddenMember != null) {
 				routedSB.append("\n\t\tobject I"
@@ -668,6 +857,7 @@ public class ModelGen extends CSharpBase {
 			}
 		}
 
+		// get attribute by name
 		sb.append("\t\tpublic override object GetAttribute(string attrName)\n");
 		sb.append("\t\t{\n");
 		if(type.getAllMembers().size() != 0) {
@@ -685,6 +875,7 @@ public class ModelGen extends CSharpBase {
 				+ "\\\" does not have the attribute \\\" + attrName + \\\"\\\"!\");\n");
 		sb.append("\t\t}\n");
 
+		// set attribute by name
 		sb.append("\t\tpublic override void SetAttribute(string attrName, object value)\n");
 		sb.append("\t\t{\n");
 		if(type.getAllMembers().size() != 0) {
@@ -711,9 +902,10 @@ public class ModelGen extends CSharpBase {
 				+ "\\\" does not have the attribute \\\" + attrName + \\\"\\\"!\");\n");
 		sb.append("\t\t}\n");
 
+		// reset all attributes
 		sb.append("\t\tpublic override void ResetAllAttributes()\n");
 		sb.append("\t\t{\n");
-		initAllMembers(type, "this", "\t\t\t", true);
+		initAllMembersNonConst(type, "this", "\t\t\t", true, true);
 		sb.append("\t\t}\n");
 	}
 
@@ -1053,16 +1245,23 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 							}
 							copiedAttribs.add(member);
 							String memberName = formatIdentifiable(member);
-							if(type.getOverriddenMember(member) != null)
+							// what's that?
+							if(type.getOverriddenMember(member) != null) {
 								// Workaround for Mono Bug 357287
 								// "Access to hiding properties of interfaces resolves wrong member"
 								// https://bugzilla.novell.com/show_bug.cgi?id=357287
 								sb.append("\t\t\t\t\t\tnew" + kindName + ".@" + memberName
 										+ " = (" + formatAttributeType(member) + ") old.@" + memberName
 										+ ";   // Mono workaround (bug #357287)\n");
-							else
-								sb.append("\t\t\t\t\t\tnew" + kindName + ".@" + memberName
-										+ " = old.@" + memberName + ";\n");
+							} else {
+								if(member.getType() instanceof MapType || member.getType() instanceof SetType) {
+									sb.append("\t\t\t\t\t\tnew" + kindName + ".@" + memberName
+											+ " = new " + formatAttributeType(member.getType()) + "(old.@" + memberName + ");\n");
+								} else {
+									sb.append("\t\t\t\t\t\tnew" + kindName + ".@" + memberName
+											+ " = old.@" + memberName + ";\n");
+								}
+							}
 						}
 						if(alreadyCasted)
 							sb.append("\t\t\t\t\t}\n");
@@ -1327,6 +1526,6 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private StringBuffer stubsb = null;
 	private String curMemberOwner = null;
 	private String nsIndent = "\t";
-	private HashSet<String> rootTypes;
+	private HashSet<String> rootTypes;	
 }
 

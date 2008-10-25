@@ -20,7 +20,6 @@ import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.MemberInit;
 
 public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	static {
@@ -136,7 +135,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
     	}
     }
 
-	protected abstract void constructIR(EdgeType inhType);
+	protected abstract void setDirectednessIR(EdgeType inhType);
 
 	/**
      * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
@@ -146,24 +145,9 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
     	EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(),
     							   getIRModifiers(), getExternalName());
 
-		for(BaseNode n : body.getChildren()) {
-			if(n instanceof DeclNode) {
-				DeclNode decl = (DeclNode)n;
-				et.addMember(decl.getEntity());
-			}
-			else if(n instanceof MemberInitNode) {
-				MemberInitNode mi = (MemberInitNode)n;
-				et.addMemberInit(mi.checkIR(MemberInit.class));
-			}
-		}
-		for(EdgeTypeNode inh : extend.getChildren()) {
-			et.addDirectSuperType(inh.getType());
-		}
+    	constructIR(et); // from InheritanceTypeNode
 
-		// to check overwriting of attributes
-		et.getAllMembers();
-
-    	constructIR(et);
+    	setDirectednessIR(et); // from Undirected/Arbitrary/Directed-EdgeTypeNode
 
     	for(BaseNode n : cas.getChildren()) {
     		ConnAssertNode can = (ConnAssertNode)n;

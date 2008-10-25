@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
@@ -116,6 +117,7 @@ public class ActionsGen extends CSharpBase {
 	private void genSubpattern(StringBuffer sb, Rule subpatternRule) {
 		String actionName = formatIdentifiable(subpatternRule);
 		String className = "Pattern_"+actionName;
+		List<String> staticInitializers = new LinkedList<String>();
 
 		sb.append("\tpublic class " + className + " : GRGEN_LGSP.LGSPMatchingPattern\n");
 		sb.append("\t{\n");
@@ -126,14 +128,16 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate static object[] ReturnArray = new object[" + subpatternRule.getReturns().size() + "];\n\n");
 
 		String patGraphVarName = "pat_" + subpatternRule.getPattern().getNameOfGraph();
-		genRuleOrSubpatternClassEntities(sb, subpatternRule, patGraphVarName,
+		genRuleOrSubpatternClassEntities(sb, subpatternRule, patGraphVarName, staticInitializers,
 				subpatternRule.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
 		sb.append("\n");
-		genRuleOrSubpatternInit(sb, subpatternRule, true);
+		genRuleOrSubpatternInit(sb, subpatternRule, className, true);
 		sb.append("\n");
 
 		mg.genModify(sb, subpatternRule, true);
 
+		genStaticConstructor(sb, className, staticInitializers);
+		
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
@@ -144,6 +148,7 @@ public class ActionsGen extends CSharpBase {
 	private void genAction(StringBuffer sb, Rule actionRule) {
 		String actionName = formatIdentifiable(actionRule);
 		String className = "Rule_"+actionName;
+		List<String> staticInitializers = new LinkedList<String>();
 
 		sb.append("\tpublic class " + className + " : GRGEN_LGSP.LGSPRulePattern\n");
 		sb.append("\t{\n");
@@ -154,10 +159,10 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate static object[] ReturnArray = new object[" + actionRule.getReturns().size() + "];\n\n");
 
 		String patGraphVarName = "pat_" + actionRule.getPattern().getNameOfGraph();
-		genRuleOrSubpatternClassEntities(sb, actionRule, patGraphVarName,
+		genRuleOrSubpatternClassEntities(sb, actionRule, patGraphVarName, staticInitializers,
 				actionRule.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
 		sb.append("\n");
-		genRuleOrSubpatternInit(sb, actionRule, false);
+		genRuleOrSubpatternInit(sb, actionRule, className, false);
 		sb.append("\n");
 
 		mg.genModify(sb, actionRule, false);
@@ -166,6 +171,8 @@ public class ActionsGen extends CSharpBase {
 			genEmit(sb, actionRule, false);
 		}
 
+		genStaticConstructor(sb, className, staticInitializers);
+		
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
@@ -174,15 +181,19 @@ public class ActionsGen extends CSharpBase {
 	// rule or subpattern class entities generation //
 	//////////////////////////////////////////////////
 
-	private void genRuleOrSubpatternClassEntities(StringBuffer sb, Rule rule, String patGraphVarName,
+	private void genRuleOrSubpatternClassEntities(StringBuffer sb, Rule rule,
+							String patGraphVarName, List<String> staticInitializers,
 							String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		PatternGraph pattern = rule.getPattern();
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
-		genLocalMapsAndSets(sb, rule.getLeft(), pathPrefixForElements, alreadyDefinedEntityToName);
-		genLocalMapsAndSets(sb, rule.getEvals(), pathPrefixForElements, alreadyDefinedEntityToName);
+		genLocalMapsAndSets(sb, rule.getLeft(), staticInitializers, 
+				pathPrefixForElements, alreadyDefinedEntityToName);
+		genLocalMapsAndSets(sb, rule.getEvals(), staticInitializers, 
+				pathPrefixForElements, alreadyDefinedEntityToName);
 		if(rule.getRight()!=null) {
-			genLocalMapsAndSets(sb, rule.getRight().getImperativeStmts(), pathPrefixForElements, alreadyDefinedEntityToName);
+			genLocalMapsAndSets(sb, rule.getRight().getImperativeStmts(), staticInitializers,
+					pathPrefixForElements, alreadyDefinedEntityToName);
 		}
 		sb.append("\t\tGRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
@@ -191,7 +202,7 @@ public class ActionsGen extends CSharpBase {
 		for(PatternGraph neg : pattern.getNegs()) {
 			String negName = "neg_" + i;
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
-			genRuleOrSubpatternClassEntities(sb, neg, pathPrefixForElements+negName,
+			genRuleOrSubpatternClassEntities(sb, neg, pathPrefixForElements+negName, staticInitializers,
 					pathPrefixForElements + negName + "_",
 					alreadyDefinedEntityToNameClone);
 			++i;
@@ -205,7 +216,7 @@ public class ActionsGen extends CSharpBase {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
-				genRuleOrSubpatternClassEntities(sb, altCase, altPatGraphVarName,
+				genRuleOrSubpatternClassEntities(sb, altCase, altPatGraphVarName, staticInitializers,
 						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_",
 						alreadyDefinedEntityToNameClone);
 			}
@@ -213,11 +224,13 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	private void genRuleOrSubpatternClassEntities(StringBuffer sb, PatternGraph pattern, String patGraphVarName,
+	private void genRuleOrSubpatternClassEntities(StringBuffer sb, PatternGraph pattern,
+							String patGraphVarName, List<String> staticInitializers,
 							String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
-		genLocalMapsAndSets(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
+		genLocalMapsAndSets(sb, pattern, staticInitializers, 
+				pathPrefixForElements, alreadyDefinedEntityToName);
 		sb.append("\t\tGRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
 		
@@ -225,7 +238,7 @@ public class ActionsGen extends CSharpBase {
 		for(PatternGraph neg : pattern.getNegs()) {
 			String negName = "neg_" + i;
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
-			genRuleOrSubpatternClassEntities(sb, neg, pathPrefixForElements+negName,
+			genRuleOrSubpatternClassEntities(sb, neg, pathPrefixForElements+negName, staticInitializers,
 					pathPrefixForElements + negName + "_",
 					alreadyDefinedEntityToNameClone);
 			++i;
@@ -239,7 +252,7 @@ public class ActionsGen extends CSharpBase {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
-				genRuleOrSubpatternClassEntities(sb, altCase, altPatGraphVarName,
+				genRuleOrSubpatternClassEntities(sb, altCase, altPatGraphVarName, staticInitializers,
 						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_",
 						alreadyDefinedEntityToNameClone);
 				}
@@ -377,16 +390,16 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 	}
 	
-	private void genLocalMapsAndSets(StringBuffer sb, PatternGraph pattern,
+	private void genLocalMapsAndSets(StringBuffer sb, PatternGraph pattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
 		for(Expression expr : pattern.getConditions()) {
 			expr.collectNeededEntities(needs);
 		}
-		genLocalMapsAndSets(sb, needs);
+		genLocalMapsAndSets(sb, needs, staticInitializers);
 	}
 	
-	private void genLocalMapsAndSets(StringBuffer sb, Collection<EvalStatement> evals,
+	private void genLocalMapsAndSets(StringBuffer sb, Collection<EvalStatement> evals, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
 		for(EvalStatement eval : evals) {
@@ -395,10 +408,10 @@ public class ActionsGen extends CSharpBase {
 				assignment.getExpression().collectNeededEntities(needs);
 			}
 		}
-		genLocalMapsAndSets(sb, needs);
+		genLocalMapsAndSets(sb, needs, staticInitializers);
 	}
 
-	private void genLocalMapsAndSets(StringBuffer sb, List<ImperativeStmt> istmts,
+	private void genLocalMapsAndSets(StringBuffer sb, List<ImperativeStmt> istmts, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
@@ -415,23 +428,23 @@ public class ActionsGen extends CSharpBase {
 			}
 			else assert false : "unknown ImperativeStmt: " + istmt;
 		}
-		genLocalMapsAndSets(sb, needs);
+		genLocalMapsAndSets(sb, needs, staticInitializers);
 	}
 	
-	private void genLocalMapsAndSets(StringBuffer sb, NeededEntities needs) {
+	private void genLocalMapsAndSets(StringBuffer sb, NeededEntities needs, List<String> staticInitializers) {
 		for(Expression mapSetExpr : needs.mapSetExprs)
 		{
 			if(mapSetExpr instanceof MapInit) {
 				MapInit mapInit = (MapInit)mapSetExpr;
-				String mapKeyTypeStr = formatAttributeType(mapInit.getMapType().getKeyType());
-				String mapValueTypeStr = formatAttributeType(mapInit.getMapType().getValueType());
-				sb.append("\t\tpublic static readonly Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + "> "
-						+ mapInit.getMapName() + " = " +
-						"new Dictionary<" + mapKeyTypeStr + ", " + mapValueTypeStr + ">();\n");
-				sb.append("\t\tstatic void init_" + mapInit.getMapName() + "() {\n");
+				String attrType = formatAttributeType(mapInit.getType());
+				sb.append("\t\tpublic static readonly " + attrType
+						+ mapInit.getAnonymnousMapName() + " = " +
+						"new " + attrType + "();\n");
+				staticInitializers.add("init_" + mapInit.getAnonymnousMapName());
+				sb.append("\t\tstatic void init_" + mapInit.getAnonymnousMapName() + "() {\n");
 				for(MapItem item : mapInit.getMapItems()) {
 					sb.append("\t\t\t");
-					sb.append(mapInit.getMapName());
+					sb.append(mapInit.getAnonymnousMapName());
 					sb.append("[");
 					genExpression(sb, item.getKeyExpr(), null);
 					sb.append("] = ");
@@ -442,14 +455,15 @@ public class ActionsGen extends CSharpBase {
 			}
 			else if(mapSetExpr instanceof SetInit) {
 				SetInit setInit = (SetInit)mapSetExpr;
-				String setValueTypeStr = formatAttributeType(setInit.getSetType().getValueType());
-				sb.append("\t\tpublic static readonly Dictionary<" + setValueTypeStr + ", string> "
-						+ setInit.getSetName() + " = " +
-						"new Dictionary<" + setValueTypeStr + ", string>();\n");
-				sb.append("\t\tstatic void init_" + setInit.getSetName() + "() {\n");
+				String attrType = formatAttributeType(setInit.getType());
+				sb.append("\t\tpublic static readonly " + attrType
+						+ setInit.getAnonymnousSetName() + " = " +
+						"new " + attrType + "();\n");
+				staticInitializers.add("init_" + setInit.getAnonymnousSetName());
+				sb.append("\t\tstatic void init_" + setInit.getAnonymnousSetName() + "() {\n");
 				for(SetItem item : setInit.getSetItems()) {
 					sb.append("\t\t\t");
-					sb.append(setInit.getSetName());
+					sb.append(setInit.getAnonymnousSetName());
 					sb.append("[");
 					genExpression(sb, item.getValueExpr(), null);
 					sb.append("] = null;\n");
@@ -463,9 +477,9 @@ public class ActionsGen extends CSharpBase {
 	// Rule/Subpattern metadata generation //
 	/////////////////////////////////////////
 
-	private void genRuleOrSubpatternInit(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
+	private void genRuleOrSubpatternInit(StringBuffer sb, MatchingAction action, 
+			String className, boolean isSubpattern) {
 		PatternGraph pattern = action.getPattern();
-		String className = (isSubpattern ? "Pattern_" : "Rule_") + formatIdentifiable(action);
 
 		sb.append("#if INITIAL_WARMUP\n");
 		sb.append("\t\tpublic " + className + "()\n");
@@ -1004,11 +1018,11 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if (expr instanceof MapInit) {
 			MapInit mi = (MapInit)expr;
-			sb.append("new GRGEN_EXPR.LocalMap(\"" + className + "\", \"" + mi.getMapName() + "\")");
+			sb.append("new GRGEN_EXPR.LocalMap(\"" + className + "\", \"" + mi.getAnonymnousMapName() + "\")");
 		}
 		else if (expr instanceof SetInit) {
 			SetInit si = (SetInit)expr;
-			sb.append("new GRGEN_EXPR.LocalSet(\"" + className + "\", \"" + si.getSetName() + "\")");
+			sb.append("new GRGEN_EXPR.LocalSet(\"" + className + "\", \"" + si.getAnonymnousSetName() + "\")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
@@ -1082,6 +1096,19 @@ public class ActionsGen extends CSharpBase {
 		throw new UnsupportedOperationException("Member expressions not allowed in actions!");
 	}
 
+	/////////////////////////////////////////////
+	// Static constructor calling static inits //
+	/////////////////////////////////////////////
+
+	protected void genStaticConstructor(StringBuffer sb, String className, List<String> staticInitializers)
+	{
+		sb.append("\t\tstatic " + className + "() {\n");
+		for(String staticInit : staticInitializers) {
+			sb.append("\t\t\t" + staticInit + "();\n");
+		}
+		sb.append("\t\t}");
+	}
+	
 	///////////////////////
 	// Private variables //
 	///////////////////////

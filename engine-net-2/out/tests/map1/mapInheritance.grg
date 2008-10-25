@@ -1,0 +1,7 @@
+using mapInheritance;
+
+test someTest()
+{
+    na:A;
+    nb:B;
+}

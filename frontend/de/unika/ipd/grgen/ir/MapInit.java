@@ -17,17 +17,17 @@ public class MapInit extends Expression {
 	private Collection<MapItem> mapItems;
 	private Entity member;
 	private MapType mapType;
-	private int staticMapId;
-	static private int staticMapCounter;
+	private int anonymousMapId;
+	static private int anonymousMapCounter;
 	
 	public MapInit(Collection<MapItem> mapItems, Entity member, MapType mapType) {
 		super("map init", member!=null ? member.getType() : mapType);
 		this.mapItems = mapItems;
 		this.member = member;
 		this.mapType = mapType;
-		if(member==null || member.isConst()) {
-			staticMapId = staticMapCounter;
-			++staticMapCounter;
+		if(member==null) {
+			anonymousMapId = anonymousMapCounter;
+			++anonymousMapCounter;
 		}
 	}
 	
@@ -47,7 +47,7 @@ public class MapInit extends Expression {
 		return mapType;
 	}
 	
-	public String getMapName() {
-		return "static_map_" + staticMapId;
+	public String getAnonymnousMapName() {
+		return "anonymous_map_" + anonymousMapId;
 	}
 }

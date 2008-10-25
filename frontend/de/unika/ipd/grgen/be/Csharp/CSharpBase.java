@@ -490,11 +490,11 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof MapInit) {
 			MapInit mi = (MapInit)expr;
-			sb.append(mi.getMapName());
+			sb.append(mi.getAnonymnousMapName());
 		}
 		else if (expr instanceof SetInit) {
 			SetInit si = (SetInit)expr;
-			sb.append(si.getSetName());
+			sb.append(si.getAnonymnousSetName());
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

@@ -1,0 +1,73 @@
+new graph map1/mapInheritance
+
+new na:A
+na.a
+na.ac
+na.aa
+na.aac
+
+new nb:B
+nb.a
+nb.ac
+nb.aa
+nb.aac
+nb.b
+nb.bc
+nb.bb
+nb.bbc
+
+new nl:Large
+nl.ll
+nl.llc
+nl.aa
+nl.aac
+nl.defaultint
+
+new nh:Huge
+nh.ll
+nh.llc
+nh.aa
+nh.aac
+nh.defaultint
+nh.hh
+nh.hhc
+nh.bb
+nh.bbc
+nh.defaulttint
+
+new na -ea:EA-> na
+ea.a
+ea.ac
+ea.aa
+ea.aac
+
+new nb -eb:EB-> nb
+eb.a
+eb.ac
+eb.aa
+eb.aac
+eb.b
+eb.bc
+eb.bb
+eb.bbc
+
+new nl -el:ELarge-> nl
+el.ll
+el.llc
+el.aa
+el.aac
+el.defaultint
+
+new nh -eh:EHuge-> nh
+eh.ll
+eh.llc
+eh.aa
+eh.aac
+eh.defaultint
+eh.hh
+eh.hhc
+eh.bb
+eh.bbc
+eh.defaulttint
+
+quit
