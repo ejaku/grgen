@@ -591,6 +591,7 @@ public class Main extends Base implements Sys {
 		// Construct the Intermediate representation.
 		buildIR = -System.currentTimeMillis();
 		buildIR();
+		root = null; // throw away AST not needed any more -> reduce memory requirements
 		irUnit.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern();
 		buildIR += System.currentTimeMillis();
 
