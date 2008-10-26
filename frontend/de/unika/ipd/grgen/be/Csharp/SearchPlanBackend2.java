@@ -100,6 +100,8 @@ modloop:for(Model model : unit.getModels()) {
 		for(Model model : unit.getModels())
 			modelGen.genModel(model);
 
+		modelGen = null; // throw away model generator (including filled output buffer) not needed any more -> reduce memory requirements
+
 		//if(unit.getActionRules().size() != 0 || unit.getSubpatternRules().size() != 0)
 			new ActionsGen(this, nodeTypePrefix, edgeTypePrefix).genActionsAndSubpatterns();
 
