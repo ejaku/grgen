@@ -33,3 +33,12 @@ test nonTransitive {
 		}
 	}
 }
+
+test realNonTransitive {
+	x:Node;
+	y:Node;
+	z:Node;
+
+	hom(x,y);
+	hom(y,z);
+}

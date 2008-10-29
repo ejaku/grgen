@@ -3,5 +3,6 @@ new graph "nonTransitiveHom\nonTransitiveHom" "Graph to demonstrate non-transiti
 xgrs init
 xgrs [transitive]
 xgrs [nonTransitive]
+xgrs [realNonTransitive]
 
 quit
