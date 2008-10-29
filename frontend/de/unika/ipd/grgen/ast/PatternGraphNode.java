@@ -529,7 +529,7 @@ public class PatternGraphNode extends GraphNode {
 				}
 			}
 
-			// all Edges marked?
+			// all edges marked?
 			boolean allMarked = true;
 			for (boolean edgeMarked : candidate.getKey().values()) {
 				allMarked = allMarked && edgeMarked;
