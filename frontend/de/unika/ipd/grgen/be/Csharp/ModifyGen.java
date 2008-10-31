@@ -40,6 +40,7 @@ import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.MapAssignItem;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
+import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.SetAssignItem;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetRemoveItem;
@@ -153,7 +154,7 @@ public class ModifyGen extends CSharpBase {
 
 		public Map<Expression, String> mapExprToTempVar() { return Collections.unmodifiableMap(mapExprToTempVar); }
 		public boolean useVarForMapResult() { return useVarForMapResult; }
-		
+
 		// --------------------
 
 		public HashSet<Node> commonNodes = new LinkedHashSet<Node>();
@@ -181,16 +182,16 @@ public class ModifyGen extends CSharpBase {
 		public HashSet<Edge> edgesNeededAsElements;
 		public HashSet<Node> nodesNeededAsAttributes;
 		public HashSet<Edge> edgesNeededAsAttributes;
-		
+
 		public HashSet<Node> nodesNeededAsTypes = new LinkedHashSet<Node>();
 		public HashSet<Edge> edgesNeededAsTypes = new LinkedHashSet<Edge>();
 
 		public HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
-		
+
 		public HashMap<Expression, String> mapExprToTempVar = new LinkedHashMap<Expression, String>();
 		public boolean useVarForMapResult;
-		
-		
+
+
 		public void InitNeeds(NeededEntities needs) {
 			neededAttributes = needs.attrEntityMap;
 			nodesNeededAsElements = needs.nodes;
@@ -198,7 +199,7 @@ public class ModifyGen extends CSharpBase {
 			nodesNeededAsAttributes = needs.attrNodes;
 			edgesNeededAsAttributes = needs.attrEdges;
 			neededVariables = needs.variables;
-			
+
 			int i = 0;
 			for(Expression expr : needs.mapSetExprs) {
 				if(expr instanceof MapInit || expr instanceof SetInit) continue;
@@ -786,7 +787,7 @@ public class ModifyGen extends CSharpBase {
 				Assignment ass = (Assignment) evalStmt;
 				Expression target = ass.getTarget();
 				Entity entity;
-	
+
 				if(target instanceof Qualification)
 					entity = ((Qualification) target).getOwner();
 				else if(target instanceof Visited) {
@@ -796,72 +797,72 @@ public class ModifyGen extends CSharpBase {
 				}
 				else
 					throw new UnsupportedOperationException("Unsupported assignment target (" + target + ")");
-	
+
 				needs.add((GraphEntity) entity);
-	
+
 				// Temporarily do not collect variables for target
 				HashSet<Variable> varSet = needs.variables;
 				needs.variables = null;
 				target.collectNeededEntities(needs);
 				needs.variables = varSet;
-				
+
 				ass.getExpression().collectNeededEntities(needs);
 			}
 			else if(evalStmt instanceof MapAssignItem) {
 				MapAssignItem mai = (MapAssignItem) evalStmt;
 				Qualification target = mai.getTarget();
-				Entity entity = ((Qualification) target).getOwner();
+				Entity entity = (target).getOwner();
 				needs.add((GraphEntity) entity);
-	
+
 				// Temporarily do not collect variables for target
 				HashSet<Variable> varSet = needs.variables;
 				needs.variables = null;
 				target.collectNeededEntities(needs);
 				needs.variables = varSet;
-				
+
 				mai.getKeyExpr().collectNeededEntities(needs);
 				mai.getValueExpr().collectNeededEntities(needs);
 			}
 			else if(evalStmt instanceof MapRemoveItem) {
 				MapRemoveItem mri = (MapRemoveItem) evalStmt;
 				Qualification target = mri.getTarget();
-				Entity entity = ((Qualification) target).getOwner();
+				Entity entity = (target).getOwner();
 				needs.add((GraphEntity) entity);
-	
+
 				// Temporarily do not collect variables for target
 				HashSet<Variable> varSet = needs.variables;
 				needs.variables = null;
 				target.collectNeededEntities(needs);
 				needs.variables = varSet;
-				
+
 				mri.getKeyExpr().collectNeededEntities(needs);
 			}
 			else if(evalStmt instanceof SetAssignItem) {
 				SetAssignItem sai = (SetAssignItem) evalStmt;
 				Qualification target = sai.getTarget();
-				Entity entity = ((Qualification) target).getOwner();
+				Entity entity = (target).getOwner();
 				needs.add((GraphEntity) entity);
-	
+
 				// Temporarily do not collect variables for target
 				HashSet<Variable> varSet = needs.variables;
 				needs.variables = null;
 				target.collectNeededEntities(needs);
 				needs.variables = varSet;
-				
+
 				sai.getValueExpr().collectNeededEntities(needs);
 			}
 			else if(evalStmt instanceof SetRemoveItem) {
 				SetRemoveItem sri = (SetRemoveItem) evalStmt;
 				Qualification target = sri.getTarget();
-				Entity entity = ((Qualification) target).getOwner();
+				Entity entity = (target).getOwner();
 				needs.add((GraphEntity) entity);
-	
+
 				// Temporarily do not collect variables for target
 				HashSet<Variable> varSet = needs.variables;
 				needs.variables = null;
 				target.collectNeededEntities(needs);
 				needs.variables = varSet;
-				
+
 				sri.getValueExpr().collectNeededEntities(needs);
 			}
 			else {
@@ -920,7 +921,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tif(!" + formatEntity(grEnt) + ".Valid) " + formatEntity(grEnt) + " = null;\n");
 		}
 	}
-	
+
 	private void genMapAndSetVariablesBeforeImperativeStatements(StringBuffer sb, ModifyGenerationStateConst state) {
 		for(Map.Entry<Expression, String> entry : state.mapExprToTempVar().entrySet()) {
 			Expression expr = entry.getKey();
@@ -969,7 +970,7 @@ public class ModifyGen extends CSharpBase {
 			String grEntName = formatEntity(owner);
 			for(Entity entity : entry.getValue()) {
 				if(entity.getType() instanceof MapType) continue;
-				
+
 				genVariable(sb, grEntName, entity);
 				sb.append(" = ");
 				genQualAccess(sb, state, owner, entity);
@@ -1469,7 +1470,7 @@ public class ModifyGen extends CSharpBase {
 			if(evalStmt instanceof Assignment) {
 				Assignment ass = (Assignment) evalStmt;
 				Expression target = ass.getTarget();
-	
+
 				if(target instanceof Qualification) {
 					Qualification qualTgt = (Qualification) target;
 
@@ -1477,21 +1478,36 @@ public class ModifyGen extends CSharpBase {
 						// ASSUME: there are no map/set expressions, so the expression is a map/set entity
 						String typeName = formatAttributeType(qualTgt.getType());
 						String varName = "tempmapsetvar_" + mapSetVarID++;
-						
-						sb.append("\t\t\t" + typeName + " " + varName + " = new "
-								+ typeName + "((" + typeName + ") ");
+
+						// Check whether we have to make a copy of the right hand side of the assignment
+						boolean mustCopy = true;
+						Expression expr = ass.getExpression();
+						if(expr instanceof Operator) {
+							Operator op = (Operator) expr;
+
+							// For unions and intersections new maps/sets are already created,
+							// so we don't have to copy them again
+							if(op.getOpCode() == Operator.BIT_OR || op.getOpCode() == Operator.BIT_AND)
+								mustCopy = false;
+						}
+
+						sb.append("\t\t\t" + typeName + " " + varName + " = ");
+						if(mustCopy)
+							sb.append("new " + typeName + "(");
 						genExpression(sb, ass.getExpression(), state);
-						sb.append(");\n");
-						
+						if(mustCopy)
+							sb.append(')');
+						sb.append(";\n");
+
 						genChangingAttribute(sb, state, qualTgt, "Assign", varName , "null");
-						
+
 						sb.append("\t\t\t");
 						genExpression(sb, ass.getTarget(), state);
 						sb.append(" = " + varName + ";\n");
-						
+
 						continue;
 					}
-					
+
 					String varName, varType;
 					switch(ass.getTarget().getType().classify()) {
 						case Type.IS_BOOLEAN:
@@ -1527,15 +1543,15 @@ public class ModifyGen extends CSharpBase {
 						default:
 							throw new IllegalArgumentException();
 					}
-	
+
 					sb.append("\t\t\t" + varType + varName + " = ");
 					if(ass.getTarget().getType() instanceof EnumType)
 						sb.append("(int) ");
 					genExpression(sb, ass.getExpression(), state);
 					sb.append(";\n");
-	
+
 					genChangingAttribute(sb, state, qualTgt, "Assign", varName, "null");
-	
+
 					sb.append("\t\t\t");
 					genExpression(sb, ass.getTarget(), state);
 					sb.append(" = ");
@@ -1545,7 +1561,7 @@ public class ModifyGen extends CSharpBase {
 				}
 				else if(target instanceof Visited) {
 					Visited visTgt = (Visited) target;
-	
+
 					sb.append("\t\t\tgraph.SetVisited(" + formatEntity(visTgt.getEntity()) + ", ");
 					genExpression(sb, visTgt.getVisitorID(), state);
 					sb.append(", ");
@@ -1560,9 +1576,9 @@ public class ModifyGen extends CSharpBase {
 				StringBuffer sbtmp = new StringBuffer();
 				genExpression(sbtmp, mri.getKeyExpr(), state);
 				String keyExprStr = sbtmp.toString();
-				
+
 				genChangingAttribute(sb, state, target, "RemoveElement", "null", keyExprStr);
-				
+
 				sb.append("\t\t\t");
 				genExpression(sb, target, state);
 				sb.append(".Remove(");
@@ -1572,14 +1588,14 @@ public class ModifyGen extends CSharpBase {
 			else if(evalStmt instanceof MapAssignItem) {
 				MapAssignItem mai = (MapAssignItem) evalStmt;
 				Qualification target = mai.getTarget();
-				
+
 				StringBuffer sbtmp = new StringBuffer();
 				genExpression(sbtmp, mai.getValueExpr(), state);
 				String valueExprStr = sbtmp.toString();
 				sbtmp.delete(0, sbtmp.length());
 				genExpression(sbtmp, mai.getKeyExpr(), state);
 				String keyExprStr = sbtmp.toString();
-				
+
 				genChangingAttribute(sb, state, target, "PutElement", valueExprStr, keyExprStr);
 
 				sb.append("\t\t\t");
@@ -1593,13 +1609,13 @@ public class ModifyGen extends CSharpBase {
 			else if(evalStmt instanceof SetRemoveItem) {
 				SetRemoveItem sri = (SetRemoveItem) evalStmt;
 				Qualification target = sri.getTarget();
-				
+
 				StringBuffer sbtmp = new StringBuffer();
 				genExpression(sbtmp, sri.getValueExpr(), state);
 				String valueExprStr = sbtmp.toString();
-				
+
 				genChangingAttribute(sb, state, target, "RemoveElement", valueExprStr, "null");
-				
+
 				sb.append("\t\t\t");
 				genExpression(sb, target, state);
 				sb.append(".Remove(");
@@ -1609,13 +1625,13 @@ public class ModifyGen extends CSharpBase {
 			else if(evalStmt instanceof SetAssignItem) {
 				SetAssignItem sai = (SetAssignItem) evalStmt;
 				Qualification target = sai.getTarget();
-				
+
 				StringBuffer sbtmp = new StringBuffer();
 				genExpression(sbtmp, sai.getValueExpr(), state);
 				String valueExprStr = sbtmp.toString();
-				
+
 				genChangingAttribute(sb, state, target, "PutElement", valueExprStr, "null");
-				
+
 				sb.append("\t\t\t");
 				genExpression(sb, target, state);
 				sb.append("[");
@@ -1633,7 +1649,7 @@ public class ModifyGen extends CSharpBase {
 		Entity element = target.getOwner();
 		Entity attribute = target.getMember();
 		Type elementType = attribute.getOwner();
-		
+
 		String kindStr = null;
 		boolean isDeletedElem = false;
 		if(element instanceof Node) {
@@ -1655,7 +1671,7 @@ public class ModifyGen extends CSharpBase {
 					newValue + ", " + keyValue + ");\n");
 		}
 	}
-	
+
 	//////////////////////
 	// Expression stuff //
 	//////////////////////

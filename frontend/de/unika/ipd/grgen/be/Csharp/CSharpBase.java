@@ -75,8 +75,8 @@ public abstract class CSharpBase {
 	public interface ExpressionGenerationState {
 		Map<Expression, String> mapExprToTempVar();
 		boolean useVarForMapResult();
-	}	
-	
+	}
+
 	public CSharpBase(String nodeTypePrefix, String edgeTypePrefix) {
 		this.nodeTypePrefix = nodeTypePrefix;
 		this.edgeTypePrefix = edgeTypePrefix;
@@ -305,11 +305,13 @@ public abstract class CSharpBase {
 	public String formatLong(long l) {
 		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();
 	}
-	
+
 	public void genBinOpDefault(StringBuffer sb, Operator op, ExpressionGenerationState modifyGenerationState) {
+		sb.append("(");
 		genExpression(sb, op.getOperand(0), modifyGenerationState);
 		sb.append(" " + opSymbols[op.getOpCode()] + " ");
-		genExpression(sb, op.getOperand(1), modifyGenerationState);		
+		genExpression(sb, op.getOperand(1), modifyGenerationState);
+		sb.append(")");
 	}
 
 	public strictfp void genExpression(StringBuffer sb, Expression expr,
@@ -323,7 +325,6 @@ public abstract class CSharpBase {
 					sb.append(")");
 					break;
 				case 2:
-					sb.append("(");
 					switch(op.getOpCode())
 					{
 						case Operator.IN:
@@ -332,10 +333,10 @@ public abstract class CSharpBase {
 							genExpression(sb, op.getOperand(0), modifyGenerationState);
 							sb.append(")");
 							break;
-							
+
 						case Operator.BIT_OR:
 						{
-							Type opType = op.getOperand(0).getType(); 
+							Type opType = op.getOperand(0).getType();
 							if(opType instanceof MapType || opType instanceof SetType) {
 								sb.append("GRGEN_LIBGR.DictionaryHelper.Union(");
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
@@ -349,7 +350,7 @@ public abstract class CSharpBase {
 
 						case Operator.BIT_AND:
 						{
-							Type opType = op.getOperand(0).getType(); 
+							Type opType = op.getOperand(0).getType();
 							if(opType instanceof MapType || opType instanceof SetType) {
 								sb.append("GRGEN_LIBGR.DictionaryHelper.Intersect(");
 								genExpression(sb, op.getOperand(0), modifyGenerationState);
@@ -360,12 +361,11 @@ public abstract class CSharpBase {
 							else genBinOpDefault(sb, op, modifyGenerationState);
 							break;
 						}
-						
+
 						default:
 							genBinOpDefault(sb, op, modifyGenerationState);
 							break;
 					}
-					sb.append(")");
 					break;
 				case 3:
 					if(op.getOpCode()==Operator.COND) {
@@ -534,7 +534,7 @@ public abstract class CSharpBase {
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
-	
+
 	protected String getValueAsCSSharpString(Constant constant)
 	{
 		Type type = constant.getType();
@@ -568,7 +568,7 @@ public abstract class CSharpBase {
 				throw new UnsupportedOperationException("unsupported type");
 		}
 	}
-	
+
 	protected String getTypeNameForCast(Cast cast)
 	{
 		Type type = cast.getType();
@@ -587,10 +587,10 @@ public abstract class CSharpBase {
 						"rejected on building the IR, or an allowed cast, which " +
 						"should have been processed by the above code.");
 		}
-		
+
 		return typeName;
 	}
-	
+
 	protected String escapeDoubleQuotes(String input)
 	{
 		StringBuffer sb = new StringBuffer(input.length()+2);
@@ -600,7 +600,7 @@ public abstract class CSharpBase {
 			} else {
 				sb.append(input.charAt(i));
 			}
-		}		
+		}
 		return sb.toString();
 	}
 
