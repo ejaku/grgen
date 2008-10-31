@@ -34,6 +34,59 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an binary infix operator.
+    /// </summary>
+    public abstract class BinInfixOperator : Operator
+    {
+        public BinInfixOperator(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            Left.Emit(sourceCode);
+            sourceCode.Append(GetInfixOperator());
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public abstract String GetInfixOperator();
+
+        Expression Left;
+        Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing an binary prefix operator in function notation.
+    /// </summary>
+    public abstract class BinFuncOperator : Operator
+    {
+        public BinFuncOperator(Expression left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(GetFuncOperatorAndLParen());
+            Left.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public abstract String GetFuncOperatorAndLParen();
+
+        Expression Left;
+        Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing a conditional operator (a ? b : c).
     /// </summary>
     public class COND : Operator
     {
@@ -61,443 +114,282 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a logical or.
     /// </summary>
-    public class LOG_OR : Operator
+    public class LOG_OR : BinInfixOperator
     {
-        public LOG_OR(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public LOG_OR(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string  GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" || ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+ 	        return " || ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a logical and.
     /// </summary>
-    public class LOG_AND : Operator
+    public class LOG_AND : BinInfixOperator
     {
-        public LOG_AND(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public LOG_AND(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string  GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" && ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+ 	        return " && ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a bitwise or.
     /// </summary>
-    public class BIT_OR : Operator
+    public class BIT_OR : BinInfixOperator
     {
-        public BIT_OR(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public BIT_OR(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" | ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " | ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing the set/map union operator.
     /// </summary>
-    public class BIT_XOR : Operator
+    public class DICT_BIT_OR : BinFuncOperator
     {
-        public BIT_XOR(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public DICT_BIT_OR(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetFuncOperatorAndLParen()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" ^ ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return "GRGEN_LIBGR.DictionaryHelper.Union(";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing the set/map intersection operator.
     /// </summary>
-    public class BIT_AND : Operator
+    public class DICT_BIT_AND : BinFuncOperator
     {
-        public BIT_AND(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public DICT_BIT_AND(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetFuncOperatorAndLParen()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" & ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return "GRGEN_LIBGR.DictionaryHelper.Intersect(";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a bitwise xor.
     /// </summary>
-    public class EQ : Operator
+    public class BIT_XOR : BinInfixOperator
     {
-        public EQ(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public BIT_XOR(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" == ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " ^ ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a bitwise and.
     /// </summary>
-    public class NE : Operator
+    public class BIT_AND : BinInfixOperator
     {
-        public NE(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public BIT_AND(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" != ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " & ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing an equality comparison.
     /// </summary>
-    public class LT : Operator
+    public class EQ : BinInfixOperator
     {
-        public LT(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public EQ(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" < ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " == ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing an inequality comparison.
     /// </summary>
-    public class LE : Operator
+    public class NE : BinInfixOperator
     {
-        public LE(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public NE(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" <= ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " != ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a less than comparison.
     /// </summary>
-    public class GT : Operator
+    public class LT : BinInfixOperator
     {
-        public GT(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public LT(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" > ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " < ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a less than or equal comparison.
     /// </summary>
-    public class GE : Operator
+    public class LE : BinInfixOperator
     {
-        public GE(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public LE(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" >= ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " <= ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a greater than comparison.
     /// </summary>
-    public class SHL : Operator
+    public class GT : BinInfixOperator
     {
-        public SHL(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public GT(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" << ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " > ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a greater than or equal comparison.
     /// </summary>
-    public class SHR : Operator
+    public class GE : BinInfixOperator
     {
-        public SHR(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public GE(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" >> ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " >= ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a shift left expression.
     /// </summary>
-    public class BIT_SHR : Operator
+    public class SHL : BinInfixOperator
     {
-        public BIT_SHR(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public SHL(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" >> ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " << ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing an arithmetic shift right expression.
     /// </summary>
-    public class ADD : Operator
+    public class SHR : BinInfixOperator
     {
-        public ADD(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public SHR(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" + ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " >> ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a logical shift right expression.
+    /// TODO: Currently same as shift right expression.
     /// </summary>
-    public class SUB : Operator
+    public class BIT_SHR : BinInfixOperator
     {
-        public SUB(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public BIT_SHR(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" - ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " >> ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing an addition.
     /// </summary>
-    public class MUL : Operator
+    public class ADD : BinInfixOperator
     {
-        public MUL(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public ADD(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" * ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " + ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a subtraction.
     /// </summary>
-    public class DIV : Operator
+    public class SUB : BinInfixOperator
     {
-        public DIV(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public SUB(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" / ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " - ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a multiplication.
     /// </summary>
-    public class MOD : Operator
+    public class MUL : BinInfixOperator
     {
-        public MOD(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        public MUL(Expression left, Expression right) : base(left, right) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(" % ");
-            Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            return " * ";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>
+    /// Class representing a division.
+    /// </summary>
+    public class DIV : BinInfixOperator
+    {
+        public DIV(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetInfixOperator()
+        {
+            return " / ";
+        }
+    }
+
+
+    /// <summary>
+    /// Class representing a modulo expression.
+    /// </summary>
+    public class MOD : BinInfixOperator
+    {
+        public MOD(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetInfixOperator()
+        {
+            return " % ";
+        }
+    }
+
+    /// <summary>
+    /// Class representing a logical negation.
     /// </summary>
     public class LOG_NOT : Operator
     {
@@ -516,6 +408,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a bitwise negation.
     /// </summary>
     public class BIT_NOT : Operator
     {
@@ -534,6 +427,7 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an arithmetic negation.
     /// </summary>
     public class NEG : Operator
     {
@@ -552,26 +446,17 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a map/set inclusion query.
     /// </summary>
-    public class IN : Operator
+    public class IN : BinInfixOperator
     {
-        public IN(Expression left, Expression right)
-        {
-            Left = left;
-            Right = right;
-        }
+        // Switch operands as "right" is the dictionary
+        public IN(Expression left, Expression right) : base(right, left) { }
 
-        public override void Emit(SourceBuilder sourceCode)
+        public override string GetInfixOperator()
         {
-            sourceCode.Append("(");
-            Right.Emit(sourceCode);
-            sourceCode.Append(").ContainsKey(");
-            Left.Emit(sourceCode);
-            sourceCode.Append(")");
+            return ").Contains(";
         }
-
-        Expression Left;
-        Expression Right;
     }
 
     /// <summary>

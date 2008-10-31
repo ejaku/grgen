@@ -100,7 +100,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         if(first) first = false;
                         else sb.Append(", ");
-                        sb.Append(typeArg.Name);
+                        sb.Append(typeArg.FullName);
                     }
                     sb.Append('>');
                     varTypeName = sb.ToString();
