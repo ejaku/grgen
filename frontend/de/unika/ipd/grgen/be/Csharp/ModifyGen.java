@@ -1464,6 +1464,7 @@ public class ModifyGen extends CSharpBase {
 
 	private void genEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<EvalStatement> evalStatements) {
 		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false, def_o = false;
+		int mapSetVarID = 0;
 		for(EvalStatement evalStmt : evalStatements) {
 			if(evalStmt instanceof Assignment) {
 				Assignment ass = (Assignment) evalStmt;
@@ -1474,17 +1475,19 @@ public class ModifyGen extends CSharpBase {
 
 					if(qualTgt.getType() instanceof MapType || qualTgt.getType() instanceof SetType) {
 						// ASSUME: there are no map/set expressions, so the expression is a map/set entity
-						StringBuffer sbtmp = new StringBuffer();
-						genExpression(sbtmp, ass.getExpression(), state);
-						String exprStr = sbtmp.toString();
+						String typeName = formatAttributeType(qualTgt.getType());
+						String varName = "tempmapsetvar_" + mapSetVarID++;
 						
-						genChangingAttribute(sb, state, qualTgt, "Assign", exprStr , "null");
+						sb.append("\t\t\t" + typeName + " " + varName + " = new "
+								+ typeName + "((" + typeName + ") ");
+						genExpression(sb, ass.getExpression(), state);
+						sb.append(");\n");
+						
+						genChangingAttribute(sb, state, qualTgt, "Assign", varName , "null");
 						
 						sb.append("\t\t\t");
 						genExpression(sb, ass.getTarget(), state);
-						sb.append(" = new " + formatAttributeType(qualTgt.getType()) + "(");
-						sb.append(exprStr);
-						sb.append(");\n");
+						sb.append(" = " + varName + ";\n");
 						
 						continue;
 					}

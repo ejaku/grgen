@@ -108,7 +108,7 @@ public class ArithmeticOpNode extends OpNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
 		DeclaredTypeNode type = (DeclaredTypeNode) getType();
-		Operator op = new Operator(type.getPrimitiveType(), getIROpCode(getOpId()));
+		Operator op = new Operator(type.getType(), getIROpCode(getOpId()));
 
 		for(BaseNode n : children) {
 			Expression ir = n.checkIR(Expression.class);

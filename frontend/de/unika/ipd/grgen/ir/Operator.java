@@ -58,7 +58,7 @@ public class Operator extends Expression {
 
 
 	/** @param type The type of the operator. */
-	public Operator(PrimitiveType type, int opCode) {
+	public Operator(Type type, int opCode) {
 		super("operator", type);
 		this.opCode = opCode;
 	}

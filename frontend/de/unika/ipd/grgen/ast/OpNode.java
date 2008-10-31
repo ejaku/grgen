@@ -57,10 +57,10 @@ public abstract class OpNode extends ExprNode
 		//Here The error must have been already reported
 		if ( type.isEqual(BasicTypeNode.errorType) ) {
 			res = false;
-		} else if(!type.isBasic() && !(arity == 3 && (type instanceof EnumTypeNode))) {
+		} /*else if(!type.isBasic() && !(arity == 3 && (type instanceof EnumTypeNode))) {
 			res = false;
 			reportError("Result must be a basic type not: " + getType());
-		}
+		}*/
 
 		return res;
 	}

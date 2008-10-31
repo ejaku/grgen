@@ -55,6 +55,10 @@ public class SetTypeNode extends DeclaredTypeNode {
 		
 		OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
 				valueType, this, OperatorSignature.setEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.BIT_OR, this, this, this,
+				OperatorSignature.setEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.BIT_AND, this, this, this,
+				OperatorSignature.setEvaluator);
 		
 		return true;
 	}

@@ -305,6 +305,12 @@ public abstract class CSharpBase {
 	public String formatLong(long l) {
 		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();
 	}
+	
+	public void genBinOpDefault(StringBuffer sb, Operator op, ExpressionGenerationState modifyGenerationState) {
+		genExpression(sb, op.getOperand(0), modifyGenerationState);
+		sb.append(" " + opSymbols[op.getOpCode()] + " ");
+		genExpression(sb, op.getOperand(1), modifyGenerationState);		
+	}
 
 	public strictfp void genExpression(StringBuffer sb, Expression expr,
 			ExpressionGenerationState modifyGenerationState) {
@@ -318,16 +324,46 @@ public abstract class CSharpBase {
 					break;
 				case 2:
 					sb.append("(");
-					if(op.getOpCode() == Operator.IN) { 
-						genExpression(sb, op.getOperand(1), modifyGenerationState);
-						sb.append(".ContainsKey(");
-						genExpression(sb, op.getOperand(0), modifyGenerationState);
-						sb.append(")");
-					}
-					else {
-						genExpression(sb, op.getOperand(0), modifyGenerationState);
-						sb.append(" " + opSymbols[op.getOpCode()] + " ");
-						genExpression(sb, op.getOperand(1), modifyGenerationState);
+					switch(op.getOpCode())
+					{
+						case Operator.IN:
+							genExpression(sb, op.getOperand(1), modifyGenerationState);
+							sb.append(".ContainsKey(");
+							genExpression(sb, op.getOperand(0), modifyGenerationState);
+							sb.append(")");
+							break;
+							
+						case Operator.BIT_OR:
+						{
+							Type opType = op.getOperand(0).getType(); 
+							if(opType instanceof MapType || opType instanceof SetType) {
+								sb.append("GRGEN_LIBGR.DictionaryHelper.Union(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else genBinOpDefault(sb, op, modifyGenerationState);
+							break;
+						}
+
+						case Operator.BIT_AND:
+						{
+							Type opType = op.getOperand(0).getType(); 
+							if(opType instanceof MapType || opType instanceof SetType) {
+								sb.append("GRGEN_LIBGR.DictionaryHelper.Intersect(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else genBinOpDefault(sb, op, modifyGenerationState);
+							break;
+						}
+						
+						default:
+							genBinOpDefault(sb, op, modifyGenerationState);
+							break;
 					}
 					sb.append(")");
 					break;

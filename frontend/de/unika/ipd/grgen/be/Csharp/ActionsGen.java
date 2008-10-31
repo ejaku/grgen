@@ -41,6 +41,7 @@ import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapItem;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
+import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetItem;
 import de.unika.ipd.grgen.ir.SetSizeExpr;
@@ -53,6 +54,7 @@ import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.SetType;
 import de.unika.ipd.grgen.ir.StringIndexOf;
 import de.unika.ipd.grgen.ir.StringLastIndexOf;
 import de.unika.ipd.grgen.ir.StringLength;
@@ -879,7 +881,13 @@ public class ActionsGen extends CSharpBase {
 	{
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
-			sb.append("new GRGEN_EXPR." + Operator.opNames[op.getOpCode()] + "(");
+			String opNamePrefix;
+			if(op.getType() instanceof SetType || op.getType() instanceof MapType)
+				opNamePrefix = "DICT_";
+			else
+				opNamePrefix = "";
+			
+			sb.append("new GRGEN_EXPR." + opNamePrefix + Operator.opNames[op.getOpCode()] + "(");
 			switch (op.arity()) {
 				case 1:
 					genExpressionTree(sb, op.getOperand(0), className, pathPrefix, alreadyDefinedEntityToName);

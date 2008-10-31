@@ -1,0 +1,16 @@
+using set_model_001;
+
+rule r(var s:set<int>, var b:int)
+{
+	a:A;
+	if {
+		a.val in (a.spiceSet | s);
+		b in (s & a.spiceSet);
+	}
+
+	modify {
+		eval {
+			a.spiceSet = (s & a.spiceSet) | a.constSpiceSet;
+		}
+	}
+}
