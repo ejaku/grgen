@@ -98,43 +98,42 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates a new dictionary of the same type as <paramref name="a"/>
-        /// and fills in all key/value pairs from <paramref name="a"/> and <paramref name="b"/>.
+        /// Creates a new dictionary and fills in all key/value pairs from
+        /// <paramref name="a"/> and <paramref name="b"/>.
         /// If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence.
         /// </summary>
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
         /// <returns>A new dictionary containing all elements from both parameters.</returns>
-        public static IDictionary Union(IDictionary a, IDictionary b)
+        public static Dictionary<K, V> Union<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
             // Fill new dictionary with all elements from b.
-            IDictionary newDict = (IDictionary) Activator.CreateInstance(a.GetType(), b);
+            Dictionary<K, V> newDict = new Dictionary<K, V>(b);
 
             // Add all elements from a, potentially overwriting those of b.
-            foreach(DictionaryEntry entry in a)
+            foreach(KeyValuePair<K, V> entry in a)
                 newDict[entry.Key] = entry.Value;
 
             return newDict;
         }
 
         /// <summary>
-        /// Creates a new dictionary of the same type as <paramref name="a"/>
-        /// containing all key/value pairs from <paramref name="a"/> whose keys are
-        /// also contained in <paramref name="b"/>.
+        /// Creates a new dictionary containing all key/value pairs from
+        /// <paramref name="a"/> whose keys are also contained in <paramref name="b"/>.
         /// </summary>
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
         /// <returns>A new dictionary containing all elements from <paramref name="a"/>,
         /// which are also in <paramref name="b"/>.</returns>
-        public static IDictionary Intersect(IDictionary a, IDictionary b)
+        public static Dictionary<K, V> Intersect<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
             // Fill new dictionary with all elements from a.
-            IDictionary newDict = (IDictionary) Activator.CreateInstance(a.GetType(), a);
+            Dictionary<K, V> newDict = new Dictionary<K, V>(a);
 
             // Remove all elements of a not contained in b.
-            foreach(DictionaryEntry entry in a)
+            foreach(KeyValuePair<K, V> entry in a)
             {
-                if(!b.Contains(entry.Key))
+                if(!b.ContainsKey(entry.Key))
                     newDict.Remove(entry.Key);
             }
 
@@ -142,23 +141,22 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates a new dictionary of the same type as <paramref name="a"/>
-        /// containing all key/value pairs from <paramref name="a"/> whose keys are
-        /// not contained in <paramref name="b"/>.
+        /// Creates a new dictionary containing all key/value pairs from
+        /// <paramref name="a"/> whose keys are not contained in <paramref name="b"/>.
         /// </summary>
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
         /// <returns>A new dictionary containing all elements from <paramref name="a"/>,
         /// which are not in <paramref name="b"/>.</returns>
-        public static IDictionary Difference(IDictionary a, IDictionary b)
+        public static Dictionary<K, V> Difference<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
             // Fill new dictionary with all elements from a.
-            IDictionary newDict = (IDictionary) Activator.CreateInstance(a.GetType(), a);
+            Dictionary<K, V> newDict = new Dictionary<K, V>(a);
 
             // Remove all elements of a contained in b.
-            foreach(DictionaryEntry entry in a)
+            foreach(KeyValuePair<K, V> entry in a)
             {
-                if(b.Contains(entry.Key))
+                if(b.ContainsKey(entry.Key))
                     newDict.Remove(entry.Key);
             }
 

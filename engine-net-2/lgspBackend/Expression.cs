@@ -455,7 +455,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetInfixOperator()
         {
-            return ").Contains(";
+            return ").ContainsKey(";
         }
     }
 
