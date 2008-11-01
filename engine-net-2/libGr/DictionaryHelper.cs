@@ -148,7 +148,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
         /// <returns>A new dictionary containing all elements from <paramref name="a"/>,
         /// which are not in <paramref name="b"/>.</returns>
-        public static Dictionary<K, V> Difference<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
+        public static Dictionary<K, V> Except<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
             // Fill new dictionary with all elements from a.
             Dictionary<K, V> newDict = new Dictionary<K, V>(a);
