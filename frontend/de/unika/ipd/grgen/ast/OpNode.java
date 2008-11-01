@@ -54,13 +54,9 @@ public abstract class OpNode extends ExprNode
 			res = false;
 		}
 
-		//Here The error must have been already reported
-		if ( type.isEqual(BasicTypeNode.errorType) ) {
+		//Here the error must have been already reported
+		if(type.isEqual(BasicTypeNode.errorType))
 			res = false;
-		} /*else if(!type.isBasic() && !(arity == 3 && (type instanceof EnumTypeNode))) {
-			res = false;
-			reportError("Result must be a basic type not: " + getType());
-		}*/
 
 		return res;
 	}
@@ -79,7 +75,7 @@ public abstract class OpNode extends ExprNode
 		TypeNode[] argTypes = new TypeNode[n];
 
 		for(int i = 0; i < n; i++) {
-			ExprNode op = (ExprNode) children.get(i);
+			ExprNode op = children.get(i);
 			TypeNode type = op.getType();
 			if(type instanceof InheritanceTypeNode) type = OperatorSignature.TYPE;
 			argTypes[i] = type;
@@ -109,7 +105,7 @@ public abstract class OpNode extends ExprNode
 			assert (opTypes.length == argTypes.length);
 			for(int i = 0; i < argTypes.length; i++) {
 				if(!argTypes[i].isEqual(opTypes[i])) {
-					ExprNode child = (ExprNode) children.get(i);
+					ExprNode child = children.get(i);
 					ExprNode adjusted = child.adjustType(opTypes[i]);
 					becomeParent(adjusted);
 					children.set(i, adjusted);

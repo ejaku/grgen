@@ -28,16 +28,16 @@ public class SetInitNode extends ExprNode
 	}
 
 	CollectNode<SetItemNode> setItems = new CollectNode<SetItemNode>();
-	
+
 	// if set init node is used in model, for member init then lhs != null
-	// if set init node is used in actions, for anonymous const set then setType != null 
+	// if set init node is used in actions, for anonymous const set then setType != null
 	BaseNode lhsUnresolved;
 	DeclNode lhs;
 	SetTypeNode setType;
 
 	public SetInitNode(Coords coords, IdentNode member, SetTypeNode setType) {
 		super(coords);
-		
+
 		if(member!=null) {
 			lhsUnresolved = becomeParent(member);
 		} else { // mapType!=null
@@ -70,12 +70,12 @@ public class SetInitNode extends ExprNode
 			return lhsResolver.finish();
 		} else {
 			return setType.resolve();
-		} 
+		}
 	}
 
 	protected boolean checkLocal() {
 		boolean success = true;
-		
+
 		SetTypeNode setType;
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
@@ -84,7 +84,7 @@ public class SetInitNode extends ExprNode
 		} else {
 			setType = this.setType;
 		}
-	
+
 		for(SetItemNode item : setItems.getChildren()) {
 			if (item.valueExpr.getType() != setType.valueType) {
 				item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
@@ -96,11 +96,33 @@ public class SetInitNode extends ExprNode
 
 		return success;
 	}
-	
+
+	/**
+	 * Checks whether the set only contains constants.
+	 * @return True, if all set items are constant.
+	 */
+	public boolean isConstant() {
+		for(SetItemNode item : setItems.getChildren())
+			if(!(item.valueExpr instanceof ConstNode))
+				return false;
+		return true;
+	}
+
+	public boolean contains(ConstNode node) {
+		for(SetItemNode item : setItems.getChildren()) {
+			if(item.valueExpr instanceof ConstNode) {
+				ConstNode itemConst = (ConstNode) item.valueExpr;
+				if(node.getValue().equals(itemConst.getValue()))
+					return true;
+			}
+		}
+		return false;
+	}
+
 	public TypeNode getType() {
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
-			return (SetTypeNode) type; 
+			return (SetTypeNode) type;
 		} else {
 			return setType;
 		}

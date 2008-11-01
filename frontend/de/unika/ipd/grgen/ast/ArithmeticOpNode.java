@@ -67,6 +67,12 @@ public class ArithmeticOpNode extends OpNode {
 		super(coords, opId);
 	}
 
+	public ArithmeticOpNode(Coords coords, int opId, ExprNode op1, ExprNode op2) {
+		super(coords, opId);
+		children.add(op1);
+		children.add(op2);
+	}
+
 	/** returns children of this node */
 	public Collection<ExprNode> getChildren() {
 		return children;

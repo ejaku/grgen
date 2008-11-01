@@ -82,11 +82,6 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		return body != null && extend != null;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	protected boolean checkLocal()  {
-		return super.checkLocal();
-	}
-
 	/**
 	 * Get the IR node type for this AST node.
 	 * @return The correctly casted IR node type.
@@ -128,7 +123,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	public static String getUseStr() {
 		return "node type";
 	}
-	
+
 	@Override
 	public Collection<NodeTypeNode> getDirectSuperTypes() {
 		assert isResolved();

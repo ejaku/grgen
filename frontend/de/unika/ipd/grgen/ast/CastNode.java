@@ -123,9 +123,9 @@ public class CastNode extends ExprNode {
 	}
 
 	/**
-	 * This method is only called, if the expression is constant, so you don't
-	 * have to check for it.
-	 * @return The value of the expression.
+	 * Tries to simplify this node by simplifying the target expression and,
+	 * if the expression is a constant, applying the cast.
+	 * @return The possibly simplified value of the expression.
 	 */
 	public ExprNode evaluate() {
 		assert isResolved();

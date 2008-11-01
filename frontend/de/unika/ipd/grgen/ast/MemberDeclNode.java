@@ -32,12 +32,13 @@ public class MemberDeclNode extends DeclNode {
 
 	TypeNode type;
 	private boolean isConst;
+	private BaseNode constInitializer;
 
 	/**
 	 * @param n Identifier which declared the member.
 	 * @param t Type with which the member was declared.
 	 */
-	public MemberDeclNode(IdentNode n, BaseNode t, boolean isConst ) {
+	public MemberDeclNode(IdentNode n, BaseNode t, boolean isConst) {
 		super(n, t);
 		this.isConst = isConst;
 	}
@@ -60,6 +61,14 @@ public class MemberDeclNode extends DeclNode {
 
 	public boolean isConst() {
 		return isConst;
+	}
+
+	public BaseNode getConstInitializer() {
+		return constInitializer;
+	}
+
+	public void setConstInitializer(BaseNode init) {
+		constInitializer = init;
 	}
 
 	/*

@@ -103,9 +103,8 @@ public abstract class ExprNode extends BaseNode {
 	}
 
 	/**
-	 * This method is only called, if the expression is constant, so you don't
-	 * have to check for it.
-	 * @return The value of the expression.
+	 * Tries to simplify this node.
+	 * @return The possibly simplified value of the expression.
 	 */
 	public ExprNode evaluate() {
 		return this;

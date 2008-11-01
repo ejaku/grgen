@@ -1444,7 +1444,12 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 					c.addChild(decl);
 				}
 				(
-					init=initExprDecl[decl.getIdentNode()] { c.addChild(init); }
+					init=initExprDecl[decl.getIdentNode()]
+					{
+						c.addChild(init);
+						if(isConst)
+							decl.setConstInitializer(init);
+					}
 				)?
 			|
 				MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
@@ -1454,7 +1459,12 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 					c.addChild(decl);
 				}
 				(
-					ASSIGN init2=initMapExpr[decl.getIdentNode(), null] { c.addChild(init2); }
+					ASSIGN init2=initMapExpr[decl.getIdentNode(), null]
+					{
+						c.addChild(init2);
+						if(isConst)
+							decl.setConstInitializer(init2);
+					}
 				)?
 			|
 				SET LT valueType=typeIdentUse GT
@@ -1464,7 +1474,12 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 					c.addChild(decl);
 				}
 				(
-					ASSIGN init3=initSetExpr[decl.getIdentNode(), null] { c.addChild(init3); }
+					ASSIGN init3=initSetExpr[decl.getIdentNode(), null]
+					{
+						c.addChild(init3);
+						if(isConst)
+							decl.setConstInitializer(init3);
+					}
 				)?
 			)
 		)

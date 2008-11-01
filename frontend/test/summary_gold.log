@@ -31,6 +31,7 @@ OK     should_pass/attrib_026.grg
 OK     should_pass/attrib_030.grg
 OK     should_pass/attrib_031.grg
 OK     should_pass/attrib_032.grg
+OK     should_pass/attrib_092.grg
 OK     should_pass/basic_001.grg
 OK     should_pass/basic_002.grg
 OK     should_pass/basic_004.grg
@@ -176,6 +177,7 @@ OK     should_pass/hom_015.grg
 OK     should_pass/hom_016.grg
 OK     should_pass/hom_017.grg
 OK     should_pass/hom_018.grg
+OK     should_pass/hom_019.grg
 OK     should_pass/hom_ret_001.grg
 OK     should_pass/if_001.grg
 OK     should_pass/induced_001.grg
@@ -254,6 +256,8 @@ OK     should_pass/reuse_007.grg
 OK     should_pass/reuse_008.grg
 OK     should_pass/set_001.grg
 OK     should_pass/set_002.grg
+OK     should_pass/set_003.grg
+FAILED should_pass/set_004.grg
 OK     should_pass/snowflakeAGTIVE.grg
 OK     should_pass/strfunc_001.grg
 OK     should_pass/to_001.grg
@@ -410,7 +414,6 @@ ERROR  should_fail/attrib_089.grg
 ERROR  should_fail/attrib_090.grg
 ERROR  should_fail/attrib_091.grg
 ERROR  should_fail/attrib_092.grg
-ERROR  should_fail/attrib_093.grg
 ERROR  should_fail/basic_001.grg
 ERROR  should_fail/basic_002.grg
 ERROR  should_fail/basic_003.grg
@@ -555,7 +558,6 @@ ERROR  should_fail/exec_031.grg
 ERROR  should_fail/exec_032.grg
 ERROR  should_fail/exec_033.grg
 ERROR  should_fail/exec_034.grg
-ERROR  should_fail/hom_001.grg
 ERROR  should_fail/hom_002.grg
 ERROR  should_fail/hom_003.grg
 ERROR  should_fail/hom_004.grg

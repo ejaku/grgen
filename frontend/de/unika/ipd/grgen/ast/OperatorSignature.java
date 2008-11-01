@@ -212,9 +212,10 @@ public class OperatorSignature extends FunctionSignature {
 				}
 			}
 
-			ConstNode c = (res instanceof ConstNode) ? (ConstNode) res : ConstNode.getInvalid();
-
-			debug.report(NOTE, "result: " + res.getClass() + ", value: " + c.getValue());
+			if(debug.willReport(NOTE)) {
+				ConstNode c = (res instanceof ConstNode) ? (ConstNode) res : ConstNode.getInvalid();
+				debug.report(NOTE, "result: " + res.getClass() + ", value: " + c.getValue());
+			}
 
 			return res;
 		}
@@ -488,7 +489,7 @@ public class OperatorSignature extends FunctionSignature {
 				TypeNode type = (TypeNode) ((TypeConstNode) e[0]).getValue();
 				is_node1 = type instanceof NodeTypeNode;
 			} else if (e[0] instanceof TypeofNode) {
-				TypeNode type = (TypeNode) ((TypeofNode) e[0]).getEntity().getDeclType();
+				TypeNode type = ((TypeofNode) e[0]).getEntity().getDeclType();
 				is_node1 = type instanceof NodeTypeNode;
 			} else
 				throw new NotEvaluatableException(coords);
@@ -497,7 +498,7 @@ public class OperatorSignature extends FunctionSignature {
 				TypeNode type = (TypeNode) ((TypeConstNode) e[1]).getValue();
 				is_node2 = type instanceof NodeTypeNode;
 			} else if (e[0] instanceof TypeofNode) {
-				TypeNode type = (TypeNode) ((TypeofNode) e[1]).getEntity().getDeclType();
+				TypeNode type = ((TypeofNode) e[1]).getEntity().getDeclType();
 				is_node2 = type instanceof NodeTypeNode;
 			} else
 				throw new NotEvaluatableException(coords);
@@ -551,7 +552,7 @@ public class OperatorSignature extends FunctionSignature {
 	public static final Evaluator condEvaluator = new Evaluator() {
 		public ExprNode evaluate(ExprNode expr, OperatorSignature op, ExprNode[] args) {
 			try {
-				return (boolean)(Boolean) getArgValue(args, op, 0) ? args[1] : args[2];
+				return (Boolean) getArgValue(args, op, 0) ? args[1] : args[2];
 			} catch (ValueException x) {
 				return expr;
 			}
@@ -568,10 +569,55 @@ public class OperatorSignature extends FunctionSignature {
 	public static final Evaluator setEvaluator = new Evaluator() {
 		protected ExprNode eval(Coords coords, OperatorSignature op,
 				ExprNode[] e) throws NotEvaluatableException {
-			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate in if set const
+			switch(op.id) {
+				case IN:
+				{
+					if(e[1] instanceof ArithmeticOpNode)
+					{
+						ArithmeticOpNode opNode = (ArithmeticOpNode) e[1];
+						if(opNode.getOpId() == BIT_AND)
+						{
+							ExprNode set1 = opNode.children.get(0);
+							ExprNode set2 = opNode.children.get(1);
+							ExprNode in1 = new ArithmeticOpNode(set1.getCoords(), IN, e[0], set1).evaluate();
+							ExprNode in2 = new ArithmeticOpNode(set2.getCoords(), IN, e[0], set2).evaluate();
+							return new ArithmeticOpNode(opNode.getCoords(), LOG_AND, in1, in2).evaluate();
+						}
+						else if(opNode.getOpId() == BIT_OR)
+						{
+							ExprNode set1 = opNode.children.get(0);
+							ExprNode set2 = opNode.children.get(1);
+							ExprNode in1 = new ArithmeticOpNode(set1.getCoords(), IN, e[0], set1).evaluate();
+							ExprNode in2 = new ArithmeticOpNode(set2.getCoords(), IN, e[0], set2).evaluate();
+							return new ArithmeticOpNode(opNode.getCoords(), LOG_OR, in1, in2).evaluate();
+						}
+					} else if(e[0] instanceof ConstNode) {
+						ConstNode val = (ConstNode) e[0];
+
+						SetInitNode setInit = null;
+						if(e[1] instanceof SetInitNode) {
+							setInit = (SetInitNode) e[1];
+						}
+						else if(e[1] instanceof MemberAccessExprNode) {
+							MemberDeclNode member = ((MemberAccessExprNode) e[1]).member;
+							if(member.isConst() && member.getConstInitializer() != null)
+								setInit = (SetInitNode) member.getConstInitializer();
+						}
+						if(setInit != null) {
+							if(setInit.contains(val))
+								return new BoolConstNode(coords, true);
+							else if(setInit.isConstant())
+								return new BoolConstNode(coords, false);
+							// Otherwise not decideable because of non-constant entries in set
+						}
+					}
+					break;
+				}
+			}
+			throw new NotEvaluatableException(coords);
 		}
 	};
-	
+
 	private static final Evaluator emptyEvaluator = new Evaluator();
 
 	// Initialize the operators map.
@@ -846,11 +892,11 @@ public class OperatorSignature extends FunctionSignature {
 	 * Evaluate an expression using this operator signature.
 	 *
 	 * @param expr
-	 *            The default result if the evaluation fails
+	 *            The expression to be evaluated.
 	 * @param args
 	 *            The arguments for this operator.
-	 * @return The computed value of the constant expression or a constant with
-	 *         {@link ConstNode.getInvalid()} that returns true.
+	 * @return
+	 *            The possibly simplified value of the expression.
 	 */
 	protected ExprNode evaluate(ArithmeticOpNode expr, ExprNode[] args) {
 		return evaluator.evaluate(expr, this, args);

@@ -71,7 +71,6 @@ public class MemberInitNode extends BaseNode {
 		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
 		if(!lhsResolver.resolve(lhsUnresolved)) return false;
 		lhs = lhsResolver.getResult(DeclNode.class);
-
 		return lhsResolver.finish();
 	}
 
@@ -93,7 +92,7 @@ public class MemberInitNode extends BaseNode {
 
 		if (exprType.isEqual(targetType))
 			return true;
-		
+
 		rhs = becomeParent(rhs.adjustType(targetType, getCoords()));
 		return rhs != ConstNode.getInvalid();
 	}

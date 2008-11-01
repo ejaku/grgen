@@ -30,14 +30,14 @@ public class MapInitNode extends ExprNode
 	CollectNode<MapItemNode> mapItems = new CollectNode<MapItemNode>();
 
 	// if map init node is used in model, for member init then lhs != null
-	// if map init node is used in actions, for anonymous const map then mapType != null 
+	// if map init node is used in actions, for anonymous const map then mapType != null
 	BaseNode lhsUnresolved;
 	DeclNode lhs;
 	MapTypeNode mapType;
 
 	public MapInitNode(Coords coords, IdentNode member, MapTypeNode mapType) {
 		super(coords);
-		
+
 		if(member!=null) {
 			lhsUnresolved = becomeParent(member);
 		} else { // mapType!=null
@@ -106,12 +106,12 @@ public class MapInitNode extends ExprNode
 	public TypeNode getType() {
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
-			return (MapTypeNode) type; 
+			return (MapTypeNode) type;
 		} else {
 			return mapType;
 		}
 	}
-	
+
 	protected IR constructIR() {
 		Vector<MapItem> items = new Vector<MapItem>();
 		for(MapItemNode item : mapItems.getChildren()) {

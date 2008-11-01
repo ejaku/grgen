@@ -85,8 +85,13 @@ test anonymousSet {
 	a:A -e:E-> a;
 	
 	if { 
-		a.val in set<int>{ 1, 3, 5, 7, 11, 13, 17 }
-		|| e.strval in set<string>{ "foo", "bar", "blubb" };
+            a.val in set<int>{ 1, 3, 5, 7, 11, 13, 17 }
+            && "blub" in set<string>{ "flap", "blab", "blub" }
+		||
+            e.strval in set<string>{ "foo", "bar", "blubb" }
+            && 13 in set<int>{ 2, 4, 13, 19 }
+		||
+            14 in set<int>{ 2, 4, 13, 19 };
 	}
 }
 
@@ -103,11 +108,11 @@ rule anonymousSetInRewrite {
 rule constantSetContainedInPatternAndRewrite {
 	a:A;
 	
-	if { "yeah" in a.constNiceSet; }
+	if { "yeah" in a.constNiceSet || a.val != 999 && "bar" in a.constNiceSet; }
 	
 	modify {
 		eval {
-			a.val = (13 in a.constSpiceSet) ? 1 : 0;
+			a.val = ((13 in a.constSpiceSet) ? 1 : 0) + ((42 in a.constSpiceSet) ? 2 : 0);
 		}
 	}
 }
