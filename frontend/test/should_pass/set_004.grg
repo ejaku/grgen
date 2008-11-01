@@ -1,0 +1,12 @@
+using set_model_001;
+
+test anonymousSet {
+	a:A -e:E-> a;
+	
+	if { 
+		a.val in set<int>{ 1, 3, 5, 7, 11, 13, 17 }
+		|| e.strval in set<string>{ "foo", "bar", "blubb" }
+		&& a.val in set<int>{ 2, 4, a.val, 19 }
+		&& e.strval in set<string>{ "bar", e.strval, "blubb" };
+	}
+}
