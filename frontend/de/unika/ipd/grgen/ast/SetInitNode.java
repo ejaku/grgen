@@ -93,6 +93,11 @@ public class SetInitNode extends ExprNode
 				success = false;
 			}
 		}
+		
+		if(!isConstant()) {
+			reportError("Only constant items allowed in set initialization");
+			success = false;
+		}
 
 		return success;
 	}
@@ -102,9 +107,18 @@ public class SetInitNode extends ExprNode
 	 * @return True, if all set items are constant.
 	 */
 	public boolean isConstant() {
-		for(SetItemNode item : setItems.getChildren())
-			if(!(item.valueExpr instanceof ConstNode))
+		for(SetItemNode item : setItems.getChildren()) {
+			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
 				return false;
+		}
+		return true;
+	}
+	
+	public boolean isEnumValue(ExprNode expr) {
+		if(!(expr instanceof DeclExprNode))
+			return false;
+		if(!(((DeclExprNode)expr).declUnresolved instanceof EnumExprNode))
+			return false;
 		return true;
 	}
 

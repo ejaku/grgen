@@ -99,8 +99,35 @@ public class MapInitNode extends ExprNode
 				success = false;
 			}
 		}
+		
+		if(!isConstant()) {
+			reportError("Only constant items allowed in map initialization");
+			success = false;
+		}
 
 		return success;
+	}
+
+	/**
+	 * Checks whether the map only contains constants.
+	 * @return True, if all map items are constant.
+	 */
+	public boolean isConstant() {
+		for(MapItemNode item : mapItems.getChildren()) {
+			if(!(item.keyExpr instanceof ConstNode || isEnumValue(item.keyExpr)))
+				return false;
+			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
+				return false;
+		}
+		return true;
+	}
+	
+	public boolean isEnumValue(ExprNode expr) {
+		if(!(expr instanceof DeclExprNode))
+			return false;
+		if(!(((DeclExprNode)expr).declUnresolved instanceof EnumExprNode))
+			return false;
+		return true;
 	}
 
 	public TypeNode getType() {
