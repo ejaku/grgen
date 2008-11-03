@@ -100,18 +100,20 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Creates a new dictionary and fills in all key/value pairs from
         /// <paramref name="a"/> and <paramref name="b"/>.
-        /// If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence.
+        /// If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
+        /// (this way the common case "a = a | map<int, int> { 7 -> 13 };" would update an existing entry
+        /// with key 7 to 13).
         /// </summary>
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
         /// <returns>A new dictionary containing all elements from both parameters.</returns>
         public static Dictionary<K, V> Union<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
-            // Fill new dictionary with all elements from b.
-            Dictionary<K, V> newDict = new Dictionary<K, V>(b);
+            // Fill new dictionary with all elements from a.
+            Dictionary<K, V> newDict = new Dictionary<K, V>(a);
 
-            // Add all elements from a, potentially overwriting those of b.
-            foreach(KeyValuePair<K, V> entry in a)
+            // Add all elements from b, potentially overwriting those of a.
+            foreach(KeyValuePair<K, V> entry in b)
                 newDict[entry.Key] = entry.Value;
 
             return newDict;
@@ -119,21 +121,23 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Creates a new dictionary containing all key/value pairs from
-        /// <paramref name="a"/> whose keys are also contained in <paramref name="b"/>.
+        /// <paramref name="b"/> whose keys are also contained in <paramref name="a"/>.
+        /// If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
+        /// for consistency with Union.
         /// </summary>
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-        /// <returns>A new dictionary containing all elements from <paramref name="a"/>,
-        /// which are also in <paramref name="b"/>.</returns>
+        /// <returns>A new dictionary containing all elements from <paramref name="b"/>,
+        /// which are also in <paramref name="a"/>.</returns>
         public static Dictionary<K, V> Intersect<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
-            // Fill new dictionary with all elements from a.
-            Dictionary<K, V> newDict = new Dictionary<K, V>(a);
+            // Fill new dictionary with all elements from b.
+            Dictionary<K, V> newDict = new Dictionary<K, V>(b);
 
-            // Remove all elements of a not contained in b.
-            foreach(KeyValuePair<K, V> entry in a)
+            // Remove all elements of a not contained in a.
+            foreach(KeyValuePair<K, V> entry in b)
             {
-                if(!b.ContainsKey(entry.Key))
+                if(!a.ContainsKey(entry.Key))
                     newDict.Remove(entry.Key);
             }
 
