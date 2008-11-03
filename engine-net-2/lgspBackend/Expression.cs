@@ -179,6 +179,19 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing the set/map except operator.
+    /// </summary>
+    public class DICT_EXCEPT : BinFuncOperator
+    {
+        public DICT_EXCEPT(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryHelper.Except(";
+        }
+    }
+
+    /// <summary>
     /// Class representing a bitwise xor.
     /// </summary>
     public class BIT_XOR : BinInfixOperator
