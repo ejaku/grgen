@@ -4,13 +4,13 @@ rule r(var s:set<int>, var b:int)
 {
 	a:A;
 	if {
-		a.val in (a.spiceSet | s);
+		a.val in (a.spiceSet | s \ a.constSpiceSet);
 		b in (s & a.spiceSet);
 	}
 
 	modify {
 		eval {
-			a.spiceSet = (s & a.spiceSet) | a.constSpiceSet;
+			a.spiceSet = (s & a.spiceSet) | a.constSpiceSet \ s;
 		}
 	}
 }

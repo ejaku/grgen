@@ -104,6 +104,7 @@ tokens {
 		putOpId(LAND, OperatorSignature.LOG_AND);
 		putOpId(LOR, OperatorSignature.LOG_OR);
 		putOpId(IN, OperatorSignature.IN);
+		putOpId(BACKSLASH, OperatorSignature.EXCEPT);
 	};
 
 	private OpNode makeOp(org.antlr.runtime.Token t) {
@@ -1753,8 +1754,15 @@ bitXOrExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	;
 
 bitAndExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: e=exceptExpr[inEnumInit] { res = e; }
+		( t=BAND op=exceptExpr[inEnumInit]
+			{ res = makeBinOp(t, res, op); }
+		)*
+	;
+
+exceptExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: e=eqExpr[inEnumInit] { res = e; }
-		( t=BAND op=eqExpr[inEnumInit]
+		( t=BACKSLASH op=eqExpr[inEnumInit]
 			{ res = makeBinOp(t, res, op); }
 		)*
 	;

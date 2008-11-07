@@ -63,6 +63,8 @@ public class MapTypeNode extends DeclaredTypeNode {
 				OperatorSignature.mapEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.BIT_AND, this, this, this,
 				OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this, this, this,
+				OperatorSignature.mapEvaluator);
 		
 		return true;
 	}

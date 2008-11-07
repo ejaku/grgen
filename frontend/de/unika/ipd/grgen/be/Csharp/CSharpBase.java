@@ -361,6 +361,20 @@ public abstract class CSharpBase {
 							else genBinOpDefault(sb, op, modifyGenerationState);
 							break;
 						}
+						
+						case Operator.EXCEPT:
+						{
+							Type opType = op.getOperand(0).getType();
+							if(opType instanceof MapType || opType instanceof SetType) {
+								sb.append("GRGEN_LIBGR.DictionaryHelper.Except(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else genBinOpDefault(sb, op, modifyGenerationState);
+							break;
+						}
 
 						default:
 							genBinOpDefault(sb, op, modifyGenerationState);

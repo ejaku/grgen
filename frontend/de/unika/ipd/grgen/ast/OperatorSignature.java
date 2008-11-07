@@ -48,8 +48,9 @@ public class OperatorSignature extends FunctionSignature {
 	public static final int CONST = 23;
 	public static final int COND = 24;
 	public static final int IN = 25; // MAP TODO: den operator richtig implementieren, mit typbalancing etc.
+	public static final int EXCEPT = 26;
 
-	private static final int OPERATORS = IN + 1;
+	private static final int OPERATORS = EXCEPT + 1;
 
 	/** Arity map of the operators. */
 	private static final Map<Integer, Integer> arities = new HashMap<Integer, Integer>();
@@ -99,6 +100,7 @@ public class OperatorSignature extends FunctionSignature {
 		names.put(new Integer(NEG), "Neg");
 		names.put(new Integer(CONST), "Const");
 		names.put(new Integer(IN), "In");
+		names.put(new Integer(EXCEPT), "Except");
 		names.put(new Integer(ERROR), "Error");
 	}
 
@@ -807,9 +809,8 @@ public class OperatorSignature extends FunctionSignature {
 			}
 		}
 
-		assert operators.get(oid) != null : "Operator \"" + getName(id)
-				+ "\" must be registered";
 		HashSet<OperatorSignature> opSet = operators.get(oid);
+		if(opSet == null) return INVALID;
 
 		for (Iterator<OperatorSignature> it = opSet.iterator(); it.hasNext();) {
 			OperatorSignature op = it.next();
