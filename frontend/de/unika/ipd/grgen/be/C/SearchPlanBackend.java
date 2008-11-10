@@ -711,6 +711,19 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			}
 			String mode = "ANY";
 			String lsmode = "ANY"; // just for Load/Store nodes!
+			
+			// define the create_func
+			String create_func = "new_rd_"+type;
+			// TODO be_* nodes will become _bd_ t some point!
+			final String[] starts = {"ia32_", "arm_", "mips_", "ppc32_"};
+			for(String start : starts) {
+				if (type.startsWith(start)) {
+					create_func = "new_bd_"+type;
+				}
+			}
+			if (type.equals("IR_node")) {
+				create_func = "new_ir_node";
+			}
 
 			// Search for the "Mode"- and "LS Mode"-edge
 			for(Edge e : graph.getOutgoing(node)) { // test iff we got an Mode-node
@@ -739,19 +752,17 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			// Check if the node is related to a positive node
 			if(!related)
 			{
-				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_bd_" + type;
 				sb.append(indent + "ext_grs_node_t *n_" + name +			// No, Write statement to file
 						  " = ext_grs_act_add_node(pattern, \"" +
 						  name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
-						  ", " + nodeId + ", &" + construction_func +
+						  ", " + nodeId + ", &" + create_func +
   						  ", " + getModifiedFlags(rule, node) + ");\n");
 
 			}
 			else
 			{
 				String related_name = node.getIdent().toString(); 			// Yes, the regular node name without suffix
-				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_bd_" + type;
-
+				
 				sb.append(indent + "ext_grs_node_t *n_" + name + " = ");
 				if (graphType == GraphType.Negative) {
 					sb.append("ext_grs_act_add_related_node(pattern, \"" +
@@ -761,7 +772,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 					sb.append("ext_grs_act_add_node_to_keep(pattern, \"" +
 							name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
 							", " + nodeId + ", n_" + related_name +
-							", &" +	construction_func + ", " +  getModifiedFlags(rule, node));
+							", &" +	create_func + ", " +  getModifiedFlags(rule, node));
 
 				}
 				sb.append(");\n");
