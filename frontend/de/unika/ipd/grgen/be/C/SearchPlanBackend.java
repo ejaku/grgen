@@ -739,7 +739,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			// Check if the node is related to a positive node
 			if(!related)
 			{
-				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_rd_" + type;
+				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_bd_" + type;
 				sb.append(indent + "ext_grs_node_t *n_" + name +			// No, Write statement to file
 						  " = ext_grs_act_add_node(pattern, \"" +
 						  name + "\", grs_op_" + type + ", mode_" + mode + ", mode_" + lsmode +
@@ -750,7 +750,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			else
 			{
 				String related_name = node.getIdent().toString(); 			// Yes, the regular node name without suffix
-				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_rd_" + type;
+				String construction_func = (type.equals("IR_node")) ?  "new_ir_node" : "new_bd_" + type;
 
 				sb.append(indent + "ext_grs_node_t *n_" + name + " = ");
 				if (graphType == GraphType.Negative) {
