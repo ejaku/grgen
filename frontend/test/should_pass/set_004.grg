@@ -1,6 +1,6 @@
 using set_model_001;
 
-test anonymousSet {
+rule anonymousSet {
 	a:A -e:E-> a;
 	
 	if { 
@@ -8,5 +8,12 @@ test anonymousSet {
 		|| e.strval in set<string>{ "foo", "bar", "blubb" }
 		&& a.val in set<int>{ 2, 4, a.val, 19 }
 		&& e.strval in set<string>{ "bar", e.strval, "blubb" };
+	}
+	
+	modify {
+		eval {
+			a.val = a.val in set<int>{ 2, 4, a.val, 19 } ? a.val : 42;
+			e.strval = e.strval in set<string>{ "bar", e.strval, "blubb" } ? e.strval : 42;
+		}
 	}
 }

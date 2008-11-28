@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetItem;
 import de.unika.ipd.grgen.ir.SetType;
@@ -79,7 +80,7 @@ public class SetInitNode extends ExprNode
 		SetTypeNode setType;
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
-			assert type instanceof SetTypeNode: "Lhs should be a Set[Value]";
+			assert type instanceof SetTypeNode: "Lhs should be a Set<Value>";
 			setType = (SetTypeNode) type;
 		} else {
 			setType = this.setType;
@@ -94,8 +95,8 @@ public class SetInitNode extends ExprNode
 			}
 		}
 		
-		if(!isConstant()) {
-			reportError("Only constant items allowed in set initialization");
+		if(!isConstant() && lhs!=null) {
+			reportError("Only constant items allowed in set initialization in model");
 			success = false;
 		}
 
@@ -147,7 +148,9 @@ public class SetInitNode extends ExprNode
 		for(SetItemNode item : setItems.getChildren()) {
 			items.add(item.getSetItem());
 		}
-		return new SetInit(items, lhs!=null ? lhs.getEntity() : null, setType!=null ? (SetType)setType.getIR() : null);
+		Entity member = lhs!=null ? lhs.getEntity() : null;
+		SetType type = setType!=null ? (SetType)setType.getIR() : null;
+		return new SetInit(items, member, type, isConstant());
 	}
 
 	public SetInit getSetInit() {

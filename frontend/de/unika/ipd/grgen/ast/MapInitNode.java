@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapItem;
 import de.unika.ipd.grgen.ir.MapType;
@@ -100,8 +101,8 @@ public class MapInitNode extends ExprNode
 			}
 		}
 		
-		if(!isConstant()) {
-			reportError("Only constant items allowed in map initialization");
+		if(!isConstant() && lhs!=null) {
+			reportError("Only constant items allowed in map initialization in model");
 			success = false;
 		}
 
@@ -144,7 +145,9 @@ public class MapInitNode extends ExprNode
 		for(MapItemNode item : mapItems.getChildren()) {
 			items.add(item.getMapItem());
 		}
-		return new MapInit(items, lhs!=null ? lhs.getEntity() : null, mapType!=null ? (MapType)mapType.getIR() : null);
+		Entity member = lhs!=null ? lhs.getEntity() : null;
+		MapType type = mapType!=null ? (MapType)mapType.getIR() : null;
+		return new MapInit(items, member, type, isConstant());
 	}
 
 	public MapInit getMapInit() {

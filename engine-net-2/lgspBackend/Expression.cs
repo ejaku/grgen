@@ -859,11 +859,11 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a rule-local map.
+    /// Class representing a constant rule-local map, available as initalized static class member.
     /// </summary>
-    public class LocalMap : Expression
+    public class StaticMap : Expression
     {
-        public LocalMap(String className, String mapName)
+        public StaticMap(String className, String mapName)
         {
             ClassName = className;
             MapName = mapName;
@@ -871,7 +871,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append(ClassName+"."+MapName);
+            sourceCode.Append(ClassName + "." + MapName);
         }
 
         String ClassName;
@@ -879,11 +879,11 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a rule-local set.
+    /// Class representing a constant rule-local set, available as initialized static class member.
     /// </summary>
-    public class LocalSet : Expression
+    public class StaticSet : Expression
     {
-        public LocalSet(String className, String setName)
+        public StaticSet(String className, String setName)
         {
             ClassName = className;
             SetName = setName;
@@ -891,10 +891,112 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append(ClassName+"." + SetName);
+            sourceCode.Append(ClassName + "." + SetName);
         }
 
         String ClassName;
         String SetName;
+    }
+
+    /// <summary>
+    /// Class representing a rule-local map to be filled with the given map items.
+    /// </summary>
+    public class MapConstructor : Expression
+    {
+        public MapConstructor(String className, String mapName, MapItem first)
+        {
+            ClassName = className;
+            MapName = mapName;
+            First = first;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(ClassName + ".fill_" + MapName + "(");
+            First.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        String ClassName;
+        String MapName;
+        MapItem First;
+    }
+
+    /// <summary>
+    /// Class representing a map item.
+    /// </summary>
+    public class MapItem : Expression
+    {
+        public MapItem(Expression key, Expression value, MapItem next)
+        {
+            Key = key;
+            Value = value;
+            Next = next;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            Key.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            if (Next != null)
+            {
+                sourceCode.Append(", ");
+                Next.Emit(sourceCode);
+            }
+        }
+
+        Expression Key;
+        Expression Value;
+        MapItem Next;
+    }
+
+    /// <summary>
+    /// Class representing a rule-local set to be filled with the given set items.
+    /// </summary>
+    public class SetConstructor : Expression
+    {
+        public SetConstructor(String className, String setName, SetItem first)
+        {
+            ClassName = className;
+            SetName = setName;
+            First = first;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(ClassName + ".fill_" + SetName + "(");
+            First.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        String ClassName;
+        String SetName;
+        SetItem First;
+    }
+
+    /// <summary>
+    /// Class representing a set item.
+    /// </summary>
+    public class SetItem : Expression
+    {
+        public SetItem(Expression value, SetItem next)
+        {
+            Value = value;
+            Next = next;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            Value.Emit(sourceCode);
+            if (Next != null)
+            {
+                sourceCode.Append(", ");
+                Next.Emit(sourceCode);
+            }
+        }
+
+        Expression Value;
+        SetItem Next;
     }
 }

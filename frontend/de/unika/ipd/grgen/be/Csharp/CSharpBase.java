@@ -40,8 +40,10 @@ import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IntType;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.MapInit;
+import de.unika.ipd.grgen.ir.MapItem;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
 import de.unika.ipd.grgen.ir.SetInit;
+import de.unika.ipd.grgen.ir.SetItem;
 import de.unika.ipd.grgen.ir.SetSizeExpr;
 import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.SetType;
@@ -540,11 +542,45 @@ public abstract class CSharpBase {
 		}
 		else if (expr instanceof MapInit) {
 			MapInit mi = (MapInit)expr;
-			sb.append(mi.getAnonymnousMapName());
+			if(mi.isConstant()) {
+				sb.append(mi.getAnonymnousMapName());
+			} else {
+				sb.append("fill_" + mi.getAnonymnousMapName() + "(");
+				boolean first = true;
+				for(MapItem item : mi.getMapItems()) {
+					if(first) {
+						genExpression(sb, item.getKeyExpr(), modifyGenerationState);
+						sb.append(", ");
+						genExpression(sb, item.getValueExpr(), modifyGenerationState);
+						first = false;
+					} else {
+						sb.append(", ");
+						genExpression(sb, item.getKeyExpr(), modifyGenerationState);
+						sb.append(", ");
+						genExpression(sb, item.getValueExpr(), modifyGenerationState);
+					}
+				}
+				sb.append(")");
+			}
 		}
 		else if (expr instanceof SetInit) {
 			SetInit si = (SetInit)expr;
-			sb.append(si.getAnonymnousSetName());
+			if(si.isConstant()) {
+				sb.append(si.getAnonymnousSetName());
+			} else {
+				sb.append("fill_" + si.getAnonymnousSetName() + "(");
+				boolean first = true;
+				for(SetItem item : si.getSetItems()) {
+					if(first) {
+						genExpression(sb, item.getValueExpr(), modifyGenerationState);
+						first = false;
+					} else {
+						sb.append(", ");
+						genExpression(sb, item.getValueExpr(), modifyGenerationState);
+					}
+				}
+				sb.append(")");
+			}
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

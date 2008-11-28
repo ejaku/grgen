@@ -434,44 +434,106 @@ public class ActionsGen extends CSharpBase {
 	}
 	
 	private void genLocalMapsAndSets(StringBuffer sb, NeededEntities needs, List<String> staticInitializers) {
-		for(Expression mapSetExpr : needs.mapSetExprs)
-		{
+		sb.append("\n");
+		for(Expression mapSetExpr : needs.mapSetExprs) {
 			if(mapSetExpr instanceof MapInit) {
-				MapInit mapInit = (MapInit)mapSetExpr;
-				String attrType = formatAttributeType(mapInit.getType());
-				sb.append("\t\tpublic static readonly " + attrType
-						+ mapInit.getAnonymnousMapName() + " = " +
-						"new " + attrType + "();\n");
-				staticInitializers.add("init_" + mapInit.getAnonymnousMapName());
-				sb.append("\t\tstatic void init_" + mapInit.getAnonymnousMapName() + "() {\n");
-				for(MapItem item : mapInit.getMapItems()) {
-					sb.append("\t\t\t");
-					sb.append(mapInit.getAnonymnousMapName());
-					sb.append("[");
-					genExpression(sb, item.getKeyExpr(), null);
-					sb.append("] = ");
-					genExpression(sb, item.getValueExpr(), null);
-					sb.append(";\n");
-				}
-				sb.append("\t\t}\n");
+				genLocalMap(sb, (MapInit)mapSetExpr, staticInitializers);
+			} else if(mapSetExpr instanceof SetInit) {
+				genLocalSet(sb, (SetInit)mapSetExpr, staticInitializers);
 			}
-			else if(mapSetExpr instanceof SetInit) {
-				SetInit setInit = (SetInit)mapSetExpr;
-				String attrType = formatAttributeType(setInit.getType());
-				sb.append("\t\tpublic static readonly " + attrType
-						+ setInit.getAnonymnousSetName() + " = " +
-						"new " + attrType + "();\n");
-				staticInitializers.add("init_" + setInit.getAnonymnousSetName());
-				sb.append("\t\tstatic void init_" + setInit.getAnonymnousSetName() + "() {\n");
-				for(SetItem item : setInit.getSetItems()) {
-					sb.append("\t\t\t");
-					sb.append(setInit.getAnonymnousSetName());
-					sb.append("[");
-					genExpression(sb, item.getValueExpr(), null);
-					sb.append("] = null;\n");
-				}
-				sb.append("\t\t}\n");
+		}
+	}
+	
+	private void genLocalMap(StringBuffer sb, MapInit mapInit, List<String> staticInitializers) {
+		String mapName = mapInit.getAnonymnousMapName();
+		String attrType = formatAttributeType(mapInit.getType());
+		if(mapInit.isConstant()) {
+			sb.append("\t\tpublic static readonly " + attrType + " " + mapName + " = " +
+					"new " + attrType + "();\n");
+			staticInitializers.add("init_" + mapName);
+			sb.append("\t\tstatic void init_" + mapName + "() {\n");
+			for(MapItem item : mapInit.getMapItems()) {
+				sb.append("\t\t\t");
+				sb.append(mapName);
+				sb.append("[");
+				genExpression(sb, item.getKeyExpr(), null);
+				sb.append("] = ");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append(";\n");
 			}
+			sb.append("\t\t}\n");
+		} else {
+			sb.append("\t\tpublic static " + attrType + " fill_" + mapName + "(");
+			int itemCounter = 0;
+			boolean first = true;
+			for(MapItem item : mapInit.getMapItems()) {
+				String itemKeyType = formatAttributeType(item.getKeyExpr().getType());
+				String itemValueType = formatAttributeType(item.getValueExpr().getType());
+				if(first) {
+					sb.append(itemKeyType + " itemkey" + itemCounter);
+					sb.append(itemValueType + " itemvalue" + itemCounter);
+					first = false;
+				} else {
+					sb.append(", " + itemKeyType + " itemkey" + itemCounter);
+					sb.append(itemValueType + " itemvalue" + itemCounter);
+				}
+				++itemCounter;
+			}
+			sb.append(") {\n");
+			sb.append("\t\t\t" + attrType + " " + mapName + " = " +
+					"new " + attrType + "();\n");
+			itemCounter = 0;
+			for(MapItem item : mapInit.getMapItems()) {
+				sb.append("\t\t\t" + mapName);
+				sb.append("[" + "itemkey" + itemCounter + "] = itemvalue" + itemCounter + ";\n");
+				++itemCounter;
+			}
+			sb.append("\t\t\treturn " + mapName + ";\n");
+			sb.append("\t\t}\n");
+		}
+	}
+	
+	private void genLocalSet(StringBuffer sb, SetInit setInit, List<String> staticInitializers) {
+		String setName = setInit.getAnonymnousSetName();
+		String attrType = formatAttributeType(setInit.getType());
+		if(setInit.isConstant()) {
+			sb.append("\t\tpublic static readonly " + attrType + " " + setName + " = " +
+					"new " + attrType + "();\n");
+			staticInitializers.add("init_" + setName);
+			sb.append("\t\tstatic void init_" + setName + "() {\n");
+			for(SetItem item : setInit.getSetItems()) {
+				sb.append("\t\t\t");
+				sb.append(setName);
+				sb.append("[");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append("] = null;\n");
+			}
+			sb.append("\t\t}\n");
+		} else {
+			sb.append("\t\tpublic static " + attrType + " fill_" + setName + "(");
+			int itemCounter = 0;
+			boolean first = true;
+			for(SetItem item : setInit.getSetItems()) {
+				String itemType = formatAttributeType(item.getValueExpr().getType());
+				if(first) {
+					sb.append(itemType + " item" + itemCounter);
+					first = false;
+				} else {
+					sb.append(", " + itemType + " item" + itemCounter);
+				}
+				++itemCounter;
+			}
+			sb.append(") {\n");
+			sb.append("\t\t\t" + attrType + " " + setName + " = " +
+					"new " + attrType + "();\n");
+			itemCounter = 0;
+			for(SetItem item : setInit.getSetItems()) {
+				sb.append("\t\t\t" + setName);
+				sb.append("[" + "item" + itemCounter + "] = null;\n");
+				++itemCounter;
+			}
+			sb.append("\t\t\treturn " + setName + ";\n");
+			sb.append("\t\t}\n");
 		}
 	}
 
@@ -1026,11 +1088,41 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if (expr instanceof MapInit) {
 			MapInit mi = (MapInit)expr;
-			sb.append("new GRGEN_EXPR.LocalMap(\"" + className + "\", \"" + mi.getAnonymnousMapName() + "\")");
+			if(mi.isConstant()) {
+				sb.append("new GRGEN_EXPR.StaticMap(\"" + className + "\", \"" + mi.getAnonymnousMapName() + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.MapConstructor(\"" + className + "\", \"" + mi.getAnonymnousMapName() + "\",");
+				int openParenthesis = 0;
+				for(MapItem item : mi.getMapItems()) {
+					sb.append("new GRGEN_EXPR.MapItem(");
+					genExpressionTree(sb, item.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+					sb.append(", ");
+					genExpressionTree(sb, item.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+					sb.append(", ");
+					++openParenthesis;
+				}
+				sb.append("null");
+				for(int i=0; i<openParenthesis; ++i) sb.append(")");
+				sb.append(")");
+			}
 		}
 		else if (expr instanceof SetInit) {
 			SetInit si = (SetInit)expr;
-			sb.append("new GRGEN_EXPR.LocalSet(\"" + className + "\", \"" + si.getAnonymnousSetName() + "\")");
+			if(si.isConstant()) {
+				sb.append("new GRGEN_EXPR.StaticSet(\"" + className + "\", \"" + si.getAnonymnousSetName() + "\")");
+			} else {
+				sb.append("new GRGEN_EXPR.SetConstructor(\"" + className + "\", \"" + si.getAnonymnousSetName() + "\", ");
+				int openParenthesis = 0;
+				for(SetItem item : si.getSetItems()) {
+					sb.append("new GRGEN_EXPR.SetItem(");
+					genExpressionTree(sb, item.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+					sb.append(", ");
+					++openParenthesis;
+				}
+				sb.append("null");
+				for(int i=0; i<openParenthesis; ++i) sb.append(")");
+				sb.append(")");
+			}
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
@@ -1110,11 +1202,12 @@ public class ActionsGen extends CSharpBase {
 
 	protected void genStaticConstructor(StringBuffer sb, String className, List<String> staticInitializers)
 	{
+		sb.append("\n");
 		sb.append("\t\tstatic " + className + "() {\n");
 		for(String staticInit : staticInitializers) {
 			sb.append("\t\t\t" + staticInit + "();\n");
 		}
-		sb.append("\t\t}");
+		sb.append("\t\t}\n");
 	}
 	
 	///////////////////////
