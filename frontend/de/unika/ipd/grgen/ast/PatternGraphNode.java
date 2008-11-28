@@ -256,16 +256,16 @@ public class PatternGraphNode extends GraphNode {
 		}
 
 		for (ExprNode expr : conditions.getChildren()) {
-			expr = expr.evaluate();
-			if(expr instanceof BoolConstNode) {
-				if((Boolean)((BoolConstNode) expr).getValue()) {
-					expr.reportWarning("Condition is always true");
+			ExprNode exprEvaluated = expr.evaluate(); // compile time evaluation (constant folding)
+			if(exprEvaluated instanceof BoolConstNode) {
+				if((Boolean)((BoolConstNode) exprEvaluated).getValue()) {
+					exprEvaluated.reportWarning("Condition is always true");
 					continue;
 				}
-				expr.reportWarning("Condition is always false, pattern will never match");
+				exprEvaluated.reportWarning("Condition is always false, pattern will never match");
 			}
 
-			gr.addCondition(expr.checkIR(Expression.class));
+			gr.addCondition(exprEvaluated.checkIR(Expression.class));
 		}
 
 		/* generate type conditions from dynamic type checks via typeof */

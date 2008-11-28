@@ -138,13 +138,13 @@ public class Dumper {
 						gd.edge(a, expr);
 					}
 				}
-				else if(e instanceof MapAssignItem) {
+				else if(e instanceof MapAddItem) {
 					// MAP TODO
 				}
 				else if(e instanceof MapRemoveItem) {
 					// MAP TODO
 				}
-				else if(e instanceof SetAssignItem) {
+				else if(e instanceof SetAddItem) {
 					// MAP TODO
 				}
 				else if(e instanceof SetRemoveItem) {

@@ -16,20 +16,20 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.SetAssignItem;
+import de.unika.ipd.grgen.ir.SetAddItem;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class SetAssignItemNode extends ExprNode
+public class SetAddItemNode extends ExprNode
 {
 	static {
-		setName(SetAssignItemNode.class, "set assign item");
+		setName(SetAddItemNode.class, "set add item");
 	}
 
 	MemberAccessExprNode target;
     ExprNode valueExpr;
 
-	public SetAssignItemNode(Coords coords, MemberAccessExprNode target, ExprNode valueExpr)
+	public SetAddItemNode(Coords coords, MemberAccessExprNode target, ExprNode valueExpr)
 	{
 		super(coords);
 		this.target = becomeParent(target);
@@ -89,7 +89,7 @@ public class SetAssignItemNode extends ExprNode
 	}
 
 	protected IR constructIR() {
-		return new SetAssignItem(target.checkIR(Qualification.class),
+		return new SetAddItem(target.checkIR(Qualification.class),
 				valueExpr.checkIR(Expression.class));
 	}
 	

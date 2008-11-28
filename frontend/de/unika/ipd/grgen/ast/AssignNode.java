@@ -17,9 +17,9 @@ import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.MapAssignItem;
+import de.unika.ipd.grgen.ir.MapAddItem;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
-import de.unika.ipd.grgen.ir.SetAssignItem;
+import de.unika.ipd.grgen.ir.SetAddItem;
 import de.unika.ipd.grgen.ir.SetRemoveItem;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Qualification;
@@ -130,9 +130,9 @@ public class AssignNode extends EvalStatementNode {
 		if(rhs instanceof MethodInvocationExprNode) {
 			MethodInvocationExprNode mi = (MethodInvocationExprNode)rhs;
 			
-			if(mi.getResult() instanceof MapAssignItemNode) {
+			if(mi.getResult() instanceof MapAddItemNode) {
 				Qualification qual = lhs.checkIR(Qualification.class);
-				MapAssignItem mapass = rhs.checkIR(MapAssignItem.class);
+				MapAddItem mapass = rhs.checkIR(MapAddItem.class);
 				if(qual.getOwner()!=mapass.getTarget().getOwner() 
 						|| qual.getMember()!=mapass.getTarget().getMember()) {
 					error.error(getCoords(), "Map modified by put must be assigned to the same original map");
@@ -150,9 +150,9 @@ public class AssignNode extends EvalStatementNode {
 				return maprem;
 			}
 			
-			if(mi.getResult() instanceof SetAssignItemNode) {
+			if(mi.getResult() instanceof SetAddItemNode) {
 				Qualification qual = lhs.checkIR(Qualification.class);
-				SetAssignItem setass = rhs.checkIR(SetAssignItem.class);
+				SetAddItem setass = rhs.checkIR(SetAddItem.class);
 				if(qual.getOwner()!=setass.getTarget().getOwner() 
 						|| qual.getMember()!=setass.getTarget().getMember()) {
 					error.error(getCoords(), "Set modified by put must be assigned to the same original set");
@@ -187,7 +187,8 @@ public class AssignNode extends EvalStatementNode {
 		}
 		else throw new UnsupportedOperationException("Unsupported LHS of assignment: \"" + lhs + "\"");
 
-		return new Assignment(target, rhs.evaluate().checkIR(Expression.class));
+		ExprNode rhsEvaluated = rhs.evaluate(); 
+		return new Assignment(target, rhsEvaluated.checkIR(Expression.class));
 	}
 }
 

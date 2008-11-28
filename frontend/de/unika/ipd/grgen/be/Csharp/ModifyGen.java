@@ -37,11 +37,11 @@ import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
-import de.unika.ipd.grgen.ir.MapAssignItem;
+import de.unika.ipd.grgen.ir.MapAddItem;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
 import de.unika.ipd.grgen.ir.Operator;
-import de.unika.ipd.grgen.ir.SetAssignItem;
+import de.unika.ipd.grgen.ir.SetAddItem;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetRemoveItem;
 import de.unika.ipd.grgen.ir.NeededEntities;
@@ -808,8 +808,8 @@ public class ModifyGen extends CSharpBase {
 
 				ass.getExpression().collectNeededEntities(needs);
 			}
-			else if(evalStmt instanceof MapAssignItem) {
-				MapAssignItem mai = (MapAssignItem) evalStmt;
+			else if(evalStmt instanceof MapAddItem) {
+				MapAddItem mai = (MapAddItem) evalStmt;
 				Qualification target = mai.getTarget();
 				Entity entity = (target).getOwner();
 				needs.add((GraphEntity) entity);
@@ -837,8 +837,8 @@ public class ModifyGen extends CSharpBase {
 
 				mri.getKeyExpr().collectNeededEntities(needs);
 			}
-			else if(evalStmt instanceof SetAssignItem) {
-				SetAssignItem sai = (SetAssignItem) evalStmt;
+			else if(evalStmt instanceof SetAddItem) {
+				SetAddItem sai = (SetAddItem) evalStmt;
 				Qualification target = sai.getTarget();
 				Entity entity = (target).getOwner();
 				needs.add((GraphEntity) entity);
@@ -1585,8 +1585,8 @@ public class ModifyGen extends CSharpBase {
 				sb.append(keyExprStr);
 				sb.append(");\n");
 			}
-			else if(evalStmt instanceof MapAssignItem) {
-				MapAssignItem mai = (MapAssignItem) evalStmt;
+			else if(evalStmt instanceof MapAddItem) {
+				MapAddItem mai = (MapAddItem) evalStmt;
 				Qualification target = mai.getTarget();
 
 				StringBuffer sbtmp = new StringBuffer();
@@ -1622,8 +1622,8 @@ public class ModifyGen extends CSharpBase {
 				sb.append(valueExprStr);
 				sb.append(");\n");
 			}
-			else if(evalStmt instanceof SetAssignItem) {
-				SetAssignItem sai = (SetAssignItem) evalStmt;
+			else if(evalStmt instanceof SetAddItem) {
+				SetAddItem sai = (SetAddItem) evalStmt;
 				Qualification target = sai.getTarget();
 
 				StringBuffer sbtmp = new StringBuffer();

@@ -5,26 +5,32 @@
  */
 
 /**
- * @author Edgar Jakumeit
+ * @author Moritz Kroll, Edgar Jakumeit
  * @version $Id: MapInit.java 22945 2008-10-16 16:02:13Z moritz $
  */
 
 package de.unika.ipd.grgen.ir;
 
-public class SetAssignItem extends EvalStatement {
+public class MapAddItem extends EvalStatement {
 	Qualification target;
+	Expression keyExpr;
     Expression valueExpr;
 	
-	public SetAssignItem(Qualification target, Expression valueExpr) {
-		super("set assign item");
+	public MapAddItem(Qualification target, Expression keyExpr, Expression valueExpr) {
+		super("map add item");
 		this.target = target;
+		this.keyExpr = keyExpr;
 		this.valueExpr = valueExpr;
 	}
 	
 	public Qualification getTarget() {
 		return target;
 	}
-		
+	
+	public Expression getKeyExpr() {
+		return keyExpr;
+	}
+	
 	public Expression getValueExpr() {
 		return valueExpr;
 	}

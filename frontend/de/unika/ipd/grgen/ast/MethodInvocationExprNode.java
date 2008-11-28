@@ -134,7 +134,7 @@ public class MethodInvocationExprNode extends ExprNode
 					return false;
 				}
   				else
-  					result = new MapAssignItemNode(getCoords(), target, params.get(0), params.get(1));
+  					result = new MapAddItemNode(getCoords(), target, params.get(0), params.get(1));
   			}
   			else if(methodName.equals("remove")) {
   				if(!(targetExpr instanceof MemberAccessExprNode)) {
@@ -176,7 +176,7 @@ public class MethodInvocationExprNode extends ExprNode
 					return false;
 				}
   				else
-  					result = new SetAssignItemNode(getCoords(), target, params.get(0));
+  					result = new SetAddItemNode(getCoords(), target, params.get(0));
   			}
   			else if(methodName.equals("remove")) {
   				if(!(targetExpr instanceof MemberAccessExprNode)) {
