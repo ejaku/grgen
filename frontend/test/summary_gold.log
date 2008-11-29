@@ -257,7 +257,7 @@ OK     should_pass/reuse_008.grg
 OK     should_pass/set_001.grg
 OK     should_pass/set_002.grg
 OK     should_pass/set_003.grg
-FAILED should_pass/set_004.grg
+OK     should_pass/set_004.grg
 OK     should_pass/snowflakeAGTIVE.grg
 OK     should_pass/strfunc_001.grg
 OK     should_pass/to_001.grg
