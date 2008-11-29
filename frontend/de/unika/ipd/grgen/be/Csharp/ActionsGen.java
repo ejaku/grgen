@@ -139,7 +139,7 @@ public class ActionsGen extends CSharpBase {
 		mg.genModify(sb, subpatternRule, true);
 
 		genStaticConstructor(sb, className, staticInitializers);
-		
+
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
@@ -174,7 +174,7 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		genStaticConstructor(sb, className, staticInitializers);
-		
+
 		sb.append("\t}\n");
 		sb.append("\n");
 	}
@@ -189,9 +189,9 @@ public class ActionsGen extends CSharpBase {
 		PatternGraph pattern = rule.getPattern();
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
-		genLocalMapsAndSets(sb, rule.getLeft(), staticInitializers, 
+		genLocalMapsAndSets(sb, rule.getLeft(), staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
-		genLocalMapsAndSets(sb, rule.getEvals(), staticInitializers, 
+		genLocalMapsAndSets(sb, rule.getEvals(), staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
 		if(rule.getRight()!=null) {
 			genLocalMapsAndSets(sb, rule.getRight().getImperativeStmts(), staticInitializers,
@@ -231,11 +231,11 @@ public class ActionsGen extends CSharpBase {
 							String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		genAllowedTypeArrays(sb, pattern, pathPrefixForElements, alreadyDefinedEntityToName);
 		genEnums(sb, pattern, pathPrefixForElements);
-		genLocalMapsAndSets(sb, pattern, staticInitializers, 
+		genLocalMapsAndSets(sb, pattern, staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
 		sb.append("\t\tGRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
-		
+
 		int i = 0;
 		for(PatternGraph neg : pattern.getNegs()) {
 			String negName = "neg_" + i;
@@ -245,7 +245,7 @@ public class ActionsGen extends CSharpBase {
 					alreadyDefinedEntityToNameClone);
 			++i;
 		}
-		
+
 		i = 0;
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = "alt_" + i;
@@ -391,7 +391,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append("};\n");
 	}
-	
+
 	private void genLocalMapsAndSets(StringBuffer sb, PatternGraph pattern, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
@@ -400,7 +400,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		genLocalMapsAndSets(sb, needs, staticInitializers);
 	}
-	
+
 	private void genLocalMapsAndSets(StringBuffer sb, Collection<EvalStatement> evals, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
@@ -432,7 +432,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		genLocalMapsAndSets(sb, needs, staticInitializers);
 	}
-	
+
 	private void genLocalMapsAndSets(StringBuffer sb, NeededEntities needs, List<String> staticInitializers) {
 		sb.append("\n");
 		for(Expression mapSetExpr : needs.mapSetExprs) {
@@ -443,7 +443,7 @@ public class ActionsGen extends CSharpBase {
 			}
 		}
 	}
-	
+
 	private void genLocalMap(StringBuffer sb, MapInit mapInit, List<String> staticInitializers) {
 		String mapName = mapInit.getAnonymnousMapName();
 		String attrType = formatAttributeType(mapInit.getType());
@@ -492,7 +492,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t}\n");
 		}
 	}
-	
+
 	private void genLocalSet(StringBuffer sb, SetInit setInit, List<String> staticInitializers) {
 		String setName = setInit.getAnonymnousSetName();
 		String attrType = formatAttributeType(setInit.getType());
@@ -541,7 +541,7 @@ public class ActionsGen extends CSharpBase {
 	// Rule/Subpattern metadata generation //
 	/////////////////////////////////////////
 
-	private void genRuleOrSubpatternInit(StringBuffer sb, MatchingAction action, 
+	private void genRuleOrSubpatternInit(StringBuffer sb, MatchingAction action,
 			String className, boolean isSubpattern) {
 		PatternGraph pattern = action.getPattern();
 
@@ -872,7 +872,7 @@ public class ActionsGen extends CSharpBase {
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 			condCnt = genPatternGraph(sb, aux, neg,
-									  pathPrefixForElements, negName, 
+									  pathPrefixForElements, negName,
 									  pathPrefixForElements+negName, className,
 									  alreadyDefinedEntityToNameClone,
 									  alreadyDefinedIdentifiableToNameClone,
@@ -948,7 +948,7 @@ public class ActionsGen extends CSharpBase {
 				opNamePrefix = "DICT_";
 			else
 				opNamePrefix = "";
-			
+
 			sb.append("new GRGEN_EXPR." + opNamePrefix + Operator.opNames[op.getOpCode()] + "(");
 			switch (op.arity()) {
 				case 1:
@@ -981,7 +981,7 @@ public class ActionsGen extends CSharpBase {
 			Entity member = qual.getMember();
 			sb.append("new GRGEN_EXPR.Qualification(\"" + "I"+getNodeOrEdgeTypePrefix(owner)+formatIdentifiable(owner.getType())
 				+ "\", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
-		
+
 		}
 		else if(expr instanceof EnumExpression) {
 			EnumExpression enumExp = (EnumExpression) expr;
@@ -994,7 +994,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if(expr instanceof Nameof) {
 			Nameof no = (Nameof) expr;
-			sb.append("new GRGEN_EXPR.Nameof(" 
+			sb.append("new GRGEN_EXPR.Nameof("
 					+ (no.getEntity()==null ? "null" : "\""+formatEntity(no.getEntity(), pathPrefix, alreadyDefinedEntityToName)+"\"")
 					+ ")");
 		}
@@ -1126,7 +1126,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
-	
+
 	///////////////////////////////////////
 	// Static searchplan cost generation //
 	///////////////////////////////////////
@@ -1209,7 +1209,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append("\t\t}\n");
 	}
-	
+
 	///////////////////////
 	// Private variables //
 	///////////////////////
