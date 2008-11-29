@@ -482,11 +482,11 @@ public class ActionsGen extends CSharpBase {
 			sb.append(") {\n");
 			sb.append("\t\t\t" + attrType + " " + mapName + " = " +
 					"new " + attrType + "();\n");
-			itemCounter = 0;
-			for(MapItem item : mapInit.getMapItems()) {
+
+			int itemLength = mapInit.getMapItems().size();
+			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
 				sb.append("\t\t\t" + mapName);
 				sb.append("[" + "itemkey" + itemCounter + "] = itemvalue" + itemCounter + ";\n");
-				++itemCounter;
 			}
 			sb.append("\t\t\treturn " + mapName + ";\n");
 			sb.append("\t\t}\n");
@@ -526,11 +526,11 @@ public class ActionsGen extends CSharpBase {
 			sb.append(") {\n");
 			sb.append("\t\t\t" + attrType + " " + setName + " = " +
 					"new " + attrType + "();\n");
-			itemCounter = 0;
-			for(SetItem item : setInit.getSetItems()) {
+
+			int itemLength = setInit.getSetItems().size();
+			for(itemCounter = 0; itemCounter < itemLength; ++itemCounter) {
 				sb.append("\t\t\t" + setName);
 				sb.append("[" + "item" + itemCounter + "] = null;\n");
-				++itemCounter;
 			}
 			sb.append("\t\t\treturn " + setName + ";\n");
 			sb.append("\t\t}\n");
