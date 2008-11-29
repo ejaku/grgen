@@ -15,7 +15,7 @@ public class MapAddItem extends EvalStatement {
 	Qualification target;
 	Expression keyExpr;
     Expression valueExpr;
-	
+    
 	public MapAddItem(Qualification target, Expression keyExpr, Expression valueExpr) {
 		super("map add item");
 		this.target = target;

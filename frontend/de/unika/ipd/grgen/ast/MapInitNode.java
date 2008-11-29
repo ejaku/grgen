@@ -88,16 +88,26 @@ public class MapInitNode extends ExprNode
 
 		for(MapItemNode item : mapItems.getChildren()) {
 			if (item.keyExpr.getType() != mapType.keyType) {
-				item.keyExpr.reportError("Key type \"" + item.keyExpr.getType()
-						+ "\" of initializer doesn't fit to key type \""
-						+ mapType.keyType + "\" of map.");
-				success = false;
+				ExprNode oldKeyExpr = item.keyExpr;
+				item.keyExpr = item.keyExpr.adjustType(mapType.keyType, getCoords());
+				item.switchParenthood(oldKeyExpr, item.keyExpr);
+				if(item.keyExpr == ConstNode.getInvalid()) {
+					success = false;
+					item.keyExpr.reportError("Key type \"" + oldKeyExpr.getType()
+							+ "\" of initializer doesn't fit to key type \""
+							+ mapType.keyType + "\" of map.");
+				}
 			}
 			if (item.valueExpr.getType() != mapType.valueType) {
-				item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
-						+ "\" of initializer doesn't fit to value type \""
-						+ mapType.valueType + "\" of map.");
-				success = false;
+				ExprNode oldValueExpr = item.valueExpr;
+				item.valueExpr = item.valueExpr.adjustType(mapType.valueType, getCoords());
+				item.switchParenthood(oldValueExpr, item.valueExpr);
+				if(item.valueExpr == ConstNode.getInvalid()) {
+					success = false;
+					item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
+							+ "\" of initializer doesn't fit to value type \""
+							+ mapType.valueType + "\" of map.");
+				}
 			}
 		}
 		
@@ -140,6 +150,10 @@ public class MapInitNode extends ExprNode
 		}
 	}
 
+	public CollectNode<MapItemNode> getItems() {
+		return mapItems; 
+	}
+	
 	protected IR constructIR() {
 		Vector<MapItem> items = new Vector<MapItem>();
 		for(MapItemNode item : mapItems.getChildren()) {

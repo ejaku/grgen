@@ -13,7 +13,7 @@ rule addFooNoEffect()
 	
 	modify {
 		eval {
-			na.a = na.a.put("foo");
+			na.a = na.a | set<string>{ "foo" };
 		}
 	}
 }
@@ -23,7 +23,7 @@ rule addFoo()
     nb:B;
 	modify {
 		eval {
-			nb.b = nb.b.put("foo");
+			nb.b = nb.b | set<string>{ "foo" };
 		}
 	}
 }
@@ -40,7 +40,7 @@ rule removeBar()
 
 	modify {
 		eval {
-			nb.a = nb.a.remove("bar");
+			nb.a = nb.a \ set<string>{ "bar" };
 		}
 	}
 }
@@ -51,7 +51,7 @@ rule removeBarNoEffect()
 	
 	modify {
 		eval {
-			nb.a = nb.a.remove("bar");
+			nb.a = nb.a \ set<string>{ "bar" };
 		}
 	}
 }

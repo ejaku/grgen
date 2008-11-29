@@ -5,7 +5,7 @@ rule constAssignment {
 	
 	modify {
 		eval {
-			a.constStringSet = a.constStringSet.put("bla");
+			a.constStringSet = a.constStringSet | set<string>{ "bla" };
 		}
 	}
 }

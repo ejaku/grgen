@@ -5,7 +5,7 @@ rule removeWrongType {
 	
 	modify {
 		eval {
-			a.intSet = a.intSet.remove(a.stringValue);
+			a.intSet = a.intSet \ set<int>{ a.stringValue };
 		}
 	}
 }

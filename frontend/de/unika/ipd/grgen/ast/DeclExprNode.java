@@ -31,11 +31,8 @@ public class DeclExprNode extends ExprNode {
 		setName(DeclExprNode.class, "decl expression");
 	}
 
-	BaseNode declUnresolved;
-	ExecVarDeclNode declExecVar;
-	ConstraintDeclNode declElem;
-
-	DeclaredCharacter decl;
+	protected BaseNode declUnresolved; // either EnumExprNode if constructed locally, or IdentNode if constructed from IdentExprNode
+	protected DeclaredCharacter decl;
 
 	/**
 	 * Make a new declaration expression.
@@ -43,6 +40,18 @@ public class DeclExprNode extends ExprNode {
 	 * @param declCharacter Some base node, that is a decl character.
 	 */
 	public DeclExprNode(BaseNode declCharacter) {
+		super(declCharacter.getCoords());
+		this.declUnresolved = declCharacter;
+		this.decl = (DeclaredCharacter) declCharacter;
+		becomeParent(this.declUnresolved);
+	}
+	
+	/**
+	 * Make a new declaration expression from an enum expression.
+	 * @param coords The source code coordinates.
+	 * @param declCharacter Some base node, that is a decl character.
+	 */
+	public DeclExprNode(EnumExprNode declCharacter) {
 		super(declCharacter.getCoords());
 		this.declUnresolved = declCharacter;
 		this.decl = (DeclaredCharacter) declCharacter;
@@ -69,13 +78,12 @@ public class DeclExprNode extends ExprNode {
 	protected boolean resolveLocal() {
 		if(!memberResolver.resolve(declUnresolved)) return false;
 
-						memberResolver.getResult(MemberDeclNode.class);
-						memberResolver.getResult(QualIdentNode.class);
-						memberResolver.getResult(VarDeclNode.class);
-		declExecVar   = memberResolver.getResult(ExecVarDeclNode.class);
-		declElem      = memberResolver.getResult(ConstraintDeclNode.class);
-
-		decl  = memberResolver.getResult();
+		memberResolver.getResult(MemberDeclNode.class);
+		memberResolver.getResult(QualIdentNode.class);
+		memberResolver.getResult(VarDeclNode.class);
+		memberResolver.getResult(ExecVarDeclNode.class);
+		memberResolver.getResult(ConstraintDeclNode.class);
+		decl = memberResolver.getResult();
 
 		return memberResolver.finish();
 	}
@@ -90,7 +98,14 @@ public class DeclExprNode extends ExprNode {
 	 */
 	public ConstraintDeclNode getConstraintDeclNode() {
 		assert isResolved();
-		return declElem;
+		if(decl instanceof ConstraintDeclNode) return (ConstraintDeclNode)decl;
+		return null;
+	}
+	
+	/** returns the node this DeclExprNode was resolved to. */
+	public BaseNode getResolvedNode() {
+		assert isResolved();
+		return (BaseNode)decl;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#evaluate() */

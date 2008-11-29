@@ -5,7 +5,7 @@ rule putWithCast {
 	
 	modify {
 		eval {
-			a.stringSet = a.stringSet.put(a.intValue);
+			a.stringSet = a.stringSet | set<string>{ a.intValue };
 		}
 	}
 }
@@ -21,7 +21,7 @@ rule removeWithCast {
 	
 	modify {
 		eval {
-			a.stringSet = a.stringSet.remove(a.intValue);
+			a.stringSet = a.stringSet \ set<string>{ a.intValue };
 		}
 	}
 }

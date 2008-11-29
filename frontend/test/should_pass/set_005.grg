@@ -1,0 +1,12 @@
+using set_model_001;
+
+rule addToSetRemoveFromSet {
+	a:A; b:A;
+	
+	modify {
+		eval {
+			a.niceSet = (a.niceSet | set<string>{ "yeah", a.strval }) \ set<string>{ "hey", b.strval };
+			a.spiceSet = a.spiceSet \ set<int>{ a.val + b.val*2, a.val } | set<int>{ a.val - b.val*2, b.val };
+		}
+	}
+}

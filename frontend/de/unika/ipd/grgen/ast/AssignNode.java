@@ -11,16 +11,14 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.MapAddItem;
-import de.unika.ipd.grgen.ir.MapRemoveItem;
-import de.unika.ipd.grgen.ir.SetAddItem;
-import de.unika.ipd.grgen.ir.SetRemoveItem;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Visited;
@@ -127,50 +125,6 @@ public class AssignNode extends EvalStatementNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		if(rhs instanceof MethodInvocationExprNode) {
-			MethodInvocationExprNode mi = (MethodInvocationExprNode)rhs;
-			
-			if(mi.getResult() instanceof MapAddItemNode) {
-				Qualification qual = lhs.checkIR(Qualification.class);
-				MapAddItem mapass = rhs.checkIR(MapAddItem.class);
-				if(qual.getOwner()!=mapass.getTarget().getOwner() 
-						|| qual.getMember()!=mapass.getTarget().getMember()) {
-					error.error(getCoords(), "Map modified by put must be assigned to the same original map");
-				}
-				return mapass;
-			}
-			
-			if(mi.getResult() instanceof MapRemoveItemNode) {
-				Qualification qual = lhs.checkIR(Qualification.class);
-				MapRemoveItem maprem = rhs.checkIR(MapRemoveItem.class);
-				if(qual.getOwner()!=maprem.getTarget().getOwner() 
-						|| qual.getMember()!=maprem.getTarget().getMember()) {
-					error.error(getCoords(), "Map modified by remove must be assigned to the same original map");
-				}
-				return maprem;
-			}
-			
-			if(mi.getResult() instanceof SetAddItemNode) {
-				Qualification qual = lhs.checkIR(Qualification.class);
-				SetAddItem setass = rhs.checkIR(SetAddItem.class);
-				if(qual.getOwner()!=setass.getTarget().getOwner() 
-						|| qual.getMember()!=setass.getTarget().getMember()) {
-					error.error(getCoords(), "Set modified by put must be assigned to the same original set");
-				}
-				return setass;
-			}
-			
-			if(mi.getResult() instanceof SetRemoveItemNode) {
-				Qualification qual = lhs.checkIR(Qualification.class);
-				SetRemoveItem setrem = rhs.checkIR(SetRemoveItem.class);
-				if(qual.getOwner()!=setrem.getTarget().getOwner() 
-						|| qual.getMember()!=setrem.getTarget().getMember()) {
-					error.error(getCoords(), "Set modified by remove must be assigned to the same original set");
-				}
-				return setrem;
-			}
-		}
-		
 		Expression target;
 		if(lhs instanceof QualIdentNode) {
 			Qualification qual = lhs.checkIR(Qualification.class);
@@ -181,6 +135,12 @@ public class AssignNode extends EvalStatementNode {
 				error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
 			}
 			target = qual;
+			
+			if(canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()) {
+				markSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations();
+				ExprNode rhsEvaluated = rhs.evaluate(); 
+				return rhsEvaluated.checkIR(EvalStatement.class);
+			}
 		}
 		else if(lhs instanceof VisitedNode) {
 			target = lhs.checkIR(Visited.class);
@@ -190,5 +150,75 @@ public class AssignNode extends EvalStatementNode {
 		ExprNode rhsEvaluated = rhs.evaluate(); 
 		return new Assignment(target, rhsEvaluated.checkIR(Expression.class));
 	}
-}
+	
+	protected boolean canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()
+	{
+		// is it a set or map assignment ?
+		if(!(lhs instanceof QualIdentNode)) {
+			return false;
+		}
+		QualIdentNode qual = (QualIdentNode)lhs;
+		if(!(qual.getDecl().type instanceof SetTypeNode) 
+				&& !(qual.getDecl().type instanceof MapTypeNode )) {
+			return false;
+		}
+		
+		// descend and check if constraints are fulfilled which allow breakup 
+		ExprNode curLoc = rhs; // current location in the expression tree, more exactly: left-deep list 
+		while(curLoc!=null) {
+			if(curLoc instanceof ArithmeticOpNode) {
+				ArithmeticOpNode operator = (ArithmeticOpNode)curLoc;
+				if(!(operator.getOperator().getOpId()==OperatorSignature.BIT_OR) 
+						&& !(operator.getOperator().getOpId()==OperatorSignature.EXCEPT)) {
+					return false;
+				}
+				Collection<ExprNode> children = operator.getChildren();
+				Iterator<ExprNode> it = children.iterator();
+				ExprNode left = it.next();
+				ExprNode right = it.next();
+				if(!(right instanceof SetInitNode) && !(right instanceof MapInitNode)) {
+					return false;
+				}
+				
+				curLoc = left;
+			} 
+			else if(curLoc instanceof MemberAccessExprNode) {
+				// determine right owner and member, filter for needed types
+				MemberAccessExprNode access = (MemberAccessExprNode)curLoc;
+				if(!(access.getTarget() instanceof IdentExprNode)) return false;
+				IdentExprNode target = (IdentExprNode)access.getTarget();
+				if(!(target.getResolvedNode() instanceof ConstraintDeclNode)) return false;
+				ConstraintDeclNode rightOwner = (ConstraintDeclNode)target.getResolvedNode();
+				MemberDeclNode rightMember = access.getDecl();
+				// determine left owner and member, filter for needed types
+				MemberDeclNode leftMember = qual.getDecl();
+				if(!(qual.getOwner() instanceof ConstraintDeclNode)) return false; 
+				ConstraintDeclNode leftOwner = (ConstraintDeclNode)qual.getOwner();
+				// check that the accessed set/map is the same on the left and the right hand side 
+				if(leftOwner!=rightOwner) return false;
+				if(leftMember!=rightMember) return false;
+				
+				curLoc = null;
+			} else {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 
+	protected void markSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations()
+	{
+		ExprNode curLoc = rhs;
+		while(curLoc!=null) {
+			if(curLoc instanceof ArithmeticOpNode) {
+				ArithmeticOpNode operator = (ArithmeticOpNode)curLoc;
+				operator.markToBreakUpIntoStateChangingOperations((QualIdentNode)lhs);
+				ExprNode left = operator.getChildren().iterator().next();			
+				curLoc = left;
+			} else { 
+				curLoc = null;
+			}
+		}
+	}
+}

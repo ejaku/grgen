@@ -88,10 +88,15 @@ public class SetInitNode extends ExprNode
 
 		for(SetItemNode item : setItems.getChildren()) {
 			if (item.valueExpr.getType() != setType.valueType) {
-				item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
-						+ "\" of initializer doesn't fit to value type \""
-						+ setType.valueType + "\" of set.");
-				success = false;
+				ExprNode oldValueExpr = item.valueExpr;
+				item.valueExpr = item.valueExpr.adjustType(setType.valueType, getCoords());
+				item.switchParenthood(oldValueExpr, item.valueExpr);
+				if(item.valueExpr == ConstNode.getInvalid()) {
+					success = false;
+					item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
+							+ "\" of initializer doesn't fit to value type \""
+							+ setType.valueType + "\" of set.");
+				}
 			}
 		}
 		
@@ -141,6 +146,10 @@ public class SetInitNode extends ExprNode
 		} else {
 			return setType;
 		}
+	}
+	
+	public CollectNode<SetItemNode> getItems() {
+		return setItems; 
 	}
 
 	protected IR constructIR() {

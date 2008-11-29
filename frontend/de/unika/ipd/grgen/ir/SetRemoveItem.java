@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ir;
 public class SetRemoveItem extends EvalStatement {
 	Qualification target;
 	Expression valueExpr;
-    
+	
 	public SetRemoveItem(Qualification target, Expression valueExpr) {
 		super("set remove item");
 		this.target = target;

@@ -5,7 +5,7 @@ rule constAssignment {
 	
 	modify {
 		eval {
-			a.conststringToInt = a.conststringToInt.put("4", 2);
+			a.conststringToInt = a.conststringToInt | map<string,int>{ "4"->2 };
 		}
 	}
 }

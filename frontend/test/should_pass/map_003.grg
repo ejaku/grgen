@@ -1,0 +1,12 @@
+using map_model_002;
+
+rule addToMapRemoveFromMap {
+	a:A; b:A;
+	
+	modify {
+		eval {
+			a.stringToInt = (a.stringToInt | map<string,int>{ "yeah"->1, a.stringValue->a.intValue }) \ map<string,int>{ "hey"->0, b.stringValue->0 };
+			a.intToString = a.intToString \ map<int,string>{ a.intValue*2->"", a.intValue->"" } | map<int,string>{ b.intValue*2->"hey", a.intValue->b.stringValue };
+		}
+	}
+}

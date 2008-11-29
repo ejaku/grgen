@@ -15,9 +15,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.MapAddItem;
+import de.unika.ipd.grgen.ir.MapRemoveItem;
 import de.unika.ipd.grgen.ir.Operator;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.SetAddItem;
+import de.unika.ipd.grgen.ir.SetRemoveItem;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -59,7 +65,8 @@ public class ArithmeticOpNode extends OpNode {
 		assocOpCode(OperatorSignature.EXCEPT, Operator.EXCEPT);
 	}
 
-
+	private QualIdentNode target = null; // if !null it's a set/map union/except which is to be broken up
+	
 	/**
 	 * @param coords Source code coordinates.
 	 * @param opId ID of the operator.
@@ -111,9 +118,74 @@ public class ArithmeticOpNode extends OpNode {
 	protected boolean checkLocal() {
 		return super.checkLocal();
 	}
+	
+	/** mark to break set/map assignment of set/map expression up into set/map add/remove to/from target statements */
+	void markToBreakUpIntoStateChangingOperations(QualIdentNode target) {
+		this.target = target;
+	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
+		if(target!=null) {
+			Qualification qual = target.checkIR(Qualification.class);
+			EvalStatement previous = null;
+			EvalStatement first = null;
+			if(children.get(0).getIR() instanceof EvalStatement) {
+				first = children.get(0).checkIR(EvalStatement.class);
+				previous = first;
+				while(previous.getNext()!=null) {
+					previous = previous.getNext();
+				}
+			}
+			if(getOperator().getOpId()==OperatorSignature.BIT_OR) {
+				if(children.get(1).getType() instanceof SetTypeNode) {
+					SetInitNode initNode = (SetInitNode)children.get(1);
+					for(SetItemNode item : initNode.getItems().getChildren()) {
+						SetAddItem addItem = new SetAddItem(qual,
+								item.valueExpr.checkIR(Expression.class));
+						if(first==null) first = addItem;
+						if(previous!=null) previous.setNext(addItem);
+						previous = addItem;
+					}
+				}
+				else { //if(children.get(1).getType() instanceof MapTypeNode)
+					MapInitNode initNode = (MapInitNode)children.get(1);
+					for(MapItemNode item : initNode.getItems().getChildren()) {
+						MapAddItem addItem = new MapAddItem(qual, 
+								item.keyExpr.checkIR(Expression.class),
+								item.valueExpr.checkIR(Expression.class));
+						if(first==null) first = addItem;
+						if(previous!=null) previous.setNext(addItem);
+						previous = addItem;
+					}
+				} 
+			}
+			else { //if(getOperator().getOpId()==OperatorSignature.EXCEPT)
+				if(children.get(1).getType() instanceof SetTypeNode) {
+					SetInitNode initNode = (SetInitNode)children.get(1);
+					for(SetItemNode item : initNode.getItems().getChildren()) {
+						SetRemoveItem remItem = new SetRemoveItem(qual,
+								item.valueExpr.checkIR(Expression.class));
+						if(first==null) first = remItem;
+						if(previous!=null) previous.setNext(remItem);
+						previous = remItem;
+					}
+				}
+				else { //if(children.get(1).getType() instanceof MapTypeNode)
+					MapInitNode initNode = (MapInitNode)children.get(1);
+					for(MapItemNode item : initNode.getItems().getChildren()) {
+						MapRemoveItem remItem = new MapRemoveItem(qual,
+								item.keyExpr.checkIR(Expression.class));
+						if(first==null) first = remItem;
+						if(previous!=null) previous.setNext(remItem);
+						previous = remItem;
+					}
+				}
+			}
+			
+			return first;
+		}
+		
 		DeclaredTypeNode type = (DeclaredTypeNode) getType();
 		Operator op = new Operator(type.getType(), getIROpCode(getOpId()));
 

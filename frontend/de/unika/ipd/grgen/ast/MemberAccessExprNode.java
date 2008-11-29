@@ -27,7 +27,7 @@ public class MemberAccessExprNode extends ExprNode
 		setName(MemberAccessExprNode.class, "member access expression");
 	}
 	
-	ExprNode targetExpr;
+	ExprNode targetExpr; // resulting from primary expression, most often an IdentExprNode
 	IdentNode memberIdent;
 	MemberDeclNode member;
 	
@@ -77,6 +77,10 @@ public class MemberAccessExprNode extends ExprNode
 	
 	protected boolean checkLocal() {
 		return true;
+	}
+
+	public ExprNode getTarget() {
+		return targetExpr; // resulting from primary expression, most often an IdentExprNode
 	}
 	
 	public MemberDeclNode getDecl() {

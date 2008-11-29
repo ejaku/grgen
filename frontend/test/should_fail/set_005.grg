@@ -5,7 +5,7 @@ rule constAssignment {
 	
 	modify {
 		eval {
-			a.constStringSet = a.constStringSet.remove("bla");
+			a.constStringSet = a.constStringSet \ set<string>{ "bla" };
 		}
 	}
 }

@@ -15,7 +15,7 @@ rule putValue {
 	
 	modify {
 		eval {
-			a.intToString = a.intToString.put(5, a.intValue);
+			a.intToString = a.intToString | map<int,string>{ 5->a.intValue };
 		}
 	}
 }
@@ -25,7 +25,7 @@ rule putValueWithKeyCast {
 	
 	modify {
 		eval {
-			a.stringToInt = a.stringToInt.put(a.intValue, a.intValue);
+			a.stringToInt = a.stringToInt | map<string,int>{ a.intValue->a.intValue };
 		}
 	}
 }
@@ -35,7 +35,7 @@ rule removeWithCast {
 	
 	modify {
 		eval {
-			a.stringToInt = a.stringToInt.remove(a.intValue);
+			a.stringToInt = a.stringToInt \ map<string,int>{ a.intValue->0 };
 		}
 	}
 }

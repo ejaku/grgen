@@ -5,7 +5,7 @@ rule addToMap {
 	
 	modify {
 		eval {
-			a.niceMap = a.niceMap.put(5, "yeah");
+			a.niceMap = a.niceMap | map<int,string>{ 5->"yeah" };
 		}
 	}
 }
@@ -28,7 +28,7 @@ rule copyMap {
 	modify {
 		b:A;
 		eval {
-			b.niceMap = b.niceMap.put(0, a.niceMap[0]);
+			b.niceMap = b.niceMap | map<int,string>{ 0->a.niceMap[0] };
 		}
 	}
 }
@@ -40,7 +40,7 @@ rule mapIndexedMap {
 	modify {
 		b:A;
 		eval {
-			a.spiceMap = a.spiceMap.put(b.niceMap[0], 3.141f);
+			a.spiceMap = a.spiceMap | map<string,float>{ b.niceMap[0]->3.141f };
 		}
 	}
 }
@@ -50,7 +50,7 @@ rule removeFromMap {
 	
 	modify {
 		eval {
-			a.niceMap = a.niceMap.remove(0);
+			a.niceMap = a.niceMap \ map<int,string>{ 0->null };
 		}
 	}
 }
@@ -94,7 +94,7 @@ rule useEnumMap {
 	
 	modify {
 		eval {
-			e.enumMap2 = e.enumMap2.put(a.enumMap[e.enumMap2["another c"]].replace(0, 3, "another"), et::a);
+			e.enumMap2 = e.enumMap2 | map<string, et>{ a.enumMap[e.enumMap2["another c"]].replace(0, 3, "another")->et::a };
 		}
 	}
 }

@@ -20,7 +20,9 @@ import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
+import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
+import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetSizeExpr;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Operator;
@@ -160,7 +162,13 @@ public class Formatter {
 		else if(cond instanceof MapSizeExpr) {
 			// MAP TODO
 		}
+		else if(cond instanceof MapInit) {
+			// MAP TODO
+		}
 		else if(cond instanceof SetSizeExpr) {
+			// MAP TODO
+		}
+		else if(cond instanceof SetInit) {
 			// MAP TODO
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");

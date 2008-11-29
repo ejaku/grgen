@@ -5,7 +5,7 @@ rule wrongKeyType {
 	
 	modify {
 		eval {
-			a.intToString = a.intToString.remove(a.stringValue);
+			a.intToString = a.intToString \ map<int,string>{ a.stringValue->"" };
 		}
 	}
 }

@@ -5,7 +5,7 @@ rule addToSet {
 	
 	modify {
 		eval {
-			a.niceSet = a.niceSet.put("yeah");
+			a.niceSet = a.niceSet | set<string>{ "yeah" };
 		}
 	}
 }
@@ -21,7 +21,7 @@ rule removeFromSet {
 	
 	modify {
 		eval {
-			a.niceSet = a.niceSet.remove("yeah");
+			a.niceSet = a.niceSet \ set<string>{ "yeah" };
 		}
 	}
 }
@@ -31,7 +31,7 @@ rule computedAddToSet {
 	
 	modify {
 		eval {
-			a.spiceSet = a.spiceSet.put(a.val + b.val*2);
+			a.spiceSet = a.spiceSet | set<int>{ a.val + b.val*2 };
 		}
 	}
 }
@@ -47,7 +47,7 @@ rule computedRemoveFromSet {
 	
 	modify {
 		eval {
-			a.spiceSet = a.spiceSet.remove(a.val + b.val*2);
+			a.spiceSet = a.spiceSet \ set<int>{ a.val + b.val*2 };
 		}
 	}
 }

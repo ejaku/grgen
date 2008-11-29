@@ -5,7 +5,7 @@ rule assignWrongType {
 	
 	modify {
 		eval {
-			a.intSet = a.intSet.put(a.stringValue);
+			a.intSet = a.intSet | set<int>{ a.stringValue };
 		}
 	}
 }

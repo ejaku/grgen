@@ -6,7 +6,7 @@ rule useEnumMap {
 	modify {
 		eval {
 			// missing "e.enumMap2 = "
-			e.enumMap2.put(a.enumMap[e.enumMap2["another c"]].replace(0, 3, "another"), et::a);
+			e.enumMap2 | map<string,et>{ a.enumMap[e.enumMap2["another c"]].replace(0, 3, "another")->et::a };
 		}
 	}
 }

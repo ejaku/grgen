@@ -808,62 +808,11 @@ public class ModifyGen extends CSharpBase {
 
 				ass.getExpression().collectNeededEntities(needs);
 			}
-			else if(evalStmt instanceof MapAddItem) {
-				MapAddItem mai = (MapAddItem) evalStmt;
-				Qualification target = mai.getTarget();
-				Entity entity = (target).getOwner();
-				needs.add((GraphEntity) entity);
-
-				// Temporarily do not collect variables for target
-				HashSet<Variable> varSet = needs.variables;
-				needs.variables = null;
-				target.collectNeededEntities(needs);
-				needs.variables = varSet;
-
-				mai.getKeyExpr().collectNeededEntities(needs);
-				mai.getValueExpr().collectNeededEntities(needs);
-			}
-			else if(evalStmt instanceof MapRemoveItem) {
-				MapRemoveItem mri = (MapRemoveItem) evalStmt;
-				Qualification target = mri.getTarget();
-				Entity entity = (target).getOwner();
-				needs.add((GraphEntity) entity);
-
-				// Temporarily do not collect variables for target
-				HashSet<Variable> varSet = needs.variables;
-				needs.variables = null;
-				target.collectNeededEntities(needs);
-				needs.variables = varSet;
-
-				mri.getKeyExpr().collectNeededEntities(needs);
-			}
-			else if(evalStmt instanceof SetAddItem) {
-				SetAddItem sai = (SetAddItem) evalStmt;
-				Qualification target = sai.getTarget();
-				Entity entity = (target).getOwner();
-				needs.add((GraphEntity) entity);
-
-				// Temporarily do not collect variables for target
-				HashSet<Variable> varSet = needs.variables;
-				needs.variables = null;
-				target.collectNeededEntities(needs);
-				needs.variables = varSet;
-
-				sai.getValueExpr().collectNeededEntities(needs);
-			}
-			else if(evalStmt instanceof SetRemoveItem) {
-				SetRemoveItem sri = (SetRemoveItem) evalStmt;
-				Qualification target = sri.getTarget();
-				Entity entity = (target).getOwner();
-				needs.add((GraphEntity) entity);
-
-				// Temporarily do not collect variables for target
-				HashSet<Variable> varSet = needs.variables;
-				needs.variables = null;
-				target.collectNeededEntities(needs);
-				needs.variables = varSet;
-
-				sri.getValueExpr().collectNeededEntities(needs);
+			else if(evalStmt instanceof MapAddItem
+					|| evalStmt instanceof MapRemoveItem
+					|| evalStmt instanceof SetAddItem
+					|| evalStmt instanceof SetRemoveItem) {
+				collectMapSetEvalStmt(needs, evalStmt);
 			}
 			else {
 				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");
@@ -871,6 +820,93 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void collectMapSetEvalStmt(NeededEntities needs, EvalStatement evalStmt) {
+		if(evalStmt instanceof MapRemoveItem) {
+			collectMapRemoveItem(needs, (MapRemoveItem) evalStmt);
+		} else if(evalStmt instanceof MapAddItem) {
+			collectMapAddItem(needs, (MapAddItem) evalStmt);
+		} else if(evalStmt instanceof SetRemoveItem) {
+			collectSetRemoveItem(needs, (SetRemoveItem) evalStmt);
+		} else if(evalStmt instanceof SetAddItem) {
+			collectSetAddItem(needs, (SetAddItem) evalStmt);
+		} else {
+			throw new UnsupportedOperationException("Unexpected eval statement \"" + evalStmt + "\"");
+		}
+	}
+	
+	private void collectMapRemoveItem(NeededEntities needs, MapRemoveItem mri) {
+		Qualification target = mri.getTarget();
+		Entity entity = (target).getOwner();
+		needs.add((GraphEntity) entity);
+
+		// Temporarily do not collect variables for target
+		HashSet<Variable> varSet = needs.variables;
+		needs.variables = null;
+		target.collectNeededEntities(needs);
+		needs.variables = varSet;
+
+		mri.getKeyExpr().collectNeededEntities(needs);
+		
+		if(mri.getNext()!=null) {
+			collectMapSetEvalStmt(needs, mri.getNext());
+		}
+	}
+	
+	private void collectMapAddItem(NeededEntities needs, MapAddItem mai) {
+		Qualification target = mai.getTarget();
+		Entity entity = (target).getOwner();
+		needs.add((GraphEntity) entity);
+
+		// Temporarily do not collect variables for target
+		HashSet<Variable> varSet = needs.variables;
+		needs.variables = null;
+		target.collectNeededEntities(needs);
+		needs.variables = varSet;
+
+		mai.getKeyExpr().collectNeededEntities(needs);
+		mai.getValueExpr().collectNeededEntities(needs);
+		
+		if(mai.getNext()!=null) {
+			collectMapSetEvalStmt(needs, mai.getNext());
+		}
+	}
+
+	private void collectSetRemoveItem(NeededEntities needs, SetRemoveItem sri) {
+		Qualification target = sri.getTarget();
+		Entity entity = (target).getOwner();
+		needs.add((GraphEntity) entity);
+
+		// Temporarily do not collect variables for target
+		HashSet<Variable> varSet = needs.variables;
+		needs.variables = null;
+		target.collectNeededEntities(needs);
+		needs.variables = varSet;
+
+		sri.getValueExpr().collectNeededEntities(needs);
+		
+		if(sri.getNext()!=null) {
+			collectMapSetEvalStmt(needs, sri.getNext());
+		}
+	}
+
+	private void collectSetAddItem(NeededEntities needs, SetAddItem sai) {
+		Qualification target = sai.getTarget();
+		Entity entity = (target).getOwner();
+		needs.add((GraphEntity) entity);
+
+		// Temporarily do not collect variables for target
+		HashSet<Variable> varSet = needs.variables;
+		needs.variables = null;
+		target.collectNeededEntities(needs);
+		needs.variables = varSet;
+
+		sai.getValueExpr().collectNeededEntities(needs);
+		
+		if(sai.getNext()!=null) {
+			collectMapSetEvalStmt(needs, sai.getNext());
+		}
+	}
+	
 	private void collectElementsAndAttributesNeededByReturns(ModifyGenerationTask task,
 			NeededEntities needs)
 	{
@@ -1475,7 +1511,6 @@ public class ModifyGen extends CSharpBase {
 					Qualification qualTgt = (Qualification) target;
 
 					if(qualTgt.getType() instanceof MapType || qualTgt.getType() instanceof SetType) {
-						// ASSUME: there are no map/set expressions, so the expression is a map/set entity
 						String typeName = formatAttributeType(qualTgt.getType());
 						String varName = "tempmapsetvar_" + mapSetVarID++;
 
@@ -1569,77 +1604,113 @@ public class ModifyGen extends CSharpBase {
 					sb.append(");\n");
 				}
 			}
-			else if(evalStmt instanceof MapRemoveItem) {
-				MapRemoveItem mri = (MapRemoveItem) evalStmt;
-				Qualification target = mri.getTarget();
-
-				StringBuffer sbtmp = new StringBuffer();
-				genExpression(sbtmp, mri.getKeyExpr(), state);
-				String keyExprStr = sbtmp.toString();
-
-				genChangingAttribute(sb, state, target, "RemoveElement", "null", keyExprStr);
-
-				sb.append("\t\t\t");
-				genExpression(sb, target, state);
-				sb.append(".Remove(");
-				sb.append(keyExprStr);
-				sb.append(");\n");
-			}
-			else if(evalStmt instanceof MapAddItem) {
-				MapAddItem mai = (MapAddItem) evalStmt;
-				Qualification target = mai.getTarget();
-
-				StringBuffer sbtmp = new StringBuffer();
-				genExpression(sbtmp, mai.getValueExpr(), state);
-				String valueExprStr = sbtmp.toString();
-				sbtmp.delete(0, sbtmp.length());
-				genExpression(sbtmp, mai.getKeyExpr(), state);
-				String keyExprStr = sbtmp.toString();
-
-				genChangingAttribute(sb, state, target, "PutElement", valueExprStr, keyExprStr);
-
-				sb.append("\t\t\t");
-				genExpression(sb, target, state);
-				sb.append("[");
-				sb.append(keyExprStr);
-				sb.append("] = ");
-				sb.append(valueExprStr);
-				sb.append(";\n");
-			}
-			else if(evalStmt instanceof SetRemoveItem) {
-				SetRemoveItem sri = (SetRemoveItem) evalStmt;
-				Qualification target = sri.getTarget();
-
-				StringBuffer sbtmp = new StringBuffer();
-				genExpression(sbtmp, sri.getValueExpr(), state);
-				String valueExprStr = sbtmp.toString();
-
-				genChangingAttribute(sb, state, target, "RemoveElement", valueExprStr, "null");
-
-				sb.append("\t\t\t");
-				genExpression(sb, target, state);
-				sb.append(".Remove(");
-				sb.append(valueExprStr);
-				sb.append(");\n");
-			}
-			else if(evalStmt instanceof SetAddItem) {
-				SetAddItem sai = (SetAddItem) evalStmt;
-				Qualification target = sai.getTarget();
-
-				StringBuffer sbtmp = new StringBuffer();
-				genExpression(sbtmp, sai.getValueExpr(), state);
-				String valueExprStr = sbtmp.toString();
-
-				genChangingAttribute(sb, state, target, "PutElement", valueExprStr, "null");
-
-				sb.append("\t\t\t");
-				genExpression(sb, target, state);
-				sb.append("[");
-				sb.append(valueExprStr);
-				sb.append("] = null;\n");
+			else if(evalStmt instanceof MapRemoveItem
+					|| evalStmt instanceof MapAddItem
+					|| evalStmt instanceof SetRemoveItem
+					|| evalStmt instanceof SetAddItem) {
+				genMapSetEvalStmt(sb, state, evalStmt);
 			}
 			else
 				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");
+		}
+	}
+
+	private void genMapSetEvalStmt(StringBuffer sb, ModifyGenerationStateConst state, EvalStatement evalStmt) {
+		if(evalStmt instanceof MapRemoveItem) {
+			genMapRemoveItem(sb, state, (MapRemoveItem) evalStmt);
+		} else if(evalStmt instanceof MapAddItem) {
+			genMapAddItem(sb, state, (MapAddItem) evalStmt);
+		} else if(evalStmt instanceof SetRemoveItem) {
+			genSetRemoveItem(sb, state, (SetRemoveItem) evalStmt);
+		} else if(evalStmt instanceof SetAddItem) {
+			genSetAddItem(sb, state, (SetAddItem) evalStmt);
+		} else {
+			throw new UnsupportedOperationException("Unexpected eval statement \"" + evalStmt + "\"");
+		}
+	}
+	
+	private void genMapRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, MapRemoveItem mri) {
+		Qualification target = mri.getTarget();
+	
+		StringBuffer sbtmp = new StringBuffer();
+		genExpression(sbtmp, mri.getKeyExpr(), state);
+		String keyExprStr = sbtmp.toString();
+	
+		genChangingAttribute(sb, state, target, "RemoveElement", "null", keyExprStr);
+	
+		sb.append("\t\t\t");
+		genExpression(sb, target, state);
+		sb.append(".Remove(");
+		sb.append(keyExprStr);
+		sb.append(");\n");
+		
+		if(mri.getNext()!=null) {
+			genMapSetEvalStmt(sb, state, mri.getNext());
+		}
+	}
+	
+	private void genMapAddItem(StringBuffer sb, ModifyGenerationStateConst state, MapAddItem mai) {
+		Qualification target = mai.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpression(sbtmp, mai.getValueExpr(), state);
+		String valueExprStr = sbtmp.toString();
+		sbtmp.delete(0, sbtmp.length());
+		genExpression(sbtmp, mai.getKeyExpr(), state);
+		String keyExprStr = sbtmp.toString();
+
+		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, keyExprStr);
+
+		sb.append("\t\t\t");
+		genExpression(sb, target, state);
+		sb.append("[");
+		sb.append(keyExprStr);
+		sb.append("] = ");
+		sb.append(valueExprStr);
+		sb.append(";\n");
+		
+		if(mai.getNext()!=null) {
+			genMapSetEvalStmt(sb, state, mai.getNext());
+		}
+	}
+
+	private void genSetRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, SetRemoveItem sri) {
+		Qualification target = sri.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpression(sbtmp, sri.getValueExpr(), state);
+		String valueExprStr = sbtmp.toString();
+
+		genChangingAttribute(sb, state, target, "RemoveElement", valueExprStr, "null");
+
+		sb.append("\t\t\t");
+		genExpression(sb, target, state);
+		sb.append(".Remove(");
+		sb.append(valueExprStr);
+		sb.append(");\n");
+		
+		if(sri.getNext()!=null) {
+			genMapSetEvalStmt(sb, state, sri.getNext());
+		}
+	}
+
+	private void genSetAddItem(StringBuffer sb, ModifyGenerationStateConst state, SetAddItem sai) {
+		Qualification target = sai.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpression(sbtmp, sai.getValueExpr(), state);
+		String valueExprStr = sbtmp.toString();
+
+		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, "null");
+
+		sb.append("\t\t\t");
+		genExpression(sb, target, state);
+		sb.append("[");
+		sb.append(valueExprStr);
+		sb.append("] = null;\n");
+		
+		if(sai.getNext()!=null) {
+			genMapSetEvalStmt(sb, state, sai.getNext());
 		}
 	}
 

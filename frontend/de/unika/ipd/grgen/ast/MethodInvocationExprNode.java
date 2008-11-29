@@ -122,35 +122,7 @@ public class MethodInvocationExprNode extends ExprNode
   			}  				
 		}
 		else if(targetType instanceof MapTypeNode) {
-			if(methodName.equals("put")) {
-				if(!(targetExpr instanceof MemberAccessExprNode)) {
-					reportError("map<S,T>.put can only access a non-computed member entity.");
-					return false;
-				}
-				MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
-
-  				if(params.size() != 2) {
-  					reportError("map<S,T>.put(key, value) takes two parameters.");
-					return false;
-				}
-  				else
-  					result = new MapAddItemNode(getCoords(), target, params.get(0), params.get(1));
-  			}
-  			else if(methodName.equals("remove")) {
-  				if(!(targetExpr instanceof MemberAccessExprNode)) {
-  					reportError("map<S,T>.remove can only access a non-computed member entity.");
-  					return false;
-  				}
-  				MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
-  				
-  				if(params.size() != 1) {
-  					reportError("map<S,T>.remove(key) takes one parameter.");
-					return false;
-				}
-  				else
-  					result = new MapRemoveItemNode(getCoords(), target, params.get(0));
-  			}
-  			else if(methodName.equals("size")) {
+			if(methodName.equals("size")) {
   				if(params.size() != 0) {
   					reportError("map<S,T>.size() does not take any parameters.");
 					return false;
@@ -164,35 +136,7 @@ public class MethodInvocationExprNode extends ExprNode
   			}
 		}
 		else if(targetType instanceof SetTypeNode) {
-			if(methodName.equals("put")) {
-				if(!(targetExpr instanceof MemberAccessExprNode)) {
-					reportError("set<T>.put can only access a non-computed member entity.");
-					return false;
-				}
-				MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
-				
-  				if(params.size() != 1) {
-  					reportError("set<T>.put(value) takes one parameter.");
-					return false;
-				}
-  				else
-  					result = new SetAddItemNode(getCoords(), target, params.get(0));
-  			}
-  			else if(methodName.equals("remove")) {
-  				if(!(targetExpr instanceof MemberAccessExprNode)) {
-  					reportError("set<T>.remove can only access a non-computed member entity.");
-  					return false;
-  				}
-  				MemberAccessExprNode target = (MemberAccessExprNode)targetExpr;
-
-  				if(params.size() != 1) {
-  					reportError("set<T>.remove(value) takes one parameter.");
-					return false;
-				}
-  				else
-  					result = new SetRemoveItemNode(getCoords(), target, params.get(0));
-  			}
-  			else if(methodName.equals("size")) {
+			if(methodName.equals("size")) {
   				if(params.size() != 0) {
   					reportError("set<T>.size() does not take any parameters.");
 					return false;
