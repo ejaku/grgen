@@ -193,6 +193,7 @@ OK     should_pass/inh_attrib_002.grg
 OK     should_pass/inh_attrib_003.grg
 OK     should_pass/map_001.grg
 OK     should_pass/map_002.grg
+OK     should_pass/map_003.grg
 OK     should_pass/model_init_001.grg
 OK     should_pass/model_init_002.grg
 OK     should_pass/nameof_001.grg
@@ -258,6 +259,7 @@ OK     should_pass/set_001.grg
 OK     should_pass/set_002.grg
 OK     should_pass/set_003.grg
 OK     should_pass/set_004.grg
+OK     should_pass/set_005.grg
 OK     should_pass/snowflakeAGTIVE.grg
 OK     should_pass/strfunc_001.grg
 OK     should_pass/to_001.grg
