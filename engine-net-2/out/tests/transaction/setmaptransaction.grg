@@ -7,10 +7,10 @@ rule transform1 {
 	
 	modify {
 		eval {
-			a.setVal = a.setVal.remove("foo");
-			a.setVal = a.setVal.put("bar");
-			a.mapVal = a.mapVal.remove("foo");
-			a.mapVal = a.mapVal.put("bar","foo");
+			a.setVal = a.setVal \ set<string>{ "foo" };
+			a.setVal = a.setVal | set<string>{ "bar" };
+			a.mapVal = a.mapVal \ map<string,string>{ "foo"->"" };
+			a.mapVal = a.mapVal | map<string,string>{ "bar"->"foo" };
 		}
 	}
 }
