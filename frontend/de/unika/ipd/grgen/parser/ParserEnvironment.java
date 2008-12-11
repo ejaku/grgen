@@ -26,8 +26,6 @@ import de.unika.ipd.grgen.ast.ExprNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.IntConstNode;
-import de.unika.ipd.grgen.ast.MapTypeNode;
-import de.unika.ipd.grgen.ast.SetTypeNode;
 import de.unika.ipd.grgen.ast.ModelNode;
 import de.unika.ipd.grgen.ast.NodeDeclNode;
 import de.unika.ipd.grgen.ast.NodeTypeNode;
@@ -39,7 +37,6 @@ import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
 import java.io.File;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public abstract class ParserEnvironment extends Base {
@@ -82,9 +79,6 @@ public abstract class ParserEnvironment extends Base {
 
 	private HashSet<String> keywords = new HashSet<String>();
 
-	private HashMap<String, MapTypeNode> mapTypes = new HashMap<String, MapTypeNode>();
-
-	private HashMap<String, SetTypeNode> setTypes = new HashMap<String, SetTypeNode>();
 
 	/**
 	 * Make a new parser environment.
@@ -307,26 +301,6 @@ public abstract class ParserEnvironment extends Base {
 
 	public boolean isLexerKeyword(String str) {
 		return keywords.contains(str);
-	}
-
-	public MapTypeNode getMapType(IdentNode keyTypeIdent, IdentNode valueTypeIdent) {
-		String keyStr = keyTypeIdent.toString() + "->" + valueTypeIdent.toString();
-		MapTypeNode mapTypeNode = mapTypes.get(keyStr);
-
-		if(mapTypeNode == null)
-			mapTypes.put(keyStr, mapTypeNode = new MapTypeNode(keyTypeIdent, valueTypeIdent));
-
-		return mapTypeNode;
-	}
-
-	public SetTypeNode getSetType(IdentNode valueTypeIdent) {
-		String keyStr = valueTypeIdent.toString();
-		SetTypeNode setTypeNode = setTypes.get(keyStr);
-
-		if(setTypeNode == null)
-			setTypes.put(keyStr, setTypeNode = new SetTypeNode(valueTypeIdent));
-
-		return setTypeNode;
 	}
 
 	/**

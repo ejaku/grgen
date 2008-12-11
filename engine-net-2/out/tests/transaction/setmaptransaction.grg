@@ -7,10 +7,10 @@ rule transform1 {
 	
 	modify {
 		eval {
-			a.setVal = a.setVal \ set<string>{ "foo" };
-			a.setVal = a.setVal | set<string>{ "bar" };
-			a.mapVal = a.mapVal \ map<string,string>{ "foo"->"" };
-			a.mapVal = a.mapVal | map<string,string>{ "bar"->"foo" };
+			a.setVal = a.setVal \ { "foo" };
+			a.setVal = a.setVal | { "bar" };
+			a.mapVal = a.mapVal \ { "foo" };
+			a.mapVal = a.mapVal | { "bar"->"foo" };
 		}
 	}
 }

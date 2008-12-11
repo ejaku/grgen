@@ -8,5 +8,10 @@ rule addToSetRemoveFromSet {
 			a.niceSet = (a.niceSet | set<string>{ "yeah", a.strval }) \ set<string>{ "hey", b.strval };
 			a.spiceSet = a.spiceSet \ set<int>{ a.val + b.val*2, a.val } | set<int>{ a.val - b.val*2, b.val };
 		}
+		
+		eval {
+			a.niceSet = (a.niceSet | { "yeah", a.strval }) \ { "hey", b.strval };
+			a.spiceSet = a.spiceSet \ { a.val + b.val*2, a.val } | { a.val - b.val*2, b.val };
+		}
 	}
 }

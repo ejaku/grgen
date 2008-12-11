@@ -160,15 +160,25 @@ public class ArithmeticOpNode extends OpNode {
 					}
 				} 
 			}
-			else { //if(getOperator().getOpId()==OperatorSignature.EXCEPT)
+			else { //if(getOperator().getOpId()==OperatorSignature.EXCEPT) // only BIT_OR/EXCEPT are marked
 				if(children.get(1).getType() instanceof SetTypeNode) {
 					SetInitNode initNode = (SetInitNode)children.get(1);
-					for(SetItemNode item : initNode.getItems().getChildren()) {
-						SetRemoveItem remItem = new SetRemoveItem(qual,
-								item.valueExpr.checkIR(Expression.class));
-						if(first==null) first = remItem;
-						if(previous!=null) previous.setNext(remItem);
-						previous = remItem;
+					if(children.get(0).getType() instanceof MapTypeNode) { // handle map \ set
+						for(SetItemNode item : initNode.getItems().getChildren()) {
+							MapRemoveItem remItem = new MapRemoveItem(qual,
+									item.valueExpr.checkIR(Expression.class));
+							if(first==null) first = remItem;
+							if(previous!=null) previous.setNext(remItem);
+							previous = remItem;
+						}
+					} else { // handle normal case set \ set
+						for(SetItemNode item : initNode.getItems().getChildren()) {
+							SetRemoveItem remItem = new SetRemoveItem(qual,
+									item.valueExpr.checkIR(Expression.class));
+							if(first==null) first = remItem;
+							if(previous!=null) previous.setNext(remItem);
+							previous = remItem;
+						}
 					}
 				}
 				else { //if(children.get(1).getType() instanceof MapTypeNode)

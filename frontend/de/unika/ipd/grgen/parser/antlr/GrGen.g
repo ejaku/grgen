@@ -438,7 +438,6 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpa
 	: connectionsOrSubpattern[conn, subpatterns, subpatternReplacements, context] SEMI
 	| a=ALTERNATIVE LBRACE alt=alternative[getCoords(a), altCounter, context] { alts.addChild(alt); ++altCounter; } RBRACE
 	| neg=negative[negCounter, context] { negs.addChild(neg); ++negCounter; }
-	| COND e=expr[false] { cond.addChild(e); } SEMI //'false' means that expr is not an enum item initializer
 	| COND LBRACE ( e=expr[false] { cond.addChild(e); } SEMI )* RBRACE
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
@@ -676,12 +675,12 @@ varDecl [ int context ] returns [ BaseNode res = env.initNode() ]
 		|
 			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				res = new VarDeclNode(id, env.getMapType(keyType, valueType));
+				res = new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
 			}
 		|
 			SET LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				res = new VarDeclNode(id, env.getSetType(keyType));
+				res = new VarDeclNode(id, SetTypeNode.getSetType(keyType));
 			}
 		)
 	;
@@ -1455,7 +1454,7 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 			|
 				MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-					decl = new MemberDeclNode(id, env.getMapType(keyType, valueType), isConst);
+					decl = new MemberDeclNode(id, MapTypeNode.getMapType(keyType, valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
 				}
@@ -1470,7 +1469,7 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 			|
 				SET LT valueType=typeIdentUse GT
 				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-					decl = new MemberDeclNode(id, env.getSetType(valueType), isConst);
+					decl = new MemberDeclNode(id, SetTypeNode.getSetType(valueType), isConst);
 					id.setDecl(decl);
 					c.addChild(decl);
 				}
@@ -1860,8 +1859,7 @@ primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	| e=constant { res = e; }
 	| e=enumItemExpr { res = e; }
 	| e=typeOf { res = e; }
-	| MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e=initMapExpr[null, env.getMapType(keyType, valueType)] { res = e; }
-	| SET LT valueType=typeIdentUse GT e=initSetExpr[null, env.getSetType(valueType)] { res = e; }
+	| e=initMapOrSetExpr { res = e; }
 	| LPAREN e=expr[inEnumInit] { res = e; } RPAREN
 	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
 	| q=MINUSMINUS { reportError(getCoords(q), "decrement operator \"--\" not supported"); }
@@ -1879,7 +1877,14 @@ nameOf returns [ ExprNode res = env.initExprNode() ]
 typeOf returns [ ExprNode res = env.initExprNode() ]
 	: t=TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
 	;
-
+	
+initMapOrSetExpr returns [ ExprNode res = env.initExprNode() ]
+	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e1=initMapExpr[null, MapTypeNode.getMapType(keyType, valueType)] { res = e1; }
+	| SET LT valueType=typeIdentUse GT e2=initSetExpr[null, SetTypeNode.getSetType(valueType)] { res = e2; }
+	| (LBRACE expr[false] RARROW) => e1=initMapExpr[null, null] { res = e1; }
+	| (LBRACE) => e2=initSetExpr[null, null] { res = e2; }
+	;
+	
 constant returns [ ExprNode res = env.initExprNode() ]
 	: i=NUM_INTEGER
 		{ res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText(), 10)); }

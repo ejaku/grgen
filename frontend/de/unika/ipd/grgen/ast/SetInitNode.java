@@ -30,8 +30,12 @@ public class SetInitNode extends ExprNode
 
 	CollectNode<SetItemNode> setItems = new CollectNode<SetItemNode>();
 
-	// if set init node is used in model, for member init then lhs != null
-	// if set init node is used in actions, for anonymous const set then setType != null
+	// if set init node is used in model, for member init 
+	//     then lhs != null, setType == null
+	// if set init node is used in actions, for anonymous const set with specified type
+	//     then lhs == null, setType != null -- adjust type of set items to this type
+	// if set init node is used in actions, for anonymous const set without specified type
+	//     then lhs == null, setType == null -- determine set type from first item, all items must be exactly of this type
 	BaseNode lhsUnresolved;
 	DeclNode lhs;
 	SetTypeNode setType;
@@ -41,7 +45,7 @@ public class SetInitNode extends ExprNode
 
 		if(member!=null) {
 			lhsUnresolved = becomeParent(member);
-		} else { // mapType!=null
+		} else {
 			this.setType = setType;
 		}
 	}
@@ -69,8 +73,10 @@ public class SetInitNode extends ExprNode
 			if(!lhsResolver.resolve(lhsUnresolved)) return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
-		} else {
+		} else if(setType!=null) {
 			return setType.resolve();
+		} else {
+			return true;
 		}
 	}
 
@@ -82,22 +88,40 @@ public class SetInitNode extends ExprNode
 			TypeNode type = lhs.getDeclType();
 			assert type instanceof SetTypeNode: "Lhs should be a Set<Value>";
 			setType = (SetTypeNode) type;
-		} else {
+		} else if(this.setType!=null) {
 			setType = this.setType;
+		} else {
+			TypeNode setTypeNode = getSetType();
+			if(setTypeNode instanceof SetTypeNode) {
+				setType = (SetTypeNode)setTypeNode;
+			} else {
+				return false;
+			}
 		}
 
 		for(SetItemNode item : setItems.getChildren()) {
-			if (item.valueExpr.getType() != setType.valueType) {
-				ExprNode oldValueExpr = item.valueExpr;
-				item.valueExpr = item.valueExpr.adjustType(setType.valueType, getCoords());
-				item.switchParenthood(oldValueExpr, item.valueExpr);
-				if(item.valueExpr == ConstNode.getInvalid()) {
+			if(item.valueExpr.getType() != setType.valueType) {
+				if(this.setType!=null) {
+					ExprNode oldValueExpr = item.valueExpr;
+					item.valueExpr = item.valueExpr.adjustType(setType.valueType, getCoords());
+					item.switchParenthood(oldValueExpr, item.valueExpr);
+					if(item.valueExpr == ConstNode.getInvalid()) {
+						success = false;
+						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
+								+ "\" of initializer doesn't fit to value type \""
+								+ setType.valueType + "\" of set.");
+					}
+				} else {
 					success = false;
-					item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
+					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
 							+ "\" of initializer doesn't fit to value type \""
-							+ setType.valueType + "\" of set.");
+							+ setType.valueType + "\" of set (all items must be of exactly the same type).");
 				}
 			}
+		}
+		
+		if(lhs==null && this.setType==null) {
+			this.setType = setType;
 		}
 		
 		if(!isConstant() && lhs!=null) {
@@ -108,6 +132,16 @@ public class SetInitNode extends ExprNode
 		return success;
 	}
 
+	TypeNode getSetType() {
+		TypeNode itemTypeNode = setItems.getChildren().iterator().next().valueExpr.getType();
+		if(!(itemTypeNode instanceof DeclaredTypeNode)) {
+			reportError("Set items have to be of basic or enum type");
+			return BasicTypeNode.errorType;
+		}
+		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
+		return SetTypeNode.getSetType(itemTypeIdent);
+	}
+	
 	/**
 	 * Checks whether the set only contains constants.
 	 * @return True, if all set items are constant.
@@ -140,11 +174,14 @@ public class SetInitNode extends ExprNode
 	}
 
 	public TypeNode getType() {
+		assert(isResolved());
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
 			return (SetTypeNode) type;
-		} else {
+		} else if(setType!=null) {
 			return setType;
+		} else {
+			return getSetType();
 		}
 	}
 	

@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -27,14 +28,35 @@ public class MapTypeNode extends DeclaredTypeNode {
 		return "map<" + keyTypeUnresolved.toString() + "," + valueTypeUnresolved.toString() + "> type";
 	}
 	
+	private static HashMap<String, MapTypeNode> mapTypes = new HashMap<String, MapTypeNode>();
+	
+	public static MapTypeNode getMapType(IdentNode keyTypeIdent, IdentNode valueTypeIdent) {
+		String keyStr = keyTypeIdent.toString() + "->" + valueTypeIdent.toString();
+		MapTypeNode mapTypeNode = mapTypes.get(keyStr);
+
+		if(mapTypeNode == null) {
+			mapTypes.put(keyStr, mapTypeNode = new MapTypeNode(keyTypeIdent, valueTypeIdent));
+			mapTypeNode.setExceptCompatibleSetType(SetTypeNode.getSetType(keyTypeIdent)); 
+		}
+
+		return mapTypeNode;
+	}
+	
 	IdentNode keyTypeUnresolved;
 	TypeNode keyType;
 	IdentNode valueTypeUnresolved;
 	TypeNode valueType;
 	
+	SetTypeNode exceptCompatibleSetTyp;
+	
+	// the map type node instances are created in ParserEnvironment as needed
 	public MapTypeNode(IdentNode keyTypeIdent, IdentNode valueTypeIdent) {
 		keyTypeUnresolved   = becomeParent(keyTypeIdent);
 		valueTypeUnresolved = becomeParent(valueTypeIdent);
+	}
+	
+	public void setExceptCompatibleSetType(SetTypeNode stn) {
+		exceptCompatibleSetTyp = stn;
 	}
 	
 	public Collection<BaseNode> getChildren() {
@@ -64,6 +86,8 @@ public class MapTypeNode extends DeclaredTypeNode {
 		OperatorSignature.makeBinOp(OperatorSignature.BIT_AND, this, this, this,
 				OperatorSignature.mapEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this, this, this,
+				OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this, this, exceptCompatibleSetTyp,
 				OperatorSignature.mapEvaluator);
 		
 		return true;

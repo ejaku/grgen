@@ -149,10 +149,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <paramref name="a"/> whose keys are not contained in <paramref name="b"/>.
         /// </summary>
         /// <param name="a">A dictionary.</param>
-        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
         /// <returns>A new dictionary containing all elements from <paramref name="a"/>,
         /// which are not in <paramref name="b"/>.</returns>
-        public static Dictionary<K, V> Except<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
+        public static Dictionary<K, V> Except<K, V, W>(Dictionary<K, V> a, Dictionary<K, W> b)
         {
             // Fill new dictionary with all elements from a.
             Dictionary<K, V> newDict = new Dictionary<K, V>(a);

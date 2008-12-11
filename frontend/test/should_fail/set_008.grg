@@ -1,0 +1,11 @@
+using set_model_001;
+
+rule removeWrongType {
+	a:A;
+	
+	modify {
+		eval {
+			a.stringSet = a.stringSet \ { "hallo", a.intValue }; // no implicit cast without the type prefix
+		}
+	}
+}

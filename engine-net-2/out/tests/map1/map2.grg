@@ -18,7 +18,7 @@ rule removeIntKey(var key:int)
 	{
 		eval
 		{
-			a.m = a.m \ map<string,int>{ key->0 }; // 0 is not needed dummy value without effect
+			a.m = a.m \ set<string>{ key };
 		}
 	}
 }
@@ -33,7 +33,7 @@ rule removeStringKey(var key:string)
 	{
 		eval
 		{
-			a.m = a.m \ map<string,int>{ key->0 };
+			a.m = a.m \ { key };
 		}
 	}
 }
@@ -74,7 +74,7 @@ rule insertStringKey(var key:string, var value:int)
 	{
 		eval
 		{
-			a.m = a.m | map<string,int>{ key->value };
+			a.m = a.m | { key->value };
 		}
 	}
 }
@@ -109,7 +109,7 @@ rule insertStringKeyIfEmpty(var key:string, var value:int)
 	{
 		eval
 		{
-			a.m = a.m | map<string,int>{ key->value };
+			a.m = a.m | { key->value };
 		}
 	}
 }

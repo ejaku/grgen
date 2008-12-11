@@ -5,7 +5,7 @@ rule putWithCast {
 	
 	modify {
 		eval {
-			a.stringSet = a.stringSet | set<string>{ a.intValue };
+			a.stringSet = a.stringSet | set<string>{ a.intValue }; // no implicit cast without the type prefix
 		}
 	}
 }
@@ -21,7 +21,7 @@ rule removeWithCast {
 	
 	modify {
 		eval {
-			a.stringSet = a.stringSet \ set<string>{ a.intValue };
+			a.stringSet = a.stringSet \ set<string>{ a.intValue }; // no implicit cast without the type prefix
 		}
 	}
 }

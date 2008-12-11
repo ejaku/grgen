@@ -10,10 +10,22 @@ rule anonymousSet {
 		&& e.strval in set<string>{ "bar", e.strval, "blubb" };
 	}
 	
+	if { 
+		a.val in { 1, 3, 5, 7, 11, 13, 17 }
+		|| e.strval in { "foo", "bar", "blubb" }
+		&& a.val in { 2, 4, a.val, 19 }
+		&& e.strval in { "bar", e.strval, "blubb" };
+	}
+	
 	modify {
 		eval {
 			a.val = a.val in set<int>{ 2, 4, a.val, 19 } ? a.val : 42;
 			e.strval = e.strval in set<string>{ "bar", e.strval, "blubb" } ? e.strval : 42;
+		}
+		
+		eval {
+			a.val = a.val in { 2, 4, a.val, 19 } ? a.val : 42;
+			e.strval = e.strval in { "bar", e.strval, "blubb" } ? e.strval : 42;
 		}
 	}
 }

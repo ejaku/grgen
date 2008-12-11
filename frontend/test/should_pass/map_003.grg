@@ -6,7 +6,15 @@ rule addToMapRemoveFromMap {
 	modify {
 		eval {
 			a.stringToInt = (a.stringToInt | map<string,int>{ "yeah"->1, a.stringValue->a.intValue }) \ map<string,int>{ "hey"->0, b.stringValue->0 };
+			a.stringToInt = (a.stringToInt | map<string,int>{ "yeah"->1, a.stringValue->a.intValue }) \ set<string>{ "hey", b.stringValue };
 			a.intToString = a.intToString \ map<int,string>{ a.intValue*2->"", a.intValue->"" } | map<int,string>{ b.intValue*2->"hey", a.intValue->b.stringValue };
+			a.intToString = a.intToString \ set<int>{ a.intValue*2, a.intValue } | map<int,string>{ b.intValue*2->"hey", a.intValue->b.stringValue };
+		}
+		eval {
+			a.stringToInt = (a.stringToInt | { "yeah"->1, a.stringValue->a.intValue }) \ { "hey"->0, b.stringValue->0 };
+			a.stringToInt = (a.stringToInt | { "yeah"->1, a.stringValue->a.intValue }) \ { "hey", b.stringValue };
+			a.intToString = a.intToString \ { a.intValue*2->"", a.intValue->"" } | { b.intValue*2->"hey", a.intValue->b.stringValue };
+			a.intToString = a.intToString \ { a.intValue*2, a.intValue } | { b.intValue*2->"hey", a.intValue->b.stringValue };
 		}
 	}
 }

@@ -30,8 +30,12 @@ public class MapInitNode extends ExprNode
 
 	CollectNode<MapItemNode> mapItems = new CollectNode<MapItemNode>();
 
-	// if map init node is used in model, for member init then lhs != null
-	// if map init node is used in actions, for anonymous const map then mapType != null
+	// if map init node is used in model, for member init 
+	//     then lhs != null, mapType == null
+	// if map init node is used in actions, for anonymous const map with specified types
+	//     then lhs == null, mapType != null -- adjust type of map items to this type
+	// if map init node is used in actions, for anonymous const map without specified types
+	//     then lhs == null, mapType == null -- determine map type from first item, all items must be exactly of this type
 	BaseNode lhsUnresolved;
 	DeclNode lhs;
 	MapTypeNode mapType;
@@ -41,7 +45,7 @@ public class MapInitNode extends ExprNode
 
 		if(member!=null) {
 			lhsUnresolved = becomeParent(member);
-		} else { // mapType!=null
+		} else {
 			this.mapType = mapType;
 		}
 	}
@@ -69,8 +73,10 @@ public class MapInitNode extends ExprNode
 			if(!lhsResolver.resolve(lhsUnresolved)) return false;
 			lhs = lhsResolver.getResult(DeclNode.class);
 			return lhsResolver.finish();
-		} else {
+		} else if(mapType!=null) {
 			return mapType.resolve();
+		} else {
+			return true;
 		}
 	}
 
@@ -82,33 +88,58 @@ public class MapInitNode extends ExprNode
 			TypeNode type = lhs.getDeclType();
 			assert type instanceof MapTypeNode: "Lhs should be a Map<Key,Value>";
 			mapType = (MapTypeNode) type;
-		} else {
+		} else if(this.mapType!=null) {
 			mapType = this.mapType;
+		} else {
+			TypeNode mapTypeNode = getMapType();
+			if(mapTypeNode instanceof MapTypeNode) {
+				mapType = (MapTypeNode)mapTypeNode;
+			} else {
+				return false;
+			}
 		}
 
 		for(MapItemNode item : mapItems.getChildren()) {
 			if (item.keyExpr.getType() != mapType.keyType) {
-				ExprNode oldKeyExpr = item.keyExpr;
-				item.keyExpr = item.keyExpr.adjustType(mapType.keyType, getCoords());
-				item.switchParenthood(oldKeyExpr, item.keyExpr);
-				if(item.keyExpr == ConstNode.getInvalid()) {
+				if(this.mapType!=null) {
+					ExprNode oldKeyExpr = item.keyExpr;
+					item.keyExpr = item.keyExpr.adjustType(mapType.keyType, getCoords());
+					item.switchParenthood(oldKeyExpr, item.keyExpr);
+					if(item.keyExpr == ConstNode.getInvalid()) {
+						success = false;
+						item.keyExpr.reportError("Key type \"" + oldKeyExpr.getType()
+								+ "\" of initializer doesn't fit to key type \""
+								+ mapType.keyType + "\" of map.");
+					}
+				} else {
 					success = false;
-					item.keyExpr.reportError("Key type \"" + oldKeyExpr.getType()
+					item.keyExpr.reportError("Key type \"" + item.keyExpr.getType()
 							+ "\" of initializer doesn't fit to key type \""
-							+ mapType.keyType + "\" of map.");
+							+ mapType.keyType + "\" of map (all items must be of exactly the same type).");
 				}
 			}
 			if (item.valueExpr.getType() != mapType.valueType) {
-				ExprNode oldValueExpr = item.valueExpr;
-				item.valueExpr = item.valueExpr.adjustType(mapType.valueType, getCoords());
-				item.switchParenthood(oldValueExpr, item.valueExpr);
-				if(item.valueExpr == ConstNode.getInvalid()) {
+				if(this.mapType!=null) {
+					ExprNode oldValueExpr = item.valueExpr;
+					item.valueExpr = item.valueExpr.adjustType(mapType.valueType, getCoords());
+					item.switchParenthood(oldValueExpr, item.valueExpr);
+					if(item.valueExpr == ConstNode.getInvalid()) {
+						success = false;
+						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
+								+ "\" of initializer doesn't fit to value type \""
+								+ mapType.valueType + "\" of map.");
+					}
+				} else {
 					success = false;
-					item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
+					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
 							+ "\" of initializer doesn't fit to value type \""
-							+ mapType.valueType + "\" of map.");
+							+ mapType.valueType + "\" of map (all items must be of exactly the same type).");
 				}
 			}
+		}
+		
+		if(lhs==null && this.mapType==null) {
+			this.mapType = mapType;
 		}
 		
 		if(!isConstant() && lhs!=null) {
@@ -119,6 +150,19 @@ public class MapInitNode extends ExprNode
 		return success;
 	}
 
+	TypeNode getMapType() {
+		TypeNode keyTypeNode = mapItems.getChildren().iterator().next().keyExpr.getType();
+		TypeNode valueTypeNode = mapItems.getChildren().iterator().next().valueExpr.getType();
+		if(!(keyTypeNode instanceof DeclaredTypeNode)
+				|| !(valueTypeNode instanceof DeclaredTypeNode)) {
+			reportError("Map items have to be of basic or enum type");
+			return BasicTypeNode.errorType;
+		}
+		IdentNode keyTypeIdent = ((DeclaredTypeNode)keyTypeNode).getIdentNode();
+		IdentNode valueTypeIdent = ((DeclaredTypeNode)valueTypeNode).getIdentNode();
+		return MapTypeNode.getMapType(keyTypeIdent, valueTypeIdent);
+	}
+	
 	/**
 	 * Checks whether the map only contains constants.
 	 * @return True, if all map items are constant.
@@ -142,11 +186,14 @@ public class MapInitNode extends ExprNode
 	}
 
 	public TypeNode getType() {
+		assert(isResolved());
 		if(lhs!=null) {
 			TypeNode type = lhs.getDeclType();
 			return (MapTypeNode) type;
-		} else {
+		} else if(mapType!=null) {
 			return mapType;
+		} else {
+			return getMapType();
 		}
 	}
 

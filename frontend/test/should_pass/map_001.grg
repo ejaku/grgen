@@ -6,6 +6,7 @@ rule addToMap {
 	modify {
 		eval {
 			a.niceMap = a.niceMap | map<int,string>{ 5->"yeah" };
+			a.niceMap = a.niceMap | { 5->"yeah" };
 		}
 	}
 }
@@ -29,6 +30,7 @@ rule copyMap {
 		b:A;
 		eval {
 			b.niceMap = b.niceMap | map<int,string>{ 0->a.niceMap[0] };
+			b.niceMap = b.niceMap | { 0->a.niceMap[0] };
 		}
 	}
 }
@@ -41,6 +43,7 @@ rule mapIndexedMap {
 		b:A;
 		eval {
 			a.spiceMap = a.spiceMap | map<string,float>{ b.niceMap[0]->3.141f };
+			a.spiceMap = a.spiceMap | { b.niceMap[0]->3.141f };
 		}
 	}
 }
@@ -50,7 +53,8 @@ rule removeFromMap {
 	
 	modify {
 		eval {
-			a.niceMap = a.niceMap \ map<int,string>{ 0->null };
+			a.niceMap = a.niceMap \ a.constNiceMap;
+			a.niceMap = a.niceMap \ set<int>{ 0 };
 		}
 	}
 }
@@ -96,6 +100,9 @@ rule useEnumMap {
 		eval {
 			e.enumMap2 = e.enumMap2 | map<string, et>{ a.enumMap[e.enumMap2["another c"]].replace(0, 3, "another")->et::a };
 		}
+		eval {
+			e.enumMap2 = e.enumMap2 | { a.enumMap[e.enumMap2["another c"]].replace(0, 3, "another")->et::a };
+		}
 	}
 }
 
@@ -103,7 +110,9 @@ test anonymousMap {
 	a:A -e:E-> a;
 	
 	if { a.val in map<int,string>{ 1->"foo", 3->"bar", 5->"blubb", 7->"f***", 11->"that", 13->"stupid", 17->"shit" }; }
+	if { a.val in { 1->"foo", 3->"bar", 5->"blubb", 7->"f***", 11->"that", 13->"stupid", 17->"shit" }; }
 	if { map<string,string>{ "a"->"b", "b"->"c", "c"->"a" }["a"]=="b"; }
+	if { { "a"->"b", "b"->"c", "c"->"a" }["a"]=="b"; }
 }
 
 rule evalAndEmitFromAnonymousMap {
@@ -112,7 +121,9 @@ rule evalAndEmitFromAnonymousMap {
 	
 	modify {
 		eval { a.val = map<int,int>{ 1->2, 2->3, 3->1 }[2]; }
+		eval { a.val = { 1->2, 2->3, 3->1 }[2]; }
 		emit("entry for \"5\" = " + map<int,string>{5->"foo"}[5] + ", mapsize = " + map<int,string>{5->"foo"}.size());
+		emit("entry for \"5\" = " + {5->"foo"}[5] + ", mapsize = " + {5->"foo"}.size());
 	}
 }
 
@@ -125,5 +136,16 @@ rule constantMapContainedInPatternAndRewrite {
 		eval {
 			a.val = (int)a.constSpiceMap["bar"];
 		}
+	}
+}
+
+test mapOperatorsInCondition {
+	a1:A; a2:A;
+	
+	if {
+		1 in (a1.niceMap | a2.niceMap)
+		|| 2 in (a1.niceMap & a2.niceMap)
+		|| 3 in (a1.niceMap \ a2.niceMap)
+		|| 4 in (a1.niceMap \ { 0 });
 	}
 }
