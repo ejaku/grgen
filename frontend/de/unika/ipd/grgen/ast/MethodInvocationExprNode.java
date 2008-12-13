@@ -130,6 +130,22 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new MapSizeNode(getCoords(), targetExpr);
   			}
+			else if(methodName.equals("domain")) {
+  				if(params.size() != 0) {
+  					reportError("map<S,T>.domain() does not take any parameters.");
+					return false;
+				}
+  				else
+  					result = new MapDomainNode(getCoords(), targetExpr);
+  			}
+			else if(methodName.equals("range")) {
+  				if(params.size() != 0) {
+  					reportError("map<S,T>.range() does not take any parameters.");
+					return false;
+				}
+  				else
+  					result = new MapRangeNode(getCoords(), targetExpr);
+  			}
   			else {
   				reportError("map<S,T> does not have a method named \"" + methodName + "\"");
   				return false;

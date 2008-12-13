@@ -498,100 +498,150 @@
             Base class of operator expressions
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.BinInfixOperator">
+            <summary>
+            Class representing an binary infix operator.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.BinFuncOperator">
+            <summary>
+            Class representing an binary prefix operator in function notation.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.COND">
             <summary>
+            Class representing a conditional operator (a ? b : c).
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LOG_OR">
             <summary>
+            Class representing a logical or.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LOG_AND">
             <summary>
+            Class representing a logical and.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.BIT_OR">
             <summary>
+            Class representing a bitwise or.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DICT_BIT_OR">
+            <summary>
+            Class representing the set/map union operator.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DICT_BIT_AND">
+            <summary>
+            Class representing the set/map intersection operator.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DICT_EXCEPT">
+            <summary>
+            Class representing the set/map except operator.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.BIT_XOR">
             <summary>
+            Class representing a bitwise xor.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.BIT_AND">
             <summary>
+            Class representing a bitwise and.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.EQ">
             <summary>
+            Class representing an equality comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.NE">
             <summary>
+            Class representing an inequality comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LT">
             <summary>
+            Class representing a less than comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LE">
             <summary>
+            Class representing a less than or equal comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.GT">
             <summary>
+            Class representing a greater than comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.GE">
             <summary>
+            Class representing a greater than or equal comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SHL">
             <summary>
+            Class representing a shift left expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SHR">
             <summary>
+            Class representing an arithmetic shift right expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.BIT_SHR">
             <summary>
+            Class representing a logical shift right expression.
+            TODO: Currently same as shift right expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ADD">
             <summary>
+            Class representing an addition.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SUB">
             <summary>
+            Class representing a subtraction.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.MUL">
             <summary>
+            Class representing a multiplication.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.DIV">
             <summary>
+            Class representing a division.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.MOD">
             <summary>
+            Class representing a modulo expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.LOG_NOT">
             <summary>
+            Class representing a logical negation.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.BIT_NOT">
             <summary>
+            Class representing a bitwise negation.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.NEG">
             <summary>
+            Class representing an arithmetic negation.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.IN">
             <summary>
+            Class representing a map/set inclusion query.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Cast">
@@ -674,9 +724,49 @@
             Class representing a map size expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.MapDomain">
+            <summary>
+            Class representing a map domain expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.MapRange">
+            <summary>
+            Class representing a map range expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.SetSize">
             <summary>
             Class representing a set size expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.StaticMap">
+            <summary>
+            Class representing a constant rule-local map, available as initalized static class member.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.StaticSet">
+            <summary>
+            Class representing a constant rule-local set, available as initialized static class member.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.MapConstructor">
+            <summary>
+            Class representing a rule-local map to be filled with the given map items.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.MapItem">
+            <summary>
+            Class representing a map item.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetConstructor">
+            <summary>
+            Class representing a rule-local set to be filled with the given set items.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetItem">
+            <summary>
+            Class representing a set item.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator">

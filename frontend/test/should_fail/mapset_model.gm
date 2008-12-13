@@ -1,0 +1,9 @@
+node class A
+{
+	intVal:int;
+	strVal:string;
+	intToStr:map<int, string>;
+	strToInt:map<string, int>;
+	intSet:set<int>;
+	strSet:set<string>;
+}

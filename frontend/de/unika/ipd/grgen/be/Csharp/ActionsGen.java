@@ -40,6 +40,8 @@ import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapItem;
+import de.unika.ipd.grgen.ir.MapDomainExpr;
+import de.unika.ipd.grgen.ir.MapRangeExpr;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
 import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.SetInit;
@@ -1078,6 +1080,18 @@ public class ActionsGen extends CSharpBase {
 			MapSizeExpr ms = (MapSizeExpr)expr;
 			sb.append("new GRGEN_EXPR.MapSize(");
 			genExpressionTree(sb, ms.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof MapDomainExpr) {
+			MapDomainExpr md = (MapDomainExpr)expr;
+			sb.append("new GRGEN_EXPR.MapDomain(");
+			genExpressionTree(sb, md.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof MapRangeExpr) {
+			MapRangeExpr mr = (MapRangeExpr)expr;
+			sb.append("new GRGEN_EXPR.MapRange(");
+			genExpressionTree(sb, mr.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof SetSizeExpr) {

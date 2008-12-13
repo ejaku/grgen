@@ -839,6 +839,46 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a map domain expression.
+    /// </summary>
+    public class MapDomain : Expression
+    {
+        public MapDomain(Expression target)
+        {
+            Target = target;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.Domain(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing a map range expression.
+    /// </summary>
+    public class MapRange : Expression
+    {
+        public MapRange(Expression target)
+        {
+            Target = target;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.Range(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
     /// Class representing a set size expression.
     /// </summary>
     public class SetSize : Expression

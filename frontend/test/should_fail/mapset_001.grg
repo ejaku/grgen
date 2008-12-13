@@ -1,0 +1,10 @@
+using mapset_model;
+
+test mapset {
+	a:A;
+	
+	if { 
+		a.intVal in (a.intToStr.domain() & a.strToInt.domain());
+	}
+}
+

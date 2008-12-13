@@ -1,0 +1,6 @@
+node class A
+{
+    sim:map<string, int> = { "foo"->0, "bar"->1 };
+    ss:set<string>;
+    is_:set<int>;
+}

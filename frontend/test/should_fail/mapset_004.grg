@@ -1,0 +1,12 @@
+using mapset_model;
+
+rule mapset {
+	a:A;
+	
+	modify {
+		eval {
+			a.intSet = a.strToInt.domain();
+		}
+	}
+}
+

@@ -166,5 +166,45 @@ namespace de.unika.ipd.grGen.libGr
 
             return newDict;
         }
+
+        /// <summary>
+        /// Creates a new dictionary representing a set,
+        /// containing all keys from the given dictionary representing a map <paramref name="map"/>.
+        /// </summary>
+        /// <param name="map">A dictionary representing a map.</param>
+        /// <returns>A new set dictionary containing all keys from <paramref name="map"/>.</returns>
+        public static Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> Domain<K, V>(Dictionary<K, V> map)
+        {
+            Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> newDict =
+                new Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType>();
+
+            // Add all keys of dictionary representing map to new dictionary representing set
+            foreach (K key in map.Keys)
+            {
+                newDict[key] = null;
+            }
+
+            return newDict;
+        }
+
+        /// <summary>
+        /// Creates a new dictionary representing a set, 
+        /// containing all values from the given dictionary representing a map <paramref name="map"/>.
+        /// </summary>
+        /// <param name="map">A dictionary representing a map.</param>
+        /// <returns>A new set dictionary containing all values from <paramref name="map"/>.</returns>
+        public static Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> Range<K, V>(Dictionary<K, V> map)
+        {
+            Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType> newDict =
+                new Dictionary<V, de.unika.ipd.grGen.libGr.SetValueType>();
+
+            // Add all values of dictionary representing map to new dictionary representing set
+            foreach (V value in map.Values)
+            {
+                newDict[value] = null;
+            }
+
+            return newDict;
+        }
     }
 }

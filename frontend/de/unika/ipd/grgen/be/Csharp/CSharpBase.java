@@ -41,6 +41,8 @@ import de.unika.ipd.grgen.ir.IntType;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapItem;
+import de.unika.ipd.grgen.ir.MapDomainExpr;
+import de.unika.ipd.grgen.ir.MapRangeExpr;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetItem;
@@ -527,6 +529,28 @@ public abstract class CSharpBase {
 				sb.append("(");
 				genExpression(sb, ms.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count");
+			}
+		}
+		else if (expr instanceof MapDomainExpr) {
+			MapDomainExpr md = (MapDomainExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(md));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.DictionaryHelper.Domain(");
+				genExpression(sb, md.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof MapRangeExpr) {
+			MapRangeExpr mr = (MapRangeExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(mr));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.DictionaryHelper.Range(");
+				genExpression(sb, mr.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
 			}
 		}
 		else if (expr instanceof SetSizeExpr) {

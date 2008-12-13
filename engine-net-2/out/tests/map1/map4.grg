@@ -1,0 +1,13 @@
+using map4;
+
+rule domainRange()
+{
+    a:A;
+    
+    modify {
+		eval {
+			a.ss = a.sim.domain();
+			a.is_ = a.sim.range();
+		}
+    }
+}

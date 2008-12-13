@@ -1,0 +1,24 @@
+using mapset_model;
+
+rule mapset {
+	a:A;
+	
+	if { 
+		a.intVal in a.intToStr.domain();
+		a.intVal in a.strToInt.range();
+		a.intVal in (a.intToStr.domain() & a.intSet | a.strToInt.range());
+		a.intVal in (a.strToInt.range() \ a.intSet & a.intToStr.domain());
+		a.strVal in a.intToStr.range();
+		a.strVal in a.strToInt.domain();
+	}
+	
+	modify {
+		eval {
+			a.intSet = a.intToStr.domain();
+			a.intSet = a.strToInt.range();
+			a.strSet = a.intToStr.range();
+			a.strSet = a.strToInt.domain();
+		}
+	}
+}
+
