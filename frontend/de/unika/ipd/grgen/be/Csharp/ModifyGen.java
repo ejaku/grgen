@@ -1005,7 +1005,7 @@ public class ModifyGen extends CSharpBase {
 
 			String grEntName = formatEntity(owner);
 			for(Entity entity : entry.getValue()) {
-				if(entity.getType() instanceof MapType) continue;
+				if(entity.getType() instanceof MapType || entity.getType() instanceof SetType) continue;
 
 				genVariable(sb, grEntName, entity);
 				sb.append(" = ");

@@ -3,6 +3,7 @@ node class A
     a:set<string> = { "foo","bar" } ;
     const ac:set<int> = { 1,2 } ;
 	val:string = "argl";
+	m:set<string>;
 }
 
 node class B extends A

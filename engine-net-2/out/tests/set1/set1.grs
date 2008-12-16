@@ -47,4 +47,21 @@ nb.val
 xgrs [anonymousSet]
 xgrs anonymousSetNA
 
+new n:A
+set n.m add "Hallo"
+set n.m add "Handtuch"
+v=n.m
+n.m
+
+xgrs useSetVar(v)
+
+set n.m remove "Hallo"
+n.m
+
+xgrs useSetVar(v)
+
+m=new set string
+set m add "Hallo"
+xgrs useSetVar(m)
+
 quit

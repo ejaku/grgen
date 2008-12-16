@@ -903,6 +903,8 @@ void ShellCommand():
 |
 	"map" MapCommand()
 |
+	"set" SetCommand()
+|
     // TODO: Introduce prefix for the following commands to allow useful error handling!
     
     try
@@ -934,11 +936,20 @@ void ShellCommand():
 				obj = boolVal;
 			}
 		|
-			"new" "map" str2=Word() str3=Word()
-			{
-				obj = impl.MapNew(str2, str3);
-				if(obj == null) noError = false;
-			}
+			"new" 
+			(
+				"map" str2=Word() str3=Word()
+				{
+					obj = impl.MapNew(str2, str3);
+					if(obj == null) noError = false;
+				}
+			|
+				"set" str2=Word() 
+				{
+					obj = impl.SetNew(str2);
+					if(obj == null) noError = false;
+				}
+			)
 		|
 			obj=Expr() LineEnd()
 		)
@@ -1662,6 +1673,41 @@ void MapCommand():
 		"size" LineEnd()
 		{
 			impl.MapSize(usedGraphElement, elem, str);
+		}
+	)
+}
+
+////////////////////
+// "set" commands //
+////////////////////
+
+void SetCommand():
+{
+	bool usedGraphElement = false;
+	IGraphElement elem = null;
+	String str;
+	object keyExpr;
+}
+{
+	(
+		LOOKAHEAD(2) elem=GraphElement() "." str=Text() { usedGraphElement = true; }
+	|
+		str=Word()
+	)
+	(
+		"add" keyExpr=Expr() LineEnd()
+		{
+			impl.SetAdd(usedGraphElement, elem, str, keyExpr);
+		}
+	|
+		"remove" keyExpr=Expr() LineEnd()
+		{
+			impl.SetRemove(usedGraphElement, elem, str, keyExpr);
+		}
+	|
+		"size" LineEnd()
+		{
+			impl.SetSize(usedGraphElement, elem, str);
 		}
 	)
 }

@@ -56,6 +56,23 @@ rule computedRemoveFromSet {
 	}
 }
 
+rule emitFromSet {
+	a:A;
+	if { 5 in a.spiceSet; }
+	
+	modify {
+		emit("is \"5\" contained? " + (5 in a.spiceSet ? "yes" : "no") + ", setsize = " + a.spiceSet.size());
+	}
+}
+
+rule setVarContains(var m:set<string>) {
+	if { "yeah" in m; }
+	
+	modify {
+		emit("\"yeah\" is contained? " + ("yeah" in m) + ", setsize = " + m.size());
+	}
+}
+
 // This clones the sets
 rule assignSetToSet {
 	a:A -e:E-> a; 

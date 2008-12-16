@@ -2184,6 +2184,7 @@ namespace de.unika.ipd.grGen.grShell
             if(dict == null)
             {
                 Console.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a map.");
+                return;
             }
             if(keyType != keyExpr.GetType())
             {
@@ -2217,7 +2218,11 @@ namespace de.unika.ipd.grGen.grShell
 
             Type keyType, valueType;
             IDictionary dict = DictionaryHelper.GetDictionaryTypes(map, out keyType, out valueType);
-            if(dict == null) return;
+            if (dict == null)
+            {
+                Console.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a map.");
+                return;
+            }
             if(keyType != keyExpr.GetType())
             {
                 Console.WriteLine("Key type must be " + keyType + ", but is " + keyExpr.GetType() + ".");
@@ -2245,10 +2250,134 @@ namespace de.unika.ipd.grGen.grShell
 
             Type keyType, valueType;
             IDictionary dict = DictionaryHelper.GetDictionaryTypes(map, out keyType, out valueType);
-            if(dict == null) return;
+            if(dict == null)
+            {
+                Console.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a map.");
+                return;
+            }
             Console.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " contains " + dict.Count + " entries.");
         }
+
         #endregion "map" commands
+
+
+        #region "set" commands
+
+        public object SetNew(String keyTypeName)
+        {
+            Type keyType = DictionaryHelper.GetTypeFromNameForDictionary(keyTypeName, curShellGraph.Graph);
+            if (keyType == null) Console.WriteLine("\"" + keyTypeName + "\" is not a valid type for a set.");
+            return DictionaryHelper.NewDictionary(keyType, typeof(SetValueType));
+        }
+
+        public String GetSetIdentifier(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
+        {
+            if (usedGraphElement) return curShellGraph.Graph.GetElementName(elem) + "." + attrOrVarName;
+            else return attrOrVarName;
+        }
+
+        public void SetAdd(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr)
+        {
+            object set;
+
+            if (usedGraphElement)
+            {
+                if (elem == null) return;
+                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
+                if (attrType == null) return;
+                set = elem.GetAttribute(attrOrVarName);
+            }
+            else
+            {
+                set = GetVarValue(attrOrVarName);
+                if (set == null) return;
+            }
+
+            Type keyType, valueType;
+            IDictionary dict = DictionaryHelper.GetDictionaryTypes(set, out keyType, out valueType);
+            if (dict == null)
+            {
+                Console.WriteLine(GetSetIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a set.");
+                return;
+            }
+            if (keyType != keyExpr.GetType())
+            {
+                Console.WriteLine("Set type must be " + keyType + ", but is " + keyExpr.GetType() + ".");
+                return;
+            }
+            if (valueType != typeof(SetValueType))
+            {
+                Console.WriteLine("Not a set.");
+                return;
+            }
+            dict[keyExpr] = null;
+        }
+
+        public void SetRemove(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr)
+        {
+            object set;
+
+            if (usedGraphElement)
+            {
+                if (elem == null) return;
+                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
+                if (attrType == null) return;
+                set = elem.GetAttribute(attrOrVarName);
+            }
+            else
+            {
+                set = GetVarValue(attrOrVarName);
+                if (set == null) return;
+            }
+
+            Type keyType, valueType;
+            IDictionary dict = DictionaryHelper.GetDictionaryTypes(set, out keyType, out valueType);
+            if (dict == null)
+            {
+                Console.WriteLine(GetSetIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a set.");
+                return;
+            }
+            if (keyType != keyExpr.GetType())
+            {
+                Console.WriteLine("Set type must be " + keyType + ", but is " + keyExpr.GetType() + ".");
+                return;
+            }
+            if (valueType != typeof(SetValueType))
+            {
+                Console.WriteLine("Not a set.");
+                return;
+            }
+            dict.Remove(keyExpr);
+        }
+
+        public void SetSize(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
+        {
+            object set;
+
+            if (usedGraphElement)
+            {
+                if (elem == null) return;
+                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
+                if (attrType == null) return;
+                set = elem.GetAttribute(attrOrVarName);
+            }
+            else
+            {
+                set = GetVarValue(attrOrVarName);
+                if (set == null) return;
+            }
+
+            Type keyType, valueType;
+            IDictionary dict = DictionaryHelper.GetDictionaryTypes(set, out keyType, out valueType);
+            if (dict == null)
+            {
+                Console.WriteLine(GetSetIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a set.");
+                return;
+            }
+            Console.WriteLine(GetSetIdentifier(usedGraphElement, elem, attrOrVarName) + " contains " + dict.Count + " entries.");
+        }
+
+        #endregion "set" commands
 
         private String StringToTextToken(String str)
         {

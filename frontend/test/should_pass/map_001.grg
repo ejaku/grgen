@@ -68,6 +68,15 @@ rule emitFromMap {
 	}
 }
 
+rule emitFromMap2 {
+	a:A;
+	if { 5 in a.niceMap; }
+	
+	modify {
+		emit("is \"5\" contained? " + (5 in a.niceMap ? "yes" : "no") + ", mapsize = " + a.niceMap.size());
+	}
+}
+
 rule mapVarContains(var m:map<string, int>) {
 	if { "yeah" in m; }
 	
