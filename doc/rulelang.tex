@@ -856,7 +856,7 @@ rule AddRedundancy {
   t: DestinationNode;	
   modify {
     emit ("Source node is " + s.name + ". Destination node is " + t.name + ".");
-    exec ( (x) = DuplicateNode(s) & ConnectNeighbors(s, x)* );
+    exec ( (x:SourceNode) = DuplicateNode(s) & ConnectNeighbors(s, x)* );
     exec ( [DuplicateCriticalEdge] );
     exec ( MaxCapacityIncidentEdge(t)* );
     emit ("Redundancy added");
