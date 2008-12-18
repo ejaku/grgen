@@ -62,11 +62,11 @@
       /Properties
       +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /gxl2grs
-      /gxl2grs
-      +Program.cs ... REWRITING ... DONE
-        /Properties
-        +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
+    +gxl2grs.cs ... REWRITING ... DONE
+      /Properties
+      +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /lgspBackend
+    +Expression.cs ... REWRITING ... DONE
     +lgspActions.cs ... REWRITING ... DONE
     +lgspBackend.cs ... REWRITING ... DONE
     +lgspGraph.cs ... REWRITING ... DONE
@@ -94,6 +94,7 @@
     +backendInterface.cs ... REWRITING ... DONE
     +BaseActions.cs ... REWRITING ... DONE
     +BaseGraph.cs ... REWRITING ... DONE
+    +DictionaryHelper.cs ... REWRITING ... DONE
     +dumpInterface.cs ... REWRITING ... DONE
     +elementInterface.cs ... REWRITING ... DONE
     +IGraph.cs ... REWRITING ... DONE
@@ -128,7 +129,6 @@
         +Turing3Model.cs ... NO HEADER
         /edge1Example
         +edge1Actions.cs ... NO HEADER
-        +edge1Actions_intermediate.cs ... NO HEADER
         +edge1Example.cs ... REWRITING ... DONE
         +StdModel.cs ... NO HEADER
         /HelloMutex
@@ -140,7 +140,6 @@
         +MutexPimpedActions_intermediate.cs ... NO HEADER
         /ProgramGraphsExample
         +ProgramGraphsActions.cs ... NO HEADER
-        +ProgramGraphsActions_intermediate.cs ... NO HEADER
         +ProgramGraphsExample.cs ... REWRITING ... DONE
         +ProgramGraphsModel.cs ... NO HEADER
         /RecursiveExample
@@ -153,16 +152,15 @@
         +TNTActions_intermediate.cs ... NO HEADER
         +TNTExample.cs ... REWRITING ... DONE
         +TNTModel.cs ... NO HEADER
+          /Properties
+          +AssemblyInfo.cs ... NO HEADER
         /VisitedExample
         +StdModel.cs ... NO HEADER
         +VisitedExample.cs ... REWRITING ... DONE
-        +VisitedExampleActions.cs ... NO HEADER
-        +VisitedExampleActions_intermediate.cs ... NO HEADER
         /YCompExample
         +YCompClient.cs ... REWRITING ... DONE
         +YCompExample.cs ... REWRITING ... DONE
     /spBench
-    +Kopie von spBench.cs ... REWRITING ... DONE
     +spBench.cs ... REWRITING ... DONE
       /Properties
       +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
@@ -178,16 +176,11 @@
     +testModelManual2.cs ... REWRITING ... DONE
       /Properties
       +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
-      /tmpgrgen0
-      +testActions_intermediate.cs ... NO HEADER
-      +testModel.cs ... NO HEADER
-      +testModelStub.cs ... NO HEADER
     /TestBench
     +TestBench.cs ... REWRITING ... DONE
       /Properties
       +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
   /frontend
-  +pattern_010Model.cs ... NO HEADER
     /de
       /unika
         /ipd
@@ -217,6 +210,9 @@
             +ConnectionNode.java ... REWRITING ... DONE
             +ConstNode.java ... REWRITING ... DONE
             +ConstraintDeclNode.java ... REWRITING ... DONE
+            +ConstructorDeclNode.java ... REWRITING ... DONE
+            +ConstructorParamNode.java ... REWRITING ... DONE
+            +ConstructorTypeNode.java ... REWRITING ... DONE
             +DeclaredCharacter.java ... REWRITING ... DONE
             +DeclaredTypeNode.java ... REWRITING ... DONE
             +DeclExprNode.java ... REWRITING ... DONE
@@ -237,6 +233,7 @@
             +EnumTypeNode.java ... REWRITING ... DONE
             +ErrorNode.java ... REWRITING ... DONE
             +ErrorTypeNode.java ... REWRITING ... DONE
+            +EvalStatementNode.java ... REWRITING ... DONE
             +ExactNode.java ... REWRITING ... DONE
             +ExecNode.java ... REWRITING ... DONE
             +ExecVarDeclNode.java ... REWRITING ... DONE
@@ -246,6 +243,7 @@
             +FunctionSignature.java ... REWRITING ... DONE
             +GraphNode.java ... REWRITING ... DONE
             +HomNode.java ... REWRITING ... DONE
+            +IdentExprNode.java ... REWRITING ... DONE
             +IdentNode.java ... REWRITING ... DONE
             +InducedNode.java ... REWRITING ... DONE
             +InheritanceTypeNode.java ... REWRITING ... DONE
@@ -254,8 +252,17 @@
             +InvalidConstNode.java ... REWRITING ... DONE
             +InvalidDeclNode.java ... REWRITING ... DONE
             +InvalidExprNode.java ... REWRITING ... DONE
+            +MapAccessExprNode.java ... REWRITING ... DONE
+            +MapDomainNode.java ... REWRITING ... DONE
+            +MapInitNode.java ... REWRITING ... DONE
+            +MapItemNode.java ... REWRITING ... DONE
+            +MapRangeNode.java ... REWRITING ... DONE
+            +MapSizeNode.java ... REWRITING ... DONE
+            +MapTypeNode.java ... REWRITING ... DONE
+            +MemberAccessExprNode.java ... REWRITING ... DONE
             +MemberDeclNode.java ... REWRITING ... DONE
             +MemberInitNode.java ... REWRITING ... DONE
+            +MethodInvocationExprNode.java ... REWRITING ... DONE
             +ModelNode.java ... REWRITING ... DONE
             +ModelTypeNode.java ... REWRITING ... DONE
             +ModifyDeclNode.java ... REWRITING ... DONE
@@ -279,9 +286,18 @@
             +RuleDeclNode.java ... REWRITING ... DONE
             +RuleTypeNode.java ... REWRITING ... DONE
             +ScopeOwner.java ... REWRITING ... DONE
+            +SetInitNode.java ... REWRITING ... DONE
+            +SetItemNode.java ... REWRITING ... DONE
+            +SetSizeNode.java ... REWRITING ... DONE
+            +SetTypeNode.java ... REWRITING ... DONE
             +SingleGraphEntityNode.java ... REWRITING ... DONE
             +SingleNodeConnNode.java ... REWRITING ... DONE
             +StringConstNode.java ... REWRITING ... DONE
+            +StringIndexOfNode.java ... REWRITING ... DONE
+            +StringLastIndexOfNode.java ... REWRITING ... DONE
+            +StringLengthNode.java ... REWRITING ... DONE
+            +StringReplaceNode.java ... REWRITING ... DONE
+            +StringSubstringNode.java ... REWRITING ... DONE
             +StringTypeNode.java ... REWRITING ... DONE
             +SubpatternDeclNode.java ... REWRITING ... DONE
             +SubpatternReplNode.java ... REWRITING ... DONE
@@ -348,6 +364,8 @@
             +CompoundType.java ... REWRITING ... DONE
             +ConnAssert.java ... REWRITING ... DONE
             +Constant.java ... REWRITING ... DONE
+            +Constructor.java ... REWRITING ... DONE
+            +ConstructorParam.java ... REWRITING ... DONE
             +DoubleType.java ... REWRITING ... DONE
             +Dumper.java ... REWRITING ... DONE
             +DumpVisitor.java ... REWRITING ... DONE
@@ -358,6 +376,7 @@
             +EnumExpression.java ... REWRITING ... DONE
             +EnumItem.java ... REWRITING ... DONE
             +EnumType.java ... REWRITING ... DONE
+            +EvalStatement.java ... REWRITING ... DONE
             +Evaluation.java ... REWRITING ... DONE
             +Exec.java ... REWRITING ... DONE
             +ExecVariable.java ... REWRITING ... DONE
@@ -373,6 +392,15 @@
             +InheritanceType.java ... REWRITING ... DONE
             +IntType.java ... REWRITING ... DONE
             +IR.java ... REWRITING ... DONE
+            +MapAccessExpr.java ... REWRITING ... DONE
+            +MapAddItem.java ... REWRITING ... DONE
+            +MapDomainExpr.java ... REWRITING ... DONE
+            +MapInit.java ... REWRITING ... DONE
+            +MapItem.java ... REWRITING ... DONE
+            +MapRangeExpr.java ... REWRITING ... DONE
+            +MapRemoveItem.java ... REWRITING ... DONE
+            +MapSizeExpr.java ... REWRITING ... DONE
+            +MapType.java ... REWRITING ... DONE
             +MatchingAction.java ... REWRITING ... DONE
             +MemberExpression.java ... REWRITING ... DONE
             +MemberInit.java ... REWRITING ... DONE
@@ -391,6 +419,17 @@
             +RetypedEdge.java ... REWRITING ... DONE
             +RetypedNode.java ... REWRITING ... DONE
             +Rule.java ... REWRITING ... DONE
+            +SetAddItem.java ... REWRITING ... DONE
+            +SetInit.java ... REWRITING ... DONE
+            +SetItem.java ... REWRITING ... DONE
+            +SetRemoveItem.java ... REWRITING ... DONE
+            +SetSizeExpr.java ... REWRITING ... DONE
+            +SetType.java ... REWRITING ... DONE
+            +StringIndexOf.java ... REWRITING ... DONE
+            +StringLastIndexOf.java ... REWRITING ... DONE
+            +StringLength.java ... REWRITING ... DONE
+            +StringReplace.java ... REWRITING ... DONE
+            +StringSubstring.java ... REWRITING ... DONE
             +StringType.java ... REWRITING ... DONE
             +SubpatternDependentReplacement.java ... REWRITING ... DONE
             +SubpatternUsage.java ... REWRITING ... DONE
@@ -407,8 +446,6 @@
             +VoidType.java ... REWRITING ... DONE
             /parser
             +Coords.java ... REWRITING ... DONE
-            +CoordsException.java ... REWRITING ... DONE
-            +IdentException.java ... REWRITING ... DONE
             +ParserEnvironment.java ... REWRITING ... DONE
             +Scope.java ... REWRITING ... DONE
             +Symbol.java ... REWRITING ... DONE
@@ -416,15 +453,9 @@
             +SymbolTableException.java ... REWRITING ... DONE
               /antlr
               +Coords.java ... REWRITING ... DONE
-              +GRActionsParser.java ... NO HEADER
-              +GRActionsParserTokenTypes.java ... NO HEADER
-              +GRBaseParser.java ... NO HEADER
-              +GRBaseParserTokenTypes.java ... NO HEADER
-              +GRBaseTokenTypes.java ... NO HEADER
-              +GRLexer.java ... NO HEADER
+              +GrGenLexer.java ... NO HEADER
+              +GrGenParser.java ... NO HEADER
               +GRParserEnvironment.java ... REWRITING ... DONE
-              +GRTypeParser.java ... NO HEADER
-              +GRTypeParserTokenTypes.java ... NO HEADER
             /util
             +Annotated.java ... REWRITING ... DONE
             +Annotations.java ... REWRITING ... DONE

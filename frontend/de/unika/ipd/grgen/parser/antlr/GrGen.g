@@ -1,9 +1,9 @@
 /*
- * GrGen: graph rewrite generator, compiling declarative graph rewrite rules into executable code
- * Copyright (C) 2005 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 2.1
+ * Copyright (C) 2008 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
  * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
  */
-
+ 
 /*
  * GrGen model and rule specification language grammar for ANTLR 3
  * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski, Veit Batz, Edgar Jakumeit, Sebastian Buchwald, Moritz Kroll
