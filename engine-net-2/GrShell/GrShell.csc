@@ -629,7 +629,7 @@ object Expr():
 		"null" { obj = null; }
 	|
         obj=GraphElementOrVar()
-        ( "." str=Text() { obj = impl.GetElementAttribute((IGraphElement) obj, str); } )?
+        ( "." str=AnyString() { obj = impl.GetElementAttribute((IGraphElement) obj, str); } )?
     |
         obj=QuotedText()
     |
@@ -909,7 +909,7 @@ void ShellCommand():
     
     try
     {
-	    LOOKAHEAD(2) elem=GraphElement() "." str1=Text()
+	    LOOKAHEAD(2) elem=GraphElement() "." str1=AnyString()
 	    (
 	        LineEnd()
 	        {
@@ -1655,7 +1655,7 @@ void MapCommand():
 }
 {
 	(
-		LOOKAHEAD(2) elem=GraphElement() "." str=Text() { usedGraphElement = true; }
+		LOOKAHEAD(2) elem=GraphElement() "." str=AnyString() { usedGraphElement = true; }
 	|
 		str=Word()
 	)

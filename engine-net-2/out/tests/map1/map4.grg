@@ -7,7 +7,7 @@ rule domainRange()
     modify {
 		eval {
 			a.ss = a.sim.domain();
-			a.is_ = a.sim.range();
+			a.is = a.sim.range();
 		}
     }
 }
