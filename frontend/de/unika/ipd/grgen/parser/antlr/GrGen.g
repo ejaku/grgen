@@ -195,7 +195,7 @@ textActions returns [ UnitNode main = null ]
 	| usingDecl[modelChilds]
 	)?
 
-	( patternOrActionDecls[patternChilds, actionChilds] EOF )?
+	( patternOrActionDecls[patternChilds, actionChilds] )? EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
