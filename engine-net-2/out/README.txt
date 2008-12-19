@@ -106,7 +106,7 @@ Veit Batz
 Michael Beck
 Jakob Blomer
 Sebastian Buchwald
-Rubino Geiss (Maintainer)
+Rubino Geiss
 Daniel Grund
 Sebastian Hack
 Enno Hofmann
