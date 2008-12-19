@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Tue Oct 21 19:34:15 CEST 2008
+// Generated from "..\..\tests\edge1\edge1.grg" on Fri Dec 19 20:14:12 CET 2008
 
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum init_VariableNums { };
 		public enum init_SubNums { };
 		public enum init_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_init;
 
 
@@ -92,6 +95,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_y, node_y);
 			return EmptyReturnElements;
 		}
+
+		static Rule_init() {
+		}
 	}
 
 	public class Rule_init2 : GRGEN_LGSP.LGSPRulePattern
@@ -106,6 +112,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum init2_VariableNums { };
 		public enum init2_SubNums { };
 		public enum init2_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_init2;
 
 
@@ -172,6 +181,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 			@Edge edge__edge1 = @Edge.CreateEdge(graph, node__node2, node__node1);
 			return EmptyReturnElements;
 		}
+
+		static Rule_init2() {
+		}
 	}
 
 	public class Rule_init3 : GRGEN_LGSP.LGSPRulePattern
@@ -186,6 +198,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum init3_VariableNums { };
 		public enum init3_SubNums { };
 		public enum init3_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_init3;
 
 
@@ -254,6 +269,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 			@UEdge edge__edge2 = @UEdge.CreateEdge(graph, node_z, node_x);
 			return EmptyReturnElements;
 		}
+
+		static Rule_init3() {
+		}
 	}
 
 	public class Rule_findUndirectedEdge : GRGEN_LGSP.LGSPRulePattern
@@ -274,6 +292,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findUndirectedEdge_VariableNums { };
 		public enum findUndirectedEdge_SubNums { };
 		public enum findUndirectedEdge_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_findUndirectedEdge;
 
 
@@ -342,6 +362,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			return EmptyReturnElements;
 		}
+
+		static Rule_findUndirectedEdge() {
+		}
 	}
 
 	public class Rule_findArbitraryEdge : GRGEN_LGSP.LGSPRulePattern
@@ -362,6 +385,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findArbitraryEdge_VariableNums { };
 		public enum findArbitraryEdge_SubNums { };
 		public enum findArbitraryEdge_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_findArbitraryEdge;
 
 
@@ -430,6 +455,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			return EmptyReturnElements;
 		}
+
+		static Rule_findArbitraryEdge() {
+		}
 	}
 
 	public class Rule_findArbitraryDirectedEdge : GRGEN_LGSP.LGSPRulePattern
@@ -450,6 +478,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findArbitraryDirectedEdge_VariableNums { };
 		public enum findArbitraryDirectedEdge_SubNums { };
 		public enum findArbitraryDirectedEdge_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedEdge;
 
 
@@ -518,6 +548,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			return EmptyReturnElements;
 		}
+
+		static Rule_findArbitraryDirectedEdge() {
+		}
 	}
 
 	public class Rule_findArbitraryDirectedReflexiveEdge : GRGEN_LGSP.LGSPRulePattern
@@ -536,6 +569,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findArbitraryDirectedReflexiveEdge_VariableNums { };
 		public enum findArbitraryDirectedReflexiveEdge_SubNums { };
 		public enum findArbitraryDirectedReflexiveEdge_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedReflexiveEdge;
 
 
@@ -600,6 +635,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			return EmptyReturnElements;
 		}
+
+		static Rule_findArbitraryDirectedReflexiveEdge() {
+		}
 	}
 
 	public class Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne : GRGEN_LGSP.LGSPRulePattern
@@ -622,6 +660,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_VariableNums { };
 		public enum findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_SubNums { };
 		public enum findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
 
 
@@ -696,6 +736,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			return EmptyReturnElements;
 		}
+
+		static Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne() {
+		}
 	}
 
 	public class Rule_findArbitraryDirectedTriple : GRGEN_LGSP.LGSPRulePattern
@@ -720,6 +763,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findArbitraryDirectedTriple_VariableNums { };
 		public enum findArbitraryDirectedTriple_SubNums { };
 		public enum findArbitraryDirectedTriple_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedTriple;
 
 
@@ -798,6 +843,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			return EmptyReturnElements;
 		}
+
+		static Rule_findArbitraryDirectedTriple() {
+		}
 	}
 
 	public class Rule_findDirectedEdge : GRGEN_LGSP.LGSPRulePattern
@@ -818,6 +866,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findDirectedEdge_VariableNums { };
 		public enum findDirectedEdge_SubNums { };
 		public enum findDirectedEdge_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_findDirectedEdge;
 
 
@@ -886,6 +936,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			return EmptyReturnElements;
 		}
+
+		static Rule_findDirectedEdge() {
+		}
 	}
 
 	public class Rule_findTripleCircle : GRGEN_LGSP.LGSPRulePattern
@@ -912,6 +965,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public enum findTripleCircle_VariableNums { };
 		public enum findTripleCircle_SubNums { };
 		public enum findTripleCircle_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_findTripleCircle;
 
 
@@ -995,6 +1050,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 			return EmptyReturnElements;
+		}
+
+		static Rule_findTripleCircle() {
 		}
 	}
 

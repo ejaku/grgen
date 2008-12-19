@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Tue Oct 21 19:34:28 CEST 2008
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Fri Dec 19 20:14:20 CET 2008
 
 using System;
 using System.Collections.Generic;
@@ -26,6 +26,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleSubclasses_VariableNums { };
 		public enum MultipleSubclasses_SubNums { };
 		public enum MultipleSubclasses_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_MultipleSubclasses;
 
 		public enum MultipleSubclasses_alt_0_CaseNums { @OneAndAgain, @NoSubclassLeft, };
@@ -38,6 +40,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleSubclasses_alt_0_OneAndAgain_VariableNums { };
 		public enum MultipleSubclasses_alt_0_OneAndAgain_SubNums { @_subpattern0, @_subpattern1, };
 		public enum MultipleSubclasses_alt_0_OneAndAgain_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph MultipleSubclasses_alt_0_OneAndAgain;
 
 		public enum MultipleSubclasses_alt_0_NoSubclassLeft_NodeNums { @c, };
@@ -45,6 +49,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleSubclasses_alt_0_NoSubclassLeft_VariableNums { };
 		public enum MultipleSubclasses_alt_0_NoSubclassLeft_SubNums { };
 		public enum MultipleSubclasses_alt_0_NoSubclassLeft_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph MultipleSubclasses_alt_0_NoSubclassLeft;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_node_sub_AllowedTypes = null;
@@ -56,6 +62,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_VariableNums { };
 		public enum MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_SubNums { };
 		public enum MultipleSubclasses_alt_0_NoSubclassLeft_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph MultipleSubclasses_alt_0_NoSubclassLeft_neg_0;
 
 
@@ -269,6 +276,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public void MultipleSubclasses_alt_0_NoSubclassLeft_Delete(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Pattern_MultipleSubclasses() {
+		}
 	}
 
 	public class Pattern_Subclass : GRGEN_LGSP.LGSPMatchingPattern
@@ -285,6 +295,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Subclass_VariableNums { };
 		public enum Subclass_SubNums { @_subpattern0, @_subpattern1, };
 		public enum Subclass_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_Subclass;
 
 
@@ -352,6 +364,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			Pattern_MultipleSubclasses.Instance.MultipleSubclasses_Delete(graph, subpattern__subpattern0);
 			Pattern_MultipleFeatures.Instance.MultipleFeatures_Delete(graph, subpattern__subpattern1);
 		}
+
+		static Pattern_Subclass() {
+		}
 	}
 
 	public class Pattern_MultipleFeatures : GRGEN_LGSP.LGSPMatchingPattern
@@ -368,6 +383,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleFeatures_VariableNums { };
 		public enum MultipleFeatures_SubNums { };
 		public enum MultipleFeatures_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_MultipleFeatures;
 
 		public enum MultipleFeatures_alt_0_CaseNums { @OneAndAgain, @NoFeatureLeft, };
@@ -376,6 +393,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleFeatures_alt_0_OneAndAgain_VariableNums { };
 		public enum MultipleFeatures_alt_0_OneAndAgain_SubNums { @_subpattern0, @_subpattern1, };
 		public enum MultipleFeatures_alt_0_OneAndAgain_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph MultipleFeatures_alt_0_OneAndAgain;
 
 		public enum MultipleFeatures_alt_0_NoFeatureLeft_NodeNums { @c, };
@@ -383,6 +402,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleFeatures_alt_0_NoFeatureLeft_VariableNums { };
 		public enum MultipleFeatures_alt_0_NoFeatureLeft_SubNums { };
 		public enum MultipleFeatures_alt_0_NoFeatureLeft_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph MultipleFeatures_alt_0_NoFeatureLeft;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleFeatures_alt_0_NoFeatureLeft_neg_0_node_f_AllowedTypes = null;
@@ -394,6 +415,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleFeatures_alt_0_NoFeatureLeft_neg_0_VariableNums { };
 		public enum MultipleFeatures_alt_0_NoFeatureLeft_neg_0_SubNums { };
 		public enum MultipleFeatures_alt_0_NoFeatureLeft_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph MultipleFeatures_alt_0_NoFeatureLeft_neg_0;
 
 
@@ -588,6 +610,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public void MultipleFeatures_alt_0_NoFeatureLeft_Delete(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Pattern_MultipleFeatures() {
+		}
 	}
 
 	public class Pattern_FeaturePattern : GRGEN_LGSP.LGSPMatchingPattern
@@ -604,6 +629,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum FeaturePattern_VariableNums { };
 		public enum FeaturePattern_SubNums { };
 		public enum FeaturePattern_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_FeaturePattern;
 
 		public enum FeaturePattern_alt_0_CaseNums { @MethodBody, @MethodSignature, @Variable, @Konstante, };
@@ -616,6 +643,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum FeaturePattern_alt_0_MethodBody_VariableNums { };
 		public enum FeaturePattern_alt_0_MethodBody_SubNums { @_subpattern0, @_subpattern1, };
 		public enum FeaturePattern_alt_0_MethodBody_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_MethodBody;
 
 		public static GRGEN_LIBGR.NodeType[] FeaturePattern_alt_0_MethodSignature_node__node0_AllowedTypes = null;
@@ -627,6 +656,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum FeaturePattern_alt_0_MethodSignature_VariableNums { };
 		public enum FeaturePattern_alt_0_MethodSignature_SubNums { };
 		public enum FeaturePattern_alt_0_MethodSignature_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_MethodSignature;
 
 		public static GRGEN_LIBGR.NodeType[] FeaturePattern_alt_0_Variable_node__node0_AllowedTypes = null;
@@ -638,6 +669,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum FeaturePattern_alt_0_Variable_VariableNums { };
 		public enum FeaturePattern_alt_0_Variable_SubNums { };
 		public enum FeaturePattern_alt_0_Variable_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_Variable;
 
 		public static GRGEN_LIBGR.NodeType[] FeaturePattern_alt_0_Konstante_node__node0_AllowedTypes = null;
@@ -649,6 +682,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum FeaturePattern_alt_0_Konstante_VariableNums { };
 		public enum FeaturePattern_alt_0_Konstante_SubNums { };
 		public enum FeaturePattern_alt_0_Konstante_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_Konstante;
 
 
@@ -965,6 +1000,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			graph.RemoveEdges(node__node0);
 			graph.Remove(node__node0);
 		}
+
+		static Pattern_FeaturePattern() {
+		}
 	}
 
 	public class Pattern_MultipleParameters : GRGEN_LGSP.LGSPMatchingPattern
@@ -981,6 +1019,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleParameters_VariableNums { };
 		public enum MultipleParameters_SubNums { };
 		public enum MultipleParameters_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_MultipleParameters;
 
 		public enum MultipleParameters_alt_0_CaseNums { @OneAndAgain, @NoStatementLeft, };
@@ -989,6 +1029,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleParameters_alt_0_OneAndAgain_VariableNums { };
 		public enum MultipleParameters_alt_0_OneAndAgain_SubNums { @_subpattern0, @_subpattern1, };
 		public enum MultipleParameters_alt_0_OneAndAgain_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph MultipleParameters_alt_0_OneAndAgain;
 
 		public enum MultipleParameters_alt_0_NoStatementLeft_NodeNums { @b, };
@@ -996,6 +1038,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleParameters_alt_0_NoStatementLeft_VariableNums { };
 		public enum MultipleParameters_alt_0_NoStatementLeft_SubNums { };
 		public enum MultipleParameters_alt_0_NoStatementLeft_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph MultipleParameters_alt_0_NoStatementLeft;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleParameters_alt_0_NoStatementLeft_neg_0_node_a_AllowedTypes = null;
@@ -1007,6 +1051,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleParameters_alt_0_NoStatementLeft_neg_0_VariableNums { };
 		public enum MultipleParameters_alt_0_NoStatementLeft_neg_0_SubNums { };
 		public enum MultipleParameters_alt_0_NoStatementLeft_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph MultipleParameters_alt_0_NoStatementLeft_neg_0;
 
 
@@ -1201,6 +1246,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public void MultipleParameters_alt_0_NoStatementLeft_Delete(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Pattern_MultipleParameters() {
+		}
 	}
 
 	public class Pattern_Parameter : GRGEN_LGSP.LGSPMatchingPattern
@@ -1217,6 +1265,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Parameter_VariableNums { };
 		public enum Parameter_SubNums { };
 		public enum Parameter_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_Parameter;
 
 		public enum Parameter_alt_0_CaseNums { @Variable, @Konstante, };
@@ -1229,6 +1279,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Parameter_alt_0_Variable_VariableNums { };
 		public enum Parameter_alt_0_Variable_SubNums { };
 		public enum Parameter_alt_0_Variable_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph Parameter_alt_0_Variable;
 
 		public static GRGEN_LIBGR.NodeType[] Parameter_alt_0_Konstante_node_c_AllowedTypes = null;
@@ -1240,6 +1292,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Parameter_alt_0_Konstante_VariableNums { };
 		public enum Parameter_alt_0_Konstante_SubNums { };
 		public enum Parameter_alt_0_Konstante_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph Parameter_alt_0_Konstante;
 
 
@@ -1426,6 +1480,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			graph.RemoveEdges(node_c);
 			graph.Remove(node_c);
 		}
+
+		static Pattern_Parameter() {
+		}
 	}
 
 	public class Pattern_MultipleStatements : GRGEN_LGSP.LGSPMatchingPattern
@@ -1442,6 +1499,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleStatements_VariableNums { };
 		public enum MultipleStatements_SubNums { };
 		public enum MultipleStatements_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_MultipleStatements;
 
 		public enum MultipleStatements_alt_0_CaseNums { @OneAndAgain, @NoStatementLeft, };
@@ -1450,6 +1509,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleStatements_alt_0_OneAndAgain_VariableNums { };
 		public enum MultipleStatements_alt_0_OneAndAgain_SubNums { @_subpattern0, @_subpattern1, };
 		public enum MultipleStatements_alt_0_OneAndAgain_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph MultipleStatements_alt_0_OneAndAgain;
 
 		public enum MultipleStatements_alt_0_NoStatementLeft_NodeNums { @b, };
@@ -1457,6 +1518,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleStatements_alt_0_NoStatementLeft_VariableNums { };
 		public enum MultipleStatements_alt_0_NoStatementLeft_SubNums { };
 		public enum MultipleStatements_alt_0_NoStatementLeft_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph MultipleStatements_alt_0_NoStatementLeft;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleStatements_alt_0_NoStatementLeft_neg_0_node_e_AllowedTypes = null;
@@ -1468,6 +1531,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleStatements_alt_0_NoStatementLeft_neg_0_VariableNums { };
 		public enum MultipleStatements_alt_0_NoStatementLeft_neg_0_SubNums { };
 		public enum MultipleStatements_alt_0_NoStatementLeft_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph MultipleStatements_alt_0_NoStatementLeft_neg_0;
 
 
@@ -1662,6 +1726,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public void MultipleStatements_alt_0_NoStatementLeft_Delete(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Pattern_MultipleStatements() {
+		}
 	}
 
 	public class Pattern_Statement : GRGEN_LGSP.LGSPMatchingPattern
@@ -1678,6 +1745,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Statement_VariableNums { };
 		public enum Statement_SubNums { };
 		public enum Statement_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_Statement;
 
 		public enum Statement_alt_0_CaseNums { @Assignment, @Call, @Return, };
@@ -1692,6 +1761,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Statement_alt_0_Assignment_VariableNums { };
 		public enum Statement_alt_0_Assignment_SubNums { @_subpattern0, };
 		public enum Statement_alt_0_Assignment_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph Statement_alt_0_Assignment;
 
 		public static GRGEN_LIBGR.NodeType[] Statement_alt_0_Call_node_e_AllowedTypes = null;
@@ -1705,6 +1776,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Statement_alt_0_Call_VariableNums { };
 		public enum Statement_alt_0_Call_SubNums { @_subpattern0, };
 		public enum Statement_alt_0_Call_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph Statement_alt_0_Call;
 
 		public static GRGEN_LIBGR.NodeType[] Statement_alt_0_Return_node_e_AllowedTypes = null;
@@ -1718,6 +1791,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Statement_alt_0_Return_VariableNums { };
 		public enum Statement_alt_0_Return_SubNums { };
 		public enum Statement_alt_0_Return_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph Statement_alt_0_Return;
 
 
@@ -1995,6 +2070,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			graph.RemoveEdges(node_e);
 			graph.Remove(node_e);
 		}
+
+		static Pattern_Statement() {
+		}
 	}
 
 	public class Pattern_MultipleExpressions : GRGEN_LGSP.LGSPMatchingPattern
@@ -2011,6 +2089,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleExpressions_VariableNums { };
 		public enum MultipleExpressions_SubNums { };
 		public enum MultipleExpressions_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_MultipleExpressions;
 
 		public enum MultipleExpressions_alt_0_CaseNums { @OneAndAgain, @NoExpressionLeft, };
@@ -2019,6 +2099,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleExpressions_alt_0_OneAndAgain_VariableNums { };
 		public enum MultipleExpressions_alt_0_OneAndAgain_SubNums { @_subpattern0, @_subpattern1, };
 		public enum MultipleExpressions_alt_0_OneAndAgain_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph MultipleExpressions_alt_0_OneAndAgain;
 
 		public enum MultipleExpressions_alt_0_NoExpressionLeft_NodeNums { @e, };
@@ -2026,6 +2108,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleExpressions_alt_0_NoExpressionLeft_VariableNums { };
 		public enum MultipleExpressions_alt_0_NoExpressionLeft_SubNums { };
 		public enum MultipleExpressions_alt_0_NoExpressionLeft_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph MultipleExpressions_alt_0_NoExpressionLeft;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleExpressions_alt_0_NoExpressionLeft_neg_0_node_sub_AllowedTypes = null;
@@ -2037,6 +2121,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleExpressions_alt_0_NoExpressionLeft_neg_0_VariableNums { };
 		public enum MultipleExpressions_alt_0_NoExpressionLeft_neg_0_SubNums { };
 		public enum MultipleExpressions_alt_0_NoExpressionLeft_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph MultipleExpressions_alt_0_NoExpressionLeft_neg_0;
 
 
@@ -2231,6 +2316,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public void MultipleExpressions_alt_0_NoExpressionLeft_Delete(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Pattern_MultipleExpressions() {
+		}
 	}
 
 	public class Pattern_ExpressionPattern : GRGEN_LGSP.LGSPMatchingPattern
@@ -2251,6 +2339,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum ExpressionPattern_VariableNums { };
 		public enum ExpressionPattern_SubNums { };
 		public enum ExpressionPattern_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_ExpressionPattern;
 
 		public enum ExpressionPattern_alt_0_CaseNums { @Call, @Use, };
@@ -2261,6 +2351,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum ExpressionPattern_alt_0_Call_VariableNums { };
 		public enum ExpressionPattern_alt_0_Call_SubNums { @_subpattern0, };
 		public enum ExpressionPattern_alt_0_Call_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ExpressionPattern_alt_0_Call;
 
 		public static GRGEN_LIBGR.EdgeType[] ExpressionPattern_alt_0_Use_edge__edge0_AllowedTypes = null;
@@ -2270,6 +2362,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum ExpressionPattern_alt_0_Use_VariableNums { };
 		public enum ExpressionPattern_alt_0_Use_SubNums { };
 		public enum ExpressionPattern_alt_0_Use_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ExpressionPattern_alt_0_Use;
 
 
@@ -2460,6 +2554,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch.Edges[(int)ExpressionPattern_alt_0_Use_EdgeNums.@_edge0];
 			graph.Remove(edge__edge0);
 		}
+
+		static Pattern_ExpressionPattern() {
+		}
 	}
 
 	public class Pattern_MultipleBodies : GRGEN_LGSP.LGSPMatchingPattern
@@ -2478,6 +2575,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleBodies_VariableNums { };
 		public enum MultipleBodies_SubNums { };
 		public enum MultipleBodies_AltNums { @alt_0, };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_MultipleBodies;
 
 		public enum MultipleBodies_alt_0_CaseNums { @Rek, @Empty, };
@@ -2486,6 +2586,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleBodies_alt_0_Rek_VariableNums { };
 		public enum MultipleBodies_alt_0_Rek_SubNums { @b, @mb, };
 		public enum MultipleBodies_alt_0_Rek_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph MultipleBodies_alt_0_Rek;
 
 		public enum MultipleBodies_alt_0_Empty_NodeNums { @m5, @c1, };
@@ -2493,6 +2596,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleBodies_alt_0_Empty_VariableNums { };
 		public enum MultipleBodies_alt_0_Empty_SubNums { };
 		public enum MultipleBodies_alt_0_Empty_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph MultipleBodies_alt_0_Empty;
 
 		public enum MultipleBodies_alt_0_Empty_neg_0_NodeNums { @m5, @c1, };
@@ -2500,6 +2606,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum MultipleBodies_alt_0_Empty_neg_0_VariableNums { };
 		public enum MultipleBodies_alt_0_Empty_neg_0_SubNums { @_subpattern0, };
 		public enum MultipleBodies_alt_0_Empty_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph MultipleBodies_alt_0_Empty_neg_0;
 
 
@@ -2776,6 +2883,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public void MultipleBodies_alt_0_Empty_Delete(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Pattern_MultipleBodies() {
+		}
 	}
 
 	public class Pattern_Body : GRGEN_LGSP.LGSPMatchingPattern
@@ -2804,6 +2914,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Body_VariableNums { };
 		public enum Body_SubNums { @mp, @ms, };
 		public enum Body_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_Body;
 
 
@@ -2956,6 +3069,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			Pattern_MultipleParameters.Instance.MultipleParameters_Delete(graph, subpattern_mp);
 			Pattern_MultipleStatements.Instance.MultipleStatements_Delete(graph, subpattern_ms);
 		}
+
+		static Pattern_Body() {
+		}
 	}
 
 	public class Rule_createProgramGraphExample : GRGEN_LGSP.LGSPRulePattern
@@ -2970,6 +3086,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum createProgramGraphExample_VariableNums { };
 		public enum createProgramGraphExample_SubNums { };
 		public enum createProgramGraphExample_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createProgramGraphExample;
 
 
@@ -3150,6 +3269,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			@uses edge__edge38 = @uses.CreateEdge(graph, node_ex9, node_backup);
 			return EmptyReturnElements;
 		}
+
+		static Rule_createProgramGraphExample() {
+		}
 	}
 
 	public class Rule_createProgramGraphPullUp : GRGEN_LGSP.LGSPRulePattern
@@ -3164,6 +3286,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum createProgramGraphPullUp_VariableNums { };
 		public enum createProgramGraphPullUp_SubNums { };
 		public enum createProgramGraphPullUp_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createProgramGraphPullUp;
 
 
@@ -3312,6 +3437,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			ReturnArray[1] = node_b4;
 			return ReturnArray;
 		}
+
+		static Rule_createProgramGraphPullUp() {
+		}
 	}
 
 	public class Rule_pullUpMethod : GRGEN_LGSP.LGSPRulePattern
@@ -3340,6 +3468,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum pullUpMethod_VariableNums { };
 		public enum pullUpMethod_SubNums { @mb, };
 		public enum pullUpMethod_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_pullUpMethod;
 
 
@@ -3460,6 +3591,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			graph.Remove(edge_m);
 			return EmptyReturnElements;
 		}
+
+		static Rule_pullUpMethod() {
+		}
 	}
 
 	public class Rule_matchAll : GRGEN_LGSP.LGSPRulePattern
@@ -3476,6 +3610,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum matchAll_VariableNums { };
 		public enum matchAll_SubNums { @_subpattern0, };
 		public enum matchAll_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_matchAll;
 
 
@@ -3536,6 +3672,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern0 = curMatch.EmbeddedGraphs[(int)matchAll_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
+
+		static Rule_matchAll() {
+		}
 	}
 
 	public class Rule_InsertHelperEdgesForNestedLayout : GRGEN_LGSP.LGSPRulePattern
@@ -3550,6 +3689,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum InsertHelperEdgesForNestedLayout_VariableNums { };
 		public enum InsertHelperEdgesForNestedLayout_SubNums { };
 		public enum InsertHelperEdgesForNestedLayout_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_InsertHelperEdgesForNestedLayout;
 
 
@@ -3695,6 +3837,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
             return res_0;
         }
         private static object[] __xgrs_paramarray_0 = new object[0];
+
+		static Rule_InsertHelperEdgesForNestedLayout() {
+		}
 	}
 
 	public class Rule_LinkMethodBodyToContainedEntity : GRGEN_LGSP.LGSPRulePattern
@@ -3715,6 +3860,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkMethodBodyToContainedEntity_VariableNums { };
 		public enum LinkMethodBodyToContainedEntity_SubNums { };
 		public enum LinkMethodBodyToContainedEntity_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_LinkMethodBodyToContainedEntity;
 
 		public static GRGEN_LIBGR.EdgeType[] LinkMethodBodyToContainedEntity_neg_0_edge__edge0_AllowedTypes = null;
@@ -3724,6 +3872,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkMethodBodyToContainedEntity_neg_0_VariableNums { };
 		public enum LinkMethodBodyToContainedEntity_neg_0_SubNums { };
 		public enum LinkMethodBodyToContainedEntity_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph LinkMethodBodyToContainedEntity_neg_0;
 
 
@@ -3838,6 +3987,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			@containedInMethodBody edge__edge1 = @containedInMethodBody.CreateEdge(graph, node_mb, node_e);
 			return EmptyReturnElements;
 		}
+
+		static Rule_LinkMethodBodyToContainedEntity() {
+		}
 	}
 
 	public class Rule_LinkMethodBodyToContainedExpressionTransitive : GRGEN_LGSP.LGSPRulePattern
@@ -3862,6 +4014,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkMethodBodyToContainedExpressionTransitive_VariableNums { };
 		public enum LinkMethodBodyToContainedExpressionTransitive_SubNums { };
 		public enum LinkMethodBodyToContainedExpressionTransitive_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_LinkMethodBodyToContainedExpressionTransitive;
 
 		public static GRGEN_LIBGR.EdgeType[] LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0_AllowedTypes = null;
@@ -3871,6 +4026,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkMethodBodyToContainedExpressionTransitive_neg_0_VariableNums { };
 		public enum LinkMethodBodyToContainedExpressionTransitive_neg_0_SubNums { };
 		public enum LinkMethodBodyToContainedExpressionTransitive_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph LinkMethodBodyToContainedExpressionTransitive_neg_0;
 
 
@@ -3999,6 +4155,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			@containedInMethodBody edge__edge3 = @containedInMethodBody.CreateEdge(graph, node_mb, node_e2);
 			return EmptyReturnElements;
 		}
+
+		static Rule_LinkMethodBodyToContainedExpressionTransitive() {
+		}
 	}
 
 	public class Rule_LinkClassToFeature : GRGEN_LGSP.LGSPRulePattern
@@ -4019,6 +4178,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkClassToFeature_VariableNums { };
 		public enum LinkClassToFeature_SubNums { };
 		public enum LinkClassToFeature_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_LinkClassToFeature;
 
 		public static GRGEN_LIBGR.EdgeType[] LinkClassToFeature_neg_0_edge__edge0_AllowedTypes = null;
@@ -4028,6 +4190,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkClassToFeature_neg_0_VariableNums { };
 		public enum LinkClassToFeature_neg_0_SubNums { };
 		public enum LinkClassToFeature_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph LinkClassToFeature_neg_0;
 
 
@@ -4141,6 +4304,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			graph.SettingAddedEdgeNames( LinkClassToFeature_addedEdgeNames );
 			@containedInClass edge__edge1 = @containedInClass.CreateEdge(graph, node_c, node_e);
 			return EmptyReturnElements;
+		}
+
+		static Rule_LinkClassToFeature() {
 		}
 	}
 

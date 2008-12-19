@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Tue Oct 21 19:34:32 CEST 2008
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Fri Dec 19 20:14:24 CET 2008
 
 using System;
 using System.Collections.Generic;
@@ -28,6 +28,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromTo_VariableNums { };
 		public enum ChainFromTo_SubNums { };
 		public enum ChainFromTo_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_ChainFromTo;
 
 		public enum ChainFromTo_alt_0_CaseNums { @base, @rec, };
@@ -38,6 +40,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromTo_alt_0_base_VariableNums { };
 		public enum ChainFromTo_alt_0_base_SubNums { };
 		public enum ChainFromTo_alt_0_base_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ChainFromTo_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromTo_alt_0_rec_node_intermediate_AllowedTypes = null;
@@ -49,6 +53,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromTo_alt_0_rec_VariableNums { };
 		public enum ChainFromTo_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ChainFromTo_alt_0_rec_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ChainFromTo_alt_0_rec;
 
 
@@ -242,6 +248,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.Remove(node_intermediate);
 			Pattern_ChainFromTo.Instance.ChainFromTo_Delete(graph, subpattern__subpattern0);
 		}
+
+		static Pattern_ChainFromTo() {
+		}
 	}
 
 	public class Pattern_ChainFrom : GRGEN_LGSP.LGSPMatchingPattern
@@ -258,6 +267,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFrom_VariableNums { };
 		public enum ChainFrom_SubNums { };
 		public enum ChainFrom_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_ChainFrom;
 
 		public enum ChainFrom_alt_0_CaseNums { @base, @rec, };
@@ -266,6 +277,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFrom_alt_0_base_VariableNums { };
 		public enum ChainFrom_alt_0_base_SubNums { };
 		public enum ChainFrom_alt_0_base_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ChainFrom_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFrom_alt_0_rec_node_to_AllowedTypes = null;
@@ -277,6 +290,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFrom_alt_0_rec_VariableNums { };
 		public enum ChainFrom_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ChainFrom_alt_0_rec_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ChainFrom_alt_0_rec;
 
 
@@ -444,6 +459,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.Remove(node_to);
 			Pattern_ChainFrom.Instance.ChainFrom_Delete(graph, subpattern__subpattern0);
 		}
+
+		static Pattern_ChainFrom() {
+		}
 	}
 
 	public class Pattern_ChainFromComplete : GRGEN_LGSP.LGSPMatchingPattern
@@ -460,6 +478,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromComplete_VariableNums { };
 		public enum ChainFromComplete_SubNums { };
 		public enum ChainFromComplete_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_ChainFromComplete;
 
 		public enum ChainFromComplete_alt_0_CaseNums { @base, @rec, };
@@ -468,6 +488,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromComplete_alt_0_base_VariableNums { };
 		public enum ChainFromComplete_alt_0_base_SubNums { };
 		public enum ChainFromComplete_alt_0_base_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ChainFromComplete_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromComplete_alt_0_base_neg_0_node__node0_AllowedTypes = null;
@@ -479,6 +501,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromComplete_alt_0_base_neg_0_VariableNums { };
 		public enum ChainFromComplete_alt_0_base_neg_0_SubNums { };
 		public enum ChainFromComplete_alt_0_base_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph ChainFromComplete_alt_0_base_neg_0;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromComplete_alt_0_rec_node_to_AllowedTypes = null;
@@ -490,6 +513,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromComplete_alt_0_rec_VariableNums { };
 		public enum ChainFromComplete_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ChainFromComplete_alt_0_rec_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ChainFromComplete_alt_0_rec;
 
 
@@ -698,6 +723,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.Remove(node_to);
 			Pattern_ChainFromComplete.Instance.ChainFromComplete_Delete(graph, subpattern__subpattern0);
 		}
+
+		static Pattern_ChainFromComplete() {
+		}
 	}
 
 	public class Pattern_Blowball : GRGEN_LGSP.LGSPMatchingPattern
@@ -714,6 +742,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum Blowball_VariableNums { };
 		public enum Blowball_SubNums { };
 		public enum Blowball_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_Blowball;
 
 		public enum Blowball_alt_0_CaseNums { @end, @further, };
@@ -722,6 +752,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum Blowball_alt_0_end_VariableNums { };
 		public enum Blowball_alt_0_end_SubNums { };
 		public enum Blowball_alt_0_end_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph Blowball_alt_0_end;
 
 		public static GRGEN_LIBGR.NodeType[] Blowball_alt_0_end_neg_0_node__node0_AllowedTypes = null;
@@ -733,6 +765,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum Blowball_alt_0_end_neg_0_VariableNums { };
 		public enum Blowball_alt_0_end_neg_0_SubNums { };
 		public enum Blowball_alt_0_end_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph Blowball_alt_0_end_neg_0;
 
 		public static GRGEN_LIBGR.NodeType[] Blowball_alt_0_further_node__node0_AllowedTypes = null;
@@ -744,6 +777,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum Blowball_alt_0_further_VariableNums { };
 		public enum Blowball_alt_0_further_SubNums { @_subpattern0, };
 		public enum Blowball_alt_0_further_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph Blowball_alt_0_further;
 
 
@@ -952,6 +987,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.Remove(node__node0);
 			Pattern_Blowball.Instance.Blowball_Delete(graph, subpattern__subpattern0);
 		}
+
+		static Pattern_Blowball() {
+		}
 	}
 
 	public class Pattern_ReverseChainFromTo : GRGEN_LGSP.LGSPMatchingPattern
@@ -970,6 +1008,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromTo_VariableNums { };
 		public enum ReverseChainFromTo_SubNums { };
 		public enum ReverseChainFromTo_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_ReverseChainFromTo;
 
 		public enum ReverseChainFromTo_alt_0_CaseNums { @base, @rec, };
@@ -980,6 +1020,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromTo_alt_0_base_VariableNums { };
 		public enum ReverseChainFromTo_alt_0_base_SubNums { };
 		public enum ReverseChainFromTo_alt_0_base_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ReverseChainFromTo_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromTo_alt_0_rec_node_intermediate_AllowedTypes = null;
@@ -991,6 +1033,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromTo_alt_0_rec_VariableNums { };
 		public enum ReverseChainFromTo_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ReverseChainFromTo_alt_0_rec_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ReverseChainFromTo_alt_0_rec;
 
 
@@ -1184,6 +1228,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.Remove(node_intermediate);
 			Pattern_ReverseChainFromTo.Instance.ReverseChainFromTo_Delete(graph, subpattern__subpattern0);
 		}
+
+		static Pattern_ReverseChainFromTo() {
+		}
 	}
 
 	public class Pattern_ChainFromToReverse : GRGEN_LGSP.LGSPMatchingPattern
@@ -1202,6 +1249,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromToReverse_VariableNums { };
 		public enum ChainFromToReverse_SubNums { };
 		public enum ChainFromToReverse_AltNums { @alt_0, };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_ChainFromToReverse;
 
 		public enum ChainFromToReverse_alt_0_CaseNums { @base, @rec, };
@@ -1212,6 +1262,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromToReverse_alt_0_base_VariableNums { };
 		public enum ChainFromToReverse_alt_0_base_SubNums { };
 		public enum ChainFromToReverse_alt_0_base_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph ChainFromToReverse_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverse_alt_0_rec_node_intermediate_AllowedTypes = null;
@@ -1223,6 +1276,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromToReverse_alt_0_rec_VariableNums { };
 		public enum ChainFromToReverse_alt_0_rec_SubNums { @cftr, };
 		public enum ChainFromToReverse_alt_0_rec_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph ChainFromToReverse_alt_0_rec;
 
 
@@ -1532,6 +1588,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.Remove(node_intermediate);
 			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Delete(graph, subpattern_cftr);
 		}
+
+		static Pattern_ChainFromToReverse() {
+		}
 	}
 
 	public class Pattern_ChainFromToReverseToCommon : GRGEN_LGSP.LGSPMatchingPattern
@@ -1550,6 +1609,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromToReverseToCommon_VariableNums { };
 		public enum ChainFromToReverseToCommon_SubNums { };
 		public enum ChainFromToReverseToCommon_AltNums { @alt_0, };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_ChainFromToReverseToCommon;
 
 		public enum ChainFromToReverseToCommon_alt_0_CaseNums { @base, @rec, };
@@ -1560,6 +1622,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromToReverseToCommon_alt_0_base_VariableNums { };
 		public enum ChainFromToReverseToCommon_alt_0_base_SubNums { };
 		public enum ChainFromToReverseToCommon_alt_0_base_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph ChainFromToReverseToCommon_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverseToCommon_alt_0_rec_node_intermediate_AllowedTypes = null;
@@ -1571,6 +1636,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromToReverseToCommon_alt_0_rec_VariableNums { };
 		public enum ChainFromToReverseToCommon_alt_0_rec_SubNums { @cftrtc, };
 		public enum ChainFromToReverseToCommon_alt_0_rec_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph ChainFromToReverseToCommon_alt_0_rec;
 
 
@@ -1886,6 +1954,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.Remove(node_intermediate);
 			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Delete(graph, subpattern_cftrtc);
 		}
+
+		static Pattern_ChainFromToReverseToCommon() {
+		}
 	}
 
 	public class Pattern_ReverseChainFromToToCommon : GRGEN_LGSP.LGSPMatchingPattern
@@ -1906,6 +1977,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromToToCommon_VariableNums { };
 		public enum ReverseChainFromToToCommon_SubNums { };
 		public enum ReverseChainFromToToCommon_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_ReverseChainFromToToCommon;
 
 		public enum ReverseChainFromToToCommon_alt_0_CaseNums { @base, @rec, };
@@ -1918,6 +1991,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromToToCommon_alt_0_base_VariableNums { };
 		public enum ReverseChainFromToToCommon_alt_0_base_SubNums { };
 		public enum ReverseChainFromToToCommon_alt_0_base_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ReverseChainFromToToCommon_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromToToCommon_alt_0_rec_node_intermediate_AllowedTypes = null;
@@ -1931,6 +2006,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromToToCommon_alt_0_rec_VariableNums { };
 		public enum ReverseChainFromToToCommon_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ReverseChainFromToToCommon_alt_0_rec_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ReverseChainFromToToCommon_alt_0_rec;
 
 
@@ -2152,6 +2229,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.Remove(node_intermediate);
 			Pattern_ReverseChainFromToToCommon.Instance.ReverseChainFromToToCommon_Delete(graph, subpattern__subpattern0);
 		}
+
+		static Pattern_ReverseChainFromToToCommon() {
+		}
 	}
 
 	public class Rule_createChain : GRGEN_LGSP.LGSPRulePattern
@@ -2166,6 +2246,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum createChain_VariableNums { };
 		public enum createChain_SubNums { };
 		public enum createChain_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createChain;
 
 
@@ -2240,6 +2323,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ReturnArray[1] = node_end;
 			return ReturnArray;
 		}
+
+		static Rule_createChain() {
+		}
 	}
 
 	public class Rule_chainFromTo : GRGEN_LGSP.LGSPRulePattern
@@ -2258,6 +2344,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFromTo_VariableNums { };
 		public enum chainFromTo_SubNums { @_subpattern0, };
 		public enum chainFromTo_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_chainFromTo;
 
 
@@ -2322,6 +2410,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern0 = curMatch.EmbeddedGraphs[(int)chainFromTo_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
+
+		static Rule_chainFromTo() {
+		}
 	}
 
 	public class Rule_chainFrom : GRGEN_LGSP.LGSPRulePattern
@@ -2338,6 +2429,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFrom_VariableNums { };
 		public enum chainFrom_SubNums { @_subpattern0, };
 		public enum chainFrom_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_chainFrom;
 
 
@@ -2398,6 +2491,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern0 = curMatch.EmbeddedGraphs[(int)chainFrom_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
+
+		static Rule_chainFrom() {
+		}
 	}
 
 	public class Rule_chainFromComplete : GRGEN_LGSP.LGSPRulePattern
@@ -2414,6 +2510,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFromComplete_VariableNums { };
 		public enum chainFromComplete_SubNums { @_subpattern0, };
 		public enum chainFromComplete_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_chainFromComplete;
 
 
@@ -2474,6 +2572,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern0 = curMatch.EmbeddedGraphs[(int)chainFromComplete_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
+
+		static Rule_chainFromComplete() {
+		}
 	}
 
 	public class Rule_createBlowball : GRGEN_LGSP.LGSPRulePattern
@@ -2488,6 +2589,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum createBlowball_VariableNums { };
 		public enum createBlowball_SubNums { };
 		public enum createBlowball_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createBlowball;
 
 
@@ -2564,6 +2668,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ReturnArray[0] = node_head;
 			return ReturnArray;
 		}
+
+		static Rule_createBlowball() {
+		}
 	}
 
 	public class Rule_blowball : GRGEN_LGSP.LGSPRulePattern
@@ -2580,6 +2687,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum blowball_VariableNums { };
 		public enum blowball_SubNums { @_subpattern0, };
 		public enum blowball_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_blowball;
 
 
@@ -2640,6 +2749,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern0 = curMatch.EmbeddedGraphs[(int)blowball_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
+
+		static Rule_blowball() {
+		}
 	}
 
 	public class Rule_reverseChainFromTo : GRGEN_LGSP.LGSPRulePattern
@@ -2658,6 +2770,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum reverseChainFromTo_VariableNums { };
 		public enum reverseChainFromTo_SubNums { @_subpattern0, };
 		public enum reverseChainFromTo_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_reverseChainFromTo;
 
 
@@ -2722,6 +2836,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern0 = curMatch.EmbeddedGraphs[(int)reverseChainFromTo_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
+
+		static Rule_reverseChainFromTo() {
+		}
 	}
 
 	public class Rule_createReverseChain : GRGEN_LGSP.LGSPRulePattern
@@ -2736,6 +2853,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum createReverseChain_VariableNums { };
 		public enum createReverseChain_SubNums { };
 		public enum createReverseChain_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createReverseChain;
 
 
@@ -2810,6 +2930,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ReturnArray[1] = node_end;
 			return ReturnArray;
 		}
+
+		static Rule_createReverseChain() {
+		}
 	}
 
 	public class Rule_chainFromToReverse : GRGEN_LGSP.LGSPRulePattern
@@ -2828,6 +2951,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFromToReverse_VariableNums { };
 		public enum chainFromToReverse_SubNums { @cftr, };
 		public enum chainFromToReverse_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_chainFromToReverse;
 
 
@@ -2900,6 +3026,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.SettingAddedEdgeNames( chainFromToReverse_addedEdgeNames );
 			return EmptyReturnElements;
 		}
+
+		static Rule_chainFromToReverse() {
+		}
 	}
 
 	public class Rule_chainFromToReverseToCommon : GRGEN_LGSP.LGSPRulePattern
@@ -2918,6 +3047,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFromToReverseToCommon_VariableNums { };
 		public enum chainFromToReverseToCommon_SubNums { @cftrtc, };
 		public enum chainFromToReverseToCommon_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_chainFromToReverseToCommon;
 
 
@@ -2994,6 +3126,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ReturnArray[0] = node_common;
 			return ReturnArray;
 		}
+
+		static Rule_chainFromToReverseToCommon() {
+		}
 	}
 
 	public class Rule_reverseChainFromToToCommon : GRGEN_LGSP.LGSPRulePattern
@@ -3014,6 +3149,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum reverseChainFromToToCommon_VariableNums { };
 		public enum reverseChainFromToToCommon_SubNums { @_subpattern0, };
 		public enum reverseChainFromToToCommon_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_reverseChainFromToToCommon;
 
 
@@ -3081,6 +3218,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		{
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern0 = curMatch.EmbeddedGraphs[(int)reverseChainFromToToCommon_SubNums.@_subpattern0];
 			return EmptyReturnElements;
+		}
+
+		static Rule_reverseChainFromToToCommon() {
 		}
 	}
 

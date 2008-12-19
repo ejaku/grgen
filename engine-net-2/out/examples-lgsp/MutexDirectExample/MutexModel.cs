@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Tue Oct 21 19:34:24 CEST 2008
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Fri Dec 19 20:14:17 CET 2008
 
 using System;
 using System.Collections.Generic;
@@ -30,8 +30,13 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static @Node[] pool = new @Node[10];
+		
+		static @Node() {
+		}
+		
 		public @Node() : base(NodeType_Node.typeVar)
 		{
+			// implicit initialization, map/set creation of Node
 		}
 
 		public static NodeType_Node TypeInstance { get { return NodeType_Node.typeVar; } }
@@ -52,6 +57,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node);
 			return node;
@@ -68,6 +74,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -91,6 +98,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Node
 		}
 	}
 
@@ -131,8 +139,15 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static @Process[] pool = new @Process[10];
+		
+		// explicit initializations of Process for target Process
+		static @Process() {
+		}
+		
 		public @Process() : base(NodeType_Process.typeVar)
 		{
+			// implicit initialization, map/set creation of Process
+			// explicit initializations of Process for target Process
 		}
 
 		public static NodeType_Process TypeInstance { get { return NodeType_Process.typeVar; } }
@@ -153,6 +168,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Process
+				// explicit initializations of Process for target Process
 			}
 			graph.AddNode(node);
 			return node;
@@ -169,6 +186,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Process
+				// explicit initializations of Process for target Process
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -192,6 +211,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Process
+			// explicit initializations of Process for target Process
 		}
 	}
 
@@ -232,8 +253,15 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static @Resource[] pool = new @Resource[10];
+		
+		// explicit initializations of Resource for target Resource
+		static @Resource() {
+		}
+		
 		public @Resource() : base(NodeType_Resource.typeVar)
 		{
+			// implicit initialization, map/set creation of Resource
+			// explicit initializations of Resource for target Resource
 		}
 
 		public static NodeType_Resource TypeInstance { get { return NodeType_Resource.typeVar; } }
@@ -254,6 +282,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Resource
+				// explicit initializations of Resource for target Resource
 			}
 			graph.AddNode(node);
 			return node;
@@ -270,6 +300,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Resource
+				// explicit initializations of Resource for target Resource
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -293,6 +325,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Resource
+			// explicit initializations of Resource for target Resource
 		}
 	}
 
@@ -448,9 +482,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static @Edge[] pool = new @Edge[10];
+		
+		static @Edge() {
+		}
+		
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_Edge.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of Edge
 		}
 
 		public static EdgeType_Edge TypeInstance { get { return EdgeType_Edge.typeVar; } }
@@ -473,6 +512,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -489,6 +529,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -512,6 +553,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Edge
 		}
 	}
 
@@ -550,9 +592,14 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static @UEdge[] pool = new @UEdge[10];
+		
+		static @UEdge() {
+		}
+		
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_UEdge.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of UEdge
 		}
 
 		public static EdgeType_UEdge TypeInstance { get { return EdgeType_UEdge.typeVar; } }
@@ -575,6 +622,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -591,6 +639,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -614,6 +663,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of UEdge
 		}
 	}
 
@@ -655,9 +705,16 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static @next[] pool = new @next[10];
+		
+		// explicit initializations of next for target next
+		static @next() {
+		}
+		
 		public @next(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_next.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of next
+			// explicit initializations of next for target next
 		}
 
 		public static EdgeType_next TypeInstance { get { return EdgeType_next.typeVar; } }
@@ -680,6 +737,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of next
+				// explicit initializations of next for target next
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -696,6 +755,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of next
+				// explicit initializations of next for target next
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -719,6 +780,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of next
+			// explicit initializations of next for target next
 		}
 	}
 
@@ -760,9 +823,16 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static @blocked[] pool = new @blocked[10];
+		
+		// explicit initializations of blocked for target blocked
+		static @blocked() {
+		}
+		
 		public @blocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_blocked.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of blocked
+			// explicit initializations of blocked for target blocked
 		}
 
 		public static EdgeType_blocked TypeInstance { get { return EdgeType_blocked.typeVar; } }
@@ -785,6 +855,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of blocked
+				// explicit initializations of blocked for target blocked
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -801,6 +873,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of blocked
+				// explicit initializations of blocked for target blocked
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -824,6 +898,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of blocked
+			// explicit initializations of blocked for target blocked
 		}
 	}
 
@@ -865,9 +941,16 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static @held_by[] pool = new @held_by[10];
+		
+		// explicit initializations of held_by for target held_by
+		static @held_by() {
+		}
+		
 		public @held_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_held_by.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of held_by
+			// explicit initializations of held_by for target held_by
 		}
 
 		public static EdgeType_held_by TypeInstance { get { return EdgeType_held_by.typeVar; } }
@@ -890,6 +973,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of held_by
+				// explicit initializations of held_by for target held_by
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -906,6 +991,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of held_by
+				// explicit initializations of held_by for target held_by
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -929,6 +1016,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of held_by
+			// explicit initializations of held_by for target held_by
 		}
 	}
 
@@ -970,9 +1059,16 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static @token[] pool = new @token[10];
+		
+		// explicit initializations of token for target token
+		static @token() {
+		}
+		
 		public @token(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_token.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of token
+			// explicit initializations of token for target token
 		}
 
 		public static EdgeType_token TypeInstance { get { return EdgeType_token.typeVar; } }
@@ -995,6 +1091,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of token
+				// explicit initializations of token for target token
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1011,6 +1109,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of token
+				// explicit initializations of token for target token
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1034,6 +1134,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of token
+			// explicit initializations of token for target token
 		}
 	}
 
@@ -1075,9 +1177,16 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static @release[] pool = new @release[10];
+		
+		// explicit initializations of release for target release
+		static @release() {
+		}
+		
 		public @release(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_release.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of release
+			// explicit initializations of release for target release
 		}
 
 		public static EdgeType_release TypeInstance { get { return EdgeType_release.typeVar; } }
@@ -1100,6 +1209,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of release
+				// explicit initializations of release for target release
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1116,6 +1227,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of release
+				// explicit initializations of release for target release
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1139,6 +1252,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of release
+			// explicit initializations of release for target release
 		}
 	}
 
@@ -1180,9 +1295,16 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static @request[] pool = new @request[10];
+		
+		// explicit initializations of request for target request
+		static @request() {
+		}
+		
 		public @request(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_request.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of request
+			// explicit initializations of request for target request
 		}
 
 		public static EdgeType_request TypeInstance { get { return EdgeType_request.typeVar; } }
@@ -1205,6 +1327,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of request
+				// explicit initializations of request for target request
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1221,6 +1345,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of request
+				// explicit initializations of request for target request
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1244,6 +1370,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of request
+			// explicit initializations of request for target request
 		}
 	}
 

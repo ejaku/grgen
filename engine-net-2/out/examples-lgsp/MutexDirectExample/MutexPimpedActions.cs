@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Tue Oct 21 19:34:24 CEST 2008
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Fri Dec 19 20:14:17 CET 2008
 
 using System;
 using System.Collections.Generic;
@@ -30,6 +30,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum newRule_VariableNums { };
 		public enum newRule_SubNums { };
 		public enum newRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_newRule;
 
 
@@ -128,6 +131,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.Remove(edge_n);
 			return EmptyReturnElements;
 		}
+
+		static Rule_newRule() {
+		}
 	}
 
 	public class Rule_killRule : GRGEN_LGSP.LGSPRulePattern
@@ -152,6 +158,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum killRule_VariableNums { };
 		public enum killRule_SubNums { };
 		public enum killRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_killRule;
 
 
@@ -266,6 +275,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.Remove(node_p);
 			return EmptyReturnElements;
 		}
+
+		static Rule_killRule() {
+		}
 	}
 
 	public class Rule_mountRule : GRGEN_LGSP.LGSPRulePattern
@@ -282,6 +294,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum mountRule_VariableNums { };
 		public enum mountRule_SubNums { };
 		public enum mountRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_mountRule;
 
 
@@ -350,6 +365,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			@token edge_t = @token.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
 		}
+
+		static Rule_mountRule() {
+		}
 	}
 
 	public class Rule_unmountRule : GRGEN_LGSP.LGSPRulePattern
@@ -370,6 +388,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum unmountRule_VariableNums { };
 		public enum unmountRule_SubNums { };
 		public enum unmountRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_unmountRule;
 
 
@@ -454,6 +475,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.Remove(node_r);
 			return EmptyReturnElements;
 		}
+
+		static Rule_unmountRule() {
+		}
 	}
 
 	public class Rule_passRule : GRGEN_LGSP.LGSPRulePattern
@@ -478,6 +502,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum passRule_VariableNums { };
 		public enum passRule_SubNums { };
 		public enum passRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_passRule;
 
 		public static GRGEN_LIBGR.EdgeType[] passRule_neg_0_edge_req_AllowedTypes = null;
@@ -487,6 +514,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum passRule_neg_0_VariableNums { };
 		public enum passRule_neg_0_SubNums { };
 		public enum passRule_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph passRule_neg_0;
 
 
@@ -625,6 +653,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.Remove(edge__edge0);
 			return EmptyReturnElements;
 		}
+
+		static Rule_passRule() {
+		}
 	}
 
 	public class Rule_requestRule : GRGEN_LGSP.LGSPRulePattern
@@ -643,6 +674,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_VariableNums { };
 		public enum requestRule_SubNums { };
 		public enum requestRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_requestRule;
 
 		public static GRGEN_LIBGR.EdgeType[] requestRule_neg_0_edge_hb_AllowedTypes = null;
@@ -652,6 +686,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_neg_0_VariableNums { };
 		public enum requestRule_neg_0_SubNums { };
 		public enum requestRule_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph requestRule_neg_0;
 
 		public static GRGEN_LIBGR.NodeType[] requestRule_neg_1_node_m_AllowedTypes = null;
@@ -663,6 +698,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_neg_1_VariableNums { };
 		public enum requestRule_neg_1_SubNums { };
 		public enum requestRule_neg_1_AltNums { };
+
 		GRGEN_LGSP.PatternGraph requestRule_neg_1;
 
 
@@ -805,6 +841,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
+
+		static Rule_requestRule() {
+		}
 	}
 
 	public class Rule_takeRule : GRGEN_LGSP.LGSPRulePattern
@@ -827,6 +866,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum takeRule_VariableNums { };
 		public enum takeRule_SubNums { };
 		public enum takeRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_takeRule;
 
 
@@ -921,6 +963,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.Remove(edge_req);
 			return EmptyReturnElements;
 		}
+
+		static Rule_takeRule() {
+		}
 	}
 
 	public class Rule_releaseRule : GRGEN_LGSP.LGSPRulePattern
@@ -941,6 +986,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseRule_VariableNums { };
 		public enum releaseRule_SubNums { };
 		public enum releaseRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_releaseRule;
 
 		public static GRGEN_LIBGR.NodeType[] releaseRule_neg_0_node_m_AllowedTypes = null;
@@ -952,6 +1000,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseRule_neg_0_VariableNums { };
 		public enum releaseRule_neg_0_SubNums { };
 		public enum releaseRule_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph releaseRule_neg_0;
 
 
@@ -1072,6 +1121,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.Remove(edge_hb);
 			return EmptyReturnElements;
 		}
+
+		static Rule_releaseRule() {
+		}
 	}
 
 	public class Rule_giveRule : GRGEN_LGSP.LGSPRulePattern
@@ -1096,6 +1148,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum giveRule_VariableNums { };
 		public enum giveRule_SubNums { };
 		public enum giveRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_giveRule;
 
 
@@ -1190,6 +1245,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.Remove(edge_rel);
 			return EmptyReturnElements;
 		}
+
+		static Rule_giveRule() {
+		}
 	}
 
 	public class Rule_blockedRule : GRGEN_LGSP.LGSPRulePattern
@@ -1214,6 +1272,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum blockedRule_VariableNums { };
 		public enum blockedRule_SubNums { };
 		public enum blockedRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_blockedRule;
 
 
@@ -1304,6 +1365,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			@blocked edge_b = @blocked.CreateEdge(graph, node_r, node_p1);
 			return EmptyReturnElements;
 		}
+
+		static Rule_blockedRule() {
+		}
 	}
 
 	public class Rule_waitingRule : GRGEN_LGSP.LGSPRulePattern
@@ -1334,6 +1398,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum waitingRule_VariableNums { };
 		public enum waitingRule_SubNums { };
 		public enum waitingRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_waitingRule;
 
 
@@ -1458,6 +1525,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.Remove(node_r);
 			return EmptyReturnElements;
 		}
+
+		static Rule_waitingRule() {
+		}
 	}
 
 	public class Rule_ignoreRule : GRGEN_LGSP.LGSPRulePattern
@@ -1478,6 +1548,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum ignoreRule_VariableNums { };
 		public enum ignoreRule_SubNums { };
 		public enum ignoreRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_ignoreRule;
 
 		public static GRGEN_LIBGR.NodeType[] ignoreRule_neg_0_node_m_AllowedTypes = null;
@@ -1489,6 +1562,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum ignoreRule_neg_0_VariableNums { };
 		public enum ignoreRule_neg_0_SubNums { };
 		public enum ignoreRule_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph ignoreRule_neg_0;
 
 
@@ -1603,6 +1677,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.Remove(edge_b);
 			return EmptyReturnElements;
 		}
+
+		static Rule_ignoreRule() {
+		}
 	}
 
 	public class Rule_unlockRule : GRGEN_LGSP.LGSPRulePattern
@@ -1625,6 +1702,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum unlockRule_VariableNums { };
 		public enum unlockRule_SubNums { };
 		public enum unlockRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_unlockRule;
 
 
@@ -1719,6 +1799,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.Remove(edge_hb);
 			return EmptyReturnElements;
 		}
+
+		static Rule_unlockRule() {
+		}
 	}
 
 	public class Rule_requestStarRule : GRGEN_LGSP.LGSPRulePattern
@@ -1747,6 +1830,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestStarRule_VariableNums { };
 		public enum requestStarRule_SubNums { };
 		public enum requestStarRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_requestStarRule;
 
 		public static GRGEN_LIBGR.EdgeType[] requestStarRule_neg_0_edge_req_AllowedTypes = null;
@@ -1756,6 +1842,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestStarRule_neg_0_VariableNums { };
 		public enum requestStarRule_neg_0_SubNums { };
 		public enum requestStarRule_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph requestStarRule_neg_0;
 
 
@@ -1890,6 +1977,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			@request edge_req = @request.CreateEdge(graph, node_p1, node_r2);
 			return EmptyReturnElements;
 		}
+
+		static Rule_requestStarRule() {
+		}
 	}
 
 	public class Rule_releaseStarRule : GRGEN_LGSP.LGSPRulePattern
@@ -1918,6 +2008,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseStarRule_VariableNums { };
 		public enum releaseStarRule_SubNums { };
 		public enum releaseStarRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_releaseStarRule;
 
 
@@ -2022,6 +2115,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.Remove(edge_h1);
 			return EmptyReturnElements;
 		}
+
+		static Rule_releaseStarRule() {
+		}
 	}
 
 	public class Rule_requestSimpleRule : GRGEN_LGSP.LGSPRulePattern
@@ -2042,6 +2138,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestSimpleRule_VariableNums { };
 		public enum requestSimpleRule_SubNums { };
 		public enum requestSimpleRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_requestSimpleRule;
 
 		public static GRGEN_LIBGR.EdgeType[] requestSimpleRule_neg_0_edge_req_AllowedTypes = null;
@@ -2051,6 +2150,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestSimpleRule_neg_0_VariableNums { };
 		public enum requestSimpleRule_neg_0_SubNums { };
 		public enum requestSimpleRule_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph requestSimpleRule_neg_0;
 
 
@@ -2165,6 +2265,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
 			return EmptyReturnElements;
 		}
+
+		static Rule_requestSimpleRule() {
+		}
 	}
 
 	public class Rule_aux_attachResource : GRGEN_LGSP.LGSPRulePattern
@@ -2181,6 +2284,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum aux_attachResource_VariableNums { };
 		public enum aux_attachResource_SubNums { };
 		public enum aux_attachResource_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_aux_attachResource;
 
 		public static GRGEN_LIBGR.NodeType[] aux_attachResource_neg_0_node_r_AllowedTypes = null;
@@ -2192,6 +2298,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum aux_attachResource_neg_0_VariableNums { };
 		public enum aux_attachResource_neg_0_SubNums { };
 		public enum aux_attachResource_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph aux_attachResource_neg_0;
 
 
@@ -2295,6 +2402,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			graph.SettingAddedEdgeNames( aux_attachResource_addedEdgeNames );
 			@held_by edge__edge0 = @held_by.CreateEdge(graph, node_r, node_p);
 			return EmptyReturnElements;
+		}
+
+		static Rule_aux_attachResource() {
 		}
 	}
 

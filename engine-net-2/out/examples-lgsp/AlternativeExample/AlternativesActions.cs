@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Tue Oct 21 19:34:04 CEST 2008
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Fri Dec 19 20:13:58 CET 2008
 
 using System;
 using System.Collections.Generic;
@@ -28,6 +28,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum toAorB_VariableNums { };
 		public enum toAorB_SubNums { };
 		public enum toAorB_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_toAorB;
 
 		public enum toAorB_alt_0_CaseNums { @toA, @toB, };
@@ -38,6 +40,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum toAorB_alt_0_toA_VariableNums { };
 		public enum toAorB_alt_0_toA_SubNums { };
 		public enum toAorB_alt_0_toA_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph toAorB_alt_0_toA;
 
 		public static GRGEN_LIBGR.NodeType[] toAorB_alt_0_toB_node_b_AllowedTypes = null;
@@ -47,6 +51,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum toAorB_alt_0_toB_VariableNums { };
 		public enum toAorB_alt_0_toB_SubNums { };
 		public enum toAorB_alt_0_toB_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph toAorB_alt_0_toB;
 
 
@@ -224,6 +230,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			graph.RemoveEdges(node_b);
 			graph.Remove(node_b);
 		}
+
+		static Pattern_toAorB() {
+		}
 	}
 
 	public class Rule_createA : GRGEN_LGSP.LGSPRulePattern
@@ -238,6 +247,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createA_VariableNums { };
 		public enum createA_SubNums { };
 		public enum createA_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createA;
 
 
@@ -296,6 +308,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			graph.SettingAddedEdgeNames( createA_addedEdgeNames );
 			return EmptyReturnElements;
 		}
+
+		static Rule_createA() {
+		}
 	}
 
 	public class Rule_createB : GRGEN_LGSP.LGSPRulePattern
@@ -310,6 +325,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createB_VariableNums { };
 		public enum createB_SubNums { };
 		public enum createB_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createB;
 
 
@@ -368,6 +386,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			graph.SettingAddedEdgeNames( createB_addedEdgeNames );
 			return EmptyReturnElements;
 		}
+
+		static Rule_createB() {
+		}
 	}
 
 	public class Rule_createC : GRGEN_LGSP.LGSPRulePattern
@@ -382,6 +403,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createC_VariableNums { };
 		public enum createC_SubNums { };
 		public enum createC_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createC;
 
 
@@ -440,6 +464,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			graph.SettingAddedEdgeNames( createC_addedEdgeNames );
 			return EmptyReturnElements;
 		}
+
+		static Rule_createC() {
+		}
 	}
 
 	public class Rule_createAtoB : GRGEN_LGSP.LGSPRulePattern
@@ -454,6 +481,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createAtoB_VariableNums { };
 		public enum createAtoB_SubNums { };
 		public enum createAtoB_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createAtoB;
 
 
@@ -516,6 +546,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			@Edge edge__edge0 = @Edge.CreateEdge(graph, node__node0, node__node1);
 			return EmptyReturnElements;
 		}
+
+		static Rule_createAtoB() {
+		}
 	}
 
 	public class Rule_leer : GRGEN_LGSP.LGSPRulePattern
@@ -530,6 +563,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum leer_VariableNums { };
 		public enum leer_SubNums { };
 		public enum leer_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_leer;
 
 		public enum leer_alt_0_CaseNums { @altleer, };
@@ -538,6 +573,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum leer_alt_0_altleer_VariableNums { };
 		public enum leer_alt_0_altleer_SubNums { };
 		public enum leer_alt_0_altleer_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph leer_alt_0_altleer;
 
 
@@ -620,6 +657,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void leer_alt_0_altleer_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Rule_leer() {
+		}
 	}
 
 	public class Rule_AorB : GRGEN_LGSP.LGSPRulePattern
@@ -634,6 +674,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AorB_VariableNums { };
 		public enum AorB_SubNums { };
 		public enum AorB_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_AorB;
 
 		public enum AorB_alt_0_CaseNums { @A, @B, };
@@ -644,6 +686,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AorB_alt_0_A_VariableNums { };
 		public enum AorB_alt_0_A_SubNums { };
 		public enum AorB_alt_0_A_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph AorB_alt_0_A;
 
 		public static GRGEN_LIBGR.NodeType[] AorB_alt_0_B_node__node0_AllowedTypes = null;
@@ -653,6 +697,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AorB_alt_0_B_VariableNums { };
 		public enum AorB_alt_0_B_SubNums { };
 		public enum AorB_alt_0_B_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph AorB_alt_0_B;
 
 
@@ -775,6 +821,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void AorB_alt_0_B_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Rule_AorB() {
+		}
 	}
 
 	public class Rule_AandnotCorB : GRGEN_LGSP.LGSPRulePattern
@@ -789,6 +838,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AandnotCorB_VariableNums { };
 		public enum AandnotCorB_SubNums { };
 		public enum AandnotCorB_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_AandnotCorB;
 
 		public enum AandnotCorB_alt_0_CaseNums { @A, @B, };
@@ -799,6 +850,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AandnotCorB_alt_0_A_VariableNums { };
 		public enum AandnotCorB_alt_0_A_SubNums { };
 		public enum AandnotCorB_alt_0_A_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph AandnotCorB_alt_0_A;
 
 		public static GRGEN_LIBGR.NodeType[] AandnotCorB_alt_0_A_neg_0_node__node0_AllowedTypes = null;
@@ -808,6 +861,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AandnotCorB_alt_0_A_neg_0_VariableNums { };
 		public enum AandnotCorB_alt_0_A_neg_0_SubNums { };
 		public enum AandnotCorB_alt_0_A_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph AandnotCorB_alt_0_A_neg_0;
 
 		public static GRGEN_LIBGR.NodeType[] AandnotCorB_alt_0_B_node__node0_AllowedTypes = null;
@@ -817,6 +871,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AandnotCorB_alt_0_B_VariableNums { };
 		public enum AandnotCorB_alt_0_B_SubNums { };
 		public enum AandnotCorB_alt_0_B_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph AandnotCorB_alt_0_B;
 
 
@@ -965,6 +1021,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void AandnotCorB_alt_0_B_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Rule_AandnotCorB() {
+		}
 	}
 
 	public class Rule_AorBorC : GRGEN_LGSP.LGSPRulePattern
@@ -979,6 +1038,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AorBorC_VariableNums { };
 		public enum AorBorC_SubNums { };
 		public enum AorBorC_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_AorBorC;
 
 		public enum AorBorC_alt_0_CaseNums { @A, @B, @C, };
@@ -989,6 +1050,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AorBorC_alt_0_A_VariableNums { };
 		public enum AorBorC_alt_0_A_SubNums { };
 		public enum AorBorC_alt_0_A_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph AorBorC_alt_0_A;
 
 		public static GRGEN_LIBGR.NodeType[] AorBorC_alt_0_B_node__node0_AllowedTypes = null;
@@ -998,6 +1061,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AorBorC_alt_0_B_VariableNums { };
 		public enum AorBorC_alt_0_B_SubNums { };
 		public enum AorBorC_alt_0_B_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph AorBorC_alt_0_B;
 
 		public static GRGEN_LIBGR.NodeType[] AorBorC_alt_0_C_node__node0_AllowedTypes = null;
@@ -1007,6 +1072,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AorBorC_alt_0_C_VariableNums { };
 		public enum AorBorC_alt_0_C_SubNums { };
 		public enum AorBorC_alt_0_C_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph AorBorC_alt_0_C;
 
 
@@ -1163,6 +1230,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void AorBorC_alt_0_C_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Rule_AorBorC() {
+		}
 	}
 
 	public class Rule_AtoAorB : GRGEN_LGSP.LGSPRulePattern
@@ -1179,6 +1249,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AtoAorB_VariableNums { };
 		public enum AtoAorB_SubNums { };
 		public enum AtoAorB_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_AtoAorB;
 
 		public enum AtoAorB_alt_0_CaseNums { @toA, @toB, };
@@ -1191,6 +1263,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AtoAorB_alt_0_toA_VariableNums { };
 		public enum AtoAorB_alt_0_toA_SubNums { };
 		public enum AtoAorB_alt_0_toA_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph AtoAorB_alt_0_toA;
 
 		public static GRGEN_LIBGR.NodeType[] AtoAorB_alt_0_toB_node__node0_AllowedTypes = null;
@@ -1202,6 +1276,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum AtoAorB_alt_0_toB_VariableNums { };
 		public enum AtoAorB_alt_0_toB_SubNums { };
 		public enum AtoAorB_alt_0_toB_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph AtoAorB_alt_0_toB;
 
 
@@ -1350,6 +1426,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void AtoAorB_alt_0_toB_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Rule_AtoAorB() {
+		}
 	}
 
 	public class Rule_createComplex : GRGEN_LGSP.LGSPRulePattern
@@ -1364,6 +1443,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createComplex_VariableNums { };
 		public enum createComplex_SubNums { };
 		public enum createComplex_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createComplex;
 
 
@@ -1446,6 +1528,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			@Edge edge__edge6 = @Edge.CreateEdge(graph, node__node1, node__node2);
 			return EmptyReturnElements;
 		}
+
+		static Rule_createComplex() {
+		}
 	}
 
 	public class Rule_Complex : GRGEN_LGSP.LGSPRulePattern
@@ -1468,6 +1553,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum Complex_VariableNums { };
 		public enum Complex_SubNums { };
 		public enum Complex_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_Complex;
 
 		public enum Complex_alt_0_CaseNums { @ExtendAv, @ExtendAv2, @ExtendNA2, };
@@ -1490,6 +1577,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum Complex_alt_0_ExtendAv_VariableNums { };
 		public enum Complex_alt_0_ExtendAv_SubNums { };
 		public enum Complex_alt_0_ExtendAv_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph Complex_alt_0_ExtendAv;
 
 		public static GRGEN_LIBGR.NodeType[] Complex_alt_0_ExtendAv2_node_b2_AllowedTypes = null;
@@ -1515,6 +1604,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum Complex_alt_0_ExtendAv2_VariableNums { };
 		public enum Complex_alt_0_ExtendAv2_SubNums { };
 		public enum Complex_alt_0_ExtendAv2_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph Complex_alt_0_ExtendAv2;
 
 		public static GRGEN_LIBGR.NodeType[] Complex_alt_0_ExtendNA2_node__node0_AllowedTypes = null;
@@ -1536,6 +1627,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum Complex_alt_0_ExtendNA2_VariableNums { };
 		public enum Complex_alt_0_ExtendNA2_SubNums { };
 		public enum Complex_alt_0_ExtendNA2_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph Complex_alt_0_ExtendNA2;
 
 
@@ -1840,6 +1933,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void Complex_alt_0_ExtendNA2_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Rule_Complex() {
+		}
 	}
 
 	public class Rule_ComplexMax : GRGEN_LGSP.LGSPRulePattern
@@ -1862,6 +1958,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum ComplexMax_VariableNums { };
 		public enum ComplexMax_SubNums { };
 		public enum ComplexMax_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_ComplexMax;
 
 		public enum ComplexMax_alt_0_CaseNums { @ExtendAv, @ExtendAv2, @ExtendNA2, };
@@ -1884,6 +1982,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum ComplexMax_alt_0_ExtendAv_VariableNums { };
 		public enum ComplexMax_alt_0_ExtendAv_SubNums { };
 		public enum ComplexMax_alt_0_ExtendAv_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ComplexMax_alt_0_ExtendAv;
 
 		public static GRGEN_LIBGR.NodeType[] ComplexMax_alt_0_ExtendAv_neg_0_node__node0_AllowedTypes = null;
@@ -1895,6 +1995,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum ComplexMax_alt_0_ExtendAv_neg_0_VariableNums { };
 		public enum ComplexMax_alt_0_ExtendAv_neg_0_SubNums { };
 		public enum ComplexMax_alt_0_ExtendAv_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph ComplexMax_alt_0_ExtendAv_neg_0;
 
 		public static GRGEN_LIBGR.NodeType[] ComplexMax_alt_0_ExtendAv2_node_b2_AllowedTypes = null;
@@ -1920,6 +2021,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum ComplexMax_alt_0_ExtendAv2_VariableNums { };
 		public enum ComplexMax_alt_0_ExtendAv2_SubNums { };
 		public enum ComplexMax_alt_0_ExtendAv2_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ComplexMax_alt_0_ExtendAv2;
 
 		public static GRGEN_LIBGR.NodeType[] ComplexMax_alt_0_ExtendNA2_node__node0_AllowedTypes = null;
@@ -1941,6 +2044,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum ComplexMax_alt_0_ExtendNA2_VariableNums { };
 		public enum ComplexMax_alt_0_ExtendNA2_SubNums { };
 		public enum ComplexMax_alt_0_ExtendNA2_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph ComplexMax_alt_0_ExtendNA2;
 
 
@@ -2281,6 +2386,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void ComplexMax_alt_0_ExtendNA2_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Rule_ComplexMax() {
+		}
 	}
 
 	public class Rule_createABA : GRGEN_LGSP.LGSPRulePattern
@@ -2295,6 +2403,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum createABA_VariableNums { };
 		public enum createABA_SubNums { };
 		public enum createABA_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createABA;
 
 
@@ -2363,6 +2474,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			@Edge edge__edge3 = @Edge.CreateEdge(graph, node_b, node_a);
 			return EmptyReturnElements;
 		}
+
+		static Rule_createABA() {
+		}
 	}
 
 	public class Rule_homm : GRGEN_LGSP.LGSPRulePattern
@@ -2385,6 +2499,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum homm_VariableNums { };
 		public enum homm_SubNums { };
 		public enum homm_AltNums { @alt_0, };
+
+
 		GRGEN_LGSP.PatternGraph pat_homm;
 
 		public enum homm_alt_0_CaseNums { @case1, @case2, };
@@ -2399,6 +2515,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum homm_alt_0_case1_VariableNums { };
 		public enum homm_alt_0_case1_SubNums { };
 		public enum homm_alt_0_case1_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph homm_alt_0_case1;
 
 		public static GRGEN_LIBGR.NodeType[] homm_alt_0_case2_node_b2_AllowedTypes = null;
@@ -2412,6 +2530,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum homm_alt_0_case2_VariableNums { };
 		public enum homm_alt_0_case2_SubNums { };
 		public enum homm_alt_0_case2_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph homm_alt_0_case2;
 
 
@@ -2592,6 +2712,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void homm_alt_0_case2_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
 		{
 		}
+
+		static Rule_homm() {
+		}
 	}
 
 	public class Rule_XtoAorB : GRGEN_LGSP.LGSPRulePattern
@@ -2608,6 +2731,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum XtoAorB_VariableNums { };
 		public enum XtoAorB_SubNums { @_subpattern0, };
 		public enum XtoAorB_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_XtoAorB;
 
 
@@ -2667,6 +2792,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		{
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern0 = curMatch.EmbeddedGraphs[(int)XtoAorB_SubNums.@_subpattern0];
 			return EmptyReturnElements;
+		}
+
+		static Rule_XtoAorB() {
 		}
 	}
 

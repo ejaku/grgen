@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Tue Oct 21 19:34:36 CEST 2008
+// Generated from "..\..\tests\TNT\TNT.grg" on Fri Dec 19 20:14:27 CET 2008
 
 using System;
 using System.Collections.Generic;
@@ -54,6 +54,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRing_VariableNums { };
 		public enum BenzolRing_SubNums { };
 		public enum BenzolRing_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_BenzolRing;
 
 
@@ -238,6 +240,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			graph.RemoveEdges(node_c6);
 			graph.Remove(node_c6);
 		}
+
+		static Pattern_BenzolRing() {
+		}
 	}
 
 	public class Pattern_BenzolRingC123456Exposed : GRGEN_LGSP.LGSPMatchingPattern
@@ -282,6 +287,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC123456Exposed_VariableNums { };
 		public enum BenzolRingC123456Exposed_SubNums { };
 		public enum BenzolRingC123456Exposed_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_BenzolRingC123456Exposed;
 
 
@@ -442,6 +449,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			graph.Remove(edge__edge7);
 			graph.Remove(edge__edge8);
 		}
+
+		static Pattern_BenzolRingC123456Exposed() {
+		}
 	}
 
 	public class Pattern_BenzolRingC1Exposed : GRGEN_LGSP.LGSPMatchingPattern
@@ -486,6 +496,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC1Exposed_VariableNums { };
 		public enum BenzolRingC1Exposed_SubNums { };
 		public enum BenzolRingC1Exposed_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_BenzolRingC1Exposed;
 
 
@@ -666,6 +678,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			graph.RemoveEdges(node_c6);
 			graph.Remove(node_c6);
 		}
+
+		static Pattern_BenzolRingC1Exposed() {
+		}
 	}
 
 	public class Pattern_BenzolRingC1ExposedNotC6Nitro : GRGEN_LGSP.LGSPMatchingPattern
@@ -710,6 +725,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC1ExposedNotC6Nitro_VariableNums { };
 		public enum BenzolRingC1ExposedNotC6Nitro_SubNums { };
 		public enum BenzolRingC1ExposedNotC6Nitro_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_BenzolRingC1ExposedNotC6Nitro;
 
 		public static GRGEN_LIBGR.NodeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_AllowedTypes = null;
@@ -729,6 +746,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_VariableNums { };
 		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_SubNums { };
 		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph BenzolRingC1ExposedNotC6Nitro_neg_0;
 
 
@@ -965,6 +983,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			graph.RemoveEdges(node_c6);
 			graph.Remove(node_c6);
 		}
+
+		static Pattern_BenzolRingC1ExposedNotC6Nitro() {
+		}
 	}
 
 	public class Pattern_Oxygen : GRGEN_LGSP.LGSPMatchingPattern
@@ -987,6 +1008,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Oxygen_VariableNums { };
 		public enum Oxygen_SubNums { };
 		public enum Oxygen_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_Oxygen;
 
 
@@ -1076,6 +1099,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			graph.RemoveEdges(node_o2);
 			graph.Remove(node_o2);
 		}
+
+		static Pattern_Oxygen() {
+		}
 	}
 
 	public class Pattern_Hydrogen : GRGEN_LGSP.LGSPMatchingPattern
@@ -1096,6 +1122,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Hydrogen_VariableNums { };
 		public enum Hydrogen_SubNums { };
 		public enum Hydrogen_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_Hydrogen;
 
 
@@ -1172,6 +1200,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			graph.RemoveEdges(node__node0);
 			graph.Remove(node__node0);
 		}
+
+		static Pattern_Hydrogen() {
+		}
 	}
 
 	public class Pattern_Hydroxyl : GRGEN_LGSP.LGSPMatchingPattern
@@ -1196,6 +1227,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Hydroxyl_VariableNums { };
 		public enum Hydroxyl_SubNums { };
 		public enum Hydroxyl_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_Hydroxyl;
 
 
@@ -1289,6 +1322,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			graph.RemoveEdges(node__node1);
 			graph.Remove(node__node1);
 		}
+
+		static Pattern_Hydroxyl() {
+		}
 	}
 
 	public class Pattern_Methyl : GRGEN_LGSP.LGSPMatchingPattern
@@ -1321,6 +1357,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Methyl_VariableNums { };
 		public enum Methyl_SubNums { };
 		public enum Methyl_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_Methyl;
 
 
@@ -1448,6 +1486,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			graph.RemoveEdges(node__node2);
 			graph.Remove(node__node2);
 		}
+
+		static Pattern_Methyl() {
+		}
 	}
 
 	public class Pattern_Nitro : GRGEN_LGSP.LGSPMatchingPattern
@@ -1476,6 +1517,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Nitro_VariableNums { };
 		public enum Nitro_SubNums { };
 		public enum Nitro_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_Nitro;
 
 
@@ -1586,6 +1629,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			graph.RemoveEdges(node__node1);
 			graph.Remove(node__node1);
 		}
+
+		static Pattern_Nitro() {
+		}
 	}
 
 	public class Pattern_TriNitro : GRGEN_LGSP.LGSPMatchingPattern
@@ -1606,6 +1652,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TriNitro_VariableNums { };
 		public enum TriNitro_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, };
 		public enum TriNitro_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_TriNitro;
 
 
@@ -1686,6 +1734,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Pattern_Nitro.Instance.Nitro_Delete(graph, subpattern__subpattern1);
 			Pattern_Nitro.Instance.Nitro_Delete(graph, subpattern__subpattern2);
 		}
+
+		static Pattern_TriNitro() {
+		}
 	}
 
 	public class Pattern_ToluolCoreThenTriNitro : GRGEN_LGSP.LGSPMatchingPattern
@@ -1712,6 +1763,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum ToluolCoreThenTriNitro_VariableNums { };
 		public enum ToluolCoreThenTriNitro_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, };
 		public enum ToluolCoreThenTriNitro_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_ToluolCoreThenTriNitro;
 
 
@@ -1809,6 +1862,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Pattern_Hydrogen.Instance.Hydrogen_Delete(graph, subpattern__subpattern2);
 			Pattern_TriNitro.Instance.TriNitro_Delete(graph, subpattern__subpattern3);
 		}
+
+		static Pattern_ToluolCoreThenTriNitro() {
+		}
 	}
 
 	public class Rule_BenzolRing : GRGEN_LGSP.LGSPRulePattern
@@ -1823,6 +1879,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRing_VariableNums { };
 		public enum BenzolRing_SubNums { @_subpattern0, };
 		public enum BenzolRing_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_BenzolRing;
 
 
@@ -1877,6 +1935,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern0 = curMatch.EmbeddedGraphs[(int)BenzolRing_SubNums.@_subpattern0];
 			return EmptyReturnElements;
 		}
+
+		static Rule_BenzolRing() {
+		}
 	}
 
 	public class Rule_TNTTotallyFolded : GRGEN_LGSP.LGSPRulePattern
@@ -1903,6 +1964,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNTTotallyFolded_VariableNums { };
 		public enum TNTTotallyFolded_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, @_subpattern6, };
 		public enum TNTTotallyFolded_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_TNTTotallyFolded;
 
 
@@ -2007,6 +2070,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern6 = curMatch.EmbeddedGraphs[(int)TNTTotallyFolded_SubNums.@_subpattern6];
 			return EmptyReturnElements;
 		}
+
+		static Rule_TNTTotallyFolded() {
+		}
 	}
 
 	public class Rule_TNTChain : GRGEN_LGSP.LGSPRulePattern
@@ -2033,6 +2099,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNTChain_VariableNums { };
 		public enum TNTChain_SubNums { @_subpattern0, @_subpattern1, };
 		public enum TNTChain_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_TNTChain;
 
 
@@ -2117,6 +2185,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern1 = curMatch.EmbeddedGraphs[(int)TNTChain_SubNums.@_subpattern1];
 			return EmptyReturnElements;
 		}
+
+		static Rule_TNTChain() {
+		}
 	}
 
 	public class Rule_ToluolCore : GRGEN_LGSP.LGSPRulePattern
@@ -2133,6 +2204,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum ToluolCore_VariableNums { };
 		public enum ToluolCore_SubNums { @_subpattern0, @_subpattern1, };
 		public enum ToluolCore_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_ToluolCore;
 
 
@@ -2197,6 +2270,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern1 = curMatch.EmbeddedGraphs[(int)ToluolCore_SubNums.@_subpattern1];
 			return EmptyReturnElements;
 		}
+
+		static Rule_ToluolCore() {
+		}
 	}
 
 	public class Rule_ToluolCoreNotC6Nitro : GRGEN_LGSP.LGSPRulePattern
@@ -2213,6 +2289,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum ToluolCoreNotC6Nitro_VariableNums { };
 		public enum ToluolCoreNotC6Nitro_SubNums { @_subpattern0, @_subpattern1, };
 		public enum ToluolCoreNotC6Nitro_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_ToluolCoreNotC6Nitro;
 
 
@@ -2277,6 +2355,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern1 = curMatch.EmbeddedGraphs[(int)ToluolCoreNotC6Nitro_SubNums.@_subpattern1];
 			return EmptyReturnElements;
 		}
+
+		static Rule_ToluolCoreNotC6Nitro() {
+		}
 	}
 
 	public class Rule_Toluol : GRGEN_LGSP.LGSPRulePattern
@@ -2303,6 +2384,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Toluol_VariableNums { };
 		public enum Toluol_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, @_subpattern6, };
 		public enum Toluol_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_Toluol;
 
 
@@ -2407,6 +2490,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern6 = curMatch.EmbeddedGraphs[(int)Toluol_SubNums.@_subpattern6];
 			return EmptyReturnElements;
 		}
+
+		static Rule_Toluol() {
+		}
 	}
 
 	public class Rule_TNT : GRGEN_LGSP.LGSPRulePattern
@@ -2451,6 +2537,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNT_VariableNums { };
 		public enum TNT_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, };
 		public enum TNT_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_TNT;
 
 
@@ -2607,6 +2695,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern5 = curMatch.EmbeddedGraphs[(int)TNT_SubNums.@_subpattern5];
 			return EmptyReturnElements;
 		}
+
+		static Rule_TNT() {
+		}
 	}
 
 	public class Rule_TNTUnfolded : GRGEN_LGSP.LGSPRulePattern
@@ -2711,6 +2802,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNTUnfolded_VariableNums { };
 		public enum TNTUnfolded_SubNums { };
 		public enum TNTUnfolded_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_TNTUnfolded;
 
 
@@ -2993,6 +3086,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			return EmptyReturnElements;
 		}
+
+		static Rule_TNTUnfolded() {
+		}
 	}
 
 	public class Rule_createTNT : GRGEN_LGSP.LGSPRulePattern
@@ -3007,6 +3103,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum createTNT_VariableNums { };
 		public enum createTNT_SubNums { };
 		public enum createTNT_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createTNT;
 
 
@@ -3153,6 +3252,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			@Edge edge__edge23 = @Edge.CreateEdge(graph, node_n6, node__node10);
 			return EmptyReturnElements;
 		}
+
+		static Rule_createTNT() {
+		}
 	}
 
 	public class Rule_DNT : GRGEN_LGSP.LGSPRulePattern
@@ -3197,6 +3299,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum DNT_VariableNums { };
 		public enum DNT_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, };
 		public enum DNT_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_DNT;
 
 
@@ -3353,6 +3457,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern5 = curMatch.EmbeddedGraphs[(int)DNT_SubNums.@_subpattern5];
 			return EmptyReturnElements;
 		}
+
+		static Rule_DNT() {
+		}
 	}
 
 	public class Rule_DNTUnfolded : GRGEN_LGSP.LGSPRulePattern
@@ -3449,6 +3556,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum DNTUnfolded_VariableNums { };
 		public enum DNTUnfolded_SubNums { };
 		public enum DNTUnfolded_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_DNTUnfolded;
 
 
@@ -3711,6 +3820,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			return EmptyReturnElements;
 		}
+
+		static Rule_DNTUnfolded() {
+		}
 	}
 
 	public class Rule_createDNT : GRGEN_LGSP.LGSPRulePattern
@@ -3725,6 +3837,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum createDNT_VariableNums { };
 		public enum createDNT_SubNums { };
 		public enum createDNT_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createDNT;
 
 
@@ -3863,6 +3978,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			@Edge edge__edge21 = @Edge.CreateEdge(graph, node_c6, node__node9);
 			return EmptyReturnElements;
 		}
+
+		static Rule_createDNT() {
+		}
 	}
 
 	public class Rule_TNB : GRGEN_LGSP.LGSPRulePattern
@@ -3907,6 +4025,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNB_VariableNums { };
 		public enum TNB_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, };
 		public enum TNB_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_TNB;
 
 
@@ -4063,6 +4183,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.LGSPMatch subpattern__subpattern5 = curMatch.EmbeddedGraphs[(int)TNB_SubNums.@_subpattern5];
 			return EmptyReturnElements;
 		}
+
+		static Rule_TNB() {
+		}
 	}
 
 	public class Rule_TNBUnfolded : GRGEN_LGSP.LGSPRulePattern
@@ -4155,6 +4278,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNBUnfolded_VariableNums { };
 		public enum TNBUnfolded_SubNums { };
 		public enum TNBUnfolded_AltNums { };
+
+
 		GRGEN_LGSP.PatternGraph pat_TNBUnfolded;
 
 
@@ -4407,6 +4532,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			return EmptyReturnElements;
 		}
+
+		static Rule_TNBUnfolded() {
+		}
 	}
 
 	public class Rule_createTNB : GRGEN_LGSP.LGSPRulePattern
@@ -4421,6 +4549,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum createTNB_VariableNums { };
 		public enum createTNB_SubNums { };
 		public enum createTNB_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createTNB;
 
 
@@ -4555,6 +4686,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			@Edge edge__edge20 = @Edge.CreateEdge(graph, node_n6, node__node8);
 			return EmptyReturnElements;
 		}
+
+		static Rule_createTNB() {
+		}
 	}
 
 	public class Rule_keepBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
@@ -4569,6 +4703,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum keepBenzolRingPattern_VariableNums { };
 		public enum keepBenzolRingPattern_SubNums { @br, };
 		public enum keepBenzolRingPattern_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_keepBenzolRingPattern;
 
 
@@ -4629,6 +4766,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			graph.SettingAddedEdgeNames( keepBenzolRingPattern_addedEdgeNames );
 			return EmptyReturnElements;
 		}
+
+		static Rule_keepBenzolRingPattern() {
+		}
 	}
 
 	public class Rule_createBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
@@ -4643,6 +4783,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum createBenzolRingPattern_VariableNums { };
 		public enum createBenzolRingPattern_SubNums { };
 		public enum createBenzolRingPattern_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_createBenzolRingPattern;
 
 
@@ -4701,6 +4844,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Pattern_BenzolRing.Instance.BenzolRing_Create(graph);
 			return EmptyReturnElements;
 		}
+
+		static Rule_createBenzolRingPattern() {
+		}
 	}
 
 	public class Rule_deleteBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
@@ -4715,6 +4861,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum deleteBenzolRingPattern_VariableNums { };
 		public enum deleteBenzolRingPattern_SubNums { @_subpattern0, };
 		public enum deleteBenzolRingPattern_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_deleteBenzolRingPattern;
 
 
@@ -4777,6 +4926,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			Pattern_BenzolRing.Instance.BenzolRing_Delete(graph, subpattern__subpattern0);
 			return EmptyReturnElements;
 		}
+
+		static Rule_deleteBenzolRingPattern() {
+		}
 	}
 
 	public class Rule_deleteInModifyBenzolRingPattern : GRGEN_LGSP.LGSPRulePattern
@@ -4791,6 +4943,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum deleteInModifyBenzolRingPattern_VariableNums { };
 		public enum deleteInModifyBenzolRingPattern_SubNums { @br, };
 		public enum deleteInModifyBenzolRingPattern_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_deleteInModifyBenzolRingPattern;
 
 
@@ -4852,6 +5007,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			graph.SettingAddedEdgeNames( deleteInModifyBenzolRingPattern_addedEdgeNames );
 			Pattern_BenzolRing.Instance.BenzolRing_Delete(graph, subpattern_br);
 			return EmptyReturnElements;
+		}
+
+		static Rule_deleteInModifyBenzolRingPattern() {
 		}
 	}
 

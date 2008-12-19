@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Tue Oct 21 19:34:28 CEST 2008
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Fri Dec 19 20:14:20 CET 2008
 
 using System;
 using System.Collections.Generic;
@@ -30,8 +30,13 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @Node[] pool = new @Node[10];
+		
+		static @Node() {
+		}
+		
 		public @Node() : base(NodeType_Node.typeVar)
 		{
+			// implicit initialization, map/set creation of Node
 		}
 
 		public static NodeType_Node TypeInstance { get { return NodeType_Node.typeVar; } }
@@ -52,6 +57,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node);
 			return node;
@@ -68,6 +74,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -91,6 +98,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Node
 		}
 	}
 
@@ -163,8 +171,17 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @MethodBody[] pool = new @MethodBody[10];
+		
+		// explicit initializations of Entity for target MethodBody
+		// explicit initializations of MethodBody for target MethodBody
+		static @MethodBody() {
+		}
+		
 		public @MethodBody() : base(NodeType_MethodBody.typeVar)
 		{
+			// implicit initialization, map/set creation of MethodBody
+			// explicit initializations of Entity for target MethodBody
+			// explicit initializations of MethodBody for target MethodBody
 		}
 
 		public static NodeType_MethodBody TypeInstance { get { return NodeType_MethodBody.typeVar; } }
@@ -185,6 +202,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of MethodBody
+				// explicit initializations of Entity for target MethodBody
+				// explicit initializations of MethodBody for target MethodBody
 			}
 			graph.AddNode(node);
 			return node;
@@ -201,6 +221,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of MethodBody
+				// explicit initializations of Entity for target MethodBody
+				// explicit initializations of MethodBody for target MethodBody
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -224,6 +247,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of MethodBody
+			// explicit initializations of Entity for target MethodBody
+			// explicit initializations of MethodBody for target MethodBody
 		}
 	}
 
@@ -264,8 +290,17 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @Expression[] pool = new @Expression[10];
+		
+		// explicit initializations of Entity for target Expression
+		// explicit initializations of Expression for target Expression
+		static @Expression() {
+		}
+		
 		public @Expression() : base(NodeType_Expression.typeVar)
 		{
+			// implicit initialization, map/set creation of Expression
+			// explicit initializations of Entity for target Expression
+			// explicit initializations of Expression for target Expression
 		}
 
 		public static NodeType_Expression TypeInstance { get { return NodeType_Expression.typeVar; } }
@@ -286,6 +321,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Expression
+				// explicit initializations of Entity for target Expression
+				// explicit initializations of Expression for target Expression
 			}
 			graph.AddNode(node);
 			return node;
@@ -302,6 +340,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Expression
+				// explicit initializations of Entity for target Expression
+				// explicit initializations of Expression for target Expression
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -325,6 +366,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Expression
+			// explicit initializations of Entity for target Expression
+			// explicit initializations of Expression for target Expression
 		}
 	}
 
@@ -397,8 +441,19 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @Class[] pool = new @Class[10];
+		
+		// explicit initializations of Entity for target Class
+		// explicit initializations of Declaration for target Class
+		// explicit initializations of Class for target Class
+		static @Class() {
+		}
+		
 		public @Class() : base(NodeType_Class.typeVar)
 		{
+			// implicit initialization, map/set creation of Class
+			// explicit initializations of Entity for target Class
+			// explicit initializations of Declaration for target Class
+			// explicit initializations of Class for target Class
 		}
 
 		public static NodeType_Class TypeInstance { get { return NodeType_Class.typeVar; } }
@@ -419,6 +474,10 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Class
+				// explicit initializations of Entity for target Class
+				// explicit initializations of Declaration for target Class
+				// explicit initializations of Class for target Class
 			}
 			graph.AddNode(node);
 			return node;
@@ -435,6 +494,10 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Class
+				// explicit initializations of Entity for target Class
+				// explicit initializations of Declaration for target Class
+				// explicit initializations of Class for target Class
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -458,6 +521,10 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Class
+			// explicit initializations of Entity for target Class
+			// explicit initializations of Declaration for target Class
+			// explicit initializations of Class for target Class
 		}
 	}
 
@@ -530,8 +597,21 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @MethodSignature[] pool = new @MethodSignature[10];
+		
+		// explicit initializations of Entity for target MethodSignature
+		// explicit initializations of Declaration for target MethodSignature
+		// explicit initializations of Feature for target MethodSignature
+		// explicit initializations of MethodSignature for target MethodSignature
+		static @MethodSignature() {
+		}
+		
 		public @MethodSignature() : base(NodeType_MethodSignature.typeVar)
 		{
+			// implicit initialization, map/set creation of MethodSignature
+			// explicit initializations of Entity for target MethodSignature
+			// explicit initializations of Declaration for target MethodSignature
+			// explicit initializations of Feature for target MethodSignature
+			// explicit initializations of MethodSignature for target MethodSignature
 		}
 
 		public static NodeType_MethodSignature TypeInstance { get { return NodeType_MethodSignature.typeVar; } }
@@ -552,6 +632,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of MethodSignature
+				// explicit initializations of Entity for target MethodSignature
+				// explicit initializations of Declaration for target MethodSignature
+				// explicit initializations of Feature for target MethodSignature
+				// explicit initializations of MethodSignature for target MethodSignature
 			}
 			graph.AddNode(node);
 			return node;
@@ -568,6 +653,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of MethodSignature
+				// explicit initializations of Entity for target MethodSignature
+				// explicit initializations of Declaration for target MethodSignature
+				// explicit initializations of Feature for target MethodSignature
+				// explicit initializations of MethodSignature for target MethodSignature
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -591,6 +681,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of MethodSignature
+			// explicit initializations of Entity for target MethodSignature
+			// explicit initializations of Declaration for target MethodSignature
+			// explicit initializations of Feature for target MethodSignature
+			// explicit initializations of MethodSignature for target MethodSignature
 		}
 	}
 
@@ -663,8 +758,23 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @Constant[] pool = new @Constant[10];
+		
+		// explicit initializations of Entity for target Constant
+		// explicit initializations of Declaration for target Constant
+		// explicit initializations of Feature for target Constant
+		// explicit initializations of Attribute for target Constant
+		// explicit initializations of Constant for target Constant
+		static @Constant() {
+		}
+		
 		public @Constant() : base(NodeType_Constant.typeVar)
 		{
+			// implicit initialization, map/set creation of Constant
+			// explicit initializations of Entity for target Constant
+			// explicit initializations of Declaration for target Constant
+			// explicit initializations of Feature for target Constant
+			// explicit initializations of Attribute for target Constant
+			// explicit initializations of Constant for target Constant
 		}
 
 		public static NodeType_Constant TypeInstance { get { return NodeType_Constant.typeVar; } }
@@ -685,6 +795,12 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Constant
+				// explicit initializations of Entity for target Constant
+				// explicit initializations of Declaration for target Constant
+				// explicit initializations of Feature for target Constant
+				// explicit initializations of Attribute for target Constant
+				// explicit initializations of Constant for target Constant
 			}
 			graph.AddNode(node);
 			return node;
@@ -701,6 +817,12 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Constant
+				// explicit initializations of Entity for target Constant
+				// explicit initializations of Declaration for target Constant
+				// explicit initializations of Feature for target Constant
+				// explicit initializations of Attribute for target Constant
+				// explicit initializations of Constant for target Constant
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -724,6 +846,12 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Constant
+			// explicit initializations of Entity for target Constant
+			// explicit initializations of Declaration for target Constant
+			// explicit initializations of Feature for target Constant
+			// explicit initializations of Attribute for target Constant
+			// explicit initializations of Constant for target Constant
 		}
 	}
 
@@ -764,8 +892,23 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @Variabel[] pool = new @Variabel[10];
+		
+		// explicit initializations of Entity for target Variabel
+		// explicit initializations of Declaration for target Variabel
+		// explicit initializations of Feature for target Variabel
+		// explicit initializations of Attribute for target Variabel
+		// explicit initializations of Variabel for target Variabel
+		static @Variabel() {
+		}
+		
 		public @Variabel() : base(NodeType_Variabel.typeVar)
 		{
+			// implicit initialization, map/set creation of Variabel
+			// explicit initializations of Entity for target Variabel
+			// explicit initializations of Declaration for target Variabel
+			// explicit initializations of Feature for target Variabel
+			// explicit initializations of Attribute for target Variabel
+			// explicit initializations of Variabel for target Variabel
 		}
 
 		public static NodeType_Variabel TypeInstance { get { return NodeType_Variabel.typeVar; } }
@@ -786,6 +929,12 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Variabel
+				// explicit initializations of Entity for target Variabel
+				// explicit initializations of Declaration for target Variabel
+				// explicit initializations of Feature for target Variabel
+				// explicit initializations of Attribute for target Variabel
+				// explicit initializations of Variabel for target Variabel
 			}
 			graph.AddNode(node);
 			return node;
@@ -802,6 +951,12 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Variabel
+				// explicit initializations of Entity for target Variabel
+				// explicit initializations of Declaration for target Variabel
+				// explicit initializations of Feature for target Variabel
+				// explicit initializations of Attribute for target Variabel
+				// explicit initializations of Variabel for target Variabel
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -825,6 +980,12 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Variabel
+			// explicit initializations of Entity for target Variabel
+			// explicit initializations of Declaration for target Variabel
+			// explicit initializations of Feature for target Variabel
+			// explicit initializations of Attribute for target Variabel
+			// explicit initializations of Variabel for target Variabel
 		}
 	}
 
@@ -1158,9 +1319,14 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @Edge[] pool = new @Edge[10];
+		
+		static @Edge() {
+		}
+		
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_Edge.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of Edge
 		}
 
 		public static EdgeType_Edge TypeInstance { get { return EdgeType_Edge.typeVar; } }
@@ -1183,6 +1349,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1199,6 +1366,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1222,6 +1390,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Edge
 		}
 	}
 
@@ -1260,9 +1429,14 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @UEdge[] pool = new @UEdge[10];
+		
+		static @UEdge() {
+		}
+		
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_UEdge.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of UEdge
 		}
 
 		public static EdgeType_UEdge TypeInstance { get { return EdgeType_UEdge.typeVar; } }
@@ -1285,6 +1459,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1301,6 +1476,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1324,6 +1500,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of UEdge
 		}
 	}
 
@@ -1365,9 +1542,16 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @contains[] pool = new @contains[10];
+		
+		// explicit initializations of contains for target contains
+		static @contains() {
+		}
+		
 		public @contains(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_contains.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of contains
+			// explicit initializations of contains for target contains
 		}
 
 		public static EdgeType_contains TypeInstance { get { return EdgeType_contains.typeVar; } }
@@ -1390,6 +1574,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of contains
+				// explicit initializations of contains for target contains
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1406,6 +1592,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of contains
+				// explicit initializations of contains for target contains
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1429,6 +1617,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of contains
+			// explicit initializations of contains for target contains
 		}
 	}
 
@@ -1470,9 +1660,16 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @references[] pool = new @references[10];
+		
+		// explicit initializations of references for target references
+		static @references() {
+		}
+		
 		public @references(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_references.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of references
+			// explicit initializations of references for target references
 		}
 
 		public static EdgeType_references TypeInstance { get { return EdgeType_references.typeVar; } }
@@ -1495,6 +1692,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of references
+				// explicit initializations of references for target references
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1511,6 +1710,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of references
+				// explicit initializations of references for target references
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1534,6 +1735,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of references
+			// explicit initializations of references for target references
 		}
 	}
 
@@ -1575,9 +1778,18 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @hasType[] pool = new @hasType[10];
+		
+		// explicit initializations of references for target hasType
+		// explicit initializations of hasType for target hasType
+		static @hasType() {
+		}
+		
 		public @hasType(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_hasType.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of hasType
+			// explicit initializations of references for target hasType
+			// explicit initializations of hasType for target hasType
 		}
 
 		public static EdgeType_hasType TypeInstance { get { return EdgeType_hasType.typeVar; } }
@@ -1600,6 +1812,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of hasType
+				// explicit initializations of references for target hasType
+				// explicit initializations of hasType for target hasType
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1616,6 +1831,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of hasType
+				// explicit initializations of references for target hasType
+				// explicit initializations of hasType for target hasType
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1639,6 +1857,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of hasType
+			// explicit initializations of references for target hasType
+			// explicit initializations of hasType for target hasType
 		}
 	}
 
@@ -1680,9 +1901,18 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @bindsTo[] pool = new @bindsTo[10];
+		
+		// explicit initializations of references for target bindsTo
+		// explicit initializations of bindsTo for target bindsTo
+		static @bindsTo() {
+		}
+		
 		public @bindsTo(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_bindsTo.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of bindsTo
+			// explicit initializations of references for target bindsTo
+			// explicit initializations of bindsTo for target bindsTo
 		}
 
 		public static EdgeType_bindsTo TypeInstance { get { return EdgeType_bindsTo.typeVar; } }
@@ -1705,6 +1935,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of bindsTo
+				// explicit initializations of references for target bindsTo
+				// explicit initializations of bindsTo for target bindsTo
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1721,6 +1954,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of bindsTo
+				// explicit initializations of references for target bindsTo
+				// explicit initializations of bindsTo for target bindsTo
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1744,6 +1980,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of bindsTo
+			// explicit initializations of references for target bindsTo
+			// explicit initializations of bindsTo for target bindsTo
 		}
 	}
 
@@ -1785,9 +2024,18 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @uses[] pool = new @uses[10];
+		
+		// explicit initializations of references for target uses
+		// explicit initializations of uses for target uses
+		static @uses() {
+		}
+		
 		public @uses(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_uses.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of uses
+			// explicit initializations of references for target uses
+			// explicit initializations of uses for target uses
 		}
 
 		public static EdgeType_uses TypeInstance { get { return EdgeType_uses.typeVar; } }
@@ -1810,6 +2058,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of uses
+				// explicit initializations of references for target uses
+				// explicit initializations of uses for target uses
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1826,6 +2077,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of uses
+				// explicit initializations of references for target uses
+				// explicit initializations of uses for target uses
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1849,6 +2103,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of uses
+			// explicit initializations of references for target uses
+			// explicit initializations of uses for target uses
 		}
 	}
 
@@ -1890,9 +2147,18 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @writesTo[] pool = new @writesTo[10];
+		
+		// explicit initializations of references for target writesTo
+		// explicit initializations of writesTo for target writesTo
+		static @writesTo() {
+		}
+		
 		public @writesTo(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_writesTo.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of writesTo
+			// explicit initializations of references for target writesTo
+			// explicit initializations of writesTo for target writesTo
 		}
 
 		public static EdgeType_writesTo TypeInstance { get { return EdgeType_writesTo.typeVar; } }
@@ -1915,6 +2181,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of writesTo
+				// explicit initializations of references for target writesTo
+				// explicit initializations of writesTo for target writesTo
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1931,6 +2200,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of writesTo
+				// explicit initializations of references for target writesTo
+				// explicit initializations of writesTo for target writesTo
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1954,6 +2226,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of writesTo
+			// explicit initializations of references for target writesTo
+			// explicit initializations of writesTo for target writesTo
 		}
 	}
 
@@ -1995,9 +2270,18 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @calls[] pool = new @calls[10];
+		
+		// explicit initializations of references for target calls
+		// explicit initializations of calls for target calls
+		static @calls() {
+		}
+		
 		public @calls(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_calls.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of calls
+			// explicit initializations of references for target calls
+			// explicit initializations of calls for target calls
 		}
 
 		public static EdgeType_calls TypeInstance { get { return EdgeType_calls.typeVar; } }
@@ -2020,6 +2304,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of calls
+				// explicit initializations of references for target calls
+				// explicit initializations of calls for target calls
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -2036,6 +2323,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of calls
+				// explicit initializations of references for target calls
+				// explicit initializations of calls for target calls
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -2059,6 +2349,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of calls
+			// explicit initializations of references for target calls
+			// explicit initializations of calls for target calls
 		}
 	}
 
@@ -2100,9 +2393,16 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @containedInClass[] pool = new @containedInClass[10];
+		
+		// explicit initializations of containedInClass for target containedInClass
+		static @containedInClass() {
+		}
+		
 		public @containedInClass(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_containedInClass.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of containedInClass
+			// explicit initializations of containedInClass for target containedInClass
 		}
 
 		public static EdgeType_containedInClass TypeInstance { get { return EdgeType_containedInClass.typeVar; } }
@@ -2125,6 +2425,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of containedInClass
+				// explicit initializations of containedInClass for target containedInClass
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -2141,6 +2443,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of containedInClass
+				// explicit initializations of containedInClass for target containedInClass
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -2164,6 +2468,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of containedInClass
+			// explicit initializations of containedInClass for target containedInClass
 		}
 	}
 
@@ -2205,9 +2511,16 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static @containedInMethodBody[] pool = new @containedInMethodBody[10];
+		
+		// explicit initializations of containedInMethodBody for target containedInMethodBody
+		static @containedInMethodBody() {
+		}
+		
 		public @containedInMethodBody(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_containedInMethodBody.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of containedInMethodBody
+			// explicit initializations of containedInMethodBody for target containedInMethodBody
 		}
 
 		public static EdgeType_containedInMethodBody TypeInstance { get { return EdgeType_containedInMethodBody.typeVar; } }
@@ -2230,6 +2543,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of containedInMethodBody
+				// explicit initializations of containedInMethodBody for target containedInMethodBody
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -2246,6 +2561,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of containedInMethodBody
+				// explicit initializations of containedInMethodBody for target containedInMethodBody
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -2269,6 +2586,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of containedInMethodBody
+			// explicit initializations of containedInMethodBody for target containedInMethodBody
 		}
 	}
 

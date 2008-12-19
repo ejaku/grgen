@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Oct 21 19:34:10 CEST 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Fri Dec 19 20:14:07 CET 2008
 
 using System;
 using System.Collections.Generic;
@@ -32,6 +32,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum readZeroRule_VariableNums { };
 		public enum readZeroRule_SubNums { };
 		public enum readZeroRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_readZeroRule;
 
 
@@ -129,6 +132,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			ReturnArray[0] = node_wv;
 			return ReturnArray;
 		}
+
+		static Rule_readZeroRule() {
+		}
 	}
 
 	public class Rule_readOneRule : GRGEN_LGSP.LGSPRulePattern
@@ -151,6 +157,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum readOneRule_VariableNums { };
 		public enum readOneRule_SubNums { };
 		public enum readOneRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_readOneRule;
 
 
@@ -248,6 +257,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			ReturnArray[0] = node_wv;
 			return ReturnArray;
 		}
+
+		static Rule_readOneRule() {
+		}
 	}
 
 	public class Rule_ensureMoveLeftValidRule : GRGEN_LGSP.LGSPRulePattern
@@ -270,6 +282,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveLeftValidRule_VariableNums { };
 		public enum ensureMoveLeftValidRule_SubNums { };
 		public enum ensureMoveLeftValidRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_ensureMoveLeftValidRule;
 
 		public static GRGEN_LIBGR.NodeType[] ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes = null;
@@ -281,6 +296,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveLeftValidRule_neg_0_VariableNums { };
 		public enum ensureMoveLeftValidRule_neg_0_SubNums { };
 		public enum ensureMoveLeftValidRule_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph ensureMoveLeftValidRule_neg_0;
 
 
@@ -401,6 +417,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			@right edge__edge1 = @right.CreateEdge(graph, node__node1, node_bp);
 			return EmptyReturnElements;
 		}
+
+		static Rule_ensureMoveLeftValidRule() {
+		}
 	}
 
 	public class Rule_ensureMoveRightValidRule : GRGEN_LGSP.LGSPRulePattern
@@ -423,6 +442,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveRightValidRule_VariableNums { };
 		public enum ensureMoveRightValidRule_SubNums { };
 		public enum ensureMoveRightValidRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_ensureMoveRightValidRule;
 
 		public static GRGEN_LIBGR.NodeType[] ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes = null;
@@ -434,6 +456,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveRightValidRule_neg_0_VariableNums { };
 		public enum ensureMoveRightValidRule_neg_0_SubNums { };
 		public enum ensureMoveRightValidRule_neg_0_AltNums { };
+
 		GRGEN_LGSP.PatternGraph ensureMoveRightValidRule_neg_0;
 
 
@@ -554,6 +577,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			@right edge__edge1 = @right.CreateEdge(graph, node_bp, node__node1);
 			return EmptyReturnElements;
 		}
+
+		static Rule_ensureMoveRightValidRule() {
+		}
 	}
 
 	public class Rule_moveLeftRule : GRGEN_LGSP.LGSPRulePattern
@@ -580,6 +606,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum moveLeftRule_VariableNums { };
 		public enum moveLeftRule_SubNums { };
 		public enum moveLeftRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_moveLeftRule;
 
 
@@ -676,6 +705,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			ReturnArray[1] = node_lbp;
 			return ReturnArray;
 		}
+
+		static Rule_moveLeftRule() {
+		}
 	}
 
 	public class Rule_moveRightRule : GRGEN_LGSP.LGSPRulePattern
@@ -702,6 +734,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum moveRightRule_VariableNums { };
 		public enum moveRightRule_SubNums { };
 		public enum moveRightRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_moveRightRule;
 
 
@@ -797,6 +832,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			ReturnArray[0] = node_s;
 			ReturnArray[1] = node_rbp;
 			return ReturnArray;
+		}
+
+		static Rule_moveRightRule() {
 		}
 	}
 

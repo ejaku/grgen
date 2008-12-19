@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Oct 21 19:34:09 CEST 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Fri Dec 19 20:14:07 CET 2008
 
 using System;
 using System.Collections.Generic;
@@ -30,8 +30,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static @Node[] pool = new @Node[10];
+		
+		static @Node() {
+		}
+		
 		public @Node() : base(NodeType_Node.typeVar)
 		{
+			// implicit initialization, map/set creation of Node
 		}
 
 		public static NodeType_Node TypeInstance { get { return NodeType_Node.typeVar; } }
@@ -52,6 +57,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node);
 			return node;
@@ -68,6 +74,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -91,6 +98,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Node
 		}
 	}
 
@@ -132,8 +140,15 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static @BandPosition[] pool = new @BandPosition[10];
+		
+		// explicit initializations of BandPosition for target BandPosition
+		static @BandPosition() {
+		}
+		
 		public @BandPosition() : base(NodeType_BandPosition.typeVar)
 		{
+			// implicit initialization, map/set creation of BandPosition
+			// explicit initializations of BandPosition for target BandPosition
 		}
 
 		public static NodeType_BandPosition TypeInstance { get { return NodeType_BandPosition.typeVar; } }
@@ -155,7 +170,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of BandPosition
 				node.@value = 0;
+				// explicit initializations of BandPosition for target BandPosition
 			}
 			graph.AddNode(node);
 			return node;
@@ -172,7 +189,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of BandPosition
 				node.@value = 0;
+				// explicit initializations of BandPosition for target BandPosition
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -211,7 +230,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of BandPosition
 			this.@value = 0;
+			// explicit initializations of BandPosition for target BandPosition
 		}
 	}
 
@@ -279,8 +300,15 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static @State[] pool = new @State[10];
+		
+		// explicit initializations of State for target State
+		static @State() {
+		}
+		
 		public @State() : base(NodeType_State.typeVar)
 		{
+			// implicit initialization, map/set creation of State
+			// explicit initializations of State for target State
 		}
 
 		public static NodeType_State TypeInstance { get { return NodeType_State.typeVar; } }
@@ -301,6 +329,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of State
+				// explicit initializations of State for target State
 			}
 			graph.AddNode(node);
 			return node;
@@ -317,6 +347,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of State
+				// explicit initializations of State for target State
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -340,6 +372,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of State
+			// explicit initializations of State for target State
 		}
 	}
 
@@ -381,8 +415,15 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static @WriteValue[] pool = new @WriteValue[10];
+		
+		// explicit initializations of WriteValue for target WriteValue
+		static @WriteValue() {
+		}
+		
 		public @WriteValue() : base(NodeType_WriteValue.typeVar)
 		{
+			// implicit initialization, map/set creation of WriteValue
+			// explicit initializations of WriteValue for target WriteValue
 		}
 
 		public static NodeType_WriteValue TypeInstance { get { return NodeType_WriteValue.typeVar; } }
@@ -404,7 +445,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of WriteValue
 				node.@value = 0;
+				// explicit initializations of WriteValue for target WriteValue
 			}
 			graph.AddNode(node);
 			return node;
@@ -421,7 +464,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of WriteValue
 				node.@value = 0;
+				// explicit initializations of WriteValue for target WriteValue
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -460,7 +505,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of WriteValue
 			this.@value = 0;
+			// explicit initializations of WriteValue for target WriteValue
 		}
 	}
 
@@ -662,9 +709,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static @Edge[] pool = new @Edge[10];
+		
+		static @Edge() {
+		}
+		
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_Edge.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of Edge
 		}
 
 		public static EdgeType_Edge TypeInstance { get { return EdgeType_Edge.typeVar; } }
@@ -687,6 +739,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -703,6 +756,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -726,6 +780,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Edge
 		}
 	}
 
@@ -764,9 +819,14 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static @UEdge[] pool = new @UEdge[10];
+		
+		static @UEdge() {
+		}
+		
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_UEdge.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of UEdge
 		}
 
 		public static EdgeType_UEdge TypeInstance { get { return EdgeType_UEdge.typeVar; } }
@@ -789,6 +849,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -805,6 +866,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -828,6 +890,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of UEdge
 		}
 	}
 
@@ -869,9 +932,16 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static @right[] pool = new @right[10];
+		
+		// explicit initializations of right for target right
+		static @right() {
+		}
+		
 		public @right(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_right.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of right
+			// explicit initializations of right for target right
 		}
 
 		public static EdgeType_right TypeInstance { get { return EdgeType_right.typeVar; } }
@@ -894,6 +964,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of right
+				// explicit initializations of right for target right
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -910,6 +982,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of right
+				// explicit initializations of right for target right
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -933,6 +1007,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of right
+			// explicit initializations of right for target right
 		}
 	}
 
@@ -974,9 +1050,16 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static @readZero[] pool = new @readZero[10];
+		
+		// explicit initializations of readZero for target readZero
+		static @readZero() {
+		}
+		
 		public @readZero(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_readZero.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of readZero
+			// explicit initializations of readZero for target readZero
 		}
 
 		public static EdgeType_readZero TypeInstance { get { return EdgeType_readZero.typeVar; } }
@@ -999,6 +1082,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of readZero
+				// explicit initializations of readZero for target readZero
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1015,6 +1100,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of readZero
+				// explicit initializations of readZero for target readZero
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1038,6 +1125,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of readZero
+			// explicit initializations of readZero for target readZero
 		}
 	}
 
@@ -1079,9 +1168,16 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static @readOne[] pool = new @readOne[10];
+		
+		// explicit initializations of readOne for target readOne
+		static @readOne() {
+		}
+		
 		public @readOne(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_readOne.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of readOne
+			// explicit initializations of readOne for target readOne
 		}
 
 		public static EdgeType_readOne TypeInstance { get { return EdgeType_readOne.typeVar; } }
@@ -1104,6 +1200,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of readOne
+				// explicit initializations of readOne for target readOne
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1120,6 +1218,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of readOne
+				// explicit initializations of readOne for target readOne
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1143,6 +1243,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of readOne
+			// explicit initializations of readOne for target readOne
 		}
 	}
 
@@ -1184,9 +1286,16 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static @moveLeft[] pool = new @moveLeft[10];
+		
+		// explicit initializations of moveLeft for target moveLeft
+		static @moveLeft() {
+		}
+		
 		public @moveLeft(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_moveLeft.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of moveLeft
+			// explicit initializations of moveLeft for target moveLeft
 		}
 
 		public static EdgeType_moveLeft TypeInstance { get { return EdgeType_moveLeft.typeVar; } }
@@ -1209,6 +1318,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of moveLeft
+				// explicit initializations of moveLeft for target moveLeft
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1225,6 +1336,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of moveLeft
+				// explicit initializations of moveLeft for target moveLeft
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1248,6 +1361,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of moveLeft
+			// explicit initializations of moveLeft for target moveLeft
 		}
 	}
 
@@ -1289,9 +1404,16 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static @moveRight[] pool = new @moveRight[10];
+		
+		// explicit initializations of moveRight for target moveRight
+		static @moveRight() {
+		}
+		
 		public @moveRight(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_moveRight.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of moveRight
+			// explicit initializations of moveRight for target moveRight
 		}
 
 		public static EdgeType_moveRight TypeInstance { get { return EdgeType_moveRight.typeVar; } }
@@ -1314,6 +1436,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of moveRight
+				// explicit initializations of moveRight for target moveRight
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -1330,6 +1454,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of moveRight
+				// explicit initializations of moveRight for target moveRight
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -1353,6 +1479,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of moveRight
+			// explicit initializations of moveRight for target moveRight
 		}
 	}
 
