@@ -1,9 +1,10 @@
-v2.1 (2008-12-19)
+﻿v2.1 (2008-12-19)
  Features:
   - Added string methods (indexOf, lastIndexOf, length, substring, replace)
     (see frontend/should_pass/strfunc_001.grg in source release)
   - Added set<K> and map<K,V> attribute types (using value semantics)
   - Inline condition evaluation code to improve performance
+  - Const attributes are now implemented as static to improve performance
 
  GrShell:
   - Added support for set/map variables
