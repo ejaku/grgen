@@ -161,6 +161,7 @@ public class PatternGraphNode extends GraphNode {
 		boolean childs = super.checkLocal();
 
 		boolean expr = true;
+		boolean homcheck = true;
 		if (childs) {
 			for (ExprNode exp : conditions.getChildren()) {
 				if (!exp.getType().isEqual(BasicTypeNode.booleanType)) {
@@ -168,9 +169,27 @@ public class PatternGraphNode extends GraphNode {
 					expr = false;
 				}
 			}
+
+			HashSet<DeclNode> homEnts = new HashSet<DeclNode>();
+			for (HomNode hom : getHoms()) {
+				for (BaseNode m : hom.getChildren()) {
+					DeclNode decl = (DeclNode) m;
+
+					if (homEnts.contains(decl)) {
+						hom.reportError(m.toString()
+											+ " is contained in multiple hom statements");
+						homcheck = false;
+					}
+				}
+				for (BaseNode m : hom.getChildren()) {
+					DeclNode decl = (DeclNode) m;
+
+					homEnts.add(decl);
+				}
+			}
 		}
 
-		return childs && expr;
+		return childs && expr && homcheck;
 	}
 
 	/**
