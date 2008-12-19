@@ -1,5 +1,8 @@
-Very short introduction into the new features of GrGen.NET 2.0
---------------------------------------------------------------
+Very short introduction into the new features of GrGen.NET 2.1
+==============================================================
+
+Changes from 1.4 to 2.0:
+------------------------
 
 *Subpatterns:
 In addition to node declarations "Name:NodeType" and edge declarations
@@ -160,3 +163,165 @@ test foo {
 
 *Further examples are available at the examples and tests directories,
 e.g. examples/TranskriptionAbstrakt, examples/ProgramGraphs
+
+
+
+
+Changes from 2.0 to 2.1:
+------------------------
+
+*New string operations
+----------------------
+Several operations on strings in method notation have been added.
+ (examples given with n.str == "foo bar foo")
+- .length() returns length of string, as int, 
+ e.g. n.str.length()==11
+- .indexOf(strToSearchFor) returns first position the string strToSearchFor appears at, as int, -1 if not found
+ e.g. n.str.indexOf("foo")==0
+- .lastIndexOf(strToSearchFor) returns last position the string strToSearchFor appears at, as int, -1 if not found
+ e.g. n.str.lastIndexOf("foo")==8
+- .substring(startIndex, length) returns substring of given length from startIndex on
+ e.g. n.str(4,3)=="bar"
+- .replace(startIndex, length, replaceStr) return string with substring from startIndex of given length replaced by replaceStr,
+ e.g. n.str(4,3,"foo")=="foo foo foo"
+
+*New attribute types set<K> and map<K,V>
+========================================
+with K,V = boolean|int|float|double|string|enum
+with several operations on them introduced.
+(Implemented by C#-Dictionary, i.e. Hashmaps)
+
+*Changes in graph model
+-----------------------
+
+Regarding sets:
+An attribute of set type is declared like f.ex.
+funnySet:set<int>;
+Optionally, you may initialize the sets by a set initializer
+fancySet:set<string> = { "foo", "bar" };
+
+Regarding maps:
+An attribute of map type is declared like f.ex.
+funnyMap:map<int, boolean>;
+Optionally, you may initialize the maps by a map initializer
+fancyMap:map<string, int> = { "foo"->0, "bar"->1 };
+
+Further on you may declare them constant.
+
+*Changes in graph rewrite rules
+-------------------------------
+
+Regarding sets:
+
+*Assignment of sets
+n.fancySet = m.fancySet; 
+with value semantics like all the other attribute types, 
+i.e. the set is copied, changes to one set don't show up in the other set.
+The assignment is available only in the eval-block of the modify/replace-part, 
+all the other/following operations are available in the if-block of the pattern, too.
+
+*Set constructors, analogous to set initializers, they represent a base set expression
+ e.g. n.fancySet = { "foo", "bar" };
+but in contrast to set initializers, they may contain non constant values
+ e.g. n.fancySet = { n.strVal, m.strVal, n.strVal+m.strVal }
+The values must be all of the same type, if you wish implicit type casts
+you have to prefix the set constructor by the set type
+ e.g. n.fancySet = set<string>{ 42, intVal, "fool" };
+Set constructors create and return an anonymous set,
+to be written to an attribute or to be operated on by some of the following set operations:
+
+*Operations on sets, forming expressions with sets
+-Set union, intersection, difference as binary operators |,&,\
+ e.g. n.fancySet \ { "la","le","lu" };
+taking two sets of equal types and returning a new, computed set.
+Priorities | < & < \ (higher priority binds stronger, so a&b\c|d == (a&(b\c))|d)
+-Set membership in, returning whether the set contains the given element, as boolean
+ e.g. 42 in intSet  or  m.boolValue = n.stringValue in { "foo", "bar" };
+
+*Methods on sets
+.size() returns the number of elements in the set, as int
+e.g. n.fancySet.size()
+
+*Parameters of set type, can be used to hand some set in.
+(The result of assigning to the input set is undefined.)
+test bla(var varSet:set<int>) 
+{
+	n:SomeType;
+	if { n.foo in (varSet \ { n.a }); }
+}
+
+Regarding maps:
+
+*Assignment of maps
+n.fancySet = m.fancySet; 
+with value semantics like all the other attribute types, 
+i.e. the map is copied, changes to one map don't show up in the other map.
+The assignment is available only in the eval-block of the modify/replace-part, 
+all the other/following operations are available in the if-block of the pattern, too.
+
+*Map constructors, analogous to map initializers, they represent a base map expression
+ e.g. n.fancyMap = { "foo"->0, "bar"->1 };
+but in contrast to map initializers, they may contain non constant values
+ e.g. n.fancyMap = { n.strVal->m.intVal, m.strVal->n.intVal, (n.strVal+m.strVal)->(m.intVal+n.intVal) }
+The values must be all of the same type, if you wish implicit type casts 
+you have to prefix the map constructor by the map type
+ e.g. n.fancyMap = map<string,int>{ 42->42, intVal->strVal, "fool"->42 };
+Map constructors create and return an anonymous map,
+to be written to an attribute or to be operated on by some of the following map operations:
+
+*Operations on maps, forming expressions with maps
+-Map union, intersection, difference as binary operators |,&,\
+ e.g. n.fancyMap | { "la"->0,"le"->1,"lu"->2 };
+taking two maps of equal types and returning a new, computed map.
+Priorities | < & < \ (higher priority binds stronger, so a&b\c|d == (a&(b\c))|d)
+Semantics of |,&,\ on maps:
+ map1|map2 - new map with elements which are in at least one of the maps, with the value of map2 taking precedence
+ map1&map2 - new map with elements which are in both maps, with the value of map2 taking precedence
+ map1\map2 - new map with elements from map1 without the elements with a key contained in map2
+-Additionally, map<K,V> \ set<K> is allowed
+ e.g. m.fancyMap \ { "hui","buh" }  or  m.fancyMap = m.fancyMap \ n.fancySet
+-Map membership in, returning whether the map domain contains the given element, as boolean
+ e.g. 42 in intMap  or  m.boolValue = n.stringValue in { "foo"->0, "bar"->1 };
+-Map access map[key] returning value in map saved under key (value in range mapped to by given key from domain)
+ e.g. n.intVal = m.fancyMap["bla"] + 42;
+
+*Methods on maps
+- .size() returns the number of elements in the map, as int
+ e.g. n.fancyMap.size()
+- .domain() returns the set of elements in the domain of the map
+ e.g. n.fancyMap.domain(), result set<K>
+- .range() returns the set of elements in the range of the map
+ e.g. n.fancyMap.range(), result set<V>
+
+*Parameters of map type, can be used to hand some map in.
+(The result of assigning to the input map is undefined.)
+test bla(var varMap:map<int,int>) 
+{
+	n:SomeType;
+	if {  varMap[n.foo]==42; }
+}
+
+
+*Changes in GrShell
+-------------------
+
+New set commands:
+<var> = new set <type> - creates a new set of given type and assigns it to the variable
+ e.g. v = new set string
+set <setname> add <key> - adds key to set
+ e.g. set n.a add "foo"
+set <setname> remove <key> - removes key from set
+ e.g. set v remove "bar"
+set <setname> size - prints out the number of set entries
+ e.g. set n.a size
+
+New map commands:
+<var> = new map <keytype> <valuetype> - creates a new map of given types and assigns it to the variable
+ e.g. v = new map string int
+map <mapname> add <key> <value> - adds pair (key,value) to map
+ e.g. map n.a add "foo"
+map <mapname> remove <key> - removes pair (key,*) from map
+ e.g. map v remove "bar"
+map <mapname> size - prints out the number of map entries
+ e.g. map n.a size
+
