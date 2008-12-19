@@ -1,4 +1,4 @@
-GrGen.NET v2.0 (2008-07-22)
+GrGen.NET v2.1 (2008-12-19)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -96,7 +96,7 @@ For further information refer to the "GrGen.NET User Manual" available
 at http://www.grgen.net.
 
 If you find any bugs or have a suggestion, please email:
-    rubino@ipd.info.uni-karlsruhe.de
+    grgen@ipd.info.uni-karlsruhe.de
     
     
 AUTHORS

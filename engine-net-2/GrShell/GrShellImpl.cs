@@ -107,7 +107,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public static void PrintVersion()
         {
-            Console.WriteLine("GrShell version v2.0 ($Revision$)");
+            Console.WriteLine("GrShell version v2.1 ($Revision$)");
         }
 
         private bool BackendExists()

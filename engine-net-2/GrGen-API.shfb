@@ -27,12 +27,12 @@
     <Preliminary>True</Preliminary>
     <RootNamespaceContainer>False</RootNamespaceContainer>
     <RootNamespaceTitle />
-    <HelpTitle>The libGr Class Library v2.0</HelpTitle>
+    <HelpTitle>The libGr Class Library v2.1</HelpTitle>
     <HtmlHelpName>Documentation</HtmlHelpName>
     <Language>en-US</Language>
     <CopyrightHref />
     <CopyrightText />
-    <FeedbackEMailAddress>rubino at info dot ipd dot uni-karlsruhe dot de</FeedbackEMailAddress>
+    <FeedbackEMailAddress>grgen at info dot ipd dot uni-karlsruhe dot de</FeedbackEMailAddress>
     <HeaderText />
     <FooterText />
     <ProjectLinkType>Local</ProjectLinkType>
