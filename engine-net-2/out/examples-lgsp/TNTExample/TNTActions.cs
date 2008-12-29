@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Fri Dec 19 20:14:27 CET 2008
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Dec 28 14:48:04 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -115,6 +115,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[6, 6] {
@@ -349,6 +350,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
@@ -557,6 +559,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[6, 6] {
@@ -824,6 +827,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[4, 4] {
 					{ true, false, false, false, },
@@ -856,6 +860,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { BenzolRingC1ExposedNotC6Nitro_neg_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
@@ -1048,6 +1053,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1160,6 +1166,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1268,6 +1275,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
@@ -1406,6 +1414,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[5, 5] {
@@ -1563,6 +1572,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[4, 4] {
 					{ true, false, false, false, },
@@ -1692,6 +1702,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] { TriNitro__subpattern0, TriNitro__subpattern1, TriNitro__subpattern2 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -1810,6 +1821,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCoreThenTriNitro__subpattern0, ToluolCoreThenTriNitro__subpattern1, ToluolCoreThenTriNitro__subpattern2, ToluolCoreThenTriNitro__subpattern3 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
@@ -1910,6 +1922,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { BenzolRing__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,
@@ -2014,6 +2027,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { TNTTotallyFolded__subpattern0, TNTTotallyFolded__subpattern1, TNTTotallyFolded__subpattern2, TNTTotallyFolded__subpattern3, TNTTotallyFolded__subpattern4, TNTTotallyFolded__subpattern5, TNTTotallyFolded__subpattern6 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[6, 6] {
@@ -2145,6 +2159,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] { TNTChain__subpattern0, TNTChain__subpattern1 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
@@ -2240,6 +2255,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCore__subpattern0, ToluolCore__subpattern1 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
@@ -2324,6 +2340,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCoreNotC6Nitro__subpattern0, ToluolCoreNotC6Nitro__subpattern1 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
@@ -2434,6 +2451,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { Toluol__subpattern0, Toluol__subpattern1, Toluol__subpattern2, Toluol__subpattern3, Toluol__subpattern4, Toluol__subpattern5, Toluol__subpattern6 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[6, 6] {
@@ -2605,6 +2623,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { TNT__subpattern0, TNT__subpattern1, TNT__subpattern2, TNT__subpattern3, TNT__subpattern4, TNT__subpattern5 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[6, 6] {
@@ -2925,6 +2944,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[21, 21] {
 					{ true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -3134,6 +3154,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,
@@ -3367,6 +3388,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { DNT__subpattern0, DNT__subpattern1, DNT__subpattern2, DNT__subpattern3, DNT__subpattern4, DNT__subpattern5 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[6, 6] {
@@ -3671,6 +3693,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[19, 19] {
 					{ true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -3868,6 +3891,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,
@@ -4093,6 +4117,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { TNB__subpattern0, TNB__subpattern1, TNB__subpattern2, TNB__subpattern3, TNB__subpattern4, TNB__subpattern5 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[6, 6] {
@@ -4389,6 +4414,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[18, 18] {
 					{ true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -4581,6 +4607,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
@@ -4736,6 +4763,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] { keepBenzolRingPattern_br }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
@@ -4815,6 +4843,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
@@ -4893,6 +4922,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { deleteBenzolRingPattern__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,
@@ -4975,6 +5005,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { deleteInModifyBenzolRingPattern_br }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,

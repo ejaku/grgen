@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Fri Dec 19 20:14:07 CET 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Dec 28 14:47:46 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -76,6 +76,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
 				new bool[3, 3] {
@@ -201,6 +202,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
 				new bool[3, 3] {
@@ -345,6 +347,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -369,6 +372,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { ensureMoveLeftValidRule_neg_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -505,6 +509,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -529,6 +534,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { ensureMoveRightValidRule_neg_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -651,6 +657,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[4, 4] {
@@ -779,6 +786,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[4, 4] {

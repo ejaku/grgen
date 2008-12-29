@@ -1,0 +1,13 @@
+test t {
+	alternative {
+		Something {			
+			independent {		
+				independent {
+					patternpath;
+				}
+			}
+		}
+		Empty {
+		}
+	}
+}

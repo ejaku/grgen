@@ -1,0 +1,12 @@
+rule r : (Node)
+{
+	negative {
+		x:Node;
+		return (x);
+	}
+	
+	replace {
+		x:Node;
+		return (x);
+	}
+}

@@ -1,0 +1,17 @@
+rule r {
+	n1:Node -e1:Edge-> n2:Node;
+	
+	independent {
+		n2-->n3:Node;
+		
+		independent {
+			n3-->n2;
+		}
+	}
+	independent {
+		n2-->n3:Node;
+	}
+	
+	replace {
+	}
+}

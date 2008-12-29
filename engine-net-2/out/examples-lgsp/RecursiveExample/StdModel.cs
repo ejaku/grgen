@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Fri Dec 19 20:14:23 CET 2008
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Dec 28 14:48:12 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;

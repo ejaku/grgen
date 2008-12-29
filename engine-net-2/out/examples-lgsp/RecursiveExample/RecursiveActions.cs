@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Fri Dec 19 20:14:24 CET 2008
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Dec 28 14:48:13 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -96,6 +96,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -131,6 +132,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFromTo_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, true, },
@@ -157,6 +159,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFromTo_alt_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
@@ -325,6 +328,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
@@ -352,6 +356,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFrom_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -377,6 +382,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFrom_alt_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
@@ -559,6 +565,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -583,6 +590,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { ChainFromComplete_alt_0_base_neg_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
@@ -613,6 +621,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFromComplete_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -638,6 +647,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFromComplete_alt_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
@@ -823,6 +833,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -847,6 +858,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { Blowball_alt_0_end_neg_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
@@ -877,6 +889,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { Blowball_alt_0_further__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -902,6 +915,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { Blowball_alt_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
@@ -1076,6 +1090,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1111,6 +1126,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ReverseChainFromTo_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, true, },
@@ -1137,6 +1153,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ReverseChainFromTo_alt_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
@@ -1320,6 +1337,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1355,6 +1373,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFromToReverse_alt_0_rec_cftr }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, true, },
@@ -1381,6 +1400,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFromToReverse_alt_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
@@ -1680,6 +1700,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1715,6 +1736,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFromToReverseToCommon_alt_0_rec_cftrtc }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, true, },
@@ -1741,6 +1763,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFromToReverseToCommon_alt_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
@@ -2054,6 +2077,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -2096,6 +2120,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ReverseChainFromToToCommon_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[4, 4] {
 					{ true, false, false, true, },
@@ -2126,6 +2151,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ReverseChainFromToToCommon_alt_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
@@ -2278,6 +2304,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
@@ -2381,6 +2408,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFromTo__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -2464,6 +2492,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFrom__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
@@ -2545,6 +2574,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFromComplete__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
@@ -2620,6 +2650,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,
@@ -2722,6 +2753,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { blowball__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
@@ -2807,6 +2839,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { reverseChainFromTo__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -2884,6 +2917,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[0, 0] ,
@@ -2989,6 +3023,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFromToReverse_cftr }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -3084,6 +3119,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFromToReverseToCommon_cftrtc }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
@@ -3187,6 +3223,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { reverseChainFromToToCommon__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Tue Oct 21 19:34:51 CEST 2008
+// Generated from "test.grg" on Sun Dec 28 14:49:36 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -30,8 +30,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @Node[] pool = new @Node[10];
+		
+		static @Node() {
+		}
+		
 		public @Node() : base(NodeType_Node.typeVar)
 		{
+			// implicit initialization, map/set creation of Node
 		}
 
 		public static NodeType_Node TypeInstance { get { return NodeType_Node.typeVar; } }
@@ -52,6 +57,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node);
 			return node;
@@ -68,6 +74,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -91,6 +98,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Node
 		}
 	}
 
@@ -132,8 +140,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @A1[] pool = new @A1[10];
+		
+		// explicit initializations of A1 for target A1
+		static @A1() {
+		}
+		
 		public @A1() : base(NodeType_A1.typeVar)
 		{
+			// implicit initialization, map/set creation of A1
+			// explicit initializations of A1 for target A1
 		}
 
 		public static NodeType_A1 TypeInstance { get { return NodeType_A1.typeVar; } }
@@ -155,7 +170,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of A1
 				node.@a1 = 0;
+				// explicit initializations of A1 for target A1
 			}
 			graph.AddNode(node);
 			return node;
@@ -172,7 +189,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of A1
 				node.@a1 = 0;
+				// explicit initializations of A1 for target A1
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -211,7 +230,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of A1
 			this.@a1 = 0;
+			// explicit initializations of A1 for target A1
 		}
 	}
 
@@ -281,8 +302,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @A2[] pool = new @A2[10];
+		
+		// explicit initializations of A2 for target A2
+		static @A2() {
+		}
+		
 		public @A2() : base(NodeType_A2.typeVar)
 		{
+			// implicit initialization, map/set creation of A2
+			// explicit initializations of A2 for target A2
 		}
 
 		public static NodeType_A2 TypeInstance { get { return NodeType_A2.typeVar; } }
@@ -304,7 +332,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of A2
 				node.@a2 = 0;
+				// explicit initializations of A2 for target A2
 			}
 			graph.AddNode(node);
 			return node;
@@ -321,7 +351,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of A2
 				node.@a2 = 0;
+				// explicit initializations of A2 for target A2
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -360,7 +392,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of A2
 			this.@a2 = 0;
+			// explicit initializations of A2 for target A2
 		}
 	}
 
@@ -437,8 +471,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @A3[] pool = new @A3[10];
+		
+		// explicit initializations of A3 for target A3
+		static @A3() {
+		}
+		
 		public @A3() : base(NodeType_A3.typeVar)
 		{
+			// implicit initialization, map/set creation of A3
+			// explicit initializations of A3 for target A3
 		}
 
 		public static NodeType_A3 TypeInstance { get { return NodeType_A3.typeVar; } }
@@ -460,7 +501,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of A3
 				node.@a3 = 0;
+				// explicit initializations of A3 for target A3
 			}
 			graph.AddNode(node);
 			return node;
@@ -477,7 +520,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of A3
 				node.@a3 = 0;
+				// explicit initializations of A3 for target A3
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -516,7 +561,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of A3
 			this.@a3 = 0;
+			// explicit initializations of A3 for target A3
 		}
 	}
 
@@ -586,8 +633,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @A4[] pool = new @A4[10];
+		
+		// explicit initializations of A4 for target A4
+		static @A4() {
+		}
+		
 		public @A4() : base(NodeType_A4.typeVar)
 		{
+			// implicit initialization, map/set creation of A4
+			// explicit initializations of A4 for target A4
 		}
 
 		public static NodeType_A4 TypeInstance { get { return NodeType_A4.typeVar; } }
@@ -609,7 +663,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of A4
 				node.@a4 = 0;
+				// explicit initializations of A4 for target A4
 			}
 			graph.AddNode(node);
 			return node;
@@ -626,7 +682,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of A4
 				node.@a4 = 0;
+				// explicit initializations of A4 for target A4
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -665,7 +723,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of A4
 			this.@a4 = 0;
+			// explicit initializations of A4 for target A4
 		}
 	}
 
@@ -743,8 +803,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @A5[] pool = new @A5[10];
+		
+		// explicit initializations of A5 for target A5
+		static @A5() {
+		}
+		
 		public @A5() : base(NodeType_A5.typeVar)
 		{
+			// implicit initialization, map/set creation of A5
+			// explicit initializations of A5 for target A5
 		}
 
 		public static NodeType_A5 TypeInstance { get { return NodeType_A5.typeVar; } }
@@ -766,7 +833,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of A5
 				node.@a5 = 0;
+				// explicit initializations of A5 for target A5
 			}
 			graph.AddNode(node);
 			return node;
@@ -783,7 +852,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of A5
 				node.@a5 = 0;
+				// explicit initializations of A5 for target A5
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -822,7 +893,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of A5
 			this.@a5 = 0;
+			// explicit initializations of A5 for target A5
 		}
 	}
 
@@ -893,8 +966,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @B21[] pool = new @B21[10];
+		
+		// explicit initializations of A2 for target B21
+		// explicit initializations of B21 for target B21
+		static @B21() {
+		}
+		
 		public @B21() : base(NodeType_B21.typeVar)
 		{
+			// implicit initialization, map/set creation of B21
+			// explicit initializations of A2 for target B21
+			// explicit initializations of B21 for target B21
 		}
 
 		public static NodeType_B21 TypeInstance { get { return NodeType_B21.typeVar; } }
@@ -917,8 +999,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B21
 				node.@a2 = 0;
 				node.@b21 = 0;
+				// explicit initializations of A2 for target B21
+				// explicit initializations of B21 for target B21
 			}
 			graph.AddNode(node);
 			return node;
@@ -935,8 +1020,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B21
 				node.@a2 = 0;
 				node.@b21 = 0;
+				// explicit initializations of A2 for target B21
+				// explicit initializations of B21 for target B21
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -984,8 +1072,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of B21
 			this.@a2 = 0;
 			this.@b21 = 0;
+			// explicit initializations of A2 for target B21
+			// explicit initializations of B21 for target B21
 		}
 	}
 
@@ -1071,8 +1162,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @B22[] pool = new @B22[10];
+		
+		// explicit initializations of A2 for target B22
+		// explicit initializations of B22 for target B22
+		static @B22() {
+		}
+		
 		public @B22() : base(NodeType_B22.typeVar)
 		{
+			// implicit initialization, map/set creation of B22
+			// explicit initializations of A2 for target B22
+			// explicit initializations of B22 for target B22
 		}
 
 		public static NodeType_B22 TypeInstance { get { return NodeType_B22.typeVar; } }
@@ -1095,8 +1195,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B22
 				node.@a2 = 0;
 				node.@b22 = 0;
+				// explicit initializations of A2 for target B22
+				// explicit initializations of B22 for target B22
 			}
 			graph.AddNode(node);
 			return node;
@@ -1113,8 +1216,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B22
 				node.@a2 = 0;
 				node.@b22 = 0;
+				// explicit initializations of A2 for target B22
+				// explicit initializations of B22 for target B22
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -1162,8 +1268,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of B22
 			this.@a2 = 0;
 			this.@b22 = 0;
+			// explicit initializations of A2 for target B22
+			// explicit initializations of B22 for target B22
 		}
 	}
 
@@ -1249,8 +1358,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @B23[] pool = new @B23[10];
+		
+		// explicit initializations of A2 for target B23
+		// explicit initializations of B23 for target B23
+		static @B23() {
+		}
+		
 		public @B23() : base(NodeType_B23.typeVar)
 		{
+			// implicit initialization, map/set creation of B23
+			// explicit initializations of A2 for target B23
+			// explicit initializations of B23 for target B23
 		}
 
 		public static NodeType_B23 TypeInstance { get { return NodeType_B23.typeVar; } }
@@ -1273,8 +1391,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B23
 				node.@a2 = 0;
 				node.@b23 = 0;
+				// explicit initializations of A2 for target B23
+				// explicit initializations of B23 for target B23
 			}
 			graph.AddNode(node);
 			return node;
@@ -1291,8 +1412,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B23
 				node.@a2 = 0;
 				node.@b23 = 0;
+				// explicit initializations of A2 for target B23
+				// explicit initializations of B23 for target B23
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -1340,8 +1464,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of B23
 			this.@a2 = 0;
 			this.@b23 = 0;
+			// explicit initializations of A2 for target B23
+			// explicit initializations of B23 for target B23
 		}
 	}
 
@@ -1427,8 +1554,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @B41[] pool = new @B41[10];
+		
+		// explicit initializations of A4 for target B41
+		// explicit initializations of B41 for target B41
+		static @B41() {
+		}
+		
 		public @B41() : base(NodeType_B41.typeVar)
 		{
+			// implicit initialization, map/set creation of B41
+			// explicit initializations of A4 for target B41
+			// explicit initializations of B41 for target B41
 		}
 
 		public static NodeType_B41 TypeInstance { get { return NodeType_B41.typeVar; } }
@@ -1451,8 +1587,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B41
 				node.@a4 = 0;
 				node.@b41 = 0;
+				// explicit initializations of A4 for target B41
+				// explicit initializations of B41 for target B41
 			}
 			graph.AddNode(node);
 			return node;
@@ -1469,8 +1608,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B41
 				node.@a4 = 0;
 				node.@b41 = 0;
+				// explicit initializations of A4 for target B41
+				// explicit initializations of B41 for target B41
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -1518,8 +1660,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of B41
 			this.@a4 = 0;
 			this.@b41 = 0;
+			// explicit initializations of A4 for target B41
+			// explicit initializations of B41 for target B41
 		}
 	}
 
@@ -1606,8 +1751,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @B42[] pool = new @B42[10];
+		
+		// explicit initializations of A4 for target B42
+		// explicit initializations of B42 for target B42
+		static @B42() {
+		}
+		
 		public @B42() : base(NodeType_B42.typeVar)
 		{
+			// implicit initialization, map/set creation of B42
+			// explicit initializations of A4 for target B42
+			// explicit initializations of B42 for target B42
 		}
 
 		public static NodeType_B42 TypeInstance { get { return NodeType_B42.typeVar; } }
@@ -1630,8 +1784,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B42
 				node.@a4 = 0;
 				node.@b42 = 0;
+				// explicit initializations of A4 for target B42
+				// explicit initializations of B42 for target B42
 			}
 			graph.AddNode(node);
 			return node;
@@ -1648,8 +1805,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B42
 				node.@a4 = 0;
 				node.@b42 = 0;
+				// explicit initializations of A4 for target B42
+				// explicit initializations of B42 for target B42
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -1697,8 +1857,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of B42
 			this.@a4 = 0;
 			this.@b42 = 0;
+			// explicit initializations of A4 for target B42
+			// explicit initializations of B42 for target B42
 		}
 	}
 
@@ -1784,8 +1947,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @B43[] pool = new @B43[10];
+		
+		// explicit initializations of A4 for target B43
+		// explicit initializations of B43 for target B43
+		static @B43() {
+		}
+		
 		public @B43() : base(NodeType_B43.typeVar)
 		{
+			// implicit initialization, map/set creation of B43
+			// explicit initializations of A4 for target B43
+			// explicit initializations of B43 for target B43
 		}
 
 		public static NodeType_B43 TypeInstance { get { return NodeType_B43.typeVar; } }
@@ -1807,7 +1979,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B43
 				node.@a4 = 0;
+				// explicit initializations of A4 for target B43
+				// explicit initializations of B43 for target B43
 			}
 			graph.AddNode(node);
 			return node;
@@ -1824,7 +1999,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of B43
 				node.@a4 = 0;
+				// explicit initializations of A4 for target B43
+				// explicit initializations of B43 for target B43
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -1863,7 +2041,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of B43
 			this.@a4 = 0;
+			// explicit initializations of A4 for target B43
+			// explicit initializations of B43 for target B43
 		}
 	}
 
@@ -1945,8 +2126,19 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @C221[] pool = new @C221[10];
+		
+		// explicit initializations of A2 for target C221
+		// explicit initializations of B22 for target C221
+		// explicit initializations of C221 for target C221
+		static @C221() {
+		}
+		
 		public @C221() : base(NodeType_C221.typeVar)
 		{
+			// implicit initialization, map/set creation of C221
+			// explicit initializations of A2 for target C221
+			// explicit initializations of B22 for target C221
+			// explicit initializations of C221 for target C221
 		}
 
 		public static NodeType_C221 TypeInstance { get { return NodeType_C221.typeVar; } }
@@ -1970,9 +2162,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of C221
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
+				// explicit initializations of A2 for target C221
+				// explicit initializations of B22 for target C221
+				// explicit initializations of C221 for target C221
 			}
 			graph.AddNode(node);
 			return node;
@@ -1989,9 +2185,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of C221
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
+				// explicit initializations of A2 for target C221
+				// explicit initializations of B22 for target C221
+				// explicit initializations of C221 for target C221
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -2048,9 +2248,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of C221
 			this.@a2 = 0;
 			this.@b22 = 0;
 			this.@c221 = 0;
+			// explicit initializations of A2 for target C221
+			// explicit initializations of B22 for target C221
+			// explicit initializations of C221 for target C221
 		}
 	}
 
@@ -2146,8 +2350,23 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @C222_411[] pool = new @C222_411[10];
+		
+		// explicit initializations of A2 for target C222_411
+		// explicit initializations of B22 for target C222_411
+		// explicit initializations of A4 for target C222_411
+		// explicit initializations of B41 for target C222_411
+		// explicit initializations of C222_411 for target C222_411
+		static @C222_411() {
+		}
+		
 		public @C222_411() : base(NodeType_C222_411.typeVar)
 		{
+			// implicit initialization, map/set creation of C222_411
+			// explicit initializations of A2 for target C222_411
+			// explicit initializations of B22 for target C222_411
+			// explicit initializations of A4 for target C222_411
+			// explicit initializations of B41 for target C222_411
+			// explicit initializations of C222_411 for target C222_411
 		}
 
 		public static NodeType_C222_411 TypeInstance { get { return NodeType_C222_411.typeVar; } }
@@ -2173,11 +2392,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of C222_411
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@c222_411 = 0;
+				// explicit initializations of A2 for target C222_411
+				// explicit initializations of B22 for target C222_411
+				// explicit initializations of A4 for target C222_411
+				// explicit initializations of B41 for target C222_411
+				// explicit initializations of C222_411 for target C222_411
 			}
 			graph.AddNode(node);
 			return node;
@@ -2194,11 +2419,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of C222_411
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@c222_411 = 0;
+				// explicit initializations of A2 for target C222_411
+				// explicit initializations of B22 for target C222_411
+				// explicit initializations of A4 for target C222_411
+				// explicit initializations of B41 for target C222_411
+				// explicit initializations of C222_411 for target C222_411
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -2273,11 +2504,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of C222_411
 			this.@a2 = 0;
 			this.@b22 = 0;
 			this.@a4 = 0;
 			this.@b41 = 0;
 			this.@c222_411 = 0;
+			// explicit initializations of A2 for target C222_411
+			// explicit initializations of B22 for target C222_411
+			// explicit initializations of A4 for target C222_411
+			// explicit initializations of B41 for target C222_411
+			// explicit initializations of C222_411 for target C222_411
 		}
 	}
 
@@ -2409,8 +2646,25 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @C412_421_431_51[] pool = new @C412_421_431_51[10];
+		
+		// explicit initializations of A4 for target C412_421_431_51
+		// explicit initializations of B41 for target C412_421_431_51
+		// explicit initializations of B42 for target C412_421_431_51
+		// explicit initializations of B43 for target C412_421_431_51
+		// explicit initializations of A5 for target C412_421_431_51
+		// explicit initializations of C412_421_431_51 for target C412_421_431_51
+		static @C412_421_431_51() {
+		}
+		
 		public @C412_421_431_51() : base(NodeType_C412_421_431_51.typeVar)
 		{
+			// implicit initialization, map/set creation of C412_421_431_51
+			// explicit initializations of A4 for target C412_421_431_51
+			// explicit initializations of B41 for target C412_421_431_51
+			// explicit initializations of B42 for target C412_421_431_51
+			// explicit initializations of B43 for target C412_421_431_51
+			// explicit initializations of A5 for target C412_421_431_51
+			// explicit initializations of C412_421_431_51 for target C412_421_431_51
 		}
 
 		public static NodeType_C412_421_431_51 TypeInstance { get { return NodeType_C412_421_431_51.typeVar; } }
@@ -2435,10 +2689,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of C412_421_431_51
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@b42 = 0;
 				node.@a5 = 0;
+				// explicit initializations of A4 for target C412_421_431_51
+				// explicit initializations of B41 for target C412_421_431_51
+				// explicit initializations of B42 for target C412_421_431_51
+				// explicit initializations of B43 for target C412_421_431_51
+				// explicit initializations of A5 for target C412_421_431_51
+				// explicit initializations of C412_421_431_51 for target C412_421_431_51
 			}
 			graph.AddNode(node);
 			return node;
@@ -2455,10 +2716,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of C412_421_431_51
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@b42 = 0;
 				node.@a5 = 0;
+				// explicit initializations of A4 for target C412_421_431_51
+				// explicit initializations of B41 for target C412_421_431_51
+				// explicit initializations of B42 for target C412_421_431_51
+				// explicit initializations of B43 for target C412_421_431_51
+				// explicit initializations of A5 for target C412_421_431_51
+				// explicit initializations of C412_421_431_51 for target C412_421_431_51
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -2524,10 +2792,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of C412_421_431_51
 			this.@a4 = 0;
 			this.@b41 = 0;
 			this.@b42 = 0;
 			this.@a5 = 0;
+			// explicit initializations of A4 for target C412_421_431_51
+			// explicit initializations of B41 for target C412_421_431_51
+			// explicit initializations of B42 for target C412_421_431_51
+			// explicit initializations of B43 for target C412_421_431_51
+			// explicit initializations of A5 for target C412_421_431_51
+			// explicit initializations of C412_421_431_51 for target C412_421_431_51
 		}
 	}
 
@@ -2654,8 +2929,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @C432_422[] pool = new @C432_422[10];
+		
+		// explicit initializations of A4 for target C432_422
+		// explicit initializations of B43 for target C432_422
+		// explicit initializations of B42 for target C432_422
+		// explicit initializations of C432_422 for target C432_422
+		static @C432_422() {
+		}
+		
 		public @C432_422() : base(NodeType_C432_422.typeVar)
 		{
+			// implicit initialization, map/set creation of C432_422
+			// explicit initializations of A4 for target C432_422
+			// explicit initializations of B43 for target C432_422
+			// explicit initializations of B42 for target C432_422
+			// explicit initializations of C432_422 for target C432_422
 		}
 
 		public static NodeType_C432_422 TypeInstance { get { return NodeType_C432_422.typeVar; } }
@@ -2679,9 +2967,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of C432_422
 				node.@a4 = 0;
 				node.@b42 = 0;
 				node.@c432_422 = 0;
+				// explicit initializations of A4 for target C432_422
+				// explicit initializations of B43 for target C432_422
+				// explicit initializations of B42 for target C432_422
+				// explicit initializations of C432_422 for target C432_422
 			}
 			graph.AddNode(node);
 			return node;
@@ -2698,9 +2991,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of C432_422
 				node.@a4 = 0;
 				node.@b42 = 0;
 				node.@c432_422 = 0;
+				// explicit initializations of A4 for target C432_422
+				// explicit initializations of B43 for target C432_422
+				// explicit initializations of B42 for target C432_422
+				// explicit initializations of C432_422 for target C432_422
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -2757,9 +3055,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of C432_422
 			this.@a4 = 0;
 			this.@b42 = 0;
 			this.@c432_422 = 0;
+			// explicit initializations of A4 for target C432_422
+			// explicit initializations of B43 for target C432_422
+			// explicit initializations of B42 for target C432_422
+			// explicit initializations of C432_422 for target C432_422
 		}
 	}
 
@@ -2871,8 +3174,27 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @D11_2221[] pool = new @D11_2221[10];
+		
+		// explicit initializations of A1 for target D11_2221
+		// explicit initializations of A2 for target D11_2221
+		// explicit initializations of B22 for target D11_2221
+		// explicit initializations of A4 for target D11_2221
+		// explicit initializations of B41 for target D11_2221
+		// explicit initializations of C222_411 for target D11_2221
+		// explicit initializations of D11_2221 for target D11_2221
+		static @D11_2221() {
+		}
+		
 		public @D11_2221() : base(NodeType_D11_2221.typeVar)
 		{
+			// implicit initialization, map/set creation of D11_2221
+			// explicit initializations of A1 for target D11_2221
+			// explicit initializations of A2 for target D11_2221
+			// explicit initializations of B22 for target D11_2221
+			// explicit initializations of A4 for target D11_2221
+			// explicit initializations of B41 for target D11_2221
+			// explicit initializations of C222_411 for target D11_2221
+			// explicit initializations of D11_2221 for target D11_2221
 		}
 
 		public static NodeType_D11_2221 TypeInstance { get { return NodeType_D11_2221.typeVar; } }
@@ -2900,6 +3222,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of D11_2221
 				node.@a1 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -2907,6 +3230,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.@b41 = 0;
 				node.@c222_411 = 0;
 				node.@d11_2221 = 0;
+				// explicit initializations of A1 for target D11_2221
+				// explicit initializations of A2 for target D11_2221
+				// explicit initializations of B22 for target D11_2221
+				// explicit initializations of A4 for target D11_2221
+				// explicit initializations of B41 for target D11_2221
+				// explicit initializations of C222_411 for target D11_2221
+				// explicit initializations of D11_2221 for target D11_2221
 			}
 			graph.AddNode(node);
 			return node;
@@ -2923,6 +3253,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of D11_2221
 				node.@a1 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -2930,6 +3261,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.@b41 = 0;
 				node.@c222_411 = 0;
 				node.@d11_2221 = 0;
+				// explicit initializations of A1 for target D11_2221
+				// explicit initializations of A2 for target D11_2221
+				// explicit initializations of B22 for target D11_2221
+				// explicit initializations of A4 for target D11_2221
+				// explicit initializations of B41 for target D11_2221
+				// explicit initializations of C222_411 for target D11_2221
+				// explicit initializations of D11_2221 for target D11_2221
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -3022,6 +3360,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of D11_2221
 			this.@a1 = 0;
 			this.@a2 = 0;
 			this.@b22 = 0;
@@ -3029,6 +3368,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 			this.@b41 = 0;
 			this.@c222_411 = 0;
 			this.@d11_2221 = 0;
+			// explicit initializations of A1 for target D11_2221
+			// explicit initializations of A2 for target D11_2221
+			// explicit initializations of B22 for target D11_2221
+			// explicit initializations of A4 for target D11_2221
+			// explicit initializations of B41 for target D11_2221
+			// explicit initializations of C222_411 for target D11_2221
+			// explicit initializations of D11_2221 for target D11_2221
 		}
 	}
 
@@ -3184,8 +3530,29 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @D2211_2222_31[] pool = new @D2211_2222_31[10];
+		
+		// explicit initializations of A2 for target D2211_2222_31
+		// explicit initializations of B22 for target D2211_2222_31
+		// explicit initializations of C221 for target D2211_2222_31
+		// explicit initializations of A4 for target D2211_2222_31
+		// explicit initializations of B41 for target D2211_2222_31
+		// explicit initializations of C222_411 for target D2211_2222_31
+		// explicit initializations of A3 for target D2211_2222_31
+		// explicit initializations of D2211_2222_31 for target D2211_2222_31
+		static @D2211_2222_31() {
+		}
+		
 		public @D2211_2222_31() : base(NodeType_D2211_2222_31.typeVar)
 		{
+			// implicit initialization, map/set creation of D2211_2222_31
+			// explicit initializations of A2 for target D2211_2222_31
+			// explicit initializations of B22 for target D2211_2222_31
+			// explicit initializations of C221 for target D2211_2222_31
+			// explicit initializations of A4 for target D2211_2222_31
+			// explicit initializations of B41 for target D2211_2222_31
+			// explicit initializations of C222_411 for target D2211_2222_31
+			// explicit initializations of A3 for target D2211_2222_31
+			// explicit initializations of D2211_2222_31 for target D2211_2222_31
 		}
 
 		public static NodeType_D2211_2222_31 TypeInstance { get { return NodeType_D2211_2222_31.typeVar; } }
@@ -3214,6 +3581,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of D2211_2222_31
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -3222,6 +3590,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.@c222_411 = 0;
 				node.@a3 = 0;
 				node.@d2211_2222_31 = 0;
+				// explicit initializations of A2 for target D2211_2222_31
+				// explicit initializations of B22 for target D2211_2222_31
+				// explicit initializations of C221 for target D2211_2222_31
+				// explicit initializations of A4 for target D2211_2222_31
+				// explicit initializations of B41 for target D2211_2222_31
+				// explicit initializations of C222_411 for target D2211_2222_31
+				// explicit initializations of A3 for target D2211_2222_31
+				// explicit initializations of D2211_2222_31 for target D2211_2222_31
 			}
 			graph.AddNode(node);
 			return node;
@@ -3238,6 +3614,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of D2211_2222_31
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -3246,6 +3623,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.@c222_411 = 0;
 				node.@a3 = 0;
 				node.@d2211_2222_31 = 0;
+				// explicit initializations of A2 for target D2211_2222_31
+				// explicit initializations of B22 for target D2211_2222_31
+				// explicit initializations of C221 for target D2211_2222_31
+				// explicit initializations of A4 for target D2211_2222_31
+				// explicit initializations of B41 for target D2211_2222_31
+				// explicit initializations of C222_411 for target D2211_2222_31
+				// explicit initializations of A3 for target D2211_2222_31
+				// explicit initializations of D2211_2222_31 for target D2211_2222_31
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -3347,6 +3732,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of D2211_2222_31
 			this.@a2 = 0;
 			this.@b22 = 0;
 			this.@c221 = 0;
@@ -3355,6 +3741,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 			this.@c222_411 = 0;
 			this.@a3 = 0;
 			this.@d2211_2222_31 = 0;
+			// explicit initializations of A2 for target D2211_2222_31
+			// explicit initializations of B22 for target D2211_2222_31
+			// explicit initializations of C221 for target D2211_2222_31
+			// explicit initializations of A4 for target D2211_2222_31
+			// explicit initializations of B41 for target D2211_2222_31
+			// explicit initializations of C222_411 for target D2211_2222_31
+			// explicit initializations of A3 for target D2211_2222_31
+			// explicit initializations of D2211_2222_31 for target D2211_2222_31
 		}
 	}
 
@@ -3521,8 +3915,31 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @D231_4121[] pool = new @D231_4121[10];
+		
+		// explicit initializations of A2 for target D231_4121
+		// explicit initializations of B23 for target D231_4121
+		// explicit initializations of A4 for target D231_4121
+		// explicit initializations of B41 for target D231_4121
+		// explicit initializations of B42 for target D231_4121
+		// explicit initializations of B43 for target D231_4121
+		// explicit initializations of A5 for target D231_4121
+		// explicit initializations of C412_421_431_51 for target D231_4121
+		// explicit initializations of D231_4121 for target D231_4121
+		static @D231_4121() {
+		}
+		
 		public @D231_4121() : base(NodeType_D231_4121.typeVar)
 		{
+			// implicit initialization, map/set creation of D231_4121
+			// explicit initializations of A2 for target D231_4121
+			// explicit initializations of B23 for target D231_4121
+			// explicit initializations of A4 for target D231_4121
+			// explicit initializations of B41 for target D231_4121
+			// explicit initializations of B42 for target D231_4121
+			// explicit initializations of B43 for target D231_4121
+			// explicit initializations of A5 for target D231_4121
+			// explicit initializations of C412_421_431_51 for target D231_4121
+			// explicit initializations of D231_4121 for target D231_4121
 		}
 
 		public static NodeType_D231_4121 TypeInstance { get { return NodeType_D231_4121.typeVar; } }
@@ -3538,6 +3955,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of D231_4121
 				node.@a2 = 0;
 				node.@b23 = 0;
 				node.@a4 = 0;
@@ -3545,6 +3963,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.@b42 = 0;
 				node.@a5 = 0;
 				node.@d231_4121 = 0;
+				// explicit initializations of A2 for target D231_4121
+				// explicit initializations of B23 for target D231_4121
+				// explicit initializations of A4 for target D231_4121
+				// explicit initializations of B41 for target D231_4121
+				// explicit initializations of B42 for target D231_4121
+				// explicit initializations of B43 for target D231_4121
+				// explicit initializations of A5 for target D231_4121
+				// explicit initializations of C412_421_431_51 for target D231_4121
+				// explicit initializations of D231_4121 for target D231_4121
 			}
 			graph.AddNode(node);
 			return node;
@@ -3561,6 +3988,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.inhead = null;
 				node.outhead = null;
 				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of D231_4121
 				node.@a2 = 0;
 				node.@b23 = 0;
 				node.@a4 = 0;
@@ -3568,6 +3996,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.@b42 = 0;
 				node.@a5 = 0;
 				node.@d231_4121 = 0;
+				// explicit initializations of A2 for target D231_4121
+				// explicit initializations of B23 for target D231_4121
+				// explicit initializations of A4 for target D231_4121
+				// explicit initializations of B41 for target D231_4121
+				// explicit initializations of B42 for target D231_4121
+				// explicit initializations of B43 for target D231_4121
+				// explicit initializations of A5 for target D231_4121
+				// explicit initializations of C412_421_431_51 for target D231_4121
+				// explicit initializations of D231_4121 for target D231_4121
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -3618,6 +4055,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of D231_4121
 			this.@a2 = 0;
 			this.@b23 = 0;
 			this.@a4 = 0;
@@ -3625,6 +4063,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 			this.@b42 = 0;
 			this.@a5 = 0;
 			this.@d231_4121 = 0;
+			// explicit initializations of A2 for target D231_4121
+			// explicit initializations of B23 for target D231_4121
+			// explicit initializations of A4 for target D231_4121
+			// explicit initializations of B41 for target D231_4121
+			// explicit initializations of B42 for target D231_4121
+			// explicit initializations of B43 for target D231_4121
+			// explicit initializations of A5 for target D231_4121
+			// explicit initializations of C412_421_431_51 for target D231_4121
+			// explicit initializations of D231_4121 for target D231_4121
 		}
 	}
 
@@ -4303,9 +4750,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @Edge[] pool = new @Edge[10];
+		
+		static @Edge() {
+		}
+		
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_Edge.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of Edge
 		}
 
 		public static EdgeType_Edge TypeInstance { get { return EdgeType_Edge.typeVar; } }
@@ -4328,6 +4780,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -4344,6 +4797,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -4367,6 +4821,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of Edge
 		}
 	}
 
@@ -4405,9 +4860,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		private static int poolLevel = 0;
 		private static @UEdge[] pool = new @UEdge[10];
+		
+		static @UEdge() {
+		}
+		
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(EdgeType_UEdge.typeVar, source, target)
 		{
+			// implicit initialization, map/set creation of UEdge
 		}
 
 		public static EdgeType_UEdge TypeInstance { get { return EdgeType_UEdge.typeVar; } }
@@ -4430,6 +4890,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -4446,6 +4907,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.source = source;
 				edge.target = target;
+				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -4469,6 +4931,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
+			// implicit initialization, map/set creation of UEdge
 		}
 	}
 

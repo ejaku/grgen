@@ -1,0 +1,7 @@
+rule negTest
+{
+	replace {
+		independent {
+		}
+	}
+}

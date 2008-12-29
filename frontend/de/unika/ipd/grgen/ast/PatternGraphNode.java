@@ -49,14 +49,16 @@ public class PatternGraphNode extends GraphNode {
 	public static final int MOD_DPO = 1;
 	public static final int MOD_EXACT = 2;
 	public static final int MOD_INDUCED = 4;
-	public static final int MOD_INDEPENDENT = 8;
+	public static final int MOD_PATTERN_LOCKED = 8;
+	public static final int MOD_PATTERNPATH_LOCKED = 16;
 
 	/** The modifiers for this type. An ORed combination of the constants above. */
 	private int modifiers = 0;
 
 	CollectNode<ExprNode> conditions;
 	CollectNode<AlternativeNode> alts;
-	CollectNode<PatternGraphNode> negs;
+	CollectNode<PatternGraphNode> negs; // NACs
+	CollectNode<PatternGraphNode> idpts; // PACs
 	CollectNode<HomNode> homs;
 	CollectNode<ExactNode> exact;
 	CollectNode<InducedNode> induced;
@@ -100,14 +102,17 @@ public class PatternGraphNode extends GraphNode {
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
 			CollectNode<SubpatternUsageNode> subpatterns,
 			CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<AlternativeNode> alts,
-			CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> conditions,
-			CollectNode<ExprNode> returns, CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
+			CollectNode<PatternGraphNode> negs, CollectNode<PatternGraphNode> idpts,
+			CollectNode<ExprNode> conditions, CollectNode<ExprNode> returns,
+			CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
 			CollectNode<InducedNode> induced, int modifiers, int context) {
 		super(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, returns, null, context);
 		this.alts = alts;
 		becomeParent(this.alts);
 		this.negs = negs;
 		becomeParent(this.negs);
+		this.idpts = idpts;
+		becomeParent(this.idpts);
 		this.conditions = conditions;
 		becomeParent(this.conditions);
 		this.homs = homs;
@@ -128,6 +133,7 @@ public class PatternGraphNode extends GraphNode {
 		children.add(subpatternReplacements);
 		children.add(alts);
 		children.add(negs);
+		children.add(idpts);
 		children.add(returns);
 		children.add(conditions);
 		children.add(homs);
@@ -145,6 +151,7 @@ public class PatternGraphNode extends GraphNode {
 		childrenNames.add("subpatternReplacements");
 		childrenNames.add("alternatives");
 		childrenNames.add("negatives");
+		childrenNames.add("independents");
 		childrenNames.add("return");
 		childrenNames.add("conditions");
 		childrenNames.add("homs");
@@ -189,7 +196,24 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		return childs && expr && homcheck;
+		boolean patternPathOnlyInPattern = true;
+		if((context & CONTEXT_ACTION_OR_PATTERN) == CONTEXT_ACTION) {
+			if((modifiers & MOD_PATTERNPATH_LOCKED) == MOD_PATTERNPATH_LOCKED) {
+				reportError("pattern path only available in pattern (subpattern/subrule)");
+				patternPathOnlyInPattern = false;
+			}
+		}
+
+		boolean noReturnInNegOrIdpt = true;
+		if((context & CONTEXT_NEGATIVE) == CONTEXT_NEGATIVE 
+			|| (context & CONTEXT_INDEPENDENT) == CONTEXT_INDEPENDENT) {
+			if(returns.size()!=0) {
+				reportError("return not allowed in negative or independent block");
+				noReturnInNegOrIdpt = false;
+			}
+		}
+
+		return childs && expr && homcheck && patternPathOnlyInPattern && noReturnInNegOrIdpt;
 	}
 
 	/**
@@ -230,7 +254,7 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	protected IR constructIR() {
-		PatternGraph gr = new PatternGraph(nameOfGraph, (modifiers&MOD_INDEPENDENT)==MOD_INDEPENDENT);
+		PatternGraph gr = new PatternGraph(nameOfGraph, modifiers);
 
 		// mark this node as already visited
 		setIR(gr);
@@ -362,6 +386,12 @@ public class PatternGraphNode extends GraphNode {
 		for (PatternGraphNode pgn : negs.getChildren()) {
 			PatternGraph neg = pgn.getPatternGraph();
 			gr.addNegGraph(neg);
+		}
+		
+		// add independent parts to the IR
+		for (PatternGraphNode pgn : idpts.getChildren()) {
+			PatternGraph idpt = pgn.getPatternGraph();
+			gr.addIdptGraph(idpt);
 		}
 
 		return gr;
@@ -700,7 +730,7 @@ public class PatternGraphNode extends GraphNode {
 				Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
 				Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 				Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getCorrespondentHomSet(singleNodeNegNode));
-				PatternGraph neg = new PatternGraph(nameOfGraph, false);
+				PatternGraph neg = new PatternGraph(nameOfGraph, 0);
 
 				// add edges to NAC
 				for (ConnectionNode conn : edgeSet) {
@@ -861,7 +891,7 @@ public class PatternGraphNode extends GraphNode {
 			Set<ConnectionNode> edgeSet = doubleNodeNegMap.get(key);
 			edgeSet.addAll(doubleNodeNegMap.get(key2));
 
-			PatternGraph neg = new PatternGraph(nameOfGraph, false);
+			PatternGraph neg = new PatternGraph(nameOfGraph, 0);
 
 			// add edges to the NAC
 			for (ConnectionNode conn : edgeSet) {

@@ -48,7 +48,9 @@ public abstract class BaseNode extends Base
 	public static final int CONTEXT_TEST_OR_RULE = 1<<2; // only valid if CONTEXT_ACTION
 	public static final int CONTEXT_TEST = 0<<2;
 	public static final int CONTEXT_RULE = 1<<2;
-
+	public static final int CONTEXT_NEGATIVE = 1<<3;
+	public static final int CONTEXT_INDEPENDENT = 1<<4;
+	
 	/**
 	 * AST global name map, that maps from Class to String.
 	 * Needed as in some situations only the class object itself is available

@@ -12,6 +12,7 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ast.PatternGraphNode; // for the MOD_... - constants
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,8 +32,11 @@ public class PatternGraph extends Graph {
 	/** The alternative statements of the pattern graph */
 	private final Collection<Alternative> alts = new LinkedList<Alternative>();
 
-	/** The NAC part of the rule. */
+	/** The negative patterns(NAC) of the rule. */
 	private final Collection<PatternGraph> negs = new LinkedList<PatternGraph>();
+
+	/** The independent patterns(PAC) of the rule. */
+	private final Collection<PatternGraph> idpts = new LinkedList<PatternGraph>();
 
 	/** A list of all condition expressions. */
 	private final List<Expression> conds = new LinkedList<Expression>();
@@ -53,15 +57,14 @@ public class PatternGraph extends Graph {
 
 	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
 
-	/** if graph is a subpattern or a negative this member tells us whether
-	 *  it should be matched independent from already matched enclosing subpatterns*/
-	boolean isIndependent;
+	/** modifiers of pattern as defined in PatternGraphNode, only pattern locked, pattern path locked relevant */
+	int modifiers;
 
 
 	/** Make a new pattern graph. */
-	public PatternGraph(String nameOfGraph, boolean isIndependent) {
+	public PatternGraph(String nameOfGraph, int modifiers) {
 		super(nameOfGraph);
-		this.isIndependent = isIndependent;
+		this.modifiers = modifiers;
 	}
 
 	public void addImperativeStmt(ImperativeStmt emit) {
@@ -94,9 +97,20 @@ public class PatternGraph extends Graph {
 		negs.add(neg);
 	}
 
-	/** @return The NAC graphs of the rule. */
+	/** @return The negative graphs of the rule. */
 	public Collection<PatternGraph> getNegs() {
 		return Collections.unmodifiableCollection(negs);
+	}
+
+	public void addIdptGraph(PatternGraph idpt) {
+		int patternNameNumber = idpts.size();
+		idpt.setName("I" + patternNameNumber);
+		idpts.add(idpt);
+	}
+
+	/** @return The independent graphs of the rule. */
+	public Collection<PatternGraph> getIdpts() {
+		return Collections.unmodifiableCollection(idpts);
 	}
 
 	/** Add a condition given by it's expression expr to the graph. */
@@ -184,10 +198,56 @@ public class PatternGraph extends Graph {
 		return alreadyDefinedEntityToName.containsKey(e1) != alreadyDefinedEntityToName.containsKey(e2);
 	}
 
-	public boolean isIndependent() {
-		return isIndependent;
+	public boolean isPatternpathLocked() {
+		return (modifiers&PatternGraphNode.MOD_PATTERNPATH_LOCKED)==PatternGraphNode.MOD_PATTERNPATH_LOCKED;
 	}
 
+	public void resolvePatternLockedModifier() {
+		// in pre-order walk: add all elements of parent to child if child requests so by pattern locked modifier
+		
+		// if nested negative requests so, add all of our elements to it
+		for (PatternGraph negative : getNegs()) {
+			if((negative.modifiers&PatternGraphNode.MOD_PATTERN_LOCKED)!=PatternGraphNode.MOD_PATTERN_LOCKED)
+				continue;
+			
+			for(Node node : getNodes()) {
+				if(!negative.hasNode(node)) {
+					negative.addSingleNode(node);
+				}
+			}
+			for(Edge edge : getEdges()) {
+				if(!negative.hasEdge(edge)) {
+					negative.addSingleEdge(edge); // TODO: maybe we loose context here
+				}
+			}
+		}
+		
+		// if nested independent requests so, add all of our elements to it
+		for (PatternGraph independent : getIdpts()) {
+			if((independent.modifiers&PatternGraphNode.MOD_PATTERN_LOCKED)!=PatternGraphNode.MOD_PATTERN_LOCKED)
+				continue;
+			
+			for(Node node : getNodes()) {
+				if(!independent.hasNode(node)) {
+					independent.addSingleNode(node);
+				}
+			}
+			for(Edge edge : getEdges()) {
+				if(!independent.hasEdge(edge)) {
+					independent.addSingleEdge(edge); // TODO: maybe we loose context here
+				}
+			}
+		}
+		
+		// recursive descend
+		for (PatternGraph negative : getNegs()) {
+			negative.resolvePatternLockedModifier();
+		}
+		for (PatternGraph independent : getIdpts()) {
+			independent.resolvePatternLockedModifier();
+		}
+	}
+	
 	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 			HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges) {
 		///////////////////////////////////////////////////////////////////////////////
@@ -216,6 +276,13 @@ public class PatternGraph extends Graph {
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			negative.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+					alreadyDefinedNodesClone, alreadyDefinedEdgesClone);
+		}
+		
+		for (PatternGraph independent : getIdpts()) {
+			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
+			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
+			independent.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodesClone, alreadyDefinedEdgesClone);
 		}
 
@@ -262,6 +329,23 @@ public class PatternGraph extends Graph {
 				}
 			}
 			for(Edge edge : negative.getEdges()) {
+				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
+					addSingleEdge(edge); // TODO: maybe we loose context here
+					addHomToAll(edge);
+				}
+			}
+		}
+		
+		// add elements needed in nested idpt, which are not defined there and are neither defined nor used here
+		// they must get handed down as preset from the defining nesting pattern to here
+		for (PatternGraph independent : getIdpts()) {
+			for(Node node : independent.getNodes()) {
+				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
+					addSingleNode(node);
+					addHomToAll(node);
+				}
+			}
+			for(Edge edge : independent.getEdges()) {
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 					addSingleEdge(edge); // TODO: maybe we loose context here
 					addHomToAll(edge);

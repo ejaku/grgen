@@ -1,0 +1,8 @@
+rule r {
+	negative {
+	}
+	
+	replace {
+	}
+}
+

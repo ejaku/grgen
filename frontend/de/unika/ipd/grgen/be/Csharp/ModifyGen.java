@@ -272,7 +272,7 @@ public class ModifyGen extends CSharpBase {
 				// create subpattern into pattern
 				ModifyGenerationTask task = new ModifyGenerationTask();
 				task.typeOfTask = TYPE_OF_TASK_CREATION;
-				task.left = new PatternGraph(rule.getLeft().getNameOfGraph(), false); // empty graph
+				task.left = new PatternGraph(rule.getLeft().getNameOfGraph(), 0); // empty graph
 				task.right = rule.getLeft();
 				task.parameters = rule.getParameters();
 				task.evals = emptyEvals;
@@ -297,7 +297,7 @@ public class ModifyGen extends CSharpBase {
 			ModifyGenerationTask task = new ModifyGenerationTask();
 			task.typeOfTask = TYPE_OF_TASK_DELETION;
 			task.left = rule.getLeft();
-			task.right = new PatternGraph(rule.getLeft().getNameOfGraph(), false); // empty graph
+			task.right = new PatternGraph(rule.getLeft().getNameOfGraph(), 0); // empty graph
 			task.parameters = rule.getParameters();
 			task.evals = emptyEvals;
 			task.replParameters = emptyParameters;

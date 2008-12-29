@@ -294,7 +294,8 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// Representation of the pattern to search for, 
-    /// containing nested alternative and negative-patterns, plus references to the rules of the used subpatterns.
+    /// containing nested alternative, negative, and independent-patterns, 
+    /// plus references to the rules of the used subpatterns.
     /// Accessible via IPatternGraph as meta information to the user about the matching action.
     /// Skeleton data structure for the matcher generation pipeline which stores intermediate results here, 
     /// which saves us from representing the nesting structure again and again in the pipeline's data structures
@@ -376,6 +377,12 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternGraph[] NegativePatternGraphs { get { return negativePatternGraphs; } }
 
         /// <summary>
+        /// An array of independent pattern graphs which must get matched in addition to the main pattern
+        /// (PACs - Positive Application Conditions).
+        /// </summary>
+        public IPatternGraph[] IndependentPatternGraphs { get { return independentPatternGraphs; } }
+
+        /// <summary>
         /// The pattern graph which contains this pattern graph, null if this is a top-level-graph
         /// </summary>
         public IPatternGraph EmbeddingGraph { get { return embeddingGraph; } }
@@ -393,7 +400,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// NIY
         /// </summary>
-        public bool isIndependent;
+        public bool isPatternpathLocked;
 
         /// <summary>
         /// An array of all pattern nodes.
@@ -497,6 +504,12 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph[] negativePatternGraphs;
 
         /// <summary>
+        /// An array of independent pattern graphs which must get matched in addition to the main pattern
+        /// (PACs - Positive Application Conditions).
+        /// </summary>
+        public PatternGraph[] independentPatternGraphs;
+
+        /// <summary>
         /// The pattern graph which contains this pattern graph, null if this is a top-level-graph 
         /// </summary>
         public PatternGraph embeddingGraph;
@@ -521,7 +534,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="name">The name of the pattern graph.</param>
         /// <param name="pathPrefix">Prefix for name from nesting path.</param>
-        /// <param name="isIndependent">NIY</param>
+        /// <param name="isPatternpathLocked">NIY</param>
         /// <param name="nodes">An array of all pattern nodes.</param>
         /// <param name="edges">An array of all pattern edges.</param>
         /// <param name="variables">An array of all pattern variables.</param>
@@ -542,22 +555,24 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="homomorphicEdgesGlobal">A two-dimensional array describing which pattern edge
         /// may be matched non-isomorphic to which pattern edge globally, i.e. the edges are contained
         /// in different, but locally nested patterns (alternative cases).</param>
-        public PatternGraph(String name, String pathPrefix, bool isIndependent,
+        public PatternGraph(String name, String pathPrefix, bool isPatternpathLocked,
             PatternNode[] nodes, PatternEdge[] edges, PatternVariable[] variables,
             PatternGraphEmbedding[] embeddedGraphs, Alternative[] alternatives, 
-            PatternGraph[] negativePatternGraphs, PatternCondition[] conditions,
+            PatternGraph[] negativePatternGraphs, PatternGraph[] independentPatternGraphs,
+            PatternCondition[] conditions,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
             bool[,] homomorphicNodesGlobal, bool[,] homomorphicEdgesGlobal)
         {
             this.name = name;
             this.pathPrefix = pathPrefix;
-            this.isIndependent = isIndependent;
+            this.isPatternpathLocked = isPatternpathLocked;
             this.nodes = nodes;
             this.edges = edges;
             this.variables = variables;
             this.embeddedGraphs = embeddedGraphs;
             this.alternatives = alternatives;
             this.negativePatternGraphs = negativePatternGraphs;
+            this.independentPatternGraphs = independentPatternGraphs;
             this.Conditions = conditions;
             this.homomorphicNodes = homomorphicNodes;
             this.homomorphicEdges = homomorphicEdges;

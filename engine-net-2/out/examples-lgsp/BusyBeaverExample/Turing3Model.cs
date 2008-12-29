@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Fri Dec 19 20:14:07 CET 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Dec 28 14:47:45 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;

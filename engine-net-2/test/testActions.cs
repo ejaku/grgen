@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Tue Oct 21 19:34:51 CEST 2008
+// Generated from "test.grg" on Sun Dec 28 14:49:37 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -34,6 +34,9 @@ namespace de.unika.ipd.grGen.Action_test
 		public enum testRule_VariableNums { };
 		public enum testRule_SubNums { };
 		public enum testRule_AltNums { };
+
+
+
 		GRGEN_LGSP.PatternGraph pat_testRule;
 
 
@@ -74,6 +77,7 @@ namespace de.unika.ipd.grGen.Action_test
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
@@ -153,6 +157,9 @@ namespace de.unika.ipd.grGen.Action_test
 			graph.ChangingNodeAttribute(node_mre, NodeType_D11_2221.AttributeType_d11_2221, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
 			inode_mre.@d11_2221 = tempvar_i;
 			return EmptyReturnElements;
+		}
+
+		static Rule_testRule() {
 		}
 	}
 

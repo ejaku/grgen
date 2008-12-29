@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Fri Dec 19 20:14:17 CET 2008
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Dec 28 14:47:56 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -69,6 +69,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
@@ -202,6 +203,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -329,6 +331,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
@@ -427,6 +430,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
@@ -564,6 +568,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -588,6 +593,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { passRule_neg_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -741,6 +747,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -774,6 +781,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -798,6 +806,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { requestRule_neg_0, requestRule_neg_1,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -907,6 +916,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
@@ -1047,6 +1057,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1071,6 +1082,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { releaseRule_neg_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1191,6 +1203,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
@@ -1315,6 +1328,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[3, 3] {
@@ -1447,6 +1461,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[5, 5] {
@@ -1609,6 +1624,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1633,6 +1649,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { ignoreRule_neg_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1743,6 +1760,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
@@ -1896,6 +1914,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1920,6 +1939,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { requestStarRule_neg_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[4, 4] {
 					{ true, false, false, false, },
@@ -2055,6 +2075,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[4, 4] {
@@ -2196,6 +2217,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -2220,6 +2242,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { requestSimpleRule_neg_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -2340,6 +2363,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -2364,6 +2388,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { aux_attachResource_neg_0,  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
 				new bool[1, 1] {
 					{ true, },

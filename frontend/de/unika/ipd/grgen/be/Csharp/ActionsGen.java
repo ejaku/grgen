@@ -213,6 +213,16 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		i = 0;
+		for(PatternGraph idpt : pattern.getIdpts()) {
+			String idptName = "idpt_" + i;
+			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
+			genRuleOrSubpatternClassEntities(sb, idpt, pathPrefixForElements+idptName, staticInitializers,
+					pathPrefixForElements + idptName + "_",
+					alreadyDefinedEntityToNameClone);
+			++i;
+		}
+
+		i = 0;
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = "alt_" + i;
 			genCaseEnum(sb, alt, pathPrefixForElements+altName+"_");
@@ -244,6 +254,16 @@ public class ActionsGen extends CSharpBase {
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			genRuleOrSubpatternClassEntities(sb, neg, pathPrefixForElements+negName, staticInitializers,
 					pathPrefixForElements + negName + "_",
+					alreadyDefinedEntityToNameClone);
+			++i;
+		}
+
+		i = 0;
+		for(PatternGraph idpt : pattern.getIdpts()) {
+			String idptName = "idpt_" + i;
+			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
+			genRuleOrSubpatternClassEntities(sb, idpt, pathPrefixForElements+idptName, staticInitializers,
+					pathPrefixForElements + idptName + "_",
 					alreadyDefinedEntityToNameClone);
 			++i;
 		}
@@ -589,7 +609,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t" + patGraphVarName + " = new GRGEN_LGSP.PatternGraph(\n");
 		sb.append("\t\t\t\t\"" + patternName + "\",\n");
 		sb.append("\t\t\t\t\"" + pathPrefix + "\",\n");
-		sb.append("\t\t\t\t" + (pattern.isIndependent() ? "true" : "false") + ",\n" );
+		sb.append("\t\t\t\t" + (pattern.isPatternpathLocked() ? "true" : "false") + ",\n" );
 
 		String pathPrefixForElements = pathPrefix+patternName+"_";
 
@@ -618,6 +638,12 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternGraph[] { ");
 		for(int i = 0; i < pattern.getNegs().size(); ++i) {
 			sb.append(pathPrefixForElements+"neg_" + i + ", ");
+		}
+		sb.append(" }, \n");
+
+		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternGraph[] { ");
+		for(int i = 0; i < pattern.getIdpts().size(); ++i) {
+			sb.append(pathPrefixForElements+"idpt_" + i + ", ");
 		}
 		sb.append(" }, \n");
 
@@ -702,6 +728,11 @@ public class ActionsGen extends CSharpBase {
 		for(int j = 0; j < pattern.getNegs().size(); j++) {
 			String negName = "neg_" + j;
 			sb.append("\t\t\t" + pathPrefixForElements+negName + ".embeddingGraph = " + patGraphVarName + ";\n");
+		}
+		
+		for(int j = 0; j < pattern.getIdpts().size(); j++) {
+			String idptName = "idpt_" + j;
+			sb.append("\t\t\t" + pathPrefixForElements+idptName + ".embeddingGraph = " + patGraphVarName + ";\n");
 		}
 
 		sb.append("\n");
@@ -876,6 +907,20 @@ public class ActionsGen extends CSharpBase {
 			condCnt = genPatternGraph(sb, aux, neg,
 									  pathPrefixForElements, negName,
 									  pathPrefixForElements+negName, className,
+									  alreadyDefinedEntityToNameClone,
+									  alreadyDefinedIdentifiableToNameClone,
+									  condCnt, parameters, max);
+			++i;
+		}
+		
+		i = 0;
+		for(PatternGraph idpt : pattern.getIdpts()) {
+			String idptName = "idpt_" + i;
+			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
+			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
+			condCnt = genPatternGraph(sb, aux, idpt,
+									  pathPrefixForElements, idptName,
+									  pathPrefixForElements+idptName, className,
 									  alreadyDefinedEntityToNameClone,
 									  alreadyDefinedIdentifiableToNameClone,
 									  condCnt, parameters, max);
@@ -1150,6 +1195,9 @@ public class ActionsGen extends CSharpBase {
 		max = computePriosMax(pattern.getEdges(), max);
 		for(PatternGraph neg : pattern.getNegs()) {
 			max = computePriosMax(max, neg);
+		}
+		for(PatternGraph idpt : pattern.getIdpts()) {
+			max = computePriosMax(max, idpt);
 		}
 		for(Alternative alt : pattern.getAlts()) {
 			for(Rule altCase : alt.getAlternativeCases()) {

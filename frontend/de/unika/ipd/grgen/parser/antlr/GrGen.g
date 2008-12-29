@@ -261,11 +261,6 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 	              }
 	              res = mod | PatternGraphNode.MOD_DPO;
 	        }
-	| t=INDEPENDENT { if((mod & PatternGraphNode.MOD_INDEPENDENT)!=0) {
-	                    reportError(getCoords(t), "\"independent\" modifier already declared");
-	                    }
-	                    res = mod | PatternGraphNode.MOD_INDEPENDENT;
-	                }
 	;
 
 patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, int mod ]
@@ -412,33 +407,39 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context,
 		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
 		CollectNode<AlternativeNode> alts = new CollectNode<AlternativeNode>();
 		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
-		CollectNode<ExprNode> conditions = new CollectNode<ExprNode>();
+		CollectNode<PatternGraphNode> idpts = new CollectNode<PatternGraphNode>();
+		CollectNode<ExprNode> conds = new CollectNode<ExprNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<HomNode> homs = new CollectNode<HomNode>();
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
-		res = new PatternGraphNode(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, alts, negs, conditions,
+		res = new PatternGraphNode(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, 
+				alts, negs, idpts, conds,
 				returnz, homs, exact, induced, mod, context);
 	}
 
-	: ( patternStmt[connections, subpatterns, subpatternReplacements, alts, negs, conditions,
-			 homs, exact, induced, context] )*
+	: ( patternStmt[connections, subpatterns, subpatternReplacements,
+			alts, negs, idpts, conds,
+			homs, exact, induced, context] )*
 	  ( rets[returnz, context] SEMI )?
 	;
 
 patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
-			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> cond,
+			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs,
+			CollectNode<PatternGraphNode> idpts, CollectNode<ExprNode> conds,
 			CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context]
 	@init{
 		int altCounter = 0;
 		int negCounter = 0;
+		int idptCounter = 0;
 	}
 
 	: connectionsOrSubpattern[conn, subpatterns, subpatternReplacements, context] SEMI
-	| a=ALTERNATIVE LBRACE alt=alternative[getCoords(a), altCounter, context] { alts.addChild(alt); ++altCounter; } RBRACE
+	| alt=alternative[altCounter, context] { alts.addChild(alt); ++altCounter; }
 	| neg=negative[negCounter, context] { negs.addChild(neg); ++negCounter; }
-	| COND LBRACE ( e=expr[false] { cond.addChild(e); } SEMI )* RBRACE
+	| idpt=independent[idptCounter, context] { idpts.addChild(idpt); ++idptCounter; }
+	| condition[conds]
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
@@ -857,10 +858,12 @@ modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<Subpa
 	| evalPart[eval]
 	;
 
-alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNode alt = new AlternativeNode(coords) ]
-	: ( alternativeCase[alt, altCount, context] ) +
-	;
-
+alternative [ int altCount, int context ] returns [ AlternativeNode alt = null ]
+	: a=ALTERNATIVE { alt = new AlternativeNode(getCoords(a)); } LBRACE
+		( alternativeCase[alt, altCount, context] ) +
+		RBRACE
+	;	
+	
 alternativeCase [ AlternativeNode alt, int altCount, int context ]
 	@init{
 		int mod = 0;
@@ -889,12 +892,33 @@ negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
 		int mod = 0;
 	}
 	
-	: ( i=INDEPENDENT { mod = PatternGraphNode.MOD_INDEPENDENT; } ) ?
-        n=NEGATIVE LBRACE pushScopeStr["neg"+negCount, getCoords(n)]
-	  	b=patternBody[getCoords(n), new CollectNode<BaseNode>(), mod, context, "negative"+negCount] { res = b; } 
+	: n=NEGATIVE LBRACE pushScopeStr["neg"+negCount, getCoords(n)]
+			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
+			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
+			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), mod, 
+				context|BaseNode.CONTEXT_NEGATIVE, "negative"+negCount] { res = b; } 
 		RBRACE popScope
 	;
 
+independent [ int idptCount, int context ] returns [ PatternGraphNode res = null ]
+	@init{
+		int mod = 0;
+	}
+	
+	: i=INDEPENDENT LBRACE pushScopeStr["idpt"+idptCount, getCoords(i)]
+			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
+			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
+			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), mod,
+				context|BaseNode.CONTEXT_INDEPENDENT, "independent"+idptCount] { res = b; } 
+		RBRACE popScope
+	;
+
+condition [ CollectNode<ExprNode> conds ]
+	: COND LBRACE
+			( e=expr[false] { conds.addChild(e); } SEMI )* 
+		RBRACE
+	;
+	
 rets[CollectNode<ExprNode> res, int context]
 	@init{
 		boolean multipleReturns = ! res.getChildren().isEmpty();
@@ -2145,7 +2169,6 @@ HOM : 'hom';
 IN : 'in';
 INDEPENDENT : 'independent';
 INDUCED : 'induced';
-LOCKED : 'locked';
 MAP : 'map';
 MODEL : 'model';
 MODIFY : 'modify';
@@ -2154,6 +2177,7 @@ NEGATIVE : 'negative';
 NODE : 'node';
 NULL : 'null';
 PATTERN : 'pattern';
+PATTERNPATH : 'patternpath';
 REPLACE : 'replace';
 RETURN : 'return';
 RULE : 'rule';

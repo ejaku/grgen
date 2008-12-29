@@ -144,6 +144,15 @@ public class Unit extends IR {
 		return digest;
 	}
 
+	public void resolvePatternLockedModifier() {
+		for(Rule actionRule : actionRules) {
+			actionRule.pattern.resolvePatternLockedModifier();
+		}
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternRule.pattern.resolvePatternLockedModifier();
+		}
+	}
+	
 	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern() {
 		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
 		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();

@@ -1,0 +1,71 @@
+pattern pa {
+	n1:Node -e1:Edge-> n2:Node;
+
+	independent {
+		pattern;
+		patternpath;
+		
+		independent {
+			pattern;
+			patternpath;
+		}
+	}
+	independent {
+		pattern;
+		patternpath;
+	}
+			
+	alternative {
+		Something {			
+			independent {
+				pattern;
+				patternpath;
+				
+				independent {
+					pattern;
+					patternpath;
+				}
+			}
+			independent {
+				patternpath;
+				pattern;
+			}
+		}
+		Empty {
+		}
+	}
+}
+
+test t {
+	n1:Node -e1:Edge-> n2:Node;
+
+	independent {
+		pattern;
+		
+		independent {
+			pattern;
+			p:pa();
+		}
+	}
+	independent {
+		pattern;
+	}
+
+	alternative {
+		Something {			
+			independent {
+				pattern;
+				
+				independent {
+					pattern;
+					p:pa();
+				}
+			}
+			independent {
+				pattern;
+			}
+		}
+		Empty {
+		}
+	}
+}

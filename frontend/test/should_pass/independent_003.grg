@@ -1,0 +1,84 @@
+pattern p {
+	n1:Node -e1:Edge-> n2:Node;
+	
+	independent {
+		n2-->n3:Node;
+		
+		independent {
+			n3-->n2;
+			n3-->n4:Node;
+		}
+	}
+	independent {
+		n2-->n3:Node;
+	}
+}
+
+pattern pa {
+	alternative {
+		Something {
+			n1:Node -e1:Edge-> n2:Node;
+			
+			independent {
+				n2-->n3:Node;
+				
+				independent {
+					n3-->n2;
+					n3-->n4:Node;
+				}
+			}
+			independent {
+				n2-->n3:Node;
+				alternative {
+					Empty1 { }
+					Empty2 { }
+				}
+			}
+		}
+		Empty {
+		}
+	}
+}
+
+rule r {
+	n1:Node -e1:Edge-> n2:Node;
+	
+	independent {
+		n2-->n3:Node;
+		
+		independent {
+			n3-->n2;
+			n3-->n4:Node;
+		}
+	}
+	independent {
+		n2-->n3:Node;
+	}
+	
+	replace {
+	}
+}
+
+test t {
+	alternative {
+		Something {
+			n1:Node -e1:Edge-> n2:Node;
+			
+			independent {
+				n2-->n3:Node;
+				p1:p();
+				
+				independent {
+					n3-->n2;
+					n3-->n4:Node;
+					p2:pa();
+				}
+			}
+			independent {
+				n2-->n3:Node;
+			}
+		}
+		Empty {
+		}
+	}
+}
