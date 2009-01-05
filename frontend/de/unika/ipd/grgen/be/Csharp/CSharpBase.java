@@ -213,14 +213,52 @@ public abstract class CSharpBase {
 			throw new IllegalArgumentException("Illegal entity type " + ent + " (" + ent.getClass() + ")");
 	}
 
+
+	String matchType(PatternGraph patternGraph, boolean isSubpattern, String pathPrefix) {
+		String matchClassContainer;
+		if(isSubpattern) {
+			matchClassContainer = "Pattern_" + patternGraph.getNameOfGraph();
+		} else {
+			matchClassContainer = "Rule_" + patternGraph.getNameOfGraph();
+		}
+		String nameOfMatchClass = "Match_" + pathPrefix + patternGraph.getNameOfGraph();
+		return matchClassContainer + "." + nameOfMatchClass;
+	}
+
 	public String formatTypeClass(Type type) {
 		return formatNodeOrEdge(type) + "Type_" + formatIdentifiable(type);
 	}
 
+	public String formatElementClassInterface(Type type) {
+		if(!(type instanceof InheritanceType)) {
+			assert(false);
+			return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
+		}
+		
+		InheritanceType nodeEdgeType = (InheritanceType)type;
+		if(nodeEdgeType.isAbstract()) {
+			if(formatIdentifiable(type)=="AEdge") {
+				return "GRGEN_LIBGR.IEdge";
+			}
+		} else if(formatIdentifiable(type)=="Node") {
+			return "GRGEN_LIBGR.INode";
+		} else if(formatIdentifiable(type)=="Edge") {
+			return "GRGEN_LIBGR.IEdge";
+		} else if(formatIdentifiable(type)=="UEdge") {
+			return "GRGEN_LIBGR.IEdge";
+		}
+		return  "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
+	}
+	
 	public String formatElementClass(Type type) {
 		return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
 	}
 
+	public String formatVarDecl(Type type, String typePrefix, String varName) {
+		String ctype = "@" + typePrefix + formatElementClass(type);
+		return ctype + " " + varName + " = ";
+	}
+	
 	public String formatVarDeclWithCast(Type type, String typePrefix, String varName) {
 		String ctype = "@" + typePrefix + formatElementClass(type);
 		return ctype + " " + varName + " = (" + ctype + ") ";

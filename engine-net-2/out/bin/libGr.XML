@@ -2008,8 +2008,44 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IMatch">
             <summary>
-            An object representing a match.
+            Base class of classes representing matches.
+            One exact match class is generated per pattern.
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getNodeAt(System.Int32)">
+            <summary>
+            Returns node at position index (most efficient access)
+            </summary>
+            <param name="index">The position of the node to return</param>
+            <returns>The node at the given index</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getEdgeAt(System.Int32)">
+            <summary>
+            Returns edge at position index (most efficient access)
+            </summary>
+            <param name="index">The position of the edge to return</param>
+            <returns>The edge at the given index</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getVariableAt(System.Int32)">
+            <summary>
+            Returns variable at position index (most efficient access)
+            </summary>
+            <param name="index">The position of the variable to return</param>
+            <returns>The variable at the given index</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getEmbeddedGraphAt(System.Int32)">
+            <summary>
+            Returns submatch due to subpattern at position index (most efficient access)
+            </summary>
+            <param name="index">The position of the submatch due to subpattern to return</param>
+            <returns>The submatch due to subpattern at the given index</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getAlternativeAt(System.Int32)">
+            <summary>
+            Returns submatch due to alternatives at position index (most efficient access)
+            </summary>
+            <param name="index">The position of the submatch due to alternatives to return</param>
+            <returns>The submatch due to alternatives at the given index</returns>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.Pattern">
             <summary>
@@ -2018,28 +2054,78 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.Nodes">
             <summary>
-            An array of all nodes in the match.
-            The order is given by the Nodes array of the according IPatternGraph.
+            Enumerable returning enumerator over matched nodes (most inefficient access)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.NodesEnumerator">
+            <summary>
+            Enumerator over matched nodes (efficiency in between getNodeAt and Nodes)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.NumberOfNodes">
+            <summary>
+            Number of nodes in the match
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.Edges">
             <summary>
-            An array of all edges in the match.
-            The order is given by the Edges array of the according IPatternGraph.
+            Enumerable returning enumerator over matched edges (most inefficient access)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.EdgesEnumerator">
+            <summary>
+            Enumerator over matched edges (efficiency in between getEdgeAt and Edges)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.NumberOfEdges">
+            <summary>
+            Number of edges in the match
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.Variables">
             <summary>
-            An array of variables given to the matcher method.
-            The order is given by the Variables array of the according IPatternGraph.
+            Enumerable returning enumerator over matched variables (most inefficient access)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.VariablesEnumerator">
+            <summary>
+            Enumerator over matched variables (efficiency in between getVariableAt and Variables)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.NumberOfVariables">
+            <summary>
+            Number of variables in the match
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.EmbeddedGraphs">
             <summary>
-            An array of all submatches due to subpatterns and alternatives. 
-            First subpatterns in order of EmbeddedGraphs array of the according IPatternGraph,
-            then alternatives in order of Alternatives array of the according IPatternGraph.
+            Enumerable returning enumerator over submatches due to subpatterns (most inefficient access)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.EmbeddedGraphsEnumerator">
+            <summary>
+            Enumerator over submatches due to subpatterns (efficiency in between getEmbeddedGraphAt and EmbeddedGraphs)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.NumberOfEmbeddedGraphs">
+            <summary>
+            Number of submatches due to subpatterns in the match
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.Alternatives">
+            <summary>
+            Enumerable returning enumerator over submatches due to alternatives (most inefficient access)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.AlternativesEnumerator">
+            <summary>
+            Enumerator over submatches due to alternatives. (efficiency in between getAlternativeAt and Alternatives)
             You can find out which alternative case was matched by inspecting the Pattern member of the submatch.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.NumberOfAlternatives">
+            <summary>
+            Number of submatches due to alternatives in the match
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IMatches">
@@ -2064,6 +2150,11 @@
         <member name="P:de.unika.ipd.grGen.libGr.IMatches.Producer">
             <summary>
             The action object used to generate this IMatches object
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatches.First">
+            <summary>
+            Returns the first match (null if no match exists).
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatches.Count">
@@ -3996,6 +4087,12 @@
             <summary>
             An array of negative pattern graphs which make the search fail if they get matched
             (NACs - Negative Application Conditions).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.IndependentPatternGraphs">
+            <summary>
+            An array of independent pattern graphs which must get matched in addition to the main pattern
+            (PACs - Positive Application Conditions).
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.EmbeddingGraph">

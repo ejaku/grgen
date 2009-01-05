@@ -222,7 +222,8 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// An object representing a match.
+    /// Base class of classes representing matches.
+    /// One exact match class is generated per pattern.
     /// </summary>
     public interface IMatch
     {
@@ -231,31 +232,136 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IPatternGraph Pattern { get; }
 
-        /// <summary>
-        /// An array of all nodes in the match.
-        /// The order is given by the Nodes array of the according IPatternGraph.
-        /// </summary>
-        INode[] Nodes { get; }
+
+        //////////////////////////////////////////////////////////////////////////
+        // Nodes
 
         /// <summary>
-        /// An array of all edges in the match.
-        /// The order is given by the Edges array of the according IPatternGraph.
+        /// Enumerable returning enumerator over matched nodes (most inefficient access)
         /// </summary>
-        IEdge[] Edges { get; }
+        IEnumerable<INode> Nodes { get; }
 
         /// <summary>
-        /// An array of variables given to the matcher method.
-        /// The order is given by the Variables array of the according IPatternGraph.
+        /// Enumerator over matched nodes (efficiency in between getNodeAt and Nodes)
         /// </summary>
-        object[] Variables { get; }
+        IEnumerator<INode> NodesEnumerator { get; }
 
         /// <summary>
-        /// An array of all submatches due to subpatterns and alternatives. 
-        /// First subpatterns in order of EmbeddedGraphs array of the according IPatternGraph,
-        /// then alternatives in order of Alternatives array of the according IPatternGraph.
+        /// Number of nodes in the match
+        /// </summary>
+        int NumberOfNodes { get; }
+
+        /// <summary>
+        /// Returns node at position index (most efficient access)
+        /// </summary>
+        /// <param name="index">The position of the node to return</param>
+        /// <returns>The node at the given index</returns>
+        INode getNodeAt(int index);
+
+
+        //////////////////////////////////////////////////////////////////////////
+        // Edges
+
+        /// <summary>
+        /// Enumerable returning enumerator over matched edges (most inefficient access)
+        /// </summary>
+        IEnumerable<IEdge> Edges { get; }
+
+        /// <summary>
+        /// Enumerator over matched edges (efficiency in between getEdgeAt and Edges)
+        /// </summary>
+        IEnumerator<IEdge> EdgesEnumerator { get; }
+
+        /// <summary>
+        /// Number of edges in the match
+        /// </summary>
+        int NumberOfEdges { get; }
+
+        /// <summary>
+        /// Returns edge at position index (most efficient access)
+        /// </summary>
+        /// <param name="index">The position of the edge to return</param>
+        /// <returns>The edge at the given index</returns>
+        IEdge getEdgeAt(int index);
+
+
+        //////////////////////////////////////////////////////////////////////////
+        // Variables
+
+        /// <summary>
+        /// Enumerable returning enumerator over matched variables (most inefficient access)
+        /// </summary>
+        IEnumerable<object> Variables { get; }
+
+        /// <summary>
+        /// Enumerator over matched variables (efficiency in between getVariableAt and Variables)
+        /// </summary>
+        IEnumerator<object> VariablesEnumerator { get; }
+
+        /// <summary>
+        /// Number of variables in the match
+        /// </summary>
+        int NumberOfVariables { get; }
+
+        /// <summary>
+        /// Returns variable at position index (most efficient access)
+        /// </summary>
+        /// <param name="index">The position of the variable to return</param>
+        /// <returns>The variable at the given index</returns>
+        object getVariableAt(int index);
+
+
+        //////////////////////////////////////////////////////////////////////////
+        // Embedded Graphs
+
+        /// <summary>
+        /// Enumerable returning enumerator over submatches due to subpatterns (most inefficient access)
+        /// </summary>
+        IEnumerable<IMatch> EmbeddedGraphs { get; }
+
+        /// <summary>
+        /// Enumerator over submatches due to subpatterns (efficiency in between getEmbeddedGraphAt and EmbeddedGraphs)
+        /// </summary>
+        IEnumerator<IMatch> EmbeddedGraphsEnumerator { get; }
+
+        /// <summary>
+        /// Number of submatches due to subpatterns in the match
+        /// </summary>
+        int NumberOfEmbeddedGraphs { get; }
+
+        /// <summary>
+        /// Returns submatch due to subpattern at position index (most efficient access)
+        /// </summary>
+        /// <param name="index">The position of the submatch due to subpattern to return</param>
+        /// <returns>The submatch due to subpattern at the given index</returns>
+        IMatch getEmbeddedGraphAt(int index);
+
+
+        //////////////////////////////////////////////////////////////////////////
+        // Alternatives
+
+        /// <summary>
+        /// Enumerable returning enumerator over submatches due to alternatives (most inefficient access)
+        /// </summary>
+        IEnumerable<IMatch> Alternatives { get; }
+
+        /// <summary>
+        /// Enumerator over submatches due to alternatives. (efficiency in between getAlternativeAt and Alternatives)
         /// You can find out which alternative case was matched by inspecting the Pattern member of the submatch.
         /// </summary>
-        IMatch[] EmbeddedGraphs { get; }
+        IEnumerator<IMatch> AlternativesEnumerator { get; }
+
+        /// <summary>
+        /// Number of submatches due to alternatives in the match
+        /// </summary>
+        int NumberOfAlternatives { get; }
+
+        /// <summary>
+        /// Returns submatch due to alternatives at position index (most efficient access)
+        /// </summary>
+        /// <param name="index">The position of the submatch due to alternatives to return</param>
+        /// <returns>The submatch due to alternatives at the given index</returns>
+        IMatch getAlternativeAt(int index);
     }
 
     /// <summary>
@@ -268,6 +374,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The action object used to generate this IMatches object
         /// </summary>
         IAction Producer { get; }
+
+        /// <summary>
+        /// Returns the first match (null if no match exists).
+        /// </summary>
+        IMatch First { get; }
 
         /// <summary>
         /// The number of matches found by Producer

@@ -30,7 +30,7 @@ namespace edge1
 			Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
 			graph.PerformanceInfo.Reset();
 
-            LGSPMatches matches = actions.GetAction("findTripleCircle").Match(graph, 0, null);
+            IMatches matches = actions.GetAction("findTripleCircle").Match(graph, 0, null);
             Console.WriteLine(matches.Count + " matches found.");
         }
 

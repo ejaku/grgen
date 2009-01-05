@@ -506,7 +506,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.Append(";\n");
                         }
                     }
-                    source.AppendFront("de.unika.ipd.grGen.lgsp.LGSPMatches mat_" + seqID + " = rule_" + ruleObj.RuleName
+                    source.AppendFront("de.unika.ipd.grGen.libGr.IMatches mat_" + seqID + " = rule_" + ruleObj.RuleName
                         + ".Match(graph, " + (seq.SequenceType == SequenceType.Rule ? "1" : "graph.MaxMatches")
                         + (paramLen == 0 ? ", null);\n" : ", __xgrs_paramarray_" + paramLen + ");\n"));
                     if(FireEvents) source.AppendFront("graph.Matched(mat_" + seqID + ", " + specialStr + ");\n");
@@ -521,7 +521,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("object[] ret_" + seqID + " = ");
                     if(seq.SequenceType == SequenceType.Rule)
                     {
-                        source.Append("rule_" + ruleObj.RuleName + ".Modify(graph, mat_" + seqID + ".matchesList.First);\n");
+                        source.Append("rule_" + ruleObj.RuleName + ".Modify(graph, mat_" + seqID + ".First);\n");
                         if(UsePerfInfo)
                             source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
                     }

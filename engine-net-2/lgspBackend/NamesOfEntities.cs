@@ -120,6 +120,38 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns name of the match class
+        /// </summary>
+        public static string MatchClassName(string rulePatternName)
+        {
+            return "Match_" + rulePatternName;
+        }
+
+        /// <summary>
+        /// Returns name of the match interface
+        /// </summary>
+        public static string MatchInterfaceName(string rulePatternName)
+        {
+            return "IMatch_" + rulePatternName;
+        }
+
+        /// <summary>
+        /// Returns name of the given element in the match class with correct match part prefix
+        /// </summary>
+        public static string MatchName(string unprefixedElementName, BuildMatchObjectType matchPart)
+        {
+            switch (matchPart)
+            {
+                case BuildMatchObjectType.Node: return "node_" + unprefixedElementName;
+                case BuildMatchObjectType.Edge: return "edge_" + unprefixedElementName;
+                case BuildMatchObjectType.Variable: return "var_" + unprefixedElementName;
+                case BuildMatchObjectType.Subpattern: return unprefixedElementName;
+                case BuildMatchObjectType.Alternative: return unprefixedElementName;
+                default: return "INTERNAL ERROR";
+            }
+        }
+
+        /// <summary>
         /// Returns name of the state variable storing which direction run is currently underway
         /// </summary>
         public static string DirectionRunCounterVariable(string patternElementName)

@@ -24,12 +24,12 @@ namespace ProgramGraphs
 
             graph.PerformanceInfo = new PerformanceInfo();
 
-            LGSPMatches matches;
+            IMatches matches;
             object[] returns;
 
             LGSPAction createProgramGraph = Action_createProgramGraphPullUp.Instance;
             matches = createProgramGraph.Match(graph, 0, null);
-            returns = createProgramGraph.Modify(graph, matches.matchesList.First);
+            returns = createProgramGraph.Modify(graph, matches.First);
             IGraphElement[] param = new LGSPNode[2];
             param[0] = (Class)returns[0];
             param[1] = (MethodBody)returns[1];

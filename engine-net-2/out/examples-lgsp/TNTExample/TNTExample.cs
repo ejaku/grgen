@@ -30,7 +30,7 @@ namespace TNT
 			Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
 			graph.PerformanceInfo.Reset();
 
-            LGSPMatches matches = actions.GetAction("TNT").Match(graph, 0, null);
+            IMatches matches = actions.GetAction("TNT").Match(graph, 0, null);
             Console.WriteLine(matches.Count + " matches found.");
 
             matches = actions.GetAction("ToluolCore").Match(graph, 0, null);

@@ -40,6 +40,11 @@ namespace de.unika.ipd.grGen.lgsp
         public int TypeID;
 
         /// <summary>
+        /// The name of the type interface of the pattern element.
+        /// </summary>
+        public String typeName;
+
+        /// <summary>
         /// The name of the pattern element.
         /// </summary>
         public String name;
@@ -78,6 +83,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new PatternElement object.
         /// </summary>
         /// <param name="typeID">The type ID of the pattern element.</param>
+        /// <param name="typeName">The name of the type interface of the pattern element.</param>
         /// <param name="name">The name of the pattern element.</param>
         /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
         /// <param name="allowedTypes">An array of allowed types for this pattern element.
@@ -88,11 +94,13 @@ namespace de.unika.ipd.grGen.lgsp
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="cost">Default cost/priority from frontend, user priority if given.</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds.</param>
-        public PatternElement(int typeID, String name, String unprefixedName, 
+        public PatternElement(int typeID, String typeName, 
+            String name, String unprefixedName, 
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex)
         {
             this.TypeID = typeID;
+            this.typeName = typeName;
             this.name = name;
             this.unprefixedName = unprefixedName;
             this.AllowedTypes = allowedTypes;
@@ -125,6 +133,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new PatternNode object
         /// </summary>
         /// <param name="typeID">The type ID of the pattern node</param>
+        /// <param name="typeName">The name of the type interface of the pattern element.</param>
         /// <param name="name">The name of the pattern node</param>
         /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
         /// <param name="allowedTypes">An array of allowed types for this pattern element.
@@ -135,10 +144,11 @@ namespace de.unika.ipd.grGen.lgsp
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
-        public PatternNode(int typeID, String name, String unprefixedName,
+        public PatternNode(int typeID, String typeName,
+            String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex)
-            : base(typeID, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
+            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
         {
         }
 
@@ -167,6 +177,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="fixedDirection">Whether this pattern edge should be matched with a fixed direction or not.</param>
         /// <param name="typeID">The type ID of the pattern edge.</param>
+        /// <param name="typeName">The name of the type interface of the pattern element.</param>
         /// <param name="name">The name of the pattern edge.</param>
         /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
         /// <param name="allowedTypes">An array of allowed types for this pattern element.
@@ -178,10 +189,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
         public PatternEdge(bool fixedDirection,
-            int typeID, String name, String unprefixedName,
+            int typeID, String typeName, 
+            String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType,
             float cost, int parameterIndex)
-            : base(typeID, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
+            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
         {
             this.fixedDirection = fixedDirection;
         }
@@ -740,7 +752,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>An array of objects returned by the rule</returns>
         public object[] Modify(IGraph graph, IMatch match)
         {
-            return Modify((LGSPGraph)graph, (LGSPMatch)match);
+            return Modify((LGSPGraph)graph, match);
         }
 
         /// <summary>
@@ -750,7 +762,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">The host graph for this modification.</param>
         /// <param name="match">The match which is used for this rewrite.</param>
         /// <returns>An array of objects returned by the rule</returns>
-        public abstract object[] Modify(LGSPGraph graph, LGSPMatch match);
+        public abstract object[] Modify(LGSPGraph graph, IMatch match);
 
         /// <summary>
         /// Performs the rule specific modifications to the given graph with the given match (rewrite part).
@@ -760,7 +772,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">The host graph for this modification.</param>
         /// <param name="match">The match which is used for this rewrite.</param>
         /// <returns>An array of objects returned by the rule</returns>
-        public abstract object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match);
+        public abstract object[] ModifyNoReuse(LGSPGraph graph, IMatch match);
 
 
         /// <summary>

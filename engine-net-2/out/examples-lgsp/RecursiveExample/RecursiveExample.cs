@@ -22,12 +22,12 @@ namespace Recursive
             graph = new Std();
             actions = new RecursiveActions(graph);
 
-            LGSPMatches matches;
+            IMatches matches;
             Object[] returns;
 
             LGSPAction createChain = Action_createChain.Instance;
             matches = createChain.Match(graph, 0, null);
-            returns = createChain.Modify(graph, matches.matchesList.First);
+            returns = createChain.Modify(graph, matches.First);
             Node[] param = new Node[2];
             param[0] = (Node)returns[0];
             param[1] = (Node)returns[1];
@@ -36,7 +36,7 @@ namespace Recursive
 
             LGSPAction createBlowball = Action_createBlowball.Instance;
             matches = createBlowball.Match(graph, 0, null);
-            returns = createBlowball.Modify(graph, matches.matchesList.First);
+            returns = createBlowball.Modify(graph, matches.First);
             matches = actions.GetAction("blowball").Match(graph, 0, returns);
             Console.WriteLine(matches.Count + " matches found.");
         }

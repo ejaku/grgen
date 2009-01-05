@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Dec 28 14:47:56 GMT+01:00 2008
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Jan 05 22:40:42 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -57,9 +57,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] newRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode newRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "newRule_node_p1", "p1", newRule_node_p1_AllowedTypes, newRule_node_p1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode newRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "newRule_node_p2", "p2", newRule_node_p2_AllowedTypes, newRule_node_p2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge newRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "newRule_edge_n", "n", newRule_edge_n_AllowedTypes, newRule_edge_n_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternNode newRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "newRule_node_p1", "p1", newRule_node_p1_AllowedTypes, newRule_node_p1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode newRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "newRule_node_p2", "p2", newRule_node_p2_AllowedTypes, newRule_node_p2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge newRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "Inext", "newRule_edge_n", "n", newRule_edge_n_AllowedTypes, newRule_edge_n_IsAllowedType, 1.0F, -1);
 			pat_newRule = new GRGEN_LGSP.PatternGraph(
 				"newRule",
 				"",
@@ -93,11 +93,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p1 = curMatch.Nodes[(int)newRule_NodeNums.@p1];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)newRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPEdge edge_n = curMatch.Edges[(int)newRule_EdgeNums.@n];
+			Match_newRule curMatch = (Match_newRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p1 = curMatch._node_p1;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPEdge edge_n = curMatch._edge_n;
 			graph.SettingAddedNodeNames( newRule_addedNodeNames );
 			@Process node_p = @Process.CreateNode(graph);
 			graph.SettingAddedEdgeNames( newRule_addedEdgeNames );
@@ -119,11 +120,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] newRule_addedNodeNames = new String[] { "p" };
 		private static String[] newRule_addedEdgeNames = new String[] { "n1", "n2" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p1 = curMatch.Nodes[(int)newRule_NodeNums.@p1];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)newRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPEdge edge_n = curMatch.Edges[(int)newRule_EdgeNums.@n];
+			Match_newRule curMatch = (Match_newRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p1 = curMatch._node_p1;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPEdge edge_n = curMatch._edge_n;
 			graph.SettingAddedNodeNames( newRule_addedNodeNames );
 			@Process node_p = @Process.CreateNode(graph);
 			graph.SettingAddedEdgeNames( newRule_addedEdgeNames );
@@ -135,6 +137,89 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_newRule() {
 		}
+
+		public interface IMatch_newRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p1 { get; }
+			IProcess node_p2 { get; }
+			//Edges
+			Inext edge_n { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_newRule : GRGEN_LGSP.ListElement<Match_newRule>, IMatch_newRule
+		{
+			public IProcess node_p1 { get { return (IProcess)_node_p1; } }
+			public IProcess node_p2 { get { return (IProcess)_node_p2; } }
+			public GRGEN_LGSP.LGSPNode _node_p1;
+			public GRGEN_LGSP.LGSPNode _node_p2;
+			public enum newRule_NodeNums { @p1, @p2, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)newRule_NodeNums.@p1: return _node_p1;
+				case (int)newRule_NodeNums.@p2: return _node_p2;
+				default: return null;
+				}
+			}
+			
+			public Inext edge_n { get { return (Inext)_edge_n; } }
+			public GRGEN_LGSP.LGSPEdge _edge_n;
+			public enum newRule_EdgeNums { @n, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)newRule_EdgeNums.@n: return _edge_n;
+				default: return null;
+				}
+			}
+			
+			public enum newRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum newRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum newRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_newRule.instance.pat_newRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_killRule : GRGEN_LGSP.LGSPRulePattern
@@ -188,11 +273,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode killRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "killRule_node_p1", "p1", killRule_node_p1_AllowedTypes, killRule_node_p1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode killRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "killRule_node_p", "p", killRule_node_p_AllowedTypes, killRule_node_p_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode killRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "killRule_node_p2", "p2", killRule_node_p2_AllowedTypes, killRule_node_p2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge killRule_edge_n1 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "killRule_edge_n1", "n1", killRule_edge_n1_AllowedTypes, killRule_edge_n1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge killRule_edge_n2 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "killRule_edge_n2", "n2", killRule_edge_n2_AllowedTypes, killRule_edge_n2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode killRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "killRule_node_p1", "p1", killRule_node_p1_AllowedTypes, killRule_node_p1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode killRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "killRule_node_p", "p", killRule_node_p_AllowedTypes, killRule_node_p_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode killRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "killRule_node_p2", "p2", killRule_node_p2_AllowedTypes, killRule_node_p2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge killRule_edge_n1 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "Inext", "killRule_edge_n1", "n1", killRule_edge_n1_AllowedTypes, killRule_edge_n1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge killRule_edge_n2 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "Inext", "killRule_edge_n2", "n2", killRule_edge_n2_AllowedTypes, killRule_edge_n2_IsAllowedType, 5.5F, -1);
 			pat_killRule = new GRGEN_LGSP.PatternGraph(
 				"killRule",
 				"",
@@ -232,13 +317,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p1 = curMatch.Nodes[(int)killRule_NodeNums.@p1];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)killRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)killRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPEdge edge_n1 = curMatch.Edges[(int)killRule_EdgeNums.@n1];
-			GRGEN_LGSP.LGSPEdge edge_n2 = curMatch.Edges[(int)killRule_EdgeNums.@n2];
+			Match_killRule curMatch = (Match_killRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p1 = curMatch._node_p1;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPEdge edge_n1 = curMatch._edge_n1;
+			GRGEN_LGSP.LGSPEdge edge_n2 = curMatch._edge_n2;
 			graph.SettingAddedNodeNames( killRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( killRule_addedEdgeNames );
 			@next edge_n;
@@ -261,13 +347,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] killRule_addedNodeNames = new String[] {  };
 		private static String[] killRule_addedEdgeNames = new String[] { "n" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p1 = curMatch.Nodes[(int)killRule_NodeNums.@p1];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)killRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)killRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPEdge edge_n1 = curMatch.Edges[(int)killRule_EdgeNums.@n1];
-			GRGEN_LGSP.LGSPEdge edge_n2 = curMatch.Edges[(int)killRule_EdgeNums.@n2];
+			Match_killRule curMatch = (Match_killRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p1 = curMatch._node_p1;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPEdge edge_n1 = curMatch._edge_n1;
+			GRGEN_LGSP.LGSPEdge edge_n2 = curMatch._edge_n2;
 			graph.SettingAddedNodeNames( killRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( killRule_addedEdgeNames );
 			@next edge_n = @next.CreateEdge(graph, node_p1, node_p2);
@@ -280,6 +367,97 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_killRule() {
 		}
+
+		public interface IMatch_killRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p1 { get; }
+			IProcess node_p { get; }
+			IProcess node_p2 { get; }
+			//Edges
+			Inext edge_n1 { get; }
+			Inext edge_n2 { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_killRule : GRGEN_LGSP.ListElement<Match_killRule>, IMatch_killRule
+		{
+			public IProcess node_p1 { get { return (IProcess)_node_p1; } }
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public IProcess node_p2 { get { return (IProcess)_node_p2; } }
+			public GRGEN_LGSP.LGSPNode _node_p1;
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public GRGEN_LGSP.LGSPNode _node_p2;
+			public enum killRule_NodeNums { @p1, @p, @p2, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 3;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)killRule_NodeNums.@p1: return _node_p1;
+				case (int)killRule_NodeNums.@p: return _node_p;
+				case (int)killRule_NodeNums.@p2: return _node_p2;
+				default: return null;
+				}
+			}
+			
+			public Inext edge_n1 { get { return (Inext)_edge_n1; } }
+			public Inext edge_n2 { get { return (Inext)_edge_n2; } }
+			public GRGEN_LGSP.LGSPEdge _edge_n1;
+			public GRGEN_LGSP.LGSPEdge _edge_n2;
+			public enum killRule_EdgeNums { @n1, @n2, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 2;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)killRule_EdgeNums.@n1: return _edge_n1;
+				case (int)killRule_EdgeNums.@n2: return _edge_n2;
+				default: return null;
+				}
+			}
+			
+			public enum killRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum killRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum killRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_killRule.instance.pat_killRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_mountRule : GRGEN_LGSP.LGSPRulePattern
@@ -320,7 +498,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, },
 			};
 			bool[,] mountRule_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode mountRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "mountRule_node_p", "p", mountRule_node_p_AllowedTypes, mountRule_node_p_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode mountRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "mountRule_node_p", "p", mountRule_node_p_AllowedTypes, mountRule_node_p_IsAllowedType, 5.5F, -1);
 			pat_mountRule = new GRGEN_LGSP.PatternGraph(
 				"mountRule",
 				"",
@@ -347,9 +525,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)mountRule_NodeNums.@p];
+			Match_mountRule curMatch = (Match_mountRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
 			graph.SettingAddedNodeNames( mountRule_addedNodeNames );
 			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( mountRule_addedEdgeNames );
@@ -359,9 +538,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] mountRule_addedNodeNames = new String[] { "r" };
 		private static String[] mountRule_addedEdgeNames = new String[] { "t" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)mountRule_NodeNums.@p];
+			Match_mountRule curMatch = (Match_mountRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
 			graph.SettingAddedNodeNames( mountRule_addedNodeNames );
 			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( mountRule_addedEdgeNames );
@@ -371,6 +551,81 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_mountRule() {
 		}
+
+		public interface IMatch_mountRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p { get; }
+			//Edges
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_mountRule : GRGEN_LGSP.ListElement<Match_mountRule>, IMatch_mountRule
+		{
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public enum mountRule_NodeNums { @p, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 1;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)mountRule_NodeNums.@p: return _node_p;
+				default: return null;
+				}
+			}
+			
+			public enum mountRule_EdgeNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 0;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum mountRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum mountRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum mountRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_mountRule.instance.pat_mountRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_unmountRule : GRGEN_LGSP.LGSPRulePattern
@@ -418,9 +673,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] unmountRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode unmountRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "unmountRule_node_r", "r", unmountRule_node_r_AllowedTypes, unmountRule_node_r_IsAllowedType, 1.0F, -1);
-			GRGEN_LGSP.PatternNode unmountRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "unmountRule_node_p", "p", unmountRule_node_p_AllowedTypes, unmountRule_node_p_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge unmountRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@token, "unmountRule_edge_t", "t", unmountRule_edge_t_AllowedTypes, unmountRule_edge_t_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode unmountRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "unmountRule_node_r", "r", unmountRule_node_r_AllowedTypes, unmountRule_node_r_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternNode unmountRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "unmountRule_node_p", "p", unmountRule_node_p_AllowedTypes, unmountRule_node_p_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge unmountRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@token, "Itoken", "unmountRule_edge_t", "t", unmountRule_edge_t_AllowedTypes, unmountRule_edge_t_IsAllowedType, 5.5F, -1);
 			pat_unmountRule = new GRGEN_LGSP.PatternGraph(
 				"unmountRule",
 				"",
@@ -454,10 +709,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)unmountRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPEdge edge_t = curMatch.Edges[(int)unmountRule_EdgeNums.@t];
+			Match_unmountRule curMatch = (Match_unmountRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPEdge edge_t = curMatch._edge_t;
 			graph.SettingAddedNodeNames( unmountRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( unmountRule_addedEdgeNames );
 			graph.Remove(edge_t);
@@ -468,10 +724,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] unmountRule_addedNodeNames = new String[] {  };
 		private static String[] unmountRule_addedEdgeNames = new String[] {  };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)unmountRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPEdge edge_t = curMatch.Edges[(int)unmountRule_EdgeNums.@t];
+			Match_unmountRule curMatch = (Match_unmountRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPEdge edge_t = curMatch._edge_t;
 			graph.SettingAddedNodeNames( unmountRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( unmountRule_addedEdgeNames );
 			graph.Remove(edge_t);
@@ -482,6 +739,89 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_unmountRule() {
 		}
+
+		public interface IMatch_unmountRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r { get; }
+			IProcess node_p { get; }
+			//Edges
+			Itoken edge_t { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_unmountRule : GRGEN_LGSP.ListElement<Match_unmountRule>, IMatch_unmountRule
+		{
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public enum unmountRule_NodeNums { @r, @p, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)unmountRule_NodeNums.@r: return _node_r;
+				case (int)unmountRule_NodeNums.@p: return _node_p;
+				default: return null;
+				}
+			}
+			
+			public Itoken edge_t { get { return (Itoken)_edge_t; } }
+			public GRGEN_LGSP.LGSPEdge _edge_t;
+			public enum unmountRule_EdgeNums { @t, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)unmountRule_EdgeNums.@t: return _edge_t;
+				default: return null;
+				}
+			}
+			
+			public enum unmountRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum unmountRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum unmountRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_unmountRule.instance.pat_unmountRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_passRule : GRGEN_LGSP.LGSPRulePattern
@@ -545,11 +885,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode passRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "passRule_node_r", "r", passRule_node_r_AllowedTypes, passRule_node_r_IsAllowedType, 1.0F, -1);
-			GRGEN_LGSP.PatternNode passRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "passRule_node_p1", "p1", passRule_node_p1_AllowedTypes, passRule_node_p1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode passRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "passRule_node_p2", "p2", passRule_node_p2_AllowedTypes, passRule_node_p2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge passRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@token, "passRule_edge__edge0", "_edge0", passRule_edge__edge0_AllowedTypes, passRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge passRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "passRule_edge_n", "n", passRule_edge_n_AllowedTypes, passRule_edge_n_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode passRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "passRule_node_r", "r", passRule_node_r_AllowedTypes, passRule_node_r_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternNode passRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "passRule_node_p1", "p1", passRule_node_p1_AllowedTypes, passRule_node_p1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode passRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "passRule_node_p2", "p2", passRule_node_p2_AllowedTypes, passRule_node_p2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge passRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@token, "Itoken", "passRule_edge__edge0", "_edge0", passRule_edge__edge0_AllowedTypes, passRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge passRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "Inext", "passRule_edge_n", "n", passRule_edge_n_AllowedTypes, passRule_edge_n_IsAllowedType, 5.5F, -1);
 			bool[,] passRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -557,7 +897,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] passRule_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternEdge passRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "passRule_neg_0_edge_req", "req", passRule_neg_0_edge_req_AllowedTypes, passRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge passRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "Irequest", "passRule_neg_0_edge_req", "req", passRule_neg_0_edge_req_AllowedTypes, passRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			passRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"passRule_",
@@ -624,11 +964,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)passRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)passRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch.Edges[(int)passRule_EdgeNums.@_edge0];
+			Match_passRule curMatch = (Match_passRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			graph.SettingAddedNodeNames( passRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( passRule_addedEdgeNames );
 			@token edge_t;
@@ -648,11 +989,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] passRule_addedNodeNames = new String[] {  };
 		private static String[] passRule_addedEdgeNames = new String[] { "t" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)passRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)passRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch.Edges[(int)passRule_EdgeNums.@_edge0];
+			Match_passRule curMatch = (Match_passRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			graph.SettingAddedNodeNames( passRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( passRule_addedEdgeNames );
 			@token edge_t = @token.CreateEdge(graph, node_r, node_p2);
@@ -662,6 +1004,179 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_passRule() {
 		}
+
+		public interface IMatch_passRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r { get; }
+			IProcess node_p1 { get; }
+			IProcess node_p2 { get; }
+			//Edges
+			Itoken edge__edge0 { get; }
+			Inext edge_n { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public interface IMatch_passRule_neg_0 : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p1 { get; }
+			IResource node_r { get; }
+			//Edges
+			Irequest edge_req { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_passRule : GRGEN_LGSP.ListElement<Match_passRule>, IMatch_passRule
+		{
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public IProcess node_p1 { get { return (IProcess)_node_p1; } }
+			public IProcess node_p2 { get { return (IProcess)_node_p2; } }
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public GRGEN_LGSP.LGSPNode _node_p1;
+			public GRGEN_LGSP.LGSPNode _node_p2;
+			public enum passRule_NodeNums { @r, @p1, @p2, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 3;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)passRule_NodeNums.@r: return _node_r;
+				case (int)passRule_NodeNums.@p1: return _node_p1;
+				case (int)passRule_NodeNums.@p2: return _node_p2;
+				default: return null;
+				}
+			}
+			
+			public Itoken edge__edge0 { get { return (Itoken)_edge__edge0; } }
+			public Inext edge_n { get { return (Inext)_edge_n; } }
+			public GRGEN_LGSP.LGSPEdge _edge__edge0;
+			public GRGEN_LGSP.LGSPEdge _edge_n;
+			public enum passRule_EdgeNums { @_edge0, @n, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 2;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)passRule_EdgeNums.@_edge0: return _edge__edge0;
+				case (int)passRule_EdgeNums.@n: return _edge_n;
+				default: return null;
+				}
+			}
+			
+			public enum passRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum passRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum passRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_passRule.instance.pat_passRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
+		public class Match_passRule_neg_0 : GRGEN_LGSP.ListElement<Match_passRule_neg_0>, IMatch_passRule_neg_0
+		{
+			public IProcess node_p1 { get { return (IProcess)_node_p1; } }
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public GRGEN_LGSP.LGSPNode _node_p1;
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public enum passRule_neg_0_NodeNums { @p1, @r, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)passRule_neg_0_NodeNums.@p1: return _node_p1;
+				case (int)passRule_neg_0_NodeNums.@r: return _node_r;
+				default: return null;
+				}
+			}
+			
+			public Irequest edge_req { get { return (Irequest)_edge_req; } }
+			public GRGEN_LGSP.LGSPEdge _edge_req;
+			public enum passRule_neg_0_EdgeNums { @req, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)passRule_neg_0_EdgeNums.@req: return _edge_req;
+				default: return null;
+				}
+			}
+			
+			public enum passRule_neg_0_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum passRule_neg_0_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum passRule_neg_0_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_passRule.instance.passRule_neg_0; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_requestRule : GRGEN_LGSP.LGSPRulePattern
@@ -727,8 +1242,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, false, },
 			};
 			bool[,] requestRule_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode requestRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "requestRule_node_p", "p", requestRule_node_p_AllowedTypes, requestRule_node_p_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode requestRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "requestRule_node_r", "r", requestRule_node_r_AllowedTypes, requestRule_node_r_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternNode requestRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "requestRule_node_p", "p", requestRule_node_p_AllowedTypes, requestRule_node_p_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode requestRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "requestRule_node_r", "r", requestRule_node_r_AllowedTypes, requestRule_node_r_IsAllowedType, 1.0F, -1);
 			bool[,] requestRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -736,7 +1251,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] requestRule_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternEdge requestRule_neg_0_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "requestRule_neg_0_edge_hb", "hb", requestRule_neg_0_edge_hb_AllowedTypes, requestRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge requestRule_neg_0_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "Iheld_by", "requestRule_neg_0_edge_hb", "hb", requestRule_neg_0_edge_hb_AllowedTypes, requestRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1);
 			requestRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"requestRule_",
@@ -769,8 +1284,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] requestRule_neg_1_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode requestRule_neg_1_node_m = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "requestRule_neg_1_node_m", "m", requestRule_neg_1_node_m_AllowedTypes, requestRule_neg_1_node_m_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge requestRule_neg_1_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "requestRule_neg_1_edge_req", "req", requestRule_neg_1_edge_req_AllowedTypes, requestRule_neg_1_edge_req_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode requestRule_neg_1_node_m = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "requestRule_neg_1_node_m", "m", requestRule_neg_1_node_m_AllowedTypes, requestRule_neg_1_node_m_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge requestRule_neg_1_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "Irequest", "requestRule_neg_1_edge_req", "req", requestRule_neg_1_edge_req_AllowedTypes, requestRule_neg_1_edge_req_IsAllowedType, 5.5F, -1);
 			requestRule_neg_1 = new GRGEN_LGSP.PatternGraph(
 				"neg_1",
 				"requestRule_",
@@ -829,10 +1344,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)requestRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)requestRule_NodeNums.@r];
+			Match_requestRule curMatch = (Match_requestRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
 			graph.SettingAddedNodeNames( requestRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
@@ -841,10 +1357,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] requestRule_addedNodeNames = new String[] {  };
 		private static String[] requestRule_addedEdgeNames = new String[] { "req" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)requestRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)requestRule_NodeNums.@r];
+			Match_requestRule curMatch = (Match_requestRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
 			graph.SettingAddedNodeNames( requestRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
@@ -853,6 +1370,249 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_requestRule() {
 		}
+
+		public interface IMatch_requestRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p { get; }
+			IResource node_r { get; }
+			//Edges
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public interface IMatch_requestRule_neg_0 : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r { get; }
+			IProcess node_p { get; }
+			//Edges
+			Iheld_by edge_hb { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public interface IMatch_requestRule_neg_1 : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p { get; }
+			IResource node_m { get; }
+			//Edges
+			Irequest edge_req { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_requestRule : GRGEN_LGSP.ListElement<Match_requestRule>, IMatch_requestRule
+		{
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public enum requestRule_NodeNums { @p, @r, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)requestRule_NodeNums.@p: return _node_p;
+				case (int)requestRule_NodeNums.@r: return _node_r;
+				default: return null;
+				}
+			}
+			
+			public enum requestRule_EdgeNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 0;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_requestRule.instance.pat_requestRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
+		public class Match_requestRule_neg_0 : GRGEN_LGSP.ListElement<Match_requestRule_neg_0>, IMatch_requestRule_neg_0
+		{
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public enum requestRule_neg_0_NodeNums { @r, @p, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)requestRule_neg_0_NodeNums.@r: return _node_r;
+				case (int)requestRule_neg_0_NodeNums.@p: return _node_p;
+				default: return null;
+				}
+			}
+			
+			public Iheld_by edge_hb { get { return (Iheld_by)_edge_hb; } }
+			public GRGEN_LGSP.LGSPEdge _edge_hb;
+			public enum requestRule_neg_0_EdgeNums { @hb, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)requestRule_neg_0_EdgeNums.@hb: return _edge_hb;
+				default: return null;
+				}
+			}
+			
+			public enum requestRule_neg_0_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestRule_neg_0_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestRule_neg_0_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_requestRule.instance.requestRule_neg_0; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
+		public class Match_requestRule_neg_1 : GRGEN_LGSP.ListElement<Match_requestRule_neg_1>, IMatch_requestRule_neg_1
+		{
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public IResource node_m { get { return (IResource)_node_m; } }
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public GRGEN_LGSP.LGSPNode _node_m;
+			public enum requestRule_neg_1_NodeNums { @p, @m, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)requestRule_neg_1_NodeNums.@p: return _node_p;
+				case (int)requestRule_neg_1_NodeNums.@m: return _node_m;
+				default: return null;
+				}
+			}
+			
+			public Irequest edge_req { get { return (Irequest)_edge_req; } }
+			public GRGEN_LGSP.LGSPEdge _edge_req;
+			public enum requestRule_neg_1_EdgeNums { @req, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)requestRule_neg_1_EdgeNums.@req: return _edge_req;
+				default: return null;
+				}
+			}
+			
+			public enum requestRule_neg_1_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestRule_neg_1_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestRule_neg_1_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_requestRule.instance.requestRule_neg_1; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_takeRule : GRGEN_LGSP.LGSPRulePattern
@@ -903,10 +1663,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode takeRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "takeRule_node_r", "r", takeRule_node_r_AllowedTypes, takeRule_node_r_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode takeRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "takeRule_node_p", "p", takeRule_node_p_AllowedTypes, takeRule_node_p_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge takeRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@token, "takeRule_edge_t", "t", takeRule_edge_t_AllowedTypes, takeRule_edge_t_IsAllowedType, 1.0F, -1);
-			GRGEN_LGSP.PatternEdge takeRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "takeRule_edge_req", "req", takeRule_edge_req_AllowedTypes, takeRule_edge_req_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode takeRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "takeRule_node_r", "r", takeRule_node_r_AllowedTypes, takeRule_node_r_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode takeRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "takeRule_node_p", "p", takeRule_node_p_AllowedTypes, takeRule_node_p_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge takeRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@token, "Itoken", "takeRule_edge_t", "t", takeRule_edge_t_AllowedTypes, takeRule_edge_t_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternEdge takeRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "Irequest", "takeRule_edge_req", "req", takeRule_edge_req_AllowedTypes, takeRule_edge_req_IsAllowedType, 5.5F, -1);
 			pat_takeRule = new GRGEN_LGSP.PatternGraph(
 				"takeRule",
 				"",
@@ -944,12 +1704,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)takeRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)takeRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPEdge edge_t = curMatch.Edges[(int)takeRule_EdgeNums.@t];
-			GRGEN_LGSP.LGSPEdge edge_req = curMatch.Edges[(int)takeRule_EdgeNums.@req];
+			Match_takeRule curMatch = (Match_takeRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPEdge edge_t = curMatch._edge_t;
+			GRGEN_LGSP.LGSPEdge edge_req = curMatch._edge_req;
 			graph.SettingAddedNodeNames( takeRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( takeRule_addedEdgeNames );
 			@held_by edge_hb = @held_by.CreateEdge(graph, node_r, node_p);
@@ -960,12 +1721,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] takeRule_addedNodeNames = new String[] {  };
 		private static String[] takeRule_addedEdgeNames = new String[] { "hb" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)takeRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)takeRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPEdge edge_t = curMatch.Edges[(int)takeRule_EdgeNums.@t];
-			GRGEN_LGSP.LGSPEdge edge_req = curMatch.Edges[(int)takeRule_EdgeNums.@req];
+			Match_takeRule curMatch = (Match_takeRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPEdge edge_t = curMatch._edge_t;
+			GRGEN_LGSP.LGSPEdge edge_req = curMatch._edge_req;
 			graph.SettingAddedNodeNames( takeRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( takeRule_addedEdgeNames );
 			@held_by edge_hb = @held_by.CreateEdge(graph, node_r, node_p);
@@ -976,6 +1738,93 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_takeRule() {
 		}
+
+		public interface IMatch_takeRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r { get; }
+			IProcess node_p { get; }
+			//Edges
+			Itoken edge_t { get; }
+			Irequest edge_req { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_takeRule : GRGEN_LGSP.ListElement<Match_takeRule>, IMatch_takeRule
+		{
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public enum takeRule_NodeNums { @r, @p, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)takeRule_NodeNums.@r: return _node_r;
+				case (int)takeRule_NodeNums.@p: return _node_p;
+				default: return null;
+				}
+			}
+			
+			public Itoken edge_t { get { return (Itoken)_edge_t; } }
+			public Irequest edge_req { get { return (Irequest)_edge_req; } }
+			public GRGEN_LGSP.LGSPEdge _edge_t;
+			public GRGEN_LGSP.LGSPEdge _edge_req;
+			public enum takeRule_EdgeNums { @t, @req, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 2;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)takeRule_EdgeNums.@t: return _edge_t;
+				case (int)takeRule_EdgeNums.@req: return _edge_req;
+				default: return null;
+				}
+			}
+			
+			public enum takeRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum takeRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum takeRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_takeRule.instance.pat_takeRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_releaseRule : GRGEN_LGSP.LGSPRulePattern
@@ -1035,9 +1884,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] releaseRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode releaseRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "releaseRule_node_r", "r", releaseRule_node_r_AllowedTypes, releaseRule_node_r_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode releaseRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "releaseRule_node_p", "p", releaseRule_node_p_AllowedTypes, releaseRule_node_p_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge releaseRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "releaseRule_edge_hb", "hb", releaseRule_edge_hb_AllowedTypes, releaseRule_edge_hb_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternNode releaseRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "releaseRule_node_r", "r", releaseRule_node_r_AllowedTypes, releaseRule_node_r_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode releaseRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "releaseRule_node_p", "p", releaseRule_node_p_AllowedTypes, releaseRule_node_p_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge releaseRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "Iheld_by", "releaseRule_edge_hb", "hb", releaseRule_edge_hb_AllowedTypes, releaseRule_edge_hb_IsAllowedType, 1.0F, -1);
 			bool[,] releaseRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1045,8 +1894,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] releaseRule_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode releaseRule_neg_0_node_m = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "releaseRule_neg_0_node_m", "m", releaseRule_neg_0_node_m_AllowedTypes, releaseRule_neg_0_node_m_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge releaseRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "releaseRule_neg_0_edge_req", "req", releaseRule_neg_0_edge_req_AllowedTypes, releaseRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode releaseRule_neg_0_node_m = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "releaseRule_neg_0_node_m", "m", releaseRule_neg_0_node_m_AllowedTypes, releaseRule_neg_0_node_m_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge releaseRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "Irequest", "releaseRule_neg_0_edge_req", "req", releaseRule_neg_0_edge_req_AllowedTypes, releaseRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			releaseRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"releaseRule_",
@@ -1108,11 +1957,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)releaseRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)releaseRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPEdge edge_hb = curMatch.Edges[(int)releaseRule_EdgeNums.@hb];
+			Match_releaseRule curMatch = (Match_releaseRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPEdge edge_hb = curMatch._edge_hb;
 			graph.SettingAddedNodeNames( releaseRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseRule_addedEdgeNames );
 			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
@@ -1122,11 +1972,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] releaseRule_addedNodeNames = new String[] {  };
 		private static String[] releaseRule_addedEdgeNames = new String[] { "rel" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)releaseRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)releaseRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPEdge edge_hb = curMatch.Edges[(int)releaseRule_EdgeNums.@hb];
+			Match_releaseRule curMatch = (Match_releaseRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPEdge edge_hb = curMatch._edge_hb;
 			graph.SettingAddedNodeNames( releaseRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseRule_addedEdgeNames );
 			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
@@ -1136,6 +1987,171 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_releaseRule() {
 		}
+
+		public interface IMatch_releaseRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r { get; }
+			IProcess node_p { get; }
+			//Edges
+			Iheld_by edge_hb { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public interface IMatch_releaseRule_neg_0 : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p { get; }
+			IResource node_m { get; }
+			//Edges
+			Irequest edge_req { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_releaseRule : GRGEN_LGSP.ListElement<Match_releaseRule>, IMatch_releaseRule
+		{
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public enum releaseRule_NodeNums { @r, @p, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)releaseRule_NodeNums.@r: return _node_r;
+				case (int)releaseRule_NodeNums.@p: return _node_p;
+				default: return null;
+				}
+			}
+			
+			public Iheld_by edge_hb { get { return (Iheld_by)_edge_hb; } }
+			public GRGEN_LGSP.LGSPEdge _edge_hb;
+			public enum releaseRule_EdgeNums { @hb, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)releaseRule_EdgeNums.@hb: return _edge_hb;
+				default: return null;
+				}
+			}
+			
+			public enum releaseRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum releaseRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum releaseRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_releaseRule.instance.pat_releaseRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
+		public class Match_releaseRule_neg_0 : GRGEN_LGSP.ListElement<Match_releaseRule_neg_0>, IMatch_releaseRule_neg_0
+		{
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public IResource node_m { get { return (IResource)_node_m; } }
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public GRGEN_LGSP.LGSPNode _node_m;
+			public enum releaseRule_neg_0_NodeNums { @p, @m, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)releaseRule_neg_0_NodeNums.@p: return _node_p;
+				case (int)releaseRule_neg_0_NodeNums.@m: return _node_m;
+				default: return null;
+				}
+			}
+			
+			public Irequest edge_req { get { return (Irequest)_edge_req; } }
+			public GRGEN_LGSP.LGSPEdge _edge_req;
+			public enum releaseRule_neg_0_EdgeNums { @req, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)releaseRule_neg_0_EdgeNums.@req: return _edge_req;
+				default: return null;
+				}
+			}
+			
+			public enum releaseRule_neg_0_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum releaseRule_neg_0_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum releaseRule_neg_0_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_releaseRule.instance.releaseRule_neg_0; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_giveRule : GRGEN_LGSP.LGSPRulePattern
@@ -1189,11 +2205,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode giveRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "giveRule_node_r", "r", giveRule_node_r_AllowedTypes, giveRule_node_r_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode giveRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "giveRule_node_p1", "p1", giveRule_node_p1_AllowedTypes, giveRule_node_p1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode giveRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "giveRule_node_p2", "p2", giveRule_node_p2_AllowedTypes, giveRule_node_p2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge giveRule_edge_rel = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@release, "giveRule_edge_rel", "rel", giveRule_edge_rel_AllowedTypes, giveRule_edge_rel_IsAllowedType, 1.0F, -1);
-			GRGEN_LGSP.PatternEdge giveRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "giveRule_edge_n", "n", giveRule_edge_n_AllowedTypes, giveRule_edge_n_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode giveRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "giveRule_node_r", "r", giveRule_node_r_AllowedTypes, giveRule_node_r_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode giveRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "giveRule_node_p1", "p1", giveRule_node_p1_AllowedTypes, giveRule_node_p1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode giveRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "giveRule_node_p2", "p2", giveRule_node_p2_AllowedTypes, giveRule_node_p2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge giveRule_edge_rel = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@release, "Irelease", "giveRule_edge_rel", "rel", giveRule_edge_rel_AllowedTypes, giveRule_edge_rel_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternEdge giveRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "Inext", "giveRule_edge_n", "n", giveRule_edge_n_AllowedTypes, giveRule_edge_n_IsAllowedType, 5.5F, -1);
 			pat_giveRule = new GRGEN_LGSP.PatternGraph(
 				"giveRule",
 				"",
@@ -1233,11 +2249,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)giveRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)giveRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPEdge edge_rel = curMatch.Edges[(int)giveRule_EdgeNums.@rel];
+			Match_giveRule curMatch = (Match_giveRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPEdge edge_rel = curMatch._edge_rel;
 			graph.SettingAddedNodeNames( giveRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( giveRule_addedEdgeNames );
 			@token edge_t = @token.CreateEdge(graph, node_r, node_p2);
@@ -1247,11 +2264,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] giveRule_addedNodeNames = new String[] {  };
 		private static String[] giveRule_addedEdgeNames = new String[] { "t" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)giveRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)giveRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPEdge edge_rel = curMatch.Edges[(int)giveRule_EdgeNums.@rel];
+			Match_giveRule curMatch = (Match_giveRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPEdge edge_rel = curMatch._edge_rel;
 			graph.SettingAddedNodeNames( giveRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( giveRule_addedEdgeNames );
 			@token edge_t = @token.CreateEdge(graph, node_r, node_p2);
@@ -1261,6 +2279,97 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_giveRule() {
 		}
+
+		public interface IMatch_giveRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r { get; }
+			IProcess node_p1 { get; }
+			IProcess node_p2 { get; }
+			//Edges
+			Irelease edge_rel { get; }
+			Inext edge_n { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_giveRule : GRGEN_LGSP.ListElement<Match_giveRule>, IMatch_giveRule
+		{
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public IProcess node_p1 { get { return (IProcess)_node_p1; } }
+			public IProcess node_p2 { get { return (IProcess)_node_p2; } }
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public GRGEN_LGSP.LGSPNode _node_p1;
+			public GRGEN_LGSP.LGSPNode _node_p2;
+			public enum giveRule_NodeNums { @r, @p1, @p2, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 3;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)giveRule_NodeNums.@r: return _node_r;
+				case (int)giveRule_NodeNums.@p1: return _node_p1;
+				case (int)giveRule_NodeNums.@p2: return _node_p2;
+				default: return null;
+				}
+			}
+			
+			public Irelease edge_rel { get { return (Irelease)_edge_rel; } }
+			public Inext edge_n { get { return (Inext)_edge_n; } }
+			public GRGEN_LGSP.LGSPEdge _edge_rel;
+			public GRGEN_LGSP.LGSPEdge _edge_n;
+			public enum giveRule_EdgeNums { @rel, @n, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 2;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)giveRule_EdgeNums.@rel: return _edge_rel;
+				case (int)giveRule_EdgeNums.@n: return _edge_n;
+				default: return null;
+				}
+			}
+			
+			public enum giveRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum giveRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum giveRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_giveRule.instance.pat_giveRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_blockedRule : GRGEN_LGSP.LGSPRulePattern
@@ -1314,11 +2423,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode blockedRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "blockedRule_node_p1", "p1", blockedRule_node_p1_AllowedTypes, blockedRule_node_p1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode blockedRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "blockedRule_node_r", "r", blockedRule_node_r_AllowedTypes, blockedRule_node_r_IsAllowedType, 1.0F, -1);
-			GRGEN_LGSP.PatternNode blockedRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "blockedRule_node_p2", "p2", blockedRule_node_p2_AllowedTypes, blockedRule_node_p2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge blockedRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "blockedRule_edge_req", "req", blockedRule_edge_req_AllowedTypes, blockedRule_edge_req_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge blockedRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "blockedRule_edge_hb", "hb", blockedRule_edge_hb_AllowedTypes, blockedRule_edge_hb_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode blockedRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "blockedRule_node_p1", "p1", blockedRule_node_p1_AllowedTypes, blockedRule_node_p1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode blockedRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "blockedRule_node_r", "r", blockedRule_node_r_AllowedTypes, blockedRule_node_r_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternNode blockedRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "blockedRule_node_p2", "p2", blockedRule_node_p2_AllowedTypes, blockedRule_node_p2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge blockedRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "Irequest", "blockedRule_edge_req", "req", blockedRule_edge_req_AllowedTypes, blockedRule_edge_req_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge blockedRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "Iheld_by", "blockedRule_edge_hb", "hb", blockedRule_edge_hb_AllowedTypes, blockedRule_edge_hb_IsAllowedType, 5.5F, -1);
 			pat_blockedRule = new GRGEN_LGSP.PatternGraph(
 				"blockedRule",
 				"",
@@ -1358,10 +2467,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)blockedRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p1 = curMatch.Nodes[(int)blockedRule_NodeNums.@p1];
+			Match_blockedRule curMatch = (Match_blockedRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p1 = curMatch._node_p1;
 			graph.SettingAddedNodeNames( blockedRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( blockedRule_addedEdgeNames );
 			@blocked edge_b = @blocked.CreateEdge(graph, node_r, node_p1);
@@ -1370,10 +2480,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] blockedRule_addedNodeNames = new String[] {  };
 		private static String[] blockedRule_addedEdgeNames = new String[] { "b" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)blockedRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p1 = curMatch.Nodes[(int)blockedRule_NodeNums.@p1];
+			Match_blockedRule curMatch = (Match_blockedRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p1 = curMatch._node_p1;
 			graph.SettingAddedNodeNames( blockedRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( blockedRule_addedEdgeNames );
 			@blocked edge_b = @blocked.CreateEdge(graph, node_r, node_p1);
@@ -1382,6 +2493,97 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_blockedRule() {
 		}
+
+		public interface IMatch_blockedRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p1 { get; }
+			IResource node_r { get; }
+			IProcess node_p2 { get; }
+			//Edges
+			Irequest edge_req { get; }
+			Iheld_by edge_hb { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_blockedRule : GRGEN_LGSP.ListElement<Match_blockedRule>, IMatch_blockedRule
+		{
+			public IProcess node_p1 { get { return (IProcess)_node_p1; } }
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public IProcess node_p2 { get { return (IProcess)_node_p2; } }
+			public GRGEN_LGSP.LGSPNode _node_p1;
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public GRGEN_LGSP.LGSPNode _node_p2;
+			public enum blockedRule_NodeNums { @p1, @r, @p2, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 3;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)blockedRule_NodeNums.@p1: return _node_p1;
+				case (int)blockedRule_NodeNums.@r: return _node_r;
+				case (int)blockedRule_NodeNums.@p2: return _node_p2;
+				default: return null;
+				}
+			}
+			
+			public Irequest edge_req { get { return (Irequest)_edge_req; } }
+			public Iheld_by edge_hb { get { return (Iheld_by)_edge_hb; } }
+			public GRGEN_LGSP.LGSPEdge _edge_req;
+			public GRGEN_LGSP.LGSPEdge _edge_hb;
+			public enum blockedRule_EdgeNums { @req, @hb, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 2;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)blockedRule_EdgeNums.@req: return _edge_req;
+				case (int)blockedRule_EdgeNums.@hb: return _edge_hb;
+				default: return null;
+				}
+			}
+			
+			public enum blockedRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum blockedRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum blockedRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_blockedRule.instance.pat_blockedRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_waitingRule : GRGEN_LGSP.LGSPRulePattern
@@ -1444,14 +2646,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, false, false, },
 				{ false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode waitingRule_node_r2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "waitingRule_node_r2", "r2", waitingRule_node_r2_AllowedTypes, waitingRule_node_r2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode waitingRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "waitingRule_node_p1", "p1", waitingRule_node_p1_AllowedTypes, waitingRule_node_p1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode waitingRule_node_r1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "waitingRule_node_r1", "r1", waitingRule_node_r1_AllowedTypes, waitingRule_node_r1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode waitingRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "waitingRule_node_p2", "p2", waitingRule_node_p2_AllowedTypes, waitingRule_node_p2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode waitingRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "waitingRule_node_r", "r", waitingRule_node_r_AllowedTypes, waitingRule_node_r_IsAllowedType, 1.0F, -1);
-			GRGEN_LGSP.PatternEdge waitingRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@blocked, "waitingRule_edge_b", "b", waitingRule_edge_b_AllowedTypes, waitingRule_edge_b_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge waitingRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "waitingRule_edge_hb", "hb", waitingRule_edge_hb_AllowedTypes, waitingRule_edge_hb_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge waitingRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "waitingRule_edge_req", "req", waitingRule_edge_req_AllowedTypes, waitingRule_edge_req_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode waitingRule_node_r2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "waitingRule_node_r2", "r2", waitingRule_node_r2_AllowedTypes, waitingRule_node_r2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode waitingRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "waitingRule_node_p1", "p1", waitingRule_node_p1_AllowedTypes, waitingRule_node_p1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode waitingRule_node_r1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "waitingRule_node_r1", "r1", waitingRule_node_r1_AllowedTypes, waitingRule_node_r1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode waitingRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "waitingRule_node_p2", "p2", waitingRule_node_p2_AllowedTypes, waitingRule_node_p2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode waitingRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "waitingRule_node_r", "r", waitingRule_node_r_AllowedTypes, waitingRule_node_r_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternEdge waitingRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@blocked, "Iblocked", "waitingRule_edge_b", "b", waitingRule_edge_b_AllowedTypes, waitingRule_edge_b_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge waitingRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "Iheld_by", "waitingRule_edge_hb", "hb", waitingRule_edge_hb_AllowedTypes, waitingRule_edge_hb_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge waitingRule_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "Irequest", "waitingRule_edge_req", "req", waitingRule_edge_req_AllowedTypes, waitingRule_edge_req_IsAllowedType, 5.5F, -1);
 			pat_waitingRule = new GRGEN_LGSP.PatternGraph(
 				"waitingRule",
 				"",
@@ -1499,12 +2701,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r2 = curMatch.Nodes[(int)waitingRule_NodeNums.@r2];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)waitingRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)waitingRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPEdge edge_b = curMatch.Edges[(int)waitingRule_EdgeNums.@b];
+			Match_waitingRule curMatch = (Match_waitingRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r2 = curMatch._node_r2;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPEdge edge_b = curMatch._edge_b;
 			graph.SettingAddedNodeNames( waitingRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( waitingRule_addedEdgeNames );
 			@blocked edge_bn;
@@ -1526,12 +2729,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] waitingRule_addedNodeNames = new String[] {  };
 		private static String[] waitingRule_addedEdgeNames = new String[] { "bn" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r2 = curMatch.Nodes[(int)waitingRule_NodeNums.@r2];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)waitingRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)waitingRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPEdge edge_b = curMatch.Edges[(int)waitingRule_EdgeNums.@b];
+			Match_waitingRule curMatch = (Match_waitingRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r2 = curMatch._node_r2;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPEdge edge_b = curMatch._edge_b;
 			graph.SettingAddedNodeNames( waitingRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( waitingRule_addedEdgeNames );
 			@blocked edge_bn = @blocked.CreateEdge(graph, node_r2, node_p2);
@@ -1543,6 +2747,109 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_waitingRule() {
 		}
+
+		public interface IMatch_waitingRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r2 { get; }
+			IProcess node_p1 { get; }
+			IResource node_r1 { get; }
+			IProcess node_p2 { get; }
+			IResource node_r { get; }
+			//Edges
+			Iblocked edge_b { get; }
+			Iheld_by edge_hb { get; }
+			Irequest edge_req { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_waitingRule : GRGEN_LGSP.ListElement<Match_waitingRule>, IMatch_waitingRule
+		{
+			public IResource node_r2 { get { return (IResource)_node_r2; } }
+			public IProcess node_p1 { get { return (IProcess)_node_p1; } }
+			public IResource node_r1 { get { return (IResource)_node_r1; } }
+			public IProcess node_p2 { get { return (IProcess)_node_p2; } }
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public GRGEN_LGSP.LGSPNode _node_r2;
+			public GRGEN_LGSP.LGSPNode _node_p1;
+			public GRGEN_LGSP.LGSPNode _node_r1;
+			public GRGEN_LGSP.LGSPNode _node_p2;
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public enum waitingRule_NodeNums { @r2, @p1, @r1, @p2, @r, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 5;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)waitingRule_NodeNums.@r2: return _node_r2;
+				case (int)waitingRule_NodeNums.@p1: return _node_p1;
+				case (int)waitingRule_NodeNums.@r1: return _node_r1;
+				case (int)waitingRule_NodeNums.@p2: return _node_p2;
+				case (int)waitingRule_NodeNums.@r: return _node_r;
+				default: return null;
+				}
+			}
+			
+			public Iblocked edge_b { get { return (Iblocked)_edge_b; } }
+			public Iheld_by edge_hb { get { return (Iheld_by)_edge_hb; } }
+			public Irequest edge_req { get { return (Irequest)_edge_req; } }
+			public GRGEN_LGSP.LGSPEdge _edge_b;
+			public GRGEN_LGSP.LGSPEdge _edge_hb;
+			public GRGEN_LGSP.LGSPEdge _edge_req;
+			public enum waitingRule_EdgeNums { @b, @hb, @req, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 3;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)waitingRule_EdgeNums.@b: return _edge_b;
+				case (int)waitingRule_EdgeNums.@hb: return _edge_hb;
+				case (int)waitingRule_EdgeNums.@req: return _edge_req;
+				default: return null;
+				}
+			}
+			
+			public enum waitingRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum waitingRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum waitingRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_waitingRule.instance.pat_waitingRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_ignoreRule : GRGEN_LGSP.LGSPRulePattern
@@ -1602,9 +2909,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] ignoreRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode ignoreRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "ignoreRule_node_r", "r", ignoreRule_node_r_AllowedTypes, ignoreRule_node_r_IsAllowedType, 1.0F, -1);
-			GRGEN_LGSP.PatternNode ignoreRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "ignoreRule_node_p", "p", ignoreRule_node_p_AllowedTypes, ignoreRule_node_p_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge ignoreRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@blocked, "ignoreRule_edge_b", "b", ignoreRule_edge_b_AllowedTypes, ignoreRule_edge_b_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ignoreRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "ignoreRule_node_r", "r", ignoreRule_node_r_AllowedTypes, ignoreRule_node_r_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternNode ignoreRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "ignoreRule_node_p", "p", ignoreRule_node_p_AllowedTypes, ignoreRule_node_p_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge ignoreRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@blocked, "Iblocked", "ignoreRule_edge_b", "b", ignoreRule_edge_b_AllowedTypes, ignoreRule_edge_b_IsAllowedType, 5.5F, -1);
 			bool[,] ignoreRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1612,8 +2919,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] ignoreRule_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode ignoreRule_neg_0_node_m = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "ignoreRule_neg_0_node_m", "m", ignoreRule_neg_0_node_m_AllowedTypes, ignoreRule_neg_0_node_m_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge ignoreRule_neg_0_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "ignoreRule_neg_0_edge_hb", "hb", ignoreRule_neg_0_edge_hb_AllowedTypes, ignoreRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ignoreRule_neg_0_node_m = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "ignoreRule_neg_0_node_m", "m", ignoreRule_neg_0_node_m_AllowedTypes, ignoreRule_neg_0_node_m_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge ignoreRule_neg_0_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "Iheld_by", "ignoreRule_neg_0_edge_hb", "hb", ignoreRule_neg_0_edge_hb_AllowedTypes, ignoreRule_neg_0_edge_hb_IsAllowedType, 5.5F, -1);
 			ignoreRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ignoreRule_",
@@ -1675,9 +2982,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPEdge edge_b = curMatch.Edges[(int)ignoreRule_EdgeNums.@b];
+			Match_ignoreRule curMatch = (Match_ignoreRule)_curMatch;
+			GRGEN_LGSP.LGSPEdge edge_b = curMatch._edge_b;
 			graph.SettingAddedNodeNames( ignoreRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( ignoreRule_addedEdgeNames );
 			graph.Remove(edge_b);
@@ -1686,9 +2994,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] ignoreRule_addedNodeNames = new String[] {  };
 		private static String[] ignoreRule_addedEdgeNames = new String[] {  };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPEdge edge_b = curMatch.Edges[(int)ignoreRule_EdgeNums.@b];
+			Match_ignoreRule curMatch = (Match_ignoreRule)_curMatch;
+			GRGEN_LGSP.LGSPEdge edge_b = curMatch._edge_b;
 			graph.SettingAddedNodeNames( ignoreRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( ignoreRule_addedEdgeNames );
 			graph.Remove(edge_b);
@@ -1697,6 +3006,171 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_ignoreRule() {
 		}
+
+		public interface IMatch_ignoreRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r { get; }
+			IProcess node_p { get; }
+			//Edges
+			Iblocked edge_b { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public interface IMatch_ignoreRule_neg_0 : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_m { get; }
+			IProcess node_p { get; }
+			//Edges
+			Iheld_by edge_hb { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_ignoreRule : GRGEN_LGSP.ListElement<Match_ignoreRule>, IMatch_ignoreRule
+		{
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public enum ignoreRule_NodeNums { @r, @p, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)ignoreRule_NodeNums.@r: return _node_r;
+				case (int)ignoreRule_NodeNums.@p: return _node_p;
+				default: return null;
+				}
+			}
+			
+			public Iblocked edge_b { get { return (Iblocked)_edge_b; } }
+			public GRGEN_LGSP.LGSPEdge _edge_b;
+			public enum ignoreRule_EdgeNums { @b, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)ignoreRule_EdgeNums.@b: return _edge_b;
+				default: return null;
+				}
+			}
+			
+			public enum ignoreRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ignoreRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ignoreRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ignoreRule.instance.pat_ignoreRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
+		public class Match_ignoreRule_neg_0 : GRGEN_LGSP.ListElement<Match_ignoreRule_neg_0>, IMatch_ignoreRule_neg_0
+		{
+			public IResource node_m { get { return (IResource)_node_m; } }
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public GRGEN_LGSP.LGSPNode _node_m;
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public enum ignoreRule_neg_0_NodeNums { @m, @p, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)ignoreRule_neg_0_NodeNums.@m: return _node_m;
+				case (int)ignoreRule_neg_0_NodeNums.@p: return _node_p;
+				default: return null;
+				}
+			}
+			
+			public Iheld_by edge_hb { get { return (Iheld_by)_edge_hb; } }
+			public GRGEN_LGSP.LGSPEdge _edge_hb;
+			public enum ignoreRule_neg_0_EdgeNums { @hb, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)ignoreRule_neg_0_EdgeNums.@hb: return _edge_hb;
+				default: return null;
+				}
+			}
+			
+			public enum ignoreRule_neg_0_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ignoreRule_neg_0_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ignoreRule_neg_0_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ignoreRule.instance.ignoreRule_neg_0; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_unlockRule : GRGEN_LGSP.LGSPRulePattern
@@ -1747,10 +3221,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode unlockRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "unlockRule_node_r", "r", unlockRule_node_r_AllowedTypes, unlockRule_node_r_IsAllowedType, 1.0F, -1);
-			GRGEN_LGSP.PatternNode unlockRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "unlockRule_node_p", "p", unlockRule_node_p_AllowedTypes, unlockRule_node_p_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge unlockRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@blocked, "unlockRule_edge_b", "b", unlockRule_edge_b_AllowedTypes, unlockRule_edge_b_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge unlockRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "unlockRule_edge_hb", "hb", unlockRule_edge_hb_AllowedTypes, unlockRule_edge_hb_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode unlockRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "unlockRule_node_r", "r", unlockRule_node_r_AllowedTypes, unlockRule_node_r_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternNode unlockRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "unlockRule_node_p", "p", unlockRule_node_p_AllowedTypes, unlockRule_node_p_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge unlockRule_edge_b = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@blocked, "Iblocked", "unlockRule_edge_b", "b", unlockRule_edge_b_AllowedTypes, unlockRule_edge_b_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge unlockRule_edge_hb = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "Iheld_by", "unlockRule_edge_hb", "hb", unlockRule_edge_hb_AllowedTypes, unlockRule_edge_hb_IsAllowedType, 5.5F, -1);
 			pat_unlockRule = new GRGEN_LGSP.PatternGraph(
 				"unlockRule",
 				"",
@@ -1788,12 +3262,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)unlockRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)unlockRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPEdge edge_b = curMatch.Edges[(int)unlockRule_EdgeNums.@b];
-			GRGEN_LGSP.LGSPEdge edge_hb = curMatch.Edges[(int)unlockRule_EdgeNums.@hb];
+			Match_unlockRule curMatch = (Match_unlockRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPEdge edge_b = curMatch._edge_b;
+			GRGEN_LGSP.LGSPEdge edge_hb = curMatch._edge_hb;
 			graph.SettingAddedNodeNames( unlockRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( unlockRule_addedEdgeNames );
 			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
@@ -1804,12 +3279,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] unlockRule_addedNodeNames = new String[] {  };
 		private static String[] unlockRule_addedEdgeNames = new String[] { "rel" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)unlockRule_NodeNums.@r];
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)unlockRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPEdge edge_b = curMatch.Edges[(int)unlockRule_EdgeNums.@b];
-			GRGEN_LGSP.LGSPEdge edge_hb = curMatch.Edges[(int)unlockRule_EdgeNums.@hb];
+			Match_unlockRule curMatch = (Match_unlockRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPEdge edge_b = curMatch._edge_b;
+			GRGEN_LGSP.LGSPEdge edge_hb = curMatch._edge_hb;
 			graph.SettingAddedNodeNames( unlockRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( unlockRule_addedEdgeNames );
 			@release edge_rel = @release.CreateEdge(graph, node_r, node_p);
@@ -1820,6 +3296,93 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_unlockRule() {
 		}
+
+		public interface IMatch_unlockRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r { get; }
+			IProcess node_p { get; }
+			//Edges
+			Iblocked edge_b { get; }
+			Iheld_by edge_hb { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_unlockRule : GRGEN_LGSP.ListElement<Match_unlockRule>, IMatch_unlockRule
+		{
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public enum unlockRule_NodeNums { @r, @p, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)unlockRule_NodeNums.@r: return _node_r;
+				case (int)unlockRule_NodeNums.@p: return _node_p;
+				default: return null;
+				}
+			}
+			
+			public Iblocked edge_b { get { return (Iblocked)_edge_b; } }
+			public Iheld_by edge_hb { get { return (Iheld_by)_edge_hb; } }
+			public GRGEN_LGSP.LGSPEdge _edge_b;
+			public GRGEN_LGSP.LGSPEdge _edge_hb;
+			public enum unlockRule_EdgeNums { @b, @hb, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 2;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)unlockRule_EdgeNums.@b: return _edge_b;
+				case (int)unlockRule_EdgeNums.@hb: return _edge_hb;
+				default: return null;
+				}
+			}
+			
+			public enum unlockRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum unlockRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum unlockRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_unlockRule.instance.pat_unlockRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_requestStarRule : GRGEN_LGSP.LGSPRulePattern
@@ -1889,13 +3452,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, false, false, },
 				{ false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode requestStarRule_node_r1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "requestStarRule_node_r1", "r1", requestStarRule_node_r1_AllowedTypes, requestStarRule_node_r1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode requestStarRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "requestStarRule_node_p1", "p1", requestStarRule_node_p1_AllowedTypes, requestStarRule_node_p1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode requestStarRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "requestStarRule_node_p2", "p2", requestStarRule_node_p2_AllowedTypes, requestStarRule_node_p2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode requestStarRule_node_r2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "requestStarRule_node_r2", "r2", requestStarRule_node_r2_AllowedTypes, requestStarRule_node_r2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge requestStarRule_edge_h1 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "requestStarRule_edge_h1", "h1", requestStarRule_edge_h1_AllowedTypes, requestStarRule_edge_h1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge requestStarRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "requestStarRule_edge_n", "n", requestStarRule_edge_n_AllowedTypes, requestStarRule_edge_n_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge requestStarRule_edge_h2 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "requestStarRule_edge_h2", "h2", requestStarRule_edge_h2_AllowedTypes, requestStarRule_edge_h2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode requestStarRule_node_r1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "requestStarRule_node_r1", "r1", requestStarRule_node_r1_AllowedTypes, requestStarRule_node_r1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode requestStarRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "requestStarRule_node_p1", "p1", requestStarRule_node_p1_AllowedTypes, requestStarRule_node_p1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode requestStarRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "requestStarRule_node_p2", "p2", requestStarRule_node_p2_AllowedTypes, requestStarRule_node_p2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode requestStarRule_node_r2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "requestStarRule_node_r2", "r2", requestStarRule_node_r2_AllowedTypes, requestStarRule_node_r2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge requestStarRule_edge_h1 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "Iheld_by", "requestStarRule_edge_h1", "h1", requestStarRule_edge_h1_AllowedTypes, requestStarRule_edge_h1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge requestStarRule_edge_n = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@next, "Inext", "requestStarRule_edge_n", "n", requestStarRule_edge_n_AllowedTypes, requestStarRule_edge_n_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge requestStarRule_edge_h2 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "Iheld_by", "requestStarRule_edge_h2", "h2", requestStarRule_edge_h2_AllowedTypes, requestStarRule_edge_h2_IsAllowedType, 5.5F, -1);
 			bool[,] requestStarRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1903,7 +3466,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] requestStarRule_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternEdge requestStarRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "requestStarRule_neg_0_edge_req", "req", requestStarRule_neg_0_edge_req_AllowedTypes, requestStarRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge requestStarRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "Irequest", "requestStarRule_neg_0_edge_req", "req", requestStarRule_neg_0_edge_req_AllowedTypes, requestStarRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			requestStarRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"requestStarRule_",
@@ -1976,10 +3539,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p1 = curMatch.Nodes[(int)requestStarRule_NodeNums.@p1];
-			GRGEN_LGSP.LGSPNode node_r2 = curMatch.Nodes[(int)requestStarRule_NodeNums.@r2];
+			Match_requestStarRule curMatch = (Match_requestStarRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p1 = curMatch._node_p1;
+			GRGEN_LGSP.LGSPNode node_r2 = curMatch._node_r2;
 			graph.SettingAddedNodeNames( requestStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestStarRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p1, node_r2);
@@ -1988,10 +3552,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] requestStarRule_addedNodeNames = new String[] {  };
 		private static String[] requestStarRule_addedEdgeNames = new String[] { "req" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p1 = curMatch.Nodes[(int)requestStarRule_NodeNums.@p1];
-			GRGEN_LGSP.LGSPNode node_r2 = curMatch.Nodes[(int)requestStarRule_NodeNums.@r2];
+			Match_requestStarRule curMatch = (Match_requestStarRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p1 = curMatch._node_p1;
+			GRGEN_LGSP.LGSPNode node_r2 = curMatch._node_r2;
 			graph.SettingAddedNodeNames( requestStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestStarRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p1, node_r2);
@@ -2000,6 +3565,187 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_requestStarRule() {
 		}
+
+		public interface IMatch_requestStarRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r1 { get; }
+			IProcess node_p1 { get; }
+			IProcess node_p2 { get; }
+			IResource node_r2 { get; }
+			//Edges
+			Iheld_by edge_h1 { get; }
+			Inext edge_n { get; }
+			Iheld_by edge_h2 { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public interface IMatch_requestStarRule_neg_0 : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p1 { get; }
+			IResource node_r2 { get; }
+			//Edges
+			Irequest edge_req { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_requestStarRule : GRGEN_LGSP.ListElement<Match_requestStarRule>, IMatch_requestStarRule
+		{
+			public IResource node_r1 { get { return (IResource)_node_r1; } }
+			public IProcess node_p1 { get { return (IProcess)_node_p1; } }
+			public IProcess node_p2 { get { return (IProcess)_node_p2; } }
+			public IResource node_r2 { get { return (IResource)_node_r2; } }
+			public GRGEN_LGSP.LGSPNode _node_r1;
+			public GRGEN_LGSP.LGSPNode _node_p1;
+			public GRGEN_LGSP.LGSPNode _node_p2;
+			public GRGEN_LGSP.LGSPNode _node_r2;
+			public enum requestStarRule_NodeNums { @r1, @p1, @p2, @r2, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 4;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)requestStarRule_NodeNums.@r1: return _node_r1;
+				case (int)requestStarRule_NodeNums.@p1: return _node_p1;
+				case (int)requestStarRule_NodeNums.@p2: return _node_p2;
+				case (int)requestStarRule_NodeNums.@r2: return _node_r2;
+				default: return null;
+				}
+			}
+			
+			public Iheld_by edge_h1 { get { return (Iheld_by)_edge_h1; } }
+			public Inext edge_n { get { return (Inext)_edge_n; } }
+			public Iheld_by edge_h2 { get { return (Iheld_by)_edge_h2; } }
+			public GRGEN_LGSP.LGSPEdge _edge_h1;
+			public GRGEN_LGSP.LGSPEdge _edge_n;
+			public GRGEN_LGSP.LGSPEdge _edge_h2;
+			public enum requestStarRule_EdgeNums { @h1, @n, @h2, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 3;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)requestStarRule_EdgeNums.@h1: return _edge_h1;
+				case (int)requestStarRule_EdgeNums.@n: return _edge_n;
+				case (int)requestStarRule_EdgeNums.@h2: return _edge_h2;
+				default: return null;
+				}
+			}
+			
+			public enum requestStarRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestStarRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestStarRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_requestStarRule.instance.pat_requestStarRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
+		public class Match_requestStarRule_neg_0 : GRGEN_LGSP.ListElement<Match_requestStarRule_neg_0>, IMatch_requestStarRule_neg_0
+		{
+			public IProcess node_p1 { get { return (IProcess)_node_p1; } }
+			public IResource node_r2 { get { return (IResource)_node_r2; } }
+			public GRGEN_LGSP.LGSPNode _node_p1;
+			public GRGEN_LGSP.LGSPNode _node_r2;
+			public enum requestStarRule_neg_0_NodeNums { @p1, @r2, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)requestStarRule_neg_0_NodeNums.@p1: return _node_p1;
+				case (int)requestStarRule_neg_0_NodeNums.@r2: return _node_r2;
+				default: return null;
+				}
+			}
+			
+			public Irequest edge_req { get { return (Irequest)_edge_req; } }
+			public GRGEN_LGSP.LGSPEdge _edge_req;
+			public enum requestStarRule_neg_0_EdgeNums { @req, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)requestStarRule_neg_0_EdgeNums.@req: return _edge_req;
+				default: return null;
+				}
+			}
+			
+			public enum requestStarRule_neg_0_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestStarRule_neg_0_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestStarRule_neg_0_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_requestStarRule.instance.requestStarRule_neg_0; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_releaseStarRule : GRGEN_LGSP.LGSPRulePattern
@@ -2059,13 +3805,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, false, false, },
 				{ false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode releaseStarRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "releaseStarRule_node_p1", "p1", releaseStarRule_node_p1_AllowedTypes, releaseStarRule_node_p1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode releaseStarRule_node_r1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "releaseStarRule_node_r1", "r1", releaseStarRule_node_r1_AllowedTypes, releaseStarRule_node_r1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode releaseStarRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "releaseStarRule_node_p2", "p2", releaseStarRule_node_p2_AllowedTypes, releaseStarRule_node_p2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode releaseStarRule_node_r2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "releaseStarRule_node_r2", "r2", releaseStarRule_node_r2_AllowedTypes, releaseStarRule_node_r2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge releaseStarRule_edge_rq = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "releaseStarRule_edge_rq", "rq", releaseStarRule_edge_rq_AllowedTypes, releaseStarRule_edge_rq_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge releaseStarRule_edge_h1 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "releaseStarRule_edge_h1", "h1", releaseStarRule_edge_h1_AllowedTypes, releaseStarRule_edge_h1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge releaseStarRule_edge_h2 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "releaseStarRule_edge_h2", "h2", releaseStarRule_edge_h2_AllowedTypes, releaseStarRule_edge_h2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode releaseStarRule_node_p1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "releaseStarRule_node_p1", "p1", releaseStarRule_node_p1_AllowedTypes, releaseStarRule_node_p1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode releaseStarRule_node_r1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "releaseStarRule_node_r1", "r1", releaseStarRule_node_r1_AllowedTypes, releaseStarRule_node_r1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode releaseStarRule_node_p2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "releaseStarRule_node_p2", "p2", releaseStarRule_node_p2_AllowedTypes, releaseStarRule_node_p2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode releaseStarRule_node_r2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "releaseStarRule_node_r2", "r2", releaseStarRule_node_r2_AllowedTypes, releaseStarRule_node_r2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge releaseStarRule_edge_rq = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "Irequest", "releaseStarRule_edge_rq", "rq", releaseStarRule_edge_rq_AllowedTypes, releaseStarRule_edge_rq_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge releaseStarRule_edge_h1 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "Iheld_by", "releaseStarRule_edge_h1", "h1", releaseStarRule_edge_h1_AllowedTypes, releaseStarRule_edge_h1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge releaseStarRule_edge_h2 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "Iheld_by", "releaseStarRule_edge_h2", "h2", releaseStarRule_edge_h2_AllowedTypes, releaseStarRule_edge_h2_IsAllowedType, 5.5F, -1);
 			pat_releaseStarRule = new GRGEN_LGSP.PatternGraph(
 				"releaseStarRule",
 				"",
@@ -2111,11 +3857,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r1 = curMatch.Nodes[(int)releaseStarRule_NodeNums.@r1];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)releaseStarRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPEdge edge_h1 = curMatch.Edges[(int)releaseStarRule_EdgeNums.@h1];
+			Match_releaseStarRule curMatch = (Match_releaseStarRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r1 = curMatch._node_r1;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPEdge edge_h1 = curMatch._edge_h1;
 			graph.SettingAddedNodeNames( releaseStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseStarRule_addedEdgeNames );
 			@release edge_rl = @release.CreateEdge(graph, node_r1, node_p2);
@@ -2125,11 +3872,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] releaseStarRule_addedNodeNames = new String[] {  };
 		private static String[] releaseStarRule_addedEdgeNames = new String[] { "rl" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_r1 = curMatch.Nodes[(int)releaseStarRule_NodeNums.@r1];
-			GRGEN_LGSP.LGSPNode node_p2 = curMatch.Nodes[(int)releaseStarRule_NodeNums.@p2];
-			GRGEN_LGSP.LGSPEdge edge_h1 = curMatch.Edges[(int)releaseStarRule_EdgeNums.@h1];
+			Match_releaseStarRule curMatch = (Match_releaseStarRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_r1 = curMatch._node_r1;
+			GRGEN_LGSP.LGSPNode node_p2 = curMatch._node_p2;
+			GRGEN_LGSP.LGSPEdge edge_h1 = curMatch._edge_h1;
 			graph.SettingAddedNodeNames( releaseStarRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( releaseStarRule_addedEdgeNames );
 			@release edge_rl = @release.CreateEdge(graph, node_r1, node_p2);
@@ -2139,6 +3887,105 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_releaseStarRule() {
 		}
+
+		public interface IMatch_releaseStarRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p1 { get; }
+			IResource node_r1 { get; }
+			IProcess node_p2 { get; }
+			IResource node_r2 { get; }
+			//Edges
+			Irequest edge_rq { get; }
+			Iheld_by edge_h1 { get; }
+			Iheld_by edge_h2 { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_releaseStarRule : GRGEN_LGSP.ListElement<Match_releaseStarRule>, IMatch_releaseStarRule
+		{
+			public IProcess node_p1 { get { return (IProcess)_node_p1; } }
+			public IResource node_r1 { get { return (IResource)_node_r1; } }
+			public IProcess node_p2 { get { return (IProcess)_node_p2; } }
+			public IResource node_r2 { get { return (IResource)_node_r2; } }
+			public GRGEN_LGSP.LGSPNode _node_p1;
+			public GRGEN_LGSP.LGSPNode _node_r1;
+			public GRGEN_LGSP.LGSPNode _node_p2;
+			public GRGEN_LGSP.LGSPNode _node_r2;
+			public enum releaseStarRule_NodeNums { @p1, @r1, @p2, @r2, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 4;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)releaseStarRule_NodeNums.@p1: return _node_p1;
+				case (int)releaseStarRule_NodeNums.@r1: return _node_r1;
+				case (int)releaseStarRule_NodeNums.@p2: return _node_p2;
+				case (int)releaseStarRule_NodeNums.@r2: return _node_r2;
+				default: return null;
+				}
+			}
+			
+			public Irequest edge_rq { get { return (Irequest)_edge_rq; } }
+			public Iheld_by edge_h1 { get { return (Iheld_by)_edge_h1; } }
+			public Iheld_by edge_h2 { get { return (Iheld_by)_edge_h2; } }
+			public GRGEN_LGSP.LGSPEdge _edge_rq;
+			public GRGEN_LGSP.LGSPEdge _edge_h1;
+			public GRGEN_LGSP.LGSPEdge _edge_h2;
+			public enum releaseStarRule_EdgeNums { @rq, @h1, @h2, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 3;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)releaseStarRule_EdgeNums.@rq: return _edge_rq;
+				case (int)releaseStarRule_EdgeNums.@h1: return _edge_h1;
+				case (int)releaseStarRule_EdgeNums.@h2: return _edge_h2;
+				default: return null;
+				}
+			}
+			
+			public enum releaseStarRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum releaseStarRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum releaseStarRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_releaseStarRule.instance.pat_releaseStarRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_requestSimpleRule : GRGEN_LGSP.LGSPRulePattern
@@ -2196,9 +4043,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] requestSimpleRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode requestSimpleRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "requestSimpleRule_node_r", "r", requestSimpleRule_node_r_AllowedTypes, requestSimpleRule_node_r_IsAllowedType, 1.0F, -1);
-			GRGEN_LGSP.PatternNode requestSimpleRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "requestSimpleRule_node_p", "p", requestSimpleRule_node_p_AllowedTypes, requestSimpleRule_node_p_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge requestSimpleRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@token, "requestSimpleRule_edge_t", "t", requestSimpleRule_edge_t_AllowedTypes, requestSimpleRule_edge_t_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode requestSimpleRule_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "requestSimpleRule_node_r", "r", requestSimpleRule_node_r_AllowedTypes, requestSimpleRule_node_r_IsAllowedType, 1.0F, -1);
+			GRGEN_LGSP.PatternNode requestSimpleRule_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "requestSimpleRule_node_p", "p", requestSimpleRule_node_p_AllowedTypes, requestSimpleRule_node_p_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge requestSimpleRule_edge_t = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@token, "Itoken", "requestSimpleRule_edge_t", "t", requestSimpleRule_edge_t_AllowedTypes, requestSimpleRule_edge_t_IsAllowedType, 5.5F, -1);
 			bool[,] requestSimpleRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -2206,7 +4053,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] requestSimpleRule_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternEdge requestSimpleRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "requestSimpleRule_neg_0_edge_req", "req", requestSimpleRule_neg_0_edge_req_AllowedTypes, requestSimpleRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge requestSimpleRule_neg_0_edge_req = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@request, "Irequest", "requestSimpleRule_neg_0_edge_req", "req", requestSimpleRule_neg_0_edge_req_AllowedTypes, requestSimpleRule_neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			requestSimpleRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"requestSimpleRule_",
@@ -2267,10 +4114,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)requestSimpleRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)requestSimpleRule_NodeNums.@r];
+			Match_requestSimpleRule curMatch = (Match_requestSimpleRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
 			graph.SettingAddedNodeNames( requestSimpleRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestSimpleRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
@@ -2279,10 +4127,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] requestSimpleRule_addedNodeNames = new String[] {  };
 		private static String[] requestSimpleRule_addedEdgeNames = new String[] { "req" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)requestSimpleRule_NodeNums.@p];
-			GRGEN_LGSP.LGSPNode node_r = curMatch.Nodes[(int)requestSimpleRule_NodeNums.@r];
+			Match_requestSimpleRule curMatch = (Match_requestSimpleRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
+			GRGEN_LGSP.LGSPNode node_r = curMatch._node_r;
 			graph.SettingAddedNodeNames( requestSimpleRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( requestSimpleRule_addedEdgeNames );
 			@request edge_req = @request.CreateEdge(graph, node_p, node_r);
@@ -2291,6 +4140,171 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_requestSimpleRule() {
 		}
+
+		public interface IMatch_requestSimpleRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r { get; }
+			IProcess node_p { get; }
+			//Edges
+			Itoken edge_t { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public interface IMatch_requestSimpleRule_neg_0 : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p { get; }
+			IResource node_r { get; }
+			//Edges
+			Irequest edge_req { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_requestSimpleRule : GRGEN_LGSP.ListElement<Match_requestSimpleRule>, IMatch_requestSimpleRule
+		{
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public enum requestSimpleRule_NodeNums { @r, @p, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)requestSimpleRule_NodeNums.@r: return _node_r;
+				case (int)requestSimpleRule_NodeNums.@p: return _node_p;
+				default: return null;
+				}
+			}
+			
+			public Itoken edge_t { get { return (Itoken)_edge_t; } }
+			public GRGEN_LGSP.LGSPEdge _edge_t;
+			public enum requestSimpleRule_EdgeNums { @t, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)requestSimpleRule_EdgeNums.@t: return _edge_t;
+				default: return null;
+				}
+			}
+			
+			public enum requestSimpleRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestSimpleRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestSimpleRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_requestSimpleRule.instance.pat_requestSimpleRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
+		public class Match_requestSimpleRule_neg_0 : GRGEN_LGSP.ListElement<Match_requestSimpleRule_neg_0>, IMatch_requestSimpleRule_neg_0
+		{
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public enum requestSimpleRule_neg_0_NodeNums { @p, @r, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)requestSimpleRule_neg_0_NodeNums.@p: return _node_p;
+				case (int)requestSimpleRule_neg_0_NodeNums.@r: return _node_r;
+				default: return null;
+				}
+			}
+			
+			public Irequest edge_req { get { return (Irequest)_edge_req; } }
+			public GRGEN_LGSP.LGSPEdge _edge_req;
+			public enum requestSimpleRule_neg_0_EdgeNums { @req, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)requestSimpleRule_neg_0_EdgeNums.@req: return _edge_req;
+				default: return null;
+				}
+			}
+			
+			public enum requestSimpleRule_neg_0_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestSimpleRule_neg_0_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum requestSimpleRule_neg_0_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_requestSimpleRule.instance.requestSimpleRule_neg_0; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_aux_attachResource : GRGEN_LGSP.LGSPRulePattern
@@ -2343,7 +4357,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				{ false, },
 			};
 			bool[,] aux_attachResource_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode aux_attachResource_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "aux_attachResource_node_p", "p", aux_attachResource_node_p_AllowedTypes, aux_attachResource_node_p_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode aux_attachResource_node_p = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Process, "IProcess", "aux_attachResource_node_p", "p", aux_attachResource_node_p_AllowedTypes, aux_attachResource_node_p_IsAllowedType, 5.5F, -1);
 			bool[,] aux_attachResource_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -2351,8 +4365,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			bool[,] aux_attachResource_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode aux_attachResource_neg_0_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "aux_attachResource_neg_0_node_r", "r", aux_attachResource_neg_0_node_r_AllowedTypes, aux_attachResource_neg_0_node_r_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge aux_attachResource_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "aux_attachResource_neg_0_edge__edge0", "_edge0", aux_attachResource_neg_0_edge__edge0_AllowedTypes, aux_attachResource_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode aux_attachResource_neg_0_node_r = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Resource, "IResource", "aux_attachResource_neg_0_node_r", "r", aux_attachResource_neg_0_node_r_AllowedTypes, aux_attachResource_neg_0_node_r_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge aux_attachResource_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@held_by, "Iheld_by", "aux_attachResource_neg_0_edge__edge0", "_edge0", aux_attachResource_neg_0_edge__edge0_AllowedTypes, aux_attachResource_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			aux_attachResource_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"aux_attachResource_",
@@ -2407,9 +4421,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)aux_attachResource_NodeNums.@p];
+			Match_aux_attachResource curMatch = (Match_aux_attachResource)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
 			graph.SettingAddedNodeNames( aux_attachResource_addedNodeNames );
 			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( aux_attachResource_addedEdgeNames );
@@ -2419,9 +4434,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] aux_attachResource_addedNodeNames = new String[] { "r" };
 		private static String[] aux_attachResource_addedEdgeNames = new String[] { "_edge0" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_p = curMatch.Nodes[(int)aux_attachResource_NodeNums.@p];
+			Match_aux_attachResource curMatch = (Match_aux_attachResource)_curMatch;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
 			graph.SettingAddedNodeNames( aux_attachResource_addedNodeNames );
 			@Resource node_r = @Resource.CreateNode(graph);
 			graph.SettingAddedEdgeNames( aux_attachResource_addedEdgeNames );
@@ -2431,6 +4447,163 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 		static Rule_aux_attachResource() {
 		}
+
+		public interface IMatch_aux_attachResource : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IProcess node_p { get; }
+			//Edges
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public interface IMatch_aux_attachResource_neg_0 : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IResource node_r { get; }
+			IProcess node_p { get; }
+			//Edges
+			Iheld_by edge__edge0 { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_aux_attachResource : GRGEN_LGSP.ListElement<Match_aux_attachResource>, IMatch_aux_attachResource
+		{
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public enum aux_attachResource_NodeNums { @p, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 1;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)aux_attachResource_NodeNums.@p: return _node_p;
+				default: return null;
+				}
+			}
+			
+			public enum aux_attachResource_EdgeNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 0;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum aux_attachResource_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum aux_attachResource_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum aux_attachResource_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_aux_attachResource.instance.pat_aux_attachResource; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
+		public class Match_aux_attachResource_neg_0 : GRGEN_LGSP.ListElement<Match_aux_attachResource_neg_0>, IMatch_aux_attachResource_neg_0
+		{
+			public IResource node_r { get { return (IResource)_node_r; } }
+			public IProcess node_p { get { return (IProcess)_node_p; } }
+			public GRGEN_LGSP.LGSPNode _node_r;
+			public GRGEN_LGSP.LGSPNode _node_p;
+			public enum aux_attachResource_neg_0_NodeNums { @r, @p, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)aux_attachResource_neg_0_NodeNums.@r: return _node_r;
+				case (int)aux_attachResource_neg_0_NodeNums.@p: return _node_p;
+				default: return null;
+				}
+			}
+			
+			public Iheld_by edge__edge0 { get { return (Iheld_by)_edge__edge0; } }
+			public GRGEN_LGSP.LGSPEdge _edge__edge0;
+			public enum aux_attachResource_neg_0_EdgeNums { @_edge0, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)aux_attachResource_neg_0_EdgeNums.@_edge0: return _edge__edge0;
+				default: return null;
+				}
+			}
+			
+			public enum aux_attachResource_neg_0_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum aux_attachResource_neg_0_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum aux_attachResource_neg_0_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_aux_attachResource.instance.aux_attachResource_neg_0; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 
@@ -2440,18 +4613,18 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             rulePattern = Rule_newRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 2, 1, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_newRule.Match_newRule>(this);
         }
 
         public override string Name { get { return "newRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_newRule.Match_newRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_newRule instance = new Action_newRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup newRule_edge_n 
             int type_id_candidate_newRule_edge_n = 3;
@@ -2476,14 +4649,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                     candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_newRule_node_p1;
                     continue;
                 }
-                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                match.patternGraph = rulePattern.patternGraph;
-                match.Nodes[(int)Rule_newRule.newRule_NodeNums.@p1] = candidate_newRule_node_p1;
-                match.Nodes[(int)Rule_newRule.newRule_NodeNums.@p2] = candidate_newRule_node_p2;
-                match.Edges[(int)Rule_newRule.newRule_EdgeNums.@n] = candidate_newRule_edge_n;
-                matches.matchesList.PositionWasFilledFixIt();
+                Rule_newRule.Match_newRule match = matches.GetNextUnfilledPosition();
+                match._node_p1 = candidate_newRule_node_p1;
+                match._node_p2 = candidate_newRule_node_p2;
+                match._edge_n = candidate_newRule_edge_n;
+                matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(candidate_newRule_edge_n);
                     candidate_newRule_node_p1.flags = candidate_newRule_node_p1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_newRule_node_p1;
@@ -2501,18 +4673,18 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             rulePattern = Rule_killRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 3, 2, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_killRule.Match_killRule>(this);
         }
 
         public override string Name { get { return "killRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_killRule.Match_killRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_killRule instance = new Action_killRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup killRule_edge_n2 
             int type_id_candidate_killRule_edge_n2 = 3;
@@ -2569,16 +4741,15 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                         {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_killRule.killRule_NodeNums.@p1] = candidate_killRule_node_p1;
-                        match.Nodes[(int)Rule_killRule.killRule_NodeNums.@p] = candidate_killRule_node_p;
-                        match.Nodes[(int)Rule_killRule.killRule_NodeNums.@p2] = candidate_killRule_node_p2;
-                        match.Edges[(int)Rule_killRule.killRule_EdgeNums.@n1] = candidate_killRule_edge_n1;
-                        match.Edges[(int)Rule_killRule.killRule_EdgeNums.@n2] = candidate_killRule_edge_n2;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_killRule.Match_killRule match = matches.GetNextUnfilledPosition();
+                        match._node_p1 = candidate_killRule_node_p1;
+                        match._node_p = candidate_killRule_node_p;
+                        match._node_p2 = candidate_killRule_node_p2;
+                        match._edge_n1 = candidate_killRule_edge_n1;
+                        match._edge_n2 = candidate_killRule_edge_n2;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_killRule_node_p.MoveInHeadAfter(candidate_killRule_edge_n1);
                             graph.MoveHeadAfter(candidate_killRule_edge_n2);
@@ -2604,29 +4775,28 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             rulePattern = Rule_mountRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 1, 0, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_mountRule.Match_mountRule>(this);
         }
 
         public override string Name { get { return "mountRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_mountRule.Match_mountRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_mountRule instance = new Action_mountRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup mountRule_node_p 
             int type_id_candidate_mountRule_node_p = 1;
             for(GRGEN_LGSP.LGSPNode head_candidate_mountRule_node_p = graph.nodesByTypeHeads[type_id_candidate_mountRule_node_p], candidate_mountRule_node_p = head_candidate_mountRule_node_p.typeNext; candidate_mountRule_node_p != head_candidate_mountRule_node_p; candidate_mountRule_node_p = candidate_mountRule_node_p.typeNext)
             {
-                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                match.patternGraph = rulePattern.patternGraph;
-                match.Nodes[(int)Rule_mountRule.mountRule_NodeNums.@p] = candidate_mountRule_node_p;
-                matches.matchesList.PositionWasFilledFixIt();
+                Rule_mountRule.Match_mountRule match = matches.GetNextUnfilledPosition();
+                match._node_p = candidate_mountRule_node_p;
+                matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(candidate_mountRule_node_p);
                     return matches;
@@ -2642,18 +4812,18 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             rulePattern = Rule_unmountRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 2, 1, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_unmountRule.Match_unmountRule>(this);
         }
 
         public override string Name { get { return "unmountRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_unmountRule.Match_unmountRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_unmountRule instance = new Action_unmountRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup unmountRule_edge_t 
             int type_id_candidate_unmountRule_edge_t = 6;
@@ -2669,14 +4839,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                 if(candidate_unmountRule_node_p.type.TypeID!=1) {
                     continue;
                 }
-                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                match.patternGraph = rulePattern.patternGraph;
-                match.Nodes[(int)Rule_unmountRule.unmountRule_NodeNums.@r] = candidate_unmountRule_node_r;
-                match.Nodes[(int)Rule_unmountRule.unmountRule_NodeNums.@p] = candidate_unmountRule_node_p;
-                match.Edges[(int)Rule_unmountRule.unmountRule_EdgeNums.@t] = candidate_unmountRule_edge_t;
-                matches.matchesList.PositionWasFilledFixIt();
+                Rule_unmountRule.Match_unmountRule match = matches.GetNextUnfilledPosition();
+                match._node_r = candidate_unmountRule_node_r;
+                match._node_p = candidate_unmountRule_node_p;
+                match._edge_t = candidate_unmountRule_edge_t;
+                matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(candidate_unmountRule_edge_t);
                     return matches;
@@ -2692,18 +4861,18 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
             rulePattern = Rule_passRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 3, 2, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_passRule.Match_passRule>(this);
         }
 
         public override string Name { get { return "passRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_passRule.Match_passRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_passRule instance = new Action_passRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup passRule_edge_n 
             int type_id_candidate_passRule_edge_n = 3;
@@ -2767,16 +4936,15 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
                             }
                             --negLevel;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_passRule.passRule_NodeNums.@r] = candidate_passRule_node_r;
-                        match.Nodes[(int)Rule_passRule.passRule_NodeNums.@p1] = candidate_passRule_node_p1;
-                        match.Nodes[(int)Rule_passRule.passRule_NodeNums.@p2] = candidate_passRule_node_p2;
-                        match.Edges[(int)Rule_passRule.passRule_EdgeNums.@_edge0] = candidate_passRule_edge__edge0;
-                        match.Edges[(int)Rule_passRule.passRule_EdgeNums.@n] = candidate_passRule_edge_n;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_passRule.Match_passRule match = matches.GetNextUnfilledPosition();
+                        match._node_r = candidate_passRule_node_r;
+                        match._node_p1 = candidate_passRule_node_p1;
+                        match._node_p2 = candidate_passRule_node_p2;
+                        match._edge__edge0 = candidate_passRule_edge__edge0;
+                        match._edge_n = candidate_passRule_edge_n;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_passRule_node_p1.MoveInHeadAfter(candidate_passRule_edge__edge0);
                             graph.MoveHeadAfter(candidate_passRule_edge_n);
@@ -2799,18 +4967,18 @@ label0: ;
             rulePattern = Rule_requestRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 2, 0, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_requestRule.Match_requestRule>(this);
         }
 
         public override string Name { get { return "requestRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_requestRule.Match_requestRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_requestRule instance = new Action_requestRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup requestRule_node_r 
             int type_id_candidate_requestRule_node_r = 2;
@@ -2870,13 +5038,12 @@ label0: ;
                         }
                         --negLevel;
                     }
-                    GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                    match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_requestRule.requestRule_NodeNums.@p] = candidate_requestRule_node_p;
-                    match.Nodes[(int)Rule_requestRule.requestRule_NodeNums.@r] = candidate_requestRule_node_r;
-                    matches.matchesList.PositionWasFilledFixIt();
+                    Rule_requestRule.Match_requestRule match = matches.GetNextUnfilledPosition();
+                    match._node_p = candidate_requestRule_node_p;
+                    match._node_r = candidate_requestRule_node_r;
+                    matches.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         graph.MoveHeadAfter(candidate_requestRule_node_p);
                         graph.MoveHeadAfter(candidate_requestRule_node_r);
@@ -2896,18 +5063,18 @@ label2: ;
             rulePattern = Rule_takeRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 2, 2, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_takeRule.Match_takeRule>(this);
         }
 
         public override string Name { get { return "takeRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_takeRule.Match_takeRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_takeRule instance = new Action_takeRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup takeRule_edge_req 
             int type_id_candidate_takeRule_edge_req = 8;
@@ -2936,15 +5103,14 @@ label2: ;
                         if(candidate_takeRule_edge_req.source != candidate_takeRule_node_p) {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_takeRule.takeRule_NodeNums.@r] = candidate_takeRule_node_r;
-                        match.Nodes[(int)Rule_takeRule.takeRule_NodeNums.@p] = candidate_takeRule_node_p;
-                        match.Edges[(int)Rule_takeRule.takeRule_EdgeNums.@t] = candidate_takeRule_edge_t;
-                        match.Edges[(int)Rule_takeRule.takeRule_EdgeNums.@req] = candidate_takeRule_edge_req;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_takeRule.Match_takeRule match = matches.GetNextUnfilledPosition();
+                        match._node_r = candidate_takeRule_node_r;
+                        match._node_p = candidate_takeRule_node_p;
+                        match._edge_t = candidate_takeRule_edge_t;
+                        match._edge_req = candidate_takeRule_edge_req;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_takeRule_node_r.MoveOutHeadAfter(candidate_takeRule_edge_t);
                             graph.MoveHeadAfter(candidate_takeRule_edge_req);
@@ -2964,18 +5130,18 @@ label2: ;
             rulePattern = Rule_releaseRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 2, 1, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_releaseRule.Match_releaseRule>(this);
         }
 
         public override string Name { get { return "releaseRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_releaseRule.Match_releaseRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_releaseRule instance = new Action_releaseRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup releaseRule_edge_hb 
             int type_id_candidate_releaseRule_edge_hb = 5;
@@ -3017,14 +5183,13 @@ label2: ;
                     }
                     --negLevel;
                 }
-                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                match.patternGraph = rulePattern.patternGraph;
-                match.Nodes[(int)Rule_releaseRule.releaseRule_NodeNums.@r] = candidate_releaseRule_node_r;
-                match.Nodes[(int)Rule_releaseRule.releaseRule_NodeNums.@p] = candidate_releaseRule_node_p;
-                match.Edges[(int)Rule_releaseRule.releaseRule_EdgeNums.@hb] = candidate_releaseRule_edge_hb;
-                matches.matchesList.PositionWasFilledFixIt();
+                Rule_releaseRule.Match_releaseRule match = matches.GetNextUnfilledPosition();
+                match._node_r = candidate_releaseRule_node_r;
+                match._node_p = candidate_releaseRule_node_p;
+                match._edge_hb = candidate_releaseRule_edge_hb;
+                matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(candidate_releaseRule_edge_hb);
                     return matches;
@@ -3041,18 +5206,18 @@ label3: ;
             rulePattern = Rule_giveRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 3, 2, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_giveRule.Match_giveRule>(this);
         }
 
         public override string Name { get { return "giveRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_giveRule.Match_giveRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_giveRule instance = new Action_giveRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup giveRule_edge_n 
             int type_id_candidate_giveRule_edge_n = 3;
@@ -3092,16 +5257,15 @@ label3: ;
                         if(candidate_giveRule_node_r.type.TypeID!=2) {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_giveRule.giveRule_NodeNums.@r] = candidate_giveRule_node_r;
-                        match.Nodes[(int)Rule_giveRule.giveRule_NodeNums.@p1] = candidate_giveRule_node_p1;
-                        match.Nodes[(int)Rule_giveRule.giveRule_NodeNums.@p2] = candidate_giveRule_node_p2;
-                        match.Edges[(int)Rule_giveRule.giveRule_EdgeNums.@rel] = candidate_giveRule_edge_rel;
-                        match.Edges[(int)Rule_giveRule.giveRule_EdgeNums.@n] = candidate_giveRule_edge_n;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_giveRule.Match_giveRule match = matches.GetNextUnfilledPosition();
+                        match._node_r = candidate_giveRule_node_r;
+                        match._node_p1 = candidate_giveRule_node_p1;
+                        match._node_p2 = candidate_giveRule_node_p2;
+                        match._edge_rel = candidate_giveRule_edge_rel;
+                        match._edge_n = candidate_giveRule_edge_n;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_giveRule_node_p1.MoveInHeadAfter(candidate_giveRule_edge_rel);
                             graph.MoveHeadAfter(candidate_giveRule_edge_n);
@@ -3123,18 +5287,18 @@ label3: ;
             rulePattern = Rule_blockedRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 3, 2, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_blockedRule.Match_blockedRule>(this);
         }
 
         public override string Name { get { return "blockedRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_blockedRule.Match_blockedRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_blockedRule instance = new Action_blockedRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup blockedRule_edge_hb 
             int type_id_candidate_blockedRule_edge_hb = 5;
@@ -3172,16 +5336,15 @@ label3: ;
                         {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_blockedRule.blockedRule_NodeNums.@p1] = candidate_blockedRule_node_p1;
-                        match.Nodes[(int)Rule_blockedRule.blockedRule_NodeNums.@r] = candidate_blockedRule_node_r;
-                        match.Nodes[(int)Rule_blockedRule.blockedRule_NodeNums.@p2] = candidate_blockedRule_node_p2;
-                        match.Edges[(int)Rule_blockedRule.blockedRule_EdgeNums.@req] = candidate_blockedRule_edge_req;
-                        match.Edges[(int)Rule_blockedRule.blockedRule_EdgeNums.@hb] = candidate_blockedRule_edge_hb;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_blockedRule.Match_blockedRule match = matches.GetNextUnfilledPosition();
+                        match._node_p1 = candidate_blockedRule_node_p1;
+                        match._node_r = candidate_blockedRule_node_r;
+                        match._node_p2 = candidate_blockedRule_node_p2;
+                        match._edge_req = candidate_blockedRule_edge_req;
+                        match._edge_hb = candidate_blockedRule_edge_hb;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_blockedRule_node_r.MoveInHeadAfter(candidate_blockedRule_edge_req);
                             graph.MoveHeadAfter(candidate_blockedRule_edge_hb);
@@ -3203,18 +5366,18 @@ label3: ;
             rulePattern = Rule_waitingRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 5, 3, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_waitingRule.Match_waitingRule>(this);
         }
 
         public override string Name { get { return "waitingRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_waitingRule.Match_waitingRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_waitingRule instance = new Action_waitingRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup waitingRule_node_r 
             int type_id_candidate_waitingRule_node_r = 2;
@@ -3286,19 +5449,18 @@ label3: ;
                                     {
                                         continue;
                                     }
-                                    GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                                    match.patternGraph = rulePattern.patternGraph;
-                                    match.Nodes[(int)Rule_waitingRule.waitingRule_NodeNums.@r2] = candidate_waitingRule_node_r2;
-                                    match.Nodes[(int)Rule_waitingRule.waitingRule_NodeNums.@p1] = candidate_waitingRule_node_p1;
-                                    match.Nodes[(int)Rule_waitingRule.waitingRule_NodeNums.@r1] = candidate_waitingRule_node_r1;
-                                    match.Nodes[(int)Rule_waitingRule.waitingRule_NodeNums.@p2] = candidate_waitingRule_node_p2;
-                                    match.Nodes[(int)Rule_waitingRule.waitingRule_NodeNums.@r] = candidate_waitingRule_node_r;
-                                    match.Edges[(int)Rule_waitingRule.waitingRule_EdgeNums.@b] = candidate_waitingRule_edge_b;
-                                    match.Edges[(int)Rule_waitingRule.waitingRule_EdgeNums.@hb] = candidate_waitingRule_edge_hb;
-                                    match.Edges[(int)Rule_waitingRule.waitingRule_EdgeNums.@req] = candidate_waitingRule_edge_req;
-                                    matches.matchesList.PositionWasFilledFixIt();
+                                    Rule_waitingRule.Match_waitingRule match = matches.GetNextUnfilledPosition();
+                                    match._node_r2 = candidate_waitingRule_node_r2;
+                                    match._node_p1 = candidate_waitingRule_node_p1;
+                                    match._node_r1 = candidate_waitingRule_node_r1;
+                                    match._node_p2 = candidate_waitingRule_node_p2;
+                                    match._node_r = candidate_waitingRule_node_r;
+                                    match._edge_b = candidate_waitingRule_edge_b;
+                                    match._edge_hb = candidate_waitingRule_edge_hb;
+                                    match._edge_req = candidate_waitingRule_edge_req;
+                                    matches.PositionWasFilledFixIt();
                                     // if enough matches were found, we leave
-                                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                                    if(maxMatches > 0 && matches.Count >= maxMatches)
                                     {
                                         candidate_waitingRule_node_r1.MoveInHeadAfter(candidate_waitingRule_edge_req);
                                         candidate_waitingRule_node_p1.MoveInHeadAfter(candidate_waitingRule_edge_hb);
@@ -3330,18 +5492,18 @@ label3: ;
             rulePattern = Rule_ignoreRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 2, 1, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ignoreRule.Match_ignoreRule>(this);
         }
 
         public override string Name { get { return "ignoreRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_ignoreRule.Match_ignoreRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_ignoreRule instance = new Action_ignoreRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup ignoreRule_edge_b 
             int type_id_candidate_ignoreRule_edge_b = 4;
@@ -3383,14 +5545,13 @@ label3: ;
                     }
                     --negLevel;
                 }
-                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                match.patternGraph = rulePattern.patternGraph;
-                match.Nodes[(int)Rule_ignoreRule.ignoreRule_NodeNums.@r] = candidate_ignoreRule_node_r;
-                match.Nodes[(int)Rule_ignoreRule.ignoreRule_NodeNums.@p] = candidate_ignoreRule_node_p;
-                match.Edges[(int)Rule_ignoreRule.ignoreRule_EdgeNums.@b] = candidate_ignoreRule_edge_b;
-                matches.matchesList.PositionWasFilledFixIt();
+                Rule_ignoreRule.Match_ignoreRule match = matches.GetNextUnfilledPosition();
+                match._node_r = candidate_ignoreRule_node_r;
+                match._node_p = candidate_ignoreRule_node_p;
+                match._edge_b = candidate_ignoreRule_edge_b;
+                matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(candidate_ignoreRule_edge_b);
                     return matches;
@@ -3407,18 +5568,18 @@ label4: ;
             rulePattern = Rule_unlockRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 2, 2, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_unlockRule.Match_unlockRule>(this);
         }
 
         public override string Name { get { return "unlockRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_unlockRule.Match_unlockRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_unlockRule instance = new Action_unlockRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup unlockRule_edge_b 
             int type_id_candidate_unlockRule_edge_b = 4;
@@ -3447,15 +5608,14 @@ label4: ;
                         if(candidate_unlockRule_edge_hb.target != candidate_unlockRule_node_p) {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_unlockRule.unlockRule_NodeNums.@r] = candidate_unlockRule_node_r;
-                        match.Nodes[(int)Rule_unlockRule.unlockRule_NodeNums.@p] = candidate_unlockRule_node_p;
-                        match.Edges[(int)Rule_unlockRule.unlockRule_EdgeNums.@b] = candidate_unlockRule_edge_b;
-                        match.Edges[(int)Rule_unlockRule.unlockRule_EdgeNums.@hb] = candidate_unlockRule_edge_hb;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_unlockRule.Match_unlockRule match = matches.GetNextUnfilledPosition();
+                        match._node_r = candidate_unlockRule_node_r;
+                        match._node_p = candidate_unlockRule_node_p;
+                        match._edge_b = candidate_unlockRule_edge_b;
+                        match._edge_hb = candidate_unlockRule_edge_hb;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_unlockRule_node_r.MoveOutHeadAfter(candidate_unlockRule_edge_hb);
                             graph.MoveHeadAfter(candidate_unlockRule_edge_b);
@@ -3475,18 +5635,18 @@ label4: ;
             rulePattern = Rule_requestStarRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 4, 3, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_requestStarRule.Match_requestStarRule>(this);
         }
 
         public override string Name { get { return "requestStarRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_requestStarRule.Match_requestStarRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_requestStarRule instance = new Action_requestStarRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup requestStarRule_edge_h1 
             int type_id_candidate_requestStarRule_edge_h1 = 5;
@@ -3580,18 +5740,17 @@ label4: ;
                                     }
                                     --negLevel;
                                 }
-                                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                                match.patternGraph = rulePattern.patternGraph;
-                                match.Nodes[(int)Rule_requestStarRule.requestStarRule_NodeNums.@r1] = candidate_requestStarRule_node_r1;
-                                match.Nodes[(int)Rule_requestStarRule.requestStarRule_NodeNums.@p1] = candidate_requestStarRule_node_p1;
-                                match.Nodes[(int)Rule_requestStarRule.requestStarRule_NodeNums.@p2] = candidate_requestStarRule_node_p2;
-                                match.Nodes[(int)Rule_requestStarRule.requestStarRule_NodeNums.@r2] = candidate_requestStarRule_node_r2;
-                                match.Edges[(int)Rule_requestStarRule.requestStarRule_EdgeNums.@h1] = candidate_requestStarRule_edge_h1;
-                                match.Edges[(int)Rule_requestStarRule.requestStarRule_EdgeNums.@n] = candidate_requestStarRule_edge_n;
-                                match.Edges[(int)Rule_requestStarRule.requestStarRule_EdgeNums.@h2] = candidate_requestStarRule_edge_h2;
-                                matches.matchesList.PositionWasFilledFixIt();
+                                Rule_requestStarRule.Match_requestStarRule match = matches.GetNextUnfilledPosition();
+                                match._node_r1 = candidate_requestStarRule_node_r1;
+                                match._node_p1 = candidate_requestStarRule_node_p1;
+                                match._node_p2 = candidate_requestStarRule_node_p2;
+                                match._node_r2 = candidate_requestStarRule_node_r2;
+                                match._edge_h1 = candidate_requestStarRule_edge_h1;
+                                match._edge_n = candidate_requestStarRule_edge_n;
+                                match._edge_h2 = candidate_requestStarRule_edge_h2;
+                                matches.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
-                                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                                if(maxMatches > 0 && matches.Count >= maxMatches)
                                 {
                                     candidate_requestStarRule_node_p2.MoveInHeadAfter(candidate_requestStarRule_edge_h2);
                                     candidate_requestStarRule_node_p1.MoveInHeadAfter(candidate_requestStarRule_edge_n);
@@ -3622,18 +5781,18 @@ label5: ;
             rulePattern = Rule_releaseStarRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 4, 3, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_releaseStarRule.Match_releaseStarRule>(this);
         }
 
         public override string Name { get { return "releaseStarRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_releaseStarRule.Match_releaseStarRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_releaseStarRule instance = new Action_releaseStarRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup releaseStarRule_edge_h1 
             int type_id_candidate_releaseStarRule_edge_h1 = 5;
@@ -3703,18 +5862,17 @@ label5: ;
                                 {
                                     continue;
                                 }
-                                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                                match.patternGraph = rulePattern.patternGraph;
-                                match.Nodes[(int)Rule_releaseStarRule.releaseStarRule_NodeNums.@p1] = candidate_releaseStarRule_node_p1;
-                                match.Nodes[(int)Rule_releaseStarRule.releaseStarRule_NodeNums.@r1] = candidate_releaseStarRule_node_r1;
-                                match.Nodes[(int)Rule_releaseStarRule.releaseStarRule_NodeNums.@p2] = candidate_releaseStarRule_node_p2;
-                                match.Nodes[(int)Rule_releaseStarRule.releaseStarRule_NodeNums.@r2] = candidate_releaseStarRule_node_r2;
-                                match.Edges[(int)Rule_releaseStarRule.releaseStarRule_EdgeNums.@rq] = candidate_releaseStarRule_edge_rq;
-                                match.Edges[(int)Rule_releaseStarRule.releaseStarRule_EdgeNums.@h1] = candidate_releaseStarRule_edge_h1;
-                                match.Edges[(int)Rule_releaseStarRule.releaseStarRule_EdgeNums.@h2] = candidate_releaseStarRule_edge_h2;
-                                matches.matchesList.PositionWasFilledFixIt();
+                                Rule_releaseStarRule.Match_releaseStarRule match = matches.GetNextUnfilledPosition();
+                                match._node_p1 = candidate_releaseStarRule_node_p1;
+                                match._node_r1 = candidate_releaseStarRule_node_r1;
+                                match._node_p2 = candidate_releaseStarRule_node_p2;
+                                match._node_r2 = candidate_releaseStarRule_node_r2;
+                                match._edge_rq = candidate_releaseStarRule_edge_rq;
+                                match._edge_h1 = candidate_releaseStarRule_edge_h1;
+                                match._edge_h2 = candidate_releaseStarRule_edge_h2;
+                                matches.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
-                                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                                if(maxMatches > 0 && matches.Count >= maxMatches)
                                 {
                                     candidate_releaseStarRule_node_p2.MoveInHeadAfter(candidate_releaseStarRule_edge_h2);
                                     candidate_releaseStarRule_node_r1.MoveInHeadAfter(candidate_releaseStarRule_edge_rq);
@@ -3744,18 +5902,18 @@ label5: ;
             rulePattern = Rule_requestSimpleRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 2, 1, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_requestSimpleRule.Match_requestSimpleRule>(this);
         }
 
         public override string Name { get { return "requestSimpleRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_requestSimpleRule.Match_requestSimpleRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_requestSimpleRule instance = new Action_requestSimpleRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup requestSimpleRule_edge_t 
             int type_id_candidate_requestSimpleRule_edge_t = 6;
@@ -3795,14 +5953,13 @@ label5: ;
                     }
                     --negLevel;
                 }
-                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                match.patternGraph = rulePattern.patternGraph;
-                match.Nodes[(int)Rule_requestSimpleRule.requestSimpleRule_NodeNums.@r] = candidate_requestSimpleRule_node_r;
-                match.Nodes[(int)Rule_requestSimpleRule.requestSimpleRule_NodeNums.@p] = candidate_requestSimpleRule_node_p;
-                match.Edges[(int)Rule_requestSimpleRule.requestSimpleRule_EdgeNums.@t] = candidate_requestSimpleRule_edge_t;
-                matches.matchesList.PositionWasFilledFixIt();
+                Rule_requestSimpleRule.Match_requestSimpleRule match = matches.GetNextUnfilledPosition();
+                match._node_r = candidate_requestSimpleRule_node_r;
+                match._node_p = candidate_requestSimpleRule_node_p;
+                match._edge_t = candidate_requestSimpleRule_edge_t;
+                matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(candidate_requestSimpleRule_edge_t);
                     return matches;
@@ -3819,18 +5976,18 @@ label6: ;
             rulePattern = Rule_aux_attachResource.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 1, 0, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_aux_attachResource.Match_aux_attachResource>(this);
         }
 
         public override string Name { get { return "aux_attachResource"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_aux_attachResource.Match_aux_attachResource> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_aux_attachResource instance = new Action_aux_attachResource();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Lookup aux_attachResource_node_p 
             int type_id_candidate_aux_attachResource_node_p = 1;
@@ -3862,12 +6019,11 @@ label6: ;
                     }
                     --negLevel;
                 }
-                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                match.patternGraph = rulePattern.patternGraph;
-                match.Nodes[(int)Rule_aux_attachResource.aux_attachResource_NodeNums.@p] = candidate_aux_attachResource_node_p;
-                matches.matchesList.PositionWasFilledFixIt();
+                Rule_aux_attachResource.Match_aux_attachResource match = matches.GetNextUnfilledPosition();
+                match._node_p = candidate_aux_attachResource_node_p;
+                matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(candidate_aux_attachResource_node_p);
                     return matches;

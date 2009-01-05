@@ -70,6 +70,15 @@ import de.unika.ipd.grgen.ir.VariableExpression;
 import de.unika.ipd.grgen.ir.Visited;
 
 public class ActionsGen extends CSharpBase {
+	// constants encoding different types of match parts
+	// must be consecutive, beginning with MATCH_PART_NODES, ending with terminating dummy-element MATCH_PART_END
+	final int MATCH_PART_NODES = 0;
+	final int MATCH_PART_EDGES = 1;
+	final int MATCH_PART_VARIABLES = 2;
+	final int MATCH_PART_EMBEDDED_GRAPHS = 3;
+	final int MATCH_PART_ALTERNATIVES = 4;
+	final int MATCH_PART_END = 5;
+	
 	public ActionsGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);
 		be = backend;
@@ -141,6 +150,8 @@ public class ActionsGen extends CSharpBase {
 		mg.genModify(sb, subpatternRule, true);
 
 		genStaticConstructor(sb, className, staticInitializers);
+		
+		genMatch(sb, subpatternRule.getPattern(), className);
 
 		sb.append("\t}\n");
 		sb.append("\n");
@@ -177,8 +188,25 @@ public class ActionsGen extends CSharpBase {
 
 		genStaticConstructor(sb, className, staticInitializers);
 
+		genMatch(sb, actionRule.getPattern(), className);
+		
 		sb.append("\t}\n");
 		sb.append("\n");
+	}
+
+	/**
+	 * Generates the match classes (of pattern and contained patterns)
+	 */
+	private void genMatch(StringBuffer sb, PatternGraph pattern, String className) {
+		// generate getters to contained nodes, edges, variables, embedded graphs, alternatives
+		genPatternMatchInterface(sb, pattern, pattern.getNameOfGraph(),
+				"GRGEN_LIBGR.IMatch", pattern.getNameOfGraph()+"_");
+        
+		// generate contained nodes, edges, variables, embedded graphs, alternatives 
+		// and the implementation of the various getters from IMatch and the pattern specific match interface
+		String patGraphVarName = "pat_" + pattern.getNameOfGraph();
+		genPatternMatchImplementation(sb, pattern, pattern.getNameOfGraph(), 
+				patGraphVarName, className, pattern.getNameOfGraph()+"_");
 	}
 
 	//////////////////////////////////////////////////
@@ -790,8 +818,8 @@ public class ActionsGen extends CSharpBase {
 			}
 			String nodeName = formatEntity(node, pathPrefixForElements);
 			sb.append("\t\t\tGRGEN_LGSP.PatternNode " + nodeName + " = new GRGEN_LGSP.PatternNode(");
-			sb.append("(int) NodeTypes.@" + formatIdentifiable(node.getType())
-						  + ", \"" + nodeName + "\", \"" + formatIdentifiable(node) + "\", ");
+			sb.append("(int) NodeTypes.@" + formatIdentifiable(node.getType()) + ", \"" + formatElementClassInterface(node.getType()) + "\", ");
+			sb.append("\"" + nodeName + "\", \"" + formatIdentifiable(node) + "\", ");
 			sb.append(nodeName + "_AllowedTypes, ");
 			sb.append(nodeName + "_IsAllowedType, ");
 			appendPrio(sb, node, max);
@@ -809,8 +837,8 @@ public class ActionsGen extends CSharpBase {
 			String edgeName = formatEntity(edge, pathPrefixForElements);
 			sb.append("\t\t\tGRGEN_LGSP.PatternEdge " + edgeName + " = new GRGEN_LGSP.PatternEdge(");
 			sb.append((edge.hasFixedDirection() ? "true" : "false") + ", ");
-			sb.append("(int) EdgeTypes.@" + formatIdentifiable(edge.getType())
-						  + ", \"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");
+			sb.append("(int) EdgeTypes.@" + formatIdentifiable(edge.getType()) + ", \"" + formatElementClassInterface(edge.getType()) + "\", ");
+			sb.append("\"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");
 			sb.append(edgeName + "_AllowedTypes, ");
 			sb.append(edgeName + "_IsAllowedType, ");
 			appendPrio(sb, edge, max);
@@ -1270,8 +1298,410 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\t" + staticInit + "();\n");
 		}
 		sb.append("\t\t}\n");
+		sb.append("\n");
 	}
 
+	//////////////////////////////
+	// Match objects generation //
+	//////////////////////////////
+	
+	// todo: neither pathPrefixForElements nor alreadyDefinedEntityToName are needed? remove them in the end
+	
+	private void genPatternMatchInterface(StringBuffer sb, PatternGraph pattern, String name,
+			String base, String pathPrefixForElements)
+	{
+		genMatchInterface(sb, pattern, name,
+				base, pathPrefixForElements);
+		
+		int i = 0;
+		for(PatternGraph neg : pattern.getNegs()) {
+			String negName = "neg_" + i;
+			genPatternMatchInterface(sb, neg, pathPrefixForElements+negName,
+					"GRGEN_LIBGR.IMatch", pathPrefixForElements + negName + "_");
+			++i;
+		}
+		
+		i = 0;
+		for(PatternGraph idpt : pattern.getIdpts()) {
+			String idptName = "idpt_" + i;
+			genPatternMatchInterface(sb, idpt, pathPrefixForElements+idptName,
+					"GRGEN_LIBGR.IMatch", pathPrefixForElements + idptName + "_");
+			++i;
+		}
+		
+		i = 0;
+		for(Alternative alt : pattern.getAlts()) {
+			String altName = "alt_" + i;
+			genAlternativeMatchInterface(sb, pathPrefixForElements + altName);
+			for(Rule altCase : alt.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				String altPatName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
+				genPatternMatchInterface(sb, altCase.getPattern(), altPatName,
+						"IMatch_"+pathPrefixForElements+altName, pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_");
+			}
+			++i;
+		}
+	}
+	
+	private void genPatternMatchImplementation(StringBuffer sb, PatternGraph pattern, String name,
+			String patGraphVarName, String className, String pathPrefixForElements)
+	{
+		genMatchImplementation(sb, pattern, name,
+				patGraphVarName, className, pathPrefixForElements);
+		
+		int i = 0;
+		for(PatternGraph neg : pattern.getNegs()) {
+			String negName = "neg_" + i;
+			genPatternMatchImplementation(sb, neg, pathPrefixForElements+negName,
+					pathPrefixForElements+negName, className, pathPrefixForElements+negName+"_");
+			++i;
+		}
+		
+		i = 0;
+		for(PatternGraph idpt : pattern.getIdpts()) {
+			String idptName = "idpt_" + i;
+			genPatternMatchImplementation(sb, idpt, pathPrefixForElements+idptName,
+					pathPrefixForElements+idptName, className, pathPrefixForElements+idptName+"_");
+			++i;
+		}
+		
+		i = 0;
+		for(Alternative alt : pattern.getAlts()) {
+			String altName = "alt_" + i;
+			for(Rule altCase : alt.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				String altPatName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
+				genPatternMatchImplementation(sb, altCase.getPattern(), altPatName, 
+						altPatName, className, pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_");
+			}
+			++i;
+		}
+	}
+	
+	private void genMatchInterface(StringBuffer sb, PatternGraph pattern,
+			String name, String base, String pathPrefixForElements)
+	{
+		String interfaceName = "IMatch_" + name;
+		sb.append("\t\tpublic interface "+interfaceName+" : "+base+"\n");
+		sb.append("\t\t{\n");
+		
+		for(int i=MATCH_PART_NODES; i<MATCH_PART_END; ++i) {
+			genMatchedEntitiesInterface(sb, pattern,
+					name, i, pathPrefixForElements);
+		}
+		
+		sb.append("\t\t}\n");
+		sb.append("\n");
+	}
+	
+	private void genAlternativeMatchInterface(StringBuffer sb, String name)
+	{
+		String interfaceName = "IMatch_" + name;
+		sb.append("\t\tpublic interface "+interfaceName+" : GRGEN_LIBGR.IMatch\n");
+		sb.append("\t\t{\n");
+		// empty, exists only for the type
+		sb.append("\t\t}\n");
+		sb.append("\n");
+	}
+	
+	private void genMatchImplementation(StringBuffer sb, PatternGraph pattern, String name,
+			String patGraphVarName, String ruleClassName, String pathPrefixForElements)
+	{
+		String interfaceName = "IMatch_" + name;
+		String className = "Match_" + name;
+		sb.append("\t\tpublic class "+className+" : GRGEN_LGSP.ListElement<"+className+">, "+interfaceName+"\n");
+		sb.append("\t\t{\n");
+		
+		for(int i=MATCH_PART_NODES; i<MATCH_PART_END; ++i) {
+			genMatchedEntitiesImplementation(sb, pattern, name,
+					i, pathPrefixForElements);
+			genMatchEnum(sb, pattern, name,
+					i, pathPrefixForElements);
+			genIMatchImplementation(sb, pattern, name,
+					i, pathPrefixForElements);
+			sb.append("\t\t\t\n");
+		}
+		
+		sb.append("\t\t\tpublic GRGEN_LIBGR.IPatternGraph Pattern { get { return "+ruleClassName+".instance."+patGraphVarName+"; } }\n");
+		sb.append("\t\t\tpublic override string ToString() { return \"Match of \" + Pattern.Name; }\n");
+		
+		sb.append("\t\t}\n");
+		sb.append("\n");
+	}
+	
+	private void genMatchedEntitiesInterface(StringBuffer sb, PatternGraph pattern,
+			String name, int which, String pathPrefixForElements)
+	{
+		// the getters for the elements
+		sb.append("\t\t\t//"+matchedEntitiesNamePlural(which)+"\n");
+		switch(which)
+		{
+		case MATCH_PART_NODES:
+			for(Node node : pattern.getNodes()) {
+				sb.append("\t\t\t"+formatElementClassInterface(node.getType())+" "+formatEntity(node)+" { get; }\n");
+			}
+			break;
+		case MATCH_PART_EDGES:
+			for(Edge edge : pattern.getEdges()) {
+				sb.append("\t\t\t"+formatElementClassInterface(edge.getType())+" "+formatEntity(edge)+" { get; }\n");
+			}
+			break;
+		case MATCH_PART_VARIABLES:
+			for(Variable var : pattern.getVars()) {
+				sb.append("\t\t\t"+formatAttributeType(var.getType())+" @"+formatEntity(var)+" { get; }\n");
+			}
+			break;
+		case MATCH_PART_EMBEDDED_GRAPHS:
+			for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+				sb.append("\t\t\t@"+matchType(sub.getSubpatternAction().getPattern(), true, "")+" @"+formatIdentifiable(sub)+" { get; }\n");
+			}
+			break;
+		case MATCH_PART_ALTERNATIVES:
+			for(int i=0; i<pattern.getAlts().size(); ++i) {
+				sb.append("\t\t\tIMatch_"+pathPrefixForElements+"alt_"+i+" alt_"+i+" { get; }\n");
+			}
+			break;
+		default:
+			assert(false);
+		}
+	}
+	
+	private void genMatchedEntitiesImplementation(StringBuffer sb, PatternGraph pattern,
+			String name, int which, String pathPrefixForElements)
+	{
+		// the element itself and the getter for it
+		switch(which)
+		{
+		case MATCH_PART_NODES:
+			for(Node node : pattern.getNodes()) {
+				sb.append("\t\t\tpublic "+formatElementClassInterface(node.getType())+" "+formatEntity(node)
+						+ " { get { return ("+formatElementClassInterface(node.getType())+")"+formatEntity(node, "_")+"; } }\n");
+			}
+			for(Node node : pattern.getNodes()) {
+				sb.append("\t\t\tpublic GRGEN_LGSP.LGSPNode "+formatEntity(node, "_")+";\n");
+			}
+			break;
+		case MATCH_PART_EDGES:
+			for(Edge edge : pattern.getEdges()) {
+				sb.append("\t\t\tpublic "+formatElementClassInterface(edge.getType())+" "+formatEntity(edge)
+						+ " { get { return ("+formatElementClassInterface(edge.getType())+")"+formatEntity(edge, "_")+"; } }\n");
+			}
+			for(Edge edge : pattern.getEdges()) {
+				sb.append("\t\t\tpublic GRGEN_LGSP.LGSPEdge "+formatEntity(edge, "_")+";\n");
+			}
+			break;
+		case MATCH_PART_VARIABLES:
+			for(Variable var : pattern.getVars()) {
+				sb.append("\t\t\tpublic "+formatAttributeType(var.getType())+" "+formatEntity(var)+" { get { return "+formatEntity(var, "_")+"; } }\n");
+			}
+			for(Variable var : pattern.getVars()) {
+				sb.append("\t\t\tpublic "+formatAttributeType(var.getType())+" "+formatEntity(var, "_")+";\n");
+			}
+			break;
+		case MATCH_PART_EMBEDDED_GRAPHS:
+			for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+				sb.append("\t\t\tpublic @"+matchType(sub.getSubpatternAction().getPattern(), true, "")+" @"+formatIdentifiable(sub)+" { get { return @"+formatIdentifiable(sub, "_")+"; } }\n");
+			}
+			for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+				sb.append("\t\t\tpublic @"+matchType(sub.getSubpatternAction().getPattern(), true, "")+" @"+formatIdentifiable(sub, "_")+";\n");
+			}
+			break;
+		case MATCH_PART_ALTERNATIVES:
+			for(int i=0; i<pattern.getAlts().size(); ++i) {
+				sb.append("\t\t\tpublic IMatch_"+pathPrefixForElements+"alt_"+i+" alt_"+i+" { get { return _alt_"+i+"; } }\n");
+			}
+			for(int i=0; i<pattern.getAlts().size(); ++i) {
+				sb.append("\t\t\tpublic IMatch_"+pathPrefixForElements+"alt_"+i+" _alt_"+i+";\n");
+			}
+			break;
+		default:
+			assert(false);
+		}
+	}
+	
+	
+	private void genIMatchImplementation(StringBuffer sb, PatternGraph pattern,
+			String name, int which, String pathPrefixForElements)
+	{
+		// the various match part getters
+		
+		String enumerableName = "GRGEN_LGSP."+matchedEntitiesNamePlural(which)+"_Enumerable";
+		String enumeratorName = "GRGEN_LGSP."+matchedEntitiesNamePlural(which)+"_Enumerator";
+		String typeOfMatchedEntities = typeOfMatchedEntities(which);
+		int numberOfMatchedEntities = numOfMatchedEntities(which, pattern);
+		String matchedEntitiesNameSingular = matchedEntitiesNameSingular(which);
+		String matchedEntitiesNamePlural = matchedEntitiesNamePlural(which);
+		
+		sb.append("\t\t\tpublic IEnumerable<"+typeOfMatchedEntities+"> "+matchedEntitiesNamePlural+" { get { return new "+enumerableName+"(this); } }\n");
+		sb.append("\t\t\tpublic IEnumerator<"+typeOfMatchedEntities+"> "+matchedEntitiesNamePlural+"Enumerator { get { return new " + enumeratorName + "(this); } }\n");
+		sb.append("\t\t\tpublic int NumberOf"+matchedEntitiesNamePlural+" { get { return " + numberOfMatchedEntities + ";} }\n");
+		sb.append("\t\t\tpublic "+typeOfMatchedEntities+" get"+matchedEntitiesNameSingular+"At(int index)\n");
+		sb.append("\t\t\t{\n");
+		sb.append("\t\t\t\tswitch(index) {\n");
+		
+		switch(which)
+		{
+		case MATCH_PART_NODES:
+			for(Node node : pattern.getNodes()) {
+				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + formatIdentifiable(node) + ": return " + formatEntity(node, "_") + ";\n");
+			}
+			break;
+		case MATCH_PART_EDGES:
+			for(Edge edge : pattern.getEdges()) {
+				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + formatIdentifiable(edge) + ": return " + formatEntity(edge, "_") + ";\n");
+			}
+			break;
+		case MATCH_PART_VARIABLES:
+			for(Variable var : pattern.getVars()) {
+				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + formatIdentifiable(var) + ": return " + formatEntity(var, "_") + ";\n");
+			}
+			break;
+		case MATCH_PART_EMBEDDED_GRAPHS:
+			for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + formatIdentifiable(sub) + ": return " + formatIdentifiable(sub, "_") + ";\n");
+			}
+			break;
+		case MATCH_PART_ALTERNATIVES:
+			for(int i=0; i < pattern.getAlts().size(); ++i) {
+				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + "alt_" + i + ": return _alt_" + i + ";\n");
+			}
+			break;
+		default:
+			assert(false);
+			break;
+		}
+		
+		sb.append("\t\t\t\tdefault: return null;\n");
+		sb.append("\t\t\t\t}\n");
+	    sb.append("\t\t\t}\n");
+	}
+	
+	
+	private void genMatchEnum(StringBuffer sb, PatternGraph pattern,
+			String name, int which, String pathPrefixForElements)
+	{
+		// generate enum mapping entity names to consecutive integers
+		sb.append("\t\t\tpublic enum "+entitiesEnumName(which, pathPrefixForElements)+" { ");
+		switch(which)
+		{
+		case MATCH_PART_NODES:
+			for(Node node : pattern.getNodes()) {
+				sb.append("@"+formatIdentifiable(node)+", ");
+			}
+			break;
+		case MATCH_PART_EDGES:
+			for(Edge edge : pattern.getEdges()) {
+				sb.append("@"+formatIdentifiable(edge)+", ");
+			}
+			break;
+		case MATCH_PART_VARIABLES:
+			for(Variable var : pattern.getVars()) {
+				sb.append("@"+formatIdentifiable(var)+", ");
+			}
+			break;
+		case MATCH_PART_EMBEDDED_GRAPHS:
+			for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+				sb.append("@"+formatIdentifiable(sub)+", ");
+			}
+			break;
+		case MATCH_PART_ALTERNATIVES:
+			for(int i=0; i < pattern.getAlts().size(); i++) {
+				sb.append("@"+"alt_"+ i +", ");
+			}
+			break;
+		default:
+			assert(false);
+			break;
+		}
+		sb.append("END_OF_ENUM };\n");
+	}
+	
+	
+	private String matchedEntitiesNameSingular(int which)
+	{
+		switch(which)
+		{
+		case MATCH_PART_NODES:
+			return "Node";
+		case MATCH_PART_EDGES:
+			return "Edge";
+		case MATCH_PART_VARIABLES:
+			return "Variable";
+		case MATCH_PART_EMBEDDED_GRAPHS:
+			return "EmbeddedGraph";
+		case MATCH_PART_ALTERNATIVES:
+			return "Alternative";
+		default:
+			assert(false);
+			return "";
+		}
+	}
+	
+	private String matchedEntitiesNamePlural(int which)
+	{
+		return matchedEntitiesNameSingular(which)+"s";
+	}
+	
+	private String entitiesEnumName(int which, String pathPrefixForElements)
+	{
+		switch(which)
+		{
+		case MATCH_PART_NODES:
+			return pathPrefixForElements + "NodeNums";
+		case MATCH_PART_EDGES:
+			return pathPrefixForElements + "EdgeNums";
+		case MATCH_PART_VARIABLES:
+			return pathPrefixForElements + "VariableNums";
+		case MATCH_PART_EMBEDDED_GRAPHS:
+			return pathPrefixForElements + "SubNums";
+		case MATCH_PART_ALTERNATIVES:
+			return pathPrefixForElements + "AltNums";
+		default:
+			assert(false);
+			return "";
+		}
+	}
+
+	private String typeOfMatchedEntities(int which)
+	{
+		switch(which)
+		{
+		case MATCH_PART_NODES:
+			return "GRGEN_LIBGR.INode";
+		case MATCH_PART_EDGES:
+			return "GRGEN_LIBGR.IEdge";
+		case MATCH_PART_VARIABLES:
+			return "object";
+		case MATCH_PART_EMBEDDED_GRAPHS:
+			return "GRGEN_LIBGR.IMatch";
+		case MATCH_PART_ALTERNATIVES:
+			return "GRGEN_LIBGR.IMatch";
+		default:
+			assert(false);
+			return "";
+		}
+	}
+	
+	private int numOfMatchedEntities(int which, PatternGraph pattern)
+	{
+		switch(which)
+		{
+		case MATCH_PART_NODES:
+			return pattern.getNodes().size();
+		case MATCH_PART_EDGES:
+			return pattern.getEdges().size();
+		case MATCH_PART_VARIABLES:
+			return pattern.getVars().size();
+		case MATCH_PART_EMBEDDED_GRAPHS:
+			return pattern.getSubpatternUsages().size();
+		case MATCH_PART_ALTERNATIVES:
+			return pattern.getAlts().size();
+		default:
+			assert(false);
+			return 0;
+		}
+	}
+	
 	///////////////////////
 	// Private variables //
 	///////////////////////

@@ -1329,8 +1329,8 @@ namespace de.unika.ipd.grGen.lgsp
             String enumPrefix = patternGraph.pathPrefix + patternGraph.name + "_";
             foreach(PatternVariable var in patternGraph.variables)
             {
-                BuildMatchObject buildMatch = new BuildMatchObject(BuildMatchObjectType.Variable,
-                        var.UnprefixedName, var.Name, rulePatternClassName, enumPrefix, -1);
+                BuildMatchObject buildMatch = new BuildMatchObject(BuildMatchObjectType.Variable, var.Type.Name,
+                    var.UnprefixedName, var.Name, rulePatternClassName, enumPrefix, -1);
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
@@ -1338,6 +1338,7 @@ namespace de.unika.ipd.grGen.lgsp
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Node,
+                        patternGraph.nodes[i].typeName,
                         patternGraph.nodes[i].UnprefixedName,
                         patternGraph.nodes[i].Name,
                         rulePatternClassName,
@@ -1351,6 +1352,7 @@ namespace de.unika.ipd.grGen.lgsp
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Edge,
+                        patternGraph.edges[i].typeName,
                         patternGraph.edges[i].UnprefixedName,
                         patternGraph.edges[i].Name,
                         rulePatternClassName,
@@ -1361,9 +1363,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
             for (int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
             {
+                string subpatternContainingType = NamesOfEntities.RulePatternClassName(patternGraph.embeddedGraphs[i].EmbeddedGraph.Name, true);
+                string subpatternType = NamesOfEntities.MatchClassName(patternGraph.embeddedGraphs[i].EmbeddedGraph.Name);
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Subpattern,
+                        subpatternContainingType+"."+subpatternType,
                         patternGraph.embeddedGraphs[i].name,
                         patternGraph.embeddedGraphs[i].name,
                         rulePatternClassName,
@@ -1377,6 +1382,7 @@ namespace de.unika.ipd.grGen.lgsp
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Alternative,
+                        patternGraph.pathPrefix+patternGraph.name+"_"+patternGraph.alternatives[i].name,
                         patternGraph.alternatives[i].name,
                         patternGraph.alternatives[i].name,
                         rulePatternClassName,
@@ -1524,7 +1530,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- check failed, no tasks left, leaf subpattern was matched
             LeafSubpatternMatched leafMatched = new LeafSubpatternMatched(
-                patternGraph.nodes.Length, patternGraph.edges.Length, patternGraph.variables.Length);
+                rulePatternClassName, patternGraph.pathPrefix+patternGraph.name);
             SearchProgramOperation continuationPointAfterLeafMatched =
                 insertionPoint.Append(leafMatched);
             leafMatched.MatchBuildingOperations =
@@ -1638,17 +1644,13 @@ namespace de.unika.ipd.grGen.lgsp
             PatternAndSubpatternsMatched patternAndSubpatternsMatched;
             if (programType == SearchProgramType.Action || programType == SearchProgramType.MissingPreset)
             {
-                patternAndSubpatternsMatched = new PatternAndSubpatternsMatched();
+                patternAndSubpatternsMatched = new PatternAndSubpatternsMatched(
+                    rulePatternClassName, patternGraph.pathPrefix+patternGraph.name, false);
             }
             else
             {
                 patternAndSubpatternsMatched = new PatternAndSubpatternsMatched(
-                    patternGraph.nodes.Length,
-                    patternGraph.edges.Length,
-                    patternGraph.variables.Length,
-                    patternGraph.embeddedGraphs.Length,
-                    patternGraph.alternatives.Length
-                );
+                    rulePatternClassName, patternGraph.pathPrefix+patternGraph.name, true);
             }
             SearchProgramOperation continuationPointAfterPatternAndSubpatternsMatched =
                 insertionPoint.Append(patternAndSubpatternsMatched);
@@ -1687,7 +1689,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // build the pattern was matched operation
             PositivePatternWithoutSubpatternsMatched patternMatched =
-                new PositivePatternWithoutSubpatternsMatched();
+                new PositivePatternWithoutSubpatternsMatched(rulePatternClassName, patternGraph.name);
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(patternMatched);
             patternMatched.MatchBuildingOperations =

@@ -1439,6 +1439,8 @@ exitSecondLoop: ;
                 
             String namePrefix = (isInitialStatic ? "" : "Dyn") + "Action_";
             String className = namePrefix + rulePattern.name;
+            String rulePatternTypeName = rulePattern.GetType().Name;
+            String matchName = rulePatternTypeName + "." + "Match_" + rulePattern.name;
 
             sb.AppendFront("public class " + className + " : GRGEN_LGSP.LGSPAction\n");
             sb.AppendFront("{\n");
@@ -1446,20 +1448,15 @@ exitSecondLoop: ;
 
             sb.AppendFront("public " + className + "() {\n");
             sb.Indent(); // method body level
-            sb.AppendFront("rulePattern = " + rulePattern.GetType().Name + ".Instance;\n");
+            sb.AppendFront("rulePattern = " + rulePatternTypeName + ".Instance;\n");
             sb.AppendFront("patternGraph = rulePattern.patternGraph;\n");
             sb.AppendFront("DynamicMatch = myMatch;\n");
-            sb.AppendFront("matches = new GRGEN_LGSP.LGSPMatches(this, "
-                + patternGraph.Nodes.Length + ", "
-                + patternGraph.Edges.Length + ", "
-                + patternGraph.Variables.Length + ", "
-                + patternGraph.EmbeddedGraphs.Length + " + " + patternGraph.Alternatives.Length +
-                ");\n");
+            sb.AppendFront("matches = new GRGEN_LGSP.LGSPMatchesList<" + matchName + ">(this);\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
             sb.AppendFront("public override string Name { get { return \"" + rulePattern.name + "\"; } }\n");
-            sb.AppendFront("private GRGEN_LGSP.LGSPMatches matches;\n\n");
+            sb.AppendFront("private GRGEN_LGSP.LGSPMatchesList<" + matchName + "> matches;\n\n");
             if (isInitialStatic)
             {
                 sb.AppendFront("public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }\n");
@@ -1585,8 +1582,8 @@ exitSecondLoop: ;
                 sb.AppendFront("newTask = new " + className + "(graph_, openTasks_);\n");
             sb.Unindent();
             sb.AppendFront("}\n");
-            sb.Unindent();
             sb.AppendFront("return newTask;\n");
+            sb.Unindent();
             sb.AppendFront("}\n\n");
 
             // releaseTask method recycling task into pool if pool is not full

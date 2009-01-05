@@ -44,22 +44,22 @@ namespace MutexExample
             LGSPEdge n1 = graph.CreateEdgenext(p1, p2);
             LGSPEdge n2 = graph.CreateEdgenext(p2, p1);
 
-            LGSPMatches matches;
+            IMatches matches;
             LGSPAction newRule = Action_newRule.Instance;
             for(int i = 0; i < n - 2; i++)
             {
                 matches = newRule.Match(graph, 1, null);
-                newRule.Modify(graph, matches.matchesList.First);
+                newRule.Modify(graph, matches.First);
             }
 
             matches = Action_mountRule.Instance.Match(graph, 1, null);
-            Action_mountRule.Instance.Modify(graph, matches.matchesList.First);
+            Action_mountRule.Instance.Modify(graph, matches.First);
 
             LGSPAction requestRule = Action_requestRule.Instance;
             for(int i = 0; i < n; i++)
             {
                 matches = requestRule.Match(graph, 1, null);
-                requestRule.Modify(graph, matches.matchesList.First);
+                requestRule.Modify(graph, matches.First);
             }
 
             /**
@@ -89,11 +89,11 @@ namespace MutexExample
             for(int i = 0; i < n; i++)
             {
                 matches = takeRule.Match(graph, 1, null);
-                takeRule.Modify(graph, matches.matchesList.First);
+                takeRule.Modify(graph, matches.First);
                 matches = releaseRule.Match(graph, 1, null);
-                releaseRule.Modify(graph, matches.matchesList.First);
+                releaseRule.Modify(graph, matches.First);
                 matches = giveRule.Match(graph, 1, null);
-                giveRule.Modify(graph, matches.matchesList.First);
+                giveRule.Modify(graph, matches.First);
             }
 
             int endTime = Environment.TickCount;

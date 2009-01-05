@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Dec 28 14:47:46 GMT+01:00 2008
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Jan 05 22:40:28 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -60,10 +60,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[,] readZeroRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode readZeroRule_node_s = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "readZeroRule_node_s", "s", readZeroRule_node_s_AllowedTypes, readZeroRule_node_s_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode readZeroRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode readZeroRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternEdge readZeroRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@readZero, "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode readZeroRule_node_s = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "IState", "readZeroRule_node_s", "s", readZeroRule_node_s_AllowedTypes, readZeroRule_node_s_IsAllowedType, 5.5F, 0);
+			GRGEN_LGSP.PatternNode readZeroRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "IWriteValue", "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode readZeroRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "IBandPosition", "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1);
+			GRGEN_LGSP.PatternEdge readZeroRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@readZero, "IreadZero", "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("IBandPosition", "readZeroRule_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
 				new String[] { "readZeroRule_node_bp" }, new String[] {  }, new String[] {  });
@@ -102,12 +102,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_wv = curMatch.Nodes[(int)readZeroRule_NodeNums.@wv];
-			GRGEN_LGSP.LGSPNode node_bp = curMatch.Nodes[(int)readZeroRule_NodeNums.@bp];
-			@IBandPosition inode_bp = (@IBandPosition) node_bp;
-			@IWriteValue inode_wv = (@IWriteValue) node_wv;
+			Match_readZeroRule curMatch = (Match_readZeroRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_wv = curMatch._node_wv;
+			GRGEN_LGSP.LGSPNode node_bp = curMatch._node_bp;
+			@IBandPosition inode_bp = curMatch.node_bp;
+			@IWriteValue inode_wv = curMatch.node_wv;
 			graph.SettingAddedNodeNames( readZeroRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readZeroRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
@@ -119,12 +120,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private static String[] readZeroRule_addedNodeNames = new String[] {  };
 		private static String[] readZeroRule_addedEdgeNames = new String[] {  };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_wv = curMatch.Nodes[(int)readZeroRule_NodeNums.@wv];
-			GRGEN_LGSP.LGSPNode node_bp = curMatch.Nodes[(int)readZeroRule_NodeNums.@bp];
-			@IBandPosition inode_bp = (@IBandPosition) node_bp;
-			@IWriteValue inode_wv = (@IWriteValue) node_wv;
+			Match_readZeroRule curMatch = (Match_readZeroRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_wv = curMatch._node_wv;
+			GRGEN_LGSP.LGSPNode node_bp = curMatch._node_bp;
+			@IBandPosition inode_bp = curMatch.node_bp;
+			@IWriteValue inode_wv = curMatch.node_wv;
 			graph.SettingAddedNodeNames( readZeroRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readZeroRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
@@ -136,6 +138,93 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		static Rule_readZeroRule() {
 		}
+
+		public interface IMatch_readZeroRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IState node_s { get; }
+			IWriteValue node_wv { get; }
+			IBandPosition node_bp { get; }
+			//Edges
+			IreadZero edge_rv { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_readZeroRule : GRGEN_LGSP.ListElement<Match_readZeroRule>, IMatch_readZeroRule
+		{
+			public IState node_s { get { return (IState)_node_s; } }
+			public IWriteValue node_wv { get { return (IWriteValue)_node_wv; } }
+			public IBandPosition node_bp { get { return (IBandPosition)_node_bp; } }
+			public GRGEN_LGSP.LGSPNode _node_s;
+			public GRGEN_LGSP.LGSPNode _node_wv;
+			public GRGEN_LGSP.LGSPNode _node_bp;
+			public enum readZeroRule_NodeNums { @s, @wv, @bp, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 3;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)readZeroRule_NodeNums.@s: return _node_s;
+				case (int)readZeroRule_NodeNums.@wv: return _node_wv;
+				case (int)readZeroRule_NodeNums.@bp: return _node_bp;
+				default: return null;
+				}
+			}
+			
+			public IreadZero edge_rv { get { return (IreadZero)_edge_rv; } }
+			public GRGEN_LGSP.LGSPEdge _edge_rv;
+			public enum readZeroRule_EdgeNums { @rv, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)readZeroRule_EdgeNums.@rv: return _edge_rv;
+				default: return null;
+				}
+			}
+			
+			public enum readZeroRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum readZeroRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum readZeroRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_readZeroRule.instance.pat_readZeroRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_readOneRule : GRGEN_LGSP.LGSPRulePattern
@@ -186,10 +275,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[,] readOneRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode readOneRule_node_s = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "readOneRule_node_s", "s", readOneRule_node_s_AllowedTypes, readOneRule_node_s_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode readOneRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode readOneRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternEdge readOneRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@readOne, "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode readOneRule_node_s = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "IState", "readOneRule_node_s", "s", readOneRule_node_s_AllowedTypes, readOneRule_node_s_IsAllowedType, 5.5F, 0);
+			GRGEN_LGSP.PatternNode readOneRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "IWriteValue", "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode readOneRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "IBandPosition", "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1);
+			GRGEN_LGSP.PatternEdge readOneRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@readOne, "IreadOne", "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("IBandPosition", "readOneRule_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
 				new String[] { "readOneRule_node_bp" }, new String[] {  }, new String[] {  });
@@ -228,12 +317,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_wv = curMatch.Nodes[(int)readOneRule_NodeNums.@wv];
-			GRGEN_LGSP.LGSPNode node_bp = curMatch.Nodes[(int)readOneRule_NodeNums.@bp];
-			@IBandPosition inode_bp = (@IBandPosition) node_bp;
-			@IWriteValue inode_wv = (@IWriteValue) node_wv;
+			Match_readOneRule curMatch = (Match_readOneRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_wv = curMatch._node_wv;
+			GRGEN_LGSP.LGSPNode node_bp = curMatch._node_bp;
+			@IBandPosition inode_bp = curMatch.node_bp;
+			@IWriteValue inode_wv = curMatch.node_wv;
 			graph.SettingAddedNodeNames( readOneRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readOneRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
@@ -245,12 +335,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private static String[] readOneRule_addedNodeNames = new String[] {  };
 		private static String[] readOneRule_addedEdgeNames = new String[] {  };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_wv = curMatch.Nodes[(int)readOneRule_NodeNums.@wv];
-			GRGEN_LGSP.LGSPNode node_bp = curMatch.Nodes[(int)readOneRule_NodeNums.@bp];
-			@IBandPosition inode_bp = (@IBandPosition) node_bp;
-			@IWriteValue inode_wv = (@IWriteValue) node_wv;
+			Match_readOneRule curMatch = (Match_readOneRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_wv = curMatch._node_wv;
+			GRGEN_LGSP.LGSPNode node_bp = curMatch._node_bp;
+			@IBandPosition inode_bp = curMatch.node_bp;
+			@IWriteValue inode_wv = curMatch.node_wv;
 			graph.SettingAddedNodeNames( readOneRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( readOneRule_addedEdgeNames );
 			int tempvar_i = inode_wv.@value;
@@ -262,6 +353,93 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		static Rule_readOneRule() {
 		}
+
+		public interface IMatch_readOneRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IState node_s { get; }
+			IWriteValue node_wv { get; }
+			IBandPosition node_bp { get; }
+			//Edges
+			IreadOne edge_rv { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_readOneRule : GRGEN_LGSP.ListElement<Match_readOneRule>, IMatch_readOneRule
+		{
+			public IState node_s { get { return (IState)_node_s; } }
+			public IWriteValue node_wv { get { return (IWriteValue)_node_wv; } }
+			public IBandPosition node_bp { get { return (IBandPosition)_node_bp; } }
+			public GRGEN_LGSP.LGSPNode _node_s;
+			public GRGEN_LGSP.LGSPNode _node_wv;
+			public GRGEN_LGSP.LGSPNode _node_bp;
+			public enum readOneRule_NodeNums { @s, @wv, @bp, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 3;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)readOneRule_NodeNums.@s: return _node_s;
+				case (int)readOneRule_NodeNums.@wv: return _node_wv;
+				case (int)readOneRule_NodeNums.@bp: return _node_bp;
+				default: return null;
+				}
+			}
+			
+			public IreadOne edge_rv { get { return (IreadOne)_edge_rv; } }
+			public GRGEN_LGSP.LGSPEdge _edge_rv;
+			public enum readOneRule_EdgeNums { @rv, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)readOneRule_EdgeNums.@rv: return _edge_rv;
+				default: return null;
+				}
+			}
+			
+			public enum readOneRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum readOneRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum readOneRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_readOneRule.instance.pat_readOneRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_ensureMoveLeftValidRule : GRGEN_LGSP.LGSPRulePattern
@@ -324,10 +502,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[,] ensureMoveLeftValidRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "ensureMoveLeftValidRule_node_wv", "wv", ensureMoveLeftValidRule_node_wv_AllowedTypes, ensureMoveLeftValidRule_node_wv_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "ensureMoveLeftValidRule_node__node0", "_node0", ensureMoveLeftValidRule_node__node0_AllowedTypes, ensureMoveLeftValidRule_node__node0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "ensureMoveLeftValidRule_node_bp", "bp", ensureMoveLeftValidRule_node_bp_AllowedTypes, ensureMoveLeftValidRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@moveLeft, "ensureMoveLeftValidRule_edge__edge0", "_edge0", ensureMoveLeftValidRule_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "IWriteValue", "ensureMoveLeftValidRule_node_wv", "wv", ensureMoveLeftValidRule_node_wv_AllowedTypes, ensureMoveLeftValidRule_node_wv_IsAllowedType, 5.5F, 0);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "IState", "ensureMoveLeftValidRule_node__node0", "_node0", ensureMoveLeftValidRule_node__node0_AllowedTypes, ensureMoveLeftValidRule_node__node0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "IBandPosition", "ensureMoveLeftValidRule_node_bp", "bp", ensureMoveLeftValidRule_node_bp_AllowedTypes, ensureMoveLeftValidRule_node_bp_IsAllowedType, 5.5F, 1);
+			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@moveLeft, "ImoveLeft", "ensureMoveLeftValidRule_edge__edge0", "_edge0", ensureMoveLeftValidRule_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
 			bool[,] ensureMoveLeftValidRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -335,8 +513,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[,] ensureMoveLeftValidRule_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "ensureMoveLeftValidRule_neg_0_node__node0", "_node0", ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes, ensureMoveLeftValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@right, "ensureMoveLeftValidRule_neg_0_edge__edge0", "_edge0", ensureMoveLeftValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "IBandPosition", "ensureMoveLeftValidRule_neg_0_node__node0", "_node0", ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes, ensureMoveLeftValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@right, "Iright", "ensureMoveLeftValidRule_neg_0_edge__edge0", "_edge0", ensureMoveLeftValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			ensureMoveLeftValidRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ensureMoveLeftValidRule_",
@@ -400,9 +578,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_bp = curMatch.Nodes[(int)ensureMoveLeftValidRule_NodeNums.@bp];
+			Match_ensureMoveLeftValidRule curMatch = (Match_ensureMoveLeftValidRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_bp = curMatch._node_bp;
 			graph.SettingAddedNodeNames( ensureMoveLeftValidRule_addedNodeNames );
 			@BandPosition node__node1 = @BandPosition.CreateNode(graph);
 			graph.SettingAddedEdgeNames( ensureMoveLeftValidRule_addedEdgeNames );
@@ -412,9 +591,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private static String[] ensureMoveLeftValidRule_addedNodeNames = new String[] { "_node1" };
 		private static String[] ensureMoveLeftValidRule_addedEdgeNames = new String[] { "_edge1" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_bp = curMatch.Nodes[(int)ensureMoveLeftValidRule_NodeNums.@bp];
+			Match_ensureMoveLeftValidRule curMatch = (Match_ensureMoveLeftValidRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_bp = curMatch._node_bp;
 			graph.SettingAddedNodeNames( ensureMoveLeftValidRule_addedNodeNames );
 			@BandPosition node__node1 = @BandPosition.CreateNode(graph);
 			graph.SettingAddedEdgeNames( ensureMoveLeftValidRule_addedEdgeNames );
@@ -424,6 +604,175 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		static Rule_ensureMoveLeftValidRule() {
 		}
+
+		public interface IMatch_ensureMoveLeftValidRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IWriteValue node_wv { get; }
+			IState node__node0 { get; }
+			IBandPosition node_bp { get; }
+			//Edges
+			ImoveLeft edge__edge0 { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public interface IMatch_ensureMoveLeftValidRule_neg_0 : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IBandPosition node__node0 { get; }
+			IBandPosition node_bp { get; }
+			//Edges
+			Iright edge__edge0 { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_ensureMoveLeftValidRule : GRGEN_LGSP.ListElement<Match_ensureMoveLeftValidRule>, IMatch_ensureMoveLeftValidRule
+		{
+			public IWriteValue node_wv { get { return (IWriteValue)_node_wv; } }
+			public IState node__node0 { get { return (IState)_node__node0; } }
+			public IBandPosition node_bp { get { return (IBandPosition)_node_bp; } }
+			public GRGEN_LGSP.LGSPNode _node_wv;
+			public GRGEN_LGSP.LGSPNode _node__node0;
+			public GRGEN_LGSP.LGSPNode _node_bp;
+			public enum ensureMoveLeftValidRule_NodeNums { @wv, @_node0, @bp, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 3;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)ensureMoveLeftValidRule_NodeNums.@wv: return _node_wv;
+				case (int)ensureMoveLeftValidRule_NodeNums.@_node0: return _node__node0;
+				case (int)ensureMoveLeftValidRule_NodeNums.@bp: return _node_bp;
+				default: return null;
+				}
+			}
+			
+			public ImoveLeft edge__edge0 { get { return (ImoveLeft)_edge__edge0; } }
+			public GRGEN_LGSP.LGSPEdge _edge__edge0;
+			public enum ensureMoveLeftValidRule_EdgeNums { @_edge0, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)ensureMoveLeftValidRule_EdgeNums.@_edge0: return _edge__edge0;
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveLeftValidRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveLeftValidRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveLeftValidRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveLeftValidRule.instance.pat_ensureMoveLeftValidRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
+		public class Match_ensureMoveLeftValidRule_neg_0 : GRGEN_LGSP.ListElement<Match_ensureMoveLeftValidRule_neg_0>, IMatch_ensureMoveLeftValidRule_neg_0
+		{
+			public IBandPosition node__node0 { get { return (IBandPosition)_node__node0; } }
+			public IBandPosition node_bp { get { return (IBandPosition)_node_bp; } }
+			public GRGEN_LGSP.LGSPNode _node__node0;
+			public GRGEN_LGSP.LGSPNode _node_bp;
+			public enum ensureMoveLeftValidRule_neg_0_NodeNums { @_node0, @bp, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)ensureMoveLeftValidRule_neg_0_NodeNums.@_node0: return _node__node0;
+				case (int)ensureMoveLeftValidRule_neg_0_NodeNums.@bp: return _node_bp;
+				default: return null;
+				}
+			}
+			
+			public Iright edge__edge0 { get { return (Iright)_edge__edge0; } }
+			public GRGEN_LGSP.LGSPEdge _edge__edge0;
+			public enum ensureMoveLeftValidRule_neg_0_EdgeNums { @_edge0, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)ensureMoveLeftValidRule_neg_0_EdgeNums.@_edge0: return _edge__edge0;
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveLeftValidRule_neg_0_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveLeftValidRule_neg_0_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveLeftValidRule_neg_0_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveLeftValidRule.instance.ensureMoveLeftValidRule_neg_0; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_ensureMoveRightValidRule : GRGEN_LGSP.LGSPRulePattern
@@ -486,10 +835,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[,] ensureMoveRightValidRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "ensureMoveRightValidRule_node_wv", "wv", ensureMoveRightValidRule_node_wv_AllowedTypes, ensureMoveRightValidRule_node_wv_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "ensureMoveRightValidRule_node__node0", "_node0", ensureMoveRightValidRule_node__node0_AllowedTypes, ensureMoveRightValidRule_node__node0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "ensureMoveRightValidRule_node_bp", "bp", ensureMoveRightValidRule_node_bp_AllowedTypes, ensureMoveRightValidRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@moveRight, "ensureMoveRightValidRule_edge__edge0", "_edge0", ensureMoveRightValidRule_edge__edge0_AllowedTypes, ensureMoveRightValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "IWriteValue", "ensureMoveRightValidRule_node_wv", "wv", ensureMoveRightValidRule_node_wv_AllowedTypes, ensureMoveRightValidRule_node_wv_IsAllowedType, 5.5F, 0);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "IState", "ensureMoveRightValidRule_node__node0", "_node0", ensureMoveRightValidRule_node__node0_AllowedTypes, ensureMoveRightValidRule_node__node0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "IBandPosition", "ensureMoveRightValidRule_node_bp", "bp", ensureMoveRightValidRule_node_bp_AllowedTypes, ensureMoveRightValidRule_node_bp_IsAllowedType, 5.5F, 1);
+			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@moveRight, "ImoveRight", "ensureMoveRightValidRule_edge__edge0", "_edge0", ensureMoveRightValidRule_edge__edge0_AllowedTypes, ensureMoveRightValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
 			bool[,] ensureMoveRightValidRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -497,8 +846,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[,] ensureMoveRightValidRule_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "ensureMoveRightValidRule_neg_0_node__node0", "_node0", ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes, ensureMoveRightValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@right, "ensureMoveRightValidRule_neg_0_edge__edge0", "_edge0", ensureMoveRightValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveRightValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "IBandPosition", "ensureMoveRightValidRule_neg_0_node__node0", "_node0", ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes, ensureMoveRightValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@right, "Iright", "ensureMoveRightValidRule_neg_0_edge__edge0", "_edge0", ensureMoveRightValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveRightValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			ensureMoveRightValidRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ensureMoveRightValidRule_",
@@ -562,9 +911,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_bp = curMatch.Nodes[(int)ensureMoveRightValidRule_NodeNums.@bp];
+			Match_ensureMoveRightValidRule curMatch = (Match_ensureMoveRightValidRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_bp = curMatch._node_bp;
 			graph.SettingAddedNodeNames( ensureMoveRightValidRule_addedNodeNames );
 			@BandPosition node__node1 = @BandPosition.CreateNode(graph);
 			graph.SettingAddedEdgeNames( ensureMoveRightValidRule_addedEdgeNames );
@@ -574,9 +924,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private static String[] ensureMoveRightValidRule_addedNodeNames = new String[] { "_node1" };
 		private static String[] ensureMoveRightValidRule_addedEdgeNames = new String[] { "_edge1" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_bp = curMatch.Nodes[(int)ensureMoveRightValidRule_NodeNums.@bp];
+			Match_ensureMoveRightValidRule curMatch = (Match_ensureMoveRightValidRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_bp = curMatch._node_bp;
 			graph.SettingAddedNodeNames( ensureMoveRightValidRule_addedNodeNames );
 			@BandPosition node__node1 = @BandPosition.CreateNode(graph);
 			graph.SettingAddedEdgeNames( ensureMoveRightValidRule_addedEdgeNames );
@@ -586,6 +937,175 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		static Rule_ensureMoveRightValidRule() {
 		}
+
+		public interface IMatch_ensureMoveRightValidRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IWriteValue node_wv { get; }
+			IState node__node0 { get; }
+			IBandPosition node_bp { get; }
+			//Edges
+			ImoveRight edge__edge0 { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public interface IMatch_ensureMoveRightValidRule_neg_0 : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IBandPosition node_bp { get; }
+			IBandPosition node__node0 { get; }
+			//Edges
+			Iright edge__edge0 { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_ensureMoveRightValidRule : GRGEN_LGSP.ListElement<Match_ensureMoveRightValidRule>, IMatch_ensureMoveRightValidRule
+		{
+			public IWriteValue node_wv { get { return (IWriteValue)_node_wv; } }
+			public IState node__node0 { get { return (IState)_node__node0; } }
+			public IBandPosition node_bp { get { return (IBandPosition)_node_bp; } }
+			public GRGEN_LGSP.LGSPNode _node_wv;
+			public GRGEN_LGSP.LGSPNode _node__node0;
+			public GRGEN_LGSP.LGSPNode _node_bp;
+			public enum ensureMoveRightValidRule_NodeNums { @wv, @_node0, @bp, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 3;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)ensureMoveRightValidRule_NodeNums.@wv: return _node_wv;
+				case (int)ensureMoveRightValidRule_NodeNums.@_node0: return _node__node0;
+				case (int)ensureMoveRightValidRule_NodeNums.@bp: return _node_bp;
+				default: return null;
+				}
+			}
+			
+			public ImoveRight edge__edge0 { get { return (ImoveRight)_edge__edge0; } }
+			public GRGEN_LGSP.LGSPEdge _edge__edge0;
+			public enum ensureMoveRightValidRule_EdgeNums { @_edge0, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)ensureMoveRightValidRule_EdgeNums.@_edge0: return _edge__edge0;
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveRightValidRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveRightValidRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveRightValidRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveRightValidRule.instance.pat_ensureMoveRightValidRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
+		public class Match_ensureMoveRightValidRule_neg_0 : GRGEN_LGSP.ListElement<Match_ensureMoveRightValidRule_neg_0>, IMatch_ensureMoveRightValidRule_neg_0
+		{
+			public IBandPosition node_bp { get { return (IBandPosition)_node_bp; } }
+			public IBandPosition node__node0 { get { return (IBandPosition)_node__node0; } }
+			public GRGEN_LGSP.LGSPNode _node_bp;
+			public GRGEN_LGSP.LGSPNode _node__node0;
+			public enum ensureMoveRightValidRule_neg_0_NodeNums { @bp, @_node0, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 2;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)ensureMoveRightValidRule_neg_0_NodeNums.@bp: return _node_bp;
+				case (int)ensureMoveRightValidRule_neg_0_NodeNums.@_node0: return _node__node0;
+				default: return null;
+				}
+			}
+			
+			public Iright edge__edge0 { get { return (Iright)_edge__edge0; } }
+			public GRGEN_LGSP.LGSPEdge _edge__edge0;
+			public enum ensureMoveRightValidRule_neg_0_EdgeNums { @_edge0, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)ensureMoveRightValidRule_neg_0_EdgeNums.@_edge0: return _edge__edge0;
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveRightValidRule_neg_0_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveRightValidRule_neg_0_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveRightValidRule_neg_0_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveRightValidRule.instance.ensureMoveRightValidRule_neg_0; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_moveLeftRule : GRGEN_LGSP.LGSPRulePattern
@@ -642,12 +1162,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode moveLeftRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "moveLeftRule_node_wv", "wv", moveLeftRule_node_wv_AllowedTypes, moveLeftRule_node_wv_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode moveLeftRule_node_s = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "moveLeftRule_node_s", "s", moveLeftRule_node_s_AllowedTypes, moveLeftRule_node_s_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode moveLeftRule_node_lbp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "moveLeftRule_node_lbp", "lbp", moveLeftRule_node_lbp_AllowedTypes, moveLeftRule_node_lbp_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode moveLeftRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "moveLeftRule_node_bp", "bp", moveLeftRule_node_bp_AllowedTypes, moveLeftRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@moveLeft, "moveLeftRule_edge__edge0", "_edge0", moveLeftRule_edge__edge0_AllowedTypes, moveLeftRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@right, "moveLeftRule_edge__edge1", "_edge1", moveLeftRule_edge__edge1_AllowedTypes, moveLeftRule_edge__edge1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "IWriteValue", "moveLeftRule_node_wv", "wv", moveLeftRule_node_wv_AllowedTypes, moveLeftRule_node_wv_IsAllowedType, 5.5F, 0);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_s = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "IState", "moveLeftRule_node_s", "s", moveLeftRule_node_s_AllowedTypes, moveLeftRule_node_s_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_lbp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "IBandPosition", "moveLeftRule_node_lbp", "lbp", moveLeftRule_node_lbp_AllowedTypes, moveLeftRule_node_lbp_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "IBandPosition", "moveLeftRule_node_bp", "bp", moveLeftRule_node_bp_AllowedTypes, moveLeftRule_node_bp_IsAllowedType, 5.5F, 1);
+			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@moveLeft, "ImoveLeft", "moveLeftRule_edge__edge0", "_edge0", moveLeftRule_edge__edge0_AllowedTypes, moveLeftRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@right, "Iright", "moveLeftRule_edge__edge1", "_edge1", moveLeftRule_edge__edge1_AllowedTypes, moveLeftRule_edge__edge1_IsAllowedType, 5.5F, -1);
 			pat_moveLeftRule = new GRGEN_LGSP.PatternGraph(
 				"moveLeftRule",
 				"",
@@ -689,10 +1209,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_s = curMatch.Nodes[(int)moveLeftRule_NodeNums.@s];
-			GRGEN_LGSP.LGSPNode node_lbp = curMatch.Nodes[(int)moveLeftRule_NodeNums.@lbp];
+			Match_moveLeftRule curMatch = (Match_moveLeftRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_s = curMatch._node_s;
+			GRGEN_LGSP.LGSPNode node_lbp = curMatch._node_lbp;
 			graph.SettingAddedNodeNames( moveLeftRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( moveLeftRule_addedEdgeNames );
 			ReturnArray[0] = node_s;
@@ -702,10 +1223,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private static String[] moveLeftRule_addedNodeNames = new String[] {  };
 		private static String[] moveLeftRule_addedEdgeNames = new String[] {  };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_s = curMatch.Nodes[(int)moveLeftRule_NodeNums.@s];
-			GRGEN_LGSP.LGSPNode node_lbp = curMatch.Nodes[(int)moveLeftRule_NodeNums.@lbp];
+			Match_moveLeftRule curMatch = (Match_moveLeftRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_s = curMatch._node_s;
+			GRGEN_LGSP.LGSPNode node_lbp = curMatch._node_lbp;
 			graph.SettingAddedNodeNames( moveLeftRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( moveLeftRule_addedEdgeNames );
 			ReturnArray[0] = node_s;
@@ -715,6 +1237,101 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		static Rule_moveLeftRule() {
 		}
+
+		public interface IMatch_moveLeftRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IWriteValue node_wv { get; }
+			IState node_s { get; }
+			IBandPosition node_lbp { get; }
+			IBandPosition node_bp { get; }
+			//Edges
+			ImoveLeft edge__edge0 { get; }
+			Iright edge__edge1 { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_moveLeftRule : GRGEN_LGSP.ListElement<Match_moveLeftRule>, IMatch_moveLeftRule
+		{
+			public IWriteValue node_wv { get { return (IWriteValue)_node_wv; } }
+			public IState node_s { get { return (IState)_node_s; } }
+			public IBandPosition node_lbp { get { return (IBandPosition)_node_lbp; } }
+			public IBandPosition node_bp { get { return (IBandPosition)_node_bp; } }
+			public GRGEN_LGSP.LGSPNode _node_wv;
+			public GRGEN_LGSP.LGSPNode _node_s;
+			public GRGEN_LGSP.LGSPNode _node_lbp;
+			public GRGEN_LGSP.LGSPNode _node_bp;
+			public enum moveLeftRule_NodeNums { @wv, @s, @lbp, @bp, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 4;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)moveLeftRule_NodeNums.@wv: return _node_wv;
+				case (int)moveLeftRule_NodeNums.@s: return _node_s;
+				case (int)moveLeftRule_NodeNums.@lbp: return _node_lbp;
+				case (int)moveLeftRule_NodeNums.@bp: return _node_bp;
+				default: return null;
+				}
+			}
+			
+			public ImoveLeft edge__edge0 { get { return (ImoveLeft)_edge__edge0; } }
+			public Iright edge__edge1 { get { return (Iright)_edge__edge1; } }
+			public GRGEN_LGSP.LGSPEdge _edge__edge0;
+			public GRGEN_LGSP.LGSPEdge _edge__edge1;
+			public enum moveLeftRule_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 2;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)moveLeftRule_EdgeNums.@_edge0: return _edge__edge0;
+				case (int)moveLeftRule_EdgeNums.@_edge1: return _edge__edge1;
+				default: return null;
+				}
+			}
+			
+			public enum moveLeftRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum moveLeftRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum moveLeftRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_moveLeftRule.instance.pat_moveLeftRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 	public class Rule_moveRightRule : GRGEN_LGSP.LGSPRulePattern
@@ -771,12 +1388,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode moveRightRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "moveRightRule_node_wv", "wv", moveRightRule_node_wv_AllowedTypes, moveRightRule_node_wv_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode moveRightRule_node_s = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "moveRightRule_node_s", "s", moveRightRule_node_s_AllowedTypes, moveRightRule_node_s_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode moveRightRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "moveRightRule_node_bp", "bp", moveRightRule_node_bp_AllowedTypes, moveRightRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternNode moveRightRule_node_rbp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "moveRightRule_node_rbp", "rbp", moveRightRule_node_rbp_AllowedTypes, moveRightRule_node_rbp_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@moveRight, "moveRightRule_edge__edge0", "_edge0", moveRightRule_edge__edge0_AllowedTypes, moveRightRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@right, "moveRightRule_edge__edge1", "_edge1", moveRightRule_edge__edge1_AllowedTypes, moveRightRule_edge__edge1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode moveRightRule_node_wv = new GRGEN_LGSP.PatternNode((int) NodeTypes.@WriteValue, "IWriteValue", "moveRightRule_node_wv", "wv", moveRightRule_node_wv_AllowedTypes, moveRightRule_node_wv_IsAllowedType, 5.5F, 0);
+			GRGEN_LGSP.PatternNode moveRightRule_node_s = new GRGEN_LGSP.PatternNode((int) NodeTypes.@State, "IState", "moveRightRule_node_s", "s", moveRightRule_node_s_AllowedTypes, moveRightRule_node_s_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode moveRightRule_node_bp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "IBandPosition", "moveRightRule_node_bp", "bp", moveRightRule_node_bp_AllowedTypes, moveRightRule_node_bp_IsAllowedType, 5.5F, 1);
+			GRGEN_LGSP.PatternNode moveRightRule_node_rbp = new GRGEN_LGSP.PatternNode((int) NodeTypes.@BandPosition, "IBandPosition", "moveRightRule_node_rbp", "rbp", moveRightRule_node_rbp_AllowedTypes, moveRightRule_node_rbp_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@moveRight, "ImoveRight", "moveRightRule_edge__edge0", "_edge0", moveRightRule_edge__edge0_AllowedTypes, moveRightRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@right, "Iright", "moveRightRule_edge__edge1", "_edge1", moveRightRule_edge__edge1_AllowedTypes, moveRightRule_edge__edge1_IsAllowedType, 5.5F, -1);
 			pat_moveRightRule = new GRGEN_LGSP.PatternGraph(
 				"moveRightRule",
 				"",
@@ -818,10 +1435,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_s = curMatch.Nodes[(int)moveRightRule_NodeNums.@s];
-			GRGEN_LGSP.LGSPNode node_rbp = curMatch.Nodes[(int)moveRightRule_NodeNums.@rbp];
+			Match_moveRightRule curMatch = (Match_moveRightRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_s = curMatch._node_s;
+			GRGEN_LGSP.LGSPNode node_rbp = curMatch._node_rbp;
 			graph.SettingAddedNodeNames( moveRightRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( moveRightRule_addedEdgeNames );
 			ReturnArray[0] = node_s;
@@ -831,10 +1449,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private static String[] moveRightRule_addedNodeNames = new String[] {  };
 		private static String[] moveRightRule_addedEdgeNames = new String[] {  };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatch curMatch)
+		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
-			GRGEN_LGSP.LGSPNode node_s = curMatch.Nodes[(int)moveRightRule_NodeNums.@s];
-			GRGEN_LGSP.LGSPNode node_rbp = curMatch.Nodes[(int)moveRightRule_NodeNums.@rbp];
+			Match_moveRightRule curMatch = (Match_moveRightRule)_curMatch;
+			GRGEN_LGSP.LGSPNode node_s = curMatch._node_s;
+			GRGEN_LGSP.LGSPNode node_rbp = curMatch._node_rbp;
 			graph.SettingAddedNodeNames( moveRightRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( moveRightRule_addedEdgeNames );
 			ReturnArray[0] = node_s;
@@ -844,6 +1463,101 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 		static Rule_moveRightRule() {
 		}
+
+		public interface IMatch_moveRightRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			IWriteValue node_wv { get; }
+			IState node_s { get; }
+			IBandPosition node_bp { get; }
+			IBandPosition node_rbp { get; }
+			//Edges
+			ImoveRight edge__edge0 { get; }
+			Iright edge__edge1 { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+		}
+
+		public class Match_moveRightRule : GRGEN_LGSP.ListElement<Match_moveRightRule>, IMatch_moveRightRule
+		{
+			public IWriteValue node_wv { get { return (IWriteValue)_node_wv; } }
+			public IState node_s { get { return (IState)_node_s; } }
+			public IBandPosition node_bp { get { return (IBandPosition)_node_bp; } }
+			public IBandPosition node_rbp { get { return (IBandPosition)_node_rbp; } }
+			public GRGEN_LGSP.LGSPNode _node_wv;
+			public GRGEN_LGSP.LGSPNode _node_s;
+			public GRGEN_LGSP.LGSPNode _node_bp;
+			public GRGEN_LGSP.LGSPNode _node_rbp;
+			public enum moveRightRule_NodeNums { @wv, @s, @bp, @rbp, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 4;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)moveRightRule_NodeNums.@wv: return _node_wv;
+				case (int)moveRightRule_NodeNums.@s: return _node_s;
+				case (int)moveRightRule_NodeNums.@bp: return _node_bp;
+				case (int)moveRightRule_NodeNums.@rbp: return _node_rbp;
+				default: return null;
+				}
+			}
+			
+			public ImoveRight edge__edge0 { get { return (ImoveRight)_edge__edge0; } }
+			public Iright edge__edge1 { get { return (Iright)_edge__edge1; } }
+			public GRGEN_LGSP.LGSPEdge _edge__edge0;
+			public GRGEN_LGSP.LGSPEdge _edge__edge1;
+			public enum moveRightRule_EdgeNums { @_edge0, @_edge1, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 2;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)moveRightRule_EdgeNums.@_edge0: return _edge__edge0;
+				case (int)moveRightRule_EdgeNums.@_edge1: return _edge__edge1;
+				default: return null;
+				}
+			}
+			
+			public enum moveRightRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum moveRightRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum moveRightRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_moveRightRule.instance.pat_moveRightRule; } }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
 	}
 
 
@@ -853,25 +1567,25 @@ namespace de.unika.ipd.grGen.Action_Turing3
             rulePattern = Rule_readZeroRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 3, 1, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_readZeroRule.Match_readZeroRule>(this);
         }
 
         public override string Name { get { return "readZeroRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_readZeroRule.Match_readZeroRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_readZeroRule instance = new Action_readZeroRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Preset readZeroRule_node_s 
             GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_s = (GRGEN_LGSP.LGSPNode) parameters[0];
             if(candidate_readZeroRule_node_s == null) {
                 MissingPreset_readZeroRule_node_s(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -885,7 +1599,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             if(candidate_readZeroRule_node_bp == null) {
                 MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_s);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -913,15 +1627,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     if(candidate_readZeroRule_node_wv.type.TypeID!=3) {
                         continue;
                     }
-                    GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                    match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
-                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
-                    match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
-                    match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
-                    matches.matchesList.PositionWasFilledFixIt();
+                    Rule_readZeroRule.Match_readZeroRule match = matches.GetNextUnfilledPosition();
+                    match._node_s = candidate_readZeroRule_node_s;
+                    match._node_wv = candidate_readZeroRule_node_wv;
+                    match._node_bp = candidate_readZeroRule_node_bp;
+                    match._edge_rv = candidate_readZeroRule_edge_rv;
+                    matches.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
                         return matches;
@@ -931,7 +1644,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return matches;
         }
-        public void MissingPreset_readZeroRule_node_s(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList)
+        public void MissingPreset_readZeroRule_node_s(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup readZeroRule_node_s 
@@ -943,7 +1656,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 if(candidate_readZeroRule_node_bp == null) {
                     MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_s);
                     // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         return;
                     }
@@ -971,15 +1684,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         if(candidate_readZeroRule_node_wv.type.TypeID!=3) {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
-                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_readZeroRule.Match_readZeroRule match = matches.GetNextUnfilledPosition();
+                        match._node_s = candidate_readZeroRule_node_s;
+                        match._node_wv = candidate_readZeroRule_node_wv;
+                        match._node_bp = candidate_readZeroRule_node_bp;
+                        match._edge_rv = candidate_readZeroRule_edge_rv;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
                             graph.MoveHeadAfter(candidate_readZeroRule_node_s);
@@ -991,7 +1703,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return;
         }
-        public void MissingPreset_readZeroRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_s)
+        public void MissingPreset_readZeroRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_s)
         {
             int negLevel = 0;
             // Lookup readZeroRule_node_bp 
@@ -1017,15 +1729,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         if(candidate_readZeroRule_node_wv.type.TypeID!=3) {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@s] = candidate_readZeroRule_node_s;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@wv] = candidate_readZeroRule_node_wv;
-                        match.Nodes[(int)Rule_readZeroRule.readZeroRule_NodeNums.@bp] = candidate_readZeroRule_node_bp;
-                        match.Edges[(int)Rule_readZeroRule.readZeroRule_EdgeNums.@rv] = candidate_readZeroRule_edge_rv;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_readZeroRule.Match_readZeroRule match = matches.GetNextUnfilledPosition();
+                        match._node_s = candidate_readZeroRule_node_s;
+                        match._node_wv = candidate_readZeroRule_node_wv;
+                        match._node_bp = candidate_readZeroRule_node_bp;
+                        match._edge_rv = candidate_readZeroRule_edge_rv;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
                             graph.MoveHeadAfter(candidate_readZeroRule_node_bp);
@@ -1045,25 +1756,25 @@ namespace de.unika.ipd.grGen.Action_Turing3
             rulePattern = Rule_readOneRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 3, 1, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_readOneRule.Match_readOneRule>(this);
         }
 
         public override string Name { get { return "readOneRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_readOneRule.Match_readOneRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_readOneRule instance = new Action_readOneRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Preset readOneRule_node_s 
             GRGEN_LGSP.LGSPNode candidate_readOneRule_node_s = (GRGEN_LGSP.LGSPNode) parameters[0];
             if(candidate_readOneRule_node_s == null) {
                 MissingPreset_readOneRule_node_s(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -1077,7 +1788,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             if(candidate_readOneRule_node_bp == null) {
                 MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readOneRule_node_s);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -1105,15 +1816,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     if(candidate_readOneRule_node_wv.type.TypeID!=3) {
                         continue;
                     }
-                    GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                    match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
-                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
-                    match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
-                    match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
-                    matches.matchesList.PositionWasFilledFixIt();
+                    Rule_readOneRule.Match_readOneRule match = matches.GetNextUnfilledPosition();
+                    match._node_s = candidate_readOneRule_node_s;
+                    match._node_wv = candidate_readOneRule_node_wv;
+                    match._node_bp = candidate_readOneRule_node_bp;
+                    match._edge_rv = candidate_readOneRule_edge_rv;
+                    matches.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
                         return matches;
@@ -1123,7 +1833,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return matches;
         }
-        public void MissingPreset_readOneRule_node_s(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList)
+        public void MissingPreset_readOneRule_node_s(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup readOneRule_node_s 
@@ -1135,7 +1845,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 if(candidate_readOneRule_node_bp == null) {
                     MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readOneRule_node_s);
                     // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         return;
                     }
@@ -1163,15 +1873,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         if(candidate_readOneRule_node_wv.type.TypeID!=3) {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
-                        match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_readOneRule.Match_readOneRule match = matches.GetNextUnfilledPosition();
+                        match._node_s = candidate_readOneRule_node_s;
+                        match._node_wv = candidate_readOneRule_node_wv;
+                        match._node_bp = candidate_readOneRule_node_bp;
+                        match._edge_rv = candidate_readOneRule_edge_rv;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
                             graph.MoveHeadAfter(candidate_readOneRule_node_s);
@@ -1183,7 +1892,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return;
         }
-        public void MissingPreset_readOneRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_readOneRule_node_s)
+        public void MissingPreset_readOneRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_readOneRule_node_s)
         {
             int negLevel = 0;
             // Lookup readOneRule_node_bp 
@@ -1209,15 +1918,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         if(candidate_readOneRule_node_wv.type.TypeID!=3) {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@s] = candidate_readOneRule_node_s;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@wv] = candidate_readOneRule_node_wv;
-                        match.Nodes[(int)Rule_readOneRule.readOneRule_NodeNums.@bp] = candidate_readOneRule_node_bp;
-                        match.Edges[(int)Rule_readOneRule.readOneRule_EdgeNums.@rv] = candidate_readOneRule_edge_rv;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_readOneRule.Match_readOneRule match = matches.GetNextUnfilledPosition();
+                        match._node_s = candidate_readOneRule_node_s;
+                        match._node_wv = candidate_readOneRule_node_wv;
+                        match._node_bp = candidate_readOneRule_node_bp;
+                        match._edge_rv = candidate_readOneRule_edge_rv;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
                             graph.MoveHeadAfter(candidate_readOneRule_node_bp);
@@ -1237,25 +1945,25 @@ namespace de.unika.ipd.grGen.Action_Turing3
             rulePattern = Rule_ensureMoveLeftValidRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 3, 1, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule>(this);
         }
 
         public override string Name { get { return "ensureMoveLeftValidRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_ensureMoveLeftValidRule instance = new Action_ensureMoveLeftValidRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Preset ensureMoveLeftValidRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_wv = (GRGEN_LGSP.LGSPNode) parameters[0];
             if(candidate_ensureMoveLeftValidRule_node_wv == null) {
                 MissingPreset_ensureMoveLeftValidRule_node_wv(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -1269,7 +1977,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             if(candidate_ensureMoveLeftValidRule_node_bp == null) {
                 MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveLeftValidRule_node_wv);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -1328,15 +2036,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     if(candidate_ensureMoveLeftValidRule_node__node0.type.TypeID!=2) {
                         continue;
                     }
-                    GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                    match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@wv] = candidate_ensureMoveLeftValidRule_node_wv;
-                    match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@_node0] = candidate_ensureMoveLeftValidRule_node__node0;
-                    match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@bp] = candidate_ensureMoveLeftValidRule_node_bp;
-                    match.Edges[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_EdgeNums.@_edge0] = candidate_ensureMoveLeftValidRule_edge__edge0;
-                    matches.matchesList.PositionWasFilledFixIt();
+                    Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule match = matches.GetNextUnfilledPosition();
+                    match._node_wv = candidate_ensureMoveLeftValidRule_node_wv;
+                    match._node__node0 = candidate_ensureMoveLeftValidRule_node__node0;
+                    match._node_bp = candidate_ensureMoveLeftValidRule_node_bp;
+                    match._edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0;
+                    matches.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         candidate_ensureMoveLeftValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveLeftValidRule_edge__edge0);
                         return matches;
@@ -1346,7 +2053,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return matches;
         }
-        public void MissingPreset_ensureMoveLeftValidRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList)
+        public void MissingPreset_ensureMoveLeftValidRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup ensureMoveLeftValidRule_node_wv 
@@ -1358,7 +2065,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 if(candidate_ensureMoveLeftValidRule_node_bp == null) {
                     MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveLeftValidRule_node_wv);
                     // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         return;
                     }
@@ -1417,15 +2124,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         if(candidate_ensureMoveLeftValidRule_node__node0.type.TypeID!=2) {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@wv] = candidate_ensureMoveLeftValidRule_node_wv;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@_node0] = candidate_ensureMoveLeftValidRule_node__node0;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@bp] = candidate_ensureMoveLeftValidRule_node_bp;
-                        match.Edges[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_EdgeNums.@_edge0] = candidate_ensureMoveLeftValidRule_edge__edge0;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule match = matches.GetNextUnfilledPosition();
+                        match._node_wv = candidate_ensureMoveLeftValidRule_node_wv;
+                        match._node__node0 = candidate_ensureMoveLeftValidRule_node__node0;
+                        match._node_bp = candidate_ensureMoveLeftValidRule_node_bp;
+                        match._edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_ensureMoveLeftValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveLeftValidRule_edge__edge0);
                             graph.MoveHeadAfter(candidate_ensureMoveLeftValidRule_node_wv);
@@ -1438,7 +2144,7 @@ label0: ;
             }
             return;
         }
-        public void MissingPreset_ensureMoveLeftValidRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_wv)
+        public void MissingPreset_ensureMoveLeftValidRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_wv)
         {
             int negLevel = 0;
             // Lookup ensureMoveLeftValidRule_node_bp 
@@ -1495,15 +2201,14 @@ label0: ;
                         if(candidate_ensureMoveLeftValidRule_node__node0.type.TypeID!=2) {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@wv] = candidate_ensureMoveLeftValidRule_node_wv;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@_node0] = candidate_ensureMoveLeftValidRule_node__node0;
-                        match.Nodes[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_NodeNums.@bp] = candidate_ensureMoveLeftValidRule_node_bp;
-                        match.Edges[(int)Rule_ensureMoveLeftValidRule.ensureMoveLeftValidRule_EdgeNums.@_edge0] = candidate_ensureMoveLeftValidRule_edge__edge0;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule match = matches.GetNextUnfilledPosition();
+                        match._node_wv = candidate_ensureMoveLeftValidRule_node_wv;
+                        match._node__node0 = candidate_ensureMoveLeftValidRule_node__node0;
+                        match._node_bp = candidate_ensureMoveLeftValidRule_node_bp;
+                        match._edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_ensureMoveLeftValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveLeftValidRule_edge__edge0);
                             graph.MoveHeadAfter(candidate_ensureMoveLeftValidRule_node_bp);
@@ -1524,25 +2229,25 @@ label1: ;
             rulePattern = Rule_ensureMoveRightValidRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 3, 1, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule>(this);
         }
 
         public override string Name { get { return "ensureMoveRightValidRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_ensureMoveRightValidRule instance = new Action_ensureMoveRightValidRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Preset ensureMoveRightValidRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_wv = (GRGEN_LGSP.LGSPNode) parameters[0];
             if(candidate_ensureMoveRightValidRule_node_wv == null) {
                 MissingPreset_ensureMoveRightValidRule_node_wv(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -1556,7 +2261,7 @@ label1: ;
             if(candidate_ensureMoveRightValidRule_node_bp == null) {
                 MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveRightValidRule_node_wv);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -1615,15 +2320,14 @@ label1: ;
                     if(candidate_ensureMoveRightValidRule_node__node0.type.TypeID!=2) {
                         continue;
                     }
-                    GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                    match.patternGraph = rulePattern.patternGraph;
-                    match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@wv] = candidate_ensureMoveRightValidRule_node_wv;
-                    match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@_node0] = candidate_ensureMoveRightValidRule_node__node0;
-                    match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@bp] = candidate_ensureMoveRightValidRule_node_bp;
-                    match.Edges[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_EdgeNums.@_edge0] = candidate_ensureMoveRightValidRule_edge__edge0;
-                    matches.matchesList.PositionWasFilledFixIt();
+                    Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule match = matches.GetNextUnfilledPosition();
+                    match._node_wv = candidate_ensureMoveRightValidRule_node_wv;
+                    match._node__node0 = candidate_ensureMoveRightValidRule_node__node0;
+                    match._node_bp = candidate_ensureMoveRightValidRule_node_bp;
+                    match._edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0;
+                    matches.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         candidate_ensureMoveRightValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveRightValidRule_edge__edge0);
                         return matches;
@@ -1633,7 +2337,7 @@ label1: ;
             }
             return matches;
         }
-        public void MissingPreset_ensureMoveRightValidRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList)
+        public void MissingPreset_ensureMoveRightValidRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup ensureMoveRightValidRule_node_wv 
@@ -1645,7 +2349,7 @@ label1: ;
                 if(candidate_ensureMoveRightValidRule_node_bp == null) {
                     MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveRightValidRule_node_wv);
                     // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         return;
                     }
@@ -1704,15 +2408,14 @@ label1: ;
                         if(candidate_ensureMoveRightValidRule_node__node0.type.TypeID!=2) {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@wv] = candidate_ensureMoveRightValidRule_node_wv;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@_node0] = candidate_ensureMoveRightValidRule_node__node0;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@bp] = candidate_ensureMoveRightValidRule_node_bp;
-                        match.Edges[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_EdgeNums.@_edge0] = candidate_ensureMoveRightValidRule_edge__edge0;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule match = matches.GetNextUnfilledPosition();
+                        match._node_wv = candidate_ensureMoveRightValidRule_node_wv;
+                        match._node__node0 = candidate_ensureMoveRightValidRule_node__node0;
+                        match._node_bp = candidate_ensureMoveRightValidRule_node_bp;
+                        match._edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_ensureMoveRightValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveRightValidRule_edge__edge0);
                             graph.MoveHeadAfter(candidate_ensureMoveRightValidRule_node_wv);
@@ -1725,7 +2428,7 @@ label2: ;
             }
             return;
         }
-        public void MissingPreset_ensureMoveRightValidRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_wv)
+        public void MissingPreset_ensureMoveRightValidRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_wv)
         {
             int negLevel = 0;
             // Lookup ensureMoveRightValidRule_node_bp 
@@ -1782,15 +2485,14 @@ label2: ;
                         if(candidate_ensureMoveRightValidRule_node__node0.type.TypeID!=2) {
                             continue;
                         }
-                        GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                        match.patternGraph = rulePattern.patternGraph;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@wv] = candidate_ensureMoveRightValidRule_node_wv;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@_node0] = candidate_ensureMoveRightValidRule_node__node0;
-                        match.Nodes[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_NodeNums.@bp] = candidate_ensureMoveRightValidRule_node_bp;
-                        match.Edges[(int)Rule_ensureMoveRightValidRule.ensureMoveRightValidRule_EdgeNums.@_edge0] = candidate_ensureMoveRightValidRule_edge__edge0;
-                        matches.matchesList.PositionWasFilledFixIt();
+                        Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule match = matches.GetNextUnfilledPosition();
+                        match._node_wv = candidate_ensureMoveRightValidRule_node_wv;
+                        match._node__node0 = candidate_ensureMoveRightValidRule_node__node0;
+                        match._node_bp = candidate_ensureMoveRightValidRule_node_bp;
+                        match._edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0;
+                        matches.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                        if(maxMatches > 0 && matches.Count >= maxMatches)
                         {
                             candidate_ensureMoveRightValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveRightValidRule_edge__edge0);
                             graph.MoveHeadAfter(candidate_ensureMoveRightValidRule_node_bp);
@@ -1811,25 +2513,25 @@ label3: ;
             rulePattern = Rule_moveLeftRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 4, 2, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_moveLeftRule.Match_moveLeftRule>(this);
         }
 
         public override string Name { get { return "moveLeftRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_moveLeftRule.Match_moveLeftRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_moveLeftRule instance = new Action_moveLeftRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Preset moveLeftRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_wv = (GRGEN_LGSP.LGSPNode) parameters[0];
             if(candidate_moveLeftRule_node_wv == null) {
                 MissingPreset_moveLeftRule_node_wv(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -1843,7 +2545,7 @@ label3: ;
             if(candidate_moveLeftRule_node_bp == null) {
                 MissingPreset_moveLeftRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveLeftRule_node_wv);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -1889,17 +2591,16 @@ label3: ;
                             {
                                 continue;
                             }
-                            GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                            match.patternGraph = rulePattern.patternGraph;
-                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@wv] = candidate_moveLeftRule_node_wv;
-                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@s] = candidate_moveLeftRule_node_s;
-                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@lbp] = candidate_moveLeftRule_node_lbp;
-                            match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@bp] = candidate_moveLeftRule_node_bp;
-                            match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge0] = candidate_moveLeftRule_edge__edge0;
-                            match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge1] = candidate_moveLeftRule_edge__edge1;
-                            matches.matchesList.PositionWasFilledFixIt();
+                            Rule_moveLeftRule.Match_moveLeftRule match = matches.GetNextUnfilledPosition();
+                            match._node_wv = candidate_moveLeftRule_node_wv;
+                            match._node_s = candidate_moveLeftRule_node_s;
+                            match._node_lbp = candidate_moveLeftRule_node_lbp;
+                            match._node_bp = candidate_moveLeftRule_node_bp;
+                            match._edge__edge0 = candidate_moveLeftRule_edge__edge0;
+                            match._edge__edge1 = candidate_moveLeftRule_edge__edge1;
+                            matches.PositionWasFilledFixIt();
                             // if enough matches were found, we leave
-                            if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                            if(maxMatches > 0 && matches.Count >= maxMatches)
                             {
                                 candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
                                 candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
@@ -1915,7 +2616,7 @@ label3: ;
             candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
             return matches;
         }
-        public void MissingPreset_moveLeftRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList)
+        public void MissingPreset_moveLeftRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup moveLeftRule_node_wv 
@@ -1927,7 +2628,7 @@ label3: ;
                 if(candidate_moveLeftRule_node_bp == null) {
                     MissingPreset_moveLeftRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveLeftRule_node_wv);
                     // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         return;
                     }
@@ -1973,17 +2674,16 @@ label3: ;
                                 {
                                     continue;
                                 }
-                                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                                match.patternGraph = rulePattern.patternGraph;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@wv] = candidate_moveLeftRule_node_wv;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@s] = candidate_moveLeftRule_node_s;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@lbp] = candidate_moveLeftRule_node_lbp;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@bp] = candidate_moveLeftRule_node_bp;
-                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge0] = candidate_moveLeftRule_edge__edge0;
-                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge1] = candidate_moveLeftRule_edge__edge1;
-                                matches.matchesList.PositionWasFilledFixIt();
+                                Rule_moveLeftRule.Match_moveLeftRule match = matches.GetNextUnfilledPosition();
+                                match._node_wv = candidate_moveLeftRule_node_wv;
+                                match._node_s = candidate_moveLeftRule_node_s;
+                                match._node_lbp = candidate_moveLeftRule_node_lbp;
+                                match._node_bp = candidate_moveLeftRule_node_bp;
+                                match._edge__edge0 = candidate_moveLeftRule_edge__edge0;
+                                match._edge__edge1 = candidate_moveLeftRule_edge__edge1;
+                                matches.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
-                                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                                if(maxMatches > 0 && matches.Count >= maxMatches)
                                 {
                                     candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
                                     candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
@@ -2001,7 +2701,7 @@ label3: ;
             }
             return;
         }
-        public void MissingPreset_moveLeftRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_wv)
+        public void MissingPreset_moveLeftRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_wv)
         {
             int negLevel = 0;
             // Lookup moveLeftRule_node_bp 
@@ -2045,17 +2745,16 @@ label3: ;
                                 {
                                     continue;
                                 }
-                                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                                match.patternGraph = rulePattern.patternGraph;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@wv] = candidate_moveLeftRule_node_wv;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@s] = candidate_moveLeftRule_node_s;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@lbp] = candidate_moveLeftRule_node_lbp;
-                                match.Nodes[(int)Rule_moveLeftRule.moveLeftRule_NodeNums.@bp] = candidate_moveLeftRule_node_bp;
-                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge0] = candidate_moveLeftRule_edge__edge0;
-                                match.Edges[(int)Rule_moveLeftRule.moveLeftRule_EdgeNums.@_edge1] = candidate_moveLeftRule_edge__edge1;
-                                matches.matchesList.PositionWasFilledFixIt();
+                                Rule_moveLeftRule.Match_moveLeftRule match = matches.GetNextUnfilledPosition();
+                                match._node_wv = candidate_moveLeftRule_node_wv;
+                                match._node_s = candidate_moveLeftRule_node_s;
+                                match._node_lbp = candidate_moveLeftRule_node_lbp;
+                                match._node_bp = candidate_moveLeftRule_node_bp;
+                                match._edge__edge0 = candidate_moveLeftRule_edge__edge0;
+                                match._edge__edge1 = candidate_moveLeftRule_edge__edge1;
+                                matches.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
-                                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                                if(maxMatches > 0 && matches.Count >= maxMatches)
                                 {
                                     candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
                                     candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
@@ -2081,25 +2780,25 @@ label3: ;
             rulePattern = Rule_moveRightRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatches(this, 4, 2, 0, 0 + 0);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_moveRightRule.Match_moveRightRule>(this);
         }
 
         public override string Name { get { return "moveRightRule"; } }
-        private GRGEN_LGSP.LGSPMatches matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_moveRightRule.Match_moveRightRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_moveRightRule instance = new Action_moveRightRule();
 
-        public GRGEN_LGSP.LGSPMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
-            matches.matchesList.Clear();
+            matches.Clear();
             int negLevel = 0;
             // Preset moveRightRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_wv = (GRGEN_LGSP.LGSPNode) parameters[0];
             if(candidate_moveRightRule_node_wv == null) {
                 MissingPreset_moveRightRule_node_wv(graph, maxMatches, parameters, null, null, null);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -2113,7 +2812,7 @@ label3: ;
             if(candidate_moveRightRule_node_bp == null) {
                 MissingPreset_moveRightRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveRightRule_node_wv);
                 // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
                     return matches;
                 }
@@ -2159,17 +2858,16 @@ label3: ;
                             {
                                 continue;
                             }
-                            GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                            match.patternGraph = rulePattern.patternGraph;
-                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@wv] = candidate_moveRightRule_node_wv;
-                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@s] = candidate_moveRightRule_node_s;
-                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@bp] = candidate_moveRightRule_node_bp;
-                            match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@rbp] = candidate_moveRightRule_node_rbp;
-                            match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge0] = candidate_moveRightRule_edge__edge0;
-                            match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge1] = candidate_moveRightRule_edge__edge1;
-                            matches.matchesList.PositionWasFilledFixIt();
+                            Rule_moveRightRule.Match_moveRightRule match = matches.GetNextUnfilledPosition();
+                            match._node_wv = candidate_moveRightRule_node_wv;
+                            match._node_s = candidate_moveRightRule_node_s;
+                            match._node_bp = candidate_moveRightRule_node_bp;
+                            match._node_rbp = candidate_moveRightRule_node_rbp;
+                            match._edge__edge0 = candidate_moveRightRule_edge__edge0;
+                            match._edge__edge1 = candidate_moveRightRule_edge__edge1;
+                            matches.PositionWasFilledFixIt();
                             // if enough matches were found, we leave
-                            if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                            if(maxMatches > 0 && matches.Count >= maxMatches)
                             {
                                 candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
                                 candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
@@ -2185,7 +2883,7 @@ label3: ;
             candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
             return matches;
         }
-        public void MissingPreset_moveRightRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList)
+        public void MissingPreset_moveRightRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup moveRightRule_node_wv 
@@ -2197,7 +2895,7 @@ label3: ;
                 if(candidate_moveRightRule_node_bp == null) {
                     MissingPreset_moveRightRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveRightRule_node_wv);
                     // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
                         return;
                     }
@@ -2243,17 +2941,16 @@ label3: ;
                                 {
                                     continue;
                                 }
-                                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                                match.patternGraph = rulePattern.patternGraph;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@wv] = candidate_moveRightRule_node_wv;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@s] = candidate_moveRightRule_node_s;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@bp] = candidate_moveRightRule_node_bp;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@rbp] = candidate_moveRightRule_node_rbp;
-                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge0] = candidate_moveRightRule_edge__edge0;
-                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge1] = candidate_moveRightRule_edge__edge1;
-                                matches.matchesList.PositionWasFilledFixIt();
+                                Rule_moveRightRule.Match_moveRightRule match = matches.GetNextUnfilledPosition();
+                                match._node_wv = candidate_moveRightRule_node_wv;
+                                match._node_s = candidate_moveRightRule_node_s;
+                                match._node_bp = candidate_moveRightRule_node_bp;
+                                match._node_rbp = candidate_moveRightRule_node_rbp;
+                                match._edge__edge0 = candidate_moveRightRule_edge__edge0;
+                                match._edge__edge1 = candidate_moveRightRule_edge__edge1;
+                                matches.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
-                                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                                if(maxMatches > 0 && matches.Count >= maxMatches)
                                 {
                                     candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
                                     candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
@@ -2271,7 +2968,7 @@ label3: ;
             }
             return;
         }
-        public void MissingPreset_moveRightRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LGSP.LGSPMatch>> foundPartialMatches, List<Stack<GRGEN_LGSP.LGSPMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_wv)
+        public void MissingPreset_moveRightRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_wv)
         {
             int negLevel = 0;
             // Lookup moveRightRule_node_bp 
@@ -2315,17 +3012,16 @@ label3: ;
                                 {
                                     continue;
                                 }
-                                GRGEN_LGSP.LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
-                                match.patternGraph = rulePattern.patternGraph;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@wv] = candidate_moveRightRule_node_wv;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@s] = candidate_moveRightRule_node_s;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@bp] = candidate_moveRightRule_node_bp;
-                                match.Nodes[(int)Rule_moveRightRule.moveRightRule_NodeNums.@rbp] = candidate_moveRightRule_node_rbp;
-                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge0] = candidate_moveRightRule_edge__edge0;
-                                match.Edges[(int)Rule_moveRightRule.moveRightRule_EdgeNums.@_edge1] = candidate_moveRightRule_edge__edge1;
-                                matches.matchesList.PositionWasFilledFixIt();
+                                Rule_moveRightRule.Match_moveRightRule match = matches.GetNextUnfilledPosition();
+                                match._node_wv = candidate_moveRightRule_node_wv;
+                                match._node_s = candidate_moveRightRule_node_s;
+                                match._node_bp = candidate_moveRightRule_node_bp;
+                                match._node_rbp = candidate_moveRightRule_node_rbp;
+                                match._edge__edge0 = candidate_moveRightRule_edge__edge0;
+                                match._edge__edge1 = candidate_moveRightRule_edge__edge1;
+                                matches.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
-                                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                                if(maxMatches > 0 && matches.Count >= maxMatches)
                                 {
                                     candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
                                     candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
