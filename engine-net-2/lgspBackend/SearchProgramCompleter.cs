@@ -46,12 +46,12 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation currentOperation,
             SearchProgramOperation enclosingSearchProgram,
             GetPartialMatchOfAlternative enclosingAlternative,
-            CheckPartialMatchByNegative enclosingCheckNegative)
+            CheckPartialMatchByNegativeOrIndependent enclosingCheckNegativeOrIndependent)
         {
             // mainly dispatching and iteration method, traverses search program
             // real completion done in MoveOutwardsAppendingRemoveIsomorphyAndJump
             // outermost operation for that function is computed here, regarding negative patterns
-            // program nesting structure: search program - [alternative] - [negative]*
+            // program nesting structure: search program - [alternative] - [negative|independent]*
 
             // complete check operations by inserting failure code
             // find them in depth first search of search program
@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (currentOperation is CheckCandidateForPreset)
                     {
                         Debug.Assert(enclosingAlternative == null);
-                        Debug.Assert(enclosingCheckNegative == null);
+                        Debug.Assert(enclosingCheckNegativeOrIndependent == null);
 
                         // when the call to the preset handling returns
                         // it might be because it found all available matches from the given parameters on
@@ -93,7 +93,7 @@ namespace de.unika.ipd.grGen.lgsp
                             checkPreset.CheckFailedOperations,
                             enclosingSearchProgram,
                             enclosingAlternative,
-                            enclosingCheckNegative);
+                            enclosingCheckNegativeOrIndependent);
                     }
                     else
                     {
@@ -106,7 +106,7 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkCandidate,
                             neededElementsForCheckOperation,
-                            enclosingCheckNegative ?? (enclosingAlternative ?? enclosingSearchProgram));
+                            enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram));
                     }
                 }
                 //////////////////////////////////////////////////////////
@@ -122,27 +122,27 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkCondition,
                             checkCondition.NeededElements,
-                            enclosingCheckNegative ?? (enclosingAlternative ?? enclosingSearchProgram));
+                            enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram));
                     }
-                    else if (currentOperation is CheckPartialMatchByNegative)
+                    else if (currentOperation is CheckPartialMatchByNegativeOrIndependent)
                     {
-                        CheckPartialMatchByNegative checkNegative =
-                            (CheckPartialMatchByNegative)currentOperation;
+                        CheckPartialMatchByNegativeOrIndependent checkNegativeOrIndependent =
+                            (CheckPartialMatchByNegativeOrIndependent)currentOperation;
 
-                        // ByNegative is handled in CheckContinueMatchingFailed 
-                        // of the negative case - enter negative case
+                        // ByNegative/ByIndependent is handled in CheckContinueMatchingFailed 
+                        // of the negative/independent case - enter negative/independent case
                         CompleteCheckOperations(
-                            checkNegative.NestedOperationsList,
-                            enclosingCheckNegative ?? enclosingSearchProgram,
-                            enclosingCheckNegative!=null ? null : enclosingAlternative,
-                            checkNegative);
+                            checkNegativeOrIndependent.NestedOperationsList,
+                            enclosingCheckNegativeOrIndependent ?? enclosingSearchProgram,
+                            enclosingCheckNegativeOrIndependent!=null ? null : enclosingAlternative,
+                            checkNegativeOrIndependent);
                     }
                     else if (currentOperation is CheckPartialMatchForSubpatternsFound)
                     {
                         CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
                             (CheckPartialMatchForSubpatternsFound)currentOperation;
 
-                        if (enclosingCheckNegative == null)
+                        if (enclosingCheckNegativeOrIndependent == null)
                         {
                             // determine insertion point within check failed operations
                             // to append the nested check maximum matches
@@ -163,7 +163,7 @@ namespace de.unika.ipd.grGen.lgsp
                             MoveOutwardsAppendingRemoveIsomorphyAndJump(
                                 checkSubpatternsFound,
                                 null,
-                                enclosingCheckNegative ?? (enclosingAlternative ?? enclosingSearchProgram));
+                                enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram));
                         }
 
                         // check subpatterns found has a further check maximum matches 
@@ -173,7 +173,7 @@ namespace de.unika.ipd.grGen.lgsp
                             checkSubpatternsFound.CheckFailedOperations,
                             enclosingSearchProgram,
                             enclosingAlternative,
-                            enclosingCheckNegative);
+                            enclosingCheckNegativeOrIndependent);
                     }
                     else
                     {
@@ -211,7 +211,28 @@ namespace de.unika.ipd.grGen.lgsp
                             new SearchProgramList(checkFailed);
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkFailed,
-                            enclosingCheckNegative.NeededElements,
+                            enclosingCheckNegativeOrIndependent.NeededElements,
+                            enclosingAlternative ?? enclosingSearchProgram);
+                    }
+                    else if (currentOperation is CheckContinueMatchingOfIndependentSucceeded)
+                    {
+                        CheckContinueMatchingOfIndependentSucceeded checkSucceeded =
+                            (CheckContinueMatchingOfIndependentSucceeded)currentOperation;
+                        checkSucceeded.CheckFailedOperations = // yep, rotten wording
+                            new SearchProgramList(checkSucceeded);
+                        MoveRightAfterCorrespondingIndependentFailedAppendingRemoveIsomorphyAndJump(
+                            checkSucceeded,
+                            (CheckPartialMatchByIndependent)enclosingCheckNegativeOrIndependent);
+                    }
+                    else if (currentOperation is CheckContinueMatchingOfIndependentFailed)
+                    {
+                        CheckContinueMatchingOfIndependentFailed checkFailed =
+                            (CheckContinueMatchingOfIndependentFailed)currentOperation;
+                        checkFailed.CheckFailedOperations =
+                            new SearchProgramList(checkFailed);
+                        MoveOutwardsAppendingRemoveIsomorphyAndJump(
+                            checkFailed,
+                            checkFailed.CheckIndependent.NeededElements,
                             enclosingAlternative ?? enclosingSearchProgram);
                     }
                     else if (currentOperation is CheckContinueMatchingTasksLeft)
@@ -236,7 +257,7 @@ namespace de.unika.ipd.grGen.lgsp
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             tasksLeft,
                             null,
-                            enclosingCheckNegative ?? (enclosingAlternative ?? enclosingSearchProgram));
+                            enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram));
 
                         // check tasks left has a further check maximum matches nested within check failed code
                         // give it its special bit of attention here
@@ -244,7 +265,7 @@ namespace de.unika.ipd.grGen.lgsp
                             tasksLeft.CheckFailedOperations,
                             enclosingSearchProgram,
                             enclosingAlternative,
-                            enclosingCheckNegative);
+                            enclosingCheckNegativeOrIndependent);
                     }
                     else
                     {
@@ -271,7 +292,7 @@ namespace de.unika.ipd.grGen.lgsp
                         currentOperation.GetNestedSearchOperationsList(),
                         enclosingSearchProgram,
                         enclosingAlternative,
-                        enclosingCheckNegative);
+                        enclosingCheckNegativeOrIndependent);
                 }
 
                 // breadth
@@ -329,7 +350,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// move outwards from check operation until operation to continue at is found
         /// appending restore isomorphy for isomorphy written on the way
-        /// and final jump to operation to continue
+        /// and final jump to operation to continue at
         /// </summary>
         private void MoveOutwardsAppendingRemoveIsomorphyAndJump(
             CheckOperation checkOperation,
@@ -343,8 +364,153 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 insertionPoint = insertionPoint.Next;
             }
+
+            SearchProgramOperation continuationPoint = MoveOutwardsAppendingRemoveIsomorphy(
+                checkOperation, ref insertionPoint, neededElementsForCheckOperation, outermostOperation);
+
+            // decide on type of continuing operation, then insert it
+
+            // continue at top nesting level -> return
+            SearchProgramOperation op = continuationPoint;
+            while (!(op is SearchProgram))
+            {
+                op = op.Previous;
+            }
+            SearchProgram searchProgramRoot = op as SearchProgram;
+            if (continuationPoint == searchProgramRoot)
+            {
+                ContinueOperation continueByReturn =
+                    new ContinueOperation(
+                        ContinueOperationType.ByReturn,
+                        searchProgramRoot is SearchProgramOfAction
+                        );
+                insertionPoint.Append(continueByReturn);
+
+                return;
+            }
+
+            // continue at directly enclosing nesting level -> continue
+            op = checkOperation;
+            do
+            {
+                op = op.Previous;
+            }
+            while (!op.IsSearchNestingOperation());
+            SearchProgramOperation directlyEnclosingOperation = op;
+            if (continuationPoint == directlyEnclosingOperation
+                // (check negative/independent is enclosing, but not a loop, thus continue wouldn't work)
+                && !(directlyEnclosingOperation is CheckPartialMatchByNegative)
+                && !(directlyEnclosingOperation is CheckPartialMatchByIndependent))
+            {
+                ContinueOperation continueByContinue =
+                    new ContinueOperation(ContinueOperationType.ByContinue);
+                insertionPoint.Append(continueByContinue);
+
+                return;
+            }
+
+            // otherwise -> goto label
+            GotoLabel gotoLabel;
+
+            // if our continuation point is a candidate iteration
+            // -> append label at the end of the loop body of the candidate iteration loop 
+            if (continuationPoint is GetCandidateByIteration)
+            {
+                GetCandidateByIteration candidateIteration =
+                    continuationPoint as GetCandidateByIteration;
+                op = candidateIteration.NestedOperationsList;
+                while (op.Next != null)
+                {
+                    op = op.Next;
+                }
+                gotoLabel = new GotoLabel();
+                op.Append(gotoLabel);
+            }
+            // if our continuation point is an alternative
+            // -> append label at the end of the alternative operations
+            else if (continuationPoint is GetPartialMatchOfAlternative)
+            {
+                GetPartialMatchOfAlternative getAlternative =
+                    continuationPoint as GetPartialMatchOfAlternative;
+                op = getAlternative.OperationsList;
+                while (op.Next != null)
+                {
+                    op = op.Next;
+                }
+                gotoLabel = new GotoLabel();
+                op.Append(gotoLabel);
+            }
+            // otherwise our continuation point is a check negative/independent operation
+            // -> insert label directly after the check negative/independent operation
+            else
+            {
+                CheckPartialMatchByNegativeOrIndependent checkNegativeIndependent =
+                    continuationPoint as CheckPartialMatchByNegativeOrIndependent;
+                gotoLabel = new GotoLabel();
+                checkNegativeIndependent.Insert(gotoLabel);
+            }
+
+            ContinueOperation continueByGoto =
+                new ContinueOperation(
+                    ContinueOperationType.ByGoto,
+                    gotoLabel.LabelName); // ByGoto due to parameters
+            insertionPoint.Append(continueByGoto);
+        }
+
+        /// <summary>
+        /// move outwards from check succeeded operation until check partial match by independent is found
+        /// appending restore isomorphy for isomorphy written on the way
+        /// and final jump to operation right after the independent failed operation of the check partial match by independent 
+        /// </summary>
+        private void MoveRightAfterCorrespondingIndependentFailedAppendingRemoveIsomorphyAndJump(
+            CheckContinueMatchingOfIndependentSucceeded checkSucceeded,
+            CheckPartialMatchByIndependent enclosingIndependent)
+        {
+            // insertion point for candidate failed operations
+            SearchProgramOperation insertionPoint =
+                checkSucceeded.CheckFailedOperations;
+            while (insertionPoint.Next != null) // needed?
+            {
+                insertionPoint = insertionPoint.Next;
+            }
+
+            // move outwards, append remove isomorphy
+            string[] neededElements = new string[0];
+            SearchProgramOperation continuationPoint = MoveOutwardsAppendingRemoveIsomorphy(
+                checkSucceeded, ref insertionPoint, neededElements, enclosingIndependent);
+
+            // move to check failed operation of check independent operation
+            while (!(continuationPoint is CheckContinueMatchingOfIndependentFailed))
+            {
+                continuationPoint = continuationPoint.Next;
+            }
+            CheckContinueMatchingOfIndependentFailed checkFailed = 
+                (CheckContinueMatchingOfIndependentFailed)continuationPoint;
+
+            // insert label right thereafter, append jump there at insertion point
+            GotoLabel gotoLabel = new GotoLabel();
+            checkFailed.Insert(gotoLabel);
+
+            ContinueOperation continueByGoto =
+                new ContinueOperation(
+                    ContinueOperationType.ByGoto,
+                    gotoLabel.LabelName);
+            insertionPoint.Append(continueByGoto);
+        }
+
+        /// <summary>
+        /// move outwards from starting point on until operation to continue at is found
+        /// appending restore isomorphy at insertion point for isomorphy written on the way
+        /// returns operation to continue at
+        /// </summary>
+        private SearchProgramOperation MoveOutwardsAppendingRemoveIsomorphy(
+            SearchProgramOperation startingPoint,
+            ref SearchProgramOperation insertionPoint,
+            string[] neededElementsForCheckOperation,
+            SearchProgramOperation outermostOperation)
+        {
             // currently focused operation on our way outwards
-            SearchProgramOperation op = checkOperation;
+            SearchProgramOperation op = startingPoint;
             // move outwards until operation to continue at is found
             bool creationPointOfDominatingElementFound = false;
             bool iterationReached = false;
@@ -361,7 +527,7 @@ namespace de.unika.ipd.grGen.lgsp
                     AbandonCandidate restoreIsomorphy =
                         new AbandonCandidate(
                             writeIsomorphy.PatternElementName,
-                            writeIsomorphy.NegativeNamePrefix,
+                            writeIsomorphy.NegativeIndependentNamePrefix,
                             writeIsomorphy.IsNode,
                             writeIsomorphy.NeverAboveMaxNegLevel);
                     insertionPoint = insertionPoint.Append(restoreIsomorphy);
@@ -375,7 +541,7 @@ namespace de.unika.ipd.grGen.lgsp
                     AbandonCandidateGlobal removeIsomorphy =
                         new AbandonCandidateGlobal(
                             writeIsomorphy.PatternElementName,
-                            writeIsomorphy.NegativeNamePrefix,
+                            writeIsomorphy.NegativeIndependentNamePrefix,
                             writeIsomorphy.IsNode);
                     insertionPoint = insertionPoint.Append(removeIsomorphy);
                 }
@@ -388,13 +554,13 @@ namespace de.unika.ipd.grGen.lgsp
                         new FinalizeSubpatternMatching();
                     insertionPoint = insertionPoint.Append(finalize);
                 }
-                // insert code to undo negative matching initialization if we leave the negative matching method
-                if (op is InitializeNegativeMatching)
+                // insert code to undo negative/independent matching initialization if we leave the negative/independent matching method
+                if (op is InitializeNegativeIndependentMatching)
                 {
-                    InitializeNegativeMatching initialize =
-                        op as InitializeNegativeMatching;
-                    FinalizeNegativeMatching finalize =
-                        new FinalizeNegativeMatching(initialize.NeverAboveMaxNegLevel);
+                    InitializeNegativeIndependentMatching initialize =
+                        op as InitializeNegativeIndependentMatching;
+                    FinalizeNegativeIndependentMatching finalize =
+                        new FinalizeNegativeIndependentMatching(initialize.NeverAboveMaxNegLevel);
                     insertionPoint = insertionPoint.Append(finalize);
                 }
 
@@ -439,93 +605,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
             while (!(creationPointOfDominatingElementFound && iterationReached)
                     && op != outermostOperation);
-            SearchProgramOperation continuationPoint = op;
 
-            // decide on type of continuing operation, then insert it
-
-            // continue at top nesting level -> return
-            while (!(op is SearchProgram))
-            {
-                op = op.Previous;
-            }
-            SearchProgram searchProgramRoot = op as SearchProgram;
-            if (continuationPoint == searchProgramRoot)
-            {
-                ContinueOperation continueByReturn =
-                    new ContinueOperation(
-                        ContinueOperationType.ByReturn,
-                        searchProgramRoot is SearchProgramOfAction
-                        );
-                insertionPoint.Append(continueByReturn);
-
-                return;
-            }
-
-            // continue at directly enclosing nesting level -> continue
-            op = checkOperation;
-            do
-            {
-                op = op.Previous;
-            }
-            while (!op.IsSearchNestingOperation());
-            SearchProgramOperation directlyEnclosingOperation = op;
-            if (continuationPoint == directlyEnclosingOperation
-                // (check negative is enclosing, but not a loop, thus continue wouldn't work)
-                && !(directlyEnclosingOperation is CheckPartialMatchByNegative))
-            {
-                ContinueOperation continueByContinue =
-                    new ContinueOperation(ContinueOperationType.ByContinue);
-                insertionPoint.Append(continueByContinue);
-
-                return;
-            }
-
-            // otherwise -> goto label
-            GotoLabel gotoLabel;
-
-            // if our continuation point is a candidate iteration
-            // -> append label at the end of the loop body of the candidate iteration loop 
-            if (continuationPoint is GetCandidateByIteration)
-            {
-                GetCandidateByIteration candidateIteration =
-                    continuationPoint as GetCandidateByIteration;
-                op = candidateIteration.NestedOperationsList;
-                while (op.Next != null)
-                {
-                    op = op.Next;
-                }
-                gotoLabel = new GotoLabel();
-                op.Append(gotoLabel);
-            }
-            // if our continuation point is an alternative
-            // -> append label at the end of the alternative operations
-            else if (continuationPoint is GetPartialMatchOfAlternative)
-            {
-                GetPartialMatchOfAlternative getAlternative =
-                    continuationPoint as GetPartialMatchOfAlternative;
-                op = getAlternative.OperationsList;
-                while (op.Next != null)
-                {
-                    op = op.Next;
-                }
-                gotoLabel = new GotoLabel();
-                op.Append(gotoLabel);
-            }
-            // otherwise our continuation point is a check negative operation
-            // -> insert label directly after the check negative operation
-            else
-            {
-                CheckPartialMatchByNegative checkNegative =
-                    continuationPoint as CheckPartialMatchByNegative;
-                gotoLabel = new GotoLabel();
-                checkNegative.Insert(gotoLabel);
-            }
-
-            ContinueOperation continueByGoto =
-                new ContinueOperation(
-                    ContinueOperationType.ByGoto,
-                    gotoLabel.LabelName); // ByGoto due to parameters
-            insertionPoint.Append(continueByGoto);
+            return op;
         }
     }
 }

@@ -69,7 +69,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="graph">The host graph to optimize the matcher program for, 
         /// providing statistical information about its structure </param>
-        public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool negPatternGraph, bool isSubpattern)
+        public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpattern)
         {
             // 
             // If you change this method, chances are high you also want to change GenerateStaticPlanGraph in LGSPGrGen
@@ -126,7 +126,7 @@ namespace de.unika.ipd.grGen.lgsp
                     cost = 1;
 #endif
                     isPreset = true;
-                    searchOperationType = negPatternGraph ? SearchOperationType.NegPreset : SearchOperationType.SubPreset;
+                    searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
                 }
                 else
                 {
@@ -177,7 +177,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
                     isPreset = true;
-                    searchOperationType = negPatternGraph ? SearchOperationType.NegPreset : SearchOperationType.SubPreset;
+                    searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
                 }
                 else
                 {
@@ -475,7 +475,7 @@ exitSecondLoop: ;
                 case SearchOperationType.Implicit: typeStr = "IM"; break;
                 case SearchOperationType.Lookup: typeStr = " *"; break;
                 case SearchOperationType.MaybePreset: typeStr = " p"; break;
-                case SearchOperationType.NegPreset: typeStr = "np"; break;
+                case SearchOperationType.NegIdptPreset: typeStr = "np"; break;
                 case SearchOperationType.SubPreset: typeStr = "sp"; break;
             }
 
@@ -591,7 +591,7 @@ exitSecondLoop: ;
                 case SearchOperationType.Implicit: typeStr = "IM"; break;
                 case SearchOperationType.Lookup: typeStr = " *"; break;
                 case SearchOperationType.MaybePreset: typeStr = " p"; break;
-                case SearchOperationType.NegPreset: typeStr = "np"; break;
+                case SearchOperationType.NegIdptPreset: typeStr = "np"; break;
                 case SearchOperationType.SubPreset: typeStr = "sp"; break;
             }
 
@@ -614,7 +614,7 @@ exitSecondLoop: ;
                 case SearchOperationType.Implicit: typeStr = "<-" + src.PatternElement.Name + "-> " + tgt.PatternElement.Name; break;
                 case SearchOperationType.Lookup: typeStr = "*" + tgt.PatternElement.Name; break;
                 case SearchOperationType.MaybePreset: typeStr = "p(" + tgt.PatternElement.Name + ")"; break;
-                case SearchOperationType.NegPreset: typeStr = "np(" + tgt.PatternElement.Name + ")"; break;
+                case SearchOperationType.NegIdptPreset: typeStr = "np(" + tgt.PatternElement.Name + ")"; break;
                 case SearchOperationType.SubPreset: typeStr = "sp(" + tgt.PatternElement.Name + ")"; break;
                 case SearchOperationType.Condition:
                     typeStr = " ?(" + String.Join(",", ((PatternCondition) op.Element).NeededNodes) + ")("
@@ -622,6 +622,9 @@ exitSecondLoop: ;
                     break;
                 case SearchOperationType.NegativePattern:
                     typeStr = " !(" + ScheduleToString(((ScheduledSearchPlan) op.Element).Operations) + " )";
+                    break;
+                case SearchOperationType.IndependentPattern:
+                    typeStr = " &(" + ScheduleToString(((ScheduledSearchPlan)op.Element).Operations) + " )";
                     break;
             }
             return typeStr;
@@ -759,7 +762,7 @@ exitSecondLoop: ;
         /// Generates a scheduled search plan for a given search plan graph
         /// </summary>
         public ScheduledSearchPlan ScheduleSearchPlan(SearchPlanGraph spGraph, 
-            PatternGraph patternGraph, bool isNegative)
+            PatternGraph patternGraph, bool isNegativeOrIndependent)
         {
             // the schedule
             List<SearchOperation> operations = new List<SearchOperation>();
@@ -775,9 +778,9 @@ exitSecondLoop: ;
                     foreach (SearchPlanEdge edgeOutgoingFromPresetElement in edge.Target.OutgoingEdges)
                         activeEdges.Add(edgeOutgoingFromPresetElement);
 
-                    // note: here a normal preset is converted into a neg preset operation if in negative pattern
+                    // note: here a normal preset is converted into a neg/idpt preset operation if in negative/independent pattern
                     SearchOperation newOp = new SearchOperation(
-                        isNegative ? SearchOperationType.NegPreset : edge.Type,
+                        isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : edge.Type,
                         edge.Target, spGraph.Root, 0);
 
                     operations.Add(newOp);
@@ -831,6 +834,12 @@ exitSecondLoop: ;
                 }
 
                 if (ssp.Operations[i].Type == SearchOperationType.NegativePattern)
+                {
+                    AppendHomomorphyInformation((ScheduledSearchPlan)ssp.Operations[i].Element);
+                    continue;
+                }
+
+                if (ssp.Operations[i].Type == SearchOperationType.IndependentPattern)
                 {
                     AppendHomomorphyInformation((ScheduledSearchPlan)ssp.Operations[i].Element);
                     continue;
@@ -911,7 +920,8 @@ exitSecondLoop: ;
             {
                 // only check operations computing nodes or edges
                 if (ssp.Operations[i].Type == SearchOperationType.Condition
-                    || ssp.Operations[i].Type == SearchOperationType.NegativePattern)
+                    || ssp.Operations[i].Type == SearchOperationType.NegativePattern
+                    || ssp.Operations[i].Type == SearchOperationType.IndependentPattern)
                 {
                     continue;
                 }
@@ -1006,7 +1016,8 @@ exitSecondLoop: ;
             {
                 // only check operations computing nodes or edges
                 if (ssp.Operations[i].Type == SearchOperationType.Condition
-                    || ssp.Operations[i].Type == SearchOperationType.NegativePattern)
+                    || ssp.Operations[i].Type == SearchOperationType.NegativePattern
+                    || ssp.Operations[i].Type == SearchOperationType.IndependentPattern)
                 {
                     continue;
                 }
@@ -1034,25 +1045,30 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Negative schedules are merged as an operation into their enclosing schedules,
+        /// Negative/Independent schedules are merged as an operation into their enclosing schedules,
         /// at a position determined by their costs but not before all of their needed elements were computed
         /// </summary>
-        public void MergeNegativeSchedulesIntoPositiveSchedules(PatternGraph patternGraph)
+        public void MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(PatternGraph patternGraph)
         {
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
-                MergeNegativeSchedulesIntoPositiveSchedules(neg);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(neg);
+            }
+
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(idpt);
             }
 
             foreach (Alternative alt in patternGraph.alternatives)
             {
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
-                    MergeNegativeSchedulesIntoPositiveSchedules(altCase);
+                    MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(altCase);
                 }
             }
 
-            InsertNegativesIntoSchedule(patternGraph);
+            InsertNegativesAndIndependentsIntoSchedule(patternGraph);
         }
 
         /// <summary>
@@ -1082,6 +1098,10 @@ exitSecondLoop: ;
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
                 CalculateNeededElements(neg, neededNodes, neededEdges);
+            }
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                CalculateNeededElements(idpt, neededNodes, neededEdges);
             }
             foreach (Alternative alt in patternGraph.alternatives)
             {
@@ -1134,32 +1154,41 @@ exitSecondLoop: ;
 
 
         /// <summary>
-        /// Inserts schedules of negative pattern graphs into the schedule of the positive pattern graph
+        /// Inserts schedules of negative and independent pattern graphs into the schedule of the enclosing pattern graph
         /// </summary>
-        public void InsertNegativesIntoSchedule(PatternGraph patternGraph)
+        public void InsertNegativesAndIndependentsIntoSchedule(PatternGraph patternGraph)
         {
-            // todo: erst implicit node, dann negative, auch wenn negative mit erstem implicit moeglich wird
+            // todo: erst implicit node, dann negative/independent, auch wenn negative/independent mit erstem implicit moeglich wird
 
-            Debug.Assert(patternGraph.ScheduleIncludingNegatives == null);
+            Debug.Assert(patternGraph.ScheduleIncludingNegativesAndIndependents == null);
             List<SearchOperation> operations = new List<SearchOperation>();
             for (int i = 0; i < patternGraph.Schedule.Operations.Length; ++i)
                 operations.Add(patternGraph.Schedule.Operations[i]);
 
-            // calculate needed elements of each negative search plan / search plan graph
-            // (elements from the positive graph needed in order to execute the nac)
-            Dictionary<String, bool>[] neededNodes = new Dictionary<String, bool>[patternGraph.negativePatternGraphs.Length];
-            Dictionary<String, bool>[] neededEdges = new Dictionary<String, bool>[patternGraph.negativePatternGraphs.Length];
+            // calculate needed elements of each negative/independent search plan / search plan graph
+            // (elements from the enclosing graph needed in order to execute the nac/pac)
+            Dictionary<String, bool>[] neededNodes = new Dictionary<String, bool>
+                [patternGraph.negativePatternGraphs.Length+patternGraph.independentPatternGraphs.Length];
+            Dictionary<String, bool>[] neededEdges = new Dictionary<String, bool>
+                [patternGraph.negativePatternGraphs.Length+patternGraph.independentPatternGraphs.Length];
             for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
             {
                 neededNodes[i] = new Dictionary<String, bool>();
                 neededEdges[i] = new Dictionary<String, bool>();
                 CalculateNeededElements(patternGraph.negativePatternGraphs[i], neededNodes[i], neededEdges[i]);
             }
+            for (int i = patternGraph.negativePatternGraphs.Length; 
+                i < patternGraph.negativePatternGraphs.Length+patternGraph.independentPatternGraphs.Length; ++i)
+            {
+                neededNodes[i] = new Dictionary<String, bool>();
+                neededEdges[i] = new Dictionary<String, bool>();
+                CalculateNeededElements(patternGraph.independentPatternGraphs[i-patternGraph.negativePatternGraphs.Length], neededNodes[i], neededEdges[i]);
+            }
 
             // iterate over all negative scheduled search plans (TODO: order?)
             for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
             {
-                ScheduledSearchPlan negSchedule = patternGraph.negativePatternGraphs[i].ScheduleIncludingNegatives;
+                ScheduledSearchPlan negSchedule = patternGraph.negativePatternGraphs[i].ScheduleIncludingNegativesAndIndependents;
                 int bestFitIndex = operations.Count;
                 float bestFitCostToEnd = 0;
 
@@ -1168,8 +1197,10 @@ exitSecondLoop: ;
                 for (int j = operations.Count - 1; j >= 0; --j)
                 {
                     SearchOperation op = operations[j];
-                    if (op.Type == SearchOperationType.NegativePattern
-                        || op.Type == SearchOperationType.Condition) {
+                    if (op.Type == SearchOperationType.Condition
+                        || op.Type == SearchOperationType.NegativePattern
+                        || op.Type == SearchOperationType.IndependentPattern)
+                    {
                         continue;
                     }
 
@@ -1195,8 +1226,51 @@ exitSecondLoop: ;
                     operations[j].CostToEnd += negSchedule.Cost;
             }
 
+            // iterate over all independent scheduled search plans (TODO: order?)
+            for (int i = 0; i < patternGraph.independentPatternGraphs.Length; ++i)
+            {
+                ScheduledSearchPlan idptSchedule = patternGraph.independentPatternGraphs[i].ScheduleIncludingNegativesAndIndependents;
+                int bestFitIndex = operations.Count;
+                float bestFitCostToEnd = 0;
+
+                // find best place in scheduled search plan for current independent pattern 
+                // during search from end of schedule forward until the first element the independent pattern is dependent on is found
+                for (int j = operations.Count - 1; j >= 0; --j)
+                {
+                    SearchOperation op = operations[j];
+                    if (op.Type == SearchOperationType.Condition
+                        || op.Type == SearchOperationType.NegativePattern
+                        || op.Type == SearchOperationType.IndependentPattern)
+                    {
+                        continue;
+                    }
+
+                    if (neededNodes[patternGraph.negativePatternGraphs.Length+i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
+                        || neededEdges[patternGraph.negativePatternGraphs.Length+i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                    {
+                        break;
+                    }
+
+                    if (idptSchedule.Cost <= op.CostToEnd)
+                    {
+                        // best fit as CostToEnd is monotonously growing towards operation[0]
+                        bestFitIndex = j;
+                        bestFitCostToEnd = op.CostToEnd;
+                    }
+                }
+
+                // insert pattern at best position
+                operations.Insert(bestFitIndex, new SearchOperation(SearchOperationType.IndependentPattern,
+                    idptSchedule, null, bestFitCostToEnd + idptSchedule.Cost));
+
+                // update costs of operations before best position
+                for (int j = 0; j < bestFitIndex; ++j)
+                    operations[j].CostToEnd += idptSchedule.Cost;
+            }
+
             float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
-            patternGraph.ScheduleIncludingNegatives = new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
+            patternGraph.ScheduleIncludingNegativesAndIndependents =
+                new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
         }
 
         /// <summary>
@@ -1220,8 +1294,12 @@ exitSecondLoop: ;
                 for (j = operations.Count - 1; j >= 0; --j)
                 {
                     SearchOperation op = operations[j];
-                    if (op.Type == SearchOperationType.NegativePattern
-                        || op.Type == SearchOperationType.Condition) continue;
+                    if (op.Type == SearchOperationType.Condition
+                        || op.Type == SearchOperationType.NegativePattern
+                        || op.Type == SearchOperationType.IndependentPattern)
+                    {
+                        continue;
+                    }
 
                     if (neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                     {
@@ -1238,8 +1316,8 @@ exitSecondLoop: ;
         /// <summary>
         /// Generates the matcher source code for the given rule pattern into the given source builder
         /// </summary>
-        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPMatchingPattern matchingPattern,
-            bool isInitialStatic)
+        public void GenerateMatcherSourceCode(SourceBuilder sb,
+            LGSPMatchingPattern matchingPattern, bool isInitialStatic)
         {
             // generate the search program out of the schedule within the pattern graph of the rule
             SearchProgram searchProgram = GenerateSearchProgram(matchingPattern);
@@ -1263,13 +1341,18 @@ exitSecondLoop: ;
             {
                 GenerateMatcherSourceCode(sb, matchingPattern, neg, isInitialStatic);
             }
+            // or the alternatives nested within the independents
+            foreach (PatternGraph idpt in matchingPattern.patternGraph.independentPatternGraphs)
+            {
+                GenerateMatcherSourceCode(sb, matchingPattern, idpt, isInitialStatic);
+            }
         }
 
         /// <summary>
         /// Generates the matcher source code for the given alternative into the given source builder
         /// </summary>
-        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPMatchingPattern matchingPattern,
-            Alternative alt, bool isInitialStatic)
+        public void GenerateMatcherSourceCode(SourceBuilder sb,
+            LGSPMatchingPattern matchingPattern, Alternative alt, bool isInitialStatic)
         {
             // generate the search program out of the schedules within the pattern graphs of the alternative cases
             SearchProgram searchProgram = GenerateSearchProgram(matchingPattern, alt);
@@ -1290,26 +1373,34 @@ exitSecondLoop: ;
                 {
                     GenerateMatcherSourceCode(sb, matchingPattern, neg, isInitialStatic);
                 }
+                foreach (PatternGraph idpt in altCase.independentPatternGraphs)
+                {
+                    GenerateMatcherSourceCode(sb, matchingPattern, idpt, isInitialStatic);
+                }
             }
         }
 
         /// <summary>
-        /// Generates the matcher source code for the nested alternatives within the given negative pattern graph
-        /// into the given source builder
+        /// Generates the matcher source code for the nested alternatives/independents
+        /// within the given negative pattern graph into the given source builder
         /// </summary>
-        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPMatchingPattern matchingPattern,
-            PatternGraph neg, bool isInitialStatic)
+        public void GenerateMatcherSourceCode(SourceBuilder sb,
+            LGSPMatchingPattern matchingPattern, PatternGraph negOrIdpt, bool isInitialStatic)
         {
             // nothing to do locally ..
 
             // .. just move on to the nested alternatives
-            foreach (Alternative alt in neg.alternatives)
+            foreach (Alternative alt in negOrIdpt.alternatives)
             {
                 GenerateMatcherSourceCode(sb, matchingPattern, alt, isInitialStatic);
             }
-            foreach (PatternGraph nestedNeg in neg.negativePatternGraphs)
+            foreach (PatternGraph nestedNeg in negOrIdpt.negativePatternGraphs)
             {
                 GenerateMatcherSourceCode(sb, matchingPattern, nestedNeg, isInitialStatic);
+            }
+            foreach (PatternGraph nestedIdpt in negOrIdpt.independentPatternGraphs)
+            {
+                GenerateMatcherSourceCode(sb, matchingPattern, nestedIdpt, isInitialStatic);
             }
         }
 
@@ -1319,7 +1410,7 @@ exitSecondLoop: ;
         SearchProgram GenerateSearchProgram(LGSPMatchingPattern matchingPattern)
         {
             PatternGraph patternGraph = matchingPattern.patternGraph;
-            ScheduledSearchPlan scheduledSearchPlan = patternGraph.ScheduleIncludingNegatives;
+            ScheduledSearchPlan scheduledSearchPlan = patternGraph.ScheduleIncludingNegativesAndIndependents;
 
 #if DUMP_SCHEDULED_SEARCH_PLAN
             StreamWriter sspwriter = new StreamWriter(matchingPattern.name + "_ssp_dump.txt");
@@ -1380,7 +1471,7 @@ exitSecondLoop: ;
             ScheduledSearchPlan[] scheduledSearchPlans = new ScheduledSearchPlan[alt.alternativeCases.Length];
             int i=0;
             foreach (PatternGraph altCase in alt.alternativeCases) {
-                scheduledSearchPlans[i] = altCase.ScheduleIncludingNegatives;
+                scheduledSearchPlans[i] = altCase.ScheduleIncludingNegativesAndIndependents;
                 ++i;
             }
 
@@ -1433,7 +1524,8 @@ exitSecondLoop: ;
         /// Generates matcher class head source code for the pattern of the rulePattern into given source builder
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
-        public void GenerateMatcherClassHeadAction(SourceBuilder sb, LGSPRulePattern rulePattern, bool isInitialStatic)
+        public void GenerateMatcherClassHeadAction(SourceBuilder sb,
+            LGSPRulePattern rulePattern, bool isInitialStatic)
         {
             PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
                 
@@ -1468,7 +1560,8 @@ exitSecondLoop: ;
         /// Generates matcher class head source code for the subpattern of the rulePattern into given source builder
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
-        public void GenerateMatcherClassHeadSubpattern(SourceBuilder sb, LGSPMatchingPattern matchingPattern, bool isInitialStatic)
+        public void GenerateMatcherClassHeadSubpattern(SourceBuilder sb,
+            LGSPMatchingPattern matchingPattern, bool isInitialStatic)
         {
             Debug.Assert(!(matchingPattern is LGSPRulePattern));
             PatternGraph patternGraph = (PatternGraph)matchingPattern.PatternGraph;
@@ -1512,7 +1605,8 @@ exitSecondLoop: ;
         /// Generates matcher class head source code for the given alternative into given source builder
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
-        public void GenerateMatcherClassHeadAlternative(SourceBuilder sb, LGSPMatchingPattern matchingPattern, Alternative alternative, bool isInitialStatic)
+        public void GenerateMatcherClassHeadAlternative(SourceBuilder sb,
+            LGSPMatchingPattern matchingPattern, Alternative alternative, bool isInitialStatic)
         {
             PatternGraph patternGraph = (PatternGraph)matchingPattern.PatternGraph;
 
@@ -1623,19 +1717,25 @@ exitSecondLoop: ;
         /// The scheduled search plans are added to the main and the nested pattern graphs.
         /// </summary>
         public void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPGraph graph,
-            bool isSubpattern, bool isNegative)
+            bool isSubpattern, bool isNegativeOrIndependent)
         {
-            PlanGraph planGraph = GeneratePlanGraph(graph, patternGraph, isNegative, isSubpattern);
+            PlanGraph planGraph = GeneratePlanGraph(
+                graph, patternGraph, isNegativeOrIndependent, isSubpattern);
             MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
             SearchPlanGraph searchPlanGraph = GenerateSearchPlanGraph(planGraph);
             ScheduledSearchPlan scheduledSearchPlan = ScheduleSearchPlan(
-                searchPlanGraph, patternGraph, isNegative);
+                searchPlanGraph, patternGraph, isNegativeOrIndependent);
             AppendHomomorphyInformation(scheduledSearchPlan);
             patternGraph.Schedule = scheduledSearchPlan;
 
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
                 GenerateScheduledSearchPlans(neg, graph, isSubpattern, true);
+            }
+
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                GenerateScheduledSearchPlans(idpt, graph, isSubpattern, true);
             }
 
             foreach (Alternative alt in patternGraph.alternatives)
@@ -1782,7 +1882,7 @@ exitSecondLoop: ;
 
                 GenerateScheduledSearchPlans(smp.patternGraph, graph, true, false);
 
-                MergeNegativeSchedulesIntoPositiveSchedules(smp.patternGraph);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
 
                 GenerateMatcherSourceCode(sourceCode, smp, false);
             }
@@ -1792,7 +1892,7 @@ exitSecondLoop: ;
             {
                 GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graph, false, false);
 
-                MergeNegativeSchedulesIntoPositiveSchedules(action.rulePattern.patternGraph);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
 
                 GenerateMatcherSourceCode(sourceCode, action.rulePattern, false);
             }

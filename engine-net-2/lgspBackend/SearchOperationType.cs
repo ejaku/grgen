@@ -21,10 +21,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         MaybePreset,
         /// <summary>
-        /// Preset handed in to negative pattern, matched in positive pattern
+        /// Preset handed in to negative/independent pattern, matched in enclosing pattern
         /// (normal preset is converted into this when reaching schedule, but not before).
         /// </summary>
-        NegPreset,
+        NegIdptPreset,
         /// <summary>
         /// Preset handed in to subpattern, never null
         /// (might occur in enclosed negative pattern, too, but replaced by neg preset in schedule).
@@ -62,6 +62,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// Try to match negative pattern.
         /// </summary>
         NegativePattern,
+        /// <summary>
+        /// Try to match independent pattern.
+        /// </summary>
+        IndependentPattern,
         /// <summary>
         /// Check matched pattern by condition.
         /// </summary>

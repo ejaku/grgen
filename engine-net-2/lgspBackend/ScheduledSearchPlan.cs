@@ -132,9 +132,9 @@ namespace de.unika.ipd.grGen.lgsp
                 element, null, 0);
         }
 
-        public static SearchOperation CreateNegPreset(SearchPlanNode element)
+        public static SearchOperation CreateNegIdptPreset(SearchPlanNode element)
         {
-            return new SearchOperation(SearchOperationType.NegPreset,
+            return new SearchOperation(SearchOperationType.NegIdptPreset,
                 element, null, 0);
         }
 
@@ -177,6 +177,13 @@ namespace de.unika.ipd.grGen.lgsp
             ScheduledSearchPlan schedSP, float costToEnd)
         {
             return new SearchOperation(SearchOperationType.NegativePattern,
+                schedSP, null, costToEnd);
+        }
+
+        public static SearchOperation CreateIndependentPattern(
+            ScheduledSearchPlan schedSP, float costToEnd)
+        {
+            return new SearchOperation(SearchOperationType.IndependentPattern,
                 schedSP, null, costToEnd);
         }
 

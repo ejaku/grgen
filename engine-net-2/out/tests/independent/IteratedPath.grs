@@ -1,0 +1,9 @@
+new graph Independent/IteratedPath
+
+xgrs (beg,end)=create
+
+xgrs findChainPlusChainToInt(beg,end)
+
+xgrs findChainPlusChainToIntIndependent(beg,end)
+
+quit

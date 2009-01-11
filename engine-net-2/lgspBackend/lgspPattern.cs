@@ -537,9 +537,9 @@ namespace de.unika.ipd.grGen.lgsp
         public ScheduledSearchPlan Schedule;
 
         /// <summary>
-        /// A schedule for this pattern graph including negatives (and subpatterns?).   TODO
+        /// A schedule for this pattern graph including negatives and independents (and subpatterns?).   TODO
         /// </summary>
-        public ScheduledSearchPlan ScheduleIncludingNegatives;
+        public ScheduledSearchPlan ScheduleIncludingNegativesAndIndependents;
 
         /// <summary>
         /// Constructs a PatternGraph object.

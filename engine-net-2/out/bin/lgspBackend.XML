@@ -298,9 +298,21 @@
             (of the pattern part under construction)
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.CheckPartialMatchByNegativeOrIndependent">
+            <summary>
+            Base class for search program operations
+            filtering partial match by searching further patterns based on found one
+            i.e. by negative or independent patterns (nac/pac)
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.CheckPartialMatchByNegative">
             <summary>
             Class representing "check whether the negative pattern applies" operation
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.CheckPartialMatchByIndependent">
+            <summary>
+            Class representing "check whether the independent pattern applies" operation
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.CheckPartialMatchByCondition">
@@ -364,6 +376,12 @@
             when a negative pattern was matched
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.IndependentPatternMatched">
+            <summary>
+            Class yielding operations to be executed 
+            when a independent pattern was matched
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.BuildMatchObjectType">
             <summary>
             Available types of BuildMatchObject operations
@@ -409,6 +427,20 @@
             Class representing check abort matching process operation
             which was determined at generation time to always succeed.
             Check of abort negative matching process always succeeds
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.CheckContinueMatchingOfIndependentFailed">
+            <summary>
+            Class representing check abort matching process operation
+            which was determined at generation time to always succeed.
+            Check of abort independent matching process always succeeds
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.CheckContinueMatchingOfIndependentSucceeded">
+            <summary>
+            Class representing check abort matching process operation
+            which was determined at generation time to always fail.
+            Check of abort independent matching process always fails
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.ContinueOperationType">
@@ -472,14 +504,16 @@
             Class representing "finalize subpattern matching" operation
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.InitializeNegativeMatching">
+        <member name="T:de.unika.ipd.grGen.lgsp.InitializeNegativeIndependentMatching">
             <summary>
-            Class representing "initialize negative matching" operation
+            Class representing "initialize negative/independent matching" operation
+            it opens an isomorphy space at the next negLevel, finalizeXXX will close it
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.FinalizeNegativeMatching">
+        <member name="T:de.unika.ipd.grGen.lgsp.FinalizeNegativeIndependentMatching">
             <summary>
-            Class representing "finalize subpattern matching" operation
+            Class representing "finalize negative/independent matching" operation
+            it closes an isomorphy space opened by initializeXXX, returning to the previous negLevel
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.Expression">
@@ -850,9 +884,9 @@
             fill in globally homomorphic elements as exception to global isomorphy check
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.MergeNegativeSchedulesIntoPositiveSchedules(de.unika.ipd.grGen.lgsp.PatternGraph)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
-            Negative schedules are merged as an operation into their enclosing schedules,
+            Negative/Independent schedules are merged as an operation into their enclosing schedules,
             at a position determined by their costs but not before all of their needed elements were computed
             </summary>
         </member>
@@ -867,9 +901,9 @@
             but expect to be preset from outwards
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.InsertNegativesIntoSchedule(de.unika.ipd.grGen.lgsp.PatternGraph)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.InsertNegativesAndIndependentsIntoSchedule(de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
-            Inserts schedules of negative pattern graphs into the schedule of the positive pattern graph
+            Inserts schedules of negative and independent pattern graphs into the schedule of the enclosing pattern graph
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.InsertConditionsIntoSchedule(de.unika.ipd.grGen.lgsp.PatternCondition[],System.Collections.Generic.List{de.unika.ipd.grGen.lgsp.SearchOperation})">
@@ -889,8 +923,8 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherSourceCode(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
             <summary>
-            Generates the matcher source code for the nested alternatives within the given negative pattern graph
-            into the given source builder
+            Generates the matcher source code for the nested alternatives/independents
+            within the given negative pattern graph into the given source builder
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgram(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
@@ -1401,9 +1435,9 @@
             (might occur in enclosed negative pattern, too, but replaced by neg preset in schedule).
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.NegPreset">
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.NegIdptPreset">
             <summary>
-            Preset handed in to negative pattern, matched in positive pattern
+            Preset handed in to negative/independent pattern, matched in enclosing pattern
             (normal preset is converted into this when reaching schedule, but not before).
             </summary>
         </member>
@@ -1451,6 +1485,11 @@
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.NegativePattern">
             <summary>
             Try to match negative pattern.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.IndependentPattern">
+            <summary>
+            Try to match independent pattern.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.Condition">
@@ -2915,7 +2954,7 @@
             backing up the value of the isMatched-Bit of the graph element before assigning to it
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.TaskVariable(System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.TaskVariable(System.String,System.String)">
             <summary>
             Returns name of the task variable which will be created within the seach program
             holding the task object whose connections need to be filled before being pushed on the open tasks stack
@@ -3133,6 +3172,11 @@
             the pattern graph to build (of the rule pattern or the subpattern)
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.isNegative">
+            <summary>
+            is the pattern graph a negative pattern graph?
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.alternative">
             <summary>
             the alternative to build
@@ -3144,10 +3188,10 @@
             name of the rule pattern class of the pattern graph
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.negativeNames">
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.negativeIndependentNames">
             <summary>
-            stack of negative names representing the nesting of negative patterns
-            the top of stack is the name of the negative pattern whose buildup is currently underway
+            stack of negative/independent names representing the nesting of negative/independent patterns (nac/pac)
+            the top of stack is the name of the negative/independent pattern whose buildup is currently underway
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.negLevelNeverAboveMaxNegLevel">
@@ -3171,10 +3215,10 @@
             are created and inserted into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildNegPreset(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildNegIdptPreset(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
             <summary>
             Search program operations implementing the
-            NegPreset search plan operation
+            NegIdptPreset search plan operation
             are created and inserted into search program
             </summary>
         </member>
@@ -3209,7 +3253,14 @@
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildNegative(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
             Search program operations implementing the
-            Negative search plan operation
+            Negative search plan operation (searching of negative application condition)
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildIndependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.PatternGraph)">
+            <summary>
+            Search program operations implementing the
+            Independent search plan operation (searching of positive application condition)
             are created and inserted into search program
             </summary>
         </member>
@@ -3284,15 +3335,15 @@
             at the given position, returns position after inserted operations
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertCheckForSubpatternsFoundNegative(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertCheckForSubpatternsFoundNegativeIndependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
             <summary>
             Inserts code to check whether the subpatterns were found and code for case there were some
             at the given position, returns position after inserted operations
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertPatternFoundNegative(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertPatternFoundNegativeIndependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
             <summary>
-            Inserts code to handle case negative pattern was found
+            Inserts code to handle case negative/independent pattern was found
             at the given position, returns position after inserted operations
             </summary>
         </member>
@@ -3384,9 +3435,9 @@
             by inserting the initially not given arguments
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.NegativeNamePrefix">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.NegativeIndependentNamePrefix">
             <summary>
-            returns name prefix for candidate variables computed from current negative pattern nesting
+            returns name prefix for candidate variables computed from current negative/independent pattern nesting
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.computeMaxNegLevel(de.unika.ipd.grGen.lgsp.PatternGraph)">
@@ -3490,7 +3541,7 @@
             Iterate all search programs to complete check operations within each one
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.CompleteCheckOperations(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.GetPartialMatchOfAlternative,de.unika.ipd.grGen.lgsp.CheckPartialMatchByNegative)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.CompleteCheckOperations(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.GetPartialMatchOfAlternative,de.unika.ipd.grGen.lgsp.CheckPartialMatchByNegativeOrIndependent)">
             <summary>
             Completes check operations in search program from given currentOperation on
             (taking borderlines set by enclosing search program and check negative into account)
@@ -3512,7 +3563,21 @@
             <summary>
             move outwards from check operation until operation to continue at is found
             appending restore isomorphy for isomorphy written on the way
-            and final jump to operation to continue
+            and final jump to operation to continue at
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.MoveRightAfterCorrespondingIndependentFailedAppendingRemoveIsomorphyAndJump(de.unika.ipd.grGen.lgsp.CheckContinueMatchingOfIndependentSucceeded,de.unika.ipd.grGen.lgsp.CheckPartialMatchByIndependent)">
+            <summary>
+            move outwards from check succeeded operation until check partial match by independent is found
+            appending restore isomorphy for isomorphy written on the way
+            and final jump to operation right after the independent failed operation of the check partial match by independent 
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramCompleter.MoveOutwardsAppendingRemoveIsomorphy(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchProgramOperation@,System.String[],de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
+            <summary>
+            move outwards from starting point on until operation to continue at is found
+            appending restore isomorphy at insertion point for isomorphy written on the way
+            returns operation to continue at
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternElement">
@@ -3877,9 +3942,9 @@
             A schedule for this pattern graph without any sub pattern graphs.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.ScheduleIncludingNegatives">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.ScheduleIncludingNegativesAndIndependents">
             <summary>
-            A schedule for this pattern graph including negatives (and subpatterns?).   TODO
+            A schedule for this pattern graph including negatives and independents (and subpatterns?).   TODO
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:])">

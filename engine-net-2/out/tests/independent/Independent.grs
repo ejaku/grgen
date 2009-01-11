@@ -1,0 +1,9 @@
+new graph Independent/Independent
+
+xgrs create
+
+xgrs [find]
+
+xgrs [findIndependent]
+
+quit

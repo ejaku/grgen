@@ -187,7 +187,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// and edges representing the matching operations to get the elements by.
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
         /// </summary>
-        PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, bool negPatternGraph, bool isSubpattern)
+        PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpattern)
         {
             //
             // If you change this method, chances are high you also want to change GeneratePlanGraph in LGSPMatcherGenerator
@@ -232,7 +232,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = negPatternGraph ? SearchOperationType.NegPreset : SearchOperationType.SubPreset;
+                    searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
                 }
                 else
                 {
@@ -268,7 +268,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = negPatternGraph ? SearchOperationType.NegPreset : SearchOperationType.SubPreset;
+                    searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
                 }
                 else
                 {
@@ -351,19 +351,25 @@ namespace de.unika.ipd.grGen.lgsp
         /// The scheduled search plans are added to the main and the nested pattern graphs.
         /// </summary>
         protected void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPMatcherGenerator matcherGen,
-            bool isSubpattern, bool isNegative)
+            bool isSubpattern, bool isNegativeOrIndependent)
         {
-            PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, isNegative, isSubpattern);
+            PlanGraph planGraph = GenerateStaticPlanGraph(
+                patternGraph, isNegativeOrIndependent, isSubpattern);
             matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
             ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
-                searchPlanGraph, patternGraph, isNegative);
+                searchPlanGraph, patternGraph, isNegativeOrIndependent);
             matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
             patternGraph.Schedule = scheduledSearchPlan;
 
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
                 GenerateScheduledSearchPlans(neg, matcherGen, isSubpattern, true);
+            }
+
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                GenerateScheduledSearchPlans(idpt, matcherGen, isSubpattern, true);
             }
 
             foreach (Alternative alt in patternGraph.alternatives)
@@ -1170,7 +1176,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                         GenerateScheduledSearchPlans(matchingPattern.patternGraph, matcherGen, !(matchingPattern is LGSPRulePattern), false);
 
-                        matcherGen.MergeNegativeSchedulesIntoPositiveSchedules(matchingPattern.patternGraph);
+                        matcherGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph);
 
                         matcherGen.GenerateMatcherSourceCode(source, matchingPattern, true);
 

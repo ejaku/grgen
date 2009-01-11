@@ -80,27 +80,27 @@ namespace de.unika.ipd.grGen.lgsp
         /// Returns name of the variable which will be created within the seach program
         /// backing up the value of the isMatched-Bit of the graph element before assigning to it
         /// </summary>
-        public static string VariableWithBackupOfIsMatchedBit(string patternElementName, string negativeNamePrefix)
+        public static string VariableWithBackupOfIsMatchedBit(string patternElementName, string negativeIndependentNamePrefix)
         {
-            return "prev_" + negativeNamePrefix + "_" + CandidateVariable(patternElementName);
+            return "prev_" + negativeIndependentNamePrefix + "_" + CandidateVariable(patternElementName);
         }
 
         /// <summary>
         /// Returns name of the variable which will be created within the seach program
         /// backing up the value of the isMatched-Bit of the graph element before assigning to it
         /// </summary>
-        public static string VariableWithBackupOfIsMatchedBitGlobal(string patternElementName, string negativeNamePrefix)
+        public static string VariableWithBackupOfIsMatchedBitGlobal(string patternElementName, string negativeIndependentNamePrefix)
         {
-            return "prevGlobal_" + negativeNamePrefix + "_" + CandidateVariable(patternElementName);
+            return "prevGlobal_" + negativeIndependentNamePrefix + "_" + CandidateVariable(patternElementName);
         }
 
         /// <summary>
         /// Returns name of the task variable which will be created within the seach program
         /// holding the task object whose connections need to be filled before being pushed on the open tasks stack
         /// </summary>
-        public static string TaskVariable(string subpatternElementName)
+        public static string TaskVariable(string subpatternElementName, string negativeIndependentNamePrefix)
         {
-            return "taskFor_" + subpatternElementName;
+            return "taskFor_" + negativeIndependentNamePrefix + subpatternElementName;
         }
 
         /// <summary>

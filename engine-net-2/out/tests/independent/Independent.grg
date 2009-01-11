@@ -1,0 +1,22 @@
+rule create() : (Node, Node)
+{
+	modify
+	{
+		n1:Node --> n2:Node --> n3:Node;
+		n1 <-- n2 <-- n3;
+		return(n1,n3);
+	}
+}
+
+test find() {
+	beg:Node --> . --> end:Node;
+	beg <-- . <-- end; // no match of created graph as n2 can't be matched twice
+}
+
+test findIndependent() {
+	beg:Node --> . --> end:Node;
+	independent {
+		beg <-- . <-- end; // match of created graph found as matches of n2 are independent
+	}
+}
+

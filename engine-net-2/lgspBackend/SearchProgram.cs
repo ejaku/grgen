@@ -1531,13 +1531,13 @@ namespace de.unika.ipd.grGen.lgsp
         public CheckCandidateForIsomorphy(
             string patternElementName,
             List<string> namesOfPatternElementsToCheckAgainst,
-            string negativeNamePrefix,
+            string negativeIndependentNamePrefix,
             bool isNode,
             bool neverAboveMaxNegLevel)
         {
             PatternElementName = patternElementName;
             NamesOfPatternElementsToCheckAgainst = namesOfPatternElementsToCheckAgainst;
-            NegativeNamePrefix = negativeNamePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
             NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
@@ -1547,7 +1547,7 @@ namespace de.unika.ipd.grGen.lgsp
             // first dump check
             builder.AppendFront("CheckCandidate ForIsomorphy ");
             builder.AppendFormat("on {0} negNamePrefix:{1} node:{2} ",
-                PatternElementName, NegativeNamePrefix, IsNode);
+                PatternElementName, NegativeIndependentNamePrefix, IsNode);
             if (NamesOfPatternElementsToCheckAgainst != null)
             {
                 builder.Append("against ");
@@ -1647,7 +1647,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public List<string> NamesOfPatternElementsToCheckAgainst;
-        public string NegativeNamePrefix; // "" if positive
+        public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
         public bool NeverAboveMaxNegLevel;
     }
@@ -1830,9 +1830,32 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Base class for search program operations
+    /// filtering partial match by searching further patterns based on found one
+    /// i.e. by negative or independent patterns (nac/pac)
+    /// </summary>
+    abstract class CheckPartialMatchByNegativeOrIndependent : CheckPartialMatch
+    {
+        public override bool IsSearchNestingOperation()
+        {
+            return true;
+        }
+
+        public override SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return NestedOperationsList;
+        }
+
+        public string[] NeededElements;
+
+        // search program of the negative/independent pattern
+        public SearchProgramList NestedOperationsList;
+    }
+
+    /// <summary>
     /// Class representing "check whether the negative pattern applies" operation
     /// </summary>
-    class CheckPartialMatchByNegative : CheckPartialMatch
+    class CheckPartialMatchByNegative : CheckPartialMatchByNegativeOrIndependent
     {
         public CheckPartialMatchByNegative(string[] neededElements)
         {
@@ -1876,21 +1899,58 @@ namespace de.unika.ipd.grGen.lgsp
             //if(sourceCode.CommentSourceCode) reinsert when block is removed
             //    sourceCode.AppendFront("// NegativePattern end\n");
         }
+    }
 
-        public override bool IsSearchNestingOperation()
+    /// <summary>
+    /// Class representing "check whether the independent pattern applies" operation
+    /// </summary>
+    class CheckPartialMatchByIndependent : CheckPartialMatchByNegativeOrIndependent
+    {
+        public CheckPartialMatchByIndependent(string[] neededElements)
         {
-            return true;
+            NeededElements = neededElements;
         }
 
-        public override SearchProgramOperation GetNestedSearchOperationsList()
+        public override void Dump(SourceBuilder builder)
         {
-            return NestedOperationsList;
+            Debug.Assert(CheckFailedOperations == null, "check independent without direct check failed code");
+            // first dump local content
+            builder.AppendFront("CheckPartialMatch ByIndependent with ");
+            foreach (string neededElement in NeededElements)
+            {
+                builder.AppendFormat("{0} ", neededElement);
+            }
+            builder.Append("\n");
+            // then nested content
+            if (NestedOperationsList != null)
+            {
+                builder.Indent();
+                NestedOperationsList.Dump(builder);
+                builder.Unindent();
+            }
         }
 
-        public string[] NeededElements;
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if (sourceCode.CommentSourceCode)
+                sourceCode.AppendFront("// IndependentPattern \n");
+            // currently needed because of multiple idptMapped backup variables with same name
+            // todo: assign names to independents, mangle that name in, then remove block again
+            // todo: remove (idpt)mapped backup variables altogether, then remove block again
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
 
-        // search program of the negative pattern
-        public SearchProgramList NestedOperationsList;
+            NestedOperationsList.Emit(sourceCode);
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+
+            //if(sourceCode.CommentSourceCode) reinsert when block is removed
+            //    sourceCode.AppendFront("// IndependentPattern end\n");
+        }
+
+        // the corresponding check failed operation located after this one (in contrast to the check succeeded operation nested inside this one)
+        public CheckContinueMatchingOfIndependentFailed CheckIndependentFailed;
     }
 
     /// <summary>
@@ -1980,9 +2040,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class CheckPartialMatchForSubpatternsFound : CheckPartialMatch
     {
-        public CheckPartialMatchForSubpatternsFound(string negativePrefix)
+        public CheckPartialMatchForSubpatternsFound(string negativeIndependentNamePrefix)
         {
-            NegativePrefix = negativePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2005,7 +2065,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("// Check whether subpatterns were found \n");
 
             // emit decision
-            sourceCode.AppendFrontFormat("if({0}matchesList.Count>0) ", NegativePrefix);
+            sourceCode.AppendFrontFormat("if({0}matchesList.Count>0) ", NegativeIndependentNamePrefix);
 
             // emit check failed code
             sourceCode.Append("{\n");
@@ -2015,7 +2075,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public string NegativePrefix;
+        public string NegativeIndependentNamePrefix;
     }
 
     /// <summary>
@@ -2027,12 +2087,12 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public AcceptCandidate(
             string patternElementName,
-            string negativeNamePrefix,
+            string negativeIndependentNamePrefix,
             bool isNode,
             bool neverAboveMaxNegLevel)
         {
             PatternElementName = patternElementName;
-            NegativeNamePrefix = negativeNamePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
             NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
@@ -2041,13 +2101,13 @@ namespace de.unika.ipd.grGen.lgsp
         {
             builder.AppendFront("AcceptCandidate ");
             builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}\n",
-                PatternElementName, NegativeNamePrefix, IsNode);
+                PatternElementName, NegativeIndependentNamePrefix, IsNode);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             string variableContainingBackupOfMappedMember =
-                NamesOfEntities.VariableWithBackupOfIsMatchedBit(PatternElementName, NegativeNamePrefix);
+                NamesOfEntities.VariableWithBackupOfIsMatchedBit(PatternElementName, NegativeIndependentNamePrefix);
             string variableContainingCandidate =
                 NamesOfEntities.CandidateVariable(PatternElementName);
 
@@ -2084,7 +2144,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public string PatternElementName;
-        public string NegativeNamePrefix; // "" if positive
+        public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
         public bool NeverAboveMaxNegLevel;
     }
@@ -2097,11 +2157,11 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public AcceptCandidateGlobal(
             string patternElementName,
-            string negativeNamePrefix,
+            string negativeIndependentNamePrefix,
             bool isNode)
         {
             PatternElementName = patternElementName;
-            NegativeNamePrefix = negativeNamePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
         }
 
@@ -2109,13 +2169,13 @@ namespace de.unika.ipd.grGen.lgsp
         {
             builder.AppendFront("AcceptCandidateGlobal ");
             builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}\n",
-                PatternElementName, NegativeNamePrefix, IsNode);
+                PatternElementName, NegativeIndependentNamePrefix, IsNode);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             string variableContainingBackupOfMappedMember =
-                NamesOfEntities.VariableWithBackupOfIsMatchedBitGlobal(PatternElementName, NegativeNamePrefix);
+                NamesOfEntities.VariableWithBackupOfIsMatchedBitGlobal(PatternElementName, NegativeIndependentNamePrefix);
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
 
             sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMember);
@@ -2128,7 +2188,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public string PatternElementName;
-        public string NegativeNamePrefix; // "" if positive
+        public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
     }
 
@@ -2142,12 +2202,12 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public AbandonCandidate(
             string patternElementName,
-            string negativeNamePrefix,
+            string negativeIndependentNamePrefix,
             bool isNode,
             bool neverAboveMaxNegLevel)
         {
             PatternElementName = patternElementName;
-            NegativeNamePrefix = negativeNamePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
             NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
@@ -2156,13 +2216,13 @@ namespace de.unika.ipd.grGen.lgsp
         {
             builder.AppendFront("AbandonCandidate ");
             builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}\n",
-                PatternElementName, NegativeNamePrefix, IsNode);
+                PatternElementName, NegativeIndependentNamePrefix, IsNode);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             string variableContainingBackupOfMappedMember =
-                NamesOfEntities.VariableWithBackupOfIsMatchedBit(PatternElementName, NegativeNamePrefix);
+                NamesOfEntities.VariableWithBackupOfIsMatchedBit(PatternElementName, NegativeIndependentNamePrefix);
             string variableContainingCandidate =
                 NamesOfEntities.CandidateVariable(PatternElementName);
 
@@ -2196,7 +2256,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public string PatternElementName;
-        public string NegativeNamePrefix; // "" if positive
+        public string NegativeIndependentNamePrefix; // "" if top-level
         public bool IsNode; // node|edge
         public bool NeverAboveMaxNegLevel;
     }
@@ -2209,11 +2269,11 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public AbandonCandidateGlobal(
             string patternElementName,
-            string negativeNamePrefix,
+            string negativeIndependentNamePrefix,
             bool isNode)
         {
             PatternElementName = patternElementName;
-            NegativeNamePrefix = negativeNamePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
         }
 
@@ -2221,13 +2281,13 @@ namespace de.unika.ipd.grGen.lgsp
         {
             builder.AppendFront("AbandonCandidateGlobal ");
             builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}\n",
-                PatternElementName, NegativeNamePrefix, IsNode);
+                PatternElementName, NegativeIndependentNamePrefix, IsNode);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             string variableContainingBackupOfMappedMember =
-                NamesOfEntities.VariableWithBackupOfIsMatchedBitGlobal(PatternElementName, NegativeNamePrefix);
+                NamesOfEntities.VariableWithBackupOfIsMatchedBitGlobal(PatternElementName, NegativeIndependentNamePrefix);
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
 
             string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
@@ -2236,7 +2296,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public string PatternElementName;
-        public string NegativeNamePrefix; // "" if positive
+        public string NegativeIndependentNamePrefix; // "" if positive
         public bool IsNode; // node|edge
     }
 
@@ -2399,7 +2459,7 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchProgramList MatchBuildingOperations;
     }
 
-    enum NegativePatternMatchedType
+    enum NegativeIndependentPatternMatchedType
     {
         WithoutSubpatterns,
         ContainingSubpatterns
@@ -2411,22 +2471,22 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class NegativePatternMatched : SearchProgramOperation
     {
-        public NegativePatternMatched(NegativePatternMatchedType type, string negativePrefix)
+        public NegativePatternMatched(NegativeIndependentPatternMatchedType type, string negativeIndependentNamePrefix)
         {
             Type = type;
-            NegativePrefix = negativePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("NegativePatternMatched ");
-            builder.Append(Type == NegativePatternMatchedType.WithoutSubpatterns ?
+            builder.Append(Type == NegativeIndependentPatternMatchedType.WithoutSubpatterns ?
                 "WithoutSubpatterns\n" : "ContainingSubpatterns\n");
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (Type == NegativePatternMatchedType.WithoutSubpatterns)
+            if (Type == NegativeIndependentPatternMatchedType.WithoutSubpatterns)
             {
                 if (sourceCode.CommentSourceCode)
                     sourceCode.AppendFront("// negative pattern found\n");
@@ -2436,12 +2496,51 @@ namespace de.unika.ipd.grGen.lgsp
                 if (sourceCode.CommentSourceCode)
                     sourceCode.AppendFront("// negative pattern with contained subpatterns found\n");
 
-                sourceCode.AppendFrontFormat("{0}matchesList.Clear();\n", NegativePrefix);
+                sourceCode.AppendFrontFormat("{0}matchesList.Clear();\n", NegativeIndependentNamePrefix);
             }
         }
 
-        public NegativePatternMatchedType Type;
-        public string NegativePrefix;
+        public NegativeIndependentPatternMatchedType Type;
+        public string NegativeIndependentNamePrefix;
+    }
+
+    /// <summary>
+    /// Class yielding operations to be executed 
+    /// when a independent pattern was matched
+    /// </summary>
+    class IndependentPatternMatched : SearchProgramOperation
+    {
+        public IndependentPatternMatched(NegativeIndependentPatternMatchedType type, string negativeIndependentNamePrefix)
+        {
+            Type = type;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("IndependentPatternMatched ");
+            builder.Append(Type == NegativeIndependentPatternMatchedType.WithoutSubpatterns ?
+                "WithoutSubpatterns\n" : "ContainingSubpatterns\n");
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if (Type == NegativeIndependentPatternMatchedType.WithoutSubpatterns)
+            {
+                if (sourceCode.CommentSourceCode)
+                    sourceCode.AppendFront("// independent pattern found\n");
+            }
+            else
+            {
+                if (sourceCode.CommentSourceCode)
+                    sourceCode.AppendFront("// independent pattern with contained subpatterns found\n");
+
+                sourceCode.AppendFrontFormat("{0}matchesList.Clear();\n", NegativeIndependentNamePrefix);
+            }
+        }
+
+        public NegativeIndependentPatternMatchedType Type;
+        public string NegativeIndependentNamePrefix;
     }
 
     /// <summary>
@@ -2764,6 +2863,72 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class representing check abort matching process operation
+    /// which was determined at generation time to always succeed.
+    /// Check of abort independent matching process always succeeds
+    /// </summary>
+    class CheckContinueMatchingOfIndependentFailed : CheckContinueMatching
+    {
+        public CheckContinueMatchingOfIndependentFailed(CheckPartialMatchByIndependent checkIndependent)
+        {
+            CheckIndependent = checkIndependent;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump check
+            builder.AppendFront("CheckContinueMatching OfIndependentFailed \n");
+            // then operations for case check failed
+            if (CheckFailedOperations != null)
+            {
+                builder.Indent();
+                CheckFailedOperations.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            // nothing locally, just emit check failed code
+            CheckFailedOperations.Emit(sourceCode);
+        }
+
+        // the independent which failed
+        public CheckPartialMatchByIndependent CheckIndependent;
+    }
+
+    /// <summary>
+    /// Class representing check abort matching process operation
+    /// which was determined at generation time to always fail.
+    /// Check of abort independent matching process always fails
+    /// </summary>
+    class CheckContinueMatchingOfIndependentSucceeded : CheckContinueMatching
+    {
+        public CheckContinueMatchingOfIndependentSucceeded()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump check
+            builder.AppendFront("CheckContinueMatching OfIndependentSucceeded \n");
+            // then operations for case check failed .. wording a bit rotten
+            if (CheckFailedOperations != null)
+            {
+                builder.Indent();
+                CheckFailedOperations.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            // nothing locally, just emit check failed code
+            CheckFailedOperations.Emit(sourceCode);
+        }
+    }
+
+    /// <summary>
     /// Available types of ContinueOperation operations
     /// </summary>
     enum ContinueOperationType
@@ -3059,7 +3224,7 @@ namespace de.unika.ipd.grGen.lgsp
             string[] connectionName,
             string[] patternElementBoundToConnectionName,
             bool[] patternElementBoundToConnectionIsNode,
-            string negativePrefix)
+            string negativeIndependentNamePrefix)
         {
             Debug.Assert(connectionName.Length == patternElementBoundToConnectionName.Length
                 && patternElementBoundToConnectionName.Length == patternElementBoundToConnectionIsNode.Length);
@@ -3071,7 +3236,7 @@ namespace de.unika.ipd.grGen.lgsp
             PatternElementBoundToConnectionName = patternElementBoundToConnectionName;
             PatternElementBoundToConnectionIsNode = patternElementBoundToConnectionIsNode;
 
-            NegativePrefix = negativePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
         }
 
         public PushSubpatternTask(
@@ -3081,7 +3246,7 @@ namespace de.unika.ipd.grGen.lgsp
             string[] connectionName,
             string[] patternElementBoundToConnectionName,
             bool[] patternElementBoundToConnectionIsNode,
-            string negativePrefix)
+            string negativeIndependentNamePrefix)
         {
             Debug.Assert(connectionName.Length == patternElementBoundToConnectionName.Length
                 && patternElementBoundToConnectionName.Length == patternElementBoundToConnectionIsNode.Length);
@@ -3094,7 +3259,7 @@ namespace de.unika.ipd.grGen.lgsp
             PatternElementBoundToConnectionName = patternElementBoundToConnectionName;
             PatternElementBoundToConnectionIsNode = patternElementBoundToConnectionIsNode;
 
-            NegativePrefix = negativePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -3129,20 +3294,20 @@ namespace de.unika.ipd.grGen.lgsp
             if (isAlternative)
             {
                 // create matching task for alternative
-                variableContainingTask = NamesOfEntities.TaskVariable(AlternativeName);
+                variableContainingTask = NamesOfEntities.TaskVariable(AlternativeName, NegativeIndependentNamePrefix);
                 string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix+AlternativeName, true);
                 string alternativeCases = "patternGraph.alternatives[(int)" + RulePatternClassName + "."
                     + PathPrefix+"AltNums.@" + AlternativeName + "].alternativeCases";
                 sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks, {3});\n",
-                    typeOfVariableContainingTask, variableContainingTask, NegativePrefix, alternativeCases);
+                    typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, alternativeCases);
             }
             else
             {
                 // create matching task for subpattern
-                variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName);
+                variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName, NegativeIndependentNamePrefix);
                 string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, false);
                 sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks);\n",
-                    typeOfVariableContainingTask, variableContainingTask, NegativePrefix);
+                    typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix);
             }
             
             // fill in connections
@@ -3155,7 +3320,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // push matching task to open tasks stack
-            sourceCode.AppendFrontFormat("{0}openTasks.Push({1});\n", NegativePrefix, variableContainingTask);
+            sourceCode.AppendFrontFormat("{0}openTasks.Push({1});\n", NegativeIndependentNamePrefix, variableContainingTask);
         }
 
         public PushAndPopSubpatternTaskTypes Type;
@@ -3167,7 +3332,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string[] ConnectionName;
         public string[] PatternElementBoundToConnectionName;
         public bool[] PatternElementBoundToConnectionIsNode;
-        public string NegativePrefix;
+        public string NegativeIndependentNamePrefix;
     }
 
     /// <summary>
@@ -3175,10 +3340,10 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class PopSubpatternTask : SearchProgramOperation
     {
-        public PopSubpatternTask(string negativePrefix, PushAndPopSubpatternTaskTypes type,
+        public PopSubpatternTask(string negativeIndependentNamePrefix, PushAndPopSubpatternTaskTypes type,
             string subpatternNameOrAlternativeName, string subpatternElementNameOrPathPrefix)
         {
-            NegativePrefix = negativePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             Type = type;
             if (type == PushAndPopSubpatternTaskTypes.Alternative)
             {
@@ -3204,11 +3369,11 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("// Pop subpattern matching task for {0}\n",
                     Type==PushAndPopSubpatternTaskTypes.Alternative ? AlternativeName : SubpatternElementName);
 
-            sourceCode.AppendFrontFormat("{0}openTasks.Pop();\n", NegativePrefix);
+            sourceCode.AppendFrontFormat("{0}openTasks.Pop();\n", NegativeIndependentNamePrefix);
 
             string variableContainingTask = Type == PushAndPopSubpatternTaskTypes.Alternative
-                ? NamesOfEntities.TaskVariable(AlternativeName)
-                : NamesOfEntities.TaskVariable(SubpatternElementName);
+                ? NamesOfEntities.TaskVariable(AlternativeName, NegativeIndependentNamePrefix)
+                : NamesOfEntities.TaskVariable(SubpatternElementName, NegativeIndependentNamePrefix);
             string typeOfVariableContainingTask = Type == PushAndPopSubpatternTaskTypes.Alternative 
                 ? NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeName, true)
                 : NamesOfEntities.TypeOfTaskVariable(SubpatternName, false);
@@ -3221,7 +3386,7 @@ namespace de.unika.ipd.grGen.lgsp
         public string SubpatternElementName; // only valid if Type==Subpattern
         public string PathPrefix; // only valid if Type==Alternative
         public string AlternativeName; // only valid if Type==Alternative
-        public string NegativePrefix;
+        public string NegativeIndependentNamePrefix;
     }
 
     /// <summary>
@@ -3229,27 +3394,27 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class MatchSubpatterns : SearchProgramOperation
     {
-        public MatchSubpatterns(string negativePrefix)
+        public MatchSubpatterns(string negativeIndependentNamePrefix)
         {
-            NegativePrefix = negativePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFrontFormat("MatchSubpatterns {0}\n", NegativePrefix!="" ? "of "+NegativePrefix : "");
+            builder.AppendFrontFormat("MatchSubpatterns {0}\n", NegativeIndependentNamePrefix!="" ? "of "+NegativeIndependentNamePrefix : "");
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             if (sourceCode.CommentSourceCode)
                 sourceCode.AppendFrontFormat("// Match subpatterns {0}\n", 
-                    NegativePrefix!="" ? "of "+NegativePrefix : "");
+                    NegativeIndependentNamePrefix!="" ? "of "+NegativeIndependentNamePrefix : "");
 
             sourceCode.AppendFrontFormat("{0}openTasks.Peek().myMatch({0}matchesList, {1}, negLevel);\n",
-                NegativePrefix, NegativePrefix=="" ? "maxMatches - foundPartialMatches.Count" : "1");
+                NegativeIndependentNamePrefix, NegativeIndependentNamePrefix=="" ? "maxMatches - foundPartialMatches.Count" : "1");
         }
 
-        public string NegativePrefix;
+        public string NegativeIndependentNamePrefix;
     }
 
     /// <summary>
@@ -3338,23 +3503,24 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing "initialize negative matching" operation
+    /// Class representing "initialize negative/independent matching" operation
+    /// it opens an isomorphy space at the next negLevel, finalizeXXX will close it
     /// </summary>
-    class InitializeNegativeMatching : SearchProgramOperation
+    class InitializeNegativeIndependentMatching : SearchProgramOperation
     {
-        public InitializeNegativeMatching(
+        public InitializeNegativeIndependentMatching(
             bool containsSubpatterns,
-            string negativePrefix,
+            string negativeIndependentNamePrefix,
             bool neverAboveMaxNegLevel)
         {
             SetupSubpatternMatching = containsSubpatterns;
-            NegativePrefix = negativePrefix;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFrontFormat("InitializeNegativeMatching {0}\n", 
+            builder.AppendFrontFormat("InitializeNegativeIndependentMatching {0}\n", 
                 SetupSubpatternMatching ? "SetupSubpatternMatching" : "");
         }
 
@@ -3378,32 +3544,33 @@ namespace de.unika.ipd.grGen.lgsp
             if (SetupSubpatternMatching)
             {
                 sourceCode.AppendFrontFormat("Stack<GRGEN_LGSP.LGSPSubpatternAction> {0}openTasks ="
-                    + " new Stack<GRGEN_LGSP.LGSPSubpatternAction>();\n", NegativePrefix);
+                    + " new Stack<GRGEN_LGSP.LGSPSubpatternAction>();\n", NegativeIndependentNamePrefix);
                 sourceCode.AppendFrontFormat("List<Stack<GRGEN_LIBGR.IMatch>> {0}foundPartialMatches ="
-                    + " new List<Stack<GRGEN_LIBGR.IMatch>>();\n", NegativePrefix);
+                    + " new List<Stack<GRGEN_LIBGR.IMatch>>();\n", NegativeIndependentNamePrefix);
                 sourceCode.AppendFrontFormat("List<Stack<GRGEN_LIBGR.IMatch>> {0}matchesList ="
-                    + " {0}foundPartialMatches;\n", NegativePrefix);
+                    + " {0}foundPartialMatches;\n", NegativeIndependentNamePrefix);
             }
         }
 
         public bool SetupSubpatternMatching;
-        public string NegativePrefix;
+        public string NegativeIndependentNamePrefix;
         public bool NeverAboveMaxNegLevel;
     }
 
     /// <summary>
-    /// Class representing "finalize subpattern matching" operation
+    /// Class representing "finalize negative/independent matching" operation
+    /// it closes an isomorphy space opened by initializeXXX, returning to the previous negLevel
     /// </summary>
-    class FinalizeNegativeMatching : SearchProgramOperation
+    class FinalizeNegativeIndependentMatching : SearchProgramOperation
     {
-        public FinalizeNegativeMatching(bool neverAboveMaxNegLevel)
+        public FinalizeNegativeIndependentMatching(bool neverAboveMaxNegLevel)
         {
             NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("FinalizeNegativeMatching\n");
+            builder.AppendFront("FinalizeNegativeIndependentMatching\n");
         }
 
         public override void Emit(SourceBuilder sourceCode)
