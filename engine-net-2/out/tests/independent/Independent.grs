@@ -6,4 +6,6 @@ xgrs [find]
 
 xgrs [findIndependent]
 
+xgrs [findMultiNested]
+
 quit

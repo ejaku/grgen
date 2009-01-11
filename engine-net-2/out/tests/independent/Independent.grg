@@ -20,3 +20,18 @@ test findIndependent() {
 	}
 }
 
+test findMultiNested() {
+	beg:Node --> . --> end:Node;
+	independent {
+		beg <-- . <-- end;
+		independent {
+			beg --> . --> end;
+		}
+	}
+	independent {
+		beg --> . --> end;
+		independent {
+			beg <-- . <-- end;
+		}
+	}
+}
