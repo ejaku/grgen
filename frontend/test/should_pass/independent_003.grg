@@ -59,6 +59,22 @@ rule r {
 	}
 }
 
+rule rn {
+	n1:Node -e1:Edge-> n2:Node;
+	
+	negative {
+		n2-->n3:Node;
+		
+		independent {
+			n3-->n2;
+			n3-->n4:Node;
+		}
+	}
+
+	replace {
+	}
+}
+
 test t {
 	alternative {
 		Something {
@@ -76,6 +92,27 @@ test t {
 			}
 			independent {
 				n2-->n3:Node;
+			}
+		}
+		Empty {
+		}
+	}
+}
+
+test tn {
+	alternative {
+		Something {
+			n1:Node -e1:Edge-> n2:Node;
+			
+			negative {
+				n2-->n3:Node;
+				p1:p();
+				
+				independent {
+					n3-->n2;
+					n3-->n4:Node;
+					p2:pa();
+				}
 			}
 		}
 		Empty {

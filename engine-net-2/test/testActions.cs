@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Mon Jan 05 22:41:29 CET 2009
+// Generated from "test.grg" on Thu Jan 15 21:54:42 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -176,6 +176,7 @@ namespace de.unika.ipd.grGen.Action_test
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
+			//Independents
 		}
 
 		public class Match_testRule : GRGEN_LGSP.ListElement<Match_testRule>, IMatch_testRule
@@ -250,6 +251,17 @@ namespace de.unika.ipd.grGen.Action_test
 				}
 			}
 			
+			public enum testRule_IdptNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
+			public int NumberOfIndependents { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getIndependentAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_testRule.instance.pat_testRule; } }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
@@ -271,7 +283,7 @@ namespace de.unika.ipd.grGen.Action_test
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_testRule instance = new Action_testRule();
-
+        
         public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.Clear();

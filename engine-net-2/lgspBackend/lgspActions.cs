@@ -166,6 +166,33 @@ namespace de.unika.ipd.grGen.lgsp
 
 
     /// <summary>
+    /// enumerable returning enumerator over submatches due to independents
+    /// </summary>
+    public class Independents_Enumerable : IEnumerable<IMatch>
+    {
+        public Independents_Enumerable(IMatch match) { this.match = match; }
+        public IEnumerator<IMatch> GetEnumerator() { return new Independents_Enumerator(match); } // KRANKE
+        IEnumerator IEnumerable.GetEnumerator() { return new Independents_Enumerator(match); } // SCHEISSE
+        IMatch match;
+    }
+
+    /// <summary>
+    /// enumerator over submatches due to independents
+    /// </summary>
+    public class Independents_Enumerator : IEnumerator<IMatch>
+    {
+        public Independents_Enumerator(IMatch match) { this.match = match; pos = -1; }
+        public void Reset() { pos = -1; }
+        public bool MoveNext() { ++pos; return pos < match.NumberOfIndependents; }
+        public IMatch Current { get { return match.getIndependentAt(pos); } } // KRANKE
+        object IEnumerator.Current { get { return match.getIndependentAt(pos); } } // SCHEISSE
+        public void Dispose() { /*empty*/; }
+        IMatch match;
+        int pos;
+    }
+
+
+    /// <summary>
     /// Element of invasive linked list of T
     /// </summary>
     public class ListElement<T>

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Jan 05 22:40:28 CET 2009
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu Jan 15 21:54:01 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -150,6 +150,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
+			//Independents
 		}
 
 		public class Match_readZeroRule : GRGEN_LGSP.ListElement<Match_readZeroRule>, IMatch_readZeroRule
@@ -215,6 +216,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
 			public int NumberOfAlternatives { get { return 0;} }
 			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum readZeroRule_IdptNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
+			public int NumberOfIndependents { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -365,6 +377,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
+			//Independents
 		}
 
 		public class Match_readOneRule : GRGEN_LGSP.ListElement<Match_readOneRule>, IMatch_readOneRule
@@ -430,6 +443,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
 			public int NumberOfAlternatives { get { return 0;} }
 			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum readOneRule_IdptNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
+			public int NumberOfIndependents { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -616,6 +640,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
+			//Independents
 		}
 
 		public interface IMatch_ensureMoveLeftValidRule_neg_0 : GRGEN_LIBGR.IMatch
@@ -628,6 +653,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
+			//Independents
 		}
 
 		public class Match_ensureMoveLeftValidRule : GRGEN_LGSP.ListElement<Match_ensureMoveLeftValidRule>, IMatch_ensureMoveLeftValidRule
@@ -699,6 +725,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 			
+			public enum ensureMoveLeftValidRule_IdptNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
+			public int NumberOfIndependents { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getIndependentAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveLeftValidRule.instance.pat_ensureMoveLeftValidRule; } }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
@@ -763,6 +800,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
 			public int NumberOfAlternatives { get { return 0;} }
 			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveLeftValidRule_neg_0_IdptNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
+			public int NumberOfIndependents { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -949,6 +997,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
+			//Independents
 		}
 
 		public interface IMatch_ensureMoveRightValidRule_neg_0 : GRGEN_LIBGR.IMatch
@@ -961,6 +1010,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
+			//Independents
 		}
 
 		public class Match_ensureMoveRightValidRule : GRGEN_LGSP.ListElement<Match_ensureMoveRightValidRule>, IMatch_ensureMoveRightValidRule
@@ -1032,6 +1082,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 			
+			public enum ensureMoveRightValidRule_IdptNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
+			public int NumberOfIndependents { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getIndependentAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveRightValidRule.instance.pat_ensureMoveRightValidRule; } }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
@@ -1096,6 +1157,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
 			public int NumberOfAlternatives { get { return 0;} }
 			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum ensureMoveRightValidRule_neg_0_IdptNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
+			public int NumberOfIndependents { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -1251,6 +1323,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
+			//Independents
 		}
 
 		public class Match_moveLeftRule : GRGEN_LGSP.ListElement<Match_moveLeftRule>, IMatch_moveLeftRule
@@ -1322,6 +1395,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
 			public int NumberOfAlternatives { get { return 0;} }
 			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum moveLeftRule_IdptNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
+			public int NumberOfIndependents { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getIndependentAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -1477,6 +1561,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
+			//Independents
 		}
 
 		public class Match_moveRightRule : GRGEN_LGSP.ListElement<Match_moveRightRule>, IMatch_moveRightRule
@@ -1554,6 +1639,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				}
 			}
 			
+			public enum moveRightRule_IdptNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
+			public int NumberOfIndependents { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getIndependentAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_moveRightRule.instance.pat_moveRightRule; } }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
@@ -1575,7 +1671,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_readZeroRule instance = new Action_readZeroRule();
-
+        
         public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.Clear();
@@ -1764,7 +1860,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_readOneRule instance = new Action_readOneRule();
-
+        
         public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.Clear();
@@ -1953,7 +2049,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_ensureMoveLeftValidRule instance = new Action_ensureMoveLeftValidRule();
-
+        
         public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.Clear();
@@ -2237,7 +2333,7 @@ label1: ;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_ensureMoveRightValidRule instance = new Action_ensureMoveRightValidRule();
-
+        
         public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.Clear();
@@ -2521,7 +2617,7 @@ label3: ;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_moveLeftRule instance = new Action_moveLeftRule();
-
+        
         public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.Clear();
@@ -2788,7 +2884,7 @@ label3: ;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_moveRightRule instance = new Action_moveRightRule();
-
+        
         public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
         {
             matches.Clear();

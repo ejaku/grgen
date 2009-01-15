@@ -1178,6 +1178,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                         matcherGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph);
 
+                        matcherGen.AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(matchingPattern.patternGraph);
+
                         matcherGen.GenerateMatcherSourceCode(source, matchingPattern, true);
 
                         if(matchingPattern is LGSPRulePattern) // normal rule

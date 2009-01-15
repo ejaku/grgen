@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private void CompleteCheckOperations(
             SearchProgramOperation currentOperation,
-            SearchProgramOperation enclosingSearchProgram,
+            SearchProgramOperation enclosingSearchProgram, // might be a negative/independent in case these are nested
             GetPartialMatchOfAlternative enclosingAlternative,
             CheckPartialMatchByNegativeOrIndependent enclosingCheckNegativeOrIndependent)
         {

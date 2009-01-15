@@ -362,6 +362,32 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="index">The position of the submatch due to alternatives to return</param>
         /// <returns>The submatch due to alternatives at the given index</returns>
         IMatch getAlternativeAt(int index);
+
+
+        //////////////////////////////////////////////////////////////////////////
+        // Independents
+
+        /// <summary>
+        /// Enumerable returning enumerator over submatches due to independents (most inefficient access)
+        /// </summary>
+        IEnumerable<IMatch> Independents { get; }
+
+        /// <summary>
+        /// Enumerator over submatches due to independents. (efficiency in between getIndependentAt and Independents)
+        /// </summary>
+        IEnumerator<IMatch> IndependentsEnumerator { get; }
+
+        /// <summary>
+        /// Number of submatches due to independents in the match
+        /// </summary>
+        int NumberOfIndependents { get; }
+
+        /// <summary>
+        /// Returns submatch due to independents at position index (most efficient access)
+        /// </summary>
+        /// <param name="index">The position of the submatch due to independents to return</param>
+        /// <returns>The submatch due to independents at the given index</returns>
+        IMatch getIndependentAt(int index);
     }
 
     /// <summary>

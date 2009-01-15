@@ -1,13 +1,13 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Thu Jan 15 21:54:21 CET 2009
+// Generated from "..\..\tests\independent\Independent.grg" on Thu Jan 15 21:54:09 CET 2009
 
 using System;
 using System.Collections.Generic;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 
-namespace de.unika.ipd.grGen.Model_Std
+namespace de.unika.ipd.grGen.Model_Independent
 {
 	//
 	// Enums
@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.Model_Std
 	// Node types
 	//
 
-	public enum NodeTypes { @Node };
+	public enum NodeTypes { @Node, @intNode };
 
 	// *** Node Node ***
 
@@ -105,8 +105,8 @@ namespace de.unika.ipd.grGen.Model_Std
 	public sealed class NodeType_Node : GRGEN_LIBGR.NodeType
 	{
 		public static NodeType_Node typeVar = new NodeType_Node();
-		public static bool[] isA = new bool[] { true, };
-		public static bool[] isMyType = new bool[] { true, };
+		public static bool[] isA = new bool[] { true, false, };
+		public static bool[] isMyType = new bool[] { true, true, };
 		public NodeType_Node() : base((int) NodeTypes.@Node)
 		{
 		}
@@ -129,23 +129,198 @@ namespace de.unika.ipd.grGen.Model_Std
 
 	}
 
+	// *** Node intNode ***
+
+	public interface IintNode : GRGEN_LIBGR.INode
+	{
+		int @val { get; set; }
+	}
+
+	public sealed class @intNode : GRGEN_LGSP.LGSPNode, IintNode
+	{
+		private static int poolLevel = 0;
+		private static @intNode[] pool = new @intNode[10];
+		
+		// explicit initializations of intNode for target intNode
+		static @intNode() {
+		}
+		
+		public @intNode() : base(NodeType_intNode.typeVar)
+		{
+			// implicit initialization, map/set creation of intNode
+			// explicit initializations of intNode for target intNode
+		}
+
+		public static NodeType_intNode TypeInstance { get { return NodeType_intNode.typeVar; } }
+
+		public override GRGEN_LIBGR.INode Clone() { return new @intNode(this); }
+
+		private @intNode(@intNode oldElem) : base(NodeType_intNode.typeVar)
+		{
+			_val = oldElem._val;
+		}
+		public static @intNode CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		{
+			@intNode node;
+			if(poolLevel == 0)
+				node = new @intNode();
+			else
+			{
+				node = pool[--poolLevel];
+				node.inhead = null;
+				node.outhead = null;
+				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of intNode
+				node.@val = 0;
+				// explicit initializations of intNode for target intNode
+			}
+			graph.AddNode(node);
+			return node;
+		}
+
+		public static @intNode CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		{
+			@intNode node;
+			if(poolLevel == 0)
+				node = new @intNode();
+			else
+			{
+				node = pool[--poolLevel];
+				node.inhead = null;
+				node.outhead = null;
+				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of intNode
+				node.@val = 0;
+				// explicit initializations of intNode for target intNode
+			}
+			graph.AddNode(node, varName);
+			return node;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+
+		private int _val;
+		public int @val
+		{
+			get { return _val; }
+			set { _val = value; }
+		}
+		public override object GetAttribute(string attrName)
+		{
+			switch(attrName)
+			{
+				case "val": return this.@val;
+			}
+			throw new NullReferenceException(
+				"The node type \"intNode\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			switch(attrName)
+			{
+				case "val": this.@val = (int) value; return;
+			}
+			throw new NullReferenceException(
+				"The node type \"intNode\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, map/set creation of intNode
+			this.@val = 0;
+			// explicit initializations of intNode for target intNode
+		}
+	}
+
+	public sealed class NodeType_intNode : GRGEN_LIBGR.NodeType
+	{
+		public static NodeType_intNode typeVar = new NodeType_intNode();
+		public static bool[] isA = new bool[] { true, true, };
+		public static bool[] isMyType = new bool[] { false, true, };
+		public static GRGEN_LIBGR.AttributeType AttributeType_val;
+		public NodeType_intNode() : base((int) NodeTypes.@intNode)
+		{
+			AttributeType_val = new GRGEN_LIBGR.AttributeType("val", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
+		}
+		public override String Name { get { return "intNode"; } }
+		public override GRGEN_LIBGR.INode CreateNode()
+		{
+			return new @intNode();
+		}
+		public override int NumAttributes { get { return 1; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
+		{
+			get
+			{
+				yield return AttributeType_val;
+			}
+		}
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		{
+			switch(name)
+			{
+				case "val" : return AttributeType_val;
+			}
+			return null;
+		}
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
+		{
+			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
+			@intNode newNode = new @intNode();
+			switch(oldNode.Type.TypeID)
+			{
+				case (int) NodeTypes.@intNode:
+					// copy attributes for: intNode
+					{
+						@IintNode old = (@IintNode) oldNode;
+						newNode.@val = old.@val;
+					}
+					break;
+			}
+			return newNode;
+		}
+
+	}
+
 	//
 	// Node model
 	//
 
-	public sealed class StdNodeModel : GRGEN_LIBGR.INodeModel
+	public sealed class IndependentNodeModel : GRGEN_LIBGR.INodeModel
 	{
-		public StdNodeModel()
+		public IndependentNodeModel()
 		{
 			NodeType_Node.typeVar.subOrSameGrGenTypes = NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_Node.typeVar,
+				NodeType_intNode.typeVar,
 			};
 			NodeType_Node.typeVar.directSubGrGenTypes = NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				NodeType_intNode.typeVar,
 			};
 			NodeType_Node.typeVar.superOrSameGrGenTypes = NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				NodeType_Node.typeVar,
 			};
 			NodeType_Node.typeVar.directSuperGrGenTypes = NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			NodeType_intNode.typeVar.subOrSameGrGenTypes = NodeType_intNode.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				NodeType_intNode.typeVar,
+			};
+			NodeType_intNode.typeVar.directSubGrGenTypes = NodeType_intNode.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			NodeType_intNode.typeVar.superOrSameGrGenTypes = NodeType_intNode.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				NodeType_intNode.typeVar,
+				NodeType_Node.typeVar,
+			};
+			NodeType_intNode.typeVar.directSuperGrGenTypes = NodeType_intNode.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				NodeType_Node.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return true; } }
@@ -156,6 +331,7 @@ namespace de.unika.ipd.grGen.Model_Std
 			switch(name)
 			{
 				case "Node" : return NodeType_Node.typeVar;
+				case "intNode" : return NodeType_intNode.typeVar;
 			}
 			return null;
 		}
@@ -165,14 +341,17 @@ namespace de.unika.ipd.grGen.Model_Std
 		}
 		private GRGEN_LIBGR.NodeType[] types = {
 			NodeType_Node.typeVar,
+			NodeType_intNode.typeVar,
 		};
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
 		private Type[] typeTypes = {
 			typeof(NodeType_Node),
+			typeof(NodeType_intNode),
 		};
 		public Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
+			NodeType_intNode.AttributeType_val,
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
 	}
@@ -437,9 +616,9 @@ namespace de.unika.ipd.grGen.Model_Std
 	// Edge model
 	//
 
-	public sealed class StdEdgeModel : GRGEN_LIBGR.IEdgeModel
+	public sealed class IndependentEdgeModel : GRGEN_LIBGR.IEdgeModel
 	{
-		public StdEdgeModel()
+		public IndependentEdgeModel()
 		{
 			EdgeType_AEdge.typeVar.subOrSameGrGenTypes = EdgeType_AEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				EdgeType_AEdge.typeVar,
@@ -519,29 +698,29 @@ namespace de.unika.ipd.grGen.Model_Std
 	// IGraphModel implementation
 	//
 
-	public sealed class StdGraphModel : GRGEN_LIBGR.IGraphModel
+	public sealed class IndependentGraphModel : GRGEN_LIBGR.IGraphModel
 	{
-		private StdNodeModel nodeModel = new StdNodeModel();
-		private StdEdgeModel edgeModel = new StdEdgeModel();
+		private IndependentNodeModel nodeModel = new IndependentNodeModel();
+		private IndependentEdgeModel edgeModel = new IndependentEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
 
-		public String ModelName { get { return "Std"; } }
+		public String ModelName { get { return "Independent"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public String MD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
+		public String MD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }
 	}
 	//
 	// IGraph/IGraphModel implementation
 	//
 
-	public class Std : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class Independent : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
-		public Std() : base(GetNextGraphName())
+		public Independent() : base(GetNextGraphName())
 		{
 			InitializeGraph(this);
 		}
@@ -554,6 +733,16 @@ namespace de.unika.ipd.grGen.Model_Std
 		public @Node CreateNodeNode(String varName)
 		{
 			return @Node.CreateNode(this, varName);
+		}
+
+		public @intNode CreateNodeintNode()
+		{
+			return @intNode.CreateNode(this);
+		}
+
+		public @intNode CreateNodeintNode(String varName)
+		{
+			return @intNode.CreateNode(this, varName);
 		}
 
 		public @Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -576,18 +765,18 @@ namespace de.unika.ipd.grGen.Model_Std
 			return @UEdge.CreateEdge(this, source, target, varName);
 		}
 
-		private StdNodeModel nodeModel = new StdNodeModel();
-		private StdEdgeModel edgeModel = new StdEdgeModel();
+		private IndependentNodeModel nodeModel = new IndependentNodeModel();
+		private IndependentEdgeModel edgeModel = new IndependentEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
 
-		public String ModelName { get { return "Std"; } }
+		public String ModelName { get { return "Independent"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public String MD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
+		public String MD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }
 	}
 }

@@ -1,3 +1,5 @@
+using Independent;
+
 rule create() : (Node, Node)
 {
 	modify
@@ -33,5 +35,54 @@ test findMultiNested() {
 		independent {
 			beg <-- . <-- end;
 		}
+	}
+}
+
+
+rule createIterated() : (intNode, Node)
+{
+	modify
+	{
+		n1:intNode --> n2:Node --> n3:Node --> n4:Node --> n5:Node;
+		n1 <-- n2 <-- n3b:Node <-- n4 <-- n5;
+		return(n1,n5);
+	}
+}
+
+pattern iteratedPath(beg:Node, end:Node)
+{
+	alternative {
+		base {
+			beg --> end;
+		}
+		recursive {
+			beg --> intermediate:Node;
+			:iteratedPath(intermediate, end);
+		}
+	}
+}
+
+pattern iteratedPathToIntNode(beg:Node)
+{
+	alternative {
+		base {
+			beg --> end:intNode;
+		}
+		recursive {
+			beg --> intermediate:Node\intNode;
+			:iteratedPathToIntNode(intermediate);
+		}
+	}
+}
+
+test findChainPlusChainToInt(beg:Node, end:Node) {
+	:iteratedPath(beg, end);
+	:iteratedPathToIntNode(end); // no match of created graph as already matched elements by iterated path can't be matched again by iterated path to int
+}
+
+test findChainPlusChainToIntIndependent(beg:Node, end:Node) {
+	:iteratedPath(beg, end);
+	independent {
+		:iteratedPathToIntNode(end); // match of created graph found as matches of iterated path to int are independent from already found matched iterated path
 	}
 }

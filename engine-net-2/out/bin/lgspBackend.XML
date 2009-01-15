@@ -911,6 +911,12 @@
             Inserts conditions into the schedule given by the operations list at their earliest possible position
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(de.unika.ipd.grGen.lgsp.PatternGraph)">
+            <summary>
+            Insert names of independents nested within the pattern graph 
+            to the matcher generation skeleton data structure pattern graph 
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherSourceCode(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,System.Boolean)">
             <summary>
             Generates the matcher source code for the given rule pattern into the given source builder
@@ -923,8 +929,8 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherSourceCode(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
             <summary>
-            Generates the matcher source code for the nested alternatives/independents
-            within the given negative pattern graph into the given source builder
+            Generates the matcher source code for the nested alternatives
+            within the given negative/independent pattern graph into the given source builder
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgram(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
@@ -960,7 +966,12 @@
             isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.generateTasksMemoryPool(de.unika.ipd.grGen.lgsp.SourceBuilder,System.String,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateIndependentsMatchObjects(de.unika.ipd.grGen.lgsp.SourceBuilder,System.String,de.unika.ipd.grGen.lgsp.PatternGraph)">
+            <summary>
+            Generates match objects of independents (one pre-allocated is part of action class)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateTasksMemoryPool(de.unika.ipd.grGen.lgsp.SourceBuilder,System.String,System.Boolean)">
             <summary>
             Generates memory pooling code for matching tasks of class given by it's name
             </summary>
@@ -1794,6 +1805,16 @@
         <member name="T:de.unika.ipd.grGen.lgsp.Alternatives_Enumerator">
             <summary>
             enumerator over submatches due to alternatives
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Independents_Enumerable">
+            <summary>
+            enumerable returning enumerator over submatches due to independents
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Independents_Enumerator">
+            <summary>
+            enumerator over submatches due to independents
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.ListElement`1">
@@ -2980,6 +3001,11 @@
             Returns name of the match interface
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MatchedIndependentVariable(System.String)">
+            <summary>
+            Returns name of the action member variable storing the matched independent
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MatchName(System.String,de.unika.ipd.grGen.lgsp.BuildMatchObjectType)">
             <summary>
             Returns name of the given element in the match class with correct match part prefix
@@ -3177,6 +3203,11 @@
             is the pattern graph a negative pattern graph?
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.isNestedInNegative">
+            <summary>
+            is the current pattern graph nested within a negative pattern graph?
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.alternative">
             <summary>
             the alternative to build
@@ -3287,7 +3318,7 @@
             Inserts code to get an incident edge from some node
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertMatchObjectBuilding(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertMatchObjectBuilding(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Boolean)">
             <summary>
             Inserts code to build the match object
             at the given position, returns position after inserted operations
@@ -3329,15 +3360,15 @@
             at the given position, returns position after inserted operations
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertPatternFound(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
-            <summary>
-            Inserts code to handle case pattern was found
-            at the given position, returns position after inserted operations
-            </summary>
-        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertCheckForSubpatternsFoundNegativeIndependent(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
             <summary>
             Inserts code to check whether the subpatterns were found and code for case there were some
+            at the given position, returns position after inserted operations
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertPatternFound(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
+            <summary>
+            Inserts code to handle case pattern was found
             at the given position, returns position after inserted operations
             </summary>
         </member>
@@ -3937,16 +3968,6 @@
             The conditions used in this pattern graph or it's nested graphs
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.Schedule">
-            <summary>
-            A schedule for this pattern graph without any sub pattern graphs.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.ScheduleIncludingNegativesAndIndependents">
-            <summary>
-            A schedule for this pattern graph including negatives and independents (and subpatterns?).   TODO
-            </summary>
-        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:])">
             <summary>
             Constructs a PatternGraph object.
@@ -3974,6 +3995,22 @@
             <param name="homomorphicEdgesGlobal">A two-dimensional array describing which pattern edge
             may be matched non-isomorphic to which pattern edge globally, i.e. the edges are contained
             in different, but locally nested patterns (alternative cases).</param>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.Schedule">
+            <summary>
+            A schedule for this pattern graph without any sub pattern graphs.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.ScheduleIncludingNegativesAndIndependents">
+            <summary>
+            A schedule for this pattern graph including negatives and independents (and subpatterns?).   TODO
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.PathPrefixesAndNamesOfNestedIndependents">
+            <summary>
+            The path prefixes and names of the independents nested within this pattern graph
+            only in top-level-patterns and alternatives, only independents not nested within negatives 
+            </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.Name">
             <summary>

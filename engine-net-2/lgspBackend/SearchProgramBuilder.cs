@@ -48,6 +48,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraph = rulePattern.patternGraph;
             isNegative = false;
+            isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, false);
             negativeIndependentNames = new List<string>();
             negLevelNeverAboveMaxNegLevel = computeMaxNegLevel(rulePattern.patternGraph) <= (int) LGSPElemFlags.MAX_NEG_LEVEL;
@@ -131,6 +132,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraph = matchingPattern.patternGraph;
             isNegative = false;
+            isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, true);
             negativeIndependentNames = new List<string>();
             negLevelNeverAboveMaxNegLevel = false;
@@ -329,6 +331,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// is the pattern graph a negative pattern graph?
         /// </summary>
         private bool isNegative;
+
+        /// <summary>
+        /// is the current pattern graph nested within a negative pattern graph?
+        /// </summary>
+        private bool isNestedInNegative;
 
         /// <summary>
         /// the alternative to build
@@ -1063,8 +1070,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             PatternGraph enclosingPatternGraph = patternGraph;
             bool enclosingIsNegative = isNegative;
+            bool enclosingIsNestedInNegative = isNestedInNegative;
             patternGraph = negativePatternGraph;
             isNegative = true;
+            isNestedInNegative = true; 
             negativeIndependentNames.Add(negativePatternGraph.name);
 
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix();
@@ -1093,6 +1102,7 @@ namespace de.unika.ipd.grGen.lgsp
             negativeIndependentNames.RemoveAt(negativeIndependentNames.Count - 1);
             patternGraph = enclosingPatternGraph;
             isNegative = enclosingIsNegative;
+            isNestedInNegative = enclosingIsNestedInNegative;
 
             //---------------------------------------------------------------------------
             // build next operation
@@ -1431,13 +1441,26 @@ namespace de.unika.ipd.grGen.lgsp
         /// Inserts code to build the match object
         /// at the given position, returns position after inserted operations
         /// </summary>
-        private SearchProgramOperation insertMatchObjectBuilding(SearchProgramOperation insertionPoint)
+        private SearchProgramOperation insertMatchObjectBuilding(
+            SearchProgramOperation insertionPoint,
+            bool isIndependent)
         {
+            String matchObjectName = isIndependent ? NamesOfEntities.MatchedIndependentVariable(patternGraph.pathPrefix + patternGraph.name)
+                : "match";
             String enumPrefix = patternGraph.pathPrefix + patternGraph.name + "_";
             foreach(PatternVariable var in patternGraph.variables)
             {
-                BuildMatchObject buildMatch = new BuildMatchObject(BuildMatchObjectType.Variable, var.Type.Name,
-                    var.UnprefixedName, var.Name, rulePatternClassName, enumPrefix, -1);
+                BuildMatchObject buildMatch = 
+                    new BuildMatchObject(
+                        BuildMatchObjectType.Variable,
+                        var.Type.Name,
+                        var.UnprefixedName,
+                        var.Name,
+                        rulePatternClassName, 
+                        enumPrefix, 
+                        matchObjectName,
+                        -1
+                    );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
@@ -1450,6 +1473,7 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.nodes[i].Name,
                         rulePatternClassName,
                         enumPrefix,
+                        matchObjectName,
                         -1
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
@@ -1464,6 +1488,7 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.edges[i].Name,
                         rulePatternClassName,
                         enumPrefix,
+                        matchObjectName,
                         -1
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
@@ -1480,6 +1505,7 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.embeddedGraphs[i].name,
                         rulePatternClassName,
                         enumPrefix,
+                        matchObjectName,
                         -1
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
@@ -1494,9 +1520,25 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.alternatives[i].name,
                         rulePatternClassName,
                         enumPrefix,
+                        matchObjectName,
                         patternGraph.embeddedGraphs.Length
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
+            }
+            if (patternGraph.PathPrefixesAndNamesOfNestedIndependents != null)
+            {
+                foreach (Pair<String,String> pathPrefixAndName in patternGraph.PathPrefixesAndNamesOfNestedIndependents)
+                {
+                    BuildMatchObject buildMatch =
+                    new BuildMatchObject(
+                        BuildMatchObjectType.Independent,
+                        pathPrefixAndName.snd,
+                        pathPrefixAndName.fst + pathPrefixAndName.snd,
+                        rulePatternClassName,
+                        matchObjectName
+                    );
+                    insertionPoint = insertionPoint.Append(buildMatch);
+                }
             }
 
             return insertionPoint;
@@ -1646,7 +1688,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- ---- fill the match object with the candidates 
             // ---- ---- which have passed all the checks for being a match
-            insertionPoint = insertMatchObjectBuilding(insertionPoint);
+            insertionPoint = insertMatchObjectBuilding(insertionPoint, false);
 
             // ---- nesting level up
             insertionPoint = continuationPointAfterLeafMatched;
@@ -1767,7 +1809,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- ---- fill the match object with the candidates 
             // ---- ---- which have passed all the checks for being a match
-            insertionPoint = insertMatchObjectBuilding(insertionPoint);
+            insertionPoint = insertMatchObjectBuilding(insertionPoint, false);
 
             // ---- nesting level up
             insertionPoint = continuationPointAfterPatternAndSubpatternsMatched;
@@ -1784,41 +1826,6 @@ namespace de.unika.ipd.grGen.lgsp
 
             // nesting level up
             insertionPoint = continuationPointAfterSubpatternsFound;
-
-            return insertionPoint;
-        }
-
-        /// <summary>
-        /// Inserts code to handle case pattern was found
-        /// at the given position, returns position after inserted operations
-        /// </summary>
-        private SearchProgramOperation insertPatternFound(SearchProgramOperation insertionPoint)
-        {
-            // build the pattern was matched operation
-            PositivePatternWithoutSubpatternsMatched patternMatched =
-                new PositivePatternWithoutSubpatternsMatched(rulePatternClassName, patternGraph.name);
-            SearchProgramOperation continuationPoint =
-                insertionPoint.Append(patternMatched);
-            patternMatched.MatchBuildingOperations =
-                new SearchProgramList(patternMatched);
-            insertionPoint = patternMatched.MatchBuildingOperations;
-
-            // ---- fill the match object with the candidates 
-            // ---- which have passed all the checks for being a match
-            insertionPoint = insertMatchObjectBuilding(insertionPoint);
-
-            // ---- nesting level up
-            insertionPoint = continuationPoint;
-
-            // check whether to continue the matching process
-            // or abort because the maximum desired number of maches was reached
-            CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
-#if NO_ADJUST_LIST_HEADS
-                new CheckContinueMatchingMaximumMatchesReached(false, false);
-#else
-                new CheckContinueMatchingMaximumMatchesReached(false, true);
-#endif
-            insertionPoint = insertionPoint.Append(checkMaximumMatches);
 
             return insertionPoint;
         }
@@ -1858,8 +1865,16 @@ namespace de.unika.ipd.grGen.lgsp
                 // ---- check failed, some subpattern matches found, independent pattern and subpatterns were matched
                 // build the independent pattern was matched operation
                 IndependentPatternMatched patternMatched = new IndependentPatternMatched(
-                    NegativeIndependentPatternMatchedType.ContainingSubpatterns, negativeIndependentNamePrefix);
+                    NegativeIndependentPatternMatchedType.ContainingSubpatterns,
+                    negativeIndependentNamePrefix);
                 insertionPoint = insertionPoint.Append(patternMatched);
+
+                if (!isNestedInNegative) // no match object needed(/available) if independent is part of negative
+                {
+                    // ---- fill the match object with the candidates 
+                    // ---- which have passed all the checks for being a match
+                    insertionPoint = insertMatchObjectBuilding(insertionPoint, true);
+                }
 
                 // ---- continue the matching process outside
                 CheckContinueMatchingOfIndependentSucceeded continueMatching =
@@ -1869,6 +1884,41 @@ namespace de.unika.ipd.grGen.lgsp
 
             // nesting level up
             insertionPoint = continuationPointAfterSubpatternsFound;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to handle case pattern was found
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertPatternFound(SearchProgramOperation insertionPoint)
+        {
+            // build the pattern was matched operation
+            PositivePatternWithoutSubpatternsMatched patternMatched =
+                new PositivePatternWithoutSubpatternsMatched(rulePatternClassName, patternGraph.name);
+            SearchProgramOperation continuationPoint =
+                insertionPoint.Append(patternMatched);
+            patternMatched.MatchBuildingOperations =
+                new SearchProgramList(patternMatched);
+            insertionPoint = patternMatched.MatchBuildingOperations;
+
+            // ---- fill the match object with the candidates 
+            // ---- which have passed all the checks for being a match
+            insertionPoint = insertMatchObjectBuilding(insertionPoint, false);
+
+            // ---- nesting level up
+            insertionPoint = continuationPoint;
+
+            // check whether to continue the matching process
+            // or abort because the maximum desired number of maches was reached
+            CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
+#if NO_ADJUST_LIST_HEADS
+                new CheckContinueMatchingMaximumMatchesReached(false, false);
+#else
+                new CheckContinueMatchingMaximumMatchesReached(false, true);
+#endif
+            insertionPoint = insertionPoint.Append(checkMaximumMatches);
 
             return insertionPoint;
         }
@@ -1897,8 +1947,16 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // build the independent pattern was matched operation
                 IndependentPatternMatched patternMatched = new IndependentPatternMatched(
-                    NegativeIndependentPatternMatchedType.WithoutSubpatterns, negativeIndependentNamePrefix);
+                    NegativeIndependentPatternMatchedType.WithoutSubpatterns,
+                    negativeIndependentNamePrefix);
                 insertionPoint = insertionPoint.Append(patternMatched);
+
+                if (!isNestedInNegative) // no match object needed(/available) if independent is part of negative
+                {
+                    // fill the match object with the candidates 
+                    // which have passed all the checks for being a match
+                    insertionPoint = insertMatchObjectBuilding(insertionPoint, true);
+                }
 
                 // continue the matching process outside
                 CheckContinueMatchingOfIndependentSucceeded continueMatching =

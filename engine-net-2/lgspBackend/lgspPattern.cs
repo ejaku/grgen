@@ -532,16 +532,6 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternCondition[] Conditions;
 
         /// <summary>
-        /// A schedule for this pattern graph without any sub pattern graphs.
-        /// </summary>
-        public ScheduledSearchPlan Schedule;
-
-        /// <summary>
-        /// A schedule for this pattern graph including negatives and independents (and subpatterns?).   TODO
-        /// </summary>
-        public ScheduledSearchPlan ScheduleIncludingNegativesAndIndependents;
-
-        /// <summary>
         /// Constructs a PatternGraph object.
         /// </summary>
         /// <param name="name">The name of the pattern graph.</param>
@@ -591,6 +581,25 @@ namespace de.unika.ipd.grGen.lgsp
             this.homomorphicNodesGlobal = homomorphicNodesGlobal;
             this.homomorphicEdgesGlobal = homomorphicEdgesGlobal;
         }
+
+
+        // -------- intermdiate results of matcher generation ----------------------------------
+
+        /// <summary>
+        /// A schedule for this pattern graph without any sub pattern graphs.
+        /// </summary>
+        public ScheduledSearchPlan Schedule;
+
+        /// <summary>
+        /// A schedule for this pattern graph including negatives and independents (and subpatterns?).   TODO
+        /// </summary>
+        public ScheduledSearchPlan ScheduleIncludingNegativesAndIndependents;
+
+        /// <summary>
+        /// The path prefixes and names of the independents nested within this pattern graph
+        /// only in top-level-patterns and alternatives, only independents not nested within negatives 
+        /// </summary>
+        public List<Pair<String,String>> PathPrefixesAndNamesOfNestedIndependents;
     }
 
     /// <summary>

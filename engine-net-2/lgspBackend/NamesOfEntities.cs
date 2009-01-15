@@ -122,17 +122,25 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Returns name of the match class
         /// </summary>
-        public static string MatchClassName(string rulePatternName)
+        public static string MatchClassName(string patternGraphName)
         {
-            return "Match_" + rulePatternName;
+            return "Match_" + patternGraphName;
         }
 
         /// <summary>
         /// Returns name of the match interface
         /// </summary>
-        public static string MatchInterfaceName(string rulePatternName)
+        public static string MatchInterfaceName(string patternGraphName)
         {
-            return "IMatch_" + rulePatternName;
+            return "IMatch_" + patternGraphName;
+        }
+
+        /// <summary>
+        /// Returns name of the action member variable storing the matched independent
+        /// </summary>
+        public static string MatchedIndependentVariable(string patternGraphName)
+        {
+            return "matched_independent_" + patternGraphName;
         }
 
         /// <summary>
@@ -147,6 +155,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case BuildMatchObjectType.Variable: return "var_" + unprefixedElementName;
                 case BuildMatchObjectType.Subpattern: return unprefixedElementName;
                 case BuildMatchObjectType.Alternative: return unprefixedElementName;
+                case BuildMatchObjectType.Independent: return unprefixedElementName;
                 default: return "INTERNAL ERROR";
             }
         }

@@ -1314,6 +1314,33 @@ exitSecondLoop: ;
         }
 
         /// <summary>
+        /// Insert names of independents nested within the pattern graph 
+        /// to the matcher generation skeleton data structure pattern graph 
+        /// </summary>
+        public void AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(
+            PatternGraph patternGraph) 
+        {
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                // annotate path prefix and name
+                if(patternGraph.PathPrefixesAndNamesOfNestedIndependents == null)
+                    patternGraph.PathPrefixesAndNamesOfNestedIndependents = new List<Pair<String, String>>();
+                patternGraph.PathPrefixesAndNamesOfNestedIndependents.Add(new Pair<String,String>(idpt.pathPrefix, idpt.name));
+                // handle nested independents
+                AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(idpt);
+            }
+
+            // alternative cases represent new annotation point
+            foreach (Alternative alt in patternGraph.alternatives)
+            {
+                foreach (PatternGraph altCase in alt.alternativeCases)
+                {
+                    AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(altCase);
+                }
+            }
+        }
+
+        /// <summary>
         /// Generates the matcher source code for the given rule pattern into the given source builder
         /// </summary>
         public void GenerateMatcherSourceCode(SourceBuilder sb,
@@ -1381,8 +1408,8 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates the matcher source code for the nested alternatives/independents
-        /// within the given negative pattern graph into the given source builder
+        /// Generates the matcher source code for the nested alternatives
+        /// within the given negative/independent pattern graph into the given source builder
         /// </summary>
         public void GenerateMatcherSourceCode(SourceBuilder sb,
             LGSPMatchingPattern matchingPattern, PatternGraph negOrIdpt, bool isInitialStatic)
@@ -1531,8 +1558,8 @@ exitSecondLoop: ;
                 
             String namePrefix = (isInitialStatic ? "" : "Dyn") + "Action_";
             String className = namePrefix + rulePattern.name;
-            String rulePatternTypeName = rulePattern.GetType().Name;
-            String matchName = rulePatternTypeName + "." + "Match_" + rulePattern.name;
+            String rulePatternClassName = rulePattern.GetType().Name;
+            String matchName = rulePatternClassName + "." + "Match_" + rulePattern.name;
 
             sb.AppendFront("public class " + className + " : GRGEN_LGSP.LGSPAction\n");
             sb.AppendFront("{\n");
@@ -1540,7 +1567,7 @@ exitSecondLoop: ;
 
             sb.AppendFront("public " + className + "() {\n");
             sb.Indent(); // method body level
-            sb.AppendFront("rulePattern = " + rulePatternTypeName + ".Instance;\n");
+            sb.AppendFront("rulePattern = " + rulePatternClassName + ".Instance;\n");
             sb.AppendFront("patternGraph = rulePattern.patternGraph;\n");
             sb.AppendFront("DynamicMatch = myMatch;\n");
             sb.AppendFront("matches = new GRGEN_LGSP.LGSPMatchesList<" + matchName + ">(this);\n");
@@ -1552,8 +1579,12 @@ exitSecondLoop: ;
             if (isInitialStatic)
             {
                 sb.AppendFront("public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }\n");
-                sb.AppendFront("private static " + className + " instance = new " + className + "();\n\n");
+                sb.AppendFront("private static " + className + " instance = new " + className + "();\n");
             }
+
+            GenerateIndependentsMatchObjects(sb, rulePatternClassName, patternGraph);
+
+            sb.AppendFront("\n");
         }
 
         /// <summary>
@@ -1568,6 +1599,7 @@ exitSecondLoop: ;
 
             String namePrefix = (isInitialStatic ? "" : "Dyn") + "PatternAction_";
             String className = namePrefix + matchingPattern.name;
+            String matchingPatternClassName = matchingPattern.GetType().Name;
 
             sb.AppendFront("public class " + className + " : GRGEN_LGSP.LGSPSubpatternAction\n");
             sb.AppendFront("{\n");
@@ -1576,11 +1608,11 @@ exitSecondLoop: ;
             sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
             sb.Indent(); // method body level
             sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
-            sb.AppendFront("patternGraph = " + matchingPattern.GetType().Name + ".Instance.patternGraph;\n");
+            sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
-            generateTasksMemoryPool(sb, className, false);
+            GenerateTasksMemoryPool(sb, className, false);
 
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
             {
@@ -1598,6 +1630,9 @@ exitSecondLoop: ;
                     sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.name + ";\n");
                 }
             }
+
+            GenerateIndependentsMatchObjects(sb, matchingPatternClassName, patternGraph);
+
             sb.AppendFront("\n");
         }
 
@@ -1625,29 +1660,57 @@ exitSecondLoop: ;
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
-            generateTasksMemoryPool(sb, className, true);
+            GenerateTasksMemoryPool(sb, className, true);
 
             Dictionary<string, bool> neededNodes = new Dictionary<string,bool>();
             Dictionary<string, bool> neededEdges = new Dictionary<string,bool>();
-            foreach (PatternGraph pg in alternative.alternativeCases)
+            foreach (PatternGraph altCase in alternative.alternativeCases)
             {
-                CalculateNeededElements(pg, neededNodes, neededEdges);
+                CalculateNeededElements(altCase, neededNodes, neededEdges);
             }
-            foreach(KeyValuePair<string, bool> node in neededNodes)
+            foreach (KeyValuePair<string, bool> node in neededNodes)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.Key + ";\n");
             }
-            foreach(KeyValuePair<string, bool> edge in neededEdges)
+            foreach (KeyValuePair<string, bool> edge in neededEdges)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.Key + ";\n");
             }
+
+            foreach (PatternGraph altCase in alternative.alternativeCases)
+            {
+                GenerateIndependentsMatchObjects(sb, matchingPattern.GetType().Name, altCase);
+            }
+
             sb.AppendFront("\n");
+        }
+
+        /// <summary>
+        /// Generates match objects of independents (one pre-allocated is part of action class)
+        /// </summary>
+        private void GenerateIndependentsMatchObjects(SourceBuilder sb,
+            string matchingPatternClassName, PatternGraph patternGraph)
+        {
+            if (patternGraph.PathPrefixesAndNamesOfNestedIndependents != null)
+            {
+                foreach (Pair<String, String> independentName in patternGraph.PathPrefixesAndNamesOfNestedIndependents)
+                {
+                    sb.AppendFrontFormat("private {0} {1} = new {0}();",
+                        matchingPatternClassName + "." + NamesOfEntities.MatchClassName(independentName.fst + independentName.snd),
+                        NamesOfEntities.MatchedIndependentVariable(independentName.fst + independentName.snd));
+                }
+            }
+
+            foreach (PatternGraph idpt in patternGraph.IndependentPatternGraphs)
+            {
+                GenerateIndependentsMatchObjects(sb, matchingPatternClassName, idpt);
+            }
         }
 
         /// <summary>
         /// Generates memory pooling code for matching tasks of class given by it's name
         /// </summary>
-        private void generateTasksMemoryPool(SourceBuilder sb, String className, bool isAlternative)
+        private void GenerateTasksMemoryPool(SourceBuilder sb, String className, bool isAlternative)
         {
             // getNewTask method handing out new task from pool or creating task if pool is empty
             if (isAlternative)

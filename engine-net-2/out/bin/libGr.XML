@@ -2047,6 +2047,13 @@
             <param name="index">The position of the submatch due to alternatives to return</param>
             <returns>The submatch due to alternatives at the given index</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getIndependentAt(System.Int32)">
+            <summary>
+            Returns submatch due to independents at position index (most efficient access)
+            </summary>
+            <param name="index">The position of the submatch due to independents to return</param>
+            <returns>The submatch due to independents at the given index</returns>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.Pattern">
             <summary>
             The match object represents a match of the pattern given by this member.
@@ -2126,6 +2133,21 @@
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.NumberOfAlternatives">
             <summary>
             Number of submatches due to alternatives in the match
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.Independents">
+            <summary>
+            Enumerable returning enumerator over submatches due to independents (most inefficient access)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.IndependentsEnumerator">
+            <summary>
+            Enumerator over submatches due to independents. (efficiency in between getIndependentAt and Independents)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.NumberOfIndependents">
+            <summary>
+            Number of submatches due to independents in the match
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IMatches">
