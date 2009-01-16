@@ -1,0 +1,41 @@
+node class N {
+	const b1 : boolean;
+	const b2 : boolean = true;
+	
+	const d1 : double = 9.9999901;
+	const d2 : double;
+	
+	const f1 : float;
+	const f2 : float = 3.14f;
+	
+	const i1 : int;
+	const i2 : int = 9;
+	
+	const o1 : object;
+	const o2 : object = null;
+	      o3 : object = null;
+	
+	const s1 : string;
+	const s2 : string = "String const";
+}
+
+edge class E {
+	const b1 : boolean;
+	const b2 : boolean = true;
+	
+	const d1 : double = 9.9999901;
+	const d2 : double;
+	
+	const f1 : float;
+	const f2 : float = 3.14f;
+	
+	const i1 : int;
+	const i2 : int = 9;
+	
+	const o1 : object;
+	const o2 : object = null;
+	      o3 : object = null;
+	
+	const s1 : string;
+	const s2 : string = "String const";
+}
