@@ -559,6 +559,16 @@ namespace de.unika.ipd.grGen.libGr
         public abstract bool IsNodeType { get; }
 
         /// <summary>
+        /// True, if this type is an abstract element type.
+        /// </summary>
+        public abstract bool IsAbstract { get; }
+
+        /// <summary>
+        /// True, if this type is a const element type.
+        /// </summary>
+        public abstract bool IsConst { get; }
+
+        /// <summary>
         /// The number of attributes of this type.
         /// </summary>
         public abstract int NumAttributes { get; }
@@ -843,6 +853,16 @@ namespace de.unika.ipd.grGen.libGr
         public Type Type { [DebuggerStepThrough] get { return type; } }
 
         public override bool IsNodeType
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        public override bool IsConst
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        public override bool IsAbstract
         {
             get { throw new Exception("The method or operation is not implemented."); }
         }

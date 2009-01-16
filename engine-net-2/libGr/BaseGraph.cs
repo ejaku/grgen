@@ -1072,6 +1072,8 @@ namespace de.unika.ipd.grGen.libGr
 
             public override string Name { get { return "__VirtualType__"; } }
             public override bool IsA(GrGenType other) { return other is VirtualNodeType; }
+            public override bool IsAbstract { get { return true; } }
+            public override bool IsConst { get { return true; } }
             public override int NumAttributes { get { return 0; } }
             public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
             public override AttributeType GetAttributeType(String name) { return null; }
