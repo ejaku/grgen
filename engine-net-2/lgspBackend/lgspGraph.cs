@@ -278,7 +278,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             throw new Exception("Not implemented yet!");
             //return new LGSPUndoAttributeChanged(oldToNewMap[_elem], _attrType, _oldValue, _newValue);
-            return null;
         }
     }
 

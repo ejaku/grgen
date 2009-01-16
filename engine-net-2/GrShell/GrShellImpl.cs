@@ -715,7 +715,12 @@ namespace de.unika.ipd.grGen.grShell
                 nodeType = curShellGraph.Graph.Model.NodeModel.GetType(elemDef.TypeName);
                 if(nodeType == null)
                 {
-                    Console.WriteLine("Unknown node type: {0}", elemDef.TypeName);
+                    Console.WriteLine("Unknown node type: \"" + elemDef.TypeName + "\"");
+                    return null;
+                }
+                if(nodeType.IsAbstract)
+                {
+                    Console.WriteLine("Abstract node type \"" + elemDef.TypeName + "\" may not be instantiated!");
                     return null;
                 }
             }
@@ -771,7 +776,12 @@ namespace de.unika.ipd.grGen.grShell
                 edgeType = curShellGraph.Graph.Model.EdgeModel.GetType(elemDef.TypeName);
                 if(edgeType == null)
                 {
-                    Console.WriteLine("Unknown edge type: {0}", elemDef.TypeName);
+                    Console.WriteLine("Unknown edge type: \"" + elemDef.TypeName + "\"");
+                    return null;
+                }
+                if(edgeType.IsAbstract)
+                {
+                    Console.WriteLine("Abstract edge type \"" + elemDef.TypeName + "\" may not be instantiated!");
                     return null;
                 }
             }
