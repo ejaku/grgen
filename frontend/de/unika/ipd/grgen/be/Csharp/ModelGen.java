@@ -706,43 +706,49 @@ set_init_loop:
 		if(rootTypes.contains(type.getIdent().toString())) // skip root types, they don't possess attributes
 			return;
 		sb.append("\t\t// explicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
+
+		HashSet<Entity> initializedConstMembers = new HashSet<Entity>(); 		
 		
 		// init const members of primitive value with explicit initialization
 member_init_loop:
 		for(MemberInit memberInit : type.getMemberInits()) {
-			if(!memberInit.getMember().isConst())
+			Entity member = memberInit.getMember(); 
+			if(!member.isConst())
 				continue;
 			
 			if(type!=targetType) { // don't generate superclass init if target type contains own init
 				for(MemberInit tmi : targetType.getMemberInits()) {
-					if(memberInit.getMember() == tmi.getMember())
+					if(member == tmi.getMember())
 						continue member_init_loop;
 				}
 			}
 			
-			String attrType = formatAttributeType(memberInit.getMember());
-			String attrName = formatIdentifiable(memberInit.getMember());
+			String attrType = formatAttributeType(member);
+			String attrName = formatIdentifiable(member);
 			sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + " = ");
 			genExpression(sb, memberInit.getExpression(), null);
 			sb.append(";\n");
+			
+			initializedConstMembers.add(member);
 		}
 		
 		// init const members of map value with explicit initialization
 map_init_loop:
 		for(MapInit mapInit : type.getMapInits()) {
-			if(!mapInit.getMember().isConst())
+			Entity member = mapInit.getMember();
+			if(!member.isConst())
 				continue;
 			
 			if(type!=targetType) { // don't generate superclass init if target type contains own init
 				for(MapInit tmi : targetType.getMapInits()) {
-					if(mapInit.getMember() == tmi.getMember())
+					if(member == tmi.getMember())
 						continue map_init_loop;
 				}
 			}
 			
-			String attrType = formatAttributeType(mapInit.getMember());
-			String attrName = formatIdentifiable(mapInit.getMember());
-			sb.append("\t\tprivate static readonly " + attrType + "_" + attrName + " = " +
+			String attrType = formatAttributeType(member);
+			String attrName = formatIdentifiable(member);
+			sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + " = " +
 					"new " + attrType + "();\n");
 			staticInitializers.add("init_" + attrName);
 			sb.append("\t\tstatic void init_" + attrName + "() {\n");
@@ -756,24 +762,27 @@ map_init_loop:
 				sb.append(";\n");
 			}
 			sb.append("\t\t}\n");
+			
+			initializedConstMembers.add(member);
 		}
 		
 		// init const members of set value with explicit initialization
 set_init_loop:
 		for(SetInit setInit : type.getSetInits()) {
-			if(!setInit.getMember().isConst())
+			Entity member = setInit.getMember();
+			if(!member.isConst())
 				continue;
 			
 			if(type!=targetType) { // don't generate superclass init if target type contains own init
 				for(SetInit tsi : targetType.getSetInits()) {
-					if(setInit.getMember() == tsi.getMember())
+					if(member == tsi.getMember())
 						continue set_init_loop;
 				}
 			}
 			
-			String attrType = formatAttributeType(setInit.getMember());
-			String attrName = formatIdentifiable(setInit.getMember());
-			sb.append("\t\tprivate static readonly " + attrType + "_" + attrName + " = " +
+			String attrType = formatAttributeType(member);
+			String attrName = formatIdentifiable(member);
+			sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + " = " +
 					"new " + attrType + "();\n");
 			staticInitializers.add("init_" + attrName);
 			sb.append("\t\tstatic void init_" + attrName + "() {\n");
@@ -785,6 +794,25 @@ set_init_loop:
 				sb.append("] = null;\n");
 			}
 			sb.append("\t\t}\n");
+			
+			initializedConstMembers.add(member);
+		}
+		
+		sb.append("\t\t// implicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
+		
+		for(Entity member : type.getMembers()) {
+			if(!member.isConst()) continue;
+			if(initializedConstMembers.contains(member)) continue;
+
+			Type memberType = member.getType(); 
+			String attrType = formatAttributeType(member);
+			String attrName = formatIdentifiable(member);
+			
+			if(memberType instanceof MapType || memberType instanceof SetType)
+				sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + " = " +
+						"new " + attrType + "();\n");
+			else
+				sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + ";\n");
 		}
 	}
 	

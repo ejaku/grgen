@@ -17,6 +17,14 @@ node class N {
 	
 	const s1 : string;
 	const s2 : string = "String const";
+	
+	const mis1 : map<int, string>;
+	const mis2 : map<int, string> = {
+		7 -> "blub"
+	};
+	
+	const si1 : set<int>;
+	const si2 : set<int> = { 6, 8, 9 };
 }
 
 edge class E {
@@ -38,4 +46,12 @@ edge class E {
 	
 	const s1 : string;
 	const s2 : string = "String const";
+
+	const mis1 : map<int, string>;
+	const mis2 : map<int, string> = {
+		7 -> "blub"
+	};
+	
+	const si1 : set<int>;
+	const si2 : set<int> = { 6, 8, 9 };
 }
