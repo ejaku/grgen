@@ -477,6 +477,10 @@ public abstract class CSharpBase {
 				genExpression(sb, cast.getExpression(), modifyGenerationState);
 				sb.append(".ToString()");
 			}
+			else if(typeName == "object") {
+				// no cast needed
+				genExpression(sb, cast.getExpression(), modifyGenerationState);
+			}
 			else {
 				sb.append("((" + typeName  + ") ");
 				genExpression(sb, cast.getExpression(), modifyGenerationState);
@@ -693,6 +697,7 @@ public abstract class CSharpBase {
 			case Type.IS_FLOAT: typeName = "float"; break;
 			case Type.IS_DOUBLE: typeName = "double"; break;
 			case Type.IS_BOOLEAN: typeName = "bool"; break;
+			case Type.IS_OBJECT: typeName = "object"; break;
 			default:
 				throw new UnsupportedOperationException(
 					"This is either a forbidden cast, which should have been " +

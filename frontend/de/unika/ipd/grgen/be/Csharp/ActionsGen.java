@@ -1080,9 +1080,15 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if(expr instanceof Cast) {
 			Cast cast = (Cast) expr;
-			sb.append("new GRGEN_EXPR.Cast(\"" + getTypeNameForCast(cast) + "\", ");
-			genExpressionTree(sb, cast.getExpression(), className, pathPrefix, alreadyDefinedEntityToName);
-			sb.append(")");
+			String typeName = getTypeNameForCast(cast);
+			if(typeName == "object") {
+				// no cast needed
+				genExpressionTree(sb, cast.getExpression(), className, pathPrefix, alreadyDefinedEntityToName);
+			} else {
+				sb.append("new GRGEN_EXPR.Cast(\"" + typeName + "\", ");
+				genExpressionTree(sb, cast.getExpression(), className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(")");
+			}
 		}
 		else if(expr instanceof VariableExpression) {
 			Variable var = ((VariableExpression) expr).getVariable();
