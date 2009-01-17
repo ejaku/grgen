@@ -420,7 +420,7 @@ namespace spBench
                 case SearchOperationType.ImplicitTarget: typeStr = "IT"; break;
                 case SearchOperationType.Lookup: typeStr = " *"; break;
                 case SearchOperationType.MaybePreset: typeStr = " p"; break;
-                case SearchOperationType.NegPreset: typeStr = "np"; break;
+                case SearchOperationType.NegIdptPreset: typeStr = "np"; break;
             }
 
             sw.WriteLine("edge:{{sourcename:\"{0}\" targetname:\"{1}\" label:\"{2} / (loc {3:0.00} split {4:0.00}) \"{5}}}",
@@ -873,7 +873,7 @@ namespace spBench
                 case SearchOperationType.ImplicitTarget: typeStr = "-" + src.PatternElement.Name + "->" + tgt.PatternElement.Name; break;
                 case SearchOperationType.Lookup: typeStr = "*" + tgt.PatternElement.Name; break;
                 case SearchOperationType.MaybePreset: typeStr = "p" + tgt.PatternElement.Name; break;
-                case SearchOperationType.NegPreset: typeStr = "np" + tgt.PatternElement.Name; break;
+                case SearchOperationType.NegIdptPreset: typeStr = "np" + tgt.PatternElement.Name; break;
                 case SearchOperationType.Condition:
                     typeStr = " ?(" + String.Join(",", ((PatternCondition) op.Element).NeededNodes) + ")("
                         + String.Join(",", ((PatternCondition) op.Element).NeededEdges) + ")";
@@ -933,7 +933,7 @@ namespace spBench
                 {
                     foreach(SearchPlanEdge edge in sp.Root.OutgoingEdges)
                     {
-                        if(edge.Type == SearchOperationType.NegPreset)
+                        if(edge.Type == SearchOperationType.NegIdptPreset)
                             edge.Target.Visited = true;
                     }
                 }
@@ -943,7 +943,7 @@ namespace spBench
 
                 ctx.MatchGen.AppendHomomorphyInformation(ssp);
                 ((PatternGraph) ctx.Action.RulePattern.PatternGraph).Schedule = ssp;
-                ctx.MatchGen.MergeNegativeSchedulesIntoPositiveSchedules(ctx.Action.patternGraph);
+                ctx.MatchGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(ctx.Action.patternGraph);
 
 #if DUMP_MATCHERPROGRAMS
                 String outputName = "test.cs";
@@ -1253,7 +1253,7 @@ namespace spBench
 
                         foreach(SearchPlanEdge rootEdge in negCtx.SP.Root.OutgoingEdges)
                         {
-                            if(rootEdge.Type != SearchOperationType.NegPreset) continue;
+                            if(rootEdge.Type != SearchOperationType.NegIdptPreset) continue;
                             foreach(SearchPlanEdge outEdge in rootEdge.Target.OutgoingEdges)
                             {
                                 negAvailEdges.Add(outEdge);
@@ -1264,7 +1264,7 @@ namespace spBench
                         if(nextNegLGSPIndex >= 0)   // implies that negLGSPSP is non-null
                         {
                             while(nextNegLGSPIndex < negLGSPSSP.Operations.Length
-                                    && negLGSPSSP.Operations[nextNegLGSPIndex].Type == SearchOperationType.NegPreset)
+                                    && negLGSPSSP.Operations[nextNegLGSPIndex].Type == SearchOperationType.NegIdptPreset)
                                 nextNegLGSPIndex++;
                         }
 
