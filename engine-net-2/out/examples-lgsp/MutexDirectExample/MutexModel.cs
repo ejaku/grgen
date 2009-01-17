@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Thu Jan 15 21:54:13 CET 2009
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sat Jan 17 01:17:19 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -115,6 +115,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return new @Node();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -141,6 +143,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private static @Process[] pool = new @Process[10];
 		
 		// explicit initializations of Process for target Process
+		// implicit initializations of Process for target Process
 		static @Process() {
 		}
 		
@@ -229,6 +232,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return new @Process();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -255,6 +260,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private static @Resource[] pool = new @Resource[10];
 		
 		// explicit initializations of Resource for target Resource
+		// implicit initializations of Resource for target Resource
 		static @Resource() {
 		}
 		
@@ -343,6 +349,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return new @Resource();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -462,6 +470,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
+		public override bool IsAbstract { get { return true; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -571,6 +581,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return new @Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -681,6 +693,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return new @UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -707,6 +721,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private static @next[] pool = new @next[10];
 		
 		// explicit initializations of next for target next
+		// implicit initializations of next for target next
 		static @next() {
 		}
 		
@@ -799,6 +814,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return new @next((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -825,6 +842,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private static @blocked[] pool = new @blocked[10];
 		
 		// explicit initializations of blocked for target blocked
+		// implicit initializations of blocked for target blocked
 		static @blocked() {
 		}
 		
@@ -917,6 +935,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return new @blocked((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -943,6 +963,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private static @held_by[] pool = new @held_by[10];
 		
 		// explicit initializations of held_by for target held_by
+		// implicit initializations of held_by for target held_by
 		static @held_by() {
 		}
 		
@@ -1035,6 +1056,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return new @held_by((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1061,6 +1084,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private static @token[] pool = new @token[10];
 		
 		// explicit initializations of token for target token
+		// implicit initializations of token for target token
 		static @token() {
 		}
 		
@@ -1153,6 +1177,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return new @token((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1179,6 +1205,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private static @release[] pool = new @release[10];
 		
 		// explicit initializations of release for target release
+		// implicit initializations of release for target release
 		static @release() {
 		}
 		
@@ -1271,6 +1298,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return new @release((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1297,6 +1326,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private static @request[] pool = new @request[10];
 		
 		// explicit initializations of request for target request
+		// implicit initializations of request for target request
 		static @request() {
 		}
 		
@@ -1389,6 +1419,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 			return new @request((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }

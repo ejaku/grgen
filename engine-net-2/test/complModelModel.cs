@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Thu Jan 15 21:54:42 CET 2009
+// Generated from "test.grg" on Sat Jan 17 01:17:13 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -115,6 +115,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @Node();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -142,6 +144,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @A1[] pool = new @A1[10];
 		
 		// explicit initializations of A1 for target A1
+		// implicit initializations of A1 for target A1
 		static @A1() {
 		}
 		
@@ -251,6 +254,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @A1();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -304,6 +309,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @A2[] pool = new @A2[10];
 		
 		// explicit initializations of A2 for target A2
+		// implicit initializations of A2 for target A2
 		static @A2() {
 		}
 		
@@ -413,6 +419,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @A2();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -473,6 +481,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @A3[] pool = new @A3[10];
 		
 		// explicit initializations of A3 for target A3
+		// implicit initializations of A3 for target A3
 		static @A3() {
 		}
 		
@@ -582,6 +591,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @A3();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -635,6 +646,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @A4[] pool = new @A4[10];
 		
 		// explicit initializations of A4 for target A4
+		// implicit initializations of A4 for target A4
 		static @A4() {
 		}
 		
@@ -744,6 +756,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @A4();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -805,6 +819,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @A5[] pool = new @A5[10];
 		
 		// explicit initializations of A5 for target A5
+		// implicit initializations of A5 for target A5
 		static @A5() {
 		}
 		
@@ -914,6 +929,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @A5();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -968,7 +985,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @B21[] pool = new @B21[10];
 		
 		// explicit initializations of A2 for target B21
+		// implicit initializations of A2 for target B21
 		// explicit initializations of B21 for target B21
+		// implicit initializations of B21 for target B21
 		static @B21() {
 		}
 		
@@ -1095,6 +1114,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @B21();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -1164,7 +1185,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @B22[] pool = new @B22[10];
 		
 		// explicit initializations of A2 for target B22
+		// implicit initializations of A2 for target B22
 		// explicit initializations of B22 for target B22
+		// implicit initializations of B22 for target B22
 		static @B22() {
 		}
 		
@@ -1291,6 +1314,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @B22();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -1360,7 +1385,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @B23[] pool = new @B23[10];
 		
 		// explicit initializations of A2 for target B23
+		// implicit initializations of A2 for target B23
 		// explicit initializations of B23 for target B23
+		// implicit initializations of B23 for target B23
 		static @B23() {
 		}
 		
@@ -1487,6 +1514,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @B23();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -1556,7 +1585,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @B41[] pool = new @B41[10];
 		
 		// explicit initializations of A4 for target B41
+		// implicit initializations of A4 for target B41
 		// explicit initializations of B41 for target B41
+		// implicit initializations of B41 for target B41
 		static @B41() {
 		}
 		
@@ -1683,6 +1714,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @B41();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -1753,7 +1786,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @B42[] pool = new @B42[10];
 		
 		// explicit initializations of A4 for target B42
+		// implicit initializations of A4 for target B42
 		// explicit initializations of B42 for target B42
+		// implicit initializations of B42 for target B42
 		static @B42() {
 		}
 		
@@ -1880,6 +1915,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @B42();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -1949,7 +1986,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @B43[] pool = new @B43[10];
 		
 		// explicit initializations of A4 for target B43
+		// implicit initializations of A4 for target B43
 		// explicit initializations of B43 for target B43
+		// implicit initializations of B43 for target B43
 		static @B43() {
 		}
 		
@@ -2061,6 +2100,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @B43();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -2128,8 +2169,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @C221[] pool = new @C221[10];
 		
 		// explicit initializations of A2 for target C221
+		// implicit initializations of A2 for target C221
 		// explicit initializations of B22 for target C221
+		// implicit initializations of B22 for target C221
 		// explicit initializations of C221 for target C221
+		// implicit initializations of C221 for target C221
 		static @C221() {
 		}
 		
@@ -2273,6 +2317,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @C221();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 3; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -2352,10 +2398,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @C222_411[] pool = new @C222_411[10];
 		
 		// explicit initializations of A2 for target C222_411
+		// implicit initializations of A2 for target C222_411
 		// explicit initializations of B22 for target C222_411
+		// implicit initializations of B22 for target C222_411
 		// explicit initializations of A4 for target C222_411
+		// implicit initializations of A4 for target C222_411
 		// explicit initializations of B41 for target C222_411
+		// implicit initializations of B41 for target C222_411
 		// explicit initializations of C222_411 for target C222_411
+		// implicit initializations of C222_411 for target C222_411
 		static @C222_411() {
 		}
 		
@@ -2533,6 +2584,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @C222_411();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 5; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -2648,11 +2701,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @C412_421_431_51[] pool = new @C412_421_431_51[10];
 		
 		// explicit initializations of A4 for target C412_421_431_51
+		// implicit initializations of A4 for target C412_421_431_51
 		// explicit initializations of B41 for target C412_421_431_51
+		// implicit initializations of B41 for target C412_421_431_51
 		// explicit initializations of B42 for target C412_421_431_51
+		// implicit initializations of B42 for target C412_421_431_51
 		// explicit initializations of B43 for target C412_421_431_51
+		// implicit initializations of B43 for target C412_421_431_51
 		// explicit initializations of A5 for target C412_421_431_51
+		// implicit initializations of A5 for target C412_421_431_51
 		// explicit initializations of C412_421_431_51 for target C412_421_431_51
+		// implicit initializations of C412_421_431_51 for target C412_421_431_51
 		static @C412_421_431_51() {
 		}
 		
@@ -2819,6 +2878,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @C412_421_431_51();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 4; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -2931,9 +2992,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @C432_422[] pool = new @C432_422[10];
 		
 		// explicit initializations of A4 for target C432_422
+		// implicit initializations of A4 for target C432_422
 		// explicit initializations of B43 for target C432_422
+		// implicit initializations of B43 for target C432_422
 		// explicit initializations of B42 for target C432_422
+		// implicit initializations of B42 for target C432_422
 		// explicit initializations of C432_422 for target C432_422
+		// implicit initializations of C432_422 for target C432_422
 		static @C432_422() {
 		}
 		
@@ -3081,6 +3146,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @C432_422();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 3; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -3176,12 +3243,19 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @D11_2221[] pool = new @D11_2221[10];
 		
 		// explicit initializations of A1 for target D11_2221
+		// implicit initializations of A1 for target D11_2221
 		// explicit initializations of A2 for target D11_2221
+		// implicit initializations of A2 for target D11_2221
 		// explicit initializations of B22 for target D11_2221
+		// implicit initializations of B22 for target D11_2221
 		// explicit initializations of A4 for target D11_2221
+		// implicit initializations of A4 for target D11_2221
 		// explicit initializations of B41 for target D11_2221
+		// implicit initializations of B41 for target D11_2221
 		// explicit initializations of C222_411 for target D11_2221
+		// implicit initializations of C222_411 for target D11_2221
 		// explicit initializations of D11_2221 for target D11_2221
+		// implicit initializations of D11_2221 for target D11_2221
 		static @D11_2221() {
 		}
 		
@@ -3393,6 +3467,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @D11_2221();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 7; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -3532,13 +3608,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @D2211_2222_31[] pool = new @D2211_2222_31[10];
 		
 		// explicit initializations of A2 for target D2211_2222_31
+		// implicit initializations of A2 for target D2211_2222_31
 		// explicit initializations of B22 for target D2211_2222_31
+		// implicit initializations of B22 for target D2211_2222_31
 		// explicit initializations of C221 for target D2211_2222_31
+		// implicit initializations of C221 for target D2211_2222_31
 		// explicit initializations of A4 for target D2211_2222_31
+		// implicit initializations of A4 for target D2211_2222_31
 		// explicit initializations of B41 for target D2211_2222_31
+		// implicit initializations of B41 for target D2211_2222_31
 		// explicit initializations of C222_411 for target D2211_2222_31
+		// implicit initializations of C222_411 for target D2211_2222_31
 		// explicit initializations of A3 for target D2211_2222_31
+		// implicit initializations of A3 for target D2211_2222_31
 		// explicit initializations of D2211_2222_31 for target D2211_2222_31
+		// implicit initializations of D2211_2222_31 for target D2211_2222_31
 		static @D2211_2222_31() {
 		}
 		
@@ -3767,6 +3851,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @D2211_2222_31();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 8; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -3917,14 +4003,23 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private static @D231_4121[] pool = new @D231_4121[10];
 		
 		// explicit initializations of A2 for target D231_4121
+		// implicit initializations of A2 for target D231_4121
 		// explicit initializations of B23 for target D231_4121
+		// implicit initializations of B23 for target D231_4121
 		// explicit initializations of A4 for target D231_4121
+		// implicit initializations of A4 for target D231_4121
 		// explicit initializations of B41 for target D231_4121
+		// implicit initializations of B41 for target D231_4121
 		// explicit initializations of B42 for target D231_4121
+		// implicit initializations of B42 for target D231_4121
 		// explicit initializations of B43 for target D231_4121
+		// implicit initializations of B43 for target D231_4121
 		// explicit initializations of A5 for target D231_4121
+		// implicit initializations of A5 for target D231_4121
 		// explicit initializations of C412_421_431_51 for target D231_4121
+		// implicit initializations of C412_421_431_51 for target D231_4121
 		// explicit initializations of D231_4121 for target D231_4121
+		// implicit initializations of D231_4121 for target D231_4121
 		static @D231_4121() {
 		}
 		
@@ -4090,6 +4185,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new global::test.D231_4121_Impl();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 7; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -4730,6 +4827,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
+		public override bool IsAbstract { get { return true; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -4839,6 +4938,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -4949,6 +5050,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			return new @UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Thu Jan 15 21:54:25 CET 2009
+// Generated from "..\..\tests\TNT\TNT.grg" on Sat Jan 17 01:17:24 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -115,6 +115,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 			return new @Node();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -141,6 +143,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private static @C[] pool = new @C[10];
 		
 		// explicit initializations of C for target C
+		// implicit initializations of C for target C
 		static @C() {
 		}
 		
@@ -229,6 +232,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 			return new @C();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -255,6 +260,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private static @H[] pool = new @H[10];
 		
 		// explicit initializations of H for target H
+		// implicit initializations of H for target H
 		static @H() {
 		}
 		
@@ -343,6 +349,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 			return new @H();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -369,6 +377,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private static @O[] pool = new @O[10];
 		
 		// explicit initializations of O for target O
+		// implicit initializations of O for target O
 		static @O() {
 		}
 		
@@ -457,6 +466,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 			return new @O();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -483,6 +494,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private static @N[] pool = new @N[10];
 		
 		// explicit initializations of N for target N
+		// implicit initializations of N for target N
 		static @N() {
 		}
 		
@@ -571,6 +583,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 			return new @N();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -597,6 +611,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private static @P[] pool = new @P[10];
 		
 		// explicit initializations of P for target P
+		// implicit initializations of P for target P
 		static @P() {
 		}
 		
@@ -685,6 +700,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 			return new @P();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -711,6 +728,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		private static @S[] pool = new @S[10];
 		
 		// explicit initializations of S for target S
+		// implicit initializations of S for target S
 		static @S() {
 		}
 		
@@ -799,6 +817,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 			return new @S();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -986,6 +1006,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
+		public override bool IsAbstract { get { return true; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1095,6 +1117,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 			return new @Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1205,6 +1229,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 			return new @UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }

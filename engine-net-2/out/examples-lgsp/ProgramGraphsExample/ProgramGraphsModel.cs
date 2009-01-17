@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Thu Jan 15 21:54:17 CET 2009
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Sat Jan 17 01:17:20 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -115,6 +115,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @Node();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -148,6 +150,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			throw new Exception("The abstract node type Entity cannot be instantiated!");
 		}
+		public override bool IsAbstract { get { return true; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -173,7 +177,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @MethodBody[] pool = new @MethodBody[10];
 		
 		// explicit initializations of Entity for target MethodBody
+		// implicit initializations of Entity for target MethodBody
 		// explicit initializations of MethodBody for target MethodBody
+		// implicit initializations of MethodBody for target MethodBody
 		static @MethodBody() {
 		}
 		
@@ -266,6 +272,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @MethodBody();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -292,7 +300,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @Expression[] pool = new @Expression[10];
 		
 		// explicit initializations of Entity for target Expression
+		// implicit initializations of Entity for target Expression
 		// explicit initializations of Expression for target Expression
+		// implicit initializations of Expression for target Expression
 		static @Expression() {
 		}
 		
@@ -385,6 +395,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @Expression();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -418,6 +430,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			throw new Exception("The abstract node type Declaration cannot be instantiated!");
 		}
+		public override bool IsAbstract { get { return true; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -443,8 +457,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @Class[] pool = new @Class[10];
 		
 		// explicit initializations of Entity for target Class
+		// implicit initializations of Entity for target Class
 		// explicit initializations of Declaration for target Class
+		// implicit initializations of Declaration for target Class
 		// explicit initializations of Class for target Class
+		// implicit initializations of Class for target Class
 		static @Class() {
 		}
 		
@@ -541,6 +558,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @Class();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -574,6 +593,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			throw new Exception("The abstract node type Feature cannot be instantiated!");
 		}
+		public override bool IsAbstract { get { return true; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -599,9 +620,13 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @MethodSignature[] pool = new @MethodSignature[10];
 		
 		// explicit initializations of Entity for target MethodSignature
+		// implicit initializations of Entity for target MethodSignature
 		// explicit initializations of Declaration for target MethodSignature
+		// implicit initializations of Declaration for target MethodSignature
 		// explicit initializations of Feature for target MethodSignature
+		// implicit initializations of Feature for target MethodSignature
 		// explicit initializations of MethodSignature for target MethodSignature
+		// implicit initializations of MethodSignature for target MethodSignature
 		static @MethodSignature() {
 		}
 		
@@ -702,6 +727,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @MethodSignature();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -735,6 +762,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			throw new Exception("The abstract node type Attribute cannot be instantiated!");
 		}
+		public override bool IsAbstract { get { return true; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -760,10 +789,15 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @Constant[] pool = new @Constant[10];
 		
 		// explicit initializations of Entity for target Constant
+		// implicit initializations of Entity for target Constant
 		// explicit initializations of Declaration for target Constant
+		// implicit initializations of Declaration for target Constant
 		// explicit initializations of Feature for target Constant
+		// implicit initializations of Feature for target Constant
 		// explicit initializations of Attribute for target Constant
+		// implicit initializations of Attribute for target Constant
 		// explicit initializations of Constant for target Constant
+		// implicit initializations of Constant for target Constant
 		static @Constant() {
 		}
 		
@@ -868,6 +902,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @Constant();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -894,10 +930,15 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @Variabel[] pool = new @Variabel[10];
 		
 		// explicit initializations of Entity for target Variabel
+		// implicit initializations of Entity for target Variabel
 		// explicit initializations of Declaration for target Variabel
+		// implicit initializations of Declaration for target Variabel
 		// explicit initializations of Feature for target Variabel
+		// implicit initializations of Feature for target Variabel
 		// explicit initializations of Attribute for target Variabel
+		// implicit initializations of Attribute for target Variabel
 		// explicit initializations of Variabel for target Variabel
+		// implicit initializations of Variabel for target Variabel
 		static @Variabel() {
 		}
 		
@@ -1002,6 +1043,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @Variabel();
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1299,6 +1342,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
+		public override bool IsAbstract { get { return true; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1408,6 +1453,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1518,6 +1565,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1544,6 +1593,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @contains[] pool = new @contains[10];
 		
 		// explicit initializations of contains for target contains
+		// implicit initializations of contains for target contains
 		static @contains() {
 		}
 		
@@ -1636,6 +1686,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @contains((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1662,6 +1714,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @references[] pool = new @references[10];
 		
 		// explicit initializations of references for target references
+		// implicit initializations of references for target references
 		static @references() {
 		}
 		
@@ -1754,6 +1807,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @references((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1780,7 +1835,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @hasType[] pool = new @hasType[10];
 		
 		// explicit initializations of references for target hasType
+		// implicit initializations of references for target hasType
 		// explicit initializations of hasType for target hasType
+		// implicit initializations of hasType for target hasType
 		static @hasType() {
 		}
 		
@@ -1877,6 +1934,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @hasType((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -1903,7 +1962,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @bindsTo[] pool = new @bindsTo[10];
 		
 		// explicit initializations of references for target bindsTo
+		// implicit initializations of references for target bindsTo
 		// explicit initializations of bindsTo for target bindsTo
+		// implicit initializations of bindsTo for target bindsTo
 		static @bindsTo() {
 		}
 		
@@ -2000,6 +2061,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @bindsTo((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -2026,7 +2089,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @uses[] pool = new @uses[10];
 		
 		// explicit initializations of references for target uses
+		// implicit initializations of references for target uses
 		// explicit initializations of uses for target uses
+		// implicit initializations of uses for target uses
 		static @uses() {
 		}
 		
@@ -2123,6 +2188,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @uses((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -2149,7 +2216,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @writesTo[] pool = new @writesTo[10];
 		
 		// explicit initializations of references for target writesTo
+		// implicit initializations of references for target writesTo
 		// explicit initializations of writesTo for target writesTo
+		// implicit initializations of writesTo for target writesTo
 		static @writesTo() {
 		}
 		
@@ -2246,6 +2315,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @writesTo((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -2272,7 +2343,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @calls[] pool = new @calls[10];
 		
 		// explicit initializations of references for target calls
+		// implicit initializations of references for target calls
 		// explicit initializations of calls for target calls
+		// implicit initializations of calls for target calls
 		static @calls() {
 		}
 		
@@ -2369,6 +2442,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @calls((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -2395,6 +2470,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @containedInClass[] pool = new @containedInClass[10];
 		
 		// explicit initializations of containedInClass for target containedInClass
+		// implicit initializations of containedInClass for target containedInClass
 		static @containedInClass() {
 		}
 		
@@ -2487,6 +2563,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @containedInClass((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
@@ -2513,6 +2591,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private static @containedInMethodBody[] pool = new @containedInMethodBody[10];
 		
 		// explicit initializations of containedInMethodBody for target containedInMethodBody
+		// implicit initializations of containedInMethodBody for target containedInMethodBody
 		static @containedInMethodBody() {
 		}
 		
@@ -2605,6 +2684,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 			return new @containedInMethodBody((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
