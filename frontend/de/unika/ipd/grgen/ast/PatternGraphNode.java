@@ -83,7 +83,7 @@ public class PatternGraphNode extends GraphNode {
 	private Set<NodeDeclNode> singleNodeNegNodes =
 		new LinkedHashSet<NodeDeclNode>();
 
-	/** All nodes which needed a single node NAC. */
+	/** All node pairs which needed a double node NAC. */
 	private Set<List<NodeDeclNode>> doubleNodeNegPairs =
 		new LinkedHashSet<List<NodeDeclNode>>();
 
@@ -205,7 +205,7 @@ public class PatternGraphNode extends GraphNode {
 		}
 
 		boolean noReturnInNegOrIdpt = true;
-		if((context & CONTEXT_NEGATIVE) == CONTEXT_NEGATIVE 
+		if((context & CONTEXT_NEGATIVE) == CONTEXT_NEGATIVE
 			|| (context & CONTEXT_INDEPENDENT) == CONTEXT_INDEPENDENT) {
 			if(returns.size()!=0) {
 				reportError("return not allowed in negative or independent block");
@@ -387,7 +387,7 @@ public class PatternGraphNode extends GraphNode {
 			PatternGraph neg = pgn.getPatternGraph();
 			gr.addNegGraph(neg);
 		}
-		
+
 		// add independent parts to the IR
 		for (PatternGraphNode pgn : idpts.getChildren()) {
 			PatternGraph idpt = pgn.getPatternGraph();
