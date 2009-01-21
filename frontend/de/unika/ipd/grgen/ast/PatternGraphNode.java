@@ -63,6 +63,10 @@ public class PatternGraphNode extends GraphNode {
 	CollectNode<ExactNode> exact;
 	CollectNode<InducedNode> induced;
 
+	// Cache variable
+	// TODO change type to ..<..<ConstraintDeclNode>>
+	Collection<Set<DeclNode>> homSets = null;
+
 	/**
 	 *  Map an edge to his homomorphic set.
 	 *
@@ -160,8 +164,20 @@ public class PatternGraphNode extends GraphNode {
 		return childrenNames;
 	}
 
-	public Collection<HomNode> getHoms() {
-		return homs.getChildren();
+	private void initHomSets() {
+		homSets = new LinkedHashSet<Set<DeclNode>>();
+
+		for (HomNode homNode : homs.getChildren()) {
+			homSets.addAll(splitHoms(homNode.getChildren()));
+		}
+	}
+
+	public Collection<Set<DeclNode>> getHoms() {
+		if (homSets == null) {
+			initHomSets();
+		}
+
+		return homSets;
 	}
 
 	protected boolean checkLocal() {
@@ -178,7 +194,7 @@ public class PatternGraphNode extends GraphNode {
 			}
 
 			HashSet<DeclNode> homEnts = new HashSet<DeclNode>();
-			for (HomNode hom : getHoms()) {
+			for (HomNode hom : homs.getChildren()) {
 				for (BaseNode m : hom.getChildren()) {
 					DeclNode decl = (DeclNode) m;
 
@@ -338,27 +354,24 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		for (HomNode hom : getHoms()) {
-			Set<Set<DeclNode>> homSets = splitHoms(hom.getChildren());
-			for (Set<DeclNode> homSet : homSets) {
-	            // homSet is not empty
-				if (homSet.iterator().next() instanceof NodeDeclNode) {
-    				HashSet<Node> homSetIR = new HashSet<Node>();
-    	    		for (DeclNode decl : homSet) {
-    	    			homSetIR.add(decl.checkIR(Node.class));
-    	    		}
-    	            gr.addHomomorphicNodes(homSetIR);
-	            }
-				// homSet is not empty
-	            if (homSet.iterator().next() instanceof EdgeDeclNode) {
-    				HashSet<Edge> homSetIR = new HashSet<Edge>();
-    	    		for (DeclNode decl : homSet) {
-    	    			homSetIR.add(decl.checkIR(Edge.class));
-    	    		}
-    	            gr.addHomomorphicEdges(homSetIR);
-	            }
+		for (Set<DeclNode> homSet : getHoms()) {
+            // homSet is not empty
+			if (homSet.iterator().next() instanceof NodeDeclNode) {
+				HashSet<Node> homSetIR = new HashSet<Node>();
+	    		for (DeclNode decl : homSet) {
+	    			homSetIR.add(decl.checkIR(Node.class));
+	    		}
+	            gr.addHomomorphicNodes(homSetIR);
             }
-		}
+			// homSet is not empty
+            if (homSet.iterator().next() instanceof EdgeDeclNode) {
+				HashSet<Edge> homSetIR = new HashSet<Edge>();
+	    		for (DeclNode decl : homSet) {
+	    			homSetIR.add(decl.checkIR(Edge.class));
+	    		}
+	            gr.addHomomorphicEdges(homSetIR);
+            }
+        }
 
 		// add elements only mentioned in hom-declaration to the IR
 		// (they're declared in an enclosing graph and locally only show up in the hom-declaration)

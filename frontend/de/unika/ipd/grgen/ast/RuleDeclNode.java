@@ -288,9 +288,10 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	private void calcMaybeRetyped() {
-		for(HomNode hom : pattern.getHoms()) {
+		for(Set<DeclNode> homSet : pattern.getHoms()) {
 			boolean containsRetypedElem = false;
-			for(BaseNode e : hom.getChildren()) {
+			for(BaseNode e : homSet) {
+				// TODO avoid cast
 				ConstraintDeclNode elem = (ConstraintDeclNode) e;
 				if(elem.getRetypedElement() != null) {
 					containsRetypedElem = true;
@@ -302,7 +303,8 @@ public class RuleDeclNode extends TestDeclNode {
 			// all non-retyped elements in the same hom group are marked
 			// as maybeRetyped.
 			if(containsRetypedElem) {
-				for(BaseNode e : hom.getChildren()) {
+				for(BaseNode e : homSet) {
+					// TODO avoid cast
 					ConstraintDeclNode elem = (ConstraintDeclNode) e;
 					if(elem.getRetypedElement() == null)
 						elem.maybeRetyped = true;
