@@ -288,11 +288,9 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	private void calcMaybeRetyped() {
-		for(Set<DeclNode> homSet : pattern.getHoms()) {
+		for(Set<ConstraintDeclNode> homSet : pattern.getHoms()) {
 			boolean containsRetypedElem = false;
-			for(BaseNode e : homSet) {
-				// TODO avoid cast
-				ConstraintDeclNode elem = (ConstraintDeclNode) e;
+			for(ConstraintDeclNode elem : homSet) {
 				if(elem.getRetypedElement() != null) {
 					containsRetypedElem = true;
 					break;

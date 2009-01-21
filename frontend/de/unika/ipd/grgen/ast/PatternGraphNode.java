@@ -64,8 +64,7 @@ public class PatternGraphNode extends GraphNode {
 	CollectNode<InducedNode> induced;
 
 	// Cache variable
-	// TODO change type to ..<..<ConstraintDeclNode>>
-	Collection<Set<DeclNode>> homSets = null;
+	Collection<Set<ConstraintDeclNode>> homSets = null;
 
 	/**
 	 *  Map an edge to his homomorphic set.
@@ -165,14 +164,14 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	private void initHomSets() {
-		homSets = new LinkedHashSet<Set<DeclNode>>();
+		homSets = new LinkedHashSet<Set<ConstraintDeclNode>>();
 
 		for (HomNode homNode : homs.getChildren()) {
 			homSets.addAll(splitHoms(homNode.getChildren()));
 		}
 	}
 
-	public Collection<Set<DeclNode>> getHoms() {
+	public Collection<Set<ConstraintDeclNode>> getHoms() {
 		if (homSets == null) {
 			initHomSets();
 		}
@@ -354,7 +353,7 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		for (Set<DeclNode> homSet : getHoms()) {
+		for (Set<ConstraintDeclNode> homSet : getHoms()) {
             // homSet is not empty
 			if (homSet.iterator().next() instanceof NodeDeclNode) {
 				HashSet<Node> homSetIR = new HashSet<Node>();
@@ -420,16 +419,16 @@ public class PatternGraphNode extends GraphNode {
 	 *
 	 * @param homChildren Children of a HomNode
 	 */
-	private Set<Set<DeclNode>> splitHoms(Collection<? extends BaseNode> homChildren) {
-		Set<Set<DeclNode>> ret = new LinkedHashSet<Set<DeclNode>>();
+	private Set<Set<ConstraintDeclNode>> splitHoms(Collection<? extends BaseNode> homChildren) {
+		Set<Set<ConstraintDeclNode>> ret = new LinkedHashSet<Set<ConstraintDeclNode>>();
 		if (isDPO()) {
     		// homs between deleted entities
-    		HashSet<DeclNode> deleteHomSet = new HashSet<DeclNode>();
+    		HashSet<ConstraintDeclNode> deleteHomSet = new HashSet<ConstraintDeclNode>();
     		// homs between reused entities
-    		HashSet<DeclNode> reuseHomSet = new HashSet<DeclNode>();
+    		HashSet<ConstraintDeclNode> reuseHomSet = new HashSet<ConstraintDeclNode>();
 
     		for (BaseNode m : homChildren) {
-    			DeclNode decl = (DeclNode) m;
+    			ConstraintDeclNode decl = (ConstraintDeclNode) m;
 
     			Set<DeclNode> deletedEntities = getRule().getDelete();
     			if (deletedEntities.contains(decl)) {
@@ -447,10 +446,10 @@ public class PatternGraphNode extends GraphNode {
     		return ret;
 		}
 
-		HashSet<DeclNode> homSet = new HashSet<DeclNode>();
+		Set<ConstraintDeclNode> homSet = new LinkedHashSet<ConstraintDeclNode>();
 
 		for (BaseNode m : homChildren) {
-			DeclNode decl = (DeclNode) m;
+			ConstraintDeclNode decl = (ConstraintDeclNode) m;
 
 			homSet.add(decl);
 		}
@@ -795,8 +794,8 @@ public class PatternGraphNode extends GraphNode {
 			assert homNode.isChecked();
 
 			if (homNode.getChildren().contains(node)) {
-	        	Set<Set<DeclNode>> homSets = splitHoms(homNode.getChildren());
-	        	for (Set<DeclNode> homSet : homSets) {
+	        	Set<Set<ConstraintDeclNode>> homSets = splitHoms(homNode.getChildren());
+	        	for (Set<ConstraintDeclNode> homSet : homSets) {
 		        	if (homSet.contains(node)) {
     	        		for (DeclNode n : homSet) {
     	        			// This cast must be ok after checking.
@@ -825,8 +824,8 @@ public class PatternGraphNode extends GraphNode {
 			assert homNode.isChecked();
 
 			if (homNode.getChildren().contains(edge)) {
-	        	Set<Set<DeclNode>> homSets = splitHoms(homNode.getChildren());
-	        	for (Set<DeclNode> homSet : homSets) {
+	        	Set<Set<ConstraintDeclNode>> homSets = splitHoms(homNode.getChildren());
+	        	for (Set<ConstraintDeclNode> homSet : homSets) {
 		        	if (homSet.contains(edge)) {
     	        		for (DeclNode n : homSet) {
     	        			// This cast must be ok after checking.
