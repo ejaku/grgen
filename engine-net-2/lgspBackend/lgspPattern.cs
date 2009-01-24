@@ -586,20 +586,43 @@ namespace de.unika.ipd.grGen.lgsp
         // -------- intermdiate results of matcher generation ----------------------------------
 
         /// <summary>
-        /// A schedule for this pattern graph without any sub pattern graphs.
+        /// A schedule for this pattern graph without any nested pattern graphs.
         /// </summary>
-        public ScheduledSearchPlan Schedule;
+        public ScheduledSearchPlan schedule;
 
         /// <summary>
         /// A schedule for this pattern graph including negatives and independents (and subpatterns?).   TODO
         /// </summary>
-        public ScheduledSearchPlan ScheduleIncludingNegativesAndIndependents;
+        public ScheduledSearchPlan scheduleIncludingNegativesAndIndependents;
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+        // if you get a null pointer access on one of these members,
+        // it might be because you didn't run a PatternGraphAnalyzer before the LGSPMatcherGenerator
 
         /// <summary>
         /// The path prefixes and names of the independents nested within this pattern graph
         /// only in top-level-patterns and alternatives, only independents not nested within negatives 
         /// </summary>
-        public List<Pair<String,String>> PathPrefixesAndNamesOfNestedIndependents;
+        public List<Pair<String,String>> pathPrefixesAndNamesOfNestedIndependents;
+
+        /// <summary>
+        /// The nodes from the enclosing graph(s) used in this graph or one of it's subgraphs.
+        /// Set of names, with dummy bool due to lacking set class in c#
+        /// </summary>
+        public Dictionary<String, bool> neededNodes;
+
+        /// <summary>
+        /// The edges from the enclosing graph(s) used in this graph or one of it's subgraphs.
+        /// Set of names, with dummy bool due to lacking set class in c#
+        /// </summary>
+        public Dictionary<String, bool> neededEdges;
+
+        /// <summary>
+        /// The subpatterns used by this pattern (directly as well as indirectly),
+        /// only filled/valid if this is a top level pattern graph of a rule or subpattern.
+        /// Set of matching patterns, with dummy null matching pattern due to lacking set class in c#
+        /// </summary>
+        public Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpatterns;
     }
 
     /// <summary>

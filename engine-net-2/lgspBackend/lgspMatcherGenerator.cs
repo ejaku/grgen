@@ -29,6 +29,8 @@ namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
     /// Class generating matcher programs out of rules.
+    /// A PatternGraphAnalyzer must run before the matcher generator is used,
+    /// so that the analysis data is written the pattern graphs of the matching patterns to generate code for.
     /// </summary>
     public class LGSPMatcherGenerator
     {
@@ -54,6 +56,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Instantiates a new instance of LGSPMatcherGenerator with the given graph model.
+        /// A PatternGraphAnalyzer must run before the matcher generator is used,
+        /// so that the analysis data is written the pattern graphs of the matching patterns to generate code for.
         /// </summary>
         /// <param name="model">The model for which the matcher functions shall be generated.</param>
         public LGSPMatcherGenerator(IGraphModel model)
@@ -1072,123 +1076,21 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Returns the elements the given condition needs in order to be evaluated
-        /// </summary>
-        Dictionary<String, bool> GetNeededElements(PatternCondition cond)
-        {
-            Dictionary<String, bool> neededElements = new Dictionary<string, bool>();
-
-            foreach (String neededNode in cond.NeededNodes)
-                neededElements[neededNode] = true;
-            foreach (String neededEdge in cond.NeededEdges)
-                neededElements[neededEdge] = true;
-
-            return neededElements;
-        }
-
-        /// <summary>
-        /// Calculates the elements the given pattern graph and it's nested pattern graphs don't compute locally
-        /// but expect to be preset from outwards
-        /// </summary>
-        public static void CalculateNeededElements(PatternGraph patternGraph,
-            Dictionary<String, bool> neededNodes, Dictionary<String, bool> neededEdges)
-        {
-            // algorithm descends top down to the nested patterns,
-            // computes within each leaf pattern the locally needed elements
-            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
-            {
-                CalculateNeededElements(neg, neededNodes, neededEdges);
-            }
-            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
-            {
-                CalculateNeededElements(idpt, neededNodes, neededEdges);
-            }
-            foreach (Alternative alt in patternGraph.alternatives)
-            {
-                foreach (PatternGraph altCase in alt.alternativeCases)
-                {
-                    CalculateNeededElements(altCase, neededNodes, neededEdges);
-                }
-            }
-
-            // and on ascending bottom up
-            // a) it adds it's own locally needed elements
-            //    - in conditions
-            foreach (PatternCondition cond in patternGraph.Conditions)
-            {
-                foreach (String neededNode in cond.NeededNodes)
-                    neededNodes[neededNode] = true;
-                foreach (String neededEdge in cond.NeededEdges)
-                    neededEdges[neededEdge] = true;
-            }
-            //    - in the pattern
-            foreach (PatternNode node in patternGraph.nodes)
-                if (node.PointOfDefinition != patternGraph)
-                    neededNodes[node.name] = true;
-            foreach (PatternEdge edge in patternGraph.edges)
-                if (edge.PointOfDefinition != patternGraph)
-                    neededEdges[edge.name] = true;
-            //    - as subpattern connections
-            foreach (PatternGraphEmbedding sub in patternGraph.embeddedGraphs)
-            {
-                foreach (PatternElement element in sub.connections)
-                {
-                    if (element.PointOfDefinition!=patternGraph)
-                    {
-                        if (element is PatternNode)
-                            neededNodes[element.name] = true;
-                        else // element is PatternEdge
-                            neededEdges[element.name] = true;
-                    }
-                }
-            }
-
-            // b) it filters out the elements needed (by the nested patterns) which are defined locally
-            foreach (PatternNode node in patternGraph.nodes)
-                if (node.PointOfDefinition == patternGraph)
-                    neededNodes.Remove(node.name);
-            foreach (PatternEdge edge in patternGraph.edges)
-                if (edge.PointOfDefinition == patternGraph)
-                    neededEdges.Remove(edge.name);
-        }
-
-
-        /// <summary>
         /// Inserts schedules of negative and independent pattern graphs into the schedule of the enclosing pattern graph
         /// </summary>
         public void InsertNegativesAndIndependentsIntoSchedule(PatternGraph patternGraph)
         {
             // todo: erst implicit node, dann negative/independent, auch wenn negative/independent mit erstem implicit moeglich wird
 
-            Debug.Assert(patternGraph.ScheduleIncludingNegativesAndIndependents == null);
+            Debug.Assert(patternGraph.scheduleIncludingNegativesAndIndependents == null);
             List<SearchOperation> operations = new List<SearchOperation>();
-            for (int i = 0; i < patternGraph.Schedule.Operations.Length; ++i)
-                operations.Add(patternGraph.Schedule.Operations[i]);
-
-            // calculate needed elements of each negative/independent search plan / search plan graph
-            // (elements from the enclosing graph needed in order to execute the nac/pac)
-            Dictionary<String, bool>[] neededNodes = new Dictionary<String, bool>
-                [patternGraph.negativePatternGraphs.Length+patternGraph.independentPatternGraphs.Length];
-            Dictionary<String, bool>[] neededEdges = new Dictionary<String, bool>
-                [patternGraph.negativePatternGraphs.Length+patternGraph.independentPatternGraphs.Length];
-            for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
-            {
-                neededNodes[i] = new Dictionary<String, bool>();
-                neededEdges[i] = new Dictionary<String, bool>();
-                CalculateNeededElements(patternGraph.negativePatternGraphs[i], neededNodes[i], neededEdges[i]);
-            }
-            for (int i = patternGraph.negativePatternGraphs.Length; 
-                i < patternGraph.negativePatternGraphs.Length+patternGraph.independentPatternGraphs.Length; ++i)
-            {
-                neededNodes[i] = new Dictionary<String, bool>();
-                neededEdges[i] = new Dictionary<String, bool>();
-                CalculateNeededElements(patternGraph.independentPatternGraphs[i-patternGraph.negativePatternGraphs.Length], neededNodes[i], neededEdges[i]);
-            }
+            for (int i = 0; i < patternGraph.schedule.Operations.Length; ++i)
+                operations.Add(patternGraph.schedule.Operations[i]);
 
             // iterate over all negative scheduled search plans (TODO: order?)
             for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
             {
-                ScheduledSearchPlan negSchedule = patternGraph.negativePatternGraphs[i].ScheduleIncludingNegativesAndIndependents;
+                ScheduledSearchPlan negSchedule = patternGraph.negativePatternGraphs[i].scheduleIncludingNegativesAndIndependents;
                 int bestFitIndex = operations.Count;
                 float bestFitCostToEnd = 0;
 
@@ -1204,8 +1106,9 @@ exitSecondLoop: ;
                         continue;
                     }
 
-                    if (neededNodes[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
-                        || neededEdges[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)) { 
+                    if (patternGraph.negativePatternGraphs[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
+                        || patternGraph.negativePatternGraphs[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                    { 
                         break; 
                     }
 
@@ -1229,7 +1132,7 @@ exitSecondLoop: ;
             // iterate over all independent scheduled search plans (TODO: order?)
             for (int i = 0; i < patternGraph.independentPatternGraphs.Length; ++i)
             {
-                ScheduledSearchPlan idptSchedule = patternGraph.independentPatternGraphs[i].ScheduleIncludingNegativesAndIndependents;
+                ScheduledSearchPlan idptSchedule = patternGraph.independentPatternGraphs[i].scheduleIncludingNegativesAndIndependents;
                 int bestFitIndex = operations.Count;
                 float bestFitCostToEnd = 0;
 
@@ -1245,8 +1148,8 @@ exitSecondLoop: ;
                         continue;
                     }
 
-                    if (neededNodes[patternGraph.negativePatternGraphs.Length+i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
-                        || neededEdges[patternGraph.negativePatternGraphs.Length+i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                    if (patternGraph.independentPatternGraphs[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
+                        || patternGraph.independentPatternGraphs[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                     {
                         break;
                     }
@@ -1269,7 +1172,7 @@ exitSecondLoop: ;
             }
 
             float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
-            patternGraph.ScheduleIncludingNegativesAndIndependents =
+            patternGraph.scheduleIncludingNegativesAndIndependents =
                 new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
         }
 
@@ -1281,7 +1184,13 @@ exitSecondLoop: ;
             // get needed (in order to evaluate it) elements of each condition 
             Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[conditions.Length];
             for (int i = 0; i < conditions.Length; ++i)
-                neededElements[i] = GetNeededElements(conditions[i]);
+            {
+                neededElements[i] = new Dictionary<string, bool>();
+                foreach (String neededNode in conditions[i].NeededNodes)
+                    neededElements[i][neededNode] = true;
+                foreach (String neededEdge in conditions[i].NeededEdges)
+                    neededElements[i][neededEdge] = true;
+            }
 
             // iterate over all conditions
             for (int i = 0; i < conditions.Length; ++i)
@@ -1310,33 +1219,6 @@ exitSecondLoop: ;
 
                 operations.Insert(j + 1, new SearchOperation(SearchOperationType.Condition,
                     conditions[i], null, costToEnd));
-            }
-        }
-
-        /// <summary>
-        /// Insert names of independents nested within the pattern graph 
-        /// to the matcher generation skeleton data structure pattern graph 
-        /// </summary>
-        public void AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(
-            PatternGraph patternGraph) 
-        {
-            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
-            {
-                // annotate path prefix and name
-                if(patternGraph.PathPrefixesAndNamesOfNestedIndependents == null)
-                    patternGraph.PathPrefixesAndNamesOfNestedIndependents = new List<Pair<String, String>>();
-                patternGraph.PathPrefixesAndNamesOfNestedIndependents.Add(new Pair<String,String>(idpt.pathPrefix, idpt.name));
-                // handle nested independents
-                AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(idpt);
-            }
-
-            // alternative cases represent new annotation point
-            foreach (Alternative alt in patternGraph.alternatives)
-            {
-                foreach (PatternGraph altCase in alt.alternativeCases)
-                {
-                    AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(altCase);
-                }
             }
         }
 
@@ -1437,7 +1319,7 @@ exitSecondLoop: ;
         SearchProgram GenerateSearchProgram(LGSPMatchingPattern matchingPattern)
         {
             PatternGraph patternGraph = matchingPattern.patternGraph;
-            ScheduledSearchPlan scheduledSearchPlan = patternGraph.ScheduleIncludingNegativesAndIndependents;
+            ScheduledSearchPlan scheduledSearchPlan = patternGraph.scheduleIncludingNegativesAndIndependents;
 
 #if DUMP_SCHEDULED_SEARCH_PLAN
             StreamWriter sspwriter = new StreamWriter(matchingPattern.name + "_ssp_dump.txt");
@@ -1498,7 +1380,7 @@ exitSecondLoop: ;
             ScheduledSearchPlan[] scheduledSearchPlans = new ScheduledSearchPlan[alt.alternativeCases.Length];
             int i=0;
             foreach (PatternGraph altCase in alt.alternativeCases) {
-                scheduledSearchPlans[i] = altCase.ScheduleIncludingNegativesAndIndependents;
+                scheduledSearchPlans[i] = altCase.scheduleIncludingNegativesAndIndependents;
                 ++i;
             }
 
@@ -1666,7 +1548,10 @@ exitSecondLoop: ;
             Dictionary<string, bool> neededEdges = new Dictionary<string,bool>();
             foreach (PatternGraph altCase in alternative.alternativeCases)
             {
-                CalculateNeededElements(altCase, neededNodes, neededEdges);
+                foreach (KeyValuePair<string, bool> neededNode in altCase.neededNodes)
+                    neededNodes[neededNode.Key] = neededNode.Value;
+                foreach (KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
+                    neededEdges[neededEdge.Key] = neededEdge.Value;
             }
             foreach (KeyValuePair<string, bool> node in neededNodes)
             {
@@ -1691,9 +1576,9 @@ exitSecondLoop: ;
         private void GenerateIndependentsMatchObjects(SourceBuilder sb,
             string matchingPatternClassName, PatternGraph patternGraph)
         {
-            if (patternGraph.PathPrefixesAndNamesOfNestedIndependents != null)
+            if (patternGraph.pathPrefixesAndNamesOfNestedIndependents != null)
             {
-                foreach (Pair<String, String> independentName in patternGraph.PathPrefixesAndNamesOfNestedIndependents)
+                foreach (Pair<String, String> independentName in patternGraph.pathPrefixesAndNamesOfNestedIndependents)
                 {
                     sb.AppendFrontFormat("private {0} {1} = new {0}();",
                         matchingPatternClassName + "." + NamesOfEntities.MatchClassName(independentName.fst + independentName.snd),
@@ -1789,7 +1674,7 @@ exitSecondLoop: ;
             ScheduledSearchPlan scheduledSearchPlan = ScheduleSearchPlan(
                 searchPlanGraph, patternGraph, isNegativeOrIndependent);
             AppendHomomorphyInformation(scheduledSearchPlan);
-            patternGraph.Schedule = scheduledSearchPlan;
+            patternGraph.schedule = scheduledSearchPlan;
 
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
@@ -1879,50 +1764,6 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Computes all, by the given actions directly or indirectly used subpatterns.
-        /// returned in set with rulepatterns of the subpatterns, implemented by abused dictionary as .net lacks a set datatype - argggh
-        /// </summary>
-        protected Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> SubpatternsUsedByTheActions(LGSPAction[] actions)
-        {
-            // todo: use more efficient worklist algorithm
-            Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns = new Dictionary<LGSPMatchingPattern, LGSPMatchingPattern>();
-
-            // all directly used subpatterns
-            foreach (LGSPAction action in actions)
-            {
-                PatternGraphEmbedding[] embeddedGraphs = ((PatternGraphEmbedding[])
-                    action.RulePattern.PatternGraph.EmbeddedGraphs);
-                for (int i = 0; i < embeddedGraphs.Length; ++i)
-                {
-                    subpatternMatchingPatterns.Add(embeddedGraphs[i].matchingPatternOfEmbeddedGraph, null);
-                }
-            }
-
-            // transitive closure
-            bool setChanged = subpatternMatchingPatterns.Count != 0;
-            while (setChanged)
-            {
-                setChanged = false;
-                foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPattern in subpatternMatchingPatterns)
-                {
-                    PatternGraphEmbedding[] embedded = (PatternGraphEmbedding[])subpatternMatchingPattern.Key.PatternGraph.EmbeddedGraphs;
-                    for (int i = 0; i < embedded.Length; ++i)
-                    {
-                        if (!subpatternMatchingPatterns.ContainsKey(embedded[i].matchingPatternOfEmbeddedGraph))
-                        {
-                            subpatternMatchingPatterns.Add(embedded[i].matchingPatternOfEmbeddedGraph, null);
-                            setChanged = true;
-                        }
-                    }
-
-                    if (setChanged) break;
-                }
-            }
-
-            return subpatternMatchingPatterns;
-        }
-
-        /// <summary>
         /// Generate new actions for the given actions, doing the same work, 
         /// but hopefully faster by taking graph analysis information into account
         /// </summary>
@@ -1934,9 +1775,17 @@ exitSecondLoop: ;
             SourceBuilder sourceCode = new SourceBuilder(CommentSourceCode);
             GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, actions[0].RulePattern.GetType().Namespace);
 
-            // use domain of dictionary as set with rulepatterns of the subpatterns of the actions
-            Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns;
-            subpatternMatchingPatterns = SubpatternsUsedByTheActions(actions);
+            // use domain of dictionary as set with rulepatterns of the subpatterns of the actions, get them from pattern graph
+            Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns 
+                = new Dictionary<LGSPMatchingPattern, LGSPMatchingPattern>();
+            foreach (LGSPAction action in actions)
+            {
+                foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern 
+                    in action.rulePattern.patternGraph.usedSubpatterns)
+                {
+                    subpatternMatchingPatterns[usedSubpattern.Key] = usedSubpattern.Value;
+                }
+            }
 
             // generate code for subpatterns
             foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPattern in subpatternMatchingPatterns)

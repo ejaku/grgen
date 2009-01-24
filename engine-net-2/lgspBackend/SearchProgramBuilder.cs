@@ -187,7 +187,7 @@ namespace de.unika.ipd.grGen.lgsp
             for (int i=0; i<alternative.alternativeCases.Length; ++i)
             {
                 PatternGraph altCase = alternative.alternativeCases[i];
-                ScheduledSearchPlan scheduledSearchPlan = altCase.ScheduleIncludingNegativesAndIndependents;
+                ScheduledSearchPlan scheduledSearchPlan = altCase.scheduleIncludingNegativesAndIndependents;
 
                 GetPartialMatchOfAlternative matchAlternative = new GetPartialMatchOfAlternative(
                     scheduledSearchPlan.PatternGraph.pathPrefix, 
@@ -378,12 +378,12 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation insertionPointWithinSearchProgram)
         {
             if (indexOfScheduledSearchPlanOperationToBuild >=
-                patternGraph.ScheduleIncludingNegativesAndIndependents.Operations.Length)
+                patternGraph.scheduleIncludingNegativesAndIndependents.Operations.Length)
             { // end of scheduled search plan reached, stop recursive iteration
                 return buildMatchComplete(insertionPointWithinSearchProgram);
             }
 
-            SearchOperation op = patternGraph.ScheduleIncludingNegativesAndIndependents.
+            SearchOperation op = patternGraph.scheduleIncludingNegativesAndIndependents.
                 Operations[indexOfScheduledSearchPlanOperationToBuild];
 
             // for current scheduled search plan operation 
@@ -1041,7 +1041,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // fill needed elements array for CheckPartialMatchByNegative
             int numberOfNeededElements = 0;
-            foreach (SearchOperation op in negativePatternGraph.ScheduleIncludingNegativesAndIndependents.Operations)
+            foreach (SearchOperation op in negativePatternGraph.scheduleIncludingNegativesAndIndependents.Operations)
             {
                 if (op.Type == SearchOperationType.NegIdptPreset)
                 {
@@ -1050,7 +1050,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             string[] neededElements = new string[numberOfNeededElements];
             int i = 0;
-            foreach (SearchOperation op in negativePatternGraph.ScheduleIncludingNegativesAndIndependents.Operations)
+            foreach (SearchOperation op in negativePatternGraph.scheduleIncludingNegativesAndIndependents.Operations)
             {
                 if (op.Type == SearchOperationType.NegIdptPreset)
                 {
@@ -1126,7 +1126,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // fill needed elements array for CheckPartialMatchByIndependent
             int numberOfNeededElements = 0;
-            foreach (SearchOperation op in independentPatternGraph.ScheduleIncludingNegativesAndIndependents.Operations)
+            foreach (SearchOperation op in independentPatternGraph.scheduleIncludingNegativesAndIndependents.Operations)
             {
                 if (op.Type == SearchOperationType.NegIdptPreset)
                 {
@@ -1135,7 +1135,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             string[] neededElements = new string[numberOfNeededElements];
             int i = 0;
-            foreach (SearchOperation op in independentPatternGraph.ScheduleIncludingNegativesAndIndependents.Operations)
+            foreach (SearchOperation op in independentPatternGraph.scheduleIncludingNegativesAndIndependents.Operations)
             {
                 if (op.Type == SearchOperationType.NegIdptPreset)
                 {
@@ -1525,9 +1525,9 @@ namespace de.unika.ipd.grGen.lgsp
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
-            if (patternGraph.PathPrefixesAndNamesOfNestedIndependents != null)
+            if (patternGraph.pathPrefixesAndNamesOfNestedIndependents != null)
             {
-                foreach (Pair<String,String> pathPrefixAndName in patternGraph.PathPrefixesAndNamesOfNestedIndependents)
+                foreach (Pair<String,String> pathPrefixAndName in patternGraph.pathPrefixesAndNamesOfNestedIndependents)
                 {
                     BuildMatchObject buildMatch =
                     new BuildMatchObject(
@@ -1560,9 +1560,12 @@ namespace de.unika.ipd.grGen.lgsp
 
                 Dictionary<string, bool> neededNodes = new Dictionary<string, bool>();
                 Dictionary<string, bool> neededEdges = new Dictionary<string, bool>();
-                foreach (PatternGraph pg in alternative.alternativeCases)
+                foreach (PatternGraph altCase in alternative.alternativeCases)
                 {
-                    LGSPMatcherGenerator.CalculateNeededElements(pg, neededNodes, neededEdges);
+                    foreach (KeyValuePair<string, bool> neededNode in altCase.neededNodes)
+                        neededNodes[neededNode.Key] = neededNode.Value;
+                    foreach (KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
+                        neededEdges[neededEdge.Key] = neededEdge.Value;
                 }
 
                 int numElements = neededNodes.Count + neededEdges.Count;

@@ -360,7 +360,7 @@ namespace de.unika.ipd.grGen.lgsp
             ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
                 searchPlanGraph, patternGraph, isNegativeOrIndependent);
             matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
-            patternGraph.Schedule = scheduledSearchPlan;
+            patternGraph.schedule = scheduledSearchPlan;
 
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
@@ -1138,9 +1138,6 @@ namespace de.unika.ipd.grGen.lgsp
                 // already filled with the content of the action intermediate file until the action insertion point
                 ///////////////////////////////////////////////
 
-                LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
-                if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
-
                 String unitName;
                 int lastDot = actionsNamespace.LastIndexOf(".");
                 if(lastDot == -1) unitName = "";
@@ -1166,29 +1163,49 @@ namespace de.unika.ipd.grGen.lgsp
                 endSource.AppendFront("{\n");
                 endSource.Indent();
 
-                foreach(Type type in initialAssembly.GetTypes())
+                PatternGraphAnalyzer analyzer = new PatternGraphAnalyzer();
+                LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
+                if ((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
+
+                List<LGSPMatchingPattern> matchingPatterns = new List<LGSPMatchingPattern>();
+                foreach (Type type in initialAssembly.GetTypes())
                 {
-                    if(!type.IsClass || type.IsNotPublic) continue;
-                    if(type.BaseType == typeof(LGSPMatchingPattern) || type.BaseType == typeof(LGSPRulePattern))
+                    if (!type.IsClass || type.IsNotPublic) continue;
+                    if (type.BaseType == typeof(LGSPMatchingPattern) || type.BaseType == typeof(LGSPRulePattern))
                     {
-                        LGSPMatchingPattern matchingPattern = (LGSPMatchingPattern) Activator.CreateInstance(type);
+                        LGSPMatchingPattern matchingPattern = (LGSPMatchingPattern)Activator.CreateInstance(type);
                         matchingPattern.initialize();
-
-                        GenerateScheduledSearchPlans(matchingPattern.patternGraph, matcherGen, !(matchingPattern is LGSPRulePattern), false);
-
-                        matcherGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph);
-
-                        matcherGen.AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(matchingPattern.patternGraph);
-
-                        matcherGen.GenerateMatcherSourceCode(source, matchingPattern, true);
-
-                        if(matchingPattern is LGSPRulePattern) // normal rule
-                        {
-                            endSource.AppendFrontFormat("actions.Add(\"{0}\", (de.unika.ipd.grGen.lgsp.LGSPAction) "
-                                    + "Action_{0}.Instance);\n", matchingPattern.name);
-                        }
+                        matchingPatterns.Add(matchingPattern);
+                        analyzer.AnalyzeNestingOfAndRemember(matchingPattern);
                     }
                 }
+
+                analyzer.ComputeInterPatternRelations();
+
+                endSource.AppendFront("de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer analyzer = new de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer();\n");
+                foreach(LGSPMatchingPattern matchingPattern in matchingPatterns)
+                {
+                    GenerateScheduledSearchPlans(matchingPattern.patternGraph, matcherGen, !(matchingPattern is LGSPRulePattern), false);
+
+                    matcherGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph);
+
+                    matcherGen.GenerateMatcherSourceCode(source, matchingPattern, true);
+
+                    if (matchingPattern is LGSPRulePattern) // normal rule
+                    {
+                        endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfAndRemember(Rule_{0}.Instance);\n",
+                                matchingPattern.name);
+                        endSource.AppendFrontFormat("actions.Add(\"{0}\", (de.unika.ipd.grGen.lgsp.LGSPAction) "
+                                + "Action_{0}.Instance);\n", matchingPattern.name);
+                    }
+                    else
+                    {
+                        endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfAndRemember(Pattern_{0}.Instance);\n",
+                                matchingPattern.name);
+                    }
+                }
+                endSource.AppendFront("analyzer.ComputeInterPatternRelations();\n");
+
                 endSource.Unindent();
                 endSource.AppendFront("}\n\n");
                 endSource.AppendFront("public override String Name { get { return \"" + actionsName + "\"; } }\n");
