@@ -199,7 +199,7 @@ namespace spBench
             return scheduledSearchPlan;*/
 
             MatchGen.GenerateScheduledSearchPlans(Action.rulePattern.patternGraph, Graph, false, false);
-            return Action.rulePattern.patternGraph.Schedule;
+            return Action.rulePattern.patternGraph.schedule;
         }
 
 /*        private SearchPlanGraph GenerateSearchPlanGraphNewCost(LGSPGraph graph, PatternGraph patternGraph, bool negativePatternGraph)
@@ -942,7 +942,7 @@ namespace spBench
                     (PatternGraph)ctx.Action.RulePattern.PatternGraph, ops, spcostproduct);
 
                 ctx.MatchGen.AppendHomomorphyInformation(ssp);
-                ((PatternGraph) ctx.Action.RulePattern.PatternGraph).Schedule = ssp;
+                ((PatternGraph) ctx.Action.RulePattern.PatternGraph).schedule = ssp;
                 ctx.MatchGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(ctx.Action.patternGraph);
 
 #if DUMP_MATCHERPROGRAMS
