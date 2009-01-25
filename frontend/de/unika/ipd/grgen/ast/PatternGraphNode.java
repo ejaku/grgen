@@ -277,24 +277,6 @@ public class PatternGraphNode extends GraphNode {
 					expr = false;
 				}
 			}
-
-			HashSet<DeclNode> homEnts = new HashSet<DeclNode>();
-			for (HomNode hom : homs.getChildren()) {
-				for (BaseNode m : hom.getChildren()) {
-					DeclNode decl = (DeclNode) m;
-
-					if (homEnts.contains(decl)) {
-						hom.reportError(m.toString()
-											+ " is contained in multiple hom statements");
-						homcheck = false;
-					}
-				}
-				for (BaseNode m : hom.getChildren()) {
-					DeclNode decl = (DeclNode) m;
-
-					homEnts.add(decl);
-				}
-			}
 		}
 
 		boolean patternPathOnlyInPattern = true;
