@@ -809,7 +809,14 @@ public class PatternGraphNode extends GraphNode {
 	    	initHomMaps();
 	    }
 
-		return nodeHomMap.get(node);
+		Set<NodeDeclNode> homSet = nodeHomMap.get(node);
+
+		if (homSet == null) {
+			// If the node isn't part of the pattern, return empty set.
+			homSet = new LinkedHashSet<NodeDeclNode>();
+		}
+
+		return homSet;
     }
 
 	/** Return the correspondent homomorphic set. */
@@ -819,7 +826,14 @@ public class PatternGraphNode extends GraphNode {
 			initHomMaps();
 		}
 
-		return edgeHomMap.get(edge);
+		Set<EdgeDeclNode> homSet = edgeHomMap.get(edge);
+
+		if (homSet == null) {
+			// If the edge isn't part of the pattern, return empty set.
+			homSet = new LinkedHashSet<EdgeDeclNode>();
+		}
+
+		return homSet;
     }
 
 	private NodeDeclNode getAnonymousDummyNode(BaseNode nodeRoot, int context) {
