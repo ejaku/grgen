@@ -205,11 +205,55 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
+	private PatternGraphNode getParentPatternGraph() {
+		for (BaseNode parent : getParents()) {
+			if (!(parent instanceof CollectNode)) continue;
+
+			for (BaseNode grandParent : parent.getParents()) {
+				if (grandParent instanceof PatternGraphNode) {
+					return (PatternGraphNode) grandParent;
+				}
+			}
+		}
+
+		return null;
+	}
+
 	private void initHomSets() {
 		homSets = new LinkedHashSet<Set<ConstraintDeclNode>>();
+		Set<NodeDeclNode> nodes = getNodes();
+		Set<EdgeDeclNode> edges = getEdges();
 
+		// Own homomorphic sets.
 		for (HomNode homNode : homs.getChildren()) {
 			homSets.addAll(splitHoms(homNode.getChildren()));
+		}
+
+		// Inherited homomorphic sets.
+		for (PatternGraphNode parent = getParentPatternGraph(); parent != null;
+				parent = parent.getParentPatternGraph()) {
+			for (Set<ConstraintDeclNode> parentHomSet : parent.getHoms()) {
+				Set<ConstraintDeclNode> inheritedHomSet = new LinkedHashSet<ConstraintDeclNode>();
+				if (parentHomSet.iterator().next() instanceof NodeDeclNode) {
+					for (ConstraintDeclNode homNode : parentHomSet) {
+						if (nodes.contains(homNode)) {
+							inheritedHomSet.add(homNode);
+						}
+					}
+					if (inheritedHomSet.size() > 1) {
+						homSets.add(inheritedHomSet);
+					}
+				} else {
+					for (ConstraintDeclNode homEdge : parentHomSet) {
+						if (edges.contains(homEdge)) {
+							inheritedHomSet.add(homEdge);
+						}
+					}
+					if (inheritedHomSet.size() > 1) {
+						homSets.add(inheritedHomSet);
+					}
+				}
+			}
 		}
 	}
 
