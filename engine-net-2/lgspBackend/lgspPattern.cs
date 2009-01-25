@@ -623,6 +623,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// Set of matching patterns, with dummy null matching pattern due to lacking set class in c#
         /// </summary>
         public Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpatterns;
+
+        /// <summary>
+        /// The pattern graphs which are on a path to some enclosed subpattern usage or alternative,
+        /// only filled/valid if this is a top level pattern graph or an alternative case pattern graph.
+        /// Needed for match object declaration at beginning of matcher method,
+        /// these will be pushed on the matches stack for patternpath/global isomorphy checks.
+        /// Other patterns not enclosing a subpattern usage or alternative don't need to be entere there.
+        /// </summary>
+        public List<String> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
     }
 
     /// <summary>
@@ -758,11 +767,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// Our name
         /// </summary>
         public string name;
-
-        /// <summary>
-        /// Initializes this matching pattern.
-        /// </summary>
-        public abstract void initialize();
     }
 
     /// <summary>
@@ -816,5 +820,26 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
         public GrGenType[] outputs;
+    }
+
+    /// <summary>
+    /// Class which instantiates and stores all the rule and subpattern representations ready for iteration
+    /// </summary>
+    public abstract class LGSPRuleAndMatchingPatterns
+    {
+        /// <summary>
+        /// All the rule representations generated
+        /// </summary>
+        public abstract LGSPRulePattern[] Rules { get; }
+
+        /// <summary>
+        /// All the subrule representations generated
+        /// </summary>
+        public abstract LGSPMatchingPattern[] Subpatterns { get; }
+
+        /// <summary>
+        /// All the rule and subrule representations generated
+        /// </summary>
+        public abstract LGSPMatchingPattern[] RulesAndSubpatterns { get; }
     }
 }

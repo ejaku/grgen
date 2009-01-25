@@ -1145,6 +1145,12 @@ namespace de.unika.ipd.grGen.lgsp
 
                 SourceBuilder endSource = new SourceBuilder("\n");
                 endSource.Indent();
+                if ((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
+                {
+                    endSource.AppendFront("// class which instantiates and stores all the compiled actions of the module in a dictionary,\n");
+                    endSource.AppendFront("// dynamic regeneration and compilation causes the old action to be overwritten by the new one\n");
+                    endSource.AppendFront("// matching/rule patterns are analyzed at creation time here, once, so that later regeneration runs have all the information available\n");
+                }
                 endSource.AppendFront("public class " + unitName + "Actions : de.unika.ipd.grGen.lgsp.LGSPActions\n");
                 endSource.AppendFront("{\n");
                 endSource.Indent();
@@ -1167,23 +1173,25 @@ namespace de.unika.ipd.grGen.lgsp
                 LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
                 if ((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
 
-                List<LGSPMatchingPattern> matchingPatterns = new List<LGSPMatchingPattern>();
+                LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns = null;
                 foreach (Type type in initialAssembly.GetTypes())
                 {
                     if (!type.IsClass || type.IsNotPublic) continue;
-                    if (type.BaseType == typeof(LGSPMatchingPattern) || type.BaseType == typeof(LGSPRulePattern))
+                    if (type.BaseType == typeof(LGSPRuleAndMatchingPatterns))
                     {
-                        LGSPMatchingPattern matchingPattern = (LGSPMatchingPattern)Activator.CreateInstance(type);
-                        matchingPattern.initialize();
-                        matchingPatterns.Add(matchingPattern);
-                        analyzer.AnalyzeNestingOfAndRemember(matchingPattern);
+                        ruleAndMatchingPatterns = (LGSPRuleAndMatchingPatterns)Activator.CreateInstance(type);
+                        break;
                     }
                 }
 
+                foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                {
+                    analyzer.AnalyzeNestingOfAndRemember(matchingPattern);
+                }
                 analyzer.ComputeInterPatternRelations();
 
                 endSource.AppendFront("de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer analyzer = new de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer();\n");
-                foreach(LGSPMatchingPattern matchingPattern in matchingPatterns)
+                foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {
                     GenerateScheduledSearchPlans(matchingPattern.patternGraph, matcherGen, !(matchingPattern is LGSPRulePattern), false);
 

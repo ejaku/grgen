@@ -14,7 +14,7 @@ namespace de.unika.ipd.grGen.lgsp
     class NamesOfEntities
     {
         /// <summary>
-        /// Returns name of the candidate variable which will be created within the seach program
+        /// Returns name of the candidate variable which will be created within the search program
         /// holding over time the candidates for the given pattern element
         /// </summary>
         public static string CandidateVariable(string patternElementName)
@@ -77,7 +77,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns name of the variable which will be created within the seach program
+        /// Returns name of the variable which will be created within the search program
         /// backing up the value of the isMatched-Bit of the graph element before assigning to it
         /// </summary>
         public static string VariableWithBackupOfIsMatchedBit(string patternElementName, string negativeIndependentNamePrefix)
@@ -86,7 +86,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns name of the variable which will be created within the seach program
+        /// Returns name of the variable which will be created within the search program
         /// backing up the value of the isMatched-Bit of the graph element before assigning to it
         /// </summary>
         public static string VariableWithBackupOfIsMatchedBitGlobal(string patternElementName, string negativeIndependentNamePrefix)
@@ -95,7 +95,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns name of the task variable which will be created within the seach program
+        /// Returns name of the task variable which will be created within the search program
         /// holding the task object whose connections need to be filled before being pushed on the open tasks stack
         /// </summary>
         public static string TaskVariable(string subpatternElementName, string negativeIndependentNamePrefix)
@@ -141,6 +141,15 @@ namespace de.unika.ipd.grGen.lgsp
         public static string MatchedIndependentVariable(string patternGraphName)
         {
             return "matched_independent_" + patternGraphName;
+        }
+
+        /// <summary>
+        /// Returns name of the search program variable which will be filled 
+        /// if the pattern was matched and is needed in patternpath/global isomorphy checks
+        /// </summary>
+        public static string PatternpathMatch(string patternGraphName)
+        {
+            return "patternpath_match_" + patternGraphName;
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sat Jan 17 01:17:24 CET 2009
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Jan 25 17:24:53 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -59,18 +59,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_BenzolRing;
 
 
-#if INITIAL_WARMUP
-		public Pattern_BenzolRing()
-#else
 		private Pattern_BenzolRing()
-#endif
 		{
 			name = "BenzolRing";
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] BenzolRing_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
@@ -384,6 +380,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRing.instance.pat_BenzolRing; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -436,18 +434,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_BenzolRingC123456Exposed;
 
 
-#if INITIAL_WARMUP
-		public Pattern_BenzolRingC123456Exposed()
-#else
 		private Pattern_BenzolRingC123456Exposed()
-#endif
 		{
 			name = "BenzolRingC123456Exposed";
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "BenzolRingC123456Exposed_node_c1", "BenzolRingC123456Exposed_node_c2", "BenzolRingC123456Exposed_node_c3", "BenzolRingC123456Exposed_node_c4", "BenzolRingC123456Exposed_node_c5", "BenzolRingC123456Exposed_node_c6", };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] BenzolRingC123456Exposed_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
@@ -737,6 +731,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC123456Exposed.instance.pat_BenzolRingC123456Exposed; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -789,18 +785,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_BenzolRingC1Exposed;
 
 
-#if INITIAL_WARMUP
-		public Pattern_BenzolRingC1Exposed()
-#else
 		private Pattern_BenzolRingC1Exposed()
-#endif
 		{
 			name = "BenzolRingC1Exposed";
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "BenzolRingC1Exposed_node_c1", };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] BenzolRingC1Exposed_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
@@ -1110,6 +1102,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC1Exposed.instance.pat_BenzolRingC1Exposed; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1182,18 +1176,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph BenzolRingC1ExposedNotC6Nitro_neg_0;
 
 
-#if INITIAL_WARMUP
-		public Pattern_BenzolRingC1ExposedNotC6Nitro()
-#else
 		private Pattern_BenzolRingC1ExposedNotC6Nitro()
-#endif
 		{
 			name = "BenzolRingC1ExposedNotC6Nitro";
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "BenzolRingC1ExposedNotC6Nitro_node_c1", };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] BenzolRingC1ExposedNotC6Nitro_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
@@ -1577,6 +1567,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC1ExposedNotC6Nitro.instance.pat_BenzolRingC1ExposedNotC6Nitro; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1670,6 +1662,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC1ExposedNotC6Nitro.instance.BenzolRingC1ExposedNotC6Nitro_neg_0; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1700,18 +1694,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_Oxygen;
 
 
-#if INITIAL_WARMUP
-		public Pattern_Oxygen()
-#else
 		private Pattern_Oxygen()
-#endif
 		{
 			name = "Oxygen";
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] Oxygen_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
@@ -1886,6 +1876,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Oxygen.instance.pat_Oxygen; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1914,18 +1906,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_Hydrogen;
 
 
-#if INITIAL_WARMUP
-		public Pattern_Hydrogen()
-#else
 		private Pattern_Hydrogen()
-#endif
 		{
 			name = "Hydrogen";
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Hydrogen_node_anchor", };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] Hydrogen_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
@@ -2083,6 +2071,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Hydrogen.instance.pat_Hydrogen; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -2115,18 +2105,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_Hydroxyl;
 
 
-#if INITIAL_WARMUP
-		public Pattern_Hydroxyl()
-#else
 		private Pattern_Hydroxyl()
-#endif
 		{
 			name = "Hydroxyl";
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Hydroxyl_node_anchor", };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] Hydroxyl_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
@@ -2309,6 +2295,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Hydroxyl.instance.pat_Hydroxyl; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -2349,18 +2337,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_Methyl;
 
 
-#if INITIAL_WARMUP
-		public Pattern_Methyl()
-#else
 		private Pattern_Methyl()
-#endif
 		{
 			name = "Methyl";
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Methyl_node_anchor", };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] Methyl_isNodeHomomorphicGlobal = new bool[5, 5] {
 				{ false, false, false, false, false, },
@@ -2593,6 +2577,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Methyl.instance.pat_Methyl; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -2629,18 +2615,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_Nitro;
 
 
-#if INITIAL_WARMUP
-		public Pattern_Nitro()
-#else
 		private Pattern_Nitro()
-#endif
 		{
 			name = "Nitro";
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "Nitro_node_anchor", };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] Nitro_isNodeHomomorphicGlobal = new bool[4, 4] {
 				{ false, false, false, false, },
@@ -2848,6 +2830,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Nitro.instance.pat_Nitro; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -2876,18 +2860,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_TriNitro;
 
 
-#if INITIAL_WARMUP
-		public Pattern_TriNitro()
-#else
 		private Pattern_TriNitro()
-#endif
 		{
 			name = "TriNitro";
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "TriNitro_node_c2", "TriNitro_node_c4", "TriNitro_node_c6", };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] TriNitro_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
@@ -3061,6 +3041,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_TriNitro.instance.pat_TriNitro; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -3095,18 +3077,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_ToluolCoreThenTriNitro;
 
 
-#if INITIAL_WARMUP
-		public Pattern_ToluolCoreThenTriNitro()
-#else
 		private Pattern_ToluolCoreThenTriNitro()
-#endif
 		{
 			name = "ToluolCoreThenTriNitro";
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "ToluolCoreThenTriNitro_node_c1", "ToluolCoreThenTriNitro_node_c2", "ToluolCoreThenTriNitro_node_c3", "ToluolCoreThenTriNitro_node_c4", "ToluolCoreThenTriNitro_node_c5", "ToluolCoreThenTriNitro_node_c6", };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] ToluolCoreThenTriNitro_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
@@ -3313,6 +3291,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_ToluolCoreThenTriNitro.instance.pat_ToluolCoreThenTriNitro; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -3335,11 +3315,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_BenzolRing;
 
 
-#if INITIAL_WARMUP
-		public Rule_BenzolRing()
-#else
 		private Rule_BenzolRing()
-#endif
 		{
 			name = "BenzolRing";
 
@@ -3347,7 +3323,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] BenzolRing_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] BenzolRing_isEdgeHomomorphicGlobal = new bool[0, 0] ;
@@ -3476,6 +3452,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_BenzolRing.instance.pat_BenzolRing; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -3510,11 +3488,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_TNTTotallyFolded;
 
 
-#if INITIAL_WARMUP
-		public Rule_TNTTotallyFolded()
-#else
 		private Rule_TNTTotallyFolded()
-#endif
 		{
 			name = "TNTTotallyFolded";
 
@@ -3522,7 +3496,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] TNTTotallyFolded_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
@@ -3749,6 +3723,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNTTotallyFolded.instance.pat_TNTTotallyFolded; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -3783,11 +3759,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_TNTChain;
 
 
-#if INITIAL_WARMUP
-		public Rule_TNTChain()
-#else
 		private Rule_TNTChain()
-#endif
 		{
 			name = "TNTChain";
 
@@ -3795,7 +3767,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] TNTChain_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
@@ -3982,6 +3954,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNTChain.instance.pat_TNTChain; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -4006,11 +3980,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_ToluolCore;
 
 
-#if INITIAL_WARMUP
-		public Rule_ToluolCore()
-#else
 		private Rule_ToluolCore()
-#endif
 		{
 			name = "ToluolCore";
 
@@ -4018,7 +3988,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] ToluolCore_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
@@ -4165,6 +4135,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ToluolCore.instance.pat_ToluolCore; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -4189,11 +4161,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_ToluolCoreNotC6Nitro;
 
 
-#if INITIAL_WARMUP
-		public Rule_ToluolCoreNotC6Nitro()
-#else
 		private Rule_ToluolCoreNotC6Nitro()
-#endif
 		{
 			name = "ToluolCoreNotC6Nitro";
 
@@ -4201,7 +4169,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] ToluolCoreNotC6Nitro_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
@@ -4348,6 +4316,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ToluolCoreNotC6Nitro.instance.pat_ToluolCoreNotC6Nitro; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -4382,11 +4352,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_Toluol;
 
 
-#if INITIAL_WARMUP
-		public Rule_Toluol()
-#else
 		private Rule_Toluol()
-#endif
 		{
 			name = "Toluol";
 
@@ -4394,7 +4360,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] Toluol_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
@@ -4621,6 +4587,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_Toluol.instance.pat_Toluol; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -4673,11 +4641,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_TNT;
 
 
-#if INITIAL_WARMUP
-		public Rule_TNT()
-#else
 		private Rule_TNT()
-#endif
 		{
 			name = "TNT";
 
@@ -4685,7 +4649,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] TNT_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
@@ -4996,6 +4960,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNT.instance.pat_TNT; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -5108,11 +5074,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_TNTUnfolded;
 
 
-#if INITIAL_WARMUP
-		public Rule_TNTUnfolded()
-#else
 		private Rule_TNTUnfolded()
-#endif
 		{
 			name = "TNTUnfolded";
 
@@ -5120,7 +5082,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] TNTUnfolded_isNodeHomomorphicGlobal = new bool[21, 21] {
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -5653,6 +5615,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNTUnfolded.instance.pat_TNTUnfolded; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -5676,11 +5640,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_createTNT;
 
 
-#if INITIAL_WARMUP
-		public Rule_createTNT()
-#else
 		private Rule_createTNT()
-#endif
 		{
 			name = "createTNT";
 
@@ -5688,7 +5648,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] createTNT_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createTNT_isEdgeHomomorphicGlobal = new bool[0, 0] ;
@@ -5905,6 +5865,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createTNT.instance.pat_createTNT; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -5957,11 +5919,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_DNT;
 
 
-#if INITIAL_WARMUP
-		public Rule_DNT()
-#else
 		private Rule_DNT()
-#endif
 		{
 			name = "DNT";
 
@@ -5969,7 +5927,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] DNT_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
@@ -6280,6 +6238,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_DNT.instance.pat_DNT; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -6384,11 +6344,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_DNTUnfolded;
 
 
-#if INITIAL_WARMUP
-		public Rule_DNTUnfolded()
-#else
 		private Rule_DNTUnfolded()
-#endif
 		{
 			name = "DNTUnfolded";
 
@@ -6396,7 +6352,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] DNTUnfolded_isNodeHomomorphicGlobal = new bool[19, 19] {
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -6893,6 +6849,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_DNTUnfolded.instance.pat_DNTUnfolded; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -6916,11 +6874,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_createDNT;
 
 
-#if INITIAL_WARMUP
-		public Rule_createDNT()
-#else
 		private Rule_createDNT()
-#endif
 		{
 			name = "createDNT";
 
@@ -6928,7 +6882,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] createDNT_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createDNT_isEdgeHomomorphicGlobal = new bool[0, 0] ;
@@ -7137,6 +7091,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createDNT.instance.pat_createDNT; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -7189,11 +7145,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_TNB;
 
 
-#if INITIAL_WARMUP
-		public Rule_TNB()
-#else
 		private Rule_TNB()
-#endif
 		{
 			name = "TNB";
 
@@ -7201,7 +7153,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] TNB_isNodeHomomorphicGlobal = new bool[6, 6] {
 				{ false, false, false, false, false, false, },
@@ -7512,6 +7464,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNB.instance.pat_TNB; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -7612,11 +7566,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_TNBUnfolded;
 
 
-#if INITIAL_WARMUP
-		public Rule_TNBUnfolded()
-#else
 		private Rule_TNBUnfolded()
-#endif
 		{
 			name = "TNBUnfolded";
 
@@ -7624,7 +7574,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] TNBUnfolded_isNodeHomomorphicGlobal = new bool[18, 18] {
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -8103,6 +8053,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNBUnfolded.instance.pat_TNBUnfolded; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -8126,11 +8078,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_createTNB;
 
 
-#if INITIAL_WARMUP
-		public Rule_createTNB()
-#else
 		private Rule_createTNB()
-#endif
 		{
 			name = "createTNB";
 
@@ -8138,7 +8086,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] createTNB_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createTNB_isEdgeHomomorphicGlobal = new bool[0, 0] ;
@@ -8343,6 +8291,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createTNB.instance.pat_createTNB; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -8366,11 +8316,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_keepBenzolRingPattern;
 
 
-#if INITIAL_WARMUP
-		public Rule_keepBenzolRingPattern()
-#else
 		private Rule_keepBenzolRingPattern()
-#endif
 		{
 			name = "keepBenzolRingPattern";
 
@@ -8378,7 +8324,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] keepBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] keepBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
@@ -8513,6 +8459,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_keepBenzolRingPattern.instance.pat_keepBenzolRingPattern; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -8536,11 +8484,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_createBenzolRingPattern;
 
 
-#if INITIAL_WARMUP
-		public Rule_createBenzolRingPattern()
-#else
 		private Rule_createBenzolRingPattern()
-#endif
 		{
 			name = "createBenzolRingPattern";
 
@@ -8548,7 +8492,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] createBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
@@ -8677,6 +8621,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createBenzolRingPattern.instance.pat_createBenzolRingPattern; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -8700,11 +8646,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_deleteBenzolRingPattern;
 
 
-#if INITIAL_WARMUP
-		public Rule_deleteBenzolRingPattern()
-#else
 		private Rule_deleteBenzolRingPattern()
-#endif
 		{
 			name = "deleteBenzolRingPattern";
 
@@ -8712,7 +8654,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] deleteBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] deleteBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
@@ -8849,6 +8791,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_deleteBenzolRingPattern.instance.pat_deleteBenzolRingPattern; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -8872,11 +8816,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		GRGEN_LGSP.PatternGraph pat_deleteInModifyBenzolRingPattern;
 
 
-#if INITIAL_WARMUP
-		public Rule_deleteInModifyBenzolRingPattern()
-#else
 		private Rule_deleteInModifyBenzolRingPattern()
-#endif
 		{
 			name = "deleteInModifyBenzolRingPattern";
 
@@ -8884,7 +8824,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] deleteInModifyBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] deleteInModifyBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
@@ -9021,9 +8961,87 @@ namespace de.unika.ipd.grGen.Action_TNT
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_deleteInModifyBenzolRingPattern.instance.pat_deleteInModifyBenzolRingPattern; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
+	}
+
+	public class TNT_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
+	{
+		public TNT_RuleAndMatchingPatterns()
+		{
+			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[11];
+			rules = new GRGEN_LGSP.LGSPRulePattern[19];
+			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[11+19];
+			subpatterns[0] = Pattern_BenzolRing.Instance;
+			rulesAndSubpatterns[0] = Pattern_BenzolRing.Instance;
+			subpatterns[1] = Pattern_BenzolRingC123456Exposed.Instance;
+			rulesAndSubpatterns[1] = Pattern_BenzolRingC123456Exposed.Instance;
+			subpatterns[2] = Pattern_BenzolRingC1Exposed.Instance;
+			rulesAndSubpatterns[2] = Pattern_BenzolRingC1Exposed.Instance;
+			subpatterns[3] = Pattern_BenzolRingC1ExposedNotC6Nitro.Instance;
+			rulesAndSubpatterns[3] = Pattern_BenzolRingC1ExposedNotC6Nitro.Instance;
+			subpatterns[4] = Pattern_Oxygen.Instance;
+			rulesAndSubpatterns[4] = Pattern_Oxygen.Instance;
+			subpatterns[5] = Pattern_Hydrogen.Instance;
+			rulesAndSubpatterns[5] = Pattern_Hydrogen.Instance;
+			subpatterns[6] = Pattern_Hydroxyl.Instance;
+			rulesAndSubpatterns[6] = Pattern_Hydroxyl.Instance;
+			subpatterns[7] = Pattern_Methyl.Instance;
+			rulesAndSubpatterns[7] = Pattern_Methyl.Instance;
+			subpatterns[8] = Pattern_Nitro.Instance;
+			rulesAndSubpatterns[8] = Pattern_Nitro.Instance;
+			subpatterns[9] = Pattern_TriNitro.Instance;
+			rulesAndSubpatterns[9] = Pattern_TriNitro.Instance;
+			subpatterns[10] = Pattern_ToluolCoreThenTriNitro.Instance;
+			rulesAndSubpatterns[10] = Pattern_ToluolCoreThenTriNitro.Instance;
+			rules[0] = Rule_BenzolRing.Instance;
+			rulesAndSubpatterns[11+0] = Rule_BenzolRing.Instance;
+			rules[1] = Rule_TNTTotallyFolded.Instance;
+			rulesAndSubpatterns[11+1] = Rule_TNTTotallyFolded.Instance;
+			rules[2] = Rule_TNTChain.Instance;
+			rulesAndSubpatterns[11+2] = Rule_TNTChain.Instance;
+			rules[3] = Rule_ToluolCore.Instance;
+			rulesAndSubpatterns[11+3] = Rule_ToluolCore.Instance;
+			rules[4] = Rule_ToluolCoreNotC6Nitro.Instance;
+			rulesAndSubpatterns[11+4] = Rule_ToluolCoreNotC6Nitro.Instance;
+			rules[5] = Rule_Toluol.Instance;
+			rulesAndSubpatterns[11+5] = Rule_Toluol.Instance;
+			rules[6] = Rule_TNT.Instance;
+			rulesAndSubpatterns[11+6] = Rule_TNT.Instance;
+			rules[7] = Rule_TNTUnfolded.Instance;
+			rulesAndSubpatterns[11+7] = Rule_TNTUnfolded.Instance;
+			rules[8] = Rule_createTNT.Instance;
+			rulesAndSubpatterns[11+8] = Rule_createTNT.Instance;
+			rules[9] = Rule_DNT.Instance;
+			rulesAndSubpatterns[11+9] = Rule_DNT.Instance;
+			rules[10] = Rule_DNTUnfolded.Instance;
+			rulesAndSubpatterns[11+10] = Rule_DNTUnfolded.Instance;
+			rules[11] = Rule_createDNT.Instance;
+			rulesAndSubpatterns[11+11] = Rule_createDNT.Instance;
+			rules[12] = Rule_TNB.Instance;
+			rulesAndSubpatterns[11+12] = Rule_TNB.Instance;
+			rules[13] = Rule_TNBUnfolded.Instance;
+			rulesAndSubpatterns[11+13] = Rule_TNBUnfolded.Instance;
+			rules[14] = Rule_createTNB.Instance;
+			rulesAndSubpatterns[11+14] = Rule_createTNB.Instance;
+			rules[15] = Rule_keepBenzolRingPattern.Instance;
+			rulesAndSubpatterns[11+15] = Rule_keepBenzolRingPattern.Instance;
+			rules[16] = Rule_createBenzolRingPattern.Instance;
+			rulesAndSubpatterns[11+16] = Rule_createBenzolRingPattern.Instance;
+			rules[17] = Rule_deleteBenzolRingPattern.Instance;
+			rulesAndSubpatterns[11+17] = Rule_deleteBenzolRingPattern.Instance;
+			rules[18] = Rule_deleteInModifyBenzolRingPattern.Instance;
+			rulesAndSubpatterns[11+18] = Rule_deleteInModifyBenzolRingPattern.Instance;
+		}
+		public override GRGEN_LGSP.LGSPRulePattern[] Rules { get { return rules; } }
+		private GRGEN_LGSP.LGSPRulePattern[] rules;
+		public override GRGEN_LGSP.LGSPMatchingPattern[] Subpatterns { get { return subpatterns; } }
+		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
+		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
+		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 	}
 
 
@@ -12072,21 +12090,21 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 {
                                                                                                     continue;
                                                                                                 }
-                                                                                                uint prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
+                                                                                                uint prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
                                                                                                 if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                    prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                                                                                                    prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                     candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                 } else {
-                                                                                                    prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0) ? 1U : 0U;
-                                                                                                    if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 == 0) graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0,candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0);
+                                                                                                    prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0) ? 1U : 0U;
+                                                                                                    if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 == 0) graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0,candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0);
                                                                                                 }
                                                                                                 // Implicit Target BenzolRingC1ExposedNotC6Nitro_neg_0_node_n from BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 
                                                                                                 GRGEN_LGSP.LGSPNode candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.target;
                                                                                                 if(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.type.TypeID!=4) {
                                                                                                     if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                        candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
+                                                                                                        candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
                                                                                                     } else { 
-                                                                                                        if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 == 0) {
+                                                                                                        if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 == 0) {
                                                                                                             graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0);
                                                                                                         }
                                                                                                     }
@@ -12095,9 +12113,9 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 if((candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
                                                                                                 {
                                                                                                     if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                        candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
+                                                                                                        candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
                                                                                                     } else { 
-                                                                                                        if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 == 0) {
+                                                                                                        if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 == 0) {
                                                                                                             graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0);
                                                                                                         }
                                                                                                     }
@@ -12121,21 +12139,21 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         {
                                                                                                             continue;
                                                                                                         }
-                                                                                                        uint prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
+                                                                                                        uint prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
                                                                                                         if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                            prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                                                                                                            prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                             candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                         } else {
-                                                                                                            prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1) ? 1U : 0U;
-                                                                                                            if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 == 0) graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1,candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1);
+                                                                                                            prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1) ? 1U : 0U;
+                                                                                                            if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 == 0) graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1,candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1);
                                                                                                         }
                                                                                                         // Implicit Target BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 from BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 
                                                                                                         GRGEN_LGSP.LGSPNode candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.target;
                                                                                                         if(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.type.TypeID!=3) {
                                                                                                             if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                                candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
+                                                                                                                candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
                                                                                                             } else { 
-                                                                                                                if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 == 0) {
+                                                                                                                if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 == 0) {
                                                                                                                     graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1);
                                                                                                                 }
                                                                                                             }
@@ -12144,21 +12162,21 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         if((candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN)
                                                                                                         {
                                                                                                             if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                                candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
+                                                                                                                candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
                                                                                                             } else { 
-                                                                                                                if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 == 0) {
+                                                                                                                if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 == 0) {
                                                                                                                     graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1);
                                                                                                                 }
                                                                                                             }
                                                                                                             continue;
                                                                                                         }
-                                                                                                        uint prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0;
+                                                                                                        uint prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0;
                                                                                                         if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                            prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                                                                                                            prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                             candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                         } else {
-                                                                                                            prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.ContainsKey(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0) ? 1U : 0U;
-                                                                                                            if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 == 0) graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Add(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0,candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0);
+                                                                                                            prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.ContainsKey(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0) ? 1U : 0U;
+                                                                                                            if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 == 0) graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Add(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0,candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0);
                                                                                                         }
                                                                                                         // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 from BenzolRingC1ExposedNotC6Nitro_neg_0_node_n 
                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.outhead;
@@ -12193,23 +12211,23 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 }
                                                                                                                 // negative pattern found
                                                                                                                 if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                                    candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0;
+                                                                                                                    candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0;
                                                                                                                 } else { 
-                                                                                                                    if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 == 0) {
+                                                                                                                    if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 == 0) {
                                                                                                                         graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0);
                                                                                                                     }
                                                                                                                 }
                                                                                                                 if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                                    candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
+                                                                                                                    candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
                                                                                                                 } else { 
-                                                                                                                    if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 == 0) {
+                                                                                                                    if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 == 0) {
                                                                                                                         graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1);
                                                                                                                     }
                                                                                                                 }
                                                                                                                 if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                                    candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
+                                                                                                                    candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
                                                                                                                 } else { 
-                                                                                                                    if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 == 0) {
+                                                                                                                    if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 == 0) {
                                                                                                                         graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0);
                                                                                                                     }
                                                                                                                 }
@@ -12237,16 +12255,16 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                             while( (candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2.outNext) != head_candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 );
                                                                                                         }
                                                                                                         if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                            candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0;
+                                                                                                            candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0;
                                                                                                         } else { 
-                                                                                                            if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 == 0) {
+                                                                                                            if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 == 0) {
                                                                                                                 graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0);
                                                                                                             }
                                                                                                         }
                                                                                                         if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                            candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
+                                                                                                            candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
                                                                                                         } else { 
-                                                                                                            if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 == 0) {
+                                                                                                            if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 == 0) {
                                                                                                                 graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1);
                                                                                                             }
                                                                                                         }
@@ -12254,9 +12272,9 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                     while( (candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.outNext) != head_candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 );
                                                                                                 }
                                                                                                 if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                                                                                    candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
+                                                                                                    candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
                                                                                                 } else { 
-                                                                                                    if(prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 == 0) {
+                                                                                                    if(prev_BenzolRingC1ExposedNotC6Nitro__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 == 0) {
                                                                                                         graph.atNegLevelMatchedElements[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0);
                                                                                                     }
                                                                                                 }
@@ -14233,6 +14251,7 @@ label0: ;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            Pattern_TriNitro.Match_TriNitro patternpath_match_TriNitro = null;
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
@@ -14346,6 +14365,7 @@ label0: ;
         
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
+            Pattern_ToluolCoreThenTriNitro.Match_ToluolCoreThenTriNitro patternpath_match_ToluolCoreThenTriNitro = null;
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
@@ -14452,6 +14472,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_BenzolRing.Match_BenzolRing patternpath_match_BenzolRing = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -14503,6 +14524,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_TNTTotallyFolded.Match_TNTTotallyFolded patternpath_match_TNTTotallyFolded = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -14810,6 +14832,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_TNTChain.Match_TNTChain patternpath_match_TNTChain = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -15082,6 +15105,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_ToluolCore.Match_ToluolCore patternpath_match_ToluolCore = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -15154,6 +15178,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_ToluolCoreNotC6Nitro.Match_ToluolCoreNotC6Nitro patternpath_match_ToluolCoreNotC6Nitro = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -15226,6 +15251,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_Toluol.Match_Toluol patternpath_match_Toluol = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -15533,6 +15559,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_TNT.Match_TNT patternpath_match_TNT = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -17258,6 +17285,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_DNT.Match_DNT patternpath_match_DNT = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -18901,6 +18929,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_TNB.Match_TNB patternpath_match_TNB = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -20503,6 +20532,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_keepBenzolRingPattern.Match_keepBenzolRingPattern patternpath_match_keepBenzolRingPattern = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -20584,6 +20614,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_deleteBenzolRingPattern.Match_deleteBenzolRingPattern patternpath_match_deleteBenzolRingPattern = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -20635,6 +20666,7 @@ label0: ;
         {
             matches.Clear();
             int negLevel = 0;
+            Rule_deleteInModifyBenzolRingPattern.Match_deleteInModifyBenzolRingPattern patternpath_match_deleteInModifyBenzolRingPattern = null;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
@@ -20668,6 +20700,9 @@ label0: ;
     }
 
 
+    // class which instantiates and stores all the compiled actions of the module in a dictionary,
+    // dynamic regeneration and compilation causes the old action to be overwritten by the new one
+    // matching/rule patterns are analyzed at creation time here, once, so that later regeneration runs have all the information available
     public class TNTActions : de.unika.ipd.grGen.lgsp.LGSPActions
     {
         public TNTActions(de.unika.ipd.grGen.lgsp.LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
@@ -20684,25 +20719,57 @@ label0: ;
 
         private void InitActions()
         {
+            de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer analyzer = new de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer();
+            analyzer.AnalyzeNestingOfAndRemember(Pattern_BenzolRing.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Pattern_BenzolRingC123456Exposed.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Pattern_BenzolRingC1Exposed.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Pattern_BenzolRingC1ExposedNotC6Nitro.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Pattern_Oxygen.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Pattern_Hydrogen.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Pattern_Hydroxyl.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Pattern_Methyl.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Pattern_Nitro.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Pattern_TriNitro.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Pattern_ToluolCoreThenTriNitro.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_BenzolRing.Instance);
             actions.Add("BenzolRing", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_BenzolRing.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_TNTTotallyFolded.Instance);
             actions.Add("TNTTotallyFolded", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_TNTTotallyFolded.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_TNTChain.Instance);
             actions.Add("TNTChain", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_TNTChain.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_ToluolCore.Instance);
             actions.Add("ToluolCore", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_ToluolCore.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_ToluolCoreNotC6Nitro.Instance);
             actions.Add("ToluolCoreNotC6Nitro", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_ToluolCoreNotC6Nitro.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_Toluol.Instance);
             actions.Add("Toluol", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_Toluol.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_TNT.Instance);
             actions.Add("TNT", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_TNT.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_TNTUnfolded.Instance);
             actions.Add("TNTUnfolded", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_TNTUnfolded.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_createTNT.Instance);
             actions.Add("createTNT", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_createTNT.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_DNT.Instance);
             actions.Add("DNT", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_DNT.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_DNTUnfolded.Instance);
             actions.Add("DNTUnfolded", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_DNTUnfolded.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_createDNT.Instance);
             actions.Add("createDNT", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_createDNT.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_TNB.Instance);
             actions.Add("TNB", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_TNB.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_TNBUnfolded.Instance);
             actions.Add("TNBUnfolded", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_TNBUnfolded.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_createTNB.Instance);
             actions.Add("createTNB", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_createTNB.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_keepBenzolRingPattern.Instance);
             actions.Add("keepBenzolRingPattern", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_keepBenzolRingPattern.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_createBenzolRingPattern.Instance);
             actions.Add("createBenzolRingPattern", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_createBenzolRingPattern.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_deleteBenzolRingPattern.Instance);
             actions.Add("deleteBenzolRingPattern", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_deleteBenzolRingPattern.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_deleteInModifyBenzolRingPattern.Instance);
             actions.Add("deleteInModifyBenzolRingPattern", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_deleteInModifyBenzolRingPattern.Instance);
+            analyzer.ComputeInterPatternRelations();
         }
 
         public override String Name { get { return "TNTActions"; } }

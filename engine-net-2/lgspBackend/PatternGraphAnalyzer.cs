@@ -40,6 +40,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             CalculateNeededElements(matchingPattern.patternGraph);
             AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(matchingPattern.patternGraph);
+            ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(matchingPattern.patternGraph);
             matchingPatterns.Add(matchingPattern);
         }
 
@@ -175,59 +176,153 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Computes the pattern graphs which are on a path to some enclosed subpattern usage or alternative
+        /// Adds them the pattern graph of the top level pattern
+        /// </summary>
+        private void ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(PatternGraph topLevelPatternGraph)
+        {
+            topLevelPatternGraph.namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative = new List<string>();
+            ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(topLevelPatternGraph, topLevelPatternGraph);
+        }
+
+        /// <summary>
+        /// Computes the pattern graphs which are on a path to some enclosed subpattern usage or alternative
+        /// Adds them the pattern graph of the top level pattern; alternative case is new top level pattern
+        /// </summary>
+        private bool ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(
+            PatternGraph patternGraph, PatternGraph topLevelPatternGraph)
+        {
+            // algorithm descends top down to the nested patterns, computes within each leaf pattern 
+            // wheteher there are subpattern usages or alternatives, and ascends bottom up
+            // current pattern graph has subpattern usages or alternatives enclosed
+            // if they are contained locally or one of the nested patterns has them enclosed
+            bool isSubpatternUsageOrAlternativeEnclosed = false;
+            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                isSubpatternUsageOrAlternativeEnclosed |= ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(
+                    neg, topLevelPatternGraph);
+            }
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                isSubpatternUsageOrAlternativeEnclosed |= ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(
+                    idpt, topLevelPatternGraph);
+            }
+            foreach (Alternative alt in patternGraph.alternatives)
+            {
+                isSubpatternUsageOrAlternativeEnclosed = true;
+                foreach (PatternGraph altCase in alt.alternativeCases)
+                {
+                    altCase.namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative = new List<string>();
+                    ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(altCase, altCase);
+                }
+            }
+            if (patternGraph.embeddedGraphs.Length > 0)
+            {
+                isSubpatternUsageOrAlternativeEnclosed = true;
+            }
+
+            // in this case add the current pattern graph to the list in the top level pattern graph
+            if (isSubpatternUsageOrAlternativeEnclosed)
+            {
+                topLevelPatternGraph.namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Add(
+                    patternGraph.pathPrefix+patternGraph.name);
+            }
+
+            return isSubpatternUsageOrAlternativeEnclosed;
+        }
+
+        /// <summary>
         /// Computes for each matching pattern (of rule/subpattern)
-        /// all directly or indirectly used matching patterns (of used subpatterns).
+        /// all directly/locally and indirectly/globally used matching patterns (of used subpatterns).
         /// </summary>
         private void ComputeSubpatternsUsed()
         {
-            // all directly used subpatterns
+            // step 1 intra pattern
+            // initialize used subpatterns in pattern graph with all locally used subpatterns - top level or nested
             foreach (LGSPMatchingPattern matchingPattern in matchingPatterns)
             {
-                ComputeSubpatternsUsed(matchingPattern);
+                matchingPattern.patternGraph.usedSubpatterns = 
+                    new Dictionary<LGSPMatchingPattern, LGSPMatchingPattern>();
+                ComputeSubpatternsUsedLocally(matchingPattern.patternGraph, matchingPattern);
+            }
+
+            // step 2 inter pattern
+            // fixed point iteration in order to get the globally / indirectly used subpatterns
+            bool subpatternsUsedChanged;
+            do
+            {
+                // for every subpattern used, add all the subpatterns used by these ones to current one
+                subpatternsUsedChanged = false; 
+                foreach (LGSPMatchingPattern matchingPattern in matchingPatterns)
+                {
+                    subpatternsUsedChanged |= AddSubpatternsOfSubpatternsUsed(matchingPattern);
+                }
+            } // until nothing changes because transitive closure is found
+            while (subpatternsUsedChanged);
+        }
+
+        /// <summary>
+        /// Computes for given pattern graph all locally used subpatterns;
+        /// none of the globally used ones, but all of the nested ones.
+        /// Writes them to the used subpatterns member of the pattern graph of the given top level matching pattern.
+        /// </summary>
+        private void ComputeSubpatternsUsedLocally(PatternGraph patternGraph, LGSPMatchingPattern topLevelMatchingPattern)
+        {
+            // all directly used subpatterns
+            PatternGraphEmbedding[] embeddedGraphs = patternGraph.embeddedGraphs;
+            for (int i = 0; i < embeddedGraphs.Length; ++i)
+            {
+                topLevelMatchingPattern.patternGraph.usedSubpatterns[embeddedGraphs[i].matchingPatternOfEmbeddedGraph] = null;
+            }
+
+            // all nested subpattern usages from nested negatives, independents, alternatives
+            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                ComputeSubpatternsUsedLocally(neg, topLevelMatchingPattern);
+            }
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                ComputeSubpatternsUsedLocally(idpt, topLevelMatchingPattern);
+            }
+            foreach (Alternative alt in patternGraph.alternatives)
+            {
+                foreach (PatternGraph altCase in alt.alternativeCases)
+                {
+                    ComputeSubpatternsUsedLocally(altCase, topLevelMatchingPattern);
+                }
             }
         }
 
         /// <summary>
-        /// Computes for given matching pattern (of rule/subpattern)
-        /// all directly or indirectly used matching patterns (of used subpatterns).
+        /// Adds all of the subpatterns used by one of the subpatterns used by the given matching pattern,
+        /// returns whether the set of subpatterns of the given matching pattern changed thereby.
+        /// Consider worklist algorithm in case of performance problems
         /// </summary>
-        private void ComputeSubpatternsUsed(LGSPMatchingPattern matchingPattern)
+        private bool AddSubpatternsOfSubpatternsUsed(LGSPMatchingPattern matchingPattern)
         {
-            // TODO: subpatterns used in negatives, independents, alternatives!!!
-            // todo: use more efficient dynamic programming algorithm
+            bool usedSubpatternsChanged = false;
 
-            matchingPattern.patternGraph.usedSubpatterns = 
-                new Dictionary<LGSPMatchingPattern, LGSPMatchingPattern>();
-
-            // all directly used subpatterns
-            PatternGraphEmbedding[] embeddedGraphs = 
-                ((PatternGraphEmbedding[]) matchingPattern.patternGraph.EmbeddedGraphs);
-            for (int i = 0; i < embeddedGraphs.Length; ++i)
+        restart:
+            foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern
+                in matchingPattern.patternGraph.usedSubpatterns)
             {
-                matchingPattern.patternGraph.usedSubpatterns[embeddedGraphs[i].matchingPatternOfEmbeddedGraph] = null;
-            }
-
-            // transitive closure
-            bool setChanged = matchingPattern.patternGraph.usedSubpatterns.Count != 0;
-            while (setChanged)
-            {
-                setChanged = false;
-                foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPattern in matchingPattern.patternGraph.usedSubpatterns)
+                foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpatternOfUsedSubpattern
+                    in usedSubpattern.Key.patternGraph.usedSubpatterns)
                 {
-                    PatternGraphEmbedding[] embedded = (PatternGraphEmbedding[])subpatternMatchingPattern.Key.PatternGraph.EmbeddedGraphs;
-                    for (int i = 0; i < embedded.Length; ++i)
+                    if (!matchingPattern.patternGraph.usedSubpatterns.ContainsKey(usedSubpatternOfUsedSubpattern.Key))
                     {
-                        if (!matchingPattern.patternGraph.usedSubpatterns.ContainsKey(embedded[i].matchingPatternOfEmbeddedGraph))
-                        {
-                            matchingPattern.patternGraph.usedSubpatterns.Add(embedded[i].matchingPatternOfEmbeddedGraph, null);
-                            setChanged = true;
-                        }
+                        matchingPattern.patternGraph.usedSubpatterns.Add(
+                            usedSubpatternOfUsedSubpattern.Key, usedSubpatternOfUsedSubpattern.Value);
+                        usedSubpatternsChanged = true;
+                        goto restart; // adding invalidates enumerator
                     }
-
-                    if (setChanged) break;
                 }
             }
+
+            return usedSubpatternsChanged;
         }
+
+        // ----------------------------------------------------------------
 
         private List<LGSPMatchingPattern> matchingPatterns;
     }

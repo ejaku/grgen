@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Sat Jan 17 01:17:17 CET 2009
+// Generated from "..\..\tests\edge1\edge1.grg" on Sun Jan 25 17:24:38 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -30,11 +30,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		GRGEN_LGSP.PatternGraph pat_init;
 
 
-#if INITIAL_WARMUP
-		public Rule_init()
-#else
 		private Rule_init()
-#endif
 		{
 			name = "init";
 
@@ -42,7 +38,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] init_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] init_isEdgeHomomorphicGlobal = new bool[0, 0] ;
@@ -181,6 +177,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_init.instance.pat_init; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -204,11 +202,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		GRGEN_LGSP.PatternGraph pat_init2;
 
 
-#if INITIAL_WARMUP
-		public Rule_init2()
-#else
 		private Rule_init2()
-#endif
 		{
 			name = "init2";
 
@@ -216,7 +210,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] init2_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] init2_isEdgeHomomorphicGlobal = new bool[0, 0] ;
@@ -353,6 +347,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_init2.instance.pat_init2; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -376,11 +372,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		GRGEN_LGSP.PatternGraph pat_init3;
 
 
-#if INITIAL_WARMUP
-		public Rule_init3()
-#else
 		private Rule_init3()
-#endif
 		{
 			name = "init3";
 
@@ -388,7 +380,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] init3_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] init3_isEdgeHomomorphicGlobal = new bool[0, 0] ;
@@ -527,6 +519,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_init3.instance.pat_init3; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -555,11 +549,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		GRGEN_LGSP.PatternGraph pat_findUndirectedEdge;
 
 
-#if INITIAL_WARMUP
-		public Rule_findUndirectedEdge()
-#else
 		private Rule_findUndirectedEdge()
-#endif
 		{
 			name = "findUndirectedEdge";
 
@@ -567,7 +557,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] findUndirectedEdge_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
@@ -718,6 +708,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findUndirectedEdge.instance.pat_findUndirectedEdge; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -746,11 +738,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		GRGEN_LGSP.PatternGraph pat_findArbitraryEdge;
 
 
-#if INITIAL_WARMUP
-		public Rule_findArbitraryEdge()
-#else
 		private Rule_findArbitraryEdge()
-#endif
 		{
 			name = "findArbitraryEdge";
 
@@ -758,7 +746,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] findArbitraryEdge_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
@@ -909,6 +897,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findArbitraryEdge.instance.pat_findArbitraryEdge; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -937,11 +927,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedEdge;
 
 
-#if INITIAL_WARMUP
-		public Rule_findArbitraryDirectedEdge()
-#else
 		private Rule_findArbitraryDirectedEdge()
-#endif
 		{
 			name = "findArbitraryDirectedEdge";
 
@@ -949,7 +935,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] findArbitraryDirectedEdge_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
@@ -1100,6 +1086,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findArbitraryDirectedEdge.instance.pat_findArbitraryDirectedEdge; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1126,11 +1114,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedReflexiveEdge;
 
 
-#if INITIAL_WARMUP
-		public Rule_findArbitraryDirectedReflexiveEdge()
-#else
 		private Rule_findArbitraryDirectedReflexiveEdge()
-#endif
 		{
 			name = "findArbitraryDirectedReflexiveEdge";
 
@@ -1138,7 +1122,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] findArbitraryDirectedReflexiveEdge_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
@@ -1281,6 +1265,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findArbitraryDirectedReflexiveEdge.instance.pat_findArbitraryDirectedReflexiveEdge; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1311,11 +1297,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
 
 
-#if INITIAL_WARMUP
-		public Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne()
-#else
 		private Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne()
-#endif
 		{
 			name = "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne";
 
@@ -1323,7 +1305,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
@@ -1484,6 +1466,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.instance.pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1516,11 +1500,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedTriple;
 
 
-#if INITIAL_WARMUP
-		public Rule_findArbitraryDirectedTriple()
-#else
 		private Rule_findArbitraryDirectedTriple()
-#endif
 		{
 			name = "findArbitraryDirectedTriple";
 
@@ -1528,7 +1508,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] findArbitraryDirectedTriple_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
@@ -1697,6 +1677,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findArbitraryDirectedTriple.instance.pat_findArbitraryDirectedTriple; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1725,11 +1707,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		GRGEN_LGSP.PatternGraph pat_findDirectedEdge;
 
 
-#if INITIAL_WARMUP
-		public Rule_findDirectedEdge()
-#else
 		private Rule_findDirectedEdge()
-#endif
 		{
 			name = "findDirectedEdge";
 
@@ -1737,7 +1715,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] findDirectedEdge_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
@@ -1888,6 +1866,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findDirectedEdge.instance.pat_findDirectedEdge; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1922,11 +1902,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 		GRGEN_LGSP.PatternGraph pat_findTripleCircle;
 
 
-#if INITIAL_WARMUP
-		public Rule_findTripleCircle()
-#else
 		private Rule_findTripleCircle()
-#endif
 		{
 			name = "findTripleCircle";
 
@@ -1934,7 +1910,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] findTripleCircle_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
@@ -2113,9 +2089,49 @@ namespace de.unika.ipd.grGen.Action_edge1
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findTripleCircle.instance.pat_findTripleCircle; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
+	}
+
+	public class edge1_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
+	{
+		public edge1_RuleAndMatchingPatterns()
+		{
+			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0];
+			rules = new GRGEN_LGSP.LGSPRulePattern[11];
+			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+11];
+			rules[0] = Rule_init.Instance;
+			rulesAndSubpatterns[0+0] = Rule_init.Instance;
+			rules[1] = Rule_init2.Instance;
+			rulesAndSubpatterns[0+1] = Rule_init2.Instance;
+			rules[2] = Rule_init3.Instance;
+			rulesAndSubpatterns[0+2] = Rule_init3.Instance;
+			rules[3] = Rule_findUndirectedEdge.Instance;
+			rulesAndSubpatterns[0+3] = Rule_findUndirectedEdge.Instance;
+			rules[4] = Rule_findArbitraryEdge.Instance;
+			rulesAndSubpatterns[0+4] = Rule_findArbitraryEdge.Instance;
+			rules[5] = Rule_findArbitraryDirectedEdge.Instance;
+			rulesAndSubpatterns[0+5] = Rule_findArbitraryDirectedEdge.Instance;
+			rules[6] = Rule_findArbitraryDirectedReflexiveEdge.Instance;
+			rulesAndSubpatterns[0+6] = Rule_findArbitraryDirectedReflexiveEdge.Instance;
+			rules[7] = Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Instance;
+			rulesAndSubpatterns[0+7] = Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Instance;
+			rules[8] = Rule_findArbitraryDirectedTriple.Instance;
+			rulesAndSubpatterns[0+8] = Rule_findArbitraryDirectedTriple.Instance;
+			rules[9] = Rule_findDirectedEdge.Instance;
+			rulesAndSubpatterns[0+9] = Rule_findDirectedEdge.Instance;
+			rules[10] = Rule_findTripleCircle.Instance;
+			rulesAndSubpatterns[0+10] = Rule_findTripleCircle.Instance;
+		}
+		public override GRGEN_LGSP.LGSPRulePattern[] Rules { get { return rules; } }
+		private GRGEN_LGSP.LGSPRulePattern[] rules;
+		public override GRGEN_LGSP.LGSPMatchingPattern[] Subpatterns { get { return subpatterns; } }
+		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
+		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
+		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 	}
 
 
@@ -2804,6 +2820,9 @@ label5: ;
     }
 
 
+    // class which instantiates and stores all the compiled actions of the module in a dictionary,
+    // dynamic regeneration and compilation causes the old action to be overwritten by the new one
+    // matching/rule patterns are analyzed at creation time here, once, so that later regeneration runs have all the information available
     public class edge1Actions : de.unika.ipd.grGen.lgsp.LGSPActions
     {
         public edge1Actions(de.unika.ipd.grGen.lgsp.LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
@@ -2820,17 +2839,30 @@ label5: ;
 
         private void InitActions()
         {
+            de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer analyzer = new de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer();
+            analyzer.AnalyzeNestingOfAndRemember(Rule_init.Instance);
             actions.Add("init", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_init.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_init2.Instance);
             actions.Add("init2", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_init2.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_init3.Instance);
             actions.Add("init3", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_init3.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_findUndirectedEdge.Instance);
             actions.Add("findUndirectedEdge", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_findUndirectedEdge.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_findArbitraryEdge.Instance);
             actions.Add("findArbitraryEdge", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_findArbitraryEdge.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_findArbitraryDirectedEdge.Instance);
             actions.Add("findArbitraryDirectedEdge", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_findArbitraryDirectedEdge.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_findArbitraryDirectedReflexiveEdge.Instance);
             actions.Add("findArbitraryDirectedReflexiveEdge", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_findArbitraryDirectedReflexiveEdge.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Instance);
             actions.Add("findArbitraryDirectedReflexiveEdgeAfterUndirectedOne", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_findArbitraryDirectedTriple.Instance);
             actions.Add("findArbitraryDirectedTriple", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_findArbitraryDirectedTriple.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_findDirectedEdge.Instance);
             actions.Add("findDirectedEdge", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_findDirectedEdge.Instance);
+            analyzer.AnalyzeNestingOfAndRemember(Rule_findTripleCircle.Instance);
             actions.Add("findTripleCircle", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_findTripleCircle.Instance);
+            analyzer.ComputeInterPatternRelations();
         }
 
         public override String Name { get { return "edge1Actions"; } }

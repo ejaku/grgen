@@ -232,6 +232,12 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IPatternGraph Pattern { get; }
 
+        /// <summary>
+        /// The match of the enclosing pattern if this is the pattern of 
+        /// a subpattern, alternative, independent; otherwise null
+        /// </summary>
+        IMatch MatchOfEnclosingPattern { get; }
+
 
         //////////////////////////////////////////////////////////////////////////
         // Nodes

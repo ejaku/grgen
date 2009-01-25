@@ -178,7 +178,9 @@ namespace de.unika.ipd.grGen.lgsp
             return OperationsList;
         }
 
-        public string Name;
+        protected string RulePatternClassName;
+        protected List<string> NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
+        protected string Name;
 
         public SearchProgramList OperationsList;
     }
@@ -189,8 +191,13 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class SearchProgramOfAction : SearchProgram
     {
-        public SearchProgramOfAction(string name, bool containsSubpatterns)
+        public SearchProgramOfAction(string rulePatternClassName, 
+            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative,
+            string name, bool containsSubpatterns)
         {
+            RulePatternClassName = rulePatternClassName;
+            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative =
+                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
             Name = name;
 
             SetupSubpatternMatching = containsSubpatterns;
@@ -238,6 +245,13 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
             sourceCode.AppendFront("matches.Clear();\n");
             sourceCode.AppendFront("int negLevel = 0;\n");
+            
+            foreach(string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
+            {
+                sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
+                    RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
+                    NamesOfEntities.PatternpathMatch(graphsOnPath));
+            }
 
             if (SetupSubpatternMatching)
             {
@@ -274,13 +288,17 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class SearchProgramOfMissingPreset : SearchProgram
     {
-        public SearchProgramOfMissingPreset(string name, bool containsSubpatterns,
+        public SearchProgramOfMissingPreset(string rulePatternClassName,
+            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative,
+            string name, bool containsSubpatterns,
             string[] parameters, bool[] parameterIsNode)
         {
+            RulePatternClassName = rulePatternClassName;
+            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative =
+                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
             Name = name;
 
             SetupSubpatternMatching = containsSubpatterns;
-
             Parameters = parameters;
             ParameterIsNode = parameterIsNode;
         }
@@ -353,6 +371,13 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
             sourceCode.AppendFront("int negLevel = 0;\n");
 
+            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
+            {
+                sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
+                    RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
+                    NamesOfEntities.PatternpathMatch(graphsOnPath));
+            }
+
             OperationsList.Emit(sourceCode);
 
             sourceCode.AppendFront("return;\n");
@@ -377,8 +402,13 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class SearchProgramOfSubpattern : SearchProgram
     {
-        public SearchProgramOfSubpattern(string name)
+        public SearchProgramOfSubpattern(string rulePatternClassName, 
+            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative,
+            string name)
         {
+            RulePatternClassName = rulePatternClassName;
+            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative =
+                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
             Name = name;
         }
 
@@ -415,6 +445,13 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
+            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
+            {
+                sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
+                    RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
+                    NamesOfEntities.PatternpathMatch(graphsOnPath));
+            }
+
             OperationsList.Emit(sourceCode);
 
             sourceCode.AppendFront("return;\n");
@@ -428,8 +465,13 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class SearchProgramOfAlternative : SearchProgram
     {
-        public SearchProgramOfAlternative(string name)
+        public SearchProgramOfAlternative(string rulePatternClassName, 
+            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative,
+            string name)
         {
+            RulePatternClassName = rulePatternClassName;
+            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative =
+                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
             Name = name;
         }
 
@@ -464,6 +506,13 @@ namespace de.unika.ipd.grGen.lgsp
                 + "int maxMatches, int negLevel)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
+
+            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
+            {
+                sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
+                    RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
+                    NamesOfEntities.PatternpathMatch(graphsOnPath));
+            }
 
             OperationsList.Emit(sourceCode);
 

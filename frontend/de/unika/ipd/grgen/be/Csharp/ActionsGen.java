@@ -119,6 +119,36 @@ public class ActionsGen extends CSharpBase {
 			genAction(sb, actionRule);
 		}
 
+		sb.append("\tpublic class " + be.unit.getUnitName() + "_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns\n");
+		sb.append("\t{\n");
+		sb.append("\t\tpublic " + be.unit.getUnitName() + "_RuleAndMatchingPatterns()\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tsubpatterns = new GRGEN_LGSP.LGSPMatchingPattern["+be.unit.getSubpatternRules().size()+"];\n");
+		sb.append("\t\t\trules = new GRGEN_LGSP.LGSPRulePattern["+be.unit.getActionRules().size()+"];\n");
+		sb.append("\t\t\trulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern["+
+				be.unit.getSubpatternRules().size()+"+"+be.unit.getActionRules().size()+"];\n");
+		int i = 0;
+		for(Rule subpatternRule : be.unit.getSubpatternRules()) {
+			sb.append("\t\t\tsubpatterns["+i+"] = Pattern_"+formatIdentifiable(subpatternRule)+".Instance;\n");
+			sb.append("\t\t\trulesAndSubpatterns["+i+"] = Pattern_"+formatIdentifiable(subpatternRule)+".Instance;\n");
+			++i;
+		}
+		int j = 0;
+		for(Rule actionRule : be.unit.getActionRules()) {
+			sb.append("\t\t\trules["+j+"] = Rule_"+formatIdentifiable(actionRule)+".Instance;\n");
+			sb.append("\t\t\trulesAndSubpatterns["+i+"+"+j+"] = Rule_"+formatIdentifiable(actionRule)+".Instance;\n");
+			++j;
+		}
+		sb.append("\t\t}\n");
+		sb.append("\t\tpublic override GRGEN_LGSP.LGSPRulePattern[] Rules { get { return rules; } }\n");
+		sb.append("\t\tprivate GRGEN_LGSP.LGSPRulePattern[] rules;\n");
+		sb.append("\t\tpublic override GRGEN_LGSP.LGSPMatchingPattern[] Subpatterns { get { return subpatterns; } }\n");
+		sb.append("\t\tprivate GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;\n");
+		sb.append("\t\tpublic override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }\n");
+		sb.append("\t\tprivate GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;\n");
+		sb.append("\t}\n");
+		sb.append("\n");
+		
 		sb.append("// GrGen insert Actions here\n");
 		sb.append("}\n");
 
@@ -135,7 +165,7 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\tpublic class " + className + " : GRGEN_LGSP.LGSPMatchingPattern\n");
 		sb.append("\t{\n");
-		sb.append("\t\tprivate static " + className + " instance = null;\n"); //new Rule_" + actionName + "();\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n");
 		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
 				+ "instance = new " + className + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
@@ -168,7 +198,7 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\tpublic class " + className + " : GRGEN_LGSP.LGSPRulePattern\n");
 		sb.append("\t{\n");
-		sb.append("\t\tprivate static " + className + " instance = null;\n"); //new Rule_" + actionName + "();\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n");
 		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
 				+ "instance = new " + className + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
@@ -596,11 +626,7 @@ public class ActionsGen extends CSharpBase {
 			String className, boolean isSubpattern) {
 		PatternGraph pattern = action.getPattern();
 
-		sb.append("#if INITIAL_WARMUP\n");
-		sb.append("\t\tpublic " + className + "()\n");
-		sb.append("#else\n");
 		sb.append("\t\tprivate " + className + "()\n");
-		sb.append("#endif\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tname = \"" + formatIdentifiable(action) + "\";\n");
 		sb.append("\n");
@@ -614,7 +640,7 @@ public class ActionsGen extends CSharpBase {
 
 		StringBuilder aux = new StringBuilder();
 		String patGraphVarName = "pat_" + pattern.getNameOfGraph();
-		sb.append("\t\tpublic override void initialize()\n");
+		sb.append("\t\tprivate void initialize()\n");
 		sb.append("\t\t{\n");
 
 		genPatternGraph(sb, aux, pattern, "", pattern.getNameOfGraph(), patGraphVarName, className,
@@ -1428,6 +1454,8 @@ public class ActionsGen extends CSharpBase {
 		}
 		
 		sb.append("\t\t\tpublic GRGEN_LIBGR.IPatternGraph Pattern { get { return "+ruleClassName+".instance."+patGraphVarName+"; } }\n");
+		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }\n");
+		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;\n");
 		sb.append("\t\t\tpublic override string ToString() { return \"Match of \" + Pattern.Name; }\n");
 		
 		sb.append("\t\t}\n");

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sat Jan 17 01:17:13 CET 2009
+// Generated from "test.grg" on Sun Jan 25 17:24:29 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -40,11 +40,7 @@ namespace de.unika.ipd.grGen.Action_test
 		GRGEN_LGSP.PatternGraph pat_testRule;
 
 
-#if INITIAL_WARMUP
-		public Rule_testRule()
-#else
 		private Rule_testRule()
-#endif
 		{
 			name = "testRule";
 
@@ -52,7 +48,7 @@ namespace de.unika.ipd.grGen.Action_test
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
 		}
-		public override void initialize()
+		private void initialize()
 		{
 			bool[,] testRule_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
@@ -263,9 +259,29 @@ namespace de.unika.ipd.grGen.Action_test
 			}
 			
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_testRule.instance.pat_testRule; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
+	}
+
+	public class test_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
+	{
+		public test_RuleAndMatchingPatterns()
+		{
+			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0];
+			rules = new GRGEN_LGSP.LGSPRulePattern[1];
+			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+1];
+			rules[0] = Rule_testRule.Instance;
+			rulesAndSubpatterns[0+0] = Rule_testRule.Instance;
+		}
+		public override GRGEN_LGSP.LGSPRulePattern[] Rules { get { return rules; } }
+		private GRGEN_LGSP.LGSPRulePattern[] rules;
+		public override GRGEN_LGSP.LGSPMatchingPattern[] Subpatterns { get { return subpatterns; } }
+		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
+		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
+		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
 	}
 
 
@@ -351,6 +367,9 @@ namespace de.unika.ipd.grGen.Action_test
     }
 
 
+    // class which instantiates and stores all the compiled actions of the module in a dictionary,
+    // dynamic regeneration and compilation causes the old action to be overwritten by the new one
+    // matching/rule patterns are analyzed at creation time here, once, so that later regeneration runs have all the information available
     public class testActions : de.unika.ipd.grGen.lgsp.LGSPActions
     {
         public testActions(de.unika.ipd.grGen.lgsp.LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
@@ -367,7 +386,10 @@ namespace de.unika.ipd.grGen.Action_test
 
         private void InitActions()
         {
+            de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer analyzer = new de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer();
+            analyzer.AnalyzeNestingOfAndRemember(Rule_testRule.Instance);
             actions.Add("testRule", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_testRule.Instance);
+            analyzer.ComputeInterPatternRelations();
         }
 
         public override String Name { get { return "testActions"; } }

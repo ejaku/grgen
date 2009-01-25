@@ -800,6 +800,7 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// A container of rules also managing some parts of rule application with sequences.
+    /// Abstract base class with empty actions, the derived classes fill the actions dictionary.
     /// </summary>
     public abstract class LGSPActions : BaseActions
     {
@@ -1085,6 +1086,18 @@ invalidCommand:
         /// The inheriting class contains the preset subpattern connection elements
         /// </summary>
         protected Stack<LGSPSubpatternAction> openTasks;
+
+        /// <summary>
+        /// Entry point to the temporary match object stack representing the pattern nesting from innermost outwards.
+        /// Needed for patternpath checking in subpattern negatives, used as attachment point / is top of stack.
+        /// </summary>
+        protected IMatch matchOfNestingPattern;
+
+        /// <summary>
+        /// First subpattern match in the temporary match object stack representing the pattern nesting from innermost outwards.
+        /// Needed for patternpath checking in subpattern negatives, used as starting point of global isomorphy checks.
+        /// </summary>
+        protected IMatch matchOfNestingSubpattern;
 
         /// <summary>
         /// Searches for the subpattern as specified by RulePattern.
