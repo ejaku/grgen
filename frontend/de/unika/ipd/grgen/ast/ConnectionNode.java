@@ -223,7 +223,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	/**
 	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addEdges(java.util.Set)
 	 */
-	public void addEdge(Set<BaseNode> set) {
+	public void addEdge(Set<EdgeDeclNode> set) {
+		assert isResolved();
+
 		set.add(edge);
 	}
 
@@ -258,7 +260,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	/**
 	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set)
 	 */
-	public void addNodes(Set<BaseNode> set) {
+	public void addNodes(Set<NodeDeclNode> set) {
+		assert isResolved();
+
 		set.add(left);
 		set.add(right);
 	}

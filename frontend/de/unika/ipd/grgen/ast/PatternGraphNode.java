@@ -491,7 +491,7 @@ public class PatternGraphNode extends GraphNode {
 	private void initDoubleNodeNegMap() {
 		Collection<InducedNode> inducedNodes = induced.getChildren();
 		if (isInduced()) {
-			addToDoubleNodeMap(getAllPatternNodes());
+			addToDoubleNodeMap(getNodes());
 
 			for (BaseNode node : inducedNodes) {
 				node.reportWarning("Induced statement occurs in induced pattern");
@@ -612,7 +612,7 @@ public class PatternGraphNode extends GraphNode {
 		Collection<ExactNode> exactNodes = exact.getChildren();
 
 		if (isExact()) {
-			addToSingleNodeMap(getAllPatternNodes());
+			addToSingleNodeMap(getNodes());
 
 			if (isDPO()) {
 				reportWarning("The keyword \"dpo\" is redundant for exact patterns");
@@ -665,29 +665,6 @@ public class PatternGraphNode extends GraphNode {
 		}
 
 		addToSingleNodeMap(genExactNodes.keySet());
-	}
-
-	/** Return all nodes of the pattern. */
-	private Set<NodeDeclNode> getAllPatternNodes() {
-		assert isResolved();
-
-		Set<NodeDeclNode> nodes = new LinkedHashSet<NodeDeclNode>();
-		for (BaseNode n : connections.getChildren()) {
-			ConnectionCharacter conn = (ConnectionCharacter) n;
-
-			// This cast must be ok after checking.
-			NodeDeclNode cand = (NodeDeclNode) conn.getSrc();
-			if (!cand.isDummy()) {
-				nodes.add(cand);
-			}
-			// This cast must be ok after checking.
-			cand = (NodeDeclNode) conn.getTgt();
-			if (cand != null && !cand.isDummy()) {
-				nodes.add(cand);
-			}
-		}
-
-		return nodes;
 	}
 
 	/**

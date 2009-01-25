@@ -51,8 +51,8 @@ public class GraphNode extends BaseNode {
 	protected boolean hasAbstractElements;
 
 	// Cache variables
-	private Set<BaseNode> nodes;
-	private Set<BaseNode> edges;
+	private Set<NodeDeclNode> nodes;
+	private Set<EdgeDeclNode> edges;
 
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	int context = 0;
@@ -252,12 +252,12 @@ public class GraphNode extends BaseNode {
 	 * @return A set containing the declarations of all nodes occurring
 	 * in this graph pattern.
 	 */
-	protected Set<BaseNode> getNodes() {
+	protected Set<NodeDeclNode> getNodes() {
 		assert isResolved();
 
 		if(nodes != null) return nodes;
 
-		LinkedHashSet<BaseNode> coll = new LinkedHashSet<BaseNode>();
+		LinkedHashSet<NodeDeclNode> coll = new LinkedHashSet<NodeDeclNode>();
 
 		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
@@ -268,12 +268,12 @@ public class GraphNode extends BaseNode {
 		return nodes;
 	}
 
-	protected Set<BaseNode> getEdges() {
+	protected Set<EdgeDeclNode> getEdges() {
 		assert isResolved();
 
 		if(edges != null) return edges;
 
-		LinkedHashSet<BaseNode> coll = new LinkedHashSet<BaseNode>();
+		LinkedHashSet<EdgeDeclNode> coll = new LinkedHashSet<EdgeDeclNode>();
 
 		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;

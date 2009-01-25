@@ -204,7 +204,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 	 */
 	protected Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern) {
 		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
-		Collection<BaseNode> lhs = pattern.getEdges();
+		Collection<EdgeDeclNode> lhs = pattern.getEdges();
 
 		for (BaseNode node : graph.getConnections()) {
 			if (node instanceof ConnectionNode) {
@@ -246,8 +246,8 @@ public class ModifyDeclNode extends RhsDeclNode {
 		if(reusedNodes != null) return reusedNodes;
 
 		LinkedHashSet<BaseNode> coll = new LinkedHashSet<BaseNode>();
-		Set<BaseNode> patternNodes = pattern.getNodes();
-		Set<BaseNode> rhsNodes = graph.getNodes();
+		Set<NodeDeclNode> patternNodes = pattern.getNodes();
+		Set<NodeDeclNode> rhsNodes = graph.getNodes();
 
 		for (BaseNode node : patternNodes) {
 			if(rhsNodes.contains(node) || !delete.getChildren().contains(node))

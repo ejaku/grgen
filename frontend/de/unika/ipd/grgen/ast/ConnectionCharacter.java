@@ -24,13 +24,13 @@ public interface ConnectionCharacter {
 	 * Add all nodes of this connection to a set.
 	 * @param set The set.
 	 */
-	void addNodes(Set<BaseNode> set);
+	void addNodes(Set<NodeDeclNode> set);
 
 	/**
 	 * Add all edges of this connection to a set.
 	 * @param set The set.
 	 */
-	void addEdge(Set<BaseNode> set);
+	void addEdge(Set<EdgeDeclNode> set);
 
 	EdgeCharacter getEdge();
 
