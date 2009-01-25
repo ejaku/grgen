@@ -13,6 +13,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -161,6 +162,60 @@ public class PatternGraphNode extends GraphNode {
 		childrenNames.add("exact");
 		childrenNames.add("induced");
 		return childrenNames;
+	}
+
+	/**
+	 * @see GraphNode#getNodes()
+	 */
+	protected Set<NodeDeclNode> getNodes() {
+		assert isResolved();
+
+		if(nodes != null) return nodes;
+
+		LinkedHashSet<NodeDeclNode> coll = new LinkedHashSet<NodeDeclNode>();
+
+		for(BaseNode n : connections.getChildren()) {
+			ConnectionCharacter conn = (ConnectionCharacter)n;
+			conn.addNodes(coll);
+		}
+
+		for (HomNode homNode : homs.getChildren()) {
+			for (BaseNode homElem : homNode.getChildren()) {
+				if (homElem instanceof NodeDeclNode) {
+					coll.add((NodeDeclNode) homElem);
+				}
+			}
+		}
+
+		nodes = Collections.unmodifiableSet(coll);
+		return nodes;
+	}
+
+	/**
+	 * @see GraphNode#getEdges()
+	 */
+	protected Set<EdgeDeclNode> getEdges() {
+		assert isResolved();
+
+		if(edges != null) return edges;
+
+		LinkedHashSet<EdgeDeclNode> coll = new LinkedHashSet<EdgeDeclNode>();
+
+		for(BaseNode n : connections.getChildren()) {
+			ConnectionCharacter conn = (ConnectionCharacter)n;
+			conn.addEdge(coll);
+		}
+
+		for (HomNode homNode : homs.getChildren()) {
+			for (BaseNode homElem : homNode.getChildren()) {
+				if (homElem instanceof EdgeDeclNode) {
+					coll.add((EdgeDeclNode) homElem);
+				}
+			}
+		}
+
+		edges = Collections.unmodifiableSet(coll);
+		return edges;
 	}
 
 	private void initHomMaps() {

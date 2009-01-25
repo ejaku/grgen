@@ -51,8 +51,8 @@ public class GraphNode extends BaseNode {
 	protected boolean hasAbstractElements;
 
 	// Cache variables
-	private Set<NodeDeclNode> nodes;
-	private Set<EdgeDeclNode> edges;
+	Set<NodeDeclNode> nodes;
+	Set<EdgeDeclNode> edges;
 
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	int context = 0;
