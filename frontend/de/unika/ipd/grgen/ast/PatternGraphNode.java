@@ -163,6 +163,48 @@ public class PatternGraphNode extends GraphNode {
 		return childrenNames;
 	}
 
+	private void initHomMaps() {
+		Collection<Set<ConstraintDeclNode>> homSets = getHoms();
+
+		// Each node is homomorphic to itself.
+		for (NodeDeclNode node : getNodes()) {
+			Set<NodeDeclNode> homSet = new LinkedHashSet<NodeDeclNode>();
+			homSet.add(node);
+			nodeHomMap.put(node, homSet);
+		}
+
+		// Each edge is homomorphic to itself.
+		for (EdgeDeclNode edge : getEdges()) {
+			Set<EdgeDeclNode> homSet = new LinkedHashSet<EdgeDeclNode>();
+			homSet.add(edge);
+			edgeHomMap.put(edge, homSet);
+		}
+
+		for (Set<ConstraintDeclNode> homSet : homSets) {
+			// Homomorphic nodes.
+			if (homSet.iterator().next() instanceof NodeDeclNode) {
+				for (ConstraintDeclNode elem : homSet) {
+					NodeDeclNode node = (NodeDeclNode) elem;
+					Set<NodeDeclNode> mapEntry = nodeHomMap.get(node);
+					for (ConstraintDeclNode homomorphicNode : homSet) {
+						mapEntry.add((NodeDeclNode) homomorphicNode);
+					}
+				}
+			}
+
+			// Homomorphic edges.
+			if (homSet.iterator().next() instanceof EdgeDeclNode) {
+				for (ConstraintDeclNode elem : homSet) {
+					EdgeDeclNode edge = (EdgeDeclNode) elem;
+					Set<EdgeDeclNode> mapEntry = edgeHomMap.get(edge);
+					for (ConstraintDeclNode homomorphicEdge : homSet) {
+						mapEntry.add((EdgeDeclNode) homomorphicEdge);
+					}
+				}
+			}
+		}
+	}
+
 	private void initHomSets() {
 		homSets = new LinkedHashSet<Set<ConstraintDeclNode>>();
 
@@ -695,14 +737,14 @@ public class PatternGraphNode extends GraphNode {
 				ConnectionNode conn = (ConnectionNode) n;
 				NodeDeclNode src = conn.getSrc();
 				if (singleNodeNegNodes.contains(src)) {
-					Set<NodeDeclNode> homSet = getCorrespondentHomSet(src);
+					Set<NodeDeclNode> homSet = getHomomorphic(src);
 					Set<ConnectionNode> edges = singleNodeNegMap.get(homSet);
 					edges.add(conn);
 					singleNodeNegMap.put(homSet, edges);
 				}
 				NodeDeclNode tgt = conn.getTgt();
 				if (singleNodeNegNodes.contains(tgt)) {
-					Set<NodeDeclNode> homSet = getCorrespondentHomSet(tgt);
+					Set<NodeDeclNode> homSet = getHomomorphic(tgt);
 					Set<ConnectionNode> edges = singleNodeNegMap.get(homSet);
 					edges.add(conn);
 					singleNodeNegMap.put(homSet, edges);
@@ -718,7 +760,7 @@ public class PatternGraphNode extends GraphNode {
 //			for (int direction = INCOMING; direction <= OUTGOING; direction++) {
 				Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
 				Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
-				Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getCorrespondentHomSet(singleNodeNegNode));
+				Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getHomomorphic(singleNodeNegNode));
 				PatternGraph neg = new PatternGraph(nameOfGraph, 0);
 
 				// add edges to NAC
@@ -752,7 +794,7 @@ public class PatternGraphNode extends GraphNode {
 	private void addToSingleNodeMap(Set<NodeDeclNode> nodes) {
 		for (NodeDeclNode node : nodes) {
 			singleNodeNegNodes.add(node);
-			Set<NodeDeclNode> homSet = getCorrespondentHomSet(node);
+			Set<NodeDeclNode> homSet = getHomomorphic(node);
 			if (!singleNodeNegMap.containsKey(homSet)) {
 				Set<ConnectionNode> edgeSet = new HashSet<ConnectionNode>();
 				singleNodeNegMap.put(homSet, edgeSet);
@@ -761,63 +803,23 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	/** Return the correspondent homomorphic set. */
-	protected Set<NodeDeclNode> getCorrespondentHomSet(NodeDeclNode node)
+	protected Set<NodeDeclNode> getHomomorphic(NodeDeclNode node)
     {
-		if (nodeHomMap.containsKey(node)) {
-	    	return nodeHomMap.get(node);
+		if (!nodeHomMap.containsKey(node)) {
+	    	initHomMaps();
 	    }
-		Set<NodeDeclNode> ret = new LinkedHashSet<NodeDeclNode>();
-		for (HomNode homNode : homs.getChildren()) {
-			assert homNode.isChecked();
 
-			if (homNode.getChildren().contains(node)) {
-	        	Set<Set<ConstraintDeclNode>> homSets = splitHoms(homNode.getChildren());
-	        	for (Set<ConstraintDeclNode> homSet : homSets) {
-		        	if (homSet.contains(node)) {
-    	        		for (DeclNode n : homSet) {
-    	        			// This cast must be ok after checking.
-    	        			ret.add((NodeDeclNode) n);
-    	                }
-	        		}
-                }
-	        	nodeHomMap.put(node, ret);
-	        	return ret;
-	        }
-        }
-		// homomorphic set contains only the node
-		ret.add(node);
-		nodeHomMap.put(node, ret);
-		return ret;
+		return nodeHomMap.get(node);
     }
 
 	/** Return the correspondent homomorphic set. */
-	protected Set<EdgeDeclNode> getCorrespondentHomSet(EdgeDeclNode edge)
+	protected Set<EdgeDeclNode> getHomomorphic(EdgeDeclNode edge)
     {
-		if (edgeHomMap.containsKey(edge)) {
-			return edgeHomMap.get(edge);
+		if (!edgeHomMap.containsKey(edge)) {
+			initHomMaps();
 		}
-	    Set<EdgeDeclNode> ret = new LinkedHashSet<EdgeDeclNode>();
-		for (HomNode homNode : homs.getChildren()) {
-			assert homNode.isChecked();
 
-			if (homNode.getChildren().contains(edge)) {
-	        	Set<Set<ConstraintDeclNode>> homSets = splitHoms(homNode.getChildren());
-	        	for (Set<ConstraintDeclNode> homSet : homSets) {
-		        	if (homSet.contains(edge)) {
-    	        		for (DeclNode n : homSet) {
-    	        			// This cast must be ok after checking.
-    	        			ret.add((EdgeDeclNode) n);
-    	                }
-		        	}
-                }
-	        	edgeHomMap.put(edge, ret);
-	        	return ret;
-	        }
-        }
-		// homomorphic set contains only the edge
-		ret.add(edge);
-		edgeHomMap.put(edge, ret);
-		return ret;
+		return edgeHomMap.get(edge);
     }
 
 	private NodeDeclNode getAnonymousDummyNode(BaseNode nodeRoot, int context) {
@@ -846,8 +848,8 @@ public class PatternGraphNode extends GraphNode {
 				ConnectionNode conn = (ConnectionNode) n;
 
 				List<Set<NodeDeclNode>> key = new LinkedList<Set<NodeDeclNode>>();
-				key.add(getCorrespondentHomSet(conn.getSrc()));
-				key.add(getCorrespondentHomSet(conn.getTgt()));
+				key.add(getHomomorphic(conn.getSrc()));
+				key.add(getHomomorphic(conn.getTgt()));
 
 				Set<ConnectionNode> edges = doubleNodeNegMap.get(key);
 				// edges == null if conn is a dangling edge or one of the nodes
@@ -870,11 +872,11 @@ public class PatternGraphNode extends GraphNode {
 			}
 
 			List<Set<NodeDeclNode>> key = new LinkedList<Set<NodeDeclNode>>();
-			key.add(getCorrespondentHomSet(src));
-			key.add(getCorrespondentHomSet(tgt));
+			key.add(getHomomorphic(src));
+			key.add(getHomomorphic(tgt));
 			List<Set<NodeDeclNode>> key2 = new LinkedList<Set<NodeDeclNode>>();
-			key2.add(getCorrespondentHomSet(tgt));
-			key2.add(getCorrespondentHomSet(src));
+			key2.add(getHomomorphic(tgt));
+			key2.add(getHomomorphic(src));
 			Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
 			Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 			Set<ConnectionNode> edgeSet = doubleNodeNegMap.get(key);
@@ -916,7 +918,7 @@ public class PatternGraphNode extends GraphNode {
 	    // inherit homomorphic nodes
 	    for (NodeDeclNode node : allNegNodes) {
 	    	Set<Node> homSet = new LinkedHashSet<Node>();
-	    	Set<NodeDeclNode> homNodes = getCorrespondentHomSet(node);
+	    	Set<NodeDeclNode> homNodes = getHomomorphic(node);
 
 	    	for (NodeDeclNode homNode : homNodes) {
 	            if (allNegNodes.contains(homNode)) {
@@ -931,7 +933,7 @@ public class PatternGraphNode extends GraphNode {
     	// inherit homomorphic edges
 	    for (EdgeDeclNode edge : allNegEdges) {
 	    	Set<Edge> homSet = new LinkedHashSet<Edge>();
-	    	Set<EdgeDeclNode> homEdges = getCorrespondentHomSet(edge);
+	    	Set<EdgeDeclNode> homEdges = getHomomorphic(edge);
 
 	    	for (EdgeDeclNode homEdge : homEdges) {
 	            if (allNegEdges.contains(homEdge)) {
@@ -953,8 +955,8 @@ public class PatternGraphNode extends GraphNode {
 				doubleNodeNegPairs.add(pair);
 
 				List<Set<NodeDeclNode>> key = new LinkedList<Set<NodeDeclNode>>();
-				key.add(getCorrespondentHomSet(src));
-				key.add(getCorrespondentHomSet(tgt));
+				key.add(getHomomorphic(src));
+				key.add(getHomomorphic(tgt));
 
 				if (!doubleNodeNegMap.containsKey(key)) {
 					Set<ConnectionNode> edges = new LinkedHashSet<ConnectionNode>();

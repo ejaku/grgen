@@ -121,9 +121,9 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 
 			Set<? extends ConstraintDeclNode> homSet;
 			if(retElem instanceof NodeDeclNode)
-				homSet = pattern.getCorrespondentHomSet((NodeDeclNode) retElem);
+				homSet = pattern.getHomomorphic((NodeDeclNode) retElem);
 			else
-				homSet = pattern.getCorrespondentHomSet((EdgeDeclNode) retElem);
+				homSet = pattern.getHomomorphic((EdgeDeclNode) retElem);
 
 			for(ConstraintDeclNode homElem : homSet) {
 				if(homElem == retElem) continue;

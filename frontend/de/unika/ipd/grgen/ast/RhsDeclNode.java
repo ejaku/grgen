@@ -68,7 +68,7 @@ public abstract class RhsDeclNode extends DeclNode {
 		if (nodes.size() > 0) {
 			// add homomorphic nodes
 			for (NodeDeclNode node : nodes) {
-				ret.addAll(pattern.getCorrespondentHomSet(node));
+				ret.addAll(pattern.getHomomorphic(node));
             }
 
     		Collection<ConnectionNode> conns = getResultingConnections(pattern);
@@ -108,7 +108,7 @@ public abstract class RhsDeclNode extends DeclNode {
 	        }
         }
 		for (EdgeDeclNode edge : edges) {
-			ret.addAll(pattern.getCorrespondentHomSet(edge));
+			ret.addAll(pattern.getHomomorphic(edge));
         }
 
 		return ret;
