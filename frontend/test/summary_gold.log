@@ -178,7 +178,7 @@ OK     should_pass/hom_015.grg
 OK     should_pass/hom_016.grg
 OK     should_pass/hom_017.grg
 OK     should_pass/hom_018.grg
-ERROR  should_pass/hom_019.grg
+OK     should_pass/hom_019.grg
 OK     should_pass/hom_ret_001.grg
 OK     should_pass/if_001.grg
 OK     should_pass/independent_001.grg
