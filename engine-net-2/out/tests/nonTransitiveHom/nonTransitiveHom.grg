@@ -14,7 +14,7 @@ test transitive {
 }
 
 // demonstrate a way to create non-transitive hom statements
-test nonTransitive {
+test transitiveWithNACs {
 	x:Node;
 	y:Node;
 	z:Node;
@@ -32,4 +32,12 @@ test nonTransitive {
 			z;
 		}
 	}
+}
+
+test nonTransitive {
+	x:Node;
+	y:Node;
+	z:Node;
+	hom(x,y);
+	hom(y,z);
 }
