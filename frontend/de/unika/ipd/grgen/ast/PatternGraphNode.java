@@ -874,6 +874,8 @@ public class PatternGraphNode extends GraphNode {
 	 */
 	private void addToSingleNodeMap(Set<NodeDeclNode> nodes) {
 		for (NodeDeclNode node : nodes) {
+			if (node.isDummy()) continue;
+
 			singleNodeNegNodes.add(node);
 			Set<NodeDeclNode> homSet = getHomomorphic(node);
 			if (!singleNodeNegMap.containsKey(homSet)) {
@@ -1043,7 +1045,11 @@ public class PatternGraphNode extends GraphNode {
 
 	private void addToDoubleNodeMap(Set<NodeDeclNode> nodes) {
 		for (NodeDeclNode src : nodes) {
+			if (src.isDummy()) continue;
+
 			for (NodeDeclNode tgt : nodes) {
+				if (tgt.isDummy()) continue;
+
 				List<NodeDeclNode> pair = new LinkedList<NodeDeclNode>();
 				pair.add(src);
 				pair.add(tgt);
