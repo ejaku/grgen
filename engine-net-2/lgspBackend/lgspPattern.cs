@@ -629,7 +629,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// only filled/valid if this is a top level pattern graph or an alternative case pattern graph.
         /// Needed for match object declaration at beginning of matcher method,
         /// these will be pushed on the matches stack for patternpath/global isomorphy checks.
-        /// Other patterns not enclosing a subpattern usage or alternative don't need to be entere there.
+        /// Other patterns not enclosing a subpattern usage or alternative don't need to be entered there.
         /// </summary>
         public List<String> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
     }

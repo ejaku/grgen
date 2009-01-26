@@ -245,7 +245,12 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
             sourceCode.AppendFront("matches.Clear();\n");
             sourceCode.AppendFront("int negLevel = 0;\n");
-            
+
+            if (NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Count>0)
+            {
+                sourceCode.AppendFrontFormat("GRGEN_LIBGR.IMatch {0};\n", NamesOfEntities.AttachmentPoint());
+                sourceCode.AppendFront("GRGEN_LIBGR.IMatch matchOfNestingSubpattern = null;\n");
+            }
             foreach(string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
@@ -371,6 +376,11 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
             sourceCode.AppendFront("int negLevel = 0;\n");
 
+            if (NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Count>0)
+            {
+                sourceCode.AppendFrontFormat("GRGEN_LIBGR.IMatch {0};\n", NamesOfEntities.AttachmentPoint());
+                sourceCode.AppendFront("GRGEN_LIBGR.IMatch matchOfNestingSubpattern = null;\n");
+            }
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
@@ -445,6 +455,10 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
+            if (NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Count>0)
+            {
+                sourceCode.AppendFrontFormat("GRGEN_LIBGR.IMatch {0};\n", NamesOfEntities.AttachmentPoint());
+            }
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
@@ -507,6 +521,10 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
+            if (NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Count>0)
+            {
+                sourceCode.AppendFrontFormat("GRGEN_LIBGR.IMatch {0};\n", NamesOfEntities.AttachmentPoint());
+            }
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
@@ -3403,6 +3421,22 @@ namespace de.unika.ipd.grGen.lgsp
                     variableContainingTask, ConnectionName[i], variableContainingPatternElementToBeBound);
             }
 
+            // fill in patternpath handling stack attachment and checking points
+            if (isAlternative)
+            {
+                sourceCode.AppendFrontFormat("{0}.matchOfNestingPattern = {1};\n",
+                    variableContainingTask, NamesOfEntities.AttachmentPoint());
+                sourceCode.AppendFrontFormat("{0}.matchOfNestingSubpattern = {1};\n",
+                    variableContainingTask, "matchOfNestingSubpattern");
+            }
+            else
+            {
+                sourceCode.AppendFrontFormat("{0}.matchOfNestingPattern = {1};\n",
+                    variableContainingTask, NamesOfEntities.AttachmentPoint());
+                sourceCode.AppendFrontFormat("{0}.matchOfNestingSubpattern = {1};\n",
+                    variableContainingTask, NamesOfEntities.AttachmentPoint());
+            }
+
             // push matching task to open tasks stack
             sourceCode.AppendFrontFormat("{0}openTasks.Push({1});\n", NegativeIndependentNamePrefix, variableContainingTask);
         }
@@ -3674,5 +3708,68 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public bool NeverAboveMaxNegLevel;
+    }
+
+    /// <summary>
+    /// Class representing "initialize the attachment point" operation,
+    /// the attachment point is needed for locally advancing the point where patternpath matches point to as previous
+    /// </summary>
+    class InitializeAttachmentPoint : SearchProgramOperation
+    {
+        public InitializeAttachmentPoint(bool isSubpattern)
+        {
+            IsSubpattern = isSubpattern;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("InitializeAttachmentPoint\n");
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if (IsSubpattern)
+            {
+                sourceCode.AppendFrontFormat("{0} = matchOfNestingPattern;\n", NamesOfEntities.AttachmentPoint());
+            }
+            else
+            {
+                sourceCode.AppendFrontFormat("{0} = null;\n", NamesOfEntities.AttachmentPoint());
+            }
+        }
+
+        bool IsSubpattern;
+    }
+
+    class PushMatchOfNestingPattern : SearchProgramOperation
+    {
+        public PushMatchOfNestingPattern(string rulePatternClassName, string patternGraphName)
+        {
+            RulePatternClassName = rulePatternClassName;
+            PatternGraphName = patternGraphName;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("PushMatchOfNestingPattern of {0}\n", PatternGraphName);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("// build match of {0} for patternpath checks\n", PatternGraphName);
+            sourceCode.AppendFrontFormat("if({0}==null) {0} = new {1}.{2}();\n", 
+                NamesOfEntities.PatternpathMatch(PatternGraphName),
+                RulePatternClassName,
+                NamesOfEntities.MatchClassName(PatternGraphName));
+            sourceCode.AppendFrontFormat("{0}._matchOfEnclosingPattern = {1};\n",
+                NamesOfEntities.PatternpathMatch(PatternGraphName),
+                NamesOfEntities.AttachmentPoint());
+            sourceCode.AppendFrontFormat("{0} = {1}._matchOfEnclosingPattern;\n",
+                NamesOfEntities.AttachmentPoint(),
+                NamesOfEntities.PatternpathMatch(PatternGraphName));
+        }
+
+        string RulePatternClassName;
+        string PatternGraphName;
     }
 }

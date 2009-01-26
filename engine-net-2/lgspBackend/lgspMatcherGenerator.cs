@@ -1052,33 +1052,33 @@ exitSecondLoop: ;
         /// Negative/Independent schedules are merged as an operation into their enclosing schedules,
         /// at a position determined by their costs but not before all of their needed elements were computed
         /// </summary>
-        public void MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(PatternGraph patternGraph)
+        public void MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(PatternGraph patternGraph, PatternGraph topLevelPatternGraph)
         {
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(neg);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(neg, topLevelPatternGraph);
             }
 
             foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
             {
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(idpt);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(idpt, topLevelPatternGraph);
             }
 
             foreach (Alternative alt in patternGraph.alternatives)
             {
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
-                    MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(altCase);
+                    MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(altCase, altCase);
                 }
             }
 
-            InsertNegativesAndIndependentsIntoSchedule(patternGraph);
+            InsertNegativesAndIndependentsIntoSchedule(patternGraph, topLevelPatternGraph);
         }
 
         /// <summary>
         /// Inserts schedules of negative and independent pattern graphs into the schedule of the enclosing pattern graph
         /// </summary>
-        public void InsertNegativesAndIndependentsIntoSchedule(PatternGraph patternGraph)
+        public void InsertNegativesAndIndependentsIntoSchedule(PatternGraph patternGraph, PatternGraph topLevelPatternGraph)
         {
             // todo: erst implicit node, dann negative/independent, auch wenn negative/independent mit erstem implicit moeglich wird
 
@@ -1110,6 +1110,13 @@ exitSecondLoop: ;
                         || patternGraph.negativePatternGraphs[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                     { 
                         break; 
+                    }
+
+                    // nested patterns on the way to an enclosed subpattern usage/alternative must get matched after all nodes and edges,
+                    // because they require all outer elements to be known in order to lock them for patternpath processing
+                    if (topLevelPatternGraph.namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Contains(patternGraph.pathPrefix + patternGraph.name))
+                    {
+                        break;
                     }
 
                     if (negSchedule.Cost <= op.CostToEnd)
@@ -1150,6 +1157,13 @@ exitSecondLoop: ;
 
                     if (patternGraph.independentPatternGraphs[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
                         || patternGraph.independentPatternGraphs[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                    {
+                        break;
+                    }
+
+                    // nested patterns on the way to an enclosed subpattern usage/alternative must get matched after all nodes and edges,
+                    // because they require all outer elements to be known in order to lock them for patternpath processing
+                    if (topLevelPatternGraph.namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Contains(patternGraph.pathPrefix + patternGraph.name))
                     {
                         break;
                     }
@@ -1794,7 +1808,7 @@ exitSecondLoop: ;
 
                 GenerateScheduledSearchPlans(smp.patternGraph, graph, true, false);
 
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph, smp.patternGraph);
 
                 GenerateMatcherSourceCode(sourceCode, smp, false);
             }
@@ -1804,7 +1818,7 @@ exitSecondLoop: ;
             {
                 GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graph, false, false);
 
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph, action.rulePattern.patternGraph);
 
                 GenerateMatcherSourceCode(sourceCode, action.rulePattern, false);
             }

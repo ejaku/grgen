@@ -1091,13 +1091,13 @@ invalidCommand:
         /// Entry point to the temporary match object stack representing the pattern nesting from innermost outwards.
         /// Needed for patternpath checking in subpattern negatives, used as attachment point / is top of stack.
         /// </summary>
-        protected IMatch matchOfNestingPattern;
+        public IMatch matchOfNestingPattern;
 
         /// <summary>
         /// First subpattern match in the temporary match object stack representing the pattern nesting from innermost outwards.
         /// Needed for patternpath checking in subpattern negatives, used as starting point of global isomorphy checks.
         /// </summary>
-        protected IMatch matchOfNestingSubpattern;
+        public IMatch matchOfNestingSubpattern;
 
         /// <summary>
         /// Searches for the subpattern as specified by RulePattern.

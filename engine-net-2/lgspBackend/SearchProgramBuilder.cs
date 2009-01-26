@@ -1456,32 +1456,34 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// the types of match objects there are, to be filled by insertMatchObjectBuilding
+        /// </summary>
+        enum MatchObjectType
+        {
+            Normal,
+            Independent,
+            Patternpath
+        }
+
+        /// <summary>
         /// Inserts code to build the match object
         /// at the given position, returns position after inserted operations
         /// </summary>
         private SearchProgramOperation insertMatchObjectBuilding(
             SearchProgramOperation insertionPoint,
-            bool isIndependent)
+            PatternGraph patternGraph,
+            MatchObjectType matchObjectType)
         {
-            PatternGraph patternGraph = patternGraphWitNestingPatterns.Peek();
-            String matchObjectName = isIndependent ? NamesOfEntities.MatchedIndependentVariable(patternGraph.pathPrefix + patternGraph.name)
-                : "match";
-            String enumPrefix = patternGraph.pathPrefix + patternGraph.name + "_";
-            foreach(PatternVariable var in patternGraph.variables)
-            {
-                BuildMatchObject buildMatch = 
-                    new BuildMatchObject(
-                        BuildMatchObjectType.Variable,
-                        var.Type.Name,
-                        var.UnprefixedName,
-                        var.Name,
-                        rulePatternClassName, 
-                        enumPrefix, 
-                        matchObjectName,
-                        -1
-                    );
-                insertionPoint = insertionPoint.Append(buildMatch);
+            String matchObjectName;
+            if(matchObjectType==MatchObjectType.Independent) {
+                matchObjectName = NamesOfEntities.MatchedIndependentVariable(patternGraph.pathPrefix + patternGraph.name);
+            }else if(matchObjectType==MatchObjectType.Patternpath) {
+                matchObjectName = NamesOfEntities.PatternpathMatch(patternGraph.pathPrefix + patternGraph.name);
+            } else { //if(matchObjectType==MatchObjectType.Normal)
+                matchObjectName = "match";
             }
+            String enumPrefix = patternGraph.pathPrefix + patternGraph.name + "_";
+
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
             {
                 BuildMatchObject buildMatch =
@@ -1505,6 +1507,25 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.edges[i].typeName,
                         patternGraph.edges[i].UnprefixedName,
                         patternGraph.edges[i].Name,
+                        rulePatternClassName,
+                        enumPrefix,
+                        matchObjectName,
+                        -1
+                    );
+                insertionPoint = insertionPoint.Append(buildMatch);
+            }
+
+            // only nodes and edges for patternpath matches
+            if (matchObjectType == MatchObjectType.Patternpath) return insertionPoint;
+
+            foreach (PatternVariable var in patternGraph.variables)
+            {
+                BuildMatchObject buildMatch =
+                    new BuildMatchObject(
+                        BuildMatchObjectType.Variable,
+                        var.Type.Name,
+                        var.UnprefixedName,
+                        var.Name,
                         rulePatternClassName,
                         enumPrefix,
                         matchObjectName,
@@ -1569,6 +1590,25 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertPushMatchesOfNestingPatterns(SearchProgramOperation insertionPoint)
         {
+            bool isSubpattern = programType == SearchProgramType.Subpattern
+                || programType == SearchProgramType.AlternativeCase;
+            InitializeAttachmentPoint attachmentPoint = new InitializeAttachmentPoint(isSubpattern);
+            insertionPoint = insertionPoint.Append(attachmentPoint);
+
+            PatternGraph[] nestingPatterns = patternGraphWitNestingPatterns.ToArray(); // holy shit! no sets, no backward iterators, no direct access to stack ... c# data structures suck
+            for (int i = nestingPatterns.Length - 1; i >= 0; --i) // stack dumped in reverse ^^
+            {
+                PushMatchOfNestingPattern pushMatch =
+                    new PushMatchOfNestingPattern(
+                        rulePatternClassName,
+                        nestingPatterns[i].pathPrefix + nestingPatterns[i].name
+                    );
+                insertionPoint = insertionPoint.Append(pushMatch);
+
+                insertionPoint = insertMatchObjectBuilding(insertionPoint,
+                    nestingPatterns[i], MatchObjectType.Patternpath);
+            }
+
             return insertionPoint;
         }
 
@@ -1723,7 +1763,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- ---- fill the match object with the candidates 
             // ---- ---- which have passed all the checks for being a match
-            insertionPoint = insertMatchObjectBuilding(insertionPoint, false);
+            insertionPoint = insertMatchObjectBuilding(insertionPoint, 
+                patternGraph, MatchObjectType.Normal);
 
             // ---- nesting level up
             insertionPoint = continuationPointAfterLeafMatched;
@@ -1847,7 +1888,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- ---- fill the match object with the candidates 
             // ---- ---- which have passed all the checks for being a match
-            insertionPoint = insertMatchObjectBuilding(insertionPoint, false);
+            insertionPoint = insertMatchObjectBuilding(insertionPoint,
+                patternGraph, MatchObjectType.Normal);
 
             // ---- nesting level up
             insertionPoint = continuationPointAfterPatternAndSubpatternsMatched;
@@ -1874,6 +1916,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertCheckForSubpatternsFoundNegativeIndependent(SearchProgramOperation insertionPoint)
         {
+            PatternGraph patternGraph = patternGraphWitNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix();
 
             // check whether there were no subpattern matches found
@@ -1911,7 +1954,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     // ---- fill the match object with the candidates 
                     // ---- which have passed all the checks for being a match
-                    insertionPoint = insertMatchObjectBuilding(insertionPoint, true);
+                    insertionPoint = insertMatchObjectBuilding(insertionPoint,
+                        patternGraph, MatchObjectType.Independent);
                 }
 
                 // ---- continue the matching process outside
@@ -1945,7 +1989,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- fill the match object with the candidates 
             // ---- which have passed all the checks for being a match
-            insertionPoint = insertMatchObjectBuilding(insertionPoint, false);
+            insertionPoint = insertMatchObjectBuilding(insertionPoint, 
+                patternGraph, MatchObjectType.Normal);
 
             // ---- nesting level up
             insertionPoint = continuationPoint;
@@ -1969,6 +2014,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertPatternFoundNegativeIndependent(SearchProgramOperation insertionPoint)
         {
+            PatternGraph patternGraph = patternGraphWitNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix();
 
             if (isNegative)
@@ -1995,7 +2041,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     // fill the match object with the candidates 
                     // which have passed all the checks for being a match
-                    insertionPoint = insertMatchObjectBuilding(insertionPoint, true);
+                    insertionPoint = insertMatchObjectBuilding(insertionPoint, 
+                        patternGraph, MatchObjectType.Independent);
                 }
 
                 // continue the matching process outside
@@ -2648,19 +2695,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// returns name prefix for candidate variables computed from current negative/independent pattern nesting
-        /// todo: needed? now with stack of patterns, just ask the path prefix of top?
         /// </summary>
         private string NegativeIndependentNamePrefix()
         {
             string negativeIndependentNamePrefix = "";
-            bool first = true;
-            foreach (PatternGraph negativeIndependentPattern in patternGraphWitNestingPatterns)
+            PatternGraph[] nestingPatterns = patternGraphWitNestingPatterns.ToArray(); // holy shit! no sets, no backward iterators, no direct access to stack ... c# data structures suck
+            for (int i = nestingPatterns.Length - 2; i >= 0; --i) // skip first = top level pattern; stack dumped in reverse ^^
             {
-                if (first) {
-                    first = false;
-                    continue;
-                }
-                negativeIndependentNamePrefix += negativeIndependentPattern.name;
+                negativeIndependentNamePrefix += nestingPatterns[i].name;
             }
 
             if (negativeIndependentNamePrefix != "") {

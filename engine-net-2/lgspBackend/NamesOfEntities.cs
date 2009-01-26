@@ -153,6 +153,15 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns name of the search program variable used for locally advancing 
+        /// the nesting pattern attachment point (for patternpath handling)
+        /// </summary>
+        public static string AttachmentPoint()
+        {
+            return "attachment_point";
+        }
+
+        /// <summary>
         /// Returns name of the given element in the match class with correct match part prefix
         /// </summary>
         public static string MatchName(string unprefixedElementName, BuildMatchObjectType matchPart)
