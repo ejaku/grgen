@@ -1155,7 +1155,7 @@ namespace de.unika.ipd.grGen.lgsp
                 endSource.AppendFront("{\n");
                 endSource.Indent();
                 endSource.AppendFront("public " + unitName + "Actions(de.unika.ipd.grGen.lgsp.LGSPGraph lgspgraph, "
-                        + "String modelAsmName, String actionsAsmName)\n");
+                        + "string modelAsmName, string actionsAsmName)\n");
                 endSource.AppendFront("    : base(lgspgraph, modelAsmName, actionsAsmName)\n");
                 endSource.AppendFront("{\n");
                 endSource.AppendFront("    InitActions();\n");
@@ -1216,8 +1216,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                 endSource.Unindent();
                 endSource.AppendFront("}\n\n");
-                endSource.AppendFront("public override String Name { get { return \"" + actionsName + "\"; } }\n");
-                endSource.AppendFront("public override String ModelMD5Hash { get { return \"" + model.MD5Hash + "\"; } }\n");
+                endSource.AppendFront("public override string Name { get { return \"" + actionsName + "\"; } }\n");
+                endSource.AppendFront("public override string ModelMD5Hash { get { return \"" + model.MD5Hash + "\"; } }\n");
                 endSource.Unindent();
                 endSource.AppendFront("}\n");
                 source.Append(endSource.ToString());
