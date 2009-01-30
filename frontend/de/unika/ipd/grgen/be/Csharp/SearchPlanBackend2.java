@@ -62,9 +62,7 @@ public class SearchPlanBackend2 implements Backend, BackendFactory {
 		reservedWords.add("float");
 		reservedWords.add("int");
 		reservedWords.add("object");
-		reservedWords.add("Object");
 		reservedWords.add("string");
-		reservedWords.add("String");
 		reservedWords.add("void");
 	}
 

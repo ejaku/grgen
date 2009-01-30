@@ -225,55 +225,57 @@ public abstract class CSharpBase {
 		return matchClassContainer + "." + nameOfMatchClass;
 	}
 
-	public String formatTypeClass(Type type) {
+	public String formatTypeClassName(Type type) {
 		return formatNodeOrEdge(type) + "Type_" + formatIdentifiable(type);
 	}
 
-	public String formatElementClassInterface(Type type) {
+	public String formatTypeClassRef(Type type) {
+		return "GRGEN_MODEL." + formatTypeClassName(type);
+	}
+
+	public String formatElementClassRaw(Type type) {
+		return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
+	}
+
+	public String formatElementClassName(Type type) {
+		return "@" + formatElementClassRaw(type);
+	}
+
+	public String formatElementClassRef(Type type) {
+		return "GRGEN_MODEL." + formatElementClassName(type);
+	}
+
+	public String formatElementInterfaceRef(Type type) {
 		if(!(type instanceof InheritanceType)) {
 			assert(false);
 			return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
 		}
-		
+
 		InheritanceType nodeEdgeType = (InheritanceType)type;
+		String ident = formatIdentifiable(type);
 		if(nodeEdgeType.isAbstract()) {
-			if(formatIdentifiable(type)=="AEdge") {
-				return "GRGEN_LIBGR.IEdge";
-			}
-		} else if(formatIdentifiable(type)=="Node") {
-			return "GRGEN_LIBGR.INode";
-		} else if(formatIdentifiable(type)=="Edge") {
-			return "GRGEN_LIBGR.IEdge";
-		} else if(formatIdentifiable(type)=="UEdge") {
-			return "GRGEN_LIBGR.IEdge";
+			if(ident == "AEdge") return "GRGEN_LIBGR.IEdge";
 		}
-		return  "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
-	}
-	
-	public String formatElementClass(Type type) {
-		return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
+		else if(ident == "Node") return "GRGEN_LIBGR.INode";
+		else if(ident == "Edge" || ident == "UEdge") return "GRGEN_LIBGR.IEdge";
+
+		return "GRGEN_MODEL.I" + formatElementClassRaw(type);
 	}
 
-	public String formatVarDecl(Type type, String typePrefix, String varName) {
-		String ctype = "@" + typePrefix + formatElementClass(type);
-		return ctype + " " + varName + " = ";
-	}
-	
-	public String formatVarDeclWithCast(Type type, String typePrefix, String varName) {
-		String ctype = "@" + typePrefix + formatElementClass(type);
-		return ctype + " " + varName + " = (" + ctype + ") ";
+	public String formatVarDeclWithCast(String type, String varName) {
+		return type + " " + varName + " = (" + type + ") ";
 	}
 
 	public String formatNodeAssign(Node node, Collection<Node> extractNodeAttributeObject) {
 		if(extractNodeAttributeObject.contains(node))
-			return formatVarDeclWithCast(node.getType(), "", formatEntity(node));
+			return formatVarDeclWithCast(formatElementClassRef(node.getType()), formatEntity(node));
 		else
 			return "LGSPNode " + formatEntity(node) + " = ";
 	}
 
 	public String formatEdgeAssign(Edge edge, Collection<Edge> extractEdgeAttributeObject) {
 		if(extractEdgeAttributeObject.contains(edge))
-			return formatVarDeclWithCast(edge.getType(), "", formatEntity(edge));
+			return formatVarDeclWithCast(formatElementClassRef(edge.getType()), formatEntity(edge));
 		else
 			return "LGSPEdge " + formatEntity(edge) + " = ";
 	}
@@ -288,11 +290,11 @@ public abstract class CSharpBase {
 		else if (t instanceof DoubleType)
 			return "double";
 		else if (t instanceof StringType)
-			return "String";
+			return "string";
 		else if (t instanceof EnumType)
-			return "ENUM_" + formatIdentifiable(t);
+			return "GRGEN_MODEL.ENUM_" + formatIdentifiable(t);
 		else if (t instanceof ObjectType || t instanceof VoidType)
-			return "Object"; //TODO maybe we need another output type
+			return "object"; //TODO maybe we need another output type
 		else if (t instanceof MapType) {
 			MapType mapType = (MapType) t;
 			return "Dictionary<" + formatAttributeType(mapType.getKeyType())
@@ -403,7 +405,7 @@ public abstract class CSharpBase {
 							else genBinOpDefault(sb, op, modifyGenerationState);
 							break;
 						}
-						
+
 						case Operator.EXCEPT:
 						{
 							Type opType = op.getOperand(0).getType();
@@ -450,7 +452,7 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof EnumExpression) {
 			EnumExpression enumExp = (EnumExpression) expr;
-			sb.append("ENUM_" + enumExp.getType().getIdent().toString() + ".@" + enumExp.getEnumItem().toString());
+			sb.append("GRGEN_MODEL.ENUM_" + enumExp.getType().getIdent().toString() + ".@" + enumExp.getEnumItem().toString());
 		}
 		else if(expr instanceof Constant) { // gen C-code for constant expressions
 			Constant constant = (Constant) expr;
@@ -675,7 +677,7 @@ public abstract class CSharpBase {
 				return constant.getValue().toString() + "f"; /* this also applys to enum constants */
 			case Type.IS_TYPE: //emit code for type constants
 				InheritanceType it = (InheritanceType) constant.getValue();
-				return formatTypeClass(it) + ".typeVar";
+				return formatTypeClassRef(it) + ".typeVar";
 			case Type.IS_OBJECT: // If value is not null throw Exc
 				if(constant.getValue() == null) {
 					return "null";
