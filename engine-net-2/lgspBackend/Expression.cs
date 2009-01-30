@@ -532,7 +532,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("ENUM_" + EnumType + ".@" + EnumItem);
+            sourceCode.Append("GRGEN_MODEL.ENUM_" + EnumType + ".@" + EnumItem);
         }
 
         string EnumType;
