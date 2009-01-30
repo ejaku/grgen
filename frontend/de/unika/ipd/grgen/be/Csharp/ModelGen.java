@@ -798,9 +798,17 @@ set_init_loop:
 
 		sb.append("\t\t// implicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
 
+member_loop:
 		for(Entity member : type.getMembers()) {
 			if(!member.isConst()) continue;
 			if(initializedConstMembers.contains(member)) continue;
+
+			if(type != targetType) { // don't generate superclass init if target type contains own init
+				for(MemberInit tmi : targetType.getMemberInits()) {
+					if(member == tmi.getMember())
+						continue member_loop;
+				}
+			}
 
 			Type memberType = member.getType();
 			String attrType = formatAttributeType(member);
