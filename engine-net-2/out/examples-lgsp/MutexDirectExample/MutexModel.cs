@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Jan 25 17:24:43 CET 2009
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Feb 02 00:39:53 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.Model_Mutex
 {
+	using GRGEN_MODEL = de.unika.ipd.grGen.Model_Mutex;
 	//
 	// Enums
 	//
@@ -29,28 +30,28 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
 		private static int poolLevel = 0;
-		private static @Node[] pool = new @Node[10];
+		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
 		
 		static @Node() {
 		}
 		
-		public @Node() : base(NodeType_Node.typeVar)
+		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, map/set creation of Node
 		}
 
-		public static NodeType_Node TypeInstance { get { return NodeType_Node.typeVar; } }
+		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @Node(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Node(this); }
 
-		private @Node(@Node oldElem) : base(NodeType_Node.typeVar)
+		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
-		public static @Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@Node node;
+			GRGEN_MODEL.@Node node;
 			if(poolLevel == 0)
-				node = new @Node();
+				node = new GRGEN_MODEL.@Node();
 			else
 			{
 				node = pool[--poolLevel];
@@ -63,11 +64,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return node;
 		}
 
-		public static @Node CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@Node node;
+			GRGEN_MODEL.@Node node;
 			if(poolLevel == 0)
-				node = new @Node();
+				node = new GRGEN_MODEL.@Node();
 			else
 			{
 				node = pool[--poolLevel];
@@ -104,29 +105,29 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class NodeType_Node : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_Node typeVar = new NodeType_Node();
+		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, false, };
 		public static bool[] isMyType = new bool[] { true, true, true, };
 		public NodeType_Node() : base((int) NodeTypes.@Node)
 		{
 		}
-		public override String Name { get { return "Node"; } }
+		public override string Name { get { return "Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @Node();
+			return new GRGEN_MODEL.@Node();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
-			return new @Node();
+			return new GRGEN_MODEL.@Node();
 		}
 
 	}
@@ -137,34 +138,34 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 	}
 
-	public sealed class @Process : GRGEN_LGSP.LGSPNode, IProcess
+	public sealed class @Process : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IProcess
 	{
 		private static int poolLevel = 0;
-		private static @Process[] pool = new @Process[10];
+		private static GRGEN_MODEL.@Process[] pool = new GRGEN_MODEL.@Process[10];
 		
 		// explicit initializations of Process for target Process
 		// implicit initializations of Process for target Process
 		static @Process() {
 		}
 		
-		public @Process() : base(NodeType_Process.typeVar)
+		public @Process() : base(GRGEN_MODEL.NodeType_Process.typeVar)
 		{
 			// implicit initialization, map/set creation of Process
 			// explicit initializations of Process for target Process
 		}
 
-		public static NodeType_Process TypeInstance { get { return NodeType_Process.typeVar; } }
+		public static GRGEN_MODEL.NodeType_Process TypeInstance { get { return GRGEN_MODEL.NodeType_Process.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @Process(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Process(this); }
 
-		private @Process(@Process oldElem) : base(NodeType_Process.typeVar)
+		private @Process(GRGEN_MODEL.@Process oldElem) : base(GRGEN_MODEL.NodeType_Process.typeVar)
 		{
 		}
-		public static @Process CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@Process CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@Process node;
+			GRGEN_MODEL.@Process node;
 			if(poolLevel == 0)
-				node = new @Process();
+				node = new GRGEN_MODEL.@Process();
 			else
 			{
 				node = pool[--poolLevel];
@@ -178,11 +179,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return node;
 		}
 
-		public static @Process CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@Process CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@Process node;
+			GRGEN_MODEL.@Process node;
 			if(poolLevel == 0)
-				node = new @Process();
+				node = new GRGEN_MODEL.@Process();
 			else
 			{
 				node = pool[--poolLevel];
@@ -221,29 +222,29 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class NodeType_Process : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_Process typeVar = new NodeType_Process();
+		public static GRGEN_MODEL.NodeType_Process typeVar = new GRGEN_MODEL.NodeType_Process();
 		public static bool[] isA = new bool[] { true, true, false, };
 		public static bool[] isMyType = new bool[] { false, true, false, };
 		public NodeType_Process() : base((int) NodeTypes.@Process)
 		{
 		}
-		public override String Name { get { return "Process"; } }
+		public override string Name { get { return "Process"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @Process();
+			return new GRGEN_MODEL.@Process();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
-			return new @Process();
+			return new GRGEN_MODEL.@Process();
 		}
 
 	}
@@ -254,34 +255,34 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 	}
 
-	public sealed class @Resource : GRGEN_LGSP.LGSPNode, IResource
+	public sealed class @Resource : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IResource
 	{
 		private static int poolLevel = 0;
-		private static @Resource[] pool = new @Resource[10];
+		private static GRGEN_MODEL.@Resource[] pool = new GRGEN_MODEL.@Resource[10];
 		
 		// explicit initializations of Resource for target Resource
 		// implicit initializations of Resource for target Resource
 		static @Resource() {
 		}
 		
-		public @Resource() : base(NodeType_Resource.typeVar)
+		public @Resource() : base(GRGEN_MODEL.NodeType_Resource.typeVar)
 		{
 			// implicit initialization, map/set creation of Resource
 			// explicit initializations of Resource for target Resource
 		}
 
-		public static NodeType_Resource TypeInstance { get { return NodeType_Resource.typeVar; } }
+		public static GRGEN_MODEL.NodeType_Resource TypeInstance { get { return GRGEN_MODEL.NodeType_Resource.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @Resource(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Resource(this); }
 
-		private @Resource(@Resource oldElem) : base(NodeType_Resource.typeVar)
+		private @Resource(GRGEN_MODEL.@Resource oldElem) : base(GRGEN_MODEL.NodeType_Resource.typeVar)
 		{
 		}
-		public static @Resource CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@Resource CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@Resource node;
+			GRGEN_MODEL.@Resource node;
 			if(poolLevel == 0)
-				node = new @Resource();
+				node = new GRGEN_MODEL.@Resource();
 			else
 			{
 				node = pool[--poolLevel];
@@ -295,11 +296,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return node;
 		}
 
-		public static @Resource CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@Resource CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@Resource node;
+			GRGEN_MODEL.@Resource node;
 			if(poolLevel == 0)
-				node = new @Resource();
+				node = new GRGEN_MODEL.@Resource();
 			else
 			{
 				node = pool[--poolLevel];
@@ -338,29 +339,29 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class NodeType_Resource : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_Resource typeVar = new NodeType_Resource();
+		public static GRGEN_MODEL.NodeType_Resource typeVar = new GRGEN_MODEL.NodeType_Resource();
 		public static bool[] isA = new bool[] { true, false, true, };
 		public static bool[] isMyType = new bool[] { false, false, true, };
 		public NodeType_Resource() : base((int) NodeTypes.@Resource)
 		{
 		}
-		public override String Name { get { return "Resource"; } }
+		public override string Name { get { return "Resource"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @Resource();
+			return new GRGEN_MODEL.@Resource();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
-			return new @Resource();
+			return new GRGEN_MODEL.@Resource();
 		}
 
 	}
@@ -373,73 +374,73 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public MutexNodeModel()
 		{
-			NodeType_Node.typeVar.subOrSameGrGenTypes = NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Node.typeVar,
-				NodeType_Process.typeVar,
-				NodeType_Resource.typeVar,
+			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_Process.typeVar,
+				GRGEN_MODEL.NodeType_Resource.typeVar,
 			};
-			NodeType_Node.typeVar.directSubGrGenTypes = NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Process.typeVar,
-				NodeType_Resource.typeVar,
+			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Process.typeVar,
+				GRGEN_MODEL.NodeType_Resource.typeVar,
 			};
-			NodeType_Node.typeVar.superOrSameGrGenTypes = NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
 			};
-			NodeType_Node.typeVar.directSuperGrGenTypes = NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
 			};
-			NodeType_Process.typeVar.subOrSameGrGenTypes = NodeType_Process.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Process.typeVar,
+			GRGEN_MODEL.NodeType_Process.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Process.typeVar,
 			};
-			NodeType_Process.typeVar.directSubGrGenTypes = NodeType_Process.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			GRGEN_MODEL.NodeType_Process.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
 			};
-			NodeType_Process.typeVar.superOrSameGrGenTypes = NodeType_Process.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Process.typeVar,
-				NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_Process.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Process.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
 			};
-			NodeType_Process.typeVar.directSuperGrGenTypes = NodeType_Process.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_Process.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Process.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
 			};
-			NodeType_Resource.typeVar.subOrSameGrGenTypes = NodeType_Resource.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Resource.typeVar,
+			GRGEN_MODEL.NodeType_Resource.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Resource.typeVar,
 			};
-			NodeType_Resource.typeVar.directSubGrGenTypes = NodeType_Resource.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			GRGEN_MODEL.NodeType_Resource.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
 			};
-			NodeType_Resource.typeVar.superOrSameGrGenTypes = NodeType_Resource.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Resource.typeVar,
-				NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_Resource.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Resource.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
 			};
-			NodeType_Resource.typeVar.directSuperGrGenTypes = NodeType_Resource.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_Resource.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return true; } }
-		public GRGEN_LIBGR.NodeType RootType { get { return NodeType_Node.typeVar; } }
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return NodeType_Node.typeVar; } }
-		public GRGEN_LIBGR.NodeType GetType(String name)
+		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		public GRGEN_LIBGR.NodeType GetType(string name)
 		{
 			switch(name)
 			{
-				case "Node" : return NodeType_Node.typeVar;
-				case "Process" : return NodeType_Process.typeVar;
-				case "Resource" : return NodeType_Resource.typeVar;
+				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
+				case "Process" : return GRGEN_MODEL.NodeType_Process.typeVar;
+				case "Resource" : return GRGEN_MODEL.NodeType_Resource.typeVar;
 			}
 			return null;
 		}
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(String name)
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
 		{
 			return GetType(name);
 		}
 		private GRGEN_LIBGR.NodeType[] types = {
-			NodeType_Node.typeVar,
-			NodeType_Process.typeVar,
-			NodeType_Resource.typeVar,
+			GRGEN_MODEL.NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_Process.typeVar,
+			GRGEN_MODEL.NodeType_Resource.typeVar,
 		};
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
 		private Type[] typeTypes = {
-			typeof(NodeType_Node),
-			typeof(NodeType_Process),
-			typeof(NodeType_Resource),
+			typeof(GRGEN_MODEL.NodeType_Node),
+			typeof(GRGEN_MODEL.NodeType_Process),
+			typeof(GRGEN_MODEL.NodeType_Resource),
 		};
 		public Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
@@ -458,13 +459,13 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_AEdge typeVar = new EdgeType_AEdge();
+		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, };
 		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
 		{
 		}
-		public override String Name { get { return "AEdge"; } }
+		public override string Name { get { return "AEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -474,7 +475,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -491,31 +492,31 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
-		private static @Edge[] pool = new @Edge[10];
+		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
 		
 		static @Edge() {
 		}
 		
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(EdgeType_Edge.typeVar, source, target)
+			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
 			// implicit initialization, map/set creation of Edge
 		}
 
-		public static EdgeType_Edge TypeInstance { get { return EdgeType_Edge.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new @Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @Edge(@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(EdgeType_Edge.typeVar, newSource, newTarget)
+		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
-		public static @Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			@Edge edge;
+			GRGEN_MODEL.@Edge edge;
 			if(poolLevel == 0)
-				edge = new @Edge(source, target);
+				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -528,11 +529,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static @Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			@Edge edge;
+			GRGEN_MODEL.@Edge edge;
 			if(poolLevel == 0)
-				edge = new @Edge(source, target);
+				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -569,30 +570,30 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_Edge typeVar = new EdgeType_Edge();
+		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, true, false, true, true, true, true, true, true, };
 		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
 		{
 		}
-		public override String Name { get { return "Edge"; } }
+		public override string Name { get { return "Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -603,31 +604,31 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
-		private static @UEdge[] pool = new @UEdge[10];
+		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
 		
 		static @UEdge() {
 		}
 		
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(EdgeType_UEdge.typeVar, source, target)
+			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
 			// implicit initialization, map/set creation of UEdge
 		}
 
-		public static EdgeType_UEdge TypeInstance { get { return EdgeType_UEdge.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new @UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @UEdge(@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(EdgeType_UEdge.typeVar, newSource, newTarget)
+		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
-		public static @UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			@UEdge edge;
+			GRGEN_MODEL.@UEdge edge;
 			if(poolLevel == 0)
-				edge = new @UEdge(source, target);
+				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -640,11 +641,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static @UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			@UEdge edge;
+			GRGEN_MODEL.@UEdge edge;
 			if(poolLevel == 0)
-				edge = new @UEdge(source, target);
+				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -681,30 +682,30 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_UEdge typeVar = new EdgeType_UEdge();
+		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, false, false, };
 		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
 		{
 		}
-		public override String Name { get { return "UEdge"; } }
+		public override string Name { get { return "UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -715,10 +716,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 	}
 
-	public sealed class @next : GRGEN_LGSP.LGSPEdge, Inext
+	public sealed class @next : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Inext
 	{
 		private static int poolLevel = 0;
-		private static @next[] pool = new @next[10];
+		private static GRGEN_MODEL.@next[] pool = new GRGEN_MODEL.@next[10];
 		
 		// explicit initializations of next for target next
 		// implicit initializations of next for target next
@@ -726,26 +727,26 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		
 		public @next(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(EdgeType_next.typeVar, source, target)
+			: base(GRGEN_MODEL.EdgeType_next.typeVar, source, target)
 		{
 			// implicit initialization, map/set creation of next
 			// explicit initializations of next for target next
 		}
 
-		public static EdgeType_next TypeInstance { get { return EdgeType_next.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_next TypeInstance { get { return GRGEN_MODEL.EdgeType_next.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new @next(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@next(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @next(@next oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(EdgeType_next.typeVar, newSource, newTarget)
+		private @next(GRGEN_MODEL.@next oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_next.typeVar, newSource, newTarget)
 		{
 		}
-		public static @next CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@next CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			@next edge;
+			GRGEN_MODEL.@next edge;
 			if(poolLevel == 0)
-				edge = new @next(source, target);
+				edge = new GRGEN_MODEL.@next(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -759,11 +760,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static @next CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public static GRGEN_MODEL.@next CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			@next edge;
+			GRGEN_MODEL.@next edge;
 			if(poolLevel == 0)
-				edge = new @next(source, target);
+				edge = new GRGEN_MODEL.@next(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -802,30 +803,30 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class EdgeType_next : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_next typeVar = new EdgeType_next();
+		public static GRGEN_MODEL.EdgeType_next typeVar = new GRGEN_MODEL.EdgeType_next();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, };
 		public EdgeType_next() : base((int) EdgeTypes.@next)
 		{
 		}
-		public override String Name { get { return "next"; } }
+		public override string Name { get { return "next"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @next((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@next((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @next((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@next((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -836,10 +837,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 	}
 
-	public sealed class @blocked : GRGEN_LGSP.LGSPEdge, Iblocked
+	public sealed class @blocked : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iblocked
 	{
 		private static int poolLevel = 0;
-		private static @blocked[] pool = new @blocked[10];
+		private static GRGEN_MODEL.@blocked[] pool = new GRGEN_MODEL.@blocked[10];
 		
 		// explicit initializations of blocked for target blocked
 		// implicit initializations of blocked for target blocked
@@ -847,26 +848,26 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		
 		public @blocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(EdgeType_blocked.typeVar, source, target)
+			: base(GRGEN_MODEL.EdgeType_blocked.typeVar, source, target)
 		{
 			// implicit initialization, map/set creation of blocked
 			// explicit initializations of blocked for target blocked
 		}
 
-		public static EdgeType_blocked TypeInstance { get { return EdgeType_blocked.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_blocked TypeInstance { get { return GRGEN_MODEL.EdgeType_blocked.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new @blocked(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@blocked(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @blocked(@blocked oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(EdgeType_blocked.typeVar, newSource, newTarget)
+		private @blocked(GRGEN_MODEL.@blocked oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_blocked.typeVar, newSource, newTarget)
 		{
 		}
-		public static @blocked CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@blocked CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			@blocked edge;
+			GRGEN_MODEL.@blocked edge;
 			if(poolLevel == 0)
-				edge = new @blocked(source, target);
+				edge = new GRGEN_MODEL.@blocked(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -880,11 +881,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static @blocked CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public static GRGEN_MODEL.@blocked CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			@blocked edge;
+			GRGEN_MODEL.@blocked edge;
 			if(poolLevel == 0)
-				edge = new @blocked(source, target);
+				edge = new GRGEN_MODEL.@blocked(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -923,30 +924,30 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class EdgeType_blocked : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_blocked typeVar = new EdgeType_blocked();
+		public static GRGEN_MODEL.EdgeType_blocked typeVar = new GRGEN_MODEL.EdgeType_blocked();
 		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, };
 		public EdgeType_blocked() : base((int) EdgeTypes.@blocked)
 		{
 		}
-		public override String Name { get { return "blocked"; } }
+		public override string Name { get { return "blocked"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @blocked((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@blocked((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @blocked((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@blocked((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -957,10 +958,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 	}
 
-	public sealed class @held_by : GRGEN_LGSP.LGSPEdge, Iheld_by
+	public sealed class @held_by : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iheld_by
 	{
 		private static int poolLevel = 0;
-		private static @held_by[] pool = new @held_by[10];
+		private static GRGEN_MODEL.@held_by[] pool = new GRGEN_MODEL.@held_by[10];
 		
 		// explicit initializations of held_by for target held_by
 		// implicit initializations of held_by for target held_by
@@ -968,26 +969,26 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		
 		public @held_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(EdgeType_held_by.typeVar, source, target)
+			: base(GRGEN_MODEL.EdgeType_held_by.typeVar, source, target)
 		{
 			// implicit initialization, map/set creation of held_by
 			// explicit initializations of held_by for target held_by
 		}
 
-		public static EdgeType_held_by TypeInstance { get { return EdgeType_held_by.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_held_by TypeInstance { get { return GRGEN_MODEL.EdgeType_held_by.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new @held_by(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@held_by(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @held_by(@held_by oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(EdgeType_held_by.typeVar, newSource, newTarget)
+		private @held_by(GRGEN_MODEL.@held_by oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_held_by.typeVar, newSource, newTarget)
 		{
 		}
-		public static @held_by CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@held_by CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			@held_by edge;
+			GRGEN_MODEL.@held_by edge;
 			if(poolLevel == 0)
-				edge = new @held_by(source, target);
+				edge = new GRGEN_MODEL.@held_by(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1001,11 +1002,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static @held_by CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public static GRGEN_MODEL.@held_by CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			@held_by edge;
+			GRGEN_MODEL.@held_by edge;
 			if(poolLevel == 0)
-				edge = new @held_by(source, target);
+				edge = new GRGEN_MODEL.@held_by(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1044,30 +1045,30 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class EdgeType_held_by : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_held_by typeVar = new EdgeType_held_by();
+		public static GRGEN_MODEL.EdgeType_held_by typeVar = new GRGEN_MODEL.EdgeType_held_by();
 		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, };
 		public EdgeType_held_by() : base((int) EdgeTypes.@held_by)
 		{
 		}
-		public override String Name { get { return "held_by"; } }
+		public override string Name { get { return "held_by"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @held_by((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@held_by((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @held_by((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@held_by((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -1078,10 +1079,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 	}
 
-	public sealed class @token : GRGEN_LGSP.LGSPEdge, Itoken
+	public sealed class @token : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Itoken
 	{
 		private static int poolLevel = 0;
-		private static @token[] pool = new @token[10];
+		private static GRGEN_MODEL.@token[] pool = new GRGEN_MODEL.@token[10];
 		
 		// explicit initializations of token for target token
 		// implicit initializations of token for target token
@@ -1089,26 +1090,26 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		
 		public @token(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(EdgeType_token.typeVar, source, target)
+			: base(GRGEN_MODEL.EdgeType_token.typeVar, source, target)
 		{
 			// implicit initialization, map/set creation of token
 			// explicit initializations of token for target token
 		}
 
-		public static EdgeType_token TypeInstance { get { return EdgeType_token.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_token TypeInstance { get { return GRGEN_MODEL.EdgeType_token.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new @token(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@token(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @token(@token oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(EdgeType_token.typeVar, newSource, newTarget)
+		private @token(GRGEN_MODEL.@token oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_token.typeVar, newSource, newTarget)
 		{
 		}
-		public static @token CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@token CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			@token edge;
+			GRGEN_MODEL.@token edge;
 			if(poolLevel == 0)
-				edge = new @token(source, target);
+				edge = new GRGEN_MODEL.@token(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1122,11 +1123,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static @token CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public static GRGEN_MODEL.@token CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			@token edge;
+			GRGEN_MODEL.@token edge;
 			if(poolLevel == 0)
-				edge = new @token(source, target);
+				edge = new GRGEN_MODEL.@token(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1165,30 +1166,30 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class EdgeType_token : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_token typeVar = new EdgeType_token();
+		public static GRGEN_MODEL.EdgeType_token typeVar = new GRGEN_MODEL.EdgeType_token();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, false, false, };
 		public EdgeType_token() : base((int) EdgeTypes.@token)
 		{
 		}
-		public override String Name { get { return "token"; } }
+		public override string Name { get { return "token"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @token((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@token((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @token((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@token((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -1199,10 +1200,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 	}
 
-	public sealed class @release : GRGEN_LGSP.LGSPEdge, Irelease
+	public sealed class @release : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Irelease
 	{
 		private static int poolLevel = 0;
-		private static @release[] pool = new @release[10];
+		private static GRGEN_MODEL.@release[] pool = new GRGEN_MODEL.@release[10];
 		
 		// explicit initializations of release for target release
 		// implicit initializations of release for target release
@@ -1210,26 +1211,26 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		
 		public @release(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(EdgeType_release.typeVar, source, target)
+			: base(GRGEN_MODEL.EdgeType_release.typeVar, source, target)
 		{
 			// implicit initialization, map/set creation of release
 			// explicit initializations of release for target release
 		}
 
-		public static EdgeType_release TypeInstance { get { return EdgeType_release.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_release TypeInstance { get { return GRGEN_MODEL.EdgeType_release.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new @release(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@release(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @release(@release oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(EdgeType_release.typeVar, newSource, newTarget)
+		private @release(GRGEN_MODEL.@release oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_release.typeVar, newSource, newTarget)
 		{
 		}
-		public static @release CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@release CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			@release edge;
+			GRGEN_MODEL.@release edge;
 			if(poolLevel == 0)
-				edge = new @release(source, target);
+				edge = new GRGEN_MODEL.@release(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1243,11 +1244,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static @release CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public static GRGEN_MODEL.@release CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			@release edge;
+			GRGEN_MODEL.@release edge;
 			if(poolLevel == 0)
-				edge = new @release(source, target);
+				edge = new GRGEN_MODEL.@release(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1286,30 +1287,30 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class EdgeType_release : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_release typeVar = new EdgeType_release();
+		public static GRGEN_MODEL.EdgeType_release typeVar = new GRGEN_MODEL.EdgeType_release();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, true, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, };
 		public EdgeType_release() : base((int) EdgeTypes.@release)
 		{
 		}
-		public override String Name { get { return "release"; } }
+		public override string Name { get { return "release"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @release((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@release((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @release((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@release((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -1320,10 +1321,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 	}
 
-	public sealed class @request : GRGEN_LGSP.LGSPEdge, Irequest
+	public sealed class @request : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Irequest
 	{
 		private static int poolLevel = 0;
-		private static @request[] pool = new @request[10];
+		private static GRGEN_MODEL.@request[] pool = new GRGEN_MODEL.@request[10];
 		
 		// explicit initializations of request for target request
 		// implicit initializations of request for target request
@@ -1331,26 +1332,26 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		
 		public @request(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(EdgeType_request.typeVar, source, target)
+			: base(GRGEN_MODEL.EdgeType_request.typeVar, source, target)
 		{
 			// implicit initialization, map/set creation of request
 			// explicit initializations of request for target request
 		}
 
-		public static EdgeType_request TypeInstance { get { return EdgeType_request.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_request TypeInstance { get { return GRGEN_MODEL.EdgeType_request.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new @request(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@request(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @request(@request oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(EdgeType_request.typeVar, newSource, newTarget)
+		private @request(GRGEN_MODEL.@request oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_request.typeVar, newSource, newTarget)
 		{
 		}
-		public static @request CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@request CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			@request edge;
+			GRGEN_MODEL.@request edge;
 			if(poolLevel == 0)
-				edge = new @request(source, target);
+				edge = new GRGEN_MODEL.@request(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1364,11 +1365,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return edge;
 		}
 
-		public static @request CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public static GRGEN_MODEL.@request CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			@request edge;
+			GRGEN_MODEL.@request edge;
 			if(poolLevel == 0)
-				edge = new @request(source, target);
+				edge = new GRGEN_MODEL.@request(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1407,30 +1408,30 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed class EdgeType_request : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_request typeVar = new EdgeType_request();
+		public static GRGEN_MODEL.EdgeType_request typeVar = new GRGEN_MODEL.EdgeType_request();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, true, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, true, };
 		public EdgeType_request() : base((int) EdgeTypes.@request)
 		{
 		}
-		public override String Name { get { return "request"; } }
+		public override string Name { get { return "request"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @request((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@request((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @request((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@request((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -1443,187 +1444,187 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		public MutexEdgeModel()
 		{
-			EdgeType_AEdge.typeVar.subOrSameGrGenTypes = EdgeType_AEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_AEdge.typeVar,
-				EdgeType_Edge.typeVar,
-				EdgeType_UEdge.typeVar,
-				EdgeType_next.typeVar,
-				EdgeType_blocked.typeVar,
-				EdgeType_held_by.typeVar,
-				EdgeType_token.typeVar,
-				EdgeType_release.typeVar,
-				EdgeType_request.typeVar,
+			GRGEN_MODEL.EdgeType_AEdge.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_AEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
+				GRGEN_MODEL.EdgeType_UEdge.typeVar,
+				GRGEN_MODEL.EdgeType_next.typeVar,
+				GRGEN_MODEL.EdgeType_blocked.typeVar,
+				GRGEN_MODEL.EdgeType_held_by.typeVar,
+				GRGEN_MODEL.EdgeType_token.typeVar,
+				GRGEN_MODEL.EdgeType_release.typeVar,
+				GRGEN_MODEL.EdgeType_request.typeVar,
 			};
-			EdgeType_AEdge.typeVar.directSubGrGenTypes = EdgeType_AEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
-				EdgeType_UEdge.typeVar,
+			GRGEN_MODEL.EdgeType_AEdge.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_AEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
+				GRGEN_MODEL.EdgeType_UEdge.typeVar,
 			};
-			EdgeType_AEdge.typeVar.superOrSameGrGenTypes = EdgeType_AEdge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_AEdge.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_AEdge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 			};
-			EdgeType_AEdge.typeVar.directSuperGrGenTypes = EdgeType_AEdge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_AEdge.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_AEdge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
-				EdgeType_next.typeVar,
-				EdgeType_blocked.typeVar,
-				EdgeType_held_by.typeVar,
-				EdgeType_token.typeVar,
-				EdgeType_release.typeVar,
-				EdgeType_request.typeVar,
+			GRGEN_MODEL.EdgeType_Edge.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
+				GRGEN_MODEL.EdgeType_next.typeVar,
+				GRGEN_MODEL.EdgeType_blocked.typeVar,
+				GRGEN_MODEL.EdgeType_held_by.typeVar,
+				GRGEN_MODEL.EdgeType_token.typeVar,
+				GRGEN_MODEL.EdgeType_release.typeVar,
+				GRGEN_MODEL.EdgeType_request.typeVar,
 			};
-			EdgeType_Edge.typeVar.directSubGrGenTypes = EdgeType_Edge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_next.typeVar,
-				EdgeType_blocked.typeVar,
-				EdgeType_held_by.typeVar,
-				EdgeType_token.typeVar,
-				EdgeType_release.typeVar,
-				EdgeType_request.typeVar,
+			GRGEN_MODEL.EdgeType_Edge.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_next.typeVar,
+				GRGEN_MODEL.EdgeType_blocked.typeVar,
+				GRGEN_MODEL.EdgeType_held_by.typeVar,
+				GRGEN_MODEL.EdgeType_token.typeVar,
+				GRGEN_MODEL.EdgeType_release.typeVar,
+				GRGEN_MODEL.EdgeType_request.typeVar,
 			};
-			EdgeType_Edge.typeVar.superOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
-				EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_Edge.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 			};
-			EdgeType_Edge.typeVar.directSuperGrGenTypes = EdgeType_Edge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_Edge.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 			};
-			EdgeType_UEdge.typeVar.subOrSameGrGenTypes = EdgeType_UEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_UEdge.typeVar,
+			GRGEN_MODEL.EdgeType_UEdge.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_UEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_UEdge.typeVar,
 			};
-			EdgeType_UEdge.typeVar.directSubGrGenTypes = EdgeType_UEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_UEdge.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_UEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_UEdge.typeVar.superOrSameGrGenTypes = EdgeType_UEdge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_UEdge.typeVar,
-				EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_UEdge.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_UEdge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_UEdge.typeVar,
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 			};
-			EdgeType_UEdge.typeVar.directSuperGrGenTypes = EdgeType_UEdge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_UEdge.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_UEdge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 			};
-			EdgeType_next.typeVar.subOrSameGrGenTypes = EdgeType_next.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_next.typeVar,
+			GRGEN_MODEL.EdgeType_next.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_next.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_next.typeVar,
 			};
-			EdgeType_next.typeVar.directSubGrGenTypes = EdgeType_next.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_next.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_next.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_next.typeVar.superOrSameGrGenTypes = EdgeType_next.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_next.typeVar,
-				EdgeType_AEdge.typeVar,
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_next.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_next.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_next.typeVar,
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_next.typeVar.directSuperGrGenTypes = EdgeType_next.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_next.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_next.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_blocked.typeVar.subOrSameGrGenTypes = EdgeType_blocked.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_blocked.typeVar,
+			GRGEN_MODEL.EdgeType_blocked.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_blocked.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_blocked.typeVar,
 			};
-			EdgeType_blocked.typeVar.directSubGrGenTypes = EdgeType_blocked.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_blocked.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_blocked.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_blocked.typeVar.superOrSameGrGenTypes = EdgeType_blocked.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_blocked.typeVar,
-				EdgeType_AEdge.typeVar,
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_blocked.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_blocked.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_blocked.typeVar,
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_blocked.typeVar.directSuperGrGenTypes = EdgeType_blocked.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_blocked.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_blocked.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_held_by.typeVar.subOrSameGrGenTypes = EdgeType_held_by.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_held_by.typeVar,
+			GRGEN_MODEL.EdgeType_held_by.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_held_by.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_held_by.typeVar,
 			};
-			EdgeType_held_by.typeVar.directSubGrGenTypes = EdgeType_held_by.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_held_by.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_held_by.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_held_by.typeVar.superOrSameGrGenTypes = EdgeType_held_by.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_held_by.typeVar,
-				EdgeType_AEdge.typeVar,
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_held_by.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_held_by.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_held_by.typeVar,
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_held_by.typeVar.directSuperGrGenTypes = EdgeType_held_by.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_held_by.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_held_by.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_token.typeVar.subOrSameGrGenTypes = EdgeType_token.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_token.typeVar,
+			GRGEN_MODEL.EdgeType_token.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_token.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_token.typeVar,
 			};
-			EdgeType_token.typeVar.directSubGrGenTypes = EdgeType_token.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_token.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_token.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_token.typeVar.superOrSameGrGenTypes = EdgeType_token.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_token.typeVar,
-				EdgeType_AEdge.typeVar,
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_token.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_token.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_token.typeVar,
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_token.typeVar.directSuperGrGenTypes = EdgeType_token.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_token.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_token.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_release.typeVar.subOrSameGrGenTypes = EdgeType_release.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_release.typeVar,
+			GRGEN_MODEL.EdgeType_release.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_release.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_release.typeVar,
 			};
-			EdgeType_release.typeVar.directSubGrGenTypes = EdgeType_release.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_release.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_release.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_release.typeVar.superOrSameGrGenTypes = EdgeType_release.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_release.typeVar,
-				EdgeType_AEdge.typeVar,
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_release.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_release.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_release.typeVar,
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_release.typeVar.directSuperGrGenTypes = EdgeType_release.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_release.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_release.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_request.typeVar.subOrSameGrGenTypes = EdgeType_request.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_request.typeVar,
+			GRGEN_MODEL.EdgeType_request.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_request.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_request.typeVar,
 			};
-			EdgeType_request.typeVar.directSubGrGenTypes = EdgeType_request.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_request.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_request.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_request.typeVar.superOrSameGrGenTypes = EdgeType_request.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_request.typeVar,
-				EdgeType_AEdge.typeVar,
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_request.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_request.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_request.typeVar,
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_request.typeVar.directSuperGrGenTypes = EdgeType_request.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_request.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_request.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return false; } }
-		public GRGEN_LIBGR.EdgeType RootType { get { return EdgeType_AEdge.typeVar; } }
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return EdgeType_AEdge.typeVar; } }
-		public GRGEN_LIBGR.EdgeType GetType(String name)
+		public GRGEN_LIBGR.EdgeType RootType { get { return GRGEN_MODEL.EdgeType_AEdge.typeVar; } }
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.EdgeType_AEdge.typeVar; } }
+		public GRGEN_LIBGR.EdgeType GetType(string name)
 		{
 			switch(name)
 			{
-				case "AEdge" : return EdgeType_AEdge.typeVar;
-				case "Edge" : return EdgeType_Edge.typeVar;
-				case "UEdge" : return EdgeType_UEdge.typeVar;
-				case "next" : return EdgeType_next.typeVar;
-				case "blocked" : return EdgeType_blocked.typeVar;
-				case "held_by" : return EdgeType_held_by.typeVar;
-				case "token" : return EdgeType_token.typeVar;
-				case "release" : return EdgeType_release.typeVar;
-				case "request" : return EdgeType_request.typeVar;
+				case "AEdge" : return GRGEN_MODEL.EdgeType_AEdge.typeVar;
+				case "Edge" : return GRGEN_MODEL.EdgeType_Edge.typeVar;
+				case "UEdge" : return GRGEN_MODEL.EdgeType_UEdge.typeVar;
+				case "next" : return GRGEN_MODEL.EdgeType_next.typeVar;
+				case "blocked" : return GRGEN_MODEL.EdgeType_blocked.typeVar;
+				case "held_by" : return GRGEN_MODEL.EdgeType_held_by.typeVar;
+				case "token" : return GRGEN_MODEL.EdgeType_token.typeVar;
+				case "release" : return GRGEN_MODEL.EdgeType_release.typeVar;
+				case "request" : return GRGEN_MODEL.EdgeType_request.typeVar;
 			}
 			return null;
 		}
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(String name)
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
 		{
 			return GetType(name);
 		}
 		private GRGEN_LIBGR.EdgeType[] types = {
-			EdgeType_AEdge.typeVar,
-			EdgeType_Edge.typeVar,
-			EdgeType_UEdge.typeVar,
-			EdgeType_next.typeVar,
-			EdgeType_blocked.typeVar,
-			EdgeType_held_by.typeVar,
-			EdgeType_token.typeVar,
-			EdgeType_release.typeVar,
-			EdgeType_request.typeVar,
+			GRGEN_MODEL.EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_UEdge.typeVar,
+			GRGEN_MODEL.EdgeType_next.typeVar,
+			GRGEN_MODEL.EdgeType_blocked.typeVar,
+			GRGEN_MODEL.EdgeType_held_by.typeVar,
+			GRGEN_MODEL.EdgeType_token.typeVar,
+			GRGEN_MODEL.EdgeType_release.typeVar,
+			GRGEN_MODEL.EdgeType_request.typeVar,
 		};
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
 		private Type[] typeTypes = {
-			typeof(EdgeType_AEdge),
-			typeof(EdgeType_Edge),
-			typeof(EdgeType_UEdge),
-			typeof(EdgeType_next),
-			typeof(EdgeType_blocked),
-			typeof(EdgeType_held_by),
-			typeof(EdgeType_token),
-			typeof(EdgeType_release),
-			typeof(EdgeType_request),
+			typeof(GRGEN_MODEL.EdgeType_AEdge),
+			typeof(GRGEN_MODEL.EdgeType_Edge),
+			typeof(GRGEN_MODEL.EdgeType_UEdge),
+			typeof(GRGEN_MODEL.EdgeType_next),
+			typeof(GRGEN_MODEL.EdgeType_blocked),
+			typeof(GRGEN_MODEL.EdgeType_held_by),
+			typeof(GRGEN_MODEL.EdgeType_token),
+			typeof(GRGEN_MODEL.EdgeType_release),
+			typeof(GRGEN_MODEL.EdgeType_request),
 		};
 		public Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
@@ -1640,22 +1641,22 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private MutexNodeModel nodeModel = new MutexNodeModel();
 		private MutexEdgeModel edgeModel = new MutexEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_next.typeVar, NodeType_Process.typeVar, NodeType_Process.typeVar, 0, 1, 0, 1),
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_blocked.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 0, long.MaxValue, 0, long.MaxValue),
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_held_by.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_token.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_release.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_request.typeVar, NodeType_Process.typeVar, NodeType_Resource.typeVar, 0, long.MaxValue, 0, long.MaxValue),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_next.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 1, 0, 1),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_blocked.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, long.MaxValue, 0, long.MaxValue),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_held_by.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_token.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_release.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_request.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, 0, long.MaxValue, 0, long.MaxValue),
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
 
-		public String ModelName { get { return "Mutex"; } }
+		public string ModelName { get { return "Mutex"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public String MD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
+		public string MD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
 	}
 	//
 	// IGraph/IGraphModel implementation
@@ -1668,134 +1669,134 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			InitializeGraph(this);
 		}
 
-		public @Node CreateNodeNode()
+		public GRGEN_MODEL.@Node CreateNodeNode()
 		{
-			return @Node.CreateNode(this);
+			return GRGEN_MODEL.@Node.CreateNode(this);
 		}
 
-		public @Node CreateNodeNode(String varName)
+		public GRGEN_MODEL.@Node CreateNodeNode(string varName)
 		{
-			return @Node.CreateNode(this, varName);
+			return GRGEN_MODEL.@Node.CreateNode(this, varName);
 		}
 
-		public @Process CreateNodeProcess()
+		public GRGEN_MODEL.@Process CreateNodeProcess()
 		{
-			return @Process.CreateNode(this);
+			return GRGEN_MODEL.@Process.CreateNode(this);
 		}
 
-		public @Process CreateNodeProcess(String varName)
+		public GRGEN_MODEL.@Process CreateNodeProcess(string varName)
 		{
-			return @Process.CreateNode(this, varName);
+			return GRGEN_MODEL.@Process.CreateNode(this, varName);
 		}
 
-		public @Resource CreateNodeResource()
+		public GRGEN_MODEL.@Resource CreateNodeResource()
 		{
-			return @Resource.CreateNode(this);
+			return GRGEN_MODEL.@Resource.CreateNode(this);
 		}
 
-		public @Resource CreateNodeResource(String varName)
+		public GRGEN_MODEL.@Resource CreateNodeResource(string varName)
 		{
-			return @Resource.CreateNode(this, varName);
+			return GRGEN_MODEL.@Resource.CreateNode(this, varName);
 		}
 
-		public @Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @Edge.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
 		}
 
-		public @Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @Edge.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, varName);
 		}
 
-		public @UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @UEdge.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
 		}
 
-		public @UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @UEdge.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, varName);
 		}
 
-		public @next CreateEdgenext(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@next CreateEdgenext(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @next.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@next.CreateEdge(this, source, target);
 		}
 
-		public @next CreateEdgenext(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public @GRGEN_MODEL.@next CreateEdgenext(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @next.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@next.CreateEdge(this, source, target, varName);
 		}
 
-		public @blocked CreateEdgeblocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@blocked CreateEdgeblocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @blocked.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@blocked.CreateEdge(this, source, target);
 		}
 
-		public @blocked CreateEdgeblocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public @GRGEN_MODEL.@blocked CreateEdgeblocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @blocked.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@blocked.CreateEdge(this, source, target, varName);
 		}
 
-		public @held_by CreateEdgeheld_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@held_by CreateEdgeheld_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @held_by.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@held_by.CreateEdge(this, source, target);
 		}
 
-		public @held_by CreateEdgeheld_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public @GRGEN_MODEL.@held_by CreateEdgeheld_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @held_by.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@held_by.CreateEdge(this, source, target, varName);
 		}
 
-		public @token CreateEdgetoken(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@token CreateEdgetoken(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @token.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@token.CreateEdge(this, source, target);
 		}
 
-		public @token CreateEdgetoken(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public @GRGEN_MODEL.@token CreateEdgetoken(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @token.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@token.CreateEdge(this, source, target, varName);
 		}
 
-		public @release CreateEdgerelease(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@release CreateEdgerelease(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @release.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@release.CreateEdge(this, source, target);
 		}
 
-		public @release CreateEdgerelease(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public @GRGEN_MODEL.@release CreateEdgerelease(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @release.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@release.CreateEdge(this, source, target, varName);
 		}
 
-		public @request CreateEdgerequest(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@request CreateEdgerequest(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @request.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@request.CreateEdge(this, source, target);
 		}
 
-		public @request CreateEdgerequest(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public @GRGEN_MODEL.@request CreateEdgerequest(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @request.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@request.CreateEdge(this, source, target, varName);
 		}
 
 		private MutexNodeModel nodeModel = new MutexNodeModel();
 		private MutexEdgeModel edgeModel = new MutexEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_next.typeVar, NodeType_Process.typeVar, NodeType_Process.typeVar, 0, 1, 0, 1),
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_blocked.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 0, long.MaxValue, 0, long.MaxValue),
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_held_by.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_token.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_release.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
-			new GRGEN_LIBGR.ValidateInfo(EdgeType_request.typeVar, NodeType_Process.typeVar, NodeType_Resource.typeVar, 0, long.MaxValue, 0, long.MaxValue),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_next.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, 1, 0, 1),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_blocked.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 0, long.MaxValue, 0, long.MaxValue),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_held_by.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_token.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_release.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_request.typeVar, GRGEN_MODEL.NodeType_Process.typeVar, GRGEN_MODEL.NodeType_Resource.typeVar, 0, long.MaxValue, 0, long.MaxValue),
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
 
-		public String ModelName { get { return "Mutex"; } }
+		public string ModelName { get { return "Mutex"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public String MD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
+		public string MD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
 	}
 }

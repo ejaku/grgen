@@ -32,6 +32,25 @@ namespace Independent
 
             IMatches matches = actions.GetAction("findIndependent").Match(graph, 0, null);
             Console.WriteLine(matches.Count + " matches found.");
+
+            graph.Clear();
+
+            actions.ApplyGraphRewriteSequence("createIterated");
+
+            Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
+            Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            graph.PerformanceInfo.Reset();
+
+            LGSPAction createIterated = Action_createIterated.Instance;
+            matches = createIterated.Match(graph, 0, null);
+            object[] returns = createIterated.Modify(graph, matches.First);
+
+            IGraphElement[] param = new LGSPNode[2];
+            param[0] = (IGraphElement)returns[0];
+            param[1] = (IGraphElement)returns[1];
+
+            matches = actions.GetAction("findChainPlusChainToIntIndependent").Match(graph, 0, param);
+            Console.WriteLine(matches.Count + " matches found.");
         }
 
         static void Main(string[] args)

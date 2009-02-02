@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Sun Jan 25 17:24:38 CET 2009
+// Generated from "..\..\tests\edge1\edge1.grg" on Mon Feb 02 00:39:41 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 using GRGEN_EXPR = de.unika.ipd.grGen.expression;
-using de.unika.ipd.grGen.Model_Std;
+using GRGEN_MODEL = de.unika.ipd.grGen.Model_Std;
 
 namespace de.unika.ipd.grGen.Action_edge1
 {
@@ -69,29 +69,29 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			Match_init curMatch = (Match_init)_curMatch;
 			graph.SettingAddedNodeNames( init_addedNodeNames );
-			@Node node_x = @Node.CreateNode(graph);
-			@Node node_y = @Node.CreateNode(graph);
-			@Node node_z = @Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_x = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_y = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_z = GRGEN_MODEL.@Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init_addedEdgeNames );
-			@UEdge edge__edge0 = @UEdge.CreateEdge(graph, node_x, node_y);
-			@UEdge edge__edge1 = @UEdge.CreateEdge(graph, node_y, node_z);
-			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_y, node_y);
+			GRGEN_MODEL.@UEdge edge__edge0 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_x, node_y);
+			GRGEN_MODEL.@UEdge edge__edge1 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_y, node_z);
+			GRGEN_MODEL.@Edge edge__edge2 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_y, node_y);
 			return EmptyReturnElements;
 		}
-		private static String[] init_addedNodeNames = new String[] { "x", "y", "z" };
-		private static String[] init_addedEdgeNames = new String[] { "_edge0", "_edge1", "_edge2" };
+		private static string[] init_addedNodeNames = new string[] { "x", "y", "z" };
+		private static string[] init_addedEdgeNames = new string[] { "_edge0", "_edge1", "_edge2" };
 
 		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_init curMatch = (Match_init)_curMatch;
 			graph.SettingAddedNodeNames( init_addedNodeNames );
-			@Node node_x = @Node.CreateNode(graph);
-			@Node node_y = @Node.CreateNode(graph);
-			@Node node_z = @Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_x = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_y = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_z = GRGEN_MODEL.@Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init_addedEdgeNames );
-			@UEdge edge__edge0 = @UEdge.CreateEdge(graph, node_x, node_y);
-			@UEdge edge__edge1 = @UEdge.CreateEdge(graph, node_y, node_z);
-			@Edge edge__edge2 = @Edge.CreateEdge(graph, node_y, node_y);
+			GRGEN_MODEL.@UEdge edge__edge0 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_x, node_y);
+			GRGEN_MODEL.@UEdge edge__edge1 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_y, node_z);
+			GRGEN_MODEL.@Edge edge__edge2 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_y, node_y);
 			return EmptyReturnElements;
 		}
 
@@ -106,6 +106,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			//EmbeddedGraphs
 			//Alternatives
 			//Independents
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_init : GRGEN_LGSP.ListElement<Match_init>, IMatch_init
@@ -179,6 +180,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_init.instance.pat_init; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -241,27 +243,27 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			Match_init2 curMatch = (Match_init2)_curMatch;
 			graph.SettingAddedNodeNames( init2_addedNodeNames );
-			@Node node__node0 = @Node.CreateNode(graph);
-			@Node node__node1 = @Node.CreateNode(graph);
-			@Node node__node2 = @Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node__node0 = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node__node1 = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node__node2 = GRGEN_MODEL.@Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init2_addedEdgeNames );
-			@Edge edge__edge0 = @Edge.CreateEdge(graph, node__node0, node__node1);
-			@Edge edge__edge1 = @Edge.CreateEdge(graph, node__node2, node__node1);
+			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node0, node__node1);
+			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node2, node__node1);
 			return EmptyReturnElements;
 		}
-		private static String[] init2_addedNodeNames = new String[] { "_node0", "_node1", "_node2" };
-		private static String[] init2_addedEdgeNames = new String[] { "_edge0", "_edge1" };
+		private static string[] init2_addedNodeNames = new string[] { "_node0", "_node1", "_node2" };
+		private static string[] init2_addedEdgeNames = new string[] { "_edge0", "_edge1" };
 
 		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_init2 curMatch = (Match_init2)_curMatch;
 			graph.SettingAddedNodeNames( init2_addedNodeNames );
-			@Node node__node0 = @Node.CreateNode(graph);
-			@Node node__node1 = @Node.CreateNode(graph);
-			@Node node__node2 = @Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node__node0 = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node__node1 = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node__node2 = GRGEN_MODEL.@Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init2_addedEdgeNames );
-			@Edge edge__edge0 = @Edge.CreateEdge(graph, node__node0, node__node1);
-			@Edge edge__edge1 = @Edge.CreateEdge(graph, node__node2, node__node1);
+			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node0, node__node1);
+			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node2, node__node1);
 			return EmptyReturnElements;
 		}
 
@@ -276,6 +278,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			//EmbeddedGraphs
 			//Alternatives
 			//Independents
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_init2 : GRGEN_LGSP.ListElement<Match_init2>, IMatch_init2
@@ -349,6 +352,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_init2.instance.pat_init2; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -411,29 +415,29 @@ namespace de.unika.ipd.grGen.Action_edge1
 		{
 			Match_init3 curMatch = (Match_init3)_curMatch;
 			graph.SettingAddedNodeNames( init3_addedNodeNames );
-			@Node node_x = @Node.CreateNode(graph);
-			@Node node_y = @Node.CreateNode(graph);
-			@Node node_z = @Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_x = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_y = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_z = GRGEN_MODEL.@Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init3_addedEdgeNames );
-			@UEdge edge__edge0 = @UEdge.CreateEdge(graph, node_x, node_y);
-			@UEdge edge__edge1 = @UEdge.CreateEdge(graph, node_y, node_z);
-			@UEdge edge__edge2 = @UEdge.CreateEdge(graph, node_z, node_x);
+			GRGEN_MODEL.@UEdge edge__edge0 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_x, node_y);
+			GRGEN_MODEL.@UEdge edge__edge1 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_y, node_z);
+			GRGEN_MODEL.@UEdge edge__edge2 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_z, node_x);
 			return EmptyReturnElements;
 		}
-		private static String[] init3_addedNodeNames = new String[] { "x", "y", "z" };
-		private static String[] init3_addedEdgeNames = new String[] { "_edge0", "_edge1", "_edge2" };
+		private static string[] init3_addedNodeNames = new string[] { "x", "y", "z" };
+		private static string[] init3_addedEdgeNames = new string[] { "_edge0", "_edge1", "_edge2" };
 
 		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_init3 curMatch = (Match_init3)_curMatch;
 			graph.SettingAddedNodeNames( init3_addedNodeNames );
-			@Node node_x = @Node.CreateNode(graph);
-			@Node node_y = @Node.CreateNode(graph);
-			@Node node_z = @Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_x = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_y = GRGEN_MODEL.@Node.CreateNode(graph);
+			GRGEN_MODEL.@Node node_z = GRGEN_MODEL.@Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init3_addedEdgeNames );
-			@UEdge edge__edge0 = @UEdge.CreateEdge(graph, node_x, node_y);
-			@UEdge edge__edge1 = @UEdge.CreateEdge(graph, node_y, node_z);
-			@UEdge edge__edge2 = @UEdge.CreateEdge(graph, node_z, node_x);
+			GRGEN_MODEL.@UEdge edge__edge0 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_x, node_y);
+			GRGEN_MODEL.@UEdge edge__edge1 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_y, node_z);
+			GRGEN_MODEL.@UEdge edge__edge2 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_z, node_x);
 			return EmptyReturnElements;
 		}
 
@@ -448,6 +452,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			//EmbeddedGraphs
 			//Alternatives
 			//Independents
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_init3 : GRGEN_LGSP.ListElement<Match_init3>, IMatch_init3
@@ -521,6 +526,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_init3.instance.pat_init3; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -566,9 +572,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 			bool[,] findUndirectedEdge_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode findUndirectedEdge_node_x = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findUndirectedEdge_node_x", "x", findUndirectedEdge_node_x_AllowedTypes, findUndirectedEdge_node_x_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode findUndirectedEdge_node_y = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findUndirectedEdge_node_y", "y", findUndirectedEdge_node_y_AllowedTypes, findUndirectedEdge_node_y_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findUndirectedEdge_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "findUndirectedEdge_edge__edge0", "_edge0", findUndirectedEdge_edge__edge0_AllowedTypes, findUndirectedEdge_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findUndirectedEdge_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findUndirectedEdge_node_x", "x", findUndirectedEdge_node_x_AllowedTypes, findUndirectedEdge_node_x_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findUndirectedEdge_node_y = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findUndirectedEdge_node_y", "y", findUndirectedEdge_node_y_AllowedTypes, findUndirectedEdge_node_y_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findUndirectedEdge_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "findUndirectedEdge_edge__edge0", "_edge0", findUndirectedEdge_edge__edge0_AllowedTypes, findUndirectedEdge_edge__edge0_IsAllowedType, 5.5F, -1);
 			pat_findUndirectedEdge = new GRGEN_LGSP.PatternGraph(
 				"findUndirectedEdge",
 				"",
@@ -628,6 +634,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			//EmbeddedGraphs
 			//Alternatives
 			//Independents
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_findUndirectedEdge : GRGEN_LGSP.ListElement<Match_findUndirectedEdge>, IMatch_findUndirectedEdge
@@ -710,6 +717,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findUndirectedEdge.instance.pat_findUndirectedEdge; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -755,9 +763,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 			bool[,] findArbitraryEdge_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode findArbitraryEdge_node_x = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryEdge_node_x", "x", findArbitraryEdge_node_x_AllowedTypes, findArbitraryEdge_node_x_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode findArbitraryEdge_node_y = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryEdge_node_y", "y", findArbitraryEdge_node_y_AllowedTypes, findArbitraryEdge_node_y_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findArbitraryEdge_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) EdgeTypes.@AEdge, "GRGEN_LIBGR.IEdge", "findArbitraryEdge_edge__edge0", "_edge0", findArbitraryEdge_edge__edge0_AllowedTypes, findArbitraryEdge_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findArbitraryEdge_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryEdge_node_x", "x", findArbitraryEdge_node_x_AllowedTypes, findArbitraryEdge_node_x_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findArbitraryEdge_node_y = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryEdge_node_y", "y", findArbitraryEdge_node_y_AllowedTypes, findArbitraryEdge_node_y_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findArbitraryEdge_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@AEdge, "GRGEN_LIBGR.IEdge", "findArbitraryEdge_edge__edge0", "_edge0", findArbitraryEdge_edge__edge0_AllowedTypes, findArbitraryEdge_edge__edge0_IsAllowedType, 5.5F, -1);
 			pat_findArbitraryEdge = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryEdge",
 				"",
@@ -817,6 +825,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			//EmbeddedGraphs
 			//Alternatives
 			//Independents
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_findArbitraryEdge : GRGEN_LGSP.ListElement<Match_findArbitraryEdge>, IMatch_findArbitraryEdge
@@ -899,6 +908,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findArbitraryEdge.instance.pat_findArbitraryEdge; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -944,9 +954,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 			bool[,] findArbitraryDirectedEdge_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode findArbitraryDirectedEdge_node_x = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedEdge_node_x", "x", findArbitraryDirectedEdge_node_x_AllowedTypes, findArbitraryDirectedEdge_node_x_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode findArbitraryDirectedEdge_node_y = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedEdge_node_y", "y", findArbitraryDirectedEdge_node_y_AllowedTypes, findArbitraryDirectedEdge_node_y_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findArbitraryDirectedEdge_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedEdge_edge__edge0", "_edge0", findArbitraryDirectedEdge_edge__edge0_AllowedTypes, findArbitraryDirectedEdge_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findArbitraryDirectedEdge_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedEdge_node_x", "x", findArbitraryDirectedEdge_node_x_AllowedTypes, findArbitraryDirectedEdge_node_x_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findArbitraryDirectedEdge_node_y = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedEdge_node_y", "y", findArbitraryDirectedEdge_node_y_AllowedTypes, findArbitraryDirectedEdge_node_y_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findArbitraryDirectedEdge_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedEdge_edge__edge0", "_edge0", findArbitraryDirectedEdge_edge__edge0_AllowedTypes, findArbitraryDirectedEdge_edge__edge0_IsAllowedType, 5.5F, -1);
 			pat_findArbitraryDirectedEdge = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedEdge",
 				"",
@@ -1006,6 +1016,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			//EmbeddedGraphs
 			//Alternatives
 			//Independents
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_findArbitraryDirectedEdge : GRGEN_LGSP.ListElement<Match_findArbitraryDirectedEdge>, IMatch_findArbitraryDirectedEdge
@@ -1088,6 +1099,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findArbitraryDirectedEdge.instance.pat_findArbitraryDirectedEdge; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1130,8 +1142,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			bool[,] findArbitraryDirectedReflexiveEdge_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode findArbitraryDirectedReflexiveEdge_node_x = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedReflexiveEdge_node_x", "x", findArbitraryDirectedReflexiveEdge_node_x_AllowedTypes, findArbitraryDirectedReflexiveEdge_node_x_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findArbitraryDirectedReflexiveEdge_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedReflexiveEdge_edge__edge0", "_edge0", findArbitraryDirectedReflexiveEdge_edge__edge0_AllowedTypes, findArbitraryDirectedReflexiveEdge_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findArbitraryDirectedReflexiveEdge_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedReflexiveEdge_node_x", "x", findArbitraryDirectedReflexiveEdge_node_x_AllowedTypes, findArbitraryDirectedReflexiveEdge_node_x_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findArbitraryDirectedReflexiveEdge_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedReflexiveEdge_edge__edge0", "_edge0", findArbitraryDirectedReflexiveEdge_edge__edge0_AllowedTypes, findArbitraryDirectedReflexiveEdge_edge__edge0_IsAllowedType, 5.5F, -1);
 			pat_findArbitraryDirectedReflexiveEdge = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedReflexiveEdge",
 				"",
@@ -1188,6 +1200,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			//EmbeddedGraphs
 			//Alternatives
 			//Independents
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_findArbitraryDirectedReflexiveEdge : GRGEN_LGSP.ListElement<Match_findArbitraryDirectedReflexiveEdge>, IMatch_findArbitraryDirectedReflexiveEdge
@@ -1267,6 +1280,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findArbitraryDirectedReflexiveEdge.instance.pat_findArbitraryDirectedReflexiveEdge; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1315,10 +1329,10 @@ namespace de.unika.ipd.grGen.Action_edge1
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x", "x", findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x_AllowedTypes, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y", "y", findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y_AllowedTypes, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0", "_edge0", findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0_AllowedTypes, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1 = new GRGEN_LGSP.PatternEdge(false, (int) EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1", "_edge1", findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1_AllowedTypes, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x", "x", findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x_AllowedTypes, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y", "y", findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y_AllowedTypes, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0", "_edge0", findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0_AllowedTypes, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1", "_edge1", findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1_AllowedTypes, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1_IsAllowedType, 5.5F, -1);
 			pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedReflexiveEdgeAfterUndirectedOne",
 				"",
@@ -1383,6 +1397,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			//EmbeddedGraphs
 			//Alternatives
 			//Independents
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne : GRGEN_LGSP.ListElement<Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne>, IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne
@@ -1468,6 +1483,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.instance.pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1519,11 +1535,11 @@ namespace de.unika.ipd.grGen.Action_edge1
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode findArbitraryDirectedTriple_node__node0 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedTriple_node__node0", "_node0", findArbitraryDirectedTriple_node__node0_AllowedTypes, findArbitraryDirectedTriple_node__node0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode findArbitraryDirectedTriple_node__node1 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedTriple_node__node1", "_node1", findArbitraryDirectedTriple_node__node1_AllowedTypes, findArbitraryDirectedTriple_node__node1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode findArbitraryDirectedTriple_node__node2 = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedTriple_node__node2", "_node2", findArbitraryDirectedTriple_node__node2_AllowedTypes, findArbitraryDirectedTriple_node__node2_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findArbitraryDirectedTriple_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedTriple_edge__edge0", "_edge0", findArbitraryDirectedTriple_edge__edge0_AllowedTypes, findArbitraryDirectedTriple_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findArbitraryDirectedTriple_edge__edge1 = new GRGEN_LGSP.PatternEdge(false, (int) EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedTriple_edge__edge1", "_edge1", findArbitraryDirectedTriple_edge__edge1_AllowedTypes, findArbitraryDirectedTriple_edge__edge1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findArbitraryDirectedTriple_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedTriple_node__node0", "_node0", findArbitraryDirectedTriple_node__node0_AllowedTypes, findArbitraryDirectedTriple_node__node0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findArbitraryDirectedTriple_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedTriple_node__node1", "_node1", findArbitraryDirectedTriple_node__node1_AllowedTypes, findArbitraryDirectedTriple_node__node1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findArbitraryDirectedTriple_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findArbitraryDirectedTriple_node__node2", "_node2", findArbitraryDirectedTriple_node__node2_AllowedTypes, findArbitraryDirectedTriple_node__node2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findArbitraryDirectedTriple_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedTriple_edge__edge0", "_edge0", findArbitraryDirectedTriple_edge__edge0_AllowedTypes, findArbitraryDirectedTriple_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findArbitraryDirectedTriple_edge__edge1 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findArbitraryDirectedTriple_edge__edge1", "_edge1", findArbitraryDirectedTriple_edge__edge1_AllowedTypes, findArbitraryDirectedTriple_edge__edge1_IsAllowedType, 5.5F, -1);
 			pat_findArbitraryDirectedTriple = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedTriple",
 				"",
@@ -1591,6 +1607,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			//EmbeddedGraphs
 			//Alternatives
 			//Independents
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_findArbitraryDirectedTriple : GRGEN_LGSP.ListElement<Match_findArbitraryDirectedTriple>, IMatch_findArbitraryDirectedTriple
@@ -1679,6 +1696,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findArbitraryDirectedTriple.instance.pat_findArbitraryDirectedTriple; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1724,9 +1742,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 			bool[,] findDirectedEdge_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode findDirectedEdge_node_x = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findDirectedEdge_node_x", "x", findDirectedEdge_node_x_AllowedTypes, findDirectedEdge_node_x_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode findDirectedEdge_node_y = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findDirectedEdge_node_y", "y", findDirectedEdge_node_y_AllowedTypes, findDirectedEdge_node_y_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findDirectedEdge_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findDirectedEdge_edge__edge0", "_edge0", findDirectedEdge_edge__edge0_AllowedTypes, findDirectedEdge_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findDirectedEdge_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findDirectedEdge_node_x", "x", findDirectedEdge_node_x_AllowedTypes, findDirectedEdge_node_x_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findDirectedEdge_node_y = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findDirectedEdge_node_y", "y", findDirectedEdge_node_y_AllowedTypes, findDirectedEdge_node_y_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findDirectedEdge_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "findDirectedEdge_edge__edge0", "_edge0", findDirectedEdge_edge__edge0_AllowedTypes, findDirectedEdge_edge__edge0_IsAllowedType, 5.5F, -1);
 			pat_findDirectedEdge = new GRGEN_LGSP.PatternGraph(
 				"findDirectedEdge",
 				"",
@@ -1786,6 +1804,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			//EmbeddedGraphs
 			//Alternatives
 			//Independents
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_findDirectedEdge : GRGEN_LGSP.ListElement<Match_findDirectedEdge>, IMatch_findDirectedEdge
@@ -1868,6 +1887,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findDirectedEdge.instance.pat_findDirectedEdge; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -1922,12 +1942,12 @@ namespace de.unika.ipd.grGen.Action_edge1
 				{ false, false, false, },
 				{ false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode findTripleCircle_node_x = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findTripleCircle_node_x", "x", findTripleCircle_node_x_AllowedTypes, findTripleCircle_node_x_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode findTripleCircle_node_y = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findTripleCircle_node_y", "y", findTripleCircle_node_y_AllowedTypes, findTripleCircle_node_y_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode findTripleCircle_node_z = new GRGEN_LGSP.PatternNode((int) NodeTypes.@Node, "GRGEN_LIBGR.INode", "findTripleCircle_node_z", "z", findTripleCircle_node_z_AllowedTypes, findTripleCircle_node_z_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findTripleCircle_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "findTripleCircle_edge__edge0", "_edge0", findTripleCircle_edge__edge0_AllowedTypes, findTripleCircle_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findTripleCircle_edge__edge1 = new GRGEN_LGSP.PatternEdge(false, (int) EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "findTripleCircle_edge__edge1", "_edge1", findTripleCircle_edge__edge1_AllowedTypes, findTripleCircle_edge__edge1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge findTripleCircle_edge__edge2 = new GRGEN_LGSP.PatternEdge(false, (int) EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "findTripleCircle_edge__edge2", "_edge2", findTripleCircle_edge__edge2_AllowedTypes, findTripleCircle_edge__edge2_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findTripleCircle_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findTripleCircle_node_x", "x", findTripleCircle_node_x_AllowedTypes, findTripleCircle_node_x_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findTripleCircle_node_y = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findTripleCircle_node_y", "y", findTripleCircle_node_y_AllowedTypes, findTripleCircle_node_y_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode findTripleCircle_node_z = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findTripleCircle_node_z", "z", findTripleCircle_node_z_AllowedTypes, findTripleCircle_node_z_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findTripleCircle_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "findTripleCircle_edge__edge0", "_edge0", findTripleCircle_edge__edge0_AllowedTypes, findTripleCircle_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findTripleCircle_edge__edge1 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "findTripleCircle_edge__edge1", "_edge1", findTripleCircle_edge__edge1_AllowedTypes, findTripleCircle_edge__edge1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternEdge findTripleCircle_edge__edge2 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "findTripleCircle_edge__edge2", "_edge2", findTripleCircle_edge__edge2_AllowedTypes, findTripleCircle_edge__edge2_IsAllowedType, 5.5F, -1);
 			pat_findTripleCircle = new GRGEN_LGSP.PatternGraph(
 				"findTripleCircle",
 				"",
@@ -2000,6 +2020,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			//EmbeddedGraphs
 			//Alternatives
 			//Independents
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_findTripleCircle : GRGEN_LGSP.ListElement<Match_findTripleCircle>, IMatch_findTripleCircle
@@ -2091,6 +2112,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findTripleCircle.instance.pat_findTripleCircle; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public override string ToString() { return "Match of " + Pattern.Name; }
 		}
 
@@ -2303,7 +2325,7 @@ label0: ;
             matches.Clear();
             int negLevel = 0;
             // Lookup findArbitraryEdge_edge__edge0 
-            foreach(GRGEN_LIBGR.EdgeType type_candidate_findArbitraryEdge_edge__edge0 in EdgeType_AEdge.typeVar.SubOrSameTypes)
+            foreach(GRGEN_LIBGR.EdgeType type_candidate_findArbitraryEdge_edge__edge0 in GRGEN_MODEL.EdgeType_AEdge.typeVar.SubOrSameTypes)
             {
                 int type_id_candidate_findArbitraryEdge_edge__edge0 = type_candidate_findArbitraryEdge_edge__edge0.TypeID;
                 for(GRGEN_LGSP.LGSPEdge head_candidate_findArbitraryEdge_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_findArbitraryEdge_edge__edge0], candidate_findArbitraryEdge_edge__edge0 = head_candidate_findArbitraryEdge_edge__edge0.typeNext; candidate_findArbitraryEdge_edge__edge0 != head_candidate_findArbitraryEdge_edge__edge0; candidate_findArbitraryEdge_edge__edge0 = candidate_findArbitraryEdge_edge__edge0.typeNext)
@@ -2825,7 +2847,7 @@ label5: ;
     // matching/rule patterns are analyzed at creation time here, once, so that later regeneration runs have all the information available
     public class edge1Actions : de.unika.ipd.grGen.lgsp.LGSPActions
     {
-        public edge1Actions(de.unika.ipd.grGen.lgsp.LGSPGraph lgspgraph, String modelAsmName, String actionsAsmName)
+        public edge1Actions(de.unika.ipd.grGen.lgsp.LGSPGraph lgspgraph, string modelAsmName, string actionsAsmName)
             : base(lgspgraph, modelAsmName, actionsAsmName)
         {
             InitActions();
@@ -2865,7 +2887,7 @@ label5: ;
             analyzer.ComputeInterPatternRelations();
         }
 
-        public override String Name { get { return "edge1Actions"; } }
-        public override String ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
+        public override string Name { get { return "edge1Actions"; } }
+        public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
     }
 }

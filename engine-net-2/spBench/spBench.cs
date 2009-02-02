@@ -943,7 +943,7 @@ namespace spBench
 
                 ctx.MatchGen.AppendHomomorphyInformation(ssp);
                 ((PatternGraph) ctx.Action.RulePattern.PatternGraph).schedule = ssp;
-                ctx.MatchGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(ctx.Action.patternGraph, ctx.Action.patternGraph);
+                ctx.MatchGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(ctx.Action.patternGraph);
 
 #if DUMP_MATCHERPROGRAMS
                 String outputName = "test.cs";

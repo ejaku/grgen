@@ -24,21 +24,28 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// This element has already been matched within some enclosing pattern
-        /// during the current matching process.
+        /// during the current matching process, needed for patternpath checks.
         /// </summary>
-        IS_MATCHED_BY_ENCLOSING_PATTERN = 1 << 1,
+        IS_MATCHED_BY_SOME_ENCLOSING_PATTERN = 1 << 1,
+
+        /// <summary>
+        /// This element has already been matched within an pattern 
+        /// of this neg level during the current matching process.
+        /// This mask must be shifted left by the current neg level.
+        /// </summary>
+        IS_MATCHED_BY_ENCLOSING_PATTERN = 1 << 2,
 
         /// <summary>
         /// This element has already been matched within the local pattern
         /// during the current matching process.
         /// This mask must be shifted left by the current neg level.
         /// </summary>
-        IS_MATCHED = 1 << 2,
+        IS_MATCHED = IS_MATCHED_BY_ENCLOSING_PATTERN << (int) (MAX_NEG_LEVEL + 1),
 
         /// <summary>
         /// Maximum neg level which can be handled by the flags.
         /// </summary>
-        MAX_NEG_LEVEL = 12,
+        MAX_NEG_LEVEL = 8,
 
         /// <summary>
         /// This element has already been visited by a visitor.

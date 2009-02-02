@@ -39,6 +39,22 @@ namespace Recursive
             returns = createBlowball.Modify(graph, matches.First);
             matches = actions.GetAction("blowball").Match(graph, 0, returns);
             Console.WriteLine(matches.Count + " matches found.");
+
+            graph.Clear();
+
+            graph.PerformanceInfo = new PerformanceInfo();
+            matches = createChain.Match(graph, 0, null);
+            returns = createChain.Modify(graph, matches.First);
+            param[0] = (Node)returns[0];
+
+            Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
+            Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            graph.PerformanceInfo.Reset();
+
+            LGSPAction chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = 
+                actions.GetAction("chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards");
+            matches = chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match(graph, 0, param);
+            Console.WriteLine(matches.Count + " matches found.");
         }
 
         static void Main(string[] args)

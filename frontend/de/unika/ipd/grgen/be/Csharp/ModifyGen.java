@@ -341,7 +341,7 @@ public class ModifyGen extends CSharpBase {
 
 		for(Edge edge : left.getEdges())
 			if(edge.getEdgeType().isAbstract()) return true;
-
+		
 		return false;
 	}
 
@@ -1473,6 +1473,9 @@ public class ModifyGen extends CSharpBase {
 	private void genNewSubpatternCalls(StringBuffer sb, ModifyGenerationStateConst state)
 	{
 		for(SubpatternUsage subUsage : state.newSubpatternUsages()) {
+			if(hasAbstractElements(subUsage.getSubpatternAction().getPattern()))
+				continue;
+			
 			sb.append("\t\t\tPattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
 					"_Create(graph");

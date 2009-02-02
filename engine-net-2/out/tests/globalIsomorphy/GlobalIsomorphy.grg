@@ -1,0 +1,95 @@
+using GlobalIsomorphy;
+
+rule create
+{
+	modify {
+		:A; :B; :C;
+	}
+}
+
+pattern MatchB
+{
+	:B;
+}
+
+test nestingPatternsAreAlsoLockedDirectlyContrast
+{
+	:B;
+	independent {
+		:B; // match allowed because independent pattern is independent from enclosing patterns
+	}
+}
+
+test nestingPatternsAreAlsoLockedDirectly
+{
+	:B;
+	independent {
+		patternpath;
+		:B; // no match allowed because the only :B was already matched on the patternpath
+	}
+}
+
+test nestingPatternsAreAlsoLockedContrast
+{
+	:B;
+	independent {
+		:MatchB(); // match allowed because independent pattern is independent from enclosing patterns
+	}
+}
+
+test nestingPatternsAreAlsoLockedContrastGlobal
+{
+	:B;
+	independent {
+		:B; // this one gets matched as independent from enclosing pattern
+		:MatchB(); // but this fails, because the :B in the line above locks it globally on this nesting level
+	}
+}
+
+test nestingPatternsAreAlsoLocked
+{
+	:B;
+	independent {
+		patternpath;
+		:MatchB(); // no match allowed because the only :B was already matched on the patternpath
+	}
+}
+
+test nestingPatternsAreAlsoLocked2Contrast
+{
+	:A;
+	negative {
+		:B;
+		negative {
+			:C;
+			:MatchB(); // match allowed because negative pattern is independent from enclosing patterns
+		}
+	}
+}
+
+test nestingPatternsAreAlsoLocked2
+{
+	:A;
+	negative {
+		:B;
+		negative {
+			patternpath;
+			:C;
+			:MatchB(); // no match allowed because the only :B was already matched
+		}
+	}
+}
+
+test lockedAtLowLevelStaysLockedWhenLeavingHighLevel {
+	a1:A;
+	alternative {
+		alt1 {
+			a2:A;
+			hom(a1,a2);
+			:MatchB();
+		}
+		alt2 { // only sensible as long as alt1 before alt2 due to syntactic position
+			a2:A; // will lead to false second match if a2 is incorrectly unlocked after alt1 is left
+		}
+	}
+}

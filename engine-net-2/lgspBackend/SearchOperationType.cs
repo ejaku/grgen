@@ -59,6 +59,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         Implicit,
         /// <summary>
+        /// Check matched pattern by condition.
+        /// </summary>
+        Condition,
+        /// <summary>
+        /// All local elements mached, push them to the matches stack for patternpath checking,
+        /// serves as a barrier for negative and independent pattern forward scheduling
+        /// </summary>
+        LockLocalElementsForPatternpath,
+        /// <summary>
         /// Try to match negative pattern.
         /// </summary>
         NegativePattern,
@@ -66,9 +75,5 @@ namespace de.unika.ipd.grGen.lgsp
         /// Try to match independent pattern.
         /// </summary>
         IndependentPattern,
-        /// <summary>
-        /// Check matched pattern by condition.
-        /// </summary>
-        Condition
     };
 }

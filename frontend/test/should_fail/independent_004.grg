@@ -1,8 +1,0 @@
-rule r {
-	independent {
-		patternpath;
-	}
-	
-	replace {
-	}
-}

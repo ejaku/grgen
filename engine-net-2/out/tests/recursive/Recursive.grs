@@ -20,4 +20,7 @@ xgrs [?chainFromTo(beg,end)]
 xgrs [?chainFrom(beg)]
 xgrs [?chainFromComplete(beg)]
 
+xgrs chainFromCompleteArbitraryPatternpathLocked(beg)
+xgrs chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(beg)
+
 quit

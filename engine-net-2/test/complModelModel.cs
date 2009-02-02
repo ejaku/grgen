@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Jan 25 17:24:28 CET 2009
+// Generated from "test.grg" on Mon Feb 02 00:39:20 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.Model_complModel
 {
+	using GRGEN_MODEL = de.unika.ipd.grGen.Model_complModel;
 	//
 	// Enums
 	//
@@ -29,28 +30,28 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public sealed class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
 		private static int poolLevel = 0;
-		private static @Node[] pool = new @Node[10];
+		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
 		
 		static @Node() {
 		}
 		
-		public @Node() : base(NodeType_Node.typeVar)
+		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, map/set creation of Node
 		}
 
-		public static NodeType_Node TypeInstance { get { return NodeType_Node.typeVar; } }
+		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @Node(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@Node(this); }
 
-		private @Node(@Node oldElem) : base(NodeType_Node.typeVar)
+		private @Node(GRGEN_MODEL.@Node oldElem) : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 		}
-		public static @Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@Node node;
+			GRGEN_MODEL.@Node node;
 			if(poolLevel == 0)
-				node = new @Node();
+				node = new GRGEN_MODEL.@Node();
 			else
 			{
 				node = pool[--poolLevel];
@@ -63,11 +64,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @Node CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@Node CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@Node node;
+			GRGEN_MODEL.@Node node;
 			if(poolLevel == 0)
-				node = new @Node();
+				node = new GRGEN_MODEL.@Node();
 			else
 			{
 				node = pool[--poolLevel];
@@ -104,29 +105,29 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_Node : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_Node typeVar = new NodeType_Node();
+		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
 		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, };
 		public NodeType_Node() : base((int) NodeTypes.@Node)
 		{
 		}
-		public override String Name { get { return "Node"; } }
+		public override string Name { get { return "Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @Node();
+			return new GRGEN_MODEL.@Node();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
-			return new @Node();
+			return new GRGEN_MODEL.@Node();
 		}
 
 	}
@@ -138,35 +139,35 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @a1 { get; set; }
 	}
 
-	public sealed class @A1 : GRGEN_LGSP.LGSPNode, IA1
+	public sealed class @A1 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IA1
 	{
 		private static int poolLevel = 0;
-		private static @A1[] pool = new @A1[10];
+		private static GRGEN_MODEL.@A1[] pool = new GRGEN_MODEL.@A1[10];
 		
 		// explicit initializations of A1 for target A1
 		// implicit initializations of A1 for target A1
 		static @A1() {
 		}
 		
-		public @A1() : base(NodeType_A1.typeVar)
+		public @A1() : base(GRGEN_MODEL.NodeType_A1.typeVar)
 		{
 			// implicit initialization, map/set creation of A1
 			// explicit initializations of A1 for target A1
 		}
 
-		public static NodeType_A1 TypeInstance { get { return NodeType_A1.typeVar; } }
+		public static GRGEN_MODEL.NodeType_A1 TypeInstance { get { return GRGEN_MODEL.NodeType_A1.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @A1(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@A1(this); }
 
-		private @A1(@A1 oldElem) : base(NodeType_A1.typeVar)
+		private @A1(GRGEN_MODEL.@A1 oldElem) : base(GRGEN_MODEL.NodeType_A1.typeVar)
 		{
 			_a1 = oldElem._a1;
 		}
-		public static @A1 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@A1 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@A1 node;
+			GRGEN_MODEL.@A1 node;
 			if(poolLevel == 0)
-				node = new @A1();
+				node = new GRGEN_MODEL.@A1();
 			else
 			{
 				node = pool[--poolLevel];
@@ -181,11 +182,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @A1 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@A1 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@A1 node;
+			GRGEN_MODEL.@A1 node;
 			if(poolLevel == 0)
-				node = new @A1();
+				node = new GRGEN_MODEL.@A1();
 			else
 			{
 				node = pool[--poolLevel];
@@ -241,7 +242,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_A1 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_A1 typeVar = new NodeType_A1();
+		public static GRGEN_MODEL.NodeType_A1 typeVar = new GRGEN_MODEL.NodeType_A1();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_a1;
@@ -249,10 +250,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_a1 = new GRGEN_LIBGR.AttributeType("a1", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "A1"; } }
+		public override string Name { get { return "A1"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @A1();
+			return new GRGEN_MODEL.@A1();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -264,7 +265,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				yield return AttributeType_a1;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
@@ -279,14 +280,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@A1 newNode = new @A1();
+			GRGEN_MODEL.@A1 newNode = new GRGEN_MODEL.@A1();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A1:
 				case (int) NodeTypes.@D11_2221:
 					// copy attributes for: A1
 					{
-						@IA1 old = (@IA1) oldNode;
+						GRGEN_MODEL.IA1 old = (GRGEN_MODEL.IA1) oldNode;
 						newNode.@a1 = old.@a1;
 					}
 					break;
@@ -303,35 +304,35 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @a2 { get; set; }
 	}
 
-	public sealed class @A2 : GRGEN_LGSP.LGSPNode, IA2
+	public sealed class @A2 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IA2
 	{
 		private static int poolLevel = 0;
-		private static @A2[] pool = new @A2[10];
+		private static GRGEN_MODEL.@A2[] pool = new GRGEN_MODEL.@A2[10];
 		
 		// explicit initializations of A2 for target A2
 		// implicit initializations of A2 for target A2
 		static @A2() {
 		}
 		
-		public @A2() : base(NodeType_A2.typeVar)
+		public @A2() : base(GRGEN_MODEL.NodeType_A2.typeVar)
 		{
 			// implicit initialization, map/set creation of A2
 			// explicit initializations of A2 for target A2
 		}
 
-		public static NodeType_A2 TypeInstance { get { return NodeType_A2.typeVar; } }
+		public static GRGEN_MODEL.NodeType_A2 TypeInstance { get { return GRGEN_MODEL.NodeType_A2.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @A2(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@A2(this); }
 
-		private @A2(@A2 oldElem) : base(NodeType_A2.typeVar)
+		private @A2(GRGEN_MODEL.@A2 oldElem) : base(GRGEN_MODEL.NodeType_A2.typeVar)
 		{
 			_a2 = oldElem._a2;
 		}
-		public static @A2 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@A2 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@A2 node;
+			GRGEN_MODEL.@A2 node;
 			if(poolLevel == 0)
-				node = new @A2();
+				node = new GRGEN_MODEL.@A2();
 			else
 			{
 				node = pool[--poolLevel];
@@ -346,11 +347,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @A2 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@A2 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@A2 node;
+			GRGEN_MODEL.@A2 node;
 			if(poolLevel == 0)
-				node = new @A2();
+				node = new GRGEN_MODEL.@A2();
 			else
 			{
 				node = pool[--poolLevel];
@@ -406,7 +407,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_A2 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_A2 typeVar = new NodeType_A2();
+		public static GRGEN_MODEL.NodeType_A2 typeVar = new GRGEN_MODEL.NodeType_A2();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, true, true, true, false, false, false, true, true, false, false, true, true, true, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_a2;
@@ -414,10 +415,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_a2 = new GRGEN_LIBGR.AttributeType("a2", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "A2"; } }
+		public override string Name { get { return "A2"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @A2();
+			return new GRGEN_MODEL.@A2();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -429,7 +430,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				yield return AttributeType_a2;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
@@ -444,7 +445,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@A2 newNode = new @A2();
+			GRGEN_MODEL.@A2 newNode = new GRGEN_MODEL.@A2();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -458,7 +459,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -475,35 +476,35 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @a3 { get; set; }
 	}
 
-	public sealed class @A3 : GRGEN_LGSP.LGSPNode, IA3
+	public sealed class @A3 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IA3
 	{
 		private static int poolLevel = 0;
-		private static @A3[] pool = new @A3[10];
+		private static GRGEN_MODEL.@A3[] pool = new GRGEN_MODEL.@A3[10];
 		
 		// explicit initializations of A3 for target A3
 		// implicit initializations of A3 for target A3
 		static @A3() {
 		}
 		
-		public @A3() : base(NodeType_A3.typeVar)
+		public @A3() : base(GRGEN_MODEL.NodeType_A3.typeVar)
 		{
 			// implicit initialization, map/set creation of A3
 			// explicit initializations of A3 for target A3
 		}
 
-		public static NodeType_A3 TypeInstance { get { return NodeType_A3.typeVar; } }
+		public static GRGEN_MODEL.NodeType_A3 TypeInstance { get { return GRGEN_MODEL.NodeType_A3.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @A3(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@A3(this); }
 
-		private @A3(@A3 oldElem) : base(NodeType_A3.typeVar)
+		private @A3(GRGEN_MODEL.@A3 oldElem) : base(GRGEN_MODEL.NodeType_A3.typeVar)
 		{
 			_a3 = oldElem._a3;
 		}
-		public static @A3 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@A3 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@A3 node;
+			GRGEN_MODEL.@A3 node;
 			if(poolLevel == 0)
-				node = new @A3();
+				node = new GRGEN_MODEL.@A3();
 			else
 			{
 				node = pool[--poolLevel];
@@ -518,11 +519,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @A3 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@A3 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@A3 node;
+			GRGEN_MODEL.@A3 node;
 			if(poolLevel == 0)
-				node = new @A3();
+				node = new GRGEN_MODEL.@A3();
 			else
 			{
 				node = pool[--poolLevel];
@@ -578,7 +579,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_A3 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_A3 typeVar = new NodeType_A3();
+		public static GRGEN_MODEL.NodeType_A3 typeVar = new GRGEN_MODEL.NodeType_A3();
 		public static bool[] isA = new bool[] { true, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_a3;
@@ -586,10 +587,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_a3 = new GRGEN_LIBGR.AttributeType("a3", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "A3"; } }
+		public override string Name { get { return "A3"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @A3();
+			return new GRGEN_MODEL.@A3();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -601,7 +602,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				yield return AttributeType_a3;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
@@ -616,14 +617,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@A3 newNode = new @A3();
+			GRGEN_MODEL.@A3 newNode = new GRGEN_MODEL.@A3();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A3:
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A3
 					{
-						@IA3 old = (@IA3) oldNode;
+						GRGEN_MODEL.IA3 old = (GRGEN_MODEL.IA3) oldNode;
 						newNode.@a3 = old.@a3;
 					}
 					break;
@@ -640,35 +641,35 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @a4 { get; set; }
 	}
 
-	public sealed class @A4 : GRGEN_LGSP.LGSPNode, IA4
+	public sealed class @A4 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IA4
 	{
 		private static int poolLevel = 0;
-		private static @A4[] pool = new @A4[10];
+		private static GRGEN_MODEL.@A4[] pool = new GRGEN_MODEL.@A4[10];
 		
 		// explicit initializations of A4 for target A4
 		// implicit initializations of A4 for target A4
 		static @A4() {
 		}
 		
-		public @A4() : base(NodeType_A4.typeVar)
+		public @A4() : base(GRGEN_MODEL.NodeType_A4.typeVar)
 		{
 			// implicit initialization, map/set creation of A4
 			// explicit initializations of A4 for target A4
 		}
 
-		public static NodeType_A4 TypeInstance { get { return NodeType_A4.typeVar; } }
+		public static GRGEN_MODEL.NodeType_A4 TypeInstance { get { return GRGEN_MODEL.NodeType_A4.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @A4(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@A4(this); }
 
-		private @A4(@A4 oldElem) : base(NodeType_A4.typeVar)
+		private @A4(GRGEN_MODEL.@A4 oldElem) : base(GRGEN_MODEL.NodeType_A4.typeVar)
 		{
 			_a4 = oldElem._a4;
 		}
-		public static @A4 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@A4 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@A4 node;
+			GRGEN_MODEL.@A4 node;
 			if(poolLevel == 0)
-				node = new @A4();
+				node = new GRGEN_MODEL.@A4();
 			else
 			{
 				node = pool[--poolLevel];
@@ -683,11 +684,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @A4 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@A4 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@A4 node;
+			GRGEN_MODEL.@A4 node;
 			if(poolLevel == 0)
-				node = new @A4();
+				node = new GRGEN_MODEL.@A4();
 			else
 			{
 				node = pool[--poolLevel];
@@ -743,7 +744,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_A4 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_A4 typeVar = new NodeType_A4();
+		public static GRGEN_MODEL.NodeType_A4 typeVar = new GRGEN_MODEL.NodeType_A4();
 		public static bool[] isA = new bool[] { true, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, true, true, true, false, true, true, true, true, true, true, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_a4;
@@ -751,10 +752,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_a4 = new GRGEN_LIBGR.AttributeType("a4", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "A4"; } }
+		public override string Name { get { return "A4"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @A4();
+			return new GRGEN_MODEL.@A4();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -766,7 +767,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				yield return AttributeType_a4;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
@@ -781,7 +782,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@A4 newNode = new @A4();
+			GRGEN_MODEL.@A4 newNode = new GRGEN_MODEL.@A4();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
@@ -796,7 +797,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A4
 					{
-						@IA4 old = (@IA4) oldNode;
+						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -813,35 +814,35 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @a5 { get; set; }
 	}
 
-	public sealed class @A5 : GRGEN_LGSP.LGSPNode, IA5
+	public sealed class @A5 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IA5
 	{
 		private static int poolLevel = 0;
-		private static @A5[] pool = new @A5[10];
+		private static GRGEN_MODEL.@A5[] pool = new GRGEN_MODEL.@A5[10];
 		
 		// explicit initializations of A5 for target A5
 		// implicit initializations of A5 for target A5
 		static @A5() {
 		}
 		
-		public @A5() : base(NodeType_A5.typeVar)
+		public @A5() : base(GRGEN_MODEL.NodeType_A5.typeVar)
 		{
 			// implicit initialization, map/set creation of A5
 			// explicit initializations of A5 for target A5
 		}
 
-		public static NodeType_A5 TypeInstance { get { return NodeType_A5.typeVar; } }
+		public static GRGEN_MODEL.NodeType_A5 TypeInstance { get { return GRGEN_MODEL.NodeType_A5.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @A5(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@A5(this); }
 
-		private @A5(@A5 oldElem) : base(NodeType_A5.typeVar)
+		private @A5(GRGEN_MODEL.@A5 oldElem) : base(GRGEN_MODEL.NodeType_A5.typeVar)
 		{
 			_a5 = oldElem._a5;
 		}
-		public static @A5 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@A5 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@A5 node;
+			GRGEN_MODEL.@A5 node;
 			if(poolLevel == 0)
-				node = new @A5();
+				node = new GRGEN_MODEL.@A5();
 			else
 			{
 				node = pool[--poolLevel];
@@ -856,11 +857,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @A5 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@A5 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@A5 node;
+			GRGEN_MODEL.@A5 node;
 			if(poolLevel == 0)
-				node = new @A5();
+				node = new GRGEN_MODEL.@A5();
 			else
 			{
 				node = pool[--poolLevel];
@@ -916,7 +917,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_A5 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_A5 typeVar = new NodeType_A5();
+		public static GRGEN_MODEL.NodeType_A5 typeVar = new GRGEN_MODEL.NodeType_A5();
 		public static bool[] isA = new bool[] { true, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, false, false, false, false, false, true, false, false, false, true, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_a5;
@@ -924,10 +925,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_a5 = new GRGEN_LIBGR.AttributeType("a5", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "A5"; } }
+		public override string Name { get { return "A5"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @A5();
+			return new GRGEN_MODEL.@A5();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -939,7 +940,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				yield return AttributeType_a5;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
@@ -954,7 +955,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@A5 newNode = new @A5();
+			GRGEN_MODEL.@A5 newNode = new GRGEN_MODEL.@A5();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A5:
@@ -962,7 +963,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A5
 					{
-						@IA5 old = (@IA5) oldNode;
+						GRGEN_MODEL.IA5 old = (GRGEN_MODEL.IA5) oldNode;
 						newNode.@a5 = old.@a5;
 					}
 					break;
@@ -979,10 +980,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @b21 { get; set; }
 	}
 
-	public sealed class @B21 : GRGEN_LGSP.LGSPNode, IB21
+	public sealed class @B21 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB21
 	{
 		private static int poolLevel = 0;
-		private static @B21[] pool = new @B21[10];
+		private static GRGEN_MODEL.@B21[] pool = new GRGEN_MODEL.@B21[10];
 		
 		// explicit initializations of A2 for target B21
 		// implicit initializations of A2 for target B21
@@ -991,27 +992,27 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @B21() {
 		}
 		
-		public @B21() : base(NodeType_B21.typeVar)
+		public @B21() : base(GRGEN_MODEL.NodeType_B21.typeVar)
 		{
 			// implicit initialization, map/set creation of B21
 			// explicit initializations of A2 for target B21
 			// explicit initializations of B21 for target B21
 		}
 
-		public static NodeType_B21 TypeInstance { get { return NodeType_B21.typeVar; } }
+		public static GRGEN_MODEL.NodeType_B21 TypeInstance { get { return GRGEN_MODEL.NodeType_B21.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @B21(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B21(this); }
 
-		private @B21(@B21 oldElem) : base(NodeType_B21.typeVar)
+		private @B21(GRGEN_MODEL.@B21 oldElem) : base(GRGEN_MODEL.NodeType_B21.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b21 = oldElem._b21;
 		}
-		public static @B21 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@B21 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@B21 node;
+			GRGEN_MODEL.@B21 node;
 			if(poolLevel == 0)
-				node = new @B21();
+				node = new GRGEN_MODEL.@B21();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1028,11 +1029,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @B21 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@B21 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@B21 node;
+			GRGEN_MODEL.@B21 node;
 			if(poolLevel == 0)
-				node = new @B21();
+				node = new GRGEN_MODEL.@B21();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1101,7 +1102,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_B21 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_B21 typeVar = new NodeType_B21();
+		public static GRGEN_MODEL.NodeType_B21 typeVar = new GRGEN_MODEL.NodeType_B21();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_b21;
@@ -1109,10 +1110,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_b21 = new GRGEN_LIBGR.AttributeType("b21", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "B21"; } }
+		public override string Name { get { return "B21"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @B21();
+			return new GRGEN_MODEL.@B21();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -1121,15 +1122,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A2.AttributeType_a2;
+				yield return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
 				yield return AttributeType_b21;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a2" : return NodeType_A2.AttributeType_a2;
+				case "a2" : return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
 				case "b21" : return AttributeType_b21;
 			}
 			return null;
@@ -1141,7 +1142,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@B21 newNode = new @B21();
+			GRGEN_MODEL.@B21 newNode = new GRGEN_MODEL.@B21();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -1154,14 +1155,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
 				case (int) NodeTypes.@B21:
 					// copy attributes for: B21
 					{
-						@IB21 old = (@IB21) oldNode;
+						GRGEN_MODEL.IB21 old = (GRGEN_MODEL.IB21) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b21 = old.@b21;
 					}
@@ -1179,10 +1180,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @b22 { get; set; }
 	}
 
-	public sealed class @B22 : GRGEN_LGSP.LGSPNode, IB22
+	public sealed class @B22 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB22
 	{
 		private static int poolLevel = 0;
-		private static @B22[] pool = new @B22[10];
+		private static GRGEN_MODEL.@B22[] pool = new GRGEN_MODEL.@B22[10];
 		
 		// explicit initializations of A2 for target B22
 		// implicit initializations of A2 for target B22
@@ -1191,27 +1192,27 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @B22() {
 		}
 		
-		public @B22() : base(NodeType_B22.typeVar)
+		public @B22() : base(GRGEN_MODEL.NodeType_B22.typeVar)
 		{
 			// implicit initialization, map/set creation of B22
 			// explicit initializations of A2 for target B22
 			// explicit initializations of B22 for target B22
 		}
 
-		public static NodeType_B22 TypeInstance { get { return NodeType_B22.typeVar; } }
+		public static GRGEN_MODEL.NodeType_B22 TypeInstance { get { return GRGEN_MODEL.NodeType_B22.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @B22(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B22(this); }
 
-		private @B22(@B22 oldElem) : base(NodeType_B22.typeVar)
+		private @B22(GRGEN_MODEL.@B22 oldElem) : base(GRGEN_MODEL.NodeType_B22.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
 		}
-		public static @B22 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@B22 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@B22 node;
+			GRGEN_MODEL.@B22 node;
 			if(poolLevel == 0)
-				node = new @B22();
+				node = new GRGEN_MODEL.@B22();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1228,11 +1229,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @B22 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@B22 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@B22 node;
+			GRGEN_MODEL.@B22 node;
 			if(poolLevel == 0)
-				node = new @B22();
+				node = new GRGEN_MODEL.@B22();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1301,7 +1302,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_B22 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_B22 typeVar = new NodeType_B22();
+		public static GRGEN_MODEL.NodeType_B22 typeVar = new GRGEN_MODEL.NodeType_B22();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, false, false, false, true, true, false, false, true, true, false, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_b22;
@@ -1309,10 +1310,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_b22 = new GRGEN_LIBGR.AttributeType("b22", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "B22"; } }
+		public override string Name { get { return "B22"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @B22();
+			return new GRGEN_MODEL.@B22();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -1321,15 +1322,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A2.AttributeType_a2;
+				yield return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
 				yield return AttributeType_b22;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a2" : return NodeType_A2.AttributeType_a2;
+				case "a2" : return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
 				case "b22" : return AttributeType_b22;
 			}
 			return null;
@@ -1341,7 +1342,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@B22 newNode = new @B22();
+			GRGEN_MODEL.@B22 newNode = new GRGEN_MODEL.@B22();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -1350,7 +1351,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -1361,7 +1362,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: B22
 					{
-						@IB22 old = (@IB22) oldNode;
+						GRGEN_MODEL.IB22 old = (GRGEN_MODEL.IB22) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 					}
@@ -1379,10 +1380,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @b23 { get; set; }
 	}
 
-	public sealed class @B23 : GRGEN_LGSP.LGSPNode, IB23
+	public sealed class @B23 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB23
 	{
 		private static int poolLevel = 0;
-		private static @B23[] pool = new @B23[10];
+		private static GRGEN_MODEL.@B23[] pool = new GRGEN_MODEL.@B23[10];
 		
 		// explicit initializations of A2 for target B23
 		// implicit initializations of A2 for target B23
@@ -1391,27 +1392,27 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @B23() {
 		}
 		
-		public @B23() : base(NodeType_B23.typeVar)
+		public @B23() : base(GRGEN_MODEL.NodeType_B23.typeVar)
 		{
 			// implicit initialization, map/set creation of B23
 			// explicit initializations of A2 for target B23
 			// explicit initializations of B23 for target B23
 		}
 
-		public static NodeType_B23 TypeInstance { get { return NodeType_B23.typeVar; } }
+		public static GRGEN_MODEL.NodeType_B23 TypeInstance { get { return GRGEN_MODEL.NodeType_B23.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @B23(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B23(this); }
 
-		private @B23(@B23 oldElem) : base(NodeType_B23.typeVar)
+		private @B23(GRGEN_MODEL.@B23 oldElem) : base(GRGEN_MODEL.NodeType_B23.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b23 = oldElem._b23;
 		}
-		public static @B23 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@B23 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@B23 node;
+			GRGEN_MODEL.@B23 node;
 			if(poolLevel == 0)
-				node = new @B23();
+				node = new GRGEN_MODEL.@B23();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1428,11 +1429,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @B23 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@B23 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@B23 node;
+			GRGEN_MODEL.@B23 node;
 			if(poolLevel == 0)
-				node = new @B23();
+				node = new GRGEN_MODEL.@B23();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1501,7 +1502,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_B23 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_B23 typeVar = new NodeType_B23();
+		public static GRGEN_MODEL.NodeType_B23 typeVar = new GRGEN_MODEL.NodeType_B23();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, true, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_b23;
@@ -1509,10 +1510,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_b23 = new GRGEN_LIBGR.AttributeType("b23", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "B23"; } }
+		public override string Name { get { return "B23"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @B23();
+			return new GRGEN_MODEL.@B23();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -1521,15 +1522,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A2.AttributeType_a2;
+				yield return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
 				yield return AttributeType_b23;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a2" : return NodeType_A2.AttributeType_a2;
+				case "a2" : return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
 				case "b23" : return AttributeType_b23;
 			}
 			return null;
@@ -1541,7 +1542,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@B23 newNode = new @B23();
+			GRGEN_MODEL.@B23 newNode = new GRGEN_MODEL.@B23();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -1553,7 +1554,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -1561,7 +1562,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: B23
 					{
-						@IB23 old = (@IB23) oldNode;
+						GRGEN_MODEL.IB23 old = (GRGEN_MODEL.IB23) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b23 = old.@b23;
 					}
@@ -1579,10 +1580,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @b41 { get; set; }
 	}
 
-	public sealed class @B41 : GRGEN_LGSP.LGSPNode, IB41
+	public sealed class @B41 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB41
 	{
 		private static int poolLevel = 0;
-		private static @B41[] pool = new @B41[10];
+		private static GRGEN_MODEL.@B41[] pool = new GRGEN_MODEL.@B41[10];
 		
 		// explicit initializations of A4 for target B41
 		// implicit initializations of A4 for target B41
@@ -1591,27 +1592,27 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @B41() {
 		}
 		
-		public @B41() : base(NodeType_B41.typeVar)
+		public @B41() : base(GRGEN_MODEL.NodeType_B41.typeVar)
 		{
 			// implicit initialization, map/set creation of B41
 			// explicit initializations of A4 for target B41
 			// explicit initializations of B41 for target B41
 		}
 
-		public static NodeType_B41 TypeInstance { get { return NodeType_B41.typeVar; } }
+		public static GRGEN_MODEL.NodeType_B41 TypeInstance { get { return GRGEN_MODEL.NodeType_B41.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @B41(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B41(this); }
 
-		private @B41(@B41 oldElem) : base(NodeType_B41.typeVar)
+		private @B41(GRGEN_MODEL.@B41 oldElem) : base(GRGEN_MODEL.NodeType_B41.typeVar)
 		{
 			_a4 = oldElem._a4;
 			_b41 = oldElem._b41;
 		}
-		public static @B41 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@B41 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@B41 node;
+			GRGEN_MODEL.@B41 node;
 			if(poolLevel == 0)
-				node = new @B41();
+				node = new GRGEN_MODEL.@B41();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1628,11 +1629,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @B41 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@B41 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@B41 node;
+			GRGEN_MODEL.@B41 node;
 			if(poolLevel == 0)
-				node = new @B41();
+				node = new GRGEN_MODEL.@B41();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1701,7 +1702,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_B41 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_B41 typeVar = new NodeType_B41();
+		public static GRGEN_MODEL.NodeType_B41 typeVar = new GRGEN_MODEL.NodeType_B41();
 		public static bool[] isA = new bool[] { true, false, false, false, true, false, false, false, false, true, false, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, true, false, false, false, true, true, false, true, true, true, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_b41;
@@ -1709,10 +1710,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_b41 = new GRGEN_LIBGR.AttributeType("b41", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "B41"; } }
+		public override string Name { get { return "B41"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @B41();
+			return new GRGEN_MODEL.@B41();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -1721,15 +1722,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A4.AttributeType_a4;
+				yield return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
 				yield return AttributeType_b41;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a4" : return NodeType_A4.AttributeType_a4;
+				case "a4" : return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
 				case "b41" : return AttributeType_b41;
 			}
 			return null;
@@ -1741,7 +1742,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@B41 newNode = new @B41();
+			GRGEN_MODEL.@B41 newNode = new GRGEN_MODEL.@B41();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
@@ -1750,7 +1751,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
-						@IA4 old = (@IA4) oldNode;
+						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -1762,7 +1763,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: B41
 					{
-						@IB41 old = (@IB41) oldNode;
+						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -1780,10 +1781,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @b42 { get; set; }
 	}
 
-	public sealed class @B42 : GRGEN_LGSP.LGSPNode, IB42
+	public sealed class @B42 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB42
 	{
 		private static int poolLevel = 0;
-		private static @B42[] pool = new @B42[10];
+		private static GRGEN_MODEL.@B42[] pool = new GRGEN_MODEL.@B42[10];
 		
 		// explicit initializations of A4 for target B42
 		// implicit initializations of A4 for target B42
@@ -1792,27 +1793,27 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @B42() {
 		}
 		
-		public @B42() : base(NodeType_B42.typeVar)
+		public @B42() : base(GRGEN_MODEL.NodeType_B42.typeVar)
 		{
 			// implicit initialization, map/set creation of B42
 			// explicit initializations of A4 for target B42
 			// explicit initializations of B42 for target B42
 		}
 
-		public static NodeType_B42 TypeInstance { get { return NodeType_B42.typeVar; } }
+		public static GRGEN_MODEL.NodeType_B42 TypeInstance { get { return GRGEN_MODEL.NodeType_B42.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @B42(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B42(this); }
 
-		private @B42(@B42 oldElem) : base(NodeType_B42.typeVar)
+		private @B42(GRGEN_MODEL.@B42 oldElem) : base(GRGEN_MODEL.NodeType_B42.typeVar)
 		{
 			_a4 = oldElem._a4;
 			_b42 = oldElem._b42;
 		}
-		public static @B42 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@B42 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@B42 node;
+			GRGEN_MODEL.@B42 node;
 			if(poolLevel == 0)
-				node = new @B42();
+				node = new GRGEN_MODEL.@B42();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1829,11 +1830,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @B42 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@B42 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@B42 node;
+			GRGEN_MODEL.@B42 node;
 			if(poolLevel == 0)
-				node = new @B42();
+				node = new GRGEN_MODEL.@B42();
 			else
 			{
 				node = pool[--poolLevel];
@@ -1902,7 +1903,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_B42 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_B42 typeVar = new NodeType_B42();
+		public static GRGEN_MODEL.NodeType_B42 typeVar = new GRGEN_MODEL.NodeType_B42();
 		public static bool[] isA = new bool[] { true, false, false, false, true, false, false, false, false, false, true, false, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, true, false, false, false, true, true, false, false, true, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_b42;
@@ -1910,10 +1911,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_b42 = new GRGEN_LIBGR.AttributeType("b42", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "B42"; } }
+		public override string Name { get { return "B42"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @B42();
+			return new GRGEN_MODEL.@B42();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -1922,15 +1923,15 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A4.AttributeType_a4;
+				yield return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
 				yield return AttributeType_b42;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a4" : return NodeType_A4.AttributeType_a4;
+				case "a4" : return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
 				case "b42" : return AttributeType_b42;
 			}
 			return null;
@@ -1942,7 +1943,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@B42 newNode = new @B42();
+			GRGEN_MODEL.@B42 newNode = new GRGEN_MODEL.@B42();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
@@ -1953,7 +1954,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A4
 					{
-						@IA4 old = (@IA4) oldNode;
+						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -1963,7 +1964,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: B42
 					{
-						@IB42 old = (@IB42) oldNode;
+						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -1980,10 +1981,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 	}
 
-	public sealed class @B43 : GRGEN_LGSP.LGSPNode, IB43
+	public sealed class @B43 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB43
 	{
 		private static int poolLevel = 0;
-		private static @B43[] pool = new @B43[10];
+		private static GRGEN_MODEL.@B43[] pool = new GRGEN_MODEL.@B43[10];
 		
 		// explicit initializations of A4 for target B43
 		// implicit initializations of A4 for target B43
@@ -1992,26 +1993,26 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @B43() {
 		}
 		
-		public @B43() : base(NodeType_B43.typeVar)
+		public @B43() : base(GRGEN_MODEL.NodeType_B43.typeVar)
 		{
 			// implicit initialization, map/set creation of B43
 			// explicit initializations of A4 for target B43
 			// explicit initializations of B43 for target B43
 		}
 
-		public static NodeType_B43 TypeInstance { get { return NodeType_B43.typeVar; } }
+		public static GRGEN_MODEL.NodeType_B43 TypeInstance { get { return GRGEN_MODEL.NodeType_B43.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @B43(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@B43(this); }
 
-		private @B43(@B43 oldElem) : base(NodeType_B43.typeVar)
+		private @B43(GRGEN_MODEL.@B43 oldElem) : base(GRGEN_MODEL.NodeType_B43.typeVar)
 		{
 			_a4 = oldElem._a4;
 		}
-		public static @B43 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@B43 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@B43 node;
+			GRGEN_MODEL.@B43 node;
 			if(poolLevel == 0)
-				node = new @B43();
+				node = new GRGEN_MODEL.@B43();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2027,11 +2028,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @B43 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@B43 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@B43 node;
+			GRGEN_MODEL.@B43 node;
 			if(poolLevel == 0)
-				node = new @B43();
+				node = new GRGEN_MODEL.@B43();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2089,16 +2090,16 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_B43 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_B43 typeVar = new NodeType_B43();
+		public static GRGEN_MODEL.NodeType_B43 typeVar = new GRGEN_MODEL.NodeType_B43();
 		public static bool[] isA = new bool[] { true, false, false, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, true, false, false, true, true, false, false, true, };
 		public NodeType_B43() : base((int) NodeTypes.@B43)
 		{
 		}
-		public override String Name { get { return "B43"; } }
+		public override string Name { get { return "B43"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @B43();
+			return new GRGEN_MODEL.@B43();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -2107,14 +2108,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A4.AttributeType_a4;
+				yield return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a4" : return NodeType_A4.AttributeType_a4;
+				case "a4" : return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
 			}
 			return null;
 		}
@@ -2125,7 +2126,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@B43 newNode = new @B43();
+			GRGEN_MODEL.@B43 newNode = new GRGEN_MODEL.@B43();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
@@ -2136,7 +2137,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A4
 					{
-						@IA4 old = (@IA4) oldNode;
+						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -2146,7 +2147,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: B43
 					{
-						@IB43 old = (@IB43) oldNode;
+						GRGEN_MODEL.IB43 old = (GRGEN_MODEL.IB43) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -2163,10 +2164,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @c221 { get; set; }
 	}
 
-	public sealed class @C221 : GRGEN_LGSP.LGSPNode, IC221
+	public sealed class @C221 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IC221
 	{
 		private static int poolLevel = 0;
-		private static @C221[] pool = new @C221[10];
+		private static GRGEN_MODEL.@C221[] pool = new GRGEN_MODEL.@C221[10];
 		
 		// explicit initializations of A2 for target C221
 		// implicit initializations of A2 for target C221
@@ -2177,7 +2178,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @C221() {
 		}
 		
-		public @C221() : base(NodeType_C221.typeVar)
+		public @C221() : base(GRGEN_MODEL.NodeType_C221.typeVar)
 		{
 			// implicit initialization, map/set creation of C221
 			// explicit initializations of A2 for target C221
@@ -2185,21 +2186,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			// explicit initializations of C221 for target C221
 		}
 
-		public static NodeType_C221 TypeInstance { get { return NodeType_C221.typeVar; } }
+		public static GRGEN_MODEL.NodeType_C221 TypeInstance { get { return GRGEN_MODEL.NodeType_C221.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @C221(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@C221(this); }
 
-		private @C221(@C221 oldElem) : base(NodeType_C221.typeVar)
+		private @C221(GRGEN_MODEL.@C221 oldElem) : base(GRGEN_MODEL.NodeType_C221.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
 			_c221 = oldElem._c221;
 		}
-		public static @C221 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@C221 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@C221 node;
+			GRGEN_MODEL.@C221 node;
 			if(poolLevel == 0)
-				node = new @C221();
+				node = new GRGEN_MODEL.@C221();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2218,11 +2219,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @C221 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@C221 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@C221 node;
+			GRGEN_MODEL.@C221 node;
 			if(poolLevel == 0)
-				node = new @C221();
+				node = new GRGEN_MODEL.@C221();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2304,7 +2305,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_C221 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_C221 typeVar = new NodeType_C221();
+		public static GRGEN_MODEL.NodeType_C221 typeVar = new GRGEN_MODEL.NodeType_C221();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, true, false, false, false, false, true, false, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, true, false, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_c221;
@@ -2312,10 +2313,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_c221 = new GRGEN_LIBGR.AttributeType("c221", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "C221"; } }
+		public override string Name { get { return "C221"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @C221();
+			return new GRGEN_MODEL.@C221();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -2324,17 +2325,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A2.AttributeType_a2;
-				yield return NodeType_B22.AttributeType_b22;
+				yield return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
+				yield return GRGEN_MODEL.NodeType_B22.AttributeType_b22;
 				yield return AttributeType_c221;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a2" : return NodeType_A2.AttributeType_a2;
-				case "b22" : return NodeType_B22.AttributeType_b22;
+				case "a2" : return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
+				case "b22" : return GRGEN_MODEL.NodeType_B22.AttributeType_b22;
 				case "c221" : return AttributeType_c221;
 			}
 			return null;
@@ -2346,7 +2347,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@C221 newNode = new @C221();
+			GRGEN_MODEL.@C221 newNode = new GRGEN_MODEL.@C221();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -2355,7 +2356,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -2364,7 +2365,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D11_2221:
 					// copy attributes for: B22
 					{
-						@IB22 old = (@IB22) oldNode;
+						GRGEN_MODEL.IB22 old = (GRGEN_MODEL.IB22) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 					}
@@ -2373,7 +2374,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: C221
 					{
-						@IC221 old = (@IC221) oldNode;
+						GRGEN_MODEL.IC221 old = (GRGEN_MODEL.IC221) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@c221 = old.@c221;
@@ -2392,10 +2393,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @c222_411 { get; set; }
 	}
 
-	public sealed class @C222_411 : GRGEN_LGSP.LGSPNode, IC222_411
+	public sealed class @C222_411 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IC222_411
 	{
 		private static int poolLevel = 0;
-		private static @C222_411[] pool = new @C222_411[10];
+		private static GRGEN_MODEL.@C222_411[] pool = new GRGEN_MODEL.@C222_411[10];
 		
 		// explicit initializations of A2 for target C222_411
 		// implicit initializations of A2 for target C222_411
@@ -2410,7 +2411,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @C222_411() {
 		}
 		
-		public @C222_411() : base(NodeType_C222_411.typeVar)
+		public @C222_411() : base(GRGEN_MODEL.NodeType_C222_411.typeVar)
 		{
 			// implicit initialization, map/set creation of C222_411
 			// explicit initializations of A2 for target C222_411
@@ -2420,11 +2421,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			// explicit initializations of C222_411 for target C222_411
 		}
 
-		public static NodeType_C222_411 TypeInstance { get { return NodeType_C222_411.typeVar; } }
+		public static GRGEN_MODEL.NodeType_C222_411 TypeInstance { get { return GRGEN_MODEL.NodeType_C222_411.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @C222_411(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@C222_411(this); }
 
-		private @C222_411(@C222_411 oldElem) : base(NodeType_C222_411.typeVar)
+		private @C222_411(GRGEN_MODEL.@C222_411 oldElem) : base(GRGEN_MODEL.NodeType_C222_411.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
@@ -2432,11 +2433,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			_b41 = oldElem._b41;
 			_c222_411 = oldElem._c222_411;
 		}
-		public static @C222_411 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@C222_411 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@C222_411 node;
+			GRGEN_MODEL.@C222_411 node;
 			if(poolLevel == 0)
-				node = new @C222_411();
+				node = new GRGEN_MODEL.@C222_411();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2459,11 +2460,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @C222_411 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@C222_411 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@C222_411 node;
+			GRGEN_MODEL.@C222_411 node;
 			if(poolLevel == 0)
-				node = new @C222_411();
+				node = new GRGEN_MODEL.@C222_411();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2571,7 +2572,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_C222_411 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_C222_411 typeVar = new NodeType_C222_411();
+		public static GRGEN_MODEL.NodeType_C222_411 typeVar = new GRGEN_MODEL.NodeType_C222_411();
 		public static bool[] isA = new bool[] { true, false, true, false, true, false, false, true, false, true, false, false, false, true, false, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, true, true, false, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_c222_411;
@@ -2579,10 +2580,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_c222_411 = new GRGEN_LIBGR.AttributeType("c222_411", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "C222_411"; } }
+		public override string Name { get { return "C222_411"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @C222_411();
+			return new GRGEN_MODEL.@C222_411();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -2591,21 +2592,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A2.AttributeType_a2;
-				yield return NodeType_B22.AttributeType_b22;
-				yield return NodeType_A4.AttributeType_a4;
-				yield return NodeType_B41.AttributeType_b41;
+				yield return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
+				yield return GRGEN_MODEL.NodeType_B22.AttributeType_b22;
+				yield return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				yield return GRGEN_MODEL.NodeType_B41.AttributeType_b41;
 				yield return AttributeType_c222_411;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a2" : return NodeType_A2.AttributeType_a2;
-				case "b22" : return NodeType_B22.AttributeType_b22;
-				case "a4" : return NodeType_A4.AttributeType_a4;
-				case "b41" : return NodeType_B41.AttributeType_b41;
+				case "a2" : return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
+				case "b22" : return GRGEN_MODEL.NodeType_B22.AttributeType_b22;
+				case "a4" : return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				case "b41" : return GRGEN_MODEL.NodeType_B41.AttributeType_b41;
 				case "c222_411" : return AttributeType_c222_411;
 			}
 			return null;
@@ -2617,7 +2618,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@C222_411 newNode = new @C222_411();
+			GRGEN_MODEL.@C222_411 newNode = new GRGEN_MODEL.@C222_411();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -2625,7 +2626,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B23:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -2635,7 +2636,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
-						@IA4 old = (@IA4) oldNode;
+						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -2643,7 +2644,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C221:
 					// copy attributes for: B22
 					{
-						@IB22 old = (@IB22) oldNode;
+						GRGEN_MODEL.IB22 old = (GRGEN_MODEL.IB22) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 					}
@@ -2652,7 +2653,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C412_421_431_51:
 					// copy attributes for: B41
 					{
-						@IB41 old = (@IB41) oldNode;
+						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -2662,7 +2663,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: C222_411
 					{
-						@IC222_411 old = (@IC222_411) oldNode;
+						GRGEN_MODEL.IC222_411 old = (GRGEN_MODEL.IC222_411) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@a4 = old.@a4;
@@ -2673,12 +2674,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					// copy attributes for: B41
 					{
-						@IB41 old = (@IB41) oldNode;
+						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -2695,10 +2696,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 	}
 
-	public sealed class @C412_421_431_51 : GRGEN_LGSP.LGSPNode, IC412_421_431_51
+	public sealed class @C412_421_431_51 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IC412_421_431_51
 	{
 		private static int poolLevel = 0;
-		private static @C412_421_431_51[] pool = new @C412_421_431_51[10];
+		private static GRGEN_MODEL.@C412_421_431_51[] pool = new GRGEN_MODEL.@C412_421_431_51[10];
 		
 		// explicit initializations of A4 for target C412_421_431_51
 		// implicit initializations of A4 for target C412_421_431_51
@@ -2715,7 +2716,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @C412_421_431_51() {
 		}
 		
-		public @C412_421_431_51() : base(NodeType_C412_421_431_51.typeVar)
+		public @C412_421_431_51() : base(GRGEN_MODEL.NodeType_C412_421_431_51.typeVar)
 		{
 			// implicit initialization, map/set creation of C412_421_431_51
 			// explicit initializations of A4 for target C412_421_431_51
@@ -2726,22 +2727,22 @@ namespace de.unika.ipd.grGen.Model_complModel
 			// explicit initializations of C412_421_431_51 for target C412_421_431_51
 		}
 
-		public static NodeType_C412_421_431_51 TypeInstance { get { return NodeType_C412_421_431_51.typeVar; } }
+		public static GRGEN_MODEL.NodeType_C412_421_431_51 TypeInstance { get { return GRGEN_MODEL.NodeType_C412_421_431_51.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @C412_421_431_51(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@C412_421_431_51(this); }
 
-		private @C412_421_431_51(@C412_421_431_51 oldElem) : base(NodeType_C412_421_431_51.typeVar)
+		private @C412_421_431_51(GRGEN_MODEL.@C412_421_431_51 oldElem) : base(GRGEN_MODEL.NodeType_C412_421_431_51.typeVar)
 		{
 			_a4 = oldElem._a4;
 			_b41 = oldElem._b41;
 			_b42 = oldElem._b42;
 			_a5 = oldElem._a5;
 		}
-		public static @C412_421_431_51 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@C412_421_431_51 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@C412_421_431_51 node;
+			GRGEN_MODEL.@C412_421_431_51 node;
 			if(poolLevel == 0)
-				node = new @C412_421_431_51();
+				node = new GRGEN_MODEL.@C412_421_431_51();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2764,11 +2765,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @C412_421_431_51 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@C412_421_431_51 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@C412_421_431_51 node;
+			GRGEN_MODEL.@C412_421_431_51 node;
 			if(poolLevel == 0)
-				node = new @C412_421_431_51();
+				node = new GRGEN_MODEL.@C412_421_431_51();
 			else
 			{
 				node = pool[--poolLevel];
@@ -2867,16 +2868,16 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_C412_421_431_51 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_C412_421_431_51 typeVar = new NodeType_C412_421_431_51();
+		public static GRGEN_MODEL.NodeType_C412_421_431_51 typeVar = new GRGEN_MODEL.NodeType_C412_421_431_51();
 		public static bool[] isA = new bool[] { true, false, false, false, true, true, false, false, false, true, true, true, false, false, true, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, true, };
 		public NodeType_C412_421_431_51() : base((int) NodeTypes.@C412_421_431_51)
 		{
 		}
-		public override String Name { get { return "C412_421_431_51"; } }
+		public override string Name { get { return "C412_421_431_51"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @C412_421_431_51();
+			return new GRGEN_MODEL.@C412_421_431_51();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -2885,20 +2886,20 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A4.AttributeType_a4;
-				yield return NodeType_B41.AttributeType_b41;
-				yield return NodeType_B42.AttributeType_b42;
-				yield return NodeType_A5.AttributeType_a5;
+				yield return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				yield return GRGEN_MODEL.NodeType_B41.AttributeType_b41;
+				yield return GRGEN_MODEL.NodeType_B42.AttributeType_b42;
+				yield return GRGEN_MODEL.NodeType_A5.AttributeType_a5;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a4" : return NodeType_A4.AttributeType_a4;
-				case "b41" : return NodeType_B41.AttributeType_b41;
-				case "b42" : return NodeType_B42.AttributeType_b42;
-				case "a5" : return NodeType_A5.AttributeType_a5;
+				case "a4" : return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				case "b41" : return GRGEN_MODEL.NodeType_B41.AttributeType_b41;
+				case "b42" : return GRGEN_MODEL.NodeType_B42.AttributeType_b42;
+				case "a5" : return GRGEN_MODEL.NodeType_A5.AttributeType_a5;
 			}
 			return null;
 		}
@@ -2909,20 +2910,20 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@C412_421_431_51 newNode = new @C412_421_431_51();
+			GRGEN_MODEL.@C412_421_431_51 newNode = new GRGEN_MODEL.@C412_421_431_51();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
 					// copy attributes for: A4
 					{
-						@IA4 old = (@IA4) oldNode;
+						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
 				case (int) NodeTypes.@A5:
 					// copy attributes for: A5
 					{
-						@IA5 old = (@IA5) oldNode;
+						GRGEN_MODEL.IA5 old = (GRGEN_MODEL.IA5) oldNode;
 						newNode.@a5 = old.@a5;
 					}
 					break;
@@ -2932,7 +2933,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: B41
 					{
-						@IB41 old = (@IB41) oldNode;
+						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -2940,7 +2941,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B42:
 					// copy attributes for: B42
 					{
-						@IB42 old = (@IB42) oldNode;
+						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -2948,7 +2949,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B43:
 					// copy attributes for: B43
 					{
-						@IB43 old = (@IB43) oldNode;
+						GRGEN_MODEL.IB43 old = (GRGEN_MODEL.IB43) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -2956,7 +2957,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: C412_421_431_51
 					{
-						@IC412_421_431_51 old = (@IC412_421_431_51) oldNode;
+						GRGEN_MODEL.IC412_421_431_51 old = (GRGEN_MODEL.IC412_421_431_51) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 						newNode.@b42 = old.@b42;
@@ -2966,7 +2967,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: B42
 					{
-						@IB42 old = (@IB42) oldNode;
+						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -2986,10 +2987,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @c432_422 { get; set; }
 	}
 
-	public sealed class @C432_422 : GRGEN_LGSP.LGSPNode, IC432_422
+	public sealed class @C432_422 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IC432_422
 	{
 		private static int poolLevel = 0;
-		private static @C432_422[] pool = new @C432_422[10];
+		private static GRGEN_MODEL.@C432_422[] pool = new GRGEN_MODEL.@C432_422[10];
 		
 		// explicit initializations of A4 for target C432_422
 		// implicit initializations of A4 for target C432_422
@@ -3002,7 +3003,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @C432_422() {
 		}
 		
-		public @C432_422() : base(NodeType_C432_422.typeVar)
+		public @C432_422() : base(GRGEN_MODEL.NodeType_C432_422.typeVar)
 		{
 			// implicit initialization, map/set creation of C432_422
 			// explicit initializations of A4 for target C432_422
@@ -3011,21 +3012,21 @@ namespace de.unika.ipd.grGen.Model_complModel
 			// explicit initializations of C432_422 for target C432_422
 		}
 
-		public static NodeType_C432_422 TypeInstance { get { return NodeType_C432_422.typeVar; } }
+		public static GRGEN_MODEL.NodeType_C432_422 TypeInstance { get { return GRGEN_MODEL.NodeType_C432_422.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @C432_422(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@C432_422(this); }
 
-		private @C432_422(@C432_422 oldElem) : base(NodeType_C432_422.typeVar)
+		private @C432_422(GRGEN_MODEL.@C432_422 oldElem) : base(GRGEN_MODEL.NodeType_C432_422.typeVar)
 		{
 			_a4 = oldElem._a4;
 			_b42 = oldElem._b42;
 			_c432_422 = oldElem._c432_422;
 		}
-		public static @C432_422 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@C432_422 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@C432_422 node;
+			GRGEN_MODEL.@C432_422 node;
 			if(poolLevel == 0)
-				node = new @C432_422();
+				node = new GRGEN_MODEL.@C432_422();
 			else
 			{
 				node = pool[--poolLevel];
@@ -3045,11 +3046,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @C432_422 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@C432_422 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@C432_422 node;
+			GRGEN_MODEL.@C432_422 node;
 			if(poolLevel == 0)
-				node = new @C432_422();
+				node = new GRGEN_MODEL.@C432_422();
 			else
 			{
 				node = pool[--poolLevel];
@@ -3133,7 +3134,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_C432_422 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_C432_422 typeVar = new NodeType_C432_422();
+		public static GRGEN_MODEL.NodeType_C432_422 typeVar = new GRGEN_MODEL.NodeType_C432_422();
 		public static bool[] isA = new bool[] { true, false, false, false, true, false, false, false, false, false, true, true, false, false, false, true, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_c432_422;
@@ -3141,10 +3142,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_c432_422 = new GRGEN_LIBGR.AttributeType("c432_422", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "C432_422"; } }
+		public override string Name { get { return "C432_422"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @C432_422();
+			return new GRGEN_MODEL.@C432_422();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -3153,17 +3154,17 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A4.AttributeType_a4;
-				yield return NodeType_B42.AttributeType_b42;
+				yield return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				yield return GRGEN_MODEL.NodeType_B42.AttributeType_b42;
 				yield return AttributeType_c432_422;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a4" : return NodeType_A4.AttributeType_a4;
-				case "b42" : return NodeType_B42.AttributeType_b42;
+				case "a4" : return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				case "b42" : return GRGEN_MODEL.NodeType_B42.AttributeType_b42;
 				case "c432_422" : return AttributeType_c432_422;
 			}
 			return null;
@@ -3175,7 +3176,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@C432_422 newNode = new @C432_422();
+			GRGEN_MODEL.@C432_422 newNode = new GRGEN_MODEL.@C432_422();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A4:
@@ -3185,14 +3186,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A4
 					{
-						@IA4 old = (@IA4) oldNode;
+						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
 				case (int) NodeTypes.@B42:
 					// copy attributes for: B42
 					{
-						@IB42 old = (@IB42) oldNode;
+						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -3200,7 +3201,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B43:
 					// copy attributes for: B43
 					{
-						@IB43 old = (@IB43) oldNode;
+						GRGEN_MODEL.IB43 old = (GRGEN_MODEL.IB43) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -3208,7 +3209,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: B42
 					{
-						@IB42 old = (@IB42) oldNode;
+						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -3218,7 +3219,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: C432_422
 					{
-						@IC432_422 old = (@IC432_422) oldNode;
+						GRGEN_MODEL.IC432_422 old = (GRGEN_MODEL.IC432_422) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 						newNode.@c432_422 = old.@c432_422;
@@ -3237,10 +3238,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @d11_2221 { get; set; }
 	}
 
-	public sealed class @D11_2221 : GRGEN_LGSP.LGSPNode, ID11_2221
+	public sealed class @D11_2221 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.ID11_2221
 	{
 		private static int poolLevel = 0;
-		private static @D11_2221[] pool = new @D11_2221[10];
+		private static GRGEN_MODEL.@D11_2221[] pool = new GRGEN_MODEL.@D11_2221[10];
 		
 		// explicit initializations of A1 for target D11_2221
 		// implicit initializations of A1 for target D11_2221
@@ -3259,7 +3260,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @D11_2221() {
 		}
 		
-		public @D11_2221() : base(NodeType_D11_2221.typeVar)
+		public @D11_2221() : base(GRGEN_MODEL.NodeType_D11_2221.typeVar)
 		{
 			// implicit initialization, map/set creation of D11_2221
 			// explicit initializations of A1 for target D11_2221
@@ -3271,11 +3272,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			// explicit initializations of D11_2221 for target D11_2221
 		}
 
-		public static NodeType_D11_2221 TypeInstance { get { return NodeType_D11_2221.typeVar; } }
+		public static GRGEN_MODEL.NodeType_D11_2221 TypeInstance { get { return GRGEN_MODEL.NodeType_D11_2221.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @D11_2221(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@D11_2221(this); }
 
-		private @D11_2221(@D11_2221 oldElem) : base(NodeType_D11_2221.typeVar)
+		private @D11_2221(GRGEN_MODEL.@D11_2221 oldElem) : base(GRGEN_MODEL.NodeType_D11_2221.typeVar)
 		{
 			_a1 = oldElem._a1;
 			_a2 = oldElem._a2;
@@ -3285,11 +3286,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			_c222_411 = oldElem._c222_411;
 			_d11_2221 = oldElem._d11_2221;
 		}
-		public static @D11_2221 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@D11_2221 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@D11_2221 node;
+			GRGEN_MODEL.@D11_2221 node;
 			if(poolLevel == 0)
-				node = new @D11_2221();
+				node = new GRGEN_MODEL.@D11_2221();
 			else
 			{
 				node = pool[--poolLevel];
@@ -3316,11 +3317,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @D11_2221 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@D11_2221 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@D11_2221 node;
+			GRGEN_MODEL.@D11_2221 node;
 			if(poolLevel == 0)
-				node = new @D11_2221();
+				node = new GRGEN_MODEL.@D11_2221();
 			else
 			{
 				node = pool[--poolLevel];
@@ -3454,7 +3455,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_D11_2221 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_D11_2221 typeVar = new NodeType_D11_2221();
+		public static GRGEN_MODEL.NodeType_D11_2221 typeVar = new GRGEN_MODEL.NodeType_D11_2221();
 		public static bool[] isA = new bool[] { true, true, true, false, true, false, false, true, false, true, false, false, false, true, false, false, true, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_d11_2221;
@@ -3462,10 +3463,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_d11_2221 = new GRGEN_LIBGR.AttributeType("d11_2221", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "D11_2221"; } }
+		public override string Name { get { return "D11_2221"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @D11_2221();
+			return new GRGEN_MODEL.@D11_2221();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -3474,25 +3475,25 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A1.AttributeType_a1;
-				yield return NodeType_A2.AttributeType_a2;
-				yield return NodeType_B22.AttributeType_b22;
-				yield return NodeType_A4.AttributeType_a4;
-				yield return NodeType_B41.AttributeType_b41;
-				yield return NodeType_C222_411.AttributeType_c222_411;
+				yield return GRGEN_MODEL.NodeType_A1.AttributeType_a1;
+				yield return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
+				yield return GRGEN_MODEL.NodeType_B22.AttributeType_b22;
+				yield return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				yield return GRGEN_MODEL.NodeType_B41.AttributeType_b41;
+				yield return GRGEN_MODEL.NodeType_C222_411.AttributeType_c222_411;
 				yield return AttributeType_d11_2221;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a1" : return NodeType_A1.AttributeType_a1;
-				case "a2" : return NodeType_A2.AttributeType_a2;
-				case "b22" : return NodeType_B22.AttributeType_b22;
-				case "a4" : return NodeType_A4.AttributeType_a4;
-				case "b41" : return NodeType_B41.AttributeType_b41;
-				case "c222_411" : return NodeType_C222_411.AttributeType_c222_411;
+				case "a1" : return GRGEN_MODEL.NodeType_A1.AttributeType_a1;
+				case "a2" : return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
+				case "b22" : return GRGEN_MODEL.NodeType_B22.AttributeType_b22;
+				case "a4" : return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				case "b41" : return GRGEN_MODEL.NodeType_B41.AttributeType_b41;
+				case "c222_411" : return GRGEN_MODEL.NodeType_C222_411.AttributeType_c222_411;
 				case "d11_2221" : return AttributeType_d11_2221;
 			}
 			return null;
@@ -3504,13 +3505,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@D11_2221 newNode = new @D11_2221();
+			GRGEN_MODEL.@D11_2221 newNode = new GRGEN_MODEL.@D11_2221();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A1:
 					// copy attributes for: A1
 					{
-						@IA1 old = (@IA1) oldNode;
+						GRGEN_MODEL.IA1 old = (GRGEN_MODEL.IA1) oldNode;
 						newNode.@a1 = old.@a1;
 					}
 					break;
@@ -3519,7 +3520,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B23:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
@@ -3529,7 +3530,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
-						@IA4 old = (@IA4) oldNode;
+						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -3537,7 +3538,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C221:
 					// copy attributes for: B22
 					{
-						@IB22 old = (@IB22) oldNode;
+						GRGEN_MODEL.IB22 old = (GRGEN_MODEL.IB22) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 					}
@@ -3546,7 +3547,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C412_421_431_51:
 					// copy attributes for: B41
 					{
-						@IB41 old = (@IB41) oldNode;
+						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -3555,7 +3556,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: C222_411
 					{
-						@IC222_411 old = (@IC222_411) oldNode;
+						GRGEN_MODEL.IC222_411 old = (GRGEN_MODEL.IC222_411) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@a4 = old.@a4;
@@ -3566,7 +3567,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D11_2221:
 					// copy attributes for: D11_2221
 					{
-						@ID11_2221 old = (@ID11_2221) oldNode;
+						GRGEN_MODEL.ID11_2221 old = (GRGEN_MODEL.ID11_2221) oldNode;
 						newNode.@a1 = old.@a1;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
@@ -3579,12 +3580,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					// copy attributes for: B41
 					{
-						@IB41 old = (@IB41) oldNode;
+						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -3602,10 +3603,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @d2211_2222_31 { get; set; }
 	}
 
-	public sealed class @D2211_2222_31 : GRGEN_LGSP.LGSPNode, ID2211_2222_31
+	public sealed class @D2211_2222_31 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.ID2211_2222_31
 	{
 		private static int poolLevel = 0;
-		private static @D2211_2222_31[] pool = new @D2211_2222_31[10];
+		private static GRGEN_MODEL.@D2211_2222_31[] pool = new GRGEN_MODEL.@D2211_2222_31[10];
 		
 		// explicit initializations of A2 for target D2211_2222_31
 		// implicit initializations of A2 for target D2211_2222_31
@@ -3626,7 +3627,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @D2211_2222_31() {
 		}
 		
-		public @D2211_2222_31() : base(NodeType_D2211_2222_31.typeVar)
+		public @D2211_2222_31() : base(GRGEN_MODEL.NodeType_D2211_2222_31.typeVar)
 		{
 			// implicit initialization, map/set creation of D2211_2222_31
 			// explicit initializations of A2 for target D2211_2222_31
@@ -3639,11 +3640,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			// explicit initializations of D2211_2222_31 for target D2211_2222_31
 		}
 
-		public static NodeType_D2211_2222_31 TypeInstance { get { return NodeType_D2211_2222_31.typeVar; } }
+		public static GRGEN_MODEL.NodeType_D2211_2222_31 TypeInstance { get { return GRGEN_MODEL.NodeType_D2211_2222_31.typeVar; } }
 
-		public override GRGEN_LIBGR.INode Clone() { return new @D2211_2222_31(this); }
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@D2211_2222_31(this); }
 
-		private @D2211_2222_31(@D2211_2222_31 oldElem) : base(NodeType_D2211_2222_31.typeVar)
+		private @D2211_2222_31(GRGEN_MODEL.@D2211_2222_31 oldElem) : base(GRGEN_MODEL.NodeType_D2211_2222_31.typeVar)
 		{
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
@@ -3654,11 +3655,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			_a3 = oldElem._a3;
 			_d2211_2222_31 = oldElem._d2211_2222_31;
 		}
-		public static @D2211_2222_31 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@D2211_2222_31 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@D2211_2222_31 node;
+			GRGEN_MODEL.@D2211_2222_31 node;
 			if(poolLevel == 0)
-				node = new @D2211_2222_31();
+				node = new GRGEN_MODEL.@D2211_2222_31();
 			else
 			{
 				node = pool[--poolLevel];
@@ -3687,11 +3688,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @D2211_2222_31 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@D2211_2222_31 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@D2211_2222_31 node;
+			GRGEN_MODEL.@D2211_2222_31 node;
 			if(poolLevel == 0)
-				node = new @D2211_2222_31();
+				node = new GRGEN_MODEL.@D2211_2222_31();
 			else
 			{
 				node = pool[--poolLevel];
@@ -3838,7 +3839,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_D2211_2222_31 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_D2211_2222_31 typeVar = new NodeType_D2211_2222_31();
+		public static GRGEN_MODEL.NodeType_D2211_2222_31 typeVar = new GRGEN_MODEL.NodeType_D2211_2222_31();
 		public static bool[] isA = new bool[] { true, false, true, true, true, false, false, true, false, true, false, false, true, true, false, false, false, true, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_d2211_2222_31;
@@ -3846,10 +3847,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_d2211_2222_31 = new GRGEN_LIBGR.AttributeType("d2211_2222_31", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "D2211_2222_31"; } }
+		public override string Name { get { return "D2211_2222_31"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
-			return new @D2211_2222_31();
+			return new GRGEN_MODEL.@D2211_2222_31();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
@@ -3858,27 +3859,27 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A2.AttributeType_a2;
-				yield return NodeType_B22.AttributeType_b22;
-				yield return NodeType_C221.AttributeType_c221;
-				yield return NodeType_A4.AttributeType_a4;
-				yield return NodeType_B41.AttributeType_b41;
-				yield return NodeType_C222_411.AttributeType_c222_411;
-				yield return NodeType_A3.AttributeType_a3;
+				yield return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
+				yield return GRGEN_MODEL.NodeType_B22.AttributeType_b22;
+				yield return GRGEN_MODEL.NodeType_C221.AttributeType_c221;
+				yield return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				yield return GRGEN_MODEL.NodeType_B41.AttributeType_b41;
+				yield return GRGEN_MODEL.NodeType_C222_411.AttributeType_c222_411;
+				yield return GRGEN_MODEL.NodeType_A3.AttributeType_a3;
 				yield return AttributeType_d2211_2222_31;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a2" : return NodeType_A2.AttributeType_a2;
-				case "b22" : return NodeType_B22.AttributeType_b22;
-				case "c221" : return NodeType_C221.AttributeType_c221;
-				case "a4" : return NodeType_A4.AttributeType_a4;
-				case "b41" : return NodeType_B41.AttributeType_b41;
-				case "c222_411" : return NodeType_C222_411.AttributeType_c222_411;
-				case "a3" : return NodeType_A3.AttributeType_a3;
+				case "a2" : return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
+				case "b22" : return GRGEN_MODEL.NodeType_B22.AttributeType_b22;
+				case "c221" : return GRGEN_MODEL.NodeType_C221.AttributeType_c221;
+				case "a4" : return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				case "b41" : return GRGEN_MODEL.NodeType_B41.AttributeType_b41;
+				case "c222_411" : return GRGEN_MODEL.NodeType_C222_411.AttributeType_c222_411;
+				case "a3" : return GRGEN_MODEL.NodeType_A3.AttributeType_a3;
 				case "d2211_2222_31" : return AttributeType_d2211_2222_31;
 			}
 			return null;
@@ -3890,7 +3891,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@D2211_2222_31 newNode = new @D2211_2222_31();
+			GRGEN_MODEL.@D2211_2222_31 newNode = new GRGEN_MODEL.@D2211_2222_31();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -3898,14 +3899,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B23:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
 				case (int) NodeTypes.@A3:
 					// copy attributes for: A3
 					{
-						@IA3 old = (@IA3) oldNode;
+						GRGEN_MODEL.IA3 old = (GRGEN_MODEL.IA3) oldNode;
 						newNode.@a3 = old.@a3;
 					}
 					break;
@@ -3915,14 +3916,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: A4
 					{
-						@IA4 old = (@IA4) oldNode;
+						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
 				case (int) NodeTypes.@B22:
 					// copy attributes for: B22
 					{
-						@IB22 old = (@IB22) oldNode;
+						GRGEN_MODEL.IB22 old = (GRGEN_MODEL.IB22) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 					}
@@ -3931,7 +3932,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C412_421_431_51:
 					// copy attributes for: B41
 					{
-						@IB41 old = (@IB41) oldNode;
+						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -3939,7 +3940,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C221:
 					// copy attributes for: C221
 					{
-						@IC221 old = (@IC221) oldNode;
+						GRGEN_MODEL.IC221 old = (GRGEN_MODEL.IC221) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@c221 = old.@c221;
@@ -3949,7 +3950,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D11_2221:
 					// copy attributes for: C222_411
 					{
-						@IC222_411 old = (@IC222_411) oldNode;
+						GRGEN_MODEL.IC222_411 old = (GRGEN_MODEL.IC222_411) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@a4 = old.@a4;
@@ -3960,7 +3961,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: D2211_2222_31
 					{
-						@ID2211_2222_31 old = (@ID2211_2222_31) oldNode;
+						GRGEN_MODEL.ID2211_2222_31 old = (GRGEN_MODEL.ID2211_2222_31) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@c221 = old.@c221;
@@ -3974,12 +3975,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					// copy attributes for: B41
 					{
-						@IB41 old = (@IB41) oldNode;
+						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -3997,10 +3998,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		int @d231_4121 { get; set; }
 	}
 
-	public abstract class @D231_4121 : GRGEN_LGSP.LGSPNode, ID231_4121
+	public abstract class @D231_4121 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.ID231_4121
 	{
 		private static int poolLevel = 0;
-		private static @D231_4121[] pool = new @D231_4121[10];
+		private static GRGEN_MODEL.@D231_4121[] pool = new GRGEN_MODEL.@D231_4121[10];
 		
 		// explicit initializations of A2 for target D231_4121
 		// implicit initializations of A2 for target D231_4121
@@ -4023,7 +4024,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		static @D231_4121() {
 		}
 		
-		public @D231_4121() : base(NodeType_D231_4121.typeVar)
+		public @D231_4121() : base(GRGEN_MODEL.NodeType_D231_4121.typeVar)
 		{
 			// implicit initialization, map/set creation of D231_4121
 			// explicit initializations of A2 for target D231_4121
@@ -4037,11 +4038,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			// explicit initializations of D231_4121 for target D231_4121
 		}
 
-		public static NodeType_D231_4121 TypeInstance { get { return NodeType_D231_4121.typeVar; } }
+		public static GRGEN_MODEL.NodeType_D231_4121 TypeInstance { get { return GRGEN_MODEL.NodeType_D231_4121.typeVar; } }
 
-		public static @D231_4121 CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		public static GRGEN_MODEL.@D231_4121 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
-			@D231_4121 node;
+			GRGEN_MODEL.@D231_4121 node;
 			if(poolLevel == 0)
 				node = new global::test.D231_4121_Impl();
 			else
@@ -4072,9 +4073,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return node;
 		}
 
-		public static @D231_4121 CreateNode(GRGEN_LGSP.LGSPGraph graph, String varName)
+		public static GRGEN_MODEL.@D231_4121 CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
 		{
-			@D231_4121 node;
+			GRGEN_MODEL.@D231_4121 node;
 			if(poolLevel == 0)
 				node = new global::test.D231_4121_Impl();
 			else
@@ -4172,7 +4173,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class NodeType_D231_4121 : GRGEN_LIBGR.NodeType
 	{
-		public static NodeType_D231_4121 typeVar = new NodeType_D231_4121();
+		public static GRGEN_MODEL.NodeType_D231_4121 typeVar = new GRGEN_MODEL.NodeType_D231_4121();
 		public static bool[] isA = new bool[] { true, false, true, false, true, true, false, false, true, true, true, true, false, false, true, false, false, false, true, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, };
 		public static GRGEN_LIBGR.AttributeType AttributeType_d231_4121;
@@ -4180,7 +4181,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			AttributeType_d231_4121 = new GRGEN_LIBGR.AttributeType("d231_4121", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
-		public override String Name { get { return "D231_4121"; } }
+		public override string Name { get { return "D231_4121"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new global::test.D231_4121_Impl();
@@ -4192,25 +4193,25 @@ namespace de.unika.ipd.grGen.Model_complModel
 		{
 			get
 			{
-				yield return NodeType_A2.AttributeType_a2;
-				yield return NodeType_B23.AttributeType_b23;
-				yield return NodeType_A4.AttributeType_a4;
-				yield return NodeType_B41.AttributeType_b41;
-				yield return NodeType_B42.AttributeType_b42;
-				yield return NodeType_A5.AttributeType_a5;
+				yield return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
+				yield return GRGEN_MODEL.NodeType_B23.AttributeType_b23;
+				yield return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				yield return GRGEN_MODEL.NodeType_B41.AttributeType_b41;
+				yield return GRGEN_MODEL.NodeType_B42.AttributeType_b42;
+				yield return GRGEN_MODEL.NodeType_A5.AttributeType_a5;
 				yield return AttributeType_d231_4121;
 			}
 		}
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name)
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
 		{
 			switch(name)
 			{
-				case "a2" : return NodeType_A2.AttributeType_a2;
-				case "b23" : return NodeType_B23.AttributeType_b23;
-				case "a4" : return NodeType_A4.AttributeType_a4;
-				case "b41" : return NodeType_B41.AttributeType_b41;
-				case "b42" : return NodeType_B42.AttributeType_b42;
-				case "a5" : return NodeType_A5.AttributeType_a5;
+				case "a2" : return GRGEN_MODEL.NodeType_A2.AttributeType_a2;
+				case "b23" : return GRGEN_MODEL.NodeType_B23.AttributeType_b23;
+				case "a4" : return GRGEN_MODEL.NodeType_A4.AttributeType_a4;
+				case "b41" : return GRGEN_MODEL.NodeType_B41.AttributeType_b41;
+				case "b42" : return GRGEN_MODEL.NodeType_B42.AttributeType_b42;
+				case "a5" : return GRGEN_MODEL.NodeType_A5.AttributeType_a5;
 				case "d231_4121" : return AttributeType_d231_4121;
 			}
 			return null;
@@ -4222,7 +4223,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			GRGEN_LGSP.LGSPNode oldNode = (GRGEN_LGSP.LGSPNode) oldINode;
-			@D231_4121 newNode = new global::test.D231_4121_Impl();
+			GRGEN_MODEL.@D231_4121 newNode = new global::test.D231_4121_Impl();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A2:
@@ -4231,28 +4232,28 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C221:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					break;
 				case (int) NodeTypes.@A4:
 					// copy attributes for: A4
 					{
-						@IA4 old = (@IA4) oldNode;
+						GRGEN_MODEL.IA4 old = (GRGEN_MODEL.IA4) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
 				case (int) NodeTypes.@A5:
 					// copy attributes for: A5
 					{
-						@IA5 old = (@IA5) oldNode;
+						GRGEN_MODEL.IA5 old = (GRGEN_MODEL.IA5) oldNode;
 						newNode.@a5 = old.@a5;
 					}
 					break;
 				case (int) NodeTypes.@B23:
 					// copy attributes for: B23
 					{
-						@IB23 old = (@IB23) oldNode;
+						GRGEN_MODEL.IB23 old = (GRGEN_MODEL.IB23) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b23 = old.@b23;
 					}
@@ -4260,7 +4261,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B41:
 					// copy attributes for: B41
 					{
-						@IB41 old = (@IB41) oldNode;
+						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -4268,7 +4269,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B42:
 					// copy attributes for: B42
 					{
-						@IB42 old = (@IB42) oldNode;
+						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -4276,7 +4277,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@B43:
 					// copy attributes for: B43
 					{
-						@IB43 old = (@IB43) oldNode;
+						GRGEN_MODEL.IB43 old = (GRGEN_MODEL.IB43) oldNode;
 						newNode.@a4 = old.@a4;
 					}
 					break;
@@ -4285,12 +4286,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: A2
 					{
-						@IA2 old = (@IA2) oldNode;
+						GRGEN_MODEL.IA2 old = (GRGEN_MODEL.IA2) oldNode;
 						newNode.@a2 = old.@a2;
 					}
 					// copy attributes for: B41
 					{
-						@IB41 old = (@IB41) oldNode;
+						GRGEN_MODEL.IB41 old = (GRGEN_MODEL.IB41) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 					}
@@ -4298,7 +4299,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C412_421_431_51:
 					// copy attributes for: C412_421_431_51
 					{
-						@IC412_421_431_51 old = (@IC412_421_431_51) oldNode;
+						GRGEN_MODEL.IC412_421_431_51 old = (GRGEN_MODEL.IC412_421_431_51) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 						newNode.@b42 = old.@b42;
@@ -4308,7 +4309,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@C432_422:
 					// copy attributes for: B42
 					{
-						@IB42 old = (@IB42) oldNode;
+						GRGEN_MODEL.IB42 old = (GRGEN_MODEL.IB42) oldNode;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
 					}
@@ -4318,7 +4319,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				case (int) NodeTypes.@D231_4121:
 					// copy attributes for: D231_4121
 					{
-						@ID231_4121 old = (@ID231_4121) oldNode;
+						GRGEN_MODEL.ID231_4121 old = (GRGEN_MODEL.ID231_4121) oldNode;
 						newNode.@a2 = old.@a2;
 						newNode.@b23 = old.@b23;
 						newNode.@a4 = old.@a4;
@@ -4342,464 +4343,464 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public complModelNodeModel()
 		{
-			NodeType_Node.typeVar.subOrSameGrGenTypes = NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Node.typeVar,
-				NodeType_A1.typeVar,
-				NodeType_A2.typeVar,
-				NodeType_A3.typeVar,
-				NodeType_A4.typeVar,
-				NodeType_A5.typeVar,
-				NodeType_B21.typeVar,
-				NodeType_B22.typeVar,
-				NodeType_B23.typeVar,
-				NodeType_B41.typeVar,
-				NodeType_B42.typeVar,
-				NodeType_B43.typeVar,
-				NodeType_C221.typeVar,
-				NodeType_C222_411.typeVar,
-				NodeType_C412_421_431_51.typeVar,
-				NodeType_C432_422.typeVar,
-				NodeType_D11_2221.typeVar,
-				NodeType_D2211_2222_31.typeVar,
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_Node.typeVar.directSubGrGenTypes = NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A1.typeVar,
-				NodeType_A2.typeVar,
-				NodeType_A3.typeVar,
-				NodeType_A4.typeVar,
-				NodeType_A5.typeVar,
-			};
-			NodeType_Node.typeVar.superOrSameGrGenTypes = NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Node.typeVar,
-			};
-			NodeType_Node.typeVar.directSuperGrGenTypes = NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			NodeType_A1.typeVar.subOrSameGrGenTypes = NodeType_A1.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A1.typeVar,
-				NodeType_D11_2221.typeVar,
-			};
-			NodeType_A1.typeVar.directSubGrGenTypes = NodeType_A1.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D11_2221.typeVar,
-			};
-			NodeType_A1.typeVar.superOrSameGrGenTypes = NodeType_A1.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A1.typeVar,
-				NodeType_Node.typeVar,
-			};
-			NodeType_A1.typeVar.directSuperGrGenTypes = NodeType_A1.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Node.typeVar,
-			};
-			NodeType_A2.typeVar.subOrSameGrGenTypes = NodeType_A2.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A2.typeVar,
-				NodeType_B21.typeVar,
-				NodeType_B22.typeVar,
-				NodeType_B23.typeVar,
-				NodeType_C221.typeVar,
-				NodeType_C222_411.typeVar,
-				NodeType_D11_2221.typeVar,
-				NodeType_D2211_2222_31.typeVar,
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_A2.typeVar.directSubGrGenTypes = NodeType_A2.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B21.typeVar,
-				NodeType_B22.typeVar,
-				NodeType_B23.typeVar,
-			};
-			NodeType_A2.typeVar.superOrSameGrGenTypes = NodeType_A2.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A2.typeVar,
-				NodeType_Node.typeVar,
-			};
-			NodeType_A2.typeVar.directSuperGrGenTypes = NodeType_A2.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Node.typeVar,
-			};
-			NodeType_A3.typeVar.subOrSameGrGenTypes = NodeType_A3.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A3.typeVar,
-				NodeType_D2211_2222_31.typeVar,
-			};
-			NodeType_A3.typeVar.directSubGrGenTypes = NodeType_A3.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D2211_2222_31.typeVar,
-			};
-			NodeType_A3.typeVar.superOrSameGrGenTypes = NodeType_A3.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A3.typeVar,
-				NodeType_Node.typeVar,
-			};
-			NodeType_A3.typeVar.directSuperGrGenTypes = NodeType_A3.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Node.typeVar,
-			};
-			NodeType_A4.typeVar.subOrSameGrGenTypes = NodeType_A4.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A4.typeVar,
-				NodeType_B41.typeVar,
-				NodeType_B42.typeVar,
-				NodeType_B43.typeVar,
-				NodeType_C222_411.typeVar,
-				NodeType_C412_421_431_51.typeVar,
-				NodeType_C432_422.typeVar,
-				NodeType_D11_2221.typeVar,
-				NodeType_D2211_2222_31.typeVar,
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_A4.typeVar.directSubGrGenTypes = NodeType_A4.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B41.typeVar,
-				NodeType_B42.typeVar,
-				NodeType_B43.typeVar,
-			};
-			NodeType_A4.typeVar.superOrSameGrGenTypes = NodeType_A4.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A4.typeVar,
-				NodeType_Node.typeVar,
-			};
-			NodeType_A4.typeVar.directSuperGrGenTypes = NodeType_A4.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Node.typeVar,
-			};
-			NodeType_A5.typeVar.subOrSameGrGenTypes = NodeType_A5.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A5.typeVar,
-				NodeType_C412_421_431_51.typeVar,
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_A5.typeVar.directSubGrGenTypes = NodeType_A5.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C412_421_431_51.typeVar,
-			};
-			NodeType_A5.typeVar.superOrSameGrGenTypes = NodeType_A5.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A5.typeVar,
-				NodeType_Node.typeVar,
-			};
-			NodeType_A5.typeVar.directSuperGrGenTypes = NodeType_A5.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_Node.typeVar,
-			};
-			NodeType_B21.typeVar.subOrSameGrGenTypes = NodeType_B21.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B21.typeVar,
-			};
-			NodeType_B21.typeVar.directSubGrGenTypes = NodeType_B21.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			NodeType_B21.typeVar.superOrSameGrGenTypes = NodeType_B21.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B21.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A2.typeVar,
-			};
-			NodeType_B21.typeVar.directSuperGrGenTypes = NodeType_B21.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A2.typeVar,
-			};
-			NodeType_B22.typeVar.subOrSameGrGenTypes = NodeType_B22.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B22.typeVar,
-				NodeType_C221.typeVar,
-				NodeType_C222_411.typeVar,
-				NodeType_D11_2221.typeVar,
-				NodeType_D2211_2222_31.typeVar,
-			};
-			NodeType_B22.typeVar.directSubGrGenTypes = NodeType_B22.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C221.typeVar,
-				NodeType_C222_411.typeVar,
-			};
-			NodeType_B22.typeVar.superOrSameGrGenTypes = NodeType_B22.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B22.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A2.typeVar,
-			};
-			NodeType_B22.typeVar.directSuperGrGenTypes = NodeType_B22.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A2.typeVar,
-			};
-			NodeType_B23.typeVar.subOrSameGrGenTypes = NodeType_B23.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B23.typeVar,
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_B23.typeVar.directSubGrGenTypes = NodeType_B23.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_B23.typeVar.superOrSameGrGenTypes = NodeType_B23.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B23.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A2.typeVar,
-			};
-			NodeType_B23.typeVar.directSuperGrGenTypes = NodeType_B23.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A2.typeVar,
-			};
-			NodeType_B41.typeVar.subOrSameGrGenTypes = NodeType_B41.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B41.typeVar,
-				NodeType_C222_411.typeVar,
-				NodeType_C412_421_431_51.typeVar,
-				NodeType_D11_2221.typeVar,
-				NodeType_D2211_2222_31.typeVar,
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_B41.typeVar.directSubGrGenTypes = NodeType_B41.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C222_411.typeVar,
-				NodeType_C412_421_431_51.typeVar,
-			};
-			NodeType_B41.typeVar.superOrSameGrGenTypes = NodeType_B41.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B41.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A4.typeVar,
-			};
-			NodeType_B41.typeVar.directSuperGrGenTypes = NodeType_B41.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A4.typeVar,
-			};
-			NodeType_B42.typeVar.subOrSameGrGenTypes = NodeType_B42.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B42.typeVar,
-				NodeType_C412_421_431_51.typeVar,
-				NodeType_C432_422.typeVar,
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_B42.typeVar.directSubGrGenTypes = NodeType_B42.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C412_421_431_51.typeVar,
-				NodeType_C432_422.typeVar,
-			};
-			NodeType_B42.typeVar.superOrSameGrGenTypes = NodeType_B42.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B42.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A4.typeVar,
-			};
-			NodeType_B42.typeVar.directSuperGrGenTypes = NodeType_B42.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A4.typeVar,
-			};
-			NodeType_B43.typeVar.subOrSameGrGenTypes = NodeType_B43.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B43.typeVar,
-				NodeType_C412_421_431_51.typeVar,
-				NodeType_C432_422.typeVar,
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_B43.typeVar.directSubGrGenTypes = NodeType_B43.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C412_421_431_51.typeVar,
-				NodeType_C432_422.typeVar,
-			};
-			NodeType_B43.typeVar.superOrSameGrGenTypes = NodeType_B43.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B43.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A4.typeVar,
-			};
-			NodeType_B43.typeVar.directSuperGrGenTypes = NodeType_B43.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A4.typeVar,
-			};
-			NodeType_C221.typeVar.subOrSameGrGenTypes = NodeType_C221.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C221.typeVar,
-				NodeType_D2211_2222_31.typeVar,
-			};
-			NodeType_C221.typeVar.directSubGrGenTypes = NodeType_C221.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D2211_2222_31.typeVar,
-			};
-			NodeType_C221.typeVar.superOrSameGrGenTypes = NodeType_C221.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C221.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A2.typeVar,
-				NodeType_B22.typeVar,
-			};
-			NodeType_C221.typeVar.directSuperGrGenTypes = NodeType_C221.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B22.typeVar,
-			};
-			NodeType_C222_411.typeVar.subOrSameGrGenTypes = NodeType_C222_411.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C222_411.typeVar,
-				NodeType_D11_2221.typeVar,
-				NodeType_D2211_2222_31.typeVar,
-			};
-			NodeType_C222_411.typeVar.directSubGrGenTypes = NodeType_C222_411.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D11_2221.typeVar,
-				NodeType_D2211_2222_31.typeVar,
-			};
-			NodeType_C222_411.typeVar.superOrSameGrGenTypes = NodeType_C222_411.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C222_411.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A2.typeVar,
-				NodeType_A4.typeVar,
-				NodeType_B22.typeVar,
-				NodeType_B41.typeVar,
-			};
-			NodeType_C222_411.typeVar.directSuperGrGenTypes = NodeType_C222_411.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B22.typeVar,
-				NodeType_B41.typeVar,
-			};
-			NodeType_C412_421_431_51.typeVar.subOrSameGrGenTypes = NodeType_C412_421_431_51.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C412_421_431_51.typeVar,
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_C412_421_431_51.typeVar.directSubGrGenTypes = NodeType_C412_421_431_51.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_C412_421_431_51.typeVar.superOrSameGrGenTypes = NodeType_C412_421_431_51.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C412_421_431_51.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A4.typeVar,
-				NodeType_A5.typeVar,
-				NodeType_B41.typeVar,
-				NodeType_B42.typeVar,
-				NodeType_B43.typeVar,
-			};
-			NodeType_C412_421_431_51.typeVar.directSuperGrGenTypes = NodeType_C412_421_431_51.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B41.typeVar,
-				NodeType_B42.typeVar,
-				NodeType_B43.typeVar,
-				NodeType_A5.typeVar,
-			};
-			NodeType_C432_422.typeVar.subOrSameGrGenTypes = NodeType_C432_422.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C432_422.typeVar,
-			};
-			NodeType_C432_422.typeVar.directSubGrGenTypes = NodeType_C432_422.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			NodeType_C432_422.typeVar.superOrSameGrGenTypes = NodeType_C432_422.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C432_422.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A4.typeVar,
-				NodeType_B42.typeVar,
-				NodeType_B43.typeVar,
-			};
-			NodeType_C432_422.typeVar.directSuperGrGenTypes = NodeType_C432_422.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B43.typeVar,
-				NodeType_B42.typeVar,
-			};
-			NodeType_D11_2221.typeVar.subOrSameGrGenTypes = NodeType_D11_2221.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D11_2221.typeVar,
-			};
-			NodeType_D11_2221.typeVar.directSubGrGenTypes = NodeType_D11_2221.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			NodeType_D11_2221.typeVar.superOrSameGrGenTypes = NodeType_D11_2221.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D11_2221.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A1.typeVar,
-				NodeType_A2.typeVar,
-				NodeType_A4.typeVar,
-				NodeType_B22.typeVar,
-				NodeType_B41.typeVar,
-				NodeType_C222_411.typeVar,
-			};
-			NodeType_D11_2221.typeVar.directSuperGrGenTypes = NodeType_D11_2221.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_A1.typeVar,
-				NodeType_C222_411.typeVar,
-			};
-			NodeType_D2211_2222_31.typeVar.subOrSameGrGenTypes = NodeType_D2211_2222_31.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D2211_2222_31.typeVar,
-			};
-			NodeType_D2211_2222_31.typeVar.directSubGrGenTypes = NodeType_D2211_2222_31.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			NodeType_D2211_2222_31.typeVar.superOrSameGrGenTypes = NodeType_D2211_2222_31.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D2211_2222_31.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A2.typeVar,
-				NodeType_A3.typeVar,
-				NodeType_A4.typeVar,
-				NodeType_B22.typeVar,
-				NodeType_B41.typeVar,
-				NodeType_C221.typeVar,
-				NodeType_C222_411.typeVar,
-			};
-			NodeType_D2211_2222_31.typeVar.directSuperGrGenTypes = NodeType_D2211_2222_31.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_C221.typeVar,
-				NodeType_C222_411.typeVar,
-				NodeType_A3.typeVar,
-			};
-			NodeType_D231_4121.typeVar.subOrSameGrGenTypes = NodeType_D231_4121.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D231_4121.typeVar,
-			};
-			NodeType_D231_4121.typeVar.directSubGrGenTypes = NodeType_D231_4121.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
-			};
-			NodeType_D231_4121.typeVar.superOrSameGrGenTypes = NodeType_D231_4121.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_D231_4121.typeVar,
-				NodeType_Node.typeVar,
-				NodeType_A2.typeVar,
-				NodeType_A4.typeVar,
-				NodeType_A5.typeVar,
-				NodeType_B23.typeVar,
-				NodeType_B41.typeVar,
-				NodeType_B42.typeVar,
-				NodeType_B43.typeVar,
-				NodeType_C412_421_431_51.typeVar,
-			};
-			NodeType_D231_4121.typeVar.directSuperGrGenTypes = NodeType_D231_4121.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
-				NodeType_B23.typeVar,
-				NodeType_C412_421_431_51.typeVar,
+			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A1.typeVar,
+				GRGEN_MODEL.NodeType_A2.typeVar,
+				GRGEN_MODEL.NodeType_A3.typeVar,
+				GRGEN_MODEL.NodeType_A4.typeVar,
+				GRGEN_MODEL.NodeType_A5.typeVar,
+				GRGEN_MODEL.NodeType_B21.typeVar,
+				GRGEN_MODEL.NodeType_B22.typeVar,
+				GRGEN_MODEL.NodeType_B23.typeVar,
+				GRGEN_MODEL.NodeType_B41.typeVar,
+				GRGEN_MODEL.NodeType_B42.typeVar,
+				GRGEN_MODEL.NodeType_B43.typeVar,
+				GRGEN_MODEL.NodeType_C221.typeVar,
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+				GRGEN_MODEL.NodeType_C432_422.typeVar,
+				GRGEN_MODEL.NodeType_D11_2221.typeVar,
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A1.typeVar,
+				GRGEN_MODEL.NodeType_A2.typeVar,
+				GRGEN_MODEL.NodeType_A3.typeVar,
+				GRGEN_MODEL.NodeType_A4.typeVar,
+				GRGEN_MODEL.NodeType_A5.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_Node.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_A1.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_A1.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A1.typeVar,
+				GRGEN_MODEL.NodeType_D11_2221.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A1.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_A1.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D11_2221.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A1.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_A1.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A1.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A1.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_A1.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A2.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_A2.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A2.typeVar,
+				GRGEN_MODEL.NodeType_B21.typeVar,
+				GRGEN_MODEL.NodeType_B22.typeVar,
+				GRGEN_MODEL.NodeType_B23.typeVar,
+				GRGEN_MODEL.NodeType_C221.typeVar,
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+				GRGEN_MODEL.NodeType_D11_2221.typeVar,
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A2.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_A2.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B21.typeVar,
+				GRGEN_MODEL.NodeType_B22.typeVar,
+				GRGEN_MODEL.NodeType_B23.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A2.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_A2.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A2.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A2.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_A2.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A3.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_A3.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A3.typeVar,
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A3.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_A3.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A3.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_A3.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A3.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A3.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_A3.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A4.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_A4.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A4.typeVar,
+				GRGEN_MODEL.NodeType_B41.typeVar,
+				GRGEN_MODEL.NodeType_B42.typeVar,
+				GRGEN_MODEL.NodeType_B43.typeVar,
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+				GRGEN_MODEL.NodeType_C432_422.typeVar,
+				GRGEN_MODEL.NodeType_D11_2221.typeVar,
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A4.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_A4.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B41.typeVar,
+				GRGEN_MODEL.NodeType_B42.typeVar,
+				GRGEN_MODEL.NodeType_B43.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A4.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_A4.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A4.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A4.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_A4.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A5.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_A5.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A5.typeVar,
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A5.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_A5.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A5.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_A5.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A5.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_A5.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_A5.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B21.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_B21.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B21.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B21.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_B21.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_B21.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_B21.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B21.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A2.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B21.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_B21.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A2.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B22.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_B22.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B22.typeVar,
+				GRGEN_MODEL.NodeType_C221.typeVar,
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+				GRGEN_MODEL.NodeType_D11_2221.typeVar,
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B22.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_B22.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C221.typeVar,
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B22.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_B22.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B22.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A2.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B22.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_B22.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A2.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B23.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_B23.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B23.typeVar,
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B23.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_B23.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B23.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_B23.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B23.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A2.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B23.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_B23.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A2.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B41.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_B41.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B41.typeVar,
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+				GRGEN_MODEL.NodeType_D11_2221.typeVar,
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B41.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_B41.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B41.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_B41.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B41.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A4.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B41.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_B41.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A4.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B42.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_B42.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B42.typeVar,
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+				GRGEN_MODEL.NodeType_C432_422.typeVar,
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B42.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_B42.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+				GRGEN_MODEL.NodeType_C432_422.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B42.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_B42.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B42.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A4.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B42.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_B42.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A4.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B43.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_B43.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B43.typeVar,
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+				GRGEN_MODEL.NodeType_C432_422.typeVar,
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B43.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_B43.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+				GRGEN_MODEL.NodeType_C432_422.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B43.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_B43.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B43.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A4.typeVar,
+			};
+			GRGEN_MODEL.NodeType_B43.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_B43.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A4.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C221.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_C221.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C221.typeVar,
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C221.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_C221.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C221.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_C221.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C221.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A2.typeVar,
+				GRGEN_MODEL.NodeType_B22.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C221.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_C221.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B22.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C222_411.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_C222_411.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+				GRGEN_MODEL.NodeType_D11_2221.typeVar,
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C222_411.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_C222_411.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D11_2221.typeVar,
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C222_411.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_C222_411.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A2.typeVar,
+				GRGEN_MODEL.NodeType_A4.typeVar,
+				GRGEN_MODEL.NodeType_B22.typeVar,
+				GRGEN_MODEL.NodeType_B41.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C222_411.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_C222_411.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B22.typeVar,
+				GRGEN_MODEL.NodeType_B41.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C412_421_431_51.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_C412_421_431_51.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C412_421_431_51.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_C412_421_431_51.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C412_421_431_51.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_C412_421_431_51.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A4.typeVar,
+				GRGEN_MODEL.NodeType_A5.typeVar,
+				GRGEN_MODEL.NodeType_B41.typeVar,
+				GRGEN_MODEL.NodeType_B42.typeVar,
+				GRGEN_MODEL.NodeType_B43.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C412_421_431_51.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_C412_421_431_51.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B41.typeVar,
+				GRGEN_MODEL.NodeType_B42.typeVar,
+				GRGEN_MODEL.NodeType_B43.typeVar,
+				GRGEN_MODEL.NodeType_A5.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C432_422.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_C432_422.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C432_422.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C432_422.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_C432_422.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_C432_422.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_C432_422.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C432_422.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A4.typeVar,
+				GRGEN_MODEL.NodeType_B42.typeVar,
+				GRGEN_MODEL.NodeType_B43.typeVar,
+			};
+			GRGEN_MODEL.NodeType_C432_422.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_C432_422.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B43.typeVar,
+				GRGEN_MODEL.NodeType_B42.typeVar,
+			};
+			GRGEN_MODEL.NodeType_D11_2221.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_D11_2221.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D11_2221.typeVar,
+			};
+			GRGEN_MODEL.NodeType_D11_2221.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_D11_2221.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_D11_2221.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_D11_2221.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D11_2221.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A1.typeVar,
+				GRGEN_MODEL.NodeType_A2.typeVar,
+				GRGEN_MODEL.NodeType_A4.typeVar,
+				GRGEN_MODEL.NodeType_B22.typeVar,
+				GRGEN_MODEL.NodeType_B41.typeVar,
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+			};
+			GRGEN_MODEL.NodeType_D11_2221.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_D11_2221.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_A1.typeVar,
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+			};
+			GRGEN_MODEL.NodeType_D2211_2222_31.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_D2211_2222_31.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+			};
+			GRGEN_MODEL.NodeType_D2211_2222_31.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_D2211_2222_31.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_D2211_2222_31.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_D2211_2222_31.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A2.typeVar,
+				GRGEN_MODEL.NodeType_A3.typeVar,
+				GRGEN_MODEL.NodeType_A4.typeVar,
+				GRGEN_MODEL.NodeType_B22.typeVar,
+				GRGEN_MODEL.NodeType_B41.typeVar,
+				GRGEN_MODEL.NodeType_C221.typeVar,
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+			};
+			GRGEN_MODEL.NodeType_D2211_2222_31.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_D2211_2222_31.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_C221.typeVar,
+				GRGEN_MODEL.NodeType_C222_411.typeVar,
+				GRGEN_MODEL.NodeType_A3.typeVar,
+			};
+			GRGEN_MODEL.NodeType_D231_4121.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_D231_4121.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+			};
+			GRGEN_MODEL.NodeType_D231_4121.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_D231_4121.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_D231_4121.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_D231_4121.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_D231_4121.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+				GRGEN_MODEL.NodeType_A2.typeVar,
+				GRGEN_MODEL.NodeType_A4.typeVar,
+				GRGEN_MODEL.NodeType_A5.typeVar,
+				GRGEN_MODEL.NodeType_B23.typeVar,
+				GRGEN_MODEL.NodeType_B41.typeVar,
+				GRGEN_MODEL.NodeType_B42.typeVar,
+				GRGEN_MODEL.NodeType_B43.typeVar,
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+			};
+			GRGEN_MODEL.NodeType_D231_4121.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_D231_4121.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_B23.typeVar,
+				GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return true; } }
-		public GRGEN_LIBGR.NodeType RootType { get { return NodeType_Node.typeVar; } }
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return NodeType_Node.typeVar; } }
-		public GRGEN_LIBGR.NodeType GetType(String name)
+		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
+		public GRGEN_LIBGR.NodeType GetType(string name)
 		{
 			switch(name)
 			{
-				case "Node" : return NodeType_Node.typeVar;
-				case "A1" : return NodeType_A1.typeVar;
-				case "A2" : return NodeType_A2.typeVar;
-				case "A3" : return NodeType_A3.typeVar;
-				case "A4" : return NodeType_A4.typeVar;
-				case "A5" : return NodeType_A5.typeVar;
-				case "B21" : return NodeType_B21.typeVar;
-				case "B22" : return NodeType_B22.typeVar;
-				case "B23" : return NodeType_B23.typeVar;
-				case "B41" : return NodeType_B41.typeVar;
-				case "B42" : return NodeType_B42.typeVar;
-				case "B43" : return NodeType_B43.typeVar;
-				case "C221" : return NodeType_C221.typeVar;
-				case "C222_411" : return NodeType_C222_411.typeVar;
-				case "C412_421_431_51" : return NodeType_C412_421_431_51.typeVar;
-				case "C432_422" : return NodeType_C432_422.typeVar;
-				case "D11_2221" : return NodeType_D11_2221.typeVar;
-				case "D2211_2222_31" : return NodeType_D2211_2222_31.typeVar;
-				case "D231_4121" : return NodeType_D231_4121.typeVar;
+				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
+				case "A1" : return GRGEN_MODEL.NodeType_A1.typeVar;
+				case "A2" : return GRGEN_MODEL.NodeType_A2.typeVar;
+				case "A3" : return GRGEN_MODEL.NodeType_A3.typeVar;
+				case "A4" : return GRGEN_MODEL.NodeType_A4.typeVar;
+				case "A5" : return GRGEN_MODEL.NodeType_A5.typeVar;
+				case "B21" : return GRGEN_MODEL.NodeType_B21.typeVar;
+				case "B22" : return GRGEN_MODEL.NodeType_B22.typeVar;
+				case "B23" : return GRGEN_MODEL.NodeType_B23.typeVar;
+				case "B41" : return GRGEN_MODEL.NodeType_B41.typeVar;
+				case "B42" : return GRGEN_MODEL.NodeType_B42.typeVar;
+				case "B43" : return GRGEN_MODEL.NodeType_B43.typeVar;
+				case "C221" : return GRGEN_MODEL.NodeType_C221.typeVar;
+				case "C222_411" : return GRGEN_MODEL.NodeType_C222_411.typeVar;
+				case "C412_421_431_51" : return GRGEN_MODEL.NodeType_C412_421_431_51.typeVar;
+				case "C432_422" : return GRGEN_MODEL.NodeType_C432_422.typeVar;
+				case "D11_2221" : return GRGEN_MODEL.NodeType_D11_2221.typeVar;
+				case "D2211_2222_31" : return GRGEN_MODEL.NodeType_D2211_2222_31.typeVar;
+				case "D231_4121" : return GRGEN_MODEL.NodeType_D231_4121.typeVar;
 			}
 			return null;
 		}
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(String name)
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
 		{
 			return GetType(name);
 		}
 		private GRGEN_LIBGR.NodeType[] types = {
-			NodeType_Node.typeVar,
-			NodeType_A1.typeVar,
-			NodeType_A2.typeVar,
-			NodeType_A3.typeVar,
-			NodeType_A4.typeVar,
-			NodeType_A5.typeVar,
-			NodeType_B21.typeVar,
-			NodeType_B22.typeVar,
-			NodeType_B23.typeVar,
-			NodeType_B41.typeVar,
-			NodeType_B42.typeVar,
-			NodeType_B43.typeVar,
-			NodeType_C221.typeVar,
-			NodeType_C222_411.typeVar,
-			NodeType_C412_421_431_51.typeVar,
-			NodeType_C432_422.typeVar,
-			NodeType_D11_2221.typeVar,
-			NodeType_D2211_2222_31.typeVar,
-			NodeType_D231_4121.typeVar,
+			GRGEN_MODEL.NodeType_Node.typeVar,
+			GRGEN_MODEL.NodeType_A1.typeVar,
+			GRGEN_MODEL.NodeType_A2.typeVar,
+			GRGEN_MODEL.NodeType_A3.typeVar,
+			GRGEN_MODEL.NodeType_A4.typeVar,
+			GRGEN_MODEL.NodeType_A5.typeVar,
+			GRGEN_MODEL.NodeType_B21.typeVar,
+			GRGEN_MODEL.NodeType_B22.typeVar,
+			GRGEN_MODEL.NodeType_B23.typeVar,
+			GRGEN_MODEL.NodeType_B41.typeVar,
+			GRGEN_MODEL.NodeType_B42.typeVar,
+			GRGEN_MODEL.NodeType_B43.typeVar,
+			GRGEN_MODEL.NodeType_C221.typeVar,
+			GRGEN_MODEL.NodeType_C222_411.typeVar,
+			GRGEN_MODEL.NodeType_C412_421_431_51.typeVar,
+			GRGEN_MODEL.NodeType_C432_422.typeVar,
+			GRGEN_MODEL.NodeType_D11_2221.typeVar,
+			GRGEN_MODEL.NodeType_D2211_2222_31.typeVar,
+			GRGEN_MODEL.NodeType_D231_4121.typeVar,
 		};
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
 		private Type[] typeTypes = {
-			typeof(NodeType_Node),
-			typeof(NodeType_A1),
-			typeof(NodeType_A2),
-			typeof(NodeType_A3),
-			typeof(NodeType_A4),
-			typeof(NodeType_A5),
-			typeof(NodeType_B21),
-			typeof(NodeType_B22),
-			typeof(NodeType_B23),
-			typeof(NodeType_B41),
-			typeof(NodeType_B42),
-			typeof(NodeType_B43),
-			typeof(NodeType_C221),
-			typeof(NodeType_C222_411),
-			typeof(NodeType_C412_421_431_51),
-			typeof(NodeType_C432_422),
-			typeof(NodeType_D11_2221),
-			typeof(NodeType_D2211_2222_31),
-			typeof(NodeType_D231_4121),
+			typeof(GRGEN_MODEL.NodeType_Node),
+			typeof(GRGEN_MODEL.NodeType_A1),
+			typeof(GRGEN_MODEL.NodeType_A2),
+			typeof(GRGEN_MODEL.NodeType_A3),
+			typeof(GRGEN_MODEL.NodeType_A4),
+			typeof(GRGEN_MODEL.NodeType_A5),
+			typeof(GRGEN_MODEL.NodeType_B21),
+			typeof(GRGEN_MODEL.NodeType_B22),
+			typeof(GRGEN_MODEL.NodeType_B23),
+			typeof(GRGEN_MODEL.NodeType_B41),
+			typeof(GRGEN_MODEL.NodeType_B42),
+			typeof(GRGEN_MODEL.NodeType_B43),
+			typeof(GRGEN_MODEL.NodeType_C221),
+			typeof(GRGEN_MODEL.NodeType_C222_411),
+			typeof(GRGEN_MODEL.NodeType_C412_421_431_51),
+			typeof(GRGEN_MODEL.NodeType_C432_422),
+			typeof(GRGEN_MODEL.NodeType_D11_2221),
+			typeof(GRGEN_MODEL.NodeType_D2211_2222_31),
+			typeof(GRGEN_MODEL.NodeType_D231_4121),
 		};
 		public Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
-			NodeType_A1.AttributeType_a1,
-			NodeType_A2.AttributeType_a2,
-			NodeType_A3.AttributeType_a3,
-			NodeType_A4.AttributeType_a4,
-			NodeType_A5.AttributeType_a5,
-			NodeType_B21.AttributeType_b21,
-			NodeType_B22.AttributeType_b22,
-			NodeType_B23.AttributeType_b23,
-			NodeType_B41.AttributeType_b41,
-			NodeType_B42.AttributeType_b42,
-			NodeType_C221.AttributeType_c221,
-			NodeType_C222_411.AttributeType_c222_411,
-			NodeType_C432_422.AttributeType_c432_422,
-			NodeType_D11_2221.AttributeType_d11_2221,
-			NodeType_D2211_2222_31.AttributeType_d2211_2222_31,
-			NodeType_D231_4121.AttributeType_d231_4121,
+			GRGEN_MODEL.NodeType_A1.AttributeType_a1,
+			GRGEN_MODEL.NodeType_A2.AttributeType_a2,
+			GRGEN_MODEL.NodeType_A3.AttributeType_a3,
+			GRGEN_MODEL.NodeType_A4.AttributeType_a4,
+			GRGEN_MODEL.NodeType_A5.AttributeType_a5,
+			GRGEN_MODEL.NodeType_B21.AttributeType_b21,
+			GRGEN_MODEL.NodeType_B22.AttributeType_b22,
+			GRGEN_MODEL.NodeType_B23.AttributeType_b23,
+			GRGEN_MODEL.NodeType_B41.AttributeType_b41,
+			GRGEN_MODEL.NodeType_B42.AttributeType_b42,
+			GRGEN_MODEL.NodeType_C221.AttributeType_c221,
+			GRGEN_MODEL.NodeType_C222_411.AttributeType_c222_411,
+			GRGEN_MODEL.NodeType_C432_422.AttributeType_c432_422,
+			GRGEN_MODEL.NodeType_D11_2221.AttributeType_d11_2221,
+			GRGEN_MODEL.NodeType_D2211_2222_31.AttributeType_d2211_2222_31,
+			GRGEN_MODEL.NodeType_D231_4121.AttributeType_d231_4121,
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
 	}
@@ -4815,13 +4816,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_AEdge typeVar = new EdgeType_AEdge();
+		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
 		public static bool[] isA = new bool[] { true, false, false, };
 		public static bool[] isMyType = new bool[] { true, true, true, };
 		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
 		{
 		}
-		public override String Name { get { return "AEdge"; } }
+		public override string Name { get { return "AEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -4831,7 +4832,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
@@ -4848,31 +4849,31 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public sealed class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
-		private static @Edge[] pool = new @Edge[10];
+		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
 		
 		static @Edge() {
 		}
 		
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(EdgeType_Edge.typeVar, source, target)
+			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
 			// implicit initialization, map/set creation of Edge
 		}
 
-		public static EdgeType_Edge TypeInstance { get { return EdgeType_Edge.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new @Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@Edge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @Edge(@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(EdgeType_Edge.typeVar, newSource, newTarget)
+		private @Edge(GRGEN_MODEL.@Edge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, newSource, newTarget)
 		{
 		}
-		public static @Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			@Edge edge;
+			GRGEN_MODEL.@Edge edge;
 			if(poolLevel == 0)
-				edge = new @Edge(source, target);
+				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -4885,11 +4886,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return edge;
 		}
 
-		public static @Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public static GRGEN_MODEL.@Edge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			@Edge edge;
+			GRGEN_MODEL.@Edge edge;
 			if(poolLevel == 0)
-				edge = new @Edge(source, target);
+				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -4926,30 +4927,30 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_Edge typeVar = new EdgeType_Edge();
+		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
 		public static bool[] isA = new bool[] { true, true, false, };
 		public static bool[] isMyType = new bool[] { false, true, false, };
 		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
 		{
 		}
-		public override String Name { get { return "Edge"; } }
+		public override string Name { get { return "Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@Edge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -4960,31 +4961,31 @@ namespace de.unika.ipd.grGen.Model_complModel
 	public sealed class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IEdge
 	{
 		private static int poolLevel = 0;
-		private static @UEdge[] pool = new @UEdge[10];
+		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
 		
 		static @UEdge() {
 		}
 		
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(EdgeType_UEdge.typeVar, source, target)
+			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
 			// implicit initialization, map/set creation of UEdge
 		}
 
-		public static EdgeType_UEdge TypeInstance { get { return EdgeType_UEdge.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new @UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@UEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @UEdge(@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(EdgeType_UEdge.typeVar, newSource, newTarget)
+		private @UEdge(GRGEN_MODEL.@UEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, newSource, newTarget)
 		{
 		}
-		public static @UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			@UEdge edge;
+			GRGEN_MODEL.@UEdge edge;
 			if(poolLevel == 0)
-				edge = new @UEdge(source, target);
+				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -4997,11 +4998,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return edge;
 		}
 
-		public static @UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public static GRGEN_MODEL.@UEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			@UEdge edge;
+			GRGEN_MODEL.@UEdge edge;
 			if(poolLevel == 0)
-				edge = new @UEdge(source, target);
+				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -5038,30 +5039,30 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
 	{
-		public static EdgeType_UEdge typeVar = new EdgeType_UEdge();
+		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
 		public static bool[] isA = new bool[] { true, false, true, };
 		public static bool[] isMyType = new bool[] { false, false, true, };
 		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
 		{
 		}
-		public override String Name { get { return "UEdge"; } }
+		public override string Name { get { return "UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new @UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
-		public override GRGEN_LIBGR.AttributeType GetAttributeType(String name) { return null; }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
 		public override bool IsA(GRGEN_LIBGR.GrGenType other)
 		{
 			return (this == other) || isA[other.TypeID];
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new @UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@UEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -5074,73 +5075,73 @@ namespace de.unika.ipd.grGen.Model_complModel
 	{
 		public complModelEdgeModel()
 		{
-			EdgeType_AEdge.typeVar.subOrSameGrGenTypes = EdgeType_AEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_AEdge.typeVar,
-				EdgeType_Edge.typeVar,
-				EdgeType_UEdge.typeVar,
+			GRGEN_MODEL.EdgeType_AEdge.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_AEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
+				GRGEN_MODEL.EdgeType_UEdge.typeVar,
 			};
-			EdgeType_AEdge.typeVar.directSubGrGenTypes = EdgeType_AEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
-				EdgeType_UEdge.typeVar,
+			GRGEN_MODEL.EdgeType_AEdge.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_AEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
+				GRGEN_MODEL.EdgeType_UEdge.typeVar,
 			};
-			EdgeType_AEdge.typeVar.superOrSameGrGenTypes = EdgeType_AEdge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_AEdge.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_AEdge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 			};
-			EdgeType_AEdge.typeVar.directSuperGrGenTypes = EdgeType_AEdge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_AEdge.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_AEdge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_Edge.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			EdgeType_Edge.typeVar.directSubGrGenTypes = EdgeType_Edge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_Edge.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_Edge.typeVar.superOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_Edge.typeVar,
-				EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_Edge.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 			};
-			EdgeType_Edge.typeVar.directSuperGrGenTypes = EdgeType_Edge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_Edge.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 			};
-			EdgeType_UEdge.typeVar.subOrSameGrGenTypes = EdgeType_UEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_UEdge.typeVar,
+			GRGEN_MODEL.EdgeType_UEdge.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_UEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_UEdge.typeVar,
 			};
-			EdgeType_UEdge.typeVar.directSubGrGenTypes = EdgeType_UEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_UEdge.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_UEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			EdgeType_UEdge.typeVar.superOrSameGrGenTypes = EdgeType_UEdge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_UEdge.typeVar,
-				EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_UEdge.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_UEdge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_UEdge.typeVar,
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 			};
-			EdgeType_UEdge.typeVar.directSuperGrGenTypes = EdgeType_UEdge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
-				EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_UEdge.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_UEdge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return false; } }
-		public GRGEN_LIBGR.EdgeType RootType { get { return EdgeType_AEdge.typeVar; } }
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return EdgeType_AEdge.typeVar; } }
-		public GRGEN_LIBGR.EdgeType GetType(String name)
+		public GRGEN_LIBGR.EdgeType RootType { get { return GRGEN_MODEL.EdgeType_AEdge.typeVar; } }
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return GRGEN_MODEL.EdgeType_AEdge.typeVar; } }
+		public GRGEN_LIBGR.EdgeType GetType(string name)
 		{
 			switch(name)
 			{
-				case "AEdge" : return EdgeType_AEdge.typeVar;
-				case "Edge" : return EdgeType_Edge.typeVar;
-				case "UEdge" : return EdgeType_UEdge.typeVar;
+				case "AEdge" : return GRGEN_MODEL.EdgeType_AEdge.typeVar;
+				case "Edge" : return GRGEN_MODEL.EdgeType_Edge.typeVar;
+				case "UEdge" : return GRGEN_MODEL.EdgeType_UEdge.typeVar;
 			}
 			return null;
 		}
-		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(String name)
+		GRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.GetType(string name)
 		{
 			return GetType(name);
 		}
 		private GRGEN_LIBGR.EdgeType[] types = {
-			EdgeType_AEdge.typeVar,
-			EdgeType_Edge.typeVar,
-			EdgeType_UEdge.typeVar,
+			GRGEN_MODEL.EdgeType_AEdge.typeVar,
+			GRGEN_MODEL.EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_UEdge.typeVar,
 		};
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
 		private Type[] typeTypes = {
-			typeof(EdgeType_AEdge),
-			typeof(EdgeType_Edge),
-			typeof(EdgeType_UEdge),
+			typeof(GRGEN_MODEL.EdgeType_AEdge),
+			typeof(GRGEN_MODEL.EdgeType_Edge),
+			typeof(GRGEN_MODEL.EdgeType_UEdge),
 		};
 		public Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
@@ -5161,12 +5162,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
 
-		public String ModelName { get { return "complModel"; } }
+		public string ModelName { get { return "complModel"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public String MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
+		public string MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
 	}
 	//
 	// IGraph/IGraphModel implementation
@@ -5179,214 +5180,214 @@ namespace de.unika.ipd.grGen.Model_complModel
 			InitializeGraph(this);
 		}
 
-		public @Node CreateNodeNode()
+		public GRGEN_MODEL.@Node CreateNodeNode()
 		{
-			return @Node.CreateNode(this);
+			return GRGEN_MODEL.@Node.CreateNode(this);
 		}
 
-		public @Node CreateNodeNode(String varName)
+		public GRGEN_MODEL.@Node CreateNodeNode(string varName)
 		{
-			return @Node.CreateNode(this, varName);
+			return GRGEN_MODEL.@Node.CreateNode(this, varName);
 		}
 
-		public @A1 CreateNodeA1()
+		public GRGEN_MODEL.@A1 CreateNodeA1()
 		{
-			return @A1.CreateNode(this);
+			return GRGEN_MODEL.@A1.CreateNode(this);
 		}
 
-		public @A1 CreateNodeA1(String varName)
+		public GRGEN_MODEL.@A1 CreateNodeA1(string varName)
 		{
-			return @A1.CreateNode(this, varName);
+			return GRGEN_MODEL.@A1.CreateNode(this, varName);
 		}
 
-		public @A2 CreateNodeA2()
+		public GRGEN_MODEL.@A2 CreateNodeA2()
 		{
-			return @A2.CreateNode(this);
+			return GRGEN_MODEL.@A2.CreateNode(this);
 		}
 
-		public @A2 CreateNodeA2(String varName)
+		public GRGEN_MODEL.@A2 CreateNodeA2(string varName)
 		{
-			return @A2.CreateNode(this, varName);
+			return GRGEN_MODEL.@A2.CreateNode(this, varName);
 		}
 
-		public @A3 CreateNodeA3()
+		public GRGEN_MODEL.@A3 CreateNodeA3()
 		{
-			return @A3.CreateNode(this);
+			return GRGEN_MODEL.@A3.CreateNode(this);
 		}
 
-		public @A3 CreateNodeA3(String varName)
+		public GRGEN_MODEL.@A3 CreateNodeA3(string varName)
 		{
-			return @A3.CreateNode(this, varName);
+			return GRGEN_MODEL.@A3.CreateNode(this, varName);
 		}
 
-		public @A4 CreateNodeA4()
+		public GRGEN_MODEL.@A4 CreateNodeA4()
 		{
-			return @A4.CreateNode(this);
+			return GRGEN_MODEL.@A4.CreateNode(this);
 		}
 
-		public @A4 CreateNodeA4(String varName)
+		public GRGEN_MODEL.@A4 CreateNodeA4(string varName)
 		{
-			return @A4.CreateNode(this, varName);
+			return GRGEN_MODEL.@A4.CreateNode(this, varName);
 		}
 
-		public @A5 CreateNodeA5()
+		public GRGEN_MODEL.@A5 CreateNodeA5()
 		{
-			return @A5.CreateNode(this);
+			return GRGEN_MODEL.@A5.CreateNode(this);
 		}
 
-		public @A5 CreateNodeA5(String varName)
+		public GRGEN_MODEL.@A5 CreateNodeA5(string varName)
 		{
-			return @A5.CreateNode(this, varName);
+			return GRGEN_MODEL.@A5.CreateNode(this, varName);
 		}
 
-		public @B21 CreateNodeB21()
+		public GRGEN_MODEL.@B21 CreateNodeB21()
 		{
-			return @B21.CreateNode(this);
+			return GRGEN_MODEL.@B21.CreateNode(this);
 		}
 
-		public @B21 CreateNodeB21(String varName)
+		public GRGEN_MODEL.@B21 CreateNodeB21(string varName)
 		{
-			return @B21.CreateNode(this, varName);
+			return GRGEN_MODEL.@B21.CreateNode(this, varName);
 		}
 
-		public @B22 CreateNodeB22()
+		public GRGEN_MODEL.@B22 CreateNodeB22()
 		{
-			return @B22.CreateNode(this);
+			return GRGEN_MODEL.@B22.CreateNode(this);
 		}
 
-		public @B22 CreateNodeB22(String varName)
+		public GRGEN_MODEL.@B22 CreateNodeB22(string varName)
 		{
-			return @B22.CreateNode(this, varName);
+			return GRGEN_MODEL.@B22.CreateNode(this, varName);
 		}
 
-		public @B23 CreateNodeB23()
+		public GRGEN_MODEL.@B23 CreateNodeB23()
 		{
-			return @B23.CreateNode(this);
+			return GRGEN_MODEL.@B23.CreateNode(this);
 		}
 
-		public @B23 CreateNodeB23(String varName)
+		public GRGEN_MODEL.@B23 CreateNodeB23(string varName)
 		{
-			return @B23.CreateNode(this, varName);
+			return GRGEN_MODEL.@B23.CreateNode(this, varName);
 		}
 
-		public @B41 CreateNodeB41()
+		public GRGEN_MODEL.@B41 CreateNodeB41()
 		{
-			return @B41.CreateNode(this);
+			return GRGEN_MODEL.@B41.CreateNode(this);
 		}
 
-		public @B41 CreateNodeB41(String varName)
+		public GRGEN_MODEL.@B41 CreateNodeB41(string varName)
 		{
-			return @B41.CreateNode(this, varName);
+			return GRGEN_MODEL.@B41.CreateNode(this, varName);
 		}
 
-		public @B42 CreateNodeB42()
+		public GRGEN_MODEL.@B42 CreateNodeB42()
 		{
-			return @B42.CreateNode(this);
+			return GRGEN_MODEL.@B42.CreateNode(this);
 		}
 
-		public @B42 CreateNodeB42(String varName)
+		public GRGEN_MODEL.@B42 CreateNodeB42(string varName)
 		{
-			return @B42.CreateNode(this, varName);
+			return GRGEN_MODEL.@B42.CreateNode(this, varName);
 		}
 
-		public @B43 CreateNodeB43()
+		public GRGEN_MODEL.@B43 CreateNodeB43()
 		{
-			return @B43.CreateNode(this);
+			return GRGEN_MODEL.@B43.CreateNode(this);
 		}
 
-		public @B43 CreateNodeB43(String varName)
+		public GRGEN_MODEL.@B43 CreateNodeB43(string varName)
 		{
-			return @B43.CreateNode(this, varName);
+			return GRGEN_MODEL.@B43.CreateNode(this, varName);
 		}
 
-		public @C221 CreateNodeC221()
+		public GRGEN_MODEL.@C221 CreateNodeC221()
 		{
-			return @C221.CreateNode(this);
+			return GRGEN_MODEL.@C221.CreateNode(this);
 		}
 
-		public @C221 CreateNodeC221(String varName)
+		public GRGEN_MODEL.@C221 CreateNodeC221(string varName)
 		{
-			return @C221.CreateNode(this, varName);
+			return GRGEN_MODEL.@C221.CreateNode(this, varName);
 		}
 
-		public @C222_411 CreateNodeC222_411()
+		public GRGEN_MODEL.@C222_411 CreateNodeC222_411()
 		{
-			return @C222_411.CreateNode(this);
+			return GRGEN_MODEL.@C222_411.CreateNode(this);
 		}
 
-		public @C222_411 CreateNodeC222_411(String varName)
+		public GRGEN_MODEL.@C222_411 CreateNodeC222_411(string varName)
 		{
-			return @C222_411.CreateNode(this, varName);
+			return GRGEN_MODEL.@C222_411.CreateNode(this, varName);
 		}
 
-		public @C412_421_431_51 CreateNodeC412_421_431_51()
+		public GRGEN_MODEL.@C412_421_431_51 CreateNodeC412_421_431_51()
 		{
-			return @C412_421_431_51.CreateNode(this);
+			return GRGEN_MODEL.@C412_421_431_51.CreateNode(this);
 		}
 
-		public @C412_421_431_51 CreateNodeC412_421_431_51(String varName)
+		public GRGEN_MODEL.@C412_421_431_51 CreateNodeC412_421_431_51(string varName)
 		{
-			return @C412_421_431_51.CreateNode(this, varName);
+			return GRGEN_MODEL.@C412_421_431_51.CreateNode(this, varName);
 		}
 
-		public @C432_422 CreateNodeC432_422()
+		public GRGEN_MODEL.@C432_422 CreateNodeC432_422()
 		{
-			return @C432_422.CreateNode(this);
+			return GRGEN_MODEL.@C432_422.CreateNode(this);
 		}
 
-		public @C432_422 CreateNodeC432_422(String varName)
+		public GRGEN_MODEL.@C432_422 CreateNodeC432_422(string varName)
 		{
-			return @C432_422.CreateNode(this, varName);
+			return GRGEN_MODEL.@C432_422.CreateNode(this, varName);
 		}
 
-		public @D11_2221 CreateNodeD11_2221()
+		public GRGEN_MODEL.@D11_2221 CreateNodeD11_2221()
 		{
-			return @D11_2221.CreateNode(this);
+			return GRGEN_MODEL.@D11_2221.CreateNode(this);
 		}
 
-		public @D11_2221 CreateNodeD11_2221(String varName)
+		public GRGEN_MODEL.@D11_2221 CreateNodeD11_2221(string varName)
 		{
-			return @D11_2221.CreateNode(this, varName);
+			return GRGEN_MODEL.@D11_2221.CreateNode(this, varName);
 		}
 
-		public @D2211_2222_31 CreateNodeD2211_2222_31()
+		public GRGEN_MODEL.@D2211_2222_31 CreateNodeD2211_2222_31()
 		{
-			return @D2211_2222_31.CreateNode(this);
+			return GRGEN_MODEL.@D2211_2222_31.CreateNode(this);
 		}
 
-		public @D2211_2222_31 CreateNodeD2211_2222_31(String varName)
+		public GRGEN_MODEL.@D2211_2222_31 CreateNodeD2211_2222_31(string varName)
 		{
-			return @D2211_2222_31.CreateNode(this, varName);
+			return GRGEN_MODEL.@D2211_2222_31.CreateNode(this, varName);
 		}
 
-		public @D231_4121 CreateNodeD231_4121()
+		public GRGEN_MODEL.@D231_4121 CreateNodeD231_4121()
 		{
-			return @D231_4121.CreateNode(this);
+			return GRGEN_MODEL.@D231_4121.CreateNode(this);
 		}
 
-		public @D231_4121 CreateNodeD231_4121(String varName)
+		public GRGEN_MODEL.@D231_4121 CreateNodeD231_4121(string varName)
 		{
-			return @D231_4121.CreateNode(this, varName);
+			return GRGEN_MODEL.@D231_4121.CreateNode(this, varName);
 		}
 
-		public @Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @Edge.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target);
 		}
 
-		public @Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @Edge.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@Edge.CreateEdge(this, source, target, varName);
 		}
 
-		public @UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @UEdge.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target);
 		}
 
-		public @UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, String varName)
+		public @GRGEN_MODEL.@UEdge CreateEdgeUEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @UEdge.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@UEdge.CreateEdge(this, source, target, varName);
 		}
 
 		private complModelNodeModel nodeModel = new complModelNodeModel();
@@ -5396,11 +5397,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
 
-		public String ModelName { get { return "complModel"; } }
+		public string ModelName { get { return "complModel"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public String MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
+		public string MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
 	}
 }

@@ -625,13 +625,11 @@ namespace de.unika.ipd.grGen.lgsp
         public Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpatterns;
 
         /// <summary>
-        /// The pattern graphs which are on a path to some enclosed subpattern usage or alternative,
-        /// only filled/valid if this is a top level pattern graph or an alternative case pattern graph.
-        /// Needed for match object declaration at beginning of matcher method,
-        /// these will be pushed on the matches stack for patternpath/global isomorphy checks.
-        /// Other patterns not enclosing a subpattern usage or alternative don't need to be entered there.
+        /// The names of the pattern graphs which are on a path to some 
+        /// enclosed subpattern usage/alternative or negative/independent with patternpath modifier.
+        /// Needed for patternpath processing setup.
         /// </summary>
-        public List<String> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
+        public List<String> patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath;
     }
 
     /// <summary>

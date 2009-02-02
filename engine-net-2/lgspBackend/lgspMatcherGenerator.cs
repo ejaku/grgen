@@ -630,6 +630,9 @@ exitSecondLoop: ;
                 case SearchOperationType.IndependentPattern:
                     typeStr = " &(" + ScheduleToString(((ScheduledSearchPlan)op.Element).Operations) + " )";
                     break;
+                case SearchOperationType.LockLocalElementsForPatternpath:
+                    typeStr = ".LPP.";
+                    break;
             }
             return typeStr;
         }
@@ -1052,33 +1055,33 @@ exitSecondLoop: ;
         /// Negative/Independent schedules are merged as an operation into their enclosing schedules,
         /// at a position determined by their costs but not before all of their needed elements were computed
         /// </summary>
-        public void MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(PatternGraph patternGraph, PatternGraph topLevelPatternGraph)
+        public void MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(PatternGraph patternGraph)
         {
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(neg, topLevelPatternGraph);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(neg);
             }
 
             foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
             {
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(idpt, topLevelPatternGraph);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(idpt);
             }
 
             foreach (Alternative alt in patternGraph.alternatives)
             {
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
-                    MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(altCase, altCase);
+                    MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(altCase);
                 }
             }
 
-            InsertNegativesAndIndependentsIntoSchedule(patternGraph, topLevelPatternGraph);
+            InsertNegativesAndIndependentsIntoSchedule(patternGraph);
         }
 
         /// <summary>
         /// Inserts schedules of negative and independent pattern graphs into the schedule of the enclosing pattern graph
         /// </summary>
-        public void InsertNegativesAndIndependentsIntoSchedule(PatternGraph patternGraph, PatternGraph topLevelPatternGraph)
+        public void InsertNegativesAndIndependentsIntoSchedule(PatternGraph patternGraph)
         {
             // todo: erst implicit node, dann negative/independent, auch wenn negative/independent mit erstem implicit moeglich wird
 
@@ -1086,6 +1089,16 @@ exitSecondLoop: ;
             List<SearchOperation> operations = new List<SearchOperation>();
             for (int i = 0; i < patternGraph.schedule.Operations.Length; ++i)
                 operations.Add(patternGraph.schedule.Operations[i]);
+
+            // nested patterns on the way to an enclosed subpattern/alternative/patternpath modifier 
+            // must get matched after all local nodes and edges, because they require 
+            // all outer elements to be known in order to lock them for patternpath processing
+            if (patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath
+                .Contains(patternGraph.pathPrefix + patternGraph.name))
+            {
+                operations.Add(new SearchOperation(SearchOperationType.LockLocalElementsForPatternpath, null, null,
+                    patternGraph.schedule.Operations.Length!=0 ? patternGraph.schedule.Operations[patternGraph.schedule.Operations.Length-1].CostToEnd : 0));
+            }
 
             // iterate over all negative scheduled search plans (TODO: order?)
             for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
@@ -1106,17 +1119,15 @@ exitSecondLoop: ;
                         continue;
                     }
 
+                    if (op.Type == SearchOperationType.LockLocalElementsForPatternpath)
+                    {
+                        break; // LockLocalElementsForPatternpath is barrier for neg/idpt
+                    }
+
                     if (patternGraph.negativePatternGraphs[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
                         || patternGraph.negativePatternGraphs[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                     { 
                         break; 
-                    }
-
-                    // nested patterns on the way to an enclosed subpattern usage/alternative must get matched after all nodes and edges,
-                    // because they require all outer elements to be known in order to lock them for patternpath processing
-                    if (topLevelPatternGraph.namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Contains(patternGraph.pathPrefix + patternGraph.name))
-                    {
-                        break;
                     }
 
                     if (negSchedule.Cost <= op.CostToEnd)
@@ -1155,15 +1166,13 @@ exitSecondLoop: ;
                         continue;
                     }
 
-                    if (patternGraph.independentPatternGraphs[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
-                        || patternGraph.independentPatternGraphs[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                    if (op.Type == SearchOperationType.LockLocalElementsForPatternpath)
                     {
-                        break;
+                        break; // LockLocalElementsForPatternpath is barrier for neg/idpt
                     }
 
-                    // nested patterns on the way to an enclosed subpattern usage/alternative must get matched after all nodes and edges,
-                    // because they require all outer elements to be known in order to lock them for patternpath processing
-                    if (topLevelPatternGraph.namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Contains(patternGraph.pathPrefix + patternGraph.name))
+                    if (patternGraph.independentPatternGraphs[i].neededNodes.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
+                        || patternGraph.independentPatternGraphs[i].neededEdges.ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                     {
                         break;
                     }
@@ -1328,7 +1337,7 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates the serach program for the pattern graph of the given rule
+        /// Generates the search program for the pattern graph of the given rule
         /// </summary>
         SearchProgram GenerateSearchProgram(LGSPMatchingPattern matchingPattern)
         {
@@ -1808,7 +1817,7 @@ exitSecondLoop: ;
 
                 GenerateScheduledSearchPlans(smp.patternGraph, graph, true, false);
 
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph, smp.patternGraph);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
 
                 GenerateMatcherSourceCode(sourceCode, smp, false);
             }
@@ -1818,7 +1827,7 @@ exitSecondLoop: ;
             {
                 GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graph, false, false);
 
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph, action.rulePattern.patternGraph);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
 
                 GenerateMatcherSourceCode(sourceCode, action.rulePattern, false);
             }

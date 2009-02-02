@@ -1195,7 +1195,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     GenerateScheduledSearchPlans(matchingPattern.patternGraph, matcherGen, !(matchingPattern is LGSPRulePattern), false);
 
-                    matcherGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph, matchingPattern.patternGraph);
+                    matcherGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph);
 
                     matcherGen.GenerateMatcherSourceCode(source, matchingPattern, true);
 

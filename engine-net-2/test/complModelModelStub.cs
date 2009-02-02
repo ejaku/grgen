@@ -1,17 +1,17 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
 // Rename this file or use a copy!
-// Generated from "test.grg" on Sun Jan 25 17:24:28 CET 2009
+// Generated from "test.grg" on Mon Feb 02 00:39:21 CET 2009
 
 using System;
 using System.Collections.Generic;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
-using de.unika.ipd.grGen.Model_complModel;
+using GRGEN_MODEL = de.unika.ipd.grGen.Model_complModel;
 
 namespace test
 {
-	public class D231_4121_Impl : @D231_4121
+	public class D231_4121_Impl : GRGEN_MODEL.@D231_4121
 	{
 		public D231_4121_Impl() : base() { }
 

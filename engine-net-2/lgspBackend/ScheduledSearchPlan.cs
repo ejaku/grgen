@@ -194,6 +194,12 @@ namespace de.unika.ipd.grGen.lgsp
                 condition, null, costToEnd);
         }
 
+        public static SearchOperation CreateLockLocalElementsForPatternpath(float costToEnd)
+        {
+            return new SearchOperation(SearchOperationType.LockLocalElementsForPatternpath,
+                null, null, costToEnd);
+        }
+
         public int CompareTo(SearchOperation other)
         {
             float diff = CostToEnd - other.CostToEnd;

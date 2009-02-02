@@ -1,0 +1,17 @@
+new graph globalIsomorphy/GlobalIsomorphy
+
+xgrs create
+
+xgrs nestingPatternsAreAlsoLockedDirectly
+xgrs nestingPatternsAreAlsoLockedDirectlyContrast
+
+xgrs nestingPatternsAreAlsoLocked
+xgrs nestingPatternsAreAlsoLockedContrast
+xgrs nestingPatternsAreAlsoLockedContrastGlobal
+
+xgrs nestingPatternsAreAlsoLocked2
+xgrs nestingPatternsAreAlsoLocked2Contrast
+
+xgrs [lockedAtLowLevelStaysLockedWhenLeavingHighLevel]
+
+quit

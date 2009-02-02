@@ -334,14 +334,6 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		boolean patternPathOnlyInPattern = true;
-		if((context & CONTEXT_ACTION_OR_PATTERN) == CONTEXT_ACTION) {
-			if((modifiers & MOD_PATTERNPATH_LOCKED) == MOD_PATTERNPATH_LOCKED) {
-				reportError("pattern path only available in pattern (subpattern/subrule)");
-				patternPathOnlyInPattern = false;
-			}
-		}
-
 		boolean noReturnInNegOrIdpt = true;
 		if((context & CONTEXT_NEGATIVE) == CONTEXT_NEGATIVE
 			|| (context & CONTEXT_INDEPENDENT) == CONTEXT_INDEPENDENT) {
@@ -351,7 +343,7 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		return childs && expr && homcheck && patternPathOnlyInPattern && noReturnInNegOrIdpt;
+		return childs && expr && homcheck && noReturnInNegOrIdpt;
 	}
 
 	/**

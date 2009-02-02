@@ -246,11 +246,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("matches.Clear();\n");
             sourceCode.AppendFront("int negLevel = 0;\n");
 
-            if (NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Count>0)
-            {
-                sourceCode.AppendFrontFormat("GRGEN_LIBGR.IMatch {0};\n", NamesOfEntities.AttachmentPoint());
-                sourceCode.AppendFront("GRGEN_LIBGR.IMatch matchOfNestingSubpattern = null;\n");
-            }
             foreach(string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
@@ -376,11 +371,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
             sourceCode.AppendFront("int negLevel = 0;\n");
 
-            if (NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Count>0)
-            {
-                sourceCode.AppendFrontFormat("GRGEN_LIBGR.IMatch {0};\n", NamesOfEntities.AttachmentPoint());
-                sourceCode.AppendFront("GRGEN_LIBGR.IMatch matchOfNestingSubpattern = null;\n");
-            }
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
@@ -455,10 +445,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
-            if (NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Count>0)
-            {
-                sourceCode.AppendFrontFormat("GRGEN_LIBGR.IMatch {0};\n", NamesOfEntities.AttachmentPoint());
-            }
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
@@ -521,10 +507,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
-            if (NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Count>0)
-            {
-                sourceCode.AppendFrontFormat("GRGEN_LIBGR.IMatch {0};\n", NamesOfEntities.AttachmentPoint());
-            }
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
@@ -1591,7 +1573,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Class representing "check whether candidate is not already mapped 
     ///   to some other pattern element, to ensure required isomorphy" operation
-    /// required graph element to pattern element mapping is written by AcceptCandidate
+    /// required graph element to pattern element mapping is written/removed by AcceptCandidate/AbandonCandidate
     /// </summary>
     class CheckCandidateForIsomorphy : CheckCandidate
     {
@@ -1721,19 +1703,21 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// Class representing "check whether candidate is not already mapped 
-    ///   to some other pattern element, to ensure required isomorphy" operation
-    /// required graph element to pattern element mapping is written by AcceptCandidate
+    ///   to some other (non-local) pattern element within this isomorphy space, to ensure required isomorphy" operation
+    /// required graph element to pattern element mapping is written by AcceptCandidateGlobal/AbandonCandidateGlobal
     /// </summary>
     class CheckCandidateForIsomorphyGlobal : CheckCandidate
     {
         public CheckCandidateForIsomorphyGlobal(
             string patternElementName,
             List<string> globallyHomomorphElements,
-            bool isNode)
+            bool isNode,
+            bool neverAboveMaxNegLevel)
         {
             PatternElementName = patternElementName;
             GloballyHomomorphElements = globallyHomomorphElements;
             IsNode = isNode;
+            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1762,13 +1746,29 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            // open decision whether to fail
+            sourceCode.AppendFront("if(");
+
             // fail if graph element contained within candidate was already matched
             // (in another subpattern to another pattern element)
             // as this would cause a inter-pattern-homomorphic match
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.Append("(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? ");
+            }
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
-            sourceCode.AppendFrontFormat("if(({0}.flags & {1})=={1}",
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel";
+
+            sourceCode.AppendFormat("({0}.flags & {1})=={1}",
                 variableContainingCandidate, isMatchedBit);
+
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.Append(" : ");
+                sourceCode.AppendFormat("graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1]"
+                    + ".{0}.ContainsKey({1}))", IsNode ? "fst" : "snd", variableContainingCandidate);
+            }
+
             if (GloballyHomomorphElements != null)
             {
                 // don't fail if candidate was globally matched by an element
@@ -1792,6 +1792,74 @@ namespace de.unika.ipd.grGen.lgsp
 
         public List<string> GloballyHomomorphElements;
         public bool IsNode; // node|edge
+        public bool NeverAboveMaxNegLevel;
+    }
+
+    /// <summary>
+    /// Class representing "check whether candidate is not already mapped 
+    ///   to some other pattern element on the pattern derivation path, to ensure required isomorphy" operation
+    /// </summary>
+    class CheckCandidateForIsomorphyPatternPath : CheckCandidate
+    {
+        public CheckCandidateForIsomorphyPatternPath(
+            string patternElementName,
+            bool isNode,
+            bool always,
+            string lastMatchAtPreviousNestingLevel)
+        {
+            PatternElementName = patternElementName;
+            IsNode = isNode;
+            Always = always;
+            LastMatchAtPreviousNestingLevel = lastMatchAtPreviousNestingLevel;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump check
+            builder.AppendFront("CheckCandidate ForIsomorphyPatternPath ");
+            builder.AppendFormat("on {0} node:{1} last match at previous nesting level in:{2}",
+                PatternElementName, IsNode, LastMatchAtPreviousNestingLevel);
+            builder.Append("\n");
+            // then operations for case check failed
+            if (CheckFailedOperations != null)
+            {
+                builder.Indent();
+                CheckFailedOperations.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            // open decision whether to fail
+            sourceCode.AppendFront("if(");
+
+            // fail if graph element contained within candidate was already matched
+            // (previously on the pattern derivation path to another pattern element)
+            // as this would cause a inter-pattern-homomorphic match
+            string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+            string isMatchedBySomeBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
+
+            if (!Always) {
+                sourceCode.Append("searchPatternpath && ");
+            }
+
+            sourceCode.AppendFormat("({0}.flags & {1})=={1} && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched({0}, {2})",
+                variableContainingCandidate, isMatchedBySomeBit, LastMatchAtPreviousNestingLevel);
+
+            sourceCode.Append(")\n");
+
+            // emit check failed code
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+            CheckFailedOperations.Emit(sourceCode);
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public bool IsNode; // node|edge
+        public bool Always; // have a look at searchPatternpath or search always
+        string LastMatchAtPreviousNestingLevel;
     }
 
     /// <summary>
@@ -2147,7 +2215,7 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// Class representing operations to execute upon candidate checking succeded;
-    /// (currently only) writing isomorphy information to graph, for isomorphy checking later on
+    /// writing isomorphy information to graph, for isomorphy checking later on
     /// (mapping graph element to pattern element)
     /// </summary>
     class AcceptCandidate : SearchProgramOperation
@@ -2225,11 +2293,13 @@ namespace de.unika.ipd.grGen.lgsp
         public AcceptCandidateGlobal(
             string patternElementName,
             string negativeIndependentNamePrefix,
-            bool isNode)
+            bool isNode,
+            bool neverAboveMaxNegLevel)
         {
             PatternElementName = patternElementName;
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             IsNode = isNode;
+            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2241,17 +2311,82 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            string variableContainingBackupOfMappedMember =
-                NamesOfEntities.VariableWithBackupOfIsMatchedBitGlobal(PatternElementName, NegativeIndependentNamePrefix);
+            string variableContainingBackupOfMappedMember = NamesOfEntities.VariableWithBackupOfIsMatchedGlobalBit(
+                PatternElementName, NegativeIndependentNamePrefix);
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
 
             sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMember);
 
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.AppendFront("if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {\n");
+                sourceCode.Indent();
+            }
+
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel";
             sourceCode.AppendFrontFormat("{0} = {1}.flags & {2};\n",
                 variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
             sourceCode.AppendFrontFormat("{0}.flags |= {1};\n",
                 variableContainingCandidate, isMatchedBit);
+
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.Unindent();
+                sourceCode.AppendFront("} else {\n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("{0} = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) "
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.ContainsKey({2}) ? 1U : 0U;\n",
+                    variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
+                sourceCode.AppendFrontFormat("if({0} == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) "
+                    + "GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{1}.Add({2},{2});\n",
+                    variableContainingBackupOfMappedMember, IsNode ? "fst" : "snd", variableContainingCandidate);
+
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
+        }
+
+        public string PatternElementName;
+        public string NegativeIndependentNamePrefix; // "" if top-level
+        public bool IsNode; // node|edge
+        public bool NeverAboveMaxNegLevel;
+    }
+
+    /// <summary>
+    /// Class representing operations to execute upon candidate gets accepted 
+    /// into a complete match of its subpattern, locking candidate for patternpath checks later on
+    /// </summary>
+    class AcceptCandidatePatternpath : SearchProgramOperation
+    {
+        public AcceptCandidatePatternpath(
+            string patternElementName,
+            string negativeIndependentNamePrefix,
+            bool isNode)
+        {
+            PatternElementName = patternElementName;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
+            IsNode = isNode;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("AcceptCandidatePatternPath ");
+            builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}\n",
+                PatternElementName, NegativeIndependentNamePrefix, IsNode);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+            string variableContainingBackupOfMappedMemberGlobalSome =
+                NamesOfEntities.VariableWithBackupOfIsMatchedGlobalInSomePatternBit(PatternElementName, NegativeIndependentNamePrefix);
+            sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMemberGlobalSome);
+            string isMatchedInSomePatternBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
+            sourceCode.AppendFrontFormat("{0} = {1}.flags & {2};\n",
+                variableContainingBackupOfMappedMemberGlobalSome, variableContainingCandidate, isMatchedInSomePatternBit);
+            sourceCode.AppendFrontFormat("{0}.flags |= {1};\n",
+                variableContainingCandidate, isMatchedInSomePatternBit);
         }
 
         public string PatternElementName;
@@ -2337,6 +2472,72 @@ namespace de.unika.ipd.grGen.lgsp
         public AbandonCandidateGlobal(
             string patternElementName,
             string negativeIndependentNamePrefix,
+            bool isNode,
+            bool neverAboveMaxNegLevel)
+        {
+            PatternElementName = patternElementName;
+            NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
+            IsNode = isNode;
+            NeverAboveMaxNegLevel = neverAboveMaxNegLevel;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("AbandonCandidateGlobal ");
+            builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}\n",
+                PatternElementName, NegativeIndependentNamePrefix, IsNode);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string variableContainingBackupOfMappedMember = NamesOfEntities.VariableWithBackupOfIsMatchedGlobalBit(
+                PatternElementName, NegativeIndependentNamePrefix);
+            string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.AppendFront("if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {\n");
+                sourceCode.Indent();
+            }
+
+            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel";
+            sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~({1}) | {2};\n",
+                variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
+
+            if (!NeverAboveMaxNegLevel)
+            {
+                sourceCode.Unindent();
+                sourceCode.AppendFront("} else { \n");
+                sourceCode.Indent();
+
+                sourceCode.AppendFrontFormat("if({0} == 0) {{\n", variableContainingBackupOfMappedMember);
+                sourceCode.Indent();
+                sourceCode.AppendFrontFormat(
+                    "graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].{0}.Remove({1});\n",
+                    IsNode ? "fst" : "snd", variableContainingCandidate);
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
+        }
+
+        public string PatternElementName;
+        public string NegativeIndependentNamePrefix; // "" if positive
+        public bool IsNode; // node|edge
+        public bool NeverAboveMaxNegLevel;
+    }
+
+    /// <summary>
+    /// Class representing operations undoing effects of patternpath candidate acceptance 
+    /// into complete match of it's subpattern when performing the backtracking step (unlocks candidate)
+    /// </summary>
+    class AbandonCandidatePatternpath : SearchProgramOperation
+    {
+        public AbandonCandidatePatternpath(
+            string patternElementName,
+            string negativeIndependentNamePrefix,
             bool isNode)
         {
             PatternElementName = patternElementName;
@@ -2353,13 +2554,12 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            string variableContainingBackupOfMappedMember =
-                NamesOfEntities.VariableWithBackupOfIsMatchedBitGlobal(PatternElementName, NegativeIndependentNamePrefix);
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-
-            string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN";
+            string variableContainingBackupOfMappedMemberGlobalSome =
+                NamesOfEntities.VariableWithBackupOfIsMatchedGlobalInSomePatternBit(PatternElementName, NegativeIndependentNamePrefix);
+            string isMatchedInSomePatternBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
             sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~({1}) | {2};\n",
-                variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
+                variableContainingCandidate, isMatchedInSomePatternBit, variableContainingBackupOfMappedMemberGlobalSome);
         }
 
         public string PatternElementName;
@@ -2706,11 +2906,15 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 sourceCode.AppendFrontFormat("{0}._{1} = (@{2})currentFoundPartialMatch.Pop();\n",
                     MatchObjectName, matchName, PatternElementType);
+                sourceCode.AppendFrontFormat("{0}._{1}._matchOfEnclosingPattern = {0};\n",
+                    MatchObjectName, matchName);
             }
             else if(Type == BuildMatchObjectType.Alternative)
             {
                 sourceCode.AppendFrontFormat("{0}._{1} = ({2}.{3})currentFoundPartialMatch.Pop();\n",
                     MatchObjectName, matchName, RulePatternClassName, NamesOfEntities.MatchInterfaceName(PatternElementType));
+                sourceCode.AppendFrontFormat("{0}._{1}.SetMatchOfEnclosingPattern({0});\n",
+                    MatchObjectName, matchName);
             }
             else //if (Type == BuildMatchObjectType.Independent)
             {
@@ -2719,6 +2923,8 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0} = new {1}();\n",
                     NamesOfEntities.MatchedIndependentVariable(PatternElementName),
                     RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternElementName));
+                sourceCode.AppendFrontFormat("{0}._{1}.SetMatchOfEnclosingPattern({0});\n",
+                    MatchObjectName, matchName);
             }
         }
 
@@ -3326,7 +3532,10 @@ namespace de.unika.ipd.grGen.lgsp
             string[] connectionName,
             string[] patternElementBoundToConnectionName,
             bool[] patternElementBoundToConnectionIsNode,
-            string negativeIndependentNamePrefix)
+            string negativeIndependentNamePrefix,
+            string searchPatternpath,
+            string matchOfNestingPattern,
+            string lastMatchAtPreviousNestingLevel)
         {
             Debug.Assert(connectionName.Length == patternElementBoundToConnectionName.Length
                 && patternElementBoundToConnectionName.Length == patternElementBoundToConnectionIsNode.Length);
@@ -3339,6 +3548,10 @@ namespace de.unika.ipd.grGen.lgsp
             PatternElementBoundToConnectionIsNode = patternElementBoundToConnectionIsNode;
 
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
+
+            SearchPatternpath = searchPatternpath;
+            MatchOfNestingPattern = matchOfNestingPattern;
+            LastMatchAtPreviousNestingLevel = lastMatchAtPreviousNestingLevel;
         }
 
         public PushSubpatternTask(
@@ -3348,7 +3561,10 @@ namespace de.unika.ipd.grGen.lgsp
             string[] connectionName,
             string[] patternElementBoundToConnectionName,
             bool[] patternElementBoundToConnectionIsNode,
-            string negativeIndependentNamePrefix)
+            string negativeIndependentNamePrefix,
+            string searchPatternpath,
+            string matchOfNestingPattern,
+            string lastMatchAtPreviousNestingLevel)
         {
             Debug.Assert(connectionName.Length == patternElementBoundToConnectionName.Length
                 && patternElementBoundToConnectionName.Length == patternElementBoundToConnectionIsNode.Length);
@@ -3362,6 +3578,10 @@ namespace de.unika.ipd.grGen.lgsp
             PatternElementBoundToConnectionIsNode = patternElementBoundToConnectionIsNode;
 
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
+
+            SearchPatternpath = searchPatternpath;
+            MatchOfNestingPattern = matchOfNestingPattern;
+            LastMatchAtPreviousNestingLevel = lastMatchAtPreviousNestingLevel;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -3421,21 +3641,13 @@ namespace de.unika.ipd.grGen.lgsp
                     variableContainingTask, ConnectionName[i], variableContainingPatternElementToBeBound);
             }
 
-            // fill in patternpath handling stack attachment and checking points
-            if (isAlternative)
-            {
-                sourceCode.AppendFrontFormat("{0}.matchOfNestingPattern = {1};\n",
-                    variableContainingTask, NamesOfEntities.AttachmentPoint());
-                sourceCode.AppendFrontFormat("{0}.matchOfNestingSubpattern = {1};\n",
-                    variableContainingTask, "matchOfNestingSubpattern");
-            }
-            else
-            {
-                sourceCode.AppendFrontFormat("{0}.matchOfNestingPattern = {1};\n",
-                    variableContainingTask, NamesOfEntities.AttachmentPoint());
-                sourceCode.AppendFrontFormat("{0}.matchOfNestingSubpattern = {1};\n",
-                    variableContainingTask, NamesOfEntities.AttachmentPoint());
-            }
+            // fill in values needed for patternpath handling
+            sourceCode.AppendFrontFormat("{0}.searchPatternpath = {1};\n",
+                variableContainingTask, SearchPatternpath);
+            sourceCode.AppendFrontFormat("{0}.matchOfNestingPattern = {1};\n", 
+                variableContainingTask, MatchOfNestingPattern);
+            sourceCode.AppendFrontFormat("{0}.lastMatchAtPreviousNestingLevel = {1};\n",
+                variableContainingTask, LastMatchAtPreviousNestingLevel);
 
             // push matching task to open tasks stack
             sourceCode.AppendFrontFormat("{0}openTasks.Push({1});\n", NegativeIndependentNamePrefix, variableContainingTask);
@@ -3451,6 +3663,9 @@ namespace de.unika.ipd.grGen.lgsp
         public string[] PatternElementBoundToConnectionName;
         public bool[] PatternElementBoundToConnectionIsNode;
         public string NegativeIndependentNamePrefix;
+        public string SearchPatternpath;
+        public string MatchOfNestingPattern;
+        public string LastMatchAtPreviousNestingLevel;
     }
 
     /// <summary>
@@ -3711,65 +3926,41 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing "initialize the attachment point" operation,
-    /// the attachment point is needed for locally advancing the point where patternpath matches point to as previous
+    /// Class representing "push match for patternpath" operation
+    /// push match to the match objects stack used for patternpath checking
     /// </summary>
-    class InitializeAttachmentPoint : SearchProgramOperation
+    class PushMatchForPatternpath : SearchProgramOperation
     {
-        public InitializeAttachmentPoint(bool isSubpattern)
-        {
-            IsSubpattern = isSubpattern;
-        }
-
-        public override void Dump(SourceBuilder builder)
-        {
-            builder.AppendFront("InitializeAttachmentPoint\n");
-        }
-
-        public override void Emit(SourceBuilder sourceCode)
-        {
-            if (IsSubpattern)
-            {
-                sourceCode.AppendFrontFormat("{0} = matchOfNestingPattern;\n", NamesOfEntities.AttachmentPoint());
-            }
-            else
-            {
-                sourceCode.AppendFrontFormat("{0} = null;\n", NamesOfEntities.AttachmentPoint());
-            }
-        }
-
-        bool IsSubpattern;
-    }
-
-    class PushMatchOfNestingPattern : SearchProgramOperation
-    {
-        public PushMatchOfNestingPattern(string rulePatternClassName, string patternGraphName)
+        public PushMatchForPatternpath(
+            string rulePatternClassName,
+            string patternGraphName,
+            string matchOfNestingPattern)
         {
             RulePatternClassName = rulePatternClassName;
             PatternGraphName = patternGraphName;
+            MatchOfNestingPattern = matchOfNestingPattern;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFrontFormat("PushMatchOfNestingPattern of {0}\n", PatternGraphName);
+            builder.AppendFrontFormat("PushMatchOfNestingPattern of {0} nestingPattern in:{1}\n",
+                PatternGraphName, MatchOfNestingPattern);
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("// build match of {0} for patternpath checks\n", PatternGraphName);
+            sourceCode.AppendFrontFormat("// build match of {0} for patternpath checks\n", 
+                PatternGraphName);
             sourceCode.AppendFrontFormat("if({0}==null) {0} = new {1}.{2}();\n", 
                 NamesOfEntities.PatternpathMatch(PatternGraphName),
                 RulePatternClassName,
                 NamesOfEntities.MatchClassName(PatternGraphName));
             sourceCode.AppendFrontFormat("{0}._matchOfEnclosingPattern = {1};\n",
-                NamesOfEntities.PatternpathMatch(PatternGraphName),
-                NamesOfEntities.AttachmentPoint());
-            sourceCode.AppendFrontFormat("{0} = {1}._matchOfEnclosingPattern;\n",
-                NamesOfEntities.AttachmentPoint(),
-                NamesOfEntities.PatternpathMatch(PatternGraphName));
+                NamesOfEntities.PatternpathMatch(PatternGraphName), MatchOfNestingPattern);
         }
 
         string RulePatternClassName;
         string PatternGraphName;
+        string MatchOfNestingPattern;
     }
 }

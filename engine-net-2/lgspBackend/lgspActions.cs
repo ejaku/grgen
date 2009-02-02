@@ -1089,15 +1089,20 @@ invalidCommand:
 
         /// <summary>
         /// Entry point to the temporary match object stack representing the pattern nesting from innermost outwards.
-        /// Needed for patternpath checking in subpattern negatives, used as attachment point / is top of stack.
+        /// Needed for patternpath checking in negatives/independents, used as attachment point / is top of stack.
         /// </summary>
         public IMatch matchOfNestingPattern;
 
         /// <summary>
-        /// First subpattern match in the temporary match object stack representing the pattern nesting from innermost outwards.
-        /// Needed for patternpath checking in subpattern negatives, used as starting point of global isomorphy checks.
+        /// Last match at the previous nesting level in the temporary match object stack representing the pattern nesting from innermost outwards.
+        /// Needed for patternpath checking in negatives/independents, used as starting point of patternpath isomorphy checks.
         /// </summary>
-        public IMatch matchOfNestingSubpattern;
+        public IMatch lastMatchAtPreviousNestingLevel;
+
+        /// <summary>
+        /// Tells whether this subpattern has to search the pattern path when matching
+        /// </summary>
+        public bool searchPatternpath;
 
         /// <summary>
         /// Searches for the subpattern as specified by RulePattern.
@@ -1106,5 +1111,53 @@ invalidCommand:
         /// (and open tasks via this).
         /// </summary>
         public abstract void myMatch(List<Stack<IMatch>> foundPartialMatches, int maxMatches, int negLevel);
+    }
+
+    /// <summary>
+    /// Class containing global functions for checking whether node/edge is matched on patternpath
+    /// </summary>
+    public sealed class PatternpathIsomorphyChecker
+    { 
+        public static bool IsMatched(LGSPNode node, IMatch lastMatchAtPreviousNestingLevel)
+        {
+            Debug.Assert(lastMatchAtPreviousNestingLevel!=null);
+
+            // move through matches stack backwards to starting rule, 
+            // check if node is already matched somewhere on the derivation path
+            IMatch match = lastMatchAtPreviousNestingLevel;
+            while (match != null)
+            {
+                for (int i = 0; i < match.NumberOfNodes; ++i)
+                {
+                    if (match.getNodeAt(i) == node)
+                    {
+                        return true;
+                    }
+                }
+                match = match.MatchOfEnclosingPattern;
+            }
+            return false;
+        }
+
+        public static bool IsMatched(LGSPEdge edge, IMatch lastMatchAtPreviousNestingLevel)
+        {
+            Debug.Assert(lastMatchAtPreviousNestingLevel != null);
+
+            // move through matches stack backwards to starting rule, 
+            // check if edge is already matched somewhere on the derivation path
+            IMatch match = lastMatchAtPreviousNestingLevel;
+            while (match != null)
+            {
+                for (int i = 0; i < match.NumberOfEdges; ++i)
+                {
+                    if (match.getEdgeAt(i) == edge)
+                    {
+                        return true;
+                    }
+                }
+                match = match.MatchOfEnclosingPattern;
+            }
+            return false;
+        }
     }
 }

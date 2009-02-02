@@ -547,6 +547,7 @@ namespace de.unika.ipd.grGen.lgsp
         public int[] edgesByTypeCounts;
 
         public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> atNegLevelMatchedElements;
+        public List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>> atNegLevelMatchedElementsGlobal;
 
         protected static String GetNextGraphName() { return "lgspGraph_" + graphID++; }
 
@@ -593,6 +594,7 @@ namespace de.unika.ipd.grGen.lgsp
             name = grname;
 
             atNegLevelMatchedElements = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
+            atNegLevelMatchedElementsGlobal = new List<Pair<Dictionary<LGSPNode, LGSPNode>, Dictionary<LGSPEdge, LGSPEdge>>>();
         }
 
         /// <summary>

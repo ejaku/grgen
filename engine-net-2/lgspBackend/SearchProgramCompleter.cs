@@ -542,6 +542,20 @@ namespace de.unika.ipd.grGen.lgsp
                         new AbandonCandidateGlobal(
                             writeIsomorphy.PatternElementName,
                             writeIsomorphy.NegativeIndependentNamePrefix,
+                            writeIsomorphy.IsNode,
+                            writeIsomorphy.NeverAboveMaxNegLevel);
+                    insertionPoint = insertionPoint.Append(removeIsomorphy);
+                }
+                // insert code to clean up isomorphy information written by patternpath candidate acceptance
+                // in between the operation to continue and the check operation
+                if (op is AcceptCandidatePatternpath)
+                {
+                    AcceptCandidatePatternpath writeIsomorphy =
+                        op as AcceptCandidatePatternpath;
+                    AbandonCandidatePatternpath removeIsomorphy =
+                        new AbandonCandidatePatternpath(
+                            writeIsomorphy.PatternElementName,
+                            writeIsomorphy.NegativeIndependentNamePrefix,
                             writeIsomorphy.IsNode);
                     insertionPoint = insertionPoint.Append(removeIsomorphy);
                 }

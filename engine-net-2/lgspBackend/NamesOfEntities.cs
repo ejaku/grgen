@@ -87,11 +87,20 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Returns name of the variable which will be created within the search program
-        /// backing up the value of the isMatched-Bit of the graph element before assigning to it
+        /// backing up the value of the global isMatched-Bit of the graph element before assigning to it
         /// </summary>
-        public static string VariableWithBackupOfIsMatchedBitGlobal(string patternElementName, string negativeIndependentNamePrefix)
+        public static string VariableWithBackupOfIsMatchedGlobalBit(string patternElementName, string negativeIndependentNamePrefix)
         {
             return "prevGlobal_" + negativeIndependentNamePrefix + "_" + CandidateVariable(patternElementName);
+        }
+
+        /// <summary>
+        /// Returns name of the variable which will be created within the search program
+        /// backing up the value of the some global isMatched-Bit of the graph element before assigning to it
+        /// </summary>
+        public static string VariableWithBackupOfIsMatchedGlobalInSomePatternBit(string patternElementName, string negativeIndependentNamePrefix)
+        {
+            return "prevSomeGlobal_" + negativeIndependentNamePrefix + "_" + CandidateVariable(patternElementName);
         }
 
         /// <summary>
@@ -150,15 +159,6 @@ namespace de.unika.ipd.grGen.lgsp
         public static string PatternpathMatch(string patternGraphName)
         {
             return "patternpath_match_" + patternGraphName;
-        }
-
-        /// <summary>
-        /// Returns name of the search program variable used for locally advancing 
-        /// the nesting pattern attachment point (for patternpath handling)
-        /// </summary>
-        public static string AttachmentPoint()
-        {
-            return "attachment_point";
         }
 
         /// <summary>

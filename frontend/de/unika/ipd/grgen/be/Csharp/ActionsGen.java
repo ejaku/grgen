@@ -1421,6 +1421,8 @@ public class ActionsGen extends CSharpBase {
 					name, i, pathPrefixForElements);
 		}
 
+		sb.append("\t\t\tvoid SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);\n");
+		
 		sb.append("\t\t}\n");
 		sb.append("\n");
 	}
@@ -1430,7 +1432,9 @@ public class ActionsGen extends CSharpBase {
 		String interfaceName = "IMatch_" + name;
 		sb.append("\t\tpublic interface "+interfaceName+" : GRGEN_LIBGR.IMatch\n");
 		sb.append("\t\t{\n");
-		// empty, exists only for the type
+		
+		sb.append("\t\t\tvoid SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);\n");
+		
 		sb.append("\t\t}\n");
 		sb.append("\n");
 	}
@@ -1456,6 +1460,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tpublic GRGEN_LIBGR.IPatternGraph Pattern { get { return "+ruleClassName+".instance."+patGraphVarName+"; } }\n");
 		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }\n");
 		sb.append("\t\t\tpublic GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;\n");
+		sb.append("\t\t\tpublic void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }\n");
 		sb.append("\t\t\tpublic override string ToString() { return \"Match of \" + Pattern.Name; }\n");
 
 		sb.append("\t\t}\n");

@@ -35,6 +35,35 @@ pattern ChainFromComplete(from:Node) {
 	}
 }
 
+pattern ChainFromCompleteArbitraryPatternpathLocked(from:Node) {
+	alternative {
+		base {
+			negative {
+				patternpath;
+				from ?--? .;
+			}
+		}
+		rec {
+			from --> to:Node;
+			:ChainFromCompleteArbitraryPatternpathLocked(to);
+		}
+	}
+}
+
+pattern ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(from:Node) {
+	alternative {
+		base {
+			negative {
+				from ?--? .;
+			}
+		}
+		rec {
+			from --> to:Node;
+			:ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(to);
+		}
+	}
+}
+
 rule createChain : (Node, Node) {
 	modify {
 		beg:Node --> . --> . --> end:Node;
@@ -54,12 +83,22 @@ test chainFromComplete(beg:Node) {
 	:ChainFromComplete(beg);
 }
 
+test chainFromCompleteArbitraryPatternpathLocked(beg:Node) {
+	:ChainFromCompleteArbitraryPatternpathLocked(beg);
+}
+
+test chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(beg:Node) {
+	:ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(beg);
+}
+
 pattern Blowball(head:Node)
 {
 	alternative {
 		end {
 			negative {
-				head --> .;
+				patternpath;
+				head --> .; // would always fire, preventing end to be found, (as negative is independent from the enclosing matches)
+							// by locking patternpath firing is prevented when all umbrellas have been matched
 			}
 		}
 		further {

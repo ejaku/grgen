@@ -40,7 +40,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             CalculateNeededElements(matchingPattern.patternGraph);
             AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(matchingPattern.patternGraph);
-            ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(matchingPattern.patternGraph);
+            ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath(matchingPattern.patternGraph);
             matchingPatterns.Add(matchingPattern);
         }
 
@@ -176,59 +176,51 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Computes the pattern graphs which are on a path to some enclosed subpattern usage or alternative
-        /// Adds them the pattern graph of the top level pattern
+        /// Computes the pattern graphs which are on a path to some enclosed subpattern usage/alternative
+        /// or negative/independent with a patternpath modifier; stores information to the pattern graph and it's children.
         /// </summary>
-        private void ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(PatternGraph topLevelPatternGraph)
+        private void ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath(
+            PatternGraph patternGraph)
         {
-            topLevelPatternGraph.namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative = new List<string>();
-            ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(topLevelPatternGraph, topLevelPatternGraph);
-        }
+            // Algorithm descends top down to the nested patterns, 
+            // computes within each leaf pattern whether there are subpattern usages/alternatives, 
+            // or whether there is a patternpath modifier, stores this information locally,
+            // and ascends bottom up, computing/storing the same information, adding the results of the nested patterns.
+            patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath = new List<string>();
 
-        /// <summary>
-        /// Computes the pattern graphs which are on a path to some enclosed subpattern usage or alternative
-        /// Adds them the pattern graph of the top level pattern; alternative case is new top level pattern
-        /// </summary>
-        private bool ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(
-            PatternGraph patternGraph, PatternGraph topLevelPatternGraph)
-        {
-            // algorithm descends top down to the nested patterns, computes within each leaf pattern 
-            // wheteher there are subpattern usages or alternatives, and ascends bottom up
-            // current pattern graph has subpattern usages or alternatives enclosed
-            // if they are contained locally or one of the nested patterns has them enclosed
-            bool isSubpatternUsageOrAlternativeEnclosed = false;
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
-                isSubpatternUsageOrAlternativeEnclosed |= ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(
-                    neg, topLevelPatternGraph);
+                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath(neg);
+                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath
+                    .AddRange(neg.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath);
             }
             foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
             {
-                isSubpatternUsageOrAlternativeEnclosed |= ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(
-                    idpt, topLevelPatternGraph);
+                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath(idpt);
+                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath
+                    .AddRange(idpt.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath);
             }
             foreach (Alternative alt in patternGraph.alternatives)
             {
-                isSubpatternUsageOrAlternativeEnclosed = true;
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
-                    altCase.namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative = new List<string>();
-                    ComputePatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative(altCase, altCase);
+                    ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath(altCase);
+                    patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath
+                        .AddRange(altCase.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath);
                 }
             }
-            if (patternGraph.embeddedGraphs.Length > 0)
-            {
-                isSubpatternUsageOrAlternativeEnclosed = true;
-            }
 
-            // in this case add the current pattern graph to the list in the top level pattern graph
-            if (isSubpatternUsageOrAlternativeEnclosed)
+            // one of the nested patterns was found to be on the path -> so we are too
+            // or we are locally on the path due to subpattern usages, alternatives, patternpath modifier
+            if (patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath.Count != 0
+                || patternGraph.embeddedGraphs.Length > 0
+                || patternGraph.alternatives.Length > 0
+                || patternGraph.isPatternpathLocked)
             {
-                topLevelPatternGraph.namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Add(
-                    patternGraph.pathPrefix+patternGraph.name);
+                // add the current pattern graph to the list in the top level pattern graph
+                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath
+                    .Add(patternGraph.pathPrefix + patternGraph.name);
             }
-
-            return isSubpatternUsageOrAlternativeEnclosed;
         }
 
         /// <summary>
