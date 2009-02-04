@@ -1,0 +1,35 @@
+node class Person
+{
+    name : string;
+}
+
+node class Paper
+{
+    name : string;
+}
+
+node class Session
+{
+    name : string;
+    id:int;
+}
+
+node class Slot {
+    id:int;
+}
+
+node class Reservable;
+
+node class CounterNode {
+    counter:int;
+}
+
+edge class chair;
+edge class presents;
+edge class presentedIn;
+edge class nextSlot;
+
+edge class timepos;
+edge class assocTimepos;
+
+edge class availableAt;

@@ -1,0 +1,270 @@
+using conference;
+
+rule init : (Slot, CounterNode)
+{
+    modify
+    {
+        s1:Session;
+        s2:Session;
+        s3:Session;
+
+		eval {
+			s1.id = 1;
+			s1.name = "S1";
+			s2.id = 2;
+			s2.name = "S2";
+			s3.id = 3;
+			s3.name = "S3";
+		}
+        
+        gogolla:Person;
+        vangorp:Person;
+        hirschfeld:Person;
+        schippers:Person;
+        rensink:Person;
+        schuerr:Person;
+        mezini:Person;
+        costanza:Person;
+
+		eval {
+        	gogolla.name = "Gogolla";
+        	vangorp.name = "Van Gorp";
+        	hirschfeld.name = "Hirschfeld";
+        	schippers.name = "Schippers";
+       		rensink.name = "Rensink";
+        	schuerr.name = "Schuerr";
+    	    mezini.name = "Mezini";
+	        costanza.name = "Costanza";
+		}
+
+		p1:Paper;
+		p2:Paper;
+		p3:Paper;
+		p4:Paper;
+		p5:Paper;
+		p6:Paper;
+		p7:Paper;
+		p8:Paper;
+		p9:Paper;
+
+		eval {
+			p1.name = "P1";
+			p2.name = "P2";
+			p3.name = "P3";
+			p4.name = "P4";
+			p5.name = "P5";
+			p6.name = "P6";
+			p7.name = "P7";
+			p8.name = "P8";
+			p9.name = "P9";
+		}
+        
+        gogolla -:chair-> s1;
+        vangorp -:chair-> s2;
+        hirschfeld -:chair-> s3;
+
+		gogolla -:presents-> p1;
+		schippers -:presents-> p2;
+		vangorp -:presents-> p3;
+		schippers -:presents-> p4;
+		rensink -:presents-> p5;
+		schuerr -:presents-> p6;
+		schippers -:presents-> p7;
+		mezini -:presents-> p8;
+		costanza -:presents-> p9;
+
+		p1 -:presentedIn-> s1;
+		p2 -:presentedIn-> s1;
+		p3 -:presentedIn-> s1;
+		p4 -:presentedIn-> s2;
+		p5 -:presentedIn-> s2;
+		p6 -:presentedIn-> s2;
+		p7 -:presentedIn-> s3;
+		p8 -:presentedIn-> s3;
+		p9 -:presentedIn-> s3;
+
+		slot:Slot;
+		eval {
+			slot.id = 1;
+		}
+		:Reservable -:availableAt-> slot;
+		:Reservable -:availableAt-> slot;
+		c:CounterNode;
+		return (slot, c);
+    }
+}
+
+rule addSlot(lastSlot:Slot) : (Slot)
+{
+	modify {
+		lastSlot -:nextSlot-> newSlot:Slot;
+		eval {
+			newSlot.id = lastSlot.id + 1;
+		}
+		:Reservable -:availableAt-> newSlot;
+		:Reservable -:availableAt-> newSlot;
+		return (newSlot);
+	}
+}
+
+rule associatePapers
+{
+	p:Paper;
+	s:Slot;
+	negative {
+		p -:timepos-> s;
+	}
+	modify {
+		p -:timepos-> s;
+	}
+}
+
+rule solve
+{
+	s1:Session;
+	p1:Paper -:presentedIn-> s1;
+	p2:Paper -:presentedIn-> s1;
+	p3:Paper -:presentedIn-> s1;
+
+	s2:Session;
+	p4:Paper -:presentedIn-> s2;
+	p5:Paper -:presentedIn-> s2;
+	p6:Paper -:presentedIn-> s2;
+
+	s3:Session;
+	p7:Paper -:presentedIn-> s3;
+	p8:Paper -:presentedIn-> s3;
+	p9:Paper -:presentedIn-> s3;
+
+	if { s1.id == 1; s2.id == 2; s3.id == 3; }
+
+	t1:Slot -n1:nextSlot-> t2:Slot -n2:nextSlot-> t3:Slot;
+	t4:Slot -n4:nextSlot-> t5:Slot -n5:nextSlot-> t6:Slot;
+	t7:Slot -n7:nextSlot-> t8:Slot -n8:nextSlot-> t9:Slot;
+
+	hom(t1, t2, t3, t4, t5, t6, t7, t8, t9);
+	hom(n1, n2, n4, n5, n7, n8);
+
+	p1 -:timepos-> t1;
+	p2 -:timepos-> t2;
+	p3 -:timepos-> t3;
+	p4 -:timepos-> t4;
+	p5 -:timepos-> t5;
+	p6 -:timepos-> t6;
+	p7 -:timepos-> t7;
+	p8 -:timepos-> t8;
+	p9 -:timepos-> t9;
+
+	modify {
+/*		exec((setAssoc(p1, t1, p2, t2, p3, t3, p4, t4,
+					p5, t5, p6, t6, p7, t7, p8, t8, p9, t9)
+			&& checkConstr) | deAssoc*);*/
+		exec((setAssoc(p1, t1, p2, t2, p3, t3, p4, t4,
+					p5, t5, p6, t6, p7, t7, p8, t8, p9, t9)
+			&& checkEdgar && checkConstr && showSolution(p1, t1, p2, t2, p3, t3, p4, t4,
+					p5, t5, p6, t6, p7, t7, p8, t8, p9, t9)) | deAssoc*);
+	}
+}
+
+rule setAssoc(p1:Paper, t1:Slot, p2:Paper, t2:Slot, p3:Paper, t3:Slot,
+	p4:Paper, t4:Slot, p5:Paper, t5:Slot, p6:Paper, t6:Slot,
+	p7:Paper, t7:Slot, p8:Paper, t8:Slot, p9:Paper, t9:Slot)
+{
+	hom(t1, t2, t3, t4, t5, t6, t7, t8, t9);
+	modify {
+		p1 -:assocTimepos-> t1;
+		p2 -:assocTimepos-> t2;
+		p3 -:assocTimepos-> t3;
+		p4 -:assocTimepos-> t4;
+		p5 -:assocTimepos-> t5;
+		p6 -:assocTimepos-> t6;
+		p7 -:assocTimepos-> t7;
+		p8 -:assocTimepos-> t8;
+		p9 -:assocTimepos-> t9;
+	}
+}
+
+// check reservable constraints on time slot
+pattern edgar(s:Slot)
+{
+	alternative {
+		normal {
+			-:assocTimepos-> s <-:availableAt-;
+			:edgar(s);
+		}
+		base {
+			negative {
+				-:	assocTimepos-> s;
+			}
+		}
+	}
+}
+
+test checkEdgar
+{
+	slot1: Slot;
+	slot2: Slot;
+	slot3: Slot;
+	slot4: Slot;
+	slot5: Slot;
+	slot6: Slot;
+
+	if { slot1.id == 1;
+	 slot2.id == 2;
+	 slot3.id == 3;
+	 slot4.id == 4;
+	 slot5.id == 5;
+	 slot6.id == 6; }
+
+	:edgar(slot1);
+	:edgar(slot2);
+	:edgar(slot3);
+	:edgar(slot4);
+	:edgar(slot5);
+	:edgar(slot6);
+}
+
+rule checkConstr
+{
+	c:CounterNode;
+	negative {
+		pers:Person -:presents-> paper:Paper -:assocTimepos-> t:Slot;
+		pers -:presents-> paper2:Paper -:assocTimepos-> t;
+	}
+	negative {
+		pers:Person -:chair-> session:Session <-:presentedIn-
+			paper1:Paper -:assocTimepos-> t:Slot;
+		pers -:presents-> paper2:Paper -:assocTimepos-> t;
+		paper2 -:presentedIn-> session2:Session;
+	}
+	modify {
+		eval {
+			c.counter = c.counter + 1;
+		}
+	}
+}
+
+rule deAssoc
+{
+	-:assocTimepos->;
+	replace {}
+}
+
+rule showSolution(p1:Paper, t1:Slot, p2:Paper, t2:Slot, p3:Paper, t3:Slot,
+	p4:Paper, t4:Slot, p5:Paper, t5:Slot, p6:Paper, t6:Slot,
+	p7:Paper, t7:Slot, p8:Paper, t8:Slot, p9:Paper, t9:Slot)
+{
+	hom(t1, t2, t3, t4, t5, t6, t7, t8, t9);
+
+	modify {
+		emit(p1.name, "@", t1.id, ",", 
+			p2.name, "@", t2.id, ",",
+			p3.name, "@", t3.id, ",",
+			p4.name, "@", t4.id, ",",
+			p5.name, "@", t5.id, ",",
+			p6.name, "@", t6.id, ",",
+			p7.name, "@", t7.id, ",",
+			p8.name, "@", t8.id, ",",
+			p9.name, "@", t9.id, "\n");
+	}
+}

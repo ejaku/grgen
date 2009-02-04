@@ -1,0 +1,13 @@
+new graph conference
+
+debug set layout Hierarchic
+
+dump add node Session group
+dump add node Person infotag name
+dump add node Session infotag name
+dump add node Paper infotag name
+
+xgrs (last,c)=init && (last)=addSlot(last)[5]
+xgrs associatePapers*
+xgrs [solve]
+c.counter
