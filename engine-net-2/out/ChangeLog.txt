@@ -1,4 +1,10 @@
-﻿v2.1 (2008-12-19)
+﻿v2.1.1 (2009-02-06)
+ Features/API changes/Fixes/Examples:
+  - Added icons for GrGen, GrShell
+  - Added conference scheduling/grabats2008 live contest solution to examples
+  - Added IsAbstract and IsConst to GrGenType, catch attempts to create abstract elements in GrShell
+
+v2.1 (2008-12-19)
  Features:
   - Added string methods (indexOf, lastIndexOf, length, substring, replace)
     (see frontend/should_pass/strfunc_001.grg in source release)
