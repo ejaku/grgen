@@ -15,6 +15,7 @@ mv $GRGENDIRSRC/grgen.pdf $GRGENDIRSRC/doc/grgen.pdf
 mv $GRGENDIRSRC/VeryShortIntroductionToVersion2.txt $GRGENDIRSRC/doc/VeryShortIntroductionToVersion2.txt
 
 rm $GRGENDIRSRC/make_release.sh
+rm $GRGENDIRSRC/make_betabins.sh
 rm -rf $GRGENDIRSRC/todo
 
 # delete old GrGen.NET 1.0 engine
