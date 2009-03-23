@@ -1345,7 +1345,8 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
-            // may be a top-level-pattern with/-out subpatterns, may be a subpattern with/-out subpatterns
+            // is subpattern gives information about type of top level enclosing pattern (action vs. subpattern)
+            // contains subpatterns gives informations about current pattern graph (might be negative, independent, too)
             bool isSubpattern = programType == SearchProgramType.Subpattern
                 || programType == SearchProgramType.AlternativeCase;
             bool containsSubpatterns = patternGraph.embeddedGraphs.Length >= 1
