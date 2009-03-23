@@ -127,6 +127,12 @@ namespace de.unika.ipd.grGen.libGr
         IPatternGraph[] NegativePatternGraphs { get; }
 
         /// <summary>
+        /// An array of independent pattern graphs which must get matched in addition to the main pattern
+        /// (PACs - Positive Application Conditions).
+        /// </summary>
+        IPatternGraph[] IndependentPatternGraphs { get; }
+
+        /// <summary>
         /// The pattern graph which contains this pattern graph, null if this is a top-level-graph
         /// </summary>
         IPatternGraph EmbeddingGraph { get; }
@@ -180,11 +186,6 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of GrGen types corresponding to rule parameters.
         /// </summary>
         GrGenType[] Inputs { get; }
-
-        /// <summary>
-        /// An array of the names corresponding to rule parameters;
-        /// </summary>
-        String[] InputNames { get; }
     }
 
     /// <summary>

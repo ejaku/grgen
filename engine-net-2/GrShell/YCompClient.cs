@@ -186,24 +186,6 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
 
-            public bool Ready
-            {
-                get
-                {
-                    try
-                    {
-                        return stream.DataAvailable;
-                    }
-                    catch(Exception)
-                    {
-                        stream = null;
-                        ConnectionLostHandler handler = OnConnectionLost;
-                        if(handler != null) handler();
-                        return false;
-                    }
-                }
-            }
-
             public bool IsStreamOpen { get { return stream != null; } }
             public bool Closing { get { return closing; } set { closing = value; } }
         }
@@ -236,7 +218,6 @@ namespace de.unika.ipd.grGen.grShell
                 throw new Exception("Connection timeout!");
 
             ycompStream = new YCompStream(ycompClient);
-            ycompStream.Write("identifyClient \"" + GrShellImpl.VersionString + "\"\n");
 
             SetLayout(layoutModule);
 
@@ -265,14 +246,6 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public YCompClient(IGraph graph, String layoutModule, int connectionTimeout, int port)
             : this(graph, layoutModule, connectionTimeout, port, new DumpInfo(graph.GetElementName)) { }
-
-
-        public bool CommandAvailable { get { return ycompStream.Ready; } }
-
-        public String ReadCommand()
-        {
-            return ycompStream.Read();
-        }
 
         String GetNodeRealizer(GrColor nodeColor, GrColor borderColor, GrColor textColor, GrNodeShape shape)
         {

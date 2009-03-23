@@ -50,8 +50,6 @@ namespace de.unika.ipd.grGen.grShell
         Dictionary<INode, bool> retypedNodes = new Dictionary<INode, bool>();
         Dictionary<IEdge, bool> retypedEdges = new Dictionary<IEdge, bool>();
 
-        public YCompClient YCompClient { get { return ycompClient; } }
-
         public Debugger(GrShellImpl grShellImpl) : this(grShellImpl, "Orthogonal", null) {}
         public Debugger(GrShellImpl grShellImpl, String debugLayout) : this(grShellImpl, debugLayout, null) {}
 

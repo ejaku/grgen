@@ -73,8 +73,6 @@ namespace de.unika.ipd.grGen.grShell
 
     class GrShellImpl
     {
-        public static readonly String VersionString = "GrShell v2.1";
-
         IBackend curGraphBackend = new LGSPBackend();
         String backendFilename = null;
         String[] backendParameters = null;
@@ -95,7 +93,7 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
 
-        IWorkaround workaround = WorkaroundManager.Workaround;
+        IWorkaround workaround = WorkaroundManager.GetWorkaround();
         public LinkedList<GrShellTokenManager> TokenSourceStack = new LinkedList<GrShellTokenManager>();
 
         public GrShellImpl()
@@ -109,7 +107,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public static void PrintVersion()
         {
-            Console.WriteLine(VersionString + " ($Revision$)");
+            Console.WriteLine("GrShell version v2.1 ($Revision$)");
         }
 
         private bool BackendExists()
@@ -1815,10 +1813,10 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine(" - " + i++ + ". match:");
                 int j = 0;
                 foreach(INode node in match.Nodes)
-                    Console.WriteLine("   " + patternGraph.Nodes[j++].UnprefixedName + ": " + curShellGraph.Graph.GetElementName(node));
+                    Console.WriteLine("   " + patternGraph.Nodes[j++].Name + ": " + curShellGraph.Graph.GetElementName(node));
                 j = 0;
                 foreach(IEdge edge in match.Edges)
-                    Console.WriteLine("   " + patternGraph.Edges[j++].UnprefixedName + ": " + curShellGraph.Graph.GetElementName(edge));
+                    Console.WriteLine("   " + patternGraph.Edges[j++].Name + ": " + curShellGraph.Graph.GetElementName(edge));
             }
         }
 
@@ -1850,6 +1848,7 @@ namespace de.unika.ipd.grGen.grShell
                 Dictionary<String, String> optMap;
                 debugLayoutOptions.TryGetValue(debugLayout, out optMap);
                 debugger = new Debugger(this, debugLayout, optMap);
+
                 pendingDebugEnable = false;
             }
             else
@@ -1870,105 +1869,6 @@ namespace de.unika.ipd.grGen.grShell
                 debugger.Close();
                 debugger = null;
             }
-        }
-
-        bool ApplyRule(RuleObject ruleObject)
-        {
-            IRulePattern pattern = ruleObject.Action.RulePattern;
-
-            for(int i = 0; i < ruleObject.ParamVars.Length; i++)
-            {
-                String param = ruleObject.ParamVars[i];
-                if(param == "?")
-                {
-                    GrGenType paramType = pattern.Inputs[i];
-                    if(paramType is VarType)
-                    {
-                        Console.WriteLine("Values not supported as placeholder inputs.");
-                        return false;
-                    }
-
-                    // skip prefixes ("<rulename>_<kind>_" with <kind> in {"node", "edge"}
-                    String name = pattern.InputNames[i].Substring(ruleObject.RuleName.Length + 6);
-                    while(true)
-                    {
-                        Console.Write("Please select the " + (paramType.IsNodeType ? "node" : "edge")
-                            + " parameter " + name + ":" + paramType.Name + " in yComp (right click): ");
-
-                        // Allow to aborting with ESC
-                        while(true)
-                        {
-                            if(Console.KeyAvailable && workaround.ReadKey(true).Key == ConsoleKey.Escape)
-                            {
-                                Console.WriteLine("... aborted");
-                                return false;
-                            }
-                            if(debugger.YCompClient.CommandAvailable)
-                                break;
-                            Thread.Sleep(100);
-                        }
-
-                        String cmd = debugger.YCompClient.ReadCommand();
-                        if(cmd.Length < 7 || !cmd.StartsWith("send "))
-                        {
-                            Console.WriteLine("Unexpected yComp command: \"" + cmd + "\"");
-                            continue;
-                        }
-
-                        // Skip 'n' or 'e'
-                        String id = cmd.Substring(6);
-                        Console.WriteLine("@(\"" + id + "\")");
-
-                        IGraphElement elem = curShellGraph.Graph.GetGraphElement(id);
-                        if(elem == null)
-                        {
-                            Console.WriteLine("Graph element does not exist (anymore?).");
-                            continue;
-                        }
-                        if(!elem.Type.IsA(paramType))
-                        {
-                            Console.WriteLine(elem.Type.Name + " is not compatible with " + paramType.Name);
-                            continue;
-                        }
-                        ruleObject.Parameters[i] = elem;
-                        ruleObject.ParamVars[i] = null;
-                        break;
-                    }
-                }
-            }
-
-            curShellGraph.Graph.ApplyRewrite(ruleObject, 0, 1, false, false);
-            return true;
-        }
-
-        public bool DebugApply(RuleObject ruleObject)
-        {
-            bool debugModeActivated;
-
-            if(!ActionsExists()) return false;
-
-            if(!InDebugMode)
-            {
-                SetDebugMode(true);
-                debugModeActivated = true;
-            }
-            else debugModeActivated = false;
-
-            bool noerror = ApplyRule(ruleObject);
-
-            if(debugModeActivated && InDebugMode)   // enabled debug mode here and didn't loose connection?
-            {
-                Console.Write("Do you want to leave debug mode (y/n)? ");
-
-                char key;
-                while((key = workaround.ReadKey(true).KeyChar) != 'y' && key != 'n') ;
-                Console.WriteLine(key);
-
-                if(key == 'y')
-                    SetDebugMode(false);
-            }
-
-            return noerror;
         }
 
         public void DebugRewriteSequence(Sequence seq)

@@ -195,30 +195,21 @@ namespace de.unika.ipd.grGen.grShell
 
     public class WorkaroundManager
     {
-        private static IWorkaround workaround;
-
         /// <summary>
-        /// An appropriate IWorkaround instance for the used CLR and operating system.
+        /// Returns an appropriate IWorkaround instance for the used CLR and operating system.
         /// </summary>
-        public static IWorkaround Workaround
+        public static IWorkaround GetWorkaround()
         {
-            get
+            Type t = Type.GetType("System.Int32");
+            if(t.GetType().ToString() == "System.MonoType")
             {
-                if(workaround == null)
-                {
-                    Type t = Type.GetType("System.Int32");
-                    if(t.GetType().ToString() == "System.MonoType")
-                    {
-                        if(Environment.OSVersion.Platform == PlatformID.Unix)
-                            workaround = new MonoLinuxWorkaroundConsoleIO();
-                        else
-                            workaround = new MonoWindowsWorkaroundConsoleIO();
-                    }
-                    else
-                        workaround = new NoWorkaroundConsoleIO();
-                }
-                return workaround;
+                if(Environment.OSVersion.Platform == PlatformID.Unix)
+                    return new MonoLinuxWorkaroundConsoleIO();
+                else
+                    return new MonoWindowsWorkaroundConsoleIO();
             }
+            else
+                return new NoWorkaroundConsoleIO();
         }
     }
 }
