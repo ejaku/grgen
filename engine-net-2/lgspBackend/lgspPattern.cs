@@ -40,11 +40,6 @@ namespace de.unika.ipd.grGen.lgsp
         public int TypeID;
 
         /// <summary>
-        /// The name of the type interface of the pattern element.
-        /// </summary>
-        public String typeName;
-
-        /// <summary>
         /// The name of the pattern element.
         /// </summary>
         public String name;
@@ -83,7 +78,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new PatternElement object.
         /// </summary>
         /// <param name="typeID">The type ID of the pattern element.</param>
-        /// <param name="typeName">The name of the type interface of the pattern element.</param>
         /// <param name="name">The name of the pattern element.</param>
         /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
         /// <param name="allowedTypes">An array of allowed types for this pattern element.
@@ -94,13 +88,11 @@ namespace de.unika.ipd.grGen.lgsp
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="cost">Default cost/priority from frontend, user priority if given.</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds.</param>
-        public PatternElement(int typeID, String typeName, 
-            String name, String unprefixedName, 
+        public PatternElement(int typeID, String name, String unprefixedName, 
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex)
         {
             this.TypeID = typeID;
-            this.typeName = typeName;
             this.name = name;
             this.unprefixedName = unprefixedName;
             this.AllowedTypes = allowedTypes;
@@ -133,7 +125,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a new PatternNode object
         /// </summary>
         /// <param name="typeID">The type ID of the pattern node</param>
-        /// <param name="typeName">The name of the type interface of the pattern element.</param>
         /// <param name="name">The name of the pattern node</param>
         /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
         /// <param name="allowedTypes">An array of allowed types for this pattern element.
@@ -144,11 +135,10 @@ namespace de.unika.ipd.grGen.lgsp
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
-        public PatternNode(int typeID, String typeName,
-            String name, String unprefixedName,
+        public PatternNode(int typeID, String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex)
-            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
+            : base(typeID, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
         {
         }
 
@@ -177,7 +167,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="fixedDirection">Whether this pattern edge should be matched with a fixed direction or not.</param>
         /// <param name="typeID">The type ID of the pattern edge.</param>
-        /// <param name="typeName">The name of the type interface of the pattern element.</param>
         /// <param name="name">The name of the pattern edge.</param>
         /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
         /// <param name="allowedTypes">An array of allowed types for this pattern element.
@@ -189,11 +178,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
         public PatternEdge(bool fixedDirection,
-            int typeID, String typeName, 
-            String name, String unprefixedName,
+            int typeID, String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType,
             float cost, int parameterIndex)
-            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
+            : base(typeID, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
         {
             this.fixedDirection = fixedDirection;
         }
@@ -306,8 +294,7 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// Representation of the pattern to search for, 
-    /// containing nested alternative, negative, and independent-patterns, 
-    /// plus references to the rules of the used subpatterns.
+    /// containing nested alternative and negative-patterns, plus references to the rules of the used subpatterns.
     /// Accessible via IPatternGraph as meta information to the user about the matching action.
     /// Skeleton data structure for the matcher generation pipeline which stores intermediate results here, 
     /// which saves us from representing the nesting structure again and again in the pipeline's data structures
@@ -389,12 +376,6 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternGraph[] NegativePatternGraphs { get { return negativePatternGraphs; } }
 
         /// <summary>
-        /// An array of independent pattern graphs which must get matched in addition to the main pattern
-        /// (PACs - Positive Application Conditions).
-        /// </summary>
-        public IPatternGraph[] IndependentPatternGraphs { get { return independentPatternGraphs; } }
-
-        /// <summary>
         /// The pattern graph which contains this pattern graph, null if this is a top-level-graph
         /// </summary>
         public IPatternGraph EmbeddingGraph { get { return embeddingGraph; } }
@@ -412,7 +393,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// NIY
         /// </summary>
-        public bool isPatternpathLocked;
+        public bool isIndependent;
 
         /// <summary>
         /// An array of all pattern nodes.
@@ -516,12 +497,6 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph[] negativePatternGraphs;
 
         /// <summary>
-        /// An array of independent pattern graphs which must get matched in addition to the main pattern
-        /// (PACs - Positive Application Conditions).
-        /// </summary>
-        public PatternGraph[] independentPatternGraphs;
-
-        /// <summary>
         /// The pattern graph which contains this pattern graph, null if this is a top-level-graph 
         /// </summary>
         public PatternGraph embeddingGraph;
@@ -532,11 +507,21 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternCondition[] Conditions;
 
         /// <summary>
+        /// A schedule for this pattern graph without any sub pattern graphs.
+        /// </summary>
+        public ScheduledSearchPlan Schedule;
+
+        /// <summary>
+        /// A schedule for this pattern graph including negatives (and subpatterns?).   TODO
+        /// </summary>
+        public ScheduledSearchPlan ScheduleIncludingNegatives;
+
+        /// <summary>
         /// Constructs a PatternGraph object.
         /// </summary>
         /// <param name="name">The name of the pattern graph.</param>
         /// <param name="pathPrefix">Prefix for name from nesting path.</param>
-        /// <param name="isPatternpathLocked">NIY</param>
+        /// <param name="isIndependent">NIY</param>
         /// <param name="nodes">An array of all pattern nodes.</param>
         /// <param name="edges">An array of all pattern edges.</param>
         /// <param name="variables">An array of all pattern variables.</param>
@@ -557,79 +542,28 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="homomorphicEdgesGlobal">A two-dimensional array describing which pattern edge
         /// may be matched non-isomorphic to which pattern edge globally, i.e. the edges are contained
         /// in different, but locally nested patterns (alternative cases).</param>
-        public PatternGraph(String name, String pathPrefix, bool isPatternpathLocked,
+        public PatternGraph(String name, String pathPrefix, bool isIndependent,
             PatternNode[] nodes, PatternEdge[] edges, PatternVariable[] variables,
             PatternGraphEmbedding[] embeddedGraphs, Alternative[] alternatives, 
-            PatternGraph[] negativePatternGraphs, PatternGraph[] independentPatternGraphs,
-            PatternCondition[] conditions,
+            PatternGraph[] negativePatternGraphs, PatternCondition[] conditions,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
             bool[,] homomorphicNodesGlobal, bool[,] homomorphicEdgesGlobal)
         {
             this.name = name;
             this.pathPrefix = pathPrefix;
-            this.isPatternpathLocked = isPatternpathLocked;
+            this.isIndependent = isIndependent;
             this.nodes = nodes;
             this.edges = edges;
             this.variables = variables;
             this.embeddedGraphs = embeddedGraphs;
             this.alternatives = alternatives;
             this.negativePatternGraphs = negativePatternGraphs;
-            this.independentPatternGraphs = independentPatternGraphs;
             this.Conditions = conditions;
             this.homomorphicNodes = homomorphicNodes;
             this.homomorphicEdges = homomorphicEdges;
             this.homomorphicNodesGlobal = homomorphicNodesGlobal;
             this.homomorphicEdgesGlobal = homomorphicEdgesGlobal;
         }
-
-
-        // -------- intermdiate results of matcher generation ----------------------------------
-
-        /// <summary>
-        /// A schedule for this pattern graph without any nested pattern graphs.
-        /// </summary>
-        public ScheduledSearchPlan schedule;
-
-        /// <summary>
-        /// A schedule for this pattern graph including negatives and independents (and subpatterns?).   TODO
-        /// </summary>
-        public ScheduledSearchPlan scheduleIncludingNegativesAndIndependents;
-
-        //////////////////////////////////////////////////////////////////////////////////////////////
-        // if you get a null pointer access on one of these members,
-        // it might be because you didn't run a PatternGraphAnalyzer before the LGSPMatcherGenerator
-
-        /// <summary>
-        /// The path prefixes and names of the independents nested within this pattern graph
-        /// only in top-level-patterns and alternatives, only independents not nested within negatives 
-        /// </summary>
-        public List<Pair<String,String>> pathPrefixesAndNamesOfNestedIndependents;
-
-        /// <summary>
-        /// The nodes from the enclosing graph(s) used in this graph or one of it's subgraphs.
-        /// Set of names, with dummy bool due to lacking set class in c#
-        /// </summary>
-        public Dictionary<String, bool> neededNodes;
-
-        /// <summary>
-        /// The edges from the enclosing graph(s) used in this graph or one of it's subgraphs.
-        /// Set of names, with dummy bool due to lacking set class in c#
-        /// </summary>
-        public Dictionary<String, bool> neededEdges;
-
-        /// <summary>
-        /// The subpatterns used by this pattern (directly as well as indirectly),
-        /// only filled/valid if this is a top level pattern graph of a rule or subpattern.
-        /// Set of matching patterns, with dummy null matching pattern due to lacking set class in c#
-        /// </summary>
-        public Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpatterns;
-
-        /// <summary>
-        /// The names of the pattern graphs which are on a path to some 
-        /// enclosed subpattern usage/alternative or negative/independent with patternpath modifier.
-        /// Needed for patternpath processing setup.
-        /// </summary>
-        public List<String> patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath;
     }
 
     /// <summary>
@@ -747,6 +681,11 @@ namespace de.unika.ipd.grGen.lgsp
         public GrGenType[] Inputs { get { return inputs; } }
 
         /// <summary>
+        /// An array of the names corresponding to rule parameters;
+        /// </summary>
+        public String[] InputNames { get { return inputNames; } }
+
+        /// <summary>
         /// The main pattern graph.
         /// </summary>
         public PatternGraph patternGraph;
@@ -765,6 +704,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// Our name
         /// </summary>
         public string name;
+
+        /// <summary>
+        /// Initializes this matching pattern.
+        /// </summary>
+        public abstract void initialize();
     }
 
     /// <summary>
@@ -786,7 +730,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>An array of objects returned by the rule</returns>
         public object[] Modify(IGraph graph, IMatch match)
         {
-            return Modify((LGSPGraph)graph, match);
+            return Modify((LGSPGraph)graph, (LGSPMatch)match);
         }
 
         /// <summary>
@@ -796,7 +740,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">The host graph for this modification.</param>
         /// <param name="match">The match which is used for this rewrite.</param>
         /// <returns>An array of objects returned by the rule</returns>
-        public abstract object[] Modify(LGSPGraph graph, IMatch match);
+        public abstract object[] Modify(LGSPGraph graph, LGSPMatch match);
 
         /// <summary>
         /// Performs the rule specific modifications to the given graph with the given match (rewrite part).
@@ -806,7 +750,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">The host graph for this modification.</param>
         /// <param name="match">The match which is used for this rewrite.</param>
         /// <returns>An array of objects returned by the rule</returns>
-        public abstract object[] ModifyNoReuse(LGSPGraph graph, IMatch match);
+        public abstract object[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match);
 
 
         /// <summary>
@@ -818,26 +762,5 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
         public GrGenType[] outputs;
-    }
-
-    /// <summary>
-    /// Class which instantiates and stores all the rule and subpattern representations ready for iteration
-    /// </summary>
-    public abstract class LGSPRuleAndMatchingPatterns
-    {
-        /// <summary>
-        /// All the rule representations generated
-        /// </summary>
-        public abstract LGSPRulePattern[] Rules { get; }
-
-        /// <summary>
-        /// All the subrule representations generated
-        /// </summary>
-        public abstract LGSPMatchingPattern[] Subpatterns { get; }
-
-        /// <summary>
-        /// All the rule and subrule representations generated
-        /// </summary>
-        public abstract LGSPMatchingPattern[] RulesAndSubpatterns { get; }
     }
 }

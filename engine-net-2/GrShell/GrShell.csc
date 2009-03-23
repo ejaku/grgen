@@ -93,7 +93,7 @@ PARSER_BEGIN(GrShell)
                 return;
             }
             
-            IWorkaround workaround = WorkaroundManager.GetWorkaround();
+            IWorkaround workaround = WorkaroundManager.Workaround;
             TextReader reader;
             bool showPrompt;
             bool readFromConsole;
@@ -226,6 +226,7 @@ TOKEN: {
     < ACTIONS: "actions" >
 |   < ADD: "add" >
 |   < ALLOCVISITFLAG: "allocvisitflag" >
+|   < APPLY: "apply" >
 |   < ATTRIBUTES: "attributes" >
 |   < BACKEND: "backend" >
 |   < BORDERCOLOR: "bordercolor" >
@@ -1240,8 +1241,18 @@ void DebugCommand():
 {
     Sequence seq;
     String str = null, str2;
+    RuleObject ruleObject;
 }
 {
+	"apply" ruleObject=Rule() LineEnd()
+	{
+		if(ruleObject != null)
+		{
+			noError = impl.DebugApply(ruleObject);
+		}
+		else noError = false;
+	}
+|
 	"grs" { valid = true; } seq=OldRewriteSequence() LineEnd()
 	{
 		if(valid)
@@ -1479,7 +1490,7 @@ RuleObject Rule():
 	ArrayList returnVars = new ArrayList();
 }
 {
-	("(" Parameters(returnVars) ")" "=" { retSpecified = true; })? str=Text() ("(" Parameters(paramVars) ")")?
+	("(" Parameters(returnVars) ")" "=" { retSpecified = true; })? str=Text() ("(" RuleParameters(paramVars) ")")?
 	{
 		action = impl.GetAction(str, paramVars.Count, returnVars.Count, retSpecified);
 		if(action == null)
@@ -1495,6 +1506,27 @@ RuleObject Rule():
 				new object[paramVars.Count], (String[]) returnVars.ToArray(typeof(String)));
 	}
 }
+
+void RuleParameters(ArrayList parameters):
+{
+	String str;
+}
+{
+	(
+		str=Text() { parameters.Add(str); }
+	|
+		"?" { parameters.Add("?"); }
+	)
+	(
+		","
+		(
+			str=Text() { parameters.Add(str); }
+		|
+			"?" { parameters.Add("?"); }
+		)
+	)*
+}
+
 
 /////////////////////
 // "dump" commands //
