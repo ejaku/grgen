@@ -43,3 +43,18 @@ rule AandBtoC {
 	replace {
 	}
 }
+
+rule noCreationOfOuterElements {
+	n:Node;
+	alternative {
+		case {
+			
+			replace {
+				n --> m:Node;
+			}
+		}
+	}
+	
+	replace { n; }
+}
+

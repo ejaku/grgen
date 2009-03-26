@@ -12,7 +12,7 @@ namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// An attributed, typed and directed multigraph with multiple inheritance on node and edge types
-    /// and uniquely named elements.
+    /// and uniquely named elements. This class is a wrapper for an unnamed graph adding names.
     /// </summary>
     public class NamedGraph : IGraph
     {

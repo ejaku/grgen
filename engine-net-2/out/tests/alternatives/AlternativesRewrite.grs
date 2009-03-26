@@ -16,4 +16,10 @@ xgrs AandBtoC
 xgrs [?testB]
 xgrs [?testC]
 
+clear graph
+
+new :Node
+xgrs noCreationOfOuterElements
+show num nodes
+
 quit

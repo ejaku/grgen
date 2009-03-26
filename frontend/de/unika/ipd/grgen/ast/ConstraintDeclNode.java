@@ -21,17 +21,20 @@ public abstract class ConstraintDeclNode extends DeclNode
 	int context; // context of declaration, contains CONTEXT_LHS if declaration is located on left hand side,
 				 // or CONTEXT_RHS if declaration is located on right hand side
 
+	PatternGraphNode directlyNestingLHSGraph;
+	
 	/** The retyped version of this element if any. */
 	ConstraintDeclNode retypedElem = null;
 
 	boolean maybeDeleted = false;
 	boolean maybeRetyped = false;
 
-	ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints) {
+	ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints, PatternGraphNode directlyNestingLHSGraph) {
 		super(id, type);
 		this.constraints = constraints;
 		becomeParent(this.constraints);
 		this.context = context;
+		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
 
 	protected boolean checkLocal() {

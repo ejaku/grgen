@@ -31,9 +31,11 @@ public class EmitNode extends BaseNode {
 	}
 
 	private Vector<ExprNode> childrenUnresolved = new Vector<ExprNode>();
+	private boolean isPre;
 
-	public EmitNode(Coords coords) {
+	public EmitNode(Coords coords, boolean isPre) {
 		super(coords);
+		this.isPre = isPre;
 	}
 
 	public void addChild(ExprNode n) {
@@ -53,7 +55,7 @@ public class EmitNode extends BaseNode {
 		// nameless children
 		return childrenNames;
 	}
-
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		return true;
@@ -75,7 +77,7 @@ public class EmitNode extends BaseNode {
 		List<Expression> arguments = new ArrayList<Expression>();
 		for(BaseNode child : getChildren())
 			arguments.add(child.checkIR(Expression.class));
-		Emit res= new Emit(arguments);
+		Emit res= new Emit(arguments, isPre);
 		return res;
 	}
 }

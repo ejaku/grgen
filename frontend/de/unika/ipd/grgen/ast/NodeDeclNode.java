@@ -42,8 +42,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	 * @param id The identifier of the node.
 	 * @param type The type of the node.
 	 */
-	public NodeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constr) {
-		super(id, type, context, constr);
+	public NodeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constr, PatternGraphNode directlyNestingLHSGraph) {
+		super(id, type, context, constr, directlyNestingLHSGraph);
 	}
 
 	/** The TYPE child could be a node in case the type is
@@ -130,8 +130,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	 * Yields a dummy <code>NodeDeclNode</code> needed as
 	 * dummy tgt or src node for dangling edges.
 	 */
-	public static NodeDeclNode getDummy(IdentNode id, BaseNode type, int context) {
-		return new DummyNodeDeclNode(id, type, context);
+	public static NodeDeclNode getDummy(IdentNode id, BaseNode type, int context, PatternGraphNode directlyNestingLHSGraph) {
+		return new DummyNodeDeclNode(id, type, context, directlyNestingLHSGraph);
 	}
 
 	public boolean isDummy() {
@@ -161,7 +161,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 
-		Node res = new Node(ident.getIdent(), nt, ident.getAnnotations(), isMaybeDeleted(), isMaybeRetyped());
+		Node res = new Node(ident.getIdent(), nt, ident.getAnnotations(),
+				directlyNestingLHSGraph.getGraph(), isMaybeDeleted(), isMaybeRetyped());
 		res.setConstraints(getConstraints());
 
 		if( res.getConstraints().contains(res.getType()) ) {

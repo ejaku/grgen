@@ -747,6 +747,11 @@ namespace de.unika.ipd.grGen.lgsp
         public GrGenType[] Inputs { get { return inputs; } }
 
         /// <summary>
+        /// An array of the names corresponding to rule parameters;
+        /// </summary>
+        public String[] InputNames { get { return inputNames; } }
+
+        /// <summary>
         /// The main pattern graph.
         /// </summary>
         public PatternGraph patternGraph;

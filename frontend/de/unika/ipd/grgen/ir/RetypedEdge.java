@@ -17,8 +17,9 @@ public class RetypedEdge extends Edge implements Retyped {
 	/**  The original edge */
 	protected Edge oldEdge = null;
 
-	public RetypedEdge(Ident ident, EdgeType type, Annotations annots, boolean maybeDeleted, boolean maybeRetyped) {
-		super(ident, type, annots, maybeDeleted, maybeRetyped);
+	public RetypedEdge(Ident ident, EdgeType type, Annotations annots,
+			boolean maybeDeleted, boolean maybeRetyped) {
+		super(ident, type, annots, null, maybeDeleted, maybeRetyped);
 	}
 
 	public Entity getOldEntity() {

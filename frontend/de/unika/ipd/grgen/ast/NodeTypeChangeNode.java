@@ -32,8 +32,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	BaseNode oldUnresolved;
 	NodeDeclNode old = null;
 
-	public NodeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid) {
-		super(id, newType, context, TypeExprNode.getEmpty());
+	public NodeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid, PatternGraphNode directlyNestingLHSGraph) {
+		super(id, newType, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.oldUnresolved = oldid;
 		becomeParent(this.oldUnresolved);
 	}
@@ -149,9 +149,10 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAnnotations(),
 				isMaybeDeleted(), isMaybeRetyped());
 
-		Node node = old.getNode();
-		node.setRetypedNode(res);
-		res.setOldNode(node);
+		Node oldNode = old.getNode();
+		oldNode.setRetypedNode(res);
+		res.setOldNode(oldNode);
+		res.directlyNestingLHSGraph = oldNode.directlyNestingLHSGraph;
 
 		if (inheritsType()) {
 			res.setTypeof(typeNodeDecl.checkIR(Node.class));

@@ -1,4 +1,8 @@
-﻿v2.1.1 (2009-02-06)
+﻿v2.1.2 (2009-02-16)
+ Fixes:
+  - don't create elements declared outside alternative if only appearing in modify/replace part
+
+v2.1.1 (2009-02-06)
  Features/API changes/Fixes/Examples:
   - Added icons for GrGen, GrShell
   - Added conference scheduling/grabats2008 live contest solution to examples

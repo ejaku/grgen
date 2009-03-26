@@ -1,0 +1,327 @@
+// dumps java program graph into pseudo code 
+// by matching spanning tree in program graph and emitting from it
+
+rule emitSpanningTree
+{	
+	modify {
+		emit("// java program ", nameof(), "\n");
+		exec(rootPackage*);
+	}
+}
+
+rule rootPackage
+{
+	p:Package;
+
+	if { !visited(p, 0); }
+
+	negative {
+		<-:belongsTo- p; 
+	}
+
+	mpc:MultipleContainedPackagesOrClasses(p);
+	
+	modify {
+		eval {
+			visited(p, 0) = true;
+		}
+		
+		emitpre("package ", p.name, "\n{\n");
+		mpc();
+		emitpost("}\n");
+	}
+}
+
+pattern MultipleContainedPackagesOrClasses(p:Package)
+{
+	alternative
+	{
+		OneAndAgain {
+			pc:ContainedPackageOrClass(p);
+			mpc:MultipleContainedPackagesOrClasses(p);
+			
+			modify {
+				pc();
+				mpc();
+			}
+		}
+		NoPackageOrClassLeft {
+			negative {
+				p <-:belongsTo-;
+			}
+			
+			modify {}
+		}
+	}
+	
+	modify {}
+}
+
+pattern ContainedPackageOrClass(p:Package)
+{
+	alternative 
+	{
+		Package {
+			p <-:belongsTo- sub:Package;
+			mpc:MultipleContainedPackagesOrClasses(sub);	
+			
+			modify {
+				emitpre("package ", sub.name, "\n{\n");
+				mpc();
+				emitpost("}\n");
+			}
+		}
+		Class {
+			p <-:belongsTo- c:Class;
+			mm:MultipleMethodBodies(c);
+			mv:MultipleVariables(c);
+			
+			modify {
+				emitpre("class ", c.name, " {\n");
+				mm();
+				mv();
+				emitpost("}\n");
+			}
+		}
+	}
+	
+	modify {}
+}
+
+pattern MultipleVariables(c:Class)
+{
+	alternative 
+	{
+		OneAndAgain {
+			c <-:belongsTo- v:Variable;
+			mv:MultipleVariables(c);
+
+			modify {
+				emitpre("var ", v.name, ";\n");
+				mv();
+			}			
+		}
+		NoVariableLeft {
+			negative {
+				c <-:belongsTo- :Variable;
+			}
+			
+			modify {}
+		}
+	}
+	
+	modify {}
+}
+
+pattern MultipleMethodBodies(c:Class)
+{
+	alternative 
+	{
+		OneAndAgain {
+			bi:MethodBodyAndImplementation(c);
+			mb:MultipleMethodBodies(c);
+
+			modify {
+				bi();
+				mb();
+			}
+		}
+		NoMethodBodyLeft {
+			negative {
+				c <-:belongsTo- mb:MethodBody;
+			}
+			
+			modify {}
+		}
+	}
+	
+	modify {}
+}
+
+pattern MethodBodyAndImplementation(c:Class)
+{
+	c <-:belongsTo- mb:MethodBody;
+	
+	alternative {
+		BoundOperation {
+			mb <-:binding- op:Operation;
+			:MultipleParameters(op);
+			
+			modify { 
+				// maybe emit parameters
+			}
+		}
+		Empty {
+			// operation can get matched only once, and it might happen that it was already matched
+			
+			modify {}
+		}
+	}
+	
+	alternative {
+		Implemented {
+			mb <-:belongsTo- b:Block;
+			me:MultipleExpressions(b);
+			
+			modify {
+				emitpre(" {");
+				me();
+				emitpost("}");
+			}
+		}
+		Unimplemented {
+			negative {
+				mb <-:belongsTo- b:Block;
+			}
+			
+			modify {}
+		}
+	}
+	
+	modify {
+		emitpre("method body");
+		emitpost(";\n");
+	}
+}
+
+pattern MultipleParameters(op:Operation)
+{
+	alternative 
+	{
+		OneAndAgain {
+			op -:parameter-> :Parameter;
+			:MultipleParameters(op);
+			
+			modify {}
+		}
+		NoParameterLeft {
+			negative {
+				op -:parameter->;
+			}
+			
+			modify {}
+		}
+	}
+	
+	modify {}
+}
+
+pattern MultipleExpressions(b:Block)
+{
+	alternative {
+		NoExpressionLeft {
+			negative {
+				b -:expression_-> :Expression;
+			}
+			
+			modify {}
+		}
+		OneAndAgain {
+			ec:ExpressionChain(b);	
+			me:MultipleExpressions(b);
+
+			modify {
+				ec();
+				me();
+			}			
+		}
+	}
+	
+	modify {}
+}
+
+pattern ExpressionChain(e:Expression)
+{
+	alternative {
+		ExprAndAgain {
+			e -:expression_-> next:Expression\Call;
+			ec:ExpressionChain(next);	
+			
+			modify {
+				emitpre("exp--");
+				ec();
+			}
+		}
+		CallAndAgain {
+			e -:expression_-> call:Call;
+			ec:ExpressionChain(call);
+			:MultipleActualParameters(call);
+			
+			modify {
+				emitpre("exp--");
+				ec();
+			}
+		}
+		End {
+			negative {
+				e -:expression_->;
+			}
+			
+			modify {
+				emit("exp");
+			}
+		}
+	}
+	
+	modify {}
+}
+
+pattern MultipleActualParameters(c:Call)
+{
+	alternative {
+		ExprAndAgain {
+			c -:actualParameter-> next:Expression\Call;
+			:ExpressionChain(next);	
+			:MultipleActualParameters(c);
+			
+			modify {}
+		}
+		CallAndAgain {
+			c -:actualParameter-> call:Call;
+			:ExpressionChain(call);
+			:MultipleActualParameters(call);
+			:MultipleActualParameters(c);
+			
+			modify {}
+		}
+		NoParameterLeft {
+			negative {
+				c -:actualParameter->;
+			}
+			
+			modify {}
+		}
+	}
+	
+	modify {}
+}
+
+pattern MultipleExtendingClasses(c:Class)
+{
+	alternative
+	{
+		OneAndAgain {
+			:ExtendingClass(c);
+			:MultipleExtendingClasses(c);
+			
+			modify {}
+		}
+		NoClassLeft {
+			negative {
+				c <-:extends_-;
+			}
+			
+			modify {}
+		}
+	}
+	
+	modify {}
+}
+
+pattern ExtendingClass(c:Class)
+{
+	c <-:extends_- sub:Class;
+	:MultipleExtendingClasses(sub);
+	
+	modify {}
+}

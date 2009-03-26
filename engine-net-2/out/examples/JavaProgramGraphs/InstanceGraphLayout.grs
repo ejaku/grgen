@@ -1,0 +1,31 @@
+#layout for instance graph of RefactoringCase "the scruffy challenge" of Grabats
+
+debug set layout Compilergraph
+debug set layout option NODE_PLACEMENT TREE
+debug set layout option ORIENTATION BOTTOM_TO_TOP
+dump set node Package color lightgrey
+dump set node Package textcolor white
+dump set node Class color yellow
+dump set node Class textcolor white
+dump set node Literal color gold
+dump set node MethodBody color orchid
+dump set node MethodBody textcolor white
+dump set node Operation color pink
+dump set node Operation textcolor white
+dump set node Block color darkmagenta
+dump set node Block textcolor white
+dump set node Variable color cyan
+dump set node Parameter color lightcyan
+dump set node Access color lightgreen
+dump set node Operator color green
+dump set node Call color green
+dump set node Update color darkgreen
+dump add node Package group by hidden incoming belongsTo
+dump add node Class group by hidden incoming belongsTo
+dump add node Class group by hidden incoming inClass
+dump add node Operation group by hidden outgoing parameter
+#dump add node Operation group by hidden outgoing binding
+dump add node MethodBody group by hidden incoming belongsTo
+dump add node Block group by hidden incoming inBlock
+
+debug set layout option CREATE_LOOP_TREE false #workaround for problems with loop analysis in yFiles-layouter

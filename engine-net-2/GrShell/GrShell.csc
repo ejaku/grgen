@@ -93,7 +93,7 @@ PARSER_BEGIN(GrShell)
                 return;
             }
             
-            IWorkaround workaround = WorkaroundManager.GetWorkaround();
+            IWorkaround workaround = WorkaroundManager.Workaround;
             TextReader reader;
             bool showPrompt;
             bool readFromConsole;
@@ -226,6 +226,7 @@ TOKEN: {
     < ACTIONS: "actions" >
 |   < ADD: "add" >
 |   < ALLOCVISITFLAG: "allocvisitflag" >
+|   < APPLY: "apply" >
 |   < ATTRIBUTES: "attributes" >
 |   < BACKEND: "backend" >
 |   < BORDERCOLOR: "bordercolor" >
@@ -244,6 +245,7 @@ TOKEN: {
 |   < EMIT: "emit" >
 |   < ENABLE: "enable" >
 |   < EXCLUDE: "exclude" >
+|   < EXPORT: "export" >
 |   < EXIT: "exit" >
 |   < FALSE: "false" >
 |   < FILE: "file" >
@@ -255,6 +257,7 @@ TOKEN: {
 |   < GRS: "grs" >
 |   < HELP: "help" >
 |   < HIDDEN: "hidden" >
+|   < IMPORT: "import" >
 |   < INCLUDE: "include" >
 |   < INFOTAG: "infotag" >
 |   < IO: "io" >
@@ -503,6 +506,25 @@ String Filename():
 	}
 }
 
+String FilenameOptionalAtEndOfLine():
+{
+    Token tok;
+}
+{
+    {token_source.SwitchTo(WithinFilename);}
+    (
+		(tok=<DOUBLEQUOTEDFILENAME> | tok=<SINGLEQUOTEDFILENAME> | tok=<FILENAME>) LineEnd()
+		{
+			return tok.image.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+		}
+	|
+		(tok=<NLINFILENAME> | tok=<EOF>)
+		{
+			return null;
+		}
+	)
+}
+
 String CommandLine():
 {
     Token tok;
@@ -685,7 +707,7 @@ bool ParseShellCommand():
 
 void ShellCommand():
 {
-	String str1, str2, str3;
+	String str1, str2 = null, str3;
 	IGraphElement elem;
 	object obj, obj2;
 	INode node1, node2;
@@ -831,6 +853,16 @@ void ShellCommand():
 	"save" "graph" str1=Filename() LineEnd()
 	{
 		impl.SaveGraph(str1);
+	}
+|
+	"export" str1=Filename() LineEnd()
+	{
+		noError = impl.Export(str1);
+	}
+|
+	"import" str1=Filename() str2=FilenameOptionalAtEndOfLine()
+	{
+		noError = impl.Import(str1, str2);
 	}
 |
 	"echo" str1=Text() LineEnd()
@@ -1240,8 +1272,18 @@ void DebugCommand():
 {
     Sequence seq;
     String str = null, str2;
+    RuleObject ruleObject;
 }
 {
+	"apply" ruleObject=Rule() LineEnd()
+	{
+		if(ruleObject != null)
+		{
+			noError = impl.DebugApply(ruleObject);
+		}
+		else noError = false;
+	}
+|
 	"grs" { valid = true; } seq=OldRewriteSequence() LineEnd()
 	{
 		if(valid)
@@ -1479,7 +1521,7 @@ RuleObject Rule():
 	ArrayList returnVars = new ArrayList();
 }
 {
-	("(" Parameters(returnVars) ")" "=" { retSpecified = true; })? str=Text() ("(" Parameters(paramVars) ")")?
+	("(" Parameters(returnVars) ")" "=" { retSpecified = true; })? str=Text() ("(" RuleParameters(paramVars) ")")?
 	{
 		action = impl.GetAction(str, paramVars.Count, returnVars.Count, retSpecified);
 		if(action == null)
@@ -1495,6 +1537,27 @@ RuleObject Rule():
 				new object[paramVars.Count], (String[]) returnVars.ToArray(typeof(String)));
 	}
 }
+
+void RuleParameters(ArrayList parameters):
+{
+	String str;
+}
+{
+	(
+		str=Text() { parameters.Add(str); }
+	|
+		"?" { parameters.Add("?"); }
+	)
+	(
+		","
+		(
+			str=Text() { parameters.Add(str); }
+		|
+			"?" { parameters.Add("?"); }
+		)
+	)*
+}
+
 
 /////////////////////
 // "dump" commands //

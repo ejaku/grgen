@@ -516,6 +516,8 @@ public class ModifyGen extends CSharpBase {
 		genNewNodes(sb2, task.reuseNodesAndEdges, stateConst, useAddedElementNames, prefix,
 				state.nodesNeededAsElements, state.nodesNeededAsTypes);
 
+		genPreEmits(sb2, stateConst, task);
+		
 		genSubpatternModificationCalls(sb2, task, pathPrefix, state.nodesNeededAsElements);
 
 		genAlternativeModificationCalls(sb2, task, pathPrefix);
@@ -979,7 +981,10 @@ public class ModifyGen extends CSharpBase {
 		int xgrsID = 0;
 		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
 			if(istmt instanceof Emit) {
-				Emit emit =(Emit) istmt;
+				Emit emit = (Emit) istmt;
+				if(emit.isPreEmit()) {
+					continue;
+				}
 				for(Expression arg : emit.getArguments()) {
 					sb.append("\t\t\tgraph.EmitWriter.Write(");
 					genExpression(sb, arg, state);
@@ -1122,6 +1127,21 @@ public class ModifyGen extends CSharpBase {
 		if(typeOfTask==TYPE_OF_TASK_MODIFY || typeOfTask==TYPE_OF_TASK_CREATION) {
 			genAddedGraphElementsArray(sb, pathPrefix, true, state.newNodes());
 			genAddedGraphElementsArray(sb, pathPrefix, false, state.newEdges());
+		}
+	}
+
+	private void genPreEmits(StringBuffer sb, ModifyGenerationStateConst state, ModifyGenerationTask task) {
+		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
+			if(istmt instanceof Emit) {
+				Emit emit = (Emit) istmt;
+				if(emit.isPreEmit()) {
+					for(Expression arg : emit.getArguments()) {
+						sb.append("\t\t\tgraph.EmitWriter.Write(");
+						genExpression(sb, arg, state);
+						sb.append(");\n");
+					}
+				}
+			}
 		}
 	}
 

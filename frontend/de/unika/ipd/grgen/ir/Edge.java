@@ -24,6 +24,9 @@ public class Edge extends GraphEntity {
 	/** Point of definition, that is the pattern graph the edge was defined in*/
 	protected PatternGraph pointOfDefinition;
 
+	// in case of retyped edge thats the pattern graph of the old edge, otherwise of the edge itself
+	public PatternGraph directlyNestingLHSGraph;
+	
 	protected boolean fixedDirection;
 
 	/**
@@ -34,9 +37,11 @@ public class Edge extends GraphEntity {
 	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy.
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
 	 */
-	public Edge(Ident ident, EdgeType type, Annotations annots, boolean maybeDeleted, boolean maybeRetyped) {
+	public Edge(Ident ident, EdgeType type, Annotations annots, 
+			PatternGraph directlyNestingLHSGraph, boolean maybeDeleted, boolean maybeRetyped) {
 		super("edge", ident, type, annots, maybeDeleted, maybeRetyped);
 		this.type = type;
+		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
 
 	/**
@@ -46,8 +51,9 @@ public class Edge extends GraphEntity {
 	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
 	 */
-	public Edge(Ident ident, EdgeType type, boolean maybeDeleted, boolean maybeRetyped) {
-		this(ident, type, EmptyAnnotations.get(), maybeDeleted, maybeRetyped);
+	public Edge(Ident ident, EdgeType type, 
+			PatternGraph directlyNestingLHSGraph, boolean maybeDeleted, boolean maybeRetyped) {
+		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, maybeDeleted, maybeRetyped);
 	}
 
 	/** @return The type of the edge. */

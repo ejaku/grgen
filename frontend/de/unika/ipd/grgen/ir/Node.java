@@ -24,6 +24,9 @@ public class Node extends GraphEntity {
 	/** Point of definition, that is the pattern graph the node was defined in*/
 	protected PatternGraph pointOfDefinition;
 
+	// in case of retyped node thats the pattern graph of the old node, otherwise of the node itself
+	public PatternGraph directlyNestingLHSGraph;
+	
 	/**
 	 * Make a new node.
 	 * @param ident The identifier for the node.
@@ -32,9 +35,11 @@ public class Node extends GraphEntity {
 	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy.
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
 	 */
-	public Node(Ident ident, NodeType type, Annotations annots, boolean maybeDeleted, boolean maybeRetyped) {
+	public Node(Ident ident, NodeType type, Annotations annots,
+			PatternGraph directlyNestingLHSGraph, boolean maybeDeleted, boolean maybeRetyped) {
 		super("node", ident, type, annots, maybeDeleted, maybeRetyped);
 		this.type = type;
+		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
 
 	/**
@@ -44,8 +49,9 @@ public class Node extends GraphEntity {
 	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy.
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
 	 */
-	public Node(Ident ident, NodeType type, boolean maybeDeleted, boolean maybeRetyped) {
-		this(ident, type, EmptyAnnotations.get(), maybeDeleted, maybeRetyped);
+	public Node(Ident ident, NodeType type, 
+			PatternGraph directlyNestingLHSGraph, boolean maybeDeleted, boolean maybeRetyped) {
+		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, maybeDeleted, maybeRetyped);
 	}
 
 	/** @return The type of the node. */

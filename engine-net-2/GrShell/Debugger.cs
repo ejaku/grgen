@@ -50,6 +50,33 @@ namespace de.unika.ipd.grGen.grShell
         Dictionary<INode, bool> retypedNodes = new Dictionary<INode, bool>();
         Dictionary<IEdge, bool> retypedEdges = new Dictionary<IEdge, bool>();
 
+        public YCompClient YCompClient { get { return ycompClient; } }
+        public bool ConnectionLost { get { return ycompClient.ConnectionLost; } }
+
+        private bool notifyOnConnectionLost;
+        public bool NotifyOnConnectionLost
+        {
+            set
+            {
+                if(!value)
+                {
+                    if(notifyOnConnectionLost)
+                    {
+                        notifyOnConnectionLost = false;
+                        ycompClient.OnConnectionLost -= new ConnectionLostHandler(DebugOnConnectionLost);
+                    }
+                }
+                else
+                {
+                    if(!notifyOnConnectionLost)
+                    {
+                        notifyOnConnectionLost = true;
+                        ycompClient.OnConnectionLost += new ConnectionLostHandler(DebugOnConnectionLost);
+                    }
+                }
+            }
+        }
+
         public Debugger(GrShellImpl grShellImpl) : this(grShellImpl, "Orthogonal", null) {}
         public Debugger(GrShellImpl grShellImpl, String debugLayout) : this(grShellImpl, debugLayout, null) {}
 
@@ -74,11 +101,11 @@ namespace de.unika.ipd.grGen.grShell
             try
             {
                 viewerProcess = Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
-                    + Path.DirectorySeparatorChar + "ycomp", "-p " + ycompPort);
+                    + Path.DirectorySeparatorChar + "ycomp", "--nomaximize -p " + ycompPort);
             }
             catch(Exception e)
             {
-                throw new Exception("Unable to start ycomp: " + e.ToString());
+                throw new Exception("Unable to start yComp: " + e.ToString());
             }
 
             try
@@ -87,11 +114,11 @@ namespace de.unika.ipd.grGen.grShell
             }
             catch(Exception ex)
             {
-                throw new Exception("Unable to connect to YComp at port " + ycompPort + ": " + ex.Message);
+                throw new Exception("Unable to connect to yComp at port " + ycompPort + ": " + ex.Message);
             }
 
-            ycompClient.OnConnectionLost += new ConnectionLostHandler(DebugOnConnectionLost);
             shellGraph.Graph.ReuseOptimization = false;
+            NotifyOnConnectionLost = true;
 
             try
             {
@@ -117,9 +144,10 @@ namespace de.unika.ipd.grGen.grShell
             }
             catch(OperationCanceledException)
             {
-                return;
+                throw new Exception("Connection to yComp lost");
             }
 
+            NotifyOnConnectionLost = false;
             RegisterLibGrEvents();
         }
 
@@ -746,8 +774,7 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugOnConnectionLost()
         {
-            Console.WriteLine("Connection to YComp lost!");
-            grShellImpl.SetDebugMode(false);
+            Console.WriteLine("Connection to yComp lost!");
             grShellImpl.Cancel();
         }
 

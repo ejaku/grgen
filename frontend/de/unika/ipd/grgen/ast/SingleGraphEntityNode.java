@@ -27,11 +27,13 @@ public class SingleGraphEntityNode extends BaseNode
 	IdentNode entityUnresolved;
 	NodeDeclNode entityNode;
 	SubpatternUsageNode entitySubpattern;
+	PatternGraphNode directlyNestingLHSGraph;
 
-	public SingleGraphEntityNode(IdentNode ent) {
+	public SingleGraphEntityNode(IdentNode ent, PatternGraphNode directlyNestingLHSGraph) {
 		super(ent.getCoords());
 		entityUnresolved = ent;
 		becomeParent(this.entityUnresolved);
+		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
     }
 
 	@Override
@@ -70,6 +72,10 @@ public class SingleGraphEntityNode extends BaseNode
 			entitySubpattern = pair.snd;
 		}
 
+		if(entityNode!=null) {
+			entityNode.directlyNestingLHSGraph = directlyNestingLHSGraph;
+		}
+		
 		return entityNode != null || entitySubpattern != null;
 	}
 

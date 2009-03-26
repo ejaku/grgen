@@ -29,6 +29,7 @@ import de.unika.ipd.grgen.ast.IntConstNode;
 import de.unika.ipd.grgen.ast.ModelNode;
 import de.unika.ipd.grgen.ast.NodeDeclNode;
 import de.unika.ipd.grgen.ast.NodeTypeNode;
+import de.unika.ipd.grgen.ast.PatternGraphNode;
 import de.unika.ipd.grgen.ast.TypeDeclNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.ast.UndirectedEdgeTypeNode;
@@ -275,9 +276,9 @@ public abstract class ParserEnvironment extends Base {
 		return ExprNode.getInvalid();
 	}
 
-	public NodeDeclNode getDummyNodeDecl(int context)
+	public NodeDeclNode getDummyNodeDecl(int context, PatternGraphNode directlyNestingLHSGraph)
 	{
-		return NodeDeclNode.getDummy(defineAnonymousEntity("dummy_node", new Coords()), this.getNodeRoot(), context);
+		return NodeDeclNode.getDummy(defineAnonymousEntity("dummy_node", new Coords()), this.getNodeRoot(), context, directlyNestingLHSGraph);
 	}
 
 	/**

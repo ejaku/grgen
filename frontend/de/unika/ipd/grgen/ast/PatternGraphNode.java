@@ -382,6 +382,21 @@ public class PatternGraphNode extends GraphNode {
 			gr.addCondition(op);
 		}
 	}
+	
+	protected void addParamsToConnections(CollectNode<BaseNode> params)
+    {
+    	for (BaseNode n : params.getChildren()) {
+			if(n instanceof VarDeclNode) continue;
+			if(n instanceof SingleNodeConnNode) {
+				((SingleNodeConnNode)n).directlyNestingLHSGraph = this;
+			} else if(n instanceof ConstraintDeclNode) {
+				((ConstraintDeclNode)n).directlyNestingLHSGraph = this;
+			} else {
+				((EdgeDeclNode)((ConnectionNode)n).edgeUnresolved).directlyNestingLHSGraph = this;
+			}
+            connectionsUnresolved.addChild(n);
+        }
+    }
 
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph(nameOfGraph, modifiers);
@@ -413,7 +428,7 @@ public class PatternGraphNode extends GraphNode {
 				else if(connection instanceof Edge) {
 					Edge neededEdge = (Edge)connection;
 					if(!gr.hasEdge(neededEdge)) {
-						gr.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
+						gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
 						gr.addHomToAll(neededEdge);
 					}
 				}
@@ -463,7 +478,7 @@ public class PatternGraphNode extends GraphNode {
 		}
 		for(Edge neededEdge : needs.edges) {
 			if(!gr.hasEdge(neededEdge)) {
-				gr.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
+				gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
 				gr.addHomToAll(neededEdge);
 			}
 		}
@@ -502,7 +517,7 @@ public class PatternGraphNode extends GraphNode {
 				else {
 					Edge neededEdge = (Edge)entity;
 					if(!gr.hasEdge(neededEdge)) {
-						gr.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
+						gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
 						gr.addHomToAll(neededEdge);
 					}
 				}
@@ -914,14 +929,14 @@ public class PatternGraphNode extends GraphNode {
 	private NodeDeclNode getAnonymousDummyNode(BaseNode nodeRoot, int context) {
 		IdentNode nodeName = new IdentNode(getScope().defineAnonymous(
 				"dummy_node", SymbolTable.getInvalid(), Coords.getBuiltin()));
-		NodeDeclNode dummyNode = NodeDeclNode.getDummy(nodeName, nodeRoot, context);
+		NodeDeclNode dummyNode = NodeDeclNode.getDummy(nodeName, nodeRoot, context, this);
 		return dummyNode;
 	}
 
 	private EdgeDeclNode getAnonymousEdgeDecl(BaseNode edgeRoot, int context) {
 		IdentNode edgeName = new IdentNode(getScope().defineAnonymous(
 				"edge", SymbolTable.getInvalid(), Coords.getBuiltin()));
-		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, context, this);
+		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, context, this, this);
 		return edge;
 	}
 

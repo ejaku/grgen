@@ -270,7 +270,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
 
-	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
+	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, null] ret=returnTypes LBRACE
 		left=patternPart[getCoords(t), params, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 			{
 				id.setDecl(new TestDeclNode(id, left, ret));
@@ -282,27 +282,27 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 				reportError(getCoords(t), "no \"dpo\" modifier allowed");
 			}
 		}
-	| r=RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
+	| r=RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, null] ret=returnTypes LBRACE
 		left=patternPart[getCoords(r), params, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
-		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
+		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
 				id.setDecl(new RuleDeclNode(id, left, rightReplace, ret));
 				actionChilds.addChild(id);
 			}
-		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id]
+		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
 				id.setDecl(new RuleDeclNode(id, left, rightModify, ret));
 				actionChilds.addChild(id);
 			}
 		)
 		RBRACE popScope
-	| p=PATTERN id=patIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS] LBRACE
+	| p=PATTERN id=patIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, null] LBRACE
 		left=patternPart[getCoords(p), params, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
-		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
+		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
 				rightHandSides.addChild(rightReplace);
 			}
-		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id]
+		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
 				rightHandSides.addChild(rightModify);
 			}
@@ -314,39 +314,39 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		RBRACE popScope
 	;
 
-parameters [ int context ] returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
-	: LPAREN (paramList[res, context])? RPAREN
+parameters [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
+	: LPAREN (paramList[res, context, directlyNestingLHSGraph])? RPAREN
 	|
 	;
 
-paramList [ CollectNode<BaseNode> params, int context ]
-	: p=param[context] { params.addChild(p); } ( COMMA p=param[context] { params.addChild(p); } )*
+paramList [ CollectNode<BaseNode> params, int context, PatternGraphNode directlyNestingLHSGraph ]
+	: p=param[context, directlyNestingLHSGraph] { params.addChild(p); } ( COMMA p=param[context, directlyNestingLHSGraph] { params.addChild(p); } )*
 	;
 
-param [ int context ] returns [ BaseNode res = env.initNode() ]
-	: MINUS edge=edgeDecl[context] direction = forwardOrUndirectedEdgeParam
+param [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
+	: MINUS edge=edgeDecl[context, directlyNestingLHSGraph] direction = forwardOrUndirectedEdgeParam
 	{
-		BaseNode dummy = env.getDummyNodeDecl(context);
+		BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 		res = new ConnectionNode(dummy, edge, dummy, direction);
 	}
 
-	| LARROW edge=edgeDecl[context] RARROW
+	| LARROW edge=edgeDecl[context, directlyNestingLHSGraph] RARROW
 	{
-		BaseNode dummy = env.getDummyNodeDecl(context);
+		BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 		res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY_DIRECTED);
 	}
 
-	| QUESTIONMINUS edge=edgeDecl[context] MINUSQUESTION
+	| QUESTIONMINUS edge=edgeDecl[context, directlyNestingLHSGraph] MINUSQUESTION
 	{
-		BaseNode dummy = env.getDummyNodeDecl(context);
+		BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 		res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY);
 	}
 
 	| v=varDecl[context] { res = v; }
 
-	| node=nodeDecl[context]
+	| node=nodeDecl[context, directlyNestingLHSGraph]
 	{
-		res = new SingleNodeConnNode(node);
+		res = new SingleNodeConnNode(node, directlyNestingLHSGraph);
 	}
 	;
 
@@ -371,22 +371,22 @@ patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, int mod, int 
 	;
 
 replacePart [ CollectNode<EvalStatementNode> eval, CollectNode<BaseNode> params,
-              int context, IdentNode nameOfRHS ]
+              int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ]
             returns [ ReplaceDeclNode res = null ]
 	: r=REPLACE ( id=rhsIdentDecl { nameOfRHS = id; } )?
-		p=parameters[context] { params = p; } 
+		p=parameters[context, directlyNestingLHSGraph] { params = p; } 
 		LBRACE
-		b=replaceBody[getCoords(r), params, eval, context, nameOfRHS] { res = b; }
+		b=replaceBody[getCoords(r), params, eval, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		RBRACE
 	;
 
 modifyPart [ CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels,
-             CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ]
+             CollectNode<BaseNode> params, int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ]
            returns [ ModifyDeclNode res = null ]
 	: m=MODIFY ( id=rhsIdentDecl { nameOfRHS = id; } )?
-		p=parameters[context] { params = p; } 
+		p=parameters[context, directlyNestingLHSGraph] { params = p; } 
 		LBRACE
-		b=modifyBody[getCoords(m), eval, dels, params, context, nameOfRHS] { res = b; }
+		b=modifyBody[getCoords(m), eval, dels, params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		RBRACE
 	;
 
@@ -420,50 +420,50 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context,
 
 	: ( patternStmt[connections, subpatterns, subpatternReplacements,
 			alts, negs, idpts, conds,
-			homs, exact, induced, context] )*
-	  ( rets[returnz, context] SEMI )?
+			returnz, homs, exact, induced, context, res] )*
 	;
 
 patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs,
 			CollectNode<PatternGraphNode> idpts, CollectNode<ExprNode> conds,
-			CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
-			int context]
+			CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
+			int context, PatternGraphNode directlyNestingLHSGraph]
 	@init{
 		int altCounter = 0;
 		int negCounter = 0;
 		int idptCounter = 0;
 	}
 
-	: connectionsOrSubpattern[conn, subpatterns, subpatternReplacements, context] SEMI
+	: connectionsOrSubpattern[conn, subpatterns, subpatternReplacements, context, directlyNestingLHSGraph] SEMI
 	| alt=alternative[altCounter, context] { alts.addChild(alt); ++altCounter; }
 	| neg=negative[negCounter, context] { negs.addChild(neg); ++negCounter; }
 	| idpt=independent[idptCounter, context] { idpts.addChild(idpt); ++idptCounter; }
 	| condition[conds]
+	| rets[returnz, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
 
-connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context ]
-	: firstEdge[conn, context] // connection starts with an edge which dangles on the left
-	| firstNodeOrSubpattern[conn, subpatterns, subpatternReplacements, context] // there's a subpattern or a connection that starts with a node
+connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context, PatternGraphNode directlyNestingLHSGraph ]
+	: firstEdge[conn, context, directlyNestingLHSGraph] // connection starts with an edge which dangles on the left
+	| firstNodeOrSubpattern[conn, subpatterns, subpatternReplacements, context, directlyNestingLHSGraph] // there's a subpattern or a connection that starts with a node
 	;
 
-firstEdge [ CollectNode<BaseNode> conn, int context ]
+firstEdge [ CollectNode<BaseNode> conn, int context, PatternGraphNode directlyNestingLHSGraph ]
 	@init{
 		boolean forward = true;
 		MutableInteger direction = new MutableInteger(ConnectionNode.ARBITRARY);
 	}
 
-	:   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; } // get first edge
-		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
-		| e=arbitraryEdgeOcc[context] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
+	:   ( e=forwardOrUndirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=true; } // get first edge
+		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=false; }
+		| e=arbitraryEdgeOcc[context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
 		)
-		nodeContinuation[e, env.getDummyNodeDecl(context), forward, direction, conn, context] // and continue looking for node
+		nodeContinuation[e, env.getDummyNodeDecl(context, directlyNestingLHSGraph), forward, direction, conn, context, directlyNestingLHSGraph] // and continue looking for node
 	;
 
-firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context ]
+firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context, PatternGraphNode directlyNestingLHSGraph ]
 	@init{
 		id = env.getDummyIdent();
 		type = env.getNodeRoot();
@@ -475,7 +475,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 		BaseNode n = null;
 	}
 
-	: id=entIdentUse firstEdgeContinuation[id, conn, context] // use of already declared node, continue looking for first edge
+	: id=entIdentUse firstEdgeContinuation[id, conn, context, directlyNestingLHSGraph] // use of already declared node, continue looking for first edge
 	| id=entIdentUse l=LPAREN subpatternConnections[subpatternReplConn] RPAREN // use of already declared subpattern
 		{ subpatternReplacements.addChild(new SubpatternReplNode(id, subpatternReplConn)); }
 	| id=entIdentDecl cc=COLON // node or subpattern declaration
@@ -485,24 +485,24 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 			( LT oldid=entIdentUse GT )?
 			{
 				if(oldid==null) {
-					n = new NodeDeclNode(id, type, context, constr);
+					n = new NodeDeclNode(id, type, context, constr, directlyNestingLHSGraph);
 				} else {
-					n = new NodeTypeChangeNode(id, type, context, oldid);
+					n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 				}
 			}
-			firstEdgeContinuation[n, conn, context] // and continue looking for first edge
+			firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 		| // node typeof declaration
 			TYPEOF LPAREN type=entIdentUse RPAREN
 			( constr=typeConstraint )?
 			( LT oldid=entIdentUse GT )?
 			{
 				if(oldid==null) {
-					n = new NodeDeclNode(id, type, context, constr);
+					n = new NodeDeclNode(id, type, context, constr, directlyNestingLHSGraph);
 				} else {
-					n = new NodeTypeChangeNode(id, type, context, oldid);
+					n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 				}
 			}
-			firstEdgeContinuation[n, conn, context] // and continue looking for first edge
+			firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 		| // subpattern declaration
 			type=patIdentUse LPAREN subpatternConnections[subpatternConn] RPAREN
 			{ subpatterns.addChild(new SubpatternUsageNode(id, type, subpatternConn)); }
@@ -516,12 +516,12 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				( LT oldid=entIdentUse GT )?
 				{
 					if(oldid==null) {
-						n = new NodeDeclNode(id, type, context, constr);
+						n = new NodeDeclNode(id, type, context, constr, directlyNestingLHSGraph);
 					} else {
-						n = new NodeTypeChangeNode(id, type, context, oldid);
+						n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 					}
 				}
-				firstEdgeContinuation[n, conn, context] // and continue looking for first edge
+				firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 			| // node typeof declaration
 				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 				TYPEOF LPAREN type=entIdentUse RPAREN
@@ -529,12 +529,12 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				( LT oldid=entIdentUse GT )?
 				{
 					if(oldid==null) {
-						n = new NodeDeclNode(id, type, context, constr);
+						n = new NodeDeclNode(id, type, context, constr, directlyNestingLHSGraph);
 					} else {
-						n = new NodeTypeChangeNode(id, type, context, oldid);
+						n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 					}
 				}
-				firstEdgeContinuation[n, conn, context] // and continue looking for first edge
+				firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 			| // subpattern declaration
 				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
 				type=patIdentUse LPAREN subpatternConnections[subpatternConn] RPAREN
@@ -544,14 +544,14 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 	| d=DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
 		( annots=annotations { id.setAnnotations(annots); } )?
-		{ n = new NodeDeclNode(id, type, context, constr); }
-		firstEdgeContinuation[n, conn, context] // and continue looking for first edge
+		{ n = new NodeDeclNode(id, type, context, constr, directlyNestingLHSGraph); }
+		firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 	;
 
-nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, MutableInteger direction, CollectNode<BaseNode> conn, int context ]
-	@init{ n2 = env.getDummyNodeDecl(context); }
+nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, MutableInteger direction, CollectNode<BaseNode> conn, int context, PatternGraphNode directlyNestingLHSGraph ]
+	@init{ n2 = env.getDummyNodeDecl(context, directlyNestingLHSGraph); }
 
-	: n2=nodeOcc[context] // node following - get it and build connection with it, then continue with looking for follwing edge
+	: n2=nodeOcc[context, directlyNestingLHSGraph] // node following - get it and build connection with it, then continue with looking for follwing edge
 		{
 			if (direction.getValue() == ConnectionNode.DIRECTED && !forward) {
 				conn.addChild(new ConnectionNode(n2, e, n1, direction.getValue()));
@@ -559,7 +559,7 @@ nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, MutableInteger dire
 				conn.addChild(new ConnectionNode(n1, e, n2, direction.getValue()));
 			}
 		}
-		edgeContinuation[n2, conn, context]
+		edgeContinuation[n2, conn, context, directlyNestingLHSGraph]
 	|   // nothing following - build connection with edge dangeling on the right (see n2 initialization)
 		{
 			if (direction.getValue() == ConnectionNode.DIRECTED && !forward) {
@@ -570,7 +570,7 @@ nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, MutableInteger dire
 		}
 	;
 
-firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context ]
+firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context, PatternGraphNode directlyNestingLHSGraph ]
 	@init{
 		boolean forward = true;
 		MutableInteger direction = new MutableInteger(ConnectionNode.ARBITRARY);
@@ -579,34 +579,34 @@ firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context ]
 	: // nothing following? -> one single node
 	{
 		if (n instanceof IdentNode) {
-			conn.addChild(new SingleGraphEntityNode((IdentNode)n));
+			conn.addChild(new SingleGraphEntityNode((IdentNode)n, directlyNestingLHSGraph));
 		}
 		else {
-			conn.addChild(new SingleNodeConnNode(n));
+			conn.addChild(new SingleNodeConnNode(n, directlyNestingLHSGraph));
 		}
 	}
-	|   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; }
-		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
-		| e=arbitraryEdgeOcc[context] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
+	|   ( e=forwardOrUndirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=true; }
+		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=false; }
+		| e=arbitraryEdgeOcc[context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
 		)
-			nodeContinuation[e, n, forward, direction, conn, context] // continue looking for node
+			nodeContinuation[e, n, forward, direction, conn, context, directlyNestingLHSGraph] // continue looking for node
 	;
 
-edgeContinuation [ BaseNode left, CollectNode<BaseNode> conn, int context ]
+edgeContinuation [ BaseNode left, CollectNode<BaseNode> conn, int context, PatternGraphNode directlyNestingLHSGraph ]
 	@init{
 		boolean forward = true;
 		MutableInteger direction = new MutableInteger(ConnectionNode.ARBITRARY);
 	}
 
 	:   // nothing following? -> connection end reached
-	|   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; }
-		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
-		| e=arbitraryEdgeOcc[context] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
+	|   ( e=forwardOrUndirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=true; }
+		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=false; }
+		| e=arbitraryEdgeOcc[context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
 		)
-			nodeContinuation[e, left, forward, direction, conn, context] // continue looking for node
+			nodeContinuation[e, left, forward, direction, conn, context, directlyNestingLHSGraph] // continue looking for node
 	;
 
-nodeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
+nodeOcc [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
 	@init{
 		id = env.getDummyIdent();
 		annots = env.getEmptyAnnotations();
@@ -614,19 +614,19 @@ nodeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
 	}
 
 	: e=entIdentUse { res = e; } // use of already declared node
-	| id=entIdentDecl COLON co=nodeTypeContinuation[id, context] { res = co; } // node declaration
+	| id=entIdentDecl COLON co=nodeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } // node declaration
 	| ( annots=annotations { hasAnnots = true; } )?
 		c=COLON // anonymous node declaration
 			{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 			{ if (hasAnnots) { id.setAnnotations(annots); } }
-			co=nodeTypeContinuation[id, context] { res = co; }
+			co=nodeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; }
 	| d=DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
 		( annots=annotations { id.setAnnotations(annots); } )?
-		{ res = new NodeDeclNode(id, env.getNodeRoot(), context, TypeExprNode.getEmpty()); }
+		{ res = new NodeDeclNode(id, env.getNodeRoot(), context, TypeExprNode.getEmpty(), directlyNestingLHSGraph); }
 	;
 
-nodeTypeContinuation [ IdentNode id, int context ] returns [ BaseNode res = env.initNode() ]
+nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
 	@init{
 		type = env.getNodeRoot();
 		constr = TypeExprNode.getEmpty();
@@ -639,14 +639,14 @@ nodeTypeContinuation [ IdentNode id, int context ] returns [ BaseNode res = env.
 		( LT oldid=entIdentUse GT )?
 			{
 				if(oldid==null) {
-					res = new NodeDeclNode(id, type, context, constr);
+					res = new NodeDeclNode(id, type, context, constr, directlyNestingLHSGraph);
 				} else {
-					res = new NodeTypeChangeNode(id, type, context, oldid);
+					res = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 				}
 			}
 	;
 
-nodeDecl [ int context ] returns [ BaseNode res = env.initNode() ]
+nodeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
 	@init{
 		constr = TypeExprNode.getEmpty();
 	}
@@ -659,9 +659,9 @@ nodeDecl [ int context ] returns [ BaseNode res = env.initNode() ]
 		( LT oldid=entIdentUse GT )?
 			{
 				if(oldid==null) {
-					res = new NodeDeclNode(id, type, context, constr);
+					res = new NodeDeclNode(id, type, context, constr, directlyNestingLHSGraph);
 				} else {
-					res = new NodeTypeChangeNode(id, type, context, oldid);
+					res = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 				}
 			}
 	;
@@ -687,18 +687,18 @@ varDecl [ int context ] returns [ BaseNode res = env.initNode() ]
 	;
 
 
-forwardOrUndirectedEdgeOcc [int context, MutableInteger direction] returns [ BaseNode res = env.initNode() ]
-	: MINUS ( e1=edgeDecl[context] { res = e1; } | e2=entIdentUse { res = e2; } ) forwardOrUndirectedEdgeOccContinuation[ direction ]
+forwardOrUndirectedEdgeOcc [int context, MutableInteger direction, PatternGraphNode directlyNestingLHSGraph] returns [ BaseNode res = env.initNode() ]
+	: MINUS ( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; } | e2=entIdentUse { res = e2; } ) forwardOrUndirectedEdgeOccContinuation[direction]
 	| da=DOUBLE_RARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
-			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.DIRECTED);
 		}
 	| mm=MINUSMINUS
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, env.getUndirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+			res = new EdgeDeclNode(id, env.getUndirectedEdgeRoot(), context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.UNDIRECTED);
 		}
 	;
@@ -708,18 +708,18 @@ forwardOrUndirectedEdgeOccContinuation [MutableInteger direction]
 	| RARROW { direction.setValue(ConnectionNode.DIRECTED); }
 	;
 
-backwardOrArbitraryDirectedEdgeOcc [ int context, MutableInteger direction ] returns [ BaseNode res = env.initNode() ]
-	: LARROW ( e1=edgeDecl[context] { res = e1; } | e2=entIdentUse { res = e2; } ) backwardOrArbitraryDirectedEdgeOccContinuation[ direction ]
+backwardOrArbitraryDirectedEdgeOcc [ int context, MutableInteger direction, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
+	: LARROW ( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; } | e2=entIdentUse { res = e2; } ) backwardOrArbitraryDirectedEdgeOccContinuation[ direction ]
 	| da=DOUBLE_LARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
-			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.DIRECTED);
 		}
 	| lr=LRARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(lr));
-			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 			direction.setValue(ConnectionNode.ARBITRARY_DIRECTED);
 		}
 	;
@@ -729,37 +729,37 @@ backwardOrArbitraryDirectedEdgeOccContinuation [MutableInteger direction]
 	| RARROW { direction.setValue(ConnectionNode.ARBITRARY_DIRECTED); }
 	;
 
-arbitraryEdgeOcc [int context] returns [ BaseNode res = env.initNode() ]
-	: QUESTIONMINUS ( e1=edgeDecl[context] { res = e1; } | e2=entIdentUse { res = e2; } ) MINUSQUESTION
+arbitraryEdgeOcc [int context, PatternGraphNode directlyNestingLHSGraph] returns [ BaseNode res = env.initNode() ]
+	: QUESTIONMINUS ( e1=edgeDecl[context, directlyNestingLHSGraph] { res = e1; } | e2=entIdentUse { res = e2; } ) MINUSQUESTION
 	| q=QMMQ
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(q));
-			res = new EdgeDeclNode(id, env.getArbitraryEdgeRoot(), context, TypeExprNode.getEmpty());
+			res = new EdgeDeclNode(id, env.getArbitraryEdgeRoot(), context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		}
 	;
 
-edgeDecl [ int context ] returns [ EdgeDeclNode res = null ]
+edgeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
 	@init{
 		id = env.getDummyIdent();
 	}
 
 	:   ( id=entIdentDecl COLON
-			co=edgeTypeContinuation[id, context] { res = co; } 
+			co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } 
 		| atCo=annotationsWithCoords
 			( c=COLON
 				{ id = env.defineAnonymousEntity("edge", getCoords(c)); }
-				co=edgeTypeContinuation[id, context] { res = co; } 
+				co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } 
 			|   { id = env.defineAnonymousEntity("edge", atCo.second); }
-				{ res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty()); }
+				{ res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty(), directlyNestingLHSGraph); }
 			)
 				{ id.setAnnotations(atCo.first); }
 		| cc=COLON
 			{ id = env.defineAnonymousEntity("edge", getCoords(cc)); }
-			co=edgeTypeContinuation[id, context] { res = co; } 
+			co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } 
 		)
 	;
 
-edgeTypeContinuation [ IdentNode id, int context ] returns [ EdgeDeclNode res = null ]
+edgeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
 	@init{
 		type = env.getNodeRoot();
 		constr = TypeExprNode.getEmpty();
@@ -772,9 +772,9 @@ edgeTypeContinuation [ IdentNode id, int context ] returns [ EdgeDeclNode res = 
 		( LT oldid=entIdentUse GT )?
 			{
 				if( oldid == null ) {
-					res = new EdgeDeclNode(id, type, context, constr);
+					res = new EdgeDeclNode(id, type, context, constr, directlyNestingLHSGraph);
 				} else {
-					res = new EdgeTypeChangeNode(id, type, context, oldid);
+					res = new EdgeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 				}
 			}
 	;
@@ -804,7 +804,7 @@ inducedStatement returns [ InducedNode res = null ]
 		RPAREN
 	;
 
-replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<EvalStatementNode> eval, int context, IdentNode nameOfRHS ] returns [ ReplaceDeclNode res = null ]
+replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<EvalStatementNode> eval, int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ] returns [ ReplaceDeclNode res = null ]
 	@init{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -815,22 +815,20 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<EvalState
 		res = new ReplaceDeclNode(nameOfRHS, graph, eval);
 	}
 
-	: ( replaceStmt[coords, connections, subpatterns, subpatternReplacements, eval, context] )*
-	  ( rets[returnz, context] SEMI )?
-	  (
-	      execStmt[imperativeStmts] SEMI
-	  |
-	      emitStmt[imperativeStmts] SEMI
-	  )*
+	: ( replaceStmt[coords, connections, subpatterns, subpatternReplacements, eval, context, directlyNestingLHSGraph] 
+		| rets[returnz, context] SEMI
+		| execStmt[imperativeStmts] SEMI
+		| emitStmt[imperativeStmts] SEMI
+		)*
 	;
 
 replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
- 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<EvalStatementNode> eval, int context ]
-	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
+ 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<EvalStatementNode> eval, int context, PatternGraphNode directlyNestingLHSGraph ]
+	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context, directlyNestingLHSGraph] SEMI
 	| evalPart[eval]
 	;
 
-modifyBody [ Coords coords, CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS ] returns [ ModifyDeclNode res = null ]
+modifyBody [ Coords coords, CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ] returns [ ModifyDeclNode res = null ]
 	@init{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -841,19 +839,17 @@ modifyBody [ Coords coords, CollectNode<EvalStatementNode> eval, CollectNode<Ide
 		res = new ModifyDeclNode(nameOfRHS, graph, eval, dels);
 	}
 
-	: ( modifyStmt[coords, connections, subpatterns, subpatternReplacements, eval, dels, context] )*
-	  ( rets[returnz, context] SEMI )?
-	  (
-	      execStmt[imperativeStmts] SEMI
-	  |
-	      emitStmt[imperativeStmts] SEMI
-	  )*
+	: ( modifyStmt[coords, connections, subpatterns, subpatternReplacements, eval, dels, context, directlyNestingLHSGraph] 
+		| rets[returnz, context] SEMI
+		| execStmt[imperativeStmts] SEMI
+		| emitStmt[imperativeStmts] SEMI
+		)*
 	;
 
 modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
  		CollectNode<SubpatternReplNode> subpatternReplacements,
-		CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels, int context ]
-	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context] SEMI
+		CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels, int context, PatternGraphNode directlyNestingLHSGraph ]
+	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context, directlyNestingLHSGraph] SEMI
 	| deleteStmt[dels] SEMI
 	| evalPart[eval]
 	;
@@ -875,11 +871,11 @@ alternativeCase [ AlternativeNode alt, int altCount, int context ]
 	: id=altIdentDecl l=LBRACE pushScopeStr["alt"+altCount+id.toString(), getCoords(l)]
 		left=patternBody[getCoords(l), new CollectNode<BaseNode>(), mod, context, id.toString()]
 		(
-			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, id]
+			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, id, left]
 				{
 					rightHandSides.addChild(rightReplace);
 				}
-			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, id]
+			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, id, left]
 				{
 					rightHandSides.addChild(rightModify);
 				}
@@ -974,9 +970,10 @@ execStmt[CollectNode<BaseNode> imperativeStmts]
 	;
 
 emitStmt[CollectNode<BaseNode> imperativeStmts]
-	@init{ EmitNode emit = null; }
+	@init{ EmitNode emit = null; boolean isPre = false;}
 	
-	: e=EMIT { emit = new EmitNode(getCoords(e)); }
+	: (e=EMIT | e=EMITPRE { isPre = true; } | e=EMITPOST)
+		{ emit = new EmitNode(getCoords(e), isPre); }
 		LPAREN
 			exp=expr[false] { emit.addChild(exp); }
 			( COMMA exp=expr[false] { emit.addChild(exp); } )*
@@ -2158,7 +2155,8 @@ DIRECTED : 'directed';
 DPO : 'dpo';
 EDGE : 'edge';
 EMIT : 'emit';
-EMITF : 'emitf';
+EMITPRE : 'emitpre';
+EMITPOST : 'emitpost';
 ENUM : 'enum';
 EVAL : 'eval';
 EXACT : 'exact';

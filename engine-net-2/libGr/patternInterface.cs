@@ -186,6 +186,11 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of GrGen types corresponding to rule parameters.
         /// </summary>
         GrGenType[] Inputs { get; }
+
+        /// <summary>
+        /// An array of the names corresponding to rule parameters;
+        /// </summary>
+        String[] InputNames { get; }
     }
 
     /// <summary>

@@ -100,6 +100,13 @@ namespace de.unika.ipd.grGen.lgsp
                 assemblyName = modelFilename;
                 AddAssembly(assembly);
             }
+            else if(extension.Equals(".gm", StringComparison.OrdinalIgnoreCase))
+            {
+                String modelDllFilename;
+                if(MustGenerate(modelFilename, out modelDllFilename))
+                    LGSPGrGen.ProcessSpecification(modelFilename);
+                return CreateGraph(modelDllFilename, graphName, parameters);
+            }
             else
             {
                 throw new ArgumentException("The model filename must be either a .cs or a .dll filename!");
@@ -478,27 +485,57 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Constructs the actions name out of the rule specification file name
+        /// Returns the base name of a path name (i.e. no path and no extension).
         /// </summary>
-        private String GetActionsName(String grgFilename)
+        private String GetPathBaseName(String filename)
         {
-            String actionsname = grgFilename;
-            int index = actionsname.LastIndexOfAny(dirSepChars);
-            if(index != -1) actionsname = actionsname.Substring(index + 1);
-            index = actionsname.IndexOf('.');
-            if(index != -1) actionsname = actionsname.Substring(0, index);
-            return actionsname;
+            String basename = filename;
+            int index = basename.LastIndexOfAny(dirSepChars);
+            if(index != -1) basename = basename.Substring(index + 1);
+            index = basename.IndexOf('.');
+            if(index != -1) basename = basename.Substring(0, index);
+            return basename;
+        }
+
+        private bool DepsOlder(DateTime oldestOutputTime, List<String> neededFiles)
+        {
+            // LibGr, LGSPBackend, or GrGen newer than generated files?
+            DateTime libGrTime = File.GetLastWriteTime(typeof(IGraph).Assembly.Location);
+            DateTime lgspTime = File.GetLastWriteTime(typeof(LGSPBackend).Assembly.Location);
+            DateTime grGenTime = File.GetLastWriteTime(
+                Path.GetDirectoryName(typeof(LGSPBackend).Assembly.Location) + Path.DirectorySeparatorChar + "grgen.jar");
+            if(libGrTime > oldestOutputTime || lgspTime > oldestOutputTime || grGenTime > oldestOutputTime)
+                return true;
+
+            // Check used file dates
+            foreach(String neededFilename in neededFiles)
+            {
+                if(!File.Exists(neededFilename))
+                {
+                    Console.Error.WriteLine("Cannot find used file: \"" + neededFilename + "\"");
+                    return true;
+                }
+                // Needed file newer than libraries?
+                DateTime fileTime = File.GetLastWriteTime(neededFilename);
+                if(fileTime > oldestOutputTime)
+                    return true;
+            }
+
+            // Libraries are up to date!
+            return false;
         }
 
         private bool MustGenerate(String grgFilename, out String actionsFilename, out String modelFilename)
         {
-            String actionsName = GetActionsName(grgFilename);
+            String actionsName = GetPathBaseName(grgFilename);
             String actionsDir = GetDir(grgFilename);
 
             // Parse grg file and collect information about the used files and the main graph model
             List<String> neededFilenames = new List<String>();
             Dictionary<String, object> processedFiles = new Dictionary<String, object>();
             String mainModelName = null;
+
+            neededFilenames.Add(grgFilename);
             GetNeededFiles(actionsDir, actionsName, ref mainModelName, grgFilename, neededFilenames, processedFiles);
 
             if(mainModelName == null) mainModelName = "Std";
@@ -514,35 +551,26 @@ namespace de.unika.ipd.grGen.lgsp
             DateTime modelTime = File.GetLastWriteTime(modelFilename);
             DateTime oldestOutputTime = actionsTime < modelTime ? actionsTime : modelTime;
 
-            // LibGr, LGSPBackend, or GrGen newer than generated files?
-            DateTime libGrTime = File.GetLastWriteTime(typeof(IGraph).Assembly.Location);
-            DateTime lgspTime = File.GetLastWriteTime(typeof(LGSPBackend).Assembly.Location);
-            DateTime grGenTime = File.GetLastWriteTime(
-                Path.GetDirectoryName(typeof(LGSPBackend).Assembly.Location) + Path.DirectorySeparatorChar + "grgen.jar");
-            if(libGrTime > oldestOutputTime || lgspTime > oldestOutputTime || grGenTime > oldestOutputTime)
+            return DepsOlder(oldestOutputTime, neededFilenames);
+        }
+
+        private bool MustGenerate(String gmFilename, out String modelFilename)
+        {
+            String modelName = GetPathBaseName(gmFilename);
+            String modelDir = GetDir(gmFilename);
+
+            // Parse grg file and collect information about the used files and the main graph model
+            List<String> neededFilenames = new List<String>();
+            neededFilenames.Add(gmFilename);
+
+            modelFilename = modelDir + "lgsp-" + modelName + "Model.dll";
+
+            // Does the model library exist at all?
+            if(!File.Exists(modelFilename))
                 return true;
 
-            // Rule specification newer than libraries?
-            DateTime grgTime = File.GetLastWriteTime(grgFilename);
-            if(grgTime > oldestOutputTime)
-                return true;
-
-            // Check used file dates
-            foreach(String neededFilename in neededFilenames)
-            {
-				if(!File.Exists(neededFilename))
-				{
-					Console.Error.WriteLine("Cannot find used file: \"" + neededFilename + "\"");
-					return true;
-				}
-                // Specification file newer than libraries?
-				DateTime gmTime = File.GetLastWriteTime(neededFilename);
-                if(gmTime > oldestOutputTime)
-                    return true;
-            }
-
-            // Libraries are up to date!
-            return false;
+            DateTime modelTime = File.GetLastWriteTime(modelFilename);
+            return DepsOlder(modelTime, neededFilenames);
         }
 
         #endregion CreateFromSpec helper functions
@@ -595,6 +623,56 @@ namespace de.unika.ipd.grGen.lgsp
         public void CreateFromSpec(String grgFilename, out LGSPGraph newGraph, out LGSPActions newActions)
         {
             CreateFromSpec(grgFilename, GetNextGraphName(), out newGraph, out newActions);
+        }
+
+        /// <summary>
+        /// Creates a new LGSPGraph instance from the specified specification file.
+        /// If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
+        /// </summary>
+        /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
+        /// <param name="graphName">Name of the new graph.</param>
+        /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
+        /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
+        /// <returns>The new LGSPGraph instance.</returns>
+        public LGSPGraph CreateFromSpec(String gmFilename, String graphName)
+        {
+            if(!File.Exists(gmFilename))
+                throw new FileNotFoundException("The model specification file \"" + gmFilename + "\" does not exist!", gmFilename);
+
+            String modelFilename;
+            if(MustGenerate(gmFilename, out modelFilename))
+                LGSPGrGen.ProcessSpecification(gmFilename);
+
+            return (LGSPGraph) CreateGraph(modelFilename, graphName);
+        }
+
+        /// <summary>
+        /// Creates a new LGSPGraph instance from the specified specification file.
+        /// If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
+        /// </summary>
+        /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
+        /// <param name="graphName">Name of the new graph.</param>
+        /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
+        /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
+        /// <returns>The new LGSPGraph instance.</returns>
+        IGraph IBackend.CreateFromSpec(String gmFilename, String graphName)
+        {
+            return CreateFromSpec(gmFilename, graphName);
+        }
+
+        /// <summary>
+        /// Creates a new LGSPGraph instance from the specified specification file.
+        /// If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
+        /// A name for the graph is automatically generated.
+        /// </summary>
+        /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
+        /// <param name="newGraph">Returns the new graph.</param>
+        /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
+        /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
+        /// <returns>The new LGSPGraph instance.</returns>
+        public LGSPGraph CreateFromSpec(String gmFilename)
+        {
+            return CreateFromSpec(gmFilename, GetNextGraphName());
         }
 
         /// <summary>

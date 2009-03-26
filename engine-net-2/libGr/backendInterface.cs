@@ -112,6 +112,17 @@ namespace de.unika.ipd.grGen.libGr
         void CreateFromSpec(String grgFilename, String graphName, out IGraph newGraph, out BaseActions newActions);
 
         /// <summary>
+        /// Creates a new IGraph instance from the specified specification file.
+        /// If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
+        /// </summary>
+        /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
+        /// <param name="graphName">Name of the new graph.</param>
+        /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
+        /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
+        /// <returns>The new IGraph backend instance.</returns>
+        IGraph CreateFromSpec(String gmFilename, String graphName);
+
+        /// <summary>
         /// Opens an existing graph identified by graphName using the specified IGraphModel.
         /// This may not be supported by the backend, if the data is not persistent.
         /// </summary>

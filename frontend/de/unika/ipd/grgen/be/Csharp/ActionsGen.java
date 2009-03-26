@@ -180,6 +180,10 @@ public class ActionsGen extends CSharpBase {
 
 		mg.genModify(sb, subpatternRule, true);
 
+		if(subpatternRule.getRight()!=null) {
+			genImperativeStatements(sb, subpatternRule, true);
+		}
+
 		genStaticConstructor(sb, className, staticInitializers);
 
 		genMatch(sb, subpatternRule.getPattern(), className);
@@ -214,7 +218,7 @@ public class ActionsGen extends CSharpBase {
 		mg.genModify(sb, actionRule, false);
 
 		if(actionRule.getRight()!=null) {
-			genEmit(sb, actionRule, false);
+			genImperativeStatements(sb, actionRule, false);
 		}
 
 		genStaticConstructor(sb, className, staticInitializers);
@@ -1009,9 +1013,9 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	private void genEmit(StringBuffer sb, Rule rule, boolean isSubpattern) {
+	private void genImperativeStatements(StringBuffer sb, Rule rule, boolean isSubpattern) {
 		String actionName = formatIdentifiable(rule);
-		sb.append("#if INITIAL_WARMUP\t\t// GrGen emit statement section: " + (isSubpattern ? "Pattern_" : "Rule_") + actionName + "\n");
+		sb.append("#if INITIAL_WARMUP\t\t// GrGen imperative statement section: " + (isSubpattern ? "Pattern_" : "Rule_") + actionName + "\n");
 		int xgrsID = 0;
 		for(ImperativeStmt istmt : rule.getRight().getImperativeStmts()) {
 			if(istmt instanceof Emit) {

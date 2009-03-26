@@ -1,27 +1,6 @@
-new graph "InstanceGraph"
+#instance graph of RefactoringCase "the scruffy challenge" of Grabats
 
-debug set layout Hierarchic
-debug set layout option NODE_PLACEMENT TREE
-debug set layout option ORIENTATION BOTTOM_TO_TOP
-dump set node Package color lightgrey
-dump set node Class color yellow
-dump set node Literal color gold
-dump set node MethodBody color orchid
-dump set node Operation color pink
-dump set node Block color darkmagenta
-dump set node Variable color cyan
-dump set node Parameter color lightcyan
-dump set node Access color lightgreen
-dump set node Operator color green
-dump set node Call color green
-dump set node Update color darkgreen
-dump add node Package group by hidden incoming belongsTo
-dump add node Class group by hidden incoming belongsTo
-dump add node Class group by hidden incoming inClass
-dump add node Operation group by hidden outgoing parameter
-#dump add node Operation group by hidden outgoing binding
-dump add node MethodBody group by hidden incoming belongsTo
-dump add node Block group by hidden incoming inBlock
+new graph "JavaProgramGraphs"
 
 new I134:Package(name="lansimulation")
 new I137:Package(name="files")
@@ -464,52 +443,52 @@ new I653 -I1125:type_ -> I617
 new I652 -I1126:type_ -> I176
 new I654 -I1127:type_ -> I176
 new I666 -I1128:belongsTo -> I405
-new I666 -I1129:expression(order=1) -> I659
-new I659 -I1132:expression -> I662
-new I662 -I1134:expression -> I664
+new I666 -I1129:expression_(order=1) -> I659
+new I659 -I1132:expression_ -> I662
+new I662 -I1134:expression_ -> I664
 new I662 -I1136:link -> I376
 new I664 -I1137:link -> I635
-new I666 -I1138:expression(order=2) -> I668
-new I668 -I1141:expression -> I671
-new I671 -I1143:expression -> I673
+new I666 -I1138:expression_(order=2) -> I668
+new I668 -I1141:expression_ -> I671
+new I671 -I1143:expression_ -> I673
 new I673 -I1145:link -> I636
 new I675 -I1146:belongsTo -> I404
-new I675 -I1147:expression -> I677
-new I680 -I1149:expression -> I682
+new I675 -I1147:expression_ -> I677
+new I680 -I1149:expression_ -> I682
 new I682 -I1151:link -> I634
 new I671 -I1152:link -> I356
-new I677 -I1153:expression -> I680
+new I677 -I1153:expression_ -> I680
 new I684 -I1155:belongsTo -> I406
-new I684 -I1156:expression -> I686
-new I686 -I1158:expression -> I689
-new I689 -I1160:expression -> I691
+new I684 -I1156:expression_ -> I686
+new I686 -I1158:expression_ -> I689
+new I689 -I1160:expression_ -> I691
 new I691 -I1162:link -> I637
 new I689 -I1163:link -> I350
 new I698 -I1164:actualParameter -> I700
 new I700 -I1166:link -> I638
-new I695 -I1167:expression -> I698
-new I693 -I1169:expression -> I695
+new I695 -I1167:expression_ -> I698
+new I693 -I1169:expression_ -> I695
 new I693 -I1171:belongsTo -> I407
 new I698 -I1172:link -> I397
 new I704 -I1173:link -> I639
 new I708 -I1174:link -> I639
-new I702 -I1175:expression(order=1) -> I704
-new I704 -I1178:expression -> I706
-new I706 -I1180:expression -> I708
-new I708 -I1182:expression -> I710
-new I710 -I1184:expression -> I712
+new I702 -I1175:expression_(order=1) -> I704
+new I704 -I1178:expression_ -> I706
+new I706 -I1180:expression_ -> I708
+new I708 -I1182:expression_ -> I710
+new I710 -I1184:expression_ -> I712
 new I718 -I1186:link -> I715
-new I712 -I1187:expression -> I718
+new I712 -I1187:expression_ -> I718
 new I702 -I1189:belongsTo -> I408
 new I706 -I1190:link -> I496
 new I710 -I1191:link -> I496
 new I743 -I1192:actualParameter -> I745
 new I755 -I1194:type_ -> I617
-new I739 -I1195:expression -> I741
-new I741 -I1197:expression -> I743
-new I745 -I1199:expression -> I747
-new I747 -I1201:expression -> I750
-new I750 -I1203:expression -> I753
+new I739 -I1195:expression_ -> I741
+new I741 -I1197:expression_ -> I743
+new I745 -I1199:expression_ -> I747
+new I747 -I1201:expression_ -> I750
+new I750 -I1203:expression_ -> I753
 new I745 -I1205:link -> I755
 new I741 -I1206:link -> I733
 new I743 -I1207:link -> I726
@@ -520,47 +499,47 @@ new I762 -I1211:link -> I726
 new I766 -I1212:link -> I726
 new I760 -I1213:link -> I733
 new I768 -I1214:link -> I733
-new I758 -I1215:expression -> I760
-new I760 -I1217:expression -> I762
-new I764 -I1219:expression -> I768
-new I768 -I1221:expression -> I766
-new I702 -I1223:expression(order=2) -> I739
+new I758 -I1215:expression_ -> I760
+new I760 -I1217:expression_ -> I762
+new I764 -I1219:expression_ -> I768
+new I768 -I1221:expression_ -> I766
+new I702 -I1223:expression_(order=2) -> I739
 new I753 -I1226:link -> I350
 new I762 -I1227:actualParameter -> I770
-new I770 -I1229:expression -> I773
-new I773 -I1231:expression -> I775
-new I775 -I1233:expression -> I777
-new I777 -I1235:expression -> I782
-new I782 -I1237:expression -> I784
-new I784 -I1239:expression -> I787
-new I787 -I1241:expression -> I789
+new I770 -I1229:expression_ -> I773
+new I773 -I1231:expression_ -> I775
+new I775 -I1233:expression_ -> I777
+new I777 -I1235:expression_ -> I782
+new I782 -I1237:expression_ -> I784
+new I784 -I1239:expression_ -> I787
+new I787 -I1241:expression_ -> I789
 new I777 -I1243:link -> I779
 new I791 -I1244:belongsTo -> I409
-new I791 -I1245:expression(order=1) -> I758
+new I791 -I1245:expression_(order=1) -> I758
 new I773 -I1248:link -> I350
 new I787 -I1249:link -> I356
 new I789 -I1250:link -> I350
 new I779 -I1251:type_ -> I617
-new I791 -I1252:expression(order=2) -> I793
-new I791 -I1255:expression(order=3) -> I764
-new I791 -I1258:expression(order=4) -> I796
+new I791 -I1252:expression_(order=2) -> I793
+new I791 -I1255:expression_(order=3) -> I764
+new I791 -I1258:expression_(order=4) -> I796
 new I799 -I1261:actualParameter -> I801
-new I793 -I1263:expression -> I799
+new I793 -I1263:expression_ -> I799
 new I801 -I1265:link -> I640
 new I799 -I1266:link -> I390
 new I807 -I1267:link -> I640
-new I796 -I1268:expression -> I803
-new I803 -I1270:expression -> I805
+new I796 -I1268:expression_ -> I803
+new I803 -I1270:expression_ -> I805
 new I805 -I1272:actualParameter -> I807
 new I805 -I1274:link -> I383
 new I803 -I1275:link -> I356
 new I766 -I1276:actualParameter -> I809
-new I809 -I1278:expression -> I814
-new I814 -I1280:expression -> I817
-new I817 -I1282:expression -> I819
+new I809 -I1278:expression_ -> I814
+new I814 -I1280:expression_ -> I817
+new I817 -I1282:expression_ -> I819
 new I817 -I1284:link -> I640
-new I819 -I1285:expression -> I821
-new I821 -I1287:expression -> I824
+new I819 -I1285:expression_ -> I821
+new I821 -I1287:expression_ -> I824
 new I824 -I1289:link -> I826
 new I809 -I1290:link -> I811
 new I811 -I1291:type_ -> I617
@@ -571,21 +550,3 @@ new I720 -I1295:belongsTo -> I614
 new I496 -I1296:type_ -> I829
 new I829 -I1297:belongsTo -> I614
 new I715 -I1298:type_ -> I829
-
-xgrs InsertHelperEdgesForNestedLayout
-
-c = I176
-v = I350
-getterName = "getName"
-setterName = "setName"
-debug xgrs (isStatic) = variableInClass(c, v) \
-	&& (!((getter) = methodExists(c, getterName)) || sameStaticness(v, getter)) \
-	&& (!((setter) = methodExists(c, setterName)) || sameStaticness(v, setter)) \
-	&& ((getter) = methodExists(c, getterName) || (getter) = insertMethodGetter(c, v, getterName, isStatic)) \
-	&& ((setter) = methodExists(c, setterName) || (setter) = insertMethodSetter(c, v, setterName, isStatic)) \
-	&& changeVisibility(v) \
-	&& adaptAccess(c, v, getter)* \
-	&& adaptUpdate(c, v, setter)*
-
-#Knoten I726/println hängt in der Luft
-#Metamodell und Graph stimmen nicht genau überein

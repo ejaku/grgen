@@ -153,7 +153,7 @@ public class GraphNode extends BaseNode {
 
         			// add reused single node to connections
         			if (ent.getEntityNode() != null) {
-        				connections.addChild(new SingleNodeConnNode(ent.getEntityNode()));
+        				connections.addChild(new SingleNodeConnNode(ent.getEntityNode(), ent.directlyNestingLHSGraph));
         			}
 
         			// add reused subpattern to subpatterns
@@ -320,7 +320,7 @@ public class GraphNode extends BaseNode {
 		return gr;
 	}
 
-	private void addParamsToConnections(CollectNode<BaseNode> params)
+	protected void addParamsToConnections(CollectNode<BaseNode> params)
     {
     	for (BaseNode n : params.getChildren()) {
 			if(n instanceof VarDeclNode) continue;

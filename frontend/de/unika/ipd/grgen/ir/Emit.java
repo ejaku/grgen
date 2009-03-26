@@ -20,15 +20,16 @@ import java.util.List;
 public class Emit extends IR  implements ImperativeStmt {
 
 	private List<Expression> arguments;
+	private boolean isPre;
 
-	public Emit(List<Expression> arguments) {
+	public Emit(List<Expression> arguments, boolean isPre) {
 		super("emit");
 		this.arguments = arguments;
+		this.isPre = isPre;
 	}
 
-	public String getFromatString()	{
-		// TODO not yet supportet (emitf-keyword)
-		return null;
+	public boolean isPreEmit()	{
+		return isPre;
 	}
 
 	/**

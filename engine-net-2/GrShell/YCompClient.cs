@@ -186,6 +186,31 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
 
+            public bool Ready
+            {
+                get
+                {
+                    if(stream == null)
+                    {
+                        ConnectionLostHandler handler = OnConnectionLost;
+                        if(handler != null) handler();
+                        return false;
+                    }
+
+                    try
+                    {
+                        return stream.DataAvailable;
+                    }
+                    catch(Exception)
+                    {
+                        stream = null;
+                        ConnectionLostHandler handler = OnConnectionLost;
+                        if(handler != null) handler();
+                        return false;
+                    }
+                }
+            }
+
             public bool IsStreamOpen { get { return stream != null; } }
             public bool Closing { get { return closing; } set { closing = value; } }
         }
@@ -246,6 +271,15 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public YCompClient(IGraph graph, String layoutModule, int connectionTimeout, int port)
             : this(graph, layoutModule, connectionTimeout, port, new DumpInfo(graph.GetElementName)) { }
+
+
+        public bool CommandAvailable { get { return ycompStream.Ready; } }
+        public bool ConnectionLost { get { return !ycompStream.IsStreamOpen; } }
+
+        public String ReadCommand()
+        {
+            return ycompStream.Read();
+        }
 
         String GetNodeRealizer(GrColor nodeColor, GrColor borderColor, GrColor textColor, GrNodeShape shape)
         {
@@ -424,12 +458,10 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// Sends a "sync" request and waits for a "sync" answer
         /// </summary>
-        public void Sync()
+        public bool Sync()
         {
             ycompStream.Write("sync\n");
-            String answer = ycompStream.Read();
-            if(answer != "sync\n")
-                Console.WriteLine("Wrong sync answer received: \"" + answer + "\"!");
+            return ycompStream.Read() == "sync\n";
         }
 
         private String GetElemLabel(IGraphElement elem)
@@ -810,6 +842,11 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = false;
             isLayoutDirty = false;
             hiddenEdges.Clear();
+        }
+
+        public void WaitForElement(bool val)
+        {
+            ycompStream.Write("waitForElement " + (val ? "true" : "false") + "\n");
         }
 
         public void Close()

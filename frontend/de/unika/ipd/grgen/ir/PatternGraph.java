@@ -264,6 +264,8 @@ public class PatternGraph extends Graph {
 		// depth first walk over IR-pattern-graph tree structure
 		for(Alternative alternative : getAlts()) {
 			for(Rule altCase : alternative.getAlternativeCases()) {
+				altCase.getLeft().insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(altCase.getRight());
+				
 				PatternGraph altCasePattern = altCase.getLeft();
 				HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 				HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
@@ -349,6 +351,34 @@ public class PatternGraph extends Graph {
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 					addSingleEdge(edge); // TODO: maybe we loose context here
 					addHomToAll(edge);
+				}
+			}
+		}
+	}
+	
+	public void insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(PatternGraph right) {
+		// insert all elements, which are used (not declared)  on the right hand side and not declared on left hand side,
+		// (which means they are declared in some pattern the left hand side is nested in,)
+		// to the left hand side (so that they get handed down from the nesting pattern;
+		// otherwise they would be created (code generation by locally comparing lhs and rhs))
+		if(right==null) {
+			return;
+		}
+		
+		for(Node n : right.getNodes()) {
+			if(n.directlyNestingLHSGraph!=this) {
+				if(!hasNode(n)) {
+					addSingleNode(n);
+					addHomToAll(n);
+				}
+			}
+		}
+		
+		for(Edge e : getEdges()) {
+			if(e.directlyNestingLHSGraph!=this) {
+				if(!hasEdge(e)) {
+					addSingleEdge(e);	// TODO: maybe we loose context here
+					addHomToAll(e);
 				}
 			}
 		}

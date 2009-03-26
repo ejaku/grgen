@@ -18,8 +18,8 @@ public class DummyNodeDeclNode extends NodeDeclNode
 		setName(DummyNodeDeclNode.class, "dummy node");
 	}
 
-	public DummyNodeDeclNode(IdentNode id, BaseNode type, int context) {
-		super(id, type, context, TypeExprNode.getEmpty());
+	public DummyNodeDeclNode(IdentNode id, BaseNode type, int context, PatternGraphNode directlyNestingLHSGraph) {
+		super(id, type, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 	}
 
 	public Node getNode() {

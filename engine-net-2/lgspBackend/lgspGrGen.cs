@@ -1090,7 +1090,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.Append(line);
                             source.Append("\n");
                         }
-                        else if(line.Length > 0 && line[0] == '#' && line.Contains("// GrGen emit statement section"))
+                        else if(line.Length > 0 && line[0] == '#' && line.Contains("// GrGen imperative statement section"))
                         {
                             int lastSpace = line.LastIndexOf(' ');
                             String ruleName = line.Substring(lastSpace + 1);

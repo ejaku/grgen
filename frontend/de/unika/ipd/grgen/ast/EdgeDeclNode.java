@@ -34,13 +34,13 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	protected static final DeclarationPairResolver<EdgeDeclNode,TypeDeclNode> typeResolver =
 		new DeclarationPairResolver<EdgeDeclNode,TypeDeclNode>(EdgeDeclNode.class, TypeDeclNode.class);
 
-	public EdgeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints) {
-		super(id, type, context, constraints);
+	public EdgeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints, PatternGraphNode directlyNestingLHSGraph) {
+		super(id, type, context, constraints, directlyNestingLHSGraph);
 		setName("edge");
 	}
 
-	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation) {
-		this(id, type, declLocation, TypeExprNode.getEmpty());
+	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, PatternGraphNode directlyNestingLHSGraph) {
+		this(id, type, declLocation, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 	}
 
 	/**
@@ -49,8 +49,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	 * the AST is already checked.
 	 * TODO Change type of type iff CollectNode support generics
 	 */
-	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, BaseNode parent) {
-		this(id, type, declLocation, TypeExprNode.getEmpty());
+	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, BaseNode parent, PatternGraphNode directlyNestingLHSGraph) {
+		this(id, type, declLocation, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		parent.becomeParent(this);
 
 		resolve();
@@ -167,7 +167,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		EdgeType et = tn.checkIR(EdgeType.class);
 		IdentNode ident = getIdentNode();
 
-		Edge edge = new Edge(ident.getIdent(), et, ident.getAnnotations(), isMaybeDeleted(), isMaybeRetyped());
+		Edge edge = new Edge(ident.getIdent(), et, ident.getAnnotations(), 
+				directlyNestingLHSGraph.getGraph(), isMaybeDeleted(), isMaybeRetyped());
 		edge.setConstraints(getConstraints());
 
 		if(inheritsType()) {
