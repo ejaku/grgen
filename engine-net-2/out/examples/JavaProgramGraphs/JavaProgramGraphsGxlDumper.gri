@@ -391,7 +391,7 @@ rule dumpEdgeLink
 
 rule dumpEdgeExpression
 {
-	src:Node -e:expression_-> tgt:Node;
+	src:Node -e:expression-> tgt:Node;
 	
 	if { !visited(e, 0); }
 	
@@ -399,7 +399,7 @@ rule dumpEdgeExpression
 		eval { visited(e, 0) = true; }
 		
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
-			"<type xlink:href=\"expression_\"/>",
+			"<type xlink:href=\"expression\"/>",
 			"</edge>");
 	}
 }

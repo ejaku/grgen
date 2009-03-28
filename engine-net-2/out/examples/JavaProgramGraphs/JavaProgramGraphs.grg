@@ -54,7 +54,7 @@ rule insertMethodGetter(c:Class, v:Variable, var name:string, var isStatic:boole
 			op.isStatic = isStatic; 
 			op.isFinal = false; }
 			
-		mb <-:belongsTo- :Block -:expression_-> :Return -:expression_-> :Access -:link-> v;
+		mb <-:belongsTo- :Block -:expression-> :Return -:expression-> :Access -:link-> v;
 		return(op);
 	}
 }
@@ -74,9 +74,9 @@ rule insertMethodSetter(c:Class, v:Variable, var name:string, var isStatic:boole
 			op.isFinal = false; }
 			
 		op -:parameter-> p:Parameter -:type_-> type;
-		mb <-:belongsTo- :Block -:expression_-> u:Update;
+		mb <-:belongsTo- :Block -:expression-> u:Update;
 		u -:link-> v;
-		u -:expression_-> :Access -:link-> p;
+		u -:expression-> :Access -:link-> p;
 		return(op);
 	}
 }
@@ -108,7 +108,7 @@ rule adaptAccess(c:Class, v:Variable, getter:Operation)
 rule adaptUpdate(c:Class, v:Variable, setter:Operation)
 {	
 	u:Update -l:link-> v;
-	u -e:expression_-> exp:Expression;
+	u -e:expression-> exp:Expression;
 
 	negative {
 		:InClass(u, c);
@@ -126,11 +126,11 @@ pattern InClass(e:Expression, c:Class)
 {
 	alternative {
 		Previous {
-			prev:Expression\Block -:expression_-> e;
+			prev:Expression\Block -:expression-> e;
 			:InClass(prev, c);	
 		}
 		End {
-			prev:Block -:expression_-> e;
+			prev:Block -:expression-> e;
 			mb:MethodBody <-:belongsTo- b:Block;
 			c <-:belongsTo- mb;
 		}
@@ -153,7 +153,7 @@ rule adaptAccessUseAccessorsAlways(c:Class, v:Variable, getter:Operation)
 rule adaptUpdateUseAccessorsAlways(c:Class, v:Variable, setter:Operation)
 {	
 	u:Update -l:link-> v;
-	u -e:expression_-> exp:Expression;
+	u -e:expression-> exp:Expression;
 
 	modify {
 		call:Call<u> -:link-> setter;
@@ -199,7 +199,7 @@ test someParameterOfTargetType(mb:MethodBody, tgt:Class) : (Parameter)
 
 rule markExpressionOfBody(mb:MethodBody)
 {
-	mb <-:belongsTo- :Block -:expression_-> exp:Expression;
+	mb <-:belongsTo- :Block -:expression-> exp:Expression;
 
 	if { !visited(exp, 0); }
 	
@@ -212,7 +212,7 @@ rule markExpressionOfBody(mb:MethodBody)
 
 rule markExpressionFollowingExpression(root:Expression)
 {
-	root -:expression_-> exp:Expression;
+	root -:expression-> exp:Expression;
 	
 	if { !visited(exp, 0); }
 	
@@ -390,7 +390,7 @@ rule addDelegateBody(src:Class, own:Operation, orig:Operation, vp:Node) : (Call)
 	modify {
 		src <-:belongsTo- mb:MethodBody <-:belongsTo- bl:Block;
 		mb <-b:binding- own;
-		bl -:expression_-> access:Access -:expression_-> call:Call -:link-> orig;
+		bl -:expression-> access:Access -:expression-> call:Call -:link-> orig;
 		access -:link-> vp; // call via instance variable or parameter
 		access -:inBlock-> bl; //for nested layout
 		call -:inBlock-> bl; //for nested layout
@@ -418,12 +418,12 @@ rule linkDelegateBodyToOperation(call:Call, op:Operation)
 
 rule replaceAccess_Variable(movedOperation:Operation, v:Variable)
 {
-	a:Access -e:expression_-> call:Call -l:link-> movedOperation;
+	a:Access -e:expression-> call:Call -l:link-> movedOperation;
 	call -:inBlock-> b:Block; //for nested layout
 	
 	modify {
 		delete(e);
-		a -:expression_-> targetAccess:Access -:expression_-> call;
+		a -:expression-> targetAccess:Access -:expression-> call;
 		targetAccess -:link-> v;
 		targetAccess -:inBlock-> b; //for nested layout
 	}
@@ -431,12 +431,12 @@ rule replaceAccess_Variable(movedOperation:Operation, v:Variable)
 
 rule replaceAccess_Variable_WithSource(movedOperation:Operation, v:Variable, srcparam:Parameter)
 {
-	a:Access -e:expression_-> call:Call -l:link-> movedOperation;
+	a:Access -e:expression-> call:Call -l:link-> movedOperation;
 	call -:inBlock-> b:Block; //for nested layout
 
 	modify {
 		delete(e);
-		a -:expression_-> targetAccess:Access -:expression_-> call;
+		a -:expression-> targetAccess:Access -:expression-> call;
 		targetAccess -:link-> v;
 		call -:actualParameter-> srcparam;
 		targetAccess -:inBlock-> b; //for nested layout
@@ -457,7 +457,7 @@ test getUnprocessedCallWithActualParameter(movedOperation:Operation, p:Parameter
 {
 	// can't link actual parameter expression to formal parameter, information missing
 	// so choose indeterministically (by matching one)
-	a:Access -e:expression_-> c:Call;
+	a:Access -e:expression-> c:Call;
 	c -:link-> movedOperation -:parameter-> p;
 	c -:actualParameter-> pe:Expression;
 
@@ -470,7 +470,7 @@ test getUnprocessedCallWithActualParameter(movedOperation:Operation, p:Parameter
 
 rule replaceAccess_Parameter_AccessWithoutLink(c:Call, pe:Expression)
 {
-	a:Access -e:expression_-> c;
+	a:Access -e:expression-> c;
 	c -:actualParameter-> pe;
 
 	negative {
@@ -485,7 +485,7 @@ rule replaceAccess_Parameter_AccessWithoutLink(c:Call, pe:Expression)
 
 rule replaceAccess_Parameter_AccessWithLinkToExpression(c:Call, pe:Expression)
 {
-	a:Access -e:expression_-> c;
+	a:Access -e:expression-> c;
 	c -:actualParameter-> pe;
 
 	a -old:link-> le:Expression;

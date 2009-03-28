@@ -20,7 +20,7 @@ induced rule BindOperations
 
 rule InitMoveIntoBlocks
 {
-	b:Block -:expression_-> exp:Expression;
+	b:Block -:expression-> exp:Expression;
 	negative {
 		b <-:inBlock- exp;
 	}
@@ -33,7 +33,7 @@ rule InitMoveIntoBlocks
 rule MoveIntoBlocks
 {
 	b:Block <-:inBlock- :Expression -e:Edge-> exp:Expression;
-	if { typeof(e) == expression_ || typeof(e) == actualParameter; }
+	if { typeof(e) == expression || typeof(e) == actualParameter; }
 	negative {
 		b <-:inBlock- exp;
 	}

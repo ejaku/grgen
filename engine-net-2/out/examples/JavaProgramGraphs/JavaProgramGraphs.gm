@@ -99,7 +99,7 @@ edge class binding;
 
 edge class link;
 
-edge class expression_
+edge class expression
 {
 	order:int;
 }

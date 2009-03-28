@@ -211,7 +211,7 @@ pattern MultipleExpressions(b:Block)
 	alternative {
 		NoExpressionLeft {
 			negative {
-				b -:expression_-> :Expression;
+				b -:expression-> :Expression;
 			}
 			
 			modify {}
@@ -234,7 +234,7 @@ pattern ExpressionChain(e:Expression)
 {
 	alternative {
 		ExprAndAgain {
-			e -:expression_-> next:Expression\Call;
+			e -:expression-> next:Expression\Call;
 			ec:ExpressionChain(next);	
 			
 			modify {
@@ -243,7 +243,7 @@ pattern ExpressionChain(e:Expression)
 			}
 		}
 		CallAndAgain {
-			e -:expression_-> call:Call;
+			e -:expression-> call:Call;
 			ec:ExpressionChain(call);
 			:MultipleActualParameters(call);
 			
@@ -254,7 +254,7 @@ pattern ExpressionChain(e:Expression)
 		}
 		End {
 			negative {
-				e -:expression_->;
+				e -:expression->;
 			}
 			
 			modify {
