@@ -121,6 +121,11 @@ namespace de.unika.ipd.grGen.libGr
         IAlternative[] Alternatives { get; }
 
         /// <summary>
+        /// An array of all patterns, each all is greedily matched as often as possible.
+        /// </summary>
+        IPatternGraph[] Alls { get; }
+
+        /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched
         /// (NACs - Negative Application Conditions).
         /// </summary>

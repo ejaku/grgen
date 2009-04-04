@@ -1985,6 +1985,18 @@
             enumerator over submatches due to alternatives
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Alls_Enumerable">
+            <summary>
+            enumerable returning enumerator over submatches due to alls,
+            with every submatch being a list of matches of the all-pattern
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Alls_Enumerator">
+            <summary>
+            enumerator over submatches due to alls,
+            with every submatch being a list of matches of the all-pattern
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.Independents_Enumerable">
             <summary>
             enumerable returning enumerator over submatches due to independents
@@ -2005,12 +2017,13 @@
             The next element in the linked list.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1">
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2">
             <summary>
             An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
             It is returned by IAction.Match() and given to the OnMatched, OnFinishing and OnFinished event.
-            Generic to be instantiated with the exact type of the match object
-            Every generated Action contains a LGSPMatchesList.
+            Generic to be instantiated with the exact interface and the exact implementation type of the match object
+            Every generated Action contains a LGSPMatchesList, 
+            the matches contain one LGSPMatchesList per all pattern.
             A matches list stores the matches found by the last application of the action,
             the matches objects within the list are recycled by the next application of the action,
             only their content gets updated.
@@ -2018,24 +2031,30 @@
             to save new/garbage collection cycles and improve cache footprint.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.GetEnumerator">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetEnumeratorExact">
             <summary>
-            Returns an enumerator over all found matches.
+            Returns an enumerator over all found matches with exact match interface type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetEnumerator">
+            <summary>
+            Returns an enumerator over all found matches with inexact match interface type.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.System#Collections#IEnumerable#GetEnumerator">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.System#Collections#IEnumerable#GetEnumerator">
             <summary>
             Returns a non-generic enumerator over all found matches.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.GetMatch(System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetMatch(System.Int32)">
             <summary>
             Returns the match with the given index. Invalid indices cause an exception.
             This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
             </summary>
             <exception cref="T:System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.RemoveMatch(System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.RemoveMatch(System.Int32)">
             <summary>
             Removes the match at the given index and returns it.
             </summary>
@@ -2043,68 +2062,68 @@
             <returns>The removed match.</returns>
             <exception cref="T:System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.#ctor(de.unika.ipd.grGen.lgsp.LGSPAction)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.#ctor(de.unika.ipd.grGen.lgsp.LGSPAction)">
             <summary>
             Constructs a new LGSPMatchesList instance.
             </summary>
             <param name="producer">The action object used to generate this LGSPMatchesList object</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.GetNextUnfilledPosition">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetNextUnfilledPosition">
             <summary>
             returns an empty match object from the matches list 
             to be filled by the matching action with the found nodes, edges and subpatterns.
             unless PositionWasFilledFixIt is called you always get the same element
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.PositionWasFilledFixIt">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.PositionWasFilledFixIt">
             <summary>
             the match object returned by GetNextUnfilledPosition was filled,
             now fix it within the list, so that the next call to GetNextUnfilledPosition returns a new element
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.Clear">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Clear">
             <summary>
             remove all filled and committed elements from the list
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.producer">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.producer">
             <summary>
             the action object used to generate this LGSPMatchesList object
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.root">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.root">
             <summary>
             head of list
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.last">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.last">
             <summary>
             logically last element of list, not necessarily physically the last element 
             as previously generated matches are kept and recycled 
             denotes the next point of logical insertion i.e. physical update
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.count">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.count">
             <summary>
             number of found matches in the list
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.Producer">
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Producer">
             <summary>
             The action object used to generate this LGSPMatchesList object
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.Count">
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Count">
             <summary>
             The number of matches in this list.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.First">
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.First">
             <summary>
             The first match of this list.
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`1.Item(System.Int32)">
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Item(System.Int32)">
             <summary>
             Returns the match with the given index.
             This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
@@ -4137,6 +4156,11 @@
             An array of alternatives, each alternative contains in its cases the subpatterns to choose out of.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.alls">
+            <summary>
+            An array of all patterns, each all is greedily matched as often as possible.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.negativePatternGraphs">
             <summary>
             An array of negative pattern graphs which make the search fail if they get matched
@@ -4159,7 +4183,7 @@
             The conditions used in this pattern graph or it's nested graphs
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:])">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:])">
             <summary>
             Constructs a PatternGraph object.
             </summary>
@@ -4173,6 +4197,7 @@
             i.e. subpatterns and the way they are connected to the pattern.</param>
             <param name="alternatives">An array of alternatives, each alternative contains
             in its cases the subpatterns to choose out of.</param>
+            <param name="alls">An array of all patterns, each all is greedily matched as often as possible.</param>
             <param name="negativePatternGraphs">An array of negative pattern graphs which make the
             search fail if they get matched (NACs - Negative Application Conditions).</param>
             <param name="conditions">The conditions used in this pattern graph or it's nested graphs.</param>
@@ -4279,6 +4304,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.Alternatives">
             <summary>
             An array of alternatives, each alternative contains in its cases the subpatterns to choose out of.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.Alls">
+            <summary>
+            An array of all patterns, each all is greedily matched as often as possible.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.NegativePatternGraphs">

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Thu Mar 26 22:28:25 GMT+01:00 2009
+// Generated from "test.grg" on Sat Apr 04 15:35:15 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -34,6 +34,7 @@ namespace de.unika.ipd.grGen.Action_test
 		public enum testRule_VariableNums { };
 		public enum testRule_SubNums { };
 		public enum testRule_AltNums { };
+		public enum testRule_AllNums { };
 
 
 
@@ -73,6 +74,7 @@ namespace de.unika.ipd.grGen.Action_test
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -172,6 +174,7 @@ namespace de.unika.ipd.grGen.Action_test
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
+			//Alls
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -248,6 +251,17 @@ namespace de.unika.ipd.grGen.Action_test
 				}
 			}
 			
+			public enum testRule_AllNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
+			public int NumberOfAlls { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
 			public enum testRule_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -293,11 +307,11 @@ namespace de.unika.ipd.grGen.Action_test
             rulePattern = Rule_testRule.Instance;
             patternGraph = rulePattern.patternGraph;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_testRule.Match_testRule>(this);
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_testRule.Match_testRule, Rule_testRule.IMatch_testRule>(this);
         }
 
         public override string Name { get { return "testRule"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_testRule.Match_testRule> matches;
+        private GRGEN_LGSP.LGSPMatchesList<Rule_testRule.Match_testRule, Rule_testRule.IMatch_testRule> matches;
 
         public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
         private static Action_testRule instance = new Action_testRule();

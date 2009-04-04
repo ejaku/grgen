@@ -32,6 +32,7 @@ import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.parser.Coords;
@@ -58,6 +59,7 @@ public class PatternGraphNode extends GraphNode {
 
 	CollectNode<ExprNode> conditions;
 	CollectNode<AlternativeNode> alts;
+	CollectNode<AllNode> alls;
 	CollectNode<PatternGraphNode> negs; // NACs
 	CollectNode<PatternGraphNode> idpts; // PACs
 	CollectNode<HomNode> homs;
@@ -104,8 +106,8 @@ public class PatternGraphNode extends GraphNode {
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
-			CollectNode<SubpatternUsageNode> subpatterns,
-			CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<AlternativeNode> alts,
+			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
+			CollectNode<AlternativeNode> alts, CollectNode<AllNode> alls,
 			CollectNode<PatternGraphNode> negs, CollectNode<PatternGraphNode> idpts,
 			CollectNode<ExprNode> conditions, CollectNode<ExprNode> returns,
 			CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
@@ -113,6 +115,8 @@ public class PatternGraphNode extends GraphNode {
 		super(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, returns, null, context);
 		this.alts = alts;
 		becomeParent(this.alts);
+		this.alls = alls;
+		becomeParent(this.alls);
 		this.negs = negs;
 		becomeParent(this.negs);
 		this.idpts = idpts;
@@ -136,6 +140,7 @@ public class PatternGraphNode extends GraphNode {
 		children.add(subpatterns);
 		children.add(subpatternReplacements);
 		children.add(alts);
+		children.add(alls);
 		children.add(negs);
 		children.add(idpts);
 		children.add(returns);
@@ -154,6 +159,7 @@ public class PatternGraphNode extends GraphNode {
 		childrenNames.add("subpatterns");
 		childrenNames.add("subpatternReplacements");
 		childrenNames.add("alternatives");
+		childrenNames.add("alls");
 		childrenNames.add("negatives");
 		childrenNames.add("independents");
 		childrenNames.add("return");
@@ -441,6 +447,11 @@ public class PatternGraphNode extends GraphNode {
 		for(AlternativeNode alternativeNode : alts.getChildren()) {
 			Alternative alternative = alternativeNode.checkIR(Alternative.class);
 			gr.addAlternative(alternative);
+		}
+
+		for(AllNode allNode : alls.getChildren()) {
+			Rule all = allNode.checkIR(Rule.class);
+			gr.addAll(all);
 		}
 
 		for (ExprNode expr : conditions.getChildren()) {

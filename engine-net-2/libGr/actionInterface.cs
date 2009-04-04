@@ -371,6 +371,36 @@ namespace de.unika.ipd.grGen.libGr
 
 
         //////////////////////////////////////////////////////////////////////////
+        // Alls
+
+        /// <summary>
+        /// Enumerable returning enumerator over submatches due to alls (most inefficient access)
+        /// The submatch is a list of all matches of the all pattern.
+        /// </summary>
+        IEnumerable<IMatches> Alls { get; }
+
+        /// <summary>
+        /// Enumerator over submatches due to alls. (efficiency in between getAllAt and Alls)
+        /// The submatch is a list of all matches of the all pattern.
+        /// </summary>
+        IEnumerator<IMatches> AllsEnumerator { get; }
+
+        /// <summary>
+        /// Number of submatches due to alls in the match.
+        /// Corresponding to the number of alls patterns, not the number of matches of some all pattern.
+        /// </summary>
+        int NumberOfAlls { get; }
+
+        /// <summary>
+        /// Returns submatch due to alls at position index (most efficient access)
+        /// The submatch is a list of all matches of the all pattern.
+        /// </summary>
+        /// <param name="index">The position of the submatch due to alls to return</param>
+        /// <returns>The submatch due to alls at the given index</returns>
+        IMatches getAllAt(int index);
+
+
+        //////////////////////////////////////////////////////////////////////////
         // Independents
 
         /// <summary>
@@ -398,7 +428,8 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
-    /// It is returned by IAction.Match() and given to the OnMatched event.
+    /// If it is a match of an action, it is returned by IAction.Match() and given to the OnMatched event.
+    /// Otherwise it's the match of an all-pattern, and the producing action is null.
     /// </summary>
     public interface IMatches : IEnumerable<IMatch>
     {
@@ -429,6 +460,16 @@ namespace de.unika.ipd.grGen.libGr
 		/// <param name="index">The index of the match to be removed.</param>
 		/// <returns>The removed match.</returns>
 		IMatch RemoveMatch(int index);
+    }
+
+
+    /// <summary>
+    /// An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied,
+    /// capable of handing out enumerators of exact match interface type.
+    /// </summary>
+    public interface IMatchesExact<MatchInterface> : IMatches
+    {
+        IEnumerator<MatchInterface> GetEnumeratorExact();
     }
 
     /// <summary>

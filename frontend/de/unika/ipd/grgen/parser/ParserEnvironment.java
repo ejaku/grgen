@@ -48,13 +48,15 @@ public abstract class ParserEnvironment extends Base {
 	public static final int ENTITIES = 1;
 	public static final int ACTIONS = ENTITIES; // actions are also entities to get exec working
 	public static final int ALTERNATIVES = 2;
-	public static final int REPLACES = 3;
-	public static final int MODELS = 4;
+	public static final int ALLS = 3;
+	public static final int REPLACES = 4;
+	public static final int MODELS = 5;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types"),        // types and patterns
 		new SymbolTable("entities"),     // entities and actions
 		new SymbolTable("alternatives"),
+		new SymbolTable("alls"),
 		new SymbolTable("replaces"),
 		new SymbolTable("models"),
 	};
@@ -315,6 +317,7 @@ public abstract class ParserEnvironment extends Base {
 
 		keywords.add("abstract");
 		keywords.add("actions");
+		keywords.add("all");
 		keywords.add("alternative");
 		keywords.add("arbitrary");
 		keywords.add("class");
@@ -326,7 +329,8 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("dpo");
 		keywords.add("edge");
 		keywords.add("emit");
-		keywords.add("emitf");
+		keywords.add("emitpre");
+		keywords.add("emitpost");
 		keywords.add("enum");
 		keywords.add("eval");
 		keywords.add("exact");
@@ -336,10 +340,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("hom");
 		keywords.add("in");
 		keywords.add("independent");
-		keywords.add("indexOf");
 		keywords.add("induced");
-		keywords.add("lastIndexOf");
-		keywords.add("length");
 		keywords.add("map");
 		keywords.add("model");
 		keywords.add("modify");
@@ -348,12 +349,11 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("node");
 		keywords.add("null");
 		keywords.add("pattern");
+		keywords.add("patternpath");
 		keywords.add("replace");
 		keywords.add("return");
 		keywords.add("rule");
 		keywords.add("set");
-		keywords.add("substring");
-		keywords.add("term");
 		keywords.add("test");
 		keywords.add("true");
 		keywords.add("typeof");

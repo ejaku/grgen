@@ -383,6 +383,11 @@ namespace de.unika.ipd.grGen.lgsp
         public IAlternative[] Alternatives { get { return alternatives; } }
 
         /// <summary>
+        /// An array of all patterns, each all is greedily matched as often as possible.
+        /// </summary>
+        public IPatternGraph[] Alls { get { return alls; } }
+
+        /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched
         /// (NACs - Negative Application Conditions).
         /// </summary>
@@ -510,6 +515,11 @@ namespace de.unika.ipd.grGen.lgsp
         public Alternative[] alternatives;
 
         /// <summary>
+        /// An array of all patterns, each all is greedily matched as often as possible.
+        /// </summary>
+        public PatternGraph[] alls;
+
+        /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched
         /// (NACs - Negative Application Conditions).
         /// </summary>
@@ -544,6 +554,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// i.e. subpatterns and the way they are connected to the pattern.</param>
         /// <param name="alternatives">An array of alternatives, each alternative contains
         /// in its cases the subpatterns to choose out of.</param>
+        /// <param name="alls">An array of all patterns, each all is greedily matched as often as possible.</param>
         /// <param name="negativePatternGraphs">An array of negative pattern graphs which make the
         /// search fail if they get matched (NACs - Negative Application Conditions).</param>
         /// <param name="conditions">The conditions used in this pattern graph or it's nested graphs.</param>
@@ -558,8 +569,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// may be matched non-isomorphic to which pattern edge globally, i.e. the edges are contained
         /// in different, but locally nested patterns (alternative cases).</param>
         public PatternGraph(String name, String pathPrefix, bool isPatternpathLocked,
-            PatternNode[] nodes, PatternEdge[] edges, PatternVariable[] variables,
-            PatternGraphEmbedding[] embeddedGraphs, Alternative[] alternatives, 
+            PatternNode[] nodes, PatternEdge[] edges,
+            PatternVariable[] variables, PatternGraphEmbedding[] embeddedGraphs,
+            Alternative[] alternatives, PatternGraph[] alls,
             PatternGraph[] negativePatternGraphs, PatternGraph[] independentPatternGraphs,
             PatternCondition[] conditions,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
@@ -573,6 +585,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.variables = variables;
             this.embeddedGraphs = embeddedGraphs;
             this.alternatives = alternatives;
+            this.alls = alls;
             this.negativePatternGraphs = negativePatternGraphs;
             this.independentPatternGraphs = independentPatternGraphs;
             this.Conditions = conditions;

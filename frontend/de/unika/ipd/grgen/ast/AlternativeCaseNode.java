@@ -42,7 +42,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 	private static final TypeNode subpatternType = new AlternativeCaseTypeNode();
 
 	/**
-	 * Make a new rule.
+	 * Make a new alternative case rule.
 	 * @param id The identifier of this rule.
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side(s).

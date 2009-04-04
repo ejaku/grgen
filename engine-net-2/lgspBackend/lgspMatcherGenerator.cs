@@ -1464,7 +1464,8 @@ exitSecondLoop: ;
             String namePrefix = (isInitialStatic ? "" : "Dyn") + "Action_";
             String className = namePrefix + rulePattern.name;
             String rulePatternClassName = rulePattern.GetType().Name;
-            String matchName = rulePatternClassName + "." + "Match_" + rulePattern.name;
+            String matchClassName = rulePatternClassName + "." + "Match_" + rulePattern.name;
+            String matchInterfaceName = rulePatternClassName + "." + "IMatch_" + rulePattern.name;
 
             sb.AppendFront("public class " + className + " : GRGEN_LGSP.LGSPAction\n");
             sb.AppendFront("{\n");
@@ -1475,12 +1476,12 @@ exitSecondLoop: ;
             sb.AppendFront("rulePattern = " + rulePatternClassName + ".Instance;\n");
             sb.AppendFront("patternGraph = rulePattern.patternGraph;\n");
             sb.AppendFront("DynamicMatch = myMatch;\n");
-            sb.AppendFront("matches = new GRGEN_LGSP.LGSPMatchesList<" + matchName + ">(this);\n");
+            sb.AppendFront("matches = new GRGEN_LGSP.LGSPMatchesList<" + matchClassName +", " + matchInterfaceName + ">(this);\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
             sb.AppendFront("public override string Name { get { return \"" + rulePattern.name + "\"; } }\n");
-            sb.AppendFront("private GRGEN_LGSP.LGSPMatchesList<" + matchName + "> matches;\n\n");
+            sb.AppendFront("private GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchInterfaceName + "> matches;\n\n");
             if (isInitialStatic)
             {
                 sb.AppendFront("public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }\n");

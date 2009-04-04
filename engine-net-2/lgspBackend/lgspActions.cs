@@ -166,6 +166,35 @@ namespace de.unika.ipd.grGen.lgsp
 
 
     /// <summary>
+    /// enumerable returning enumerator over submatches due to alls,
+    /// with every submatch being a list of matches of the all-pattern
+    /// </summary>
+    public class Alls_Enumerable : IEnumerable<IMatches>
+    {
+        public Alls_Enumerable(IMatch match) { this.match = match; }
+        public IEnumerator<IMatches> GetEnumerator() { return new Alls_Enumerator(match); } // KRANKE
+        IEnumerator IEnumerable.GetEnumerator() { return new Alls_Enumerator(match); } // SCHEISSE
+        IMatch match;
+    }
+
+    /// <summary>
+    /// enumerator over submatches due to alls,
+    /// with every submatch being a list of matches of the all-pattern
+    /// </summary>
+    public class Alls_Enumerator : IEnumerator<IMatches>
+    {
+        public Alls_Enumerator(IMatch match) { this.match = match; pos = -1; }
+        public void Reset() { pos = -1; }
+        public bool MoveNext() { ++pos; return pos < match.NumberOfAlls; }
+        public IMatches Current { get { return match.getAllAt(pos); } } // KRANKE
+        object IEnumerator.Current { get { return match.getAllAt(pos); } } // SCHEISSE
+        public void Dispose() { /*empty*/; }
+        IMatch match;
+        int pos;
+    }
+
+
+    /// <summary>
     /// enumerable returning enumerator over submatches due to independents
     /// </summary>
     public class Independents_Enumerable : IEnumerable<IMatch>
@@ -207,21 +236,34 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
     /// It is returned by IAction.Match() and given to the OnMatched, OnFinishing and OnFinished event.
-    /// Generic to be instantiated with the exact type of the match object
-    /// Every generated Action contains a LGSPMatchesList.
+    /// Generic to be instantiated with the exact interface and the exact implementation type of the match object
+    /// Every generated Action contains a LGSPMatchesList, 
+    /// the matches contain one LGSPMatchesList per all pattern.
     /// A matches list stores the matches found by the last application of the action,
     /// the matches objects within the list are recycled by the next application of the action,
     /// only their content gets updated.
     /// The purpose of this list is to act as a memory manager 
     /// to save new/garbage collection cycles and improve cache footprint.
     /// </summary>
-    public class LGSPMatchesList<Match> : IMatches
-        where Match : ListElement<Match>, IMatch, new()
+    public class LGSPMatchesList<Match, MatchInterface> : IMatchesExact<MatchInterface>
+        where Match : ListElement<Match>, MatchInterface, new()
+        where MatchInterface : IMatch
     {
-        #region IMatches
+        #region IMatchesExact
 
         /// <summary>
-        /// Returns an enumerator over all found matches.
+        /// Returns an enumerator over all found matches with exact match interface type
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<MatchInterface> GetEnumeratorExact()
+        {
+            Match cur = root;
+            for (int i = 0; i < count; i++, cur = cur.next)
+                yield return cur;
+        }
+
+        /// <summary>
+        /// Returns an enumerator over all found matches with inexact match interface type.
         /// </summary>
         public IEnumerator<IMatch> GetEnumerator()
         {
@@ -277,7 +319,6 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         #endregion
-
 
         /// <summary>
         /// Constructs a new LGSPMatchesList instance.

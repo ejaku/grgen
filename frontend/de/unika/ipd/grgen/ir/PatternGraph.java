@@ -32,6 +32,9 @@ public class PatternGraph extends Graph {
 	/** The alternative statements of the pattern graph */
 	private final Collection<Alternative> alts = new LinkedList<Alternative>();
 
+	/** The alternative statements of the pattern graph */
+	private final Collection<Rule> alls = new LinkedList<Rule>();
+
 	/** The negative patterns(NAC) of the rule. */
 	private final Collection<PatternGraph> negs = new LinkedList<PatternGraph>();
 
@@ -91,6 +94,14 @@ public class PatternGraph extends Graph {
 		return Collections.unmodifiableCollection(alts);
 	}
 
+	public void addAll(Rule all) {
+		alls.add(all);
+	}
+	
+	public Collection<Rule> getAlls() {
+		return Collections.unmodifiableCollection(alls);
+	}
+	
 	public void addNegGraph(PatternGraph neg) {
 		int patternNameNumber = negs.size();
 		neg.setName("N" + patternNameNumber);
@@ -274,6 +285,16 @@ public class PatternGraph extends Graph {
 			}
 		}
 
+		for(Rule all : getAlls()) {
+			all.getLeft().insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(all.getRight());
+			
+			PatternGraph allPattern = all.getLeft();
+			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
+			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
+			allPattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+					alreadyDefinedNodesClone, alreadyDefinedEdgesClone);
+		}
+		
 		for (PatternGraph negative : getNegs()) {
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
@@ -316,6 +337,34 @@ public class PatternGraph extends Graph {
 							// prevent deletion of elements inserted for pattern completion
 							altCaseReplacement.addSingleEdge(edge);
 						}
+					}
+				}
+			}
+		}
+
+		// add elements needed in all, which are not defined there and are neither defined nor used here
+		// they must get handed down as preset from the defining nesting pattern to here
+		for(Rule all : getAlls()) {
+			PatternGraph allPattern = all.getLeft();
+			for(Node node : allPattern.getNodes()) {
+				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
+					addSingleNode(node);
+					addHomToAll(node);
+					PatternGraph allReplacement = all.getRight();
+					if(allReplacement!=null && !allReplacement.hasNode(node)) {
+						// prevent deletion of elements inserted for pattern completion
+						allReplacement.addSingleNode(node);
+					}
+				}
+			}
+			for(Edge edge : allPattern.getEdges()) {
+				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
+					addSingleEdge(edge); // TODO: maybe we loose context here
+					addHomToAll(edge);
+					PatternGraph allReplacement = all.getRight();
+					if(all!=null && !allReplacement.hasEdge(edge)) {
+						// prevent deletion of elements inserted for pattern completion
+						allReplacement.addSingleEdge(edge);
 					}
 				}
 			}

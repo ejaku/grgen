@@ -406,6 +406,7 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context,
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
 		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
 		CollectNode<AlternativeNode> alts = new CollectNode<AlternativeNode>();
+		CollectNode<AllNode> alls = new CollectNode<AllNode>();
 		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
 		CollectNode<PatternGraphNode> idpts = new CollectNode<PatternGraphNode>();
 		CollectNode<ExprNode> conds = new CollectNode<ExprNode>();
@@ -414,28 +415,30 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context,
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
 		res = new PatternGraphNode(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, 
-				alts, negs, idpts, conds,
+				alts, alls, negs, idpts, conds,
 				returnz, homs, exact, induced, mod, context);
 	}
 
 	: ( patternStmt[connections, subpatterns, subpatternReplacements,
-			alts, negs, idpts, conds,
+			alts, alls, negs, idpts, conds,
 			returnz, homs, exact, induced, context, res] )*
 	;
 
 patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
-			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs,
+			CollectNode<AlternativeNode> alts, CollectNode<AllNode> alls, CollectNode<PatternGraphNode> negs,
 			CollectNode<PatternGraphNode> idpts, CollectNode<ExprNode> conds,
 			CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context, PatternGraphNode directlyNestingLHSGraph]
 	@init{
 		int altCounter = 0;
+		int allCounter = 0;
 		int negCounter = 0;
 		int idptCounter = 0;
 	}
 
 	: connectionsOrSubpattern[conn, subpatterns, subpatternReplacements, context, directlyNestingLHSGraph] SEMI
 	| alt=alternative[altCounter, context] { alts.addChild(alt); ++altCounter; }
+	| all=allblock[allCounter, context] { alls.addChild(all); ++allCounter; }
 	| neg=negative[negCounter, context] { negs.addChild(neg); ++negCounter; }
 	| idpt=independent[idptCounter, context] { idpts.addChild(idpt); ++idptCounter; }
 	| condition[conds]
@@ -881,6 +884,30 @@ alternativeCase [ AlternativeNode alt, int altCount, int context ]
 				}
 		) ?
 		RBRACE popScope	{ alt.addChild(new AlternativeCaseNode(id, left, rightHandSides)); }
+	;
+
+allblock [ int allCount, int context ] returns [ AllNode res = null ]
+	@init{
+		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
+		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
+		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
+		IdentNode allName = IdentNode.getInvalid();
+	}
+
+	: a=ALL ( an=allIdentDecl { allName = an; } | { allName = new IdentNode(env.define(ParserEnvironment.ALLS, "all"+allCount, getCoords(a))); } )
+		LBRACE pushScopeStr["all"+allCount, getCoords(a)]
+		left=patternBody[getCoords(a), new CollectNode<BaseNode>(), 0, context, "all"+allCount]
+		(
+			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, allName, left]
+				{
+					rightHandSides.addChild(rightReplace);
+				}
+			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, allName, left]
+				{
+					rightHandSides.addChild(rightModify);
+				}
+		) ?				
+		RBRACE popScope { res = new AllNode(allName, left, rightHandSides); }
 	;
 
 negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
@@ -1629,6 +1656,10 @@ altIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: i=identDecl[ParserEnvironment.ALTERNATIVES] { res = i; }
 	;
 
+allIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+	: i=identDecl[ParserEnvironment.ALLS] { res = i; }
+	;
+
 patIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: i=identDecl[ParserEnvironment.PATTERNS] { res = i; }
 	;
@@ -1647,6 +1678,10 @@ entIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 
 actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=identUse[ParserEnvironment.ACTIONS] { res = i; }
+	;
+
+allIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+	: i=identUse[ParserEnvironment.ALLS] { res = i; }
 	;
 
 altIdentUse returns [ IdentNode res = env.getDummyIdent() ]
@@ -2144,6 +2179,7 @@ INCLUDE
 
 ABSTRACT : 'abstract';
 ACTIONS : 'actions';
+ALL : 'all';
 ALTERNATIVE : 'alternative';
 ARBITRARY : 'arbitrary';
 CLASS : 'class';

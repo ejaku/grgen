@@ -555,6 +555,11 @@
             An array of alternatives, each alternative contains in its cases the subpatterns to choose out of.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.Alls">
+            <summary>
+            An array of all patterns, each all is greedily matched as often as possible.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.NegativePatternGraphs">
             <summary>
             An array of negative pattern graphs which make the search fail if they get matched
@@ -1645,6 +1650,14 @@
             <param name="index">The position of the submatch due to alternatives to return</param>
             <returns>The submatch due to alternatives at the given index</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatch.getAllAt(System.Int32)">
+            <summary>
+            Returns submatch due to alls at position index (most efficient access)
+            The submatch is a list of all matches of the all pattern.
+            </summary>
+            <param name="index">The position of the submatch due to alls to return</param>
+            <returns>The submatch due to alls at the given index</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatch.getIndependentAt(System.Int32)">
             <summary>
             Returns submatch due to independents at position index (most efficient access)
@@ -1739,6 +1752,24 @@
             Number of submatches due to alternatives in the match
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.Alls">
+            <summary>
+            Enumerable returning enumerator over submatches due to alls (most inefficient access)
+            The submatch is a list of all matches of the all pattern.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.AllsEnumerator">
+            <summary>
+            Enumerator over submatches due to alls. (efficiency in between getAllAt and Alls)
+            The submatch is a list of all matches of the all pattern.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatch.NumberOfAlls">
+            <summary>
+            Number of submatches due to alls in the match.
+            Corresponding to the number of alls patterns, not the number of matches of some all pattern.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatch.Independents">
             <summary>
             Enumerable returning enumerator over submatches due to independents (most inefficient access)
@@ -1757,7 +1788,8 @@
         <member name="T:de.unika.ipd.grGen.libGr.IMatches">
             <summary>
             An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
-            It is returned by IAction.Match() and given to the OnMatched event.
+            If it is a match of an action, it is returned by IAction.Match() and given to the OnMatched event.
+            Otherwise it's the match of an all-pattern, and the producing action is null.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatches.GetMatch(System.Int32)">
@@ -1786,6 +1818,12 @@
         <member name="P:de.unika.ipd.grGen.libGr.IMatches.Count">
             <summary>
             The number of matches found by Producer
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IMatchesExact`1">
+            <summary>
+            An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied,
+            capable of handing out enumerators of exact match interface type.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.PerformanceInfo">
