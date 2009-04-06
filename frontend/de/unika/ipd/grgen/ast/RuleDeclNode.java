@@ -301,9 +301,7 @@ public class RuleDeclNode extends TestDeclNode {
 			// all non-retyped elements in the same hom group are marked
 			// as maybeRetyped.
 			if(containsRetypedElem) {
-				for(BaseNode e : homSet) {
-					// TODO avoid cast
-					ConstraintDeclNode elem = (ConstraintDeclNode) e;
+				for(ConstraintDeclNode elem : homSet) {
 					if(elem.getRetypedElement() == null)
 						elem.maybeRetyped = true;
 				}
