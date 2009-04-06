@@ -28,11 +28,9 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 
 	@SuppressWarnings("unchecked")
 	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
-			new DeclarationResolver<BaseNode>(new Class[] {
-					MemberDeclNode.class, MemberInitNode.class,
-					MapInitNode.class, SetInitNode.class,
-					ConstructorDeclNode.class
-				}));
+			new DeclarationResolver<BaseNode>(MemberDeclNode.class,
+					MemberInitNode.class, MapInitNode.class, SetInitNode.class,
+					ConstructorDeclNode.class));
 
 	protected static final CollectResolver<EdgeTypeNode> extendResolver = new CollectResolver<EdgeTypeNode>(
     		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class));
@@ -94,7 +92,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	public EdgeType getEdgeType() {
 		return checkIR(EdgeType.class);
 	}
-	
+
 	public CollectNode<? extends InheritanceTypeNode> getExtends() {
 		return extend;
 	}
@@ -107,7 +105,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 			coll.addAll(inh.getCompatibleToTypes());
 		}
     }
-	
+
 	public Collection<EdgeTypeNode> getDirectSuperTypes() {
 		assert isResolved();
 
