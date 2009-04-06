@@ -10,7 +10,6 @@
 package de.unika.ipd.grgen.ir;
 
 import de.unika.ipd.grgen.util.Annotations;
-import de.unika.ipd.grgen.util.EmptyAnnotations;
 import de.unika.ipd.grgen.util.Retyped;
 
 public class RetypedNode extends Node implements Retyped {
