@@ -91,7 +91,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		BaseNode prev = null;
 
 		while (!(curr instanceof RuleDeclNode
-				|| curr instanceof SubpatternDeclNode 
+				|| curr instanceof SubpatternDeclNode
 				|| curr instanceof AlternativeCaseNode)) {
 			prev = curr;
 			// doesn't matter which parent you choose, in the end you reach RuleDeclNode/SubpatternDeclNode/AlternativeCaseNode
@@ -137,8 +137,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		// This cast must be ok after checking.
-		EdgeTypeNode etn = (EdgeTypeNode) getDeclType();
+		EdgeTypeNode etn = getDeclType();
 		EdgeType et = etn.getEdgeType();
 		IdentNode ident = getIdentNode();
 

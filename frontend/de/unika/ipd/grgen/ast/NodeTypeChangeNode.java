@@ -94,8 +94,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		BaseNode curr = old;
 		BaseNode prev = null;
 
-		while (!(curr instanceof RuleDeclNode 
-					|| curr instanceof SubpatternDeclNode 
+		while (!(curr instanceof RuleDeclNode
+					|| curr instanceof SubpatternDeclNode
 					|| curr instanceof AlternativeCaseNode))
 		{
 			prev = curr;
@@ -141,8 +141,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		// This cast must be ok after checking.
-		NodeTypeNode tn = (NodeTypeNode) getDeclType();
+		NodeTypeNode tn = getDeclType();
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 

@@ -156,8 +156,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		// This cast must be ok after checking.
-		NodeTypeNode tn = (NodeTypeNode) getDeclType();
+		NodeTypeNode tn = getDeclType();
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 
