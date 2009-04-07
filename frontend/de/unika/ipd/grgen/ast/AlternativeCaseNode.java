@@ -297,11 +297,11 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 					res = false;
 					continue;
 				}
-				
+
 				if(right.getChildren().size()==0) continue;
-				
+
 				Vector<DeclNode> parameters = right.children.get(0).graph.getParamDecls(); // todo: choose the right one
-				Vector<DeclNode> parametersInNestedAlternativeCase = 
+				Vector<DeclNode> parametersInNestedAlternativeCase =
 					altCase.right.children.get(0).graph.getParamDecls(); // todo: choose the right one
 
 				if(parameters.size()!=parametersInNestedAlternativeCase.size()) {
@@ -317,19 +317,19 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 					ConstraintDeclNode parameterInNestedAlternativeCase = (ConstraintDeclNode)parametersInNestedAlternativeCase.get(i);
 					InheritanceTypeNode parameterType = parameter.getDeclType();
 					InheritanceTypeNode parameterInNestedAlternativeCaseType = parameterInNestedAlternativeCase.getDeclType();
-					
+
 					if(!parameterType.isEqual(parameterInNestedAlternativeCaseType)) {
-						parameterInNestedAlternativeCase.ident.reportError("Different type of replacement parameter in nested alternative case " + altCase.ident.toString() 
+						parameterInNestedAlternativeCase.ident.reportError("Different type of replacement parameter in nested alternative case " + altCase.ident.toString()
 								+ " at parameter " + parameterInNestedAlternativeCase.ident.toString() + " compared to replacement parameter in alternative " + ident.toString());
 						res = false;
 					}
 				}
 			}
 		}
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -349,7 +349,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 			error.error(getCoords(), "No return statements in pattern parts of rules allowed");
 			noReturnInPatternOk = false;
 		}
-		
+
 		boolean noReturnInAlterntiveCaseReplacement = true;
 		for (int i = 0; i < right.getChildren().size(); i++) {
 			if(right.children.get(i).graph.returns.children.size() > 0) {
@@ -373,16 +373,14 @@ public class AlternativeCaseNode extends ActionDeclNode  {
     			}
             }
 
-    		for(BaseNode n : right.getNodes()) {
-    			NodeDeclNode node = (NodeDeclNode)n;
-    			if(!node.hasTypeof() && ((InheritanceTypeNode)node.getDeclType()).isAbstract() && !pattern.getNodes().contains(node)) {
+    		for(NodeDeclNode node : right.getNodes()) {
+    			if(!node.hasTypeof() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node)) {
     				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
     				abstr = false;
     			}
     		}
-    		for(BaseNode e : right.getEdges()) {
-    			EdgeDeclNode edge = (EdgeDeclNode) e;
-    			if(!edge.hasTypeof() && ((InheritanceTypeNode)edge.getDeclType()).isAbstract() && !pattern.getEdges().contains(edge)) {
+    		for(EdgeDeclNode edge : right.getEdges()) {
+    			if(!edge.hasTypeof() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge)) {
     				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
     				abstr = false;
     			}

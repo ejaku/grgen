@@ -413,16 +413,14 @@ public class SubpatternDeclNode extends ActionDeclNode  {
     			}
             }
 
-    		for(BaseNode n : right.getNodes()) {
-    			NodeDeclNode node = (NodeDeclNode)n;
-    			if(!node.hasTypeof() && ((InheritanceTypeNode)node.getDeclType()).isAbstract() && !pattern.getNodes().contains(node)) {
+    		for(NodeDeclNode node : right.getNodes()) {
+    			if(!node.hasTypeof() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node)) {
     				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
     				abstr = false;
     			}
     		}
-    		for(BaseNode e : right.getEdges()) {
-    			EdgeDeclNode edge = (EdgeDeclNode) e;
-    			if(!edge.hasTypeof() && ((InheritanceTypeNode)edge.getDeclType()).isAbstract() && !pattern.getEdges().contains(edge)) {
+    		for(EdgeDeclNode edge : right.getEdges()) {
+    			if(!edge.hasTypeof() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge)) {
     				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
     				abstr = false;
     			}

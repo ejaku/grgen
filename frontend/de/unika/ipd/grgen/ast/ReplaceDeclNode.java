@@ -73,33 +73,26 @@ public class ReplaceDeclNode extends RhsDeclNode {
 		Set<EdgeDeclNode> rhsEdges = new LinkedHashSet<EdgeDeclNode>();
 		Set<NodeDeclNode> rhsNodes = new LinkedHashSet<NodeDeclNode>();
 
-		for (BaseNode x : graph.getEdges()) {
-			EdgeDeclNode decl = (EdgeDeclNode) x;
-
+		for (EdgeDeclNode decl : graph.getEdges()) {
 			while (decl instanceof EdgeTypeChangeNode) {
 				decl = ((EdgeTypeChangeNode) decl).getOldEdge();
 			}
 			rhsEdges.add(decl);
 		}
-		for (BaseNode x : pattern.getEdges()) {
-			assert (x instanceof DeclNode);
-			if ( ! rhsEdges.contains(x) ) {
-				coll.add((DeclNode)x);
+		for (EdgeDeclNode edge : pattern.getEdges()) {
+			if (!rhsEdges.contains(edge)) {
+				coll.add(edge);
 			}
 		}
 
-		for (BaseNode x : graph.getNodes()) {
-			NodeDeclNode decl = (NodeDeclNode) x;
-
+		for (NodeDeclNode decl : graph.getNodes()) {
 			while (decl instanceof NodeTypeChangeNode) {
 				decl = ((NodeTypeChangeNode) decl).getOldNode();
 			}
 			rhsNodes.add(decl);
 		}
-		for (BaseNode x : pattern.getNodes()) {
-			assert (x instanceof NodeDeclNode);
-			NodeDeclNode node = (NodeDeclNode) x;
-			if ( ! rhsNodes.contains(node) && !node.isDummy()) {
+		for (NodeDeclNode node : pattern.getNodes()) {
+			if (!rhsNodes.contains(node) && !node.isDummy()) {
 				coll.add(node);
 			}
 		}

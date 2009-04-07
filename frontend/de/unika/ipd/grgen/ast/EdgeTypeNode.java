@@ -147,8 +147,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 
     	setDirectednessIR(et); // from Undirected/Arbitrary/Directed-EdgeTypeNode
 
-    	for(BaseNode n : cas.getChildren()) {
-    		ConnAssertNode can = (ConnAssertNode)n;
+    	for(ConnAssertNode can : cas.getChildren()) {
     		et.addConnAssert(can.checkIR(ConnAssert.class));
     	}
 
