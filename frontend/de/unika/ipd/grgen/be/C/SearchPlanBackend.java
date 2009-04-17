@@ -540,7 +540,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		{
 			if(!(evalStmt instanceof Assignment)) continue;
 			Assignment eval = (Assignment) evalStmt;
-			
+
 			sb.append(indent + "ext_grs_act_register_eval(act, ");
 			if (eval.getExpression() instanceof Constant) {
 				sb.append("NULL");
@@ -711,7 +711,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			}
 			String mode = "ANY";
 			String lsmode = "ANY"; // just for Load/Store nodes!
-			
+
 			// define the create_func
 			String create_func = "new_rd_"+type;
 			// TODO be_* nodes will become _bd_ t some point!
@@ -762,7 +762,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			else
 			{
 				String related_name = node.getIdent().toString(); 			// Yes, the regular node name without suffix
-				
+
 				sb.append(indent + "ext_grs_node_t *n_" + name + " = ");
 				if (graphType == GraphType.Negative) {
 					sb.append("ext_grs_act_add_related_node(pattern, \"" +
@@ -1107,7 +1107,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				}
 				else if(n.getNodeType().isCastableTo(COND_TYPE))
 				{
-					sb.append("get_Cond_defaultProj(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
+					sb.append("get_Cond_default_proj(pat_node_map[" + nodeIds.computeId(n) + "/* " + entity.getIdent() + " */])");
 				}
 				else
 				{
