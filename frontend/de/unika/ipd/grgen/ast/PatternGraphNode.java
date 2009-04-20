@@ -59,7 +59,7 @@ public class PatternGraphNode extends GraphNode {
 
 	CollectNode<ExprNode> conditions;
 	CollectNode<AlternativeNode> alts;
-	CollectNode<AllNode> alls;
+	CollectNode<IteratedNode> iters;
 	CollectNode<PatternGraphNode> negs; // NACs
 	CollectNode<PatternGraphNode> idpts; // PACs
 	CollectNode<HomNode> homs;
@@ -107,7 +107,7 @@ public class PatternGraphNode extends GraphNode {
 	public PatternGraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
 			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
-			CollectNode<AlternativeNode> alts, CollectNode<AllNode> alls,
+			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters,
 			CollectNode<PatternGraphNode> negs, CollectNode<PatternGraphNode> idpts,
 			CollectNode<ExprNode> conditions, CollectNode<ExprNode> returns,
 			CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
@@ -115,8 +115,8 @@ public class PatternGraphNode extends GraphNode {
 		super(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, returns, null, context);
 		this.alts = alts;
 		becomeParent(this.alts);
-		this.alls = alls;
-		becomeParent(this.alls);
+		this.iters = iters;
+		becomeParent(this.iters);
 		this.negs = negs;
 		becomeParent(this.negs);
 		this.idpts = idpts;
@@ -140,7 +140,7 @@ public class PatternGraphNode extends GraphNode {
 		children.add(subpatterns);
 		children.add(subpatternReplacements);
 		children.add(alts);
-		children.add(alls);
+		children.add(iters);
 		children.add(negs);
 		children.add(idpts);
 		children.add(returns);
@@ -159,7 +159,7 @@ public class PatternGraphNode extends GraphNode {
 		childrenNames.add("subpatterns");
 		childrenNames.add("subpatternReplacements");
 		childrenNames.add("alternatives");
-		childrenNames.add("alls");
+		childrenNames.add("iters");
 		childrenNames.add("negatives");
 		childrenNames.add("independents");
 		childrenNames.add("return");
@@ -449,9 +449,9 @@ public class PatternGraphNode extends GraphNode {
 			gr.addAlternative(alternative);
 		}
 
-		for(AllNode allNode : alls.getChildren()) {
-			Rule all = allNode.checkIR(Rule.class);
-			gr.addAll(all);
+		for(IteratedNode iterNode : iters.getChildren()) {
+			Rule iter = iterNode.checkIR(Rule.class);
+			gr.addIterated(iter);
 		}
 
 		for (ExprNode expr : conditions.getChildren()) {

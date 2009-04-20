@@ -155,7 +155,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                             // append nested check maximum matches
                             bool atSubpatternLevel = enclosingSearchProgram is SearchProgramOfSubpattern
-                                || enclosingSearchProgram is SearchProgramOfAlternative;
+                                || enclosingSearchProgram is SearchProgramOfAlternative
+                                || enclosingSearchProgram is SearchProgramOfIterated;
                             CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
                                 new CheckContinueMatchingMaximumMatchesReached(atSubpatternLevel, false);
                             insertionPoint.Append(checkMaximumMatches);
@@ -266,6 +267,10 @@ namespace de.unika.ipd.grGen.lgsp
                             enclosingSearchProgram,
                             enclosingAlternative,
                             enclosingCheckNegativeOrIndependent);
+                    }
+                    else if (currentOperation is CheckContinueMatchingIteratedPatternFound)
+                    {
+                        // was built completely, nothing to complete
                     }
                     else
                     {
@@ -565,7 +570,7 @@ namespace de.unika.ipd.grGen.lgsp
                     InitializeSubpatternMatching initialize =
                         op as InitializeSubpatternMatching;
                     FinalizeSubpatternMatching finalize =
-                        new FinalizeSubpatternMatching();
+                        new FinalizeSubpatternMatching(initialize.Type);
                     insertionPoint = insertionPoint.Append(finalize);
                 }
                 // insert code to undo negative/independent matching initialization if we leave the negative/independent matching method

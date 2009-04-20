@@ -234,7 +234,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// The match of the enclosing pattern if this is the pattern of 
-        /// a subpattern, alternative, independent; otherwise null
+        /// a subpattern, alternative, iterated or independent; otherwise null
         /// </summary>
         IMatch MatchOfEnclosingPattern { get; }
 
@@ -371,33 +371,33 @@ namespace de.unika.ipd.grGen.libGr
 
 
         //////////////////////////////////////////////////////////////////////////
-        // Alls
+        // Iterateds
 
         /// <summary>
-        /// Enumerable returning enumerator over submatches due to alls (most inefficient access)
-        /// The submatch is a list of all matches of the all pattern.
+        /// Enumerable returning enumerator over submatches due to iterateds (most inefficient access)
+        /// The submatch is a list of all matches of the iterated pattern.
         /// </summary>
-        IEnumerable<IMatches> Alls { get; }
+        IEnumerable<IMatches> Iterateds { get; }
 
         /// <summary>
-        /// Enumerator over submatches due to alls. (efficiency in between getAllAt and Alls)
-        /// The submatch is a list of all matches of the all pattern.
+        /// Enumerator over submatches due to iterateds. (efficiency in between getIteratedAt and Iterateds)
+        /// The submatch is a list of all matches of the iterated pattern.
         /// </summary>
-        IEnumerator<IMatches> AllsEnumerator { get; }
+        IEnumerator<IMatches> IteratedsEnumerator { get; }
 
         /// <summary>
-        /// Number of submatches due to alls in the match.
-        /// Corresponding to the number of alls patterns, not the number of matches of some all pattern.
+        /// Number of submatches due to iterateds in the match.
+        /// Corresponding to the number of iterated patterns, not the number of matches of some iterated pattern.
         /// </summary>
-        int NumberOfAlls { get; }
+        int NumberOfIterateds { get; }
 
         /// <summary>
-        /// Returns submatch due to alls at position index (most efficient access)
-        /// The submatch is a list of all matches of the all pattern.
+        /// Returns submatch due to iterateds at position index (most efficient access)
+        /// The submatch is a list of all matches of the iterated pattern.
         /// </summary>
-        /// <param name="index">The position of the submatch due to alls to return</param>
-        /// <returns>The submatch due to alls at the given index</returns>
-        IMatches getAllAt(int index);
+        /// <param name="index">The position of the submatch due to iterateds to return</param>
+        /// <returns>The submatch due to iterateds at the given index</returns>
+        IMatches getIteratedAt(int index);
 
 
         //////////////////////////////////////////////////////////////////////////
@@ -429,7 +429,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
     /// If it is a match of an action, it is returned by IAction.Match() and given to the OnMatched event.
-    /// Otherwise it's the match of an all-pattern, and the producing action is null.
+    /// Otherwise it's the match of an iterated-pattern, and the producing action is null.
     /// </summary>
     public interface IMatches : IEnumerable<IMatch>
     {

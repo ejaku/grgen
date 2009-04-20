@@ -5,6 +5,7 @@
  */
 
 using System;
+using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -115,9 +116,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Returns name of the type of the task variable
         /// </summary>
-        public static string TypeOfTaskVariable(string subpatternName, bool isAlternative)
+        public static string TypeOfTaskVariable(string subpatternName, bool isAlternative, bool isIterated)
         {
-            return (isAlternative ? "AlternativeAction_" : "PatternAction_") + subpatternName;
+            Debug.Assert(!(isAlternative && isIterated));
+            if(isAlternative) return "AlternativeAction_" + subpatternName;
+            if(isIterated) return "IteratedAction_" + subpatternName;
+            return "PatternAction_" + subpatternName;
         }
 
         /// <summary>
@@ -172,6 +176,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case BuildMatchObjectType.Edge: return "edge_" + unprefixedElementName;
                 case BuildMatchObjectType.Variable: return "var_" + unprefixedElementName;
                 case BuildMatchObjectType.Subpattern: return unprefixedElementName;
+                case BuildMatchObjectType.Iteration: return unprefixedElementName;
                 case BuildMatchObjectType.Alternative: return unprefixedElementName;
                 case BuildMatchObjectType.Independent: return unprefixedElementName;
                 default: return "INTERNAL ERROR";

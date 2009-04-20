@@ -22,7 +22,8 @@ namespace de.unika.ipd.grGen.lgsp
         Action, // action pattern matcher
         MissingPreset, // missing preset matcher
         Subpattern, // subpattern matcher
-        AlternativeCase // alternative case matcher
+        AlternativeCase, // alternative case matcher
+        Iterated // iterated matcher
     }
 
     /// <summary>
@@ -74,16 +75,21 @@ namespace de.unika.ipd.grGen.lgsp
 
                 // build outermost search program operation, create the list anchor starting it's program
                 searchProgram = new SearchProgramOfMissingPreset(
-                    rulePatternClassName, rulePattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath,
-                    nameOfSearchProgram, patternGraph.embeddedGraphs.Length > 0 || patternGraph.alternatives.Length > 0,
-                    parameters, parameterIsNode);
+                    rulePatternClassName,
+                    rulePattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
+                    nameOfSearchProgram,
+                    patternGraph.embeddedGraphs.Length > 0 || patternGraph.iterateds.Length > 0 || patternGraph.alternatives.Length > 0,
+                    parameters, 
+                    parameterIsNode);
             }
             else
             {
                 // build outermost search program operation, create the list anchor starting it's program
                 searchProgram = new SearchProgramOfAction(
-                    rulePatternClassName, rulePattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath,
-                    "myMatch", patternGraph.embeddedGraphs.Length > 0 || patternGraph.alternatives.Length > 0);
+                    rulePatternClassName,
+                    rulePattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
+                    "myMatch",
+                    patternGraph.embeddedGraphs.Length > 0 || patternGraph.iterateds.Length > 0 || patternGraph.alternatives.Length > 0);
             }
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
@@ -143,13 +149,15 @@ namespace de.unika.ipd.grGen.lgsp
 
             // build outermost search program operation, create the list anchor starting it's program
             SearchProgram searchProgram = new SearchProgramOfSubpattern(
-                rulePatternClassName, matchingPattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath,
+                rulePatternClassName,
+                matchingPattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
                 "myMatch");
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
             // initialize task/result-pushdown handling in subpattern matcher
-            InitializeSubpatternMatching initialize = new InitializeSubpatternMatching();
+            InitializeSubpatternMatching initialize = 
+                new InitializeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Normal);
             insertionPoint = insertionPoint.Append(initialize);
 
             // start building with first operation in scheduled search plan
@@ -159,7 +167,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // finalize task/result-pushdown handling in subpattern matcher
             FinalizeSubpatternMatching finalize =
-                new FinalizeSubpatternMatching();
+                new FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Normal);
             insertionPoint = insertionPoint.Append(finalize);
 
             patternGraphWithNestingPatterns.Pop();
@@ -188,7 +196,7 @@ namespace de.unika.ipd.grGen.lgsp
             for (int i = 0; i < alternative.alternativeCases.Length; ++i)
             {
                 PatternGraph altCase = alternative.alternativeCases[i];
-                foreach (String name in altCase.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath)
+                foreach (String name in altCase.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath)
                 {
                     namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Add(name);
                 }
@@ -196,13 +204,15 @@ namespace de.unika.ipd.grGen.lgsp
 
             // build outermost search program operation, create the list anchor starting it's program
             SearchProgram searchProgram = new SearchProgramOfAlternative(
-                rulePatternClassName, namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative,
+                rulePatternClassName,
+                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative,
                 "myMatch");
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
             // initialize task/result-pushdown handling in subpattern matcher
-            InitializeSubpatternMatching initialize = new InitializeSubpatternMatching();
+            InitializeSubpatternMatching initialize = 
+                new InitializeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Normal);
             insertionPoint = insertionPoint.Append(initialize);
 
             // build alternative matching search programs, one per case
@@ -240,8 +250,56 @@ namespace de.unika.ipd.grGen.lgsp
 
             // finalize task/result-pushdown handling in subpattern matcher
             FinalizeSubpatternMatching finalize =
-                new FinalizeSubpatternMatching();
+                new FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Normal);
             insertionPoint = insertionPoint.Append(finalize);
+
+            return searchProgram;
+        }
+
+        /// <summary>
+        /// Builds search program for iterated from scheduled search plan of iterated pattern graph
+        /// </summary>
+        public SearchProgram BuildSearchProgram(
+            IGraphModel model,
+            LGSPMatchingPattern matchingPattern,
+            PatternGraph iter)
+        {
+            programType = SearchProgramType.Iterated;
+            this.model = model;
+            patternGraphWithNestingPatterns = new Stack<PatternGraph>();
+            patternGraphWithNestingPatterns.Push(iter);
+            isNegative = false;
+            isNestedInNegative = false;
+            rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, !(matchingPattern is LGSPRulePattern));
+            negLevelNeverAboveMaxNegLevel = false;
+
+            // build outermost search program operation, create the list anchor starting it's program
+            SearchProgram searchProgram = new SearchProgramOfIterated(
+                rulePatternClassName,
+                matchingPattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
+                "myMatch");
+            searchProgram.OperationsList = new SearchProgramList(searchProgram);
+            SearchProgramOperation insertionPoint = searchProgram.OperationsList;
+
+            // initialize task/result-pushdown handling in subpattern matcher for iteration
+            InitializeSubpatternMatching initialize = 
+                new InitializeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Iteration);
+            insertionPoint = insertionPoint.Append(initialize);
+
+            // start building with first operation in scheduled search plan
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                0,
+                insertionPoint);
+
+            // check whether iteration came to an end (pattern not found (again)) and handle it
+            insertionPoint = insertEndOfIterationHandling(insertionPoint);
+
+            // finalize task/result-pushdown handling in subpattern matcher for iteration
+            FinalizeSubpatternMatching finalize =
+                new FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Iteration);
+            insertionPoint = insertionPoint.Append(finalize);
+
+            patternGraphWithNestingPatterns.Pop();
 
             return searchProgram;
         }
@@ -1346,11 +1404,13 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
             // is subpattern gives information about type of top level enclosing pattern (action vs. subpattern)
-            // contains subpatterns gives informations about current pattern graph (might be negative, independent, too)
+            // contains subpatterns gives informations about current pattern graph (might be negative, independent itself, too)
             bool isSubpattern = programType == SearchProgramType.Subpattern
-                || programType == SearchProgramType.AlternativeCase;
+                || programType == SearchProgramType.AlternativeCase
+                || programType == SearchProgramType.Iterated;
             bool containsSubpatterns = patternGraph.embeddedGraphs.Length >= 1
-                || patternGraph.alternatives.Length >= 1;
+                || patternGraph.alternatives.Length >= 1
+                || patternGraph.iterateds.Length >= 1;
 
             // push subpattern tasks (in case there are some)
             if (containsSubpatterns)
@@ -1560,7 +1620,7 @@ namespace de.unika.ipd.grGen.lgsp
             String matchObjectName;
             if(matchObjectType==MatchObjectType.Independent) {
                 matchObjectName = NamesOfEntities.MatchedIndependentVariable(patternGraph.pathPrefix + patternGraph.name);
-            }else if(matchObjectType==MatchObjectType.Patternpath) {
+            } else if(matchObjectType==MatchObjectType.Patternpath) {
                 matchObjectName = NamesOfEntities.PatternpathMatch(patternGraph.pathPrefix + patternGraph.name);
             } else { //if(matchObjectType==MatchObjectType.Normal)
                 matchObjectName = "match";
@@ -1630,6 +1690,21 @@ namespace de.unika.ipd.grGen.lgsp
                         enumPrefix,
                         matchObjectName,
                         -1
+                    );
+                insertionPoint = insertionPoint.Append(buildMatch);
+            }
+            for (int i = 0; i < patternGraph.iterateds.Length; ++i)
+            {
+                BuildMatchObject buildMatch =
+                    new BuildMatchObject(
+                        BuildMatchObjectType.Iteration,
+                        patternGraph.pathPrefix + patternGraph.name + "_" + patternGraph.iterateds[i].name,
+                        patternGraph.iterateds[i].name,
+                        patternGraph.iterateds[i].name,
+                        rulePatternClassName,
+                        enumPrefix,
+                        matchObjectName,
+                        patternGraph.embeddedGraphs.Length
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
@@ -1723,6 +1798,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 PushSubpatternTask pushTask =
                     new PushSubpatternTask(
+                        PushAndPopSubpatternTaskTypes.Alternative,
                         alternative.pathPrefix,
                         alternative.name,
                         rulePatternClassName,
@@ -1736,8 +1812,51 @@ namespace de.unika.ipd.grGen.lgsp
                     );
                 insertionPoint = insertionPoint.Append(pushTask);
             }
-            
-            // then subpatterns of the pattern
+
+            // then iterated patterns of the pattern
+            // to handle iterated in linear order we've to push them in reverse order on the stack
+            for (int i = patternGraph.iterateds.Length - 1; i >= 0; --i)
+            {
+                PatternGraph iter = patternGraph.iterateds[i];
+
+                int numElements = iter.neededNodes.Count + iter.neededEdges.Count;
+                string[] connectionName = new string[numElements];
+                string[] patternElementBoundToConnectionName = new string[numElements];
+                bool[] patternElementBoundToConnectionIsNode = new bool[numElements];
+                int j = 0;
+                foreach (KeyValuePair<string, bool> node in iter.neededNodes)
+                {
+                    connectionName[j] = node.Key;
+                    patternElementBoundToConnectionName[j] = node.Key;
+                    patternElementBoundToConnectionIsNode[j] = true;
+                    ++j;
+                }
+                foreach (KeyValuePair<string, bool> edge in iter.neededEdges)
+                {
+                    connectionName[j] = edge.Key;
+                    patternElementBoundToConnectionName[j] = edge.Key;
+                    patternElementBoundToConnectionIsNode[j] = false;
+                    ++j;
+                }
+
+                PushSubpatternTask pushTask =
+                    new PushSubpatternTask(
+                        PushAndPopSubpatternTaskTypes.Iterated,
+                        iter.pathPrefix,
+                        iter.name,
+                        rulePatternClassName,
+                        connectionName,
+                        patternElementBoundToConnectionName,
+                        patternElementBoundToConnectionIsNode,
+                        negativeIndependentNamePrefix,
+                        searchPatternpath,
+                        matchOfNestingPattern,
+                        lastMatchAtPreviousNestingLevel
+                    );
+                insertionPoint = insertionPoint.Append(pushTask);
+            }
+
+            // and finally subpatterns of the pattern
             // to handle subpatterns in linear order we've to push them in reverse order on the stack
             for (int i = patternGraph.embeddedGraphs.Length - 1; i >= 0; --i)
             {
@@ -1754,6 +1873,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 PushSubpatternTask pushTask =
                     new PushSubpatternTask(
+                        PushAndPopSubpatternTaskTypes.Subpattern,
                         subpattern.matchingPatternOfEmbeddedGraph.name,
                         subpattern.name,
                         connectionName,
@@ -1833,7 +1953,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- ---- fill the match object with the candidates 
             // ---- ---- which have passed all the checks for being a match
-            insertionPoint = insertMatchObjectBuilding(insertionPoint, 
+            insertionPoint = insertMatchObjectBuilding(insertionPoint,
                 patternGraph, MatchObjectType.Normal);
 
             // ---- nesting level up
@@ -2032,12 +2152,12 @@ namespace de.unika.ipd.grGen.lgsp
             if (programType == SearchProgramType.Action || programType == SearchProgramType.MissingPreset)
             {
                 patternAndSubpatternsMatched = new PatternAndSubpatternsMatched(
-                    rulePatternClassName, patternGraph.pathPrefix+patternGraph.name, false);
+                    rulePatternClassName, patternGraph.pathPrefix+patternGraph.name, true);
             }
             else
             {
                 patternAndSubpatternsMatched = new PatternAndSubpatternsMatched(
-                    rulePatternClassName, patternGraph.pathPrefix+patternGraph.name, true);
+                    rulePatternClassName, patternGraph.pathPrefix+patternGraph.name, false);
             }
             SearchProgramOperation continuationPointAfterPatternAndSubpatternsMatched =
                 insertionPoint.Append(patternAndSubpatternsMatched);
@@ -2139,7 +2259,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // build the pattern was matched operation
             PositivePatternWithoutSubpatternsMatched patternMatched =
-                new PositivePatternWithoutSubpatternsMatched(rulePatternClassName, patternGraph.name);
+                new PositivePatternWithoutSubpatternsMatched(rulePatternClassName, patternGraph.name, programType==SearchProgramType.Iterated);
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(patternMatched);
             patternMatched.MatchBuildingOperations =
@@ -2148,7 +2268,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- fill the match object with the candidates 
             // ---- which have passed all the checks for being a match
-            insertionPoint = insertMatchObjectBuilding(insertionPoint, 
+            insertionPoint = insertMatchObjectBuilding(insertionPoint,
                 patternGraph, MatchObjectType.Normal);
 
             // ---- nesting level up
@@ -2210,6 +2330,81 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(continueMatching);
             }
 
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to check whether iteration came to an end (pattern not found (again))
+        /// and code to handle that case 
+        /// </summary>
+        private SearchProgramOperation insertEndOfIterationHandling(SearchProgramOperation insertionPoint)
+        {
+            Debug.Assert(NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek()) == "");
+
+            // check whether the pattern was not found
+            // if yes the iteration came to an end, handle that case
+            CheckContinueMatchingIteratedPatternFound iteratedPatternFound =
+                new CheckContinueMatchingIteratedPatternFound();
+            SearchProgramOperation continuationPoint =
+                insertionPoint.Append(iteratedPatternFound);
+            iteratedPatternFound.CheckFailedOperations = new SearchProgramList(iteratedPatternFound);
+            insertionPoint = iteratedPatternFound.CheckFailedOperations;
+
+            // ---- initialize task/result-pushdown handling in subpattern matcher for end of iteration
+            InitializeSubpatternMatching initialize =
+                new InitializeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.EndOfIteration);
+            insertionPoint = insertionPoint.Append(initialize);
+
+            // ---- ---- iteration pattern may be the last to be matched - handle that case
+            CheckContinueMatchingTasksLeft tasksLeft =
+                new CheckContinueMatchingTasksLeft();
+            SearchProgramOperation continuationPointAfterTasksLeft =
+                insertionPoint.Append(tasksLeft);
+            tasksLeft.CheckFailedOperations = new SearchProgramList(tasksLeft);
+            insertionPoint = tasksLeft.CheckFailedOperations;
+
+            // ---- ---- check failed, no tasks left, leaf subpattern was matched
+            LeafSubpatternMatched leafMatched =
+                new LeafSubpatternMatched();
+            insertionPoint = insertionPoint.Append(leafMatched);
+            leafMatched.MatchBuildingOperations = new SearchProgramList(leafMatched); // empty, no match object
+
+            // ---- ---- finalize task/result-pushdown handling in subpattern matcher for end of iteration
+            FinalizeSubpatternMatching finalize =
+                new FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.EndOfIteration);
+            insertionPoint = insertionPoint.Append(finalize);
+            FinalizeSubpatternMatching finalizeIteration =
+                new FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Iteration);
+            insertionPoint = insertionPoint.Append(finalizeIteration);
+            ContinueOperation leave =
+                new ContinueOperation(ContinueOperationType.ByReturn, false);
+            insertionPoint = insertionPoint.Append(leave);
+
+            // ---- nesting level up
+            insertionPoint = continuationPointAfterTasksLeft;
+
+            // ---- we execute the open subpattern matching tasks
+            MatchSubpatterns matchSubpatterns =
+                new MatchSubpatterns("");
+            insertionPoint = insertionPoint.Append(matchSubpatterns);
+
+            // ---- the end of iteration match has nothing nested to take care of
+            // ---- so we return to the iteration user and let it interpret the result (match(es) found or not)
+
+            // ---- finalize task/result-pushdown handling in subpattern matcher for end of iteration
+            finalize =
+                new FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.EndOfIteration);
+            insertionPoint = insertionPoint.Append(finalize);
+            finalizeIteration =
+                new FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Iteration);
+            insertionPoint = insertionPoint.Append(finalizeIteration);
+            leave =
+               new ContinueOperation(ContinueOperationType.ByReturn, false);
+            insertionPoint = insertionPoint.Append(leave);
+
+            // ---- nesting level up
+            insertionPoint = continuationPoint;
+            
             return insertionPoint;
         }
 

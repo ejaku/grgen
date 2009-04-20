@@ -306,7 +306,7 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// Representation of the pattern to search for, 
-    /// containing nested alternative, negative, and independent-patterns, 
+    /// containing nested alternative, iterated, negative, and independent-patterns, 
     /// plus references to the rules of the used subpatterns.
     /// Accessible via IPatternGraph as meta information to the user about the matching action.
     /// Skeleton data structure for the matcher generation pipeline which stores intermediate results here, 
@@ -362,13 +362,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
-        /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases).
+        /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases, iterateds).
         /// </summary>
         public bool[,] HomomorphicNodesGlobal { get { return homomorphicNodesGlobal; } }
 
         /// <summary>
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
-        /// i.e. the edges are contained in different, but locally nested patterns (alternative cases).
+        /// i.e. the edges are contained in different, but locally nested patterns (alternative cases, iterateds).
         /// </summary>
         public bool[,] HomomorphicEdgesGlobal { get { return homomorphicEdgesGlobal; } }
 
@@ -383,9 +383,9 @@ namespace de.unika.ipd.grGen.lgsp
         public IAlternative[] Alternatives { get { return alternatives; } }
 
         /// <summary>
-        /// An array of all patterns, each all is greedily matched as often as possible.
+        /// An array of iterateds, each iterated is matched as often as possible.
         /// </summary>
-        public IPatternGraph[] Alls { get { return alls; } }
+        public IPatternGraph[] Iterateds { get { return iterateds; } }
 
         /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched
@@ -494,13 +494,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
-        /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases).
+        /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases, iterateds).
         /// </summary>
         public bool[,] homomorphicNodesGlobal;
 
         /// <summary>
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
-        /// i.e. the edges are contained in different, but locally nested patterns (alternative cases).
+        /// i.e. the edges are contained in different, but locally nested patterns (alternative cases, iterateds).
         /// </summary>
         public bool[,] homomorphicEdgesGlobal;
 
@@ -515,9 +515,9 @@ namespace de.unika.ipd.grGen.lgsp
         public Alternative[] alternatives;
 
         /// <summary>
-        /// An array of all patterns, each all is greedily matched as often as possible.
+        /// An array of iterated patterns, each iterated is matched as often as possible.
         /// </summary>
-        public PatternGraph[] alls;
+        public PatternGraph[] iterateds;
 
         /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched
@@ -554,7 +554,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// i.e. subpatterns and the way they are connected to the pattern.</param>
         /// <param name="alternatives">An array of alternatives, each alternative contains
         /// in its cases the subpatterns to choose out of.</param>
-        /// <param name="alls">An array of all patterns, each all is greedily matched as often as possible.</param>
+        /// <param name="iterateds">An array of iterated patterns, each iterated is matched as often as possible.</param>
         /// <param name="negativePatternGraphs">An array of negative pattern graphs which make the
         /// search fail if they get matched (NACs - Negative Application Conditions).</param>
         /// <param name="conditions">The conditions used in this pattern graph or it's nested graphs.</param>
@@ -564,14 +564,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// be matched non-isomorphic to which pattern edge.</param>
         /// <param name="homomorphicNodesGlobal">A two-dimensional array describing which pattern node
         /// may be matched non-isomorphic to which pattern node globally, i.e. the nodes are contained
-        /// in different, but locally nested patterns (alternative cases).</param>
+        /// in different, but locally nested patterns (alternative cases, iterateds).</param>
         /// <param name="homomorphicEdgesGlobal">A two-dimensional array describing which pattern edge
         /// may be matched non-isomorphic to which pattern edge globally, i.e. the edges are contained
-        /// in different, but locally nested patterns (alternative cases).</param>
+        /// in different, but locally nested patterns (alternative cases, iterateds).</param>
         public PatternGraph(String name, String pathPrefix, bool isPatternpathLocked,
             PatternNode[] nodes, PatternEdge[] edges,
             PatternVariable[] variables, PatternGraphEmbedding[] embeddedGraphs,
-            Alternative[] alternatives, PatternGraph[] alls,
+            Alternative[] alternatives, PatternGraph[] iterateds,
             PatternGraph[] negativePatternGraphs, PatternGraph[] independentPatternGraphs,
             PatternCondition[] conditions,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
@@ -585,7 +585,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.variables = variables;
             this.embeddedGraphs = embeddedGraphs;
             this.alternatives = alternatives;
-            this.alls = alls;
+            this.iterateds = iterateds;
             this.negativePatternGraphs = negativePatternGraphs;
             this.independentPatternGraphs = independentPatternGraphs;
             this.Conditions = conditions;
@@ -614,7 +614,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// The path prefixes and names of the independents nested within this pattern graph
-        /// only in top-level-patterns and alternatives, only independents not nested within negatives 
+        /// only in top-level-patterns, alternatives, iterateds, only independents not nested within negatives 
         /// </summary>
         public List<Pair<String,String>> pathPrefixesAndNamesOfNestedIndependents;
 
@@ -639,10 +639,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// The names of the pattern graphs which are on a path to some 
-        /// enclosed subpattern usage/alternative or negative/independent with patternpath modifier.
+        /// enclosed subpattern usage/alternative/iterated or negative/independent with patternpath modifier.
         /// Needed for patternpath processing setup.
         /// </summary>
-        public List<String> patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath;
+        public List<String> patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath;
     }
 
     /// <summary>

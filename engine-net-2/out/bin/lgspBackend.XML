@@ -29,7 +29,7 @@
             Whole world known by now, computer relationships in between matching patterns
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(de.unika.ipd.grGen.lgsp.PatternGraph)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrAllPattern(de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
             Insert names of independents nested within the pattern graph 
             to the matcher generation skeleton data structure pattern graph 
@@ -41,9 +41,9 @@
             but expect to be preset from outwards; for pattern graph and all nested graphs
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath(de.unika.ipd.grGen.lgsp.PatternGraph)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer.ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrAllOrPatternpath(de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
-            Computes the pattern graphs which are on a path to some enclosed subpattern usage/alternative
+            Computes the pattern graphs which are on a path to some enclosed subpattern usage/alternative/all
             or negative/independent with a patternpath modifier; stores information to the pattern graph and it's children.
             </summary>
         </member>
@@ -693,6 +693,22 @@
             head, search program operations list in depth first walk over search program operations list, tail
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramOfAll">
+            <summary>
+            Class representing the search program of an all pattern 
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramOfAll.Dump(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+            <summary>
+            Dumps search program 
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramOfAll.Emit(de.unika.ipd.grGen.lgsp.SourceBuilder)">
+            <summary>
+            Emits the matcher source code for the search program
+            head, search program operations list in depth first walk over search program operations list, tail
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.GetPartialMatchOfAlternative">
             <summary>
             Class representing "match the pattern of the alternative case" operation
@@ -1152,7 +1168,7 @@
             holding the task object whose connections need to be filled before being pushed on the open tasks stack
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.TypeOfTaskVariable(System.String,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.TypeOfTaskVariable(System.String,System.Boolean,System.Boolean)">
             <summary>
             Returns name of the type of the task variable
             </summary>
@@ -1222,6 +1238,11 @@
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative)">
             <summary>
             Builds search program for alternative from scheduled search plans of the alternative cases
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph)">
+            <summary>
+            Builds search program for all from scheduled search plan of all pattern graph
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildAddionalSearchSubprograms(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan,de.unika.ipd.grGen.lgsp.SearchProgram,de.unika.ipd.grGen.lgsp.LGSPRulePattern)">
@@ -3731,14 +3752,19 @@
             Generates the matcher source code for the given rule pattern into the given source builder
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherSourceCode(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherSourceCodeAlternative(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative,System.Boolean)">
             <summary>
             Generates the matcher source code for the given alternative into the given source builder
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherSourceCodeAll(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
+            <summary>
+            Generates the matcher source code for the given all pattern into the given source builder
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherSourceCode(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
             <summary>
-            Generates the matcher source code for the nested alternatives
+            Generates the matcher source code for the nested alternatives/alls
             within the given negative/independent pattern graph into the given source builder
             </summary>
         </member>
@@ -3747,9 +3773,14 @@
             Generates the search program for the pattern graph of the given rule
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgram(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgramAlternative(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative)">
             <summary>
             Generates the search program for the given alternative 
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgramAll(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph)">
+            <summary>
+            Generates the search program for the given all pattern
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateFileHeaderForActionsFile(de.unika.ipd.grGen.lgsp.SourceBuilder,System.String,System.String)">
@@ -3772,6 +3803,12 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherClassHeadAlternative(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative,System.Boolean)">
             <summary>
             Generates matcher class head source code for the given alternative into given source builder
+            isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherClassHeadAll(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
+            <summary>
+            Generates matcher class head source code for the given all pattern into given source builder
             isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
             </summary>
         </member>
@@ -4057,7 +4094,7 @@
         <member name="T:de.unika.ipd.grGen.lgsp.PatternGraph">
             <summary>
             Representation of the pattern to search for, 
-            containing nested alternative, negative, and independent-patterns, 
+            containing nested alternative, all, negative, and independent-patterns, 
             plus references to the rules of the used subpatterns.
             Accessible via IPatternGraph as meta information to the user about the matching action.
             Skeleton data structure for the matcher generation pipeline which stores intermediate results here, 
@@ -4137,13 +4174,13 @@
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.homomorphicNodesGlobal">
             <summary>
             A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
-            i.e. the nodes are contained in different, but locally nested patterns (alternative cases).
+            i.e. the nodes are contained in different, but locally nested patterns (alternative cases, alls).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.homomorphicEdgesGlobal">
             <summary>
             A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
-            i.e. the edges are contained in different, but locally nested patterns (alternative cases).
+            i.e. the edges are contained in different, but locally nested patterns (alternative cases, alls).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.embeddedGraphs">
@@ -4158,7 +4195,7 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.alls">
             <summary>
-            An array of all patterns, each all is greedily matched as often as possible.
+            An array of all patterns, each all is matched as often as possible.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.negativePatternGraphs">
@@ -4197,7 +4234,7 @@
             i.e. subpatterns and the way they are connected to the pattern.</param>
             <param name="alternatives">An array of alternatives, each alternative contains
             in its cases the subpatterns to choose out of.</param>
-            <param name="alls">An array of all patterns, each all is greedily matched as often as possible.</param>
+            <param name="alls">An array of all patterns, each all is matched as often as possible.</param>
             <param name="negativePatternGraphs">An array of negative pattern graphs which make the
             search fail if they get matched (NACs - Negative Application Conditions).</param>
             <param name="conditions">The conditions used in this pattern graph or it's nested graphs.</param>
@@ -4207,10 +4244,10 @@
             be matched non-isomorphic to which pattern edge.</param>
             <param name="homomorphicNodesGlobal">A two-dimensional array describing which pattern node
             may be matched non-isomorphic to which pattern node globally, i.e. the nodes are contained
-            in different, but locally nested patterns (alternative cases).</param>
+            in different, but locally nested patterns (alternative cases, alls).</param>
             <param name="homomorphicEdgesGlobal">A two-dimensional array describing which pattern edge
             may be matched non-isomorphic to which pattern edge globally, i.e. the edges are contained
-            in different, but locally nested patterns (alternative cases).</param>
+            in different, but locally nested patterns (alternative cases, alls).</param>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.schedule">
             <summary>
@@ -4225,7 +4262,7 @@
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.pathPrefixesAndNamesOfNestedIndependents">
             <summary>
             The path prefixes and names of the independents nested within this pattern graph
-            only in top-level-patterns and alternatives, only independents not nested within negatives 
+            only in top-level-patterns, alternatives, alls, only independents not nested within negatives 
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.neededNodes">
@@ -4247,10 +4284,10 @@
             Set of matching patterns, with dummy null matching pattern due to lacking set class in c#
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrAllOrPatternpath">
             <summary>
             The names of the pattern graphs which are on a path to some 
-            enclosed subpattern usage/alternative or negative/independent with patternpath modifier.
+            enclosed subpattern usage/alternative/all or negative/independent with patternpath modifier.
             Needed for patternpath processing setup.
             </summary>
         </member>
@@ -4287,13 +4324,13 @@
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.HomomorphicNodesGlobal">
             <summary>
             A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
-            i.e. the nodes are contained in different, but locally nested patterns (alternative cases).
+            i.e. the nodes are contained in different, but locally nested patterns (alternative cases, alls).
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.HomomorphicEdgesGlobal">
             <summary>
             A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
-            i.e. the edges are contained in different, but locally nested patterns (alternative cases).
+            i.e. the edges are contained in different, but locally nested patterns (alternative cases, alls).
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.EmbeddedGraphs">

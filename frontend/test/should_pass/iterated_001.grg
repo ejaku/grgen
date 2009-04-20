@@ -1,6 +1,6 @@
 pattern SpanningTree(root:Node)
 {
-	all {
+	iterated {
 		root -- next:Node;
 		:SpanningTree(next);
 	}
@@ -8,7 +8,7 @@ pattern SpanningTree(root:Node)
 
 pattern SpanningTreeReverse(root:Node)
 {
-	all {
+	iterated {
 		root --> next:Node;
 		str:SpanningTreeReverse(next);
 		
@@ -24,7 +24,7 @@ pattern SpanningTreeReverse(root:Node)
 test blowball
 {
 	head:Node;
-	all {
+	iterated {
 		head --> .;
 	}
 }
@@ -32,7 +32,7 @@ test blowball
 rule blowballDouble
 {
 	head:Node;
-	all {
+	iterated {
 		head --> .;
 		
 		modify {

@@ -166,28 +166,28 @@ namespace de.unika.ipd.grGen.lgsp
 
 
     /// <summary>
-    /// enumerable returning enumerator over submatches due to alls,
-    /// with every submatch being a list of matches of the all-pattern
+    /// enumerable returning enumerator over submatches due to iterateds,
+    /// with every submatch being a list of matches of the iterated-pattern
     /// </summary>
-    public class Alls_Enumerable : IEnumerable<IMatches>
+    public class Iterateds_Enumerable : IEnumerable<IMatches>
     {
-        public Alls_Enumerable(IMatch match) { this.match = match; }
-        public IEnumerator<IMatches> GetEnumerator() { return new Alls_Enumerator(match); } // KRANKE
-        IEnumerator IEnumerable.GetEnumerator() { return new Alls_Enumerator(match); } // SCHEISSE
+        public Iterateds_Enumerable(IMatch match) { this.match = match; }
+        public IEnumerator<IMatches> GetEnumerator() { return new Iterateds_Enumerator(match); } // KRANKE
+        IEnumerator IEnumerable.GetEnumerator() { return new Iterateds_Enumerator(match); } // SCHEISSE
         IMatch match;
     }
 
     /// <summary>
-    /// enumerator over submatches due to alls,
-    /// with every submatch being a list of matches of the all-pattern
+    /// enumerator over submatches due to iterateds,
+    /// with every submatch being a list of matches of the iterated-pattern
     /// </summary>
-    public class Alls_Enumerator : IEnumerator<IMatches>
+    public class Iterateds_Enumerator : IEnumerator<IMatches>
     {
-        public Alls_Enumerator(IMatch match) { this.match = match; pos = -1; }
+        public Iterateds_Enumerator(IMatch match) { this.match = match; pos = -1; }
         public void Reset() { pos = -1; }
-        public bool MoveNext() { ++pos; return pos < match.NumberOfAlls; }
-        public IMatches Current { get { return match.getAllAt(pos); } } // KRANKE
-        object IEnumerator.Current { get { return match.getAllAt(pos); } } // SCHEISSE
+        public bool MoveNext() { ++pos; return pos < match.NumberOfIterateds; }
+        public IMatches Current { get { return match.getIteratedAt(pos); } } // KRANKE
+        object IEnumerator.Current { get { return match.getIteratedAt(pos); } } // SCHEISSE
         public void Dispose() { /*empty*/; }
         IMatch match;
         int pos;
@@ -238,12 +238,14 @@ namespace de.unika.ipd.grGen.lgsp
     /// It is returned by IAction.Match() and given to the OnMatched, OnFinishing and OnFinished event.
     /// Generic to be instantiated with the exact interface and the exact implementation type of the match object
     /// Every generated Action contains a LGSPMatchesList, 
-    /// the matches contain one LGSPMatchesList per all pattern.
+    /// the matches contain one LGSPMatchesList per iterated pattern.
     /// A matches list stores the matches found by the last application of the action,
     /// the matches objects within the list are recycled by the next application of the action,
     /// only their content gets updated.
     /// The purpose of this list is to act as a memory manager 
     /// to save new/garbage collection cycles and improve cache footprint.
+    /// Additionally this list is used for storing the results of an iteration in the matches objects, Producer being null in this case.
+    /// Then it is just used as a container for already allocated elements.
     /// </summary>
     public class LGSPMatchesList<Match, MatchInterface> : IMatchesExact<MatchInterface>
         where Match : ListElement<Match>, MatchInterface, new()
@@ -323,11 +325,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Constructs a new LGSPMatchesList instance.
         /// </summary>
-        /// <param name="producer">The action object used to generate this LGSPMatchesList object</param>
+        /// <param name="producer">The action object used to generate this LGSPMatchesList object; null if this is the matches list of an iteration</param>
         public LGSPMatchesList(LGSPAction producer)
         {
-            this.producer = producer;
-            last = root = new Match();
+            if (producer != null) {
+                this.producer = producer;
+                last = root = new Match();
+            }
         }
 
         /// <summary>
@@ -337,6 +341,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public Match GetNextUnfilledPosition()
         {
+            Debug.Assert(producer != null);
             return last;
         }
 
@@ -346,10 +351,27 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public void PositionWasFilledFixIt()
         {
+            Debug.Assert(producer != null);
             count++;
             if (last.next == null)
                 last.next = new Match();
             last = last.next;
+        }
+
+        /// <summary>
+        /// adds a match object to the end of the list; only applicable if this is the match of an iteration, not an action
+        /// </summary>
+        public void Add(Match match)
+        {
+            Debug.Assert(producer == null);
+            Debug.Assert(match != null);
+            if (root == null) {
+                last = root = match;
+            } else {
+                last.next = match;
+                last = match;
+            }
+            ++count;
         }
 
         /// <summary>
@@ -362,6 +384,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public void Clear()
         {
+            Debug.Assert(producer != null);
             count = 0;
             last = root;
         }

@@ -39,8 +39,8 @@ namespace de.unika.ipd.grGen.lgsp
         public void AnalyzeNestingOfAndRemember(LGSPMatchingPattern matchingPattern)
         {
             CalculateNeededElements(matchingPattern.patternGraph);
-            AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(matchingPattern.patternGraph);
-            ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath(matchingPattern.patternGraph);
+            AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(matchingPattern.patternGraph);
+            ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(matchingPattern.patternGraph);
             matchingPatterns.Add(matchingPattern);
         }
 
@@ -56,7 +56,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Insert names of independents nested within the pattern graph 
         /// to the matcher generation skeleton data structure pattern graph 
         /// </summary>
-        public void AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(
+        public void AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(
             PatternGraph patternGraph)
         {
             foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
@@ -66,7 +66,7 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.pathPrefixesAndNamesOfNestedIndependents = new List<Pair<String, String>>();
                 patternGraph.pathPrefixesAndNamesOfNestedIndependents.Add(new Pair<String, String>(idpt.pathPrefix, idpt.name));
                 // handle nested independents
-                AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(idpt);
+                AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(idpt);
             }
 
             // alternative cases represent new annotation point
@@ -74,8 +74,14 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
-                    AnnotateIndependentsAtNestingTopLevelOrAlternativeCasePattern(altCase);
+                    AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(altCase);
                 }
+            }
+
+            // iterateds represent new annotation point
+            foreach (PatternGraph iter in patternGraph.iterateds)
+            {
+                AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(iter);
             }
         }
 
@@ -101,6 +107,10 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     CalculateNeededElements(altCase);
                 }
+            }
+            foreach (PatternGraph iter in patternGraph.iterateds)
+            {
+                CalculateNeededElements(iter);
             }
 
             // and on ascending bottom up
@@ -133,6 +143,13 @@ namespace de.unika.ipd.grGen.lgsp
                     foreach (KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
                         patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
                 }
+            }
+            foreach (PatternGraph iter in patternGraph.iterateds)
+            {
+                foreach (KeyValuePair<string, bool> neededNode in iter.neededNodes)
+                    patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
+                foreach (KeyValuePair<string, bool> neededEdge in iter.neededEdges)
+                    patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
             }
 
             // c) it adds it's own locally needed elements
@@ -176,49 +193,56 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Computes the pattern graphs which are on a path to some enclosed subpattern usage/alternative
+        /// Computes the pattern graphs which are on a path to some enclosed subpattern usage/alternative/iterated
         /// or negative/independent with a patternpath modifier; stores information to the pattern graph and it's children.
         /// </summary>
-        private void ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath(
+        private void ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(
             PatternGraph patternGraph)
         {
             // Algorithm descends top down to the nested patterns, 
-            // computes within each leaf pattern whether there are subpattern usages/alternatives, 
+            // computes within each leaf pattern whether there are subpattern usages/alternatives/iterateds,
             // or whether there is a patternpath modifier, stores this information locally,
             // and ascends bottom up, computing/storing the same information, adding the results of the nested patterns.
-            patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath = new List<string>();
+            patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath = new List<string>();
 
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
-                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath(neg);
-                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath
-                    .AddRange(neg.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath);
+                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(neg);
+                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
+                    .AddRange(neg.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath);
             }
             foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
             {
-                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath(idpt);
-                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath
-                    .AddRange(idpt.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath);
+                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(idpt);
+                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
+                    .AddRange(idpt.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath);
             }
             foreach (Alternative alt in patternGraph.alternatives)
             {
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
-                    ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath(altCase);
-                    patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath
-                        .AddRange(altCase.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath);
+                    ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(altCase);
+                    patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
+                        .AddRange(altCase.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath);
                 }
+            }
+            foreach (PatternGraph iter in patternGraph.iterateds)
+            {
+                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(iter);
+                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
+                    .AddRange(iter.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath);
             }
 
             // one of the nested patterns was found to be on the path -> so we are too
-            // or we are locally on the path due to subpattern usages, alternatives, patternpath modifier
-            if (patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath.Count != 0
+            // or we are locally on the path due to subpattern usages, alternatives, iterateds, patternpath modifier
+            if (patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath.Count != 0
                 || patternGraph.embeddedGraphs.Length > 0
                 || patternGraph.alternatives.Length > 0
+                || patternGraph.iterateds.Length > 0
                 || patternGraph.isPatternpathLocked)
             {
                 // add the current pattern graph to the list in the top level pattern graph
-                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath
+                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
                     .Add(patternGraph.pathPrefix + patternGraph.name);
             }
         }
@@ -267,7 +291,7 @@ namespace de.unika.ipd.grGen.lgsp
                 topLevelMatchingPattern.patternGraph.usedSubpatterns[embeddedGraphs[i].matchingPatternOfEmbeddedGraph] = null;
             }
 
-            // all nested subpattern usages from nested negatives, independents, alternatives
+            // all nested subpattern usages from nested negatives, independents, alternatives, iterateds
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
                 ComputeSubpatternsUsedLocally(neg, topLevelMatchingPattern);
@@ -282,6 +306,10 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     ComputeSubpatternsUsedLocally(altCase, topLevelMatchingPattern);
                 }
+            }
+            foreach (PatternGraph iter in patternGraph.iterateds)
+            {
+                ComputeSubpatternsUsedLocally(iter, topLevelMatchingPattern);
             }
         }
 

@@ -13,9 +13,9 @@ import java.util.Vector;
 /**
  * Type of all node declaration.
  */
-class AllTypeNode extends TypeNode {
+class IteratedTypeNode extends TypeNode {
 	static {
-		setName(AllTypeNode.class, "all type");
+		setName(IteratedTypeNode.class, "iterated type");
 	}
 
 	/** returns children of this node */

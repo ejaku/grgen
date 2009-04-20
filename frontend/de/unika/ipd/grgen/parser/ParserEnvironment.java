@@ -48,7 +48,7 @@ public abstract class ParserEnvironment extends Base {
 	public static final int ENTITIES = 1;
 	public static final int ACTIONS = ENTITIES; // actions are also entities to get exec working
 	public static final int ALTERNATIVES = 2;
-	public static final int ALLS = 3;
+	public static final int ITERATEDS = 3;
 	public static final int REPLACES = 4;
 	public static final int MODELS = 5;
 
@@ -56,7 +56,7 @@ public abstract class ParserEnvironment extends Base {
 		new SymbolTable("types"),        // types and patterns
 		new SymbolTable("entities"),     // entities and actions
 		new SymbolTable("alternatives"),
-		new SymbolTable("alls"),
+		new SymbolTable("iterateds"),
 		new SymbolTable("replaces"),
 		new SymbolTable("models"),
 	};

@@ -27,27 +27,27 @@ import de.unika.ipd.grgen.ir.Rule;
 
 
 /**
- * AST node for an all pattern, maybe including replacements.
+ * AST node for an iterated pattern, maybe including replacements.
  */
-public class AllNode extends ActionDeclNode  {
+public class IteratedNode extends ActionDeclNode  {
 	static {
-		setName(AllNode.class, "all");
+		setName(IteratedNode.class, "iterated");
 	}
 
 	protected PatternGraphNode pattern;
 	protected CollectNode<RhsDeclNode> right;
 	protected IdentNode id;
-	protected AllTypeNode type;
+	protected IteratedTypeNode type;
 
 	/** Type for this declaration. */
-	private static final TypeNode subpatternType = new AllTypeNode();
+	private static final TypeNode subpatternType = new IteratedTypeNode();
 
 	/**
-	 * Make a new all rule.
+	 * Make a new iterated rule.
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side(s).
 	 */
-	public AllNode(IdentNode id, PatternGraphNode left, CollectNode<RhsDeclNode> right) {
+	public IteratedNode(IdentNode id, PatternGraphNode left, CollectNode<RhsDeclNode> right) {
 		super(id, subpatternType);
 		this.pattern = left;
 		becomeParent(this.pattern);
@@ -75,8 +75,8 @@ public class AllNode extends ActionDeclNode  {
 		return childrenNames;
 	}
 
-	protected static final DeclarationTypeResolver<AllTypeNode> typeResolver =
-		new DeclarationTypeResolver<AllTypeNode>(AllTypeNode.class);
+	protected static final DeclarationTypeResolver<IteratedTypeNode> typeResolver =
+		new DeclarationTypeResolver<IteratedTypeNode>(IteratedTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
@@ -453,20 +453,20 @@ public class AllNode extends ActionDeclNode  {
 			return getIR();
 		}
 
-		Rule allRule = new Rule(getIdentNode().getIdent(), left, right);
+		Rule iteratedRule = new Rule(getIdentNode().getIdent(), left, right);
 
 		constructImplicitNegs(left);
-		constructIRaux(allRule);
+		constructIRaux(iteratedRule);
 
 		// add Eval statements to the IR
 		// TODO choose the right one
 		if(this.right.children.size() > 0) {
 			for (EvalStatement n : this.right.children.get(0).getEvalStatements()) {
-				allRule.addEval(n);
+				iteratedRule.addEval(n);
 			}
 		}
 
-		return allRule;
+		return iteratedRule;
 	}
 
 
@@ -518,7 +518,7 @@ public class AllNode extends ActionDeclNode  {
 	}
 
 	@Override
-	public AllTypeNode getDeclType() {
+	public IteratedTypeNode getDeclType() {
 		assert isResolved();
 
 		return type;

@@ -32,8 +32,8 @@ public class PatternGraph extends Graph {
 	/** The alternative statements of the pattern graph */
 	private final Collection<Alternative> alts = new LinkedList<Alternative>();
 
-	/** The alternative statements of the pattern graph */
-	private final Collection<Rule> alls = new LinkedList<Rule>();
+	/** The iterated statements of the pattern graph */
+	private final Collection<Rule> iters = new LinkedList<Rule>();
 
 	/** The negative patterns(NAC) of the rule. */
 	private final Collection<PatternGraph> negs = new LinkedList<PatternGraph>();
@@ -94,12 +94,12 @@ public class PatternGraph extends Graph {
 		return Collections.unmodifiableCollection(alts);
 	}
 
-	public void addAll(Rule all) {
-		alls.add(all);
+	public void addIterated(Rule iter) {
+		iters.add(iter);
 	}
 	
-	public Collection<Rule> getAlls() {
-		return Collections.unmodifiableCollection(alls);
+	public Collection<Rule> getIters() {
+		return Collections.unmodifiableCollection(iters);
 	}
 	
 	public void addNegGraph(PatternGraph neg) {
@@ -285,13 +285,13 @@ public class PatternGraph extends Graph {
 			}
 		}
 
-		for(Rule all : getAlls()) {
-			all.getLeft().insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(all.getRight());
+		for(Rule iterated : getIters()) {
+			iterated.getLeft().insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(iterated.getRight());
 			
-			PatternGraph allPattern = all.getLeft();
+			PatternGraph iteratedPattern = iterated.getLeft();
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
-			allPattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
+			iteratedPattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodesClone, alreadyDefinedEdgesClone);
 		}
 		
@@ -342,27 +342,27 @@ public class PatternGraph extends Graph {
 			}
 		}
 
-		// add elements needed in all, which are not defined there and are neither defined nor used here
+		// add elements needed in iterated, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
-		for(Rule all : getAlls()) {
-			PatternGraph allPattern = all.getLeft();
-			for(Node node : allPattern.getNodes()) {
+		for(Rule iterated : getIters()) {
+			PatternGraph iteratedPattern = iterated.getLeft();
+			for(Node node : iteratedPattern.getNodes()) {
 				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 					addSingleNode(node);
 					addHomToAll(node);
-					PatternGraph allReplacement = all.getRight();
+					PatternGraph allReplacement = iterated.getRight();
 					if(allReplacement!=null && !allReplacement.hasNode(node)) {
 						// prevent deletion of elements inserted for pattern completion
 						allReplacement.addSingleNode(node);
 					}
 				}
 			}
-			for(Edge edge : allPattern.getEdges()) {
+			for(Edge edge : iteratedPattern.getEdges()) {
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 					addSingleEdge(edge); // TODO: maybe we loose context here
 					addHomToAll(edge);
-					PatternGraph allReplacement = all.getRight();
-					if(all!=null && !allReplacement.hasEdge(edge)) {
+					PatternGraph allReplacement = iterated.getRight();
+					if(iterated!=null && !allReplacement.hasEdge(edge)) {
 						// prevent deletion of elements inserted for pattern completion
 						allReplacement.addSingleEdge(edge);
 					}

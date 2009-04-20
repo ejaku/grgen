@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sat Apr 04 15:35:15 GMT+01:00 2009
+// Generated from "test.grg" on Mon Apr 20 04:38:13 CEST 2009
 
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace de.unika.ipd.grGen.Action_test
 		public enum testRule_VariableNums { };
 		public enum testRule_SubNums { };
 		public enum testRule_AltNums { };
-		public enum testRule_AllNums { };
+		public enum testRule_IterNums { };
 
 
 
@@ -174,7 +174,7 @@ namespace de.unika.ipd.grGen.Action_test
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -251,11 +251,11 @@ namespace de.unika.ipd.grGen.Action_test
 				}
 			}
 			
-			public enum testRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum testRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;

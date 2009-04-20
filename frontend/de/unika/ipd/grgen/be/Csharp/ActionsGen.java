@@ -77,7 +77,7 @@ public class ActionsGen extends CSharpBase {
 	final int MATCH_PART_VARIABLES = 2;
 	final int MATCH_PART_EMBEDDED_GRAPHS = 3;
 	final int MATCH_PART_ALTERNATIVES = 4;
-	final int MATCH_PART_ALLS = 5;
+	final int MATCH_PART_ITERATEDS = 5;
 	final int MATCH_PART_INDEPENDENTS = 6;
 	final int MATCH_PART_END = 7;
 
@@ -302,11 +302,11 @@ public class ActionsGen extends CSharpBase {
 		}
 		
 		i = 0;
-		for(Rule all : pattern.getAlls()) {
-			String allName = "all_" + i;
+		for(Rule iter : pattern.getIters()) {
+			String iterName = "iter_" + i;
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
-			genRuleOrSubpatternClassEntities(sb, all, pathPrefixForElements+allName, staticInitializers,
-					pathPrefixForElements + allName + "_",
+			genRuleOrSubpatternClassEntities(sb, iter, pathPrefixForElements+iterName, staticInitializers,
+					pathPrefixForElements + iterName + "_",
 					alreadyDefinedEntityToNameClone);
 		}
 	}
@@ -357,11 +357,11 @@ public class ActionsGen extends CSharpBase {
 		}
 		
 		i = 0;
-		for(Rule all : pattern.getAlls()) {
-			String allName = "all_" + i;
+		for(Rule iter : pattern.getIters()) {
+			String iterName = "iter_" + i;
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
-			genRuleOrSubpatternClassEntities(sb, all, pathPrefixForElements+allName, staticInitializers,
-					pathPrefixForElements + allName + "_",
+			genRuleOrSubpatternClassEntities(sb, iter, pathPrefixForElements+iterName, staticInitializers,
+					pathPrefixForElements + iterName + "_",
 					alreadyDefinedEntityToNameClone);
 		}
 	}
@@ -485,9 +485,9 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append("};\n");
 		
-		sb.append("\t\tpublic enum " + pathPrefixForElements + "AllNums { ");
-		for(int i=0; i < pattern.getAlls().size(); i++) {
-			sb.append("@" + "all_" + i + ", ");
+		sb.append("\t\tpublic enum " + pathPrefixForElements + "IterNums { ");
+		for(int i=0; i < pattern.getIters().size(); i++) {
+			sb.append("@" + "iter_" + i + ", ");
 		}
 		sb.append("};\n");
 	}
@@ -719,8 +719,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append(" }, \n");
 
 		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternGraph[] { ");
-		for(int i = 0; i < pattern.getAlls().size(); ++i) {
-			sb.append(pathPrefixForElements+"all_" + i + ", ");
+		for(int i = 0; i < pattern.getIters().size(); ++i) {
+			sb.append(pathPrefixForElements+"iter_" + i + ", ");
 		}
 		sb.append(" }, \n");
 
@@ -814,9 +814,9 @@ public class ActionsGen extends CSharpBase {
 			++i;
 		}
 
-		for(int j = 0; j < pattern.getAlls().size(); j++) {
-			String allName = "all_" + j;
-			sb.append("\t\t\t" + pathPrefixForElements+allName + ".embeddingGraph = " + patGraphVarName + ";\n");
+		for(int j = 0; j < pattern.getIters().size(); j++) {
+			String iterName = "iter_" + j;
+			sb.append("\t\t\t" + pathPrefixForElements+iterName + ".embeddingGraph = " + patGraphVarName + ";\n");
 		}
 
 		for(int j = 0; j < pattern.getNegs().size(); j++) {
@@ -994,14 +994,14 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		i = 0;
-		for(Rule all : pattern.getAlls()) {
-			String allName = "all_" + i;
-			PatternGraph allPattern = all.getLeft();
+		for(Rule iter : pattern.getIters()) {
+			String iterName = "iter_" + i;
+			PatternGraph iterPattern = iter.getLeft();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
-			condCnt = genPatternGraph(sb, aux, allPattern,
-									  pathPrefixForElements, allName,
-									  pathPrefixForElements+allName, className,
+			condCnt = genPatternGraph(sb, aux, iterPattern,
+									  pathPrefixForElements, iterName,
+									  pathPrefixForElements+iterName, className,
 									  alreadyDefinedEntityToNameClone,
 									  alreadyDefinedIdentifiableToNameClone,
 									  condCnt, parameters, max);
@@ -1428,11 +1428,11 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		i = 0;
-		for(Rule all : pattern.getAlls()) {
-			String allName = "all_" + i;
-			PatternGraph allPattern = all.getLeft();
-			genPatternMatchInterface(sb, allPattern, pathPrefixForElements+allName,
-					"GRGEN_LIBGR.IMatch", pathPrefixForElements + allName + "_");
+		for(Rule iter : pattern.getIters()) {
+			String iterName = "iter_" + i;
+			PatternGraph iterPattern = iter.getLeft();
+			genPatternMatchInterface(sb, iterPattern, pathPrefixForElements+iterName,
+					"GRGEN_LIBGR.IMatch", pathPrefixForElements + iterName + "_");
 			++i;
 		}
 	}
@@ -1472,11 +1472,11 @@ public class ActionsGen extends CSharpBase {
 		}
 		
 		i = 0;
-		for(Rule all : pattern.getAlls()) {
-			String allName = "all_" + i;
-			PatternGraph allPattern = all.getLeft();
-			genPatternMatchImplementation(sb, allPattern, pathPrefixForElements+allName,
-					pathPrefixForElements+allName, className, pathPrefixForElements+allName+"_");
+		for(Rule iter : pattern.getIters()) {
+			String iterName = "iter_" + i;
+			PatternGraph iterPattern = iter.getLeft();
+			genPatternMatchImplementation(sb, iterPattern, pathPrefixForElements+iterName,
+					pathPrefixForElements+iterName, className, pathPrefixForElements+iterName+"_");
 			++i;
 		}
 	}
@@ -1571,9 +1571,9 @@ public class ActionsGen extends CSharpBase {
 				sb.append("\t\t\tIMatch_"+pathPrefixForElements+"alt_"+i+" alt_"+i+" { get; }\n");
 			}
 			break;
-		case MATCH_PART_ALLS:
-			for(int i=0; i<pattern.getAlls().size(); ++i) {
-				sb.append("\t\t\tGRGEN_LIBGR.IMatchesExact<IMatch_"+pathPrefixForElements+"all_"+i+"> all_"+i+" { get; }\n");
+		case MATCH_PART_ITERATEDS:
+			for(int i=0; i<pattern.getIters().size(); ++i) {
+				sb.append("\t\t\tGRGEN_LIBGR.IMatchesExact<IMatch_"+pathPrefixForElements+"iter_"+i+"> iter_"+i+" { get; }\n");
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
@@ -1634,12 +1634,12 @@ public class ActionsGen extends CSharpBase {
 				sb.append("\t\t\tpublic IMatch_"+pathPrefixForElements+"alt_"+i+" _alt_"+i+";\n");
 			}
 			break;
-		case MATCH_PART_ALLS:
-			for(int i=0; i<pattern.getAlls().size(); ++i) {
-				sb.append("\t\t\tpublic GRGEN_LIBGR.IMatchesExact<IMatch_"+pathPrefixForElements+"all_"+i+"> all_"+i+" { get { return _all_"+i+"; } }\n");
+		case MATCH_PART_ITERATEDS:
+			for(int i=0; i<pattern.getIters().size(); ++i) {
+				sb.append("\t\t\tpublic GRGEN_LIBGR.IMatchesExact<IMatch_"+pathPrefixForElements+"iter_"+i+"> iter_"+i+" { get { return _iter_"+i+"; } }\n");
 			}
-			for(int i=0; i<pattern.getAlls().size(); ++i) {
-				sb.append("\t\t\tpublic GRGEN_LIBGR.IMatchesExact<IMatch_"+pathPrefixForElements+"all_"+i+"> _all_"+i+";\n");
+			for(int i=0; i<pattern.getIters().size(); ++i) {
+				sb.append("\t\t\tpublic GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefixForElements+"iter_"+i+", IMatch_"+pathPrefixForElements+"iter_"+i+"> _iter_"+i+";\n");
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
@@ -1702,9 +1702,9 @@ public class ActionsGen extends CSharpBase {
 				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + "alt_" + i + ": return _alt_" + i + ";\n");
 			}
 			break;
-		case MATCH_PART_ALLS:
-			for(int i=0; i < pattern.getAlls().size(); ++i) {
-				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + "all_" + i + ": return _all_" + i + ";\n");
+		case MATCH_PART_ITERATEDS:
+			for(int i=0; i < pattern.getIters().size(); ++i) {
+				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + "iter_" + i + ": return _iter_" + i + ";\n");
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
@@ -1755,9 +1755,9 @@ public class ActionsGen extends CSharpBase {
 				sb.append("@"+"alt_"+ i +", ");
 			}
 			break;
-		case MATCH_PART_ALLS:
-			for(int i=0; i < pattern.getAlls().size(); i++) {
-				sb.append("@"+"all_"+ i +", ");
+		case MATCH_PART_ITERATEDS:
+			for(int i=0; i < pattern.getIters().size(); i++) {
+				sb.append("@"+"iter_"+ i +", ");
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
@@ -1787,8 +1787,8 @@ public class ActionsGen extends CSharpBase {
 			return "EmbeddedGraph";
 		case MATCH_PART_ALTERNATIVES:
 			return "Alternative";
-		case MATCH_PART_ALLS:
-			return "All";
+		case MATCH_PART_ITERATEDS:
+			return "Iterated";
 		case MATCH_PART_INDEPENDENTS:
 			return "Independent";
 		default:
@@ -1816,8 +1816,8 @@ public class ActionsGen extends CSharpBase {
 			return pathPrefixForElements + "SubNums";
 		case MATCH_PART_ALTERNATIVES:
 			return pathPrefixForElements + "AltNums";
-		case MATCH_PART_ALLS:
-			return pathPrefixForElements + "AllNums";
+		case MATCH_PART_ITERATEDS:
+			return pathPrefixForElements + "IterNums";
 		case MATCH_PART_INDEPENDENTS:
 			return pathPrefixForElements + "IdptNums";
 		default:
@@ -1840,7 +1840,7 @@ public class ActionsGen extends CSharpBase {
 			return "GRGEN_LIBGR.IMatch";
 		case MATCH_PART_ALTERNATIVES:
 			return "GRGEN_LIBGR.IMatch";
-		case MATCH_PART_ALLS:
+		case MATCH_PART_ITERATEDS:
 			return "GRGEN_LIBGR.IMatches";
 		case MATCH_PART_INDEPENDENTS:
 			return "GRGEN_LIBGR.IMatch";
@@ -1864,8 +1864,8 @@ public class ActionsGen extends CSharpBase {
 			return pattern.getSubpatternUsages().size();
 		case MATCH_PART_ALTERNATIVES:
 			return pattern.getAlts().size();
-		case MATCH_PART_ALLS:
-			return pattern.getAlls().size();
+		case MATCH_PART_ITERATEDS:
+			return pattern.getIters().size();
 		case MATCH_PART_INDEPENDENTS:
 			return pattern.getIdpts().size();
 		default:

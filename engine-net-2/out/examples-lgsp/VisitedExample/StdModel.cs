@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "VisitedExample.grg" on Sat Apr 04 15:36:02 GMT+01:00 2009
+// Generated from "VisitedExample.grg" on Mon Apr 20 04:38:32 CEST 2009
 
 using System;
 using System.Collections.Generic;

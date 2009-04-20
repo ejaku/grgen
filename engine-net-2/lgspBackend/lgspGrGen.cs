@@ -379,6 +379,11 @@ namespace de.unika.ipd.grGen.lgsp
                     GenerateScheduledSearchPlans(altCase, matcherGen, isSubpattern, false);
                 }
             }
+
+            foreach (PatternGraph iter in patternGraph.iterateds)
+            {
+                GenerateScheduledSearchPlans(iter, matcherGen, isSubpattern, false);
+            }
         }
 
 		int xgrsNextSequenceID = 0;

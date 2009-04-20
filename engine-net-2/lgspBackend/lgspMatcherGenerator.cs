@@ -1075,6 +1075,11 @@ exitSecondLoop: ;
                 }
             }
 
+            foreach (PatternGraph iter in patternGraph.iterateds)
+            {
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(iter);
+            }
+
             InsertNegativesAndIndependentsIntoSchedule(patternGraph);
         }
 
@@ -1090,10 +1095,10 @@ exitSecondLoop: ;
             for (int i = 0; i < patternGraph.schedule.Operations.Length; ++i)
                 operations.Add(patternGraph.schedule.Operations[i]);
 
-            // nested patterns on the way to an enclosed subpattern/alternative/patternpath modifier 
+            // nested patterns on the way to an enclosed subpattern/alternative/iterated/patternpath modifier 
             // must get matched after all local nodes and edges, because they require 
             // all outer elements to be known in order to lock them for patternpath processing
-            if (patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrPatternpath
+            if (patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
                 .Contains(patternGraph.pathPrefix + patternGraph.name))
             {
                 operations.Add(new SearchOperation(SearchOperationType.LockLocalElementsForPatternpath, null, null,
@@ -1262,18 +1267,20 @@ exitSecondLoop: ;
             searchProgram.Emit(sb);
             GenerateMatcherClassTail(sb);
 
-            // finally generate matcher source for all the nested alternatives of the pattern graph
-            // nested alternatives are the direct alternatives and their nested alternatives
+            // finally generate matcher source for all the nested alternatives or iterateds of the pattern graph
+            // nested inside the alternatives,iterateds,negatives,independents
             foreach(Alternative alt in matchingPattern.patternGraph.alternatives)
             {
-                GenerateMatcherSourceCode(sb, matchingPattern, alt, isInitialStatic);
+                GenerateMatcherSourceCodeAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
-            // or the alternatives nested within the negatives
+            foreach (PatternGraph iter in matchingPattern.patternGraph.iterateds)
+            {
+                GenerateMatcherSourceCodeIterated(sb, matchingPattern, iter, isInitialStatic);
+            }
             foreach (PatternGraph neg in matchingPattern.patternGraph.negativePatternGraphs)
             {
                 GenerateMatcherSourceCode(sb, matchingPattern, neg, isInitialStatic);
             }
-            // or the alternatives nested within the independents
             foreach (PatternGraph idpt in matchingPattern.patternGraph.independentPatternGraphs)
             {
                 GenerateMatcherSourceCode(sb, matchingPattern, idpt, isInitialStatic);
@@ -1283,23 +1290,28 @@ exitSecondLoop: ;
         /// <summary>
         /// Generates the matcher source code for the given alternative into the given source builder
         /// </summary>
-        public void GenerateMatcherSourceCode(SourceBuilder sb,
+        public void GenerateMatcherSourceCodeAlternative(SourceBuilder sb,
             LGSPMatchingPattern matchingPattern, Alternative alt, bool isInitialStatic)
         {
             // generate the search program out of the schedules within the pattern graphs of the alternative cases
-            SearchProgram searchProgram = GenerateSearchProgram(matchingPattern, alt);
+            SearchProgram searchProgram = GenerateSearchProgramAlternative(matchingPattern, alt);
 
             // emit matcher class head, body, tail; body is source code representing search program
             GenerateMatcherClassHeadAlternative(sb, matchingPattern, alt, isInitialStatic);
             searchProgram.Emit(sb);
             GenerateMatcherClassTail(sb);
 
-            // handle nested alternatives
+            // handle alternatives or iterateds nested in the alternative cases
             foreach (PatternGraph altCase in alt.alternativeCases)
             {
+                // nested inside the alternatives,iterateds,negatives,independents
                 foreach (Alternative nestedAlt in altCase.alternatives)
                 {
-                    GenerateMatcherSourceCode(sb, matchingPattern, nestedAlt, isInitialStatic);
+                    GenerateMatcherSourceCodeAlternative(sb, matchingPattern, nestedAlt, isInitialStatic);
+                }
+                foreach (PatternGraph iter in altCase.iterateds)
+                {
+                    GenerateMatcherSourceCodeIterated(sb, matchingPattern, iter, isInitialStatic);
                 }
                 foreach (PatternGraph neg in altCase.negativePatternGraphs)
                 {
@@ -1313,7 +1325,41 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates the matcher source code for the nested alternatives
+        /// Generates the matcher source code for the given iterated pattern into the given source builder
+        /// </summary>
+        public void GenerateMatcherSourceCodeIterated(SourceBuilder sb,
+            LGSPMatchingPattern matchingPattern, PatternGraph iter, bool isInitialStatic)
+        {
+            // generate the search program out of the schedule within the pattern graph of the iterated pattern
+            SearchProgram searchProgram = GenerateSearchProgramIterated(matchingPattern, iter);
+
+            // emit matcher class head, body, tail; body is source code representing search program
+            GenerateMatcherClassHeadIterated(sb, matchingPattern, iter, isInitialStatic);
+            searchProgram.Emit(sb);
+            GenerateMatcherClassTail(sb);
+
+            // finally generate matcher source for all the nested alternatives or iterateds of the iterated pattern graph
+            // nested inside the alternatives,iterateds,negatives,independents
+            foreach (Alternative alt in iter.alternatives)
+            {
+                GenerateMatcherSourceCodeAlternative(sb, matchingPattern, alt, isInitialStatic);
+            }
+            foreach (PatternGraph nestedIter in iter.iterateds)
+            {
+                GenerateMatcherSourceCodeIterated(sb, matchingPattern, nestedIter, isInitialStatic);
+            }
+            foreach (PatternGraph neg in iter.negativePatternGraphs)
+            {
+                GenerateMatcherSourceCode(sb, matchingPattern, neg, isInitialStatic);
+            }
+            foreach (PatternGraph idpt in iter.independentPatternGraphs)
+            {
+                GenerateMatcherSourceCode(sb, matchingPattern, idpt, isInitialStatic);
+            }
+        }
+
+        /// <summary>
+        /// Generates the matcher source code for the nested alternatives/iterateds
         /// within the given negative/independent pattern graph into the given source builder
         /// </summary>
         public void GenerateMatcherSourceCode(SourceBuilder sb,
@@ -1321,10 +1367,14 @@ exitSecondLoop: ;
         {
             // nothing to do locally ..
 
-            // .. just move on to the nested alternatives
+            // .. just move on to the nested alternatives or iterateds
             foreach (Alternative alt in negOrIdpt.alternatives)
             {
-                GenerateMatcherSourceCode(sb, matchingPattern, alt, isInitialStatic);
+                GenerateMatcherSourceCodeAlternative(sb, matchingPattern, alt, isInitialStatic);
+            }
+            foreach (PatternGraph iter in negOrIdpt.iterateds)
+            {
+                GenerateMatcherSourceCodeIterated(sb, matchingPattern, iter, isInitialStatic);
             }
             foreach (PatternGraph nestedNeg in negOrIdpt.negativePatternGraphs)
             {
@@ -1398,14 +1448,14 @@ exitSecondLoop: ;
         /// <summary>
         /// Generates the search program for the given alternative 
         /// </summary>
-        SearchProgram GenerateSearchProgram(LGSPMatchingPattern matchingPattern, Alternative alt)
+        SearchProgram GenerateSearchProgramAlternative(LGSPMatchingPattern matchingPattern, Alternative alt)
         {
-            ScheduledSearchPlan[] scheduledSearchPlans = new ScheduledSearchPlan[alt.alternativeCases.Length];
+            /*ScheduledSearchPlan[] scheduledSearchPlans = new ScheduledSearchPlan[alt.alternativeCases.Length];
             int i=0;
             foreach (PatternGraph altCase in alt.alternativeCases) {
                 scheduledSearchPlans[i] = altCase.scheduleIncludingNegativesAndIndependents;
                 ++i;
-            }
+            }*/ // todo: needed?
 
             // build pass: build nested program from scheduled search plans of the alternative cases
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
@@ -1429,6 +1479,40 @@ exitSecondLoop: ;
             builder = new SourceBuilder(CommentSourceCode);
             searchProgram.Dump(builder);
             writer = new StreamWriter(matchingPattern.name + "_" + alt.name + "_" + searchProgram.Name + "_completed_dump.txt");
+            writer.Write(builder.ToString());
+            writer.Close();
+#endif
+
+            return searchProgram;
+        }
+
+        /// <summary>
+        /// Generates the search program for the given iterated pattern
+        /// </summary>
+        SearchProgram GenerateSearchProgramIterated(LGSPMatchingPattern matchingPattern, PatternGraph iter)
+        {
+            // build pass: build nested program from scheduled search plan of the all pattern
+            SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
+            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, matchingPattern, iter);
+
+#if DUMP_SEARCHPROGRAMS
+            // dump built search program for debugging
+            SourceBuilder builder = new SourceBuilder(CommentSourceCode);
+            searchProgram.Dump(builder);
+            StreamWriter writer = new StreamWriter(matchingPattern.name + "_" + iter.name + "_" + searchProgram.Name + "_built_dump.txt");
+            writer.Write(builder.ToString());
+            writer.Close();
+#endif
+
+            // complete pass: complete check operations in all search programs
+            SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
+            searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
+
+#if DUMP_SEARCHPROGRAMS
+            // dump completed search program for debugging
+            builder = new SourceBuilder(CommentSourceCode);
+            searchProgram.Dump(builder);
+            writer = new StreamWriter(matchingPattern.name + "_" + iter.name + "_" + searchProgram.Name + "_completed_dump.txt");
             writer.Write(builder.ToString());
             writer.Close();
 #endif
@@ -1515,6 +1599,7 @@ exitSecondLoop: ;
             sb.Indent(); // method body level
             sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
             sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
+           
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
@@ -1557,12 +1642,14 @@ exitSecondLoop: ;
             sb.AppendFront("public class " + className + " : GRGEN_LGSP.LGSPSubpatternAction\n");
             sb.AppendFront("{\n");
             sb.Indent(); // class level
+
             sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPGraph graph_, "
                 + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_, GRGEN_LGSP.PatternGraph[] patternGraphs_) {\n");
             sb.Indent(); // method body level
             sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
             // pfadausdruck gebraucht, da das alternative-objekt im pattern graph steckt
             sb.AppendFront("patternGraphs = patternGraphs_;\n");
+            
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
@@ -1590,6 +1677,53 @@ exitSecondLoop: ;
             {
                 GenerateIndependentsMatchObjects(sb, matchingPattern.GetType().Name, altCase);
             }
+
+            sb.AppendFront("\n");
+        }
+
+        /// <summary>
+        /// Generates matcher class head source code for the given iterated pattern into given source builder
+        /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
+        /// </summary>
+        public void GenerateMatcherClassHeadIterated(SourceBuilder sb,
+            LGSPMatchingPattern matchingPattern, PatternGraph iter, bool isInitialStatic)
+        {
+            PatternGraph patternGraph = (PatternGraph)matchingPattern.PatternGraph;
+
+            String namePrefix = (isInitialStatic ? "" : "Dyn") + "IteratedAction_";
+            String className = namePrefix + iter.pathPrefix + iter.name;
+            String matchingPatternClassName = matchingPattern.GetType().Name;
+
+            sb.AppendFront("public class " + className + " : GRGEN_LGSP.LGSPSubpatternAction\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); // class level
+
+            sb.AppendFront("private " + className + "(GRGEN_LGSP.LGSPGraph graph_, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks_) {\n");
+            sb.Indent(); // method body level
+            sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
+            sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
+
+            sb.Unindent(); // class level
+            sb.AppendFront("}\n\n");
+
+            GenerateTasksMemoryPool(sb, className, false);
+
+            Dictionary<string, bool> neededNodes = new Dictionary<string, bool>();
+            Dictionary<string, bool> neededEdges = new Dictionary<string, bool>();
+            foreach (KeyValuePair<string, bool> neededNode in iter.neededNodes)
+                neededNodes[neededNode.Key] = neededNode.Value;
+            foreach (KeyValuePair<string, bool> neededEdge in iter.neededEdges)
+                neededEdges[neededEdge.Key] = neededEdge.Value;
+            foreach (KeyValuePair<string, bool> node in neededNodes)
+            {
+                sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.Key + ";\n");
+            }
+            foreach (KeyValuePair<string, bool> edge in neededEdges)
+            {
+                sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.Key + ";\n");
+            }
+
+            GenerateIndependentsMatchObjects(sb, matchingPattern.GetType().Name, iter);
 
             sb.AppendFront("\n");
         }
@@ -1716,6 +1850,11 @@ exitSecondLoop: ;
                 {
                     GenerateScheduledSearchPlans(altCase, graph, isSubpattern, false);
                 }
+            }
+
+            foreach (PatternGraph iter in patternGraph.iterateds)
+            {
+                GenerateScheduledSearchPlans(iter, graph, isSubpattern, false);
             }
         }
 

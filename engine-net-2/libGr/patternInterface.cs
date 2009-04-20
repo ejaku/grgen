@@ -100,13 +100,13 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// A two-dimensional array describing which pattern node may be matched non-isomorphic to which pattern node globally,
-        /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases).
+        /// i.e. the nodes are contained in different, but locally nested patterns (alternative cases, iterateds).
         /// </summary>
         bool[,] HomomorphicNodesGlobal { get; }
 
         /// <summary>
         /// A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
-        /// i.e. the edges are contained in different, but locally nested patterns (alternative cases).
+        /// i.e. the edges are contained in different, but locally nested patterns (alternative cases, iterateds).
         /// </summary>
         bool[,] HomomorphicEdgesGlobal { get; }
 
@@ -121,9 +121,9 @@ namespace de.unika.ipd.grGen.libGr
         IAlternative[] Alternatives { get; }
 
         /// <summary>
-        /// An array of all patterns, each all is greedily matched as often as possible.
+        /// An array of iterated patterns, each iterated is matched as often as possible.
         /// </summary>
-        IPatternGraph[] Alls { get; }
+        IPatternGraph[] Iterateds { get; }
 
         /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched

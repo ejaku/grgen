@@ -179,8 +179,8 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         protected string RulePatternClassName;
-        protected List<string> NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
-        protected string Name;
+        protected List<string> NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated;
+        public string Name;
 
         public SearchProgramList OperationsList;
     }
@@ -191,13 +191,13 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class SearchProgramOfAction : SearchProgram
     {
-        public SearchProgramOfAction(string rulePatternClassName, 
-            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative,
+        public SearchProgramOfAction(string rulePatternClassName,
+            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated,
             string name, bool containsSubpatterns)
         {
             RulePatternClassName = rulePatternClassName;
-            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative =
-                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
+            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated =
+                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated;
             Name = name;
 
             SetupSubpatternMatching = containsSubpatterns;
@@ -246,7 +246,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("matches.Clear();\n");
             sourceCode.AppendFront("int negLevel = 0;\n");
 
-            foreach(string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
+            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
                     RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
@@ -289,13 +289,13 @@ namespace de.unika.ipd.grGen.lgsp
     class SearchProgramOfMissingPreset : SearchProgram
     {
         public SearchProgramOfMissingPreset(string rulePatternClassName,
-            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative,
+            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated,
             string name, bool containsSubpatterns,
             string[] parameters, bool[] parameterIsNode)
         {
             RulePatternClassName = rulePatternClassName;
-            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative =
-                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
+            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated =
+                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated;
             Name = name;
 
             SetupSubpatternMatching = containsSubpatterns;
@@ -371,7 +371,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
             sourceCode.AppendFront("int negLevel = 0;\n");
 
-            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
+            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
                     RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
@@ -402,13 +402,13 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class SearchProgramOfSubpattern : SearchProgram
     {
-        public SearchProgramOfSubpattern(string rulePatternClassName, 
-            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative,
+        public SearchProgramOfSubpattern(string rulePatternClassName,
+            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated,
             string name)
         {
             RulePatternClassName = rulePatternClassName;
-            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative =
-                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
+            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated =
+                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated;
             Name = name;
         }
 
@@ -445,7 +445,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
-            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
+            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
                     RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
@@ -465,13 +465,13 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class SearchProgramOfAlternative : SearchProgram
     {
-        public SearchProgramOfAlternative(string rulePatternClassName, 
-            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative,
+        public SearchProgramOfAlternative(string rulePatternClassName,
+            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated,
             string name)
         {
             RulePatternClassName = rulePatternClassName;
-            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative =
-                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative;
+            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated =
+                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated;
             Name = name;
         }
 
@@ -507,7 +507,71 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
-            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative)
+            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated)
+            {
+                sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
+                    RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
+                    NamesOfEntities.PatternpathMatch(graphsOnPath));
+            }
+
+            OperationsList.Emit(sourceCode);
+
+            sourceCode.AppendFront("return;\n");
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+    }
+
+    /// <summary>
+    /// Class representing the search program of an iterated pattern 
+    /// </summary>
+    class SearchProgramOfIterated : SearchProgram
+    {
+        public SearchProgramOfIterated(string rulePatternClassName,
+            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated,
+            string name)
+        {
+            RulePatternClassName = rulePatternClassName;
+            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated =
+                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated;
+            Name = name;
+        }
+
+        /// <summary>
+        /// Dumps search program 
+        /// </summary>
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFrontFormat("Search program {0} of iterated\n", Name);
+            builder.Append("\n");
+
+            // then nested content
+            if (OperationsList != null)
+            {
+                builder.Indent();
+                OperationsList.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        /// <summary>
+        /// Emits the matcher source code for the search program
+        /// head, search program operations list in depth first walk over search program operations list, tail
+        /// </summary>
+        public override void Emit(SourceBuilder sourceCode)
+        {
+#if RANDOM_LOOKUP_LIST_START
+            sourceCode.AppendFront("private Random random = new Random(13795661);\n");
+#endif
+
+            sourceCode.AppendFront("public override void " + Name + "(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, "
+                + "int maxMatches, int negLevel)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+            sourceCode.AppendFront("bool patternFound = true;\n");
+
+            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated)
             {
                 sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
                     RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
@@ -2575,15 +2639,17 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public PositivePatternWithoutSubpatternsMatched(
             string rulePatternClassName,
-            string patternName)
+            string patternName,
+            bool isIterated)
         {
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
+            IsIterated = isIterated;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("PositivePatternMatched \n");
+            builder.AppendFrontFormat("PositivePatternMatched {0}\n", IsIterated ? "of Iterated " : "");
 
             if (MatchBuildingOperations != null)
             {
@@ -2595,6 +2661,11 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            if (IsIterated)
+            {
+                sourceCode.AppendFront("patternFound = true;");
+            }
+
             sourceCode.AppendFrontFormat("{0}.{1} match = matches.GetNextUnfilledPosition();\n",
                 RulePatternClassName, NamesOfEntities.MatchClassName(PatternName));
 
@@ -2606,6 +2677,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         string RulePatternClassName;
         string PatternName;
+        bool IsIterated;
 
         public SearchProgramList MatchBuildingOperations;
     }
@@ -2624,9 +2696,14 @@ namespace de.unika.ipd.grGen.lgsp
             PatternName = patternName;
         }
 
+        public LeafSubpatternMatched()
+        {
+            // end of iteration "match"; RulePatternClassName == PatternName == null
+        }
+
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("LeafSubpatternMatched \n");
+            builder.AppendFrontFormat("LeafSubpatternMatched {0}\n", RulePatternClassName==null ? "EndOfIteration " : "");
 
             if (MatchBuildingOperations != null)
             {
@@ -2641,10 +2718,13 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = new Stack<GRGEN_LIBGR.IMatch>();\n");
             sourceCode.AppendFront("foundPartialMatches.Add(currentFoundPartialMatch);\n");
 
-            sourceCode.AppendFrontFormat("{0}.{1} match = new {0}.{1}();\n", 
-                RulePatternClassName, NamesOfEntities.MatchClassName(PatternName));
-            MatchBuildingOperations.Emit(sourceCode); // emit match building operations
-            sourceCode.AppendFront("currentFoundPartialMatch.Push(match);\n");
+            if (RulePatternClassName!=null)
+            {
+                sourceCode.AppendFrontFormat("{0}.{1} match = new {0}.{1}();\n",
+                    RulePatternClassName, NamesOfEntities.MatchClassName(PatternName));
+                MatchBuildingOperations.Emit(sourceCode); // emit match building operations
+                sourceCode.AppendFront("currentFoundPartialMatch.Push(match);\n");
+            }
         }
 
         string RulePatternClassName;
@@ -2662,17 +2742,17 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternAndSubpatternsMatched(
             string rulePatternClassName,
             string patternName,
-            bool isSubpatternOrAlternative)
+            bool isAction)
         {
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
-            IsSubpatternOrAlternative = isSubpatternOrAlternative;
+            IsAction = isAction;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("PatternAndSubpatternsMatched ");
-            builder.AppendFormat("isSubpatternOrAlternative:{0} \n", IsSubpatternOrAlternative);
+            builder.AppendFormat("isAction:{0} \n", IsAction);
 
             if (MatchBuildingOperations != null)
             {
@@ -2684,7 +2764,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (IsSubpatternOrAlternative)
+            if (!IsAction)
             {
                 if (sourceCode.CommentSourceCode)
                     sourceCode.AppendFront("// subpatterns/alternatives were found, extend the partial matches by our local match object\n");
@@ -2721,7 +2801,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         string RulePatternClassName;
         string PatternName;
-        public bool IsSubpatternOrAlternative;
+        public bool IsAction;
 
         public SearchProgramList MatchBuildingOperations;
     }
@@ -2824,6 +2904,7 @@ namespace de.unika.ipd.grGen.lgsp
         Edge,        // build match object with match for edge
         Variable,    // build match object with match for variable
         Subpattern,  // build match object with match for subpattern
+        Iteration,   // build match object with match for iteration
         Alternative, // build match object with match for alternative
         Independent  // build match object with match for independent
     }
@@ -2878,6 +2959,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case BuildMatchObjectType.Edge:        typeDescr = "Edge";        break;
                 case BuildMatchObjectType.Variable:    typeDescr = "Variable";    break;
                 case BuildMatchObjectType.Subpattern:  typeDescr = "Subpattern";  break;
+                case BuildMatchObjectType.Iteration:   typeDescr = "Iteration";   break;
                 case BuildMatchObjectType.Alternative: typeDescr = "Alternative"; break;
                 case BuildMatchObjectType.Independent: typeDescr = "Independent"; break;
                 default:                               typeDescr = ">>UNKNOWN<<"; break;
@@ -2908,6 +2990,22 @@ namespace de.unika.ipd.grGen.lgsp
                     MatchObjectName, matchName, PatternElementType);
                 sourceCode.AppendFrontFormat("{0}._{1}._matchOfEnclosingPattern = {0};\n",
                     MatchObjectName, matchName);
+            }
+            else if(Type == BuildMatchObjectType.Iteration)
+            {
+                sourceCode.AppendFrontFormat("{0}._{1} = new GRGEN_LGSP.LGSPMatchesList<{2}.{3}, {2}.{4}>(null);\n",
+                    MatchObjectName, matchName,
+                    RulePatternClassName, NamesOfEntities.MatchClassName(PatternElementType), NamesOfEntities.MatchInterfaceName(PatternElementType));
+                sourceCode.AppendFrontFormat("while(currentFoundPartialMatch.Peek() is {0}.{1}) ", 
+                    RulePatternClassName, NamesOfEntities.MatchInterfaceName(PatternElementType));
+                sourceCode.Append("{\n");
+                sourceCode.Indent();
+                sourceCode.AppendFrontFormat("(({0}.{1})currentFoundPartialMatch.Peek()).SetMatchOfEnclosingPattern({2});\n",
+                    RulePatternClassName, NamesOfEntities.MatchInterfaceName(PatternElementType), MatchObjectName);
+                sourceCode.AppendFrontFormat("{0}._{1}.Add(({2}.{3})currentFoundPartialMatch.Pop());\n",
+                    MatchObjectName, matchName, RulePatternClassName, NamesOfEntities.MatchClassName(PatternElementType));
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
             }
             else if(Type == BuildMatchObjectType.Alternative)
             {
@@ -3237,6 +3335,44 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class representing "check if matching process is to be continued with iterated pattern non match" operation
+    /// </summary>
+    class CheckContinueMatchingIteratedPatternFound : CheckContinueMatching
+    {
+        public CheckContinueMatchingIteratedPatternFound()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump check
+            builder.AppendFront("CheckContinueMatching IteratedPatternFound\n");
+            // then operations for case check failed
+            if (CheckFailedOperations != null)
+            {
+                builder.Indent();
+                CheckFailedOperations.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if (sourceCode.CommentSourceCode)
+                sourceCode.AppendFront("// Check whether the iterated pattern was not found\n");
+
+            sourceCode.AppendFront("if(!patternFound)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            CheckFailedOperations.Emit(sourceCode);
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+    }
+
+    /// <summary>
     /// Available types of ContinueOperation operations
     /// </summary>
     enum ContinueOperationType
@@ -3518,7 +3654,8 @@ namespace de.unika.ipd.grGen.lgsp
     enum PushAndPopSubpatternTaskTypes
     {
         Subpattern,
-        Alternative
+        Alternative,
+        Iterated
     }
 
     /// <summary>
@@ -3527,6 +3664,7 @@ namespace de.unika.ipd.grGen.lgsp
     class PushSubpatternTask : SearchProgramOperation
     {
         public PushSubpatternTask(
+            PushAndPopSubpatternTaskTypes type,
             string subpatternName,
             string subpatternElementName,
             string[] connectionName,
@@ -3539,7 +3677,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Debug.Assert(connectionName.Length == patternElementBoundToConnectionName.Length
                 && patternElementBoundToConnectionName.Length == patternElementBoundToConnectionIsNode.Length);
-            Type = PushAndPopSubpatternTaskTypes.Subpattern;
+            Debug.Assert(type == PushAndPopSubpatternTaskTypes.Subpattern);
+            Type = type;
             SubpatternName = subpatternName;
             SubpatternElementName = subpatternElementName;
 
@@ -3555,8 +3694,9 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public PushSubpatternTask(
+            PushAndPopSubpatternTaskTypes type,
             string pathPrefix,
-            string alternativeName,
+            string alternativeOrIteratedName,
             string rulePatternClassName,
             string[] connectionName,
             string[] patternElementBoundToConnectionName,
@@ -3568,9 +3708,11 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Debug.Assert(connectionName.Length == patternElementBoundToConnectionName.Length
                 && patternElementBoundToConnectionName.Length == patternElementBoundToConnectionIsNode.Length);
-            Type = PushAndPopSubpatternTaskTypes.Alternative;
+            Debug.Assert(type == PushAndPopSubpatternTaskTypes.Alternative
+                || type == PushAndPopSubpatternTaskTypes.Iterated);
+            Type = type;
             PathPrefix = pathPrefix;
-            AlternativeName = alternativeName;
+            AlternativeOrIteratedName = alternativeOrIteratedName;
             RulePatternClassName = rulePatternClassName;
 
             ConnectionName = connectionName;
@@ -3586,13 +3728,20 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFrontFormat("PushSubpatternTask {0} ",
-                Type==PushAndPopSubpatternTaskTypes.Alternative ? "Alternative" : "Subpattern");
-            if (Type == PushAndPopSubpatternTaskTypes.Alternative) {
+            if(Type == PushAndPopSubpatternTaskTypes.Subpattern) {
+                builder.AppendFront("PushSubpatternTask Subpattern ");
+            } else if(Type == PushAndPopSubpatternTaskTypes.Alternative) {
+                builder.AppendFront("PushSubpatternTask Alternative ");
+            } else { // Type==PushAndPopSubpatternTaskTypes.Iterated
+                builder.AppendFront("PushSubpatternTask Iterated ");
+            }
+
+            if(Type == PushAndPopSubpatternTaskTypes.Subpattern) {
                 builder.AppendFormat("{0} of {1} ", SubpatternElementName, SubpatternName);
             } else {
-                builder.AppendFormat("{0}/{1} ", PathPrefix, AlternativeName);
+                builder.AppendFormat("{0}/{1} ", PathPrefix, AlternativeOrIteratedName);
             }
+
             builder.Append("with ");
             for (int i = 0; i < ConnectionName.Length; ++i)
             {
@@ -3606,28 +3755,39 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             if (sourceCode.CommentSourceCode) {
-                string type = Type==PushAndPopSubpatternTaskTypes.Alternative ? "alternative" : "subpattern";
-                string what = Type==PushAndPopSubpatternTaskTypes.Alternative ? PathPrefix+AlternativeName : SubpatternElementName;
-                sourceCode.AppendFrontFormat("// Push {0} matching task for {1}\n", type, what);
+                if (Type == PushAndPopSubpatternTaskTypes.Subpattern) {
+                    sourceCode.AppendFrontFormat("// Push subpattern matching task for {0}\n", SubpatternElementName);
+                } else if (Type == PushAndPopSubpatternTaskTypes.Alternative) {
+                    sourceCode.AppendFrontFormat("// Push alternative matching task for {0}\n", PathPrefix + AlternativeOrIteratedName);
+                } else { // if(Type==PushAndPopSubpatternTaskTypes.Iterated)
+                    sourceCode.AppendFrontFormat("// Push iterated matching task for {0}\n", PathPrefix + AlternativeOrIteratedName);
+                }
             }
 
-            bool isAlternative = Type == PushAndPopSubpatternTaskTypes.Alternative;
             string variableContainingTask;
-            if (isAlternative)
-            {
-                // create matching task for alternative
-                variableContainingTask = NamesOfEntities.TaskVariable(AlternativeName, NegativeIndependentNamePrefix);
-                string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix+AlternativeName, true);
-                string alternativeCases = "patternGraph.alternatives[(int)" + RulePatternClassName + "."
-                    + PathPrefix+"AltNums.@" + AlternativeName + "].alternativeCases";
-                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks, {3});\n",
-                    typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, alternativeCases);
-            }
-            else
+            if (Type == PushAndPopSubpatternTaskTypes.Subpattern)
             {
                 // create matching task for subpattern
                 variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName, NegativeIndependentNamePrefix);
-                string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, false);
+                string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, false, false);
+                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks);\n",
+                    typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix);
+            }
+            else if (Type == PushAndPopSubpatternTaskTypes.Alternative)
+            {
+                // create matching task for alternative
+                variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
+                string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, true, false);
+                string alternativeCases = "patternGraph.alternatives[(int)" + RulePatternClassName + "."
+                    + PathPrefix + "AltNums.@" + AlternativeOrIteratedName + "].alternativeCases";
+                sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks, {3});\n",
+                    typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, alternativeCases);
+            }
+            else // if(Type == PushAndPopSubpatternTaskTypes.Iterated)
+            {
+                // create matching task for iterated
+                variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
+                string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, false, true);
                 sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks);\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix);
             }
@@ -3656,9 +3816,9 @@ namespace de.unika.ipd.grGen.lgsp
         public PushAndPopSubpatternTaskTypes Type;
         public string SubpatternName; // only valid if Type==Subpattern
         public string SubpatternElementName; // only valid if Type==Subpattern
-        string PathPrefix; // only valid if Type==Alternative
-        string AlternativeName; // only valid if Type==Alternative
-        string RulePatternClassName; // only valid if Type==Alternative
+        string PathPrefix; // only valid if Type==Alternative|Iterated
+        string AlternativeOrIteratedName; // only valid if Type==Alternative|Iterated
+        string RulePatternClassName; // only valid if Type==Alternative|Iterated
         public string[] ConnectionName;
         public string[] PatternElementBoundToConnectionName;
         public bool[] PatternElementBoundToConnectionIsNode;
@@ -3674,51 +3834,67 @@ namespace de.unika.ipd.grGen.lgsp
     class PopSubpatternTask : SearchProgramOperation
     {
         public PopSubpatternTask(string negativeIndependentNamePrefix, PushAndPopSubpatternTaskTypes type,
-            string subpatternNameOrAlternativeName, string subpatternElementNameOrPathPrefix)
+            string subpatternOrAlternativeOrIteratedName, string subpatternElementNameOrPathPrefix)
         {
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
             Type = type;
-            if (type == PushAndPopSubpatternTaskTypes.Alternative)
-            {
-                AlternativeName = subpatternNameOrAlternativeName;
-                PathPrefix = subpatternElementNameOrPathPrefix;
-            }
-            else
-            {
-                SubpatternName = subpatternNameOrAlternativeName;
+            if (type == PushAndPopSubpatternTaskTypes.Subpattern) {
+                SubpatternName = subpatternOrAlternativeOrIteratedName;
                 SubpatternElementName = subpatternElementNameOrPathPrefix;
+            } else if (type == PushAndPopSubpatternTaskTypes.Alternative) {
+                AlternativeOrIteratedName = subpatternOrAlternativeOrIteratedName;
+                PathPrefix = subpatternElementNameOrPathPrefix;
+            } else { // if (type == PushAndPopSubpatternTaskTypes.Iterated)
+                AlternativeOrIteratedName = subpatternOrAlternativeOrIteratedName;
+                PathPrefix = subpatternElementNameOrPathPrefix;
             }
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFrontFormat("PopSubpatternTask {0}\n",
-                Type==PushAndPopSubpatternTaskTypes.Alternative ? AlternativeName : SubpatternElementName);
+            if (Type == PushAndPopSubpatternTaskTypes.Subpattern) {
+                builder.AppendFrontFormat("PopSubpatternTask Subpattern {0}\n", SubpatternElementName);
+            } else if (Type == PushAndPopSubpatternTaskTypes.Alternative) {
+                builder.AppendFrontFormat("PopSubpatternTask Alternative {0}\n", AlternativeOrIteratedName);
+            } else { // Type==PushAndPopSubpatternTaskTypes.Iterated
+                builder.AppendFrontFormat("PopSubpatternTask Iterated {0}\n", AlternativeOrIteratedName);
+            }
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (sourceCode.CommentSourceCode)
-                sourceCode.AppendFrontFormat("// Pop subpattern matching task for {0}\n",
-                    Type==PushAndPopSubpatternTaskTypes.Alternative ? AlternativeName : SubpatternElementName);
+            if (sourceCode.CommentSourceCode) {
+                if (Type == PushAndPopSubpatternTaskTypes.Subpattern) {
+                    sourceCode.AppendFrontFormat("// Pop subpattern matching task for {0}\n", SubpatternElementName);
+                } else if (Type == PushAndPopSubpatternTaskTypes.Alternative) {
+                    sourceCode.AppendFrontFormat("// Pop alternative matching task for {0}\n", PathPrefix + AlternativeOrIteratedName);
+                } else { // if(Type==PushAndPopSubpatternTaskTypes.Iterated)
+                    sourceCode.AppendFrontFormat("// Pop iterated matching task for {0}\n", PathPrefix + AlternativeOrIteratedName);
+                }
+            }
 
             sourceCode.AppendFrontFormat("{0}openTasks.Pop();\n", NegativeIndependentNamePrefix);
 
-            string variableContainingTask = Type == PushAndPopSubpatternTaskTypes.Alternative
-                ? NamesOfEntities.TaskVariable(AlternativeName, NegativeIndependentNamePrefix)
-                : NamesOfEntities.TaskVariable(SubpatternElementName, NegativeIndependentNamePrefix);
-            string typeOfVariableContainingTask = Type == PushAndPopSubpatternTaskTypes.Alternative 
-                ? NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeName, true)
-                : NamesOfEntities.TypeOfTaskVariable(SubpatternName, false);
-            sourceCode.AppendFrontFormat("{0}.releaseTask({1});\n", 
-                typeOfVariableContainingTask, variableContainingTask);
+            string variableContainingTask;
+            string typeOfVariableContainingTask;
+            if (Type == PushAndPopSubpatternTaskTypes.Subpattern) {
+                variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName, NegativeIndependentNamePrefix);
+                typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, false, false);
+            } else if (Type == PushAndPopSubpatternTaskTypes.Alternative) {
+                variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
+                typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, true, false);
+            } else { // if(Type==PushAndPopSubpatternTaskTypes.Iterated)
+                variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
+                typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, false, true);
+            }
+            sourceCode.AppendFrontFormat("{0}.releaseTask({1});\n", typeOfVariableContainingTask, variableContainingTask);
         }
 
         public PushAndPopSubpatternTaskTypes Type;
         public string SubpatternName; // only valid if Type==Subpattern
         public string SubpatternElementName; // only valid if Type==Subpattern
-        public string PathPrefix; // only valid if Type==Alternative
-        public string AlternativeName; // only valid if Type==Alternative
+        public string PathPrefix; // only valid if Type==Alternative|Iterated
+        public string AlternativeOrIteratedName; // only valid if Type==Alternative|Iterated
         public string NegativeIndependentNamePrefix;
     }
 
@@ -3794,25 +3970,55 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Available types of InitializeSubpatternMatching and the corresponding FinalizeSubpatternMatching operations
+    /// </summary>
+    enum InitializeFinalizeSubpatternMatchingType
+    {
+        Normal, // normal subpattern/alternative, whose tasks get removed when pattern gets matched
+        Iteration, // iteration whose task stays on the tasks stack
+        EndOfIteration // end of iteration, now the task gets removed from the tasks stack
+    }
+
+    /// <summary>
     /// Class representing "initialize subpattern matching" operation
     /// </summary>
     class InitializeSubpatternMatching : SearchProgramOperation
     {
-        public InitializeSubpatternMatching()
+        public InitializeSubpatternMatching(InitializeFinalizeSubpatternMatchingType type)
         {
+            Type = type;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("InitializeSubpatternMatching\n");
+            switch (Type)
+            {
+            case InitializeFinalizeSubpatternMatchingType.Normal:
+                builder.AppendFront("InitializeSubpatternMatching Normal\n");
+                break;
+            case InitializeFinalizeSubpatternMatchingType.Iteration:
+                builder.AppendFront("InitializeSubpatternMatching Iteration\n");
+                break;
+            case InitializeFinalizeSubpatternMatchingType.EndOfIteration:
+                builder.AppendFront("InitializeSubpatternMatching EndOfIteration\n");
+                break;
+            }
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("openTasks.Pop();\n");
-            sourceCode.AppendFront("List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;\n");
-            sourceCode.AppendFront("if(matchesList.Count!=0) throw new ApplicationException(); //debug assert\n");
+            if (Type != InitializeFinalizeSubpatternMatchingType.Iteration)
+            {
+                sourceCode.AppendFront("openTasks.Pop();\n");
+            }
+            if (Type != InitializeFinalizeSubpatternMatchingType.EndOfIteration)
+            {
+                sourceCode.AppendFront("List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;\n");
+                sourceCode.AppendFront("if(matchesList.Count!=0) throw new ApplicationException(); //debug assert\n");
+            }
         }
+
+        public InitializeFinalizeSubpatternMatchingType Type;
     }
 
     /// <summary>
@@ -3820,19 +4026,36 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class FinalizeSubpatternMatching : SearchProgramOperation
     {
-        public FinalizeSubpatternMatching()
+        public FinalizeSubpatternMatching(InitializeFinalizeSubpatternMatchingType type)
         {
+            Type = type;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("FinalizeSubpatternMatching\n");
+            switch (Type)
+            {
+            case InitializeFinalizeSubpatternMatchingType.Normal:
+                builder.AppendFront("FinalizeSubpatternMatching Normal\n");
+                break;
+            case InitializeFinalizeSubpatternMatchingType.Iteration:
+                builder.AppendFront("FinalizeSubpatternMatching Iteration\n");
+                break;
+            case InitializeFinalizeSubpatternMatchingType.EndOfIteration:
+                builder.AppendFront("FinalizeSubpatternMatching EndOfIteration\n");
+                break;
+            }
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("openTasks.Push(this);\n");
+            if (Type != InitializeFinalizeSubpatternMatchingType.Iteration)
+            {
+                sourceCode.AppendFrontFormat("openTasks.Push(this);\n");
+            }
         }
+
+        InitializeFinalizeSubpatternMatchingType Type;
     }
 
     /// <summary>

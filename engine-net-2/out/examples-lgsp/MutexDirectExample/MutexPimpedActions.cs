@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sat Apr 04 15:35:43 GMT+01:00 2009
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Apr 20 04:38:24 CEST 2009
 
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum newRule_VariableNums { };
 		public enum newRule_SubNums { };
 		public enum newRule_AltNums { };
-		public enum newRule_AllNums { };
+		public enum newRule_IterNums { };
 
 
 
@@ -146,7 +146,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -217,11 +217,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum newRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum newRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -270,7 +270,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum killRule_VariableNums { };
 		public enum killRule_SubNums { };
 		public enum killRule_AltNums { };
-		public enum killRule_AllNums { };
+		public enum killRule_IterNums { };
 
 
 
@@ -404,7 +404,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -481,11 +481,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum killRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum killRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -526,7 +526,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum mountRule_VariableNums { };
 		public enum mountRule_SubNums { };
 		public enum mountRule_AltNums { };
-		public enum mountRule_AllNums { };
+		public enum mountRule_IterNums { };
 
 
 
@@ -610,7 +610,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -675,11 +675,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum mountRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum mountRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -724,7 +724,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum unmountRule_VariableNums { };
 		public enum unmountRule_SubNums { };
 		public enum unmountRule_AltNums { };
-		public enum unmountRule_AllNums { };
+		public enum unmountRule_IterNums { };
 
 
 
@@ -826,7 +826,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -897,11 +897,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum unmountRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum unmountRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -950,7 +950,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum passRule_VariableNums { };
 		public enum passRule_SubNums { };
 		public enum passRule_AltNums { };
-		public enum passRule_AllNums { };
+		public enum passRule_IterNums { };
 
 
 
@@ -963,7 +963,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum passRule_neg_0_VariableNums { };
 		public enum passRule_neg_0_SubNums { };
 		public enum passRule_neg_0_AltNums { };
-		public enum passRule_neg_0_AllNums { };
+		public enum passRule_neg_0_IterNums { };
 
 		GRGEN_LGSP.PatternGraph passRule_neg_0;
 
@@ -1121,7 +1121,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -1136,7 +1136,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -1213,11 +1213,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum passRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum passRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -1308,11 +1308,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum passRule_neg_0_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum passRule_neg_0_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -1355,7 +1355,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_VariableNums { };
 		public enum requestRule_SubNums { };
 		public enum requestRule_AltNums { };
-		public enum requestRule_AllNums { };
+		public enum requestRule_IterNums { };
 
 
 
@@ -1368,7 +1368,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_neg_0_VariableNums { };
 		public enum requestRule_neg_0_SubNums { };
 		public enum requestRule_neg_0_AltNums { };
-		public enum requestRule_neg_0_AllNums { };
+		public enum requestRule_neg_0_IterNums { };
 
 		GRGEN_LGSP.PatternGraph requestRule_neg_0;
 
@@ -1381,7 +1381,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_neg_1_VariableNums { };
 		public enum requestRule_neg_1_SubNums { };
 		public enum requestRule_neg_1_AltNums { };
-		public enum requestRule_neg_1_AllNums { };
+		public enum requestRule_neg_1_IterNums { };
 
 		GRGEN_LGSP.PatternGraph requestRule_neg_1;
 
@@ -1542,7 +1542,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -1557,7 +1557,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -1572,7 +1572,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -1640,11 +1640,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum requestRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum requestRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -1735,11 +1735,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum requestRule_neg_0_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum requestRule_neg_0_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -1830,11 +1830,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum requestRule_neg_1_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum requestRule_neg_1_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -1881,7 +1881,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum takeRule_VariableNums { };
 		public enum takeRule_SubNums { };
 		public enum takeRule_AltNums { };
-		public enum takeRule_AllNums { };
+		public enum takeRule_IterNums { };
 
 
 
@@ -1994,7 +1994,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -2068,11 +2068,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum takeRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum takeRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -2117,7 +2117,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseRule_VariableNums { };
 		public enum releaseRule_SubNums { };
 		public enum releaseRule_AltNums { };
-		public enum releaseRule_AllNums { };
+		public enum releaseRule_IterNums { };
 
 
 
@@ -2132,7 +2132,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseRule_neg_0_VariableNums { };
 		public enum releaseRule_neg_0_SubNums { };
 		public enum releaseRule_neg_0_AltNums { };
-		public enum releaseRule_neg_0_AllNums { };
+		public enum releaseRule_neg_0_IterNums { };
 
 		GRGEN_LGSP.PatternGraph releaseRule_neg_0;
 
@@ -2270,7 +2270,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -2285,7 +2285,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -2356,11 +2356,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum releaseRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum releaseRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -2451,11 +2451,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum releaseRule_neg_0_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum releaseRule_neg_0_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -2504,7 +2504,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum giveRule_VariableNums { };
 		public enum giveRule_SubNums { };
 		public enum giveRule_AltNums { };
-		public enum giveRule_AllNums { };
+		public enum giveRule_IterNums { };
 
 
 
@@ -2618,7 +2618,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -2695,11 +2695,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum giveRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum giveRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -2748,7 +2748,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum blockedRule_VariableNums { };
 		public enum blockedRule_SubNums { };
 		public enum blockedRule_AltNums { };
-		public enum blockedRule_AllNums { };
+		public enum blockedRule_IterNums { };
 
 
 
@@ -2858,7 +2858,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -2935,11 +2935,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum blockedRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum blockedRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -2994,7 +2994,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum waitingRule_VariableNums { };
 		public enum waitingRule_SubNums { };
 		public enum waitingRule_AltNums { };
-		public enum waitingRule_AllNums { };
+		public enum waitingRule_IterNums { };
 
 
 
@@ -3141,7 +3141,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -3227,11 +3227,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum waitingRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum waitingRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -3276,7 +3276,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum ignoreRule_VariableNums { };
 		public enum ignoreRule_SubNums { };
 		public enum ignoreRule_AltNums { };
-		public enum ignoreRule_AllNums { };
+		public enum ignoreRule_IterNums { };
 
 
 
@@ -3291,7 +3291,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum ignoreRule_neg_0_VariableNums { };
 		public enum ignoreRule_neg_0_SubNums { };
 		public enum ignoreRule_neg_0_AltNums { };
-		public enum ignoreRule_neg_0_AllNums { };
+		public enum ignoreRule_neg_0_IterNums { };
 
 		GRGEN_LGSP.PatternGraph ignoreRule_neg_0;
 
@@ -3423,7 +3423,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -3438,7 +3438,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -3509,11 +3509,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum ignoreRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum ignoreRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -3604,11 +3604,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum ignoreRule_neg_0_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum ignoreRule_neg_0_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -3655,7 +3655,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum unlockRule_VariableNums { };
 		public enum unlockRule_SubNums { };
 		public enum unlockRule_AltNums { };
-		public enum unlockRule_AllNums { };
+		public enum unlockRule_IterNums { };
 
 
 
@@ -3768,7 +3768,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -3842,11 +3842,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum unlockRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum unlockRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -3899,7 +3899,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestStarRule_VariableNums { };
 		public enum requestStarRule_SubNums { };
 		public enum requestStarRule_AltNums { };
-		public enum requestStarRule_AllNums { };
+		public enum requestStarRule_IterNums { };
 
 
 
@@ -3912,7 +3912,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestStarRule_neg_0_VariableNums { };
 		public enum requestStarRule_neg_0_SubNums { };
 		public enum requestStarRule_neg_0_AltNums { };
-		public enum requestStarRule_neg_0_AllNums { };
+		public enum requestStarRule_neg_0_IterNums { };
 
 		GRGEN_LGSP.PatternGraph requestStarRule_neg_0;
 
@@ -4068,7 +4068,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -4083,7 +4083,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -4166,11 +4166,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum requestStarRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum requestStarRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -4261,11 +4261,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum requestStarRule_neg_0_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum requestStarRule_neg_0_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -4318,7 +4318,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseStarRule_VariableNums { };
 		public enum releaseStarRule_SubNums { };
 		public enum releaseStarRule_AltNums { };
-		public enum releaseStarRule_AllNums { };
+		public enum releaseStarRule_IterNums { };
 
 
 
@@ -4444,7 +4444,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -4527,11 +4527,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum releaseStarRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum releaseStarRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -4576,7 +4576,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestSimpleRule_VariableNums { };
 		public enum requestSimpleRule_SubNums { };
 		public enum requestSimpleRule_AltNums { };
-		public enum requestSimpleRule_AllNums { };
+		public enum requestSimpleRule_IterNums { };
 
 
 
@@ -4589,7 +4589,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestSimpleRule_neg_0_VariableNums { };
 		public enum requestSimpleRule_neg_0_SubNums { };
 		public enum requestSimpleRule_neg_0_AltNums { };
-		public enum requestSimpleRule_neg_0_AllNums { };
+		public enum requestSimpleRule_neg_0_IterNums { };
 
 		GRGEN_LGSP.PatternGraph requestSimpleRule_neg_0;
 
@@ -4721,7 +4721,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -4736,7 +4736,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -4807,11 +4807,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum requestSimpleRule_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum requestSimpleRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -4902,11 +4902,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum requestSimpleRule_neg_0_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum requestSimpleRule_neg_0_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -4947,7 +4947,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum aux_attachResource_VariableNums { };
 		public enum aux_attachResource_SubNums { };
 		public enum aux_attachResource_AltNums { };
-		public enum aux_attachResource_AllNums { };
+		public enum aux_attachResource_IterNums { };
 
 
 
@@ -4962,7 +4962,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum aux_attachResource_neg_0_VariableNums { };
 		public enum aux_attachResource_neg_0_SubNums { };
 		public enum aux_attachResource_neg_0_AltNums { };
-		public enum aux_attachResource_neg_0_AllNums { };
+		public enum aux_attachResource_neg_0_IterNums { };
 
 		GRGEN_LGSP.PatternGraph aux_attachResource_neg_0;
 
@@ -5082,7 +5082,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -5097,7 +5097,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			//Variables
 			//EmbeddedGraphs
 			//Alternatives
-			//Alls
+			//Iterateds
 			//Independents
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
@@ -5162,11 +5162,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum aux_attachResource_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum aux_attachResource_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
@@ -5257,11 +5257,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				}
 			}
 			
-			public enum aux_attachResource_neg_0_AllNums { END_OF_ENUM };
-			public IEnumerable<GRGEN_LIBGR.IMatches> Alls { get { return new GRGEN_LGSP.Alls_Enumerable(this); } }
-			public IEnumerator<GRGEN_LIBGR.IMatches> AllsEnumerator { get { return new GRGEN_LGSP.Alls_Enumerator(this); } }
-			public int NumberOfAlls { get { return 0;} }
-			public GRGEN_LIBGR.IMatches getAllAt(int index)
+			public enum aux_attachResource_neg_0_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
 			{
 				switch(index) {
 				default: return null;
