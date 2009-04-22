@@ -39,6 +39,8 @@ namespace de.unika.ipd.grGen.libGr
                 return GXLImport.Import(importFilename, modelOverride, backend);
             else if (importFilename.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase))
                 return porter.GRSImporter.Import(importFilename, modelOverride, backend);
+            else if(importFilename.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
+                return ECoreImport.Import(importFilename, modelOverride, backend);
             else
                 throw new NotSupportedException("File format not supported");
         }
