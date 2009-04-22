@@ -39,8 +39,12 @@ namespace de.unika.ipd.grGen.libGr
                 return GXLImport.Import(importFilename, modelOverride, backend);
             else if (importFilename.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase))
                 return porter.GRSImporter.Import(importFilename, modelOverride, backend);
-            else if(importFilename.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
+            else if(importFilename.EndsWith(".xmi", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if(modelOverride == null || !modelOverride.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
+                    throw new NotSupportedException("When importing an .xmi you have to specify an .ecore as second argument");
                 return ECoreImport.Import(importFilename, modelOverride, backend);
+            }
             else
                 throw new NotSupportedException("File format not supported");
         }
