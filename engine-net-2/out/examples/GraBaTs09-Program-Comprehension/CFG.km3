@@ -1,0 +1,51 @@
+-- @name		CFG
+-- @version		0.2
+-- @domains		Program Comprehension, Reverse engineering, Program Optimization
+-- @authors		Jean-Sébastien Sottet
+-- @date		2009/03/20
+-- @description	Control Flow Graph of Simple Program 
+-- @see			http://en.wikipedia.org/wiki/Control_flow_graph
+package CFG {
+
+	class MControlFlowGraph {
+		reference nodes[*] container : AbstractNode;
+	}
+	
+	abstract class AbstractNode {
+		reference  fromNode[*]  : AbstractNode oppositeOf toNode;
+		reference toNode[0-1]  : AbstractNode oppositeOf fromNode;
+		reference expression container : Expression;
+		attribute name : String;
+	}
+	
+	class Node extends AbstractNode {
+	}
+	
+	--abstract class CDNode {
+	--	reference trueConditionNode : Node;
+	--	reference falseConditionNode : Node;
+	--}
+	
+	class ConditionalNode extends AbstractNode{
+		reference trueConditionNode : Node;
+		reference falseConditionNode : Node;
+	}
+	
+	class IterativeNode extends AbstractNode {
+		reference trueConditionNode : Node;
+		reference falseConditionNode : Node;
+	}
+	
+	class Expression {
+		attribute expressionName : String; 
+		attribute isIdentifier : Boolean;	
+		reference innerExpression[*] container : Expression;
+	}
+	
+}
+
+package PrimitiveTypes {
+  datatype Boolean;
+  datatype String;
+  datatype Integer;
+}

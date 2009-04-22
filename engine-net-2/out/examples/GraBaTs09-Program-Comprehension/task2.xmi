@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:IJavaModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:core="org.amma.dsl.jdt.core" xmlns:dom="org.amma.dsl.jdt.dom" xmlns:ptypes="org.amma.dsl.jdt.primitiveTypes" xmi:id="a1" path="/" isReadOnly="false">
+  <javaProjects xmi:id="a2" elementName="com.mycompany.test" path="/com.mycompany.test" isReadOnly="false" externalPackageFragmentRoots="a3 a4 a5 a6 a7 a8 a9 a10">
+    <packageFragmentRoots xsi:type="core:SourcePackageFragmentRoot" xmi:id="a11" elementName="src" path="/com.mycompany.test/src" isReadOnly="false">
+      <packageFragments xmi:id="a12" elementName="org.amma" isDefaultPackage="false"/>
+      <packageFragments xmi:id="a13" elementName="org.amma.query" isDefaultPackage="false">
+        <compilationUnits xmi:id="a14" elementName="Test.java">
+          <types xmi:id="a15" elementName="Test" fullyQualifiedName="org.amma.query.Test" fullyQualifiedParametrizedName="org.amma.query.Test">
+            <fields xmi:id="a16" elementName="prod" isEnumConstant="false" typeSignature="I" isVolatile="false" isTransient="false"/>
+            <fields xmi:id="a17" elementName="k" isEnumConstant="false" typeSignature="I" isVolatile="false" isTransient="false"/>
+            <methods xmi:id="a18" elementName="printer" returnType="V" isConstructor="false" isMainMethod="false"/>
+          </types>
+          <ast xmi:id="a19">
+            <package xmi:id="a20" binding="a13">
+              <name xsi:type="dom:QualifiedName" xmi:id="a21" fullyQualifiedName="org.amma.query">
+                <name xmi:id="a22" fullyQualifiedName="query" identifier="query" declaration="false"/>
+                <qualifier xsi:type="dom:QualifiedName" xmi:id="a23" fullyQualifiedName="org.amma">
+                  <name xmi:id="a24" fullyQualifiedName="amma" identifier="amma" declaration="false"/>
+                  <qualifier xsi:type="dom:SimpleName" xmi:id="a25" fullyQualifiedName="org" identifier="org" declaration="false"/>
+                </qualifier>
+              </name>
+            </package>
+            <types xsi:type="dom:TypeDeclaration" xmi:id="a26" localTypeDeclaration="false" memberTypeDeclaration="false" packageMemberTypeDeclaration="true" interface="false">
+              <modifiers xsi:type="dom:Modifier" xmi:id="a27" abstract="false" final="false" native="false" private="false" protected="false" public="true" static="false" strictfp="false" synchronized="false" transient="false" volatile="false"/>
+              <bodyDeclarations xsi:type="dom:FieldDeclaration" xmi:id="a28">
+                <fragments xmi:id="a29" extraDimensions="0">
+                  <name xmi:id="a30" fullyQualifiedName="prod" identifier="prod" declaration="true"/>
+                </fragments>
+                <type xsi:type="dom:PrimitiveType" xmi:id="a31" code="int"/>
+              </bodyDeclarations>
+              <bodyDeclarations xsi:type="dom:FieldDeclaration" xmi:id="a32">
+                <fragments xmi:id="a33" extraDimensions="0">
+                  <name xmi:id="a34" fullyQualifiedName="k" identifier="k" declaration="true"/>
+                </fragments>
+                <type xsi:type="dom:PrimitiveType" xmi:id="a35" code="int"/>
+              </bodyDeclarations>
+              <bodyDeclarations xsi:type="dom:MethodDeclaration" xmi:id="a36" extraDimensions="0" constructor="false" varargs="false" binding="a18">
+                <modifiers xsi:type="dom:Modifier" xmi:id="a37" abstract="false" final="false" native="false" private="false" protected="false" public="true" static="false" strictfp="false" synchronized="false" transient="false" volatile="false"/>
+                <body xmi:id="a38">
+                  <statements xsi:type="dom:ExpressionStatement" xmi:id="a39">
+                    <expression xsi:type="dom:Assignment" xmi:id="a40" operator="=">
+                      <leftHandSide xsi:type="dom:SimpleName" xmi:id="a41" fullyQualifiedName="prod" identifier="prod" declaration="false"/>
+                      <rightHandSide xsi:type="dom:NumberLiteral" xmi:id="a42" token="1"/>
+                    </expression>
+                  </statements>
+                  <statements xsi:type="dom:ExpressionStatement" xmi:id="a43">
+                    <expression xsi:type="dom:Assignment" xmi:id="a44" operator="=">
+                      <leftHandSide xsi:type="dom:SimpleName" xmi:id="a45" fullyQualifiedName="k" identifier="k" declaration="false"/>
+                      <rightHandSide xsi:type="dom:NumberLiteral" xmi:id="a46" token="1"/>
+                    </expression>
+                  </statements>
+                  <statements xsi:type="dom:WhileStatement" xmi:id="a47">
+                    <body xsi:type="dom:Block" xmi:id="a48">
+                      <statements xsi:type="dom:ExpressionStatement" xmi:id="a49">
+                        <expression xsi:type="dom:Assignment" xmi:id="a50" operator="=">
+                          <leftHandSide xsi:type="dom:SimpleName" xmi:id="a51" fullyQualifiedName="prod" identifier="prod" declaration="false"/>
+                          <rightHandSide xsi:type="dom:InfixExpression" xmi:id="a52" operator="*">
+                            <leftOperand xsi:type="dom:SimpleName" xmi:id="a53" fullyQualifiedName="prod" identifier="prod" declaration="false"/>
+                            <rightOperand xsi:type="dom:SimpleName" xmi:id="a54" fullyQualifiedName="k" identifier="k" declaration="false"/>
+                          </rightHandSide>
+                        </expression>
+                      </statements>
+                      <statements xsi:type="dom:ExpressionStatement" xmi:id="a55">
+                        <expression xsi:type="dom:PostfixExpression" xmi:id="a56" operator="++">
+                          <operand xsi:type="dom:SimpleName" xmi:id="a57" fullyQualifiedName="k" identifier="k" declaration="false"/>
+                        </expression>
+                      </statements>
+                    </body>
+                    <expression xsi:type="dom:InfixExpression" xmi:id="a58" operator="&#60;=">
+                      <leftOperand xsi:type="dom:SimpleName" xmi:id="a59" fullyQualifiedName="k" identifier="k" declaration="false"/>
+                      <rightOperand xsi:type="dom:NumberLiteral" xmi:id="a60" token="10"/>
+                    </expression>
+                  </statements>
+                  <statements xsi:type="dom:ExpressionStatement" xmi:id="a61">
+                    <expression xsi:type="dom:MethodInvocation" xmi:id="a62">
+                      <arguments xsi:type="dom:SimpleName" xmi:id="a63" fullyQualifiedName="k" identifier="k" declaration="false"/>
+                      <expression xsi:type="dom:QualifiedName" xmi:id="a64" fullyQualifiedName="System.out">
+                        <name xmi:id="a65" fullyQualifiedName="out" identifier="out" declaration="false"/>
+                        <qualifier xsi:type="dom:SimpleName" xmi:id="a66" fullyQualifiedName="System" identifier="System" declaration="false"/>
+                      </expression>
+                      <name xmi:id="a67" fullyQualifiedName="print" identifier="print" declaration="false"/>
+                    </expression>
+                  </statements>
+                  <statements xsi:type="dom:ExpressionStatement" xmi:id="a68">
+                    <expression xsi:type="dom:MethodInvocation" xmi:id="a69">
+                      <arguments xsi:type="dom:SimpleName" xmi:id="a70" fullyQualifiedName="prod" identifier="prod" declaration="false"/>
+                      <expression xsi:type="dom:QualifiedName" xmi:id="a71" fullyQualifiedName="System.out">
+                        <name xmi:id="a72" fullyQualifiedName="out" identifier="out" declaration="false"/>
+                        <qualifier xsi:type="dom:SimpleName" xmi:id="a73" fullyQualifiedName="System" identifier="System" declaration="false"/>
+                      </expression>
+                      <name xmi:id="a74" fullyQualifiedName="print" identifier="print" declaration="false"/>
+                    </expression>
+                  </statements>
+                </body>
+                <name xmi:id="a75" fullyQualifiedName="printer" identifier="printer" declaration="true"/>
+                <returnType xsi:type="dom:PrimitiveType" xmi:id="a76" code="void"/>
+              </bodyDeclarations>
+              <name xmi:id="a77" typeBinding="a15" fullyQualifiedName="Test" identifier="Test" declaration="true"/>
+            </types>
+          </ast>
+        </compilationUnits>
+      </packageFragments>
+    </packageFragmentRoots>
+  </javaProjects>
+  <externalPackageFragmentRoots xsi:type="core:BinaryPackageFragmentRoot" xmi:id="a3" elementName="resources.jar" path="C:/Program Files/Java/jre1.6.0_05/lib/resources.jar" isReadOnly="true"/>
+  <externalPackageFragmentRoots xsi:type="core:BinaryPackageFragmentRoot" xmi:id="a4" elementName="rt.jar" path="C:/Program Files/Java/jre1.6.0_05/lib/rt.jar" isReadOnly="true"/>
+  <externalPackageFragmentRoots xsi:type="core:BinaryPackageFragmentRoot" xmi:id="a5" elementName="jsse.jar" path="C:/Program Files/Java/jre1.6.0_05/lib/jsse.jar" isReadOnly="true"/>
+  <externalPackageFragmentRoots xsi:type="core:BinaryPackageFragmentRoot" xmi:id="a6" elementName="jce.jar" path="C:/Program Files/Java/jre1.6.0_05/lib/jce.jar" isReadOnly="true"/>
+  <externalPackageFragmentRoots xsi:type="core:BinaryPackageFragmentRoot" xmi:id="a7" elementName="dnsns.jar" path="C:/Program Files/Java/jre1.6.0_05/lib/ext/dnsns.jar" isReadOnly="true"/>
+  <externalPackageFragmentRoots xsi:type="core:BinaryPackageFragmentRoot" xmi:id="a8" elementName="sunjce_provider.jar" path="C:/Program Files/Java/jre1.6.0_05/lib/ext/sunjce_provider.jar" isReadOnly="true"/>
+  <externalPackageFragmentRoots xsi:type="core:BinaryPackageFragmentRoot" xmi:id="a9" elementName="sunmscapi.jar" path="C:/Program Files/Java/jre1.6.0_05/lib/ext/sunmscapi.jar" isReadOnly="true"/>
+  <externalPackageFragmentRoots xsi:type="core:BinaryPackageFragmentRoot" xmi:id="a10" elementName="sunpkcs11.jar" path="C:/Program Files/Java/jre1.6.0_05/lib/ext/sunpkcs11.jar" isReadOnly="true"/>
+</core:IJavaModel>

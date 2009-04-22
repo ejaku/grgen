@@ -1,0 +1,42 @@
+-- @name		PDG
+-- @version		0.2
+-- @domains		Program Comprehension, Reverse engineering, Program Optimization
+-- @authors		Jean-Sébastien Sottet
+-- @date		2009/03/20
+-- @description	Program Dependence Graph
+-- @see			http://en.wikipedia.org/wiki/Dependency_graph
+
+package PDG {
+
+	class MProgramDependenceGraph {
+		reference node  container : EnterNode;
+	}
+	
+	class EnterNode {
+		attribute name : String;
+		reference  controlDependenceNodes[*] container : ExpressionNode;
+	} 
+	
+	
+	class ExpressionNode   {
+		attribute name : String;
+		reference expression container : Expression; 
+		reference dataDependenceNodes[*] : ExpressionNode;
+		reference controlDependenceNodes[*] container : ExpressionNode;
+	
+	}
+	
+	
+	class Expression {
+		attribute name : String;
+		attribute isIdentifier : Boolean;	
+		reference innerExpressions[*] container : Expression;
+	}
+
+}
+
+package PrimitiveTypes {
+  datatype Boolean;
+  datatype String;
+  datatype Integer;
+}
