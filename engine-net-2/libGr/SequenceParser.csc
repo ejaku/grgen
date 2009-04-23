@@ -184,6 +184,19 @@ PARSER_BEGIN(SequenceParser)
 					break;
 				}
 
+				case SequenceType.RuleAll:
+				{
+					SequenceRuleAll ruleSeq = (SequenceRuleAll) seq;
+					RuleObject ruleObj = ruleSeq.RuleObj;
+					
+					if(ruleObj.Action == null && actions != null)
+					{
+						// We have an unknown rule, which is an error, if an BaseActions object was provided
+						throw new SequenceParserRuleException(ruleObj, SequenceParserError.UnknownRule);
+					}
+					break;
+				}
+
 				case SequenceType.AssignSequenceResultToVar:
 				{
 					SequenceAssignSequenceResultToVar assignSeq = (SequenceAssignSequenceResultToVar) seq;
@@ -191,7 +204,6 @@ PARSER_BEGIN(SequenceParser)
 					break;
 				}
 				
-				case SequenceType.RuleAll:
 				case SequenceType.Def:
 				case SequenceType.True:
 				case SequenceType.False:
