@@ -11,10 +11,22 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     class ECoreImport
     {
+        class RefType
+        {
+            public bool Ordered;
+            public String TypeName;
+
+            public RefType(bool ordered, String typeName)
+            {
+                Ordered = ordered;
+                TypeName = typeName;
+            }
+        }
+
         class NodeType
         {
             public List<String> SuperTypes = new List<String>();
-            public Dictionary<String, String> RefAttrToType = new Dictionary<String, String>();
+            public Dictionary<String, RefType> RefAttrToRefType = new Dictionary<String, RefType>();
         }
 
         IGraph graph;
@@ -179,9 +191,17 @@ namespace de.unika.ipd.grGen.libGr
                     String refName = item.GetAttribute("name");
                     String refType = item.GetAttribute("eType");
 
-                    sb.Append("edge class " + packageName + "_" + classifierName + "_" + refName + ";\n\n");
+                    String edgeTypeName = packageName + "_" + classifierName + "_" + refName;
+                    String typeName = GetGrGenTypeName(refType, xmielem, ":");
+                    bool ordered = item.GetAttribute("ordered") != "false";          // Default is ordered
 
-                    nodeType.RefAttrToType[refName] = GetGrGenTypeName(refType, xmielem, ":");
+                    sb.Append("edge class " + edgeTypeName);
+                    if(ordered)
+                        sb.Append(" {\n\tindex:int;\n}\n\n");
+                    else
+                        sb.Append(";\n\n");
+
+                    nodeType.RefAttrToRefType[refName] = new RefType(ordered, typeName);
                 }
             }
         }
@@ -246,25 +266,38 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        private String FindRefTypeName(String parentTypeName, String tagName)
+        private RefType FindRefType(String parentTypeName, String tagName)
         {
             NodeType nodeType = typeMap[parentTypeName];
-            String attrType;
-            if(!nodeType.RefAttrToType.TryGetValue(tagName, out attrType))
+
+            RefType refType;
+            if(nodeType.RefAttrToRefType.TryGetValue(tagName, out refType)) return refType;
+
+            foreach(String superType in nodeType.SuperTypes)
             {
-                foreach(String superType in nodeType.SuperTypes)
-                {
-                    attrType = FindRefTypeName(superType, tagName);
-                    if(attrType != null) return attrType;
-                }
+                refType = FindRefType(superType, tagName);
+                if(refType != null) return refType;
             }
-            return attrType;
+            return null;
+        }
+
+        private String FindRefTypeName(String parentTypeName, String tagName)
+        {
+            RefType refType = FindRefType(parentTypeName, tagName);
+            if(refType == null) return null;
+            else return refType.TypeName;
+        }
+
+        private bool IsRefOrdered(String parentTypeName, String tagName)
+        {
+            return FindRefType(parentTypeName, tagName).Ordered;
         }
 
         private String FindContainingTypeName(String parentTypeName, String tagName)
         {
             NodeType nodeType = typeMap[parentTypeName];
-            if(nodeType.RefAttrToType.ContainsKey(tagName)) return parentTypeName;
+
+            if(nodeType.RefAttrToRefType.ContainsKey(tagName)) return parentTypeName;
 
             foreach(String superType in nodeType.SuperTypes)
             {
@@ -276,6 +309,11 @@ namespace de.unika.ipd.grGen.libGr
 
         private void ParseNodeFirstPass(XmlElement parent, INode parentNode, String parentTypeName)
         {
+            INodeModel nodeModel = graph.Model.NodeModel;
+            IEdgeModel edgeModel = graph.Model.EdgeModel;
+
+            Dictionary<String, int> tagNameToNextIndex = new Dictionary<String, int>();
+
             foreach(XmlNode node in parent.ChildNodes)
             {
                 if(!(node is XmlElement)) continue;
@@ -297,14 +335,21 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
                 String grgenTypeName = typeName.Replace(':', '_');
-                INode gnode = graph.AddNode(graph.Model.NodeModel.GetType(grgenTypeName));
+                INode gnode = graph.AddNode(nodeModel.GetType(grgenTypeName));
 
                 String id = elem.GetAttribute("xmi:id");
                 nodeMap[id] = gnode;
 
                 String edgeTypeName = FindContainingTypeName(parentTypeName, tagName);
                 String grgenEdgeTypeName = edgeTypeName.Replace(':', '_') + "_" + tagName;
-                graph.AddEdge(graph.Model.EdgeModel.GetType(grgenEdgeTypeName), parentNode, gnode);
+                IEdge parentEdge = graph.AddEdge(edgeModel.GetType(grgenEdgeTypeName), parentNode, gnode);
+                if(IsRefOrdered(parentTypeName, tagName))
+                {
+                    int nextIndex;
+                    tagNameToNextIndex.TryGetValue(tagName, out nextIndex);
+                    parentEdge.SetAttribute("index", nextIndex);
+                    tagNameToNextIndex[tagName] = nextIndex + 1;
+                }
 
                 ParseNodeFirstPass(elem, gnode, typeName);
             }
@@ -324,12 +369,28 @@ namespace de.unika.ipd.grGen.libGr
                 String attrRefType = FindRefTypeName(curTypeName, attr.Name);
                 if(attrRefType != null)
                 {
+                    // List of references as in attribute separated by spaces
+
                     String refEdgeTypeName = FindContainingTypeName(curTypeName, attr.Name);
                     String grgenRefEdgeTypeName = refEdgeTypeName.Replace(':', '_') + "_" + attr.Name;
 
+                    IEdgeModel edgeModel = graph.Model.EdgeModel;
                     String[] destNodeNames = attr.Value.Split(' ');
-                    foreach(String destNodeName in destNodeNames)
-                        graph.AddEdge(graph.Model.EdgeModel.GetType(grgenRefEdgeTypeName), curNode, nodeMap[destNodeName]);
+                    if(IsRefOrdered(curTypeName, attr.Name))
+                    {
+                        int i = 0;
+                        foreach(String destNodeName in destNodeNames)
+                        {
+                            IEdge parentEdge = graph.AddEdge(edgeModel.GetType(grgenRefEdgeTypeName), curNode, nodeMap[destNodeName]);
+                            parentEdge.SetAttribute("index", i);
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        foreach(String destNodeName in destNodeNames)
+                            graph.AddEdge(edgeModel.GetType(grgenRefEdgeTypeName), curNode, nodeMap[destNodeName]);
+                    }
                 }
                 else
                 {
