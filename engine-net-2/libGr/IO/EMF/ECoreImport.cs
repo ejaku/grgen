@@ -33,6 +33,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             ECoreImport imported = new ECoreImport();
             imported.graph = imported.ImportModel(ecoreFilename, backend);
+            Console.WriteLine("Importing graph...");
             imported.ImportGraph(importFilename);
             return imported.graph;
         }
@@ -47,7 +48,9 @@ namespace de.unika.ipd.grGen.libGr
                 throw new Exception("The document has no xmi:XMI element.");
 
             StringBuilder sb = new StringBuilder();
+            sb.Append("// Automatically generated from \"" + ecoreFilename + "\"\n// Do not change, changes will be lost!\n\n");
 
+            // Parse the ECore file, create the model file content, and collect important infos used to import a model instance
             foreach(XmlElement package in xmielem.GetElementsByTagName("ecore:EPackage"))
             {
                 String packageName = package.GetAttribute("nsPrefix");
@@ -69,8 +72,14 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             String modelfilename = ecoreFilename.Substring(0, ecoreFilename.LastIndexOf('.')) + "__ecore.gm";
-            using(StreamWriter writer = new StreamWriter(modelfilename))
-                writer.Write(sb.ToString());
+
+            // Do we have to update the model file (.gm)?
+            if(!File.Exists(modelfilename) || File.GetLastWriteTime(ecoreFilename) > File.GetLastWriteTime(modelfilename))
+            {
+                Console.WriteLine("Writing model file \"" + modelfilename + "\"...");
+                using(StreamWriter writer = new StreamWriter(modelfilename))
+                    writer.Write(sb.ToString());
+            }
 
             return backend.CreateGraph(modelfilename, "defaultname");
         }
