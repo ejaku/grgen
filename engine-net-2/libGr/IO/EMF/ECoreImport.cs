@@ -35,22 +35,88 @@ namespace de.unika.ipd.grGen.libGr
         Dictionary<String, Dictionary<String, int>> enumToLiteralToValue = new Dictionary<String, Dictionary<String, int>>();
 
         /// <summary>
-        /// Creates a new graph from the given ECore metamodel.
+        /// Creates a new graph from the given ECore metamodels.
+        /// If a grg file is given, the graph will use the graph model declared in it and the according
+        /// actions object will be associated to the graph.
+        /// If a xmi file is given, the model instance will be imported into the graph.
         /// Any errors will be reported by exception.
         /// </summary>
-        /// <param name="importFilename">The filename of the file to be imported.</param>
-        /// <param name="ecoreFilename">The ECore model specification file.</param>
         /// <param name="backend">The backend to use to create the graph.</param>
-        public static IGraph Import(String importFilename, String ecoreFilename, IBackend backend)
+        /// <param name="ecoreFilenames">A list of ECore model specification files. It must at least contain one element.</param>
+        /// <param name="grgFilename">A grg file to be used to create the graph, or null.</param>
+        /// <param name="xmiFilename">The filename of the model instance to be imported, or null.</param>
+        public static IGraph Import(IBackend backend, List<String> ecoreFilenames, String grgFilename, String xmiFilename)
         {
             ECoreImport imported = new ECoreImport();
-            imported.graph = imported.ImportModel(ecoreFilename, backend);
-            Console.WriteLine("Importing graph...");
-            imported.ImportGraph(importFilename);
+            imported.graph = imported.ImportModels(ecoreFilenames, grgFilename, backend);
+            if(xmiFilename != null)
+            {
+                Console.WriteLine("Importing graph...");
+                imported.ImportGraph(xmiFilename);
+            }
             return imported.graph;
         }
 
-        private IGraph ImportModel(String ecoreFilename, IBackend backend)
+        private IGraph ImportModels(List<String> ecoreFilenames, String grgFilename, IBackend backend)
+        {
+            foreach(String ecoreFilename in ecoreFilenames)
+            {
+                String modelText = ParseModel(ecoreFilename);
+
+                String modelfilename = ecoreFilename.Substring(0, ecoreFilename.LastIndexOf('.')) + "__ecore.gm";
+
+                // Do we have to update the model file (.gm)?
+                if(!File.Exists(modelfilename) || File.GetLastWriteTime(ecoreFilename) > File.GetLastWriteTime(modelfilename))
+                {
+                    Console.WriteLine("Writing model file \"" + modelfilename + "\"...");
+                    using(StreamWriter writer = new StreamWriter(modelfilename))
+                        writer.Write(modelText);
+                }
+            }
+
+            if(grgFilename == null)
+            {
+                grgFilename = "";
+                foreach(String ecoreFilename in ecoreFilenames)
+                    grgFilename += ecoreFilename.Substring(0, ecoreFilename.LastIndexOf('.')) + "_";
+                grgFilename += "_ecore.grg";
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("// Automatically generated\n// Do not change, changes will be lost!\n\nusing ");
+
+                DateTime grgTime;
+                if(!File.Exists(grgFilename)) grgTime = DateTime.MinValue;
+                else grgTime = File.GetLastWriteTime(grgFilename);
+
+                bool mustWriteGrg = false;
+
+                bool first = true;
+                foreach(String ecore in ecoreFilenames)
+                {
+                    if(first) first = false;
+                    else sb.Append(", ");
+                    sb.Append(ecore.Substring(0, ecore.LastIndexOf('.')) + "__ecore");
+
+                    if(File.GetLastWriteTime(ecore) > grgTime)
+                        mustWriteGrg = true;
+                }
+
+                if(mustWriteGrg)
+                {
+                    sb.Append(";\n");
+                    using(StreamWriter writer = new StreamWriter(grgFilename))
+                        writer.Write(sb.ToString());
+                }
+            }
+
+            IGraph graph;
+            BaseActions actions;
+            backend.CreateFromSpec(grgFilename, "defaultname", out graph, out actions);
+            graph.Actions = actions;
+            return graph;
+        }
+
+        private String ParseModel(String ecoreFilename)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(ecoreFilename);
@@ -82,18 +148,7 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
             }
-
-            String modelfilename = ecoreFilename.Substring(0, ecoreFilename.LastIndexOf('.')) + "__ecore.gm";
-
-            // Do we have to update the model file (.gm)?
-            if(!File.Exists(modelfilename) || File.GetLastWriteTime(ecoreFilename) > File.GetLastWriteTime(modelfilename))
-            {
-                Console.WriteLine("Writing model file \"" + modelfilename + "\"...");
-                using(StreamWriter writer = new StreamWriter(modelfilename))
-                    writer.Write(sb.ToString());
-            }
-
-            return backend.CreateGraph(modelfilename, "defaultname");
+            return sb.ToString();
         }
 
         private String GetGrGenTypeName(String xmitypename, XmlElement xmielem, String packageDelim)
@@ -137,7 +192,7 @@ namespace de.unika.ipd.grGen.libGr
             String abstractStr = classifier.GetAttribute("abstract");
             if(abstractStr == "true")
                 sb.Append("abstract ");
-            sb.Append("node class " + packageName + "_" + classifierName);
+            sb.Append("node class " + packageName.Replace('.', '_') + "_" + classifierName);
 
             typeMap[packageName + ":" + classifierName] = nodeType;
 
@@ -155,7 +210,7 @@ namespace de.unika.ipd.grGen.libGr
 
                     String name = GetGrGenTypeName(superType, xmielem, ":");
                     nodeType.SuperTypes.Add(name);
-                    sb.Append(name.Replace(':', '_'));
+                    sb.Append(name.Replace(':', '_').Replace('.', '_'));
                 }
             }
 
@@ -195,7 +250,7 @@ namespace de.unika.ipd.grGen.libGr
                     String typeName = GetGrGenTypeName(refType, xmielem, ":");
                     bool ordered = item.GetAttribute("ordered") != "false";          // Default is ordered
 
-                    sb.Append("edge class " + edgeTypeName);
+                    sb.Append("edge class " + edgeTypeName.Replace('.', '_'));
                     if(ordered)
                         sb.Append(" {\n\tindex:int;\n}\n\n");
                     else
@@ -212,7 +267,7 @@ namespace de.unika.ipd.grGen.libGr
 
             String enumTypeName = packageName + "_" + classifierName;
 
-            sb.Append("enum " + enumTypeName + " {\n");
+            sb.Append("enum " + enumTypeName.Replace('.', '_') + " {\n");
             bool first = true;
             foreach(XmlElement item in classifier.GetElementsByTagName("eLiterals"))
             {
@@ -247,7 +302,7 @@ namespace de.unika.ipd.grGen.libGr
                 XmlElement elem = (XmlElement) node;
 
                 String tagName = elem.Name;
-                String grgenTypeName = tagName.Replace(':', '_');
+                String grgenTypeName = tagName.Replace(':', '_').Replace(':', '_');
                 INode gnode = graph.AddNode(graph.Model.NodeModel.GetType(grgenTypeName));
 
                 String id = elem.GetAttribute("xmi:id");
@@ -334,14 +389,14 @@ namespace de.unika.ipd.grGen.libGr
                         continue;
                     }
                 }
-                String grgenTypeName = typeName.Replace(':', '_');
+                String grgenTypeName = typeName.Replace(':', '_').Replace('.', '_');
                 INode gnode = graph.AddNode(nodeModel.GetType(grgenTypeName));
 
                 String id = elem.GetAttribute("xmi:id");
                 nodeMap[id] = gnode;
 
                 String edgeTypeName = FindContainingTypeName(parentTypeName, tagName);
-                String grgenEdgeTypeName = edgeTypeName.Replace(':', '_') + "_" + tagName;
+                String grgenEdgeTypeName = edgeTypeName.Replace(':', '_').Replace('.', '_') + "_" + tagName;
                 IEdge parentEdge = graph.AddEdge(edgeModel.GetType(grgenEdgeTypeName), parentNode, gnode);
                 if(IsRefOrdered(parentTypeName, tagName))
                 {
@@ -372,7 +427,7 @@ namespace de.unika.ipd.grGen.libGr
                     // List of references as in attribute separated by spaces
 
                     String refEdgeTypeName = FindContainingTypeName(curTypeName, attr.Name);
-                    String grgenRefEdgeTypeName = refEdgeTypeName.Replace(':', '_') + "_" + attr.Name;
+                    String grgenRefEdgeTypeName = refEdgeTypeName.Replace(':', '_').Replace('.', '_') + "_" + attr.Name;
 
                     IEdgeModel edgeModel = graph.Model.EdgeModel;
                     String[] destNodeNames = attr.Value.Split(' ');

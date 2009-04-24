@@ -525,6 +525,38 @@ String FilenameOptionalAtEndOfLine():
 	)
 }
 
+String FilenameOrEndOfLine():
+{
+    Token tok;
+}
+{
+    {token_source.SwitchTo(WithinFilename);}
+    (
+		(tok=<DOUBLEQUOTEDFILENAME> | tok=<SINGLEQUOTEDFILENAME> | tok=<FILENAME>)
+		{
+			return tok.image.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+		}
+	|
+		(tok=<NLINFILENAME> | tok=<EOF>)
+		{
+			return null;
+		}
+	)
+}
+
+List<String> FilenameList():
+{
+	List<String> list = new List<String>();
+	String cur;
+}
+{
+	{
+		while((cur = FilenameOrEndOfLine()) != null)
+			list.Add(cur);
+		return list;
+	}	
+}
+
 String CommandLine():
 {
     Token tok;
@@ -717,6 +749,7 @@ void ShellCommand():
 	bool strict = false, shellGraphSpecified = false, boolVal;
 	int num;
 	List<Object> paramList;
+	List<String> filenames;
 }
 {
     "!" str1=CommandLine()
@@ -860,9 +893,9 @@ void ShellCommand():
 		noError = impl.Export(str1);
 	}
 |
-	"import" str1=Filename() str2=FilenameOptionalAtEndOfLine()
+	"import" filenames=FilenameList()
 	{
-		noError = impl.Import(str1, str2);
+		noError = impl.Import(filenames);
 	}
 |
 	"echo" str1=Text() LineEnd()

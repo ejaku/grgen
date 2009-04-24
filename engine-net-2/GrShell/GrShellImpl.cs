@@ -2748,15 +2748,16 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        public bool Import(String filename, String modeloverride)
+        public bool Import(List<String> filenames)
         {
             if(!BackendExists()) return false;
 
             IGraph graph;
             try
             {
-                graph = Porter.Import(filename, modeloverride, curGraphBackend);
+                graph = Porter.Import(curGraphBackend, filenames);
                 curShellGraph = new ShellGraph(graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
+                curShellGraph.Actions = graph.Actions;
                 graphs.Add(curShellGraph);
             }
             catch(Exception e)

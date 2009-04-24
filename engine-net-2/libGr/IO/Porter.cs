@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -26,24 +27,53 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Imports the given graph from a file with the given filename.
-        /// The format is determined by the file extension.
-        /// Any errors will be reported by exception.
+        /// Returns the string at the given index, or null if the index is out of bounds.
         /// </summary>
-        /// <param name="importFilename">The filename of the file to be imported.</param>
-        /// <param name="modelOverride">If not null, overrides the filename of the graph model to be used.</param>
-        /// <param name="backend">The backend to use to create the graph.</param>
-        public static IGraph Import(String importFilename, String modelOverride, IBackend backend)
+        private static String ListGet(List<String> list, int index)
         {
-            if(importFilename.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
-                return GXLImport.Import(importFilename, modelOverride, backend);
-            else if (importFilename.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase))
-                return porter.GRSImporter.Import(importFilename, modelOverride, backend);
-            else if(importFilename.EndsWith(".xmi", StringComparison.InvariantCultureIgnoreCase))
+            if(0 <= index && index < list.Count)
+                return list[index];
+            return null;
+        }
+
+        /// <summary>
+        /// Imports a graph from the given files.
+        /// If the filenames only specify a model, the graph is empty.
+        /// The format is determined by the file extensions.
+        /// Any error will be reported by exception.
+        /// </summary>
+        /// <param name="backend">The backend to use to create the graph.</param>
+        /// <param name="filenames">The names of the files to be imported.</param>
+        /// <returns>The imported graph.</returns>
+        public static IGraph Import(IBackend backend, List<String> filenames)
+        {
+            String first = ListGet(filenames, 0);
+            if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
+                return GXLImport.Import(first, ListGet(filenames, 1), backend);
+            else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase))
+                return porter.GRSImporter.Import(first, ListGet(filenames, 1), backend);
+            else if(first.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
             {
-                if(modelOverride == null || !modelOverride.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
-                    throw new NotSupportedException("When importing an .xmi you have to specify an .ecore as second argument");
-                return ECoreImport.Import(importFilename, modelOverride, backend);
+                List<String> ecores = new List<String>();
+                String grg = null;
+                String xmi = null;
+                foreach(String filename in filenames)
+                {
+                    if(filename.EndsWith(".ecore")) ecores.Add(filename);
+                    else if(filename.EndsWith(".grg"))
+                    {
+                        if(grg != null)
+                            throw new NotSupportedException("Only one .grg file supported");
+                        grg = filename;
+                    }
+                    else if(filename.EndsWith(".xmi"))
+                    {
+                        if(xmi != null)
+                            throw new NotSupportedException("Only one .xmi file supported");
+                        xmi = filename;
+                    }
+                }
+                return ECoreImport.Import(backend, ecores, grg, xmi);
             }
             else
                 throw new NotSupportedException("File format not supported");
