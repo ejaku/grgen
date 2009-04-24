@@ -1,0 +1,20 @@
+using JDTAST__ecore, Q1View__ecore;
+
+rule filter {
+	type:dom_TypeDeclaration;
+	type -:dom_AbstractTypeDeclaration_name-> name:dom_SimpleName;
+	method:dom_MethodDeclaration <-:dom_AbstractTypeDeclaration_bodyDeclarations- type;
+	method -:dom_MethodDeclaration_returnType-> returnType:dom_SimpleType;
+	returnType -:dom_SimpleType_name-> returnName:dom_SimpleName;
+	publicModifier:dom_Modifier <-:dom_BodyDeclaration_modifiers- method;  
+	staticModifier:dom_Modifier <-:dom_BodyDeclaration_modifiers- method;  
+	
+	if { name._identifier == returnName._identifier;
+	     publicModifier._public == true;
+	     staticModifier._static == true;
+	}
+	
+	modify {
+		emit(name._identifier + ", " + returnName._identifier + "\n");
+	}
+}
