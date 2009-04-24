@@ -1,0 +1,17 @@
+-- @name		View
+-- @Description Simple metamodel for build queries views on classes
+
+package View {
+
+	class Class {
+		attribute  name : String;
+	}
+	
+
+}
+
+package PrimitiveTypes {
+  datatype Boolean;
+  datatype String;
+  datatype Integer;
+}
