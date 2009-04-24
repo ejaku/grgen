@@ -1,4 +1,10 @@
 import JDTAST.ecore set1.xmi task1.grg Q1View.ecore
 show num nodes
 show num edges
-xgrs [filter]
+redirect emit set1-output-grgen.xmi
+xgrs xmlPrefix
+xgrs (counter)=initXMLCounter
+visID = allocvisitflag
+xgrs ((counter)=filter(visID, counter))*
+freevisitflag visID
+xgrs xmlSuffix
