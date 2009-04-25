@@ -292,32 +292,35 @@ namespace de.unika.ipd.grGen.libGr
 
         private void ImportGraph(String importFilename)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(importFilename);
-
             // First pass: build the nodes and the parent edges given by nesting
-            foreach(XmlNode node in doc.ChildNodes)
+            using(XmlTextReader reader = new XmlTextReader(importFilename))
             {
-                if(!(node is XmlElement)) continue;
-                XmlElement elem = (XmlElement) node;
+                while(reader.Read())
+                {
+                    if(reader.NodeType != XmlNodeType.Element) continue;
 
-                String tagName = elem.Name;
-                String grgenTypeName = tagName.Replace(':', '_').Replace(':', '_');
-                INode gnode = graph.AddNode(graph.Model.NodeModel.GetType(grgenTypeName));
+                    String tagName = reader.Name;
+                    String grgenTypeName = tagName.Replace(':', '_').Replace(':', '_');
+                    INode gnode = graph.AddNode(graph.Model.NodeModel.GetType(grgenTypeName));
 
-                String id = elem.GetAttribute("xmi:id");
-                nodeMap[id] = gnode;
+                    String id = null;
+                    if(reader.MoveToAttribute("xmi:id"))
+                        id = reader.Value;
+                    nodeMap[id] = gnode;
 
-                ParseNodeFirstPass(elem, gnode, tagName);
+                    ParseNodeFirstPass(reader, gnode, tagName);
+                }
             }
 
             // Second pass: assign the attributes and edges given by reference attributes
-            foreach(XmlNode node in doc.ChildNodes)
+            using(XmlTextReader reader = new XmlTextReader(importFilename))
             {
-                if(!(node is XmlElement)) continue;
-                XmlElement elem = (XmlElement) node;
+                while(reader.Read())
+                {
+                    if(reader.NodeType != XmlNodeType.Element) continue;
 
-                ParseNodeSecondPass(elem, elem.Name);
+                    ParseNodeSecondPass(reader, reader.Name, reader.IsEmptyElement);
+                }
             }
         }
 
@@ -362,22 +365,28 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
-        private void ParseNodeFirstPass(XmlElement parent, INode parentNode, String parentTypeName)
+        private void ParseNodeFirstPass(XmlTextReader reader, INode parentNode, String parentTypeName)
         {
             INodeModel nodeModel = graph.Model.NodeModel;
             IEdgeModel edgeModel = graph.Model.EdgeModel;
 
             Dictionary<String, int> tagNameToNextIndex = new Dictionary<String, int>();
 
-            foreach(XmlNode node in parent.ChildNodes)
+            while(reader.Read())
             {
-                if(!(node is XmlElement)) continue;
-                XmlElement elem = (XmlElement) node;
+                if(reader.NodeType == XmlNodeType.EndElement) break;
+                if(reader.NodeType != XmlNodeType.Element) continue;
 
-                String tagName = elem.Name;
+                bool emptyElem = reader.IsEmptyElement;
+                String tagName = reader.Name;
+                String id = null;
+                if(reader.MoveToAttribute("xmi:id"))
+                    id = reader.Value;
 
-                String typeName = elem.GetAttribute("xsi:type");
-                if(typeName == "")
+                String typeName = null;
+                if(reader.MoveToAttribute("xsi:type"))
+                    typeName = reader.Value;
+                else
                 {
                     String qualAttr = parentTypeName + "." + tagName;
                     typeName = FindRefTypeName(parentTypeName, tagName);
@@ -385,14 +394,12 @@ namespace de.unika.ipd.grGen.libGr
                     if(typeName == null)
                     {
                         // Treat it as an attribute
-                        AssignAttribute(parentNode, tagName, elem.InnerText);
+                        AssignAttribute(parentNode, tagName, reader.ReadInnerXml());
                         continue;
                     }
                 }
                 String grgenTypeName = typeName.Replace(':', '_').Replace('.', '_');
                 INode gnode = graph.AddNode(nodeModel.GetType(grgenTypeName));
-
-                String id = elem.GetAttribute("xmi:id");
                 nodeMap[id] = gnode;
 
                 String edgeTypeName = FindContainingTypeName(parentTypeName, tagName);
@@ -406,32 +413,41 @@ namespace de.unika.ipd.grGen.libGr
                     tagNameToNextIndex[tagName] = nextIndex + 1;
                 }
 
-                ParseNodeFirstPass(elem, gnode, typeName);
+                if(!emptyElem)
+                    ParseNodeFirstPass(reader, gnode, typeName);
             }
         }
 
-        private void ParseNodeSecondPass(XmlElement curElem, String curTypeName)
+        private void ParseNodeSecondPass(XmlTextReader reader, String curTypeName, bool isEmpty)
         {
-            String id = curElem.GetAttribute("xmi:id");
-            if(id == "") return;        // probably an attribute in element form (already handled), so ignore
+            if(!reader.MoveToAttribute("xmi:id"))
+            {
+                // probably an attribute in element form (already handled), so ignore
+                reader.Skip();
+                return;
+            }
 
+            String id = reader.Value;
             INode curNode = nodeMap[id];
 
-            foreach(XmlAttribute attr in curElem.Attributes)
+            for(int attrIndex = 0; attrIndex < reader.AttributeCount; attrIndex++)
             {
-                if(attr.Name.StartsWith("xmi:") || attr.Name == "xsi:type" || attr.Name.StartsWith("xmlns:")) continue;
+                reader.MoveToAttribute(attrIndex);
 
-                String attrRefType = FindRefTypeName(curTypeName, attr.Name);
+                String name = reader.Name;
+                if(name.StartsWith("xmi:") || name == "xsi:type" || name.StartsWith("xmlns:")) continue;
+
+                String attrRefType = FindRefTypeName(curTypeName, name);
                 if(attrRefType != null)
                 {
                     // List of references as in attribute separated by spaces
 
-                    String refEdgeTypeName = FindContainingTypeName(curTypeName, attr.Name);
-                    String grgenRefEdgeTypeName = refEdgeTypeName.Replace(':', '_').Replace('.', '_') + "_" + attr.Name;
+                    String refEdgeTypeName = FindContainingTypeName(curTypeName, name);
+                    String grgenRefEdgeTypeName = refEdgeTypeName.Replace(':', '_').Replace('.', '_') + "_" + name;
 
                     IEdgeModel edgeModel = graph.Model.EdgeModel;
-                    String[] destNodeNames = attr.Value.Split(' ');
-                    if(IsRefOrdered(curTypeName, attr.Name))
+                    String[] destNodeNames = reader.Value.Split(' ');
+                    if(IsRefOrdered(curTypeName, name))
                     {
                         int i = 0;
                         foreach(String destNodeName in destNodeNames)
@@ -449,24 +465,29 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 else
                 {
-                    AssignAttribute(curNode, attr.Name, attr.Value);
+                    AssignAttribute(curNode, name, reader.Value);
                 }
             }
 
-            foreach(XmlNode childXmlNode in curElem.ChildNodes)
-            {
-                if(!(childXmlNode is XmlElement)) continue;
-                XmlElement childElem = (XmlElement) childXmlNode;
+            if(isEmpty) return;
 
-                String tagName = childElem.Name;
-                String typeName = childElem.GetAttribute("xsi:type");
-                if(typeName == "")
+            while(reader.Read())
+            {
+                if(reader.NodeType == XmlNodeType.EndElement) break;
+                if(reader.NodeType != XmlNodeType.Element) continue;
+
+                bool emptyElem = reader.IsEmptyElement;
+                String tagName = reader.Name;
+                String typeName;
+                if(reader.MoveToAttribute("xsi:type"))
+                    typeName = reader.Value;
+                else
                 {
                     String qualAttr = curTypeName + "." + tagName;
                     typeName = FindRefTypeName(curTypeName, tagName);
                 }
 
-                ParseNodeSecondPass(childElem, typeName);
+                ParseNodeSecondPass(reader, typeName, emptyElem);
             }
         }
 
