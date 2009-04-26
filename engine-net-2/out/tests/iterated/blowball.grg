@@ -1,0 +1,56 @@
+rule init
+{
+	modify
+	{
+		head:Node --> .;
+		head --> .;
+		head --> .;
+	}
+}
+
+rule initStem : (Node)
+{
+	modify
+	{
+		stem:Node --> head:Node;
+		head --> .;
+		head --> .;
+		
+		return(stem);
+	}
+}
+
+test blowball
+{
+	head:Node;
+	iterated {
+		head --> .;
+	}
+}
+
+rule blowballDouble
+{
+	head:Node;
+	iterated {
+		head --> .;
+		
+		modify {
+			head --> .;
+		}
+	}
+	
+	modify { }
+}
+
+pattern bb(head:Node)
+{
+	iterated {
+		head --> .;
+	}
+}
+
+test stemBlowball(stem:Node)
+{
+	stem --> head:Node;
+	:bb(head);
+}

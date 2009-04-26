@@ -1,0 +1,19 @@
+new graph "iterated\blowball"
+
+xgrs init
+
+show num nodes
+show num edges
+
+xgrs blowball
+
+xgrs [blowball]
+
+xgrs blowballDouble
+
+show num nodes
+show num edges
+
+xgrs [blowball]
+
+quit

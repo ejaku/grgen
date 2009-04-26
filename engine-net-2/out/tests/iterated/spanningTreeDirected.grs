@@ -1,0 +1,12 @@
+new graph "iterated\spanningTree"
+
+xgrs (root)=initDirected
+
+show num nodes
+show num edges
+
+xgrs [?spanningTreeReverse(root)]
+
+xgrs spanningTreeReverse(root)
+
+quit

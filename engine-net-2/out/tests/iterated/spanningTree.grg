@@ -1,0 +1,60 @@
+rule init : (Node)
+{
+	modify
+	{
+		root:Node -- .;
+		root -- . -- .;
+		root -- n:Node -- root;
+		n -- . -- . -- n;
+		
+		return(root);
+	}
+}
+
+rule initDirected : (Node)
+{
+	modify
+	{
+		root:Node --> .;
+		root --> . --> .;
+		root --> n:Node --> root;
+		n --> . --> . <-- n;
+		
+		return(root);
+	}
+}
+
+test spanningTree(root:Node)
+{
+	:SpanningTree(root);
+}
+
+pattern SpanningTree(root:Node)
+{
+	iterated {
+		root -- next:Node;
+		:SpanningTree(next);
+	}
+}
+
+rule spanningTreeReverse(root:Node)
+{
+	:SpanningTreeReverse(root);
+		
+	modify { }
+}
+
+pattern SpanningTreeReverse(root:Node)
+{
+	iterated {
+		root --> next:Node;
+		sptrr:SpanningTreeReverse(next);
+		
+		replace {
+			root <-- next;
+			sptrr();
+		}
+	}
+	
+	modify { }
+}

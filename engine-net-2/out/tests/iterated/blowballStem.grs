@@ -1,0 +1,12 @@
+new graph "iterated\blowball"
+
+xgrs (stem)=initStem
+
+show num nodes
+show num edges
+
+xgrs stemBlowball(stem)
+
+xgrs [stemBlowball(stem)]
+
+quit
