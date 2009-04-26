@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndependentExample", "out\e
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaProgramGraphsExample", "out\examples-lgsp\JavaProgramGraphsExample\JavaProgramGraphsExample.csproj", "{C0042662-3DB1-2321-B874-FEE757868F62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IteratedExample", "out\examples-lgsp\IteratedExample\IteratedExample.csproj", "{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -217,6 +219,12 @@ Global
 		{C0042662-3DB1-2321-B874-FEE757868F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0042662-3DB1-2321-B874-FEE757868F62}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C0042662-3DB1-2321-B874-FEE757868F62}.Release|x86.ActiveCfg = Release|Any CPU
+		{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -239,5 +247,6 @@ Global
 		{0B80748D-A320-49A0-8FC3-9AB24DF3BB52} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 		{70246EDB-B613-4D8C-9A4E-870FB5DAE1D5} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 		{C0042662-3DB1-2321-B874-FEE757868F62} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
+		{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 	EndGlobalSection
 EndGlobal

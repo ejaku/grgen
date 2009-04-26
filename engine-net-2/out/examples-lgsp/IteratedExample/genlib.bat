@@ -1,2 +1,3 @@
-..\..\bin\grgen -keep . ..\..\tests\iterated\blowball.grg
+..\..\bin\grgen -keep . ..\..\tests\iterated\spanningTree.grg
+
 

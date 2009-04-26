@@ -4,16 +4,22 @@ xgrs init
 
 show num nodes
 show num edges
+show num nodes "RootNode"
 
-xgrs blowball
+xgrs blowballRoot
 
 xgrs [blowball]
+
+xgrs [blowballRoot]
 
 xgrs blowballDouble
 
 show num nodes
 show num edges
+show num nodes "RootNode"
 
 xgrs [blowball]
+
+xgrs [blowballRoot]
 
 quit

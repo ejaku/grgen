@@ -330,6 +330,15 @@ public class ModifyGen extends CSharpBase {
 			}
 			++i;
 		}
+		
+		i = 0;
+		for(Rule iter : rule.getLeft().getIters()) {
+			String iterName = "iter_" + i;
+			String iterPatGraphVarName = pathPrefix+rule.getLeft().getNameOfGraph()+"_"+iterName;
+			genModifyIterated(sb, iter, pathPrefix+rule.getLeft().getNameOfGraph()+"_", iterName, isSubpattern);
+			genModify(sb, iter, pathPrefix+rule.getLeft().getNameOfGraph()+"_", iterPatGraphVarName, isSubpattern);
+			++i;
+		}
 	}
 
 	/**
@@ -433,6 +442,70 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t}\n");
 	}
 
+	private void genModifyIterated(StringBuffer sb, Rule rule, String pathPrefix, String iterName, boolean isSubpattern) {
+		if(rule.getRight()!=null) { // generate code for dependent modify dispatcher
+			genModifyIteratedModify(sb, rule, pathPrefix, iterName, rule.getReplParameters(), isSubpattern, true);
+			genModifyIteratedModify(sb, rule, pathPrefix, iterName, rule.getReplParameters(), isSubpattern, false);
+		}
+
+		if(isSubpattern) { // generate for delete iterated dispatcher
+			genModifyIteratedDelete(sb, rule, pathPrefix, iterName, isSubpattern);
+		}
+	}
+
+	private void genModifyIteratedModify(StringBuffer sb, Rule iter, String pathPrefix, String iterName,
+			List<Entity> replParameters, boolean isSubpattern, boolean reuseNodesAndEdges) {
+		// Emit function header
+		sb.append("\n");
+		sb.append("\t\tpublic void "+pathPrefix+iterName+"_"+(reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
+					  + "(GRGEN_LGSP.LGSPGraph graph, "
+					  + "GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefix+iterName
+					  + ", IMatch_"+pathPrefix+iterName+"> curMatches");
+		for(Entity entity : replParameters) {
+			Node node = (Node)entity;
+			sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(node));
+		}
+		sb.append(")\n");
+		sb.append("\t\t{\n");
+	
+		// Emit dispatcher calling the modify-method of the iterated pattern which was matched
+		sb.append("\t\t\tfor(Match_"+pathPrefix+iterName+" curMatch=curMatches.Root;"
+				+" curMatch!=null; curMatch=curMatch.next) {\n");
+		sb.append("\t\t\t\t" + pathPrefix+iterName+"_"
+				+ (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
+				+ "(graph, curMatch");
+		for(Entity entity : replParameters) {
+			Node node = (Node)entity;
+			sb.append(", " + formatEntity(node));
+		}
+		sb.append(");\n");
+		sb.append("\t\t\t}\n");
+
+		// Emit end of function
+		sb.append("\t\t}\n");
+	}
+
+	private void genModifyIteratedDelete(StringBuffer sb, Rule iter, String pathPrefix, String iterName,
+			boolean isSubpattern) {
+		// Emit function header
+		sb.append("\n");
+		sb.append("\t\tpublic void "+pathPrefix+iterName+"_Delete"
+					  + "(GRGEN_LGSP.LGSPGraph graph, "
+					  + "GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefix+iterName
+					  + ", IMatch_"+pathPrefix+iterName+"> curMatches)\n");
+		sb.append("\t\t{\n");
+	
+		// Emit dispatcher calling the modify-method of the iterated pattern which was matched
+		sb.append("\t\t\tfor(Match_"+pathPrefix+iterName+" curMatch=curMatches.Root;"
+				+" curMatch!=null; curMatch=curMatch.next) {\n");
+		sb.append("\t\t\t\t" + pathPrefix+iterName+"_Delete"
+				+ "(graph, curMatch);\n");
+		sb.append("\t\t\t}\n");
+
+		// Emit end of function
+		sb.append("\t\t}\n");
+	}
+
 	private void genModifyRuleOrSubrule(StringBuffer sb, ModifyGenerationTask task, String pathPrefix) {
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
@@ -456,12 +529,14 @@ public class ModifyGen extends CSharpBase {
 		//  - Extract edges from match as LGSPEdge instances
 		//  - Extract edges from match or from already extracted edges as interface instances
 		//  - Extract subpattern submatches from match
+		//  - Extract iterated submatches from match
 		//  - Extract alternative submatches from match
 		//  - Extract node types
 		//  - Extract edge types
 		//  - Create variables for used attributes of reusee
 		//  - Create new nodes or reuse nodes
 		//  - Call modification code of nested subpatterns
+		//  - Call modification code of nested iterateds
 		//  - Call modification code of nested alternatives
 		//  - Retype nodes
 		//  - Create new edges or reuse edges
@@ -520,6 +595,8 @@ public class ModifyGen extends CSharpBase {
 		
 		genSubpatternModificationCalls(sb2, task, pathPrefix, state.nodesNeededAsElements);
 
+		genIteratedModificationCalls(sb2, task, pathPrefix);
+		
 		genAlternativeModificationCalls(sb2, task, pathPrefix);
 
 		genTypeChangesNodes(sb2, stateConst, task,
@@ -544,7 +621,7 @@ public class ModifyGen extends CSharpBase {
 		genDelNodes(sb3, stateConst, state.nodesNeededAsElements);
 
 		genDelSubpatternCalls(sb3, stateConst);
-
+		
 		genMapAndSetVariablesBeforeImperativeStatements(sb3, stateConst);
 
 		state.useVarForMapResult = true;
@@ -1173,6 +1250,34 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void genIteratedModificationCalls(StringBuffer sb, ModifyGenerationTask task, String pathPrefix) {
+		if(task.right==task.left) { // test needs top-level-modify due to interface, but not more
+			return;
+		}
+
+		if(task.typeOfTask==TYPE_OF_TASK_MODIFY) {
+			// generate calls to the modifications of the iterateds (nested iterateds are handled in their enclosing iterated)
+			for(int i = 0; i < task.left.getIters().size(); i++) {
+				String iterName = "iter_" + i;
+				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+iterName+"_" +
+						(task.reuseNodesAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, iterated_" + iterName);
+				for(Entity entity : task.replParameters) {
+					Node node = (Node)entity;
+					sb.append(", " + formatEntity(node));
+				}
+				sb.append(");\n");
+			}
+		}
+		else if(task.typeOfTask==TYPE_OF_TASK_DELETION) {
+			// generate calls to the deletion of the iterateds (nested iterateds are handled in their enclosing iterated)
+			for(int i = 0; i < task.left.getIters().size(); i++) {
+				String iterName = "iter_" + i;
+				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+iterName+"_" +
+						"Delete" + "(graph, iterated_"+iterName+");\n");
+			}
+		}
+	}
+
 	private void genSubpatternModificationCalls(StringBuffer sb, ModifyGenerationTask task, String pathPrefix,
 			HashSet<Node> nodesNeededAsElements) {
 		if(task.right==task.left) { // test needs top-level-modify due to interface, but not more
@@ -1254,6 +1359,13 @@ public class ModifyGen extends CSharpBase {
 			String subName = formatIdentifiable(sub);
 			sb.append("\t\t\t"+matchType(sub.getSubpatternAction().getPattern(), true, "")+" subpattern_" + subName
 					+ " = curMatch.@_" + formatIdentifiable(sub) + ";\n");
+		}
+		for(int i = 0; i < pattern.getIters().size(); i++) {
+			String iterName = "iter_" + i;
+			String iterType = "GRGEN_LGSP.LGSPMatchesList<Match_"+pattern.getNameOfGraph()+"_"+pathPrefix+iterName
+			  + ", IMatch_"+pattern.getNameOfGraph()+"_"+pathPrefix+iterName+">";
+			sb.append("\t\t\t"+iterType+" iterated_" + iterName
+					+ " = curMatch._"+pathPrefix+iterName+";\n");
 		}
 		for(int i = 0; i < pattern.getAlts().size(); i++) {
 			String altName = "alt_" + i;

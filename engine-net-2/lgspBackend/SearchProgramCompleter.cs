@@ -77,7 +77,7 @@ namespace de.unika.ipd.grGen.lgsp
                         checkPreset.CheckFailedOperations =
                             new SearchProgramList(checkPreset);
                         CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
-                            new CheckContinueMatchingMaximumMatchesReached(false, false);
+                            new CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType.Action, false);
                         checkPreset.CheckFailedOperations.Append(checkMaximumMatches);
 
                         string[] neededElementsForCheckOperation = new string[1];
@@ -154,11 +154,15 @@ namespace de.unika.ipd.grGen.lgsp
                             }
 
                             // append nested check maximum matches
-                            bool atSubpatternLevel = enclosingSearchProgram is SearchProgramOfSubpattern
-                                || enclosingSearchProgram is SearchProgramOfAlternative
-                                || enclosingSearchProgram is SearchProgramOfIterated;
+                            CheckMaximumMatchesType checkMaxMatchesType = CheckMaximumMatchesType.Action;
+                            if(enclosingSearchProgram is SearchProgramOfSubpattern
+                                || enclosingSearchProgram is SearchProgramOfAlternative) {
+                                checkMaxMatchesType = CheckMaximumMatchesType.Subpattern;
+                            } else if(enclosingSearchProgram is SearchProgramOfIterated) {
+                                checkMaxMatchesType = CheckMaximumMatchesType.Iterated;
+                            }
                             CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
-                                new CheckContinueMatchingMaximumMatchesReached(atSubpatternLevel, false);
+                                new CheckContinueMatchingMaximumMatchesReached(checkMaxMatchesType, false);
                             insertionPoint.Append(checkMaximumMatches);
 
                             MoveOutwardsAppendingRemoveIsomorphyAndJump(
@@ -252,7 +256,9 @@ namespace de.unika.ipd.grGen.lgsp
 
                         // append nested check maximum matches
                         CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
-                            new CheckContinueMatchingMaximumMatchesReached(true, false);
+                            new CheckContinueMatchingMaximumMatchesReached(
+                                enclosingSearchProgram is SearchProgramOfIterated ? CheckMaximumMatchesType.Iterated : CheckMaximumMatchesType.Subpattern,
+                                false);
                         insertionPoint.Append(checkMaximumMatches);
 
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(

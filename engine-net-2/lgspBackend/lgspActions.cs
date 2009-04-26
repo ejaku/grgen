@@ -380,6 +380,11 @@ namespace de.unika.ipd.grGen.lgsp
         public IMatch First { get { return count > 0 ? root : null; } }
 
         /// <summary>
+        /// The root element of the list.
+        /// </summary>
+        public Match Root { get { return root; } }
+
+        /// <summary>
         /// remove all filled and committed elements from the list
         /// </summary>
         public void Clear()

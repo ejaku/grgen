@@ -7,8 +7,8 @@
     <ProjectGuid>{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HelloMutex</RootNamespace>
-    <AssemblyName>HelloMutex</AssemblyName>
+    <RootNamespace>IteratedExample</RootNamespace>
+    <AssemblyName>IteratedExample</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -33,26 +33,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="IteratedExample.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Mutex.gm">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Mutex.grg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="lgspBackend, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\lgspBackend.dll</HintPath>
-    </Reference>
-    <Reference Include="libGr, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\libGr.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\lgspBackend\lgspBackend.csproj">
+      <Project>{28747063-D1D2-4626-B1F1-84CC201B2063}</Project>
+      <Name>lgspBackend</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\libGr\libGr.csproj">
+      <Project>{57A2E7A1-058E-4EBD-85E9-A65C3304FA49}</Project>
+      <Name>libGr</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IteratedExample.cs" />
+    <Compile Include="spanningTreeActions.cs" />
+    <Compile Include="StdModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -65,9 +61,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)..\..\bin\grgen.jar" "$(TargetDir)"
-copy "$(ProjectDir)..\..\bin\antlr.jar" "$(TargetDir)"
-copy "$(ProjectDir)..\..\bin\jargs.jar" "$(TargetDir)"</PostBuildEvent>
-  </PropertyGroup>
 </Project>

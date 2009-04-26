@@ -837,7 +837,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for global isomorphy 
-            if (programType==SearchProgramType.Subpattern || programType==SearchProgramType.AlternativeCase)
+            if (programType==SearchProgramType.Subpattern 
+                || programType==SearchProgramType.AlternativeCase
+                || programType==SearchProgramType.Iterated)
             {
                 CheckCandidateForIsomorphyGlobal checkIsomorphy =
                     new CheckCandidateForIsomorphyGlobal(
@@ -849,7 +851,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for pattern path isomorphy
-            if ((programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase) && patternGraphWithNestingPatterns.Count == 1
+            if (patternGraphWithNestingPatterns.Count == 1
+                && (programType == SearchProgramType.Subpattern 
+                    || programType == SearchProgramType.AlternativeCase 
+                    || programType == SearchProgramType.Iterated)
                 || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
             {
                 CheckCandidateForIsomorphyPatternPath checkIsomorphy =
@@ -966,7 +971,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for global isomorphy 
-            if (programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase)
+            if (programType == SearchProgramType.Subpattern 
+                || programType == SearchProgramType.AlternativeCase
+                || programType == SearchProgramType.Iterated)
             {
                 CheckCandidateForIsomorphyGlobal checkIsomorphy =
                     new CheckCandidateForIsomorphyGlobal(
@@ -978,8 +985,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for pattern path isomorphy
-            if ((programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase) && patternGraphWithNestingPatterns.Count == 1
-                 || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
+            if (patternGraphWithNestingPatterns.Count == 1
+                && (programType == SearchProgramType.Subpattern
+                    || programType == SearchProgramType.AlternativeCase
+                    || programType == SearchProgramType.Iterated)
+                || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
             {
                 CheckCandidateForIsomorphyPatternPath checkIsomorphy =
                     new CheckCandidateForIsomorphyPatternPath(
@@ -1086,7 +1096,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for global isomorphy 
-            if (programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase)
+            if (programType == SearchProgramType.Subpattern
+                || programType == SearchProgramType.AlternativeCase
+                || programType == SearchProgramType.Iterated)
             {
                 CheckCandidateForIsomorphyGlobal checkIsomorphy =
                     new CheckCandidateForIsomorphyGlobal(
@@ -1098,7 +1110,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for pattern path isomorphy
-            if ((programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase) && patternGraphWithNestingPatterns.Count==1
+            if (patternGraphWithNestingPatterns.Count == 1
+                && (programType == SearchProgramType.Subpattern 
+                    || programType == SearchProgramType.AlternativeCase
+                    || programType == SearchProgramType.Iterated)
                 || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
             {
                 CheckCandidateForIsomorphyPatternPath checkIsomorphy =
@@ -1442,7 +1457,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // subpattern or top-level pattern which contains subpatterns
                 if (containsSubpatterns || isSubpattern)
                     insertionPoint = insertCheckForSubpatternsFound(insertionPoint);
-                else // top-level-pattern without subpatterns
+                else // top-level-pattern of action without subpatterns
                     insertionPoint = insertPatternFound(insertionPoint);
             }
             else
@@ -1911,6 +1926,18 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(popTask);
             }
 
+            foreach (PatternGraph iterated in patternGraph.iterateds)
+            {
+                PopSubpatternTask popTask =
+                    new PopSubpatternTask(
+                        negativeIndependentNamePrefix,
+                        PushAndPopSubpatternTaskTypes.Iterated,
+                        iterated.name,
+                        iterated.pathPrefix
+                    );
+                insertionPoint = insertionPoint.Append(popTask);
+            }
+
             foreach (Alternative alternative in patternGraph.alternatives)
             {
                 PopSubpatternTask popTask =
@@ -2148,17 +2175,10 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = checkSubpatternsFound.CheckFailedOperations;
 
             // ---- check failed, some subpattern matches found, pattern and subpatterns were matched
-            PatternAndSubpatternsMatched patternAndSubpatternsMatched;
-            if (programType == SearchProgramType.Action || programType == SearchProgramType.MissingPreset)
-            {
-                patternAndSubpatternsMatched = new PatternAndSubpatternsMatched(
-                    rulePatternClassName, patternGraph.pathPrefix+patternGraph.name, true);
-            }
-            else
-            {
-                patternAndSubpatternsMatched = new PatternAndSubpatternsMatched(
-                    rulePatternClassName, patternGraph.pathPrefix+patternGraph.name, false);
-            }
+            bool isAction = programType==SearchProgramType.Action || programType==SearchProgramType.MissingPreset;
+            bool isIterated = programType==SearchProgramType.Iterated;
+            PatternAndSubpatternsMatched patternAndSubpatternsMatched = 
+                new PatternAndSubpatternsMatched(rulePatternClassName, patternGraph.pathPrefix + patternGraph.name, isAction, isIterated);
             SearchProgramOperation continuationPointAfterPatternAndSubpatternsMatched =
                 insertionPoint.Append(patternAndSubpatternsMatched);
             patternAndSubpatternsMatched.MatchBuildingOperations =
@@ -2174,7 +2194,9 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = continuationPointAfterPatternAndSubpatternsMatched;
 
             // ---- create new matches list to search on or copy found matches into own matches list
-            if (programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase)
+            if (programType==SearchProgramType.Subpattern 
+                || programType==SearchProgramType.AlternativeCase
+                || programType == SearchProgramType.Iterated)
             {
                 NewMatchesListForFollowingMatches newMatchesList =
                     new NewMatchesListForFollowingMatches(false);
@@ -2250,7 +2272,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Inserts code to handle case pattern was found
+        /// Inserts code to handle case top level pattern of action was found
         /// at the given position, returns position after inserted operations
         /// </summary>
         private SearchProgramOperation insertPatternFound(SearchProgramOperation insertionPoint)
@@ -2259,7 +2281,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // build the pattern was matched operation
             PositivePatternWithoutSubpatternsMatched patternMatched =
-                new PositivePatternWithoutSubpatternsMatched(rulePatternClassName, patternGraph.name, programType==SearchProgramType.Iterated);
+                new PositivePatternWithoutSubpatternsMatched(rulePatternClassName, patternGraph.name);
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(patternMatched);
             patternMatched.MatchBuildingOperations =
@@ -2278,9 +2300,9 @@ namespace de.unika.ipd.grGen.lgsp
             // or abort because the maximum desired number of maches was reached
             CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
 #if NO_ADJUST_LIST_HEADS
-                new CheckContinueMatchingMaximumMatchesReached(false, false);
+                new CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType.Action, false);
 #else
-                new CheckContinueMatchingMaximumMatchesReached(false, true);
+                new CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType.Action, true);
 #endif
             insertionPoint = insertionPoint.Append(checkMaximumMatches);
 
@@ -3078,6 +3100,7 @@ namespace de.unika.ipd.grGen.lgsp
             int maxNegLevel = 0;
 
             if(patternGraph.alternatives.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
+            if(patternGraph.iterateds.Length > 0) return (int)LGSPElemFlags.MAX_NEG_LEVEL + 1;
             if(patternGraph.embeddedGraphs.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
 
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
@@ -3101,6 +3124,7 @@ namespace de.unika.ipd.grGen.lgsp
             int maxNegLevel = 1;
 
             if(patternGraph.alternatives.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
+            if(patternGraph.iterateds.Length > 0) return (int)LGSPElemFlags.MAX_NEG_LEVEL + 1;
             if(patternGraph.embeddedGraphs.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
 
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)

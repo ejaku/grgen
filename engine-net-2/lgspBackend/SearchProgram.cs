@@ -569,7 +569,7 @@ namespace de.unika.ipd.grGen.lgsp
                 + "int maxMatches, int negLevel)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
-            sourceCode.AppendFront("bool patternFound = true;\n");
+            sourceCode.AppendFront("bool patternFound = false;\n");
 
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated)
             {
@@ -2639,17 +2639,15 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public PositivePatternWithoutSubpatternsMatched(
             string rulePatternClassName,
-            string patternName,
-            bool isIterated)
+            string patternName)
         {
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
-            IsIterated = isIterated;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFrontFormat("PositivePatternMatched {0}\n", IsIterated ? "of Iterated " : "");
+            builder.AppendFront("PositivePatternMatched \n");
 
             if (MatchBuildingOperations != null)
             {
@@ -2661,11 +2659,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            if (IsIterated)
-            {
-                sourceCode.AppendFront("patternFound = true;");
-            }
-
             sourceCode.AppendFrontFormat("{0}.{1} match = matches.GetNextUnfilledPosition();\n",
                 RulePatternClassName, NamesOfEntities.MatchClassName(PatternName));
 
@@ -2677,7 +2670,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         string RulePatternClassName;
         string PatternName;
-        bool IsIterated;
 
         public SearchProgramList MatchBuildingOperations;
     }
@@ -2742,17 +2734,20 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternAndSubpatternsMatched(
             string rulePatternClassName,
             string patternName,
-            bool isAction)
+            bool isAction,
+            bool isIterated)
         {
             RulePatternClassName = rulePatternClassName;
             PatternName = patternName;
             IsAction = isAction;
+            IsIterated = isIterated;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("PatternAndSubpatternsMatched ");
             builder.AppendFormat("isAction:{0} \n", IsAction);
+            builder.AppendFormat("isIterated:{0} \n", IsIterated);
 
             if (MatchBuildingOperations != null)
             {
@@ -2764,6 +2759,11 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            if (IsIterated)
+            {
+                sourceCode.AppendFront("patternFound = true;");
+            }
+
             if (!IsAction)
             {
                 if (sourceCode.CommentSourceCode)
@@ -2802,6 +2802,7 @@ namespace de.unika.ipd.grGen.lgsp
         string RulePatternClassName;
         string PatternName;
         public bool IsAction;
+        bool IsIterated;
 
         public SearchProgramList MatchBuildingOperations;
     }
@@ -2996,7 +2997,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0}._{1} = new GRGEN_LGSP.LGSPMatchesList<{2}.{3}, {2}.{4}>(null);\n",
                     MatchObjectName, matchName,
                     RulePatternClassName, NamesOfEntities.MatchClassName(PatternElementType), NamesOfEntities.MatchInterfaceName(PatternElementType));
-                sourceCode.AppendFrontFormat("while(currentFoundPartialMatch.Peek() is {0}.{1}) ", 
+                sourceCode.AppendFrontFormat("while(currentFoundPartialMatch.Count>0 && currentFoundPartialMatch.Peek() is {0}.{1}) ", 
                     RulePatternClassName, NamesOfEntities.MatchInterfaceName(PatternElementType));
                 sourceCode.Append("{\n");
                 sourceCode.Indent();
@@ -3186,24 +3187,39 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// available types of check continue matching maximum matches reached operations (at which level/where nested inside does the check occur?)
+    /// </summary>
+    enum CheckMaximumMatchesType
+    {
+        Action,
+        Subpattern,
+        Iterated
+    }
+
+    /// <summary>
     /// Class representing "check if matching process is to be aborted because
     /// the maximum number of matches has been reached" operation
     /// listHeadAdjustment==false prevents listentrick
     /// </summary>
     class CheckContinueMatchingMaximumMatchesReached : CheckContinueMatching
     {
-        public CheckContinueMatchingMaximumMatchesReached(bool subpatternLevel, bool listHeadAdjustment)
+        public CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType type, bool listHeadAdjustment)
         {
-            SubpatternLevel = subpatternLevel;
+            Type = type;
             ListHeadAdjustment = listHeadAdjustment;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             // first dump check
-            builder.AppendFront("CheckContinueMatching MaximumMatchesReached ");
+            if (Type == CheckMaximumMatchesType.Action) {
+                builder.AppendFront("CheckContinueMatching MaximumMatchesReached at Action level ");
+            } else if (Type == CheckMaximumMatchesType.Subpattern) {
+                builder.AppendFront("CheckContinueMatching MaximumMatchesReached at Subpattern level ");
+            } else if (Type == CheckMaximumMatchesType.Iterated) {
+                builder.AppendFront("CheckContinueMatching MaximumMatchesReached if Iterated ");
+            }
             if (ListHeadAdjustment) builder.Append("ListHeadAdjustment ");
-            if (SubpatternLevel) builder.Append("SubpatternLevel ");
             builder.Append("\n");
 
             // then operations for case check failed
@@ -3219,11 +3235,15 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if (sourceCode.CommentSourceCode)
                 sourceCode.AppendFront("// if enough matches were found, we leave\n");
-            if (SubpatternLevel)
-                sourceCode.AppendFront("if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)\n");
-            else
+
+            if (Type == CheckMaximumMatchesType.Action) {
                 sourceCode.AppendFront("if(maxMatches > 0 && matches.Count >= maxMatches)\n");
-                
+            } else if (Type == CheckMaximumMatchesType.Subpattern) {
+                sourceCode.AppendFront("if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)\n");
+            } else if (Type == CheckMaximumMatchesType.Iterated) {
+                sourceCode.AppendFront("if(true) // as soon as there's a match, it's enough for iterated\n");
+            }
+    
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -3233,7 +3253,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public bool SubpatternLevel;
+        public CheckMaximumMatchesType Type;
         public bool ListHeadAdjustment;
     }
 

@@ -4,29 +4,42 @@
  * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
  */
 
+using System;
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.Action_spanningTree;
+using de.unika.ipd.grGen.Model_Std;
 
-class HelloMutex
+namespace Iterated
 {
-    static void Main(string[] args)
+    class IteratedExample
     {
         LGSPGraph graph;
-        LGSPActions actions;
-        new LGSPBackend().CreateFromSpec("Mutex.grg", out graph, out actions);
+        spanningTreeActions actions;
 
-        NodeType processType = graph.GetNodeType("Process");
-        EdgeType nextType = graph.GetEdgeType("next");
+        void DoIter()
+        {
+            graph = new LGSPGraph(new StdGraphModel());
+            actions = new spanningTreeActions(graph);
 
-        INode p1 = graph.AddNode(processType);
-        INode p2 = graph.AddNode(processType);
-        graph.AddEdge(nextType, p1, p2);
-        graph.AddEdge(nextType, p2, p1);
+            IMatches matches;
+            object[] returns;
 
-        actions.ApplyGraphRewriteSequence("newRule[3] && mountRule && requestRule[5] "
-            + "&& (takeRule && releaseRule && giveRule)*");
+            LGSPAction init = Action_initST.Instance;
+            matches = init.Match(graph, 0, null);
+            returns = init.Modify(graph, matches.First);
 
-        using(VCGDumper dumper = new VCGDumper("HelloMutex.vcg"))
-            graph.Dump(dumper);
+            IGraphElement[] param = new LGSPNode[1];
+            param[0] = (Node)returns[0];
+            matches = actions.GetAction("spanningTree").Match(graph, 0, param);
+
+            Console.WriteLine(matches.Count + " matches found.");
+        }
+
+        static void Main(string[] args)
+        {
+            IteratedExample iter = new IteratedExample();
+            iter.DoIter();
+        }
     }
 }

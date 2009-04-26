@@ -1,4 +1,4 @@
-rule init : (Node)
+rule initST : (Node)
 {
 	modify
 	{
@@ -24,16 +24,47 @@ rule initDirected : (Node)
 	}
 }
 
-test spanningTree(root:Node)
+rule spanningTree(root:Node)
 {
 	:SpanningTree(root);
+	
+	modify {
+	}
 }
 
 pattern SpanningTree(root:Node)
 {
 	iterated {
-		root -- next:Node;
+		root -e:UEdge- next:Node;
 		:SpanningTree(next);
+		
+		modify {
+			eval {
+				visited(e, 0) = true;
+				visited(next, 0) = true;
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+test edgesVisited
+{
+	-e:UEdge-;
+	
+	if {
+		visited(e, 0);
+	}
+}
+
+test nodesVisited
+{
+	n:Node;
+	
+	if {
+		visited(n, 0);
 	}
 }
 

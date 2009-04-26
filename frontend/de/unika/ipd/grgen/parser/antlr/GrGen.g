@@ -871,7 +871,7 @@ alternativeCase [ AlternativeNode alt, int altCount, int context ]
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
 	
-	: id=altIdentDecl l=LBRACE pushScopeStr["alt"+altCount+id.toString(), getCoords(l)]
+	: id=altIdentDecl l=LBRACE pushScopeStr["alt_"+altCount+id.toString(), getCoords(l)]
 		left=patternBody[getCoords(l), new CollectNode<BaseNode>(), mod, context, id.toString()]
 		(
 			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, id, left]
@@ -894,9 +894,9 @@ iterated [ int iterCount, int context ] returns [ IteratedNode res = null ]
 		IdentNode iterName = IdentNode.getInvalid();
 	}
 
-	: i=ITERATED ( in=iterIdentDecl { iterName = in; } | { iterName = new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter"+iterCount, getCoords(i))); } )
-		LBRACE pushScopeStr["iter"+iterCount, getCoords(i)]
-		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), 0, context, "iter"+iterCount]
+	: i=ITERATED ( in=iterIdentDecl { iterName = in; } | { iterName = new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter_"+iterCount, getCoords(i))); } )
+		LBRACE pushScopeStr["iter_"+iterCount, getCoords(i)]
+		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), 0, context, "iter_"+iterCount]
 		(
 			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, iterName, left]
 				{

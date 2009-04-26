@@ -1,0 +1,14 @@
+new graph "iterated\blowball"
+
+xgrs initMulti
+
+show num nodes
+show num edges
+
+xgrs [edge42]
+
+xgrs blowballRoot42
+
+xgrs [edge42]
+
+quit

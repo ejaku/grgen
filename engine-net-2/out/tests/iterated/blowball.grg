@@ -1,10 +1,22 @@
+using blowball;
+
 rule init
 {
 	modify
 	{
-		head:Node --> .;
+		head:RootNode --> .;
 		head --> .;
 		head --> .;
+	}
+}
+
+rule initMulti
+{
+	modify
+	{
+		head:RootNode -:AttrEdge-> .;
+		head -:AttrEdge-> n:Node;
+		head -:AttrEdge-> n;
 	}
 }
 
@@ -12,7 +24,7 @@ rule initStem : (Node)
 {
 	modify
 	{
-		stem:Node --> head:Node;
+		stem:Node --> head:RootNode;
 		head --> .;
 		head --> .;
 		
@@ -28,9 +40,41 @@ test blowball
 	}
 }
 
+test blowballRoot
+{
+	head:RootNode;
+	iterated {
+		head --> .;
+	}
+}
+
+rule blowballRoot42
+{
+	head:RootNode;
+	iterated {
+		head -e:AttrEdge-> .;
+		modify {
+			eval {
+				e.attr = 42;
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+test edge42
+{
+	-e:AttrEdge->;
+	if {
+		e.attr == 42;
+	}
+}
+
 rule blowballDouble
 {
-	head:Node;
+	head:RootNode;
 	iterated {
 		head --> .;
 		

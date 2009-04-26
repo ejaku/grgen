@@ -1,0 +1,6 @@
+node class RootNode;
+
+edge class AttrEdge
+{
+	attr:int;
+}
