@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<org.amma.cfg:MControlFlowGraph xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.amma.cfg="org.amma.cfg">
+  <nodes xsi:type="org.amma.cfg:Node" toNode="//@nodes.1" name="prod=1">
+    <expression expressionName="assign">
+      <innerExpression expressionName="prod" isIdentifier="true"/>
+      <innerExpression expressionName="1"/>
+    </expression>
+  </nodes>
+  <nodes xsi:type="org.amma.cfg:Node" fromNode="//@nodes.0" toNode="//@nodes.2" name="k=1">
+    <expression expressionName="assign">
+      <innerExpression expressionName="k" isIdentifier="true"/>
+      <innerExpression expressionName="1"/>
+    </expression>
+  </nodes>
+  <nodes xsi:type="org.amma.cfg:IterativeNode" fromNode="//@nodes.1 //@nodes.4" name="While(k&lt;=10)" trueConditionNode="//@nodes.3" falseConditionNode="//@nodes.5">
+    <expression expressionName="less_equals">
+      <innerExpression expressionName="k" isIdentifier="true"/>
+      <innerExpression expressionName="10"/>
+    </expression>
+  </nodes>
+  <nodes xsi:type="org.amma.cfg:Node" toNode="//@nodes.4" name="prod=prod*k">
+    <expression expressionName="assign">
+      <innerExpression expressionName="prod" isIdentifier="true"/>
+      <innerExpression expressionName="times">
+        <innerExpression expressionName="prod" isIdentifier="true"/>
+        <innerExpression expressionName="k" isIdentifier="true"/>
+      </innerExpression>
+    </expression>
+  </nodes>
+  <nodes xsi:type="org.amma.cfg:Node" fromNode="//@nodes.3" toNode="//@nodes.2" name="k++">
+    <expression expressionName="increment">
+      <innerExpression expressionName="k" isIdentifier="true"/>
+    </expression>
+  </nodes>
+  <nodes xsi:type="org.amma.cfg:Node" toNode="//@nodes.6" name="print(k)">
+    <expression expressionName="print">
+      <innerExpression expressionName="k" isIdentifier="true"/>
+    </expression>
+  </nodes>
+  <nodes xsi:type="org.amma.cfg:Node" fromNode="//@nodes.5" name="print(prod)">
+    <expression expressionName="print">
+      <innerExpression expressionName="prod" isIdentifier="true"/>
+    </expression>
+  </nodes>
+</org.amma.cfg:MControlFlowGraph>

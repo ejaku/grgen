@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<org.amma.pdg:MProgramDependenceGraph xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.amma.pdg="org.amma.pdg">
+  <node name="Enter">
+    <controlDependenceNodes name="prod=1" dataDependenceNodes="//@node/@controlDependenceNodes.2/@controlDependenceNodes.0 //@node/@controlDependenceNodes.4">
+      <expression name="assign">
+        <innerExpressions name="prod"/>
+        <innerExpressions name="1"/>
+      </expression>
+    </controlDependenceNodes>
+    <controlDependenceNodes name="k=1" dataDependenceNodes="//@node/@controlDependenceNodes.2 //@node/@controlDependenceNodes.2/@controlDependenceNodes.1 //@node/@controlDependenceNodes.3">
+      <expression name="assign">
+        <innerExpressions name="k"/>
+        <innerExpressions name="1"/>
+      </expression>
+    </controlDependenceNodes>
+    <controlDependenceNodes name="While(k&lt;=10)">
+      <expression name="less_equals">
+        <innerExpressions name="k"/>
+        <innerExpressions name="10"/>
+      </expression>
+      <controlDependenceNodes name="prod=prod*k" dataDependenceNodes="//@node/@controlDependenceNodes.2/@controlDependenceNodes.0 //@node/@controlDependenceNodes.4">
+        <expression name="assign">
+          <innerExpressions name="prod"/>
+          <innerExpressions name="times">
+            <innerExpressions name="prod"/>
+            <innerExpressions name="k"/>
+          </innerExpressions>
+        </expression>
+      </controlDependenceNodes>
+      <controlDependenceNodes name="k++" dataDependenceNodes="//@node/@controlDependenceNodes.2 //@node/@controlDependenceNodes.2/@controlDependenceNodes.1 //@node/@controlDependenceNodes.3">
+        <expression name="increment">
+          <innerExpressions name="k"/>
+        </expression>
+      </controlDependenceNodes>
+    </controlDependenceNodes>
+    <controlDependenceNodes name="print(k)">
+      <expression name="print">
+        <innerExpressions name="k"/>
+      </expression>
+    </controlDependenceNodes>
+    <controlDependenceNodes name="print(prod)">
+      <expression name="print">
+        <innerExpressions name="prod"/>
+      </expression>
+    </controlDependenceNodes>
+  </node>
+</org.amma.pdg:MProgramDependenceGraph>
