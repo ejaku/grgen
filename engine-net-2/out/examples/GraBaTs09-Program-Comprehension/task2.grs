@@ -1,3 +1,8 @@
 import JDTAST.ecore CFG.ecore task2.xmi task2.grg
 show num nodes
 show num edges
+
+xgrs [CFG_handle_statements]
+xgrs [CFG_handle_while]
+xgrs [CFG_handle_block]
+xgrs [CFG_sweep_graph]
