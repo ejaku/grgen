@@ -122,7 +122,7 @@ rule getNodeByNumber(var number:int) : (dom_ASTNode, HelperNode, int) {
 
 rule dumpName(n:dom_Expression, helper:HelperNode) {
 	modify {
-		exec(dumpName_Assignment(n, helper) || dumpName_SimpleName(n, helper) || dumpName_NumberLiteral(n, helper) || dumpName_InfixExpression(n, helper) || dumpName_PostfixExpression(n, helper));
+		exec(dumpName_Assignment(n, helper) || dumpName_SimpleName(n, helper) || dumpName_NumberLiteral(n, helper) || dumpName_InfixExpression(n, helper) || dumpName_PostfixExpression(n, helper) || dumpName_MethodInvocation(n, helper));
 	}
 }
 
@@ -201,6 +201,26 @@ rule dumpName_PostfixExpression(expr:dom_PostfixExpression, helper:HelperNode) {
 		exec(dumpName(op, helper));
 		exec(addPostfixToHelper(helper, expr));
 	}
+}
+
+rule dumpString(var str:string, helper:HelperNode) {
+	modify {
+		eval {
+			helper.name = helper.name + str; 
+		}
+	}
+}
+
+rule dumpName_MethodInvocation(method:dom_MethodInvocation, helper:HelperNode) {
+	method -:dom_MethodInvocation_name-> name:dom_SimpleName;
+	method -:dom_MethodInvocation_arguments-> argument:dom_SimpleName;
+	
+	modify {
+		exec(dumpName(name, helper));
+		exec(dumpString("(", helper));
+		exec(dumpName(argument, helper));
+		exec(dumpString(")", helper));
+	} 
 }
 
 rule dumpNode(n:dom_ASTNode) {
