@@ -122,7 +122,7 @@ rule getNodeByNumber(var number:int) : (dom_ASTNode, HelperNode, int) {
 
 rule dumpName(n:dom_Expression, helper:HelperNode) {
 	modify {
-		exec(dumpName_Assignment(n, helper) || dumpName_SimpleName(n, helper) || dumpName_NumberLiteral(n, helper));
+		exec(dumpName_Assignment(n, helper) || dumpName_SimpleName(n, helper) || dumpName_NumberLiteral(n, helper) || dumpName_InfixExpression(n, helper));
 	}
 }
 
@@ -164,6 +164,25 @@ rule dumpName_NumberLiteral(number:dom_NumberLiteral, helper:HelperNode) {
 		eval {
 			helper.name = helper.name + number._token; 
 		}
+	}
+}
+
+rule addInfixToHelper(helper:HelperNode, infix:dom_InfixExpression) {
+	modify {
+		eval {
+			helper.name = helper.name + helper.infixMap[infix._operator]; 
+		}
+	}
+}
+
+rule dumpName_InfixExpression(expr:dom_InfixExpression, helper:HelperNode) {
+	expr -:dom_InfixExpression_leftOperand-> lhs:dom_Expression;
+	expr -:dom_InfixExpression_rightOperand-> rhs:dom_Expression;
+	
+	modify {
+		exec(dumpName(lhs, helper));
+		exec(addInfixToHelper(helper, expr));
+		exec(dumpName(rhs, helper));
 	}
 }
 
