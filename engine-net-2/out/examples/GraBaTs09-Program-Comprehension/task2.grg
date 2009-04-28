@@ -1,4 +1,4 @@
-using JDTAST__ecore, CFG__ecore;
+using JDTAST__ecore, CFG__ecore, Util;
 
 rule CFG_handle_statements
 {
@@ -65,4 +65,132 @@ rule CFG_sweep_graph
 	}
 
 	replace {}
+}
+
+//////////////////
+// Output rules //
+//////////////////
+rule xmlPrefix {
+	modify {
+		emit("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<org.amma.cfg:MControlFlowGraph xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:org.amma.cfg=\"org.amma.cfg\">\n");
+	}
+}
+
+rule initXMLCounter : (int) {
+	modify {
+		return (1);
+	}
+}
+
+rule addNodeNumber(var count:int) : (int) {
+	n:dom_ASTNode;
+	
+	negative {
+		n -:HelperEdge->;
+	}
+	negative {
+		negative {
+			n <-:org_amma_cfg_AbstractNode_toNode->;
+		}
+		negative {
+			n <-:org_amma_cfg_ConditionalNode_trueConditionNode->;
+		}
+		negative {
+			n <-:org_amma_cfg_ConditionalNode_falseConditionNode->;
+		}
+	}
+	
+	
+	modify {
+		n -:HelperEdge-> counter:HelperNode;
+		eval {
+			counter.count = count;
+		}
+		return (count + 1);
+	}
+}
+
+rule getNodeByNumber(var number:int) : (dom_ASTNode, HelperNode, int) {
+	n:dom_ASTNode -:HelperEdge-> countNode:HelperNode;
+	
+	if { countNode.count == number; }
+	
+	modify {
+		return (n, countNode, number + 1);
+	}
+}
+
+rule dumpName(n:dom_Expression, helper:HelperNode) {
+	modify {
+		exec(dumpName_Assignment(n, helper) || dumpName_SimpleName(n, helper) || dumpName_NumberLiteral(n, helper));
+	}
+}
+
+test getExpressionStatementExpression(n:dom_ExpressionStatement) : (dom_Expression) {
+	n -:dom_ExpressionStatement_expression-> expr:dom_Expression;
+	
+	return (expr);
+}
+
+rule addOperatorToHelper(helper:HelperNode, assign:dom_Assignment) {
+	modify {
+		eval {
+			helper.name = helper.name + helper.operatorMap[assign._operator]; 
+		}
+	}
+}
+
+rule dumpName_Assignment(assign:dom_Assignment, helper:HelperNode) {
+	assign -:dom_Assignment_leftHandSide-> lhs:dom_Expression;
+	assign -:dom_Assignment_rightHandSide-> rhs:dom_Expression;
+	
+	modify {
+		exec(dumpName(lhs, helper));
+		exec(addOperatorToHelper(helper, assign));
+		exec(dumpName(rhs, helper));
+	}
+}
+
+rule dumpName_SimpleName(name:dom_SimpleName, helper:HelperNode) {
+	modify {
+		eval {
+			helper.name = helper.name + name._identifier; 
+		}
+	}
+}
+
+rule dumpName_NumberLiteral(number:dom_NumberLiteral, helper:HelperNode) {
+	modify {
+		eval {
+			helper.name = helper.name + number._token; 
+		}
+	}
+}
+
+rule dumpNode(n:dom_ASTNode) {
+	modify {
+		exec(dumpAssignment(n) || dumpNodeNumber(n));
+	}
+}
+
+rule dumpAssignment(n:dom_ASTNode) {
+	n -:dom_ExpressionStatement_expression->assign:dom_Assignment;
+	assign -:dom_Assignment_leftHandSide-> lhsName:dom_SimpleName;
+	assign -:dom_Assignment_rightHandSide-> rhsName:dom_SimpleName;
+	
+	modify{}
+}
+
+rule dumpNodeNumber(n:dom_ASTNode) {
+	n -:HelperEdge-> countNode:HelperNode;
+	
+	modify {
+		emit("Number: " + countNode.count +"\n");
+	}
+}
+
+rule xmlSuffix {
+	modify {
+		emit("</org.amma.cfg:MControlFlowGraph>\n");
+	}
 }

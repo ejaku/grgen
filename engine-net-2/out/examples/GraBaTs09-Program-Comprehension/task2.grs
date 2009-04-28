@@ -2,7 +2,17 @@ import JDTAST.ecore CFG.ecore task2.xmi task2.grg
 show num nodes
 show num edges
 
+debug set layout Hierarchic
+
 xgrs [CFG_handle_statements]
 xgrs [CFG_handle_while]
 xgrs [CFG_handle_block]
-xgrs [CFG_sweep_graph]
+redirect emit cfg_task2-grgen.xmi
+xgrs xmlPrefix
+xgrs (counter) = initXMLCounter
+xgrs ((counter) = addNodeNumber(counter))*
+xgrs (counter) = initXMLCounter
+xgrs ((n, helper, counter)=getNodeByNumber(counter) && (expr)=getExpressionStatementExpression(n) && dumpName(expr, helper))*
+xgrs xmlSuffix
+#xgrs [CFG_sweep_graph]
+show graph ycomp
