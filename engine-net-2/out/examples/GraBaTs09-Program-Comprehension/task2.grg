@@ -122,7 +122,7 @@ rule getNodeByNumber(var number:int) : (dom_ASTNode, HelperNode, int) {
 
 rule dumpName(n:dom_Expression, helper:HelperNode) {
 	modify {
-		exec(dumpName_Assignment(n, helper) || dumpName_SimpleName(n, helper) || dumpName_NumberLiteral(n, helper) || dumpName_InfixExpression(n, helper));
+		exec(dumpName_Assignment(n, helper) || dumpName_SimpleName(n, helper) || dumpName_NumberLiteral(n, helper) || dumpName_InfixExpression(n, helper) || dumpName_PostfixExpression(n, helper));
 	}
 }
 
@@ -183,6 +183,23 @@ rule dumpName_InfixExpression(expr:dom_InfixExpression, helper:HelperNode) {
 		exec(dumpName(lhs, helper));
 		exec(addInfixToHelper(helper, expr));
 		exec(dumpName(rhs, helper));
+	}
+}
+
+rule addPostfixToHelper(helper:HelperNode, postfix:dom_PostfixExpression) {
+	modify {
+		eval {
+			helper.name = helper.name + helper.postfixMap[postfix._operator]; 
+		}
+	}
+}
+
+rule dumpName_PostfixExpression(expr:dom_PostfixExpression, helper:HelperNode) {
+	expr -:dom_PostfixExpression_operand-> op:dom_Expression;
+	
+	modify {
+		exec(dumpName(op, helper));
+		exec(addPostfixToHelper(helper, expr));
 	}
 }
 

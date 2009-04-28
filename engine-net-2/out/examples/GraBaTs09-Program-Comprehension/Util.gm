@@ -15,7 +15,6 @@ node class HelperNode {
 		dom_AssignmentOperatorKind::_bit_and_assign -> "&=",
 		dom_AssignmentOperatorKind::_left_shift_assign -> "<<="
 	};
-	
 	const infixMap:map<dom_InfixExpressionOperatorKind, string> = {
 		dom_InfixExpressionOperatorKind::_greater_equals -> ">=",
 		dom_InfixExpressionOperatorKind::_or -> "|",
@@ -36,6 +35,10 @@ node class HelperNode {
 		dom_InfixExpressionOperatorKind::_conditional_and -> "&&",
 		dom_InfixExpressionOperatorKind::_times -> "*",
 		dom_InfixExpressionOperatorKind::_divide -> "/"
+	};
+	const postfixMap:map<dom_PostfixExpressionOperatorKind, string> = {
+		dom_PostfixExpressionOperatorKind::_increment -> "++",
+		dom_PostfixExpressionOperatorKind::_decrement -> "--"
 	};
 }
 
