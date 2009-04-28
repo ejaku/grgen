@@ -1,0 +1,42 @@
+node class HelperNode {
+	count: int;
+	name: string;
+	const operatorMap:map<dom_AssignmentOperatorKind, string> = {
+		dom_AssignmentOperatorKind::_right_shift_signed_assign -> ">>=",
+		dom_AssignmentOperatorKind::_bit_xor_assign -> "^=",
+		dom_AssignmentOperatorKind::_times_assign -> "*=",
+		dom_AssignmentOperatorKind::_divide_assign -> "/=",
+		dom_AssignmentOperatorKind::_minus_assign -> "-=",
+		dom_AssignmentOperatorKind::_bit_or_assign -> "|=",
+		dom_AssignmentOperatorKind::_plus_assign -> "+=",
+		dom_AssignmentOperatorKind::_assign -> "=",
+		dom_AssignmentOperatorKind::_right_shift_unsigned_assign -> ">>>=",
+		dom_AssignmentOperatorKind::_remainder_assign -> "%=",
+		dom_AssignmentOperatorKind::_bit_and_assign -> "&=",
+		dom_AssignmentOperatorKind::_left_shift_assign -> "<<="
+	};
+	
+	const infixMap:map<dom_InfixExpressionOperatorKind, string> = {
+		dom_InfixExpressionOperatorKind::_greater_equals -> ">=",
+		dom_InfixExpressionOperatorKind::_or -> "|",
+		dom_InfixExpressionOperatorKind::_right_shift_signed -> ">>",
+		dom_InfixExpressionOperatorKind::_minus -> "-",
+		dom_InfixExpressionOperatorKind::_xor -> "^",
+		dom_InfixExpressionOperatorKind::_less_equals -> "<=",
+		dom_InfixExpressionOperatorKind::_equals -> "==",
+		dom_InfixExpressionOperatorKind::_not_equals -> "!=",
+		dom_InfixExpressionOperatorKind::_and -> "&",
+		dom_InfixExpressionOperatorKind::_plus -> "+",
+		dom_InfixExpressionOperatorKind::_greater -> ">",
+		dom_InfixExpressionOperatorKind::_conditional_or -> "||",
+		dom_InfixExpressionOperatorKind::_remainder -> "%",
+		dom_InfixExpressionOperatorKind::_less -> "<",
+		dom_InfixExpressionOperatorKind::_left_shift -> "<<",
+		dom_InfixExpressionOperatorKind::_right_shift_unsigned -> ">>>",
+		dom_InfixExpressionOperatorKind::_conditional_and -> "&&",
+		dom_InfixExpressionOperatorKind::_times -> "*",
+		dom_InfixExpressionOperatorKind::_divide -> "/"
+	};
+}
+
+edge class HelperEdge;
