@@ -225,16 +225,17 @@ rule dumpName_MethodInvocation(method:dom_MethodInvocation, helper:HelperNode) {
 
 rule dumpNode(n:dom_ASTNode) {
 	modify {
-		exec(dumpNode_Assignment(n) || dumpNode_SimpleName(n) || dumpNode_NumberLiteral(n) || dumpNode_Dummy(n));
+		exec(dumpNode_Assignment(n) || dumpNode_SimpleName(n) || dumpNode_NumberLiteral(n) || dumpNode_InfixExpression(n) || dumpNode_MethodInvocation(n) || dumpNode_PostfixExpression(n));
 	}
 }
 
 rule dumpNode_Assignment(assign:dom_Assignment) {
+	helper:HelperNode;
 	assign -:dom_Assignment_leftHandSide-> lhs:dom_Expression;
 	assign -:dom_Assignment_rightHandSide-> rhs:dom_Expression;
 	
 	modify {
-		emit("    <expression expressionName=\"assign\">\n");
+		emit("    <expression expressionName=\"" + helper.operatorNameMap[assign._operator] + "\">\n");
 		exec(dumpNode(lhs));
 		exec(dumpNode(rhs));
 		emit("    </expression>\n");
@@ -253,9 +254,38 @@ rule dumpNode_NumberLiteral(number:dom_NumberLiteral) {
 	}
 }
 
-rule dumpNode_Dummy(n:dom_ASTNode) {
+rule dumpNode_InfixExpression(expr:dom_InfixExpression) {
+	helper:HelperNode;
+	expr -:dom_InfixExpression_leftOperand-> lhs:dom_Expression;
+	expr -:dom_InfixExpression_rightOperand-> rhs:dom_Expression;
+	
 	modify {
-		emit("Could not dump node\n");
+		emit("      <innerExpression expressionName=\"" + helper.infixNameMap[expr._operator] + "\">\n");
+		exec(dumpNode(lhs));
+		exec(dumpNode(rhs));
+		emit("      </innerExpression>\n");
+	}
+}
+
+rule dumpNode_MethodInvocation(method:dom_MethodInvocation) {
+	method -:dom_MethodInvocation_name-> name:dom_SimpleName;
+	method -:dom_MethodInvocation_arguments-> argument:dom_SimpleName;
+	
+	modify {
+		emit("    <expression expressionName=\"" + name._identifier + "\">\n");
+		exec(dumpNode(argument));
+		emit("    </expression>\n");
+	} 
+}
+
+rule dumpNode_PostfixExpression(expr:dom_PostfixExpression) {
+	helper:HelperNode;
+	expr -:dom_PostfixExpression_operand-> op:dom_Expression;
+	
+	modify {
+		emit("    <expression expressionName=\"" + helper.postfixNameMap[expr._operator] + "\">\n");
+		exec(dumpNode(op));
+		emit("    </expression>\n");
 	}
 }
 
