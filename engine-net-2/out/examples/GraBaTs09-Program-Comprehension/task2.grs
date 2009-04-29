@@ -12,7 +12,7 @@ xgrs xmlPrefix
 xgrs (counter) = initXMLCounter
 xgrs ((counter) = addNodeNumber(counter))*
 xgrs (counter) = initXMLCounter
-xgrs ((n, helper, counter)=getNodeByNumber(counter) && (expr)=getExpressionStatementExpression(n) && dumpName(expr, helper))*
+xgrs ((n, helper, counter)=getNodeByNumber(counter) && (expr)=getExpressionStatementExpression(n) && dumpName(expr, helper) && dumpNode(expr))*
 xgrs xmlSuffix
 #xgrs [CFG_sweep_graph]
 show graph ycomp

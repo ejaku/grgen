@@ -225,23 +225,37 @@ rule dumpName_MethodInvocation(method:dom_MethodInvocation, helper:HelperNode) {
 
 rule dumpNode(n:dom_ASTNode) {
 	modify {
-		exec(dumpAssignment(n) || dumpNodeNumber(n));
+		exec(dumpNode_Assignment(n) || dumpNode_SimpleName(n) || dumpNode_NumberLiteral(n) || dumpNode_Dummy(n));
 	}
 }
 
-rule dumpAssignment(n:dom_ASTNode) {
-	n -:dom_ExpressionStatement_expression->assign:dom_Assignment;
-	assign -:dom_Assignment_leftHandSide-> lhsName:dom_SimpleName;
-	assign -:dom_Assignment_rightHandSide-> rhsName:dom_SimpleName;
-	
-	modify{}
-}
-
-rule dumpNodeNumber(n:dom_ASTNode) {
-	n -:HelperEdge-> countNode:HelperNode;
+rule dumpNode_Assignment(assign:dom_Assignment) {
+	assign -:dom_Assignment_leftHandSide-> lhs:dom_Expression;
+	assign -:dom_Assignment_rightHandSide-> rhs:dom_Expression;
 	
 	modify {
-		emit("Number: " + countNode.count +"\n");
+		emit("    <expression expressionName=\"assign\">\n");
+		exec(dumpNode(lhs));
+		exec(dumpNode(rhs));
+		emit("    </expression>\n");
+	}
+}
+
+rule dumpNode_SimpleName(name:dom_SimpleName) {
+	modify {
+		emit("      <innerExpression expressionName=\"" + name._identifier + "\" isIdentifier=\"true\"/>\n");
+	}
+}
+
+rule dumpNode_NumberLiteral(number:dom_NumberLiteral) {
+	modify {
+		emit("      <innerExpression expressionName=\"" + number._token + "\"/>\n");
+	}
+}
+
+rule dumpNode_Dummy(n:dom_ASTNode) {
+	modify {
+		emit("Could not dump node\n");
 	}
 }
 
