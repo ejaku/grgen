@@ -229,69 +229,69 @@ rule dumpName_MethodInvocation(method:dom_MethodInvocation, helper:HelperNode) {
 	} 
 }
 
-rule dumpNode(n:dom_ASTNode) {
+rule dumpNode(var tag:string, n:dom_ASTNode) {
 	modify {
-		exec(dumpNode_Assignment(n) || dumpNode_SimpleName(n) || dumpNode_NumberLiteral(n) || dumpNode_InfixExpression(n) || dumpNode_MethodInvocation(n) || dumpNode_PostfixExpression(n));
+		exec(dumpNode_Assignment(tag, n) || dumpNode_SimpleName(tag, n) || dumpNode_NumberLiteral(tag, n) || dumpNode_InfixExpression(tag, n) || dumpNode_MethodInvocation(tag, n) || dumpNode_PostfixExpression(tag, n));
 	}
 }
 
-rule dumpNode_Assignment(assign:dom_Assignment) {
+rule dumpNode_Assignment(var tag:string, assign:dom_Assignment) {
 	helper:HelperNode;
 	assign -:dom_Assignment_leftHandSide-> lhs:dom_Expression;
 	assign -:dom_Assignment_rightHandSide-> rhs:dom_Expression;
 	
 	modify {
-		emit("    <expression expressionName=\"" + helper.operatorNameMap[assign._operator] + "\">\n");
-		exec(dumpNode(lhs));
-		exec(dumpNode(rhs));
-		emit("    </expression>\n");
+		emit("    <" + tag + " expressionName=\"" + helper.operatorNameMap[assign._operator] + "\">\n");
+		exec(dumpNode("innerExpression", lhs));
+		exec(dumpNode("innerExpression", rhs));
+		emit("    </" + tag + ">\n");
 	}
 }
 
-rule dumpNode_SimpleName(name:dom_SimpleName) {
+rule dumpNode_SimpleName(var tag:string, name:dom_SimpleName) {
 	modify {
-		emit("      <innerExpression expressionName=\"" + name._identifier + "\" isIdentifier=\"true\"/>\n");
+		emit("      <" + tag + " expressionName=\"" + name._identifier + "\" isIdentifier=\"true\"/>\n");
 	}
 }
 
-rule dumpNode_NumberLiteral(number:dom_NumberLiteral) {
+rule dumpNode_NumberLiteral(var tag:string, number:dom_NumberLiteral) {
 	modify {
-		emit("      <innerExpression expressionName=\"" + number._token + "\"/>\n");
+		emit("      <" + tag + " expressionName=\"" + number._token + "\"/>\n");
 	}
 }
 
-rule dumpNode_InfixExpression(expr:dom_InfixExpression) {
+rule dumpNode_InfixExpression(var tag:string, expr:dom_InfixExpression) {
 	helper:HelperNode;
 	expr -:dom_InfixExpression_leftOperand-> lhs:dom_Expression;
 	expr -:dom_InfixExpression_rightOperand-> rhs:dom_Expression;
 	
 	modify {
-		emit("      <innerExpression expressionName=\"" + helper.infixNameMap[expr._operator] + "\">\n");
-		exec(dumpNode(lhs));
-		exec(dumpNode(rhs));
-		emit("      </innerExpression>\n");
+		emit("      <" + tag + " expressionName=\"" + helper.infixNameMap[expr._operator] + "\">\n");
+		exec(dumpNode("innerExpression", lhs));
+		exec(dumpNode("innerExpression", rhs));
+		emit("      </" + tag + ">\n");
 	}
 }
 
-rule dumpNode_MethodInvocation(method:dom_MethodInvocation) {
+rule dumpNode_MethodInvocation(var tag:string, method:dom_MethodInvocation) {
 	method -:dom_MethodInvocation_name-> name:dom_SimpleName;
 	method -:dom_MethodInvocation_arguments-> argument:dom_SimpleName;
 	
 	modify {
-		emit("    <expression expressionName=\"" + name._identifier + "\">\n");
-		exec(dumpNode(argument));
-		emit("    </expression>\n");
+		emit("    <" + tag + " expressionName=\"" + name._identifier + "\">\n");
+		exec(dumpNode("innerExpression", argument));
+		emit("    </" + tag + ">\n");
 	} 
 }
 
-rule dumpNode_PostfixExpression(expr:dom_PostfixExpression) {
+rule dumpNode_PostfixExpression(var tag:string, expr:dom_PostfixExpression) {
 	helper:HelperNode;
 	expr -:dom_PostfixExpression_operand-> op:dom_Expression;
 	
 	modify {
-		emit("    <expression expressionName=\"" + helper.postfixNameMap[expr._operator] + "\">\n");
-		exec(dumpNode(op));
-		emit("    </expression>\n");
+		emit("    <" + tag + " expressionName=\"" + helper.postfixNameMap[expr._operator] + "\">\n");
+		exec(dumpNode("innerExpression", op));
+		emit("    </" + tag + ">\n");
 	}
 }
 
@@ -370,7 +370,7 @@ rule emitNodeTag_WhileStatement(n:dom_WhileStatement, expr:dom_Expression) {
 		exec(emitTrueNode(n));
 		exec(emitFalseNode(n));
 		emit(">\n");
-		exec(dumpNode(expr));
+		exec(dumpNode("expression", expr));
 		emit("  </nodes>\n");
 	}
 }
@@ -383,7 +383,7 @@ rule emitNodeTag_ExpressionStatement(n:dom_ExpressionStatement, expr:dom_Express
 		exec(emitFromNode(n));
 		exec(emitToNode(n));
 		emit(" name=\"" + helper.name + "\">\n");
-		exec(dumpNode(expr));
+		exec(dumpNode("expression", expr));
 		emit("  </nodes>\n");
 	}
 }
