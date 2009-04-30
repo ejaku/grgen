@@ -132,6 +132,12 @@ test getExpressionStatementExpression(n:dom_ExpressionStatement) : (dom_Expressi
 	return (expr);
 }
 
+test getWhileStatementExpression(n:dom_WhileStatement) : (dom_Expression) {
+	n -:dom_WhileStatement_expression-> expr:dom_Expression;
+	
+	return (expr);
+}
+
 rule addOperatorToHelper(helper:HelperNode, assign:dom_Assignment) {
 	modify {
 		eval {
@@ -286,6 +292,99 @@ rule dumpNode_PostfixExpression(expr:dom_PostfixExpression) {
 		emit("    <expression expressionName=\"" + helper.postfixNameMap[expr._operator] + "\">\n");
 		exec(dumpNode(op));
 		emit("    </expression>\n");
+	}
+}
+
+rule emitNodeTag(n:dom_Statement, expr:dom_Expression) {
+	modify {
+		exec(emitNodeTag_WhileStatement(n, expr) || emitNodeTag_ExpressionStatement(n, expr));
+	}
+}
+
+rule emitFromNode(n:dom_Statement) {
+	pred:dom_Statement -:org_amma_cfg_AbstractNode_toNode-> n;
+	pred -:HelperEdge-> helper:HelperNode;
+	
+	modify {
+		emit(" fromNode=\"");
+		exec([emitFromNodeAttribute(n)]);
+		emit("\"");
+	}
+}
+
+rule emitFromNodeAttribute(n:dom_Statement) {
+	pred:dom_Statement -:org_amma_cfg_AbstractNode_toNode-> n;
+	pred -:HelperEdge-> helper:HelperNode;
+	
+	modify {
+		emit("//@nodes." + helper.count + " ");
+	}
+}
+
+rule emitToNode(n:dom_Statement) {
+	n -:org_amma_cfg_AbstractNode_toNode-> succ:dom_Statement;
+	succ -:HelperEdge-> helper:HelperNode;
+	
+	modify {
+		emit(" toNode=\"");
+		exec([emitToNodeAttribute(n)]);
+		emit("\"");
+	}
+}
+
+rule emitToNodeAttribute(n:dom_Statement) {
+	n -:org_amma_cfg_AbstractNode_toNode-> succ:dom_Statement;
+	succ -:HelperEdge-> helper:HelperNode;
+	
+	modify {
+		emit("//@nodes." + helper.count + " ");
+	}
+}
+
+rule emitFalseNode(n:dom_Statement) {
+	n -:org_amma_cfg_ConditionalNode_falseConditionNode-> succ:dom_Statement;
+	succ -:HelperEdge-> helper:HelperNode;
+	
+	modify {
+		emit(" falseConditionNode=\"//@nodes." + helper.count + "\"");
+	}
+}
+
+rule emitTrueNode(n:dom_Statement) {
+	n -:org_amma_cfg_ConditionalNode_trueConditionNode-> succ:dom_Statement;
+	succ -:HelperEdge-> helper:HelperNode;
+	
+	modify {
+		emit(" trueConditionNode=\"//@nodes." + helper.count + "\"");
+	}
+}
+
+rule emitNodeTag_WhileStatement(n:dom_WhileStatement, expr:dom_Expression) {
+	n -:HelperEdge-> helper:HelperNode;
+	
+	modify {
+		emit("  <nodes xsi:type=\"org.amma.cfg:IterativeNode\"");
+		exec(emitFromNode(n));
+		exec(emitToNode(n));
+		emit(" name=\"While(" + helper.name + ")\"");
+		exec(emitTrueNode(n));
+		exec(emitFalseNode(n));
+		emit(">\n");
+		exec(dumpNode(expr));
+		emit("  </nodes>\n");
+	}
+}
+
+rule emitNodeTag_ExpressionStatement(n:dom_ExpressionStatement, expr:dom_Expression) {
+	n -:HelperEdge-> helper:HelperNode;
+	
+	modify {
+		emit("  <nodes xsi:type=\"org.amma.cfg:Node\"");
+		exec(emitFromNode(n));
+		exec(emitToNode(n));
+		emit(" name=\"" + helper.name + "\">\n");
+		exec(dumpNode(expr));
+		emit("  </nodes>\n");
 	}
 }
 
