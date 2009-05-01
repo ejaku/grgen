@@ -25,13 +25,14 @@ namespace Iterated
             IMatches matches;
             object[] returns;
 
-            LGSPAction init = Action_initST.Instance;
+            LGSPAction init = Action_initUndirected.Instance;
             matches = init.Match(graph, 0, null);
             returns = init.Modify(graph, matches.First);
 
             IGraphElement[] param = new LGSPNode[1];
             param[0] = (Node)returns[0];
             matches = actions.GetAction("spanningTree").Match(graph, 0, param);
+            returns = actions.GetAction("spanningTree").Modify(graph, matches.First);
 
             Console.WriteLine(matches.Count + " matches found.");
         }

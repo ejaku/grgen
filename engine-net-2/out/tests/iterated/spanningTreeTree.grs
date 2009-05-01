@@ -1,6 +1,6 @@
 new graph "iterated\spanningTree"
 
-xgrs (root)=initST
+xgrs (root)=initTree
 
 flag=allocvisitflag
 
@@ -9,7 +9,8 @@ show num edges
 xgrs [edgesVisited]
 xgrs [nodesVisited]
 
-xgrs spanningTree(root)
+#not sure if % is deterministic enough for a test, so take care: if test fails grgen might work perfectly
+xgrs %spanningTree(root)
 
 show num nodes
 show num edges

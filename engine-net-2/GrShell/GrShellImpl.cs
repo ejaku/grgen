@@ -1854,17 +1854,46 @@ namespace de.unika.ipd.grGen.grShell
         void DumpOnFinishing(IMatches matches, bool special)
         {
             int i = 1;
-            IPatternGraph patternGraph = matches.Producer.RulePattern.PatternGraph;
             Console.WriteLine("Matched " + matches.Producer.Name + " rule:");
             foreach(IMatch match in matches)
             {
-                Console.WriteLine(" - " + i++ + ". match:");
-                int j = 0;
-                foreach(INode node in match.Nodes)
-                    Console.WriteLine("   " + patternGraph.Nodes[j++].UnprefixedName + ": " + curShellGraph.Graph.GetElementName(node));
-                j = 0;
-                foreach(IEdge edge in match.Edges)
-                    Console.WriteLine("   " + patternGraph.Edges[j++].UnprefixedName + ": " + curShellGraph.Graph.GetElementName(edge));
+                Console.WriteLine(" - " + i + ". match:");
+                DumpMatch(match, "   ");
+                ++i;
+            }
+        }
+
+        void DumpMatch(IMatch match, String indentation)
+        {
+            int i = 0;
+            foreach (INode node in match.Nodes)
+                Console.WriteLine(indentation + match.Pattern.Nodes[i++].UnprefixedName + ": " + curShellGraph.Graph.GetElementName(node));
+            int j = 0;
+            foreach (IEdge edge in match.Edges)
+                Console.WriteLine(indentation + match.Pattern.Edges[j++].UnprefixedName + ": " + curShellGraph.Graph.GetElementName(edge));
+
+            foreach(IMatch nestedMatch in match.EmbeddedGraphs)
+            {
+                Console.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
+                DumpMatch(nestedMatch, indentation + "  ");
+            }
+            foreach (IMatch nestedMatch in match.Alternatives)
+            {
+                Console.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
+                DumpMatch(nestedMatch, indentation + "  ");
+            }
+            foreach (IMatches nestedMatches in match.Iterateds)
+            {
+                foreach (IMatch nestedMatch in nestedMatches)
+                {
+                    Console.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
+                    DumpMatch(nestedMatch, indentation + "  ");
+                }
+            }
+            foreach (IMatch nestedMatch in match.Independents)
+            {
+                Console.WriteLine(indentation + nestedMatch.Pattern.Name + ":");
+                DumpMatch(nestedMatch, indentation + "  ");
             }
         }
 

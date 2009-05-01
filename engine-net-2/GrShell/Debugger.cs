@@ -585,6 +585,10 @@ namespace de.unika.ipd.grGen.grShell
                     i++;
                 }
                 MarkMatches(match.EmbeddedGraphs, nodeRealizerName, edgeRealizerName, annotateElements);
+                foreach(IMatches iteratedsMatches in match.Iterateds)
+                    MarkMatches(iteratedsMatches, nodeRealizerName, edgeRealizerName, annotateElements);
+                MarkMatches(match.Alternatives, nodeRealizerName, edgeRealizerName, annotateElements);
+                MarkMatches(match.Independents, nodeRealizerName, edgeRealizerName, annotateElements);
             }
         }
 

@@ -1,0 +1,19 @@
+new graph "iterated\spanningTree"
+
+xgrs (root)=initUndirected
+
+flag=allocvisitflag
+
+show num nodes
+show num edges
+xgrs [nodesVisited]
+xgrs [edgesVisited]
+
+xgrs spanningTree(root)
+
+show num nodes
+show num edges
+xgrs [nodesVisited]
+xgrs [edgesVisited]
+
+quit

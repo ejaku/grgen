@@ -1456,7 +1456,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // subpattern or top-level pattern which contains subpatterns
                 if (containsSubpatterns || isSubpattern)
-                    insertionPoint = insertCheckForSubpatternsFound(insertionPoint);
+                    insertionPoint = insertCheckForSubpatternsFound(insertionPoint, false);
                 else // top-level-pattern of action without subpatterns
                     insertionPoint = insertPatternFound(insertionPoint);
             }
@@ -1971,7 +1971,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- check failed, no tasks left, leaf subpattern was matched
             LeafSubpatternMatched leafMatched = new LeafSubpatternMatched(
-                rulePatternClassName, patternGraph.pathPrefix+patternGraph.name);
+                rulePatternClassName, patternGraph.pathPrefix+patternGraph.name, false);
             SearchProgramOperation continuationPointAfterLeafMatched =
                 insertionPoint.Append(leafMatched);
             leafMatched.MatchBuildingOperations =
@@ -2160,7 +2160,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// Inserts code to check whether the subpatterns were found and code for case there were some
         /// at the given position, returns position after inserted operations
         /// </summary>
-        private SearchProgramOperation insertCheckForSubpatternsFound(SearchProgramOperation insertionPoint)
+        private SearchProgramOperation insertCheckForSubpatternsFound(SearchProgramOperation insertionPoint, 
+            bool isIteratedNullMatch)
         {
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
@@ -2175,10 +2176,16 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = checkSubpatternsFound.CheckFailedOperations;
 
             // ---- check failed, some subpattern matches found, pattern and subpatterns were matched
-            bool isAction = programType==SearchProgramType.Action || programType==SearchProgramType.MissingPreset;
-            bool isIterated = programType==SearchProgramType.Iterated;
+            PatternAndSubpatternsMatchedType type = PatternAndSubpatternsMatchedType.SubpatternOrAlternative;
+            if (programType == SearchProgramType.Action || programType == SearchProgramType.MissingPreset) {
+                type = PatternAndSubpatternsMatchedType.Action;
+            } else if (programType == SearchProgramType.Iterated) {
+                if (isIteratedNullMatch) type = PatternAndSubpatternsMatchedType.IteratedNullMatch;
+                else type = PatternAndSubpatternsMatchedType.Iterated;
+            }
+            Debug.Assert(!isIteratedNullMatch || programType == SearchProgramType.Iterated);
             PatternAndSubpatternsMatched patternAndSubpatternsMatched = 
-                new PatternAndSubpatternsMatched(rulePatternClassName, patternGraph.pathPrefix + patternGraph.name, isAction, isIterated);
+                new PatternAndSubpatternsMatched(rulePatternClassName, patternGraph.pathPrefix + patternGraph.name, type);
             SearchProgramOperation continuationPointAfterPatternAndSubpatternsMatched =
                 insertionPoint.Append(patternAndSubpatternsMatched);
             patternAndSubpatternsMatched.MatchBuildingOperations =
@@ -2187,23 +2194,26 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- ---- fill the match object with the candidates 
             // ---- ---- which have passed all the checks for being a match
-            insertionPoint = insertMatchObjectBuilding(insertionPoint,
-                patternGraph, MatchObjectType.Normal);
+            if (!isIteratedNullMatch)
+            {
+                insertionPoint = insertMatchObjectBuilding(insertionPoint,
+                    patternGraph, MatchObjectType.Normal);
+            }
 
             // ---- nesting level up
             insertionPoint = continuationPointAfterPatternAndSubpatternsMatched;
 
             // ---- create new matches list to search on or copy found matches into own matches list
             if (programType==SearchProgramType.Subpattern 
-                || programType==SearchProgramType.AlternativeCase
-                || programType == SearchProgramType.Iterated)
-            {
+                || programType==SearchProgramType.AlternativeCase)
+            { // not needed for iterated, because if match was found, that's it
                 NewMatchesListForFollowingMatches newMatchesList =
                     new NewMatchesListForFollowingMatches(false);
                 insertionPoint = insertionPoint.Append(newMatchesList);
             }
 
             // ---- check max matches reached will be inserted here by completion pass
+            // (not for iterated, but not needed in that case, too)
 
             // nesting level up
             insertionPoint = continuationPointAfterSubpatternsFound;
@@ -2363,10 +2373,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Debug.Assert(NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek()) == "");
 
-            // check whether the pattern was not found
+            PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
+
+            // check whether the pattern was not found / the null match was found
             // if yes the iteration came to an end, handle that case
-            CheckContinueMatchingIteratedPatternFound iteratedPatternFound =
-                new CheckContinueMatchingIteratedPatternFound();
+            CheckContinueMatchingIteratedPatternNonNullMatchFound iteratedPatternFound =
+                new CheckContinueMatchingIteratedPatternNonNullMatchFound();
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(iteratedPatternFound);
             iteratedPatternFound.CheckFailedOperations = new SearchProgramList(iteratedPatternFound);
@@ -2387,7 +2399,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- ---- check failed, no tasks left, leaf subpattern was matched
             LeafSubpatternMatched leafMatched =
-                new LeafSubpatternMatched();
+                new LeafSubpatternMatched(rulePatternClassName, patternGraph.pathPrefix + patternGraph.name, true);
             insertionPoint = insertionPoint.Append(leafMatched);
             leafMatched.MatchBuildingOperations = new SearchProgramList(leafMatched); // empty, no match object
 
@@ -2410,8 +2422,8 @@ namespace de.unika.ipd.grGen.lgsp
                 new MatchSubpatterns("");
             insertionPoint = insertionPoint.Append(matchSubpatterns);
 
-            // ---- the end of iteration match has nothing nested to take care of
-            // ---- so we return to the iteration user and let it interpret the result (match(es) found or not)
+            // ---- check whether the open subpattern matching task succeeded, with null match building
+            insertionPoint = insertCheckForSubpatternsFound(insertionPoint, true);
 
             // ---- finalize task/result-pushdown handling in subpattern matcher for end of iteration
             finalize =

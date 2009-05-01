@@ -274,7 +274,7 @@ namespace de.unika.ipd.grGen.lgsp
                             enclosingAlternative,
                             enclosingCheckNegativeOrIndependent);
                     }
-                    else if (currentOperation is CheckContinueMatchingIteratedPatternFound)
+                    else if (currentOperation is CheckContinueMatchingIteratedPatternNonNullMatchFound)
                     {
                         // was built completely, nothing to complete
                     }
