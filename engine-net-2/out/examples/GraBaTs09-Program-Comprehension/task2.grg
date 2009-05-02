@@ -1,71 +1,7 @@
 using JDTAST__ecore, CFG__ecore, Util;
 
-rule CFG_handle_statements
-{
-	block:dom_Block;
-	block -e1:dom_Block_statements-> st1:dom_Statement;
-	block -e2:dom_Block_statements-> st2:dom_Statement;
-	
-	if { e1.index + 1 == e2.index; }
-
-	modify {
-		st1 -:org_amma_cfg_AbstractNode_toNode-> st2;
-	}
-}
-
-rule CFG_handle_while
-{
-	while:dom_WhileStatement -cfgfalse:org_amma_cfg_AbstractNode_toNode->;
-	while -:dom_WhileStatement_body-> body:dom_Statement;
-
-	modify {
-		-:org_amma_cfg_ConditionalNode_falseConditionNode<cfgfalse>->;
-		while -:org_amma_cfg_ConditionalNode_trueConditionNode-> body;
-		body -:org_amma_cfg_AbstractNode_toNode-> while;
-	}
-}
-
-rule CFG_handle_block
-{
-	block:dom_Block;
-	block <-cfgtrue:org_amma_cfg_ConditionalNode_trueConditionNode- while:dom_WhileStatement;
-	block -endwhile:org_amma_cfg_AbstractNode_toNode-> while;
-
-	hom(first, last);
-	hom(st1, st2);
-	block -st1:dom_Block_statements-> first:dom_Statement;
-	block -st2:dom_Block_statements-> last:dom_Statement;
-
-	if { st1.index == 0; }
-	negative {
-		block -st:dom_Block_statements->;
-		if { st.index > st2.index; }
-	}
-
-	modify {
-		delete(cfgtrue);
-		delete(endwhile);
-
-		while -:org_amma_cfg_ConditionalNode_trueConditionNode-> first;
-		last -:org_amma_cfg_AbstractNode_toNode-> while;
-	}
-}
-
-rule CFG_sweep_graph
-{
-	n:Node;
-	negative {
-		n <-:org_amma_cfg_AbstractNode_toNode->;
-	}
-	negative {
-		n <-:org_amma_cfg_ConditionalNode_trueConditionNode->;
-	}
-	negative {
-		n <-:org_amma_cfg_ConditionalNode_falseConditionNode->;
-	}
-
-	replace {}
-}
+#include "nameExpressions.gri"
+#include "buildCFG.gri"
 
 //////////////////
 // Output rules //
@@ -151,6 +87,9 @@ rule dumpName_Assignment(assign:dom_Assignment, helper:HelperNode) {
 	assign -:dom_Assignment_rightHandSide-> rhs:dom_Expression;
 	
 	modify {
+		lhs -:HelperEdge-> lhsHelper: HelperNode;
+		rhs -:HelperEdge-> rhsHelper: HelperNode;
+		
 		exec(dumpName(lhs, helper));
 		exec(addOperatorToHelper(helper, assign));
 		exec(dumpName(rhs, helper));
@@ -391,5 +330,13 @@ rule emitNodeTag_ExpressionStatement(n:dom_ExpressionStatement, expr:dom_Express
 rule xmlSuffix {
 	modify {
 		emit("</org.amma.cfg:MControlFlowGraph>\n");
+	}
+}
+
+rule retypeExpression {
+	old:dom_ExpressionStatement;
+	
+	modify {
+		
 	}
 }

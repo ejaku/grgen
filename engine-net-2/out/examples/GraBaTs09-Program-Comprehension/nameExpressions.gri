@@ -1,0 +1,115 @@
+rule nameExpressions {
+	modify {
+		exec((name_SimpleName || name_NumberLiteral || name_PostfixExpression ||
+		      name_MethodInvocation || name_InfixExpression || name_Assignment)*);
+	}
+}
+
+rule name_SimpleName {
+	expr:dom_SimpleName;
+	
+	negative {
+		expr -:HelperEdge->;
+	}
+	
+	modify {
+		expr -:HelperEdge-> helper:HelperNode;
+		
+		eval {
+			helper.name = expr._identifier;
+		}
+	}
+}
+
+rule name_NumberLiteral {
+	expr:dom_NumberLiteral;
+	
+	negative {
+		expr -:HelperEdge->;
+	}
+	
+	modify {
+		expr -:HelperEdge-> helper:HelperNode;
+		
+		eval {
+			helper.name = expr._token;
+		}
+	}
+}
+
+rule name_PostfixExpression {
+	expr:dom_PostfixExpression -:dom_PostfixExpression_operand-> op:dom_Expression;
+	op -:HelperEdge-> opHelper:HelperNode;
+	
+	negative {
+		expr -:HelperEdge->;
+	}
+	
+	modify {
+		expr -:HelperEdge-> helper:HelperNode;
+		
+		eval {
+			helper.name = opHelper.name + helper.postfixMap[expr._operator];
+		}
+	}
+}
+
+rule name_MethodInvocation {
+	expr:dom_MethodInvocation -:dom_MethodInvocation_name-> name:dom_SimpleName;
+	expr -:dom_MethodInvocation_arguments-> argument:dom_SimpleName;
+	argument -:HelperEdge-> argumentHelper:HelperNode;
+	
+	
+	negative {
+		expr -:HelperEdge->;
+	}
+	
+	modify {
+		expr -:HelperEdge-> helper:HelperNode;
+		
+		eval {
+			helper.name = name._identifier + "(" + argumentHelper.name + ")";
+		}
+	}
+}
+
+rule name_InfixExpression {
+	expr:dom_InfixExpression -:dom_InfixExpression_leftOperand-> lhs:dom_Expression;
+	expr -:dom_InfixExpression_rightOperand-> rhs:dom_Expression;
+	lhs -:HelperEdge-> lhsHelper:HelperNode;
+	rhs -:HelperEdge-> rhsHelper:HelperNode;
+	
+	
+	negative {
+		expr -:HelperEdge->;
+	}
+	
+	modify {
+		expr -:HelperEdge-> helper:HelperNode;
+		
+		eval {
+			helper.name = lhsHelper.name + helper.infixMap[expr._operator] + rhsHelper.name;
+		}
+	}
+}
+
+rule name_Assignment {
+	expr:dom_Assignment -:dom_Assignment_leftHandSide-> lhs:dom_Expression;
+	expr -:dom_Assignment_rightHandSide-> rhs:dom_Expression;
+	lhs -:HelperEdge-> lhsHelper:HelperNode;
+	rhs -:HelperEdge-> rhsHelper:HelperNode;
+	
+	
+	negative {
+		expr -:HelperEdge->;
+	}
+	
+	modify {
+		expr -:HelperEdge-> helper:HelperNode;
+		
+		eval {
+			helper.name = lhsHelper.name + helper.operatorMap[expr._operator] + rhsHelper.name;
+		}
+	}
+}
+

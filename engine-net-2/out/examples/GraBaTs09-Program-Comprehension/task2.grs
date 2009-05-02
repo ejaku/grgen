@@ -4,9 +4,21 @@ show num edges
 
 debug set layout Hierarchic
 
+dump set node HelperNode color grey
+dump set edge HelperEdge color grey
+
+dump set node org_amma_cfg_Expression color grey
+dump set edge org_amma_cfg_Expression_innerExpression color grey
+dump set edge org_amma_cfg_AbstractNode_expression color grey
+
+xgrs nameExpressions
 xgrs [CFG_handle_statements]
 xgrs [CFG_handle_while]
 xgrs [CFG_handle_block]
+xgrs [CFG_sweep_graph]
+xgrs AST_nodes_2_CFG
+show graph ycomp
+exit
 redirect emit cfg_task2-grgen.xmi
 xgrs xmlPrefix
 xgrs (counter) = initXMLCounter
