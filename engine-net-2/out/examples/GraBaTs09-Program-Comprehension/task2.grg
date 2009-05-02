@@ -1,7 +1,8 @@
-using JDTAST__ecore, CFG__ecore, Util;
+using JDTAST__ecore, CFG__ecore, Util, CFG_Util;
 
 #include "nameExpressions.gri"
 #include "buildCFG.gri"
+#include "buildPDG.gri"
 
 //////////////////
 // Output rules //

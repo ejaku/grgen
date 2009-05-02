@@ -1,0 +1,104 @@
+rule init_Post_Dom {
+	replace {
+		exec(init_Post_Dom_Step1* && init_Post_Dom_Step2*);
+	}
+}
+
+rule init_Post_Dom_Step1 {
+	a:org_amma_cfg_AbstractNode -:Edge\pdom-> b:org_amma_cfg_AbstractNode;
+	
+	negative {
+		b -:pdom-> a;
+	}
+	
+	modify {
+		b -:pdom-> a;
+	}
+}
+
+rule init_Post_Dom_Step2 {
+	a:org_amma_cfg_AbstractNode;
+	b:org_amma_cfg_AbstractNode;
+	c:org_amma_cfg_AbstractNode;
+	
+	hom(a,c);
+	c -:pdom-> b -:pdom-> a;
+	
+	negative {
+		c -:pdom-> a;
+	}
+	
+	modify {
+		c -:pdom-> a;
+	}
+}
+
+rule reduce_Post_Dom {
+	replace {
+		exec((remove_wrong_Post_Dom+ | propagate_wrong_Post_Dom_Removing+)* &&
+		     Mark_Transitive_Post_Dom* && Delete_Transitive_Post_Dom* &&
+		     Delete_Reflexive_Post_Dom*);
+	}
+}
+
+rule remove_wrong_Post_Dom {
+	a:org_amma_cfg_AbstractNode;
+	a -:Edge\pdom-> b:org_amma_cfg_AbstractNode;
+	a -:Edge\pdom-> c:org_amma_cfg_AbstractNode;
+	d:org_amma_cfg_AbstractNode;
+	
+	d -:pdom-> b;
+	d -e:pdom-> a;
+	
+	negative {
+		d -:pdom-> c;
+	}
+	
+	modify {
+		delete(e);
+	}
+}
+
+rule propagate_wrong_Post_Dom_Removing {
+	a:org_amma_cfg_AbstractNode;
+	a -:Edge\pdom-> b:org_amma_cfg_AbstractNode;
+	c:org_amma_cfg_AbstractNode;
+	
+	c -e:pdom-> a;
+	
+	negative {
+		c -:pdom-> b;
+	}
+	
+	modify {
+		delete(e);
+	}
+}
+
+rule Mark_Transitive_Post_Dom {
+	a:org_amma_cfg_AbstractNode;
+	b:org_amma_cfg_AbstractNode;
+	c:org_amma_cfg_AbstractNode;
+	
+	hom(a,c);
+	c -:pdom-> b -:pdom-> a;
+	c -e:pdom\transitive_pdom-> a;
+	
+	modify {
+		-:transitive_pdom<e>->;
+	}
+}
+
+rule Delete_Transitive_Post_Dom {
+	-:transitive_pdom->;
+	
+	replace {}
+}
+
+rule Delete_Reflexive_Post_Dom {
+	a:org_amma_cfg_AbstractNode -e:pdom-> a;
+	
+	modify {
+		delete(e);
+	}
+}

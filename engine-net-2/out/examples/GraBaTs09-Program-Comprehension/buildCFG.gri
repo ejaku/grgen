@@ -158,3 +158,41 @@ rule ExpressionEdge_2_CFG {
 		-cfg_edge:org_amma_cfg_AbstractNode_expression<e>->;
 	}
 }
+
+rule Add_Enter_Exit {
+	replace {
+		enter:CFG_Enter;
+		exit:CFG_Exit;
+		
+		eval {
+			enter._name = "Enter";
+			exit._name = "Exit";
+		}
+	}
+}
+
+rule Connect_Enter {
+	enter:CFG_Enter;
+	n:org_amma_cfg_AbstractNode;
+	
+	negative {
+		--> n;
+	}
+	
+	modify {
+		enter -:org_amma_cfg_AbstractNode_toNode-> n;
+	}
+}
+
+rule Connect_Exit {
+	exit:CFG_Exit;
+	n:org_amma_cfg_AbstractNode;
+	
+	negative {
+		n -:Edge\org_amma_cfg_AbstractNode_expression->;
+	}
+	
+	modify {
+		n -:org_amma_cfg_AbstractNode_toNode-> exit;
+	}
+}
