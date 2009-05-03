@@ -34,6 +34,9 @@ public class Rule extends MatchingAction {
 	/** A list of the replacement parameters */
 	private final List<Entity> replParams = new LinkedList<Entity>();
 
+	/** How often the pattern is to be matched in case this is an iterated. */
+	private int minMatches;
+	private int maxMatches;
 
 	/**
 	 * Make a new rule.
@@ -52,8 +55,32 @@ public class Rule extends MatchingAction {
 			left.setName("L");
 			right.setName("R");
 		}
+		this.minMatches = -1;
+		this.maxMatches = -1;
 	}
 
+	/**
+	 * Make a new iterated rule.
+	 * @param ident The identifier with which the rule was declared.
+	 * @param left The left side graph of the rule.
+	 * @param right The right side graph of the rule.
+	 */
+	public Rule(Ident ident, PatternGraph left, PatternGraph right, 
+			int minMatches, int maxMatches) {
+		super("rule", ident, left);
+		setChildrenNames(childrenNames);
+		this.right = right;
+		if(right==null) {
+			left.setNameSuffix("test");
+		}
+		else {
+			left.setName("L");
+			right.setName("R");
+		}
+		this.minMatches = minMatches;
+		this.maxMatches = maxMatches;
+	}
+	
 	/** @return A collection containing all eval assignments of this rule. */
 	public Collection<EvalStatement> getEvals() {
 		return Collections.unmodifiableCollection(evals);
@@ -109,5 +136,15 @@ public class Rule extends MatchingAction {
 	/** @return The right hand side graph. */
 	public PatternGraph getRight() {
 		return right;
+	}
+	
+	/** @return Minimum number of how often the pattern must get matched. */
+	public int getMinMatches() {
+		return minMatches;
+	}
+
+	/** @return Maximum number of how often the pattern must get matched. 0 means unlimited */
+	public int getMaxMatches() {
+		return maxMatches;
 	}
 }

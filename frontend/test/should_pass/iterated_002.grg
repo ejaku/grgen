@@ -1,0 +1,100 @@
+/*pattern SpanningTreeMinOne(root:Node)
+{
+	multiple {
+		root -- next:Node;
+		:SpanningTreeMinOne(next);
+	}
+}
+
+pattern SpanningTreeReverseMinOne(root:Node)
+{
+	multiple {
+		root --> next:Node;
+		str:SpanningTreeReverseMinOne(next);
+		
+		replace {
+			root <-- next;
+			str();
+		}
+	}
+	
+	modify { }
+}
+
+test blowballMinOne
+{
+	head:Node;
+	multiple {
+		head --> .;
+	}
+}
+
+rule blowballDoubleMinOne
+{
+	head:Node;
+	multiple {
+		head --> .;
+		
+		modify {
+			head --> .;
+		}
+	}
+	
+	modify { }
+}
+
+test attachment
+{
+	x:Node --> y:Node; 
+	optional {
+		y --> z:Node;
+	}
+}
+
+rule attachmentReverse()
+{
+	x:Node --> y:Node; 
+	optional {
+		y --> z:Node;
+		
+		replace {
+			y <-- z;
+		}
+	}
+	
+	modify { }
+}
+
+pattern List(prev:Node)
+{
+	optional {
+		prev --> next:Node;
+		:List(next);
+	}
+}
+
+pattern ListReverse(prev:Node)
+{
+	optional {
+		prev --> next:Node;
+		l:ListReverse(next);
+		
+		replace {
+			prev <-- next;
+			l();
+		}
+	}
+	
+	modify { }
+}
+*/
+pattern OptionalTwice
+{
+	x:Node;
+	optional {
+		. <-- x --> .;
+	}
+	optional {
+		. -- x -- .;
+	}
+}

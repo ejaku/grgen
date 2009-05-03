@@ -308,6 +308,7 @@ public class ActionsGen extends CSharpBase {
 			genRuleOrSubpatternClassEntities(sb, iter, pathPrefixForElements+iterName, staticInitializers,
 					pathPrefixForElements + iterName + "_",
 					alreadyDefinedEntityToNameClone);
+			++i;
 		}
 	}
 
@@ -724,6 +725,9 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(" }, \n");
 
+		sb.append("\t\t\t\t" + pathPrefixForElements + "minMatches,\n");
+		sb.append("\t\t\t\t" + pathPrefixForElements + "maxMatches,\n");
+		
 		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternGraph[] { ");
 		for(int i = 0; i < pattern.getNegs().size(); ++i) {
 			sb.append(pathPrefixForElements+"neg_" + i + ", ");
@@ -778,11 +782,9 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(",\n");
 
-		sb.append("\t\t\t\t");
-		sb.append(pathPrefixForElements + "isNodeHomomorphicGlobal,\n");
+		sb.append("\t\t\t\t" + pathPrefixForElements + "isNodeHomomorphicGlobal,\n");
 
-		sb.append("\t\t\t\t");
-		sb.append(pathPrefixForElements + "isEdgeHomomorphicGlobal\n");
+		sb.append("\t\t\t\t" + pathPrefixForElements + "isEdgeHomomorphicGlobal\n");
 
 		sb.append("\t\t\t);\n");
 
@@ -878,6 +880,28 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(";\n");
 
+		sb.append("\t\t\tint[] " + pathPrefixForElements + "minMatches = "
+				+ "new int[" + pattern.getIters().size() + "] ");
+		if(pattern.getIters().size() > 0) {
+			sb.append("{\n\t\t\t\t");
+			for(Rule iter : pattern.getIters()) {
+				sb.append(iter.getMinMatches() + ", ");
+			}
+			sb.append("\n\t\t\t}");
+		}
+		sb.append(";\n");
+
+		sb.append("\t\t\tint[] " + pathPrefixForElements + "maxMatches = "
+				+ "new int[" + pattern.getIters().size() + "] ");
+		if(pattern.getIters().size() > 0) {
+			sb.append("{\n\t\t\t\t");
+			for(Rule iter : pattern.getIters()) {
+				sb.append(iter.getMaxMatches() + ", ");
+			}
+			sb.append("\n\t\t\t}");
+		}
+		sb.append(";\n");
+		
 		for(Node node : pattern.getNodes()) {
 			if(alreadyDefinedEntityToName.get(node)!=null) {
 				continue;

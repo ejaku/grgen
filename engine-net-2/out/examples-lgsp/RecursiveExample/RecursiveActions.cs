@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Mon Apr 20 04:38:28 CEST 2009
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun May 03 15:04:29 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -75,6 +75,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, },
 			};
 			bool[,] ChainFromTo_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ChainFromTo_minMatches = new int[0] ;
+			int[] ChainFromTo_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromTo_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromTo_node_from", "from", ChainFromTo_node_from_AllowedTypes, ChainFromTo_node_from_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode ChainFromTo_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromTo_node_to", "to", ChainFromTo_node_to_AllowedTypes, ChainFromTo_node_to_IsAllowedType, 5.5F, 1);
 			bool[,] ChainFromTo_alt_0_base_isNodeHomomorphicGlobal = new bool[2, 2] {
@@ -84,6 +86,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromTo_alt_0_base_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromTo_alt_0_base_minMatches = new int[0] ;
+			int[] ChainFromTo_alt_0_base_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternEdge ChainFromTo_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ChainFromTo_alt_0_base_edge__edge0", "_edge0", ChainFromTo_alt_0_base_edge__edge0_AllowedTypes, ChainFromTo_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1);
 			ChainFromTo_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
@@ -95,6 +99,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromTo_alt_0_base_minMatches,
+				ChainFromTo_alt_0_base_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -119,6 +125,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromTo_alt_0_rec_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromTo_alt_0_rec_minMatches = new int[0] ;
+			int[] ChainFromTo_alt_0_rec_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromTo_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromTo_alt_0_rec_node_intermediate", "intermediate", ChainFromTo_alt_0_rec_node_intermediate_AllowedTypes, ChainFromTo_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ChainFromTo_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ChainFromTo_alt_0_rec_edge__edge0", "_edge0", ChainFromTo_alt_0_rec_edge__edge0_AllowedTypes, ChainFromTo_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromTo_alt_0_rec__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ChainFromTo.Instance, new GRGEN_LGSP.PatternElement[] { ChainFromTo_alt_0_rec_node_intermediate, ChainFromTo_node_to });
@@ -132,6 +140,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFromTo_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromTo_alt_0_rec_minMatches,
+				ChainFromTo_alt_0_rec_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -161,6 +171,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFromTo_alt_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromTo_minMatches,
+				ChainFromTo_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -269,6 +281,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			IMatch_ChainFromTo_alt_0 alt_0 { get; }
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -289,6 +302,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -306,6 +320,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -660,9 +675,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, },
 			};
 			bool[,] ChainFrom_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ChainFrom_minMatches = new int[0] ;
+			int[] ChainFrom_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFrom_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFrom_node_from", "from", ChainFrom_node_from_AllowedTypes, ChainFrom_node_from_IsAllowedType, 5.5F, 0);
 			bool[,] ChainFrom_alt_0_base_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] ChainFrom_alt_0_base_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ChainFrom_alt_0_base_minMatches = new int[0] ;
+			int[] ChainFrom_alt_0_base_maxMatches = new int[0] ;
 			ChainFrom_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ChainFrom_alt_0_",
@@ -673,6 +692,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFrom_alt_0_base_minMatches,
+				ChainFrom_alt_0_base_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -689,6 +710,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFrom_alt_0_rec_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFrom_alt_0_rec_minMatches = new int[0] ;
+			int[] ChainFrom_alt_0_rec_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFrom_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFrom_alt_0_rec_node_to", "to", ChainFrom_alt_0_rec_node_to_AllowedTypes, ChainFrom_alt_0_rec_node_to_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ChainFrom_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ChainFrom_alt_0_rec_edge__edge0", "_edge0", ChainFrom_alt_0_rec_edge__edge0_AllowedTypes, ChainFrom_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFrom_alt_0_rec__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ChainFrom.Instance, new GRGEN_LGSP.PatternElement[] { ChainFrom_alt_0_rec_node_to });
@@ -702,6 +725,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFrom_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFrom_alt_0_rec_minMatches,
+				ChainFrom_alt_0_rec_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -730,6 +755,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFrom_alt_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFrom_minMatches,
+				ChainFrom_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -828,6 +855,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			IMatch_ChainFrom_alt_0 alt_0 { get; }
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -845,6 +873,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -861,6 +890,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -1213,11 +1243,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, },
 			};
 			bool[,] ChainFromComplete_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ChainFromComplete_minMatches = new int[0] ;
+			int[] ChainFromComplete_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromComplete_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromComplete_node_from", "from", ChainFromComplete_node_from_AllowedTypes, ChainFromComplete_node_from_IsAllowedType, 5.5F, 0);
 			bool[,] ChainFromComplete_alt_0_base_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] ChainFromComplete_alt_0_base_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ChainFromComplete_alt_0_base_minMatches = new int[0] ;
+			int[] ChainFromComplete_alt_0_base_maxMatches = new int[0] ;
 			bool[,] ChainFromComplete_alt_0_base_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1225,6 +1259,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromComplete_alt_0_base_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromComplete_alt_0_base_neg_0_minMatches = new int[0] ;
+			int[] ChainFromComplete_alt_0_base_neg_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromComplete_alt_0_base_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromComplete_alt_0_base_neg_0_node__node0", "_node0", ChainFromComplete_alt_0_base_neg_0_node__node0_AllowedTypes, ChainFromComplete_alt_0_base_neg_0_node__node0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ChainFromComplete_alt_0_base_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ChainFromComplete_alt_0_base_neg_0_edge__edge0", "_edge0", ChainFromComplete_alt_0_base_neg_0_edge__edge0_AllowedTypes, ChainFromComplete_alt_0_base_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			ChainFromComplete_alt_0_base_neg_0 = new GRGEN_LGSP.PatternGraph(
@@ -1237,6 +1273,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromComplete_alt_0_base_neg_0_minMatches,
+				ChainFromComplete_alt_0_base_neg_0_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -1263,6 +1301,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromComplete_alt_0_base_minMatches,
+				ChainFromComplete_alt_0_base_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] { ChainFromComplete_alt_0_base_neg_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -1282,6 +1322,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromComplete_alt_0_rec_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromComplete_alt_0_rec_minMatches = new int[0] ;
+			int[] ChainFromComplete_alt_0_rec_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromComplete_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromComplete_alt_0_rec_node_to", "to", ChainFromComplete_alt_0_rec_node_to_AllowedTypes, ChainFromComplete_alt_0_rec_node_to_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ChainFromComplete_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ChainFromComplete_alt_0_rec_edge__edge0", "_edge0", ChainFromComplete_alt_0_rec_edge__edge0_AllowedTypes, ChainFromComplete_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromComplete_alt_0_rec__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ChainFromComplete.Instance, new GRGEN_LGSP.PatternElement[] { ChainFromComplete_alt_0_rec_node_to });
@@ -1295,6 +1337,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFromComplete_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromComplete_alt_0_rec_minMatches,
+				ChainFromComplete_alt_0_rec_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -1323,6 +1367,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFromComplete_alt_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromComplete_minMatches,
+				ChainFromComplete_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -1424,6 +1470,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			IMatch_ChainFromComplete_alt_0 alt_0 { get; }
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -1442,6 +1489,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -1457,6 +1505,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -1473,6 +1522,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -1923,11 +1973,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, },
 			};
 			bool[,] ChainFromCompleteArbitraryPatternpathLocked_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ChainFromCompleteArbitraryPatternpathLocked_minMatches = new int[0] ;
+			int[] ChainFromCompleteArbitraryPatternpathLocked_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryPatternpathLocked_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryPatternpathLocked_node_from", "from", ChainFromCompleteArbitraryPatternpathLocked_node_from_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_node_from_IsAllowedType, 5.5F, 0);
 			bool[,] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_minMatches = new int[0] ;
+			int[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_maxMatches = new int[0] ;
 			bool[,] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1935,6 +1989,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_minMatches = new int[0] ;
+			int[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0", "_node0", ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@AEdge, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0", "_edge0", ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0 = new GRGEN_LGSP.PatternGraph(
@@ -1947,6 +2003,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_minMatches,
+				ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -1973,6 +2031,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_minMatches,
+				ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] { ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -1992,6 +2052,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_minMatches = new int[0] ;
+			int[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to", "to", ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0", "_edge0", ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ChainFromCompleteArbitraryPatternpathLocked.Instance, new GRGEN_LGSP.PatternElement[] { ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to });
@@ -2005,6 +2067,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_minMatches,
+				ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -2033,6 +2097,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFromCompleteArbitraryPatternpathLocked_alt_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromCompleteArbitraryPatternpathLocked_minMatches,
+				ChainFromCompleteArbitraryPatternpathLocked_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -2134,6 +2200,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			IMatch_ChainFromCompleteArbitraryPatternpathLocked_alt_0 alt_0 { get; }
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -2152,6 +2219,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -2167,6 +2235,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -2183,6 +2252,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -2633,11 +2703,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, },
 			};
 			bool[,] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_minMatches = new int[0] ;
+			int[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from", "from", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_IsAllowedType, 5.5F, 0);
 			bool[,] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_minMatches = new int[0] ;
+			int[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_maxMatches = new int[0] ;
 			bool[,] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -2645,6 +2719,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_minMatches = new int[0] ;
+			int[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0", "_node0", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@AEdge, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0", "_edge0", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0 = new GRGEN_LGSP.PatternGraph(
@@ -2657,6 +2733,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_minMatches,
+				ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -2683,6 +2761,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_minMatches,
+				ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] { ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -2702,6 +2782,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_minMatches = new int[0] ;
+			int[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to", "to", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0", "_edge0", ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_AllowedTypes, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance, new GRGEN_LGSP.PatternElement[] { ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to });
@@ -2715,6 +2797,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_minMatches,
+				ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -2743,6 +2827,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_minMatches,
+				ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -2844,6 +2930,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			IMatch_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0 alt_0 { get; }
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -2862,6 +2949,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -2877,6 +2965,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -2893,6 +2982,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -3343,11 +3433,15 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, },
 			};
 			bool[,] Blowball_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] Blowball_minMatches = new int[0] ;
+			int[] Blowball_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode Blowball_node_head = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "Blowball_node_head", "head", Blowball_node_head_AllowedTypes, Blowball_node_head_IsAllowedType, 5.5F, 0);
 			bool[,] Blowball_alt_0_end_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] Blowball_alt_0_end_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] Blowball_alt_0_end_minMatches = new int[0] ;
+			int[] Blowball_alt_0_end_maxMatches = new int[0] ;
 			bool[,] Blowball_alt_0_end_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -3355,6 +3449,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] Blowball_alt_0_end_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] Blowball_alt_0_end_neg_0_minMatches = new int[0] ;
+			int[] Blowball_alt_0_end_neg_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode Blowball_alt_0_end_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "Blowball_alt_0_end_neg_0_node__node0", "_node0", Blowball_alt_0_end_neg_0_node__node0_AllowedTypes, Blowball_alt_0_end_neg_0_node__node0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge Blowball_alt_0_end_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Blowball_alt_0_end_neg_0_edge__edge0", "_edge0", Blowball_alt_0_end_neg_0_edge__edge0_AllowedTypes, Blowball_alt_0_end_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			Blowball_alt_0_end_neg_0 = new GRGEN_LGSP.PatternGraph(
@@ -3367,6 +3463,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				Blowball_alt_0_end_neg_0_minMatches,
+				Blowball_alt_0_end_neg_0_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -3393,6 +3491,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				Blowball_alt_0_end_minMatches,
+				Blowball_alt_0_end_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] { Blowball_alt_0_end_neg_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -3412,6 +3512,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] Blowball_alt_0_further_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] Blowball_alt_0_further_minMatches = new int[0] ;
+			int[] Blowball_alt_0_further_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode Blowball_alt_0_further_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "Blowball_alt_0_further_node__node0", "_node0", Blowball_alt_0_further_node__node0_AllowedTypes, Blowball_alt_0_further_node__node0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge Blowball_alt_0_further_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Blowball_alt_0_further_edge__edge0", "_edge0", Blowball_alt_0_further_edge__edge0_AllowedTypes, Blowball_alt_0_further_edge__edge0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternGraphEmbedding Blowball_alt_0_further__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Blowball.Instance, new GRGEN_LGSP.PatternElement[] { Blowball_node_head });
@@ -3425,6 +3527,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { Blowball_alt_0_further__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				Blowball_alt_0_further_minMatches,
+				Blowball_alt_0_further_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -3453,6 +3557,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { Blowball_alt_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				Blowball_minMatches,
+				Blowball_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -3554,6 +3660,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			IMatch_Blowball_alt_0 alt_0 { get; }
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -3572,6 +3679,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -3587,6 +3695,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -3603,6 +3712,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -4045,6 +4155,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, },
 			};
 			bool[,] ReverseChainFromTo_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ReverseChainFromTo_minMatches = new int[0] ;
+			int[] ReverseChainFromTo_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ReverseChainFromTo_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ReverseChainFromTo_node_from", "from", ReverseChainFromTo_node_from_AllowedTypes, ReverseChainFromTo_node_from_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode ReverseChainFromTo_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ReverseChainFromTo_node_to", "to", ReverseChainFromTo_node_to_AllowedTypes, ReverseChainFromTo_node_to_IsAllowedType, 5.5F, 1);
 			bool[,] ReverseChainFromTo_alt_0_base_isNodeHomomorphicGlobal = new bool[2, 2] {
@@ -4054,6 +4166,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ReverseChainFromTo_alt_0_base_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ReverseChainFromTo_alt_0_base_minMatches = new int[0] ;
+			int[] ReverseChainFromTo_alt_0_base_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternEdge ReverseChainFromTo_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ReverseChainFromTo_alt_0_base_edge__edge0", "_edge0", ReverseChainFromTo_alt_0_base_edge__edge0_AllowedTypes, ReverseChainFromTo_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1);
 			ReverseChainFromTo_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
@@ -4065,6 +4179,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ReverseChainFromTo_alt_0_base_minMatches,
+				ReverseChainFromTo_alt_0_base_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -4089,6 +4205,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ReverseChainFromTo_alt_0_rec_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ReverseChainFromTo_alt_0_rec_minMatches = new int[0] ;
+			int[] ReverseChainFromTo_alt_0_rec_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ReverseChainFromTo_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ReverseChainFromTo_alt_0_rec_node_intermediate", "intermediate", ReverseChainFromTo_alt_0_rec_node_intermediate_AllowedTypes, ReverseChainFromTo_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ReverseChainFromTo_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ReverseChainFromTo_alt_0_rec_edge__edge0", "_edge0", ReverseChainFromTo_alt_0_rec_edge__edge0_AllowedTypes, ReverseChainFromTo_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternGraphEmbedding ReverseChainFromTo_alt_0_rec__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ReverseChainFromTo.Instance, new GRGEN_LGSP.PatternElement[] { ReverseChainFromTo_alt_0_rec_node_intermediate, ReverseChainFromTo_node_to });
@@ -4102,6 +4220,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ReverseChainFromTo_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ReverseChainFromTo_alt_0_rec_minMatches,
+				ReverseChainFromTo_alt_0_rec_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -4131,6 +4251,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ReverseChainFromTo_alt_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ReverseChainFromTo_minMatches,
+				ReverseChainFromTo_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -4239,6 +4361,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			IMatch_ReverseChainFromTo_alt_0 alt_0 { get; }
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -4259,6 +4382,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -4276,6 +4400,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -4638,6 +4763,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, },
 			};
 			bool[,] ChainFromToReverse_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ChainFromToReverse_minMatches = new int[0] ;
+			int[] ChainFromToReverse_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromToReverse_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromToReverse_node_from", "from", ChainFromToReverse_node_from_AllowedTypes, ChainFromToReverse_node_from_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode ChainFromToReverse_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromToReverse_node_to", "to", ChainFromToReverse_node_to_AllowedTypes, ChainFromToReverse_node_to_IsAllowedType, 5.5F, 1);
 			bool[,] ChainFromToReverse_alt_0_base_isNodeHomomorphicGlobal = new bool[2, 2] {
@@ -4647,6 +4774,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromToReverse_alt_0_base_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromToReverse_alt_0_base_minMatches = new int[0] ;
+			int[] ChainFromToReverse_alt_0_base_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternEdge ChainFromToReverse_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ChainFromToReverse_alt_0_base_edge__edge0", "_edge0", ChainFromToReverse_alt_0_base_edge__edge0_AllowedTypes, ChainFromToReverse_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1);
 			ChainFromToReverse_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
@@ -4658,6 +4787,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromToReverse_alt_0_base_minMatches,
+				ChainFromToReverse_alt_0_base_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -4682,6 +4813,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromToReverse_alt_0_rec_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromToReverse_alt_0_rec_minMatches = new int[0] ;
+			int[] ChainFromToReverse_alt_0_rec_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromToReverse_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromToReverse_alt_0_rec_node_intermediate", "intermediate", ChainFromToReverse_alt_0_rec_node_intermediate_AllowedTypes, ChainFromToReverse_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ChainFromToReverse_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ChainFromToReverse_alt_0_rec_edge__edge0", "_edge0", ChainFromToReverse_alt_0_rec_edge__edge0_AllowedTypes, ChainFromToReverse_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromToReverse_alt_0_rec_cftr = new GRGEN_LGSP.PatternGraphEmbedding("cftr", Pattern_ChainFromToReverse.Instance, new GRGEN_LGSP.PatternElement[] { ChainFromToReverse_alt_0_rec_node_intermediate, ChainFromToReverse_node_to });
@@ -4695,6 +4828,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFromToReverse_alt_0_rec_cftr }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromToReverse_alt_0_rec_minMatches,
+				ChainFromToReverse_alt_0_rec_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -4724,6 +4859,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFromToReverse_alt_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromToReverse_minMatches,
+				ChainFromToReverse_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -4954,6 +5091,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			IMatch_ChainFromToReverse_alt_0 alt_0 { get; }
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -4974,6 +5112,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -4991,6 +5130,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -5353,6 +5493,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, },
 			};
 			bool[,] ChainFromToReverseToCommon_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ChainFromToReverseToCommon_minMatches = new int[0] ;
+			int[] ChainFromToReverseToCommon_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromToReverseToCommon_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromToReverseToCommon_node_from", "from", ChainFromToReverseToCommon_node_from_AllowedTypes, ChainFromToReverseToCommon_node_from_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode ChainFromToReverseToCommon_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromToReverseToCommon_node_to", "to", ChainFromToReverseToCommon_node_to_AllowedTypes, ChainFromToReverseToCommon_node_to_IsAllowedType, 5.5F, 1);
 			bool[,] ChainFromToReverseToCommon_alt_0_base_isNodeHomomorphicGlobal = new bool[2, 2] {
@@ -5362,6 +5504,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromToReverseToCommon_alt_0_base_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromToReverseToCommon_alt_0_base_minMatches = new int[0] ;
+			int[] ChainFromToReverseToCommon_alt_0_base_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternEdge ChainFromToReverseToCommon_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ChainFromToReverseToCommon_alt_0_base_edge__edge0", "_edge0", ChainFromToReverseToCommon_alt_0_base_edge__edge0_AllowedTypes, ChainFromToReverseToCommon_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1);
 			ChainFromToReverseToCommon_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
@@ -5373,6 +5517,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromToReverseToCommon_alt_0_base_minMatches,
+				ChainFromToReverseToCommon_alt_0_base_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -5397,6 +5543,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			bool[,] ChainFromToReverseToCommon_alt_0_rec_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
+			int[] ChainFromToReverseToCommon_alt_0_rec_minMatches = new int[0] ;
+			int[] ChainFromToReverseToCommon_alt_0_rec_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ChainFromToReverseToCommon_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ChainFromToReverseToCommon_alt_0_rec_node_intermediate", "intermediate", ChainFromToReverseToCommon_alt_0_rec_node_intermediate_AllowedTypes, ChainFromToReverseToCommon_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ChainFromToReverseToCommon_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ChainFromToReverseToCommon_alt_0_rec_edge__edge0", "_edge0", ChainFromToReverseToCommon_alt_0_rec_edge__edge0_AllowedTypes, ChainFromToReverseToCommon_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternGraphEmbedding ChainFromToReverseToCommon_alt_0_rec_cftrtc = new GRGEN_LGSP.PatternGraphEmbedding("cftrtc", Pattern_ChainFromToReverseToCommon.Instance, new GRGEN_LGSP.PatternElement[] { ChainFromToReverseToCommon_alt_0_rec_node_intermediate, ChainFromToReverseToCommon_node_to });
@@ -5410,6 +5558,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ChainFromToReverseToCommon_alt_0_rec_cftrtc }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromToReverseToCommon_alt_0_rec_minMatches,
+				ChainFromToReverseToCommon_alt_0_rec_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -5439,6 +5589,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ChainFromToReverseToCommon_alt_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ChainFromToReverseToCommon_minMatches,
+				ChainFromToReverseToCommon_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -5675,6 +5827,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			IMatch_ChainFromToReverseToCommon_alt_0 alt_0 { get; }
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -5695,6 +5848,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -5712,6 +5866,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -6078,6 +6233,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, false, },
 			};
 			bool[,] ReverseChainFromToToCommon_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] ReverseChainFromToToCommon_minMatches = new int[0] ;
+			int[] ReverseChainFromToToCommon_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_node_from = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_node_from", "from", ReverseChainFromToToCommon_node_from_AllowedTypes, ReverseChainFromToToCommon_node_from_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_node_to = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_node_to", "to", ReverseChainFromToToCommon_node_to_AllowedTypes, ReverseChainFromToToCommon_node_to_IsAllowedType, 5.5F, 1);
 			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_node_common = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_node_common", "common", ReverseChainFromToToCommon_node_common_AllowedTypes, ReverseChainFromToToCommon_node_common_IsAllowedType, 5.5F, 2);
@@ -6090,6 +6247,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, },
 				{ false, false, },
 			};
+			int[] ReverseChainFromToToCommon_alt_0_base_minMatches = new int[0] ;
+			int[] ReverseChainFromToToCommon_alt_0_base_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_base_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_base_edge__edge0", "_edge0", ReverseChainFromToToCommon_alt_0_base_edge__edge0_AllowedTypes, ReverseChainFromToToCommon_alt_0_base_edge__edge0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_base_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_base_edge__edge1", "_edge1", ReverseChainFromToToCommon_alt_0_base_edge__edge1_AllowedTypes, ReverseChainFromToToCommon_alt_0_base_edge__edge1_IsAllowedType, 5.5F, -1);
 			ReverseChainFromToToCommon_alt_0_base = new GRGEN_LGSP.PatternGraph(
@@ -6102,6 +6261,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ReverseChainFromToToCommon_alt_0_base_minMatches,
+				ReverseChainFromToToCommon_alt_0_base_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -6132,6 +6293,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, },
 				{ false, false, },
 			};
+			int[] ReverseChainFromToToCommon_alt_0_rec_minMatches = new int[0] ;
+			int[] ReverseChainFromToToCommon_alt_0_rec_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ReverseChainFromToToCommon_alt_0_rec_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "ReverseChainFromToToCommon_alt_0_rec_node_intermediate", "intermediate", ReverseChainFromToToCommon_alt_0_rec_node_intermediate_AllowedTypes, ReverseChainFromToToCommon_alt_0_rec_node_intermediate_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_rec_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_rec_edge__edge0", "_edge0", ReverseChainFromToToCommon_alt_0_rec_edge__edge0_AllowedTypes, ReverseChainFromToToCommon_alt_0_rec_edge__edge0_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ReverseChainFromToToCommon_alt_0_rec_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ReverseChainFromToToCommon_alt_0_rec_edge__edge1", "_edge1", ReverseChainFromToToCommon_alt_0_rec_edge__edge1_AllowedTypes, ReverseChainFromToToCommon_alt_0_rec_edge__edge1_IsAllowedType, 5.5F, -1);
@@ -6146,6 +6309,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ReverseChainFromToToCommon_alt_0_rec__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ReverseChainFromToToCommon_alt_0_rec_minMatches,
+				ReverseChainFromToToCommon_alt_0_rec_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -6179,6 +6344,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] { ReverseChainFromToToCommon_alt_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				ReverseChainFromToToCommon_minMatches,
+				ReverseChainFromToToCommon_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -6300,6 +6467,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			IMatch_ReverseChainFromToToCommon_alt_0 alt_0 { get; }
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -6322,6 +6490,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -6341,6 +6510,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -6683,6 +6853,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		{
 			bool[,] createChain_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createChain_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] createChain_minMatches = new int[0] ;
+			int[] createChain_maxMatches = new int[0] ;
 			pat_createChain = new GRGEN_LGSP.PatternGraph(
 				"createChain",
 				"",
@@ -6693,6 +6865,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				createChain_minMatches,
+				createChain_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -6755,6 +6929,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -6883,6 +7058,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, },
 			};
 			bool[,] chainFromTo_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] chainFromTo_minMatches = new int[0] ;
+			int[] chainFromTo_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode chainFromTo_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "chainFromTo_node_beg", "beg", chainFromTo_node_beg_AllowedTypes, chainFromTo_node_beg_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode chainFromTo_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "chainFromTo_node_end", "end", chainFromTo_node_end_AllowedTypes, chainFromTo_node_end_IsAllowedType, 5.5F, 1);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromTo__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ChainFromTo.Instance, new GRGEN_LGSP.PatternElement[] { chainFromTo_node_beg, chainFromTo_node_end });
@@ -6896,6 +7073,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFromTo__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				chainFromTo_minMatches,
+				chainFromTo_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -6945,6 +7124,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -7079,6 +7259,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, },
 			};
 			bool[,] chainFrom_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] chainFrom_minMatches = new int[0] ;
+			int[] chainFrom_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode chainFrom_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "chainFrom_node_beg", "beg", chainFrom_node_beg_AllowedTypes, chainFrom_node_beg_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternGraphEmbedding chainFrom__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ChainFrom.Instance, new GRGEN_LGSP.PatternElement[] { chainFrom_node_beg });
 			pat_chainFrom = new GRGEN_LGSP.PatternGraph(
@@ -7091,6 +7273,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFrom__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				chainFrom_minMatches,
+				chainFrom_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -7137,6 +7321,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -7268,6 +7453,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, },
 			};
 			bool[,] chainFromComplete_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] chainFromComplete_minMatches = new int[0] ;
+			int[] chainFromComplete_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode chainFromComplete_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "chainFromComplete_node_beg", "beg", chainFromComplete_node_beg_AllowedTypes, chainFromComplete_node_beg_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromComplete__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ChainFromComplete.Instance, new GRGEN_LGSP.PatternElement[] { chainFromComplete_node_beg });
 			pat_chainFromComplete = new GRGEN_LGSP.PatternGraph(
@@ -7280,6 +7467,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFromComplete__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				chainFromComplete_minMatches,
+				chainFromComplete_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -7326,6 +7515,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -7457,6 +7647,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, },
 			};
 			bool[,] chainFromCompleteArbitraryPatternpathLocked_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] chainFromCompleteArbitraryPatternpathLocked_minMatches = new int[0] ;
+			int[] chainFromCompleteArbitraryPatternpathLocked_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode chainFromCompleteArbitraryPatternpathLocked_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "chainFromCompleteArbitraryPatternpathLocked_node_beg", "beg", chainFromCompleteArbitraryPatternpathLocked_node_beg_AllowedTypes, chainFromCompleteArbitraryPatternpathLocked_node_beg_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromCompleteArbitraryPatternpathLocked__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ChainFromCompleteArbitraryPatternpathLocked.Instance, new GRGEN_LGSP.PatternElement[] { chainFromCompleteArbitraryPatternpathLocked_node_beg });
 			pat_chainFromCompleteArbitraryPatternpathLocked = new GRGEN_LGSP.PatternGraph(
@@ -7469,6 +7661,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFromCompleteArbitraryPatternpathLocked__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				chainFromCompleteArbitraryPatternpathLocked_minMatches,
+				chainFromCompleteArbitraryPatternpathLocked_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -7515,6 +7709,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -7646,6 +7841,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, },
 			};
 			bool[,] chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_minMatches = new int[0] ;
+			int[] chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg", "beg", chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg_AllowedTypes, chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance, new GRGEN_LGSP.PatternElement[] { chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg });
 			pat_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = new GRGEN_LGSP.PatternGraph(
@@ -7658,6 +7855,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_minMatches,
+				chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -7704,6 +7903,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -7832,6 +8032,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		{
 			bool[,] createBlowball_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createBlowball_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] createBlowball_minMatches = new int[0] ;
+			int[] createBlowball_maxMatches = new int[0] ;
 			pat_createBlowball = new GRGEN_LGSP.PatternGraph(
 				"createBlowball",
 				"",
@@ -7842,6 +8044,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				createBlowball_minMatches,
+				createBlowball_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -7906,6 +8110,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -8031,6 +8236,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, },
 			};
 			bool[,] blowball_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] blowball_minMatches = new int[0] ;
+			int[] blowball_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode blowball_node_head = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "blowball_node_head", "head", blowball_node_head_AllowedTypes, blowball_node_head_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternGraphEmbedding blowball__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Blowball.Instance, new GRGEN_LGSP.PatternElement[] { blowball_node_head });
 			pat_blowball = new GRGEN_LGSP.PatternGraph(
@@ -8043,6 +8250,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { blowball__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				blowball_minMatches,
+				blowball_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -8089,6 +8298,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -8223,6 +8433,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, },
 			};
 			bool[,] reverseChainFromTo_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] reverseChainFromTo_minMatches = new int[0] ;
+			int[] reverseChainFromTo_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode reverseChainFromTo_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "reverseChainFromTo_node_beg", "beg", reverseChainFromTo_node_beg_AllowedTypes, reverseChainFromTo_node_beg_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode reverseChainFromTo_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "reverseChainFromTo_node_end", "end", reverseChainFromTo_node_end_AllowedTypes, reverseChainFromTo_node_end_IsAllowedType, 5.5F, 1);
 			GRGEN_LGSP.PatternGraphEmbedding reverseChainFromTo__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ReverseChainFromTo.Instance, new GRGEN_LGSP.PatternElement[] { reverseChainFromTo_node_beg, reverseChainFromTo_node_end });
@@ -8236,6 +8448,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { reverseChainFromTo__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				reverseChainFromTo_minMatches,
+				reverseChainFromTo_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -8285,6 +8499,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -8416,6 +8631,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		{
 			bool[,] createReverseChain_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createReverseChain_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] createReverseChain_minMatches = new int[0] ;
+			int[] createReverseChain_maxMatches = new int[0] ;
 			pat_createReverseChain = new GRGEN_LGSP.PatternGraph(
 				"createReverseChain",
 				"",
@@ -8426,6 +8643,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				createReverseChain_minMatches,
+				createReverseChain_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -8488,6 +8707,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -8617,6 +8837,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, },
 			};
 			bool[,] chainFromToReverse_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] chainFromToReverse_minMatches = new int[0] ;
+			int[] chainFromToReverse_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode chainFromToReverse_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "chainFromToReverse_node_beg", "beg", chainFromToReverse_node_beg_AllowedTypes, chainFromToReverse_node_beg_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode chainFromToReverse_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "chainFromToReverse_node_end", "end", chainFromToReverse_node_end_AllowedTypes, chainFromToReverse_node_end_IsAllowedType, 5.5F, 1);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromToReverse_cftr = new GRGEN_LGSP.PatternGraphEmbedding("cftr", Pattern_ChainFromToReverse.Instance, new GRGEN_LGSP.PatternElement[] { chainFromToReverse_node_beg, chainFromToReverse_node_end });
@@ -8630,6 +8852,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFromToReverse_cftr }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				chainFromToReverse_minMatches,
+				chainFromToReverse_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -8687,6 +8911,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -8825,6 +9050,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, },
 			};
 			bool[,] chainFromToReverseToCommon_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] chainFromToReverseToCommon_minMatches = new int[0] ;
+			int[] chainFromToReverseToCommon_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode chainFromToReverseToCommon_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "chainFromToReverseToCommon_node_beg", "beg", chainFromToReverseToCommon_node_beg_AllowedTypes, chainFromToReverseToCommon_node_beg_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode chainFromToReverseToCommon_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "chainFromToReverseToCommon_node_end", "end", chainFromToReverseToCommon_node_end_AllowedTypes, chainFromToReverseToCommon_node_end_IsAllowedType, 5.5F, 1);
 			GRGEN_LGSP.PatternGraphEmbedding chainFromToReverseToCommon_cftrtc = new GRGEN_LGSP.PatternGraphEmbedding("cftrtc", Pattern_ChainFromToReverseToCommon.Instance, new GRGEN_LGSP.PatternElement[] { chainFromToReverseToCommon_node_beg, chainFromToReverseToCommon_node_end });
@@ -8838,6 +9065,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { chainFromToReverseToCommon_cftrtc }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				chainFromToReverseToCommon_minMatches,
+				chainFromToReverseToCommon_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -8899,6 +9128,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
@@ -9039,6 +9269,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				{ false, false, false, },
 			};
 			bool[,] reverseChainFromToToCommon_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			int[] reverseChainFromToToCommon_minMatches = new int[0] ;
+			int[] reverseChainFromToToCommon_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode reverseChainFromToToCommon_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "reverseChainFromToToCommon_node_beg", "beg", reverseChainFromToToCommon_node_beg_AllowedTypes, reverseChainFromToToCommon_node_beg_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode reverseChainFromToToCommon_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "reverseChainFromToToCommon_node_end", "end", reverseChainFromToToCommon_node_end_AllowedTypes, reverseChainFromToToCommon_node_end_IsAllowedType, 5.5F, 1);
 			GRGEN_LGSP.PatternNode reverseChainFromToToCommon_node_common = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "reverseChainFromToToCommon_node_common", "common", reverseChainFromToToCommon_node_common_AllowedTypes, reverseChainFromToToCommon_node_common_IsAllowedType, 5.5F, 2);
@@ -9053,6 +9285,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				new GRGEN_LGSP.PatternGraphEmbedding[] { reverseChainFromToToCommon__subpattern0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
+				reverseChainFromToToCommon_minMatches,
+				reverseChainFromToToCommon_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -9105,6 +9339,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Alternatives
 			//Iterateds
 			//Independents
+			// further match object stuff
 			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 

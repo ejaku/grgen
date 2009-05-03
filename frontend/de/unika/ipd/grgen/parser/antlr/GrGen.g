@@ -71,6 +71,20 @@ tokens {
 }
 
 @members {
+	class NestedPatternCounters {
+		NestedPatternCounters() {
+			alt = 0;
+			iter = 0;
+			neg = 0;
+			idpt = 0;
+		}
+		
+		int alt;
+		int iter;
+		int neg;
+		int idpt;
+	}
+		
 	boolean hadError = false;
 
 	private static Map<Integer, Integer> opIds = new HashMap<Integer, Integer>();
@@ -414,33 +428,27 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context,
 		CollectNode<HomNode> homs = new CollectNode<HomNode>();
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
+		NestedPatternCounters counters = new NestedPatternCounters();
 		res = new PatternGraphNode(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, 
 				alts, iters, negs, idpts, conds,
 				returnz, homs, exact, induced, mod, context);
 	}
 
 	: ( patternStmt[connections, subpatterns, subpatternReplacements,
-			alts, iters, negs, idpts, conds,
+			alts, iters, negs, idpts, counters, conds,
 			returnz, homs, exact, induced, context, res] )*
 	;
 
 patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters, CollectNode<PatternGraphNode> negs,
-			CollectNode<PatternGraphNode> idpts, CollectNode<ExprNode> conds,
+			CollectNode<PatternGraphNode> idpts, NestedPatternCounters counters, CollectNode<ExprNode> conds,
 			CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context, PatternGraphNode directlyNestingLHSGraph]
-	@init{
-		int altCounter = 0;
-		int iterCounter = 0;
-		int negCounter = 0;
-		int idptCounter = 0;
-	}
-
 	: connectionsOrSubpattern[conn, subpatterns, subpatternReplacements, context, directlyNestingLHSGraph] SEMI
-	| alt=alternative[altCounter, context] { alts.addChild(alt); ++altCounter; }
-	| iter=iterated[iterCounter, context] { iters.addChild(iter); ++iterCounter; }
-	| neg=negative[negCounter, context] { negs.addChild(neg); ++negCounter; }
-	| idpt=independent[idptCounter, context] { idpts.addChild(idpt); ++idptCounter; }
+	| alt=alternative[counters.alt, context] { alts.addChild(alt); ++counters.alt; }
+	| iter=iterated[counters.iter, context] { iters.addChild(iter); ++counters.iter; }
+	| neg=negative[counters.neg, context] { negs.addChild(neg); ++counters.neg; }
+	| idpt=independent[counters.idpt, context] { idpts.addChild(idpt); ++counters.idpt; }
 	| condition[conds]
 	| rets[returnz, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
@@ -892,9 +900,15 @@ iterated [ int iterCount, int context ] returns [ IteratedNode res = null ]
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 		IdentNode iterName = IdentNode.getInvalid();
+		int minMatches = -1;
+		int maxMatches = -1;
 	}
 
-	: i=ITERATED ( in=iterIdentDecl { iterName = in; } | { iterName = new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter_"+iterCount, getCoords(i))); } )
+	: (i=ITERATED { minMatches = 0; maxMatches = 0; } 
+	  | i=OPTIONAL { minMatches = 0; maxMatches = 1; }
+	  | i=MULTIPLE { minMatches = 1; maxMatches = 0; }
+	  )
+	    ( in=iterIdentDecl { iterName = in; } | { iterName = new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter_"+iterCount, getCoords(i))); } )
 		LBRACE pushScopeStr["iter_"+iterCount, getCoords(i)]
 		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), 0, context, "iter_"+iterCount]
 		(
@@ -907,7 +921,7 @@ iterated [ int iterCount, int context ] returns [ IteratedNode res = null ]
 					rightHandSides.addChild(rightModify);
 				}
 		) ?				
-		RBRACE popScope { res = new IteratedNode(iterName, left, rightHandSides); }
+		RBRACE popScope { res = new IteratedNode(iterName, left, rightHandSides, minMatches, maxMatches); }
 	;
 
 negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]

@@ -38,6 +38,8 @@ public class IteratedNode extends ActionDeclNode  {
 	protected CollectNode<RhsDeclNode> right;
 	protected IdentNode id;
 	protected IteratedTypeNode type;
+	int minMatches;
+	int maxMatches;
 
 	/** Type for this declaration. */
 	private static final TypeNode subpatternType = new IteratedTypeNode();
@@ -47,12 +49,15 @@ public class IteratedNode extends ActionDeclNode  {
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side(s).
 	 */
-	public IteratedNode(IdentNode id, PatternGraphNode left, CollectNode<RhsDeclNode> right) {
+	public IteratedNode(IdentNode id, PatternGraphNode left, CollectNode<RhsDeclNode> right,
+			int minMatches, int maxMatches) {
 		super(id, subpatternType);
 		this.pattern = left;
 		becomeParent(this.pattern);
 		this.right = right;
 		becomeParent(this.right);
+		this.minMatches = minMatches;
+		this.maxMatches = maxMatches;
 	}
 
 	/** returns children of this node */
@@ -453,7 +458,8 @@ public class IteratedNode extends ActionDeclNode  {
 			return getIR();
 		}
 
-		Rule iteratedRule = new Rule(getIdentNode().getIdent(), left, right);
+		Rule iteratedRule = new Rule(getIdentNode().getIdent(), left, right, 
+				minMatches, maxMatches);
 
 		constructImplicitNegs(left);
 		constructIRaux(iteratedRule);
