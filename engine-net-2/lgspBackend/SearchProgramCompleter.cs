@@ -570,6 +570,15 @@ namespace de.unika.ipd.grGen.lgsp
                             writeIsomorphy.IsNode);
                     insertionPoint = insertionPoint.Append(removeIsomorphy);
                 }
+                // insert code to remove iterated pattern acceptance
+                if (op is AcceptIterated)
+                {
+                    AcceptIterated acceptIterated =
+                        op as AcceptIterated;
+                    AbandonIterated abandonIterated =
+                        new AbandonIterated();
+                    insertionPoint = insertionPoint.Append(abandonIterated);
+                }
                 // insert code to undo subpattern matching initialization if we leave the subpattern matching method
                 if (op is InitializeSubpatternMatching)
                 {

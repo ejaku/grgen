@@ -1427,13 +1427,19 @@ namespace de.unika.ipd.grGen.lgsp
                 || patternGraph.alternatives.Length >= 1
                 || patternGraph.iterateds.Length >= 1;
 
+            // increase iterated matched counter if it is iterated
+            if(programType==SearchProgramType.Iterated) {
+                AcceptIterated acceptIterated = new AcceptIterated();
+                insertionPoint = insertionPoint.Append(acceptIterated);
+            }
+
             // push subpattern tasks (in case there are some)
             if (containsSubpatterns)
                 insertionPoint = insertPushSubpatternTasks(insertionPoint);
 
             // if this is a subpattern without subpatterns
             // it may be the last to be matched - handle that case
-            if (!containsSubpatterns && isSubpattern && negativeIndependentNamePrefix=="")
+            if (!containsSubpatterns && isSubpattern && programType!=SearchProgramType.Iterated && negativeIndependentNamePrefix=="")
                 insertionPoint = insertCheckForTasksLeft(insertionPoint);
 
             // if this is a subpattern or a top-level pattern which contains subpatterns
@@ -1472,6 +1478,13 @@ namespace de.unika.ipd.grGen.lgsp
             // global abandon of all accepted candidate elements (remove isomorphy information)
             if (containsSubpatterns || isSubpattern && negativeIndependentNamePrefix=="")
                 insertionPoint = insertGlobalAbandon(insertionPoint);
+
+            // decrease iterated matched counter again if it is iterated
+            if (programType == SearchProgramType.Iterated)
+            {
+                AbandonIterated abandonIterated = new AbandonIterated();
+                insertionPoint = insertionPoint.Append(abandonIterated);
+            }
 
             return insertionPoint;
         }

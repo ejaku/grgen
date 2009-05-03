@@ -1702,9 +1702,20 @@ exitSecondLoop: ;
             sb.Indent(); // method body level
             sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
             sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
+            int index = -1;
+            for (int i=0; i<iter.embeddingGraph.iterateds.Length; ++i) {
+                if (iter.embeddingGraph.iterateds[i] == iter) index = i;
+            }
+            sb.AppendFrontFormat("minMatchesIter = {0};\n", iter.embeddingGraph.minMatches[index]);
+            sb.AppendFrontFormat("maxMatchesIter = {0};\n", iter.embeddingGraph.maxMatches[index]);
+            sb.AppendFront("numMatchesIter = 0;\n");
 
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
+
+            sb.AppendFront("int minMatchesIter;\n");
+            sb.AppendFront("int maxMatchesIter;\n");
+            sb.AppendFront("int numMatchesIter;\n\n");
 
             GenerateTasksMemoryPool(sb, className, false);
 

@@ -2459,6 +2459,27 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class representing operations to execute upon iterated pattern was accepted (increase counter)
+    /// </summary>
+    class AcceptIterated : SearchProgramOperation
+    {
+        public AcceptIterated()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("AcceptIterated \n");
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("// accept iterated instance match\n");
+            sourceCode.AppendFront("++numMatchesIter;\n");
+        }
+    }
+
+    /// <summary>
     /// Class representing operations undoing effects of candidate acceptance 
     /// when performing the backtracking step;
     /// (currently only) restoring isomorphy information in graph, as not needed any more
@@ -2629,6 +2650,26 @@ namespace de.unika.ipd.grGen.lgsp
         public string PatternElementName;
         public string NegativeIndependentNamePrefix; // "" if positive
         public bool IsNode; // node|edge
+    }
+
+    /// <summary>
+    /// Class representing operations to execute upon iterated pattern was abandoned (decrease counter)
+    /// </summary>
+    class AbandonIterated : SearchProgramOperation
+    {
+        public AbandonIterated()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("AbandonIterated \n");
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("--numMatchesIter;\n");
+        }
     }
 
     /// <summary>
@@ -3404,7 +3445,8 @@ namespace de.unika.ipd.grGen.lgsp
             if (sourceCode.CommentSourceCode)
                 sourceCode.AppendFront("// Check whether the iterated pattern null match was found\n");
 
-            sourceCode.AppendFront("if(!patternFound)\n");
+            sourceCode.Append("maxMatchesIterReached:\n");
+            sourceCode.AppendFront("if(!patternFound && numMatchesIter>=minMatchesIter)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -4058,6 +4100,12 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 sourceCode.AppendFront("List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;\n");
                 sourceCode.AppendFront("if(matchesList.Count!=0) throw new ApplicationException(); //debug assert\n");
+
+                if (Type == InitializeFinalizeSubpatternMatchingType.Iteration)
+                {
+                    sourceCode.AppendFront("// if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object\n");
+                    sourceCode.AppendFront("if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;\n");
+                }
             }
         }
 
