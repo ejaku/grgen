@@ -1,10 +1,22 @@
 rule init_Post_Dom {
 	replace {
-		exec(init_Post_Dom_Step1* && init_Post_Dom_Step2*);
+		exec(init_Post_Dom_Step1* && init_Post_Dom_Step2* && init_Post_Dom_Step3*);
 	}
 }
 
 rule init_Post_Dom_Step1 {
+	a:org_amma_cfg_AbstractNode\(CFG_Enter + CFG_Exit);
+	
+	negative {
+		a -:pdom-> a;
+	}
+	
+	modify {
+		a -:pdom-> a;
+	}
+}
+
+rule init_Post_Dom_Step2 {
 	a:org_amma_cfg_AbstractNode -:Edge\pdom-> b:org_amma_cfg_AbstractNode;
 	
 	negative {
@@ -16,7 +28,7 @@ rule init_Post_Dom_Step1 {
 	}
 }
 
-rule init_Post_Dom_Step2 {
+rule init_Post_Dom_Step3 {
 	a:org_amma_cfg_AbstractNode;
 	b:org_amma_cfg_AbstractNode;
 	c:org_amma_cfg_AbstractNode;
@@ -33,11 +45,10 @@ rule init_Post_Dom_Step2 {
 	}
 }
 
-rule reduce_Post_Dom {
+rule determine_Post_Dom {
 	replace {
 		exec((remove_wrong_Post_Dom+ | propagate_wrong_Post_Dom_Removing+)* &&
-		     Mark_Transitive_Post_Dom* && Delete_Transitive_Post_Dom* &&
-		     Delete_Reflexive_Post_Dom*);
+		     Mark_Transitive_Post_Dom*);
 	}
 }
 
@@ -89,16 +100,54 @@ rule Mark_Transitive_Post_Dom {
 	}
 }
 
-rule Delete_Transitive_Post_Dom {
-	-:transitive_pdom->;
-	
-	replace {}
+rule Determine_Dominance_Frontiers {
+	modify {
+		exec(Determine_Dominance_Frontier*);
+	}
 }
 
-rule Delete_Reflexive_Post_Dom {
-	a:org_amma_cfg_AbstractNode -e:pdom-> a;
+rule Determine_Dominance_Frontier {
+	a:org_amma_cfg_AbstractNode;
+	b:org_amma_cfg_AbstractNode;
+	c:org_amma_cfg_AbstractNode;
+	
+	hom(b, c);
+	c -:pdom-> b;
+	a -:Edge\(pdom + pdom_frontier)-> b;
+	
+	negative {
+		c -:pdom-> a;
+	}
+	
+	negative {
+		c -:pdom_frontier-> a;
+	}
+	
+	modify {
+		c -:pdom_frontier-> a;
+	}
+}
+
+rule Create_Control_Dependencies {
+	modify {
+		exec([Create_Control_Dependency]);
+	}
+}
+
+rule Create_Control_Dependency {
+	a:org_amma_cfg_AbstractNode;
+	b:org_amma_cfg_AbstractNode;
+	
+	a -e:pdom_frontier-> b;
 	
 	modify {
 		delete(e);
+		b -:org_amma_pdg_ExpressionNode_controlDependenceNodes-> a;
 	}
+}
+
+rule Delete_Post_Dom {
+	-:pdom->;
+	
+	replace {}
 }
