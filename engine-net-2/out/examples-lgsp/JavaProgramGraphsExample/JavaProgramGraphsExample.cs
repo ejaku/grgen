@@ -1,6 +1,6 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 2.1
- * Copyright (C) 2008 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 2.5
+ * Copyright (C) 2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
  * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
  */
 
@@ -43,9 +43,9 @@ namespace JavaProgramGraphs
             LGSPAction getOperation = Action_getOperation.Instance;
             IGraphElement[] param = new LGSPNode[1];
             param[0] = mb;
-            LGSPMatches matches = getOperation.Match(graph, 1, param);
+            IMatches matches = getOperation.Match(graph, 1, param);
             object[] returns;
-            returns = getOperation.Modify(graph, (LGSPMatch)matches.GetMatch(0));
+            returns = getOperation.Modify(graph, matches.GetMatch(0));
             Operation op = (Operation)returns[0];
 
             // iterated application of action marking the body of the expression
@@ -54,7 +54,7 @@ namespace JavaProgramGraphs
             Debug.Assert(visitedFlagId==0);
             while((matches = actions.GetAction("markExpressionOfBody").Match(graph, 1, param)).Count==1)
             {
-                actions.GetAction("markExpressionOfBody").Modify(graph, matches.matchesList.First);
+                actions.GetAction("markExpressionOfBody").Modify(graph, matches.First);
             }
 
             graph.PerformanceInfo = new PerformanceInfo();

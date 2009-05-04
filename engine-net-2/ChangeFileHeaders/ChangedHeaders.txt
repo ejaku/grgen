@@ -78,6 +78,7 @@
     +MonoILReader.cs ... REWRITING ... DONE
     +NamesOfEntities.cs ... REWRITING ... DONE
     +Pair.cs ... REWRITING ... DONE
+    +PatternGraphAnalyzer.cs ... REWRITING ... DONE
     +PlanGraph.cs ... REWRITING ... DONE
     +PriorityQueue.cs ... REWRITING ... DONE
     +ScheduledSearchPlan.cs ... REWRITING ... DONE
@@ -113,9 +114,32 @@
     +Token.cs ... NO HEADER
     +TokenMgrError.cs ... NO HEADER
     +VCGDumper.cs ... REWRITING ... DONE
+      /GRSImporter
+      +GRSImporter.cs ... NO HEADER
+      +GRSImporterConstants.cs ... NO HEADER
+      +GRSImporterTokenManager.cs ... NO HEADER
+      +ParseException.cs ... NO HEADER
+      +SimpleCharStream.cs ... NO HEADER
+      +Token.cs ... NO HEADER
+      +TokenMgrError.cs ... NO HEADER
+      /IO
+      +Porter.cs ... REWRITING ... DONE
+        /EMF
+        +ECoreImport.cs ... REWRITING ... DONE
+        /GRS
+        +GrsExport.cs ... REWRITING ... DONE
+        /GXL
+        +GXLExport.cs ... REWRITING ... DONE
+        +GXLImport.cs ... REWRITING ... DONE
       /Properties
       +AssemblyInfo.cs ... REWRITING ... ASSEMBLY INFOS ... DONE
     /out
+      /examples
+        /ConferenceScheduling
+          /manualsolution
+          +Program.cs ... NO HEADER
+          /parseoutput
+          +Program.cs ... NO HEADER
       /examples-lgsp
         /AlternativeExample
         +AlternativesActions.cs ... NO HEADER
@@ -129,10 +153,26 @@
         +Turing3Model.cs ... NO HEADER
         /edge1Example
         +edge1Actions.cs ... NO HEADER
+        +edge1Actions_intermediate.cs ... NO HEADER
         +edge1Example.cs ... REWRITING ... DONE
         +StdModel.cs ... NO HEADER
         /HelloMutex
         +HelloMutex.cs ... REWRITING ... DONE
+        /IndependentExample
+        +IndependentActions.cs ... NO HEADER
+        +IndependentActions_intermediate.cs ... NO HEADER
+        +IndependentExample.cs ... REWRITING ... DONE
+        +IndependentModel.cs ... NO HEADER
+        /IteratedExample
+        +blowballActions.cs ... NO HEADER
+        +blowballActions_intermediate.cs ... NO HEADER
+        +IteratedExample.cs ... REWRITING ... DONE
+        +StdModel.cs ... NO HEADER
+        /JavaProgramGraphsExample
+        +JavaProgramGraphsActions.cs ... NO HEADER
+        +JavaProgramGraphsActions_intermediate.cs ... NO HEADER
+        +JavaProgramGraphsExample.cs ... REWRITING ... DONE
+        +JavaProgramGraphsModel.cs ... NO HEADER
         /MutexDirectExample
         +MutexDirectExample.cs ... REWRITING ... DONE
         +MutexModel.cs ... NO HEADER
@@ -140,6 +180,7 @@
         +MutexPimpedActions_intermediate.cs ... NO HEADER
         /ProgramGraphsExample
         +ProgramGraphsActions.cs ... NO HEADER
+        +ProgramGraphsActions_intermediate.cs ... NO HEADER
         +ProgramGraphsExample.cs ... REWRITING ... DONE
         +ProgramGraphsModel.cs ... NO HEADER
         /RecursiveExample
@@ -157,6 +198,8 @@
         /VisitedExample
         +StdModel.cs ... NO HEADER
         +VisitedExample.cs ... REWRITING ... DONE
+        +VisitedExampleActions.cs ... NO HEADER
+        +VisitedExampleActions_intermediate.cs ... NO HEADER
         /YCompExample
         +YCompClient.cs ... REWRITING ... DONE
         +YCompExample.cs ... REWRITING ... DONE
@@ -252,6 +295,8 @@
             +InvalidConstNode.java ... REWRITING ... DONE
             +InvalidDeclNode.java ... REWRITING ... DONE
             +InvalidExprNode.java ... REWRITING ... DONE
+            +IteratedNode.java ... REWRITING ... DONE
+            +IteratedTypeNode.java ... REWRITING ... DONE
             +MapAccessExprNode.java ... REWRITING ... DONE
             +MapDomainNode.java ... REWRITING ... DONE
             +MapInitNode.java ... REWRITING ... DONE
