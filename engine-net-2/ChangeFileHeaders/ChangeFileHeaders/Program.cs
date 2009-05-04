@@ -72,9 +72,6 @@ namespace ChangeFileHeaders
                 if (nestedDirectory.Name.EndsWith(".svn"))
                     continue;
 
-                if (nestedDirectory.Name == "engine-net")
-                    continue;
-
                 output.Append(ProcessFilesInDirectoryThenDescend(nestedDirectory));
             }
 
