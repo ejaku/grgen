@@ -1,0 +1,67 @@
+rule init
+{
+	modify {
+		.; .; .;
+	}
+}
+
+rule markIterated
+{
+	iterated {
+		n:Node;
+		
+		modify {
+			eval {
+				visited(n,0) = true;
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule markOptional
+{
+	optional {
+		n:Node;
+		
+		modify {
+			eval {
+				visited(n,0) = true;
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule markMultiple
+{
+	multiple {
+		n:Node;
+		
+		modify {
+			eval {
+				visited(n,0) = true;
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule unmark
+{
+	n:Node;
+	
+	if { visited(n,0); }
+	
+	modify {
+		eval {
+			visited(n,0) = false;
+		}
+	}
+}

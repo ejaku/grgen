@@ -1,0 +1,28 @@
+new graph "iterated\iteratedOptionalMultiple"
+
+show num nodes
+show num edges
+
+visID = allocvisitflag
+
+xgrs markIterated
+xgrs markOptional
+xgrs markMultiple
+
+xgrs init
+
+show num nodes
+show num edges
+
+xgrs markIterated
+xgrs unmark*
+
+xgrs markOptional
+xgrs unmark*
+
+xgrs markMultiple
+xgrs unmark*
+
+freevisitflag visID
+
+quit
