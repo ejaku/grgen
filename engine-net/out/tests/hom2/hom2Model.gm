@@ -1,5 +1,0 @@
-model hom2Model;
-
-node class A;
-node class B;
-node class AB extends A, B;

@@ -1,8 +1,0 @@
-new graph "Mutex.grg"
-
-new p1:Process
-new p2:Process
-new p1-:next->p2
-new p2-:next->p1
-
-debug xgrs newRule[8] && mountRule && requestRule[10] | (takeRule && releaseRule && giveRule)[10]

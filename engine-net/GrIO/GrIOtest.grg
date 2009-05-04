@@ -1,6 +1,0 @@
-using GrIO;
-
-rule dummyrule {
-    pattern {}
-    replace {}
-}

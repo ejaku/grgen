@@ -1,1 +1,0 @@
-java -classpath ..\csharpcc.jar csharpcc SequenceParser.csc

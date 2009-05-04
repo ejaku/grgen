@@ -1,7 +1,0 @@
-new graph "lib/lgsp-PatternHomNegModel.dll" "graph"
-select actions "lib/lgsp-PatternHomNegActions.dll"
-
-new n1:N
-show num nodes
-xgrs ?[test1]
-quit

@@ -1,3 +1,0 @@
-node class intNode {
-  val:int;
-}

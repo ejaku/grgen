@@ -1,8 +1,0 @@
-new graph "MutexPimped.grg"
-
-new p1:Process
-new p2:Process
-new p1-:next->p2
-new p2-:next->p1
-
-xgrs newRule[998] && mountRule && requestRule[1000] && (takeRule && releaseRule && giveRule)[1000]

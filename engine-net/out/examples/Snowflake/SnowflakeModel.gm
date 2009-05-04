@@ -1,7 +1,0 @@
-node class Node1;
-node class Node2;
-node class Node3;
-
-edge class Edge1;
-edge class Edge2;
-edge class EdgeSperr;

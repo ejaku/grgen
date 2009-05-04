@@ -1,4 +1,0 @@
-edge class tempProcess
-  connect ProcessAssignment [*] -> ActivityNode [0:1];
-
-node class Counter { value:int; }

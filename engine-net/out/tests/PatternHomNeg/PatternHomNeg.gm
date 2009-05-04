@@ -1,4 +1,0 @@
-model NegPresetInConditionModel;
-
-node class N;
-edge class E;
