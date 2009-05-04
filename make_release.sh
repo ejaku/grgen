@@ -18,9 +18,6 @@ rm $GRGENDIRSRC/make_release.sh
 rm $GRGENDIRSRC/make_betabins.sh
 rm -rf $GRGENDIRSRC/todo
 
-# delete old GrGen.NET 1.0 engine
-rm -rf $GRGENDIRSRC/engine-net
-
 rm -rf $GRGENDIRSRC/engine-net-2/ChangeFileHeaders
 rm -rf $GRGENDIRSRC/engine-net-2/test
 rm -rf $GRGENDIRSRC/engine-net-2/out/examples/UML
