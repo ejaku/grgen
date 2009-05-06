@@ -86,8 +86,9 @@ rule CFG_sweep_graph_Step2
 rule AST_nodes_2_CFG {
 	modify {
 		exec((ExpressionStatement_2_CFG || WhileStatement_2_CFG ||
-		      SimpleName_2_CFG ||Expression_2_CFG || InnerExpressionEdge_2_CFG ||
-		      ExpressionEdge_2_CFG)*);
+		      SimpleName_2_CFG || NumberLiteral_2_CFG || Assignment_2_CFG ||
+		      InfixExpression_2_CFG || PostfixExpression_2_CFG ||
+		      MethodInvocation_2_CFG || ExpressionEdge_2_CFG)*);
 	}
 }
 
@@ -130,8 +131,8 @@ rule SimpleName_2_CFG {
 	}
 }
 
-rule Expression_2_CFG {
-	expr:dom_Expression -:HelperEdge-> helper:HelperNode;
+rule NumberLiteral_2_CFG {
+	expr:dom_NumberLiteral -:HelperEdge-> helper:HelperNode;
 	
 	replace {
 		cfg_expr:org_amma_cfg_Expression<expr>;
@@ -143,11 +144,81 @@ rule Expression_2_CFG {
 	}
 }
 
-rule InnerExpressionEdge_2_CFG {
-	:org_amma_cfg_Expression -e:Edge\org_amma_cfg_Expression_innerExpression-> :org_amma_cfg_Expression;
+rule Assignment_2_CFG {
+	expr:dom_Assignment -:HelperEdge-> helper:HelperNode;
+	expr -lhs:dom_Assignment_leftHandSide->;
+	expr -rhs:dom_Assignment_rightHandSide->;
 	
 	modify {
-		-cfg_edge:org_amma_cfg_Expression_innerExpression<e>->;
+		delete(helper);
+	
+		cfg_expr:org_amma_cfg_Expression<expr>;
+		-cfg_lhs:org_amma_cfg_Expression_innerExpression<lhs>->;
+		-cfg_rhs:org_amma_cfg_Expression_innerExpression<rhs>->;
+		
+		eval {
+			cfg_expr._expressionName = helper.name;
+			cfg_expr._isIdentifier = false;
+			cfg_lhs.index = 0;
+			cfg_rhs.index = 1;
+		}
+	}
+}
+
+rule InfixExpression_2_CFG {
+	expr:dom_InfixExpression -:HelperEdge-> helper:HelperNode;
+	expr -lhs:dom_InfixExpression_leftOperand->;
+	expr -rhs:dom_InfixExpression_rightOperand->;
+	
+	modify {
+		delete(helper);
+
+		cfg_expr:org_amma_cfg_Expression<expr>;
+		-cfg_lhs:org_amma_cfg_Expression_innerExpression<lhs>->;
+		-cfg_rhs:org_amma_cfg_Expression_innerExpression<rhs>->;
+		
+		eval {
+			cfg_expr._expressionName = helper.name;
+			cfg_expr._isIdentifier = false;
+			cfg_lhs.index = 0;
+			cfg_rhs.index = 1;
+		}
+	}
+}
+
+rule PostfixExpression_2_CFG {
+	expr:dom_PostfixExpression -:HelperEdge-> helper:HelperNode;
+	expr -op:dom_PostfixExpression_operand->;
+	
+	modify {
+		delete(helper);
+
+		cfg_expr:org_amma_cfg_Expression<expr>;
+		-cfg_op:org_amma_cfg_Expression_innerExpression<op>->;
+		
+		eval {
+			cfg_expr._expressionName = helper.name;
+			cfg_expr._isIdentifier = false;
+			cfg_op.index = 0;
+		}
+	}
+}
+
+rule MethodInvocation_2_CFG {
+	expr:dom_MethodInvocation -:HelperEdge-> helper:HelperNode;
+	expr -arg:dom_MethodInvocation_arguments->;
+	
+	modify {
+		delete(helper);
+
+		cfg_expr:org_amma_cfg_Expression<expr>;
+		-cfg_arg:org_amma_cfg_Expression_innerExpression<arg>->;
+		
+		eval {
+			cfg_expr._expressionName = helper.name;
+			cfg_expr._isIdentifier = false;
+			cfg_arg.index = 1;
+		}
 	}
 }
 

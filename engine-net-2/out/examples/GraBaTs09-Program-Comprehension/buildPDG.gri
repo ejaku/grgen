@@ -151,3 +151,120 @@ rule Delete_Post_Dom {
 	
 	replace {}
 }
+
+// Data dependencies
+
+rule add_transitive_toNode {
+	a:org_amma_cfg_AbstractNode;
+	b:org_amma_cfg_AbstractNode;
+	c:org_amma_cfg_AbstractNode;
+	
+	hom(a,c);
+	a -:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> b;
+	b -:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> c;
+	
+	negative {
+		a -:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> c;
+	}
+	
+	modify {
+		a -:transitive_toNode-> c;
+	}
+}
+
+rule add_transitive_innerExpression {
+	a:org_amma_cfg_Expression;
+	b:org_amma_cfg_Expression;
+	c:org_amma_cfg_Expression;
+	
+	a -e:org_amma_cfg_Expression_innerExpression-> b;
+	b -:org_amma_cfg_Expression_innerExpression-> c;
+	
+	negative {
+		a -:transitive_innerExpression-> c;
+	}
+	
+	modify {
+		a -trans:transitive_innerExpression-> c;
+		
+		eval {
+			trans.index = e.index;
+		}
+	}
+}
+
+rule add_data_dependencies {
+	modify {
+		exec(add_binary_data_dependency* || add_unary_data_dependency*);
+	}
+}
+
+rule add_binary_data_dependency {
+	a:org_amma_cfg_AbstractNode;
+	b:org_amma_cfg_AbstractNode;
+	
+	hom(a,b);
+	a -:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> b;
+	
+	hom(expr_a, expr_b);
+	hom(ea, eb);
+	a -ea:org_amma_cfg_AbstractNode_expression-> expr_a:org_amma_cfg_Expression;
+	b -eb:org_amma_cfg_AbstractNode_expression-> expr_b:org_amma_cfg_Expression;
+
+	expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def:org_amma_cfg_Expression;
+	expr_b -use_edge:org_amma_cfg_Expression_innerExpression-> use:org_amma_cfg_Expression;
+	
+	if { def_edge.index == 0 && def._isIdentifier &&
+	     use_edge.index == 1 && use._isIdentifier &&
+	     def._expressionName == use._expressionName;
+	   }
+	
+	negative {
+		a -:org_amma_pdg_ExpressionNode_dataDependenceNodes-> b;
+	}
+	
+	modify {
+		a -:org_amma_pdg_ExpressionNode_dataDependenceNodes-> b;
+	}
+}
+
+rule add_unary_data_dependency {
+	a:org_amma_cfg_AbstractNode;
+	b:org_amma_cfg_AbstractNode;
+	
+	hom(a,b);
+	a -:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> b;
+	
+	hom(expr_a, expr_b);
+	hom(ea, eb);
+	a -ea:org_amma_cfg_AbstractNode_expression-> expr_a:org_amma_cfg_Expression;
+	b -eb:org_amma_cfg_AbstractNode_expression-> expr_b:org_amma_cfg_Expression;
+
+	hom(def, use);
+	hom(def_edge, use_edge);
+	expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def:org_amma_cfg_Expression;
+	expr_b -use_edge:org_amma_cfg_Expression_innerExpression-> use:org_amma_cfg_Expression;
+	
+	if { def_edge.index == 0 && def._isIdentifier &&
+	     use_edge.index == 0 && use._isIdentifier &&
+	     def._expressionName == use._expressionName;
+	   }
+	
+	negative {
+		expr_a -:org_amma_cfg_Expression_innerExpression\transitive_innerExpression->;
+	}
+	
+	negative {
+		a -:org_amma_pdg_ExpressionNode_dataDependenceNodes-> b;
+	}
+	
+	modify {
+		a -:org_amma_pdg_ExpressionNode_dataDependenceNodes-> b;
+	}
+}
+
+rule remove_toNode {
+	-:org_amma_cfg_AbstractNode_toNode->;
+	
+	replace {}
+}

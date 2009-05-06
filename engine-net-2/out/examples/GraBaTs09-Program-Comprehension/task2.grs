@@ -16,6 +16,7 @@ dump set edge org_amma_cfg_AbstractNode_expression color grey
 dump set edge pdom color blue
 dump set edge pdom_frontier color orange
 dump set edge org_amma_pdg_ExpressionNode_controlDependenceNodes color red
+dump set edge org_amma_pdg_ExpressionNode_dataDependenceNodes color black
 
 xgrs nameExpressions
 xgrs [CFG_handle_statements]
@@ -29,7 +30,12 @@ xgrs determine_Post_Dom
 xgrs Determine_Dominance_Frontiers
 xgrs Create_Control_Dependencies
 xgrs Delete_Post_Dom*
+
+xgrs add_transitive_toNode*
+xgrs add_transitive_innerExpression*
 show graph ycomp
+xgrs add_data_dependencies
+xgrs [remove_toNode]
 exit
 redirect emit cfg_task2-grgen.xmi
 xgrs xmlPrefix

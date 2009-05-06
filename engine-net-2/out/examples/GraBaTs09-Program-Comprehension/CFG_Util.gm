@@ -6,5 +6,5 @@ edge class pdom;
 edge class transitive_pdom extends pdom;
 edge class pdom_frontier;
 
-edge class transitive_toNode;
-edge class transitive_innerExpression;
+edge class transitive_toNode extends org_amma_cfg_AbstractNode_toNode;
+edge class transitive_innerExpression extends org_amma_cfg_Expression_innerExpression;
