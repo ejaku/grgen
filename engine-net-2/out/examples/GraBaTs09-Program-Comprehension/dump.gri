@@ -1,5 +1,5 @@
 rule get_initial_id : (int) {
 	modify {
-		return (1);
+		return (0);
 	}
 }

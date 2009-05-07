@@ -37,6 +37,7 @@ xgrs (id) = CFG_number_node(id)*
 xgrs CFG_XML_Prefix
 xgrs (id)=get_initial_id
 xgrs ((n, id)=CFG_get_node_by_id(id) && CFG_dump_AbstractNode(n))*
+xgrs CFG_XML_Suffix
 
 # Transform CFG to PDG
 xgrs (Add_Enter_Exit & Connect_Enter* & Connect_Exit*)

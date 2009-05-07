@@ -161,3 +161,8 @@ rule CFG_dump_leaf_expression(var tag:string, expr:org_amma_cfg_Expression) {
 	}
 }
 
+rule CFG_XML_Suffix {
+	modify {
+		emit("</org.amma.cfg:MControlFlowGraph>\n");
+	}
+}
