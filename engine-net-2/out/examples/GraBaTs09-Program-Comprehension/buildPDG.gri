@@ -165,7 +165,9 @@ rule add_data_dependencies {
 	modify {
 		exec([prepare_IterativeNode] & [prepare_ConditionalNode] &
 		     add_transitive_toNode* & add_transitive_innerExpression* &
-		     add_binary_data_dependency* & add_unary_data_dependency*);
+		     add_binary_data_dependency* & add_unary_data_dependency* &
+		     [remove_transitive_innerExpression] &
+		     [finish_IterativeNode] & [finish_ConditionalNode]);
 	}
 }
 
@@ -309,8 +311,127 @@ rule add_unary_data_dependency {
 	}
 }
 
-rule remove_toNode {
-	-:org_amma_cfg_AbstractNode_toNode->;
+rule remove_transitive_innerExpression {
+	-:transitive_innerExpression->;
 	
 	replace {}
+}
+
+rule finish_IterativeNode {
+	a:org_amma_cfg_IterativeNode;
+	dummy:org_amma_cfg_Expression;
+	expr:org_amma_cfg_Expression;
+	a -:org_amma_cfg_AbstractNode_expression-> dummy;
+	dummy -:org_amma_cfg_Expression_innerExpression-> expr;
+	
+	modify {
+		delete(dummy);
+		a -e:org_amma_cfg_AbstractNode_expression-> expr;
+	}
+}
+
+rule finish_ConditionalNode {
+	a:org_amma_cfg_ConditionalNode;
+	dummy:org_amma_cfg_Expression;
+	expr:org_amma_cfg_Expression;
+	a -:org_amma_cfg_AbstractNode_expression-> dummy;
+	dummy -:org_amma_cfg_Expression_innerExpression-> expr;
+	
+	modify {
+		delete(dummy);
+		a -e:org_amma_cfg_AbstractNode_expression-> expr;
+	}
+}
+
+rule CFG_2_PDG {
+	modify {
+		exec([remove_cfg_edges] & enter_2_PDG & exit_2_PDG &
+		     [IterativeNode_2_PDG] & [ConditionalNode_2_PDG] &
+		     [Node_2_PDG] & [innerExpression_2_PDG]);
+	}
+}
+
+rule remove_cfg_edges {
+	a:org_amma_cfg_AbstractNode;
+	b:org_amma_cfg_AbstractNode;
+	
+	hom(a,b);
+	a -e:Edge\(org_amma_pdg_ExpressionNode_controlDependenceNodes + org_amma_pdg_ExpressionNode_dataDependenceNodes)-> b;
+	
+	modify {
+		delete(e);
+	}
+}
+
+rule enter_2_PDG {
+	old:CFG_Enter;
+	
+	modify {
+		new:org_amma_pdg_EnterNode<old>;
+		
+		eval {
+			new._name = "Enter";
+		}
+	}
+}
+
+rule exit_2_PDG {
+	exit:CFG_Exit;
+	
+	replace {}
+}
+
+rule IterativeNode_2_PDG {
+	old:org_amma_cfg_IterativeNode -e:org_amma_cfg_AbstractNode_expression-> old_expr:org_amma_cfg_Expression;
+	
+	modify {
+		new:org_amma_pdg_ExpressionNode<old>;
+		-:org_amma_pdg_ExpressionNode_expression<e>->;
+		new_expr:org_amma_pdg_Expression<old_expr>;
+		
+		eval {
+			new._name = old_expr._expressionName;
+		}
+	}
+}
+
+rule ConditionalNode_2_PDG {
+	old:org_amma_cfg_ConditionalNode -e:org_amma_cfg_AbstractNode_expression-> old_expr:org_amma_cfg_Expression;
+	
+	modify {
+		new:org_amma_pdg_ExpressionNode<old>;
+		-:org_amma_pdg_ExpressionNode_expression<e>->;
+		new_expr:org_amma_pdg_Expression<old_expr>;
+		
+		eval {
+			new._name = old_expr._expressionName;
+		}
+	}
+}
+
+rule Node_2_PDG {
+	old:org_amma_cfg_Node -e:org_amma_cfg_AbstractNode_expression-> old_expr:org_amma_cfg_Expression;
+	
+	modify {
+		new:org_amma_pdg_ExpressionNode<old>;
+		-:org_amma_pdg_ExpressionNode_expression<e>->;
+		new_expr:org_amma_pdg_Expression<old_expr>;
+		
+		eval {
+			new._name = old_expr._expressionName;
+		}
+	}
+}
+
+rule innerExpression_2_PDG {
+	-e:org_amma_cfg_Expression_innerExpression-> old_expr:org_amma_cfg_Expression;
+	
+	modify {
+		-f:org_amma_pdg_Expression_innerExpressions<e>->;
+		new_expr:org_amma_pdg_Expression<old_expr>;
+		
+		eval {
+			f.index = e.index;
+		}
+	}
 }
