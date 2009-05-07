@@ -28,7 +28,7 @@
           unique="false" lowerBound="1" eType="#/1/String"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="isIdentifier" ordered="false"
           unique="false" lowerBound="1" eType="#/1/Boolean"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="innerExpressions" ordered="false"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="innerExpressions" ordered="true"
           upperBound="-1" eType="#/0/Expression" containment="true"/>
     </eClassifiers>
   </ecore:EPackage>
