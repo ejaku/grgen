@@ -208,8 +208,11 @@ rule MethodInvocation_2_CFG {
 	expr:dom_MethodInvocation -:HelperEdge-> helper:HelperNode;
 	expr -arg:dom_MethodInvocation_arguments->;
 	
+	// name is already transformed
+	expr -:dom_MethodInvocation_name-> name:org_amma_cfg_Expression;
+	
 	modify {
-		delete(helper);
+		delete(name, helper);
 
 		cfg_expr:org_amma_cfg_Expression<expr>;
 		-cfg_arg:org_amma_cfg_Expression_innerExpression<arg>->;
