@@ -22,13 +22,23 @@ dump set node org_amma_pdg_Expression color grey
 dump set edge org_amma_pdg_ExpressionNode_expression color grey
 dump set edge org_amma_pdg_Expression_innerExpressions color grey
 
-
+# Transform AST to CFG
 xgrs nameExpressions
 xgrs [CFG_handle_statements]
 xgrs [CFG_handle_while]
 xgrs [CFG_handle_block]
 xgrs [CFG_sweep_graph]
 xgrs AST_nodes_2_CFG
+
+# Dump CFG
+redirect emit cfg_task2-grgen.xmi
+xgrs (id)=get_initial_id
+xgrs (id) = CFG_number_node(id)*
+xgrs CFG_XML_Prefix
+xgrs (id)=get_initial_id
+xgrs ((n, id)=CFG_get_node_by_id(id) && CFG_dump_AbstractNode(n))*
+
+# Transform CFG to PDG
 xgrs (Add_Enter_Exit & Connect_Enter* & Connect_Exit*)
 xgrs init_Post_Dom
 xgrs determine_Post_Dom
@@ -39,8 +49,6 @@ xgrs add_data_dependencies
 xgrs CFG_2_PDG
 show graph ycomp
 exit
-redirect emit cfg_task2-grgen.xmi
-xgrs xmlPrefix
 xgrs (counter) = initXMLCounter
 xgrs ((counter) = addNodeNumber(counter))*
 xgrs (counter) = initXMLCounter

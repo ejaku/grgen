@@ -1,7 +1,7 @@
 node class HelperNode {
-	count: int;
-	name: string;
-	operator: string;
+	count:int;
+	name:string;
+	operator:string;
 	const operatorMap:map<dom_AssignmentOperatorKind, string> = {
 		dom_AssignmentOperatorKind::_right_shift_signed_assign -> ">>=",
 		dom_AssignmentOperatorKind::_bit_xor_assign -> "^=",
@@ -83,3 +83,9 @@ node class HelperNode {
 }
 
 edge class HelperEdge;
+
+node class DumpNode {
+	id:int;
+}
+
+edge class DumpEdge;

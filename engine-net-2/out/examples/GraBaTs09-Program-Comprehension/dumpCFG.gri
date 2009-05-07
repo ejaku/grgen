@@ -1,0 +1,163 @@
+rule CFG_number_node(var id:int) : (int) {
+	n:org_amma_cfg_AbstractNode;
+	
+	negative {
+		n -:DumpEdge->;
+	}
+	
+	modify {
+		n -:DumpEdge-> d:DumpNode;
+		eval {
+			d.id = id;
+		}
+		return (id + 1);
+	}
+}
+
+rule CFG_get_node_by_id(var id:int) : (org_amma_cfg_AbstractNode, int) {
+	n:org_amma_cfg_AbstractNode -:DumpEdge-> d:DumpNode;
+	
+	if { d.id == id; }
+	
+	modify {
+		return (n, id + 1);
+	}
+}
+
+rule CFG_XML_Prefix {
+	modify {
+		emit("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<org.amma.cfg:MControlFlowGraph xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:org.amma.cfg=\"org.amma.cfg\">\n");
+	}
+}
+
+rule CFG_dump_AbstractNode(n:org_amma_cfg_AbstractNode) {
+	modify {
+		exec(CFG_dump_Node(n) || CFG_dump_IterativeNode(n));
+	}
+}
+
+rule CFG_dump_Node(n:org_amma_cfg_Node) {
+	n -:org_amma_cfg_AbstractNode_expression-> expr:org_amma_cfg_Expression;
+
+	modify {
+		emit("  <nodes xsi:type=\"org.amma.cfg:Node\"");
+		exec(CFG_emitFromNode(n));
+		exec(CFG_emitToNode(n));
+		emit(" name=\"" + n._name + "\">\n");
+		exec(CFG_dump_expression("expression", expr));
+		emit("  </nodes>\n");
+	}
+}
+
+rule CFG_emitFromNode(n:org_amma_cfg_AbstractNode) {
+	pred:org_amma_cfg_AbstractNode -:org_amma_cfg_AbstractNode_toNode-> n;
+	pred -:DumpEdge-> d:DumpNode;
+	
+	modify {
+		emit(" fromNode=\"");
+		exec([CFG_emitFromNodeAttribute(n)]);
+		emit("\"");
+	}
+}
+
+rule CFG_emitFromNodeAttribute(n:org_amma_cfg_AbstractNode) {
+	pred:org_amma_cfg_AbstractNode -:org_amma_cfg_AbstractNode_toNode-> n;
+	pred -:DumpEdge-> d:DumpNode;
+	
+	modify {
+		emit("//@nodes." + d.id + " ");
+	}
+}
+
+rule CFG_emitToNode(n:org_amma_cfg_AbstractNode) {
+	n -:org_amma_cfg_AbstractNode_toNode-> succ:org_amma_cfg_AbstractNode;
+	succ -:DumpEdge-> d:DumpNode;
+	
+	modify {
+		emit(" toNode=\"");
+		exec([CFG_emitToNodeAttribute(n)]);
+		emit("\"");
+	}
+}
+
+rule CFG_emitToNodeAttribute(n:org_amma_cfg_AbstractNode) {
+	n -:org_amma_cfg_AbstractNode_toNode-> succ:org_amma_cfg_AbstractNode;
+	succ -:DumpEdge-> d:DumpNode;
+	
+	modify {
+		emit("//@nodes." + d.id + " ");
+	}
+}
+
+rule CFG_dump_IterativeNode(n:org_amma_cfg_IterativeNode) {
+	n -:org_amma_cfg_AbstractNode_expression-> expr:org_amma_cfg_Expression;
+
+	modify {
+		emit("  <nodes xsi:type=\"org.amma.cfg:IterativeNode\"");
+		exec(CFG_emitFromNode(n));
+		emit(" name=\"" + n._name + "\"");
+		exec(CFG_emitTrueNode(n));
+		exec(CFG_emitFalseNode(n));
+		emit(">\n");
+		exec(CFG_dump_expression("expression", expr));
+		emit("  </nodes>\n");
+	}
+}
+
+rule CFG_emitFalseNode(n:org_amma_cfg_AbstractNode) {
+	n -:org_amma_cfg_ConditionalNode_falseConditionNode-> succ:org_amma_cfg_AbstractNode;
+	succ -:DumpEdge-> d:DumpNode;
+	
+	modify {
+		emit(" falseConditionNode=\"//@nodes." + d.id + "\"");
+	}
+}
+
+rule CFG_emitTrueNode(n:org_amma_cfg_AbstractNode) {
+	n -:org_amma_cfg_ConditionalNode_trueConditionNode-> succ:org_amma_cfg_AbstractNode;
+	succ -:DumpEdge-> d:DumpNode;
+	
+	modify {
+		emit(" trueConditionNode=\"//@nodes." + d.id + "\"");
+	}
+}
+
+rule CFG_dump_expression(var tag:string, expr:org_amma_cfg_Expression) {
+	modify {
+		exec(CFG_dump_binary_expression(tag, expr) ||
+		     CFG_dump_unary_expression(tag, expr) ||
+		     CFG_dump_leaf_expression(tag, expr) );
+	}
+}
+
+rule CFG_dump_binary_expression(var tag:string, expr:org_amma_cfg_Expression) {
+	expr -lhs_edge:org_amma_cfg_Expression_innerExpression-> lhs:org_amma_cfg_Expression;
+	expr -rhs_edge:org_amma_cfg_Expression_innerExpression-> rhs:org_amma_cfg_Expression;
+	
+	if { lhs_edge.index < rhs_edge.index; }
+	
+	modify {
+		emit("    <" + tag + " expressionName=\"" + expr._expressionName + "\">\n");
+		exec(CFG_dump_expression("innerExpression", lhs));
+		exec(CFG_dump_expression("innerExpression", rhs));
+		emit("    </" + tag + ">\n");
+	}
+}
+
+rule CFG_dump_unary_expression(var tag:string, expr:org_amma_cfg_Expression) {
+	expr -:org_amma_cfg_Expression_innerExpression-> op:org_amma_cfg_Expression;
+	
+	modify {
+		emit("    <" + tag + " expressionName=\"" + expr._expressionName + "\">\n");
+		exec(CFG_dump_expression("innerExpression", op));
+		emit("    </" + tag + ">\n");
+	}
+}
+
+rule CFG_dump_leaf_expression(var tag:string, expr:org_amma_cfg_Expression) {
+	modify {
+		emit("    <" + tag + " expressionName=\"" + expr._expressionName + "\"" +
+		     (expr._isIdentifier ? " isIdentifier=\"true\"" : "") + "/>\n");
+	}
+}
+
