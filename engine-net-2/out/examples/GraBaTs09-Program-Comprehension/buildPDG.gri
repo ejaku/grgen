@@ -130,7 +130,7 @@ rule Determine_Dominance_Frontier {
 
 rule Create_Control_Dependencies {
 	modify {
-		exec([Create_Control_Dependency]);
+		exec([Create_Control_Dependency] & [Add_Reflexive_Control_Dependency]);
 	}
 }
 
@@ -143,6 +143,14 @@ rule Create_Control_Dependency {
 	modify {
 		delete(e);
 		b -:org_amma_pdg_ExpressionNode_controlDependenceNodes-> a;
+	}
+}
+
+rule Add_Reflexive_Control_Dependency {
+	a:org_amma_cfg_IterativeNode;
+	
+	modify {
+		a -:org_amma_pdg_ExpressionNode_controlDependenceNodes-> a;
 	}
 }
 
