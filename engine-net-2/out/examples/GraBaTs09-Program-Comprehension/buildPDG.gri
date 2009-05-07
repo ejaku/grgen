@@ -391,6 +391,8 @@ rule IterativeNode_2_PDG {
 		
 		eval {
 			new._name = old_expr._expressionName;
+			new_expr._name = old_expr._expressionName;
+			new_expr._isIdentifier = old_expr._isIdentifier;
 		}
 	}
 }
@@ -405,6 +407,8 @@ rule ConditionalNode_2_PDG {
 		
 		eval {
 			new._name = old_expr._expressionName;
+			new_expr._name = old_expr._expressionName;
+			new_expr._isIdentifier = old_expr._isIdentifier;
 		}
 	}
 }
@@ -419,6 +423,8 @@ rule Node_2_PDG {
 		
 		eval {
 			new._name = old_expr._expressionName;
+			new_expr._name = old_expr._expressionName;
+			new_expr._isIdentifier = old_expr._isIdentifier;
 		}
 	}
 }
@@ -432,6 +438,8 @@ rule innerExpression_2_PDG {
 		
 		eval {
 			f.index = e.index;
+			new_expr._name = old_expr._expressionName;
+			new_expr._isIdentifier = old_expr._isIdentifier;
 		}
 	}
 }
