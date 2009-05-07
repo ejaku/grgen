@@ -17,6 +17,11 @@ dump set edge pdom color blue
 dump set edge pdom_frontier color orange
 dump set edge org_amma_pdg_ExpressionNode_controlDependenceNodes color red
 dump set edge org_amma_pdg_ExpressionNode_dataDependenceNodes color black
+dump set node org_amma_pdg_EnterNode color green
+dump set node org_amma_pdg_Expression color grey
+dump set edge org_amma_pdg_ExpressionNode_expression color grey
+dump set edge org_amma_pdg_Expression_innerExpressions color grey
+
 
 xgrs nameExpressions
 xgrs [CFG_handle_statements]
