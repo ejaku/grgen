@@ -153,6 +153,49 @@ rule Delete_Post_Dom {
 }
 
 // Data dependencies
+rule add_data_dependencies {
+	modify {
+		exec([prepare_IterativeNode] & [prepare_ConditionalNode] &
+		     add_transitive_toNode* & add_transitive_innerExpression* &
+		     add_binary_data_dependency* & add_unary_data_dependency*);
+	}
+}
+
+rule prepare_IterativeNode {
+	a:org_amma_cfg_IterativeNode;
+	a -e:org_amma_cfg_AbstractNode_expression-> expr:org_amma_cfg_Expression;
+	
+	modify {
+		delete(e);
+		
+		dummy:org_amma_cfg_Expression;
+		a -:org_amma_cfg_AbstractNode_expression-> dummy;
+		dummy -f:org_amma_cfg_Expression_innerExpression-> expr;
+		
+		eval {
+			dummy._expressionName = "dummy";
+			f.index = 1;
+		}
+	}
+}
+
+rule prepare_ConditionalNode {
+	a:org_amma_cfg_ConditionalNode;
+	a -e:org_amma_cfg_AbstractNode_expression-> expr:org_amma_cfg_Expression;
+	
+	modify {
+		delete(e);
+		
+		dummy:org_amma_cfg_Expression;
+		a -:org_amma_cfg_AbstractNode_expression-> dummy;
+		dummy -f:org_amma_cfg_Expression_innerExpression-> expr;
+		
+		eval {
+			dummy._expressionName = "dummy";
+			f.index = 1;
+		}
+	}
+}
 
 rule add_transitive_toNode {
 	a:org_amma_cfg_AbstractNode;
@@ -190,12 +233,6 @@ rule add_transitive_innerExpression {
 		eval {
 			trans.index = e.index;
 		}
-	}
-}
-
-rule add_data_dependencies {
-	modify {
-		exec(add_binary_data_dependency* || add_unary_data_dependency*);
 	}
 }
 
@@ -251,7 +288,8 @@ rule add_unary_data_dependency {
 	   }
 	
 	negative {
-		expr_a -:org_amma_cfg_Expression_innerExpression\transitive_innerExpression->;
+		-use_edge->;
+		expr_b -:org_amma_cfg_Expression_innerExpression\transitive_innerExpression->;
 	}
 	
 	negative {
