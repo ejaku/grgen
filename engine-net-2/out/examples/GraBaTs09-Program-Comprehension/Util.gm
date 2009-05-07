@@ -1,6 +1,7 @@
 node class HelperNode {
 	count: int;
 	name: string;
+	operator: string;
 	const operatorMap:map<dom_AssignmentOperatorKind, string> = {
 		dom_AssignmentOperatorKind::_right_shift_signed_assign -> ">>=",
 		dom_AssignmentOperatorKind::_bit_xor_assign -> "^=",

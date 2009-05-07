@@ -390,7 +390,7 @@ rule IterativeNode_2_PDG {
 		new_expr:org_amma_pdg_Expression<old_expr>;
 		
 		eval {
-			new._name = old_expr._expressionName;
+			new._name = old._name;
 			new_expr._name = old_expr._expressionName;
 			new_expr._isIdentifier = old_expr._isIdentifier;
 		}
@@ -406,7 +406,7 @@ rule ConditionalNode_2_PDG {
 		new_expr:org_amma_pdg_Expression<old_expr>;
 		
 		eval {
-			new._name = old_expr._expressionName;
+			new._name = old._name;
 			new_expr._name = old_expr._expressionName;
 			new_expr._isIdentifier = old_expr._isIdentifier;
 		}
@@ -422,7 +422,7 @@ rule Node_2_PDG {
 		new_expr:org_amma_pdg_Expression<old_expr>;
 		
 		eval {
-			new._name = old_expr._expressionName;
+			new._name = old._name;
 			new_expr._name = old_expr._expressionName;
 			new_expr._isIdentifier = old_expr._isIdentifier;
 		}

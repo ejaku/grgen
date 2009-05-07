@@ -17,6 +17,7 @@ rule name_SimpleName {
 		
 		eval {
 			helper.name = expr._identifier;
+			helper.operator = expr._identifier;
 		}
 	}
 }
@@ -33,6 +34,7 @@ rule name_NumberLiteral {
 		
 		eval {
 			helper.name = expr._token;
+			helper.operator = expr._token;
 		}
 	}
 }
@@ -50,6 +52,7 @@ rule name_PostfixExpression {
 		
 		eval {
 			helper.name = opHelper.name + helper.postfixMap[expr._operator];
+			helper.operator = helper.postfixNameMap[expr._operator];
 		}
 	}
 }
@@ -69,6 +72,7 @@ rule name_MethodInvocation {
 		
 		eval {
 			helper.name = name._identifier + "(" + argumentHelper.name + ")";
+			helper.operator = name._identifier;
 		}
 	}
 }
@@ -89,6 +93,7 @@ rule name_InfixExpression {
 		
 		eval {
 			helper.name = lhsHelper.name + helper.infixMap[expr._operator] + rhsHelper.name;
+			helper.operator = helper.infixNameMap[expr._operator];
 		}
 	}
 }
@@ -109,6 +114,7 @@ rule name_Assignment {
 		
 		eval {
 			helper.name = lhsHelper.name + helper.operatorMap[expr._operator] + rhsHelper.name;
+			helper.operator = helper.operatorNameMap[expr._operator];
 		}
 	}
 }

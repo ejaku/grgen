@@ -125,7 +125,7 @@ rule SimpleName_2_CFG {
 		cfg_expr:org_amma_cfg_Expression<expr>;
 		
 		eval {
-			cfg_expr._expressionName = helper.name;
+			cfg_expr._expressionName = helper.operator;
 			cfg_expr._isIdentifier = true;
 		}
 	}
@@ -138,7 +138,7 @@ rule NumberLiteral_2_CFG {
 		cfg_expr:org_amma_cfg_Expression<expr>;
 		
 		eval {
-			cfg_expr._expressionName = helper.name;
+			cfg_expr._expressionName = helper.operator;
 			cfg_expr._isIdentifier = false;
 		}
 	}
@@ -157,7 +157,7 @@ rule Assignment_2_CFG {
 		-cfg_rhs:org_amma_cfg_Expression_innerExpression<rhs>->;
 		
 		eval {
-			cfg_expr._expressionName = helper.name;
+			cfg_expr._expressionName = helper.operator;
 			cfg_expr._isIdentifier = false;
 			cfg_lhs.index = 0;
 			cfg_rhs.index = 1;
@@ -178,7 +178,7 @@ rule InfixExpression_2_CFG {
 		-cfg_rhs:org_amma_cfg_Expression_innerExpression<rhs>->;
 		
 		eval {
-			cfg_expr._expressionName = helper.name;
+			cfg_expr._expressionName = helper.operator;
 			cfg_expr._isIdentifier = false;
 			cfg_lhs.index = 0;
 			cfg_rhs.index = 1;
@@ -197,7 +197,7 @@ rule PostfixExpression_2_CFG {
 		-cfg_op:org_amma_cfg_Expression_innerExpression<op>->;
 		
 		eval {
-			cfg_expr._expressionName = helper.name;
+			cfg_expr._expressionName = helper.operator;
 			cfg_expr._isIdentifier = false;
 			cfg_op.index = 0;
 		}
@@ -218,7 +218,7 @@ rule MethodInvocation_2_CFG {
 		-cfg_arg:org_amma_cfg_Expression_innerExpression<arg>->;
 		
 		eval {
-			cfg_expr._expressionName = helper.name;
+			cfg_expr._expressionName = helper.operator;
 			cfg_expr._isIdentifier = false;
 			cfg_arg.index = 1;
 		}
