@@ -1,5 +1,0 @@
-rule get_initial_id : (int) {
-	modify {
-		return (0);
-	}
-}

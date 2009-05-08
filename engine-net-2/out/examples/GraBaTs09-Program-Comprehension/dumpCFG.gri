@@ -1,3 +1,9 @@
+rule get_initial_id : (int) {
+	modify {
+		return (0);
+	}
+}
+
 rule CFG_number_node(var id:int) : (int) {
 	n:org_amma_cfg_AbstractNode;
 	

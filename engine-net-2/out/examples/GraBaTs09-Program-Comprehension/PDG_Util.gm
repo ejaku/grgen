@@ -1,0 +1,11 @@
+abstract edge class controlDependence { 
+	index:int;
+}
+
+edge class ordered_controlDependence extends controlDependence;
+
+edge class named_controlDependence extends controlDependence {
+	name:string;
+}
+
+edge class visited_named_controlDependence extends named_controlDependence;

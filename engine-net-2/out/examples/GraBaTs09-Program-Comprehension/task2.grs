@@ -50,5 +50,13 @@ xgrs Delete_Post_Dom*
 xgrs add_data_dependencies
 xgrs CFG_2_PDG
 
+# Dump PDG
+redirect emit pdg_task2-grgen.xmi
+xgrs PDG_number_dependencies
+xgrs PDG_XML_Prefix
+xgrs PDG_dump
+xgrs PDG_XML_Suffix
+xgrs PDG_finish_dump
+
 show graph ycomp
 exit
