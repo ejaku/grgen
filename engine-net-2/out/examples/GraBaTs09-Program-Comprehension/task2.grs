@@ -38,6 +38,7 @@ xgrs CFG_XML_Prefix
 xgrs (id)=get_initial_id
 xgrs ((n, id)=CFG_get_node_by_id(id) && CFG_dump_AbstractNode(n))*
 xgrs CFG_XML_Suffix
+xgrs CFG_finish_dump
 
 # Transform CFG to PDG
 xgrs (Add_Enter_Exit & Connect_Enter* & Connect_Exit*)
@@ -48,12 +49,6 @@ xgrs Create_Control_Dependencies
 xgrs Delete_Post_Dom*
 xgrs add_data_dependencies
 xgrs CFG_2_PDG
+
 show graph ycomp
 exit
-xgrs (counter) = initXMLCounter
-xgrs ((counter) = addNodeNumber(counter))*
-xgrs (counter) = initXMLCounter
-xgrs ((n, helper, counter)=getNodeByNumber(counter) && ((expr)=getExpressionStatementExpression(n) || (expr)=getWhileStatementExpression(n)) && dumpName(expr, helper) && emitNodeTag(n, expr))*
-xgrs xmlSuffix
-#xgrs [CFG_sweep_graph]
-show graph ycomp

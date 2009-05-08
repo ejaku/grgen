@@ -166,3 +166,15 @@ rule CFG_XML_Suffix {
 		emit("</org.amma.cfg:MControlFlowGraph>\n");
 	}
 }
+
+rule CFG_finish_dump {
+	modify {
+		exec([CFG_delete_DumpNode]);
+	}
+}
+
+rule CFG_delete_DumpNode {
+	d:DumpNode;
+	
+	replace {}
+}
