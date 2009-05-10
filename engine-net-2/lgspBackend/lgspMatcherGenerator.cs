@@ -1251,46 +1251,53 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates the matcher source code for the given rule pattern into the given source builder
+        /// Generates the action interface plus action implementation including the matcher source code 
+        /// for the given rule pattern into the given source builder
         /// </summary>
-        public void GenerateMatcherSourceCode(SourceBuilder sb,
+        public void GenerateActionAndMatcher(SourceBuilder sb,
             LGSPMatchingPattern matchingPattern, bool isInitialStatic)
         {
             // generate the search program out of the schedule within the pattern graph of the rule
             SearchProgram searchProgram = GenerateSearchProgram(matchingPattern);
 
             // emit matcher class head, body, tail; body is source code representing search program
-            if(matchingPattern is LGSPRulePattern)
+            if(matchingPattern is LGSPRulePattern) {
+                GenerateActionInterface(sb, (LGSPRulePattern)matchingPattern); // generate the exact action interface
                 GenerateMatcherClassHeadAction(sb, (LGSPRulePattern)matchingPattern, isInitialStatic);
-            else
+                searchProgram.Emit(sb);
+                GenerateActionImplementation(sb, (LGSPRulePattern)matchingPattern);
+                GenerateMatcherClassTail(sb);
+            } else {
                 GenerateMatcherClassHeadSubpattern(sb, matchingPattern, isInitialStatic);
-            searchProgram.Emit(sb);
-            GenerateMatcherClassTail(sb);
+                searchProgram.Emit(sb);
+                GenerateMatcherClassTail(sb);
+            }
 
             // finally generate matcher source for all the nested alternatives or iterateds of the pattern graph
             // nested inside the alternatives,iterateds,negatives,independents
             foreach(Alternative alt in matchingPattern.patternGraph.alternatives)
             {
-                GenerateMatcherSourceCodeAlternative(sb, matchingPattern, alt, isInitialStatic);
+                GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
             foreach (PatternGraph iter in matchingPattern.patternGraph.iterateds)
             {
-                GenerateMatcherSourceCodeIterated(sb, matchingPattern, iter, isInitialStatic);
+                GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter, isInitialStatic);
             }
             foreach (PatternGraph neg in matchingPattern.patternGraph.negativePatternGraphs)
             {
-                GenerateMatcherSourceCode(sb, matchingPattern, neg, isInitialStatic);
+                GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, neg, isInitialStatic);
             }
             foreach (PatternGraph idpt in matchingPattern.patternGraph.independentPatternGraphs)
             {
-                GenerateMatcherSourceCode(sb, matchingPattern, idpt, isInitialStatic);
+                GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, idpt, isInitialStatic);
             }
         }
 
         /// <summary>
-        /// Generates the matcher source code for the given alternative into the given source builder
+        /// Generates the action interface plus action implementation including the matcher source code 
+        /// for the given alternative into the given source builder
         /// </summary>
-        public void GenerateMatcherSourceCodeAlternative(SourceBuilder sb,
+        public void GenerateActionAndMatcherOfAlternative(SourceBuilder sb,
             LGSPMatchingPattern matchingPattern, Alternative alt, bool isInitialStatic)
         {
             // generate the search program out of the schedules within the pattern graphs of the alternative cases
@@ -1307,27 +1314,28 @@ exitSecondLoop: ;
                 // nested inside the alternatives,iterateds,negatives,independents
                 foreach (Alternative nestedAlt in altCase.alternatives)
                 {
-                    GenerateMatcherSourceCodeAlternative(sb, matchingPattern, nestedAlt, isInitialStatic);
+                    GenerateActionAndMatcherOfAlternative(sb, matchingPattern, nestedAlt, isInitialStatic);
                 }
                 foreach (PatternGraph iter in altCase.iterateds)
                 {
-                    GenerateMatcherSourceCodeIterated(sb, matchingPattern, iter, isInitialStatic);
+                    GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter, isInitialStatic);
                 }
                 foreach (PatternGraph neg in altCase.negativePatternGraphs)
                 {
-                    GenerateMatcherSourceCode(sb, matchingPattern, neg, isInitialStatic);
+                    GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, neg, isInitialStatic);
                 }
                 foreach (PatternGraph idpt in altCase.independentPatternGraphs)
                 {
-                    GenerateMatcherSourceCode(sb, matchingPattern, idpt, isInitialStatic);
+                    GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, idpt, isInitialStatic);
                 }
             }
         }
 
         /// <summary>
-        /// Generates the matcher source code for the given iterated pattern into the given source builder
+        /// Generates the action interface plus action implementation including the matcher source code 
+        /// for the given iterated pattern into the given source builder
         /// </summary>
-        public void GenerateMatcherSourceCodeIterated(SourceBuilder sb,
+        public void GenerateActionAndMatcherOfIterated(SourceBuilder sb,
             LGSPMatchingPattern matchingPattern, PatternGraph iter, bool isInitialStatic)
         {
             // generate the search program out of the schedule within the pattern graph of the iterated pattern
@@ -1342,27 +1350,27 @@ exitSecondLoop: ;
             // nested inside the alternatives,iterateds,negatives,independents
             foreach (Alternative alt in iter.alternatives)
             {
-                GenerateMatcherSourceCodeAlternative(sb, matchingPattern, alt, isInitialStatic);
+                GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
             foreach (PatternGraph nestedIter in iter.iterateds)
             {
-                GenerateMatcherSourceCodeIterated(sb, matchingPattern, nestedIter, isInitialStatic);
+                GenerateActionAndMatcherOfIterated(sb, matchingPattern, nestedIter, isInitialStatic);
             }
             foreach (PatternGraph neg in iter.negativePatternGraphs)
             {
-                GenerateMatcherSourceCode(sb, matchingPattern, neg, isInitialStatic);
+                GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, neg, isInitialStatic);
             }
             foreach (PatternGraph idpt in iter.independentPatternGraphs)
             {
-                GenerateMatcherSourceCode(sb, matchingPattern, idpt, isInitialStatic);
+                GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, idpt, isInitialStatic);
             }
         }
 
         /// <summary>
-        /// Generates the matcher source code for the nested alternatives/iterateds
-        /// within the given negative/independent pattern graph into the given source builder
+        /// Generates the action interface plus action implementation including the matcher source code 
+        /// for the alternatives/iterateds nested within the given negative/independent pattern graph into the given source builder
         /// </summary>
-        public void GenerateMatcherSourceCode(SourceBuilder sb,
+        public void GenerateActionAndMatcherOfNestedPatterns(SourceBuilder sb,
             LGSPMatchingPattern matchingPattern, PatternGraph negOrIdpt, bool isInitialStatic)
         {
             // nothing to do locally ..
@@ -1370,20 +1378,288 @@ exitSecondLoop: ;
             // .. just move on to the nested alternatives or iterateds
             foreach (Alternative alt in negOrIdpt.alternatives)
             {
-                GenerateMatcherSourceCodeAlternative(sb, matchingPattern, alt, isInitialStatic);
+                GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
             foreach (PatternGraph iter in negOrIdpt.iterateds)
             {
-                GenerateMatcherSourceCodeIterated(sb, matchingPattern, iter, isInitialStatic);
+                GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter, isInitialStatic);
             }
             foreach (PatternGraph nestedNeg in negOrIdpt.negativePatternGraphs)
             {
-                GenerateMatcherSourceCode(sb, matchingPattern, nestedNeg, isInitialStatic);
+                GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, nestedNeg, isInitialStatic);
             }
             foreach (PatternGraph nestedIdpt in negOrIdpt.independentPatternGraphs)
             {
-                GenerateMatcherSourceCode(sb, matchingPattern, nestedIdpt, isInitialStatic);
+                GenerateActionAndMatcherOfNestedPatterns(sb, matchingPattern, nestedIdpt, isInitialStatic);
             }
+        }
+
+        /// <summary>
+        // generate the exact action interface
+        /// </summary>
+        void GenerateActionInterface(SourceBuilder sb, LGSPRulePattern matchingPattern)
+        {
+            String actionInterfaceName = "IAction_"+matchingPattern.name;
+            String outParameters = "object[]";
+            String inParameters = ", params object[] parameters";
+            String match = "GRGEN_LIBGR.IMatch match";
+            String matches = "GRGEN_LIBGR.IMatches matches";
+            String matchesType = "GRGEN_LIBGR.IMatches";
+
+            sb.AppendFront("/// <summary>\n");
+            sb.AppendFront("/// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.\n");
+            sb.AppendFront("/// </summary>\n");
+            sb.AppendFrontFormat("public interface {0}\n", actionInterfaceName);
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("/// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>\n");
+            sb.AppendFrontFormat("{0} Match(GRGEN_LIBGR.IGraph graph, int maxMatches{1});\n", matchesType, inParameters);
+
+            sb.AppendFront("/// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>\n");
+            sb.AppendFrontFormat("{0} Modify(GRGEN_LIBGR.IGraph graph, {1});\n", outParameters, match);
+
+            sb.AppendFront("/// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>\n");
+            sb.AppendFrontFormat("{0} ModifyAll(GRGEN_LIBGR.IGraph graph, {1});\n", outParameters, matches);
+
+            sb.AppendFront("/// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>\n");
+            sb.AppendFrontFormat("{0} Apply(GRGEN_LIBGR.IGraph graph{1});\n", outParameters, inParameters);
+
+            sb.AppendFront("/// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>\n");
+            sb.AppendFrontFormat("{0} ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph{1});\n", outParameters, inParameters);
+
+            sb.AppendFront("/// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>\n");
+            sb.AppendFrontFormat("bool ApplyStar(GRGEN_LIBGR.IGraph graph{0});\n", inParameters);
+
+            sb.AppendFront("/// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>\n");
+            sb.AppendFrontFormat("bool ApplyPlus(GRGEN_LIBGR.IGraph graph{0});\n", inParameters);
+
+            sb.AppendFront("/// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>\n");
+            sb.AppendFrontFormat("bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max{0});\n", inParameters);
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.AppendFront("\n");
+        }
+
+        /// <summary>
+        // generate implementation of the exact action interface,
+        // delegate calls of the inexact action interface IAction to the exact action interface
+        /// </summary>
+        void GenerateActionImplementation(SourceBuilder sb, LGSPRulePattern matchingPattern)
+        {
+            // implementation of exact action interface
+
+            sb.AppendFront("/// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>\n");
+            sb.AppendFront("public delegate GRGEN_LIBGR.IMatches MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters);\n");
+
+            sb.AppendFront("/// <summary> A delegate pointing to the current matcher program for this rule. </summary>\n");
+            sb.AppendFront("public MatchInvoker DynamicMatch;\n");
+
+            sb.AppendFront("/// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>\n");
+            sb.AppendFront("public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }\n");
+
+            sb.AppendFront("public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, parameters);\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);\n");
+            sb.AppendFront("else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("object[] retElems = null;\n");
+            sb.AppendFront("if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {\n");
+            sb.Indent();
+            sb.AppendFront("foreach(GRGEN_LIBGR.IMatch match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);\n");
+            sb.Unindent();
+            sb.AppendFront("} else {\n");
+            sb.Indent();
+            sb.AppendFront("foreach(GRGEN_LIBGR.IMatch match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.AppendFront("return retElems;\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("public object[] Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("GRGEN_LIBGR.IMatches matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, parameters);\n");
+            sb.AppendFront("if(matches.Count <= 0) return null;\n");
+            sb.AppendFront("if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);\n");
+            sb.AppendFront("else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("GRGEN_LIBGR.IMatches matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, parameters);\n");
+            sb.AppendFront("object[] retElems = null;\n");
+            sb.AppendFront("if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {\n");
+            sb.Indent();
+            sb.AppendFront("foreach(GRGEN_LIBGR.IMatch match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);\n");
+            sb.Unindent();
+            sb.AppendFront("} else {\n");
+            sb.Indent();
+            sb.AppendFront("foreach(GRGEN_LIBGR.IMatch match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.AppendFront("return retElems;\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("public bool ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("GRGEN_LIBGR.IMatches matches;\n");
+            sb.AppendFront("while(true)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, parameters);\n");
+            sb.AppendFront("if(matches.Count <= 0) return true;\n");
+            sb.AppendFront("if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);\n");
+            sb.AppendFront("else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("GRGEN_LIBGR.IMatches matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, parameters);\n");
+            sb.AppendFront("if(matches.Count <= 0) return false;\n");
+            sb.AppendFront("do\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);\n");
+            sb.AppendFront("else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);\n");
+            sb.AppendFront("matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, parameters);\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.AppendFront("while(matches.Count > 0) ;\n");
+            sb.AppendFront("return true;\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("GRGEN_LIBGR.IMatches matches;\n");
+            sb.AppendFront("for(int i = 0; i < max; i++)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, parameters);\n");
+            sb.AppendFront("if(matches.Count <= 0) return i >= min;\n");
+            sb.AppendFront("if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);\n");
+            sb.AppendFront("else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+            sb.AppendFront("return true;\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
+
+            // implementation of inexact action interface by delegation to exact action interface
+
+            sb.AppendFront("GRGEN_LIBGR.IMatches GRGEN_LIBGR.IAction.Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent();
+            sb.AppendFront("return Match(graph, maxMatches, parameters);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("object[] GRGEN_LIBGR.IAction.Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return Modify(graph, match);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("object[] GRGEN_LIBGR.IAction.ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return ModifyAll(graph, matches);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return Apply(graph);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return Apply(graph, parameters);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return ApplyAll(maxMatches, graph);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return ApplyAll(maxMatches, graph, parameters);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return ApplyStar(graph);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return ApplyStar(graph, parameters);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return ApplyPlus(graph);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return ApplyPlus(graph, parameters);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return ApplyMinMax(graph, min, max);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
+
+            sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); 
+            sb.AppendFront("return ApplyMinMax(graph, min, max, parameters);\n");
+            sb.Unindent(); 
+            sb.AppendFront("}\n");
         }
 
         /// <summary>
@@ -1550,8 +1826,10 @@ exitSecondLoop: ;
             String rulePatternClassName = rulePattern.GetType().Name;
             String matchClassName = rulePatternClassName + "." + "Match_" + rulePattern.name;
             String matchInterfaceName = rulePatternClassName + "." + "IMatch_" + rulePattern.name;
+            String actionInterfaceName = "IAction_" + rulePattern.name;
 
-            sb.AppendFront("public class " + className + " : GRGEN_LGSP.LGSPAction\n");
+            sb.AppendFront("public class " + className + " : GRGEN_LGSP.LGSPAction, "
+                + "GRGEN_LIBGR.IAction, " + actionInterfaceName + "\n");
             sb.AppendFront("{\n");
             sb.Indent(); // class level
 
@@ -1568,7 +1846,7 @@ exitSecondLoop: ;
             sb.AppendFront("private GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchInterfaceName + "> matches;\n\n");
             if (isInitialStatic)
             {
-                sb.AppendFront("public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }\n");
+                sb.AppendFront("public static " + className + " Instance { get { return instance; } }\n");
                 sb.AppendFront("private static " + className + " instance = new " + className + "();\n");
             }
 
@@ -1895,12 +2173,12 @@ exitSecondLoop: ;
             String modelAssemblyLocation, String actionAssemblyLocation, String sourceOutputFilename)
         {
             SourceBuilder sourceCode = new SourceBuilder(CommentSourceCode);
-            GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, action.RulePattern.GetType().Namespace);
+            GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, action.rulePattern.GetType().Namespace);
 
             // can't generate new subpattern matchers due to missing scheduled search plans for them / missing graph analyze data
             Debug.Assert(action.rulePattern.patternGraph.embeddedGraphs.Length == 0);
 
-            GenerateMatcherSourceCode(sourceCode, action.rulePattern, false);
+            GenerateActionAndMatcher(sourceCode, action.rulePattern, false);
 
             // close namespace
             sourceCode.Append("}");
@@ -1947,7 +2225,7 @@ exitSecondLoop: ;
             if(actions.Length == 0) throw new ArgumentException("No actions provided!");
 
             SourceBuilder sourceCode = new SourceBuilder(CommentSourceCode);
-            GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, actions[0].RulePattern.GetType().Namespace);
+            GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, actions[0].rulePattern.GetType().Namespace);
 
             // use domain of dictionary as set with rulepatterns of the subpatterns of the actions, get them from pattern graph
             Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns 
@@ -1970,7 +2248,7 @@ exitSecondLoop: ;
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(smp.patternGraph);
 
-                GenerateMatcherSourceCode(sourceCode, smp, false);
+                GenerateActionAndMatcher(sourceCode, smp, false);
             }
 
             // generate code for actions
@@ -1980,7 +2258,7 @@ exitSecondLoop: ;
 
                 MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(action.rulePattern.patternGraph);
 
-                GenerateMatcherSourceCode(sourceCode, action.rulePattern, false);
+                GenerateActionAndMatcher(sourceCode, action.rulePattern, false);
             }
 
             // close namespace

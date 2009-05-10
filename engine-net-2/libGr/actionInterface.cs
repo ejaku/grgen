@@ -75,7 +75,7 @@ namespace de.unika.ipd.grGen.libGr
     public interface IAction
     {
         /// <summary>
-        /// The name of the rule
+        /// The name of the action
         /// </summary>
         String Name { get; }
 

@@ -445,9 +445,7 @@ namespace de.unika.ipd.grGen.lgsp
 					if(!xgrsRules.ContainsKey(ruleName))
 					{
 						xgrsRules.Add(ruleName, null);
-                        source.AppendFront("de.unika.ipd.grGen.lgsp.LGSPAction rule_");
-						source.Append(ruleName);
-						source.Append(" = actions.GetAction(\"" + ruleName + "\");\n");
+                        source.AppendFrontFormat("Action_{0} rule_{0} = Action_{0}.Instance;\n", ruleName);
 					}
                     foreach(String varName in seqRule.RuleObj.ParamVars)
                     {
@@ -517,7 +515,7 @@ namespace de.unika.ipd.grGen.lgsp
                             source.Append(";\n");
                         }
                     }
-                    source.AppendFront("de.unika.ipd.grGen.libGr.IMatches mat_" + seqID + " = rule_" + ruleObj.RuleName
+                    source.AppendFront("GRGEN_LIBGR.IMatches mat_" + seqID + " = rule_" + ruleObj.RuleName
                         + ".Match(graph, " + (seq.SequenceType == SequenceType.Rule ? "1" : "graph.MaxMatches")
                         + (paramLen == 0 ? ", null);\n" : ", __xgrs_paramarray_" + paramLen + ");\n"));
                     if(FireEvents) source.AppendFront("graph.Matched(mat_" + seqID + ", " + specialStr + ");\n");
@@ -546,8 +544,8 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("{\n");
                         source.Indent();
                         if(FireEvents) source.AppendFront("if(repi_" + seqID + " != 0) graph.RewritingNextMatch();\n");
-                        source.AppendFront("de.unika.ipd.grGen.libGr.IMatch curmat_" + seqID + " = mat_" + seqID
-                            + ".RemoveMatch(de.unika.ipd.grGen.libGr.Sequence.randomGenerator.Next(mat_" + seqID + ".Count));\n");
+                        source.AppendFront("GRGEN_LIBGR.IMatch curmat_" + seqID + " = mat_" + seqID
+                            + ".RemoveMatch(GRGEN_LIBGR.Sequence.randomGenerator.Next(mat_" + seqID + ".Count));\n");
                         source.AppendFront("ret_" + seqID + " = mat_" + seqID + ".Producer.Modify(graph, curmat_" + seqID + ");\n");
                         if(UsePerfInfo)
                             source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
@@ -596,7 +594,7 @@ namespace de.unika.ipd.grGen.lgsp
 					bool isOr = seq.SequenceType == SequenceType.LazyOr;
 					if(seqBin.Randomize)
 					{
-                        source.AppendFront("if(de.unika.ipd.grGen.libGr.Sequence.randomGenerator.Next(2) == 1)\n");
+                        source.AppendFront("if(GRGEN_LIBGR.Sequence.randomGenerator.Next(2) == 1)\n");
 						source.AppendFront("{\n");
 						source.Indent();
 						EmitLazyOp(seqBin.Right, seqBin.Left, isOr, seqID, source);
@@ -622,7 +620,7 @@ namespace de.unika.ipd.grGen.lgsp
 					SequenceBinary seqBin = (SequenceBinary) seq;
 					if(seqBin.Randomize)
 					{
-                        source.AppendFront("if(de.unika.ipd.grGen.libGr.Sequence.randomGenerator.Next(2) == 1)\n");
+                        source.AppendFront("if(GRGEN_LIBGR.Sequence.randomGenerator.Next(2) == 1)\n");
 						source.AppendFront("{\n");
 						source.Indent();
 						EmitSequence(seqBin.Right, source);
@@ -788,7 +786,7 @@ namespace de.unika.ipd.grGen.lgsp
 				return false;
 			}
 
-            source.AppendFront("public static bool ApplyXGRS_" + xgrsID + "(de.unika.ipd.grGen.lgsp.LGSPGraph graph");
+            source.AppendFront("public static bool ApplyXGRS_" + xgrsID + "(GRGEN_LGSP.LGSPGraph graph");
 			for(int i = 0; i < paramNames.Length; i++)
 			{
 				source.Append(", object var_");
@@ -798,7 +796,7 @@ namespace de.unika.ipd.grGen.lgsp
 			source.AppendFront("{\n");
 			source.Indent();
 
-            source.AppendFront("de.unika.ipd.grGen.lgsp.LGSPActions actions = graph.curActions;\n");
+            source.AppendFront("GRGEN_LGSP.LGSPActions actions = graph.curActions;\n");
 
 			xgrsVars.Clear();
 			xgrsNextSequenceID = 0;
@@ -1152,20 +1150,20 @@ namespace de.unika.ipd.grGen.lgsp
                 endSource.Indent();
                 if ((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
                 {
-                    endSource.AppendFront("// class which instantiates and stores all the compiled actions of the module in a dictionary,\n");
+                    endSource.AppendFront("// class which instantiates and stores all the compiled actions of the module,\n");
                     endSource.AppendFront("// dynamic regeneration and compilation causes the old action to be overwritten by the new one\n");
                     endSource.AppendFront("// matching/rule patterns are analyzed at creation time here, once, so that later regeneration runs have all the information available\n");
                 }
-                endSource.AppendFront("public class " + unitName + "Actions : de.unika.ipd.grGen.lgsp.LGSPActions\n");
+                endSource.AppendFront("public class " + unitName + "Actions : GRGEN_LGSP.LGSPActions\n");
                 endSource.AppendFront("{\n");
                 endSource.Indent();
-                endSource.AppendFront("public " + unitName + "Actions(de.unika.ipd.grGen.lgsp.LGSPGraph lgspgraph, "
+                endSource.AppendFront("public " + unitName + "Actions(GRGEN_LGSP.LGSPGraph lgspgraph, "
                         + "string modelAsmName, string actionsAsmName)\n");
                 endSource.AppendFront("    : base(lgspgraph, modelAsmName, actionsAsmName)\n");
                 endSource.AppendFront("{\n");
                 endSource.AppendFront("    InitActions();\n");
                 endSource.AppendFront("}\n\n");
-                endSource.AppendFront("public " + unitName + "Actions(de.unika.ipd.grGen.lgsp.LGSPGraph lgspgraph)\n");
+                endSource.AppendFront("public " + unitName + "Actions(GRGEN_LGSP.LGSPGraph lgspgraph)\n");
                 endSource.AppendFront("    : base(lgspgraph)\n");
                 endSource.AppendFront("{\n");
                 endSource.AppendFront("    InitActions();\n");
@@ -1195,21 +1193,23 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 analyzer.ComputeInterPatternRelations();
 
-                endSource.AppendFront("de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer analyzer = new de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer();\n");
+                endSource.AppendFront("GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();\n");
                 foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {
                     GenerateScheduledSearchPlans(matchingPattern.patternGraph, matcherGen, !(matchingPattern is LGSPRulePattern), false);
 
                     matcherGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(matchingPattern.patternGraph);
 
-                    matcherGen.GenerateMatcherSourceCode(source, matchingPattern, true);
+                    matcherGen.GenerateActionAndMatcher(source, matchingPattern, true);
 
                     if (matchingPattern is LGSPRulePattern) // normal rule
                     {
                         endSource.AppendFrontFormat("analyzer.AnalyzeNestingOfAndRemember(Rule_{0}.Instance);\n",
                                 matchingPattern.name);
-                        endSource.AppendFrontFormat("actions.Add(\"{0}\", (de.unika.ipd.grGen.lgsp.LGSPAction) "
+                        endSource.AppendFrontFormat("actions.Add(\"{0}\", (GRGEN_LGSP.LGSPAction) "
                                 + "Action_{0}.Instance);\n", matchingPattern.name);
+
+                        endSource.AppendFrontFormat("{0} = Action_{0}.Instance;\n", matchingPattern.name);
                     }
                     else
                     {
@@ -1220,7 +1220,18 @@ namespace de.unika.ipd.grGen.lgsp
                 endSource.AppendFront("analyzer.ComputeInterPatternRelations();\n");
 
                 endSource.Unindent();
-                endSource.AppendFront("}\n\n");
+                endSource.AppendFront("}\n");
+                endSource.AppendFront("\n");
+
+                foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                {
+                    if (matchingPattern is LGSPRulePattern) // normal rule
+                    {
+                        endSource.AppendFrontFormat("public IAction_{0} {0};\n", matchingPattern.name);
+                    }
+                }
+                endSource.AppendFront("\n");
+
                 endSource.AppendFront("public override string Name { get { return \"" + actionsName + "\"; } }\n");
                 endSource.AppendFront("public override string ModelMD5Hash { get { return \"" + model.MD5Hash + "\"; } }\n");
                 endSource.Unindent();

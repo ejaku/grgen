@@ -43,17 +43,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="name">The name of the action.</param>
         /// <returns>The action with the given name, or null, if no such action exists.</returns>
-        protected abstract IAction GetIAction(String name);
-
-        /// <summary>
-        /// Gets the action with the given name.
-        /// </summary>
-        /// <param name="name">The name of the action.</param>
-        /// <returns>The action with the given name, or null, if no such action exists.</returns>
-        public IAction GetAction(String name)
-        {
-            return GetIAction(name);
-        }
+        public abstract IAction GetAction(String name);
 
         /// <summary>
         /// Does action-backend dependent stuff.

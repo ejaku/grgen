@@ -21,16 +21,6 @@ using System.Diagnostics;
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// Represents a matcher method.
-    /// </summary>
-    /// <param name="graph">The host graph.</param>
-    /// <param name="maxMatches">The maximum number of matches to be searched for, or zero for an unlimited search.</param>
-    /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-    /// The array must contain the correct number of elements.</param>
-    /// <returns>An IMatches object containing the found matches.</returns>
-    public delegate IMatches MatchInvoker(LGSPGraph graph, int maxMatches, object[] parameters);
-
-    /// <summary>
     /// enumerable returning enumerator over nodes in match
     /// </summary>
     public class Nodes_Enumerable : IEnumerable<INode>
@@ -326,7 +316,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Constructs a new LGSPMatchesList instance.
         /// </summary>
         /// <param name="producer">The action object used to generate this LGSPMatchesList object; null if this is the matches list of an iteration</param>
-        public LGSPMatchesList(LGSPAction producer)
+        public LGSPMatchesList(IAction producer)
         {
             if (producer != null) {
                 this.producer = producer;
@@ -415,7 +405,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// the action object used to generate this LGSPMatchesList object
         /// </summary>
-        public LGSPAction producer;
+        public IAction producer;
 
         /// <summary>
         /// head of list
@@ -435,16 +425,12 @@ namespace de.unika.ipd.grGen.lgsp
         private int count;
     }
 
+
     /// <summary>
     /// An object representing an executable rule of the LGSPBackend.
     /// </summary>
-    public abstract class LGSPAction : IAction
+    public abstract class LGSPAction
     {
-        /// <summary>
-        /// The name of the action (without prefixes)
-        /// </summary>
-        public abstract string Name { get; }
-
         /// <summary>
         /// The LGSPRulePattern object from which this LGSPAction object has been created.
         /// </summary>
@@ -455,417 +441,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PatternGraph patternGraph;
 
-        /// <summary>
-        /// The RulePattern object from which this LGSPAction object has been created.
-        /// </summary>
-        public IRulePattern RulePattern { get { return rulePattern; } }
+
 
         /// <summary>
-        /// A delegate pointing to the current matcher program for this rule.
+        /// The name of the action (without prefixes)
         /// </summary>
-        public MatchInvoker DynamicMatch;
-
-        /// <summary>
-        /// Searches for a graph pattern as specified by RulePattern.
-        /// </summary>
-        /// <param name="graph">The host graph.</param>
-        /// <param name="maxMatches">The maximum number of matches to be searched for, or zero for an unlimited search.</param>
-        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-        /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>An IMatches object containing the found matches.</returns>
-        public IMatches Match(LGSPGraph graph, int maxMatches, object[] parameters)
-        {
-            return DynamicMatch(graph, maxMatches, parameters);
-        }
-
-        /// <summary>
-        /// Performs the rule specific modifications to the given graph with the given match.
-        /// </summary>
-        /// <returns>An array of objects returned by the rule.
-        /// It is only valid until the next graph rewrite with this rule.</returns>
-        public object[] Modify(LGSPGraph graph, IMatch match)
-        {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                return rulePattern.Modify(graph, match);
-            else
-                return rulePattern.ModifyNoReuse(graph, match);
-        }
-
-        /// <summary>
-        /// Performs the rule specific modifications to the given graph with all of the given matches.
-        /// No OnRewritingNextMatch events are triggered by this function.
-        /// </summary>
-        /// <returns>An array of objects returned by the last applicance of the rule.
-        /// It is only valid until the next graph rewrite with this rule.</returns>
-        public object[] ModifyAll(LGSPGraph graph, IMatches matches)
-        {
-            object[] retElems = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-            {
-                foreach(IMatch match in matches)
-                    retElems = rulePattern.Modify(graph, match);
-            }
-            else
-            {
-                foreach(IMatch match in matches)
-                    retElems = rulePattern.ModifyNoReuse(graph, match);
-            }
-            return retElems;
-        }
-
-        /// <summary>
-        /// Tries to apply this rule to the given graph once.
-        /// The rule must not require any parameters.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <returns>A possibly empty array of objects returned by the rule,
-        /// which is only valid until the next graph rewrite with this rule,
-        /// or null, if no match was found.</returns>
-        public object[] Apply(LGSPGraph graph)
-        {
-            IMatches matches = DynamicMatch(graph, 1, null);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                return rulePattern.Modify(graph, matches.First);
-            else
-                return rulePattern.ModifyNoReuse(graph, matches.First);
-        }
-
-        /// <summary>
-        /// Tries to apply this rule to the given graph once.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-        /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>A possibly empty array of objects returned by the rule,
-        /// which is only valid until the next graph rewrite with this rule,
-        /// or null, if no match was found.</returns>
-        public object[] Apply(LGSPGraph graph, params object[] parameters)
-        {
-            IMatches matches = DynamicMatch(graph, 1, parameters);
-            if(matches.Count <= 0) return null;
-
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                return rulePattern.Modify(graph, matches.First);
-            else
-                return rulePattern.ModifyNoReuse(graph, matches.First);
-        }
-
-        /// <summary>
-        /// Tries to apply this rule to all occurrences in the given graph "at once".
-        /// The rule may not require any parameters.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="maxMatches">The maximum number of matches to be rewritten or 0 for no limit.</param>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
-        /// which is only valid until the next graph rewrite with this rule,
-        /// or null, if no match was found.</returns>
-        public object[] ApplyAll(int maxMatches, LGSPGraph graph)
-        {
-            IMatches matches = DynamicMatch(graph, maxMatches, null);
-            object[] retElems = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-            {
-                foreach(IMatch match in matches)
-                    retElems = rulePattern.Modify(graph, match);
-            }
-            else
-            {
-                foreach(IMatch match in matches)
-                    retElems = rulePattern.ModifyNoReuse(graph, match);
-            }
-            return retElems;
-        }
-
-        /// <summary>
-        /// Tries to apply this rule to all occurrences in the given graph "at once".
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="maxMatches">The maximum number of matches to be rewritten.</param>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-        /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
-        /// which is only valid until the next graph rewrite with this rule,
-        /// or null, if no match was found.</returns>
-        public object[] ApplyAll(int maxMatches, LGSPGraph graph, params object[] parameters)
-        {
-            IMatches matches = DynamicMatch(graph, maxMatches, parameters);
-            object[] retElems = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-            {
-                foreach(IMatch match in matches)
-                    retElems = rulePattern.Modify(graph, match);
-            }
-            else
-            {
-                foreach(IMatch match in matches)
-                    retElems = rulePattern.ModifyNoReuse(graph, match);
-            }
-            return retElems;
-        }
-
-
-        #region IAction Members
-
-        /// <summary>
-        /// Searches for a graph pattern as specified by RulePattern.
-        /// </summary>
-        /// <param name="graph">The host graph.</param>
-        /// <param name="maxMatches">The maximum number of matches to be searched for, or zero for an unlimited search.</param>
-        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-        /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>An IMatches object containing the found matches.</returns>
-        IMatches IAction.Match(IGraph graph, int maxMatches, object[] parameters)
-        {
-            return DynamicMatch((LGSPGraph) graph, maxMatches, parameters);
-        }
-
-        /// <summary>
-        /// Performs the rule specific modifications to the given graph with the given match.
-        /// The graph and match object must have the correct type for the used backend.
-        /// </summary>
-        /// <returns>An array of objects returned by the rule.
-        /// It is only valid until the next graph rewrite with this rule.</returns>
-        object[] IAction.Modify(IGraph graph, IMatch match)
-        {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                return rulePattern.Modify((LGSPGraph) graph, match);
-            else
-                return rulePattern.ModifyNoReuse((LGSPGraph) graph, match);
-        }
-
-        /// <summary>
-        /// Performs the rule specific modifications to the given graph with all of the given matches.
-        /// No OnRewritingNextMatch events are triggered by this function.
-        /// </summary>
-        /// <returns>An array of objects returned by the last applicance of the rule.
-        /// It is only valid until the next graph rewrite with this rule.</returns>
-        object[] IAction.ModifyAll(IGraph graph, IMatches matches)
-        {
-            return ModifyAll((LGSPGraph) graph, matches);
-        }
-
-        /// <summary>
-        /// Tries to apply this rule to the given graph once.
-        /// The rule may not require any parameters.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <returns>A possibly empty array of objects returned by the rule,
-        /// which is only valid until the next graph rewrite with this rule,
-        /// or null, if no match was found.</returns>
-        object[] IAction.Apply(IGraph graph)
-        {
-            IMatches matches = DynamicMatch((LGSPGraph) graph, 1, null);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                return rulePattern.Modify((LGSPGraph) graph, matches.First);
-            else
-                return rulePattern.ModifyNoReuse((LGSPGraph) graph, matches.First);
-        }
-
-        /// <summary>
-        /// Tries to apply this rule to the given graph once.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-        /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>A possibly empty array of objects returned by the rule,
-        /// which is only valid until the next graph rewrite with this rule,
-        /// or null, if no match was found.</returns>
-        object[] IAction.Apply(IGraph graph, params object[] parameters)
-        {
-            IMatches matches = DynamicMatch((LGSPGraph) graph, 1, parameters);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                return rulePattern.Modify((LGSPGraph) graph, matches.First);
-            else
-                return rulePattern.ModifyNoReuse((LGSPGraph) graph, matches.First);
-        }
-
-        /// <summary>
-        /// Tries to apply this rule to all occurrences in the given graph "at once".
-        /// The rule may not require any parameters.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="maxMatches">The maximum number of matches to be rewritten or 0 for no limit.</param>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
-        /// which is only valid until the next graph rewrite with this rule,
-        /// or null, if no match was found.</returns>
-        object[] IAction.ApplyAll(int maxMatches, IGraph graph)
-        {
-            return ApplyAll(maxMatches, (LGSPGraph) graph);
-        }
-
-        /// <summary>
-        /// Tries to apply this rule to all occurrences in the given graph "at once".
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="maxMatches">The maximum number of matches to be rewritten or 0 for no limit.</param>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-        /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>A possibly empty array of objects returned by the last applicance of the rule,
-        /// which is only valid until the next graph rewrite with this rule,
-        /// or null, if no match was found.</returns>
-        object[] IAction.ApplyAll(int maxMatches, IGraph graph, params object[] parameters)
-        {
-            return ApplyAll(maxMatches, (LGSPGraph) graph, parameters);
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Applies this rule to the given graph as often as possible.
-        /// The rule may not require any parameters.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <returns>Always returns true.</returns>
-        public bool ApplyStar(IGraph graph)
-        {
-            LGSPGraph lgraph = (LGSPGraph) graph;
-            IMatches matches;
-            while(true)
-            {
-                matches = DynamicMatch(lgraph, 1, null);
-                if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.First);
-                else
-                    rulePattern.ModifyNoReuse(lgraph, matches.First);
-            }
-        }
-
-        /// <summary>
-        /// Applies this rule to the given graph as often as possible.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-        /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>Always returns true.</returns>
-        public bool ApplyStar(IGraph graph, params object[] parameters)
-        {
-            LGSPGraph lgraph = (LGSPGraph) graph;
-            IMatches matches;
-            while(true)
-            {
-                matches = DynamicMatch(lgraph, 1, parameters);
-                if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.First);
-                else
-                    rulePattern.ModifyNoReuse(lgraph, matches.First);
-            }
-        }
-
-        /// <summary>
-        /// Applies this rule to the given graph as often as possible.
-        /// The rule may not require any parameters.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <returns>True, if the rule was applied at least once.</returns>
-        public bool ApplyPlus(IGraph graph)
-        {
-            LGSPGraph lgraph = (LGSPGraph) graph;
-            IMatches matches = DynamicMatch(lgraph, 1, null);
-            if(matches.Count <= 0) return false;
-            do
-            {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.First);
-                else
-                    rulePattern.ModifyNoReuse(lgraph, matches.First);
-                matches = DynamicMatch(lgraph, 1, null);
-            }
-            while(matches.Count > 0);
-            return true;
-        }
-
-        /// <summary>
-        /// Applies this rule to the given graph as often as possible.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-        /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>True, if the rule was applied at least once.</returns>
-        public bool ApplyPlus(IGraph graph, params object[] parameters)
-        {
-            LGSPGraph lgraph = (LGSPGraph) graph;
-            IMatches matches = DynamicMatch(lgraph, 1, parameters);
-            if(matches.Count <= 0) return false;
-            do
-            {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.First);
-                else
-                    rulePattern.ModifyNoReuse(lgraph, matches.First);
-                matches = DynamicMatch(lgraph, 1, parameters);
-            }
-            while(matches.Count > 0);
-            return true;
-        }
-
-        /// <summary>
-        /// Applies this rule to the given graph at most max times.
-        /// The rule may not require any parameters.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <param name="min">The minimum number of applications to be "successful".</param>
-        /// <param name="max">The maximum number of applications to be applied.</param>
-        /// <returns>True, if the rule was applied at least min times.</returns>
-        public bool ApplyMinMax(IGraph graph, int min, int max)
-        {
-            LGSPGraph lgraph = (LGSPGraph) graph;
-            IMatches matches;
-            for(int i = 0; i < max; i++)
-            {
-                matches = DynamicMatch(lgraph, 1, null);
-                if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.First);
-                else
-                    rulePattern.ModifyNoReuse(lgraph, matches.First);
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Applies this rule to the given graph at most max times.
-        /// No Matched/Finished events are triggered by this function.
-        /// </summary>
-        /// <param name="graph">Host graph for this rule</param>
-        /// <param name="min">The minimum number of applications to be "successful".</param>
-        /// <param name="max">The maximum number of applications to be applied.</param>
-        /// <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-        /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>True, if the rule was applied at least min times.</returns>
-        public bool ApplyMinMax(IGraph graph, int min, int max, params object[] parameters)
-        {
-            LGSPGraph lgraph = (LGSPGraph) graph;
-            IMatches matches;
-            for(int i = 0; i < max; i++)
-            {
-                matches = DynamicMatch(lgraph, 1, parameters);
-                if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.First);
-                else
-                    rulePattern.ModifyNoReuse(lgraph, matches.First);
-            }
-            return true;
-        }
+        public abstract string Name { get; }
     }
+
 
     /// <summary>
     /// A container of rules also managing some parts of rule application with sequences.
@@ -1108,23 +691,14 @@ invalidCommand:
         /// </summary>
         /// <param name="name">The name of the action.</param>
         /// <returns>The action with the given name, or null, if no such action exists.</returns>
-        public new LGSPAction GetAction(string name)
+        public override IAction GetAction(string name)
         {
             LGSPAction action;
             if(!actions.TryGetValue(name, out action)) return null;
-            return action;
-        }
-
-        /// <summary>
-        /// Gets the action with the given name.
-        /// </summary>
-        /// <param name="name">The name of the action.</param>
-        /// <returns>The action with the given name, or null, if no such action exists.</returns>
-        protected override IAction GetIAction(string name)
-        {
-            return GetAction(name);
+            return (IAction)action;
         }
     }
+
 
     /// <summary>
     /// Abstract base class for generated subpattern matching actions
@@ -1181,6 +755,7 @@ invalidCommand:
         /// </summary>
         public abstract void myMatch(List<Stack<IMatch>> foundPartialMatches, int maxMatches, int negLevel);
     }
+
 
     /// <summary>
     /// Class containing global functions for checking whether node/edge is matched on patternpath
