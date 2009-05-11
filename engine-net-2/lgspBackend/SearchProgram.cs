@@ -192,6 +192,7 @@ namespace de.unika.ipd.grGen.lgsp
     class SearchProgramOfAction : SearchProgram
     {
         public SearchProgramOfAction(string rulePatternClassName,
+            string patternName, string[] parameterTypes, string[] parameterNames,
             List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated,
             string name, bool containsSubpatterns)
         {
@@ -200,6 +201,12 @@ namespace de.unika.ipd.grGen.lgsp
                 namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated;
             Name = name;
 
+            PatternName = patternName;
+            Parameters = "";
+            for (int i = 0; i < parameterTypes.Length; ++i)
+            {
+                Parameters += ", " + parameterTypes[i] + " " + parameterNames[i];
+            }
             SetupSubpatternMatching = containsSubpatterns;
         }
 
@@ -239,8 +246,10 @@ namespace de.unika.ipd.grGen.lgsp
 #if RANDOM_LOOKUP_LIST_START
             sourceCode.AppendFront("private Random random = new Random(13795661);\n");
 #endif
-            sourceCode.AppendFront("public GRGEN_LIBGR.IMatches " + Name + "("
-                    + "GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)\n");
+            string matchType = RulePatternClassName + "." + NamesOfEntities.MatchInterfaceName(PatternName);
+            string matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+            sourceCode.AppendFrontFormat("public {0} {1}("
+                    + "GRGEN_LGSP.LGSPGraph graph, int maxMatches{2})\n", matchesType, Name, Parameters);
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
             sourceCode.AppendFront("matches.Clear();\n");
@@ -278,6 +287,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        public string PatternName;
+        public string Parameters;
         public bool SetupSubpatternMatching;
     }
 
@@ -289,18 +300,25 @@ namespace de.unika.ipd.grGen.lgsp
     class SearchProgramOfMissingPreset : SearchProgram
     {
         public SearchProgramOfMissingPreset(string rulePatternClassName,
+            string[] parameterTypes, string[] parameterNames,
             List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated,
             string name, bool containsSubpatterns,
-            string[] parameters, bool[] parameterIsNode)
+            string[] availableParametersOrFoundElements, bool[] availableParameterOrFoundElementIsNode)
         {
             RulePatternClassName = rulePatternClassName;
             NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated =
                 namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated;
             Name = name;
 
+            Parameters = "";
+            for (int i = 0; i < parameterTypes.Length; ++i)
+            {
+                Parameters += ", " + parameterTypes[i] + " " + parameterNames[i];
+            }
+            Parameters += ", "; // add , as other parameters are following here
             SetupSubpatternMatching = containsSubpatterns;
-            Parameters = parameters;
-            ParameterIsNode = parameterIsNode;
+            AvailableParametersOrFoundElements = availableParametersOrFoundElements;
+            AvailableParameterOrFoundElementIsNode = availableParameterOrFoundElementIsNode;
         }
 
         /// <summary>
@@ -312,12 +330,12 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("Search program {0} of missing preset {1}",
                 Name, SetupSubpatternMatching ? "with subpattern matching setup" : "");
             // parameters
-            for (int i = 0; i < Parameters.Length; ++i)
+            for (int i = 0; i < AvailableParametersOrFoundElements.Length; ++i)
             {
                 string typeOfParameterVariableContainingCandidate =
-                    ParameterIsNode[i] ? "LGSPNode" : "LGSPEdge";
+                    AvailableParameterOrFoundElementIsNode[i] ? "LGSPNode" : "LGSPEdge";
                 string parameterVariableContainingCandidate =
-                    NamesOfEntities.CandidateVariable(Parameters[i]);
+                    NamesOfEntities.CandidateVariable(AvailableParametersOrFoundElements[i]);
                 builder.AppendFormat(", GRGEN_LGSP.{0} {1}",
                     typeOfParameterVariableContainingCandidate,
                     parameterVariableContainingCandidate);
@@ -352,16 +370,16 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("private Random random = new Random(13795661);\n");
 #endif
 
-            sourceCode.AppendFront("public void " + Name + "(GRGEN_LGSP.LGSPGraph graph, int maxMatches, "
-                    + "object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<"
+            sourceCode.AppendFrontFormat("public void " + Name + "(GRGEN_LGSP.LGSPGraph graph, int maxMatches{0}"
+                    + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<"
                     + "GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<"
-                    + "GRGEN_LIBGR.IMatch>> matchesList");
-            for (int i = 0; i < Parameters.Length; ++i)
+                    + "GRGEN_LIBGR.IMatch>> matchesList", Parameters);
+            for (int i = 0; i < AvailableParametersOrFoundElements.Length; ++i)
             {
                 string typeOfParameterVariableContainingCandidate =
-                    ParameterIsNode[i] ? "LGSPNode" : "LGSPEdge";
+                    AvailableParameterOrFoundElementIsNode[i] ? "LGSPNode" : "LGSPEdge";
                 string parameterVariableContainingCandidate =
-                    NamesOfEntities.CandidateVariable(Parameters[i]);
+                    NamesOfEntities.CandidateVariable(AvailableParametersOrFoundElements[i]);
                 sourceCode.AppendFormat(", GRGEN_LGSP.{0} {1}",
                     typeOfParameterVariableContainingCandidate,
                     parameterVariableContainingCandidate);
@@ -391,9 +409,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public string[] Parameters;
-        public bool[] ParameterIsNode;
+        public string[] AvailableParametersOrFoundElements;
+        public bool[] AvailableParameterOrFoundElementIsNode;
 
+        public string Parameters;
         public bool SetupSubpatternMatching;
     }
 
@@ -650,26 +669,24 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class ExtractVariable : SearchProgramOperation
     {
-        public ExtractVariable(string varType, string varName, int paramIndex)
+        public ExtractVariable(string varType, string varName)
         {
             VarType = varType;
             VarName = varName;
-            ParamIndex = paramIndex;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("ExtractVariable name=" + VarName + " type=" + VarType + " paramIndex=" + ParamIndex + "\n");
+            builder.AppendFront("ExtractVariable " + VarName + ":" + VarType + "\n");
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront(VarType + " " + NamesOfEntities.Variable(VarName) + " = (" + VarType + ") parameters[" + ParamIndex + "];\n");
+            sourceCode.AppendFront(VarType + " " + NamesOfEntities.Variable(VarName) + " = (" + VarType + ")" + VarName + ";\n");
         }
 
         public string VarType;
         public string VarName;
-        public int ParamIndex;
     }
 
     /// <summary>
@@ -1170,23 +1187,9 @@ namespace de.unika.ipd.grGen.lgsp
         public GetCandidateByDrawing(
             GetCandidateByDrawingType type,
             string patternElementName,
-            string inputIndex,
             bool isNode)
         {
-            Debug.Assert(type == GetCandidateByDrawingType.FromInputs);
-            
-            Type = type;
-            PatternElementName = patternElementName;
-            InputIndex = inputIndex;
-            IsNode = isNode;
-        }
-
-        public GetCandidateByDrawing(
-            GetCandidateByDrawingType type,
-            string patternElementName,
-            bool isNode)
-        {
-            Debug.Assert(type == GetCandidateByDrawingType.FromSubpatternConnections);
+            Debug.Assert(type == GetCandidateByDrawingType.FromInputs || type == GetCandidateByDrawingType.FromSubpatternConnections);
             
             Type = type;
             PatternElementName = patternElementName;
@@ -1203,8 +1206,8 @@ namespace de.unika.ipd.grGen.lgsp
                     StartingPointEdgeName, NodeType.ToString());
             } else if(Type==GetCandidateByDrawingType.FromInputs) {
                 builder.Append("FromInputs ");
-                builder.AppendFormat("on {0} index:{1} node:{2}\n",
-                    PatternElementName, InputIndex, IsNode);
+                builder.AppendFormat("on {0} node:{1}\n",
+                    PatternElementName, IsNode);
             } else { // Type==GetCandidateByDrawingType.FromSubpatternConnections
                 builder.Append("FromSubpatternConnections ");
                 builder.AppendFormat("on {0} node:{1}\n",
@@ -1275,8 +1278,8 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0} {1}",
                     typeOfVariableContainingCandidate, variableContainingCandidate);
                 // emit initialization with element from input parameters array
-                sourceCode.AppendFormat(" = ({0}) parameters[{1}];\n",
-                    typeOfVariableContainingCandidate, InputIndex);
+                sourceCode.AppendFormat(" = ({0}){1};\n",
+                    typeOfVariableContainingCandidate, PatternElementName);
             }
             else //Type==GetCandidateByDrawingType.FromSubpatternConnections
             {
@@ -1298,7 +1301,6 @@ namespace de.unika.ipd.grGen.lgsp
         public string TheOtherPatternElementName; // only valid if NodeFromEdge and TheOther
         public string StartingPointEdgeName; // from pattern - only valid if NodeFromEdge
         ImplicitNodeType NodeType; // only valid if NodeFromEdge
-        public string InputIndex; // only valid if FromInputs
         public bool IsNode; // node|edge - only valid if FromInputs, FromSubpatternConnections
     }
 
@@ -1933,10 +1935,15 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public CheckCandidateForPreset(
             string patternElementName,
-            bool isNode)
+            bool isNode,
+            string[] arguments)
         {
             PatternElementName = patternElementName;
             IsNode = isNode;
+            for (int i = 0; i < arguments.Length; ++i)
+            {
+                Arguments += ", " + arguments[i];
+            }
         }
 
         public void CompleteWithArguments(
@@ -2000,7 +2007,7 @@ namespace de.unika.ipd.grGen.lgsp
                 nameOfMissingPresetHandlingMethod);
             // emit call arguments
             sourceCode.Append("(");
-            sourceCode.Append("graph, maxMatches, parameters, null, null, null");
+            sourceCode.AppendFormat("graph, maxMatches{0}, null, null, null", Arguments);
             for (int i = 0; i < NeededElements.Length; ++i)
             {
                 sourceCode.AppendFormat(", {0}", NamesOfEntities.CandidateVariable(NeededElements[i]));
@@ -2014,6 +2021,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
+        string Arguments;
         public string[] NeededElements;
         public bool[] NeededElementIsNode;
         public bool IsNode; // node|edge

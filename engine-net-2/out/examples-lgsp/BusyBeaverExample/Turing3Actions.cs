@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun May 03 15:03:40 GMT+01:00 2009
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon May 11 22:47:36 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -1845,7 +1845,30 @@ namespace de.unika.ipd.grGen.Action_Turing3
 	}
 
 
-    public class Action_readZeroRule : GRGEN_LGSP.LGSPAction
+    /// <summary>
+    /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
+    /// </summary>
+    public interface IAction_readZeroRule
+    {
+        /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
+        GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp);
+        /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
+        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_readZeroRule.IMatch_readZeroRule match);
+        /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
+        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
+        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
+        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp);
+        /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp);
+        /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp);
+        /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp);
+    }
+    
+    public class Action_readZeroRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_readZeroRule
     {
         public Action_readZeroRule() {
             rulePattern = Rule_readZeroRule.Instance;
@@ -1857,17 +1880,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public override string Name { get { return "readZeroRule"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_readZeroRule.Match_readZeroRule, Rule_readZeroRule.IMatch_readZeroRule> matches;
 
-        public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
+        public static Action_readZeroRule Instance { get { return instance; } }
         private static Action_readZeroRule instance = new Action_readZeroRule();
         
-        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp)
         {
             matches.Clear();
             int negLevel = 0;
             // Preset readZeroRule_node_s 
-            GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_s = (GRGEN_LGSP.LGSPNode) parameters[0];
+            GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_s = (GRGEN_LGSP.LGSPNode)readZeroRule_node_s;
             if(candidate_readZeroRule_node_s == null) {
-                MissingPreset_readZeroRule_node_s(graph, maxMatches, parameters, null, null, null);
+                MissingPreset_readZeroRule_node_s(graph, maxMatches, readZeroRule_node_s, readZeroRule_node_bp, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -1879,9 +1902,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 return matches;
             }
             // Preset readZeroRule_node_bp 
-            GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+            GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_bp = (GRGEN_LGSP.LGSPNode)readZeroRule_node_bp;
             if(candidate_readZeroRule_node_bp == null) {
-                MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_s);
+                MissingPreset_readZeroRule_node_bp(graph, maxMatches, readZeroRule_node_s, readZeroRule_node_bp, null, null, null, candidate_readZeroRule_node_s);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -1928,7 +1951,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return matches;
         }
-        public void MissingPreset_readZeroRule_node_s(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
+        public void MissingPreset_readZeroRule_node_s(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup readZeroRule_node_s 
@@ -1936,9 +1959,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
             for(GRGEN_LGSP.LGSPNode head_candidate_readZeroRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_s], candidate_readZeroRule_node_s = head_candidate_readZeroRule_node_s.typeNext; candidate_readZeroRule_node_s != head_candidate_readZeroRule_node_s; candidate_readZeroRule_node_s = candidate_readZeroRule_node_s.typeNext)
             {
                 // Preset readZeroRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+                GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_bp = (GRGEN_LGSP.LGSPNode)readZeroRule_node_bp;
                 if(candidate_readZeroRule_node_bp == null) {
-                    MissingPreset_readZeroRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readZeroRule_node_s);
+                    MissingPreset_readZeroRule_node_bp(graph, maxMatches, readZeroRule_node_s, readZeroRule_node_bp, null, null, null, candidate_readZeroRule_node_s);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
@@ -1987,7 +2010,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return;
         }
-        public void MissingPreset_readZeroRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_s)
+        public void MissingPreset_readZeroRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_s)
         {
             int negLevel = 0;
             // Lookup readZeroRule_node_bp 
@@ -2032,9 +2055,163 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return;
         }
+        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp);
+        /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
+        public MatchInvoker DynamicMatch;
+        /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp)
+        {
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, readZeroRule_node_s, readZeroRule_node_bp);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_readZeroRule.IMatch_readZeroRule match)
+        {
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches)
+        {
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_readZeroRule.IMatch_readZeroRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_readZeroRule.IMatch_readZeroRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, readZeroRule_node_s, readZeroRule_node_bp);
+            if(matches.Count <= 0) return null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+        }
+        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, readZeroRule_node_s, readZeroRule_node_bp);
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_readZeroRule.IMatch_readZeroRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_readZeroRule.IMatch_readZeroRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches;
+            while(true)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, readZeroRule_node_s, readZeroRule_node_bp);
+                if(matches.Count <= 0) return true;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+        }
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, readZeroRule_node_s, readZeroRule_node_bp);
+            if(matches.Count <= 0) return false;
+            do
+            {
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, readZeroRule_node_s, readZeroRule_node_bp);
+            }
+            while(matches.Count > 0) ;
+            return true;
+        }
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> matches;
+            for(int i = 0; i < max; i++)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, readZeroRule_node_s, readZeroRule_node_bp);
+                if(matches.Count <= 0) return i >= min;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+            return true;
+        }
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        {
+            return Match(graph, maxMatches, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        {
+            return Modify(graph, (Rule_readZeroRule.IMatch_readZeroRule)match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        {
+            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule>)matches);
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return Apply(graph, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyAll(maxMatches, graph, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyStar(graph, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyPlus(graph, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        {
+            return ApplyMinMax(graph, min, max, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
     }
 
-    public class Action_readOneRule : GRGEN_LGSP.LGSPAction
+    /// <summary>
+    /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
+    /// </summary>
+    public interface IAction_readOneRule
+    {
+        /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
+        GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp);
+        /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
+        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_readOneRule.IMatch_readOneRule match);
+        /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
+        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
+        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
+        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp);
+        /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp);
+        /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp);
+        /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp);
+    }
+    
+    public class Action_readOneRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_readOneRule
     {
         public Action_readOneRule() {
             rulePattern = Rule_readOneRule.Instance;
@@ -2046,17 +2223,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public override string Name { get { return "readOneRule"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_readOneRule.Match_readOneRule, Rule_readOneRule.IMatch_readOneRule> matches;
 
-        public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
+        public static Action_readOneRule Instance { get { return instance; } }
         private static Action_readOneRule instance = new Action_readOneRule();
         
-        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp)
         {
             matches.Clear();
             int negLevel = 0;
             // Preset readOneRule_node_s 
-            GRGEN_LGSP.LGSPNode candidate_readOneRule_node_s = (GRGEN_LGSP.LGSPNode) parameters[0];
+            GRGEN_LGSP.LGSPNode candidate_readOneRule_node_s = (GRGEN_LGSP.LGSPNode)readOneRule_node_s;
             if(candidate_readOneRule_node_s == null) {
-                MissingPreset_readOneRule_node_s(graph, maxMatches, parameters, null, null, null);
+                MissingPreset_readOneRule_node_s(graph, maxMatches, readOneRule_node_s, readOneRule_node_bp, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -2068,9 +2245,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 return matches;
             }
             // Preset readOneRule_node_bp 
-            GRGEN_LGSP.LGSPNode candidate_readOneRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+            GRGEN_LGSP.LGSPNode candidate_readOneRule_node_bp = (GRGEN_LGSP.LGSPNode)readOneRule_node_bp;
             if(candidate_readOneRule_node_bp == null) {
-                MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readOneRule_node_s);
+                MissingPreset_readOneRule_node_bp(graph, maxMatches, readOneRule_node_s, readOneRule_node_bp, null, null, null, candidate_readOneRule_node_s);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -2117,7 +2294,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return matches;
         }
-        public void MissingPreset_readOneRule_node_s(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
+        public void MissingPreset_readOneRule_node_s(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup readOneRule_node_s 
@@ -2125,9 +2302,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
             for(GRGEN_LGSP.LGSPNode head_candidate_readOneRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_s], candidate_readOneRule_node_s = head_candidate_readOneRule_node_s.typeNext; candidate_readOneRule_node_s != head_candidate_readOneRule_node_s; candidate_readOneRule_node_s = candidate_readOneRule_node_s.typeNext)
             {
                 // Preset readOneRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_readOneRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+                GRGEN_LGSP.LGSPNode candidate_readOneRule_node_bp = (GRGEN_LGSP.LGSPNode)readOneRule_node_bp;
                 if(candidate_readOneRule_node_bp == null) {
-                    MissingPreset_readOneRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_readOneRule_node_s);
+                    MissingPreset_readOneRule_node_bp(graph, maxMatches, readOneRule_node_s, readOneRule_node_bp, null, null, null, candidate_readOneRule_node_s);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
@@ -2176,7 +2353,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return;
         }
-        public void MissingPreset_readOneRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_readOneRule_node_s)
+        public void MissingPreset_readOneRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_readOneRule_node_s)
         {
             int negLevel = 0;
             // Lookup readOneRule_node_bp 
@@ -2221,9 +2398,163 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return;
         }
+        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp);
+        /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
+        public MatchInvoker DynamicMatch;
+        /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp)
+        {
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, readOneRule_node_s, readOneRule_node_bp);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_readOneRule.IMatch_readOneRule match)
+        {
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches)
+        {
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_readOneRule.IMatch_readOneRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_readOneRule.IMatch_readOneRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, readOneRule_node_s, readOneRule_node_bp);
+            if(matches.Count <= 0) return null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+        }
+        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, readOneRule_node_s, readOneRule_node_bp);
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_readOneRule.IMatch_readOneRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_readOneRule.IMatch_readOneRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches;
+            while(true)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, readOneRule_node_s, readOneRule_node_bp);
+                if(matches.Count <= 0) return true;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+        }
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, readOneRule_node_s, readOneRule_node_bp);
+            if(matches.Count <= 0) return false;
+            do
+            {
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, readOneRule_node_s, readOneRule_node_bp);
+            }
+            while(matches.Count > 0) ;
+            return true;
+        }
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> matches;
+            for(int i = 0; i < max; i++)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, readOneRule_node_s, readOneRule_node_bp);
+                if(matches.Count <= 0) return i >= min;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+            return true;
+        }
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        {
+            return Match(graph, maxMatches, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        {
+            return Modify(graph, (Rule_readOneRule.IMatch_readOneRule)match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        {
+            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule>)matches);
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return Apply(graph, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyAll(maxMatches, graph, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyStar(graph, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyPlus(graph, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        {
+            return ApplyMinMax(graph, min, max, (GRGEN_MODEL.IState) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
     }
 
-    public class Action_ensureMoveLeftValidRule : GRGEN_LGSP.LGSPAction
+    /// <summary>
+    /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
+    /// </summary>
+    public interface IAction_ensureMoveLeftValidRule
+    {
+        /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
+        GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
+        /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
+        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule match);
+        /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
+        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
+        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
+        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
+        /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
+        /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
+        /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
+    }
+    
+    public class Action_ensureMoveLeftValidRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ensureMoveLeftValidRule
     {
         public Action_ensureMoveLeftValidRule() {
             rulePattern = Rule_ensureMoveLeftValidRule.Instance;
@@ -2235,17 +2566,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public override string Name { get { return "ensureMoveLeftValidRule"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule, Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches;
 
-        public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
+        public static Action_ensureMoveLeftValidRule Instance { get { return instance; } }
         private static Action_ensureMoveLeftValidRule instance = new Action_ensureMoveLeftValidRule();
         
-        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
         {
             matches.Clear();
             int negLevel = 0;
             // Preset ensureMoveLeftValidRule_node_wv 
-            GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_wv = (GRGEN_LGSP.LGSPNode) parameters[0];
+            GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_wv = (GRGEN_LGSP.LGSPNode)ensureMoveLeftValidRule_node_wv;
             if(candidate_ensureMoveLeftValidRule_node_wv == null) {
-                MissingPreset_ensureMoveLeftValidRule_node_wv(graph, maxMatches, parameters, null, null, null);
+                MissingPreset_ensureMoveLeftValidRule_node_wv(graph, maxMatches, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -2257,9 +2588,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 return matches;
             }
             // Preset ensureMoveLeftValidRule_node_bp 
-            GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+            GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_bp = (GRGEN_LGSP.LGSPNode)ensureMoveLeftValidRule_node_bp;
             if(candidate_ensureMoveLeftValidRule_node_bp == null) {
-                MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveLeftValidRule_node_wv);
+                MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp, null, null, null, candidate_ensureMoveLeftValidRule_node_wv);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -2337,7 +2668,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             }
             return matches;
         }
-        public void MissingPreset_ensureMoveLeftValidRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
+        public void MissingPreset_ensureMoveLeftValidRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup ensureMoveLeftValidRule_node_wv 
@@ -2345,9 +2676,9 @@ namespace de.unika.ipd.grGen.Action_Turing3
             for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveLeftValidRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_ensureMoveLeftValidRule_node_wv], candidate_ensureMoveLeftValidRule_node_wv = head_candidate_ensureMoveLeftValidRule_node_wv.typeNext; candidate_ensureMoveLeftValidRule_node_wv != head_candidate_ensureMoveLeftValidRule_node_wv; candidate_ensureMoveLeftValidRule_node_wv = candidate_ensureMoveLeftValidRule_node_wv.typeNext)
             {
                 // Preset ensureMoveLeftValidRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+                GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_bp = (GRGEN_LGSP.LGSPNode)ensureMoveLeftValidRule_node_bp;
                 if(candidate_ensureMoveLeftValidRule_node_bp == null) {
-                    MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveLeftValidRule_node_wv);
+                    MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp, null, null, null, candidate_ensureMoveLeftValidRule_node_wv);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
@@ -2428,7 +2759,7 @@ label0: ;
             }
             return;
         }
-        public void MissingPreset_ensureMoveLeftValidRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_wv)
+        public void MissingPreset_ensureMoveLeftValidRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_wv)
         {
             int negLevel = 0;
             // Lookup ensureMoveLeftValidRule_node_bp 
@@ -2505,9 +2836,163 @@ label1: ;
             }
             return;
         }
+        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
+        /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
+        public MatchInvoker DynamicMatch;
+        /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
+        {
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule match)
+        {
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches)
+        {
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp);
+            if(matches.Count <= 0) return null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+        }
+        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp);
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches;
+            while(true)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp);
+                if(matches.Count <= 0) return true;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+        }
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp);
+            if(matches.Count <= 0) return false;
+            do
+            {
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp);
+            }
+            while(matches.Count > 0) ;
+            return true;
+        }
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches;
+            for(int i = 0; i < max; i++)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp);
+                if(matches.Count <= 0) return i >= min;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+            return true;
+        }
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        {
+            return Match(graph, maxMatches, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        {
+            return Modify(graph, (Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule)match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        {
+            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>)matches);
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return Apply(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyAll(maxMatches, graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyStar(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyPlus(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        {
+            return ApplyMinMax(graph, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
     }
 
-    public class Action_ensureMoveRightValidRule : GRGEN_LGSP.LGSPAction
+    /// <summary>
+    /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
+    /// </summary>
+    public interface IAction_ensureMoveRightValidRule
+    {
+        /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
+        GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
+        /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
+        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule match);
+        /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
+        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
+        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
+        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
+        /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
+        /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
+        /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
+    }
+    
+    public class Action_ensureMoveRightValidRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ensureMoveRightValidRule
     {
         public Action_ensureMoveRightValidRule() {
             rulePattern = Rule_ensureMoveRightValidRule.Instance;
@@ -2519,17 +3004,17 @@ label1: ;
         public override string Name { get { return "ensureMoveRightValidRule"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule, Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches;
 
-        public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
+        public static Action_ensureMoveRightValidRule Instance { get { return instance; } }
         private static Action_ensureMoveRightValidRule instance = new Action_ensureMoveRightValidRule();
         
-        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
         {
             matches.Clear();
             int negLevel = 0;
             // Preset ensureMoveRightValidRule_node_wv 
-            GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_wv = (GRGEN_LGSP.LGSPNode) parameters[0];
+            GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_wv = (GRGEN_LGSP.LGSPNode)ensureMoveRightValidRule_node_wv;
             if(candidate_ensureMoveRightValidRule_node_wv == null) {
-                MissingPreset_ensureMoveRightValidRule_node_wv(graph, maxMatches, parameters, null, null, null);
+                MissingPreset_ensureMoveRightValidRule_node_wv(graph, maxMatches, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -2541,9 +3026,9 @@ label1: ;
                 return matches;
             }
             // Preset ensureMoveRightValidRule_node_bp 
-            GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+            GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_bp = (GRGEN_LGSP.LGSPNode)ensureMoveRightValidRule_node_bp;
             if(candidate_ensureMoveRightValidRule_node_bp == null) {
-                MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveRightValidRule_node_wv);
+                MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp, null, null, null, candidate_ensureMoveRightValidRule_node_wv);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -2621,7 +3106,7 @@ label1: ;
             }
             return matches;
         }
-        public void MissingPreset_ensureMoveRightValidRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
+        public void MissingPreset_ensureMoveRightValidRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup ensureMoveRightValidRule_node_wv 
@@ -2629,9 +3114,9 @@ label1: ;
             for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveRightValidRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_ensureMoveRightValidRule_node_wv], candidate_ensureMoveRightValidRule_node_wv = head_candidate_ensureMoveRightValidRule_node_wv.typeNext; candidate_ensureMoveRightValidRule_node_wv != head_candidate_ensureMoveRightValidRule_node_wv; candidate_ensureMoveRightValidRule_node_wv = candidate_ensureMoveRightValidRule_node_wv.typeNext)
             {
                 // Preset ensureMoveRightValidRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+                GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_bp = (GRGEN_LGSP.LGSPNode)ensureMoveRightValidRule_node_bp;
                 if(candidate_ensureMoveRightValidRule_node_bp == null) {
-                    MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_ensureMoveRightValidRule_node_wv);
+                    MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp, null, null, null, candidate_ensureMoveRightValidRule_node_wv);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
@@ -2712,7 +3197,7 @@ label2: ;
             }
             return;
         }
-        public void MissingPreset_ensureMoveRightValidRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_wv)
+        public void MissingPreset_ensureMoveRightValidRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_wv)
         {
             int negLevel = 0;
             // Lookup ensureMoveRightValidRule_node_bp 
@@ -2789,9 +3274,163 @@ label3: ;
             }
             return;
         }
+        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
+        /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
+        public MatchInvoker DynamicMatch;
+        /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
+        {
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule match)
+        {
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches)
+        {
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp);
+            if(matches.Count <= 0) return null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+        }
+        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp);
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches;
+            while(true)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp);
+                if(matches.Count <= 0) return true;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+        }
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp);
+            if(matches.Count <= 0) return false;
+            do
+            {
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp);
+            }
+            while(matches.Count > 0) ;
+            return true;
+        }
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches;
+            for(int i = 0; i < max; i++)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp);
+                if(matches.Count <= 0) return i >= min;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+            return true;
+        }
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        {
+            return Match(graph, maxMatches, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        {
+            return Modify(graph, (Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule)match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        {
+            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>)matches);
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return Apply(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyAll(maxMatches, graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyStar(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyPlus(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        {
+            return ApplyMinMax(graph, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
     }
 
-    public class Action_moveLeftRule : GRGEN_LGSP.LGSPAction
+    /// <summary>
+    /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
+    /// </summary>
+    public interface IAction_moveLeftRule
+    {
+        /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
+        GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp);
+        /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
+        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_moveLeftRule.IMatch_moveLeftRule match);
+        /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
+        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
+        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
+        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp);
+        /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp);
+        /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp);
+        /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp);
+    }
+    
+    public class Action_moveLeftRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_moveLeftRule
     {
         public Action_moveLeftRule() {
             rulePattern = Rule_moveLeftRule.Instance;
@@ -2803,17 +3442,17 @@ label3: ;
         public override string Name { get { return "moveLeftRule"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_moveLeftRule.Match_moveLeftRule, Rule_moveLeftRule.IMatch_moveLeftRule> matches;
 
-        public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
+        public static Action_moveLeftRule Instance { get { return instance; } }
         private static Action_moveLeftRule instance = new Action_moveLeftRule();
         
-        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp)
         {
             matches.Clear();
             int negLevel = 0;
             // Preset moveLeftRule_node_wv 
-            GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_wv = (GRGEN_LGSP.LGSPNode) parameters[0];
+            GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_wv = (GRGEN_LGSP.LGSPNode)moveLeftRule_node_wv;
             if(candidate_moveLeftRule_node_wv == null) {
-                MissingPreset_moveLeftRule_node_wv(graph, maxMatches, parameters, null, null, null);
+                MissingPreset_moveLeftRule_node_wv(graph, maxMatches, moveLeftRule_node_wv, moveLeftRule_node_bp, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -2825,9 +3464,9 @@ label3: ;
                 return matches;
             }
             // Preset moveLeftRule_node_bp 
-            GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+            GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_bp = (GRGEN_LGSP.LGSPNode)moveLeftRule_node_bp;
             if(candidate_moveLeftRule_node_bp == null) {
-                MissingPreset_moveLeftRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveLeftRule_node_wv);
+                MissingPreset_moveLeftRule_node_bp(graph, maxMatches, moveLeftRule_node_wv, moveLeftRule_node_bp, null, null, null, candidate_moveLeftRule_node_wv);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -2900,7 +3539,7 @@ label3: ;
             candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
             return matches;
         }
-        public void MissingPreset_moveLeftRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
+        public void MissingPreset_moveLeftRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup moveLeftRule_node_wv 
@@ -2908,9 +3547,9 @@ label3: ;
             for(GRGEN_LGSP.LGSPNode head_candidate_moveLeftRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_moveLeftRule_node_wv], candidate_moveLeftRule_node_wv = head_candidate_moveLeftRule_node_wv.typeNext; candidate_moveLeftRule_node_wv != head_candidate_moveLeftRule_node_wv; candidate_moveLeftRule_node_wv = candidate_moveLeftRule_node_wv.typeNext)
             {
                 // Preset moveLeftRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+                GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_bp = (GRGEN_LGSP.LGSPNode)moveLeftRule_node_bp;
                 if(candidate_moveLeftRule_node_bp == null) {
-                    MissingPreset_moveLeftRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveLeftRule_node_wv);
+                    MissingPreset_moveLeftRule_node_bp(graph, maxMatches, moveLeftRule_node_wv, moveLeftRule_node_bp, null, null, null, candidate_moveLeftRule_node_wv);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
@@ -2985,7 +3624,7 @@ label3: ;
             }
             return;
         }
-        public void MissingPreset_moveLeftRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_wv)
+        public void MissingPreset_moveLeftRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_wv)
         {
             int negLevel = 0;
             // Lookup moveLeftRule_node_bp 
@@ -3056,9 +3695,163 @@ label3: ;
             }
             return;
         }
+        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp);
+        /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
+        public MatchInvoker DynamicMatch;
+        /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp)
+        {
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, moveLeftRule_node_wv, moveLeftRule_node_bp);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_moveLeftRule.IMatch_moveLeftRule match)
+        {
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches)
+        {
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_moveLeftRule.IMatch_moveLeftRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_moveLeftRule.IMatch_moveLeftRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, moveLeftRule_node_wv, moveLeftRule_node_bp);
+            if(matches.Count <= 0) return null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+        }
+        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, moveLeftRule_node_wv, moveLeftRule_node_bp);
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_moveLeftRule.IMatch_moveLeftRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_moveLeftRule.IMatch_moveLeftRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches;
+            while(true)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, moveLeftRule_node_wv, moveLeftRule_node_bp);
+                if(matches.Count <= 0) return true;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+        }
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, moveLeftRule_node_wv, moveLeftRule_node_bp);
+            if(matches.Count <= 0) return false;
+            do
+            {
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, moveLeftRule_node_wv, moveLeftRule_node_bp);
+            }
+            while(matches.Count > 0) ;
+            return true;
+        }
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> matches;
+            for(int i = 0; i < max; i++)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, moveLeftRule_node_wv, moveLeftRule_node_bp);
+                if(matches.Count <= 0) return i >= min;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+            return true;
+        }
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        {
+            return Match(graph, maxMatches, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        {
+            return Modify(graph, (Rule_moveLeftRule.IMatch_moveLeftRule)match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        {
+            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule>)matches);
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return Apply(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyAll(maxMatches, graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyStar(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyPlus(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        {
+            return ApplyMinMax(graph, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
     }
 
-    public class Action_moveRightRule : GRGEN_LGSP.LGSPAction
+    /// <summary>
+    /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
+    /// </summary>
+    public interface IAction_moveRightRule
+    {
+        /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
+        GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp);
+        /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
+        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_moveRightRule.IMatch_moveRightRule match);
+        /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
+        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
+        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
+        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp);
+        /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp);
+        /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp);
+        /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp);
+    }
+    
+    public class Action_moveRightRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_moveRightRule
     {
         public Action_moveRightRule() {
             rulePattern = Rule_moveRightRule.Instance;
@@ -3070,17 +3863,17 @@ label3: ;
         public override string Name { get { return "moveRightRule"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_moveRightRule.Match_moveRightRule, Rule_moveRightRule.IMatch_moveRightRule> matches;
 
-        public static GRGEN_LGSP.LGSPAction Instance { get { return instance; } }
+        public static Action_moveRightRule Instance { get { return instance; } }
         private static Action_moveRightRule instance = new Action_moveRightRule();
         
-        public GRGEN_LIBGR.IMatches myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters)
+        public GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp)
         {
             matches.Clear();
             int negLevel = 0;
             // Preset moveRightRule_node_wv 
-            GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_wv = (GRGEN_LGSP.LGSPNode) parameters[0];
+            GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_wv = (GRGEN_LGSP.LGSPNode)moveRightRule_node_wv;
             if(candidate_moveRightRule_node_wv == null) {
-                MissingPreset_moveRightRule_node_wv(graph, maxMatches, parameters, null, null, null);
+                MissingPreset_moveRightRule_node_wv(graph, maxMatches, moveRightRule_node_wv, moveRightRule_node_bp, null, null, null);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -3092,9 +3885,9 @@ label3: ;
                 return matches;
             }
             // Preset moveRightRule_node_bp 
-            GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+            GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_bp = (GRGEN_LGSP.LGSPNode)moveRightRule_node_bp;
             if(candidate_moveRightRule_node_bp == null) {
-                MissingPreset_moveRightRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveRightRule_node_wv);
+                MissingPreset_moveRightRule_node_bp(graph, maxMatches, moveRightRule_node_wv, moveRightRule_node_bp, null, null, null, candidate_moveRightRule_node_wv);
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
                 {
@@ -3167,7 +3960,7 @@ label3: ;
             candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
             return matches;
         }
-        public void MissingPreset_moveRightRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
+        public void MissingPreset_moveRightRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
         {
             int negLevel = 0;
             // Lookup moveRightRule_node_wv 
@@ -3175,9 +3968,9 @@ label3: ;
             for(GRGEN_LGSP.LGSPNode head_candidate_moveRightRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_moveRightRule_node_wv], candidate_moveRightRule_node_wv = head_candidate_moveRightRule_node_wv.typeNext; candidate_moveRightRule_node_wv != head_candidate_moveRightRule_node_wv; candidate_moveRightRule_node_wv = candidate_moveRightRule_node_wv.typeNext)
             {
                 // Preset moveRightRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_bp = (GRGEN_LGSP.LGSPNode) parameters[1];
+                GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_bp = (GRGEN_LGSP.LGSPNode)moveRightRule_node_bp;
                 if(candidate_moveRightRule_node_bp == null) {
-                    MissingPreset_moveRightRule_node_bp(graph, maxMatches, parameters, null, null, null, candidate_moveRightRule_node_wv);
+                    MissingPreset_moveRightRule_node_bp(graph, maxMatches, moveRightRule_node_wv, moveRightRule_node_bp, null, null, null, candidate_moveRightRule_node_wv);
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.Count >= maxMatches)
                     {
@@ -3252,7 +4045,7 @@ label3: ;
             }
             return;
         }
-        public void MissingPreset_moveRightRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, object[] parameters, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_wv)
+        public void MissingPreset_moveRightRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_wv)
         {
             int negLevel = 0;
             // Lookup moveRightRule_node_bp 
@@ -3323,21 +4116,152 @@ label3: ;
             }
             return;
         }
+        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp);
+        /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
+        public MatchInvoker DynamicMatch;
+        /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp)
+        {
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, moveRightRule_node_wv, moveRightRule_node_bp);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_moveRightRule.IMatch_moveRightRule match)
+        {
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches)
+        {
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_moveRightRule.IMatch_moveRightRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_moveRightRule.IMatch_moveRightRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, moveRightRule_node_wv, moveRightRule_node_bp);
+            if(matches.Count <= 0) return null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+        }
+        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, moveRightRule_node_wv, moveRightRule_node_bp);
+            object[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
+                foreach(Rule_moveRightRule.IMatch_moveRightRule match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            } else {
+                foreach(Rule_moveRightRule.IMatch_moveRightRule match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            }
+            return retElems;
+        }
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches;
+            while(true)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, moveRightRule_node_wv, moveRightRule_node_bp);
+                if(matches.Count <= 0) return true;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+        }
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, moveRightRule_node_wv, moveRightRule_node_bp);
+            if(matches.Count <= 0) return false;
+            do
+            {
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, moveRightRule_node_wv, moveRightRule_node_bp);
+            }
+            while(matches.Count > 0) ;
+            return true;
+        }
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> matches;
+            for(int i = 0; i < max; i++)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, moveRightRule_node_wv, moveRightRule_node_bp);
+                if(matches.Count <= 0) return i >= min;
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+            return true;
+        }
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        {
+            return Match(graph, maxMatches, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        {
+            return Modify(graph, (Rule_moveRightRule.IMatch_moveRightRule)match);
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        {
+            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule>)matches);
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return Apply(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return null;
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyAll(maxMatches, graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyStar(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyPlus(graph, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        {
+            throw new Exception(); return false;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        {
+            return ApplyMinMax(graph, min, max, (GRGEN_MODEL.IWriteValue) parameters[0], (GRGEN_MODEL.IBandPosition) parameters[1]);
+        }
     }
 
 
-    // class which instantiates and stores all the compiled actions of the module in a dictionary,
+    // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
     // matching/rule patterns are analyzed at creation time here, once, so that later regeneration runs have all the information available
-    public class Turing3Actions : de.unika.ipd.grGen.lgsp.LGSPActions
+    public class Turing3Actions : GRGEN_LGSP.LGSPActions
     {
-        public Turing3Actions(de.unika.ipd.grGen.lgsp.LGSPGraph lgspgraph, string modelAsmName, string actionsAsmName)
+        public Turing3Actions(GRGEN_LGSP.LGSPGraph lgspgraph, string modelAsmName, string actionsAsmName)
             : base(lgspgraph, modelAsmName, actionsAsmName)
         {
             InitActions();
         }
 
-        public Turing3Actions(de.unika.ipd.grGen.lgsp.LGSPGraph lgspgraph)
+        public Turing3Actions(GRGEN_LGSP.LGSPGraph lgspgraph)
             : base(lgspgraph)
         {
             InitActions();
@@ -3345,22 +4269,35 @@ label3: ;
 
         private void InitActions()
         {
-            de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer analyzer = new de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer();
+            GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();
             analyzer.AnalyzeNestingOfAndRemember(Rule_readZeroRule.Instance);
-            actions.Add("readZeroRule", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_readZeroRule.Instance);
+            actions.Add("readZeroRule", (GRGEN_LGSP.LGSPAction) Action_readZeroRule.Instance);
+            readZeroRule = Action_readZeroRule.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_readOneRule.Instance);
-            actions.Add("readOneRule", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_readOneRule.Instance);
+            actions.Add("readOneRule", (GRGEN_LGSP.LGSPAction) Action_readOneRule.Instance);
+            readOneRule = Action_readOneRule.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_ensureMoveLeftValidRule.Instance);
-            actions.Add("ensureMoveLeftValidRule", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_ensureMoveLeftValidRule.Instance);
+            actions.Add("ensureMoveLeftValidRule", (GRGEN_LGSP.LGSPAction) Action_ensureMoveLeftValidRule.Instance);
+            ensureMoveLeftValidRule = Action_ensureMoveLeftValidRule.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_ensureMoveRightValidRule.Instance);
-            actions.Add("ensureMoveRightValidRule", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_ensureMoveRightValidRule.Instance);
+            actions.Add("ensureMoveRightValidRule", (GRGEN_LGSP.LGSPAction) Action_ensureMoveRightValidRule.Instance);
+            ensureMoveRightValidRule = Action_ensureMoveRightValidRule.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_moveLeftRule.Instance);
-            actions.Add("moveLeftRule", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_moveLeftRule.Instance);
+            actions.Add("moveLeftRule", (GRGEN_LGSP.LGSPAction) Action_moveLeftRule.Instance);
+            moveLeftRule = Action_moveLeftRule.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_moveRightRule.Instance);
-            actions.Add("moveRightRule", (de.unika.ipd.grGen.lgsp.LGSPAction) Action_moveRightRule.Instance);
+            actions.Add("moveRightRule", (GRGEN_LGSP.LGSPAction) Action_moveRightRule.Instance);
+            moveRightRule = Action_moveRightRule.Instance;
             analyzer.ComputeInterPatternRelations();
         }
-
+        
+        public IAction_readZeroRule readZeroRule;
+        public IAction_readOneRule readOneRule;
+        public IAction_ensureMoveLeftValidRule ensureMoveLeftValidRule;
+        public IAction_ensureMoveRightValidRule ensureMoveRightValidRule;
+        public IAction_moveLeftRule moveLeftRule;
+        public IAction_moveRightRule moveRightRule;
+        
         public override string Name { get { return "Turing3Actions"; } }
         public override string ModelMD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
     }

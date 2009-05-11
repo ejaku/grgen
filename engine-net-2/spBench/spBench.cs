@@ -161,7 +161,7 @@ namespace spBench
             Actions = actions;
             MatchGen = new LGSPMatcherGenerator(graph.Model);
             Action = action;
-            PatternGraph = (PatternGraph) action.RulePattern.PatternGraph;
+            PatternGraph = (PatternGraph) action.rulePattern.PatternGraph;
             SearchPlanGraph = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(graph, PatternGraph, false, false));
 
 //            DumpSearchPlanGraph(GenerateSearchPlanGraphNewCost(graph, (PatternGraph) action.RulePattern.PatternGraph, false), action.Name, "initial");
@@ -939,10 +939,10 @@ namespace spBench
                 }
 
                 ScheduledSearchPlan ssp = new ScheduledSearchPlan(
-                    (PatternGraph)ctx.Action.RulePattern.PatternGraph, ops, spcostproduct);
+                    (PatternGraph)ctx.Action.rulePattern.PatternGraph, ops, spcostproduct);
 
                 ctx.MatchGen.AppendHomomorphyInformation(ssp);
-                ((PatternGraph) ctx.Action.RulePattern.PatternGraph).schedule = ssp;
+                ((PatternGraph) ctx.Action.rulePattern.PatternGraph).schedule = ssp;
                 ctx.MatchGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(ctx.Action.patternGraph);
 
 #if DUMP_MATCHERPROGRAMS

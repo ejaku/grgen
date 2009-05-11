@@ -25,8 +25,8 @@ namespace Recursive
             IMatches matches;
             Object[] returns;
 
-            LGSPAction createChain = Action_createChain.Instance;
-            matches = createChain.Match(graph, 0, null);
+            Action_createChain createChain = Action_createChain.Instance;
+            matches = createChain.Match(graph, 0);
             returns = createChain.Modify(graph, matches.First);
             Node[] param = new Node[2];
             param[0] = (Node)returns[0];
@@ -34,8 +34,8 @@ namespace Recursive
             matches = actions.GetAction("chainFromToReverseToCommon").Match(graph, 0, param);
             Console.WriteLine(matches.Count + " matches found.");
 
-            LGSPAction createBlowball = Action_createBlowball.Instance;
-            matches = createBlowball.Match(graph, 0, null);
+            Action_createBlowball createBlowball = Action_createBlowball.Instance;
+            matches = createBlowball.Match(graph, 0);
             returns = createBlowball.Modify(graph, matches.First);
             matches = actions.GetAction("blowball").Match(graph, 0, returns);
             Console.WriteLine(matches.Count + " matches found.");
@@ -43,7 +43,7 @@ namespace Recursive
             graph.Clear();
 
             graph.PerformanceInfo = new PerformanceInfo();
-            matches = createChain.Match(graph, 0, null);
+            matches = createChain.Match(graph, 0);
             returns = createChain.Modify(graph, matches.First);
             param[0] = (Node)returns[0];
 
@@ -51,7 +51,7 @@ namespace Recursive
             Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
             graph.PerformanceInfo.Reset();
 
-            LGSPAction chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = 
+            IAction chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = 
                 actions.GetAction("chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards");
             matches = chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match(graph, 0, param);
             Console.WriteLine(matches.Count + " matches found.");

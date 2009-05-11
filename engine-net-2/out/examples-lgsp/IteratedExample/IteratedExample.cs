@@ -25,8 +25,8 @@ namespace Iterated
             IMatches matches;
             object[] returns;
 
-            LGSPAction init = Action_initUndirected.Instance;
-            matches = init.Match(graph, 0, null);
+            Action_initUndirected init = Action_initUndirected.Instance;
+            matches = init.Match(graph, 0);
             returns = init.Modify(graph, matches.First);
 
             IGraphElement[] param = new LGSPNode[1];

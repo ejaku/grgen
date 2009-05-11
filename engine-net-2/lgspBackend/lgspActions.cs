@@ -255,6 +255,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns the first match of exact type (null if no match exists).
+        /// </summary>
+        public MatchInterface FirstExact { get { return count > 0 ? root : null; } }
+
+        /// <summary>
         /// Returns an enumerator over all found matches with inexact match interface type.
         /// </summary>
         public IEnumerator<IMatch> GetEnumerator()

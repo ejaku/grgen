@@ -40,10 +40,8 @@ namespace JavaProgramGraphs
 
             // get operation for method body by: 
             // get action, fill parameters, match action pattern, apply rewrite, get action returns
-            LGSPAction getOperation = Action_getOperation.Instance;
-            IGraphElement[] param = new LGSPNode[1];
-            param[0] = mb;
-            IMatches matches = getOperation.Match(graph, 1, param);
+            Action_getOperation getOperation = Action_getOperation.Instance;
+            IMatches matches = getOperation.Match(graph, 1, mb);
             object[] returns;
             returns = getOperation.Modify(graph, matches.GetMatch(0));
             Operation op = (Operation)returns[0];
@@ -52,6 +50,8 @@ namespace JavaProgramGraphs
             // (shows second way of getting action)
             int visitedFlagId = graph.AllocateVisitedFlag();
             Debug.Assert(visitedFlagId==0);
+            IGraphElement[] param = new LGSPNode[1];
+            param[0] = mb;
             while((matches = actions.GetAction("markExpressionOfBody").Match(graph, 1, param)).Count==1)
             {
                 actions.GetAction("markExpressionOfBody").Modify(graph, matches.First);
@@ -78,7 +78,7 @@ namespace JavaProgramGraphs
             graph.PerformanceInfo.Reset();
 
             // unmark the body of the expression by searching all occurences and modifying them
-            matches = Action_unmarkExpression.Instance.Match(graph, 0, null);
+            matches = Action_unmarkExpression.Instance.Match(graph, 0);
             Action_unmarkExpression.Instance.ModifyAll(graph, matches);
             graph.FreeVisitedFlag(visitedFlagId);
 

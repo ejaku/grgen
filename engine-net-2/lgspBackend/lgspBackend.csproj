@@ -82,6 +82,7 @@
     <Compile Include="SearchProgramBuilder.cs" />
     <Compile Include="SearchProgramCompleter.cs" />
     <Compile Include="SourceBuilder.cs" />
+    <Compile Include="TypesHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libGr\libGr.csproj">

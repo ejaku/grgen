@@ -45,20 +45,20 @@ namespace MutexExample
             LGSPEdge n2 = graph.CreateEdgenext(p2, p1);
 
             IMatches matches;
-            LGSPAction newRule = Action_newRule.Instance;
+            Action_newRule newRule = Action_newRule.Instance;
             for(int i = 0; i < n - 2; i++)
             {
-                matches = newRule.Match(graph, 1, null);
+                matches = newRule.Match(graph, 1);
                 newRule.Modify(graph, matches.First);
             }
 
-            matches = Action_mountRule.Instance.Match(graph, 1, null);
+            matches = Action_mountRule.Instance.Match(graph, 1);
             Action_mountRule.Instance.Modify(graph, matches.First);
 
-            LGSPAction requestRule = Action_requestRule.Instance;
+            Action_requestRule requestRule = Action_requestRule.Instance;
             for(int i = 0; i < n; i++)
             {
-                matches = requestRule.Match(graph, 1, null);
+                matches = requestRule.Match(graph, 1);
                 requestRule.Modify(graph, matches.First);
             }
 
@@ -83,16 +83,16 @@ namespace MutexExample
              * LGSPAction giveRule = actions.GetAction("giveRule");
              */
 
-            LGSPAction takeRule = Action_takeRule.Instance;
-            LGSPAction releaseRule = Action_releaseRule.Instance;
-            LGSPAction giveRule = Action_giveRule.Instance;
+            Action_takeRule takeRule = Action_takeRule.Instance;
+            Action_releaseRule releaseRule = Action_releaseRule.Instance;
+            Action_giveRule giveRule = Action_giveRule.Instance;
             for(int i = 0; i < n; i++)
             {
-                matches = takeRule.Match(graph, 1, null);
+                matches = takeRule.Match(graph, 1);
                 takeRule.Modify(graph, matches.First);
-                matches = releaseRule.Match(graph, 1, null);
+                matches = releaseRule.Match(graph, 1);
                 releaseRule.Modify(graph, matches.First);
-                matches = giveRule.Match(graph, 1, null);
+                matches = giveRule.Match(graph, 1);
                 giveRule.Modify(graph, matches.First);
             }
 
@@ -126,9 +126,9 @@ namespace MutexExample
             Action_mountRule.Instance.Apply(graph);
             Action_requestRule.Instance.ApplyMinMax(graph, n, n);
 
-            LGSPAction takeRule = Action_takeRule.Instance;
-            LGSPAction releaseRule = Action_releaseRule.Instance;
-            LGSPAction giveRule = Action_giveRule.Instance;
+            Action_takeRule takeRule = Action_takeRule.Instance;
+            Action_releaseRule releaseRule = Action_releaseRule.Instance;
+            Action_giveRule giveRule = Action_giveRule.Instance;
             for(int i = 0; i < n; i++)
             {
                 takeRule.Apply(graph);

@@ -469,7 +469,15 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public interface IMatchesExact<MatchInterface> : IMatches
     {
+        /// <summary>
+        /// Returns enumerator over matches of exact type
+        /// </summary>
         IEnumerator<MatchInterface> GetEnumeratorExact();
+
+        /// <summary>
+        /// Returns the first match of exact type (null if no match exists).
+        /// </summary>
+        MatchInterface FirstExact { get; }
     }
 
     /// <summary>

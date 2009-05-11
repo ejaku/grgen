@@ -27,8 +27,8 @@ namespace ProgramGraphs
             IMatches matches;
             object[] returns;
 
-            LGSPAction createProgramGraph = Action_createProgramGraphPullUp.Instance;
-            matches = createProgramGraph.Match(graph, 0, null);
+            Action_createProgramGraphPullUp createProgramGraph = Action_createProgramGraphPullUp.Instance;
+            matches = createProgramGraph.Match(graph, 0);
             returns = createProgramGraph.Modify(graph, matches.First);
             IGraphElement[] param = new LGSPNode[2];
             param[0] = (Class)returns[0];

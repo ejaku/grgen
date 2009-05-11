@@ -41,8 +41,8 @@ namespace Independent
             Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
             graph.PerformanceInfo.Reset();
 
-            LGSPAction createIterated = Action_createIterated.Instance;
-            matches = createIterated.Match(graph, 0, null);
+            Action_createIterated createIterated = Action_createIterated.Instance;
+            matches = createIterated.Match(graph, 0);
             object[] returns = createIterated.Modify(graph, matches.First);
 
             IGraphElement[] param = new LGSPNode[2];

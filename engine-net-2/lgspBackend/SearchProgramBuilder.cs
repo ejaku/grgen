@@ -39,11 +39,11 @@ namespace de.unika.ipd.grGen.lgsp
             IGraphModel model,
             LGSPRulePattern rulePattern,
             string nameOfSearchProgram,
-            List<string> parametersList,
-            List<bool> parameterIsNodeList)
+            List<string> availableParametersOrFoundElementsList,
+            List<bool> availableParameterOrFoundElementIsNodeList)
         {
-            Debug.Assert(nameOfSearchProgram == null && parametersList == null && parameterIsNodeList == null
-                || nameOfSearchProgram != null && parametersList != null && parameterIsNodeList != null);
+            Debug.Assert(nameOfSearchProgram == null && availableParametersOrFoundElementsList == null && availableParameterOrFoundElementIsNodeList == null
+                || nameOfSearchProgram != null && availableParametersOrFoundElementsList != null && availableParameterOrFoundElementIsNodeList != null);
 
             PatternGraph patternGraph = rulePattern.patternGraph;
             programType = nameOfSearchProgram != null ? SearchProgramType.MissingPreset : SearchProgramType.Action;
@@ -54,39 +54,49 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, false);
             negLevelNeverAboveMaxNegLevel = computeMaxNegLevel(rulePattern.patternGraph) <= (int) LGSPElemFlags.MAX_NEG_LEVEL;
-
+            
             SearchProgram searchProgram;
-            if (parametersList != null)
+            if (availableParametersOrFoundElementsList != null)
             {
-                string[] parameters = new string[parametersList.Count];
-                bool[] parameterIsNode = new bool[parameterIsNodeList.Count];
+                string[] availableParametersOrFoundElements = new string[availableParametersOrFoundElementsList.Count];
+                bool[] availableParameterOrFoundElementIsNode = new bool[availableParameterOrFoundElementIsNodeList.Count];
                 int i = 0;
-                foreach (string p in parametersList)
+                foreach (string p in availableParametersOrFoundElementsList)
                 {
-                    parameters[i] = p;
+                    availableParametersOrFoundElements[i] = p;
                     ++i;
                 }
                 i = 0;
-                foreach (bool pis in parameterIsNodeList)
+                foreach (bool pis in availableParameterOrFoundElementIsNodeList)
                 {
-                    parameterIsNode[i] = pis;
+                    availableParameterOrFoundElementIsNode[i] = pis;
                     ++i;
                 }
 
                 // build outermost search program operation, create the list anchor starting it's program
                 searchProgram = new SearchProgramOfMissingPreset(
                     rulePatternClassName,
+                    parameterTypes, parameterNames,
                     rulePattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
                     nameOfSearchProgram,
                     patternGraph.embeddedGraphs.Length > 0 || patternGraph.iterateds.Length > 0 || patternGraph.alternatives.Length > 0,
-                    parameters, 
-                    parameterIsNode);
+                    availableParametersOrFoundElements, 
+                    availableParameterOrFoundElementIsNode);
             }
             else
             {
+                parameterTypes = new String[rulePattern.Inputs.Length];
+                parameterNames = new String[rulePattern.Inputs.Length];
+                for (int i = 0; i < rulePattern.Inputs.Length; ++i)
+                {
+                    parameterTypes[i] = TypesHelper.TypeName(rulePattern.Inputs[i]);
+                    parameterNames[i] = rulePattern.InputNames[i];
+                }
+
                 // build outermost search program operation, create the list anchor starting it's program
                 searchProgram = new SearchProgramOfAction(
                     rulePatternClassName,
+                    patternGraph.name, parameterTypes, parameterNames,
                     rulePattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
                     "myMatch",
                     patternGraph.embeddedGraphs.Length > 0 || patternGraph.iterateds.Length > 0 || patternGraph.alternatives.Length > 0);
@@ -97,25 +107,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < patternGraph.variables.Length; i++)
             {
                 PatternVariable var = patternGraph.variables[i];
-                Type varType = var.Type.Type;
-                String varTypeName;
-                if(varType.IsGenericType)
-                {
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append(varType.FullName.Substring(0, varType.FullName.IndexOf('`')));
-                    sb.Append('<');
-                    bool first = true;
-                    foreach(Type typeArg in varType.GetGenericArguments())
-                    {
-                        if(first) first = false;
-                        else sb.Append(", ");
-                        sb.Append(typeArg.FullName);
-                    }
-                    sb.Append('>');
-                    varTypeName = sb.ToString();
-                }
-                else varTypeName = varType.FullName;
-                insertionPoint = insertionPoint.Append(new ExtractVariable(varTypeName, var.Name, var.ParameterIndex));
+                insertionPoint = insertionPoint.Append(new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name));
             }
 
             // start building with first operation in scheduled search plan
@@ -432,6 +424,16 @@ namespace de.unika.ipd.grGen.lgsp
         string rulePatternClassName;
 
         /// <summary>
+        /// types of the parameters of the action (null if not an action)
+        /// </summary>
+        private string[] parameterTypes;
+       
+        /// <summary>
+        /// names of the parameters of the action (null if not an action)
+        /// </summary>
+        private string[] parameterNames;
+
+        /// <summary>
         /// true if statically determined that the neg level of the pattern getting constructed 
         /// is always below the maximum neg level
         /// </summary>
@@ -593,7 +595,6 @@ namespace de.unika.ipd.grGen.lgsp
                 new GetCandidateByDrawing(
                     GetCandidateByDrawingType.FromInputs,
                     target.PatternElement.Name,
-                    target.PatternElement.ParameterIndex.ToString(),
                     isNode);
             insertionPoint = insertionPoint.Append(fromInputs);
 
@@ -601,7 +602,8 @@ namespace de.unika.ipd.grGen.lgsp
             // continues with missing preset searching and continuing search program on fail
             CheckCandidateForPreset checkPreset = new CheckCandidateForPreset(
                 target.PatternElement.Name,
-                isNode);
+                isNode,
+                parameterNames);
             insertionPoint = insertionPoint.Append(checkPreset);
 
             // check type of candidate
