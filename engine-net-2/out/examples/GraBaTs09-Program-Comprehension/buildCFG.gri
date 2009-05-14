@@ -139,7 +139,8 @@ rule CFG_sweep_graph_Step2
 
 rule AST_nodes_2_CFG {
 	modify {
-		exec((ExpressionStatement_2_CFG || WhileStatement_2_CFG ||
+		exec((ExpressionStatement_2_CFG || IfStatement_2_CFG ||
+		      WhileStatement_2_CFG ||
 		      SimpleName_2_CFG || NumberLiteral_2_CFG || Assignment_2_CFG ||
 		      InfixExpression_2_CFG || PostfixExpression_2_CFG ||
 		      MethodInvocation_2_CFG || ExpressionEdge_2_CFG)*);
@@ -155,6 +156,19 @@ rule ExpressionStatement_2_CFG {
 		
 		eval {
 			cfg_node._name = helper.name;
+		}
+	}
+}
+
+rule IfStatement_2_CFG {
+	stmt:dom_IfStatement -:dom_IfStatement_expression-> expr:dom_Expression;
+	expr -:HelperEdge-> helper:HelperNode;
+	
+	modify {
+		cfg_node:org_amma_cfg_ConditionalNode<stmt>;
+		
+		eval {
+			cfg_node._name = "If(" + helper.name + ")";
 		}
 	}
 }
