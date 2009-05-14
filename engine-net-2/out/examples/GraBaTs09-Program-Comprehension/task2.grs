@@ -22,8 +22,11 @@ dump set node org_amma_pdg_Expression color grey
 dump set edge org_amma_pdg_ExpressionNode_expression color grey
 dump set edge org_amma_pdg_Expression_innerExpressions color grey
 
+# if-statement tests
+#xgrs While_to_if_then
+#xgrs While_to_if_else
+
 # Transform AST to CFG
-xgrs While_to_if_then
 xgrs nameExpressions
 xgrs [CFG_handle_statements]
 xgrs [CFG_handle_if]
@@ -43,6 +46,7 @@ xgrs (id)=get_initial_id
 xgrs ((n, id)=CFG_get_node_by_id(id) && CFG_dump_AbstractNode(n))*
 xgrs CFG_XML_Suffix
 xgrs CFG_finish_dump
+show graph ycomp
 
 # Transform CFG to PDG
 xgrs (Add_Enter_Exit & Connect_Enter* & Connect_Exit*)
@@ -62,5 +66,4 @@ xgrs PDG_dump
 xgrs PDG_XML_Suffix
 xgrs PDG_finish_dump
 
-show graph ycomp
 exit
