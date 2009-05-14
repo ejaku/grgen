@@ -14,12 +14,14 @@ rule CFG_handle_statements
 rule CFG_handle_if
 {
 	iff:dom_IfStatement -:org_amma_cfg_AbstractNode_toNode->;
-	iff -:dom_IfStatement_thenStatement-> then:dom_Statement;
-	iff -:dom_IfStatement_elseStatement-> else:dom_Statement;
+	iff -then_edge:dom_IfStatement_thenStatement-> then:dom_Statement;
+	iff -else_edge:dom_IfStatement_elseStatement-> else:dom_Statement;
 
 	modify {
+		delete(then_edge, else_edge);
+	
 		iff -:org_amma_cfg_ConditionalNode_trueConditionNode-> then;
-		iff -:org_amma_cfg_ConditionalNode_trueConditionNode-> else;
+		iff -:org_amma_cfg_ConditionalNode_falseConditionNode-> else;
 		then -:org_amma_cfg_AbstractNode_toNode-> iff;
 		else -:org_amma_cfg_AbstractNode_toNode-> iff;
 	}
@@ -94,10 +96,10 @@ rule CFG_handle_EmptyStatement {
 	a:dom_Statement;
 	b:dom_EmptyStatement;
 	c:dom_Statement;
-	a -e:Edge-> b -f:Edge-> c;
+	a -e:Edge-> b -f:Edge-> a -g:org_amma_cfg_AbstractNode_toNode-> c;
 	
 	modify {
-		delete(e, f);
+		delete(e, f, g);
 		
 		a -:typeof(e)-> c;
 	}
