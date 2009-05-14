@@ -11,22 +11,63 @@ rule CFG_handle_statements
 	}
 }
 
+rule CFG_handle_if
+{
+	iff:dom_IfStatement -:org_amma_cfg_AbstractNode_toNode->;
+	iff -:dom_IfStatement_thenStatement-> then:dom_Statement;
+	iff -:dom_IfStatement_elseStatement-> else:dom_Statement;
+
+	modify {
+		iff -:org_amma_cfg_ConditionalNode_trueConditionNode-> then;
+		iff -:org_amma_cfg_ConditionalNode_trueConditionNode-> else;
+		then -:org_amma_cfg_AbstractNode_toNode-> iff;
+		else -:org_amma_cfg_AbstractNode_toNode-> iff;
+	}
+}
+
+rule CFG_handle_if_block
+{
+	block:dom_Block;
+	block <-cfg:Edge- iff:dom_IfStatement;
+	block -endif:org_amma_cfg_AbstractNode_toNode-> iff;
+	iff -:org_amma_cfg_AbstractNode_toNode-> next:dom_Statement;
+
+	hom(first, last);
+	hom(st1, st2);
+	block -st1:dom_Block_statements-> first:dom_Statement;
+	block -st2:dom_Block_statements-> last:dom_Statement;
+
+	if { st1.index == 0; }
+	negative {
+		block -st:dom_Block_statements->;
+		if { st.index > st2.index; }
+	}
+
+	modify {
+		delete(cfg);
+		delete(endif);
+
+		iff -:typeof(cfg)-> first;
+		last -:org_amma_cfg_AbstractNode_toNode-> next;
+	}
+}
+
 rule CFG_handle_while
 {
 	while:dom_WhileStatement -cfgfalse:org_amma_cfg_AbstractNode_toNode->;
 	while -:dom_WhileStatement_body-> body:dom_Statement;
 
 	modify {
-		-:org_amma_cfg_ConditionalNode_falseConditionNode<cfgfalse>->;
-		while -:org_amma_cfg_ConditionalNode_trueConditionNode-> body;
+		-:org_amma_cfg_IterativeNode_falseConditionNode<cfgfalse>->;
+		while -:org_amma_cfg_IterativeNode_trueConditionNode-> body;
 		body -:org_amma_cfg_AbstractNode_toNode-> while;
 	}
 }
 
-rule CFG_handle_block
+rule CFG_handle_while_block
 {
 	block:dom_Block;
-	block <-cfgtrue:org_amma_cfg_ConditionalNode_trueConditionNode- while:dom_WhileStatement;
+	block <-cfgtrue:org_amma_cfg_IterativeNode_trueConditionNode- while:dom_WhileStatement;
 	block -endwhile:org_amma_cfg_AbstractNode_toNode-> while;
 
 	hom(first, last);
@@ -44,8 +85,21 @@ rule CFG_handle_block
 		delete(cfgtrue);
 		delete(endwhile);
 
-		while -:org_amma_cfg_ConditionalNode_trueConditionNode-> first;
+		while -:org_amma_cfg_IterativeNode_trueConditionNode-> first;
 		last -:org_amma_cfg_AbstractNode_toNode-> while;
+	}
+}
+
+rule CFG_handle_EmptyStatement {
+	a:dom_Statement;
+	b:dom_EmptyStatement;
+	c:dom_Statement;
+	a -e:Edge-> b -f:Edge-> c;
+	
+	modify {
+		delete(e, f);
+		
+		a -:typeof(e)-> c;
 	}
 }
 

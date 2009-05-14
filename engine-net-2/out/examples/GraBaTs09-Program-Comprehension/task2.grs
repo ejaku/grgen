@@ -25,8 +25,11 @@ dump set edge org_amma_pdg_Expression_innerExpressions color grey
 # Transform AST to CFG
 xgrs nameExpressions
 xgrs [CFG_handle_statements]
+xgrs [CFG_handle_if]
+xgrs [CFG_handle_if_block]
 xgrs [CFG_handle_while]
-xgrs [CFG_handle_block]
+xgrs [CFG_handle_while_block]
+xgrs [CFG_handle_EmptyStatement]
 xgrs [CFG_sweep_graph]
 xgrs AST_nodes_2_CFG
 
