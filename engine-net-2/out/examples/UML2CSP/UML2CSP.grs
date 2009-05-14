@@ -42,7 +42,7 @@ xgrs (file, dummyLine, curPa, dummyPa)=InitOutput && lastLine=dummyLine &&    \
     && PAWriteConditionEnd(lastLine)*)                                        \
   | (  (lastLine, conc, curPa)=PAWriteConcurrencyStart(file, lastLine, curPa) \
     && (conc)=PAWriteConcurrencyNext(lastLine, conc)*                         \
-    && PAWriteConcurrencyLast(lastLine, cond))                                \
+    && PAWriteConcurrencyLast(lastLine, conc))                                \
   )* | FinishOutput(dummyLine, dummyPa)
 
 sync io
