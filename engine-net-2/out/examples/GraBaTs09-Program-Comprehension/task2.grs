@@ -23,6 +23,7 @@ dump set edge org_amma_pdg_ExpressionNode_expression color grey
 dump set edge org_amma_pdg_Expression_innerExpressions color grey
 
 # Transform AST to CFG
+xgrs While_to_if_then
 xgrs nameExpressions
 xgrs [CFG_handle_statements]
 xgrs [CFG_handle_if]

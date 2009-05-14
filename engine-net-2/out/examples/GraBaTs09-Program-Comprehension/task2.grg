@@ -1,6 +1,7 @@
 using JDTAST__ecore, CFG__ecore, PDG__ecore, Util, CFG_Util, PDG_Util;
 
 #include "nameExpressions.gri"
+#include "test.gri"
 #include "buildCFG.gri"
 #include "dumpCFG.gri"
 #include "buildPDG.gri"
