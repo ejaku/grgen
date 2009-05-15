@@ -1,11 +1,12 @@
-rule nameExpressions {
+rule CFG_name_expressions {
 	modify {
-		exec((name_SimpleName || name_NumberLiteral || name_PostfixExpression ||
-		      name_MethodInvocation || name_InfixExpression || name_Assignment)*);
+		exec((CFG_name_SimpleName || CFG_name_NumberLiteral ||
+		      CFG_name_PostfixExpression || CFG_name_MethodInvocation ||
+		      CFG_name_InfixExpression || CFG_name_Assignment)*);
 	}
 }
 
-rule name_SimpleName {
+rule CFG_name_SimpleName {
 	expr:dom_SimpleName;
 	
 	negative {
@@ -22,7 +23,7 @@ rule name_SimpleName {
 	}
 }
 
-rule name_NumberLiteral {
+rule CFG_name_NumberLiteral {
 	expr:dom_NumberLiteral;
 	
 	negative {
@@ -39,7 +40,7 @@ rule name_NumberLiteral {
 	}
 }
 
-rule name_PostfixExpression {
+rule CFG_name_PostfixExpression {
 	expr:dom_PostfixExpression -:dom_PostfixExpression_operand-> op:dom_Expression;
 	op -:HelperEdge-> opHelper:HelperNode;
 	
@@ -57,7 +58,7 @@ rule name_PostfixExpression {
 	}
 }
 
-rule name_MethodInvocation {
+rule CFG_name_MethodInvocation {
 	expr:dom_MethodInvocation -:dom_MethodInvocation_name-> name:dom_SimpleName;
 	expr -:dom_MethodInvocation_arguments-> argument:dom_SimpleName;
 	argument -:HelperEdge-> argumentHelper:HelperNode;
@@ -77,7 +78,7 @@ rule name_MethodInvocation {
 	}
 }
 
-rule name_InfixExpression {
+rule CFG_name_InfixExpression {
 	expr:dom_InfixExpression -:dom_InfixExpression_leftOperand-> lhs:dom_Expression;
 	expr -:dom_InfixExpression_rightOperand-> rhs:dom_Expression;
 	lhs -:HelperEdge-> lhsHelper:HelperNode;
@@ -98,7 +99,7 @@ rule name_InfixExpression {
 	}
 }
 
-rule name_Assignment {
+rule CFG_name_Assignment {
 	expr:dom_Assignment -:dom_Assignment_leftHandSide-> lhs:dom_Expression;
 	expr -:dom_Assignment_rightHandSide-> rhs:dom_Expression;
 	lhs -:HelperEdge-> lhsHelper:HelperNode;

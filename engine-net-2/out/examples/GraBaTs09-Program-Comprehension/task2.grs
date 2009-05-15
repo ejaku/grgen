@@ -27,7 +27,7 @@ dump set edge org_amma_pdg_Expression_innerExpressions color grey
 #xgrs WhileStatement_to_IfStatement_else
 
 # Transform AST to CFG
-xgrs nameExpressions
+xgrs CFG_name_expressions
 xgrs [CFG_handle_statements]
 xgrs [CFG_handle_IfStatement]
 xgrs [CFG_handle_IfStatement_Block]
