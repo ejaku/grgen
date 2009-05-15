@@ -1,4 +1,4 @@
-rule While_to_if_then {
+rule WhileStatement_to_IfStatement_then {
 	while:dom_WhileStatement;
 	while -e:dom_WhileStatement_expression-> expr:dom_Expression;
 	while -f:dom_WhileStatement_body-> then:dom_Statement;
@@ -11,7 +11,7 @@ rule While_to_if_then {
 	}
 }
 
-rule While_to_if_else {
+rule WhileStatement_to_IfStatement_else {
 	while:dom_WhileStatement;
 	while -e:dom_WhileStatement_expression-> expr:dom_Expression;
 	while -f:dom_WhileStatement_body-> then:dom_Statement;

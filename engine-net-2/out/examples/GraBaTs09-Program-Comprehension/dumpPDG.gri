@@ -69,7 +69,7 @@ rule PDG_add_named_controlDependence {
 	}
 }
 
-rule PDG_XML_Prefix {
+rule PDG_XML_prefix {
 	modify {
 		emit("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<org.amma.pdg:MProgramDependenceGraph xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:org.amma.pdg=\"org.amma.pdg\">\n");
 	}
@@ -166,7 +166,7 @@ rule PDG_dump_leaf_expression(var tag:string, expr:org_amma_pdg_Expression) {
 	}
 }
 
-rule PDG_XML_Suffix {
+rule PDG_XML_suffix {
 	modify {
 		emit("</org.amma.pdg:MProgramDependenceGraph>\n");
 	}

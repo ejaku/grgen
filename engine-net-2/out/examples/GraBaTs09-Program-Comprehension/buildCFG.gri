@@ -11,7 +11,7 @@ rule CFG_handle_statements
 	}
 }
 
-rule CFG_handle_if
+rule CFG_handle_IfStatement
 {
 	iff:dom_IfStatement -:org_amma_cfg_AbstractNode_toNode->;
 	iff -then_edge:dom_IfStatement_thenStatement-> then:dom_Statement;
@@ -27,7 +27,7 @@ rule CFG_handle_if
 	}
 }
 
-rule CFG_handle_if_block
+rule CFG_handle_IfStatement_Block
 {
 	block:dom_Block;
 	block <-cfg:Edge- iff:dom_IfStatement;
@@ -54,7 +54,7 @@ rule CFG_handle_if_block
 	}
 }
 
-rule CFG_handle_while
+rule CFG_handle_WhileStatement
 {
 	while:dom_WhileStatement -cfgfalse:org_amma_cfg_AbstractNode_toNode->;
 	while -:dom_WhileStatement_body-> body:dom_Statement;
@@ -66,7 +66,7 @@ rule CFG_handle_while
 	}
 }
 
-rule CFG_handle_while_block
+rule CFG_handle_WhileStatement_Block
 {
 	block:dom_Block;
 	block <-cfgtrue:org_amma_cfg_IterativeNode_trueConditionNode- while:dom_WhileStatement;
@@ -107,11 +107,11 @@ rule CFG_handle_EmptyStatement {
 
 rule CFG_sweep_graph {
 	modify {
-		exec(CFG_sweep_graph_Step1* && CFG_sweep_graph_Step2*);
+		exec(CFG_sweep_graph_step1* && CFG_sweep_graph_step2*);
 	}
 }
 
-rule CFG_sweep_graph_Step1
+rule CFG_sweep_graph_step1
 {
 	n:Node\HelperNode;
 	negative {
@@ -131,7 +131,7 @@ rule CFG_sweep_graph_Step1
 	replace {}
 }
 
-rule CFG_sweep_graph_Step2
+rule CFG_sweep_graph_step2
 {
 	exact(n);
 	n:Node -:HelperEdge-> helper:HelperNode;
@@ -303,7 +303,7 @@ rule ExpressionEdge_2_CFG {
 	}
 }
 
-rule Add_Enter_Exit {
+rule CFG_add_Enter_and_Exit {
 	replace {
 		enter:CFG_Enter;
 		exit:CFG_Exit;
@@ -315,7 +315,7 @@ rule Add_Enter_Exit {
 	}
 }
 
-rule Connect_Enter {
+rule CFG_connect_Enter {
 	enter:CFG_Enter;
 	n:org_amma_cfg_AbstractNode;
 	
@@ -328,7 +328,7 @@ rule Connect_Enter {
 	}
 }
 
-rule Connect_Exit {
+rule CFG_connect_Exit {
 	exit:CFG_Exit;
 	n:org_amma_cfg_AbstractNode;
 	

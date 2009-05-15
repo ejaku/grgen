@@ -23,47 +23,47 @@ dump set edge org_amma_pdg_ExpressionNode_expression color grey
 dump set edge org_amma_pdg_Expression_innerExpressions color grey
 
 # if-statement tests
-#xgrs While_to_if_then
-#xgrs While_to_if_else
+#xgrs WhileStatement_to_IfStatement_then
+#xgrs WhileStatement_to_IfStatement_else
 
 # Transform AST to CFG
 xgrs nameExpressions
 xgrs [CFG_handle_statements]
-xgrs [CFG_handle_if]
-xgrs [CFG_handle_if_block]
-xgrs [CFG_handle_while]
-xgrs [CFG_handle_while_block]
+xgrs [CFG_handle_IfStatement]
+xgrs [CFG_handle_IfStatement_Block]
+xgrs [CFG_handle_WhileStatement]
+xgrs [CFG_handle_WhileStatement_Block]
 xgrs [CFG_handle_EmptyStatement]
 xgrs [CFG_sweep_graph]
 xgrs AST_nodes_2_CFG
 
 # Dump CFG
 redirect emit cfg_task2-grgen.xmi
-xgrs (id)=get_initial_id
+xgrs (id) = CFG_initial_id
 xgrs (id) = CFG_number_node(id)*
-xgrs CFG_XML_Prefix
-xgrs (id)=get_initial_id
-xgrs ((n, id)=CFG_get_node_by_id(id) && CFG_dump_AbstractNode(n))*
-xgrs CFG_XML_Suffix
+xgrs CFG_XML_prefix
+xgrs (id) = CFG_initial_id
+xgrs ((n, id) = CFG_node_by_id(id) && CFG_dump_AbstractNode(n))*
+xgrs CFG_XML_suffix
 xgrs CFG_finish_dump
-show graph ycomp
+xgrs (CFG_add_Enter_and_Exit & CFG_connect_Enter* & CFG_connect_Exit*)
 
 # Transform CFG to PDG
-xgrs (Add_Enter_Exit & Connect_Enter* & Connect_Exit*)
-xgrs init_Post_Dom
-xgrs determine_Post_Dom
-xgrs Determine_Dominance_Frontiers
-xgrs Create_Control_Dependencies
-xgrs Delete_Post_Dom*
-xgrs add_data_dependencies
-xgrs CFG_2_PDG
+xgrs PDG_init_post_dominance
+xgrs PDG_determine_post_dominance
+xgrs PDG_determine_post_dominance_frontiers
+xgrs PDG_create_control_dependencies
+xgrs PDG_delete_post_dominance*
+xgrs PDG_add_data_dependencies
+xgrs CFG_nodes_2_PDG
 
 # Dump PDG
 redirect emit pdg_task2-grgen.xmi
 xgrs PDG_number_dependencies
-xgrs PDG_XML_Prefix
+xgrs PDG_XML_prefix
 xgrs PDG_dump
-xgrs PDG_XML_Suffix
+xgrs PDG_XML_suffix
 xgrs PDG_finish_dump
 
+show graph ycomp
 exit

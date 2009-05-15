@@ -1,10 +1,12 @@
-rule init_Post_Dom {
+// Control dependencies
+rule PDG_init_post_dominance {
 	replace {
-		exec(init_Post_Dom_Step1* && init_Post_Dom_Step2* && init_Post_Dom_Step3*);
+		exec(PDG_init_post_dominance_step1* && PDG_init_post_dominance_step2* &&
+		     PDG_init_post_dominance_step3*);
 	}
 }
 
-rule init_Post_Dom_Step1 {
+rule PDG_init_post_dominance_step1 {
 	a:org_amma_cfg_AbstractNode\(CFG_Enter + CFG_Exit);
 	
 	negative {
@@ -16,7 +18,7 @@ rule init_Post_Dom_Step1 {
 	}
 }
 
-rule init_Post_Dom_Step2 {
+rule PDG_init_post_dominance_step2 {
 	a:org_amma_cfg_AbstractNode -:Edge\pdom-> b:org_amma_cfg_AbstractNode;
 	
 	negative {
@@ -28,7 +30,7 @@ rule init_Post_Dom_Step2 {
 	}
 }
 
-rule init_Post_Dom_Step3 {
+rule PDG_init_post_dominance_step3 {
 	a:org_amma_cfg_AbstractNode;
 	b:org_amma_cfg_AbstractNode;
 	c:org_amma_cfg_AbstractNode;
@@ -45,14 +47,14 @@ rule init_Post_Dom_Step3 {
 	}
 }
 
-rule determine_Post_Dom {
+rule PDG_determine_post_dominance {
 	replace {
-		exec((remove_wrong_Post_Dom+ | propagate_wrong_Post_Dom_Removing+)* &&
-		     Mark_Transitive_Post_Dom*);
+		exec((PDG_remove_wrong_post_dominance+ | PDG_propagate_wrong_post_dominance_removing+)* &&
+		     PDG_mark_transitive_post_dominance*);
 	}
 }
 
-rule remove_wrong_Post_Dom {
+rule PDG_remove_wrong_post_dominance {
 	a:org_amma_cfg_AbstractNode;
 	a -:Edge\pdom-> b:org_amma_cfg_AbstractNode;
 	a -:Edge\pdom-> c:org_amma_cfg_AbstractNode;
@@ -70,7 +72,7 @@ rule remove_wrong_Post_Dom {
 	}
 }
 
-rule propagate_wrong_Post_Dom_Removing {
+rule PDG_propagate_wrong_post_dominance_removing {
 	a:org_amma_cfg_AbstractNode;
 	a -:Edge\pdom-> b:org_amma_cfg_AbstractNode;
 	c:org_amma_cfg_AbstractNode;
@@ -86,7 +88,7 @@ rule propagate_wrong_Post_Dom_Removing {
 	}
 }
 
-rule Mark_Transitive_Post_Dom {
+rule PDG_mark_transitive_post_dominance {
 	a:org_amma_cfg_AbstractNode;
 	b:org_amma_cfg_AbstractNode;
 	c:org_amma_cfg_AbstractNode;
@@ -100,13 +102,13 @@ rule Mark_Transitive_Post_Dom {
 	}
 }
 
-rule Determine_Dominance_Frontiers {
+rule PDG_determine_post_dominance_frontiers {
 	modify {
-		exec(Determine_Dominance_Frontier*);
+		exec(PDG_determine_post_dominance_frontier*);
 	}
 }
 
-rule Determine_Dominance_Frontier {
+rule PDG_determine_post_dominance_frontier {
 	a:org_amma_cfg_AbstractNode;
 	b:org_amma_cfg_AbstractNode;
 	c:org_amma_cfg_AbstractNode;
@@ -128,13 +130,13 @@ rule Determine_Dominance_Frontier {
 	}
 }
 
-rule Create_Control_Dependencies {
+rule PDG_create_control_dependencies {
 	modify {
-		exec([Create_Control_Dependency] & [Add_Reflexive_Control_Dependency]);
+		exec([PDG_create_control_dependency] & [PDG_add_reflexive_control_dependency]);
 	}
 }
 
-rule Create_Control_Dependency {
+rule PDG_create_control_dependency {
 	a:org_amma_cfg_AbstractNode;
 	b:org_amma_cfg_AbstractNode;
 	
@@ -146,7 +148,7 @@ rule Create_Control_Dependency {
 	}
 }
 
-rule Add_Reflexive_Control_Dependency {
+rule PDG_add_reflexive_control_dependency {
 	a:org_amma_cfg_IterativeNode;
 	
 	modify {
@@ -154,24 +156,24 @@ rule Add_Reflexive_Control_Dependency {
 	}
 }
 
-rule Delete_Post_Dom {
+rule PDG_delete_post_dominance {
 	-:pdom->;
 	
 	replace {}
 }
 
 // Data dependencies
-rule add_data_dependencies {
+rule PDG_add_data_dependencies {
 	modify {
-		exec([prepare_IterativeNode] & [prepare_ConditionalNode] &
-		     add_transitive_toNode* & add_transitive_innerExpression* &
-		     add_binary_data_dependency* & add_unary_data_dependency* &
-		     [remove_transitive_innerExpression] &
-		     [finish_IterativeNode] & [finish_ConditionalNode]);
+		exec([PDG_prepare_IterativeNode] & [PDG_prepare_ConditionalNode] &
+		     PDG_add_transitive_toNode* & PDG_add_transitive_innerExpression* &
+		     PDG_add_binary_data_dependency* & PDG_add_unary_data_dependency* &
+		     [PDG_remove_transitive_innerExpression] &
+		     [PDG_finish_IterativeNode] & [PDG_finish_ConditionalNode]);
 	}
 }
 
-rule prepare_IterativeNode {
+rule PDG_prepare_IterativeNode {
 	a:org_amma_cfg_IterativeNode;
 	a -e:org_amma_cfg_AbstractNode_expression-> expr:org_amma_cfg_Expression;
 	
@@ -189,7 +191,7 @@ rule prepare_IterativeNode {
 	}
 }
 
-rule prepare_ConditionalNode {
+rule PDG_prepare_ConditionalNode {
 	a:org_amma_cfg_ConditionalNode;
 	a -e:org_amma_cfg_AbstractNode_expression-> expr:org_amma_cfg_Expression;
 	
@@ -207,7 +209,7 @@ rule prepare_ConditionalNode {
 	}
 }
 
-rule add_transitive_toNode {
+rule PDG_add_transitive_toNode {
 	a:org_amma_cfg_AbstractNode;
 	b:org_amma_cfg_AbstractNode;
 	c:org_amma_cfg_AbstractNode;
@@ -225,7 +227,7 @@ rule add_transitive_toNode {
 	}
 }
 
-rule add_transitive_innerExpression {
+rule PDG_add_transitive_innerExpression {
 	a:org_amma_cfg_Expression;
 	b:org_amma_cfg_Expression;
 	c:org_amma_cfg_Expression;
@@ -246,7 +248,7 @@ rule add_transitive_innerExpression {
 	}
 }
 
-rule add_binary_data_dependency {
+rule PDG_add_binary_data_dependency {
 	a:org_amma_cfg_AbstractNode;
 	b:org_amma_cfg_AbstractNode;
 	
@@ -275,7 +277,7 @@ rule add_binary_data_dependency {
 	}
 }
 
-rule add_unary_data_dependency {
+rule PDG_add_unary_data_dependency {
 	a:org_amma_cfg_AbstractNode;
 	b:org_amma_cfg_AbstractNode;
 	
@@ -311,13 +313,13 @@ rule add_unary_data_dependency {
 	}
 }
 
-rule remove_transitive_innerExpression {
+rule PDG_remove_transitive_innerExpression {
 	-:transitive_innerExpression->;
 	
 	replace {}
 }
 
-rule finish_IterativeNode {
+rule PDG_finish_IterativeNode {
 	a:org_amma_cfg_IterativeNode;
 	dummy:org_amma_cfg_Expression;
 	expr:org_amma_cfg_Expression;
@@ -330,7 +332,7 @@ rule finish_IterativeNode {
 	}
 }
 
-rule finish_ConditionalNode {
+rule PDG_finish_ConditionalNode {
 	a:org_amma_cfg_ConditionalNode;
 	dummy:org_amma_cfg_Expression;
 	expr:org_amma_cfg_Expression;
@@ -343,15 +345,15 @@ rule finish_ConditionalNode {
 	}
 }
 
-rule CFG_2_PDG {
+rule CFG_nodes_2_PDG {
 	modify {
-		exec([remove_cfg_edges] & enter_2_PDG & exit_2_PDG &
+		exec([PDG_remove_cfg_edges] & enter_2_PDG & exit_2_PDG &
 		     [IterativeNode_2_PDG] & [ConditionalNode_2_PDG] &
 		     [Node_2_PDG] & [innerExpression_2_PDG]);
 	}
 }
 
-rule remove_cfg_edges {
+rule PDG_remove_cfg_edges {
 	a:org_amma_cfg_AbstractNode;
 	b:org_amma_cfg_AbstractNode;
 	
