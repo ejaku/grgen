@@ -1,7 +1,8 @@
 rule CFG_name_expressions {
 	modify {
 		exec((CFG_name_SimpleName || CFG_name_NumberLiteral ||
-		      CFG_name_PostfixExpression || CFG_name_MethodInvocation ||
+		      CFG_name_PrefixExpression || CFG_name_PostfixExpression ||
+		      CFG_name_MethodInvocation ||
 		      CFG_name_InfixExpression || CFG_name_Assignment)*);
 	}
 }
@@ -36,6 +37,24 @@ rule CFG_name_NumberLiteral {
 		eval {
 			helper.name = expr._token;
 			helper.operator = expr._token;
+		}
+	}
+}
+
+rule CFG_name_PrefixExpression {
+	expr:dom_PrefixExpression -:dom_PrefixExpression_operand-> op:dom_Expression;
+	op -:HelperEdge-> opHelper:HelperNode;
+	
+	negative {
+		expr -:HelperEdge->;
+	}
+	
+	modify {
+		expr -:HelperEdge-> helper:HelperNode;
+		
+		eval {
+			helper.name = helper.prefixMap[expr._operator] + opHelper.name;
+			helper.operator = helper.prefixNameMap[expr._operator];
 		}
 	}
 }

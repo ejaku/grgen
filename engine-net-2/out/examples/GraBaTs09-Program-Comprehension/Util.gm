@@ -72,6 +72,22 @@ node class HelperNode {
 		dom_InfixExpressionOperatorKind::_times -> "times",
 		dom_InfixExpressionOperatorKind::_divide -> "divide"
 	};
+	const prefixMap:map<dom_PrefixExpressionOperatorKind, string> = {
+		dom_PrefixExpressionOperatorKind::_minus -> "-",
+		dom_PrefixExpressionOperatorKind::_not -> "!",
+		dom_PrefixExpressionOperatorKind::_decrement -> "--",
+		dom_PrefixExpressionOperatorKind::_complement -> "~",
+		dom_PrefixExpressionOperatorKind::_increment -> "++",
+		dom_PrefixExpressionOperatorKind::_plus -> "+"
+	};
+	const prefixNameMap:map<dom_PrefixExpressionOperatorKind, string> = {
+		dom_PrefixExpressionOperatorKind::_minus -> "minus",
+		dom_PrefixExpressionOperatorKind::_not -> "not",
+		dom_PrefixExpressionOperatorKind::_decrement -> "decrement",
+		dom_PrefixExpressionOperatorKind::_complement -> "complement",
+		dom_PrefixExpressionOperatorKind::_increment -> "increment",
+		dom_PrefixExpressionOperatorKind::_plus -> "plus"
+	};
 	const postfixMap:map<dom_PostfixExpressionOperatorKind, string> = {
 		dom_PostfixExpressionOperatorKind::_increment -> "++",
 		dom_PostfixExpressionOperatorKind::_decrement -> "--"
