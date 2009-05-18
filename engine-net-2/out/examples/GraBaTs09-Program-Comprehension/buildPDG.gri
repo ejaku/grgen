@@ -166,7 +166,8 @@ rule PDG_delete_post_dominance {
 rule PDG_add_data_dependencies {
 	modify {
 		exec([PDG_prepare_IterativeNode] & [PDG_prepare_ConditionalNode] &
-		     PDG_add_transitive_toNode* & PDG_add_transitive_innerExpression* &
+		     PDG_add_transitive_innerExpression* &
+		     [PDG_init_valid_path] & add_transitive_valid_path* &
 		     PDG_add_binary_data_dependency* & PDG_add_unary_data_dependency* &
 		     [PDG_remove_transitive_innerExpression] &
 		     [PDG_finish_IterativeNode] & [PDG_finish_ConditionalNode]);
@@ -209,21 +210,44 @@ rule PDG_prepare_ConditionalNode {
 	}
 }
 
-rule PDG_add_transitive_toNode {
+rule PDG_init_valid_path {
+	a:org_amma_cfg_AbstractNode;
+	b:org_amma_cfg_AbstractNode;
+	a -e:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> b;
+	
+	modify {
+		a -:valid_path-> b;
+	}
+}
+
+rule add_transitive_valid_path {
 	a:org_amma_cfg_AbstractNode;
 	b:org_amma_cfg_AbstractNode;
 	c:org_amma_cfg_AbstractNode;
 	
 	hom(a,c);
-	a -:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> b;
-	b -:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> c;
+	a -:valid_path-> b;
+	b -:Edge\(org_amma_pdg_ExpressionNode_controlDependenceNodes + valid_path)-> c;
 	
 	negative {
-		a -:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> c;
+		a -:valid_path-> c;
+	}
+	
+	negative {
+		a -:org_amma_cfg_AbstractNode_expression-> expr_a:org_amma_cfg_Expression;
+		b -:org_amma_cfg_AbstractNode_expression-> expr_b:org_amma_cfg_Expression;
+		
+		expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def:org_amma_cfg_Expression;
+		expr_b -redef_edge:org_amma_cfg_Expression_innerExpression-> redef:org_amma_cfg_Expression;
+		
+		if { def_edge.index == 0 && def._isIdentifier &&
+		     redef_edge.index == 0 && redef._isIdentifier &&
+		     def._expressionName == redef._expressionName;
+	   }
 	}
 	
 	modify {
-		a -:transitive_toNode-> c;
+		a -:valid_path-> c;
 	}
 }
 
@@ -253,7 +277,7 @@ rule PDG_add_binary_data_dependency {
 	b:org_amma_cfg_AbstractNode;
 	
 	hom(a,b);
-	a -:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> b;
+	a -:valid_path-> b;
 	
 	hom(expr_a, expr_b);
 	hom(ea, eb);
@@ -282,7 +306,7 @@ rule PDG_add_unary_data_dependency {
 	b:org_amma_cfg_AbstractNode;
 	
 	hom(a,b);
-	a -:Edge\org_amma_pdg_ExpressionNode_controlDependenceNodes-> b;
+	a -:valid_path-> b;
 	
 	hom(expr_a, expr_b);
 	hom(ea, eb);

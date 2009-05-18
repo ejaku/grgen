@@ -9,3 +9,5 @@ edge class named_controlDependence extends controlDependence {
 }
 
 edge class visited_named_controlDependence extends named_controlDependence;
+
+edge class valid_path;
