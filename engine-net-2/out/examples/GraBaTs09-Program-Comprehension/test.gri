@@ -23,3 +23,15 @@ rule WhileStatement_to_IfStatement_else {
 		iff -:dom_IfStatement_thenStatement-> :dom_EmptyStatement;
 	}
 }
+
+rule rename_prod_2_k {
+	id:dom_SimpleName;
+	
+	if { id._identifier == "prod"; }
+	
+	modify {
+		eval {
+			id._identifier = "k";
+		}
+	}
+}
