@@ -25,7 +25,7 @@ dump set edge org_amma_pdg_Expression_innerExpressions color grey
 # if-statement tests
 #xgrs WhileStatement_to_IfStatement_then
 #xgrs WhileStatement_to_IfStatement_else
-xgrs [rename_prod_2_k]
+#xgrs [rename_prod_2_k]
 
 # Transform AST to CFG
 xgrs CFG_name_expressions
