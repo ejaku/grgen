@@ -49,7 +49,7 @@ rule PDG_init_post_dominance_step3 {
 
 rule PDG_determine_post_dominance {
 	replace {
-		exec((PDG_remove_wrong_post_dominance+ | PDG_propagate_wrong_post_dominance_removing+)* &&
+		exec((PDG_remove_wrong_post_dominance+ && PDG_propagate_wrong_post_dominance_removing+)* &&
 		     PDG_mark_transitive_post_dominance*);
 	}
 }
@@ -75,12 +75,12 @@ rule PDG_remove_wrong_post_dominance {
 rule PDG_propagate_wrong_post_dominance_removing {
 	a:org_amma_cfg_AbstractNode;
 	a -:Edge\pdom-> b:org_amma_cfg_AbstractNode;
-	c:org_amma_cfg_AbstractNode;
+	d:org_amma_cfg_AbstractNode;
 	
-	c -e:pdom-> a;
+	d -e:pdom-> a;
 	
 	negative {
-		c -:pdom-> b;
+		d -:pdom-> b;
 	}
 	
 	modify {
