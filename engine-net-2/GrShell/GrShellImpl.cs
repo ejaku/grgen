@@ -2784,8 +2784,14 @@ namespace de.unika.ipd.grGen.grShell
             IGraph graph;
             try
             {
+                int startTime = Environment.TickCount;
                 graph = Porter.Import(curGraphBackend, filenames);
+                System.Console.Out.WriteLine("import done after: " + (Environment.TickCount - startTime) + " ms");
+                System.Console.Out.WriteLine("graph size after import: " + System.GC.GetTotalMemory(true) + " bytes");
+                startTime = Environment.TickCount;
                 curShellGraph = new ShellGraph(graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
+                System.Console.Out.WriteLine("shell import done after: " + (Environment.TickCount - startTime) + " ms");
+                System.Console.Out.WriteLine("shell graph size after import: " + System.GC.GetTotalMemory(true) + " bytes");
                 curShellGraph.Actions = graph.Actions;
                 graphs.Add(curShellGraph);
             }

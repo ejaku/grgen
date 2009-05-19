@@ -1835,7 +1835,7 @@ exitSecondLoop: ;
             sb.AppendFront("using System;\nusing System.Collections.Generic;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
-                + "using " + namespaceOfModel + ";\n"
+                + "using GRGEN_MODEL = " + namespaceOfModel + ";\n"
                 + "using " + namespaceOfRulePatterns + ";\n\n");
             sb.AppendFront("namespace de.unika.ipd.grGen.lgspActions\n");
             sb.AppendFront("{\n");
