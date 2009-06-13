@@ -671,16 +671,30 @@ public class ModifyGen extends CSharpBase {
 	{
 		String noReuse = task.reuseNodesAndEdges ? "" : "NoReuse";
 		String matchType = "Match_"+pathPrefix+task.left.getNameOfGraph();
+		StringBuffer outParameters = new StringBuffer();
+		int i=0;
+		for(Expression expr : task.returns) {
+			outParameters.append(", out ");
+			if(expr instanceof GraphEntityExpression)
+				outParameters.append(formatElementInterfaceRef(expr.getType()));
+			else
+				outParameters.append(formatAttributeType(expr.getType()));
+			outParameters.append(" output_"+i);
+			++i;
+		}
+		
 		switch(task.typeOfTask) {
 		case TYPE_OF_TASK_MODIFY:
 			if(pathPrefix=="" && !task.isSubpattern) {
-				sb.append("\t\tpublic override object[] Modify"+noReuse
-						+ "(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)\n");
+				sb.append("\t\tpublic void "
+						+ "Modify"+noReuse
+						+ "(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch"
+						+ outParameters + ")\n");
 				sb.append("\t\t{\n");
 				sb.append("\t\t\t"+matchType+" curMatch = ("+matchType+")_curMatch;\n");
 			} else {
 				sb.append("\t\tpublic void "
-						+ pathPrefix+task.left.getNameOfGraph()+"_Modify"+noReuse
+						+ pathPrefix+task.left.getNameOfGraph() + "_Modify"+noReuse
 						+ "(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch");
 				for(Entity entity : task.replParameters) {
 					Node node = (Node)entity;
@@ -693,7 +707,8 @@ public class ModifyGen extends CSharpBase {
 			break;
 		case TYPE_OF_TASK_CREATION:
 			sb.append("\t\tpublic void "
-					+ pathPrefix+task.left.getNameOfGraph()+"_Create(GRGEN_LGSP.LGSPGraph graph");
+					+ pathPrefix+task.left.getNameOfGraph() + "_Create"
+					+ "(GRGEN_LGSP.LGSPGraph graph");
 			for(Entity entity : task.parameters) {
 				sb.append((entity instanceof Node ? ", GRGEN_LGSP.LGSPNode "
 								 : ", GRGEN_LGSP.LGSPEdge " )+ formatEntity(entity));
@@ -703,8 +718,8 @@ public class ModifyGen extends CSharpBase {
 			break;
 		case TYPE_OF_TASK_DELETION:
 			sb.append("\t\tpublic void "
-					+ pathPrefix+task.left.getNameOfGraph()
-					+ "_Delete(GRGEN_LGSP.LGSPGraph graph, "+matchType+" curMatch)\n");
+					+ pathPrefix+task.left.getNameOfGraph() + "_Delete"
+					+ "(GRGEN_LGSP.LGSPGraph graph, "+matchType+" curMatch)\n");
 			sb.append("\t\t{\n");
 			break;
 		default:
@@ -1307,18 +1322,18 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void emitReturnStatement(StringBuffer sb, ModifyGenerationStateConst state, List<Expression> returns) {
-		if(returns.isEmpty())
-			sb.append("\t\t\treturn EmptyReturnElements;\n");
-		else {
-			for(int i = 0; i < returns.size(); i++)
-			{
-				sb.append("\t\t\tReturnArray[" + i + "] = ");
-				Expression expr = returns.get(i);
-				genExpression(sb, expr, state);
-				sb.append(";\n");
-			}
-			sb.append("\t\t\treturn ReturnArray;\n");
+		for(int i = 0; i < returns.size(); i++)
+		{
+			sb.append("\t\t\toutput_" + i + " = ");
+			Expression expr = returns.get(i);
+			if(expr instanceof GraphEntityExpression)
+				sb.append("(" + formatElementInterfaceRef(expr.getType()) + ")(");
+			else
+				sb.append("(" + formatAttributeType(expr.getType()) + ") (");
+			genExpression(sb, expr, state);
+			sb.append(");\n");
 		}
+		sb.append("\t\t\treturn;\n");
 	}
 
 	private void genExtractElementsFromMatch(StringBuffer sb, ModifyGenerationStateConst state,

@@ -32,6 +32,9 @@ public abstract class GraphEntity extends Entity {
 	/** The entity from which this one will inherit its dynamic type */
 	protected GraphEntity typeof = null;
 
+	/** The interface type of the parameter if any. */
+	protected InheritanceType parameterInterfaceType = null;
+
 	protected Collection<? extends InheritanceType> constraints = Collections.emptySet();
 
 	boolean maybeDeleted;
@@ -125,6 +128,14 @@ public abstract class GraphEntity extends Entity {
 		return typeof != null;
 	}
 
+	public void setParameterInterfaceType(InheritanceType type) {
+		parameterInterfaceType = type;
+	}
+	
+	public InheritanceType getParameterInterfaceType() {
+		return parameterInterfaceType;
+	}
+	
 	public final Collection<InheritanceType> getConstraints() {
 		return Collections.unmodifiableCollection(constraints);
 	}

@@ -1,6 +1,6 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 2.1
- * Copyright (C) 2008 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 2.5
+ * Copyright (C) 2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
  * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
  */
  
@@ -338,19 +338,19 @@ paramList [ CollectNode<BaseNode> params, int context, PatternGraphNode directly
 	;
 
 param [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
-	: MINUS edge=edgeDecl[context, directlyNestingLHSGraph] direction = forwardOrUndirectedEdgeParam
+	: MINUS edge=edgeDeclParam[context, directlyNestingLHSGraph] direction = forwardOrUndirectedEdgeParam
 	{
 		BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 		res = new ConnectionNode(dummy, edge, dummy, direction);
 	}
 
-	| LARROW edge=edgeDecl[context, directlyNestingLHSGraph] RARROW
+	| LARROW edge=edgeDeclParam[context, directlyNestingLHSGraph] RARROW
 	{
 		BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 		res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY_DIRECTED);
 	}
 
-	| QUESTIONMINUS edge=edgeDecl[context, directlyNestingLHSGraph] MINUSQUESTION
+	| QUESTIONMINUS edge=edgeDeclParam[context, directlyNestingLHSGraph] MINUSQUESTION
 	{
 		BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 		res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY);
@@ -358,7 +358,7 @@ param [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNo
 
 	| v=varDecl[context] { res = v; }
 
-	| node=nodeDecl[context, directlyNestingLHSGraph]
+	| node=nodeDeclParam[context, directlyNestingLHSGraph]
 	{
 		res = new SingleNodeConnNode(node, directlyNestingLHSGraph);
 	}
@@ -677,6 +677,24 @@ nodeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Bas
 			}
 	;
 
+nodeDeclParam [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
+	@init{
+		constr = TypeExprNode.getEmpty();
+	}
+
+	: id=entIdentDecl COLON
+		type=typeIdentUse
+		( constr=typeConstraint )?
+		( LT interfaceType=typeIdentUse GT )?
+			{
+				if(interfaceType==null) {
+					res = new NodeDeclNode(id, type, context, constr, directlyNestingLHSGraph);
+				} else {
+					res = new NodeInterfaceTypeChangeNode(id, type, context, interfaceType, directlyNestingLHSGraph);
+				}
+			}
+	;
+
 varDecl [ int context ] returns [ BaseNode res = env.initNode() ]
 	: VAR id=entIdentDecl COLON
 		(
@@ -768,6 +786,25 @@ edgeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Edg
 			{ id = env.defineAnonymousEntity("edge", getCoords(cc)); }
 			co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } 
 		)
+	;
+
+edgeDeclParam [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
+	@init{
+		id = env.getDummyIdent();
+		type = env.getNodeRoot();
+		constr = TypeExprNode.getEmpty();
+	}
+
+	: id=entIdentDecl COLON type=typeIdentUse
+		( constr=typeConstraint )?
+		( LT interfaceType=typeIdentUse GT )?
+			{
+				if( interfaceType == null ) {
+					res = new EdgeDeclNode(id, type, context, constr, directlyNestingLHSGraph);
+				} else {
+					res = new EdgeInterfaceTypeChangeNode(id, type, context, interfaceType, directlyNestingLHSGraph);
+				}
+			}
 	;
 
 edgeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]

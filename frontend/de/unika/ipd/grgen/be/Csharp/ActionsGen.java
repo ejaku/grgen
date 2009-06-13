@@ -170,7 +170,6 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
 				+ "instance = new " + className + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
-		sb.append("\t\tprivate static object[] ReturnArray = new object[" + subpatternRule.getReturns().size() + "];\n\n");
 
 		String patGraphVarName = "pat_" + subpatternRule.getPattern().getNameOfGraph();
 		genRuleOrSubpatternClassEntities(sb, subpatternRule, patGraphVarName, staticInitializers,
@@ -207,8 +206,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
 				+ "instance = new " + className + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
-		sb.append("\t\tprivate static object[] ReturnArray = new object[" + actionRule.getReturns().size() + "];\n\n");
-
+		
 		String patGraphVarName = "pat_" + actionRule.getPattern().getNameOfGraph();
 		genRuleOrSubpatternClassEntities(sb, actionRule, patGraphVarName, staticInitializers,
 				actionRule.getPattern().getNameOfGraph()+"_", new HashMap<Entity, String>());
@@ -1064,9 +1062,12 @@ public class ActionsGen extends CSharpBase {
 	private void genRuleParamResult(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
 		sb.append("\t\t\tinputs = new GRGEN_LIBGR.GrGenType[] { ");
 		for(Entity ent : action.getParameters()) {
-			if(ent instanceof Variable)
+			if(ent instanceof Variable) {
 				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(ent) + ")), ");
-			else sb.append(formatTypeClassRef(ent.getType()) + ".typeVar, ");
+			} else {
+				GraphEntity gent = (GraphEntity)ent;
+				sb.append(formatTypeClassRef(gent.getParameterInterfaceType()!=null ? gent.getParameterInterfaceType() : gent.getType()) + ".typeVar, ");
+			}
 		}
 		sb.append("};\n");
 

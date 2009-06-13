@@ -439,14 +439,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The LGSPRulePattern object from which this LGSPAction object has been created.
         /// </summary>
-        public LGSPRulePattern rulePattern;
+        public abstract LGSPRulePattern rulePattern { get; }
 
         /// <summary>
         /// The PatternGraph object of the main graph
         /// </summary>
         public PatternGraph patternGraph;
 
-
+        /// <summary>
+        /// Performance optimization: saves us usage of new in the old style/unspecific modify/apply methods 
+        /// of the action interface implementation for returning an array.
+        /// </summary>
+        public object[] ReturnArray;
 
         /// <summary>
         /// The name of the action (without prefixes)

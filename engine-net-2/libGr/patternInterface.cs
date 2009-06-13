@@ -207,16 +207,6 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
         GrGenType[] Outputs { get; }
-
-        /// <summary>
-        /// Performs the rule specific modifications to the given graph with the given match (rewrite part).
-        /// The graph and match object must have the correct type for the used backend.
-        /// </summary>
-        /// <param name="graph">The host graph for this modification.</param>
-        /// <param name="match">The match which is used for this rewrite.</param>
-        /// <returns>An array of objects returned by the rule.
-        /// It is only valid until the next graph rewrite with this rule.</returns>
-        object[] Modify(IGraph graph, IMatch match);
     }
 }
 

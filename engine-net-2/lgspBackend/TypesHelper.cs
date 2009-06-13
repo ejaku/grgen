@@ -43,5 +43,22 @@ namespace de.unika.ipd.grGen.lgsp
                     return "GRGEN_MODEL.I" + type.Name;
             }
         }
+
+        public static String DefaultValue(GrGenType type)
+        {
+            if (type is VarType)
+            {
+                switch (type.Name)
+                {
+                    case "Int32": return "0";
+                    case "Boolean": return "false";
+                    case "Single": return "0.0f";
+                    case "Double": return "0.0";
+                    case "String": return "\"\"";
+                }
+            }
+
+            return "null";
+        }
     }
 }

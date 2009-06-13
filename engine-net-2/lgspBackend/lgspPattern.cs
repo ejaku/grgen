@@ -813,43 +813,6 @@ namespace de.unika.ipd.grGen.lgsp
         public GrGenType[] Outputs { get { return outputs; } }
 
         /// <summary>
-        /// Performs the rule specific modifications to the given graph with the given match (rewrite part).
-        /// The graph and match object must have the correct type for the used backend.
-        /// </summary>
-        /// <param name="graph">The host graph for this modification.</param>
-        /// <param name="match">The match which is used for this rewrite.</param>
-        /// <returns>An array of objects returned by the rule</returns>
-        public object[] Modify(IGraph graph, IMatch match)
-        {
-            return Modify((LGSPGraph)graph, match);
-        }
-
-        /// <summary>
-        /// Performs the rule specific modifications to the given graph with the given match (rewrite part).
-        /// The graph and match object must have the correct type for the used backend.
-        /// </summary>
-        /// <param name="graph">The host graph for this modification.</param>
-        /// <param name="match">The match which is used for this rewrite.</param>
-        /// <returns>An array of objects returned by the rule</returns>
-        public abstract object[] Modify(LGSPGraph graph, IMatch match);
-
-        /// <summary>
-        /// Performs the rule specific modifications to the given graph with the given match (rewrite part).
-        /// The graph and match object must have the correct type for the used backend.
-        /// No reusing of graph elements is used like changing source and target of edges instead of allocating a new edge.
-        /// </summary>
-        /// <param name="graph">The host graph for this modification.</param>
-        /// <param name="match">The match which is used for this rewrite.</param>
-        /// <returns>An array of objects returned by the rule</returns>
-        public abstract object[] ModifyNoReuse(LGSPGraph graph, IMatch match);
-
-
-        /// <summary>
-        /// Performance optimization: saves us usage of new in Modify for returning empty array.
-        /// </summary>
-        public static object[] EmptyReturnElements = new object[] { };
-
-        /// <summary>
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
         public GrGenType[] outputs;
