@@ -39,12 +39,10 @@ namespace JavaProgramGraphs
             MethodBody mb = (MethodBody)graph.GetNodeVarValue("I409"); // method body of send
 
             // get operation for method body by: 
-            // get action, fill parameters, match action pattern, apply rewrite, get action returns
-            Action_getOperation getOperation = Action_getOperation.Instance;
-            IMatches matches = getOperation.Match(graph, 1, mb);
-            object[] returns;
-            returns = getOperation.Modify(graph, matches.GetMatch(0));
-            Operation op = (Operation)returns[0];
+            // get action, match action pattern with given parameters, apply rewrite filling given out parameters
+            IMatchesExact<Rule_getOperation.IMatch_getOperation> matches = actions.getOperation.Match(graph, 1, mb);
+            IOperation op;
+            actions.getOperation.Modify(graph, matches.FirstExact, out op);
 
             // iterated application of action marking the body of the expression
             // (shows second way of getting action)
@@ -52,9 +50,10 @@ namespace JavaProgramGraphs
             Debug.Assert(visitedFlagId==0);
             IGraphElement[] param = new LGSPNode[1];
             param[0] = mb;
-            while((matches = actions.GetAction("markExpressionOfBody").Match(graph, 1, param)).Count==1)
+            IMatches matchesInexact;
+            while((matchesInexact = actions.GetAction("markExpressionOfBody").Match(graph, 1, param)).Count==1)
             {
-                actions.GetAction("markExpressionOfBody").Modify(graph, matches.First);
+                actions.GetAction("markExpressionOfBody").Modify(graph, matchesInexact.First);
             }
 
             graph.PerformanceInfo = new PerformanceInfo();
@@ -78,8 +77,7 @@ namespace JavaProgramGraphs
             graph.PerformanceInfo.Reset();
 
             // unmark the body of the expression by searching all occurences and modifying them
-            matches = Action_unmarkExpression.Instance.Match(graph, 0);
-            Action_unmarkExpression.Instance.ModifyAll(graph, matches);
+            actions.unmarkExpression.ApplyAll(0, graph);
             graph.FreeVisitedFlag(visitedFlagId);
 
             // export changed graph (alternatively you may export it as InstanceGraphAfter.gxl)

@@ -116,6 +116,15 @@ for filename in $targets; do
         if(value != correctvalue)
           fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
       }
+	  /value of variable/ {
+        testnum++
+        value = getAttribute(10)
+        if ((getline correctvalue < \"$grs.data\") <= 0)
+          fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
+        sub(\"\\r\$\", \"\", correctvalue)
+        if(value != correctvalue)
+          fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
+      }
       END {
         if(failed) exit 1
         

@@ -24,14 +24,22 @@ namespace edge1
 
 			graph.PerformanceInfo = new PerformanceInfo();
 
+            // use graph rewrite sequence
             actions.ApplyGraphRewriteSequence("init3");
 
 			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
 			Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
 			graph.PerformanceInfo.Reset();
 
+            // use old inexact interface
             IMatches matches = actions.GetAction("findTripleCircle").Match(graph, 0, null);
             Console.WriteLine(matches.Count + " matches found.");
+
+            // use new exact interface
+            IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matchesExact = 
+                actions.findTripleCircle.Match(graph, 0);
+            Console.WriteLine(matchesExact.Count + " matches found.");
+            actions.findTripleCircle.Modify(graph, matchesExact.FirstExact); // rewrite first match (largely nop, as findTripleCircle is a test)
         }
 
         static void Main(string[] args)

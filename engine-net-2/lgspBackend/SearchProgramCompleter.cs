@@ -437,6 +437,20 @@ namespace de.unika.ipd.grGen.lgsp
                 gotoLabel = new GotoLabel();
                 op.Append(gotoLabel);
             }
+            // if our continuation point is a both directions iteration
+            // -> append label at the end of the loop body of the both directions iteration loop
+            else if (continuationPoint is BothDirectionsIteration)
+            {
+                BothDirectionsIteration bothDirections =
+                    continuationPoint as BothDirectionsIteration;
+                op = bothDirections.NestedOperationsList;
+                while (op.Next != null)
+                {
+                    op = op.Next;
+                }
+                gotoLabel = new GotoLabel();
+                op.Append(gotoLabel);
+            }
             // if our continuation point is an alternative
             // -> append label at the end of the alternative operations
             else if (continuationPoint is GetPartialMatchOfAlternative)
@@ -605,16 +619,18 @@ namespace de.unika.ipd.grGen.lgsp
                 // after or at the point of a get element operation 
                 // of some dominating element the check depends on
                 // (or the outermost operation if no iteration is found until it is reached)
-                if (op is GetCandidate)
+                if (op is GetCandidate || op is BothDirectionsIteration)
                 {
-                    GetCandidate getCandidate = op as GetCandidate;
                     if (creationPointOfDominatingElementFound == false)
                     {
                         if (neededElementsForCheckOperation != null)
                         {
                             foreach (string dominating in neededElementsForCheckOperation)
                             {
-                                if (getCandidate.PatternElementName == dominating)
+                                GetCandidate getCandidate = op as GetCandidate;
+                                BothDirectionsIteration bothDirections = op as BothDirectionsIteration;
+                                if (getCandidate!=null && getCandidate.PatternElementName == dominating
+                                    || bothDirections!=null && bothDirections.PatternElementName == dominating)
                                 {
                                     creationPointOfDominatingElementFound = true;
                                     iterationReached = false;
@@ -631,7 +647,7 @@ namespace de.unika.ipd.grGen.lgsp
                             iterationReached = false;
                         }
                     }
-                    if (op is GetCandidateByIteration)
+                    if (op is GetCandidateByIteration || op is BothDirectionsIteration)
                     {
                         iterationReached = true;
                     }

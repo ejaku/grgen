@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Mon May 11 22:49:07 GMT+01:00 2009
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Jun 14 22:34:16 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -16,8 +16,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	{
 		private static Pattern_ChainFromTo instance = null;
 		public static Pattern_ChainFromTo Instance { get { if (instance==null) { instance = new Pattern_ChainFromTo(); instance.initialize(); } return instance; } }
-
-		private static object[] ReturnArray = new object[0];
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromTo_node_from_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ChainFromTo_node_to_AllowedTypes = null;
@@ -622,8 +620,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Pattern_ChainFrom instance = null;
 		public static Pattern_ChainFrom Instance { get { if (instance==null) { instance = new Pattern_ChainFrom(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] ChainFrom_node_from_AllowedTypes = null;
 		public static bool[] ChainFrom_node_from_IsAllowedType = null;
 		public enum ChainFrom_NodeNums { @from, };
@@ -1176,8 +1172,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	{
 		private static Pattern_ChainFromComplete instance = null;
 		public static Pattern_ChainFromComplete Instance { get { if (instance==null) { instance = new Pattern_ChainFromComplete(); instance.initialize(); } return instance; } }
-
-		private static object[] ReturnArray = new object[0];
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromComplete_node_from_AllowedTypes = null;
 		public static bool[] ChainFromComplete_node_from_IsAllowedType = null;
@@ -1907,8 +1901,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Pattern_ChainFromCompleteArbitraryPatternpathLocked instance = null;
 		public static Pattern_ChainFromCompleteArbitraryPatternpathLocked Instance { get { if (instance==null) { instance = new Pattern_ChainFromCompleteArbitraryPatternpathLocked(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] ChainFromCompleteArbitraryPatternpathLocked_node_from_AllowedTypes = null;
 		public static bool[] ChainFromCompleteArbitraryPatternpathLocked_node_from_IsAllowedType = null;
 		public enum ChainFromCompleteArbitraryPatternpathLocked_NodeNums { @from, };
@@ -2636,8 +2628,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	{
 		private static Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards instance = null;
 		public static Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards Instance { get { if (instance==null) { instance = new Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(); instance.initialize(); } return instance; } }
-
-		private static object[] ReturnArray = new object[0];
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_AllowedTypes = null;
 		public static bool[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from_IsAllowedType = null;
@@ -3367,8 +3357,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Pattern_Blowball instance = null;
 		public static Pattern_Blowball Instance { get { if (instance==null) { instance = new Pattern_Blowball(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] Blowball_node_head_AllowedTypes = null;
 		public static bool[] Blowball_node_head_IsAllowedType = null;
 		public enum Blowball_NodeNums { @head, };
@@ -4097,8 +4085,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Pattern_ReverseChainFromTo instance = null;
 		public static Pattern_ReverseChainFromTo Instance { get { if (instance==null) { instance = new Pattern_ReverseChainFromTo(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromTo_node_from_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromTo_node_to_AllowedTypes = null;
 		public static bool[] ReverseChainFromTo_node_from_IsAllowedType = null;
@@ -4701,8 +4687,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	{
 		private static Pattern_ChainFromToReverse instance = null;
 		public static Pattern_ChainFromToReverse Instance { get { if (instance==null) { instance = new Pattern_ChainFromToReverse(); instance.initialize(); } return instance; } }
-
-		private static object[] ReturnArray = new object[0];
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverse_node_from_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverse_node_to_AllowedTypes = null;
@@ -5431,8 +5415,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 	{
 		private static Pattern_ChainFromToReverseToCommon instance = null;
 		public static Pattern_ChainFromToReverseToCommon Instance { get { if (instance==null) { instance = new Pattern_ChainFromToReverseToCommon(); instance.initialize(); } return instance; } }
-
-		private static object[] ReturnArray = new object[0];
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverseToCommon_node_from_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverseToCommon_node_to_AllowedTypes = null;
@@ -6168,8 +6150,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Pattern_ReverseChainFromToToCommon instance = null;
 		public static Pattern_ReverseChainFromToToCommon Instance { get { if (instance==null) { instance = new Pattern_ReverseChainFromToToCommon(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromToToCommon_node_from_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromToToCommon_node_to_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromToToCommon_node_common_AllowedTypes = null;
@@ -6827,8 +6807,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_createChain instance = null;
 		public static Rule_createChain Instance { get { if (instance==null) { instance = new Rule_createChain(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[2];
-
 		public enum createChain_NodeNums { };
 		public enum createChain_EdgeNums { };
 		public enum createChain_VariableNums { };
@@ -6881,7 +6859,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1)
 		{
 			Match_createChain curMatch = (Match_createChain)_curMatch;
 			graph.SettingAddedNodeNames( createChain_addedNodeNames );
@@ -6893,14 +6871,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_beg, node__node0);
 			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node0, node__node1);
 			GRGEN_MODEL.@Edge edge__edge2 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node1, node_end);
-			ReturnArray[0] = node_beg;
-			ReturnArray[1] = node_end;
-			return ReturnArray;
+			output_0 = (GRGEN_LIBGR.INode)(node_beg);
+			output_1 = (GRGEN_LIBGR.INode)(node_end);
+			return;
 		}
 		private static string[] createChain_addedNodeNames = new string[] { "beg", "_node0", "_node1", "end" };
 		private static string[] createChain_addedEdgeNames = new string[] { "_edge0", "_edge1", "_edge2" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1)
 		{
 			Match_createChain curMatch = (Match_createChain)_curMatch;
 			graph.SettingAddedNodeNames( createChain_addedNodeNames );
@@ -6912,9 +6890,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_beg, node__node0);
 			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node0, node__node1);
 			GRGEN_MODEL.@Edge edge__edge2 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node1, node_end);
-			ReturnArray[0] = node_beg;
-			ReturnArray[1] = node_end;
-			return ReturnArray;
+			output_0 = (GRGEN_LIBGR.INode)(node_beg);
+			output_1 = (GRGEN_LIBGR.INode)(node_end);
+			return;
 		}
 
 		static Rule_createChain() {
@@ -7026,8 +7004,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_chainFromTo instance = null;
 		public static Rule_chainFromTo Instance { get { if (instance==null) { instance = new Rule_chainFromTo(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] chainFromTo_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] chainFromTo_node_end_AllowedTypes = null;
 		public static bool[] chainFromTo_node_beg_IsAllowedType = null;
@@ -7095,18 +7071,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromTo curMatch = (Match_chainFromTo)_curMatch;
 			Pattern_ChainFromTo.Match_ChainFromTo subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromTo curMatch = (Match_chainFromTo)_curMatch;
 			Pattern_ChainFromTo.Match_ChainFromTo subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
 		static Rule_chainFromTo() {
@@ -7230,8 +7206,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_chainFrom instance = null;
 		public static Rule_chainFrom Instance { get { if (instance==null) { instance = new Rule_chainFrom(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] chainFrom_node_beg_AllowedTypes = null;
 		public static bool[] chainFrom_node_beg_IsAllowedType = null;
 		public enum chainFrom_NodeNums { @beg, };
@@ -7293,18 +7267,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFrom curMatch = (Match_chainFrom)_curMatch;
 			Pattern_ChainFrom.Match_ChainFrom subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFrom curMatch = (Match_chainFrom)_curMatch;
 			Pattern_ChainFrom.Match_ChainFrom subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
 		static Rule_chainFrom() {
@@ -7424,8 +7398,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_chainFromComplete instance = null;
 		public static Rule_chainFromComplete Instance { get { if (instance==null) { instance = new Rule_chainFromComplete(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] chainFromComplete_node_beg_AllowedTypes = null;
 		public static bool[] chainFromComplete_node_beg_IsAllowedType = null;
 		public enum chainFromComplete_NodeNums { @beg, };
@@ -7487,18 +7459,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromComplete curMatch = (Match_chainFromComplete)_curMatch;
 			Pattern_ChainFromComplete.Match_ChainFromComplete subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromComplete curMatch = (Match_chainFromComplete)_curMatch;
 			Pattern_ChainFromComplete.Match_ChainFromComplete subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
 		static Rule_chainFromComplete() {
@@ -7618,8 +7590,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_chainFromCompleteArbitraryPatternpathLocked instance = null;
 		public static Rule_chainFromCompleteArbitraryPatternpathLocked Instance { get { if (instance==null) { instance = new Rule_chainFromCompleteArbitraryPatternpathLocked(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] chainFromCompleteArbitraryPatternpathLocked_node_beg_AllowedTypes = null;
 		public static bool[] chainFromCompleteArbitraryPatternpathLocked_node_beg_IsAllowedType = null;
 		public enum chainFromCompleteArbitraryPatternpathLocked_NodeNums { @beg, };
@@ -7681,18 +7651,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromCompleteArbitraryPatternpathLocked curMatch = (Match_chainFromCompleteArbitraryPatternpathLocked)_curMatch;
 			Pattern_ChainFromCompleteArbitraryPatternpathLocked.Match_ChainFromCompleteArbitraryPatternpathLocked subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromCompleteArbitraryPatternpathLocked curMatch = (Match_chainFromCompleteArbitraryPatternpathLocked)_curMatch;
 			Pattern_ChainFromCompleteArbitraryPatternpathLocked.Match_ChainFromCompleteArbitraryPatternpathLocked subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
 		static Rule_chainFromCompleteArbitraryPatternpathLocked() {
@@ -7812,8 +7782,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards instance = null;
 		public static Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards Instance { get { if (instance==null) { instance = new Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg_AllowedTypes = null;
 		public static bool[] chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg_IsAllowedType = null;
 		public enum chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_NodeNums { @beg, };
@@ -7875,18 +7843,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards curMatch = (Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards)_curMatch;
 			Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards curMatch = (Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards)_curMatch;
 			Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
 		static Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards() {
@@ -8006,8 +7974,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_createBlowball instance = null;
 		public static Rule_createBlowball Instance { get { if (instance==null) { instance = new Rule_createBlowball(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[1];
-
 		public enum createBlowball_NodeNums { };
 		public enum createBlowball_EdgeNums { };
 		public enum createBlowball_VariableNums { };
@@ -8060,7 +8026,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
 		{
 			Match_createBlowball curMatch = (Match_createBlowball)_curMatch;
 			graph.SettingAddedNodeNames( createBlowball_addedNodeNames );
@@ -8074,13 +8040,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_head, node__node1);
 			GRGEN_MODEL.@Edge edge__edge2 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_head, node__node2);
 			GRGEN_MODEL.@Edge edge__edge3 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_head, node__node3);
-			ReturnArray[0] = node_head;
-			return ReturnArray;
+			output_0 = (GRGEN_LIBGR.INode)(node_head);
+			return;
 		}
 		private static string[] createBlowball_addedNodeNames = new string[] { "head", "_node0", "_node1", "_node2", "_node3" };
 		private static string[] createBlowball_addedEdgeNames = new string[] { "_edge0", "_edge1", "_edge2", "_edge3" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
 		{
 			Match_createBlowball curMatch = (Match_createBlowball)_curMatch;
 			graph.SettingAddedNodeNames( createBlowball_addedNodeNames );
@@ -8094,8 +8060,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_head, node__node1);
 			GRGEN_MODEL.@Edge edge__edge2 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_head, node__node2);
 			GRGEN_MODEL.@Edge edge__edge3 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_head, node__node3);
-			ReturnArray[0] = node_head;
-			return ReturnArray;
+			output_0 = (GRGEN_LIBGR.INode)(node_head);
+			return;
 		}
 
 		static Rule_createBlowball() {
@@ -8207,8 +8173,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_blowball instance = null;
 		public static Rule_blowball Instance { get { if (instance==null) { instance = new Rule_blowball(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] blowball_node_head_AllowedTypes = null;
 		public static bool[] blowball_node_head_IsAllowedType = null;
 		public enum blowball_NodeNums { @head, };
@@ -8270,18 +8234,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_blowball curMatch = (Match_blowball)_curMatch;
 			Pattern_Blowball.Match_Blowball subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_blowball curMatch = (Match_blowball)_curMatch;
 			Pattern_Blowball.Match_Blowball subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
 		static Rule_blowball() {
@@ -8401,8 +8365,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_reverseChainFromTo instance = null;
 		public static Rule_reverseChainFromTo Instance { get { if (instance==null) { instance = new Rule_reverseChainFromTo(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] reverseChainFromTo_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] reverseChainFromTo_node_end_AllowedTypes = null;
 		public static bool[] reverseChainFromTo_node_beg_IsAllowedType = null;
@@ -8470,18 +8432,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_reverseChainFromTo curMatch = (Match_reverseChainFromTo)_curMatch;
 			Pattern_ReverseChainFromTo.Match_ReverseChainFromTo subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_reverseChainFromTo curMatch = (Match_reverseChainFromTo)_curMatch;
 			Pattern_ReverseChainFromTo.Match_ReverseChainFromTo subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
 		static Rule_reverseChainFromTo() {
@@ -8605,8 +8567,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_createReverseChain instance = null;
 		public static Rule_createReverseChain Instance { get { if (instance==null) { instance = new Rule_createReverseChain(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[2];
-
 		public enum createReverseChain_NodeNums { };
 		public enum createReverseChain_EdgeNums { };
 		public enum createReverseChain_VariableNums { };
@@ -8659,7 +8619,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1)
 		{
 			Match_createReverseChain curMatch = (Match_createReverseChain)_curMatch;
 			graph.SettingAddedNodeNames( createReverseChain_addedNodeNames );
@@ -8671,14 +8631,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node0, node_beg);
 			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node1, node__node0);
 			GRGEN_MODEL.@Edge edge__edge2 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_end, node__node1);
-			ReturnArray[0] = node_beg;
-			ReturnArray[1] = node_end;
-			return ReturnArray;
+			output_0 = (GRGEN_LIBGR.INode)(node_beg);
+			output_1 = (GRGEN_LIBGR.INode)(node_end);
+			return;
 		}
 		private static string[] createReverseChain_addedNodeNames = new string[] { "_node0", "beg", "_node1", "end" };
 		private static string[] createReverseChain_addedEdgeNames = new string[] { "_edge0", "_edge1", "_edge2" };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1)
 		{
 			Match_createReverseChain curMatch = (Match_createReverseChain)_curMatch;
 			graph.SettingAddedNodeNames( createReverseChain_addedNodeNames );
@@ -8690,9 +8650,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node0, node_beg);
 			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node1, node__node0);
 			GRGEN_MODEL.@Edge edge__edge2 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_end, node__node1);
-			ReturnArray[0] = node_beg;
-			ReturnArray[1] = node_end;
-			return ReturnArray;
+			output_0 = (GRGEN_LIBGR.INode)(node_beg);
+			output_1 = (GRGEN_LIBGR.INode)(node_end);
+			return;
 		}
 
 		static Rule_createReverseChain() {
@@ -8804,8 +8764,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_chainFromToReverse instance = null;
 		public static Rule_chainFromToReverse Instance { get { if (instance==null) { instance = new Rule_chainFromToReverse(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] chainFromToReverse_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] chainFromToReverse_node_end_AllowedTypes = null;
 		public static bool[] chainFromToReverse_node_beg_IsAllowedType = null;
@@ -8874,26 +8832,26 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromToReverse curMatch = (Match_chainFromToReverse)_curMatch;
 			Pattern_ChainFromToReverse.Match_ChainFromToReverse subpattern_cftr = curMatch.@_cftr;
 			graph.SettingAddedNodeNames( chainFromToReverse_addedNodeNames );
 			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Modify(graph, subpattern_cftr);
 			graph.SettingAddedEdgeNames( chainFromToReverse_addedEdgeNames );
-			return EmptyReturnElements;
+			return;
 		}
 		private static string[] chainFromToReverse_addedNodeNames = new string[] {  };
 		private static string[] chainFromToReverse_addedEdgeNames = new string[] {  };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromToReverse curMatch = (Match_chainFromToReverse)_curMatch;
 			Pattern_ChainFromToReverse.Match_ChainFromToReverse subpattern_cftr = curMatch.@_cftr;
 			graph.SettingAddedNodeNames( chainFromToReverse_addedNodeNames );
 			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Modify(graph, subpattern_cftr);
 			graph.SettingAddedEdgeNames( chainFromToReverse_addedEdgeNames );
-			return EmptyReturnElements;
+			return;
 		}
 
 		static Rule_chainFromToReverse() {
@@ -9017,8 +8975,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_chainFromToReverseToCommon instance = null;
 		public static Rule_chainFromToReverseToCommon Instance { get { if (instance==null) { instance = new Rule_chainFromToReverseToCommon(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[1];
-
 		public static GRGEN_LIBGR.NodeType[] chainFromToReverseToCommon_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] chainFromToReverseToCommon_node_end_AllowedTypes = null;
 		public static bool[] chainFromToReverseToCommon_node_beg_IsAllowedType = null;
@@ -9087,7 +9043,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
 		{
 			Match_chainFromToReverseToCommon curMatch = (Match_chainFromToReverseToCommon)_curMatch;
 			Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon subpattern_cftrtc = curMatch.@_cftrtc;
@@ -9095,13 +9051,13 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_MODEL.@Node node_common = GRGEN_MODEL.@Node.CreateNode(graph);
 			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, node_common);
 			graph.SettingAddedEdgeNames( chainFromToReverseToCommon_addedEdgeNames );
-			ReturnArray[0] = node_common;
-			return ReturnArray;
+			output_0 = (GRGEN_LIBGR.INode)(node_common);
+			return;
 		}
 		private static string[] chainFromToReverseToCommon_addedNodeNames = new string[] { "common" };
 		private static string[] chainFromToReverseToCommon_addedEdgeNames = new string[] {  };
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
 		{
 			Match_chainFromToReverseToCommon curMatch = (Match_chainFromToReverseToCommon)_curMatch;
 			Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon subpattern_cftrtc = curMatch.@_cftrtc;
@@ -9109,8 +9065,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_MODEL.@Node node_common = GRGEN_MODEL.@Node.CreateNode(graph);
 			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, node_common);
 			graph.SettingAddedEdgeNames( chainFromToReverseToCommon_addedEdgeNames );
-			ReturnArray[0] = node_common;
-			return ReturnArray;
+			output_0 = (GRGEN_LIBGR.INode)(node_common);
+			return;
 		}
 
 		static Rule_chainFromToReverseToCommon() {
@@ -9234,8 +9190,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private static Rule_reverseChainFromToToCommon instance = null;
 		public static Rule_reverseChainFromToToCommon Instance { get { if (instance==null) { instance = new Rule_reverseChainFromToToCommon(); instance.initialize(); } return instance; } }
 
-		private static object[] ReturnArray = new object[0];
-
 		public static GRGEN_LIBGR.NodeType[] reverseChainFromToToCommon_node_beg_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] reverseChainFromToToCommon_node_end_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] reverseChainFromToToCommon_node_common_AllowedTypes = null;
@@ -9309,18 +9263,18 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		}
 
 
-		public override object[] Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_reverseChainFromToToCommon curMatch = (Match_reverseChainFromToToCommon)_curMatch;
 			Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
-		public override object[] ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_reverseChainFromToToCommon curMatch = (Match_reverseChainFromToToCommon)_curMatch;
 			Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon subpattern__subpattern0 = curMatch.@__subpattern0;
-			return EmptyReturnElements;
+			return;
 		}
 
 		static Rule_reverseChainFromToToCommon() {
@@ -14077,13 +14031,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_createChain.IMatch_createChain match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_createChain.IMatch_createChain match, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain> matches, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0, ref GRGEN_LIBGR.INode output_1);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0, ref GRGEN_LIBGR.INode output_1);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -14095,12 +14049,15 @@ label11: ;
     public class Action_createChain : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createChain
     {
         public Action_createChain() {
-            rulePattern = Rule_createChain.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_createChain.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[2];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createChain.Match_createChain, Rule_createChain.IMatch_createChain>(this);
         }
 
+        public Rule_createChain _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "createChain"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_createChain.Match_createChain, Rule_createChain.IMatch_createChain> matches;
 
@@ -14125,63 +14082,66 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_createChain.IMatch_createChain match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_createChain.IMatch_createChain match, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain> matches, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1)
         {
-            object[] retElems = null;
+            output_0 = null;
+            output_1 = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_createChain.IMatch_createChain match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createChain.IMatch_createChain match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             } else {
-                foreach(Rule_createChain.IMatch_createChain match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createChain.IMatch_createChain match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0, ref GRGEN_LIBGR.INode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0, ref GRGEN_LIBGR.INode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_createChain.IMatch_createChain match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createChain.IMatch_createChain match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             } else {
-                foreach(Rule_createChain.IMatch_createChain match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createChain.IMatch_createChain match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain> matches;
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             }
             while(matches.Count > 0) ;
@@ -14190,42 +14150,76 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain> matches;
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_createChain.IMatch_createChain)match);
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
+            Modify(graph, (Rule_createChain.IMatch_createChain)match, out output_0, out output_1);
+            ReturnArray[0] = output_0;
+            ReturnArray[1] = output_1;
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain>)matches);
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_createChain.IMatch_createChain>)matches, out output_0, out output_1);
+            ReturnArray[0] = output_0;
+            ReturnArray[1] = output_1;
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            return Apply(graph);
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            if(Apply(graph, ref output_0, ref output_1)) {
+                ReturnArray[0] = output_0;
+                ReturnArray[1] = output_1;
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph);
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            if(Apply(graph, ref output_0, ref output_1)) {
+                ReturnArray[0] = output_0;
+                ReturnArray[1] = output_1;
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyAll(maxMatches, graph);
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            if(ApplyAll(maxMatches, graph, ref output_0, ref output_1)) {
+                ReturnArray[0] = output_0;
+                ReturnArray[1] = output_1;
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph);
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            if(ApplyAll(maxMatches, graph, ref output_0, ref output_1)) {
+                ReturnArray[0] = output_0;
+                ReturnArray[1] = output_1;
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -14261,13 +14255,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromTo.IMatch_chainFromTo match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromTo.IMatch_chainFromTo match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -14279,12 +14273,15 @@ label11: ;
     public class Action_chainFromTo : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromTo
     {
         public Action_chainFromTo() {
-            rulePattern = Rule_chainFromTo.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_chainFromTo.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromTo.Match_chainFromTo, Rule_chainFromTo.IMatch_chainFromTo>(this);
         }
 
+        public Rule_chainFromTo _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "chainFromTo"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_chainFromTo.Match_chainFromTo, Rule_chainFromTo.IMatch_chainFromTo> matches;
 
@@ -14797,63 +14794,64 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromTo_node_beg, chainFromTo_node_end);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromTo.IMatch_chainFromTo match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromTo.IMatch_chainFromTo match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo> matches)
         {
-            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromTo.IMatch_chainFromTo match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromTo.IMatch_chainFromTo match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFromTo.IMatch_chainFromTo match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromTo.IMatch_chainFromTo match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromTo_node_beg, chainFromTo_node_end);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromTo_node_beg, chainFromTo_node_end);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromTo.IMatch_chainFromTo match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromTo.IMatch_chainFromTo match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFromTo.IMatch_chainFromTo match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromTo.IMatch_chainFromTo match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo> matches;
+            
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromTo_node_beg, chainFromTo_node_end);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromTo_node_beg, chainFromTo_node_end);
             if(matches.Count <= 0) return false;
+            
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromTo_node_beg, chainFromTo_node_end);
             }
             while(matches.Count > 0) ;
@@ -14862,42 +14860,56 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode chainFromTo_node_beg, GRGEN_LIBGR.INode chainFromTo_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo> matches;
+            
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromTo_node_beg, chainFromTo_node_end);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_chainFromTo.IMatch_chainFromTo)match);
+            
+            Modify(graph, (Rule_chainFromTo.IMatch_chainFromTo)match);
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo>)matches);
+            
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromTo.IMatch_chainFromTo>)matches);
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
+            
+            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
+            
+            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -14933,13 +14945,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFrom_node_beg);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFrom.IMatch_chainFrom match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFrom.IMatch_chainFrom match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFrom_node_beg);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFrom_node_beg);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFrom_node_beg);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFrom_node_beg);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFrom_node_beg);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -14951,12 +14963,15 @@ label11: ;
     public class Action_chainFrom : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFrom
     {
         public Action_chainFrom() {
-            rulePattern = Rule_chainFrom.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_chainFrom.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFrom.Match_chainFrom, Rule_chainFrom.IMatch_chainFrom>(this);
         }
 
+        public Rule_chainFrom _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "chainFrom"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_chainFrom.Match_chainFrom, Rule_chainFrom.IMatch_chainFrom> matches;
 
@@ -15140,63 +15155,64 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFrom_node_beg)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFrom_node_beg);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFrom.IMatch_chainFrom match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFrom.IMatch_chainFrom match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom> matches)
         {
-            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFrom.IMatch_chainFrom match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFrom.IMatch_chainFrom match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFrom.IMatch_chainFrom match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFrom.IMatch_chainFrom match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFrom_node_beg)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFrom_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFrom_node_beg);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFrom_node_beg)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFrom_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFrom_node_beg);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFrom.IMatch_chainFrom match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFrom.IMatch_chainFrom match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFrom.IMatch_chainFrom match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFrom.IMatch_chainFrom match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFrom_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom> matches;
+            
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFrom_node_beg);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFrom_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFrom_node_beg);
             if(matches.Count <= 0) return false;
+            
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFrom_node_beg);
             }
             while(matches.Count > 0) ;
@@ -15205,42 +15221,56 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode chainFrom_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom> matches;
+            
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFrom_node_beg);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_chainFrom.IMatch_chainFrom)match);
+            
+            Modify(graph, (Rule_chainFrom.IMatch_chainFrom)match);
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom>)matches);
+            
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFrom.IMatch_chainFrom>)matches);
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            
+            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0]);
+            
+            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -15276,13 +15306,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromComplete_node_beg);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromComplete.IMatch_chainFromComplete match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromComplete.IMatch_chainFromComplete match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromComplete_node_beg);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromComplete_node_beg);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromComplete_node_beg);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromComplete_node_beg);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromComplete_node_beg);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -15294,12 +15324,15 @@ label11: ;
     public class Action_chainFromComplete : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromComplete
     {
         public Action_chainFromComplete() {
-            rulePattern = Rule_chainFromComplete.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_chainFromComplete.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromComplete.Match_chainFromComplete, Rule_chainFromComplete.IMatch_chainFromComplete>(this);
         }
 
+        public Rule_chainFromComplete _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "chainFromComplete"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_chainFromComplete.Match_chainFromComplete, Rule_chainFromComplete.IMatch_chainFromComplete> matches;
 
@@ -15483,63 +15516,64 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromComplete_node_beg)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromComplete_node_beg);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromComplete.IMatch_chainFromComplete match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromComplete.IMatch_chainFromComplete match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete> matches)
         {
-            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromComplete.IMatch_chainFromComplete match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromComplete.IMatch_chainFromComplete match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFromComplete.IMatch_chainFromComplete match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromComplete.IMatch_chainFromComplete match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromComplete_node_beg)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromComplete_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromComplete_node_beg);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromComplete_node_beg)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromComplete_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromComplete_node_beg);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromComplete.IMatch_chainFromComplete match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromComplete.IMatch_chainFromComplete match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFromComplete.IMatch_chainFromComplete match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromComplete.IMatch_chainFromComplete match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromComplete_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete> matches;
+            
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromComplete_node_beg);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromComplete_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromComplete_node_beg);
             if(matches.Count <= 0) return false;
+            
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromComplete_node_beg);
             }
             while(matches.Count > 0) ;
@@ -15548,42 +15582,56 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode chainFromComplete_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete> matches;
+            
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromComplete_node_beg);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_chainFromComplete.IMatch_chainFromComplete)match);
+            
+            Modify(graph, (Rule_chainFromComplete.IMatch_chainFromComplete)match);
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete>)matches);
+            
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromComplete.IMatch_chainFromComplete>)matches);
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            
+            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0]);
+            
+            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -15619,13 +15667,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -15637,12 +15685,15 @@ label11: ;
     public class Action_chainFromCompleteArbitraryPatternpathLocked : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromCompleteArbitraryPatternpathLocked
     {
         public Action_chainFromCompleteArbitraryPatternpathLocked() {
-            rulePattern = Rule_chainFromCompleteArbitraryPatternpathLocked.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_chainFromCompleteArbitraryPatternpathLocked.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromCompleteArbitraryPatternpathLocked.Match_chainFromCompleteArbitraryPatternpathLocked, Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>(this);
         }
 
+        public Rule_chainFromCompleteArbitraryPatternpathLocked _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "chainFromCompleteArbitraryPatternpathLocked"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_chainFromCompleteArbitraryPatternpathLocked.Match_chainFromCompleteArbitraryPatternpathLocked, Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> matches;
 
@@ -15826,63 +15877,64 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromCompleteArbitraryPatternpathLocked_node_beg);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> matches)
         {
-            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromCompleteArbitraryPatternpathLocked_node_beg);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromCompleteArbitraryPatternpathLocked_node_beg);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> matches;
+            
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromCompleteArbitraryPatternpathLocked_node_beg);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromCompleteArbitraryPatternpathLocked_node_beg);
             if(matches.Count <= 0) return false;
+            
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromCompleteArbitraryPatternpathLocked_node_beg);
             }
             while(matches.Count > 0) ;
@@ -15891,42 +15943,56 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode chainFromCompleteArbitraryPatternpathLocked_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked> matches;
+            
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromCompleteArbitraryPatternpathLocked_node_beg);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked)match);
+            
+            Modify(graph, (Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked)match);
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>)matches);
+            
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryPatternpathLocked.IMatch_chainFromCompleteArbitraryPatternpathLocked>)matches);
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            
+            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0]);
+            
+            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -15962,13 +16028,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -15980,12 +16046,15 @@ label11: ;
     public class Action_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards
     {
         public Action_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards() {
-            rulePattern = Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards, Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>(this);
         }
 
+        public Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards, Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> matches;
 
@@ -16169,63 +16238,64 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> matches)
         {
-            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> matches;
+            
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
             if(matches.Count <= 0) return false;
+            
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
             }
             while(matches.Count > 0) ;
@@ -16234,42 +16304,56 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards> matches;
+            
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards)match);
+            
+            Modify(graph, (Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards)match);
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>)matches);
+            
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.IMatch_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>)matches);
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            
+            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0]);
+            
+            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -16305,13 +16389,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_createBlowball.IMatch_createBlowball match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_createBlowball.IMatch_createBlowball match, out GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball> matches, out GRGEN_LIBGR.INode output_0);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -16323,12 +16407,15 @@ label11: ;
     public class Action_createBlowball : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createBlowball
     {
         public Action_createBlowball() {
-            rulePattern = Rule_createBlowball.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_createBlowball.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[1];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createBlowball.Match_createBlowball, Rule_createBlowball.IMatch_createBlowball>(this);
         }
 
+        public Rule_createBlowball _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "createBlowball"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_createBlowball.Match_createBlowball, Rule_createBlowball.IMatch_createBlowball> matches;
 
@@ -16353,63 +16440,65 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_createBlowball.IMatch_createBlowball match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_createBlowball.IMatch_createBlowball match, out GRGEN_LIBGR.INode output_0)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball> matches, out GRGEN_LIBGR.INode output_0)
         {
-            object[] retElems = null;
+            output_0 = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_createBlowball.IMatch_createBlowball match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createBlowball.IMatch_createBlowball match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             } else {
-                foreach(Rule_createBlowball.IMatch_createBlowball match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createBlowball.IMatch_createBlowball match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_createBlowball.IMatch_createBlowball match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createBlowball.IMatch_createBlowball match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             } else {
-                foreach(Rule_createBlowball.IMatch_createBlowball match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createBlowball.IMatch_createBlowball match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball> matches;
+            GRGEN_LIBGR.INode output_0; 
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
+            GRGEN_LIBGR.INode output_0; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             }
             while(matches.Count > 0) ;
@@ -16418,42 +16507,70 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball> matches;
+            GRGEN_LIBGR.INode output_0; 
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_createBlowball.IMatch_createBlowball)match);
+            GRGEN_LIBGR.INode output_0; 
+            Modify(graph, (Rule_createBlowball.IMatch_createBlowball)match, out output_0);
+            ReturnArray[0] = output_0;
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball>)matches);
+            GRGEN_LIBGR.INode output_0; 
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_createBlowball.IMatch_createBlowball>)matches, out output_0);
+            ReturnArray[0] = output_0;
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            return Apply(graph);
+            GRGEN_LIBGR.INode output_0 = null; 
+            if(Apply(graph, ref output_0)) {
+                ReturnArray[0] = output_0;
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph);
+            GRGEN_LIBGR.INode output_0 = null; 
+            if(Apply(graph, ref output_0)) {
+                ReturnArray[0] = output_0;
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyAll(maxMatches, graph);
+            GRGEN_LIBGR.INode output_0 = null; 
+            if(ApplyAll(maxMatches, graph, ref output_0)) {
+                ReturnArray[0] = output_0;
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph);
+            GRGEN_LIBGR.INode output_0 = null; 
+            if(ApplyAll(maxMatches, graph, ref output_0)) {
+                ReturnArray[0] = output_0;
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -16489,13 +16606,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode blowball_node_head);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_blowball.IMatch_blowball match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_blowball.IMatch_blowball match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode blowball_node_head);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode blowball_node_head);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode blowball_node_head);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode blowball_node_head);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode blowball_node_head);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -16507,12 +16624,15 @@ label11: ;
     public class Action_blowball : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_blowball
     {
         public Action_blowball() {
-            rulePattern = Rule_blowball.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_blowball.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_blowball.Match_blowball, Rule_blowball.IMatch_blowball>(this);
         }
 
+        public Rule_blowball _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "blowball"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_blowball.Match_blowball, Rule_blowball.IMatch_blowball> matches;
 
@@ -16696,63 +16816,64 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode blowball_node_head)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, blowball_node_head);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_blowball.IMatch_blowball match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_blowball.IMatch_blowball match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball> matches)
         {
-            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_blowball.IMatch_blowball match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_blowball.IMatch_blowball match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_blowball.IMatch_blowball match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_blowball.IMatch_blowball match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode blowball_node_head)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode blowball_node_head)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, blowball_node_head);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode blowball_node_head)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode blowball_node_head)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, blowball_node_head);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_blowball.IMatch_blowball match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_blowball.IMatch_blowball match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_blowball.IMatch_blowball match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_blowball.IMatch_blowball match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode blowball_node_head)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball> matches;
+            
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, blowball_node_head);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode blowball_node_head)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, blowball_node_head);
             if(matches.Count <= 0) return false;
+            
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, blowball_node_head);
             }
             while(matches.Count > 0) ;
@@ -16761,42 +16882,56 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode blowball_node_head)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball> matches;
+            
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, blowball_node_head);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_blowball.IMatch_blowball)match);
+            
+            Modify(graph, (Rule_blowball.IMatch_blowball)match);
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball>)matches);
+            
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_blowball.IMatch_blowball>)matches);
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph, (GRGEN_LIBGR.INode) parameters[0]);
+            
+            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0]);
+            
+            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -16832,13 +16967,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_reverseChainFromTo.IMatch_reverseChainFromTo match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_reverseChainFromTo.IMatch_reverseChainFromTo match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -16850,12 +16985,15 @@ label11: ;
     public class Action_reverseChainFromTo : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_reverseChainFromTo
     {
         public Action_reverseChainFromTo() {
-            rulePattern = Rule_reverseChainFromTo.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_reverseChainFromTo.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_reverseChainFromTo.Match_reverseChainFromTo, Rule_reverseChainFromTo.IMatch_reverseChainFromTo>(this);
         }
 
+        public Rule_reverseChainFromTo _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "reverseChainFromTo"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_reverseChainFromTo.Match_reverseChainFromTo, Rule_reverseChainFromTo.IMatch_reverseChainFromTo> matches;
 
@@ -17368,63 +17506,64 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, reverseChainFromTo_node_beg, reverseChainFromTo_node_end);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_reverseChainFromTo.IMatch_reverseChainFromTo match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_reverseChainFromTo.IMatch_reverseChainFromTo match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo> matches)
         {
-            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_reverseChainFromTo.IMatch_reverseChainFromTo match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_reverseChainFromTo.IMatch_reverseChainFromTo match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_reverseChainFromTo.IMatch_reverseChainFromTo match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_reverseChainFromTo.IMatch_reverseChainFromTo match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, reverseChainFromTo_node_beg, reverseChainFromTo_node_end);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, reverseChainFromTo_node_beg, reverseChainFromTo_node_end);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_reverseChainFromTo.IMatch_reverseChainFromTo match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_reverseChainFromTo.IMatch_reverseChainFromTo match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_reverseChainFromTo.IMatch_reverseChainFromTo match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_reverseChainFromTo.IMatch_reverseChainFromTo match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo> matches;
+            
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, reverseChainFromTo_node_beg, reverseChainFromTo_node_end);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, reverseChainFromTo_node_beg, reverseChainFromTo_node_end);
             if(matches.Count <= 0) return false;
+            
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, reverseChainFromTo_node_beg, reverseChainFromTo_node_end);
             }
             while(matches.Count > 0) ;
@@ -17433,42 +17572,56 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode reverseChainFromTo_node_beg, GRGEN_LIBGR.INode reverseChainFromTo_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo> matches;
+            
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, reverseChainFromTo_node_beg, reverseChainFromTo_node_end);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_reverseChainFromTo.IMatch_reverseChainFromTo)match);
+            
+            Modify(graph, (Rule_reverseChainFromTo.IMatch_reverseChainFromTo)match);
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo>)matches);
+            
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromTo.IMatch_reverseChainFromTo>)matches);
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
+            
+            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
+            
+            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -17504,13 +17657,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_createReverseChain.IMatch_createReverseChain match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_createReverseChain.IMatch_createReverseChain match, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain> matches, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0, ref GRGEN_LIBGR.INode output_1);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0, ref GRGEN_LIBGR.INode output_1);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -17522,12 +17675,15 @@ label11: ;
     public class Action_createReverseChain : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createReverseChain
     {
         public Action_createReverseChain() {
-            rulePattern = Rule_createReverseChain.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_createReverseChain.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[2];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createReverseChain.Match_createReverseChain, Rule_createReverseChain.IMatch_createReverseChain>(this);
         }
 
+        public Rule_createReverseChain _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "createReverseChain"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_createReverseChain.Match_createReverseChain, Rule_createReverseChain.IMatch_createReverseChain> matches;
 
@@ -17552,63 +17708,66 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_createReverseChain.IMatch_createReverseChain match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_createReverseChain.IMatch_createReverseChain match, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain> matches, out GRGEN_LIBGR.INode output_0, out GRGEN_LIBGR.INode output_1)
         {
-            object[] retElems = null;
+            output_0 = null;
+            output_1 = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_createReverseChain.IMatch_createReverseChain match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createReverseChain.IMatch_createReverseChain match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             } else {
-                foreach(Rule_createReverseChain.IMatch_createReverseChain match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createReverseChain.IMatch_createReverseChain match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0, ref GRGEN_LIBGR.INode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0, ref GRGEN_LIBGR.INode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_createReverseChain.IMatch_createReverseChain match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createReverseChain.IMatch_createReverseChain match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             } else {
-                foreach(Rule_createReverseChain.IMatch_createReverseChain match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_createReverseChain.IMatch_createReverseChain match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain> matches;
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             }
             while(matches.Count > 0) ;
@@ -17617,42 +17776,76 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain> matches;
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_createReverseChain.IMatch_createReverseChain)match);
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
+            Modify(graph, (Rule_createReverseChain.IMatch_createReverseChain)match, out output_0, out output_1);
+            ReturnArray[0] = output_0;
+            ReturnArray[1] = output_1;
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain>)matches);
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_createReverseChain.IMatch_createReverseChain>)matches, out output_0, out output_1);
+            ReturnArray[0] = output_0;
+            ReturnArray[1] = output_1;
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            return Apply(graph);
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            if(Apply(graph, ref output_0, ref output_1)) {
+                ReturnArray[0] = output_0;
+                ReturnArray[1] = output_1;
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph);
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            if(Apply(graph, ref output_0, ref output_1)) {
+                ReturnArray[0] = output_0;
+                ReturnArray[1] = output_1;
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyAll(maxMatches, graph);
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            if(ApplyAll(maxMatches, graph, ref output_0, ref output_1)) {
+                ReturnArray[0] = output_0;
+                ReturnArray[1] = output_1;
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph);
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            if(ApplyAll(maxMatches, graph, ref output_0, ref output_1)) {
+                ReturnArray[0] = output_0;
+                ReturnArray[1] = output_1;
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -17688,13 +17881,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromToReverse.IMatch_chainFromToReverse match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromToReverse.IMatch_chainFromToReverse match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -17706,12 +17899,15 @@ label11: ;
     public class Action_chainFromToReverse : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromToReverse
     {
         public Action_chainFromToReverse() {
-            rulePattern = Rule_chainFromToReverse.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_chainFromToReverse.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromToReverse.Match_chainFromToReverse, Rule_chainFromToReverse.IMatch_chainFromToReverse>(this);
         }
 
+        public Rule_chainFromToReverse _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "chainFromToReverse"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_chainFromToReverse.Match_chainFromToReverse, Rule_chainFromToReverse.IMatch_chainFromToReverse> matches;
 
@@ -18224,63 +18420,64 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromToReverse_node_beg, chainFromToReverse_node_end);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromToReverse.IMatch_chainFromToReverse match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromToReverse.IMatch_chainFromToReverse match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse> matches)
         {
-            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromToReverse.IMatch_chainFromToReverse match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromToReverse.IMatch_chainFromToReverse match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFromToReverse.IMatch_chainFromToReverse match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromToReverse.IMatch_chainFromToReverse match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromToReverse_node_beg, chainFromToReverse_node_end);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromToReverse_node_beg, chainFromToReverse_node_end);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromToReverse.IMatch_chainFromToReverse match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromToReverse.IMatch_chainFromToReverse match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_chainFromToReverse.IMatch_chainFromToReverse match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromToReverse.IMatch_chainFromToReverse match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse> matches;
+            
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromToReverse_node_beg, chainFromToReverse_node_end);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromToReverse_node_beg, chainFromToReverse_node_end);
             if(matches.Count <= 0) return false;
+            
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromToReverse_node_beg, chainFromToReverse_node_end);
             }
             while(matches.Count > 0) ;
@@ -18289,42 +18486,56 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode chainFromToReverse_node_beg, GRGEN_LIBGR.INode chainFromToReverse_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse> matches;
+            
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromToReverse_node_beg, chainFromToReverse_node_end);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_chainFromToReverse.IMatch_chainFromToReverse)match);
+            
+            Modify(graph, (Rule_chainFromToReverse.IMatch_chainFromToReverse)match);
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse>)matches);
+            
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverse.IMatch_chainFromToReverse>)matches);
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
+            
+            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
+            
+            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -18360,13 +18571,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match, out GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> matches, out GRGEN_LIBGR.INode output_0);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end, ref GRGEN_LIBGR.INode output_0);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end, ref GRGEN_LIBGR.INode output_0);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -18378,12 +18589,15 @@ label11: ;
     public class Action_chainFromToReverseToCommon : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_chainFromToReverseToCommon
     {
         public Action_chainFromToReverseToCommon() {
-            rulePattern = Rule_chainFromToReverseToCommon.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_chainFromToReverseToCommon.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[1];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_chainFromToReverseToCommon.Match_chainFromToReverseToCommon, Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>(this);
         }
 
+        public Rule_chainFromToReverseToCommon _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "chainFromToReverseToCommon"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_chainFromToReverseToCommon.Match_chainFromToReverseToCommon, Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> matches;
 
@@ -18896,63 +19110,65 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromToReverseToCommon_node_beg, chainFromToReverseToCommon_node_end);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match, out GRGEN_LIBGR.INode output_0)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> matches, out GRGEN_LIBGR.INode output_0)
         {
-            object[] retElems = null;
+            output_0 = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             } else {
-                foreach(Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end, ref GRGEN_LIBGR.INode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromToReverseToCommon_node_beg, chainFromToReverseToCommon_node_end);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end, ref GRGEN_LIBGR.INode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, chainFromToReverseToCommon_node_beg, chainFromToReverseToCommon_node_end);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             } else {
-                foreach(Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> matches;
+            GRGEN_LIBGR.INode output_0; 
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromToReverseToCommon_node_beg, chainFromToReverseToCommon_node_end);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromToReverseToCommon_node_beg, chainFromToReverseToCommon_node_end);
             if(matches.Count <= 0) return false;
+            GRGEN_LIBGR.INode output_0; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromToReverseToCommon_node_beg, chainFromToReverseToCommon_node_end);
             }
             while(matches.Count > 0) ;
@@ -18961,42 +19177,60 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_beg, GRGEN_LIBGR.INode chainFromToReverseToCommon_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon> matches;
+            GRGEN_LIBGR.INode output_0; 
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, chainFromToReverseToCommon_node_beg, chainFromToReverseToCommon_node_end);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon)match);
+            GRGEN_LIBGR.INode output_0; 
+            Modify(graph, (Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon)match, out output_0);
+            ReturnArray[0] = output_0;
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>)matches);
+            GRGEN_LIBGR.INode output_0; 
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_chainFromToReverseToCommon.IMatch_chainFromToReverseToCommon>)matches, out output_0);
+            ReturnArray[0] = output_0;
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
+            GRGEN_LIBGR.INode output_0 = null; 
+            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1], ref output_0)) {
+                ReturnArray[0] = output_0;
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1]);
+            GRGEN_LIBGR.INode output_0 = null; 
+            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1], ref output_0)) {
+                ReturnArray[0] = output_0;
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -19032,13 +19266,13 @@ label11: ;
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
         GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
-        object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match);
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
-        object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> matches);
-        /// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>
-        object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common);
-        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>
-        object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common);
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
         bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
@@ -19050,12 +19284,15 @@ label11: ;
     public class Action_reverseChainFromToToCommon : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_reverseChainFromToToCommon
     {
         public Action_reverseChainFromToToCommon() {
-            rulePattern = Rule_reverseChainFromToToCommon.Instance;
-            patternGraph = rulePattern.patternGraph;
+            _rulePattern = Rule_reverseChainFromToToCommon.Instance;
+            patternGraph = _rulePattern.patternGraph;
             DynamicMatch = myMatch;
+            ReturnArray = new object[0];
             matches = new GRGEN_LGSP.LGSPMatchesList<Rule_reverseChainFromToToCommon.Match_reverseChainFromToToCommon, Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>(this);
         }
 
+        public Rule_reverseChainFromToToCommon _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "reverseChainFromToToCommon"; } }
         private GRGEN_LGSP.LGSPMatchesList<Rule_reverseChainFromToToCommon.Match_reverseChainFromToToCommon, Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> matches;
 
@@ -20080,63 +20317,64 @@ label11: ;
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
-        public GRGEN_LIBGR.IRulePattern RulePattern { get { return rulePattern; } }
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
         public GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common)
         {
             return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, reverseChainFromToToCommon_node_beg, reverseChainFromToToCommon_node_end, reverseChainFromToToCommon_node_common);
         }
-        public object[] Modify(GRGEN_LIBGR.IGraph graph, Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match)
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> matches)
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> matches)
         {
-            object[] retElems = null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
         }
-        public object[] Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, reverseChainFromToToCommon_node_beg, reverseChainFromToToCommon_node_end, reverseChainFromToToCommon_node_common);
-            if(matches.Count <= 0) return null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) return rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else return rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            if(matches.Count <= 0) return false;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            return true;
         }
-        public object[] ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, reverseChainFromToToCommon_node_beg, reverseChainFromToToCommon_node_end, reverseChainFromToToCommon_node_common);
-            object[] retElems = null;
+            if(matches.Count <= 0) return false;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match in matches) retElems = rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             } else {
-                foreach(Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match in matches) retElems = rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+                foreach(Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
             }
-            return retElems;
+            return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> matches;
+            
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, reverseChainFromToToCommon_node_beg, reverseChainFromToToCommon_node_end, reverseChainFromToToCommon_node_common);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, reverseChainFromToToCommon_node_beg, reverseChainFromToToCommon_node_end, reverseChainFromToToCommon_node_common);
             if(matches.Count <= 0) return false;
+            
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, reverseChainFromToToCommon_node_beg, reverseChainFromToToCommon_node_end, reverseChainFromToToCommon_node_common);
             }
             while(matches.Count > 0) ;
@@ -20145,42 +20383,56 @@ label11: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_beg, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_end, GRGEN_LIBGR.INode reverseChainFromToToCommon_node_common)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon> matches;
+            
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, reverseChainFromToToCommon_node_beg, reverseChainFromToToCommon_node_end, reverseChainFromToToCommon_node_common);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
+        // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
             return Match(graph, maxMatches, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1], (GRGEN_LIBGR.INode) parameters[2]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            return Modify(graph, (Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon)match);
+            
+            Modify(graph, (Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon)match);
+            return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            return ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>)matches);
+            
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_reverseChainFromToToCommon.IMatch_reverseChainFromToToCommon>)matches);
+            return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1], (GRGEN_LIBGR.INode) parameters[2]);
+            
+            if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1], (GRGEN_LIBGR.INode) parameters[2])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            throw new Exception(); return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1], (GRGEN_LIBGR.INode) parameters[2]);
+            
+            if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1], (GRGEN_LIBGR.INode) parameters[2])) {
+                return ReturnArray;
+            }
+            else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
@@ -20241,59 +20493,59 @@ label11: ;
             analyzer.AnalyzeNestingOfAndRemember(Pattern_ReverseChainFromToToCommon.Instance);
             analyzer.AnalyzeNestingOfAndRemember(Rule_createChain.Instance);
             actions.Add("createChain", (GRGEN_LGSP.LGSPAction) Action_createChain.Instance);
-            createChain = Action_createChain.Instance;
+            @createChain = Action_createChain.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_chainFromTo.Instance);
             actions.Add("chainFromTo", (GRGEN_LGSP.LGSPAction) Action_chainFromTo.Instance);
-            chainFromTo = Action_chainFromTo.Instance;
+            @chainFromTo = Action_chainFromTo.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_chainFrom.Instance);
             actions.Add("chainFrom", (GRGEN_LGSP.LGSPAction) Action_chainFrom.Instance);
-            chainFrom = Action_chainFrom.Instance;
+            @chainFrom = Action_chainFrom.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_chainFromComplete.Instance);
             actions.Add("chainFromComplete", (GRGEN_LGSP.LGSPAction) Action_chainFromComplete.Instance);
-            chainFromComplete = Action_chainFromComplete.Instance;
+            @chainFromComplete = Action_chainFromComplete.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_chainFromCompleteArbitraryPatternpathLocked.Instance);
             actions.Add("chainFromCompleteArbitraryPatternpathLocked", (GRGEN_LGSP.LGSPAction) Action_chainFromCompleteArbitraryPatternpathLocked.Instance);
-            chainFromCompleteArbitraryPatternpathLocked = Action_chainFromCompleteArbitraryPatternpathLocked.Instance;
+            @chainFromCompleteArbitraryPatternpathLocked = Action_chainFromCompleteArbitraryPatternpathLocked.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance);
             actions.Add("chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards", (GRGEN_LGSP.LGSPAction) Action_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance);
-            chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = Action_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance;
+            @chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = Action_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_createBlowball.Instance);
             actions.Add("createBlowball", (GRGEN_LGSP.LGSPAction) Action_createBlowball.Instance);
-            createBlowball = Action_createBlowball.Instance;
+            @createBlowball = Action_createBlowball.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_blowball.Instance);
             actions.Add("blowball", (GRGEN_LGSP.LGSPAction) Action_blowball.Instance);
-            blowball = Action_blowball.Instance;
+            @blowball = Action_blowball.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_reverseChainFromTo.Instance);
             actions.Add("reverseChainFromTo", (GRGEN_LGSP.LGSPAction) Action_reverseChainFromTo.Instance);
-            reverseChainFromTo = Action_reverseChainFromTo.Instance;
+            @reverseChainFromTo = Action_reverseChainFromTo.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_createReverseChain.Instance);
             actions.Add("createReverseChain", (GRGEN_LGSP.LGSPAction) Action_createReverseChain.Instance);
-            createReverseChain = Action_createReverseChain.Instance;
+            @createReverseChain = Action_createReverseChain.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_chainFromToReverse.Instance);
             actions.Add("chainFromToReverse", (GRGEN_LGSP.LGSPAction) Action_chainFromToReverse.Instance);
-            chainFromToReverse = Action_chainFromToReverse.Instance;
+            @chainFromToReverse = Action_chainFromToReverse.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_chainFromToReverseToCommon.Instance);
             actions.Add("chainFromToReverseToCommon", (GRGEN_LGSP.LGSPAction) Action_chainFromToReverseToCommon.Instance);
-            chainFromToReverseToCommon = Action_chainFromToReverseToCommon.Instance;
+            @chainFromToReverseToCommon = Action_chainFromToReverseToCommon.Instance;
             analyzer.AnalyzeNestingOfAndRemember(Rule_reverseChainFromToToCommon.Instance);
             actions.Add("reverseChainFromToToCommon", (GRGEN_LGSP.LGSPAction) Action_reverseChainFromToToCommon.Instance);
-            reverseChainFromToToCommon = Action_reverseChainFromToToCommon.Instance;
+            @reverseChainFromToToCommon = Action_reverseChainFromToToCommon.Instance;
             analyzer.ComputeInterPatternRelations();
         }
         
-        public IAction_createChain createChain;
-        public IAction_chainFromTo chainFromTo;
-        public IAction_chainFrom chainFrom;
-        public IAction_chainFromComplete chainFromComplete;
-        public IAction_chainFromCompleteArbitraryPatternpathLocked chainFromCompleteArbitraryPatternpathLocked;
-        public IAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
-        public IAction_createBlowball createBlowball;
-        public IAction_blowball blowball;
-        public IAction_reverseChainFromTo reverseChainFromTo;
-        public IAction_createReverseChain createReverseChain;
-        public IAction_chainFromToReverse chainFromToReverse;
-        public IAction_chainFromToReverseToCommon chainFromToReverseToCommon;
-        public IAction_reverseChainFromToToCommon reverseChainFromToToCommon;
+        public IAction_createChain @createChain;
+        public IAction_chainFromTo @chainFromTo;
+        public IAction_chainFrom @chainFrom;
+        public IAction_chainFromComplete @chainFromComplete;
+        public IAction_chainFromCompleteArbitraryPatternpathLocked @chainFromCompleteArbitraryPatternpathLocked;
+        public IAction_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards @chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
+        public IAction_createBlowball @createBlowball;
+        public IAction_blowball @blowball;
+        public IAction_reverseChainFromTo @reverseChainFromTo;
+        public IAction_createReverseChain @createReverseChain;
+        public IAction_chainFromToReverse @chainFromToReverse;
+        public IAction_chainFromToReverseToCommon @chainFromToReverseToCommon;
+        public IAction_reverseChainFromToToCommon @reverseChainFromToToCommon;
         
         public override string Name { get { return "RecursiveActions"; } }
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }

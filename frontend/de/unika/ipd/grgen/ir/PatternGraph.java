@@ -423,7 +423,7 @@ public class PatternGraph extends Graph {
 			}
 		}
 		
-		for(Edge e : getEdges()) {
+		for(Edge e : right.getEdges()) {
 			if(e.directlyNestingLHSGraph!=this) {
 				if(!hasEdge(e)) {
 					addSingleEdge(e);	// TODO: maybe we loose context here

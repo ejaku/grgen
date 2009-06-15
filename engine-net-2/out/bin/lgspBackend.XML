@@ -907,6 +907,11 @@
             into a complete match of its subpattern, locking candidate for patternpath checks later on
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.AcceptIterated">
+            <summary>
+            Class representing operations to execute upon iterated pattern was accepted (increase counter)
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.AbandonCandidate">
             <summary>
             Class representing operations undoing effects of candidate acceptance 
@@ -927,6 +932,11 @@
             into complete match of it's subpattern when performing the backtracking step (unlocks candidate)
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.AbandonIterated">
+            <summary>
+            Class representing operations to execute upon iterated pattern was abandoned (decrease counter)
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PositivePatternWithoutSubpatternsMatched">
             <summary>
             Class yielding operations to be executed 
@@ -939,10 +949,20 @@
             when a subpattern without contained subpatterns was matched (as the last element of the search)
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.PatternAndSubpatternsMatchedType">
+            <summary>
+            Available types of PatternAndSubpatternsMatched operations
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternAndSubpatternsMatched">
             <summary>
             Class yielding operations to be executed 
             when a positive pattern was matched and all of it's subpatterns were matched at least once
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.NegativeIndependentPatternMatchedType">
+            <summary>
+            Available types of NegativeIndependentPatternMatched operations
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.NegativePatternMatched">
@@ -1023,9 +1043,9 @@
             Check of abort independent matching process always fails
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.CheckContinueMatchingIteratedPatternFound">
+        <member name="T:de.unika.ipd.grGen.lgsp.CheckContinueMatchingIteratedPatternNonNullMatchFound">
             <summary>
-            Class representing "check if matching process is to be continued with iterated pattern non match" operation
+            Class representing "check if matching process is to be continued with iterated pattern null match" operation
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.ContinueOperationType">
@@ -1303,6 +1323,16 @@
             name of the rule pattern class of the pattern graph
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.parameterTypes">
+            <summary>
+            types of the parameters of the action (null if not an action)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.parameterNames">
+            <summary>
+            names of the parameters of the action (null if not an action)
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.negLevelNeverAboveMaxNegLevel">
             <summary>
             true if statically determined that the neg level of the pattern getting constructed 
@@ -1451,7 +1481,7 @@
             at the given position, returns position after inserted operations
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertCheckForSubpatternsFound(de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.insertCheckForSubpatternsFound(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Boolean)">
             <summary>
             Inserts code to check whether the subpatterns were found and code for case there were some
             at the given position, returns position after inserted operations
@@ -1967,16 +1997,6 @@
             Try to match independent pattern.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.MatchInvoker">
-            <summary>
-            Represents a matcher method.
-            </summary>
-            <param name="graph">The host graph.</param>
-            <param name="maxMatches">The maximum number of matches to be searched for, or zero for an unlimited search.</param>
-            <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-            The array must contain the correct number of elements.</param>
-            <returns>An IMatches object containing the found matches.</returns>
-        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.Nodes_Enumerable">
             <summary>
             enumerable returning enumerator over nodes in match
@@ -2106,7 +2126,7 @@
             <returns>The removed match.</returns>
             <exception cref="T:System.IndexOutOfRangeException">Thrown when index is invalid.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.#ctor(de.unika.ipd.grGen.lgsp.LGSPAction)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.#ctor(de.unika.ipd.grGen.libGr.IAction)">
             <summary>
             Constructs a new LGSPMatchesList instance.
             </summary>
@@ -2157,6 +2177,11 @@
             number of found matches in the list
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FirstExact">
+            <summary>
+            Returns the first match of exact type (null if no match exists).
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Producer">
             <summary>
             The action object used to generate this LGSPMatchesList object
@@ -2189,237 +2214,25 @@
             An object representing an executable rule of the LGSPBackend.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPAction.rulePattern">
-            <summary>
-            The LGSPRulePattern object from which this LGSPAction object has been created.
-            </summary>
-        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPAction.patternGraph">
             <summary>
             The PatternGraph object of the main graph
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPAction.DynamicMatch">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPAction.ReturnArray">
             <summary>
-            A delegate pointing to the current matcher program for this rule.
+            Performance optimization: saves us usage of new in the old style/unspecific modify/apply methods 
+            of the action interface implementation for returning an array.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.Match(de.unika.ipd.grGen.lgsp.LGSPGraph,System.Int32,System.Object[])">
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPAction.rulePattern">
             <summary>
-            Searches for a graph pattern as specified by RulePattern.
+            The LGSPRulePattern object from which this LGSPAction object has been created.
             </summary>
-            <param name="graph">The host graph.</param>
-            <param name="maxMatches">The maximum number of matches to be searched for, or zero for an unlimited search.</param>
-            <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-            The array must contain at least RulePattern.Inputs.Length elements.</param>
-            <returns>An IMatches object containing the found matches.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.Modify(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.libGr.IMatch)">
-            <summary>
-            Performs the rule specific modifications to the given graph with the given match.
-            </summary>
-            <returns>An array of objects returned by the rule.
-            It is only valid until the next graph rewrite with this rule.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.ModifyAll(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.libGr.IMatches)">
-            <summary>
-            Performs the rule specific modifications to the given graph with all of the given matches.
-            No OnRewritingNextMatch events are triggered by this function.
-            </summary>
-            <returns>An array of objects returned by the last applicance of the rule.
-            It is only valid until the next graph rewrite with this rule.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.Apply(de.unika.ipd.grGen.lgsp.LGSPGraph)">
-            <summary>
-            Tries to apply this rule to the given graph once.
-            The rule must not require any parameters.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="graph">Host graph for this rule</param>
-            <returns>A possibly empty array of objects returned by the rule,
-            which is only valid until the next graph rewrite with this rule,
-            or null, if no match was found.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.Apply(de.unika.ipd.grGen.lgsp.LGSPGraph,System.Object[])">
-            <summary>
-            Tries to apply this rule to the given graph once.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="graph">Host graph for this rule</param>
-            <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-            The array must contain at least RulePattern.Inputs.Length elements.</param>
-            <returns>A possibly empty array of objects returned by the rule,
-            which is only valid until the next graph rewrite with this rule,
-            or null, if no match was found.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.ApplyAll(System.Int32,de.unika.ipd.grGen.lgsp.LGSPGraph)">
-            <summary>
-            Tries to apply this rule to all occurrences in the given graph "at once".
-            The rule may not require any parameters.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="maxMatches">The maximum number of matches to be rewritten or 0 for no limit.</param>
-            <param name="graph">Host graph for this rule</param>
-            <returns>A possibly empty array of objects returned by the last applicance of the rule,
-            which is only valid until the next graph rewrite with this rule,
-            or null, if no match was found.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.ApplyAll(System.Int32,de.unika.ipd.grGen.lgsp.LGSPGraph,System.Object[])">
-            <summary>
-            Tries to apply this rule to all occurrences in the given graph "at once".
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="maxMatches">The maximum number of matches to be rewritten.</param>
-            <param name="graph">Host graph for this rule</param>
-            <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-            The array must contain at least RulePattern.Inputs.Length elements.</param>
-            <returns>A possibly empty array of objects returned by the last applicance of the rule,
-            which is only valid until the next graph rewrite with this rule,
-            or null, if no match was found.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.de#unika#ipd#grGen#libGr#IAction#Match(de.unika.ipd.grGen.libGr.IGraph,System.Int32,System.Object[])">
-            <summary>
-            Searches for a graph pattern as specified by RulePattern.
-            </summary>
-            <param name="graph">The host graph.</param>
-            <param name="maxMatches">The maximum number of matches to be searched for, or zero for an unlimited search.</param>
-            <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-            The array must contain at least RulePattern.Inputs.Length elements.</param>
-            <returns>An IMatches object containing the found matches.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.de#unika#ipd#grGen#libGr#IAction#Modify(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IMatch)">
-            <summary>
-            Performs the rule specific modifications to the given graph with the given match.
-            The graph and match object must have the correct type for the used backend.
-            </summary>
-            <returns>An array of objects returned by the rule.
-            It is only valid until the next graph rewrite with this rule.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.de#unika#ipd#grGen#libGr#IAction#ModifyAll(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IMatches)">
-            <summary>
-            Performs the rule specific modifications to the given graph with all of the given matches.
-            No OnRewritingNextMatch events are triggered by this function.
-            </summary>
-            <returns>An array of objects returned by the last applicance of the rule.
-            It is only valid until the next graph rewrite with this rule.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.de#unika#ipd#grGen#libGr#IAction#Apply(de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Tries to apply this rule to the given graph once.
-            The rule may not require any parameters.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="graph">Host graph for this rule</param>
-            <returns>A possibly empty array of objects returned by the rule,
-            which is only valid until the next graph rewrite with this rule,
-            or null, if no match was found.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.de#unika#ipd#grGen#libGr#IAction#Apply(de.unika.ipd.grGen.libGr.IGraph,System.Object[])">
-            <summary>
-            Tries to apply this rule to the given graph once.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="graph">Host graph for this rule</param>
-            <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-            The array must contain at least RulePattern.Inputs.Length elements.</param>
-            <returns>A possibly empty array of objects returned by the rule,
-            which is only valid until the next graph rewrite with this rule,
-            or null, if no match was found.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.de#unika#ipd#grGen#libGr#IAction#ApplyAll(System.Int32,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Tries to apply this rule to all occurrences in the given graph "at once".
-            The rule may not require any parameters.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="maxMatches">The maximum number of matches to be rewritten or 0 for no limit.</param>
-            <param name="graph">Host graph for this rule</param>
-            <returns>A possibly empty array of objects returned by the last applicance of the rule,
-            which is only valid until the next graph rewrite with this rule,
-            or null, if no match was found.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.de#unika#ipd#grGen#libGr#IAction#ApplyAll(System.Int32,de.unika.ipd.grGen.libGr.IGraph,System.Object[])">
-            <summary>
-            Tries to apply this rule to all occurrences in the given graph "at once".
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="maxMatches">The maximum number of matches to be rewritten or 0 for no limit.</param>
-            <param name="graph">Host graph for this rule</param>
-            <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-            The array must contain at least RulePattern.Inputs.Length elements.</param>
-            <returns>A possibly empty array of objects returned by the last applicance of the rule,
-            which is only valid until the next graph rewrite with this rule,
-            or null, if no match was found.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.ApplyStar(de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Applies this rule to the given graph as often as possible.
-            The rule may not require any parameters.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="graph">Host graph for this rule</param>
-            <returns>Always returns true.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.ApplyStar(de.unika.ipd.grGen.libGr.IGraph,System.Object[])">
-            <summary>
-            Applies this rule to the given graph as often as possible.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="graph">Host graph for this rule</param>
-            <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-            The array must contain at least RulePattern.Inputs.Length elements.</param>
-            <returns>Always returns true.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.ApplyPlus(de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Applies this rule to the given graph as often as possible.
-            The rule may not require any parameters.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="graph">Host graph for this rule</param>
-            <returns>True, if the rule was applied at least once.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.ApplyPlus(de.unika.ipd.grGen.libGr.IGraph,System.Object[])">
-            <summary>
-            Applies this rule to the given graph as often as possible.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="graph">Host graph for this rule</param>
-            <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-            The array must contain at least RulePattern.Inputs.Length elements.</param>
-            <returns>True, if the rule was applied at least once.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.ApplyMinMax(de.unika.ipd.grGen.libGr.IGraph,System.Int32,System.Int32)">
-            <summary>
-            Applies this rule to the given graph at most max times.
-            The rule may not require any parameters.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="graph">Host graph for this rule</param>
-            <param name="min">The minimum number of applications to be "successful".</param>
-            <param name="max">The maximum number of applications to be applied.</param>
-            <returns>True, if the rule was applied at least min times.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.ApplyMinMax(de.unika.ipd.grGen.libGr.IGraph,System.Int32,System.Int32,System.Object[])">
-            <summary>
-            Applies this rule to the given graph at most max times.
-            No Matched/Finished events are triggered by this function.
-            </summary>
-            <param name="graph">Host graph for this rule</param>
-            <param name="min">The minimum number of applications to be "successful".</param>
-            <param name="max">The maximum number of applications to be applied.</param>
-            <param name="parameters">An array of parameters (nodes, edges, values) of the types specified by RulePattern.Inputs.
-            The array must contain at least RulePattern.Inputs.Length elements.</param>
-            <returns>True, if the rule was applied at least min times.</returns>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPAction.Name">
             <summary>
             The name of the action (without prefixes)
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPAction.RulePattern">
-            <summary>
-            The RulePattern object from which this LGSPAction object has been created.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPActions">
@@ -2494,13 +2307,6 @@
             <param name="args">Any kind of parameters for the stuff to do</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPActions.GetAction(System.String)">
-            <summary>
-            Gets the action with the given name.
-            </summary>
-            <param name="name">The name of the action.</param>
-            <returns>The action with the given name, or null, if no such action exists.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPActions.GetIAction(System.String)">
             <summary>
             Gets the action with the given name.
             </summary>
@@ -3780,27 +3586,32 @@
             Inserts conditions into the schedule given by the operations list at their earliest possible position
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherSourceCode(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionAndMatcher(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,System.Boolean)">
             <summary>
-            Generates the matcher source code for the given rule pattern into the given source builder
+            Generates the action interface plus action implementation including the matcher source code 
+            for the given rule pattern into the given source builder
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherSourceCodeAlternative(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionAndMatcherOfAlternative(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative,System.Boolean)">
             <summary>
-            Generates the matcher source code for the given alternative into the given source builder
+            Generates the action interface plus action implementation including the matcher source code 
+            for the given alternative into the given source builder
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherSourceCodeIterated(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionAndMatcherOfIterated(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
             <summary>
-            Generates the matcher source code for the given iterated pattern into the given source builder
+            Generates the action interface plus action implementation including the matcher source code 
+            for the given iterated pattern into the given source builder
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherSourceCode(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionAndMatcherOfNestedPatterns(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
             <summary>
-            Generates the matcher source code for the nested alternatives/iterateds
-            within the given negative/independent pattern graph into the given source builder
+            Generates the action interface plus action implementation including the matcher source code 
+            for the alternatives/iterateds nested within the given negative/independent pattern graph into the given source builder
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionInterface(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern)" -->
+        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionImplementation(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern)" -->
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgram(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
             <summary>
             Generates the search program for the pattern graph of the given rule
@@ -4228,7 +4039,18 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.iterateds">
             <summary>
-            An array of iterated patterns, each iterated is matched as often as possible.
+            An array of iterated patterns, each iterated is matched at least as specified in minMatches and at most as specified in maxMatches.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.minMatches">
+            <summary>
+            An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at least
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.maxMatches">
+            <summary>
+            An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at most,
+            with 0 meaning unlimited / as often as possible
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.negativePatternGraphs">
@@ -4253,7 +4075,7 @@
             The conditions used in this pattern graph or it's nested graphs
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:])">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.PatternGraph[],System.Int32[],System.Int32[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:])">
             <summary>
             Constructs a PatternGraph object.
             </summary>
@@ -4268,6 +4090,9 @@
             <param name="alternatives">An array of alternatives, each alternative contains
             in its cases the subpatterns to choose out of.</param>
             <param name="iterateds">An array of iterated patterns, each iterated is matched as often as possible.</param>
+            <param name="minMatches"> An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at least.</param>
+            <param name="maxMatches"> An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at most,
+            with 0 meaning unlimited / as often as possible.</param>
             <param name="negativePatternGraphs">An array of negative pattern graphs which make the
             search fail if they get matched (NACs - Negative Application Conditions).</param>
             <param name="conditions">The conditions used in this pattern graph or it's nested graphs.</param>
@@ -4527,39 +4352,6 @@
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPRulePattern">
             <summary>
             A description of a GrGen rule.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPRulePattern.Modify(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IMatch)">
-            <summary>
-            Performs the rule specific modifications to the given graph with the given match (rewrite part).
-            The graph and match object must have the correct type for the used backend.
-            </summary>
-            <param name="graph">The host graph for this modification.</param>
-            <param name="match">The match which is used for this rewrite.</param>
-            <returns>An array of objects returned by the rule</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPRulePattern.Modify(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.libGr.IMatch)">
-            <summary>
-            Performs the rule specific modifications to the given graph with the given match (rewrite part).
-            The graph and match object must have the correct type for the used backend.
-            </summary>
-            <param name="graph">The host graph for this modification.</param>
-            <param name="match">The match which is used for this rewrite.</param>
-            <returns>An array of objects returned by the rule</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPRulePattern.ModifyNoReuse(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.libGr.IMatch)">
-            <summary>
-            Performs the rule specific modifications to the given graph with the given match (rewrite part).
-            The graph and match object must have the correct type for the used backend.
-            No reusing of graph elements is used like changing source and target of edges instead of allocating a new edge.
-            </summary>
-            <param name="graph">The host graph for this modification.</param>
-            <param name="match">The match which is used for this rewrite.</param>
-            <returns>An array of objects returned by the rule</returns>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPRulePattern.EmptyReturnElements">
-            <summary>
-            Performance optimization: saves us usage of new in Modify for returning empty array.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPRulePattern.outputs">

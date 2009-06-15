@@ -22,19 +22,14 @@ namespace Iterated
             graph = new LGSPGraph(new StdGraphModel());
             actions = new spanningTreeActions(graph);
 
-            IMatches matches;
-            object[] returns;
+            IAction_initUndirected init = actions.initUndirected;
+            IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matchesInitUndirected = init.Match(graph, 0);
+            INode root;
+            init.Modify(graph, matchesInitUndirected.FirstExact, out root);
 
-            Action_initUndirected init = Action_initUndirected.Instance;
-            matches = init.Match(graph, 0);
-            returns = init.Modify(graph, matches.First);
-
-            IGraphElement[] param = new LGSPNode[1];
-            param[0] = (Node)returns[0];
-            matches = actions.GetAction("spanningTree").Match(graph, 0, param);
-            returns = actions.GetAction("spanningTree").Modify(graph, matches.First);
-
-            Console.WriteLine(matches.Count + " matches found.");
+            IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matchesSpanningTree = actions.spanningTree.Match(graph, 0, root);
+            actions.spanningTree.Modify(graph, matchesSpanningTree.FirstExact);
+            Console.WriteLine(matchesSpanningTree.Count + " matches found.");
         }
 
         static void Main(string[] args)

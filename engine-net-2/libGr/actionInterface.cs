@@ -96,7 +96,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Performs the rule specific modifications to the given graph with the given match.
-        /// The graph and match object must have the correct type for the used backend.
+        /// The graph and match object must have the correct type for the used backend (and this action).
         /// </summary>
         /// <returns>An array of objects returned by the rule.
         /// It is only valid until the next graph rewrite with this rule.</returns>

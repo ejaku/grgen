@@ -4,11 +4,16 @@
  * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
  */
 
+
+//#define USE_SEQUENCE // use graph rewrite sequence or c# program for busy beaver control
+
+
 using System;
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.Action_Turing3;
 using de.unika.ipd.grGen.Model_Turing3;
+
 
 namespace BusyBeaver
 {
@@ -100,7 +105,7 @@ namespace BusyBeaver
                 "ensureMoveLeftValidRule", "ensureMoveRightValidRule", "moveLeftRule", "moveRightRule");
 
             // Go, beaver, go!
-
+#if USE_SEQUENCE
             actions.ApplyGraphRewriteSequence(
                   @"(
                        ((curValue:WriteValue)=readOneRule(curState, curPos)
@@ -111,6 +116,25 @@ namespace BusyBeaver
                     && ((curState, curPos)=moveLeftRule(curValue, curPos)
                        || (curState, curPos)=moveRightRule(curValue, curPos))
                    )*");
+#else
+            // the graph rewrite sequence from above formulated in C# with the API of GrGen.NET 2.5
+            IState curState = (IState)graph.GetVariableValue("curState");
+            IBandPosition curPos = (IBandPosition)graph.GetVariableValue("curPos");
+            IWriteValue curValue = (IWriteValue)graph.GetVariableValue("curValue");
+            bool expressionToIterateSucceeded;
+            do
+            {
+                expressionToIterateSucceeded =
+                    ( actions.readOneRule.Apply(graph, curState, curPos, ref curValue)
+                    || actions.readZeroRule.Apply(graph, curState, curPos, ref curValue) )
+                && ( actions.ensureMoveLeftValidRule.Apply(graph, curValue, curPos)
+                    || actions.ensureMoveRightValidRule.Apply(graph, curValue, curPos)
+                    || true )
+                && ( actions.moveLeftRule.Apply(graph, curValue, curPos, ref curState, ref curPos)
+                    || actions.moveRightRule.Apply(graph, curValue, curPos, ref curState, ref curPos) );
+            }
+            while(expressionToIterateSucceeded);
+#endif
 
             int stopTime = Environment.TickCount;
 

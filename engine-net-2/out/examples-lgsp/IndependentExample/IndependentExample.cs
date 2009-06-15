@@ -41,16 +41,16 @@ namespace Independent
             Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
             graph.PerformanceInfo.Reset();
 
-            Action_createIterated createIterated = Action_createIterated.Instance;
-            matches = createIterated.Match(graph, 0);
-            object[] returns = createIterated.Modify(graph, matches.First);
+            IAction_createIterated createIterated = actions.createIterated;
+            IMatchesExact<Rule_createIterated.IMatch_createIterated> matchesCreateIterated = 
+                createIterated.Match(graph, 0);
+            IintNode beg;
+            INode end;
+            createIterated.Modify(graph, matchesCreateIterated.FirstExact, out beg, out end);
 
-            IGraphElement[] param = new LGSPNode[2];
-            param[0] = (IGraphElement)returns[0];
-            param[1] = (IGraphElement)returns[1];
-
-            matches = actions.GetAction("findChainPlusChainToIntIndependent").Match(graph, 0, param);
-            Console.WriteLine(matches.Count + " matches found.");
+            IMatchesExact<Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> matchesFindChain =
+                actions.findChainPlusChainToIntIndependent.Match(graph, 0, beg, end);
+            Console.WriteLine(matchesFindChain.Count + " matches found.");
         }
 
         static void Main(string[] args)

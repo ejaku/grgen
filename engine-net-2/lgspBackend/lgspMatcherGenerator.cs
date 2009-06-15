@@ -1401,8 +1401,10 @@ exitSecondLoop: ;
         {
             String actionInterfaceName = "IAction_"+matchingPattern.name;
             String outParameters = "";
+            String refParameters = "";
             for(int i=0; i<matchingPattern.Outputs.Length; ++i) {
-                outParameters += ", out " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " " + "output_"+i;
+                outParameters += ", out " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_"+i;
+                refParameters += ", ref " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_"+i;
             }
             String inParameters = "";
             for(int i=0; i<matchingPattern.Inputs.Length; ++i) {
@@ -1428,11 +1430,11 @@ exitSecondLoop: ;
             sb.AppendFront("/// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>\n");
             sb.AppendFrontFormat("void ModifyAll(GRGEN_LIBGR.IGraph graph, {0} matches{1});\n", matchesType, outParameters);
 
-            sb.AppendFront("/// <summary> same as IAction.Apply, but with exact types and distinct parameters. </summary>\n");
-            sb.AppendFrontFormat("void Apply(GRGEN_LIBGR.IGraph graph{0}{1});\n", inParameters, outParameters);
+            sb.AppendFront("/// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>\n");
+            sb.AppendFrontFormat("bool Apply(GRGEN_LIBGR.IGraph graph{0}{1});\n", inParameters, refParameters);
 
-            sb.AppendFront("/// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters. </summary>\n");
-            sb.AppendFrontFormat("void ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph{0}{1});\n", inParameters, outParameters);
+            sb.AppendFront("/// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>\n");
+            sb.AppendFrontFormat("bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph{0}{1});\n", inParameters, refParameters);
 
             sb.AppendFront("/// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>\n");
             sb.AppendFrontFormat("bool ApplyStar(GRGEN_LIBGR.IGraph graph{0});\n", inParameters);
@@ -1464,13 +1466,19 @@ exitSecondLoop: ;
             }
 
             String outParameters = "";
+            String refParameters = "";
             String outLocals = "";
+            String refLocals = "";
             String outArguments = "";
+            String refArguments = "";
             for (int i = 0; i < matchingPattern.Outputs.Length; ++i)
             {
                 outParameters += ", out " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i;
+                refParameters += ", ref " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i;
                 outLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + "; ";
+                refLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + " = " + TypesHelper.DefaultValue(matchingPattern.Outputs[i]) + "; ";
                 outArguments += ", out output_" + i;
+                refArguments += ", ref output_" + i;
             }
 
             String matchingPatternClassName = matchingPattern.GetType().Name;
@@ -1522,30 +1530,22 @@ exitSecondLoop: ;
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFrontFormat("public void Apply(GRGEN_LIBGR.IGraph graph{0}{1})\n", inParameters, outParameters);
+            sb.AppendFrontFormat("public bool Apply(GRGEN_LIBGR.IGraph graph{0}{1})\n", inParameters, refParameters);
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFrontFormat("{0} matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1{1});\n", matchesType, inArguments);
-            sb.AppendFront("if(matches.Count <= 0) {\n");
-            sb.Indent();
-            for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
-                sb.AppendFrontFormat("output_{0} = {1};\n", i, TypesHelper.DefaultValue(matchingPattern.Outputs[i]));
-            }
-            sb.AppendFront("return;\n");
-            sb.Unindent();
-            sb.AppendFront("}\n");
+            sb.AppendFront("if(matches.Count <= 0) return false;\n");
             sb.AppendFrontFormat("if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First{0});\n", outArguments);
             sb.AppendFrontFormat("else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First{0});\n", outArguments);
+            sb.AppendFront("return true;\n");
             sb.Unindent();
             sb.AppendFront("}\n");
 
-            sb.AppendFrontFormat("public void ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph{0}{1})\n", inParameters, outParameters);
+            sb.AppendFrontFormat("public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph{0}{1})\n", inParameters, refParameters);
             sb.AppendFront("{\n");
             sb.Indent();
-            for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
-                sb.AppendFrontFormat("output_{0} = {1};\n", i, TypesHelper.DefaultValue(matchingPattern.Outputs[i]));
-            }
             sb.AppendFrontFormat("{0} matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches{1});\n", matchesType, inArguments);
+            sb.AppendFront("if(matches.Count <= 0) return false;\n");
             sb.AppendFront("if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {\n");
             sb.Indent();
             sb.AppendFrontFormat("foreach({0} match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match{1});\n", matchType, outArguments);
@@ -1555,6 +1555,7 @@ exitSecondLoop: ;
             sb.AppendFrontFormat("foreach({0} match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match{1});\n", matchType, outArguments);
             sb.Unindent();
             sb.AppendFront("}\n");
+            sb.AppendFront("return true;\n");
             sb.Unindent();
             sb.AppendFront("}\n");
 
@@ -1614,6 +1615,7 @@ exitSecondLoop: ;
             sb.AppendFront("}\n");
 
             // implementation of inexact action interface by delegation to exact action interface
+            sb.AppendFront("// implementation of inexact action interface by delegation to exact action interface\n");
 
             sb.AppendFront("public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)\n");
             sb.AppendFront("{\n");
@@ -1649,51 +1651,75 @@ exitSecondLoop: ;
             sb.AppendFront("object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("{0}\n", outLocals);
-            if (matchingPattern.Inputs.Length == 0) sb.AppendFrontFormat("Apply(graph{0});\n", outArguments);
-            else sb.AppendFront("throw new Exception();\n");
-            for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
-                sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
+            if (matchingPattern.Inputs.Length == 0) {
+                sb.AppendFrontFormat("{0}\n", refLocals);
+                sb.AppendFrontFormat("if(Apply(graph{0})) ", refArguments);
+                sb.Append("{\n");
+                sb.Indent();
+                for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+                    sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
+                }
+                sb.AppendFront("return ReturnArray;\n");
+                sb.Unindent();
+                sb.AppendFront("}\n");
+                sb.AppendFront("else return null;\n");
             }
-            sb.AppendFront("return ReturnArray;\n");
+            else sb.AppendFront("throw new Exception();\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
             sb.AppendFront("object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("{0}\n", outLocals);
-            sb.AppendFrontFormat("Apply(graph{0}{1});\n", inArgumentsFromArray, outArguments);
+            sb.AppendFrontFormat("{0}\n", refLocals);
+            sb.AppendFrontFormat("if(Apply(graph{0}{1})) ", inArgumentsFromArray, refArguments);
+            sb.Append("{\n");
+            sb.Indent();
             for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
             sb.AppendFront("return ReturnArray;\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
+            sb.AppendFront("else return null;\n");
+            sb.Unindent();
+            sb.AppendFront("}\n");
 
             sb.AppendFront("object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("{0}\n", outLocals);
-            if (matchingPattern.Inputs.Length == 0) sb.AppendFrontFormat("ApplyAll(maxMatches, graph{0});\n", outArguments);
-            else sb.AppendFront("throw new Exception();\n");
-            for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
-                sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
+            if (matchingPattern.Inputs.Length == 0) {
+                sb.AppendFrontFormat("{0}\n", refLocals);
+                sb.AppendFrontFormat("if(ApplyAll(maxMatches, graph{0})) ", refArguments);
+                sb.Append("{\n");
+                sb.Indent();
+                for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
+                    sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
+                }
+                sb.AppendFront("return ReturnArray;\n");
+                sb.Unindent();
+                sb.AppendFront("}\n");
+                sb.AppendFront("else return null;\n");
             }
-            sb.AppendFront("return ReturnArray;\n");
+            else sb.AppendFront("throw new Exception();\n");
             sb.Unindent(); 
             sb.AppendFront("}\n");
 
             sb.AppendFront("object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
             sb.AppendFront("{\n");
             sb.Indent();
-            sb.AppendFrontFormat("{0}\n", outLocals);
-            sb.AppendFrontFormat("ApplyAll(maxMatches, graph{0}{1});\n", inArgumentsFromArray, outArguments);
+            sb.AppendFrontFormat("{0}\n", refLocals);
+            sb.AppendFrontFormat("if(ApplyAll(maxMatches, graph{0}{1})) ", inArgumentsFromArray, refArguments);
+            sb.Append("{\n");
+            sb.Indent();
             for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
             sb.AppendFront("return ReturnArray;\n");
             sb.Unindent(); 
+            sb.AppendFront("}\n");
+            sb.AppendFront("else return null;\n");
+            sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)\n");

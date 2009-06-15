@@ -24,17 +24,20 @@ namespace TNT
 
             graph.PerformanceInfo = new PerformanceInfo();
 
+            // use graph rewrite sequence
             actions.ApplyGraphRewriteSequence("createTNT");
 
 			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
 			Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
 			graph.PerformanceInfo.Reset();
 
-            IMatches matches = actions.GetAction("TNT").Match(graph, 0, null);
-            Console.WriteLine(matches.Count + " matches found.");
+            // use old inexact interface
+            IMatches matchesInexact = actions.GetAction("TNT").Match(graph, 0, null);
+            Console.WriteLine(matchesInexact.Count + " matches found.");
 
-            matches = actions.GetAction("ToluolCore").Match(graph, 0, null);
-            Console.WriteLine(matches.Count + " matches found.");
+            // use new 2.5 exact interface
+            IMatchesExact<Rule_ToluolCore.IMatch_ToluolCore> matchesExact = actions.ToluolCore.Match(graph, 0);
+            Console.WriteLine(matchesExact.Count + " matches found.");
         }
 
         static void Main(string[] args)

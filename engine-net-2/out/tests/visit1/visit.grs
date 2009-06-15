@@ -32,6 +32,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
+xgrs removeVisited*
 freevisitflag visID
 
 
@@ -63,6 +64,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
+xgrs removeVisited*
 freevisitflag visID
 
 
@@ -94,6 +96,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
+xgrs removeVisited*
 freevisitflag visID
 
 
@@ -125,6 +128,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
+xgrs removeVisited*
 freevisitflag visID
 
 
@@ -156,6 +160,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
+xgrs removeVisited*
 freevisitflag visID
 
 
@@ -187,6 +192,7 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
+xgrs removeVisited*
 freevisitflag visID
 
 
@@ -218,5 +224,6 @@ show num nodes "State"
 show num nodes "N"
 show num nodes "A"
 show num nodes "B"
+xgrs removeVisited*
 freevisitflag visID
 quit

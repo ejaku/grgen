@@ -330,6 +330,23 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		return res;
 	}
 
+	protected boolean noDeletionOfElementsFromNestingPattern()
+	{
+		if(right.children.size()>0) {
+			Collection<DeclNode> declNodes = right.children.get(0).getDelete(pattern);
+			for(DeclNode declNode : declNodes) {
+				if(declNode instanceof ConstraintDeclNode) {
+					ConstraintDeclNode cdn = (ConstraintDeclNode)declNode;
+					if(cdn.directlyNestingLHSGraph!=pattern) {
+						cdn.reportError("Can only delete elements from left hand side pattern of right hand side, not from some nesting left hand side pattern as with " + cdn.toString());
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -388,7 +405,8 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		}
 
 		return leftHandGraphsOk & noDeleteOfPatternParameters & SameParametersInNestedAlternativeReplacementsAsInReplacement()
-			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement & abstr;
+			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement & abstr
+			& noDeletionOfElementsFromNestingPattern();
 	}
 
 	protected void constructIRaux(Rule rule) {

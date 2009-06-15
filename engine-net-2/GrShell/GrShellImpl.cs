@@ -73,7 +73,7 @@ namespace de.unika.ipd.grGen.grShell
 
     class GrShellImpl
     {
-        public static readonly String VersionString = "GrShell v2.1";
+        public static readonly String VersionString = "GrShell v2.5";
 
         IBackend curGraphBackend = new LGSPBackend();
         String backendFilename = null;
@@ -1508,6 +1508,21 @@ namespace de.unika.ipd.grGen.grShell
             else
             {
                 Console.WriteLine("The value of attribute \"" + attributeName + "\" is: \"" + elem.GetAttribute(attributeName) + "\".");
+            }
+        }
+
+        public void ShowVar(String name)
+        {
+            object val = GetVarValue(name);
+            if (val != null)
+            {
+                if (val.GetType() == typeof(int)) Console.WriteLine("The value of variable \"" + name + "\" of type int is: \"" + (int)val + "\"");
+                else if (val.GetType() == typeof(float)) Console.WriteLine("The value of variable \"" + name + "\" of type float is: \"" + (float)val + "\"");
+                else if (val.GetType() == typeof(double)) Console.WriteLine("The value of variable \"" + name + "\" of type double is: \"" + (double)val + "\"");
+                else if (val.GetType() == typeof(bool)) Console.WriteLine("The value of variable \"" + name + "\" of type bool is: \"" + (bool)val + "\"");
+                else if (val.GetType() == typeof(string)) Console.WriteLine("The value of variable \"" + name + "\" of type string is: \"" + (string)val + "\"");
+                else Console.WriteLine("Type of variable \"" + name + "\" is not known");
+                // todo: map / set ; including key/value of type enum
             }
         }
 

@@ -35,9 +35,8 @@ for scriptfile in $*; do
     /matches found/ { print \$2 }
     /rewrites performed/ { print \$2 }
     /Number/ { print \$8 }
-    /value of attribute/ {
-      print getAttribute(7)
-    }
+    /value of attribute/ { print getAttribute(7) }
+    /value of variable/ { print getAttribute(10) }
     
     function getAttribute(startindex)
     {

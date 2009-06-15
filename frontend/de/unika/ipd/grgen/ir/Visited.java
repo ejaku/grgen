@@ -14,7 +14,7 @@ public class Visited extends Expression {
 	private Entity entity;
 	
 	public Visited(Expression visitorID, Entity entity) {
-		super("visited", visitorID.getType());
+		super("visited", BooleanType.getType());
 		this.visitorID = visitorID;
 		this.entity = entity;
 	}

@@ -2,79 +2,73 @@ using visit;
 
 #include "graphgen.gri"
 
+test initCounter : (int) {
+	return (0);
+}
+
+rule componentStart(var counter:int) : (int)
+{
+    n:N;
+    if { !visited(n); }
+	
+	modify {
+		eval { visited(n) = true; }
+		return (counter+1);
+	}
+}
+
+rule markComponent
+{
+	n:Node ?--? m:Node;
+	if { visited(n) && !visited(m); }
+	
+	modify {
+		eval {
+			visited(m) = true;
+		}
+	}
+}
+
+// calling patterns with variables is not supported yet, otherwise handing in visited flag id would be nicer
 pattern Component(n:Node)
 {
-    alternative {
-        more {
-            n ?--? m:Node;
-            c1:Component(n);
-            c2:Component(m);
-            
-            modify {
-                c1();
-                c2();
-            }
-        }
-        end {
-            negative { n ?--? m:Node; }
-            
-            modify {
-                eval {
-                    visited(n, 0) = true;
-                }
-            }
-        }
+	iterated {
+		n ?--? m:Node;
+		c:Component(m);
+		
+		modify {
+			c();
+			eval {
+				visited(m) = true;
+			}
+		}
     }
+
     modify {}
 }
 
 rule findComponent()
 {
     n:N;
-    if { !visited(n, 0); }
-    
-    comp:Component(n);
+    if { !visited(n); }
+    c:Component(n);
     
     modify {
-        comp();
+        c();
+		eval {
+			visited(n) = true;
+		}
     }
 }
 
-// calling patterns with variables is not supported yet
-/*
-pattern Component(n:Node, var visID:int)
+rule removeVisited()
 {
-    alternative {
-        more {
-            n ?--? m:Node;
-            c1:Component(n, visID);
-            c2:Component(m, visID);
-            
-            modify {
-                c1();
-                c2();
-            }
-        }
-        end {
-            negative { n ?--? m:Node; }
-            
-            modify {
-                eval {
-                    visited(n, visID) = true;
-                }
-            }
-        }
-    }
+	n:Node;
+	if { visited(n); }
+	
+	modify {
+		eval {
+			visited(n) = false;
+		}
+	}
 }
-
-rule findComponent(var VisID:int)
-{
-    n:N;
-    if { !visited(n, visID); }
-    
-    comp:Component(n, visID);
-    
-    modify {
-        comp();
-    }
-}*/

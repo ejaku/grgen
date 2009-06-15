@@ -1,0 +1,243 @@
+new graph "visit1\visit"
+
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+xgrs (state)=init
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+state.maxNodeID = 20
+# state.rand1 = 1231579
+# state.rand2 = 165031
+
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[15]
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+visID = allocvisitflag
+xgrs (counter)=initCounter
+xgrs ((counter)=componentStart(counter) && markComponent*)*
+show var counter
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+xgrs removeVisited*
+freevisitflag visID
+
+
+clear graph
+
+xgrs (state)=init
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+state.maxNodeID = 20
+state.rand1 = 1231579
+state.rand2 = 165031
+
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[20]
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+visID = allocvisitflag
+xgrs (counter)=initCounter
+xgrs ((counter)=componentStart(counter) && markComponent*)*
+show var counter
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+xgrs removeVisited*
+freevisitflag visID
+
+
+clear graph
+
+xgrs (state)=init
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+state.maxNodeID = 26
+state.rand1 = 121579
+state.rand2 = 1695031
+
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[20]
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+visID = allocvisitflag
+xgrs (counter)=initCounter
+xgrs ((counter)=componentStart(counter) && markComponent*)*
+show var counter
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+xgrs removeVisited*
+freevisitflag visID
+
+
+clear graph
+
+xgrs (state)=init
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+state.maxNodeID = 29
+state.rand1 = 1215792
+state.rand2 = 16950
+
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[20]
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+visID = allocvisitflag
+xgrs (counter)=initCounter
+xgrs ((counter)=componentStart(counter) && markComponent*)*
+show var counter
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+xgrs removeVisited*
+freevisitflag visID
+
+
+clear graph
+
+xgrs (state)=init
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+state.maxNodeID = 29
+state.rand1 = 1215792
+state.rand2 = 16950
+
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[16]
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+visID = allocvisitflag
+xgrs (counter)=initCounter
+xgrs ((counter)=componentStart(counter) && markComponent*)*
+show var counter
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+xgrs removeVisited*
+freevisitflag visID
+
+
+clear graph
+
+xgrs (state)=init
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+state.maxNodeID = 290
+state.rand1 = 2147
+state.rand2 = 691501
+
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[170]
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+visID = allocvisitflag
+xgrs (counter)=initCounter
+xgrs ((counter)=componentStart(counter) && markComponent*)*
+show var counter
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+xgrs removeVisited*
+freevisitflag visID
+
+
+clear graph
+
+xgrs (state)=init
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+state.maxNodeID = 295
+state.rand1 = 147
+state.rand2 = 69
+
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[177]
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+visID = allocvisitflag
+xgrs (counter)=initCounter
+xgrs ((counter)=componentStart(counter) && markComponent*)*
+show var counter
+show num nodes
+show num edges
+show num nodes "State"
+show num nodes "N"
+show num nodes "A"
+show num nodes "B"
+xgrs removeVisited*
+freevisitflag visID
+quit

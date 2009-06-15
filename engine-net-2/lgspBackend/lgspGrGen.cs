@@ -1209,7 +1209,7 @@ namespace de.unika.ipd.grGen.lgsp
                         endSource.AppendFrontFormat("actions.Add(\"{0}\", (GRGEN_LGSP.LGSPAction) "
                                 + "Action_{0}.Instance);\n", matchingPattern.name);
 
-                        endSource.AppendFrontFormat("{0} = Action_{0}.Instance;\n", matchingPattern.name);
+                        endSource.AppendFrontFormat("@{0} = Action_{0}.Instance;\n", matchingPattern.name);
                     }
                     else
                     {
@@ -1227,7 +1227,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if (matchingPattern is LGSPRulePattern) // normal rule
                     {
-                        endSource.AppendFrontFormat("public IAction_{0} {0};\n", matchingPattern.name);
+                        endSource.AppendFrontFormat("public IAction_{0} @{0};\n", matchingPattern.name);
                     }
                 }
                 endSource.AppendFront("\n");

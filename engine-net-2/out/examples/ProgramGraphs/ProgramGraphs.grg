@@ -1,41 +1,25 @@
 using ProgramGraphs;
 
-pattern MultipleSubclasses(c:Class)
+pattern Subclasses(c:Class)
 {
-	alternative
+	iterated
 	{
-		OneAndAgain {
-			c -:contains-> sub:Class;
-			:Subclass(sub);
-			:MultipleSubclasses(c);
-		}
-		NoSubclassLeft {
-			negative {
-				c -:contains-> sub:Class;
-			}
-		}
+		c -:contains-> sub:Class;
+		:Subclass(sub);
 	}
 }
 
 pattern Subclass(sub:Class)
 {
-	:MultipleSubclasses(sub);	
-	:MultipleFeatures(sub);
+	:Features(sub);
+	:Subclasses(sub);	
 }
 
-pattern MultipleFeatures(c:Class)
+pattern Features(c:Class)
 {
-	alternative
+	iterated
 	{
-		OneAndAgain {
-			:FeaturePattern(c);
-			:MultipleFeatures(c);
-		}
-		NoFeatureLeft {
-			negative {
-				c -:contains-> f:Feature;
-			}
-		}
+		:FeaturePattern(c);
 	}
 }
 
@@ -45,8 +29,8 @@ pattern FeaturePattern(c:Class)
 	{
 		MethodBody {
 			c -:contains-> b:MethodBody;
-			:MultipleParameters(b);
-			:MultipleStatements(b);
+			:Parameters(b);
+			:Statements(b);
 		}
 		MethodSignature {
 			c -:contains-> :MethodSignature;
@@ -60,19 +44,11 @@ pattern FeaturePattern(c:Class)
 	}
 }
 
-pattern MultipleParameters(b:MethodBody)
+pattern Parameters(b:MethodBody)
 {
-	alternative
+	iterated
 	{
-		OneAndAgain {
-			:Parameter(b);
-			:MultipleParameters(b);
-		}
-		NoStatementLeft {
-			negative {
-				b -:contains-> a:Attribute;
-			}
-		}
+		:Parameter(b);
 	}
 }
 
@@ -89,19 +65,11 @@ pattern Parameter(b:MethodBody)
 	}
 }
 
-pattern MultipleStatements(b:MethodBody)
+pattern Statements(b:MethodBody)
 {
-	alternative
+	iterated
 	{
-		OneAndAgain {
-			:Statement(b);
-			:MultipleStatements(b);
-		}
-		NoStatementLeft {
-			negative {
-				b -:contains-> e:Expression;
-			}
-		}
+		:Statement(b);
 	}
 }
 
@@ -117,7 +85,7 @@ pattern Statement(b:MethodBody)
 		Call {
 			b -:contains-> e:Expression;
 			e -:calls->;
-			:MultipleExpressions(e);
+			:Expressions(e);
 		}
 		Return {
 			b -:contains-> e:Expression;
@@ -126,19 +94,11 @@ pattern Statement(b:MethodBody)
 	}
 }
 
-pattern MultipleExpressions(e:Expression)
+pattern Expressions(e:Expression)
 {
-	alternative
+	iterated
 	{
-		OneAndAgain {
-			:ExpressionPattern(e);
-			:MultipleExpressions(e);
-		}
-		NoExpressionLeft {
-			negative {
-				e -:contains-> sub:Expression;
-			}
-		}
+		:ExpressionPattern(e);
 	}
 }
 
@@ -149,7 +109,7 @@ pattern ExpressionPattern(e:Expression)
 	{
 		Call {
 			sub -:calls->;
-			:MultipleExpressions(sub);
+			:Expressions(sub);
 		}
 		Use {
 			sub -:uses->;
@@ -224,35 +184,23 @@ rule createProgramGraphPullUp : (Class, MethodBody)
 rule pullUpMethod(c1:Class, b4:MethodBody)
 {
 	c1 -:contains-> c3:Class -m:contains-> b4 -:bindsTo-> m5:MethodSignature;
-	mb:MultipleBodies(m5, c1);
+	bs:Bodies(m5, c1);
 
 	modify {
 		delete(m);
 		c1 -:contains-> b4;
-		mb();
+		bs();
 	}
 }
 
-pattern MultipleBodies(m5:MethodSignature, c1:Class)
+pattern Bodies(m5:MethodSignature, c1:Class)
 {
-	alternative
+	iterated
 	{
-		Rek {
-			b:Body(m5, c1);
-			mb:MultipleBodies(m5, c1);
+		b:Body(m5, c1);
 
-			modify {
-				mb();
-				b();
-			}
-		}
-		Empty {
-			negative {
-				:Body(m5, c1);
-			}
-			
-			modify {
-			}
+		modify {
+			b();
 		}
 	}
 	
@@ -263,13 +211,13 @@ pattern MultipleBodies(m5:MethodSignature, c1:Class)
 pattern Body(m5:MethodSignature, c1:Class)
 {
 	c1 -:contains-> c2:Class -:contains-> b:MethodBody -:bindsTo-> m5;
-	mp:MultipleParameters(b);
-	ms:MultipleStatements(b);
+	p:Parameters(b);
+	s:Statements(b);
 	
 	modify {
 		delete(b);
-		delete(mp);
-		delete(ms);
+		delete(p);
+		delete(s);
 	}
 }
 

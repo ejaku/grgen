@@ -37,10 +37,14 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
             {
-                if (type.Name == "Node" || type.Name == "Edge" || type.Name == "UEdge")
-                    return "GRGEN_LIBGR.I" + type.Name;
-                else
-                    return "GRGEN_MODEL.I" + type.Name;
+                switch (type.Name)
+                {
+                    case "Node": return "GRGEN_LIBGR.INode";
+                    case "Edge": return "GRGEN_LIBGR.IEdge";
+                    case "UEdge": return "GRGEN_LIBGR.IEdge";
+                    case "AEdge": return "GRGEN_LIBGR.IEdge";
+                    default: return "GRGEN_MODEL.I" + type.Name;
+                }
             }
         }
 

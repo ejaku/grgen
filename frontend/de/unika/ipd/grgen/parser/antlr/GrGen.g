@@ -1973,8 +1973,12 @@ primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	;
 
 visitedExpr returns [ ExprNode res = env.initExprNode() ]
-	: v=VISITED LPAREN elem=entIdentUse COMMA idExpr=expr[false] RPAREN
-	  { res = new VisitedNode(getCoords(v), idExpr, elem); }
+	: v=VISITED LPAREN elem=entIdentUse 
+		( COMMA idExpr=expr[false] RPAREN
+			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
+		| RPAREN
+			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), elem); }
+		)
 	;
 
 nameOf returns [ ExprNode res = env.initExprNode() ]

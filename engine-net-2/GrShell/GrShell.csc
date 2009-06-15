@@ -302,6 +302,7 @@ TOKEN: {
 |   < TYPE: "type" >
 |   < TYPES: "types" >
 |   < VALIDATE: "validate" >
+|   < VAR: "var" >
 |   < WITH: "with" >
 |   < XGRS: "xgrs" >
 }
@@ -1210,6 +1211,8 @@ void ShowCommand():
 |
 	"edge" ShowEdge()
 |
+	"var" ShowVar()
+|
 	"graph" str=Filename() (args=Text())? LineEnd()
 	{
 		impl.ShowGraphWith(str, args);
@@ -1294,6 +1297,17 @@ void ShowEdge():
 	edge=Edge() LineEnd()
 	{
 		impl.ShowElementAttributes(edge);
+	}
+}
+
+void ShowVar():
+{
+	String str;
+}
+{
+	str=Word() LineEnd()
+	{
+		impl.ShowVar(str);
 	}
 }
 

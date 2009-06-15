@@ -24,14 +24,20 @@ namespace Alternatives
 
 			graph.PerformanceInfo = new PerformanceInfo();
 
+            // use graph rewrite sequence
             actions.ApplyGraphRewriteSequence("createComplex");
 
 			Console.WriteLine(graph.PerformanceInfo.MatchesFound + " matches found.");
 			Console.WriteLine(graph.PerformanceInfo.RewritesPerformed + " rewrites performed.");
 			graph.PerformanceInfo.Reset();
 
+            // use old inexact interface
             IMatches matches = actions.GetAction("Complex").Match(graph, 0, null);
-            Console.WriteLine(matches.Count + " matches found.");
+            Console.WriteLine(matches.Count + " Complex matches found.");
+
+            // use new 2.5 exact interface
+            IMatchesExact<Rule_ComplexMax.IMatch_ComplexMax> matchesExact = actions.ComplexMax.Match(graph, 0);
+            Console.WriteLine(matchesExact.Count + " ComplexMax matches found.");
         }
 
         static void Main(string[] args)
