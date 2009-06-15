@@ -472,6 +472,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 		Rule altCaseRule = new Rule(getIdentNode().getIdent(), left, right);
 
+		constructImplicitLhsElements();
 		constructImplicitNegs(left);
 		constructIRaux(altCaseRule);
 
@@ -486,6 +487,21 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		return altCaseRule;
 	}
 
+	void constructImplicitLhsElements()
+	{
+		if(right.children.size()>0) {
+			PatternGraph left = pattern.getPatternGraph();
+			PatternGraph right = this.right.children.get(0).getPatternGraph(left);
+		
+			for(Node node : right.getNodes())
+			{
+				if(node.getPointOfDefinition()!=right)
+				{
+					/*TODO*/;
+				}
+			}
+		}
+	}
 
 	// TODO use this to create IR patterns, that is currently not supported by
 	//      any backend
