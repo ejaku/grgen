@@ -325,3 +325,14 @@ map <mapname> remove <key> - removes pair (key,*) from map
 map <mapname> size - prints out the number of map entries
  e.g. map n.a size
 
+
+
+
+Changes from 2.1 to 2.5:
+------------------------
+
+todo
+
+
+
+

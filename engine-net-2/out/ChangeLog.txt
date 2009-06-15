@@ -1,4 +1,52 @@
-﻿v2.1.2 (2009-02-16)
+﻿v2.5RC (2009-06-15)
+ Advanced subpattern/subrule features:
+  - iterated block for specifying subpatterns to be matched as often as possible implemented
+  - multiple block as an iterated block requiring at least one match added
+  - optional block matching at most once implemented
+  - emitpre (before emitting from subpatterns) and emitpost(=emit; after emitting from subpatterns)
+  - independent block for specifiying positive application conditions implemented
+  - semantics of negative regarding subpatterns/subrules changed: 
+      negative pattern elements get matched independent from the subpatterns utilizing them
+  - patternpath construct to lock subpattern derivation path in negative/independent added
+  
+ Im/Export:
+  - import/export commands added to GrShell, porter module added to LibGr
+  - EMF / ECore importer added
+  - GXL importer and exporter added
+  - GRS importer and exporter added
+
+ New API:
+  - generation of an action interface per action, implemented by the action class, 
+      plus an action-interface-typed member per action in actions class instance
+  - action interface with exactly typed input parameters, matches object, output parameters
+      (for the match / modify / apply methods)
+  - old input parameters semantics - silently failing rule application on wrong type -
+      now only available with syntax r(x:ExactType<InexactType>)
+
+ Examples:
+  - solution to the GraBaTs 2009 Program Comprehension case study added
+      (including EMF import)
+  - completed JavaProgramGraphs sample (Grabats 2008 refactoring case solution) 
+  - rewritten ProgramGraphs sample with new iterated construct, 
+      added corresponding source code sample, including GRS import/export
+  - updated source code samples to the new 2.5 API
+
+ Shell/yComp: 
+  - improved interactivity: debug apply <rule with ? as placeholders>
+      allows to select wildcard elements ? by double clicking
+  - debugging much more robust to unexpected connection loss
+  - show var <variable> implemented
+  - shell/debugger now showing match parts due to all forms of subpatterns in debug mode / with %
+
+ Misc:
+  - shorthand visited(el) for visited(el, 0)
+  - added grgen syntax highlighting for Notepad++ 
+ 
+ Bugs:
+  - several smashed
+
+  
+v2.1.2 (2009-02-16)
  Fixes:
   - don't create elements declared outside alternative if only appearing in modify/replace part
 
