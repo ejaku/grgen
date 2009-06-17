@@ -42,7 +42,7 @@ rule CFG_dump_AbstractNode(n:org_amma_cfg_AbstractNode) {
 	}
 }
 
-rule CFG_dump_Node(n:org_amma_cfg_Node) {
+rule CFG_dump_Node(n:org_amma_cfg_Node<org_amma_cfg_AbstractNode>) {
 	n -:org_amma_cfg_AbstractNode_expression-> expr:org_amma_cfg_Expression;
 
 	modify {
