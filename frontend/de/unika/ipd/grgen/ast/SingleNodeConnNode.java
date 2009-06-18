@@ -32,14 +32,11 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	NodeDeclNode node;
 	BaseNode nodeUnresolved;
 	
-	PatternGraphNode directlyNestingLHSGraph;
-
 	
-	public SingleNodeConnNode(BaseNode n, PatternGraphNode directlyNestingLHSGraph) {
+	public SingleNodeConnNode(BaseNode n) {
 		super(n.getCoords());
 		this.nodeUnresolved = n;
 		becomeParent(this.nodeUnresolved);
-		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
 
 	/** returns children of this node */
@@ -61,8 +58,6 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		node = nodeResolver.resolve(nodeUnresolved, this);
-		node.directlyNestingLHSGraph = directlyNestingLHSGraph;
-
 		return node != null;
 	}
 

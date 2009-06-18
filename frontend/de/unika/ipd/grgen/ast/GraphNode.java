@@ -153,7 +153,7 @@ public class GraphNode extends BaseNode {
 
         			// add reused single node to connections
         			if (ent.getEntityNode() != null) {
-        				connections.addChild(new SingleNodeConnNode(ent.getEntityNode(), ent.directlyNestingLHSGraph));
+        				connections.addChild(new SingleNodeConnNode(ent.getEntityNode()));
         			}
 
         			// add reused subpattern to subpatterns

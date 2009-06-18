@@ -360,7 +360,7 @@ param [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNo
 
 	| node=nodeDeclParam[context, directlyNestingLHSGraph]
 	{
-		res = new SingleNodeConnNode(node, directlyNestingLHSGraph);
+		res = new SingleNodeConnNode(node);
 	}
 	;
 
@@ -590,10 +590,10 @@ firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context, Pat
 	: // nothing following? -> one single node
 	{
 		if (n instanceof IdentNode) {
-			conn.addChild(new SingleGraphEntityNode((IdentNode)n, directlyNestingLHSGraph));
+			conn.addChild(new SingleGraphEntityNode((IdentNode)n));
 		}
 		else {
-			conn.addChild(new SingleNodeConnNode(n, directlyNestingLHSGraph));
+			conn.addChild(new SingleNodeConnNode(n));
 		}
 	}
 	|   ( e=forwardOrUndirectedEdgeOcc[context, direction, directlyNestingLHSGraph] { forward=true; }

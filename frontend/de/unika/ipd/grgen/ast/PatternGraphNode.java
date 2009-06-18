@@ -393,13 +393,20 @@ public class PatternGraphNode extends GraphNode {
     {
     	for (BaseNode n : params.getChildren()) {
 			if(n instanceof VarDeclNode) continue;
+			
+			// directly nesting lhs pattern is null for parameters of lhs pattern
+			// because it doesn't exist at the time the parameters are parsed -> fix it in here
 			if(n instanceof SingleNodeConnNode) {
-				((SingleNodeConnNode)n).directlyNestingLHSGraph = this;
+				SingleNodeConnNode sncn = (SingleNodeConnNode)n;
+				((NodeDeclNode)sncn.nodeUnresolved).directlyNestingLHSGraph = this;
 			} else if(n instanceof ConstraintDeclNode) {
 				((ConstraintDeclNode)n).directlyNestingLHSGraph = this;
 			} else {
-				((EdgeDeclNode)((ConnectionNode)n).edgeUnresolved).directlyNestingLHSGraph = this;
+				// don't need to adapt left/right nodes as only dummies
+				ConnectionNode cn = (ConnectionNode)n;
+				((EdgeDeclNode)cn.edgeUnresolved).directlyNestingLHSGraph = this;
 			}
+			
             connectionsUnresolved.addChild(n);
         }
     }
