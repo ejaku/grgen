@@ -31,7 +31,7 @@
     added corresponding source code sample, including GRS import/export
   - updated source code samples to the new 2.5 API
 
- Shell/yComp: 
+ GrShell/yComp: 
   - improved interactivity: debug apply <rule with ? as placeholders>
     allows to select wildcard elements ? by double clicking at elements in graph viewer yComp
   - debugging much more robust to unexpected connection loss
@@ -43,7 +43,7 @@
      -hom declarations are inherited into nested negatives now
      -hom delarations are non-transitive by now (hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
   - shorthand visited(el) for visited(el, 0)
-  - added grgen syntax highlighting for Notepad++ 
+  - added GrGen syntax highlighting for Notepad++ 
  
  Bugs:
   - several smashed

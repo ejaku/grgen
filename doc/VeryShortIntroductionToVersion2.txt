@@ -331,8 +331,25 @@ map <mapname> size - prints out the number of map entries
 Changes from 2.1 to 2.5:
 ------------------------
 
+Import/Export:
+  GrGen natively supports the following formats:
+   - GRS: GrShell script files (graph only)
+   - GXL: Graph exchange language (graph only, see http://www.gupro.de/GXL/)
+   - EMF/ECORE: Eclipse Modeling Framework (model and graph; partial and only import).
+        .ecore files describe the graph models, .xmi files the graph instances.
+
+  Import:
+    To import a graph model and/or a graph instance you can either use
+    Porter.Import() from the libGr API, or use the GrShell command "import <filename>+".
+    In any case the file format is determined by the file extensions.
+    While both GRS and GXL importers expect exactly one file, the EMF/ECORE importer
+    expects first one or more .ecore files and following optionally a .xmi files and/or
+    a .grg file. To use additional custom graph models you should supply an own .grg
+    file which may be based on the automatically generated .grg file, if none was
+    supplied (see the GraBaTs09-Program-Comprehension example).
+
+  Export:
+    To export a graph instance you can either use Porter.Export() from the libGr API,
+    or use the GrShell command "export <filename>".
+
 todo
-
-
-
-
