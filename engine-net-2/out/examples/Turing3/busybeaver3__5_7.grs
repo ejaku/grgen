@@ -1,0 +1,70 @@
+new graph "Turing3.grg" "Busy beaver 5 No. 7 (http://drb9.drb.insel.de/~heiner/BB/bb-list)"
+
+new bp:BandPosition($="Startposition")
+new sA:State($="A")
+new sB:State($="B")
+new sC:State($="C")
+new sD:State($="D")
+new sE:State($="E")
+new sH:State($="Halt")
+
+new sA_0:WriteValue(value=1)
+new sA -:readZero-> sA_0
+new sA_0 -:moveLeft-> sB
+
+new sA_1:WriteValue(value=1)
+new sA -:readOne-> sA_1
+new sA_1 -:moveLeft-> sD
+
+
+new sB_0:WriteValue(value=1)
+new sB -:readZero-> sB_0
+new sB_0 -:moveRight-> sC
+
+new sB_1:WriteValue(value=0)
+new sB -:readOne-> sB_1
+new sB_1 -:moveRight-> sE
+
+
+new sC_0:WriteValue(value=0)
+new sC -:readZero-> sC_0
+new sC_0 -:moveLeft-> sA
+
+new sC_1:WriteValue(value=0)
+new sC -:readOne-> sC_1
+new sC_1 -:moveRight-> sB
+
+
+new sD_0:WriteValue(value=1)
+new sD -:readZero-> sD_0
+new sD_0 -:moveLeft-> sE
+
+new sD_1:WriteValue(value=1)
+new sD -:readOne-> sD_1
+new sD_1 -:moveLeft-> sH
+
+
+new sE_0:WriteValue(value=1)
+new sE -:readZero-> sE_0
+new sE_0 -:moveRight-> sC
+
+new sE_1:WriteValue(value=1)
+new sE -:readOne-> sE_1
+new sE_1 -:moveLeft-> sC
+
+
+curState = sA
+curPos = bp
+
+xgrs (((curValue)=readOneRule(curState, curPos)||(curValue)=readZeroRule(curState,curPos)) && (ensureMoveLeftValidRule(curValue, curPos) || ensureMoveRightValidRule(curValue, curPos) || true) && ((curState, curPos)=moveLeftRule(curValue, curPos) || (curState, curPos)=moveRightRule(curValue, curPos)))[100]
+
+custom graph analyze
+custom actions gen_searchplan readOneRule readZeroRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule
+
+xgrs (((curValue)=readOneRule(curState, curPos)||(curValue)=readZeroRule(curState,curPos)) && (ensureMoveLeftValidRule(curValue, curPos) || ensureMoveRightValidRule(curValue, curPos) || true) && ((curState, curPos)=moveLeftRule(curValue, curPos) || (curState, curPos)=moveRightRule(curValue, curPos)))*
+
+echo "Written zeroes:"
+xgrs [countZeros]
+
+echo "Written ones:"
+xgrs [countOnes]

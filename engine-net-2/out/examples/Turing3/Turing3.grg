@@ -63,3 +63,17 @@ rule moveRightRule(wv:WriteValue, bp:BandPosition) : (State, BandPosition) {
 		return (s, rbp);
 	}
 }
+
+rule countZeros {
+	bp:BandPosition;
+	if { bp.value == 0; }
+
+	modify {}
+}
+
+rule countOnes {
+	bp:BandPosition;
+	if { bp.value == 1; }
+
+	modify {}
+}
