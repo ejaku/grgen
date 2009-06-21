@@ -1,4 +1,4 @@
-Very short introduction into the new features of GrGen.NET 2.1
+Very short introduction into the new features of GrGen.NET 2.5
 ==============================================================
 
 Changes from 1.4 to 2.0:
@@ -27,7 +27,7 @@ pattern Foo(bar:Node) {
 }
 
 *Alternatives:
-With the alternative statement you can specify several nested alternative
+With the alternative block you can specify several nested alternative
 patterns. One of them must get matched for the matching of the entire pattern
 to succeed. The order of matching the alternative patterns is unspecified.
 
@@ -44,7 +44,7 @@ test t {
 }
 
 *Alternatives and subpatterns can be combined into recursive subpatterns
-(note the negative pattern to ensure you get the longest possible match):
+(note the negative pattern to ensure you get a longest possible match):
 
 pattern Chain(prev:Node) {
   alternative {
@@ -352,4 +352,150 @@ Import/Export:
     To export a graph instance you can either use Porter.Export() from the libGr API,
     or use the GrShell command "export <filename>".
 
-todo
+*Iterated block and its siblings:
+---------------------------------
+
+The *iterated block* is matching the contained subpattern as often as possible
+(succeeding if the contained pattern is not available, too).
+You can use it to match and rewrite breadth-splitting structures,
+like reversing all edges in the graph representation of a blowball.
+
+rule BlowballReverse {
+  root:Node --> head:HeadNode;
+  iterated {
+    head --> n:Node;
+	replace {
+	  head <-- n;
+	}
+  }
+  replace { 
+    root <-- head;
+  }
+}
+
+Combined with subpatterns, you may match structures extending into breadth and depth,
+like e.g. a spanning tree.
+
+pattern SpanningTree(root:Node)
+{
+  iterated {
+    root -- next:Node;
+    :SpanningTree(next);
+  }
+}
+
+The *multiple block* is working like the iterated block, 
+but expects the contained subpattern to be available at least once,
+if it is not, matching of the multiple block and thus its enclosing pattern fails.
+
+test OneOrMoreEdges(src:Node, tgt:Node)
+{
+  multiple {
+    src --> tgt;
+  }
+}
+
+The *optional block* is working like the iterated block,
+but matches the contained subpattern at most once, 
+further occurences of the subpattern are left unmatched.
+The follwing test matches two nodes connected by an directed edge
+of unspecified direction, and optionally an undirected reflexive edge
+on node 1, and optionally an arbitrarily directed edge on node 2,
+in case there are some.
+
+test foo {
+  n1:Node <--> n2:Node;
+  optional {
+    n1 -- n1;
+  }
+  optional {
+    n2 ?--? n2;
+  }
+}
+
+*Independent block:
+-------------------
+
+The independent block allows to specify further patterns 
+to be applied as positive application conditions.
+In contrast to the negative application conditions given by negative blocks,
+matching its subpattern does not cause the matching of the enclosing pattern 
+to fail, but is necessary in order for the matching of the enclosing pattern
+to succeed. It shares with the negative pattern its independence from the 
+enclosing pattern, i.e. host graph elements already matched to elements of the
+enclosing pattern may get matched again in the nested pattern, 
+they are not locked - this is in contrast to the normal mode of matching within
+one pattern, which is isomorphic by default (it is forbidden to match one 
+host graph element by several pattern elements (unless explicitely specified 
+by the hom(a,b) construct)). As it only represents an application condition,
+it is not possible to rewrite the matched independent block,
+i.e. you can't specify a nested modify/replace block.
+
+rule fancyRule
+{
+  a:A -- b:B -- c:C;
+  independent {
+    b -- cc:C;
+	if { cc.a=="foo"; }
+  }
+  independent {
+    :Chain(c,a)
+  }
+  
+  replace {
+    a; c;
+  }
+}
+
+pattern Chain(src:Node, tgt:Node)
+{
+  alternative {
+    Found {
+	  src --> tgt;
+    }
+    Further {
+      src --> intermediate:Node;
+      :Chain(intermediate, tgt);
+    }
+  }
+}
+
+In the example given above, three nodes a,b,c of types A,B,C
+connected by undirected edges are searched, and if found, b gets deleted, but:
+a) only if b is connected to a further node cc of type C,
+with its attribute a holding the string value "foo", as specified 
+by the first independent; note that cc might be identical with c.
+b) only if there is an iterated path of directed edges from c to a.
+If there would be such an path containing b in the host graph, 
+it would get matched. The same path specified in the pattern of the rule 
+- not in the independent - would not get matched, as b was already matched
+and is thus locked by the isomorphy constraint.
+
+Further changes regarding homomorphy/isomorphy of matching were:
+-hom declarations are inherited into nested negatives now
+-hom delarations are non-transitive by now 
+ (i.e. hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
+-negatives occuring within an subpattern were not completely independent 
+ from the subpattern derivations leading to this positions, 
+ some elements from outer subpatterns were locked, others weren't.
+ This allowed to match breath-structures (as Blowball) without the iterated
+ block, but was limited to one subpattern per pattern and, in essence,
+ semantically broken. This is fixed now, negatives and independents occuring 
+ within subpatterns are completely independent from the subpattern derivation
+ path on which they get applied.
+
+*Application programming interface:
+-----------------------------------
+
+Generation of an action interface per action, implemented by the action class, 
+plus an action-interface-typed member per action in actions class instance
+Action interface with exactly typed input parameters, matches object, output parameters
+(for the match / modify / apply methods)
+Old input parameters semantics - silently failing rule application on wrong type -
+now only available with syntax r(x:ExactType<InexactType>)
+	
+todo: die hier aufgeführten spezifikationen testen, ob sie auch tun ;)
+
+todo: weiter
+
+
