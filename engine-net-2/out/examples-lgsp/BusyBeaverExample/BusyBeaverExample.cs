@@ -85,7 +85,7 @@ namespace BusyBeaver
             // Using a graph rewrite sequence with the new and more expressive syntax
             actions.ApplyGraphRewriteSequence(
                   @"(
-                       (vla=((curValue:WriteValue)=readOneRule(curState, curPos)) && !vla
+                       ((curValue:WriteValue)=readOneRule(curState, curPos)
                        || (curValue)=readZeroRule(curState,curPos))
                     && (ensureMoveLeftValidRule(curValue, curPos)
                        || ensureMoveRightValidRule(curValue, curPos)
