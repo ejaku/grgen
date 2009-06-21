@@ -5,7 +5,7 @@
   - optional block matching at most once implemented
   - emitpre (before emitting from subpatterns) and emitpost(=emit; after emitting from subpatterns)
   - independent block for specifiying positive application conditions implemented
-  - semantics of negative regarding subpatterns/subrules changed: 
+  - Semantics of negative regarding subpatterns/subrules changed: 
     negative pattern elements get matched independent from the subpatterns utilizing them
   - patternpath construct to lock subpattern derivation path in negative/independent added
   
@@ -16,37 +16,45 @@
   - GRS importer and exporter added
 
  New API:
-  - generation of an action interface per action, implemented by the action class, 
+  - Generation of an action interface per action, implemented by the action class, 
     plus an action-interface-typed member per action in actions class instance
-  - action interface with exactly typed input parameters, matches object, output parameters
+  - Action interface with exactly typed input parameters, matches object, output parameters
     (for the match / modify / apply methods)
-  - old input parameters semantics - silently failing rule application on wrong type -
+  - Old input parameters semantics - silently failing rule application on wrong type -
     now only available with syntax r(x:ExactType<InexactType>)
 
  Examples:
-  - solution to the GraBaTs 2009 Program Comprehension case study added
+  - Solution to the GraBaTs 2009 Program Comprehension case study added
     (including EMF import)
-  - completed JavaProgramGraphs sample (Grabats 2008 refactoring case solution) 
-  - rewritten ProgramGraphs sample with new iterated construct, 
+  - Completed JavaProgramGraphs sample (Grabats 2008 refactoring case solution) 
+  - Rewritten ProgramGraphs sample with new iterated construct, 
     added corresponding source code sample, including GRS import/export
-  - updated source code samples to the new 2.5 API
+  - Updated source code samples to the new 2.5 API
+
+ libGr:
+  - Added short infotags (without displaying attribute name)
+  - The labels of elements can now be removed or set to a constant string
 
  GrShell/yComp: 
-  - improved interactivity: debug apply <rule with ? as placeholders>
+  - Improved interactivity: debug apply <rule with ? as placeholders>
     allows to select wildcard elements ? by double clicking at elements in graph viewer yComp
-  - debugging much more robust to unexpected connection loss
+  - Debugging much more robust to unexpected connection loss
   - show var <variable> implemented
-  - shell / debugger now showing match parts due to all forms of subpatterns in debug mode / with %
+  - Shell / debugger now showing match parts due to all forms of subpatterns in debug mode / with %
+  - Finally implemented the help command and improved the error handling
+  - Replaced "dump edge labels (on | off)" by "dump edge [only] <type> labels (on | off | <text>)"
+  - Added "dump set node [only] <type> labels (on | off | <text>)"
+  - Added "dump add (node | edge) [only] <type> shortinfotag <member>"  
 
  Misc:
-  - semantics of hom declarations changed:
+  - Semantics of hom declarations changed:
      -hom declarations are inherited into nested negatives now
      -hom delarations are non-transitive by now (hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
-  - shorthand visited(el) for visited(el, 0)
-  - added GrGen syntax highlighting for Notepad++ 
+  - Shorthand visited(el) for visited(el, 0)
+  - Added GrGen syntax highlighting for Notepad++ 
  
  Bugs:
-  - several smashed
+  - Several smashed
 
   
 v2.1.2 (2009-02-16)

@@ -408,10 +408,354 @@ namespace de.unika.ipd.grGen.grShell
             return action;
         }
 
-        public void Help()
+        #region Help text methods
+
+        public void Help(List<String> commands)
         {
-            Console.WriteLine("TODO: Add help text");
+            if(commands.Count != 0)
+            {
+                switch(commands[0])
+                {
+                    case "new":
+                        HelpNew(commands);
+                        return;
+
+                    case "select":
+                        HelpSelect(commands);
+                        return;
+
+                    case "delete":
+                        HelpDelete(commands);
+                        return;
+
+                    case "show":
+                        HelpShow(commands);
+                        return;
+
+                    case "debug":
+                        HelpDebug(commands);
+                        return;
+
+                    case "dump":
+                        HelpDump(commands);
+                        return;
+
+                    case "map":
+                        HelpMap(commands);
+                        return;
+
+                    case "set":
+                        HelpSet(commands);
+                        return;
+
+                    case "custom":
+                        HelpCustom(commands);
+                        return;
+
+                    default:
+                        Console.WriteLine("No further help available.\n");
+                        break;
+                }
+            }
+
+            // Not mentioned: open graph, grs
+
+            Console.WriteLine("\nList of available commands:\n"
+                + " - new ...                   Creation commands\n"
+                + " - select ...                Selection commands\n"
+                + " - include <filename>        Includes and executes the given .grs-script\n"
+                + " - silence (on | off)        Switches \"new ... created\" messages on/off\n"
+                + " - delete ...                Deletes something\n"
+                + " - clear graph [<graph>]     Clears the current or the given graph\n"
+                + " - show ...                  Shows something\n"
+                + " - node type <n1> is <n2>    Tells whether the node n1 has a type compatible\n"
+                + "                             to the type of n2\n"
+                + " - edge type <e1> is <e2>    Tells whether the edge e1 has a type compatible\n"
+                + "                             to the type of e2\n"
+                + " - debug ...                 Debugging related commands\n"
+                + " - xgrs <xgrs>               Executes the given extended graph rewrite sequence\n"
+                + " - validate xgrs <xgrs>      Validates the current graph according to the\n"
+                + "                             given XGRS (true = valid)\n"
+                + " - validate [strict]         Validates the current graph according to the\n"
+                + "                             connection assertions given by the graph model.\n"
+                + "                             In strict mode, all graph elements have to be\n"
+                + "                             mentioned as part of a connection assertion\n"
+                + " - dump ...                  Dump related commands\n"
+                + " - save graph <filename>     Saves the current graph as a GrShell script\n"
+                + " - export <filename>         Exports the current graph. The extension states\n"
+                + "                             which format shall be used.\n"
+                + " - import <filename>+        Imports a graph model and/or a graph instance\n"
+                + " - echo <text>               Writes the given text to the console\n"
+                + " - custom graph ...          Graph backend specific commands\n"
+                + " - custom actions ...        Action backend specific commands\n"
+                + " - redirect emit <filename>  Redirects the GrGen emit instructions to a file\n"
+                + " - sync io                   Writes out all files (grIO framework)\n"
+                + " - parse file <filename>     Parses the given file (ASTdapter framework)\n"
+                + " - parse <text>              Parses the given string (ASTdapter framework)\n"
+                + " - randomseed (time|<seed>)  Sets the seed of the random number generator\n"
+                + "                             to the current time or the given integer\n"
+                + " - <var> = allocvisitflag    Allocates a visitor flag and assigns it to var\n"
+                + " - [<var>=]isvisited <elem> <id>  Tells whether the given element is marked as\n"
+                + "                                  visited for the given visitor and optionally\n"
+                + "                                  assigns the result to var\n"
+                + " - setvisited <elem> <id> <vis>   Marks the given element according to vis\n"
+                + "                                  for the given visitor id. vis may be true,\n"
+                + "                                  false, or a boolean variable\n"
+                + " - freevisitflag <id>        Frees the given visitor flag\n"
+                + " - resetvisitflag <id>       Unmarks all graph elements for the given visitor\n"
+                + " - map ...                   Map related commands\n"
+                + " - set ...                   Set related commands\n"
+                + " - <elem>.<member>           Shows the given graph element member\n"
+                + " - <elem>.<member> = <val>   Sets the value of the given element member\n"
+                + " - <var> = new map <t1> <t2> Creates a new map<t1, t2> variable\n"
+                + " - <var> = new set <t1>      Creates a new set<t1> variable\n"
+                + " - <var> = <expr>            Assigns var the given expression.\n"
+                + "                             Currently the expression may be:\n"
+                + "                               - null\n"
+                + "                               - <elem>\n"
+                + "                               - <elem>.<member>\n"
+                + "                               - <text>\n"
+                + "                               - <number> (integer or floating point)\n"
+                + "                               - true or false\n"
+                + " - ! <command>               Executes the given system command\n"
+                + " - help <command>*           Displays this help or help about a command\n"
+                + " - exit | quit               Exits the GrShell\n");
         }
+
+        public void HelpNew(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                Console.WriteLine("\nNo further help available.");
+            }
+
+            Console.WriteLine("\nList of available commands for \"new\":\n"
+                + " - new graph <filename> [<graphname>]\n"
+                + "   Creates a graph from the given .gm or .grg file and optionally\n"
+                + "   assigns it the given name.\n\n"
+                + " - new [<var>][:<type>['('[$=<name>,][<attributes>]')']]\n"
+                + "   Creates a node of the given type, name, and attributes and\n"
+                + "   assigns it to the given variable.\n"
+                + "   Examples:\n"
+                + "     - new :Process\n"
+                + "     - new proc1:Process($=\"first process\", speed=4.6, id=300)\n\n"
+                + " - new <srcNode> -[<var>][:<type>['('[$=<name>,][<attributes>]')']]-> <tgtNode>\n"
+                + "   Creates an edge of the given type, name, and attributes from srcNode\n"
+                + "   to tgtNode and assigns it to the given variable.\n"
+                + "   Examples:\n"
+                + "     - new n1 --> n2\n"
+                + "     - new proc1 -:next-> proc2\n"
+                + "     - new proc1 -req:request(amount=5)-> res1\n");
+        }
+
+        public void HelpSelect(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                Console.WriteLine("\nNo further help available.");
+            }
+
+            Console.WriteLine("\nList of available commands for \"select\":\n"
+                + " - select backend <dllname> [<paramlist>]\n"
+                + "   Selects the backend to be used to create graphs.\n"
+                + "   Defaults to the lgspBackend.\n\n"
+                + " - select graph <name>\n"
+                + "   Selects the given already loaded graph.\n\n"
+                + " - select actions <dllname>\n"
+                + "   Selects the actions assembly for the current graph.\n\n"
+                + " - select parser <dllname> <startmethod>\n"
+                + "   Selects the ANTLR parser assembly and the name of the start symbol method\n"
+                + "   (ASTdapter framework)\n");
+        }
+
+        public void HelpDelete(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                Console.WriteLine("\nNo further help available.");
+            }
+
+            Console.WriteLine("\nList of available commands for \"delete\":\n"
+                + " - delete node <node>\n"
+                + "   Deletes the given node from the current graph.\n\n"
+                + " - delete edge <edge>\n"
+                + "   Deletes the given edge from the current graph.\n\n"
+                + " - delete graph [<graph>]\n"
+                + "   Deletes the current or the given graph.\n");
+        }
+
+        public void HelpShow(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                Console.WriteLine("\nNo further help available.");
+            }
+
+            Console.WriteLine("\nList of available commands for \"show\":\n"
+                + " - show (nodes|edges) [[only] <type>]\n"
+                + "   Shows all nodes/edges, the nodes/edges compatible to the given type, or\n"
+                + "   only nodes/edges of the exact type.\n\n"
+                + " - show num (nodes|edges) [[only] <type>]\n"
+                + "   Shows the number of elements as above.\n\n"
+                + " - show (node|edge) types\n"
+                + "   Shows the node/edge types of the current graph model.\n\n"
+                + " - show (node|edge) (sub|super) types <type>\n"
+                + "   Shows the sub/super types of the given type.\n\n"
+                + " - show (node|edge) attributes [[only] <type>]\n"
+                + "   Shows all attributes of all types, of all types compatible to the given\n"
+                + "   type, or only of the given type.\n\n"
+                + " - show (node|edge) <elem>\n"
+                + "   Shows the attributes of the given node/edge.\n\n"
+                + " - show var <var>\n"
+                + "   Shows the value of the given variable.\n\n"
+                + " - show graph <program> [<arguments>]\n"
+                + "   Shows the current graph in VCG format with the given program.\n"
+                + "   The name of the temporary VCG file will always be the first parameter.\n"
+                + "   Example: show graph ycomp\n\n"
+                + " - show graphs\n"
+                + "   Lists the names of the currently loaded graphs.\n\n"
+                + " - show actions\n"
+                + "   Lists the available actions associated with the current graph.\n\n"
+                + " - show backend\n"
+                + "   Shows the name of the current backend and its parameters.\n");
+        }
+
+        public void HelpDebug(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                Console.WriteLine("\nNo further help available.");
+            }
+
+            // Not mentioned: debug grs
+
+            Console.WriteLine("\nList of available commands for \"debug\":\n"
+                + " - debug apply ['(' <retvars> ')' = ] <rule> ['(' <params> ')']\n"
+                + "   Applies the given rule using the parameters and assigning results.\n"
+                + "   For all '?'s used as parameters you will be asked to select the\n"
+                + "   according element in yComp.\n\n"
+                + " - debug xgrs <xgrs>\n"
+                + "   Debugs the given XGRS.\n\n"
+                + " - debug (enable | disable)\n"
+                + "   Enables/disables debug mode.\n\n"
+                + " - debug layout\n"
+                + "   Forces yComp to relayout the graph.\n\n"
+                + " - debug set layout [<algo>]\n"
+                + "   Selects the layout algorithm for yComp. If algorithm is not given,\n"
+                + "   all available layout algorithms are listed.\n\n"
+                + " - debug get layout options\n"
+                + "   Lists all available layout options for the current layout algorithm.\n\n"
+                + " - debug set layout option <name> <value>\n"
+                + "   Sets the value of the given layout option.\n\n");
+        }
+
+        public void HelpDump(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                Console.WriteLine("\nNo further help available.");
+            }
+
+            Console.WriteLine("\nList of available commands for \"dump\":\n"
+                + " - dump graph <filename>\n"
+                + "   Dumps the current graph to a file in VCG format.\n\n"
+                + " - dump set node [only] <type> <property> [<value>]\n"
+                + "   Sets dump properties for the given or all compatible node types.\n"
+                + "   If no value is given, a list of possible values is shown.\n"
+                + "   Supported properties:\n"
+                + "    - color\n"
+                + "    - bordercolor\n"
+                + "    - shape\n"
+                + "    - textcolor\n"
+                + "    - labels (on | off | <constanttext>)\n\n"
+                + " - dump set edge [only] <type> <property> [<value>]\n"
+                + "   Sets dump properties for the given or all compatible edge types.\n"
+                + "   If no value is given, a list of possible values is shown.\n"
+                + "   Supported properties:\n"
+                + "    - color\n"
+                + "    - textcolor\n"
+                + "    - labels (on | off | <constanttext>)\n\n"
+                + " - dump add (node | edge) [only] <type> exclude\n"
+                + "   Excludes the given or compatible types from dumping.\n\n"
+                + " - dump add node [only] <nodetype> group [by [hidden] <mode>\n"
+                + "                [[only] <edgetype> [with [only] adjnodetype]]]\n"
+                + "   Declares the given nodetype as a group node type.\n"
+                + "   The mode determines by which edges the adjacent nodes are grouped\n"
+                + "   into the group node. The available modes are:\n"
+                + "    - no\n"
+                + "    - incoming\n"
+                + "    - outgoing\n"
+                + "    - any\n"
+                + "   Furthermore, the edge types and the adjacent node types can be restricted.\n\n"
+                + " - dump add (node | edge) [only] <type> infotag <member>\n"
+                + "   Adds an info tag to the given or compatible node types, which is displayed\n"
+                + "   as \"<member> = <value>\" under the label of the graph element.\n\n"
+                + " - dump add (node | edge) [only] <type> shortinfotag <member>\n"
+                + "   Adds an info tag to the given or compatible node types, which is displayed\n"
+                + "   as \"<value>\" under the label of the graph element.\n");
+        }
+
+        public void HelpMap(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                Console.WriteLine("\nNo further help available.");
+            }
+
+            Console.WriteLine("\nList of available commands for \"map\":\n"
+                + " - map (<elem>.<member> | <var>) add <keyExpr> <valExpr>\n"
+                + "   Sets the value of the map for the given key.\n\n"
+                + " - map (<elem>.<member> | <var>) remove <keyExpr>\n"
+                + "   Removes the given key from the map.\n\n"
+                + " - map (<elem>.<member> | <var>) size\n"
+                + "   Prints the size of the map.\n");
+        }
+
+        public void HelpSet(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                Console.WriteLine("\nNo further help available.");
+            }
+
+            Console.WriteLine("\nList of available commands for \"set\":\n"
+                + " - set (<elem>.<member> | <var>) add <keyExpr>\n"
+                + "   Marks the given key as part of the set.\n\n"
+                + " - set (<elem>.<member> | <var>) remove <keyExpr>\n"
+                + "   Removes the given key from the set.\n\n"
+                + " - set (<elem>.<member> | <var>) size\n"
+                + "   Prints the size of the set.\n");
+        }
+
+        public void HelpCustom(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                switch(commands[1])
+                {
+                    case "graph":
+                        CustomGraph(new List<String>());
+                        return;
+
+                    case "actions":
+                        CustomActions(new List<String>());
+                        return;
+
+                    default:
+                        Console.WriteLine("\nNo further help available.");
+                        break;
+                }
+            }
+
+            Console.WriteLine("\nList of available commands for \"custom\":\n"
+                + " - custom graph:\n\n");
+            CustomGraph(new List<String>());
+            Console.WriteLine("\n - custom actions:\n\n");
+            CustomActions(new List<String>());
+            Console.WriteLine();
+        }
+
+        #endregion Help text methods
 
         public void SyncIO()
         {
@@ -2233,43 +2577,79 @@ namespace de.unika.ipd.grGen.grShell
         private GrColor? ParseGrColor(String colorName)
         {
             GrColor color;
+
+            if(colorName == null)
+                goto showavail;
+
             try
             {
                 color = (GrColor) Enum.Parse(typeof(GrColor), colorName, true);
             }
             catch(ArgumentException)
             {
-                Console.WriteLine("Unknown color: {0}\nAvailable colors are:", colorName);
-                foreach(String name in Enum.GetNames(typeof(GrColor)))
-                    Console.WriteLine(" - {0}", name);
-                return null;
+                Console.Write("Unknown color: " + colorName);
+                goto showavail;
             }
             return color;
+
+showavail:
+            Console.WriteLine("\nAvailable colors are:");
+            foreach(String name in Enum.GetNames(typeof(GrColor)))
+                Console.WriteLine(" - {0}", name);
+            Console.WriteLine();
+            return null;
         }
 
         private GrNodeShape? ParseGrNodeShape(String shapeName)
         {
             GrNodeShape shape;
+
+            if(shapeName == null)
+                goto showavail;
+
             try
             {
                 shape = (GrNodeShape) Enum.Parse(typeof(GrNodeShape), shapeName, true);
             }
             catch(ArgumentException)
             {
-                Console.WriteLine("Unknown node shape: {0}\nAvailable node shapes are:", shapeName);
-                foreach(String name in Enum.GetNames(typeof(GrNodeShape)))
-                    Console.WriteLine(" - {0}", name);
-                return null;
+                Console.Write("Unknown node shape: " + shapeName);
+                goto showavail;
             }
             return shape;
+
+showavail:
+            Console.WriteLine("\nAvailable node shapes are:", shapeName);
+            foreach(String name in Enum.GetNames(typeof(GrNodeShape)))
+                Console.WriteLine(" - {0}", name);
+            Console.WriteLine();
+            return null;
+        }
+
+        public bool SetDumpLabel(GrGenType type, String label, bool only)
+        {
+            if(type == null) return false;
+
+            if(only)
+                curShellGraph.DumpInfo.SetElemTypeLabel(type, label);
+            else
+            {
+                foreach(GrGenType subType in type.SubOrSameTypes)
+                    curShellGraph.DumpInfo.SetElemTypeLabel(subType, label);
+            }
+
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+
+            return true;
         }
 
         delegate void SetNodeDumpColorProc(NodeType type, GrColor color);
 
-        private void SetDumpColor(NodeType type, String colorName, bool only, SetNodeDumpColorProc setDumpColorProc)
+        private bool SetDumpColor(NodeType type, String colorName, bool only, SetNodeDumpColorProc setDumpColorProc)
         {
             GrColor? color = ParseGrColor(colorName);
-            if(color == null) return;
+            if(color == null) return false;
 
             if(only)
                 setDumpColorProc(type, (GrColor) color);
@@ -2281,14 +2661,16 @@ namespace de.unika.ipd.grGen.grShell
 
             if(InDebugMode)
                 debugger.UpdateYCompDisplay();
+
+            return true;
         }
 
         delegate void SetEdgeDumpColorProc(EdgeType type, GrColor color);
 
-        private void SetDumpColor(EdgeType type, String colorName, bool only, SetEdgeDumpColorProc setDumpColorProc)
+        private bool SetDumpColor(EdgeType type, String colorName, bool only, SetEdgeDumpColorProc setDumpColorProc)
         {
             GrColor? color = ParseGrColor(colorName);
-            if(color == null) return;
+            if(color == null) return false;
 
             if(only)
                 setDumpColorProc(type, (GrColor) color);
@@ -2300,32 +2682,34 @@ namespace de.unika.ipd.grGen.grShell
 
             if(InDebugMode)
                 debugger.UpdateYCompDisplay();
+
+            return true;
         }
 
-        public void SetDumpNodeTypeColor(NodeType type, String colorName, bool only)
+        public bool SetDumpNodeTypeColor(NodeType type, String colorName, bool only)
         {
-            if(type == null) return;
-            SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetNodeTypeColor);
+            if(type == null) return false;
+            return SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetNodeTypeColor);
         }
 
-        public void SetDumpNodeTypeBorderColor(NodeType type, String colorName, bool only)
+        public bool SetDumpNodeTypeBorderColor(NodeType type, String colorName, bool only)
         {
-            if(type == null) return;
-            SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetNodeTypeBorderColor);
+            if(type == null) return false;
+            return SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetNodeTypeBorderColor);
         }
 
-        public void SetDumpNodeTypeTextColor(NodeType type, String colorName, bool only)
+        public bool SetDumpNodeTypeTextColor(NodeType type, String colorName, bool only)
         {
-            if(type == null) return;
-            SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetNodeTypeTextColor);
+            if(type == null) return false;
+            return SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetNodeTypeTextColor);
         }
 
-        public void SetDumpNodeTypeShape(NodeType type, String shapeName, bool only)
+        public bool SetDumpNodeTypeShape(NodeType type, String shapeName, bool only)
         {
-            if(type == null) return;
+            if(type == null) return false;
 
             GrNodeShape? shape = ParseGrNodeShape(shapeName);
-            if(shape == null) return;
+            if(shape == null) return false;
 
             if(only)
                 curShellGraph.DumpInfo.SetNodeTypeShape(type, (GrNodeShape) shape);
@@ -2336,76 +2720,81 @@ namespace de.unika.ipd.grGen.grShell
             }
             if(InDebugMode)
                 debugger.UpdateYCompDisplay();
+
+            return true;
         }
 
-        public void SetDumpEdgeTypeColor(EdgeType type, String colorName, bool only)
+        public bool SetDumpEdgeTypeColor(EdgeType type, String colorName, bool only)
         {
-            if(type == null) return;
-            SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetEdgeTypeColor);
+            if(type == null) return false;
+            return SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetEdgeTypeColor);
         }
 
-        public void SetDumpEdgeTypeTextColor(EdgeType type, String colorName, bool only)
+        public bool SetDumpEdgeTypeTextColor(EdgeType type, String colorName, bool only)
         {
-            if(type == null) return;
-            SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetEdgeTypeTextColor);
+            if(type == null) return false;
+            return SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetEdgeTypeTextColor);
         }
 
-        public void AddDumpExcludeNodeType(NodeType nodeType, bool only)
+        public bool AddDumpExcludeNodeType(NodeType nodeType, bool only)
         {
-            if(nodeType == null) return;
+            if(nodeType == null) return false;
+
             if(only)
                 curShellGraph.DumpInfo.ExcludeNodeType(nodeType);
             else
                 foreach(NodeType subType in nodeType.SubOrSameTypes)
                     curShellGraph.DumpInfo.ExcludeNodeType(subType);
+
+            return true;
         }
 
-        public void AddDumpExcludeEdgeType(EdgeType edgeType, bool only)
+        public bool AddDumpExcludeEdgeType(EdgeType edgeType, bool only)
         {
-            if(edgeType == null) return;
+            if(edgeType == null) return false;
+
             if(only)
                 curShellGraph.DumpInfo.ExcludeEdgeType(edgeType);
             else
                 foreach(EdgeType subType in edgeType.SubOrSameTypes)
                     curShellGraph.DumpInfo.ExcludeEdgeType(subType);
+
+            return true;
         }
 
-        public void AddDumpGroupNodesBy(NodeType nodeType, bool exactNodeType, EdgeType edgeType, bool exactEdgeType,
+        public bool AddDumpGroupNodesBy(NodeType nodeType, bool exactNodeType, EdgeType edgeType, bool exactEdgeType,
                 NodeType adjNodeType, bool exactAdjNodeType, GroupMode groupMode)
         {
-            if(nodeType == null || edgeType == null || adjNodeType == null) return;
+            if(nodeType == null || edgeType == null || adjNodeType == null) return false;
+
             curShellGraph.DumpInfo.AddOrExtendGroupNodeType(nodeType, exactNodeType, edgeType, exactEdgeType,
                 adjNodeType, exactAdjNodeType, groupMode);
+
+            return true;
         }
 
-        public void SetDumpEdgeLabels(bool showLabels)
+        public bool AddDumpInfoTag(GrGenType type, String attrName, bool only, bool isshort)
         {
-            if(!GraphExists()) return;
-            if(showLabels)
-                curShellGraph.VcgFlags |= VCGFlags.EdgeLabels;
-            else
-                curShellGraph.VcgFlags &= ~VCGFlags.EdgeLabels;
-        }
-
-        public void AddDumpInfoTag(GrGenType type, String attrName, bool only)
-        {
-            if(type == null) return;
+            if(type == null) return false;
 
             AttributeType attrType = type.GetAttributeType(attrName);
             if(attrType == null)
             {
                 Console.WriteLine("Type \"" + type.Name + "\" has no attribute \"" + attrName + "\"");
-                return;
+                return false;
             }
 
+            InfoTag infoTag = new InfoTag(attrType, isshort);
             if(only)
-                curShellGraph.DumpInfo.AddTypeInfoTag(type, attrType);
+                curShellGraph.DumpInfo.AddTypeInfoTag(type, infoTag);
             else
                 foreach(GrGenType subtype in type.SubOrSameTypes)
-                    curShellGraph.DumpInfo.AddTypeInfoTag(subtype, attrType);
+                    curShellGraph.DumpInfo.AddTypeInfoTag(subtype, infoTag);
 
             if(InDebugMode)
                 debugger.UpdateYCompDisplay();
+
+            return true;
         }
 
         public void DumpReset()
@@ -2742,14 +3131,17 @@ namespace de.unika.ipd.grGen.grShell
                     }
                 }
 
-                foreach(KeyValuePair<GrGenType, List<AttributeType>> infoTag in curShellGraph.DumpInfo.InfoTags)
+                foreach(KeyValuePair<GrGenType, List<InfoTag>> infoTagPair in curShellGraph.DumpInfo.InfoTags)
                 {
                     String kind;
-                    if(infoTag.Key.IsNodeType) kind = "node";
+                    if(infoTagPair.Key.IsNodeType) kind = "node";
                     else kind = "edge";
 
-                    foreach(AttributeType attrType in infoTag.Value)
-                        sw.WriteLine("dump add " + kind + " only " + infoTag.Key.Name + " infotag " + attrType.Name);
+                    foreach(InfoTag infoTag in infoTagPair.Value)
+                    {
+                        sw.WriteLine("dump add " + kind + " only " + infoTagPair.Key.Name
+                            + (infoTag.ShortInfoTag ? " shortinfotag " : " infotag ") + infoTag.AttributeType.Name);
+                    }
                 }
 
                 if(debugLayoutOptions.Count != 0)
@@ -2941,11 +3333,11 @@ namespace de.unika.ipd.grGen.grShell
                 type1.IsA(type2) ? "yes" : "no");
         }
 
-        public void CustomGraph(ArrayList parameterList)
+        public void CustomGraph(List<String> parameterList)
         {
             if(!GraphExists()) return;
 
-            String[] parameters = (String[]) parameterList.ToArray(typeof(String));
+            String[] parameters = parameterList.ToArray();
             try
             {
                 curShellGraph.Graph.Custom(parameters);
@@ -2956,11 +3348,11 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void CustomActions(ArrayList parameterList)
+        public void CustomActions(List<String> parameterList)
         {
             if(!ActionsExists()) return;
 
-            String[] parameters = (String[]) parameterList.ToArray(typeof(String));
+            String[] parameters = parameterList.ToArray();
             try
             {
                 curShellGraph.Actions.Custom(parameters);

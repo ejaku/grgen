@@ -236,6 +236,34 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// Represents an info tag.
+    /// </summary>
+    public class InfoTag
+    {
+        /// <summary>
+        /// The attribute to be shown.
+        /// </summary>
+        public AttributeType AttributeType;
+
+        /// <summary>
+        /// Whether this is a short info tag (no attribute name is shown).
+        /// </summary>
+        public bool ShortInfoTag;
+
+        /// <summary>
+        /// Initializes an info tag.
+        /// </summary>
+        /// <param name="attrType">The attribute to be shown.</param>
+        /// <param name="shortInfoTag">Whether this is a short info tag (no attribute name is shown).</param>
+        public InfoTag(AttributeType attrType, bool shortInfoTag)
+        {
+            AttributeType = attrType;
+            ShortInfoTag = shortInfoTag;
+        }
+    }
+
+
+    /// <summary>
     /// A description of how to dump a graph.
     /// </summary>
     public class DumpInfo
@@ -261,7 +289,8 @@ namespace de.unika.ipd.grGen.libGr
         Dictionary<NodeType, GrNodeShape> nodeTypeShapes = new Dictionary<NodeType, GrNodeShape>();
         Dictionary<EdgeType, GrColor> edgeTypeColors = new Dictionary<EdgeType, GrColor>();
         Dictionary<EdgeType, GrColor> edgeTypeTextColors = new Dictionary<EdgeType, GrColor>();
-        Dictionary<GrGenType, List<AttributeType>> infoTags = new Dictionary<GrGenType, List<AttributeType>>();
+        Dictionary<GrGenType, String> elemTypeLabel = new Dictionary<GrGenType, String>();
+        Dictionary<GrGenType, List<InfoTag>> infoTags = new Dictionary<GrGenType, List<InfoTag>>();
 
         public IEnumerable<NodeType> ExcludedNodeTypes { get { return excludedNodeTypes.Keys; } }
         public IEnumerable<EdgeType> ExcludedEdgeTypes { get { return excludedEdgeTypes.Keys; } }
@@ -274,7 +303,7 @@ namespace de.unika.ipd.grGen.libGr
         public IEnumerable<KeyValuePair<EdgeType, GrColor>> EdgeTypeColors { get { return edgeTypeColors; } }
         public IEnumerable<KeyValuePair<EdgeType, GrColor>> EdgeTypeTextColors { get { return edgeTypeTextColors; } }
 
-        public IEnumerable<KeyValuePair<GrGenType, List<AttributeType>>> InfoTags { get { return infoTags; } }
+        public IEnumerable<KeyValuePair<GrGenType, List<InfoTag>>> InfoTags { get { return infoTags; } }
 
         private ElementNameGetter elementNameGetter;
 
@@ -324,6 +353,30 @@ namespace de.unika.ipd.grGen.libGr
         public bool IsExcludedEdgeType(EdgeType edgeType)
         {
             return excludedEdgeTypes.ContainsKey(edgeType);
+        }
+
+        /// <summary>
+        /// Sets the labels of the given element type.
+        /// null is the default case, which is "&lt;elemname&gt;:&lt;type&gt;".
+        /// </summary>
+        /// <param name="type">The element type.</param>
+        /// <param name="label">The label or null for the default case.</param>
+        public void SetElemTypeLabel(GrGenType type, String label)
+        {
+            elemTypeLabel[type] = label;
+        }
+
+        /// <summary>
+        /// Returns the label of the given element type or null for the default case.
+        /// </summary>
+        /// <param name="type">The element type.</param>
+        /// <returns>The label or null.</returns>
+        public String GetElemTypeLabel(GrGenType type)
+        {
+            String res;
+            if(!elemTypeLabel.TryGetValue(type, out res))
+                return null;
+            return res;
         }
 
         /// <summary>
@@ -523,31 +576,50 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns the IAttributeType for the given IType holding the info tag, if any exists
+        /// Returns a list of InfoTag objects for the given GrGenType or null.
         /// </summary>
-        /// <param name="type">The IType to be examined</param>
-        /// <returns>The IAttributeType of the info tag or NULL, if this IType has no registered info tag</returns>
-        public List<AttributeType> GetTypeInfoTags(GrGenType type)
+        /// <param name="type">The GrGenType to be examined.</param>
+        /// <returns>A list of associated InfoTag objects or null.</returns>
+        public List<InfoTag> GetTypeInfoTags(GrGenType type)
         {
-            List<AttributeType> attrTypes;
-            if(!infoTags.TryGetValue(type, out attrTypes)) return null;
-            else return attrTypes;
+            List<InfoTag> typeInfoTags;
+            if(!infoTags.TryGetValue(type, out typeInfoTags)) return null;
+            else return typeInfoTags;
         }
 
         /// <summary>
-        /// Maps an AttributeType to a GrGenType or unmaps the GrGenType, if attrType is null
+        /// Associates an InfoTag to a GrGenType.
         /// </summary>
-        /// <param name="type">The GrGenType to be mapped/unmapped</param>
-        /// <param name="attrType">The AttributeType</param>
-        public void AddTypeInfoTag(GrGenType type, AttributeType attrType)
+        /// <param name="type">The GrGenType to given an InfoTag</param>
+        /// <param name="infotag">The InfoTag</param>
+        public void AddTypeInfoTag(GrGenType type, InfoTag infoTag)
         {
-            List<AttributeType> attrTypes;
-            if(!infoTags.TryGetValue(type, out attrTypes))
+            List<InfoTag> typeInfoTags;
+            if(!infoTags.TryGetValue(type, out typeInfoTags))
             {
-                infoTags[type] = attrTypes = new List<AttributeType>();
+                infoTags[type] = typeInfoTags = new List<InfoTag>();
             }
-            attrTypes.Add(attrType);
+            typeInfoTags.Add(infoTag);
             TypeInfotagsChanged(type);
+        }
+
+        /// <summary>
+        /// Returns an info tag with the given AttributeType registered for the given element type or null.
+        /// </summary>
+        /// <param name="type">The element type.</param>
+        /// <param name="attrType">The attribute type.</param>
+        /// <returns>The info tag or null.</returns>
+        public InfoTag GetTypeInfoTag(GrGenType type, AttributeType attrType)
+        {
+            List<InfoTag> typeInfoTags;
+            if(infoTags.TryGetValue(type, out typeInfoTags))
+            {
+                foreach(InfoTag infotag in typeInfoTags)
+                {
+                    if(infotag.AttributeType == attrType) return infotag;
+                }
+            }
+            return null;
         }
 
 		/// <summary>

@@ -466,38 +466,68 @@ namespace de.unika.ipd.grGen.grShell
 
         private String GetElemLabel(IGraphElement elem)
         {
-            List<AttributeType> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
-            String infoTag = "";
+            List<InfoTag> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
+            String label = dumpInfo.GetElemTypeLabel(elem.Type);
+            bool first = true;
+
+            if(label == null)
+            {
+                label = dumpInfo.GetElementName(elem) + ":" + elem.Type.Name;
+                first = false;
+            }
+
             if(infoTagTypes != null)
             {
-                foreach(AttributeType attrType in infoTagTypes)
+                foreach(InfoTag infoTag in infoTagTypes)
                 {
-                    object attr = elem.GetAttribute(attrType.Name);
+                    object attr = elem.GetAttribute(infoTag.AttributeType.Name);
                     if(attr == null) continue;
-                    infoTag += "\\n" + attrType.Name + " = " + attr.ToString();
+
+                    if(!first) label += "\\n";
+                    else first = false;
+
+                    if(infoTag.ShortInfoTag)
+                        label += attr.ToString();
+                    else
+                        label += infoTag.AttributeType.Name + " = " + attr.ToString();
                 }
             }
 
-            return dumpInfo.GetElementName(elem) + ":" + elem.Type.Name + infoTag;
+            return label;
         }
 
         private String GetElemLabelWithChangedAttr(IGraphElement elem, AttributeType changedAttrType, object newValue)
         {
-            List<AttributeType> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
-            String infoTag = "";
+            List<InfoTag> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
+            String label = dumpInfo.GetElemTypeLabel(elem.Type);
+            bool first = true;
+
+            if(label == null)
+            {
+                label = dumpInfo.GetElementName(elem) + ":" + elem.Type.Name;
+                first = false;
+            }
+
             if(infoTagTypes != null)
             {
-                foreach(AttributeType attrType in infoTagTypes)
+                foreach(InfoTag infoTag in infoTagTypes)
                 {
                     object attr;
-                    if(attrType == changedAttrType) attr = newValue;
-                    else attr = elem.GetAttribute(attrType.Name);
+                    if(infoTag.AttributeType == changedAttrType) attr = newValue;
+                    else attr = elem.GetAttribute(infoTag.AttributeType.Name);
                     if(attr == null) continue;
-                    infoTag += "\\n" + attrType.Name + " = " + attr.ToString();
+
+                    if(!first) label += "\\n";
+                    else first = false;
+
+                    if(infoTag.ShortInfoTag)
+                        label += attr.ToString();
+                    else
+                        label += infoTag.AttributeType.Name + " = " + attr.ToString();
                 }
             }
 
-            return dumpInfo.GetElementName(elem) + ":" + elem.Type.Name + infoTag;
+            return label;
         }
 
 
@@ -674,8 +704,7 @@ namespace de.unika.ipd.grGen.grShell
             String name = graph.GetElementName(node);
             ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                     + GetKindName(attrType) + "\" \"" + attrValue + "\"\n");
-            List<AttributeType> infotags = dumpInfo.GetTypeInfoTags(node.Type);
-            if(infotags != null && infotags.Contains(attrType))
+            if(dumpInfo.GetTypeInfoTag(node.Type, attrType) != null)
                 ycompStream.Write("setNodeLabel \"n" + name + "\" \""
                     + GetElemLabelWithChangedAttr(node, attrType, attrValue) + "\"\n");
             isDirty = true;
@@ -691,8 +720,8 @@ namespace de.unika.ipd.grGen.grShell
             String name = graph.GetElementName(edge);
             ycompStream.Write("changeEdgeAttr \"e" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                     + GetKindName(attrType) + "\" \"" + attrValue + "\"\n");
-            List<AttributeType> infotags = dumpInfo.GetTypeInfoTags(edge.Type);
-            if(infotags != null && infotags.Contains(attrType))
+            List<InfoTag> infotags = dumpInfo.GetTypeInfoTags(edge.Type);
+            if(dumpInfo.GetTypeInfoTag(edge.Type, attrType) != null)
                 ycompStream.Write("setEdgeLabel \"e" + name + "\" \""
                     + GetElemLabelWithChangedAttr(edge, attrType, attrValue) + "\"\n");
             isDirty = true;
@@ -705,8 +734,7 @@ namespace de.unika.ipd.grGen.grShell
             String name = graph.GetElementName(node);
             ycompStream.Write("clearNodeAttr \"e" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                     + GetKindName(attrType) + "\"\n");
-            List<AttributeType> infotags = dumpInfo.GetTypeInfoTags(node.Type);
-            if(infotags != null && infotags.Contains(attrType))
+            if(dumpInfo.GetTypeInfoTag(node.Type, attrType) != null) 
                 ycompStream.Write("setNodeLabel \"n" + name + "\" \"" + GetElemLabel(node) + "\"\n");
             isDirty = true;
         }
@@ -721,8 +749,7 @@ namespace de.unika.ipd.grGen.grShell
             String name = graph.GetElementName(edge);
             ycompStream.Write("clearEdgeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                     + GetKindName(attrType) + "\"\n");
-            List<AttributeType> infotags = dumpInfo.GetTypeInfoTags(edge.Type);
-            if(infotags != null && infotags.Contains(attrType))
+            if(dumpInfo.GetTypeInfoTag(edge.Type, attrType) != null) 
                 ycompStream.Write("setEdgeLabel \"e" + name + "\" \"" + GetElemLabel(edge) + "\"\n");
             isDirty = true;
         }

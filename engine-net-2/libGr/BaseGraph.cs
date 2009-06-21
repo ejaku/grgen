@@ -1188,19 +1188,34 @@ namespace de.unika.ipd.grGen.libGr
 
         private String GetElemLabel(IGraphElement elem, DumpInfo dumpInfo)
         {
-            List<AttributeType> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
-            String infoTag = "";
+            List<InfoTag> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
+            String label = dumpInfo.GetElemTypeLabel(elem.Type);
+            bool first = true;
+
+            if(label == null)
+            {
+                label = dumpInfo.GetElementName(elem) + ":" + elem.Type.Name;
+                first = false;
+            }
+
             if(infoTagTypes != null)
             {
-                foreach(AttributeType attrType in infoTagTypes)
+                foreach(InfoTag infoTag in infoTagTypes)
                 {
-                    object attr = elem.GetAttribute(attrType.Name);
+                    object attr = elem.GetAttribute(infoTag.AttributeType.Name);
                     if(attr == null) continue;
-                    infoTag += "\n" + attrType.Name + " = " + attr.ToString();
+
+                    if(!first) label += "\n";
+                    else first = false;
+
+                    if(infoTag.ShortInfoTag)
+                        label += attr.ToString();
+                    else
+                        label += infoTag.AttributeType.Name + " = " + attr.ToString();
                 }
             }
 
-            return dumpInfo.GetElementName(elem) + ":" + elem.Type.Name + infoTag;
+            return label;
         }
 
         internal class DumpContext

@@ -291,6 +291,7 @@ TOKEN: {
 |   < SETVISITED: "setvisited" >
 |   < SIZE: "size" >
 |   < SHAPE: "shape" >
+|   < SHORTINFOTAG: "shortinfotag" >
 |   < SHOW: "show" >
 |   < SILENCE: "silence" >
 |   < STRICT: "strict" >
@@ -483,7 +484,6 @@ bool Bool():
 
 object BoolOrVar():
 {
-	Token t;
 	object val;
 	String str;
 }
@@ -749,8 +749,7 @@ void ShellCommand():
 	Sequence seq;
 	bool strict = false, shellGraphSpecified = false, boolVal;
 	int num;
-	List<Object> paramList;
-	List<String> filenames;
+	List<String> filenames, parameters;
 }
 {
     "!" str1=CommandLine()
@@ -758,9 +757,9 @@ void ShellCommand():
         impl.ExecuteCommandLine(str1);
     }
 |    
-	"help" LineEnd()
+	"help" parameters=SpacedParametersAndLineEnd()
 	{
-		impl.Help();
+		impl.Help(parameters);
 	}
 |
 	("quit" | "exit") LineEnd()
@@ -1025,7 +1024,7 @@ void ShellCommand():
     }
     catch(ParseException ex)
     {
-        throw new ParseException("Unknown command!");
+        throw new ParseException("Unknown command. Enter \"help\" to get a list of commands.");
     }
 }
 
@@ -1040,21 +1039,31 @@ void NewCommand():
 	ElementDef elemDef;
 }
 {
-	"graph" modelFilename=Filename() (graphName=Text())? LineEnd()
+	try
 	{
-		noError = impl.NewGraph(modelFilename, graphName);
+		"graph" modelFilename=Filename() (graphName=Text())? LineEnd()
+		{
+			noError = impl.NewGraph(modelFilename, graphName);
+		}
+	|
+		LOOKAHEAD(2)
+		srcNode=Node() "-" elemDef=ElementDefinition() "->" tgtNode=Node() LineEnd()
+		{
+			noError = impl.NewEdge(elemDef, srcNode, tgtNode) != null;
+		}
+		
+	|
+		elemDef=ElementDefinition() LineEnd()
+		{
+			noError = impl.NewNode(elemDef) != null;
+		}
 	}
-|
-	LOOKAHEAD(2)
-	srcNode=Node() "-" elemDef=ElementDefinition() "->" tgtNode=Node() LineEnd()
+	catch(ParseException ex)
 	{
-		noError = impl.NewEdge(elemDef, srcNode, tgtNode) != null;
-	}
-	
-|
-	elemDef=ElementDefinition() LineEnd()
-	{
-		noError = impl.NewNode(elemDef) != null;
+		Console.WriteLine("Invalid command!");
+		impl.HelpNew(new List<String>());
+		errorSkipSilent();
+		noError = false;
 	}
 }
 
@@ -1110,25 +1119,35 @@ void SelectCommand():
 	ShellGraph shellGraph;
 }
 {
-	"backend" str=Filename() (":" Parameters(parameters))? LineEnd()
+	try
 	{
-		noError = impl.SelectBackend(str, parameters);
+		"backend" str=Filename() (":" Parameters(parameters))? LineEnd()
+		{
+			noError = impl.SelectBackend(str, parameters);
+		}
+	|
+		"graph" shellGraph=Graph() LineEnd()
+		{
+			if(shellGraph == null) noError = false;
+			else impl.SelectGraph(shellGraph);
+		}	
+	|
+		"actions" str=Filename() LineEnd()
+		{
+			noError = impl.SelectActions(str);
+		}
+	|
+		"parser" str=Filename() mainname=Text() LineEnd()
+		{
+			noError = impl.SelectParser(str, mainname);
+		}
 	}
-|
-	"graph" shellGraph=Graph() LineEnd()
+	catch(ParseException ex)
 	{
-	    if(shellGraph == null) noError = false;
-	    else impl.SelectGraph(shellGraph);
-	}	
-|
-	"actions" str=Filename() LineEnd()
-	{
-		noError = impl.SelectActions(str);
-	}
-|
-	"parser" str=Filename() mainname=Text() LineEnd()
-	{
-		noError = impl.SelectParser(str, mainname);
+		Console.WriteLine("Invalid command!");
+		impl.HelpSelect(new List<String>());
+		errorSkipSilent();
+		noError = false;
 	}
 }
 
@@ -1152,19 +1171,29 @@ void DeleteCommand():
 	bool shellGraphSpecified = false;
 }
 {
-	"node" node=Node() LineEnd()
+	try
 	{
-		noError = impl.Remove(node);
+		"node" node=Node() LineEnd()
+		{
+			noError = impl.Remove(node);
+		}
+	|
+		"edge" edge=Edge() LineEnd()
+		{
+			noError = impl.Remove(edge);
+		}
+	|
+		"graph" (shellGraph=Graph() { shellGraphSpecified = true; })? LineEnd()
+		{
+			noError = impl.DestroyGraph(shellGraph, shellGraphSpecified);
+		}
 	}
-|
-	"edge" edge=Edge() LineEnd()
+	catch(ParseException ex)
 	{
-		noError = impl.Remove(edge);
-	}
-|
-	"graph" (shellGraph=Graph() { shellGraphSpecified = true; })? LineEnd()
-	{
-	    noError = impl.DestroyGraph(shellGraph, shellGraphSpecified);
+		Console.WriteLine("Invalid command!");
+		impl.HelpDelete(new List<String>());
+		errorSkipSilent();
+		noError = false;
 	}
 }
 
@@ -1182,55 +1211,65 @@ void ShowCommand():
 	bool only = false;
 }
 {
-	"nodes" (("only" { only=true; })? nodeType=NodeType() { typeProvided=true; })? LineEnd()
+	try
 	{
-		if(!typeProvided || nodeType != null)
-			impl.ShowNodes(nodeType, only);
+		"nodes" (("only" { only=true; })? nodeType=NodeType() { typeProvided=true; })? LineEnd()
+		{
+			if(!typeProvided || nodeType != null)
+				impl.ShowNodes(nodeType, only);
+		}
+	|
+		"edges" (("only" { only=true; })? edgeType=EdgeType() { typeProvided=true; })? LineEnd()
+		{
+			if(!typeProvided || edgeType != null)
+				impl.ShowEdges(edgeType, only);
+		}
+	|
+		LOOKAHEAD(2)
+		"num" "nodes" (("only" { only=true; })? nodeType=NodeType() { typeProvided=true; })? LineEnd()
+		{
+			if(!typeProvided || nodeType != null)
+				impl.ShowNumNodes(nodeType, only);
+		}
+	|
+		"num" "edges" (("only" { only=true; })? edgeType=EdgeType() { typeProvided=true; })? LineEnd()
+		{
+			if(!typeProvided || edgeType != null)
+				impl.ShowNumEdges(edgeType, only);
+		}
+	|
+		"node" ShowNode()
+	|
+		"edge" ShowEdge()
+	|
+		"var" ShowVar()
+	|
+		"graph" str=Filename() (args=Text())? LineEnd()
+		{
+			impl.ShowGraphWith(str, args);
+		}
+	|
+		"graphs" LineEnd()
+		{
+			impl.ShowGraphs();
+		}
+	|
+		"actions" LineEnd()
+		{
+			impl.ShowActions();
+		}
+	|
+		"backend" LineEnd()
+		{
+			impl.ShowBackend();
+		}
 	}
-|
-	"edges" (("only" { only=true; })? edgeType=EdgeType() { typeProvided=true; })? LineEnd()
+	catch(ParseException ex)
 	{
-		if(!typeProvided || edgeType != null)
-			impl.ShowEdges(edgeType, only);
-	}
-|
-	LOOKAHEAD(2)
-	"num" "nodes" (("only" { only=true; })? nodeType=NodeType() { typeProvided=true; })? LineEnd()
-	{
-		if(!typeProvided || nodeType != null)
-			impl.ShowNumNodes(nodeType, only);
-	}
-|
-	"num" "edges" (("only" { only=true; })? edgeType=EdgeType() { typeProvided=true; })? LineEnd()
-	{
-		if(!typeProvided || edgeType != null)
-			impl.ShowNumEdges(edgeType, only);
-	}
-|
-	"node" ShowNode()
-|
-	"edge" ShowEdge()
-|
-	"var" ShowVar()
-|
-	"graph" str=Filename() (args=Text())? LineEnd()
-	{
-		impl.ShowGraphWith(str, args);
-	}
-|
-	"graphs" LineEnd()
-	{
-		impl.ShowGraphs();
-	}
-|
-	"actions" LineEnd()
-	{
-		impl.ShowActions();
-	}
-|
-	"backend" LineEnd()
-	{
-		impl.ShowBackend();
+		Console.WriteLine("Invalid command!");
+		impl.HelpShow(new List<String>());
+		errorSkipSilent();
+		noError = false;
 	}
 }
 
@@ -1322,83 +1361,93 @@ void DebugCommand():
     RuleObject ruleObject;
 }
 {
-	"apply" ruleObject=Rule() LineEnd()
+	try
 	{
-		if(ruleObject != null)
+		"apply" ruleObject=Rule() LineEnd()
 		{
-			noError = impl.DebugApply(ruleObject);
+			if(ruleObject != null)
+			{
+				noError = impl.DebugApply(ruleObject);
+			}
+			else noError = false;
 		}
-		else noError = false;
+	|
+		"grs" { valid = true; } seq=OldRewriteSequence() LineEnd()
+		{
+			if(valid)
+			{
+				impl.WarnDeprecatedGrs(seq);
+				impl.DebugRewriteSequence(seq);
+				noError = !impl.OperationCancelled;
+			}
+			else noError = false;
+		}
+	|
+		"xgrs" str=CommandLine()
+		{
+			try
+			{
+				seq = SequenceParser.ParseSequence(str, impl.CurrentActions, impl.CurrentGraph);
+				impl.DebugRewriteSequence(seq);
+				noError = !impl.OperationCancelled;
+			}
+			catch(SequenceParserRuleException ex)
+			{
+				impl.HandleSequenceParserRuleException(ex);
+				noError = false;
+			}
+			catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+			{
+				Console.WriteLine("Unable to execute xgrs: " + ex.Message);
+				noError = false;
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine("Unable to execute xgrs: " + ex);
+				noError = false;
+			}
+		}
+	|
+		"enable" LineEnd()
+		{
+			impl.SetDebugMode(true);
+		}
+	|
+		"disable" LineEnd()
+		{
+			impl.SetDebugMode(false);
+		}
+	|
+		"layout" LineEnd()
+		{
+			impl.DebugLayout();
+		}
+	|
+		"set" "layout"
+		(
+			"option" str=Text() str2=AnyString() LineEnd()
+			{
+				impl.SetDebugLayoutOption(str, str2);
+			}
+		|
+			(str=Text())? LineEnd()
+			{
+				impl.SetDebugLayout(str);
+			}
+		)
+	|
+		"get" "layout" "options" LineEnd()
+		{
+			impl.GetDebugLayoutOptions();
+		}
 	}
-|
-	"grs" { valid = true; } seq=OldRewriteSequence() LineEnd()
+	catch(ParseException ex)
 	{
-		if(valid)
-		{
-		    impl.WarnDeprecatedGrs(seq);
-		    impl.DebugRewriteSequence(seq);
-		    noError = !impl.OperationCancelled;
-		}
-		else noError = false;
+		Console.WriteLine("Invalid command!");
+		impl.HelpDebug(new List<String>());
+		errorSkipSilent();
+		noError = false;
 	}
-|
-    "xgrs" str=CommandLine()
-    {
-        try
-        {
-            seq = SequenceParser.ParseSequence(str, impl.CurrentActions, impl.CurrentGraph);
-            impl.DebugRewriteSequence(seq);
-            noError = !impl.OperationCancelled;
-        }
-        catch(SequenceParserRuleException ex)
-        {
-            impl.HandleSequenceParserRuleException(ex);
-            noError = false;
-        }
-        catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
-        {
-            Console.WriteLine("Unable to execute xgrs: " + ex.Message);
-            noError = false;
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine("Unable to execute xgrs: " + ex);
-            noError = false;
-        }
-    }
-|
-    "enable" LineEnd()
-    {
-        impl.SetDebugMode(true);
-    }
-|
-    "disable" LineEnd()
-    {
-        impl.SetDebugMode(false);
-    }
-|
-    "layout" LineEnd()
-    {
-        impl.DebugLayout();
-    }
-|
-    "set" "layout"
-    (
-        "option" str=Text() str2=AnyString() LineEnd()
-        {
-            impl.SetDebugLayoutOption(str, str2);
-        }
-    |
-        (str=Text())? LineEnd()
-        {
-            impl.SetDebugLayout(str);
-        }
-    )
-|
-    "get" "layout" "options" LineEnd()
-    {
-        impl.GetDebugLayoutOptions();
-    }
 }
 
 /////////////////////////////////////////
@@ -1615,18 +1664,28 @@ void DumpCommand():
 	String filename;
 }
 {
-    "graph" filename=Filename() LineEnd()
-    {
-        impl.DumpGraph(filename);
-    }
-|
-    "set" DumpSet()
-|
-    "add" DumpAdd()
-|
-	"reset" LineEnd()
+	try
 	{
-		impl.DumpReset();
+		"graph" filename=Filename() LineEnd()
+		{
+			impl.DumpGraph(filename);
+		}
+	|
+		"set" DumpSet()
+	|
+		"add" DumpAdd()
+	|
+		"reset" LineEnd()
+		{
+			impl.DumpReset();
+		}
+	}
+	catch(ParseException ex)
+	{
+		Console.WriteLine("Invalid command!");
+		impl.HelpDump(new List<String>());
+		errorSkipSilent();
+		noError = false;
 	}
 }
 
@@ -1634,51 +1693,53 @@ void DumpSet():
 {
 	NodeType nodeType;
 	EdgeType edgeType;
-	String colorName, shapeName;
+	String colorName = null, shapeName = null, labelStr = null;
 	bool labels = false, only = false;
 }
 {
 	"node" ("only" { only=true; })? nodeType=NodeType()
 	(
-		"color" colorName=Text() LineEnd()
+		"color" (colorName=Text())? LineEnd()
 		{
-			impl.SetDumpNodeTypeColor(nodeType, colorName, only);
+			noError = impl.SetDumpNodeTypeColor(nodeType, colorName, only);
 		}
-    |
-		"bordercolor" colorName=Text() LineEnd()
+	|
+		"bordercolor" (colorName=Text())? LineEnd()
 		{
-			impl.SetDumpNodeTypeBorderColor(nodeType, colorName, only);
+			noError = impl.SetDumpNodeTypeBorderColor(nodeType, colorName, only);
 		}
-    |
-		"shape" shapeName=Text() LineEnd()
+	|
+		"shape" (shapeName=Text())? LineEnd()
 		{
-			impl.SetDumpNodeTypeShape(nodeType, shapeName, only);
+			noError = impl.SetDumpNodeTypeShape(nodeType, shapeName, only);
 		}
-    |
-		"textcolor" colorName=Text() LineEnd()
+	|
+		"textcolor" (colorName=Text())? LineEnd()
 		{
-			impl.SetDumpNodeTypeTextColor(nodeType, colorName, only);
+			noError = impl.SetDumpNodeTypeTextColor(nodeType, colorName, only);
+		}
+	|
+		"labels" ("on" | "off" { labelStr = ""; } | labelStr=Text()) LineEnd()
+		{
+			noError = impl.SetDumpLabel(nodeType, labelStr, only);
 		}
 	)
 |
-	"edge"
+	"edge" ("only" { only=true; })? edgeType=EdgeType()
 	(
-	    ("only" { only=true; })? edgeType=EdgeType()
-	    (
-	        "color" colorName=Text() LineEnd()
-	        {
-		        impl.SetDumpEdgeTypeColor(edgeType, colorName, only);
-	        }
-        | 
-	        "textcolor" colorName=Text() LineEnd()
-	        {
-		        impl.SetDumpEdgeTypeTextColor(edgeType, colorName, only);
-	        }
-	    )
-    |
-		"labels" ("on" { labels = true; } | "off") LineEnd()
+		"color" (colorName=Text())? LineEnd()
 		{
-			impl.SetDumpEdgeLabels(labels);
+			noError = impl.SetDumpEdgeTypeColor(edgeType, colorName, only);
+		}
+	| 
+		"textcolor" (colorName=Text())? LineEnd()
+		{
+			noError = impl.SetDumpEdgeTypeTextColor(edgeType, colorName, only);
+		}
+	|
+		"labels" ("on" | "off" { labelStr = ""; } | labelStr=Text()) LineEnd()
+		{
+			noError = impl.SetDumpLabel(edgeType, labelStr, only);
 		}
 	)
 }
@@ -1696,7 +1757,7 @@ void DumpAdd():
 	(
 		"exclude" LineEnd()
 		{
-			impl.AddDumpExcludeNodeType(nodeType, only);
+			noError = impl.AddDumpExcludeNodeType(nodeType, only);
 		}
 	|
 		"group" 
@@ -1718,6 +1779,7 @@ void DumpAdd():
 	            case "any":      groupMode = GroupMode.GroupAllNodes;      break;
 	            default:
 	                Console.WriteLine("Group mode must be one of: no, incoming, outgoing, any");
+	                noError = false;
 	                return;
 	        }
 	        if(hidden)
@@ -1725,16 +1787,22 @@ void DumpAdd():
 	            if(groupMode == GroupMode.None)
 	            {
 	                Console.WriteLine("The 'hidden' modifier can not be used with the group mode 'no'!");
+	                noError = false;
 	                return;
 	            }
 	            groupMode |= GroupMode.Hidden;
 	        }
-            impl.AddDumpGroupNodesBy(nodeType, only, edgeType, onlyEdge, adjNodeType, onlyAdjNode, groupMode);
+            noError = impl.AddDumpGroupNodesBy(nodeType, only, edgeType, onlyEdge, adjNodeType, onlyAdjNode, groupMode);
 	    }
 	|
 		"infotag" attrName=Text() LineEnd()
 		{
-		    impl.AddDumpInfoTag(nodeType, attrName, only);
+		    noError = impl.AddDumpInfoTag(nodeType, attrName, only, false);
+	    }
+	|
+		"shortinfotag" attrName=Text() LineEnd()
+		{
+		    noError = impl.AddDumpInfoTag(nodeType, attrName, only, true);
 	    }
     )
 |
@@ -1742,12 +1810,17 @@ void DumpAdd():
 	(
 	    "exclude" LineEnd()
 	    {
-	        impl.AddDumpExcludeEdgeType(edgeType, only);
+	        noError = impl.AddDumpExcludeEdgeType(edgeType, only);
 	    }
 	|
 	    "infotag" attrName=Text() LineEnd()
 	    {
-            impl.AddDumpInfoTag(edgeType, attrName, only);
+            noError = impl.AddDumpInfoTag(edgeType, attrName, only, false);
+        }
+	|
+	    "shortinfotag" attrName=Text() LineEnd()
+	    {
+            noError = impl.AddDumpInfoTag(edgeType, attrName, only, true);
         }
 	)
 }
@@ -1764,27 +1837,37 @@ void MapCommand():
 	object keyExpr, valueExpr;
 }
 {
-	(
-		LOOKAHEAD(2) elem=GraphElement() "." str=AnyString() { usedGraphElement = true; }
-	|
-		str=Word()
-	)
-	(
-		"add" keyExpr=Expr() valueExpr=Expr() LineEnd()
-		{
-			impl.MapAdd(usedGraphElement, elem, str, keyExpr, valueExpr);
-		}
-	|
-		"remove" keyExpr=Expr() LineEnd()
-		{
-			impl.MapRemove(usedGraphElement, elem, str, keyExpr);
-		}
-	|
-		"size" LineEnd()
-		{
-			impl.MapSize(usedGraphElement, elem, str);
-		}
-	)
+	try
+	{
+		(
+			LOOKAHEAD(2) elem=GraphElement() "." str=AnyString() { usedGraphElement = true; }
+		|
+			str=Word()
+		)
+		(
+			"add" keyExpr=Expr() valueExpr=Expr() LineEnd()
+			{
+				impl.MapAdd(usedGraphElement, elem, str, keyExpr, valueExpr);
+			}
+		|
+			"remove" keyExpr=Expr() LineEnd()
+			{
+				impl.MapRemove(usedGraphElement, elem, str, keyExpr);
+			}
+		|
+			"size" LineEnd()
+			{
+				impl.MapSize(usedGraphElement, elem, str);
+			}
+		)
+	}
+	catch(ParseException ex)
+	{
+		Console.WriteLine("Invalid command!");
+		impl.HelpMap(new List<String>());
+		errorSkipSilent();
+		noError = false;
+	}
 }
 
 ////////////////////
@@ -1799,27 +1882,37 @@ void SetCommand():
 	object keyExpr;
 }
 {
-	(
-		LOOKAHEAD(2) elem=GraphElement() "." str=Text() { usedGraphElement = true; }
-	|
-		str=Word()
-	)
-	(
-		"add" keyExpr=Expr() LineEnd()
-		{
-			impl.SetAdd(usedGraphElement, elem, str, keyExpr);
-		}
-	|
-		"remove" keyExpr=Expr() LineEnd()
-		{
-			impl.SetRemove(usedGraphElement, elem, str, keyExpr);
-		}
-	|
-		"size" LineEnd()
-		{
-			impl.SetSize(usedGraphElement, elem, str);
-		}
-	)
+	try
+	{
+		(
+			LOOKAHEAD(2) elem=GraphElement() "." str=Text() { usedGraphElement = true; }
+		|
+			str=Word()
+		)
+		(
+			"add" keyExpr=Expr() LineEnd()
+			{
+				impl.SetAdd(usedGraphElement, elem, str, keyExpr);
+			}
+		|
+			"remove" keyExpr=Expr() LineEnd()
+			{
+				impl.SetRemove(usedGraphElement, elem, str, keyExpr);
+			}
+		|
+			"size" LineEnd()
+			{
+				impl.SetSize(usedGraphElement, elem, str);
+			}
+		)
+	}
+	catch(ParseException ex)
+	{
+		Console.WriteLine("Invalid command!");
+		impl.HelpSet(new List<String>());
+		errorSkipSilent();
+		noError = false;
+	}
 }
 
 ///////////////////////
@@ -1828,23 +1921,24 @@ void SetCommand():
 
 void CustomCommand():
 {
-	ArrayList parameters = new ArrayList();
+    List<String> parameters;
 }
 {
-	"graph" SpacedParametersAndLineEnd(parameters)
+	"graph" parameters=SpacedParametersAndLineEnd()
 	{
 		impl.CustomGraph(parameters);
 	}
 |
-	"actions" SpacedParametersAndLineEnd(parameters)
+	"actions" parameters=SpacedParametersAndLineEnd()
 	{
 		impl.CustomActions(parameters);
 	}
 }
 
-void SpacedParametersAndLineEnd(ArrayList parameters):
+List<String> SpacedParametersAndLineEnd():
 {
-	Token tok;
+    Token tok;
+    List<String> parameters = new List<String>();
 }
 {
     {token_source.SwitchTo(WithinAnyStrings);}
@@ -1853,6 +1947,9 @@ void SpacedParametersAndLineEnd(ArrayList parameters):
         { parameters.Add(tok.image); }
     )*
     (<NLINANYSTRINGS> | <EOF>)
+    {
+        return parameters;
+    }
 }
 
 ////////////////////
@@ -1862,6 +1959,16 @@ void SpacedParametersAndLineEnd(ArrayList parameters):
 CSHARPCODE
 void errorSkip(ParseException ex) {
 	Console.WriteLine(ex.Message);
+	Token t;
+	do
+	{
+		t = GetNextToken();
+	}
+	while(t.kind != EOF && t.kind != NL && t.kind != NLINFILENAME);
+}
+
+CSHARPCODE
+void errorSkipSilent() {
 	Token t;
 	do
 	{
