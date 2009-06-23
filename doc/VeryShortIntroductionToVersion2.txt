@@ -333,7 +333,7 @@ Changes from 2.1 to 2.5:
 
 Import/Export:
   GrGen natively supports the following formats:
-   - GRS: GrShell script files (graph only)
+   - GRS: GrShell script files (graph only; a very limited version of the normal grs)
    - GXL: Graph exchange language (graph only, see http://www.gupro.de/GXL/)
    - EMF/ECORE: Eclipse Modeling Framework (model and graph; partial and only import).
         .ecore files describe the graph models, .xmi files the graph instances.
@@ -487,15 +487,44 @@ Further changes regarding homomorphy/isomorphy of matching were:
 *Application programming interface:
 -----------------------------------
 
-Generation of an action interface per action, implemented by the action class, 
-plus an action-interface-typed member per action in actions class instance
-Action interface with exactly typed input parameters, matches object, output parameters
-(for the match / modify / apply methods)
-Old input parameters semantics - silently failing rule application on wrong type -
-now only available with syntax r(x:ExactType<InexactType>)
-	
+For every action=rule or test in the Bar.grg, 
+several classes are generated in namespace Action_Bar.
+For example for a rule foo, you get
+- a LGSPRulePattern-object Rule_foo containing:
+  - a match interface IMatch_foo which defines how a match of the rule looks
+    like, extending the (old) rule-unspecific IMatch interface.
+  - and internal: a match implementation Match_foo.
+  - and internal: a description of the pattern to match.
+  - and internal: the modify methods doing the rewriting.
+- an action interface IAction_foo which contains the methods:
+  - Match, to match the pattern in the host graph,
+     with in parameters corresponding to the in parameters of the rule,
+	 returning matches of type Rule_foo.IMatch_foo.
+  - Modify, to modify a given match according to the rewrite specification,
+     with out parameters corresponding to the out parameters of the rule.
+  - Apply, to match and modify the found match 
+     with in parameters corresponding to the in parameters of the rule,
+     with ref parameters corresponding to the out parameters of the rule.
+- and internal: its implementation Action_foo,
+   extending the (old) rule-unspecific IAction interface,
+   containing the generated matcher program(s) searching for the pattern.
+The action instances are available in the BarActions class,
+  as member foo of type IAction_foo.
+These files and classes use further classes representing the node and edge types,
+which are generated in namespace Model_Bla, according to the model file Bla.gm.
+
+The actions expect inputs of correct type; the old input parameters semantics
+of silently failing rule application on a wrong type is now only available 
+with the syntax "r(x:ExactType<InexactType>)", with InexactType showing up in the API,
+and the rule failing if the given element is not of ExactType)
+
+*Semantic changes:
+------------------
+todo (take text written for iterated/independent into account)
+
+
+*Further, smaller extensions and changes are given in the change log*
+
 todo: die hier aufgeführten spezifikationen testen, ob sie auch tun ;)
-
-todo: weiter
-
-
+was / wozu des ding im frontend alternatives -- ein bug?
+iterated/multiple - bessere namen?

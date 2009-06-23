@@ -1,65 +1,65 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGr", "libGr\libGr.csproj", "{57A2E7A1-058E-4EBD-85E9-A65C3304FA49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGr", "src\libGr\libGr.csproj", "{57A2E7A1-058E-4EBD-85E9-A65C3304FA49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrShell", "GrShell\GrShell.csproj", "{780E231D-7BFE-40E2-AA69-399AECB294DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrShell", "src\GrShell\GrShell.csproj", "{780E231D-7BFE-40E2-AA69-399AECB294DE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{57A2E7A1-058E-4EBD-85E9-A65C3304FA49} = {57A2E7A1-058E-4EBD-85E9-A65C3304FA49}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lgspBackend", "lgspBackend\lgspBackend.csproj", "{28747063-D1D2-4626-B1F1-84CC201B2063}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lgspBackend", "src\lgspBackend\lgspBackend.csproj", "{28747063-D1D2-4626-B1F1-84CC201B2063}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrShellBenchmarker", "GrShellBenchmarker\GrShellBenchmarker.csproj", "{E633B507-F9FC-4F97-8649-BBD33361AB09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrShellBenchmarker", "tools\GrShellBenchmarker\GrShellBenchmarker.csproj", "{E633B507-F9FC-4F97-8649-BBD33361AB09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spBench", "spBench\spBench.csproj", "{17B1C694-F545-4621-BBE5-0B9037A2D664}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spBench", "tools\spBench\spBench.csproj", "{17B1C694-F545-4621-BBE5-0B9037A2D664}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASTdapter", "ASTdapter\ASTdapter.csproj", "{611BE482-BA91-4BA8-A4EF-5D628A913041}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASTdapter", "src\ASTdapter\ASTdapter.csproj", "{611BE482-BA91-4BA8-A4EF-5D628A913041}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrIO", "GrIO\GrIO.csproj", "{7ECF099A-B6B1-4863-A949-A9ABB8955EAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrIO", "src\GrIO\GrIO.csproj", "{7ECF099A-B6B1-4863-A949-A9ABB8955EAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrGen", "GrGen\GrGen.csproj", "{88C2E9E9-1EF9-409E-BF92-40602F4DA91A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrGen", "src\GrGen\GrGen.csproj", "{88C2E9E9-1EF9-409E-BF92-40602F4DA91A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarker", "Benchmarker\Benchmarker.csproj", "{25C61E4A-5D75-4B8C-A85D-EB9CFDB8F9CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarker", "tools\Benchmarker\Benchmarker.csproj", "{25C61E4A-5D75-4B8C-A85D-EB9CFDB8F9CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusyBeaverExample", "out\examples-lgsp\BusyBeaverExample\BusyBeaverExample.csproj", "{82ABEC10-35CB-4455-93CA-732DFB53E024}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusyBeaverExample", "examples-api\BusyBeaverExample\BusyBeaverExample.csproj", "{82ABEC10-35CB-4455-93CA-732DFB53E024}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples-LGSP", "Examples-LGSP", "{79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}"
 	ProjectSection(SolutionItems) = preProject
 		out\examples-lgsp\README.txt = out\examples-lgsp\README.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MutexDirectExample", "out\examples-lgsp\MutexDirectExample\MutexDirectExample.csproj", "{078429F1-A76D-41B9-823B-6855A2B9A188}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MutexDirectExample", "examples-api\MutexDirectExample\MutexDirectExample.csproj", "{078429F1-A76D-41B9-823B-6855A2B9A188}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Util", "Util", "{2D0AFB3F-4243-4CE2-9A96-2B02425EAFF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YCompExample", "out\examples-lgsp\YCompExample\YCompExample.csproj", "{7F694C8F-C781-46FA-935F-0B0BBCC0B9DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YCompExample", "examples-api\YCompExample\YCompExample.csproj", "{7F694C8F-C781-46FA-935F-0B0BBCC0B9DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloMutex", "out\examples-lgsp\HelloMutex\HelloMutex.csproj", "{E85C49AA-619C-4A4C-8D3D-BD73ED2D52CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloMutex", "examples-api\HelloMutex\HelloMutex.csproj", "{E85C49AA-619C-4A4C-8D3D-BD73ED2D52CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{18C76E00-FF98-4C34-A11C-A2F58C35876B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "tools\test\test.csproj", "{18C76E00-FF98-4C34-A11C-A2F58C35876B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBench", "TestBench\TestBench.csproj", "{41B25111-5B8F-45A6-9824-47D1766AAE9D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBench", "tools\TestBench\TestBench.csproj", "{41B25111-5B8F-45A6-9824-47D1766AAE9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNTExample", "out\examples-lgsp\TNTExample\TNTExample.csproj", "{70206EDB-B613-4D8B-9A4E-870FB5DAE1D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNTExample", "examples-api\TNTExample\TNTExample.csproj", "{70206EDB-B613-4D8B-9A4E-870FB5DAE1D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlternativeExample", "out\examples-lgsp\AlternativeExample\AlternativeExample.csproj", "{BA28BE01-2982-484B-9086-E6A7FA7C3E47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlternativeExample", "examples-api\AlternativeExample\AlternativeExample.csproj", "{BA28BE01-2982-484B-9086-E6A7FA7C3E47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecursiveExample", "out\examples-lgsp\RecursiveExample\RecursiveExample.csproj", "{F3CACF35-E9C7-4836-9D6C-9B04AAD0BBEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecursiveExample", "examples-api\RecursiveExample\RecursiveExample.csproj", "{F3CACF35-E9C7-4836-9D6C-9B04AAD0BBEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "edge1Example", "out\examples-lgsp\edge1Example\edge1Example.csproj", "{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "edge1Example", "examples-api\edge1Example\edge1Example.csproj", "{0EA9FE1F-64D8-4D50-83AE-FAAE48F2F04B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgramGraphsExample", "out\examples-lgsp\ProgramGraphsExample\ProgramGraphsExample.csproj", "{C0042662-3CB1-4421-B724-FEE757888F62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgramGraphsExample", "examples-api\ProgramGraphsExample\ProgramGraphsExample.csproj", "{C0042662-3CB1-4421-B724-FEE757888F62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitedExample", "out\examples-lgsp\VisitedExample\VisitedExample.csproj", "{0B80748D-A320-49A0-8FC3-9AB24DF3BB52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitedExample", "examples-api\VisitedExample\VisitedExample.csproj", "{0B80748D-A320-49A0-8FC3-9AB24DF3BB52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gxl2grs", "gxl2grs\gxl2grs.csproj", "{FA735139-5370-4EEC-927C-856F62A2A396}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gxl2grs", "tools\gxl2grs\gxl2grs.csproj", "{FA735139-5370-4EEC-927C-856F62A2A396}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndependentExample", "out\examples-lgsp\IndependentExample\IndependentExample.csproj", "{70246EDB-B613-4D8C-9A4E-870FB5DAE1D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndependentExample", "examples-api\IndependentExample\IndependentExample.csproj", "{70246EDB-B613-4D8C-9A4E-870FB5DAE1D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaProgramGraphsExample", "out\examples-lgsp\JavaProgramGraphsExample\JavaProgramGraphsExample.csproj", "{C0042662-3DB1-2321-B874-FEE757868F62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaProgramGraphsExample", "examples-api\JavaProgramGraphsExample\JavaProgramGraphsExample.csproj", "{C0042662-3DB1-2321-B874-FEE757868F62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IteratedExample", "out\examples-lgsp\IteratedExample\IteratedExample.csproj", "{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IteratedExample", "examples-api\IteratedExample\IteratedExample.csproj", "{E85C49AB-719C-5A4C-9D3D-CD73ED2D52CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
