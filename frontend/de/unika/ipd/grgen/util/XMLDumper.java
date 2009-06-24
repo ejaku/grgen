@@ -63,7 +63,7 @@ public class XMLDumper {
 		for(Iterator<String> it = fields.keySet().iterator(); it.hasNext();) {
 			Object obj = it.next();
 			Object val = fields.get(obj);
-			if(!(val instanceof Iterator)) {
+			if(!(val instanceof Iterator<?>)) {
 				ps.print(' ');
 				ps.print(obj);
 				ps.print("=\"");

@@ -87,19 +87,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private class IdGenerator<T> {
 		LinkedHashMap<T, Integer> idMap = new LinkedHashMap<T, Integer>();
 
-		int startIndex = 0;
 		int offset = 0;
-
-		public void setStartIndex(int startIndex)
-		{
-			if(getMaxIndex() >= 0)
-			{
-				System.out.println("startIndex cannot be changed after keys have been generated!");
-				return;
-			}
-
-			this.startIndex = startIndex;
-		}
 
 		public int getNewKey() {
 			offset++;
@@ -119,12 +107,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 		public int getMaxIndex()
 		{
-			return (idMap.size() + startIndex + offset - 1);
-		}
-
-		public boolean contains(T elem)
-		{
-			return(idMap.containsKey(elem));
+			return (idMap.size() + offset - 1);
 		}
 	}
 

@@ -268,7 +268,7 @@ public class PatternGraphNode extends GraphNode {
 
 	private PatternGraphNode getParentPatternGraph() {
 		for (BaseNode parent : getParents()) {
-			if (!(parent instanceof CollectNode)) continue;
+			if (!(parent instanceof CollectNode<?>)) continue;
 
 			for (BaseNode grandParent : parent.getParents()) {
 				if (grandParent instanceof PatternGraphNode) {
@@ -388,12 +388,12 @@ public class PatternGraphNode extends GraphNode {
 			gr.addCondition(op);
 		}
 	}
-	
+
 	protected void addParamsToConnections(CollectNode<BaseNode> params)
     {
     	for (BaseNode n : params.getChildren()) {
 			if(n instanceof VarDeclNode) continue;
-			
+
 			// directly nesting lhs pattern is null for parameters of lhs pattern
 			// because it doesn't exist at the time the parameters are parsed -> fix it in here
 			if(n instanceof SingleNodeConnNode) {
@@ -406,7 +406,7 @@ public class PatternGraphNode extends GraphNode {
 				ConnectionNode cn = (ConnectionNode)n;
 				((EdgeDeclNode)cn.edgeUnresolved).directlyNestingLHSGraph = this;
 			}
-			
+
             connectionsUnresolved.addChild(n);
         }
     }

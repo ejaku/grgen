@@ -33,7 +33,7 @@ public class CollectChecker implements Checker
 	 *  @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter) */
 	public boolean check(BaseNode node, ErrorReporter reporter)
 	{
-		if(node instanceof CollectNode) {
+		if(node instanceof CollectNode<?>) {
 			boolean result = true;
 			for(BaseNode n : node.getChildren()) {
 				result = childChecker.check(n, reporter) && result;
