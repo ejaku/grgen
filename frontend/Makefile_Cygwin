@@ -8,7 +8,7 @@ JARGS_JAR  = jars/jargs.jar
 
 ANTLR = java -cp ../../../../../../$(ANTLR_JAR) org.antlr.Tool
 
-GRGENNET_DIR ?= ../engine-net-2/out/bin
+GRGENNET_DIR ?= ../engine-net-2/bin
 GRGEN_JAR = $(GRGENNET_DIR)/grgen.jar
 
 all:	grgen
