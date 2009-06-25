@@ -5,7 +5,7 @@ trap "echo; exit 1" INT QUIT HUP TERM
 GRGENDIR=".."
 JARGS="$GRGENDIR/jars/jargs.jar"
 ANTLR="$GRGENDIR/jars/antlr.jar"
-[ "$GRGENNET" ] || GRGENNET="$GRGENDIR/../engine-net-2/out/bin/"
+[ "$GRGENNET" ] || GRGENNET="$GRGENDIR/../engine-net-2/bin/"
 BE_CSC=de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2
 
 
