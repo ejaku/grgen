@@ -1,7 +1,7 @@
 /*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 2.5
  * Copyright (C) 2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
- * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
+ * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  */
 
 /**
@@ -493,10 +493,8 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 			PatternGraph left = pattern.getPatternGraph();
 			PatternGraph right = this.right.children.get(0).getPatternGraph(left);
 		
-			for(Node node : right.getNodes())
-			{
-				if(node.getPointOfDefinition()!=right)
-				{
+			for(Node node : right.getNodes()) {
+				if(node.getPointOfDefinition()!=right) {
 					/*TODO*/;
 				}
 			}

@@ -1,7 +1,7 @@
 /*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 2.5
  * Copyright (C) 2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
- * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
+ * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  */
 
 //todo: auch ANTLR-header umschreiben - dazu .g-Datei, 2te Zeile nach header { verarbeiten
@@ -91,7 +91,7 @@ namespace ChangeFileHeaders
             line = reader.ReadLine();
             if (line == null || !line.Contains("Copyright (C)")) goto close_and_fail;
             line = reader.ReadLine();
-            if (line == null || !line.Contains("licensed under GPL")) goto close_and_fail;
+            if (line == null || !line.Contains("licensed under ")) goto close_and_fail;
             line = reader.ReadLine();
             if (line == null || !line.EndsWith("*/")) goto close_and_fail;
             reader.Close();
@@ -128,7 +128,7 @@ namespace ChangeFileHeaders
             lines[0] = "/*";
             lines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET 2.5";
             lines[2] = " * Copyright (C) 2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos";
-            lines[3] = " * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)";
+            lines[3] = " * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)";
             lines[4] = " */";
 
             if (file.Name == "AssemblyInfo.cs")
@@ -138,11 +138,11 @@ namespace ChangeFileHeaders
                 for (int i = 0; i < lines.Length; ++i)
                 {
                     if (lines[i].StartsWith("[assembly: AssemblyVersion("))
-                        lines[i] = "[assembly: AssemblyVersion(\"2.5.25868.0\")]";
+                        lines[i] = "[assembly: AssemblyVersion(\"2.5.26185.0\")]";
                     if (lines[i].StartsWith("[assembly: AssemblyInformationalVersionAttribute("))
                         lines[i] = "[assembly: AssemblyInformationalVersionAttribute(\"GrGen.NET 2.5\")]";
                     if (lines[i].StartsWith("[assembly: AssemblyFileVersion("))
-                        lines[i] = "[assembly: AssemblyFileVersion(\"2.5.25868.0\")]";
+                        lines[i] = "[assembly: AssemblyFileVersion(\"2.5.26185.0\")]";
                     if (lines[i].StartsWith("[assembly: AssemblyCopyright("))
                         lines[i] = "[assembly: AssemblyCopyright(\"Copyright © 2009 Universität Karlsruhe, IPD Goos\")]";
                     if (lines[i].StartsWith("[assembly: AssemblyCompany("))
@@ -166,7 +166,7 @@ namespace ChangeFileHeaders
             extendedLines[0] = "/*";
             extendedLines[1] = " * GrGen: graph rewrite generator tool -- release GrGen.NET 2.5";
             extendedLines[2] = " * Copyright (C) 2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos";
-            extendedLines[3] = " * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)";
+            extendedLines[3] = " * licensed under L6GPL v3 (see LICENSE.txt included in the packaging of this file)";
             extendedLines[4] = " */";
 
             extendedLines[5] = "";

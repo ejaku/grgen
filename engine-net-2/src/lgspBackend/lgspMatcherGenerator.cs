@@ -1,7 +1,7 @@
 /*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 2.5
  * Copyright (C) 2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
- * licensed under GPL v3 (see LICENSE.txt included in the packaging of this file)
+ * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  */
 
 #define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
