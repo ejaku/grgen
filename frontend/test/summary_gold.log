@@ -196,6 +196,8 @@ OK     should_pass/induced_102.grg
 OK     should_pass/inh_attrib_001.grg
 OK     should_pass/inh_attrib_002.grg
 OK     should_pass/inh_attrib_003.grg
+OK     should_pass/iterated_001.grg
+OK     should_pass/iterated_002.grg
 OK     should_pass/map_001.grg
 OK     should_pass/map_002.grg
 OK     should_pass/map_003.grg
@@ -284,7 +286,7 @@ OK     should_pass/to_009.grg
 OK     should_pass/typeof_001.grg
 OK     should_pass/unary_001.grg
 OK     should_pass/visit_001.grg
-WARNED should_warn/attrib_100.grg
+OK     should_warn/attrib_100.grg
 WARNED should_warn/basic_003.grg
 WARNED should_warn/basic_025.grg
 WARNED should_warn/basic_200.grg
@@ -317,8 +319,8 @@ WARNED should_warn/induced_004.grg
 WARNED should_warn/induced_005.grg
 FAILED should_warn/retype_001.grg
 FAILED should_warn/retype_101.grg
-OK     should_fail/alternative_001.grg
-OK     should_fail/alternative_002.grg
+ERROR  should_fail/alternative_001.grg
+ERROR  should_fail/alternative_002.grg
 ERROR  should_fail/alternative_003.grg
 OK     should_fail/alternative_004.grg
 ERROR  should_fail/alternative_005.grg
@@ -582,8 +584,6 @@ ERROR  should_fail/hom_ret_006.grg
 ERROR  should_fail/independent_001.grg
 ERROR  should_fail/independent_002.grg
 ERROR  should_fail/independent_003.grg
-ERROR  should_fail/independent_004.grg
-ERROR  should_fail/independent_005.grg
 ERROR  should_fail/independent_006.grg
 ERROR  should_fail/induced_001.grg
 ERROR  should_fail/induced_002.grg
@@ -639,8 +639,6 @@ ERROR  should_fail/model_init_002.grg
 ERROR  should_fail/negative_001.grg
 ERROR  should_fail/negative_002.grg
 ERROR  should_fail/negative_003.grg
-ERROR  should_fail/negative_004.grg
-ERROR  should_fail/negative_005.grg
 ERROR  should_fail/negative_006.grg
 ERROR  should_fail/object_001.grg
 ERROR  should_fail/object_002.grg
