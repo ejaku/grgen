@@ -1,3 +1,7 @@
+#This is the GrGen.NET solution to the Program Comprehension case of Grabats 2009,
+#part 1 -- Filtering
+#larger sets are available from http://www.emn.fr/x-info/atlanmod/index.php/GraBaTs_2009_Case_Study
+
 import JDTAST.ecore set0.xmi task1.grg Q1View.ecore
 show num nodes
 show num edges
