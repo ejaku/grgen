@@ -1,18 +1,15 @@
-﻿v2.5RC (2009-06-15)
+﻿v2.5 (2009-06-28)
  Advanced subpattern/subrule features:
   - iterated block matching contained subpattern as often as possible implemented
   - multiple block as an iterated block requiring at least one match added
   - optional block matching contained subpattern (eagerly) at most once implemented
-  - emitpre (before emitting from subpatterns) and emitpost(=emit; after emitting from subpatterns)
   - independent block for specifiying positive application conditions implemented
-  - Semantics of negative regarding subpatterns/subrules changed (semantic bug fixed):  
-    negative pattern elements get matched independent from the subpatterns utilizing them
-  - patternpath construct to lock subpattern derivation path in negative/independent added
+  - emitpre (before emitting from subpatterns) and emitpost(=emit; after emitting from subpatterns)
   
  Im/Export:
   - import/export commands added to GrShell, porter module added to LibGr
-  - EMF / ECore importer added
   - GXL importer and exporter added
+  - EMF / ECore importer added
   - GRS importer and exporter added
 
  New API:
@@ -23,6 +20,13 @@
   - Old input parameters semantics - silently failing rule application on wrong type -
     now only available with syntax r(x:ExactType<InexactType>)
 
+ Semantic changes:
+  - Semantics of negative regarding subpatterns/subrules changed:  
+    negative pattern elements get matched independent from the subpatterns utilizing them
+	(explicit patternpath/pattern statement in the negative/independent needed for old behaviour)
+  - hom declarations are inherited into nested negatives/independents now
+  - hom delarations are non-transitive by now (hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
+  
  Examples:
   - Solution to the GraBaTs 2009 Program Comprehension case study added
     (including EMF import)
@@ -48,9 +52,6 @@
   - Added "dump add (node | edge) [only] <type> shortinfotag <member>"  
 
  Misc:
-  - Semantics of hom declarations changed:
-     -hom declarations are inherited into nested negatives now
-     -hom delarations are non-transitive by now (hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
   - Shorthand visited(el) for visited(el, 0)
   - Added GrGen syntax highlighting for Notepad++ 
  
