@@ -1,0 +1,15 @@
+new graph "iterated\blowball"
+
+xgrs (stem)=initStem
+
+show num nodes
+show num edges
+xgrs blowballRootReversed(stem)
+
+xgrs BlowballReverse(stem)
+
+show num nodes
+show num edges
+xgrs blowballRootReversed(stem)
+
+quit

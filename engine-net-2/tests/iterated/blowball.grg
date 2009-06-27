@@ -48,6 +48,14 @@ test blowballRoot
 	}
 }
 
+test blowballRootReversed(stem:Node)
+{
+	stem <-- head:RootNode;
+	iterated {
+		head <-- .;
+	}
+}
+
 rule blowballRoot42
 {
 	head:RootNode;
@@ -97,4 +105,20 @@ test stemBlowball(stem:Node)
 {
 	stem --> head:Node;
 	:bb(head);
+}
+
+rule BlowballReverse(stem:Node)
+{
+	stem --> head:RootNode;
+	iterated {
+		head --> n:Node;
+		
+		replace {
+			head <-- n;
+		}
+	}
+	
+	replace { 
+		stem <-- head;
+	}
 }

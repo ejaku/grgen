@@ -1,0 +1,35 @@
+new graph "iterated\optionalMultiple"
+
+show num nodes
+show num edges
+
+xgrs (src,tgt)=init
+
+show num nodes
+show num edges
+
+xgrs oneOrMoreEdges(src,tgt)
+
+xgrs addDirected(src,tgt)
+
+show num nodes
+show num edges
+
+xgrs oneOrMoreEdges(src,tgt)
+
+xgrs addDirected(src,tgt)
+
+show num nodes
+show num edges
+
+xgrs oneOrMoreEdges(src,tgt)
+
+xgrs oneOrMoreEdgesDelete(src,tgt)
+
+show num nodes
+show num edges
+
+visID = allocvisitflag
+freevisitflag visID
+
+quit
