@@ -331,27 +331,6 @@ map <mapname> size - prints out the number of map entries
 Changes from 2.1 to 2.5:
 ------------------------
 
-Import/Export:
-  GrGen natively supports the following formats:
-   - GRS: GrShell script files (graph only; a very limited version of the normal grs)
-   - GXL: Graph exchange language (graph only, see http://www.gupro.de/GXL/)
-   - EMF/ECORE: Eclipse Modeling Framework (model and graph; partial and only import).
-        .ecore files describe the graph models, .xmi files the graph instances.
-
-  Import:
-    To import a graph model and/or a graph instance you can either use
-    Porter.Import() from the libGr API, or use the GrShell command "import <filename>+".
-    In any case the file format is determined by the file extensions.
-    While both GRS and GXL importers expect exactly one file, the EMF/ECORE importer
-    expects first one or more .ecore files and following optionally a .xmi files and/or
-    a .grg file. To use additional custom graph models you should supply an own .grg
-    file which may be based on the automatically generated .grg file, if none was
-    supplied (see the GraBaTs09-Program-Comprehension example).
-
-  Export:
-    To export a graph instance you can either use Porter.Export() from the libGr API,
-    or use the GrShell command "export <filename>".
-
 *Iterated block and its siblings:
 ---------------------------------
 
@@ -423,8 +402,8 @@ matching its subpattern does not cause the matching of the enclosing pattern
 to fail, but is necessary in order for the matching of the enclosing pattern
 to succeed. It shares with the negative pattern its independence from the 
 enclosing pattern, i.e. host graph elements already matched to elements of the
-enclosing pattern may get matched again in the nested pattern, 
-they are not locked - this is in contrast to the normal mode of matching within
+enclosing pattern may get matched again in the nested pattern, they are not
+locked/part of if - this is in contrast to the normal mode of matching within
 one pattern, which is isomorphic by default (it is forbidden to match one 
 host graph element by several pattern elements (unless explicitely specified 
 by the hom(a,b) construct)). As it only represents an application condition,
@@ -471,19 +450,31 @@ it would get matched. The same path specified in the pattern of the rule
 - not in the independent - would not get matched, as b was already matched
 and is thus locked by the isomorphy constraint.
 
-Further changes regarding homomorphy/isomorphy of matching were:
--hom declarations are inherited into nested negatives now
--hom delarations are non-transitive by now 
- (i.e. hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
--negatives occuring within an subpattern were not completely independent 
- from the subpattern derivations leading to this positions, 
- some elements from outer subpatterns were locked, others weren't.
- This allowed to match breath-structures (as Blowball) without the iterated
- block, but was limited to one subpattern per pattern and, in essence,
- semantically broken. This is fixed now, negatives and independents occuring 
- within subpatterns are completely independent from the subpattern derivation
- path on which they get applied.
+ 
+*Import/Export:
+---------------
 
+GrGen natively supports the following formats:
+ - GRS: GrShell script files (graph only; a very limited version of the normal grs)
+ - GXL: Graph exchange language (graph only, see http://www.gupro.de/GXL/)
+ - EMF/ECORE: Eclipse Modeling Framework (model and graph; partial and only import).
+      .ecore files describe the graph models, .xmi files the graph instances.
+
+Import:
+To import a graph model and/or a graph instance you can either use
+Porter.Import() from the libGr API, or use the GrShell command "import <filename>+".
+In any case the file format is determined by the file extensions.
+While both GRS and GXL importers expect exactly one file, the EMF/ECORE importer
+expects first one or more .ecore files and following optionally a .xmi files and/or
+a .grg file. To use additional custom graph models you should supply an own .grg
+file which may be based on the automatically generated .grg file, if none was
+supplied (see the GraBaTs09-Program-Comprehension example).
+
+Export:
+To export a graph instance you can either use Porter.Export() from the libGr API,
+or use the GrShell command "export <filename>".
+
+	
 *Application programming interface:
 -----------------------------------
 
@@ -520,9 +511,28 @@ and the rule failing if the given element is not of ExactType)
 
 *Semantic changes:
 ------------------
-todo (take text written for iterated/independent into account)
 
+The semantics of negative blocks regarding subpatterns/subrules were changed:
+Negative pattern elements now get matched independent from the subpatterns utilizing them.
+  Previously, negatives occuring within an subpattern were not completely independent 
+from the subpattern derivations leading to this positions, 
+the elements from outer subpatterns were locked (some - not all).
+This allowed to match breath-structures (as Blowball) without the iterated
+block, but was limited to one subpattern per pattern; with several subpatterns locking
+was implementation dependent, and thus in essence semantically broken.
+This is fixed now, negatives and independents occuring 
+within subpatterns are completely independent from the subpattern derivation
+path on which they get applied. Breadth-structures can get matched by the iterated
+or multiple block by now, which is easier, faster and more understandable.
+(Explicit patternpath/pattern statements in the negative/independent blocks
+allow for the old behaviour, with the guarantee that only the elements from the derivation
+path leading to the current negative/independent are locked, but using this feature is discouraged.)
 
+Furtheron, the semantics of hom declarations were changed.
+By now, they 
+ - get inherited into nested negatives/independents
+ - are non-transitive (hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
+  
 *Further, smaller extensions and changes are given in the change log*
 
 todo: die hier aufgeführten spezifikationen testen, ob sie auch tun ;)
