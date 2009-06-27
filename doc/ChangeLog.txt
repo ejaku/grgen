@@ -52,8 +52,9 @@
   - Added "dump add (node | edge) [only] <type> shortinfotag <member>"  
 
  Misc:
-  - Shorthand visited(el) for visited(el, 0)
+  - Changed License to LGPL v3
   - Added GrGen syntax highlighting for Notepad++ 
+  - Shorthand visited(el) for visited(el, 0)
  
  Bugs:
   - Several smashed
