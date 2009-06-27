@@ -1,4 +1,4 @@
-import JDTAST.ecore set1.xmi task1.grg Q1View.ecore
+import JDTAST.ecore set0.xmi task1.grg Q1View.ecore
 show num nodes
 show num edges
 redirect emit set1-output-grgen.xmi
