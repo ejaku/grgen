@@ -1,19 +1,20 @@
 #!/bin/bash
-#this script is used by make_release to build the binary distribution and stand alone to build beta only binary distributions
 
 GRGENDIR=GrGenNET-V$1-`date +"%F"`
 
-# export binaries and examples
-svn export https://pp.info.uni-karlsruhe.de/svn/firm/trunk/grgen/engine-net-2 $GRGENDIR
-	#keep bin, examples, examples-api,tests
-rm -rf src
-rm -rf tools
+#make beta only binary distribution
+#contains binaries, examples
+#excluded internal stuff, documentation, source code
 
-svn cat https://pp.info.uni-karlsruhe.de/svn/firm/trunk/grgen/LICENSE.txt > $GRGENDIR/LICENSE.txt
+svn export https://pp.info.uni-karlsruhe.de/svn/firm/trunk/grgen/engine-net-2 $GRGENDIR
+rm -rf $GRGENDIR/src
+rm -rf $GRGENDIR/tools
+rm $GRGENDIR/*
 
 rm -rf $GRGENDIR/examples/UML
 rm -rf $GRGENDIR/examples/Firm-IFConv
 
-# make tar
+svn cat https://pp.info.uni-karlsruhe.de/svn/firm/trunk/grgen/LICENSE.txt > $GRGENDIR/LICENSE.txt
+
 tar cjf $GRGENDIR.tar.bz2 $GRGENDIR
 zip -r $GRGENDIR.zip $GRGENDIR
