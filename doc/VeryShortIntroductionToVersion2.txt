@@ -534,7 +534,3 @@ By now, they
  - are non-transitive (hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
   
 *Further, smaller extensions and changes are given in the change log*
-
-todo: die hier aufgeführten spezifikationen testen, ob sie auch tun ;)
-was / wozu des ding im frontend alternatives -- ein bug?
-iterated/multiple - bessere namen?
