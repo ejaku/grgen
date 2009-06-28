@@ -48,6 +48,7 @@ rm -rf $GRGENDIR/examples/Firm-IFConv
 svn cat https://pp.info.uni-karlsruhe.de/svn/firm/trunk/grgen/LICENSE.txt > $GRGENDIR/LICENSE.txt
 
 cp -r $GRGENDIRSRC/doc $GRGENDIR/doc
+cp -r $GRGENDIRSRC/syntaxhighlighting $GRGENDIR/syntaxhighlighting
 
 tar cjf $GRGENDIR.tar.bz2 $GRGENDIR
 zip -r $GRGENDIR.zip $GRGENDIR
