@@ -3195,6 +3195,8 @@ showavail:
                 graph = Porter.Import(curGraphBackend, filenames);
                 System.Console.Out.WriteLine("import done after: " + (Environment.TickCount - startTime) + " ms");
                 System.Console.Out.WriteLine("graph size after import: " + System.GC.GetTotalMemory(true) + " bytes");
+                ShowNumNodes(null, false);
+                ShowNumEdges(null, false);
                 startTime = Environment.TickCount;
                 curShellGraph = new ShellGraph(graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
                 System.Console.Out.WriteLine("shell import done after: " + (Environment.TickCount - startTime) + " ms");
