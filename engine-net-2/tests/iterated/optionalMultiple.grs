@@ -42,12 +42,20 @@ xgrs foo
 xgrs unmarkEdge*
 xgrs unmarkUEdge*
 
+xgrs bar
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
 xgrs addUndirected(src, src)
 
 show num nodes
 show num edges
 
 xgrs foo
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
+xgrs bar
 xgrs unmarkEdge*
 xgrs unmarkUEdge*
 
