@@ -376,13 +376,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
-                    GenerateScheduledSearchPlans(altCase, matcherGen, isSubpattern, false);
+                    GenerateScheduledSearchPlans(altCase, matcherGen, true, false);
                 }
             }
 
             foreach (PatternGraph iter in patternGraph.iterateds)
             {
-                GenerateScheduledSearchPlans(iter, matcherGen, isSubpattern, false);
+                GenerateScheduledSearchPlans(iter, matcherGen, true, false);
             }
         }
 

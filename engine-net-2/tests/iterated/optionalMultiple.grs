@@ -29,7 +29,59 @@ xgrs oneOrMoreEdgesDelete(src,tgt)
 show num nodes
 show num edges
 
+xgrs oneOrMoreEdgesDelete(src,tgt)
+
+xgrs addDirected(src,tgt)
+
+show num nodes
+show num edges
+
 visID = allocvisitflag
+
+xgrs foo
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
+xgrs addUndirected(src, src)
+
+show num nodes
+show num edges
+
+xgrs foo
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
+xgrs addDirected(tgt, tgt)
+
+show num nodes
+show num edges
+
+xgrs foo
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
+xgrs addUndirected(tgt, tgt)
+
+show num nodes
+show num edges
+
+xgrs foo
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
+xgrs addDirected(tgt, tgt)
+
+show num nodes
+show num edges
+
+xgrs foo
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
+xgrs bar
+xgrs unmarkEdge*
+xgrs unmarkUEdge*
+
 freevisitflag visID
 
 quit

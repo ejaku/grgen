@@ -16,6 +16,7 @@ rule addNode : (Node)
 
 rule addDirected(src:Node, tgt:Node)
 {
+	hom(src, tgt);
 	modify {
 		src --> tgt;
 	}
@@ -23,21 +24,9 @@ rule addDirected(src:Node, tgt:Node)
 
 rule addUndirected(n1:Node, n2:Node)
 {
+	hom(n1, n2);
 	modify {
 		n1 -- n2;
-	}
-}
-
-rule unmark
-{
-	n:Node;
-	
-	if { visited(n,0); }
-	
-	modify {
-		eval {
-			visited(n,0) = false;
-		}
 	}
 }
 
@@ -88,12 +77,48 @@ rule oneOrMoreEdgesDelete(src:Node, tgt:Node)
 	}
 }
 
-test foo {
-	n1:Node <--> n2:Node;
+rule foo {
+	n1:Node --> n2:Node;
 	optional {
-		n1 -- n1;
+		n1 -e:UEdge- n1;
+		modify {
+			eval {
+				visited(e) = true;
+			}
+		}
 	}
 	optional {
-		n2 ?--? n2;
+		n2 ?-e:AEdge-? n2;
+		modify {
+			eval {
+				visited(e) = true;
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule bar {
+	n1:Node --> n2:Node;
+	multiple {
+		n1 -e:UEdge- n1;
+		modify {
+			eval {
+				visited(e) = true;
+			}
+		}
+	}
+	iterated {
+		n2 ?-e:AEdge-? n2;
+		modify {
+			eval {
+				visited(e) = true;
+			}
+		}
+	}
+	
+	modify {
 	}
 }

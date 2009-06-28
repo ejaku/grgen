@@ -105,6 +105,8 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>call "$(DevEnvDir)..\tools\vsvars32.bat"
-editbin /stack:16777216,16760832 "$(TargetPath)"</PostBuildEvent>
+editbin /stack:16777216,16760832 "$(TargetPath)"
+copy "$(TargetPath)" "$(TargetPath)3GB"
+editbin /LARGEADDRESSAWARE “$(TargetPath)3GB”</PostBuildEvent>
   </PropertyGroup>
 </Project>
