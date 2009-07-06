@@ -119,6 +119,13 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		return typeNodeDecl != null;
 	}
 
+	/** Return the inner node of a typeof statement. */
+	protected NodeDeclNode getTypeofNode() {
+		assert isResolved();
+
+		return typeNodeDecl;
+	}
+
 	private static final Checker typeChecker = new TypeChecker(NodeTypeNode.class);
 
 	protected boolean checkLocal() {

@@ -126,6 +126,13 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 			& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error);
 	}
 
+	/** Return the inner edge of a typeof statement. */
+	protected EdgeDeclNode getTypeofEdge() {
+		assert isResolved();
+
+		return typeEdgeDecl;
+	}
+
 	/** Returns whether the edge type is a typeof statement. */
 	public boolean hasTypeof() {
 		assert isResolved();

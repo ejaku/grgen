@@ -146,18 +146,64 @@ public abstract class RhsDeclNode extends DeclNode {
 	}
 
 	/**
+	 * Warn on typeofs of new created graph nodes (with known type).
+	 */
+	private void warnOnTypeofOfRhsNodes() {
+		Set<NodeDeclNode> rhsNodes = graph.getNodes();
+		for (NodeDeclNode node : rhsNodes) {
+			if (node.hasTypeof()) {
+				NodeDeclNode typeofNode = node.getTypeofNode();
+
+				if (rhsNodes.contains(typeofNode)) {
+					node.reportWarning("type of node " + typeofNode.ident
+							+ " is statically known");
+				}
+			}
+		}
+	}
+
+	/**
+	 * Warn on typeofs of new created graph edges (with known type).
+	 */
+	private void warnOnTypeofOfRhsEdges() {
+		Set<EdgeDeclNode> rhsEdges = graph.getEdges();
+		for (EdgeDeclNode edge : rhsEdges) {
+			if (edge.hasTypeof()) {
+				EdgeDeclNode typeofEdge = edge.getTypeofEdge();
+
+				if (rhsEdges.contains(typeofEdge)) {
+					edge.reportWarning("type of edge " + typeofEdge.ident
+							+ " is statically known");
+				}
+			}
+		}
+	}
+
+	/**
+	 * Edges as replacement parameters are not really needed but very troublesome,
+	 * keep them out for now.
+	 */
+	private boolean checkEdgeParameters() {
+		boolean res = true;
+
+		for (DeclNode replParam : graph.getParamDecls()) {
+			if (!(replParam instanceof NodeDeclNode)) {
+				replParam.reportError("only nodes supported as replacement parameters, "
+								+ replParam.ident.toString() + " isn't one");
+				res = false;
+			}
+		}
+
+		return res;
+	}
+
+	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		for(DeclNode replParam : graph.getParamDecls()) {
-			if(!(replParam instanceof NodeDeclNode)) {
-				// edges as replacement parameters are not really needed but very troublesome, keep them out for now
-				replParam.reportError("only nodes supported as replacement parameters, "
-						+ replParam.ident.toString() + " isn't one");
-				return false;
-			}
-		}
-		return true;
+		warnOnTypeofOfRhsNodes();
+		warnOnTypeofOfRhsEdges();
+		return checkEdgeParameters();
 	}
 
 	/**
