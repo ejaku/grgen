@@ -317,8 +317,12 @@ WARNED should_warn/induced_002.grg
 WARNED should_warn/induced_003.grg
 WARNED should_warn/induced_004.grg
 WARNED should_warn/induced_005.grg
-FAILED should_warn/retype_001.grg
-FAILED should_warn/retype_101.grg
+WARNED should_warn/typeof_001.grg
+WARNED should_warn/typeof_002.grg
+WARNED should_warn/typeof_003.grg
+WARNED should_warn/typeof_101.grg
+WARNED should_warn/typeof_102.grg
+WARNED should_warn/typeof_103.grg
 ERROR  should_fail/alternative_001.grg
 ERROR  should_fail/alternative_002.grg
 ERROR  should_fail/alternative_003.grg

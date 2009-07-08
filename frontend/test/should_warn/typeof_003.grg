@@ -1,0 +1,13 @@
+using retype_model_001;
+
+// warn, because type of y is statically known (should use typeof(x) instead)
+
+rule r {
+	x:TYPE1;
+
+	replace {
+		y:typeof(x);
+		z:typeof(y);
+	}
+}
+
