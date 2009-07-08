@@ -601,7 +601,7 @@ public class OperatorSignature extends FunctionSignature {
 							setInit = (SetInitNode) e[1];
 						}
 						else if(e[1] instanceof MemberAccessExprNode) {
-							MemberDeclNode member = ((MemberAccessExprNode) e[1]).member;
+							MemberDeclNode member = ((MemberAccessExprNode) e[1]).getDecl();
 							if(member.isConst() && member.getConstInitializer() != null)
 								setInit = (SetInitNode) member.getConstInitializer();
 						}
@@ -912,13 +912,14 @@ public class OperatorSignature extends FunctionSignature {
 		return true;
 	}
 
-	public int getOpId() {
+	protected int getOpId() {
 		return id;
 	}
 
 	/**
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		String res = getResultType().toString() + " ";
 		res += names.get(new Integer(id)) + "(";

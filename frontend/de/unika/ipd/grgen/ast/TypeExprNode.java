@@ -56,10 +56,12 @@ public abstract class TypeExprNode extends BaseNode
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
+	@Override
 	public Color getNodeColor() {
 		return Color.CYAN;
 	}
 
+	@Override
 	public String getNodeLabel() {
 		return "type expr " + opName[op];
 	}

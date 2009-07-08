@@ -22,14 +22,17 @@ public class DummyNodeDeclNode extends NodeDeclNode
 		super(id, type, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 	}
 
+	@Override
 	public Node getNode() {
 		return null;
 	}
 
+	@Override
 	public boolean isDummy() {
 		return true;
 	}
 
+	@Override
 	public String toString() {
 		return "a dummy node";
 	}

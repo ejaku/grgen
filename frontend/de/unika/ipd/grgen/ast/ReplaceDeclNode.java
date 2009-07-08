@@ -61,10 +61,12 @@ public class ReplaceDeclNode extends RhsDeclNode {
 		return childrenNames;
 	}
 
+	@Override
 	protected PatternGraph getPatternGraph(PatternGraph left) {
 		return graph.getGraph();
 	}
 
+	@Override
 	protected Set<DeclNode> getDelete(PatternGraphNode pattern) {
 		if(deletedElements != null) return deletedElements;
 
@@ -107,6 +109,7 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	 * Return all reused edges (with their nodes), that excludes new edges of
 	 * the right-hand side.
 	 */
+	@Override
 	protected Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern) {
 		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
 		Collection<EdgeDeclNode> lhs = pattern.getEdges();
@@ -130,6 +133,7 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	/**
 	 * Return all reused nodes, that excludes new nodes of the right-hand side.
 	 */
+	@Override
 	protected Set<BaseNode> getReusedNodes(PatternGraphNode pattern) {
 		if(reusedNodes != null) return reusedNodes;
 
@@ -146,6 +150,7 @@ public class ReplaceDeclNode extends RhsDeclNode {
 		return reusedNodes;
 	}
 
+	@Override
 	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern) {
 		// nothing to do
 	}

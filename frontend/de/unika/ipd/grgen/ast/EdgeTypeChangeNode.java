@@ -29,8 +29,8 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		setName(EdgeTypeChangeNode.class, "edge type change decl");
 	}
 
-	BaseNode oldUnresolved;
-	EdgeDeclNode old = null;
+	private BaseNode oldUnresolved;
+	private EdgeDeclNode old = null;
 
 	public EdgeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid, PatternGraphNode directlyNestingLHSGraph) {
 		super(id, newType, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
@@ -39,6 +39,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -49,6 +50,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -61,6 +63,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	private static final DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = super.resolveLocal();
 
@@ -72,12 +75,14 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	}
 
 	/** @return the original edge for this retyped edge */
-	public EdgeDeclNode getOldEdge() {
+	protected final EdgeDeclNode getOldEdge() {
 		assert isResolved();
+
 		return old;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
 		boolean res = super.checkLocal()
@@ -120,7 +125,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		return res & onlyReplacementEdgesAreAllowedToChangeType();
 	}
 
-	protected boolean onlyReplacementEdgesAreAllowedToChangeType() {
+	private boolean onlyReplacementEdgesAreAllowedToChangeType() {
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			return true;
 		}
@@ -129,13 +134,10 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		return false;
 	}
 
-	public Edge getEdge() {
-		return checkIR(Edge.class);
-	}
-
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		EdgeTypeNode etn = getDeclType();
 		EdgeType et = etn.getEdgeType();

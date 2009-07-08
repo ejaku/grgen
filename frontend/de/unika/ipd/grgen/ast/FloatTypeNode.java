@@ -7,7 +7,6 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.FloatType;
-import de.unika.ipd.grgen.ir.IR;
 
 /**
  * The floating point basic type.
@@ -18,9 +17,12 @@ public class FloatTypeNode extends BasicTypeNode
 		setName(FloatTypeNode.class, "float type");
 	}
 
-	protected IR constructIR() {
+	@Override
+	protected FloatType constructIR() {
 		return new FloatType(getIdentNode().getIdent());
 	}
+
+	@Override
 	public String toString() {
 		return "float";
 	}

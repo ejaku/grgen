@@ -30,7 +30,7 @@ public class MemberDeclNode extends DeclNode {
 		setName(MemberDeclNode.class, "member declaration");
 	}
 
-	TypeNode type;
+	protected TypeNode type;
 	private boolean isConst;
 	private BaseNode constInitializer;
 
@@ -44,6 +44,7 @@ public class MemberDeclNode extends DeclNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -52,6 +53,7 @@ public class MemberDeclNode extends DeclNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -59,11 +61,11 @@ public class MemberDeclNode extends DeclNode {
 		return childrenNames;
 	}
 
-	public boolean isConst() {
+	protected boolean isConst() {
 		return isConst;
 	}
 
-	public BaseNode getConstInitializer() {
+	protected BaseNode getConstInitializer() {
 		return constInitializer;
 	}
 
@@ -103,6 +105,7 @@ public class MemberDeclNode extends DeclNode {
 	private static final DeclarationTypeResolver<TypeNode> typeResolver = new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		if(typeUnresolved instanceof IdentNode)
 			fixupDefinition((IdentNode)typeUnresolved);
@@ -112,7 +115,7 @@ public class MemberDeclNode extends DeclNode {
 
 	/** @return The type node of the declaration */
 	@Override
-		public TypeNode getDeclType() {
+	public TypeNode getDeclType() {
 		assert isResolved();
 
 		return type;
@@ -122,10 +125,12 @@ public class MemberDeclNode extends DeclNode {
 			new Class[] { BasicTypeNode.class, EnumTypeNode.class, MapTypeNode.class, SetTypeNode.class});
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		return typeChecker.check(type, error);
 	}
 
+	@Override
 	protected IR constructIR() {
 		Type type = getDeclType().checkIR(Type.class);
 		return new Entity("entity", getIdentNode().getIdent(), type, isConst);

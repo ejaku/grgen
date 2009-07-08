@@ -28,17 +28,17 @@ public class SetInitNode extends ExprNode
 		setName(SetInitNode.class, "set init");
 	}
 
-	CollectNode<SetItemNode> setItems = new CollectNode<SetItemNode>();
+	private CollectNode<SetItemNode> setItems = new CollectNode<SetItemNode>();
 
-	// if set init node is used in model, for member init 
+	// if set init node is used in model, for member init
 	//     then lhs != null, setType == null
 	// if set init node is used in actions, for anonymous const set with specified type
 	//     then lhs == null, setType != null -- adjust type of set items to this type
 	// if set init node is used in actions, for anonymous const set without specified type
 	//     then lhs == null, setType == null -- determine set type from first item, all items must be exactly of this type
-	BaseNode lhsUnresolved;
-	DeclNode lhs;
-	SetTypeNode setType;
+	private BaseNode lhsUnresolved;
+	private DeclNode lhs;
+	private SetTypeNode setType;
 
 	public SetInitNode(Coords coords, IdentNode member, SetTypeNode setType) {
 		super(coords);
@@ -50,12 +50,14 @@ public class SetInitNode extends ExprNode
 		}
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(setItems);
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("setItems");
@@ -68,6 +70,7 @@ public class SetInitNode extends ExprNode
 
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
+	@Override
 	protected boolean resolveLocal() {
 		if(lhsUnresolved!=null) {
 			if(!lhsResolver.resolve(lhsUnresolved)) return false;
@@ -80,6 +83,7 @@ public class SetInitNode extends ExprNode
 		}
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		boolean success = true;
 
@@ -119,11 +123,11 @@ public class SetInitNode extends ExprNode
 				}
 			}
 		}
-		
+
 		if(lhs==null && this.setType==null) {
 			this.setType = setType;
 		}
-		
+
 		if(!isConstant() && lhs!=null) {
 			reportError("Only constant items allowed in set initialization in model");
 			success = false;
@@ -132,7 +136,7 @@ public class SetInitNode extends ExprNode
 		return success;
 	}
 
-	TypeNode getSetType() {
+	protected TypeNode getSetType() {
 		TypeNode itemTypeNode = setItems.getChildren().iterator().next().valueExpr.getType();
 		if(!(itemTypeNode instanceof DeclaredTypeNode)) {
 			reportError("Set items have to be of basic or enum type");
@@ -141,20 +145,20 @@ public class SetInitNode extends ExprNode
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return SetTypeNode.getSetType(itemTypeIdent);
 	}
-	
+
 	/**
 	 * Checks whether the set only contains constants.
 	 * @return True, if all set items are constant.
 	 */
-	public boolean isConstant() {
+	protected boolean isConstant() {
 		for(SetItemNode item : setItems.getChildren()) {
 			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
 				return false;
 		}
 		return true;
 	}
-	
-	public boolean isEnumValue(ExprNode expr) {
+
+	protected boolean isEnumValue(ExprNode expr) {
 		if(!(expr instanceof DeclExprNode))
 			return false;
 		if(!(((DeclExprNode)expr).declUnresolved instanceof EnumExprNode))
@@ -162,7 +166,7 @@ public class SetInitNode extends ExprNode
 		return true;
 	}
 
-	public boolean contains(ConstNode node) {
+	protected boolean contains(ConstNode node) {
 		for(SetItemNode item : setItems.getChildren()) {
 			if(item.valueExpr instanceof ConstNode) {
 				ConstNode itemConst = (ConstNode) item.valueExpr;
@@ -173,6 +177,7 @@ public class SetInitNode extends ExprNode
 		return false;
 	}
 
+	@Override
 	public TypeNode getType() {
 		assert(isResolved());
 		if(lhs!=null) {
@@ -184,11 +189,12 @@ public class SetInitNode extends ExprNode
 			return getSetType();
 		}
 	}
-	
-	public CollectNode<SetItemNode> getItems() {
-		return setItems; 
+
+	protected CollectNode<SetItemNode> getItems() {
+		return setItems;
 	}
 
+	@Override
 	protected IR constructIR() {
 		Vector<SetItem> items = new Vector<SetItem>();
 		for(SetItemNode item : setItems.getChildren()) {
@@ -199,7 +205,7 @@ public class SetInitNode extends ExprNode
 		return new SetInit(items, member, type, isConstant());
 	}
 
-	public SetInit getSetInit() {
+	protected SetInit getSetInit() {
 		return checkIR(SetInit.class);
 	}
 }

@@ -34,7 +34,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	protected NodeDeclNode typeNodeDecl = null;
 	protected TypeDeclNode typeTypeDecl = null;
 
-	protected static final DeclarationPairResolver<NodeDeclNode, TypeDeclNode> typeResolver =
+	private static DeclarationPairResolver<NodeDeclNode, TypeDeclNode> typeResolver =
 		new DeclarationPairResolver<NodeDeclNode, TypeDeclNode>(NodeDeclNode.class, TypeDeclNode.class);
 
 	/**
@@ -48,6 +48,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 	/** The TYPE child could be a node in case the type is
 	 *  inherited dynamically via the typeof operator */
+	@Override
 	public NodeTypeNode getDeclType() {
 		assert isResolved() : "not resolved";
 
@@ -56,6 +57,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -65,6 +67,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -74,6 +77,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		Pair<NodeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
 		if(resolved == null) return false;
@@ -112,25 +116,11 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		return true;
 	}
 
-	/** Returns whether the node type is a typeof statement. */
-	public boolean hasTypeof() {
-		assert isResolved();
-
-		return typeNodeDecl != null;
-	}
-
-	/** Return the inner node of a typeof statement. */
-	protected NodeDeclNode getTypeofNode() {
-		assert isResolved();
-
-		return typeNodeDecl;
-	}
-
 	/**
 	 * Warn on typeofs of new created graph nodes (with known type).
 	 */
 	private void warnOnTypeofOfRhsNodes() {
-		if ((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS && hasTypeof()) {
+		if ((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS && inheritsType()) {
 			if ((typeNodeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 				reportWarning("type of node " + typeNodeDecl.ident
 						+ " is statically known");
@@ -152,6 +142,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 	private static final Checker typeChecker = new TypeChecker(NodeTypeNode.class);
 
+	@Override
 	protected boolean checkLocal() {
 		warnOnTypeofOfRhsNodes();
 
@@ -172,6 +163,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
+	@Override
 	public Color getNodeColor() {
 		return Color.GREEN;
 	}
@@ -181,13 +173,16 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		return checkIR(Node.class);
 	}
 
-	protected boolean inheritsType() {
+	protected final boolean inheritsType() {
+		assert isResolved();
+
 		return typeNodeDecl != null;
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		NodeTypeNode tn = getDeclType();
 		NodeType nt = tn.getNodeType();

@@ -66,7 +66,7 @@ public class ArithmeticOpNode extends OpNode {
 	}
 
 	private QualIdentNode target = null; // if !null it's a set/map union/except which is to be broken up
-	
+
 	/**
 	 * @param coords Source code coordinates.
 	 * @param opId ID of the operator.
@@ -82,11 +82,13 @@ public class ArithmeticOpNode extends OpNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<ExprNode> getChildren() {
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// nameless children
@@ -94,13 +96,15 @@ public class ArithmeticOpNode extends OpNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#evaluate() */
-	public ExprNode evaluate() {
+	@Override
+	protected ExprNode evaluate() {
 		int n = children.size();
 		ExprNode[] args = new ExprNode[n];
 
@@ -115,16 +119,18 @@ public class ArithmeticOpNode extends OpNode {
 
 	/** All children of this expression node must be expression nodes, too.
 	 *  @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		return super.checkLocal();
 	}
-	
+
 	/** mark to break set/map assignment of set/map expression up into set/map add/remove to/from target statements */
-	void markToBreakUpIntoStateChangingOperations(QualIdentNode target) {
+	protected void markToBreakUpIntoStateChangingOperations(QualIdentNode target) {
 		this.target = target;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
+	@Override
 	protected IR constructIR() {
 		if(target!=null) {
 			Qualification qual = target.checkIR(Qualification.class);
@@ -151,14 +157,14 @@ public class ArithmeticOpNode extends OpNode {
 				else { //if(children.get(1).getType() instanceof MapTypeNode)
 					MapInitNode initNode = (MapInitNode)children.get(1);
 					for(MapItemNode item : initNode.getItems().getChildren()) {
-						MapAddItem addItem = new MapAddItem(qual, 
+						MapAddItem addItem = new MapAddItem(qual,
 								item.keyExpr.checkIR(Expression.class),
 								item.valueExpr.checkIR(Expression.class));
 						if(first==null) first = addItem;
 						if(previous!=null) previous.setNext(addItem);
 						previous = addItem;
 					}
-				} 
+				}
 			}
 			else { //if(getOperator().getOpId()==OperatorSignature.EXCEPT) // only BIT_OR/EXCEPT are marked
 				if(children.get(1).getType() instanceof SetTypeNode) {
@@ -192,10 +198,10 @@ public class ArithmeticOpNode extends OpNode {
 					}
 				}
 			}
-			
+
 			return first;
 		}
-		
+
 		DeclaredTypeNode type = (DeclaredTypeNode) getType();
 		Operator op = new Operator(type.getType(), getIROpCode(getOpId()));
 
@@ -216,6 +222,7 @@ public class ArithmeticOpNode extends OpNode {
 		return irOpCodeMap.get(new Integer(opId)).intValue();
 	}
 
+	@Override
 	public String toString() {
 		return OperatorSignature.getName(getOpId());
 	}

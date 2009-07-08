@@ -16,20 +16,20 @@ import de.unika.ipd.grgen.ir.TypeExpr;
 
 public abstract class ConstraintDeclNode extends DeclNode
 {
-	TypeExprNode constraints;
+	protected TypeExprNode constraints;
 
-	int context; // context of declaration, contains CONTEXT_LHS if declaration is located on left hand side,
+	protected int context; // context of declaration, contains CONTEXT_LHS if declaration is located on left hand side,
 				 // or CONTEXT_RHS if declaration is located on right hand side
 
-	PatternGraphNode directlyNestingLHSGraph;
-	
+	protected PatternGraphNode directlyNestingLHSGraph;
+
 	/** The retyped version of this element if any. */
-	ConstraintDeclNode retypedElem = null;
+	protected ConstraintDeclNode retypedElem = null;
 
-	boolean maybeDeleted = false;
-	boolean maybeRetyped = false;
+	protected boolean maybeDeleted = false;
+	protected boolean maybeRetyped = false;
 
-	ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints, PatternGraphNode directlyNestingLHSGraph) {
+	protected ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints, PatternGraphNode directlyNestingLHSGraph) {
 		super(id, type);
 		this.constraints = constraints;
 		becomeParent(this.constraints);
@@ -37,11 +37,12 @@ public abstract class ConstraintDeclNode extends DeclNode
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		return onlyPatternElementsAreAllowedToBeConstrained();
 	}
 
-	protected boolean onlyPatternElementsAreAllowedToBeConstrained() {
+	private boolean onlyPatternElementsAreAllowedToBeConstrained() {
 		if(constraints!=TypeExprNode.getEmpty()) {
 			if((context & CONTEXT_LHS_OR_RHS) != CONTEXT_LHS) {
 				constraints.reportError("replacement elements are not allowed to be type constrained, only pattern elements are");
@@ -56,17 +57,17 @@ public abstract class ConstraintDeclNode extends DeclNode
 	}
 
 	/** @returns True, if this element has eventually been deleted due to homomorphy */
-	public boolean isMaybeDeleted() {
+	protected boolean isMaybeDeleted() {
 		return maybeDeleted;
 	}
 
 	/** @returns True, if this element has eventually been retyped due to homomorphy */
-	public boolean isMaybeRetyped() {
+	protected boolean isMaybeRetyped() {
 		return maybeRetyped;
 	}
 
 	/** @returns the retyped version of this element or null. */
-	public ConstraintDeclNode getRetypedElement() {
+	protected ConstraintDeclNode getRetypedElement() {
 		return retypedElem;
 	}
 

@@ -26,7 +26,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 		setName(EnumTypeNode.class, "enum type");
 	}
 
-	CollectNode<EnumItemNode> elements;
+	private CollectNode<EnumItemNode> elements;
 
 	/*
 	 private static final OperatorSignature.Evaluator enumEvaluator =
@@ -70,6 +70,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 	 }*/
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(elements);
@@ -77,6 +78,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("elements");
@@ -84,11 +86,13 @@ public class EnumTypeNode extends CompoundTypeNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
+	@Override
 	protected IR constructIR() {
 		Ident name = getIdentNode().checkIR(Ident.class);
 		EnumType ty = new EnumType(name);
@@ -102,19 +106,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 		return ty;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.TypeNode#coercible(de.unika.ipd.grgen.ast.TypeNode)
-	 * Enums are not coercible to any type.
-	 */
-	protected boolean compatible(TypeNode t) {
-		return t == this;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BasicTypeNode#getValueType() */
-	public Class<Integer> getValueType() {
-		return Integer.class;
-	}
-
+	@Override
 	public String toString() {
 		return "enum " + getIdentNode();
 	}

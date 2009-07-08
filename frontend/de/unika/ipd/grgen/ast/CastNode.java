@@ -30,10 +30,11 @@ public class CastNode extends ExprNode {
 	}
 
 	// target type of the cast
-	BasicTypeNode type;
-	BaseNode typeUnresolved;
-    // expression to be casted
-	ExprNode expr;
+	private BasicTypeNode type;
+	private BaseNode typeUnresolved;
+
+	// expression to be casted
+	private ExprNode expr;
 
 	/**
 	 * Make a new cast node.
@@ -74,6 +75,7 @@ public class CastNode extends ExprNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(typeUnresolved, type));
@@ -82,6 +84,7 @@ public class CastNode extends ExprNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("type");
@@ -92,6 +95,7 @@ public class CastNode extends ExprNode {
 	private static DeclarationTypeResolver<BasicTypeNode> typeResolver = new DeclarationTypeResolver<BasicTypeNode>(BasicTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		type = typeResolver.resolve(typeUnresolved, this);
@@ -104,6 +108,7 @@ public class CastNode extends ExprNode {
 	 * A cast node is valid, if the second child is an expression node
 	 * and the first node is a type node identifier.
 	 */
+	@Override
 	protected boolean checkLocal() {
 		return typeCheckLocal();
 	}
@@ -113,7 +118,7 @@ public class CastNode extends ExprNode {
 	 * Check if the expression can be casted to the given type.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#typeCheckLocal()
 	 */
-	protected boolean typeCheckLocal() {
+	private boolean typeCheckLocal() {
 		boolean result = expr.getType().isCastableTo(type);
 		if(!result) {
 			reportError("Illegal cast from \"" + expr.getType() + "\" to \"" + type + "\"");
@@ -127,7 +132,8 @@ public class CastNode extends ExprNode {
 	 * if the expression is a constant, applying the cast.
 	 * @return The possibly simplified value of the expression.
 	 */
-	public ExprNode evaluate() {
+	@Override
+	protected ExprNode evaluate() {
 		assert isResolved();
 
 		expr = expr.evaluate();
@@ -137,12 +143,14 @@ public class CastNode extends ExprNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
 	 */
+	@Override
 	public TypeNode getType() {
 		assert isResolved();
 
 		return type;
 	}
 
+	@Override
 	protected IR constructIR() {
 		Type type = this.type.checkIR(Type.class);
 		Expression expr = this.expr.checkIR(Expression.class);

@@ -30,9 +30,9 @@ public class MemberInitNode extends BaseNode {
 		setName(MemberInitNode.class, "member init");
 	}
 
-	BaseNode lhsUnresolved;
-	DeclNode lhs;
-	ExprNode rhs;
+	private BaseNode lhsUnresolved;
+	private DeclNode lhs;
+	private ExprNode rhs;
 
 	/**
 	 * @param coords The source code coordinates of = operator.
@@ -48,6 +48,7 @@ public class MemberInitNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(lhsUnresolved, lhs));
@@ -56,6 +57,7 @@ public class MemberInitNode extends BaseNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("lhs");
@@ -66,6 +68,7 @@ public class MemberInitNode extends BaseNode {
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
 		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
@@ -77,6 +80,7 @@ public class MemberInitNode extends BaseNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
+	@Override
 	protected boolean checkLocal() {
 		return typeCheckLocal();
 	}
@@ -86,7 +90,7 @@ public class MemberInitNode extends BaseNode {
 	 * to the type of the target. Inserts implicit cast if compatible.
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
-	protected boolean typeCheckLocal() {
+	private boolean typeCheckLocal() {
 		TypeNode targetType = lhs.getDeclType();
 		TypeNode exprType = rhs.getType();
 
@@ -101,6 +105,7 @@ public class MemberInitNode extends BaseNode {
 	 * Construct the intermediate representation from a member init.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		return new MemberInit(lhs.checkIR(Entity.class), rhs.checkIR(Expression.class));
 	}

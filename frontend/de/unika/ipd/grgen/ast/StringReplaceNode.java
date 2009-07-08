@@ -22,20 +22,24 @@ public class StringReplaceNode extends ExprNode {
 	static {
 		setName(StringReplaceNode.class, "string replace");
 	}
-	
-	ExprNode stringExpr, startExpr, lengthExpr, replaceStrExpr;
-	
+
+	private ExprNode stringExpr;
+	private ExprNode startExpr;
+	private ExprNode lengthExpr;
+	private ExprNode replaceStrExpr;
+
 
 	public StringReplaceNode(Coords coords, ExprNode stringExpr,
 			ExprNode startExpr, ExprNode lengthExpr, ExprNode replaceStrExpr) {
 		super(coords);
-		
+
 		this.stringExpr     = becomeParent(stringExpr);
 		this.startExpr      = becomeParent(startExpr);
 		this.lengthExpr     = becomeParent(lengthExpr);
 		this.replaceStrExpr = becomeParent(replaceStrExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(stringExpr);
@@ -45,6 +49,7 @@ public class StringReplaceNode extends ExprNode {
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("string");
@@ -54,6 +59,7 @@ public class StringReplaceNode extends ExprNode {
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
 			stringExpr.reportError("First argument to substring expression must be of type string");
@@ -76,14 +82,16 @@ public class StringReplaceNode extends ExprNode {
 		}
 		return true;
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		return new StringReplace(stringExpr.checkIR(Expression.class),
 				startExpr.checkIR(Expression.class),
 				lengthExpr.checkIR(Expression.class),
 				replaceStrExpr.checkIR(Expression.class));
 	}
-	
+
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.stringType;
 	}

@@ -22,28 +22,31 @@ public class StringLengthNode extends ExprNode {
 	static {
 		setName(StringLengthNode.class, "string length");
 	}
-	
-	ExprNode stringExpr;
-	
+
+	private ExprNode stringExpr;
+
 
 	public StringLengthNode(Coords coords, ExprNode stringExpr) {
 		super(coords);
-		
+
 		this.stringExpr = becomeParent(stringExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(stringExpr);
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("string");
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
 			stringExpr.reportError("Argument to string length expression must be of type string");
@@ -51,11 +54,13 @@ public class StringLengthNode extends ExprNode {
 		}
 		return true;
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		return new StringLength(stringExpr.checkIR(Expression.class));
 	}
-	
+
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.intType;
 	}

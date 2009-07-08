@@ -24,8 +24,8 @@ public class MapItemNode extends BaseNode {
 		setName(MapInitNode.class, "map item");
 	}
 
-	ExprNode keyExpr;
-	ExprNode valueExpr;
+	protected ExprNode keyExpr;
+	protected ExprNode valueExpr;
 
 	public MapItemNode(Coords coords, ExprNode keyExpr, ExprNode valueExpr) {
 		super(coords);
@@ -33,6 +33,7 @@ public class MapItemNode extends BaseNode {
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(keyExpr);
@@ -40,6 +41,7 @@ public class MapItemNode extends BaseNode {
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("keyExpr");
@@ -47,20 +49,23 @@ public class MapItemNode extends BaseNode {
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		// All checks are done in MapInitNode
 		return true;
 	}
 
+	@Override
 	protected IR constructIR() {
 		return new MapItem(keyExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
 	}
 
-	public MapItem getMapItem() {
+	protected MapItem getMapItem() {
 		return checkIR(MapItem.class);
 	}
 }

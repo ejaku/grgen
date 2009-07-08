@@ -37,13 +37,13 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 	private int connectionKind;
 
-	NodeDeclNode left;
-	EdgeDeclNode edge;
-	NodeDeclNode right;
+	private NodeDeclNode left;
+	private EdgeDeclNode edge;
+	private NodeDeclNode right;
 
-	BaseNode leftUnresolved;
-	BaseNode edgeUnresolved;
-	BaseNode rightUnresolved;
+	private BaseNode leftUnresolved;
+	protected BaseNode edgeUnresolved;
+	private BaseNode rightUnresolved;
 
 	/** Construct a new connection node.
 	 *  A connection node has two node nodes and one edge node
@@ -80,6 +80,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(leftUnresolved, left));
@@ -89,6 +90,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("src");
@@ -101,6 +103,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	private static DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		left = nodeResolver.resolve(leftUnresolved, this);
 		edge = edgeResolver.resolve(edgeUnresolved, this);
@@ -116,6 +119,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 * Check, if the AST node is correctly built.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
+	@Override
 	protected boolean checkLocal() {
 		boolean sucess = nodeTypeChecker.check(left, error)
 			& edgeTypeChecker.check(edge, error)
@@ -181,7 +185,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		return true;
     }
 
-	protected boolean areDanglingEdgesInReplacementDeclaredInPattern() {
+	private boolean areDanglingEdgesInReplacementDeclaredInPattern() {
 		if(!(left instanceof DummyNodeDeclNode)
 		   && !(right instanceof DummyNodeDeclNode)) {
 			return true; // edge not dangling

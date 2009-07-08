@@ -24,39 +24,44 @@ public class SetItemNode extends BaseNode {
 		setName(SetItemNode.class, "set item");
 	}
 
-	ExprNode valueExpr;
+	protected ExprNode valueExpr;
 
 	public SetItemNode(Coords coords, ExprNode valueExpr) {
 		super(coords);
 		this.valueExpr = becomeParent(valueExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(valueExpr);
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("valueExpr");
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		// All checks are done in SetInitNode
 		return true;
 	}
 
+	@Override
 	protected IR constructIR() {
 		return new SetItem(valueExpr.checkIR(Expression.class));
 	}
 
-	public SetItem getSetItem() {
+	protected SetItem getSetItem() {
 		return checkIR(SetItem.class);
 	}
 }

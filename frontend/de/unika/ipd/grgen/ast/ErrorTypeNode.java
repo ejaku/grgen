@@ -30,6 +30,7 @@ class ErrorTypeNode extends TypeNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
@@ -37,12 +38,14 @@ class ErrorTypeNode extends TypeNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
 
+	@Override
 	protected IR constructIR() {
 		return new VoidType(id.getIdent());
 	}
@@ -51,6 +54,7 @@ class ErrorTypeNode extends TypeNode {
 		return "error type";
 	}
 
+	@Override
 	public String toString() {
 		return "error type";
 	}

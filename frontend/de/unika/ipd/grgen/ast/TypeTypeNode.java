@@ -18,6 +18,7 @@ public class TypeTypeNode extends BasicTypeNode
 		setName(TypeTypeNode.class, "type type");
 	}
 
+	@Override
 	protected IR constructIR() {
 		return new TypeType(getIdentNode().getIdent());
 	}

@@ -28,10 +28,10 @@ public class SubpatternReplNode extends BaseNode {
 		setName(SubpatternReplNode.class, "subpattern repl node");
 	}
 
-	IdentNode subpatternUnresolved;
-	SubpatternUsageNode subpattern;
-	CollectNode<IdentNode> replConnectionsUnresolved;
-	CollectNode<ConstraintDeclNode> replConnections;
+	private IdentNode subpatternUnresolved;
+	private SubpatternUsageNode subpattern;
+	private CollectNode<IdentNode> replConnectionsUnresolved;
+	private CollectNode<ConstraintDeclNode> replConnections;
 
 
 	public SubpatternReplNode(IdentNode n, CollectNode<IdentNode> c) {
@@ -85,7 +85,7 @@ public class SubpatternReplNode extends BaseNode {
 	}
 
 	/** Check whether the subpattern replacement usage adheres to the signature of the subpattern replacement declaration */
-	protected boolean checkSubpatternSignatureAdhered() {
+	private boolean checkSubpatternSignatureAdhered() {
 		// check if the number of parameters is correct
 		Collection<RhsDeclNode> right = subpattern.type.right.getChildren();
 		String patternName = subpattern.type.pattern.nameOfGraph;

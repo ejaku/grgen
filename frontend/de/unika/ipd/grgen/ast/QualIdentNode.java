@@ -47,6 +47,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(ownerUnresolved, owner));
@@ -55,6 +56,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("owner");
@@ -66,6 +68,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	private static final DeclarationResolver<MemberDeclNode> memberResolver = new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope
 		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
@@ -100,6 +103,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
@@ -111,12 +115,13 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		return member;
 	}
 
-	public DeclNode getOwner() {
+	protected DeclNode getOwner() {
 		assert isResolved();
 
 		return owner;
 	}
 
+	@Override
 	protected IR constructIR() {
 		Entity ownerIR = owner.checkIR(Entity.class);
 		Entity memberIR = member.checkIR(Entity.class);

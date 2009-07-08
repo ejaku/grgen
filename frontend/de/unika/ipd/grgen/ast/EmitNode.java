@@ -45,22 +45,26 @@ public class EmitNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		return childrenUnresolved;
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// nameless children
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		if (childrenUnresolved.isEmpty()) {
 			reportError("Emit statement is empty");
@@ -69,10 +73,12 @@ public class EmitNode extends BaseNode {
 		return true;
 	}
 
+	@Override
 	public Color getNodeColor() {
 		return Color.PINK;
 	}
 
+	@Override
 	protected IR constructIR() {
 		List<Expression> arguments = new ArrayList<Expression>();
 		for(BaseNode child : getChildren())

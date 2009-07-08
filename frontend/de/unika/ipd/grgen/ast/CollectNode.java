@@ -30,7 +30,7 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 		setName(CollectNode.class, "collect");
 	}
 
-	Vector<T> children = new Vector<T>();
+	protected Vector<T> children = new Vector<T>();
 
 	public void addChild(T n) {
 		becomeParent(n);
@@ -38,19 +38,21 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<T> getChildren() {
 		return children;
 	}
-	
-	public T get(int i) {
+
+	protected T get(int i) {
 		return children.get(i);
 	}
-	
-	public int size() {
+
+	protected int size() {
 		return children.size();
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// nameless children
@@ -58,19 +60,23 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true; // local resolution done via call to resolveChildren from parent node
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
+	@Override
 	public Color getNodeColor() {
 		return Color.GRAY;
 	}
 
+	@Override
 	public String toString() {
 		return children.toString();
 	}

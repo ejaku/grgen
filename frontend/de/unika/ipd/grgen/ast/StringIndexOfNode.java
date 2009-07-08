@@ -22,18 +22,20 @@ public class StringIndexOfNode extends ExprNode {
 	static {
 		setName(StringIndexOfNode.class, "string indexOf");
 	}
-	
-	ExprNode stringExpr, stringToSearchForExpr;
-	
+
+	private ExprNode stringExpr;
+	private ExprNode stringToSearchForExpr;
+
 
 	public StringIndexOfNode(Coords coords, ExprNode stringExpr,
 			ExprNode stringToSearchForExpr) {
 		super(coords);
-		
+
 		this.stringExpr            = becomeParent(stringExpr);
 		this.stringToSearchForExpr = becomeParent(stringToSearchForExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(stringExpr);
@@ -41,6 +43,7 @@ public class StringIndexOfNode extends ExprNode {
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("string");
@@ -48,6 +51,7 @@ public class StringIndexOfNode extends ExprNode {
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
 			stringExpr.reportError("First argument to string indexOf expression must be of type string");
@@ -60,12 +64,14 @@ public class StringIndexOfNode extends ExprNode {
 		}
 		return true;
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		return new StringIndexOf(stringExpr.checkIR(Expression.class),
 				stringToSearchForExpr.checkIR(Expression.class));
 	}
-	
+
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.intType;
 	}

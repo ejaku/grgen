@@ -18,9 +18,12 @@ public class BooleanTypeNode extends BasicTypeNode
 		setName(BooleanTypeNode.class, "boolean type");
 	}
 
+	@Override
 	protected IR constructIR() {
 		return new BooleanType(getIdentNode().getIdent());
 	}
+
+	@Override
 	public String toString() {
 		return "boolean";
 	}

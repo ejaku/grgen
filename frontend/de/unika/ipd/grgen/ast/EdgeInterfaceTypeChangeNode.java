@@ -19,16 +19,13 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 
-/**
- *
- */
 public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	static {
 		setName(EdgeTypeChangeNode.class, "edge interface type change decl");
 	}
 
-	IdentNode interfaceTypeUnresolved;
-	TypeDeclNode interfaceType = null;
+	private IdentNode interfaceTypeUnresolved;
+	private TypeDeclNode interfaceType = null;
 
 	public EdgeInterfaceTypeChangeNode(IdentNode id, BaseNode newType, int context, IdentNode interfaceType, PatternGraphNode directlyNestingLHSGraph) {
 		super(id, newType, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
@@ -37,6 +34,7 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -47,6 +45,7 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -59,6 +58,7 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 	private static final DeclarationResolver<TypeDeclNode> typeResolver = new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = super.resolveLocal();
 		interfaceType = typeResolver.resolve(interfaceTypeUnresolved, this);
@@ -77,6 +77,7 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
 		boolean res = super.checkLocal()
@@ -88,7 +89,7 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 		return res & onlyPatternEdgesCanChangeInterfaceType();
 	}
 
-	protected boolean onlyPatternEdgesCanChangeInterfaceType() {
+	private boolean onlyPatternEdgesCanChangeInterfaceType() {
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 			return true;
 		}
@@ -97,13 +98,10 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 		return false;
 	}
 
-	public Edge getEdge() {
-		return checkIR(Edge.class);
-	}
-
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		Edge edge = (Edge)super.constructIR();
 		EdgeTypeNode etn = (EdgeTypeNode)interfaceType.getDeclType();

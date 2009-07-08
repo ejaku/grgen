@@ -27,9 +27,9 @@ public class NameofNode extends ExprNode {
 		setName(NameofNode.class, "nameof");
 	}
 
-	IdentNode entityUnresolved; // null if name of graph is requested
-	EdgeDeclNode entityEdgeDecl = null;
-	NodeDeclNode entityNodeDecl = null;
+	private IdentNode entityUnresolved; // null if name of graph is requested
+	private EdgeDeclNode entityEdgeDecl = null;
+	private NodeDeclNode entityNodeDecl = null;
 
 	public NameofNode(Coords coords, IdentNode entity) {
 		super(coords);
@@ -38,6 +38,7 @@ public class NameofNode extends ExprNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		if(entityUnresolved!=null) children.add(getValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl));
@@ -45,6 +46,7 @@ public class NameofNode extends ExprNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		if(entityUnresolved!=null) childrenNames.add("entity");
@@ -55,9 +57,10 @@ public class NameofNode extends ExprNode {
 		new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		if(entityUnresolved==null) return true;
-		
+
 		Pair<EdgeDeclNode, NodeDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
 		if (resolved != null) {
 			entityEdgeDecl = resolved.fst;
@@ -70,29 +73,22 @@ public class NameofNode extends ExprNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
+	@Override
 	protected IR constructIR() {
 		if(entityEdgeDecl==null && entityNodeDecl==null) {
 			return new Nameof(null, getType().getType());
 		}
-		
+
 		Entity entity = getValidResolvedVersion(entityEdgeDecl, entityNodeDecl).checkIR(Entity.class);
 		return new Nameof(entity, getType().getType());
 	}
 
-	public DeclNode getEntity() {
-		assert isResolved();
-
-		if(entityUnresolved==null) {
-			return null;
-		}
-		
-		return getValidResolvedVersion(entityEdgeDecl, entityNodeDecl);
-	}
-	
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.stringType;
 	}

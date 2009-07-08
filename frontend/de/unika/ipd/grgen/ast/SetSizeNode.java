@@ -25,7 +25,7 @@ public class SetSizeNode extends ExprNode
 		setName(SetSizeNode.class, "set size expression");
 	}
 
-	ExprNode targetExpr;
+	private ExprNode targetExpr;
 
 	public SetSizeNode(Coords coords, ExprNode targetExpr)
 	{
@@ -33,18 +33,21 @@ public class SetSizeNode extends ExprNode
 		this.targetExpr = becomeParent(targetExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof SetTypeNode)) {
@@ -55,10 +58,12 @@ public class SetSizeNode extends ExprNode
 
 	}
 
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.intType;
 	}
 
+	@Override
 	protected IR constructIR() {
 		return new SetSizeExpr(targetExpr.checkIR(Expression.class));
 	}

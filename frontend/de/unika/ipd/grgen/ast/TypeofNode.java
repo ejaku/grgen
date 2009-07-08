@@ -28,9 +28,9 @@ public class TypeofNode extends ExprNode {
 		setName(TypeofNode.class, "typeof");
 	}
 
-	IdentNode entityUnresolved;
-	EdgeDeclNode entityEdgeDecl = null;
-	NodeDeclNode entityNodeDecl = null;
+	private IdentNode entityUnresolved;
+	private EdgeDeclNode entityEdgeDecl = null;
+	private NodeDeclNode entityNodeDecl = null;
 
 	public TypeofNode(Coords coords, IdentNode entity) {
 		super(coords);
@@ -39,6 +39,7 @@ public class TypeofNode extends ExprNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl));
@@ -46,6 +47,7 @@ public class TypeofNode extends ExprNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("entity");
@@ -56,6 +58,7 @@ public class TypeofNode extends ExprNode {
 		new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		Pair<EdgeDeclNode, NodeDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
 		if (resolved != null) {
@@ -69,22 +72,25 @@ public class TypeofNode extends ExprNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
+	@Override
 	protected IR constructIR() {
 		Entity entity = getValidResolvedVersion(entityEdgeDecl, entityNodeDecl).checkIR(Entity.class);
 
 		return new Typeof(entity);
 	}
 
-	public DeclNode getEntity() {
+	protected DeclNode getEntity() {
 		assert isResolved();
 
 		return getValidResolvedVersion(entityEdgeDecl, entityNodeDecl);
 	}
 
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.typeType;
 	}

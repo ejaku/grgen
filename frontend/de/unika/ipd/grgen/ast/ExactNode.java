@@ -25,9 +25,9 @@ public class ExactNode extends BaseNode {
 		setName(ExactNode.class, "exact");
 	}
 
-	Vector<NodeDeclNode> children = new Vector<NodeDeclNode>();
+	private Vector<NodeDeclNode> children = new Vector<NodeDeclNode>();
 
-	Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
+	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
 
 	public ExactNode(Coords coords) {
 		super(coords);
@@ -40,11 +40,13 @@ public class ExactNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		return getValidVersionVector(childrenUnresolved, children);
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// nameless children
@@ -54,6 +56,7 @@ public class ExactNode extends BaseNode {
 	private static final DeclarationResolver<NodeDeclNode> childrenResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		for(int i=0; i<childrenUnresolved.size(); ++i) {
@@ -66,6 +69,7 @@ public class ExactNode extends BaseNode {
 	/**
 	 * Check whether all children are of node type.
 	 */
+	@Override
 	protected boolean checkLocal() {
 		if (children.isEmpty()) {
 			this.reportError("Exact statement is empty");
@@ -75,6 +79,7 @@ public class ExactNode extends BaseNode {
 		return true;
 	}
 
+	@Override
 	public Color getNodeColor() {
 		return Color.PINK;
 	}

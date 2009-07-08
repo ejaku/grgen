@@ -24,9 +24,9 @@ import de.unika.ipd.grgen.ast.util.Pair;
  */
 public class SingleGraphEntityNode extends BaseNode
 {
-	IdentNode entityUnresolved;
-	NodeDeclNode entityNode;
-	SubpatternUsageNode entitySubpattern;
+	private IdentNode entityUnresolved;
+	private NodeDeclNode entityNode;
+	private SubpatternUsageNode entitySubpattern;
 
 	public SingleGraphEntityNode(IdentNode ent) {
 		super(ent.getCoords());

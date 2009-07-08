@@ -28,17 +28,17 @@ public class MapInitNode extends ExprNode
 		setName(MapInitNode.class, "map init");
 	}
 
-	CollectNode<MapItemNode> mapItems = new CollectNode<MapItemNode>();
+	private CollectNode<MapItemNode> mapItems = new CollectNode<MapItemNode>();
 
-	// if map init node is used in model, for member init 
+	// if map init node is used in model, for member init
 	//     then lhs != null, mapType == null
 	// if map init node is used in actions, for anonymous const map with specified types
 	//     then lhs == null, mapType != null -- adjust type of map items to this type
 	// if map init node is used in actions, for anonymous const map without specified types
 	//     then lhs == null, mapType == null -- determine map type from first item, all items must be exactly of this type
-	BaseNode lhsUnresolved;
-	DeclNode lhs;
-	MapTypeNode mapType;
+	private BaseNode lhsUnresolved;
+	private DeclNode lhs;
+	private MapTypeNode mapType;
 
 	public MapInitNode(Coords coords, IdentNode member, MapTypeNode mapType) {
 		super(coords);
@@ -50,12 +50,14 @@ public class MapInitNode extends ExprNode
 		}
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(mapItems);
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("mapItems");
@@ -68,6 +70,7 @@ public class MapInitNode extends ExprNode
 
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
+	@Override
 	protected boolean resolveLocal() {
 		if(lhsUnresolved!=null) {
 			if(!lhsResolver.resolve(lhsUnresolved)) return false;
@@ -80,6 +83,7 @@ public class MapInitNode extends ExprNode
 		}
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		boolean success = true;
 
@@ -137,11 +141,11 @@ public class MapInitNode extends ExprNode
 				}
 			}
 		}
-		
+
 		if(lhs==null && this.mapType==null) {
 			this.mapType = mapType;
 		}
-		
+
 		if(!isConstant() && lhs!=null) {
 			reportError("Only constant items allowed in map initialization in model");
 			success = false;
@@ -150,7 +154,7 @@ public class MapInitNode extends ExprNode
 		return success;
 	}
 
-	TypeNode getMapType() {
+	private TypeNode getMapType() {
 		TypeNode keyTypeNode = mapItems.getChildren().iterator().next().keyExpr.getType();
 		TypeNode valueTypeNode = mapItems.getChildren().iterator().next().valueExpr.getType();
 		if(!(keyTypeNode instanceof DeclaredTypeNode)
@@ -162,12 +166,12 @@ public class MapInitNode extends ExprNode
 		IdentNode valueTypeIdent = ((DeclaredTypeNode)valueTypeNode).getIdentNode();
 		return MapTypeNode.getMapType(keyTypeIdent, valueTypeIdent);
 	}
-	
+
 	/**
 	 * Checks whether the map only contains constants.
 	 * @return True, if all map items are constant.
 	 */
-	public boolean isConstant() {
+	protected final boolean isConstant() {
 		for(MapItemNode item : mapItems.getChildren()) {
 			if(!(item.keyExpr instanceof ConstNode || isEnumValue(item.keyExpr)))
 				return false;
@@ -176,8 +180,8 @@ public class MapInitNode extends ExprNode
 		}
 		return true;
 	}
-	
-	public boolean isEnumValue(ExprNode expr) {
+
+	private boolean isEnumValue(ExprNode expr) {
 		if(!(expr instanceof DeclExprNode))
 			return false;
 		if(!(((DeclExprNode)expr).declUnresolved instanceof EnumExprNode))
@@ -185,6 +189,7 @@ public class MapInitNode extends ExprNode
 		return true;
 	}
 
+	@Override
 	public TypeNode getType() {
 		assert(isResolved());
 		if(lhs!=null) {
@@ -197,10 +202,11 @@ public class MapInitNode extends ExprNode
 		}
 	}
 
-	public CollectNode<MapItemNode> getItems() {
-		return mapItems; 
+	protected CollectNode<MapItemNode> getItems() {
+		return mapItems;
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		Vector<MapItem> items = new Vector<MapItem>();
 		for(MapItemNode item : mapItems.getChildren()) {
@@ -211,7 +217,7 @@ public class MapInitNode extends ExprNode
 		return new MapInit(items, member, type, isConstant());
 	}
 
-	public MapInit getMapInit() {
+	protected MapInit getMapInit() {
 		return checkIR(MapInit.class);
 	}
 }

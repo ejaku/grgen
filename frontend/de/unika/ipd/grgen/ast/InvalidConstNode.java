@@ -19,14 +19,12 @@ class InvalidConstNode extends ConstNode
 		super(coords, name, value);
 	}
 
-	protected boolean isValid() {
-		return false;
-	}
-
+	@Override
 	protected ConstNode doCastTo(TypeNode type) {
 		return this;
 	}
 
+	@Override
 	public String toString() {
 		return "invalid const";
 	}

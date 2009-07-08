@@ -21,7 +21,7 @@ public class MethodInvocationExprNode extends ExprNode
 	static {
 		setName(MethodInvocationExprNode.class, "method invocation expression");
 	}
-	
+
 	static TypeNode methodTypeNode = new TypeNode() {
 		public Collection<BaseNode> getChildren() {
 			Vector<BaseNode> children = new Vector<BaseNode>();
@@ -35,12 +35,12 @@ public class MethodInvocationExprNode extends ExprNode
 			return childrenNames;
 		}
 	};
-	
-	ExprNode targetExpr;
-	IdentNode methodIdent;
-	CollectNode<ExprNode> params;
-	ExprNode result;
-	
+
+	private ExprNode targetExpr;
+	private IdentNode methodIdent;
+	private CollectNode<ExprNode> params;
+	private ExprNode result;
+
 	public MethodInvocationExprNode(ExprNode targetExpr, IdentNode methodIdent, CollectNode<ExprNode> params)
 	{
 		super(methodIdent.getCoords());
@@ -49,6 +49,7 @@ public class MethodInvocationExprNode extends ExprNode
 		this.params      = becomeParent(params);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
@@ -59,6 +60,7 @@ public class MethodInvocationExprNode extends ExprNode
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
@@ -68,13 +70,13 @@ public class MethodInvocationExprNode extends ExprNode
 			childrenNames.add("result");
 		return childrenNames;
 	}
-	
+
 	protected boolean resolveLocal() {
 		if(!targetExpr.resolve()) return false;
-		
+
 		String methodName = methodIdent.toString();
 		TypeNode targetType = targetExpr.getType();
-		
+
 		if(targetType == BasicTypeNode.stringType) {
 			if(methodName.equals("length")) {
 				if(params.size() != 0) {
@@ -83,7 +85,7 @@ public class MethodInvocationExprNode extends ExprNode
 				}
 				else
 					result = new StringLengthNode(getCoords(), targetExpr);
-			}				
+			}
 			else if(methodName.equals("substring")) {
   				if(params.size() != 2) {
   					reportError("string.substring(startIndex, length) takes two parameters.");
@@ -119,7 +121,7 @@ public class MethodInvocationExprNode extends ExprNode
   			else {
   				reportError("string does not have a method named \"" + methodName + "\"");
   				return false;
-  			}  				
+  			}
 		}
 		else if(targetType instanceof MapTypeNode) {
 			if(methodName.equals("size")) {
@@ -172,18 +174,21 @@ public class MethodInvocationExprNode extends ExprNode
 		return true;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
+	@Override
 	public TypeNode getType() {
 		return result.getType();
 	}
-	
-	public ExprNode getResult() {
+
+	protected ExprNode getResult() {
 		return result;
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		return result.getIR();
 	}

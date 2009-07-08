@@ -28,7 +28,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		setName(NodeTypeNode.class, "node type");
 	}
 
-	protected CollectNode<NodeTypeNode> extend;
+	private CollectNode<NodeTypeNode> extend;
 
 	/**
 	 * Create a new node type
@@ -48,6 +48,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(extendUnresolved, extend));
@@ -56,6 +57,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("extends");
@@ -73,6 +75,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 					ConstructorDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		body = bodyResolver.resolve(bodyUnresolved, this);
 		extend = extendResolver.resolve(extendUnresolved, this);
@@ -84,7 +87,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 * Get the IR node type for this AST node.
 	 * @return The correctly casted IR node type.
 	 */
-	public NodeType getNodeType() {
+	protected NodeType getNodeType() {
 		return checkIR(NodeType.class);
 	}
 
@@ -92,6 +95,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 * Construct IR object for this AST node.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		NodeType nt = new NodeType(getDecl().getIdentNode().getIdent(),
 								   getIRModifiers(), getExternalName());
@@ -101,10 +105,11 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		return nt;
 	}
 
-	public CollectNode<? extends InheritanceTypeNode> getExtends() {
+	protected CollectNode<? extends InheritanceTypeNode> getExtends() {
 		return extend;
 	}
 
+	@Override
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		assert isResolved();
 
@@ -123,7 +128,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	}
 
 	@Override
-	public Collection<NodeTypeNode> getDirectSuperTypes() {
+	protected Collection<NodeTypeNode> getDirectSuperTypes() {
 		assert isResolved();
 
 	    return extend.getChildren();

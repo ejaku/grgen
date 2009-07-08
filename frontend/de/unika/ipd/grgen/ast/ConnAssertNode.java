@@ -26,12 +26,12 @@ public class ConnAssertNode extends BaseNode {
 		setName(ConnAssertNode.class, "conn assert");
 	}
 
-	NodeTypeNode src;
-	BaseNode srcUnresolved;
-	RangeSpecNode srcRange;
-	NodeTypeNode tgt;
-	BaseNode tgtUnresolved;
-	RangeSpecNode tgtRange;
+	private NodeTypeNode src;
+	private BaseNode srcUnresolved;
+	private RangeSpecNode srcRange;
+	private NodeTypeNode tgt;
+	private BaseNode tgtUnresolved;
+	private RangeSpecNode tgtRange;
 
 	/**
 	 * Construct a new connection assertion node.
@@ -50,6 +50,7 @@ public class ConnAssertNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(srcUnresolved, src));
@@ -60,6 +61,7 @@ public class ConnAssertNode extends BaseNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("src");
@@ -72,6 +74,7 @@ public class ConnAssertNode extends BaseNode {
 	private static DeclarationTypeResolver<NodeTypeNode> nodeResolver =	new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		src = nodeResolver.resolve(srcUnresolved, this);
 		tgt = nodeResolver.resolve(tgtUnresolved, this);
@@ -83,10 +86,12 @@ public class ConnAssertNode extends BaseNode {
 	 * Check, if the AST node is correctly built.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
+	@Override
 	protected IR constructIR() {
 		long srcLower = srcRange.getLower();
 		long srcUpper = srcRange.getUpper();

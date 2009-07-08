@@ -30,8 +30,8 @@ public class SubpatternUsageNode extends DeclNode {
 		setName(SubpatternUsageNode.class, "subpattern node");
 	}
 
-	CollectNode<ConstraintDeclNode> connections;
-	CollectNode<IdentNode> connectionsUnresolved;
+	private CollectNode<ConstraintDeclNode> connections;
+	private CollectNode<IdentNode> connectionsUnresolved;
 
 	protected SubpatternDeclNode type = null;
 
@@ -49,8 +49,9 @@ public class SubpatternUsageNode extends DeclNode {
 		return type.getDeclType();
 	}
 
-	public SubpatternDeclNode getSubpatternDeclNode() {
+	protected SubpatternDeclNode getSubpatternDeclNode() {
 		assert isResolved();
+
 		return type;
 	}
 
@@ -78,6 +79,7 @@ public class SubpatternUsageNode extends DeclNode {
 		new CollectPairResolver<ConstraintDeclNode>(new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		fixupDefinition((IdentNode)typeUnresolved, typeUnresolved.getScope());
 		type        = actionResolver.resolve(typeUnresolved, this);
@@ -119,7 +121,7 @@ public class SubpatternUsageNode extends DeclNode {
 
 
 	/** Check whether the subpattern usage adheres to the signature of the subpattern declaration */
-	protected boolean checkSubpatternSignatureAdhered() {
+	private boolean checkSubpatternSignatureAdhered() {
 		// check if the number of parameters are correct
 		int expected = type.pattern.getParamDecls().size();
 		int actual = connections.getChildren().size();

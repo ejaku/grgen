@@ -57,17 +57,17 @@ public class PatternGraphNode extends GraphNode {
 	/** The modifiers for this type. An ORed combination of the constants above. */
 	private int modifiers = 0;
 
-	CollectNode<ExprNode> conditions;
-	CollectNode<AlternativeNode> alts;
-	CollectNode<IteratedNode> iters;
-	CollectNode<PatternGraphNode> negs; // NACs
-	CollectNode<PatternGraphNode> idpts; // PACs
-	CollectNode<HomNode> homs;
-	CollectNode<ExactNode> exact;
-	CollectNode<InducedNode> induced;
+	private CollectNode<ExprNode> conditions;
+	protected CollectNode<AlternativeNode> alts;
+	private CollectNode<IteratedNode> iters;
+	protected CollectNode<PatternGraphNode> negs; // NACs
+	private CollectNode<PatternGraphNode> idpts; // PACs
+	private CollectNode<HomNode> homs;
+	private CollectNode<ExactNode> exact;
+	private CollectNode<InducedNode> induced;
 
 	// Cache variable
-	Collection<Set<ConstraintDeclNode>> homSets = null;
+	private Collection<Set<ConstraintDeclNode>> homSets = null;
 
 	/**
 	 *  Map an edge to his homomorphic set.
@@ -133,6 +133,7 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(connectionsUnresolved, connections));
@@ -152,6 +153,7 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
@@ -173,6 +175,7 @@ public class PatternGraphNode extends GraphNode {
 	/**
 	 * @see GraphNode#getNodes()
 	 */
+	@Override
 	protected Set<NodeDeclNode> getNodes() {
 		assert isResolved();
 
@@ -200,6 +203,7 @@ public class PatternGraphNode extends GraphNode {
 	/**
 	 * @see GraphNode#getEdges()
 	 */
+	@Override
 	protected Set<EdgeDeclNode> getEdges() {
 		assert isResolved();
 
@@ -318,7 +322,7 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
-	public Collection<Set<ConstraintDeclNode>> getHoms() {
+	protected Collection<Set<ConstraintDeclNode>> getHoms() {
 		if (homSets == null) {
 			initHomSets();
 		}
@@ -326,6 +330,7 @@ public class PatternGraphNode extends GraphNode {
 		return homSets;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		boolean childs = super.checkLocal();
 
@@ -357,7 +362,7 @@ public class PatternGraphNode extends GraphNode {
 	 *
 	 * @return The IR object.
 	 */
-	public PatternGraph getPatternGraph() {
+	protected PatternGraph getPatternGraph() {
 		return checkIR(PatternGraph.class);
 	}
 
@@ -389,6 +394,7 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
+	@Override
 	protected void addParamsToConnections(CollectNode<BaseNode> params)
     {
     	for (BaseNode n : params.getChildren()) {
@@ -403,6 +409,7 @@ public class PatternGraphNode extends GraphNode {
 				((ConstraintDeclNode)n).directlyNestingLHSGraph = this;
 			} else {
 				// don't need to adapt left/right nodes as only dummies
+				// TODO casts checked?
 				ConnectionNode cn = (ConnectionNode)n;
 				((EdgeDeclNode)cn.edgeUnresolved).directlyNestingLHSGraph = this;
 			}
@@ -411,6 +418,7 @@ public class PatternGraphNode extends GraphNode {
         }
     }
 
+	@Override
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph(nameOfGraph, modifiers);
 
@@ -607,15 +615,15 @@ public class PatternGraphNode extends GraphNode {
 		return ret;
     }
 
-	public final boolean isInduced() {
+	private boolean isInduced() {
 		return (modifiers & MOD_INDUCED) != 0;
 	}
 
-	public final boolean isDPO() {
+	private boolean isDPO() {
 		return (modifiers & MOD_DPO) != 0;
 	}
 
-	public final boolean isExact() {
+	private boolean isExact() {
 		return (modifiers & MOD_EXACT) != 0;
 	}
 
@@ -624,7 +632,7 @@ public class PatternGraphNode extends GraphNode {
 	 *
 	 * @return The Collection for the NACs.
 	 */
-	public Collection<PatternGraph> getImplicitNegGraphs() {
+	protected Collection<PatternGraph> getImplicitNegGraphs() {
 		Collection<PatternGraph> ret = new LinkedList<PatternGraph>();
 
 		initDoubleNodeNegMap();

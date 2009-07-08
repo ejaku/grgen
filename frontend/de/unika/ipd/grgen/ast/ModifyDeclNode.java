@@ -85,6 +85,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 				NodeDeclNode.class, EdgeDeclNode.class, SubpatternUsageNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		Triple<CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>, CollectNode<SubpatternUsageNode>> resolve =
 			deleteResolver.resolve(deleteUnresolved);
@@ -202,6 +203,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 	 * Return all reused edges (with their nodes), that excludes new edges of
 	 * the right-hand side.
 	 */
+	@Override
 	protected Collection<ConnectionNode> getReusedConnections(PatternGraphNode pattern) {
 		Collection<ConnectionNode> res = new LinkedHashSet<ConnectionNode>();
 		Collection<EdgeDeclNode> lhs = pattern.getEdges();
@@ -242,6 +244,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 	/**
 	 * Return all reused nodes, that excludes new nodes of the right-hand side.
 	 */
+	@Override
 	protected Set<BaseNode> getReusedNodes(PatternGraphNode pattern) {
 		if(reusedNodes != null) return reusedNodes;
 
@@ -258,6 +261,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 		return reusedNodes;
 	}
 
+	@Override
 	protected void warnElemAppearsInsideAndOutsideDelete(PatternGraphNode pattern) {
 		Set<DeclNode> deletes = getDelete(pattern);
 

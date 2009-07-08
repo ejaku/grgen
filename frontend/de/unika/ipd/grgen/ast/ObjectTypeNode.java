@@ -41,10 +41,12 @@ public class ObjectTypeNode extends BasicTypeNode {
 
 	private ObjectTypeNode() {}
 
+	@Override
 	protected IR constructIR() {
 		return new ObjectType(getIdentNode().getIdent());
 	}
 
+	@Override
 	public String toString() {
 		return "object";
 	}

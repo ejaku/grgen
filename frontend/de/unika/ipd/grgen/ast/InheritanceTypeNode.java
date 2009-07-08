@@ -32,7 +32,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	protected CollectNode<BaseNode> bodyUnresolved;
 
 	protected CollectNode<BaseNode> body;
-	
+
 	/**
 	 * The modifiers for this type.
 	 * An ORed combination of the constants above.
@@ -50,13 +50,13 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	/** Contains all super types of this type (not including this itself) */
 	private Collection<InheritanceTypeNode> allSuperTypes = null;
 
-	public boolean isA(InheritanceTypeNode type) {
+	protected boolean isA(InheritanceTypeNode type) {
 		assert type != null;
 		return this==type || getAllSuperTypes().contains(type);
 	}
 
 	/** Returns all super types of this type (not including itself). */
-	public Collection<InheritanceTypeNode> getAllSuperTypes() {
+	protected Collection<InheritanceTypeNode> getAllSuperTypes() {
 		if(allSuperTypes==null) {
 			allSuperTypes = new HashSet<InheritanceTypeNode>();
 
@@ -69,6 +69,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal()
 	{
 		boolean res = true;
@@ -89,7 +90,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 			if(n instanceof ConstructorDeclNode)
 				constrs.add((ConstructorDeclNode) n);
 		}
-		
+
 		for(int i = 0; i < constrs.size(); i++) {
 			ConstructorDeclNode c1 = constrs.get(i);
 			Vector<ConstructorParamNode> params1 = c1.getParameters().children;
@@ -111,14 +112,14 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 					else if(param1.lhs.getDeclType() != param2.lhs.getDeclType())
 						break;           // found a difference => not ambiguous
 				}
-				
+
 				// Constructors are also ambiguous, if both have identical parameter types,
 				// or if their non-optional parts have identical types and one also has an optional part.
 				if(p == numParams1 && p == numParams2
 						|| p == numParams1 && params2.get(p).rhs != null
 						|| p == numParams2 && params1.get(p).rhs != null)
 					ambiguous = true;
-				
+
 				if(ambiguous) {
 					c1.reportError("Constructor is ambiguous (see constructor at "
 							+ c2.getCoords() + ")");
@@ -135,12 +136,14 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	 * The cast must always succeed.
 	 * @return The IR object as type.
 	 */
+	@Override
 	public InheritanceType getType() {
 		return checkIR(InheritanceType.class);
 	}
 
-	public abstract CollectNode<? extends InheritanceTypeNode> getExtends();
+	protected abstract CollectNode<? extends InheritanceTypeNode> getExtends();
 
+	@Override
     public boolean fixupDefinition(IdentNode id) {
 		assert isResolved();
 
@@ -161,15 +164,15 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		return def != null;
     }
 
-	public void setModifiers(int modifiers) {
+	protected void setModifiers(int modifiers) {
 		this.modifiers = modifiers;
 	}
 
-	public final boolean isAbstract() {
+	protected final boolean isAbstract() {
 		return (modifiers & MOD_ABSTRACT) != 0;
 	}
 
-	public final boolean isConst() {
+	protected final boolean isConst() {
 		return (modifiers & MOD_CONST) != 0;
 	}
 
@@ -178,15 +181,15 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 			| (isConst() ? InheritanceType.CONST : 0);
 	}
 
-	public void setExternalName(String extName) {
+	protected void setExternalName(String extName) {
 		externalName = extName;
 	}
 
-	public final String getExternalName() {
+	protected final String getExternalName() {
 		return externalName;
 	}
 
-	public abstract Collection<? extends InheritanceTypeNode> getDirectSuperTypes();
+	protected abstract Collection<? extends InheritanceTypeNode> getDirectSuperTypes();
 
 	protected abstract void getMembers(Map<String, DeclNode> members);
 
@@ -205,7 +208,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 
 		return allMembers;
 	}
-	
+
 	protected void constructIR(InheritanceType inhType) {
 		for(BaseNode n : body.getChildren()) {
 			if(n instanceof ConstructorDeclNode) {

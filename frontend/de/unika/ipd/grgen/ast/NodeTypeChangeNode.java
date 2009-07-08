@@ -29,8 +29,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		setName(NodeTypeChangeNode.class, "node type change decl");
 	}
 
-	BaseNode oldUnresolved;
-	NodeDeclNode old = null;
+	private BaseNode oldUnresolved;
+	private NodeDeclNode old = null;
 
 	public NodeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid, PatternGraphNode directlyNestingLHSGraph) {
 		super(id, newType, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
@@ -39,6 +39,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -49,6 +50,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -61,6 +63,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	private static final DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = super.resolveLocal();
 
@@ -74,14 +77,16 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	/**
 	 * @return the original node for this retyped node
 	 */
-	public NodeDeclNode getOldNode() {
+	protected final NodeDeclNode getOldNode() {
 		assert isResolved();
+
 		return old;
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
+	@Override
 	protected boolean checkLocal() {
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
 		boolean res = super.checkLocal()
@@ -124,7 +129,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		return res & onlyReplacementNodesAreAllowedToChangeType();
 	}
 
-	protected boolean onlyReplacementNodesAreAllowedToChangeType() {
+	private boolean onlyReplacementNodesAreAllowedToChangeType() {
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			return true;
 		}
@@ -133,6 +138,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		return false;
 	}
 
+	@Override
 	public Node getNode() {
 		return checkIR(Node.class);
 	}
@@ -140,6 +146,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		NodeTypeNode tn = getDeclType();
 		NodeType nt = tn.getNodeType();

@@ -27,17 +27,18 @@ public class ConstructorParamNode extends BaseNode {
 	static {
 		setName(ConstructorParamNode.class, "constructor parameter declaration");
 	}
-	
-	IdentNode lhsUnresolved;
-	DeclNode lhs;
-	ExprNode rhs;
-	
+
+	private IdentNode lhsUnresolved;
+	protected DeclNode lhs;
+	protected ExprNode rhs;
+
 	public ConstructorParamNode(IdentNode paramNode, ExprNode expr) {
 		super(paramNode.getCoords());
 		lhsUnresolved = becomeParent(paramNode);
 		rhs = becomeParent(expr);
 	}
 
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(lhsUnresolved, lhs));
@@ -46,6 +47,7 @@ public class ConstructorParamNode extends BaseNode {
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("lhs");
@@ -53,16 +55,18 @@ public class ConstructorParamNode extends BaseNode {
 			childrenNames.add("rhs");
 		return childrenNames;
 	}
-	
+
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>();
 
+	@Override
 	protected boolean resolveLocal() {
 		if(!lhsResolver.resolve(lhsUnresolved)) return false;
 		lhs = lhsResolver.getResult(DeclNode.class);
 
 		return lhsResolver.finish();
 	}
-	
+
+	@Override
 	protected boolean checkLocal() {
 		return rhs == null || typeCheckLocal();
 	}
@@ -72,17 +76,18 @@ public class ConstructorParamNode extends BaseNode {
 	 * to the type of the target. Inserts implicit cast if compatible.
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
-	protected boolean typeCheckLocal() {
+	private boolean typeCheckLocal() {
 		TypeNode targetType = lhs.getDeclType();
 		TypeNode exprType = rhs.getType();
 
 		if (exprType.isEqual(targetType))
 			return true;
-		
+
 		rhs = becomeParent(rhs.adjustType(targetType, getCoords()));
 		return rhs != ConstNode.getInvalid();
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		Expression expr = rhs == null ? null : rhs.checkIR(Expression.class);
 		return new ConstructorParam(lhs.checkIR(Entity.class), expr);

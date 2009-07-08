@@ -85,7 +85,7 @@ public class ExecNode extends BaseNode {
 		else sb.append(n);
 	}
 
-	public String getXGRSString() {
+	private String getXGRSString() {
 		return sb.toString();
 	}
 
@@ -108,6 +108,7 @@ public class ExecNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> res = new Vector<BaseNode>();
 		res.add(callActions);
@@ -117,6 +118,7 @@ public class ExecNode extends BaseNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("call actions");
@@ -126,6 +128,7 @@ public class ExecNode extends BaseNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		Triple<CollectNode<ExecVarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>> resolve =
 			graphElementUsageOutsideOfCallResolver.resolve(graphElementUsageOutsideOfCallUnresolved);
@@ -155,14 +158,17 @@ public class ExecNode extends BaseNode {
 		return resolve != null;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
+	@Override
 	public Color getNodeColor() {
 		return Color.PINK;
 	}
 
+	@Override
 	protected IR constructIR() {
 		Set<ExecVarDeclNode> localVars = new HashSet<ExecVarDeclNode>();
 		for(ExecVarDeclNode node : varDecls.getChildren())

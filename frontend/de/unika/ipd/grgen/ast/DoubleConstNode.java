@@ -20,10 +20,12 @@ public class DoubleConstNode extends ConstNode
 		super(coords, "double", new Double(v));
 	}
 
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.doubleType;
 	}
 
+	@Override
 	protected ConstNode doCastTo(TypeNode type) {
 		Double value = (Double) getValue();
 

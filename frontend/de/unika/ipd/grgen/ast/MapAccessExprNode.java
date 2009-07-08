@@ -20,14 +20,14 @@ import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class MapAccessExprNode extends ExprNode
-// MAP TODO: hieraus einen operator machen 
+// MAP TODO: hieraus einen operator machen
 {
 	static {
 		setName(MapAccessExprNode.class, "map access expression");
 	}
 
-	ExprNode targetExpr;
-	ExprNode keyExpr;
+	private ExprNode targetExpr;
+	private ExprNode keyExpr;
 
 	public MapAccessExprNode(Coords coords, ExprNode targetExpr, ExprNode keyExpr)
 	{
@@ -36,6 +36,7 @@ public class MapAccessExprNode extends ExprNode
 		this.keyExpr = becomeParent(keyExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
@@ -43,6 +44,7 @@ public class MapAccessExprNode extends ExprNode
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
@@ -50,6 +52,7 @@ public class MapAccessExprNode extends ExprNode
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		boolean success = true;
 		TypeNode targetType = targetExpr.getType();
@@ -69,6 +72,7 @@ public class MapAccessExprNode extends ExprNode
 		return success;
 	}
 
+	@Override
 	public TypeNode getType() {
 		TypeNode targetExprType = targetExpr.getType();
 		assert targetExprType instanceof MapTypeNode: targetExprType + " should have a map type";
@@ -77,6 +81,7 @@ public class MapAccessExprNode extends ExprNode
 		return targetExprMapType.valueType;
 	}
 
+	@Override
 	protected IR constructIR() {
 		return new MapAccessExpr(targetExpr.checkIR(Expression.class),
 				keyExpr.checkIR(Expression.class));

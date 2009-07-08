@@ -32,6 +32,7 @@ public abstract class ExprNode extends BaseNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
@@ -43,6 +44,7 @@ public abstract class ExprNode extends BaseNode {
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */
+	@Override
 	public Color getNodeColor()	{
 		return Color.PINK;
 	}
@@ -86,7 +88,7 @@ public abstract class ExprNode extends BaseNode {
 		return ConstNode.getInvalid();
 	}
 
-	public ExprNode adjustType(TypeNode targetType, Coords errorCoords)
+	protected ExprNode adjustType(TypeNode targetType, Coords errorCoords)
 	{
 		ExprNode expr = adjustType(targetType);
 
@@ -106,7 +108,7 @@ public abstract class ExprNode extends BaseNode {
 	 * Tries to simplify this node.
 	 * @return The possibly simplified value of the expression.
 	 */
-	public ExprNode evaluate() {
+	protected ExprNode evaluate() {
 		return this;
 	}
 }

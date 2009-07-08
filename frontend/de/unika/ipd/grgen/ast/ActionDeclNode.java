@@ -26,7 +26,7 @@ public abstract class ActionDeclNode extends DeclNode
      * The IR object is instance of Rule.
      * @return The IR object.
      */
-    public Rule getAction() {
+    protected Rule getAction() {
         return checkIR(Rule.class);
     }
 }

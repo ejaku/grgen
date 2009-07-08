@@ -28,10 +28,10 @@ public class HomNode extends BaseNode {
 		setName(HomNode.class, "homomorph");
 	}
 
-	Vector<NodeDeclNode> childrenNode = new Vector<NodeDeclNode>();
-	Vector<EdgeDeclNode> childrenEdge = new Vector<EdgeDeclNode>();
+	private Vector<NodeDeclNode> childrenNode = new Vector<NodeDeclNode>();
+	private Vector<EdgeDeclNode> childrenEdge = new Vector<EdgeDeclNode>();
 
-	Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
+	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
 
 	public HomNode(Coords coords) {
 		super(coords);
@@ -44,11 +44,13 @@ public class HomNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		return getValidVersionVector(childrenUnresolved, childrenNode, childrenEdge);
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// nameless children
@@ -58,6 +60,7 @@ public class HomNode extends BaseNode {
 	private static final DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> declResolver = new DeclarationPairResolver<NodeDeclNode,EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 
@@ -128,6 +131,7 @@ public class HomNode extends BaseNode {
 		}
     }
 
+	@Override
 	public Color getNodeColor() {
 		return Color.PINK;
 	}

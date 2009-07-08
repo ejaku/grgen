@@ -40,22 +40,22 @@ public class GraphNode extends BaseNode {
 		setName(GraphNode.class, "graph");
 	}
 
-	CollectNode<BaseNode> connectionsUnresolved;
-	CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
-	CollectNode<SubpatternUsageNode> subpatterns;
-	CollectNode<SubpatternReplNode> subpatternReplacements;
-	CollectNode<ExprNode> returns;
-	CollectNode<BaseNode> imperativeStmts;
-	CollectNode<BaseNode> params;
+	protected CollectNode<BaseNode> connectionsUnresolved;
+	protected CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
+	protected CollectNode<SubpatternUsageNode> subpatterns;
+	protected CollectNode<SubpatternReplNode> subpatternReplacements;
+	protected CollectNode<ExprNode> returns;
+	protected CollectNode<BaseNode> imperativeStmts;
+	protected CollectNode<BaseNode> params;
 
 	protected boolean hasAbstractElements;
 
 	// Cache variables
-	Set<NodeDeclNode> nodes;
-	Set<EdgeDeclNode> edges;
+	protected Set<NodeDeclNode> nodes;
+	protected Set<EdgeDeclNode> edges;
 
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
-	int context = 0;
+	protected int context = 0;
 
 	protected String nameOfGraph;
 
@@ -90,6 +90,7 @@ public class GraphNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(connectionsUnresolved, connections));
@@ -102,6 +103,7 @@ public class GraphNode extends BaseNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
@@ -119,6 +121,7 @@ public class GraphNode extends BaseNode {
 				ConnectionNode.class, SingleNodeConnNode.class,  SingleGraphEntityNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		Triple<CollectNode<ConnectionNode>, CollectNode<SingleNodeConnNode>, CollectNode<SingleGraphEntityNode>> resolve =
 			connectionsResolver.resolve(connectionsUnresolved);
@@ -207,6 +210,7 @@ public class GraphNode extends BaseNode {
 	 * A pattern node contains just a collect node with connection nodes as its children.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
+	@Override
 	protected boolean checkLocal() {
 		boolean connCheck = connectionsChecker.check(connections, error);
 
@@ -288,7 +292,7 @@ public class GraphNode extends BaseNode {
 	 * Get the correctly casted IR object.
 	 * @return The IR object.
 	 */
-	public PatternGraph getGraph() {
+	protected PatternGraph getGraph() {
 		return checkIR(PatternGraph.class);
 	}
 
@@ -297,6 +301,7 @@ public class GraphNode extends BaseNode {
 	 * It is a Graph and all the connections (children of the pattern AST node) are put into it.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph(nameOfGraph, 0);
 
@@ -328,7 +333,7 @@ public class GraphNode extends BaseNode {
         }
     }
 
-	public Vector<DeclNode> getParamDecls() {
+	protected Vector<DeclNode> getParamDecls() {
 		Vector<DeclNode> res = new Vector<DeclNode>();
 
 		for (BaseNode para : params.getChildren()) {

@@ -21,11 +21,13 @@ public class BoolConstNode extends ConstNode
 		super(coords, "boolean", new Boolean(value));
 	}
 
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.booleanType;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
+	@Override
 	protected ConstNode doCastTo(TypeNode type) {
 		Boolean value = (Boolean) getValue();
 

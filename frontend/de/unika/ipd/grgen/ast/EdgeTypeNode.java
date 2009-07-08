@@ -32,11 +32,11 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 					MemberInitNode.class, MapInitNode.class, SetInitNode.class,
 					ConstructorDeclNode.class));
 
-	protected static final CollectResolver<EdgeTypeNode> extendResolver = new CollectResolver<EdgeTypeNode>(
+	private static final CollectResolver<EdgeTypeNode> extendResolver = new CollectResolver<EdgeTypeNode>(
     		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class));
 
-	protected CollectNode<EdgeTypeNode> extend;
-	protected CollectNode<ConnAssertNode> cas;
+	private CollectNode<EdgeTypeNode> extend;
+	private CollectNode<ConnAssertNode> cas;
 
 	/**
 	 * Make a new edge type node.
@@ -60,6 +60,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(extendUnresolved, extend));
@@ -69,6 +70,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("extends");
@@ -78,6 +80,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		body = bodyResolver.resolve(bodyUnresolved, this);
 		extend = extendResolver.resolve(extendUnresolved, this);
@@ -89,14 +92,16 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	 * Get the edge type IR object.
 	 * @return The edge type IR object for this AST node.
 	 */
-	public EdgeType getEdgeType() {
+	protected final EdgeType getEdgeType() {
 		return checkIR(EdgeType.class);
 	}
 
-	public CollectNode<? extends InheritanceTypeNode> getExtends() {
+	@Override
+	protected CollectNode<? extends InheritanceTypeNode> getExtends() {
 		return extend;
 	}
 
+	@Override
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		assert isResolved();
 
@@ -106,7 +111,8 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 		}
     }
 
-	public Collection<EdgeTypeNode> getDirectSuperTypes() {
+	@Override
+	protected Collection<EdgeTypeNode> getDirectSuperTypes() {
 		assert isResolved();
 
 	    return extend.getChildren();
@@ -138,6 +144,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	/**
      * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
      */
+	@Override
     protected IR constructIR()
     {
     	EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(),

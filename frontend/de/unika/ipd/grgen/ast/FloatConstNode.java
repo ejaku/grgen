@@ -20,10 +20,12 @@ public class FloatConstNode extends ConstNode
 		super(coords, "float", new Float(v));
 	}
 
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.floatType;
 	}
 
+	@Override
 	protected ConstNode doCastTo(TypeNode type) {
 		Float value = (Float) getValue();
 

@@ -22,8 +22,8 @@ public class TypeBinaryExprNode extends TypeExprNode {
 		setName(TypeBinaryExprNode.class, "type binary expr");
 	}
 
-	TypeExprNode lhs;
-	TypeExprNode rhs;
+	private TypeExprNode lhs;
+	private TypeExprNode rhs;
 
 	public TypeBinaryExprNode(Coords coords, int op, TypeExprNode op0, TypeExprNode op1) {
 		super(coords, op);
@@ -34,6 +34,7 @@ public class TypeBinaryExprNode extends TypeExprNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(lhs);
@@ -42,6 +43,7 @@ public class TypeBinaryExprNode extends TypeExprNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("lhs");
@@ -50,14 +52,17 @@ public class TypeBinaryExprNode extends TypeExprNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
+	@Override
 	protected IR constructIR() {
 		TypeExpr lhs = this.lhs.checkIR(TypeExpr.class);
 		TypeExpr rhs = this.rhs.checkIR(TypeExpr.class);

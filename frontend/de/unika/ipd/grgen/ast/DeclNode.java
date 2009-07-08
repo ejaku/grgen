@@ -29,7 +29,9 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		setName(DeclNode.class, "declaration");
 	}
 
-	IdentNode ident;
+	protected IdentNode ident;
+
+	// TODO this should not be public
 	public BaseNode typeUnresolved;
 
 
@@ -74,14 +76,16 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	}
 
 	/** @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeColor() */
+	@Override
 	public Color getNodeColor() {
 		return Color.BLUE;
 	}
 
-	public Entity getEntity() {
+	protected Entity getEntity() {
 		return checkIR(Entity.class);
 	}
 
+	@Override
 	protected IR constructIR() {
 		Type type = getDeclType().checkIR(Type.class);
 		return new Entity("entity", getIdentNode().getIdent(), type, false);
@@ -91,6 +95,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		return "declaration";
 	}
 
+	@Override
 	public String toString() {
 		return ident.toString();
 	}

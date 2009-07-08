@@ -50,6 +50,7 @@ public class AssignNode extends EvalStatementNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(lhs);
@@ -58,6 +59,7 @@ public class AssignNode extends EvalStatementNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("lhs");
@@ -66,11 +68,13 @@ public class AssignNode extends EvalStatementNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		if(lhs instanceof QualIdentNode) {
 			QualIdentNode qual = (QualIdentNode) lhs;
@@ -108,14 +112,14 @@ public class AssignNode extends EvalStatementNode {
 	 * to the type of the target. Inserts implicit cast if compatible.
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
-	protected boolean typeCheckLocal() {
+	private boolean typeCheckLocal() {
 		QualIdentNode qual = (QualIdentNode) lhs;
 		TypeNode targetType = qual.getDecl().getDeclType();
 		TypeNode exprType = rhs.getType();
 
 		if (exprType.isEqual(targetType))
 			return true;
-		
+
 		rhs = becomeParent(rhs.adjustType(targetType, getCoords()));
 		return rhs != ConstNode.getInvalid();
 	}
@@ -124,6 +128,7 @@ public class AssignNode extends EvalStatementNode {
 	 * Construct the immediate representation from an assignment node.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		Expression target;
 		if(lhs instanceof QualIdentNode) {
@@ -135,10 +140,10 @@ public class AssignNode extends EvalStatementNode {
 				error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
 			}
 			target = qual;
-			
+
 			if(canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()) {
 				markSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations();
-				ExprNode rhsEvaluated = rhs.evaluate(); 
+				ExprNode rhsEvaluated = rhs.evaluate();
 				return rhsEvaluated.checkIR(EvalStatement.class);
 			}
 		}
@@ -147,28 +152,28 @@ public class AssignNode extends EvalStatementNode {
 		}
 		else throw new UnsupportedOperationException("Unsupported LHS of assignment: \"" + lhs + "\"");
 
-		ExprNode rhsEvaluated = rhs.evaluate(); 
+		ExprNode rhsEvaluated = rhs.evaluate();
 		return new Assignment(target, rhsEvaluated.checkIR(Expression.class));
 	}
-	
-	protected boolean canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()
+
+	private boolean canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()
 	{
 		// is it a set or map assignment ?
 		if(!(lhs instanceof QualIdentNode)) {
 			return false;
 		}
 		QualIdentNode qual = (QualIdentNode)lhs;
-		if(!(qual.getDecl().type instanceof SetTypeNode) 
+		if(!(qual.getDecl().type instanceof SetTypeNode)
 				&& !(qual.getDecl().type instanceof MapTypeNode )) {
 			return false;
 		}
-		
-		// descend and check if constraints are fulfilled which allow breakup 
-		ExprNode curLoc = rhs; // current location in the expression tree, more exactly: left-deep list 
+
+		// descend and check if constraints are fulfilled which allow breakup
+		ExprNode curLoc = rhs; // current location in the expression tree, more exactly: left-deep list
 		while(curLoc!=null) {
 			if(curLoc instanceof ArithmeticOpNode) {
 				ArithmeticOpNode operator = (ArithmeticOpNode)curLoc;
-				if(!(operator.getOperator().getOpId()==OperatorSignature.BIT_OR) 
+				if(!(operator.getOperator().getOpId()==OperatorSignature.BIT_OR)
 						&& !(operator.getOperator().getOpId()==OperatorSignature.EXCEPT)) {
 					return false;
 				}
@@ -179,9 +184,9 @@ public class AssignNode extends EvalStatementNode {
 				if(!(right instanceof SetInitNode) && !(right instanceof MapInitNode)) {
 					return false;
 				}
-				
+
 				curLoc = left;
-			} 
+			}
 			else if(curLoc instanceof MemberAccessExprNode) {
 				// determine right owner and member, filter for needed types
 				MemberAccessExprNode access = (MemberAccessExprNode)curLoc;
@@ -192,31 +197,31 @@ public class AssignNode extends EvalStatementNode {
 				MemberDeclNode rightMember = access.getDecl();
 				// determine left owner and member, filter for needed types
 				MemberDeclNode leftMember = qual.getDecl();
-				if(!(qual.getOwner() instanceof ConstraintDeclNode)) return false; 
+				if(!(qual.getOwner() instanceof ConstraintDeclNode)) return false;
 				ConstraintDeclNode leftOwner = (ConstraintDeclNode)qual.getOwner();
-				// check that the accessed set/map is the same on the left and the right hand side 
+				// check that the accessed set/map is the same on the left and the right hand side
 				if(leftOwner!=rightOwner) return false;
 				if(leftMember!=rightMember) return false;
-				
+
 				curLoc = null;
 			} else {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
-	protected void markSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations()
+	private void markSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations()
 	{
 		ExprNode curLoc = rhs;
 		while(curLoc!=null) {
 			if(curLoc instanceof ArithmeticOpNode) {
 				ArithmeticOpNode operator = (ArithmeticOpNode)curLoc;
 				operator.markToBreakUpIntoStateChangingOperations((QualIdentNode)lhs);
-				ExprNode left = operator.getChildren().iterator().next();			
+				ExprNode left = operator.getChildren().iterator().next();
 				curLoc = left;
-			} else { 
+			} else {
 				curLoc = null;
 			}
 		}

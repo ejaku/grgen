@@ -18,6 +18,7 @@ public class EnumItemTypeNode extends BasicTypeNode
 		setName(EnumItemTypeNode.class, "enum item type");
 	}
 
+	@Override
 	protected IR constructIR() {
 		return new IntType(getIdentNode().getIdent());
 	}

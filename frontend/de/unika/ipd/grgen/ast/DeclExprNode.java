@@ -45,7 +45,7 @@ public class DeclExprNode extends ExprNode {
 		this.decl = (DeclaredCharacter) declCharacter;
 		becomeParent(this.declUnresolved);
 	}
-	
+
 	/**
 	 * Make a new declaration expression from an enum expression.
 	 * @param coords The source code coordinates.
@@ -59,6 +59,7 @@ public class DeclExprNode extends ExprNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add((BaseNode) decl);
@@ -66,6 +67,7 @@ public class DeclExprNode extends ExprNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("decl");
@@ -75,6 +77,7 @@ public class DeclExprNode extends ExprNode {
 	private static MemberResolver<DeclaredCharacter> memberResolver = new MemberResolver<DeclaredCharacter>();
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		if(!memberResolver.resolve(declUnresolved)) return false;
 
@@ -89,6 +92,7 @@ public class DeclExprNode extends ExprNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
+	@Override
 	public TypeNode getType() {
 		return decl.getDecl().getDeclType();
 	}
@@ -96,20 +100,20 @@ public class DeclExprNode extends ExprNode {
 	/**
 	 * Gets the ConstraintDeclNode this DeclExprNode resolved to, or null if it is something else.
 	 */
-	public ConstraintDeclNode getConstraintDeclNode() {
+	protected ConstraintDeclNode getConstraintDeclNode() {
 		assert isResolved();
 		if(decl instanceof ConstraintDeclNode) return (ConstraintDeclNode)decl;
 		return null;
 	}
-	
+
 	/** returns the node this DeclExprNode was resolved to. */
-	public BaseNode getResolvedNode() {
+	protected BaseNode getResolvedNode() {
 		assert isResolved();
 		return (BaseNode)decl;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#evaluate() */
-	public ExprNode evaluate() {
+	protected ExprNode evaluate() {
 		ExprNode res = this;
 		DeclNode declNode = decl.getDecl();
 
@@ -120,11 +124,13 @@ public class DeclExprNode extends ExprNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
+	@Override
 	protected IR constructIR() {
 		BaseNode declNode = (BaseNode) decl;
 		if(declNode instanceof MemberDeclNode)

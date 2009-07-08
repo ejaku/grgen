@@ -23,13 +23,14 @@ public class SetTypeNode extends DeclaredTypeNode {
 	static {
 		setName(SetTypeNode.class, "set type");
 	}
-	
+
+	@Override
 	public String getName() {
 		return "set<" + valueTypeUnresolved.toString() + "> type";
 	}
-	
+
 	private static HashMap<String, SetTypeNode> setTypes = new HashMap<String, SetTypeNode>();
-	
+
 	public static SetTypeNode getSetType(IdentNode valueTypeIdent) {
 		String keyStr = valueTypeIdent.toString();
 		SetTypeNode setTypeNode = setTypes.get(keyStr);
@@ -39,34 +40,37 @@ public class SetTypeNode extends DeclaredTypeNode {
 
 		return setTypeNode;
 	}
-	
-	IdentNode valueTypeUnresolved;
-	TypeNode valueType;
-	
+
+	private IdentNode valueTypeUnresolved;
+	protected TypeNode valueType;
+
 	// the set type node instances are created in ParserEnvironment as needed
 	public SetTypeNode(IdentNode valueTypeIdent) {
 		valueTypeUnresolved = becomeParent(valueTypeIdent);
 	}
-	
+
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
-	
+
 	private static final DeclarationTypeResolver<TypeNode> typeResolver = new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
+	@Override
 	protected boolean resolveLocal() {
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
 
 		if(valueType == null) return false;
-		
+
 		OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
 				valueType, this, OperatorSignature.setEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.BIT_OR, this, this, this,
@@ -75,10 +79,11 @@ public class SetTypeNode extends DeclaredTypeNode {
 				OperatorSignature.setEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this, this, this,
 				OperatorSignature.setEvaluator);
-		
+
 		return true;
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		return new SetType(valueType.getType());
 	}

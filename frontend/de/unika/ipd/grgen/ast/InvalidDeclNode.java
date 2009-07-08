@@ -19,7 +19,7 @@ public class InvalidDeclNode extends DeclNode {
 		setName(InvalidDeclNode.class, "invalid declaration");
 	}
 
-	ErrorTypeNode type;
+	private ErrorTypeNode type;
 
 	/**
 	 * Create a resolved and checked invalid DeclNode.
@@ -31,6 +31,7 @@ public class InvalidDeclNode extends DeclNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -39,6 +40,7 @@ public class InvalidDeclNode extends DeclNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -46,9 +48,10 @@ public class InvalidDeclNode extends DeclNode {
 		return childrenNames;
 	}
 
-	DeclarationResolver<ErrorTypeNode> typeResolver = new DeclarationResolver<ErrorTypeNode>(ErrorTypeNode.class);
+	private static DeclarationResolver<ErrorTypeNode> typeResolver = new DeclarationResolver<ErrorTypeNode>(ErrorTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
 
@@ -56,6 +59,7 @@ public class InvalidDeclNode extends DeclNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
@@ -68,6 +72,7 @@ public class InvalidDeclNode extends DeclNode {
 		return "undeclared identifier";
 	}
 
+	@Override
 	public String toString() {
 		return "undeclared identifier";
 	}

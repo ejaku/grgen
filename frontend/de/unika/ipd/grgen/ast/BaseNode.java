@@ -50,7 +50,7 @@ public abstract class BaseNode extends Base
 	public static final int CONTEXT_RULE = 1<<2;
 	public static final int CONTEXT_NEGATIVE = 1<<3;
 	public static final int CONTEXT_INDEPENDENT = 1<<4;
-	
+
 	/**
 	 * AST global name map, that maps from Class to String.
 	 * Needed as in some situations only the class object itself is available
@@ -60,7 +60,7 @@ public abstract class BaseNode extends Base
 		new HashMap<Class<? extends BaseNode>, String>();
 
 	/** A dummy AST node used in case of an error */
-	protected static final BaseNode NULL = new ErrorNode();
+	private static final BaseNode NULL = new ErrorNode();
 
 	/** Print verbose error messages. */
 	private static boolean verboseErrorMsg = true;
@@ -162,7 +162,7 @@ public abstract class BaseNode extends Base
 	 * @param cls The AST node class.
 	 * @param name A human readable name for that class.
 	 */
-	public static void setName(Class<? extends BaseNode> cls, String name) {
+	protected static void setName(Class<? extends BaseNode> cls, String name) {
 		names.put(cls, name);
 	}
 
@@ -184,7 +184,7 @@ public abstract class BaseNode extends Base
 	 * Set the name of the node.
 	 * @param name The new name.
 	 */
-	protected void setName(String name) {
+	protected final void setName(String name) {
 		names.put(getClass(), name);
 	}
 
@@ -274,7 +274,7 @@ public abstract class BaseNode extends Base
 	 * Get the coordinates within the source code of this node.
 	 * @return The coordinates.
 	 */
-	public Coords getCoords() {
+	public final Coords getCoords() {
 		return coords;
 	}
 
@@ -282,7 +282,7 @@ public abstract class BaseNode extends Base
 	 * Set the coordinates within the source code of this node.
 	 * @param coords The coordinates.
 	 */
-	public void setCoords(Coords coords) {
+	public final void setCoords(Coords coords) {
 		this.coords = coords;
 	}
 
@@ -290,7 +290,7 @@ public abstract class BaseNode extends Base
 	 * Get the scope of this AST node.
 	 * @return The scope in which the node was created.
 	 */
-	public Scope getScope() {
+	public final Scope getScope() {
 		return scope;
 	}
 
@@ -312,7 +312,7 @@ public abstract class BaseNode extends Base
 	public abstract Collection<? extends BaseNode> getChildren();
 
 	/** returns names of the children, same order as in getChildren */
-	public abstract Collection<String> getChildrenNames();
+	protected abstract Collection<String> getChildrenNames();
 
 	/** implementation of Walkable by getChildren
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
@@ -321,7 +321,7 @@ public abstract class BaseNode extends Base
 	}
 
 	/** helper: remove ourself as parent of child to throw out, become parent of child to adopt instead */
-	protected void switchParenthood(BaseNode throwOut, BaseNode adopt) {
+	protected final void switchParenthood(BaseNode throwOut, BaseNode adopt) {
 		throwOut.parents.remove(this);
 		adopt.parents.add(this);
 	}
@@ -330,7 +330,7 @@ public abstract class BaseNode extends Base
 	 * helper: become parent of child to adopt
 	 * @return The given parameter
 	 **/
-	public <T extends BaseNode> T becomeParent(T adopt) {
+	public final <T extends BaseNode> T becomeParent(T adopt) {
 		if(adopt!=null) {
 			adopt.parents.add(this);
 		}
@@ -338,7 +338,7 @@ public abstract class BaseNode extends Base
 	}
 
 	/** helper: if resolution yielded some new node, become parent of it and return it; otherwise just return old node */
-	protected <T extends BaseNode> T ownedResolutionResult(T original, T resolved) {
+	protected final <T extends BaseNode> T ownedResolutionResult(T original, T resolved) {
 		if(resolved!=null && resolved!=original) {
 			becomeParent(resolved);
 			return resolved;
@@ -348,7 +348,7 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved) {
+	protected final <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved) {
 		assert isResolved() : this;
 		if(firstResolved != null){
 			return firstResolved;
@@ -361,7 +361,7 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved, T thirdResolved) {
+	protected final <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved, T thirdResolved) {
 		assert isResolved() : this;
 		if(firstResolved != null){
 			return firstResolved;
@@ -377,7 +377,7 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved. */
-	protected <T extends BaseNode> T getValidVersion(T unresolved, T resolved) {
+	protected final <T extends BaseNode> T getValidVersion(T unresolved, T resolved) {
 		if(isResolved()){
 			return resolved;
 		}
@@ -385,7 +385,7 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved) {
+	protected final <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved) {
 		if(isResolved()){
 			if(firstResolved != null){
 				return firstResolved;
@@ -398,7 +398,7 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved, T thirdResolved) {
+	protected final <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved, T thirdResolved) {
 		if(isResolved()){
 			if(firstResolved != null){
 				return firstResolved;
@@ -414,7 +414,7 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Return new vector containing elements of the currently valid member vector. Currently valid depends on vector was already resolved. */
-	protected <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved, Vector<? extends T> resolved) {
+	protected final <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved, Vector<? extends T> resolved) {
 		Vector<T> result = new Vector<T>();
 		if(isResolved()) {
 			for(int i=0; i<resolved.size(); ++i) {
@@ -430,7 +430,7 @@ public abstract class BaseNode extends Base
 
 	/** Return new vector containing elements of the currently valid member vector.
 	 *  Currently valid depends on vector was already resolved and resolution result. */
-	protected <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved,
+	protected final <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved,
 																   Vector<? extends T> firstResolved, Vector<? extends T> secondResolved) {
 		Vector<T> result = new Vector<T>();
 		if(isResolved()) {
@@ -450,13 +450,13 @@ public abstract class BaseNode extends Base
 
 	/** Check whether this AST node is a root node (i.e. it has no predecessors)
 	 * @return true, if it's a root node, false, if not. */
-	public boolean isRoot() {
+	protected final boolean isRoot() {
 		return parents.isEmpty();
 	}
 
 	/** Get the parent nodes of this node.
 	 * Mostly only one parent (syntax tree), few nodes with multiple parents (syntax DAG), root node without parents.*/
-	public Collection<BaseNode> getParents() {
+	protected final Collection<BaseNode> getParents() {
 		return Collections.unmodifiableCollection(parents);
 	}
 
@@ -530,7 +530,7 @@ public abstract class BaseNode extends Base
 	}
 
 	/** Returns whether this node has been resolved already. */
-	public final boolean isResolved() {
+	protected final boolean isResolved() {
 		return resolved;
 	}
 
@@ -625,7 +625,7 @@ public abstract class BaseNode extends Base
 	 * node, {@link #constructIR()} is just called once.
 	 * @return The constructed/stored IR object.
 	 */
-	public final IR getIR() {
+	protected final IR getIR() {
 		if(irObject == null)
 			setIR(constructIR());
 		return irObject;
@@ -636,7 +636,7 @@ public abstract class BaseNode extends Base
 	 *
 	 * This method ensures that, you cannot set two different IR object.
 	 */
-	public final void setIR(IR ir) {
+	protected final void setIR(IR ir) {
 		if (irObject == null) {
 			irObject = ir;
 			return;
@@ -649,7 +649,7 @@ public abstract class BaseNode extends Base
 		return;
 	}
 
-	public final boolean isIRAlreadySet() {
+	protected final boolean isIRAlreadySet() {
 		return irObject != null;
 	}
 
@@ -694,7 +694,7 @@ public abstract class BaseNode extends Base
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeId()
 	 */
-	public String getNodeId() {
+	public final String getNodeId() {
 		return getId();
 	}
 
@@ -723,7 +723,7 @@ public abstract class BaseNode extends Base
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
 	 */
-	public String getEdgeLabel(int edge) {
+	public final String getEdgeLabel(int edge) {
 		Collection<String> childrenNames = getChildrenNames();
 		// iterate to corresponding children name
 		int currentEdge = -1;
@@ -761,22 +761,22 @@ public abstract class BaseNode extends Base
     	return rootType;
     }
 
-	protected TypeDeclNode getNodeRootType()
+	protected final TypeDeclNode getNodeRootType()
 	{
 		return findType("Node");
 	}
 
-	protected TypeDeclNode getArbitraryEdgeRootType()
+	protected final TypeDeclNode getArbitraryEdgeRootType()
     {
     	return findType("AEdge");
     }
 
-	protected TypeDeclNode getDirectedEdgeRootType()
+	protected final TypeDeclNode getDirectedEdgeRootType()
     {
     	return findType("Edge");
     }
 
-	protected TypeDeclNode getUndirectedEdgeRootType()
+	protected final TypeDeclNode getUndirectedEdgeRootType()
     {
     	return findType("UEdge");
     }

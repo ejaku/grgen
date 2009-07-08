@@ -33,6 +33,7 @@ public class EnumConstNode extends ConstNode
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
+	@Override
 	protected ConstNode doCastTo(TypeNode type) {
 		int value = ((Integer) getValue()).intValue();
 
@@ -48,14 +49,17 @@ public class EnumConstNode extends ConstNode
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.enumItemType;
 	}
 
-	public EnumExpression getConstant() {
+	@Override
+	protected EnumExpression getConstant() {
 		return checkIR(EnumExpression.class);
 	}
 
+	@Override
 	protected IR constructIR() {
 		// The EnumExpression is initialized later in EnumTypeNode.constructIR()
 		// to break the circular dependency.

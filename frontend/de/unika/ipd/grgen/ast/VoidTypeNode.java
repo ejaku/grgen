@@ -18,10 +18,12 @@ public class VoidTypeNode extends BasicTypeNode
 		setName(VoidTypeNode.class, "void type");
 	}
 
+	@Override
 	protected IR constructIR() {
 		return new VoidType(getIdentNode().getIdent());
 	}
 
+	@Override
 	public String toString() {
 		return "void";
 	}

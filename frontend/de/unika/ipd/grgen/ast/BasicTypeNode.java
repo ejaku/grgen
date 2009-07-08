@@ -92,6 +92,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
@@ -99,6 +100,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
@@ -106,12 +108,12 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.TypeNode#isBasic() */
-	public boolean isBasic() {
+	public final boolean isBasic() {
 		return true;
 	}
 
 	/** Return the Java class, that represents a value of a constant in this type. */
-	public Class<?> getValueType() {
+	protected final Class<?> getValueType() {
 		if(!valueMap.containsKey(this)) {
 			return invalidValueType.getClass();
 		} else {

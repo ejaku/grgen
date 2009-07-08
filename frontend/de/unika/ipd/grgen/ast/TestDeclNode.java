@@ -36,9 +36,9 @@ public class TestDeclNode extends ActionDeclNode {
 		setName(TestDeclNode.class, "test declaration");
 	}
 
-	CollectNode<IdentNode> returnFormalParameters;
-	TestTypeNode type;
-	PatternGraphNode pattern;
+	protected CollectNode<IdentNode> returnFormalParameters;
+	private TestTypeNode type;
+	protected PatternGraphNode pattern;
 
 	private static final TypeNode testType = new TestTypeNode();
 
@@ -57,6 +57,7 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -67,6 +68,7 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -79,6 +81,7 @@ public class TestDeclNode extends ActionDeclNode {
 	private static final DeclarationTypeResolver<TestTypeNode> typeResolver = new DeclarationTypeResolver<TestTypeNode>(TestTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
 
@@ -88,6 +91,7 @@ public class TestDeclNode extends ActionDeclNode {
 	/**
 	 * Check if actual return arguments are conformant to the formal return parameters.
 	 */
+	// TODO is this method called twice for RuleDeclNode?
 	protected boolean checkReturns(CollectNode<ExprNode> returnArgs) {
 		boolean res = true;
 
@@ -182,6 +186,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		}
 	);
 
+	@Override
 	protected boolean checkLocal() {
 		boolean childs = retDeclarationChecker.check(returnFormalParameters, error);
 
@@ -269,7 +274,6 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		return childs && edgeReUse && returnParams;
 	}
 
-
 	protected void constructIRaux(MatchingAction ma, CollectNode<ExprNode> aReturns) {
 		PatternGraph patternGraph = ma.getPattern();
 
@@ -311,6 +315,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		return "action";
 	}
 
+	@Override
 	protected IR constructIR() {
 		PatternGraph left = pattern.getPatternGraph();
 

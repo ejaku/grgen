@@ -25,7 +25,7 @@ public class MapSizeNode extends ExprNode
 		setName(MapSizeNode.class, "map size expression");
 	}
 
-	ExprNode targetExpr;
+	private ExprNode targetExpr;
 
 	public MapSizeNode(Coords coords, ExprNode targetExpr)
 	{
@@ -33,18 +33,21 @@ public class MapSizeNode extends ExprNode
 		this.targetExpr = becomeParent(targetExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof MapTypeNode)) {
@@ -54,10 +57,12 @@ public class MapSizeNode extends ExprNode
 		return true;
 	}
 
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.intType;
 	}
 
+	@Override
 	protected IR constructIR() {
 		return new MapSizeExpr(targetExpr.checkIR(Expression.class));
 	}

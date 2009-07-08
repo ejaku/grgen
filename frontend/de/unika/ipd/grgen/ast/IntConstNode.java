@@ -21,10 +21,12 @@ public class IntConstNode extends ConstNode
 		super(coords, "integer", new Integer(v));
 	}
 
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.intType;
 	}
 
+	@Override
 	protected ConstNode doCastTo(TypeNode type) {
 		Integer value = (Integer) getValue();
 

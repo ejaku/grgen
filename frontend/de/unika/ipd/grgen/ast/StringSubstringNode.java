@@ -22,19 +22,22 @@ public class StringSubstringNode extends ExprNode {
 	static {
 		setName(StringSubstringNode.class, "string substring");
 	}
-	
-	ExprNode stringExpr, startExpr, lengthExpr;
-	
+
+	private ExprNode stringExpr;
+	private ExprNode startExpr;
+	private ExprNode lengthExpr;
+
 
 	public StringSubstringNode(Coords coords, ExprNode stringExpr,
 			ExprNode startExpr, ExprNode lengthExpr) {
 		super(coords);
-		
+
 		this.stringExpr = becomeParent(stringExpr);
 		this.startExpr  = becomeParent(startExpr);
 		this.lengthExpr = becomeParent(lengthExpr);
 	}
 
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(stringExpr);
@@ -43,6 +46,7 @@ public class StringSubstringNode extends ExprNode {
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("string");
@@ -51,6 +55,7 @@ public class StringSubstringNode extends ExprNode {
 		return childrenNames;
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
 			stringExpr.reportError("First argument to substring expression must be of type string");
@@ -68,13 +73,15 @@ public class StringSubstringNode extends ExprNode {
 		}
 		return true;
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		return new StringSubstring(stringExpr.checkIR(Expression.class),
 				startExpr.checkIR(Expression.class),
 				lengthExpr.checkIR(Expression.class));
 	}
-	
+
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.stringType;
 	}

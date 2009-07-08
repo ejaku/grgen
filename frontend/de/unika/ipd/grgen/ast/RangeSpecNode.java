@@ -40,6 +40,7 @@ public class RangeSpecNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
@@ -47,6 +48,7 @@ public class RangeSpecNode extends BaseNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
@@ -54,11 +56,13 @@ public class RangeSpecNode extends BaseNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		boolean good = true;
 		if(lower < 0) {
@@ -76,12 +80,9 @@ public class RangeSpecNode extends BaseNode {
 		return good;
 	}
 
+	@Override
 	public String getName() {
 		return super.getName() + " [" + lower + ":" + upper + "]";
-	}
-
-	public boolean isBoundedUp() {
-		return upper != UNBOUND;
 	}
 
 	/** @return the lower bound of the range. */

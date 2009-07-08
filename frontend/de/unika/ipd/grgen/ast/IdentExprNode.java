@@ -23,35 +23,38 @@ public class IdentExprNode extends DeclExprNode {
 	static {
 		setName(IdentExprNode.class, "ident expression");
 	}
-	
+
 	public IdentExprNode(IdentNode ident) {
 		super(ident);
 	}
-	
+
+	@Override
 	protected boolean resolveLocal() {
 		decl = ((DeclaredCharacter) declUnresolved).getDecl();
 		if(decl instanceof TypeDeclNode)
 			return true;
-		
+
 		return super.resolveLocal();
 	}
-	
-	public IdentNode getIdent() {
+
+	protected IdentNode getIdent() {
 		return (IdentNode) declUnresolved;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		return childrenNames;
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		BaseNode declNode = (BaseNode) decl;
 		if(declNode instanceof TypeDeclNode)
 			return new Constant(BasicTypeNode.typeType.getType(),
 					((TypeDeclNode) decl).getDeclType().getIR());
-		else 
+		else
 			return super.constructIR();
 	}
 }

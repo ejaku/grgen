@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.ExecVariable;
 
 /**
@@ -30,6 +29,7 @@ public class ExecVarDeclNode extends DeclNode {
     }
 
 	/** returns children of this node */
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -38,6 +38,7 @@ public class ExecVarDeclNode extends DeclNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -50,6 +51,7 @@ public class ExecVarDeclNode extends DeclNode {
 	 * @return true, if resolution of the AST locally finished successfully;
 	 * false, if there was some error.
 	 */
+	@Override
 	protected boolean resolveLocal() {
 		DeclNode typeDecl = declOfTypeResolver.resolve(typeUnresolved, this);
 		if(typeDecl instanceof InvalidDeclNode) {
@@ -65,11 +67,13 @@ public class ExecVarDeclNode extends DeclNode {
 	 * @return true, if checking of the AST locally finished successfully;
 	 * false, if there was some error.
 	 */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
 	/** @return The type node of the declaration */
+	@Override
 	public TypeNode getDeclType() {
 		assert isResolved() : this + " was not resolved";
 		return type;
@@ -83,15 +87,8 @@ public class ExecVarDeclNode extends DeclNode {
 		return "exec variable";
 	}
 
-	/**
-	 * Get the IR object correctly casted.
-	 * @return The ExecVariable IR object.
-	 */
-	public ExecVariable getVariable() {
-		return checkIR(ExecVariable.class);
-	}
-
-	protected IR constructIR() {
+	@Override
+	protected ExecVariable constructIR() {
 		return new ExecVariable("ExecVar", getIdentNode().getIdent(), type.getType());
 	}
 }

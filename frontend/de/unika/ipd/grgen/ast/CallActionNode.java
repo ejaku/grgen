@@ -61,6 +61,7 @@ public class CallActionNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(actionUnresolved,action,booleVar));
@@ -70,6 +71,7 @@ public class CallActionNode extends BaseNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("action");
@@ -83,19 +85,9 @@ public class CallActionNode extends BaseNode {
 	 *
 	 * @return    a  CollectNode<IdentNode>
 	 */
-	public CollectNode<ExprNode> getParams() {
+	protected CollectNode<ExprNode> getParams() {
 		assert isResolved();
 		return params;
-	}
-
-	/**
-	 * Returns Returns
-	 *
-	 * @return    a  CollectNode<IdentNode>
-	 */
-	public CollectNode<ExecVarDeclNode> getReturns() {
-		assert isResolved();
-		return returns;
 	}
 
 	/*
@@ -135,6 +127,7 @@ public class CallActionNode extends BaseNode {
 		new CollectResolver<ExecVarDeclNode>(new DeclarationResolver<ExecVarDeclNode>(ExecVarDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		fixupDefinition(actionUnresolved, actionUnresolved.getScope());
@@ -157,6 +150,7 @@ public class CallActionNode extends BaseNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		boolean res = true;
 
@@ -293,6 +287,7 @@ public class CallActionNode extends BaseNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
+	@Override
 	protected IR constructIR() {
 		assert false;
 		return Bad.getBad(); // TODO fix this

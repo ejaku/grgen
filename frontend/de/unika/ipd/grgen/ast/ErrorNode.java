@@ -28,6 +28,7 @@ public class ErrorNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
@@ -35,6 +36,7 @@ public class ErrorNode extends BaseNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
@@ -42,24 +44,29 @@ public class ErrorNode extends BaseNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
+	@Override
 	public Color getNodeColor() {
 		return Color.RED;
 	}
 
+	@Override
 	public String getNodeLabel() {
 		return "Error";
 	}
 
-	public boolean isError() {
+	@Override
+	public final boolean isError() {
 		return true;
 	}
 }

@@ -26,7 +26,7 @@ public class AlternativeNode extends BaseNode {
 		setName(AlternativeNode.class, "alternative");
 	}
 
-	Vector<AlternativeCaseNode> children = new Vector<AlternativeCaseNode>();
+	private Vector<AlternativeCaseNode> children = new Vector<AlternativeCaseNode>();
 
 	public AlternativeNode(Coords coords) {
 		super(coords);
@@ -39,23 +39,27 @@ public class AlternativeNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<AlternativeCaseNode> getChildren() {
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
-	public Collection<String> getChildrenNames() {
+	@Override
+	protected Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// nameless children
 		return childrenNames;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		if (children.isEmpty()) {
 			this.reportError("alternative is empty");
@@ -66,6 +70,7 @@ public class AlternativeNode extends BaseNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
+	@Override
 	protected IR constructIR() {
 		Alternative alternative = new Alternative();
 		for (AlternativeCaseNode alternativeCaseNode : children) {

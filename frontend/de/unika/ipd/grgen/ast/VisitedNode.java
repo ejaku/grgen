@@ -24,19 +24,19 @@ public class VisitedNode extends ExprNode {
 	static {
 		setName(VisitedNode.class, "visited");
 	}
-	
-	ExprNode visitorIDExpr;
-	
-	BaseNode entityUnresolved;
-	NodeDeclNode entityNodeDecl;
-	EdgeDeclNode entityEdgeDecl;
-	
+
+	private ExprNode visitorIDExpr;
+
+	private BaseNode entityUnresolved;
+	private NodeDeclNode entityNodeDecl;
+	private EdgeDeclNode entityEdgeDecl;
+
 	public VisitedNode(Coords coords, ExprNode visitorIDExpr, BaseNode entity) {
 		super(coords);
-		
+
 		this.visitorIDExpr = visitorIDExpr;
 		becomeParent(visitorIDExpr);
-		
+
 		entityUnresolved = entity;
 		becomeParent(entityUnresolved);
 	}
@@ -57,7 +57,8 @@ public class VisitedNode extends ExprNode {
 
 	private static final DeclarationPairResolver<EdgeDeclNode, NodeDeclNode> entityResolver =
 		new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
-	
+
+	@Override
 	protected boolean resolveLocal() {
 		Pair<EdgeDeclNode, NodeDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
 		if (resolved != null) {
@@ -68,6 +69,7 @@ public class VisitedNode extends ExprNode {
 		return (resolved != null);
 	}
 
+	@Override
 	protected boolean checkLocal() {
 		if(!visitorIDExpr.getType().isEqual(BasicTypeNode.intType)) {
 			visitorIDExpr.reportError("Visitor ID expression must be of type int");
@@ -75,13 +77,15 @@ public class VisitedNode extends ExprNode {
 		}
 		return true;
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		Entity entity = getValidResolvedVersion(entityEdgeDecl, entityNodeDecl).checkIR(Entity.class);
 
 		return new Visited(visitorIDExpr.checkIR(Expression.class), entity);
 	}
-	
+
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.booleanType;
 	}

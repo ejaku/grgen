@@ -59,6 +59,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 
 	/** The TYPE child could be an edge in case the type is
 	 *  inherited dynamically via the typeof operator */
+	@Override
 	public EdgeTypeNode getDeclType() {
 		assert isResolved();
 
@@ -67,6 +68,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -76,6 +78,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -85,6 +88,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		Pair<EdgeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
 		if(resolved == null) return false;
@@ -124,7 +128,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	 * Warn on typeofs of new created graph edges (with known type).
 	 */
 	private void warnOnTypeofOfRhsEdges() {
-		if ((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS && hasTypeof()) {
+		if ((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS && inheritsType()) {
 			if ((typeEdgeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 				reportWarning("type of edge " + typeEdgeDecl.ident
 						+ " is statically known");
@@ -146,6 +150,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 
 	private static final Checker typeChecker = new TypeChecker(EdgeTypeNode.class);
 
+	@Override
 	protected boolean checkLocal() {
 		warnOnTypeofOfRhsEdges();
 
@@ -153,17 +158,11 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 			& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error);
 	}
 
-	/** Returns whether the edge type is a typeof statement. */
-	public boolean hasTypeof() {
-		assert isResolved();
-
-		return typeEdgeDecl != null;
-	}
-
 	/**
 	 * Edges have more info to give
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeInfo()
 	 */
+	@Override
 	protected String extraNodeInfo() {
 		return "";
 	}
@@ -171,6 +170,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */
+	@Override
 	public Color getNodeColor() {
 		return Color.YELLOW;
 	}
@@ -183,11 +183,14 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		return checkIR(Edge.class);
 	}
 
-	protected boolean inheritsType() {
+	protected final boolean inheritsType() {
+		assert isResolved();
+
 		return typeEdgeDecl != null;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
+	@Override
 	protected IR constructIR() {
 		TypeNode tn = getDeclType();
 		EdgeType et = tn.checkIR(EdgeType.class);

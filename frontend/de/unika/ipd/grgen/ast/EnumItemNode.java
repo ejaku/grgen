@@ -45,6 +45,7 @@ public class EnumItemNode extends MemberDeclNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -54,6 +55,7 @@ public class EnumItemNode extends MemberDeclNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -65,6 +67,7 @@ public class EnumItemNode extends MemberDeclNode {
 	private static final DeclarationTypeResolver<EnumTypeNode> typeResolver = new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
 		return type != null;
@@ -74,6 +77,7 @@ public class EnumItemNode extends MemberDeclNode {
 	 * Check the validity of the initialisation expression.
 	 * @return true, if the init expression is ok, false if not.
 	 */
+	@Override
 	protected boolean checkLocal() {
 		// Check, if this enum item was defined with a latter one.
 		// This may not be.
@@ -163,13 +167,14 @@ public class EnumItemNode extends MemberDeclNode {
 		return constValue;
 	}
 
-	protected EnumItem getItem() {
+	protected final EnumItem getItem() {
 		return checkIR(EnumItem.class);
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		EnumConstNode c = (EnumConstNode) getValue();
 

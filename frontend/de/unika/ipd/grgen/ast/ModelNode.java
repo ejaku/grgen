@@ -19,7 +19,6 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
 
@@ -29,13 +28,13 @@ public class ModelNode extends DeclNode {
 		setName(ModelNode.class, "model declaration");
 	}
 
-	protected static final TypeNode modelType = new ModelTypeNode();
+	private static final TypeNode modelType = new ModelTypeNode();
 
 	private CollectNode<ModelNode> usedModels;
 
-	CollectNode<TypeDeclNode> decls;
-	CollectNode<IdentNode> declsUnresolved;
-	ModelTypeNode type;
+	protected CollectNode<TypeDeclNode> decls;
+	private CollectNode<IdentNode> declsUnresolved;
+	private ModelTypeNode type;
 
 	public ModelNode(IdentNode id, CollectNode<IdentNode> decls, CollectNode<ModelNode> usedModels) {
 		super(id, modelType);
@@ -47,6 +46,7 @@ public class ModelNode extends DeclNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -57,6 +57,7 @@ public class ModelNode extends DeclNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -66,12 +67,13 @@ public class ModelNode extends DeclNode {
 		return childrenNames;
 	}
 
-	CollectResolver<TypeDeclNode> declsResolver = new CollectResolver<TypeDeclNode>(
+	private static CollectResolver<TypeDeclNode> declsResolver = new CollectResolver<TypeDeclNode>(
 		new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
 
-	DeclarationTypeResolver<ModelTypeNode> typeResolver = new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
+	private static DeclarationTypeResolver<ModelTypeNode> typeResolver = new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		decls = declsResolver.resolve(declsUnresolved, this);
 		type = typeResolver.resolve(typeUnresolved, this);
@@ -87,6 +89,7 @@ public class ModelNode extends DeclNode {
 	 * as child.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
+	@Override
 	protected boolean checkLocal() {
 		return checkInhCycleFree();
 	}
@@ -95,7 +98,7 @@ public class ModelNode extends DeclNode {
 	 * Get the IR model node for this AST node.
 	 * @return The model for this AST node.
 	 */
-	public Model getModel() {
+	protected Model getModel() {
 		return checkIR(Model.class);
 	}
 
@@ -104,7 +107,8 @@ public class ModelNode extends DeclNode {
 	 * For a main node, this is a unit.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	protected IR constructIR() {
+	@Override
+	protected Model constructIR() {
 		Ident id = ident.checkIR(Ident.class);
 		Model res = new Model(id);
 		for(ModelNode model : usedModels.getChildren())

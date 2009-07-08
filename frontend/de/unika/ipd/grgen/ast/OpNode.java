@@ -26,7 +26,7 @@ public abstract class OpNode extends ExprNode
 	/** The corresponding operator. */
 	private OperatorSignature operator;
 
-	Vector<ExprNode> children = new Vector<ExprNode>();
+	protected Vector<ExprNode> children = new Vector<ExprNode>();
 
 	/**
 	 * Make a new operator node.
@@ -44,6 +44,7 @@ public abstract class OpNode extends ExprNode
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		boolean res = true;
 		TypeNode type = getType();
@@ -135,6 +136,7 @@ public abstract class OpNode extends ExprNode
 	 * node is the result type of the operator, else it's the error type
 	 * {@link BasicTypeNode#errorType}.
 	 */
+	@Override
 	public TypeNode getType() {
 		return getOperator().getResultType();
 	}

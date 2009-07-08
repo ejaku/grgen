@@ -42,12 +42,14 @@ public abstract class TypeNode extends BaseNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
@@ -64,7 +66,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @return		the compatibility distance or -1 if no compatibility could
 	 * 				be found
 	 */
-	public int compatibilityDist(TypeNode type) {
+	protected int compatibilityDist(TypeNode type) {
 		if ( this.isEqual(type) ) {
 			return 0;
 		}
@@ -86,7 +88,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @param t A type.
 	 * @return true, if this type is compatible or equal to <code>t</code>
 	 */
-	public boolean isCompatibleTo(TypeNode t) {
+	protected boolean isCompatibleTo(TypeNode t) {
 		if(isEqual(t)) return true;
 
 		return getCompatibleToTypes().contains(t);
@@ -98,10 +100,11 @@ public abstract class TypeNode extends BaseNode {
 	 * @param t A type.
 	 * @return true, if this type is just castable to <code>t</code>.
 	 */
-	public boolean isCastableTo(TypeNode t) {
+	protected boolean isCastableTo(TypeNode t) {
 		return getCastableToTypes().contains(t);
 	}
 
+	@Override
 	public Color getNodeColor() {
 		return Color.MAGENTA;
 	}
@@ -120,7 +123,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @param t The type to check for.
 	 * @return true, if this and <code>t</code> are of the same type.
 	 */
-	public boolean isEqual(TypeNode t) {
+	protected boolean isEqual(TypeNode t) {
 		return t == this;
 	}
 
@@ -135,7 +138,7 @@ public abstract class TypeNode extends BaseNode {
 	/**
 	 * Returns a collection of all compatible types which are compatible to this one.
 	 */
-	public final Collection<TypeNode> getCompatibleToTypes() {
+	protected final Collection<TypeNode> getCompatibleToTypes() {
 		if(compatibleToTypes != null) return compatibleToTypes;
 
 		HashSet<TypeNode> coll = new HashSet<TypeNode>();
@@ -188,7 +191,7 @@ public abstract class TypeNode extends BaseNode {
 	/**
 	 * Returns a collection of all types this one is castable (implicitly and explicitly) to.
 	 */
-	public final Collection<TypeNode> getCastableToTypes() {
+	protected final Collection<TypeNode> getCastableToTypes() {
 		if(castableToTypes != null) return castableToTypes;
 
 		HashSet<TypeNode> coll = new HashSet<TypeNode>();

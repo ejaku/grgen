@@ -18,9 +18,12 @@ public class StringTypeNode extends BasicTypeNode
 		setName(StringTypeNode.class, "string type");
 	}
 
+	@Override
 	protected IR constructIR() {
 		return new StringType(getIdentNode().getIdent());
 	}
+
+	@Override
 	public String toString() {
 		return "string";
 	}

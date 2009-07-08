@@ -42,19 +42,23 @@ public class NullConstNode extends ConstNode
 		}
 	}
 
+	@Override
 	public TypeNode getType() {
 		return type;
 	}
 
+	@Override
 	public String toString() {
 		return "Const (" + type + ") null";
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		return new Constant(getType().getType(), null);
-	}	
+	}
 
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
+	@Override
 	protected ConstNode doCastTo(TypeNode type) {
 		NullConstNode castedNull = new NullConstNode(getCoords());
 		castedNull.type = type;

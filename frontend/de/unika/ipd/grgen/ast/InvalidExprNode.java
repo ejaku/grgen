@@ -24,6 +24,7 @@ public class InvalidExprNode extends ExprNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
@@ -31,6 +32,7 @@ public class InvalidExprNode extends ExprNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
@@ -38,19 +40,23 @@ public class InvalidExprNode extends ExprNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.errorType;
 	}
 
+	@Override
 	public String toString() {
 		return "invalid expression";
 	}

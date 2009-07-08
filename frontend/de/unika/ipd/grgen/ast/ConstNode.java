@@ -45,6 +45,7 @@ public abstract class ConstNode extends OpNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
@@ -52,6 +53,7 @@ public abstract class ConstNode extends OpNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
@@ -59,6 +61,7 @@ public abstract class ConstNode extends OpNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
@@ -79,6 +82,7 @@ public abstract class ConstNode extends OpNode {
 		return OperatorSignature.getName(getOpId()) + " " + value.toString();
 	}
 
+	@Override
 	public String getNodeLabel() {
 		return toString();
 	}
@@ -94,28 +98,15 @@ public abstract class ConstNode extends OpNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		return new Constant(getType().getType(), value);
 	}
 
 	/**
-	 * @see de.unika.ipd.grgen.ast.ExprNode#isConstant()
-	 */
-	public boolean isConst() {
-		return true;
-	}
-
-	/**
-	 * Check, if the constant is valid.
-	 * @return true, if the constant is valid.
-	 */
-	protected boolean isValid() {
-		return true;
-	}
-
-	/**
 	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
 	 */
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.errorType;
 	}
@@ -125,7 +116,7 @@ public abstract class ConstNode extends OpNode {
 	 * @param type The new type.
 	 * @return A new constant with the corresponding value and a new type.
 	 */
-	public final ConstNode castTo(TypeNode type) {
+	protected final ConstNode castTo(TypeNode type) {
 		ConstNode res = getInvalid();
 
 		if (getType().isEqual(type)) {

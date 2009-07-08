@@ -29,10 +29,10 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 		setName(SingleNodeConnNode.class, "single node");
 	}
 
-	NodeDeclNode node;
-	BaseNode nodeUnresolved;
-	
-	
+	private NodeDeclNode node;
+	protected BaseNode nodeUnresolved;
+
+
 	public SingleNodeConnNode(BaseNode n) {
 		super(n.getCoords());
 		this.nodeUnresolved = n;
@@ -40,6 +40,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(nodeUnresolved, node));
@@ -47,6 +48,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("node");
@@ -56,6 +58,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	private static final DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class); // optional
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		node = nodeResolver.resolve(nodeUnresolved, this);
 		return node != null;
@@ -77,9 +80,10 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 		gr.addSingleNode(node.getNode());
 	}
 
-	Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
+	private static Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		return nodeChecker.check(node, error);
 	}
@@ -113,11 +117,6 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 		assert isResolved();
 
 		set.add(node);
-	}
-
-	/** @see de.unika.ipd.grgen.ast.ConnectionCharacter#isNegated() */
-	public boolean isNegated() {
-		return false;
 	}
 
 	public static String getKindStr() {

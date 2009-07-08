@@ -26,17 +26,18 @@ public class MemberAccessExprNode extends ExprNode
 	static {
 		setName(MemberAccessExprNode.class, "member access expression");
 	}
-	
-	ExprNode targetExpr; // resulting from primary expression, most often an IdentExprNode
-	IdentNode memberIdent;
-	MemberDeclNode member;
-	
+
+	private ExprNode targetExpr; // resulting from primary expression, most often an IdentExprNode
+	private IdentNode memberIdent;
+	private MemberDeclNode member;
+
 	public MemberAccessExprNode(Coords coords, ExprNode targetExpr, IdentNode memberIdent) {
 		super(coords);
 		this.targetExpr  = becomeParent(targetExpr);
 		this.memberIdent = becomeParent(memberIdent);
 	}
-	
+
+	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);
@@ -44,59 +45,64 @@ public class MemberAccessExprNode extends ExprNode
 		return children;
 	}
 
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("memberIdent");
 		return childrenNames;
 	}
-	
+
 	private static final DeclarationResolver<MemberDeclNode> memberResolver
 	        = new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
-	
+
+	@Override
 	protected boolean resolveLocal() {
 		if(!targetExpr.resolve()) return false;
-		
+
 		TypeNode ownerType = targetExpr.getType();
 		if(!(ownerType instanceof ScopeOwner)) {
 			reportError("Left hand side of '.' has no members.");
 			return false;
 		}
-		
+
 		if(!(ownerType instanceof InheritanceTypeNode)) {
 			reportError("Only member access of nodes and edges supported.");
 			return false;
 		}
-		
+
 		ScopeOwner o = (ScopeOwner) ownerType;
 		o.fixupDefinition(memberIdent);
 		member = memberResolver.resolve(memberIdent, this);
-		
+
 		return member != null;
 	}
-	
+
+	@Override
 	protected boolean checkLocal() {
 		return true;
 	}
 
-	public ExprNode getTarget() {
+	protected final ExprNode getTarget() {
 		return targetExpr; // resulting from primary expression, most often an IdentExprNode
 	}
-	
-	public MemberDeclNode getDecl() {
+
+	protected final MemberDeclNode getDecl() {
 		assert isResolved();
 
 		return member;
 	}
-	
+
+	@Override
 	public TypeNode getType() {
 		return member.getDecl().getDeclType();
 	}
-	
+
+	@Override
 	protected IR constructIR() {
 		return new Qualification(targetExpr.checkIR(GraphEntityExpression.class).getGraphEntity(), member.checkIR(Entity.class));
 	}
-	
+
 	public static String getKindStr() {
 		return "member";
 	}

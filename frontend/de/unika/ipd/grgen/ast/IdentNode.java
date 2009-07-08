@@ -16,7 +16,6 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.util.Annotated;
@@ -71,6 +70,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
@@ -78,6 +78,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
@@ -85,11 +86,13 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		// there must be exactly one definition
 		return getSymDef().isValid();
@@ -108,7 +111,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	 * Set the definition of the symbol of this identifier.
 	 * @param def The definition.
 	 */
-	public void setSymDef(Symbol.Definition def) {
+	protected void setSymDef(Symbol.Definition def) {
 		occ.setDefinition(def);
 	}
 
@@ -152,6 +155,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 		return occ.getSymbol();
 	}
 
+	@Override
 	public String getNodeLabel() {
 		return toString();
 	}
@@ -160,6 +164,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	 * The string representation for this node.
 	 * For an identifier, this is the string of the symbol, the identifier represents.
 	 */
+	@Override
 	public String toString() {
 		return occ.getSymbol().toString();
 	}
@@ -171,6 +176,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */
+	@Override
 	public Color getNodeColor() {
 		return Color.ORANGE;
 	}
@@ -178,6 +184,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
 	 */
+	@Override
 	protected String extraNodeInfo() {
 		return "occurrence: " + occ + "\ndefinition: " + getSymDef();
 	}
@@ -205,7 +212,8 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	 * Construct the ir object.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	protected IR constructIR() {
+	@Override
+	protected Ident constructIR() {
 		Symbol.Definition def = getSymDef();
 		return Ident.get(toString(), def, getAnnotations());
 	}

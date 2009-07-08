@@ -32,15 +32,15 @@ public class UnitNode extends BaseNode {
 	}
 
 	private ModelNode stdModel;
-	CollectNode<ModelNode> models;
+	private CollectNode<ModelNode> models;
 
 	// of type PatternTestDeclNode or PatternRuleDeclNode
-	CollectNode<SubpatternDeclNode> subpatterns;
-	CollectNode<IdentNode> subpatternsUnresolved;
+	private CollectNode<SubpatternDeclNode> subpatterns;
+	private CollectNode<IdentNode> subpatternsUnresolved;
 
 	// of type TestDeclNode or RuleDeclNode
-	CollectNode<TestDeclNode> actions;
-	CollectNode<IdentNode> actionsUnresolved;
+	private CollectNode<TestDeclNode> actions;
+	private CollectNode<IdentNode> actionsUnresolved;
 
 	/**
 	 * The name for this unit node
@@ -65,7 +65,7 @@ public class UnitNode extends BaseNode {
 		this.filename = filename;
 	}
 
-	public ModelNode getStdModel() {
+	protected ModelNode getStdModel() {
 		return stdModel;
 	}
 
@@ -74,6 +74,7 @@ public class UnitNode extends BaseNode {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(models);
@@ -83,6 +84,7 @@ public class UnitNode extends BaseNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("models");
@@ -98,6 +100,7 @@ public class UnitNode extends BaseNode {
 			new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		actions     = actionsResolver.resolve(actionsUnresolved, this);
 		subpatterns = subpatternsResolver.resolve(subpatternsUnresolved, this);
@@ -107,6 +110,7 @@ public class UnitNode extends BaseNode {
 
 	/** Check the collect nodes containing the model declarations, subpattern declarations, action declarations
 	 *  @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	@Override
 	protected boolean checkLocal() {
 		Checker modelChecker = new CollectChecker(new SimpleChecker(ModelNode.class));
 		return modelChecker.check(models, error);
@@ -125,6 +129,7 @@ public class UnitNode extends BaseNode {
 	 * For a main node, this is a unit.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		Unit res = new Unit(unitname, filename);
 

@@ -28,24 +28,16 @@ public class FunctionSignature extends Base {
 	 * @param resType The result type.
 	 * @param opTypes The operand types.
 	 */
-  public FunctionSignature(TypeNode resType, TypeNode[] opTypes) {
+	public FunctionSignature(TypeNode resType, TypeNode[] opTypes) {
 		this.resType = resType;
 		this.opTypes = opTypes;
-  }
-
-	/**
-	 * Get the arity of the function.
-	 * @return The arity.
-	 */
-	public int getArity() {
-		return opTypes.length;
 	}
 
 	/**
 	 * Get the result type of this function signature.
 	 * @return The result type.
 	 */
-	public TypeNode getResultType() {
+	protected TypeNode getResultType() {
 		return resType;
 	}
 
@@ -53,18 +45,8 @@ public class FunctionSignature extends Base {
 	 * Get the operand types of this function signature.
 	 * @return The operand types.
 	 */
-	public TypeNode[] getOperandTypes() {
+	protected TypeNode[] getOperandTypes() {
 		return opTypes;
-	}
-
-	/**
-	 * Checks, if this function can be applied to th given operands.
-	 * @param ops The operands.
-	 * @return true, if the operands are valid for this function, false,
-	 * if not.
-	 */
-	public boolean isApplicable(TypeNode[] ops) {
-		return getDistance(ops) != Integer.MAX_VALUE;
 	}
 
 	/**
@@ -75,7 +57,7 @@ public class FunctionSignature extends Base {
 	 * to this function signature. <code>Integer.MAX_VALUE</code> is returned,
 	 * if the operands cannot be applied to this functions signature.
 	 */
-	public int getDistance(TypeNode[] ops) {
+	protected int getDistance(TypeNode[] ops) {
 		int res = Integer.MAX_VALUE;
 
 		if(ops.length == opTypes.length) {

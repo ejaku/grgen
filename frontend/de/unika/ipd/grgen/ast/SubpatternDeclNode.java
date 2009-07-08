@@ -38,7 +38,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 
 	protected PatternGraphNode pattern;
 	protected CollectNode<RhsDeclNode> right;
-	protected SubpatternTypeNode type;
+	private SubpatternTypeNode type;
 
 	/** Type for this declaration. */
 	private static final TypeNode subpatternType = new SubpatternTypeNode();
@@ -58,6 +58,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	}
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -68,6 +69,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -77,22 +79,24 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		return childrenNames;
 	}
 
-	protected static final DeclarationTypeResolver<SubpatternTypeNode> typeResolver =
+	private static DeclarationTypeResolver<SubpatternTypeNode> typeResolver =
 		new DeclarationTypeResolver<SubpatternTypeNode>(SubpatternTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
 
 		return type != null;
 	}
 
-	protected Set<DeclNode> getDelete(int index) {
+	private Set<DeclNode> getDelete(int index) {
 		return right.children.get(index).getDelete(pattern);
 	}
 
 	/** Check that only graph elements are returned, that are not deleted. */
-	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, RhsDeclNode right) {
+	/* FIXME Use it */
+	private boolean checkReturnedElemsNotDeleted(PatternGraphNode left, RhsDeclNode right) {
 		assert isResolved();
 
 		boolean res = true;
@@ -114,7 +118,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	}
 
 	/** Check that only graph elements are returned, that are not deleted. */
-	protected boolean checkExecParamsNotDeleted() {
+	private boolean checkExecParamsNotDeleted() {
 		boolean res = true;
 
 		for (int i = 0; i < right.getChildren().size(); i++) {
@@ -140,7 +144,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	/* Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
 	 * If consistent, replace the dummy nodes with the nodes the pattern edge is
 	 * incident to (if these aren't dummy nodes themselves, of course). */
-	protected boolean checkRhsReuse() {
+	private boolean checkRhsReuse() {
 		boolean res = true;
 		for (int i = 0; i < right.getChildren().size(); i++) {
     		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
@@ -255,7 +259,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		return res;
 	}
 
-	protected boolean checkLeft() {
+	private boolean checkLeft() {
 		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
 		boolean edgeReUse = false;
 		edgeReUse = true;
@@ -334,7 +338,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		return edgeReUse;
 	}
 
-	protected boolean SameParametersInNestedAlternativeReplacementsAsInReplacement() {
+	private boolean SameParametersInNestedAlternativeReplacementsAsInReplacement() {
 		boolean res = true;
 
 		for(AlternativeNode alt : pattern.alts.getChildren()) {
@@ -385,6 +389,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	 * 2) a pattern for the right side.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
+	@Override
 	protected boolean checkLocal() {
 		for (int i = 0; i < right.getChildren().size(); i++) {
 			right.children.get(i).warnElemAppearsInsideAndOutsideDelete(pattern);
@@ -414,13 +419,13 @@ public class SubpatternDeclNode extends ActionDeclNode  {
             }
 
     		for(NodeDeclNode node : right.getNodes()) {
-    			if(!node.hasTypeof() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node)) {
+    			if(!node.inheritsType() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node)) {
     				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
     				abstr = false;
     			}
     		}
     		for(EdgeDeclNode edge : right.getEdges()) {
-    			if(!edge.hasTypeof() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge)) {
+    			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge)) {
     				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
     				abstr = false;
     			}
@@ -433,7 +438,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 			& checkExecParamsNotDeleted();
 	}
 
-	protected void constructIRaux(Rule rule) {
+	private void constructIRaux(Rule rule) {
 		// add parameters to the IR
 		PatternGraph patternGraph = rule.getPattern();
 		for(DeclNode decl : pattern.getParamDecls()) {
@@ -472,6 +477,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	// TODO support only one rhs
+	@Override
 	protected IR constructIR() {
 		PatternGraph left = pattern.getPatternGraph();
 
@@ -550,7 +556,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	/**
 	 * add NACs for induced- or DPO-semantic
 	 */
-	protected void constructImplicitNegs(PatternGraph left) {
+	private void constructImplicitNegs(PatternGraph left) {
 		PatternGraphNode leftNode = pattern;
 		for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
 			left.addNegGraph(neg);
@@ -564,7 +570,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		return type;
 	}
 
-	public PatternGraphNode getPattern() {
+	protected PatternGraphNode getPattern() {
 		assert isResolved();
 		return pattern;
 	}

@@ -32,6 +32,7 @@ public class TypeConstNode extends ConstNode
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
+	@Override
 	protected ConstNode doCastTo(TypeNode type)	{
 		// TODO: ??? How would this be possible?
 		if(type.isEqual(BasicTypeNode.stringType)) {
@@ -40,11 +41,13 @@ public class TypeConstNode extends ConstNode
 	}
 
     /** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
+	@Override
 	protected IR constructIR() {
 		return new Constant(getType().getType(), id.getDecl().getDeclType().getIR());
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
+	@Override
 	public TypeNode getType() {
 		return BasicTypeNode.typeType;
 	}

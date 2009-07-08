@@ -30,9 +30,9 @@ public abstract class RhsDeclNode extends DeclNode {
 		setName(RhsDeclNode.class, "right-hand side declaration");
 	}
 
-	GraphNode graph;
-	CollectNode<EvalStatementNode> eval;
-	RhsTypeNode type;
+	protected GraphNode graph;
+	protected CollectNode<EvalStatementNode> eval;
+	protected RhsTypeNode type;
 
 	/** Type for this declaration. */
 	protected static final TypeNode rhsType = new RhsTypeNode();
@@ -117,6 +117,7 @@ public abstract class RhsDeclNode extends DeclNode {
 	protected abstract Collection<ConnectionNode> getResultingConnections(PatternGraphNode pattern);
 
 	/** returns children of this node */
+	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
@@ -127,6 +128,7 @@ public abstract class RhsDeclNode extends DeclNode {
 	}
 
 	/** returns names of the children, same order as in getChildren */
+	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
@@ -139,6 +141,7 @@ public abstract class RhsDeclNode extends DeclNode {
 	protected static final DeclarationTypeResolver<RhsTypeNode> typeResolver =	new DeclarationTypeResolver<RhsTypeNode>(RhsTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
 
@@ -166,6 +169,7 @@ public abstract class RhsDeclNode extends DeclNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
+	@Override
 	protected boolean checkLocal() {
 		return checkEdgeParameters();
 	}
@@ -173,6 +177,7 @@ public abstract class RhsDeclNode extends DeclNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
+	@Override
 	protected IR constructIR() {
 		assert false;
 
