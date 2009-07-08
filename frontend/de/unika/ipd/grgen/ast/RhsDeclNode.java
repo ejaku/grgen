@@ -146,40 +146,6 @@ public abstract class RhsDeclNode extends DeclNode {
 	}
 
 	/**
-	 * Warn on typeofs of new created graph nodes (with known type).
-	 */
-	private void warnOnTypeofOfRhsNodes() {
-		Set<NodeDeclNode> rhsNodes = graph.getNodes();
-		for (NodeDeclNode node : rhsNodes) {
-			if (node.hasTypeof()) {
-				NodeDeclNode typeofNode = node.getTypeofNode();
-
-				if ((typeofNode.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-					node.reportWarning("type of node " + typeofNode.ident
-							+ " is statically known");
-				}
-			}
-		}
-	}
-
-	/**
-	 * Warn on typeofs of new created graph edges (with known type).
-	 */
-	private void warnOnTypeofOfRhsEdges() {
-		Set<EdgeDeclNode> rhsEdges = graph.getEdges();
-		for (EdgeDeclNode edge : rhsEdges) {
-			if (edge.hasTypeof()) {
-				EdgeDeclNode typeofEdge = edge.getTypeofEdge();
-
-				if ((typeofEdge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-					edge.reportWarning("type of edge " + typeofEdge.ident
-							+ " is statically known");
-				}
-			}
-		}
-	}
-
-	/**
 	 * Edges as replacement parameters are not really needed but very troublesome,
 	 * keep them out for now.
 	 */
@@ -201,8 +167,6 @@ public abstract class RhsDeclNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		warnOnTypeofOfRhsNodes();
-		warnOnTypeofOfRhsEdges();
 		return checkEdgeParameters();
 	}
 

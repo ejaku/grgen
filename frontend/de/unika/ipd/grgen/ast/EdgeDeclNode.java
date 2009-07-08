@@ -120,17 +120,25 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		return true;
 	}
 
-	protected boolean checkLocal() {
-		Checker typeChecker = new TypeChecker(EdgeTypeNode.class);
-		return super.checkLocal()
-			& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error);
+	/**
+	 * Warn on typeofs of new created graph edges (with known type).
+	 */
+	private void warnOnTypeofOfRhsEdges() {
+		if ((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS && hasTypeof()) {
+			if ((typeEdgeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+				reportWarning("type of edge " + typeEdgeDecl.ident
+						+ " is statically known");
+			}
+		}
 	}
 
-	/** Return the inner edge of a typeof statement. */
-	protected EdgeDeclNode getTypeofEdge() {
-		assert isResolved();
+	private static final Checker typeChecker = new TypeChecker(EdgeTypeNode.class);
 
-		return typeEdgeDecl;
+	protected boolean checkLocal() {
+		warnOnTypeofOfRhsEdges();
+
+		return super.checkLocal()
+			& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error);
 	}
 
 	/** Returns whether the edge type is a typeof statement. */

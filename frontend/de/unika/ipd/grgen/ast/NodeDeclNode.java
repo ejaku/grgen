@@ -126,9 +126,23 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		return typeNodeDecl;
 	}
 
+	/**
+	 * Warn on typeofs of new created graph nodes (with known type).
+	 */
+	private void warnOnTypeofOfRhsNodes() {
+		if ((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS && hasTypeof()) {
+			if ((typeNodeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+				reportWarning("type of node " + typeNodeDecl.ident
+						+ " is statically known");
+			}
+		}
+	}
+
 	private static final Checker typeChecker = new TypeChecker(NodeTypeNode.class);
 
 	protected boolean checkLocal() {
+		warnOnTypeofOfRhsNodes();
+
 		return super.checkLocal()
 			& typeChecker.check(getValidResolvedVersion(typeNodeDecl, typeTypeDecl), error);
 	}
