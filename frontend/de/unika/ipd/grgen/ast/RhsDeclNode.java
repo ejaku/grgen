@@ -154,7 +154,7 @@ public abstract class RhsDeclNode extends DeclNode {
 			if (node.hasTypeof()) {
 				NodeDeclNode typeofNode = node.getTypeofNode();
 
-				if (rhsNodes.contains(typeofNode)) {
+				if ((typeofNode.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 					node.reportWarning("type of node " + typeofNode.ident
 							+ " is statically known");
 				}
@@ -171,7 +171,7 @@ public abstract class RhsDeclNode extends DeclNode {
 			if (edge.hasTypeof()) {
 				EdgeDeclNode typeofEdge = edge.getTypeofEdge();
 
-				if (rhsEdges.contains(typeofEdge)) {
+				if ((typeofEdge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 					edge.reportWarning("type of edge " + typeofEdge.ident
 							+ " is statically known");
 				}
