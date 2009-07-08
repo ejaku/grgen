@@ -12,13 +12,13 @@ package de.unika.ipd.grgen.ir;
 public class Visited extends Expression {
 	private Expression visitorID;
 	private Entity entity;
-	
+
 	public Visited(Expression visitorID, Entity entity) {
 		super("visited", BooleanType.getType());
 		this.visitorID = visitorID;
 		this.entity = entity;
 	}
-	
+
 	public Expression getVisitorID() {
 		return visitorID;
 	}
@@ -26,7 +26,7 @@ public class Visited extends Expression {
 	public Entity getEntity() {
 		return entity;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
 		needs.add((GraphEntity) entity);

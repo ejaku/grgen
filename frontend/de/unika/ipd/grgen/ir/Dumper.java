@@ -125,7 +125,7 @@ public class Dumper {
 					Assignment a = (Assignment) e;
 					Expression target = a.getTarget();
 					Expression expr = a.getExpression();
-	
+
 					if(compactCondEval) {
 						dump(a.getId(), Formatter.formatConditionEval(target) + " = " + Formatter.formatConditionEval(expr), gd);
 						if(oldEvalStatement != null)

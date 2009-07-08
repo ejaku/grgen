@@ -26,7 +26,7 @@ public class Entity extends Identifiable {
 
 	/** The entity's owner. */
 	protected Type owner = null;
-	
+
 	/** Is the entity constant - (only) relevant in backend for node/edge attributes. */
 	protected boolean isConst = false;
 
@@ -84,7 +84,7 @@ public class Entity extends Identifiable {
 	public boolean isConst() {
 		return isConst;
 	}
-	
+
 	/** The only walkable child here is the type
 	 *  @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Set<? extends IR> getWalkableChildren() {

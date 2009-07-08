@@ -13,18 +13,18 @@ package de.unika.ipd.grgen.ir;
 
 public class MapDomainExpr extends Expression {
 	Expression targetExpr;
-	
+
 	public MapDomainExpr(Expression targetExpr, Type targetType) {
 		super("map domain expression", targetType);
 		this.targetExpr = targetExpr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}
-	
+
 	public Expression getTargetExpr() {
 		return targetExpr;
-	}	
+	}
 }

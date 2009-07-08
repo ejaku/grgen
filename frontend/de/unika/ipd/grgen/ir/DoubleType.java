@@ -24,7 +24,7 @@ public class DoubleType extends PrimitiveType {
 	public int classify() {
 		return IS_DOUBLE;
 	}
-	
+
 	public static Type getType() {
 		return BasicTypeNode.doubleType.checkIR(Type.class);
 	}

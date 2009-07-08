@@ -26,7 +26,7 @@ public class TypeType extends PrimitiveType {
 	public int classify() {
 		return IS_TYPE;
 	}
-	
+
 	public static Type getType() {
 		return BasicTypeNode.typeType.checkIR(Type.class);
 	}

@@ -24,7 +24,7 @@ public class ObjectType extends PrimitiveType {
 	public int classify() {
 		return IS_OBJECT;
 	}
-	
+
 	public static Type getType() {
 		return BasicTypeNode.objectType.checkIR(Type.class);
 	}

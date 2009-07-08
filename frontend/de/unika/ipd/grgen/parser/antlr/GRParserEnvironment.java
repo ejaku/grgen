@@ -39,8 +39,8 @@ public class GRParserEnvironment extends ParserEnvironment {
 
 	/** The base directory of the specification or null for the current directory */
 	private File baseDir = null;
-	
-	private String filename; 
+
+	private String filename;
 
 	public GRParserEnvironment(Sys system) {
 		super(system);
@@ -64,7 +64,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 			CharStream input = lexer.getCharStream();
 	        int marker = input.mark();
 	        streams.push(new Pair<CharStream, Integer>(input, marker));
-	        
+
 	        // switch on new input stream
 	        ANTLRFileStream stream = new ANTLRFileStream(file.getPath());
 	        lexer.setCharStream(stream);
@@ -88,7 +88,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 			filename = lexer.getCharStream().getSourceName();
 			return true;
     	}
-    	
+
     	return false;
 	}
 
@@ -142,7 +142,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 					+ filePath + "\"");
 			System.exit(1);
 		}
-		
+
 		root = models.get(filePath);
 		if(root != null) return root;
 
@@ -157,7 +157,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 			parsers.push(parser);
 			String oldFilename = filename;
 			filename = inputFile.getPath();
-			
+
 			try {
 				parser.setEnv(this);
 				root = parser.textTypes();
@@ -168,7 +168,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 				System.err.println("parser exception: " + e.getMessage());
 				System.exit(1);
 			}
-			
+
 			filename = oldFilename;
 
 			parsers.pop();

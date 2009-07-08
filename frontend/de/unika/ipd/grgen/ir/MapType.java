@@ -14,13 +14,13 @@ package de.unika.ipd.grgen.ir;
 public class MapType extends Type {
 	Type keyType;
 	Type valueType;
-	
+
 	public MapType(Type keyType, Type valueType) {
 		super("map type", null);
 		this.keyType   = keyType;
 		this.valueType = valueType;
 	}
-	
+
 	public Type getKeyType() {
 		return keyType;
 	}

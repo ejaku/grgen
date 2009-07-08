@@ -24,7 +24,7 @@ public class FloatType extends PrimitiveType {
 	public int classify() {
 		return IS_FLOAT;
 	}
-	
+
 	public static Type getType() {
 		return BasicTypeNode.floatType.checkIR(Type.class);
 	}

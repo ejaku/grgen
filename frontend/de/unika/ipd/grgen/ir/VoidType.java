@@ -28,7 +28,7 @@ public class VoidType extends PrimitiveType {
 	public boolean isEqual(Type t) {
 		return t.isVoid();
 	}
-	
+
 	public static Type getType() {
 		return BasicTypeNode.voidType.checkIR(Type.class);
 	}

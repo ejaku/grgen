@@ -14,17 +14,17 @@ package de.unika.ipd.grgen.ir;
 public class SetAddItem extends EvalStatement {
 	Qualification target;
     Expression valueExpr;
-    
+
 	public SetAddItem(Qualification target, Expression valueExpr) {
 		super("set add item");
 		this.target = target;
 		this.valueExpr = valueExpr;
 	}
-	
+
 	public Qualification getTarget() {
 		return target;
 	}
-		
+
 	public Expression getValueExpr() {
 		return valueExpr;
 	}

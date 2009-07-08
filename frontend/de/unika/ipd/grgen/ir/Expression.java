@@ -31,7 +31,7 @@ public abstract class Expression extends IR
 	public Type getType() {
 		return type;
 	}
-	
+
 	/**
 	 * Method collectElementsAndVars extracts the nodes, edges, and variables
 	 * occurring in this Expression.

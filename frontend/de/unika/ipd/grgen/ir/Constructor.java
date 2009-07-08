@@ -14,12 +14,12 @@ import java.util.LinkedHashSet;
 
 public class Constructor extends IR {
 	private LinkedHashSet<ConstructorParam> parameters;
-	
+
 	public Constructor(LinkedHashSet<ConstructorParam> parameters) {
 		super("constructor");
 		this.parameters = parameters;
 	}
-	
+
 	public LinkedHashSet<ConstructorParam> getParameters() {
 		return parameters;
 	}

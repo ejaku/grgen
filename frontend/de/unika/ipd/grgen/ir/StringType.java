@@ -26,7 +26,7 @@ public class StringType extends PrimitiveType {
 	public int classify() {
 		return IS_STRING;
 	}
-	
+
 	public static Type getType() {
 		return BasicTypeNode.stringType.checkIR(Type.class);
 	}

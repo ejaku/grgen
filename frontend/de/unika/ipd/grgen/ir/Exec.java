@@ -43,13 +43,13 @@ public class Exec extends IR implements ImperativeStmt {
 	public Set<Expression> getArguments() {
 		return Collections.unmodifiableSet(parameters);
 	}
-	
+
 	public Set<Entity> getNeededEntities() {
 		if(neededEntities == null) {
 			NeededEntities needs = new NeededEntities(false, false, false, true, false, false);  // collect all entities
 			for(Expression param : getArguments())
 				param.collectNeededEntities(needs);
-			
+
 			neededEntities = needs.entities;
 		}
 		return neededEntities;

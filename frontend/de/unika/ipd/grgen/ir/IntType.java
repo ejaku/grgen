@@ -24,7 +24,7 @@ public class IntType extends PrimitiveType {
 	public int classify() {
 		return IS_INTEGER;
 	}
-	
+
 	public static Type getType() {
 		return BasicTypeNode.intType.checkIR(Type.class);
 	}

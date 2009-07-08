@@ -12,7 +12,7 @@ package de.unika.ipd.grgen.ir;
 
 public class StringReplace extends Expression {
 	private Expression stringExpr, startExpr, lengthExpr, replaceStrExpr;
-	
+
 	public StringReplace(Expression stringExpr,
 			Expression startExpr, Expression lengthExpr, Expression replaceStrExpr) {
 		super("string replace", StringType.getType());
@@ -21,19 +21,19 @@ public class StringReplace extends Expression {
 		this.lengthExpr = lengthExpr;
 		this.replaceStrExpr = replaceStrExpr;
 	}
-	
+
 	public Expression getStringExpr() {
 		return stringExpr;
 	}
-	
+
 	public Expression getStartExpr() {
 		return startExpr;
 	}
-	
+
 	public Expression getLengthExpr() {
 		return lengthExpr;
 	}
-	
+
 	public Expression getReplaceStrExpr() {
 		return replaceStrExpr;
 	}

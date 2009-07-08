@@ -13,12 +13,12 @@ package de.unika.ipd.grgen.ir;
 
 public class SetType extends Type {
 	Type valueType;
-	
+
 	public SetType(Type valueType) {
 		super("set type", null);
 		this.valueType = valueType;
 	}
-	
+
 	public Type getValueType() {
 		return valueType;
 	}

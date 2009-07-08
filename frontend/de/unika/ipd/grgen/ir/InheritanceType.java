@@ -37,14 +37,14 @@ public abstract class InheritanceType extends CompoundType {
 
 	private Set<InheritanceType> allSuperTypes = null;
 	private Set<InheritanceType> allSubTypes = null;
-	
+
 	private List<Constructor> constructors = new LinkedList<Constructor>();
 
 	/** The list of member initializers */
 	private List<MemberInit> memberInitializers = new LinkedList<MemberInit>();
-	
+
 	private List<MapInit> mapInitializers = new LinkedList<MapInit>();
-	
+
 	private List<SetInit> setInitializers = new LinkedList<SetInit>();
 
 	/** Collection containing all members defined in that type and in its supertype.
@@ -185,11 +185,11 @@ public abstract class InheritanceType extends CompoundType {
 	public Entity getOverriddenMember(Entity overridingMember) {
 		return overridingMembers.get(overridingMember);
 	}
-	
+
 	public void addConstructor(Constructor constr) {
 		constructors.add(constr);
 	}
-	
+
 	public Collection<Constructor> getConstructor() {
 		return constructors;
 	}
@@ -211,7 +211,7 @@ public abstract class InheritanceType extends CompoundType {
 	public Collection<MapInit> getMapInits() {
 		return mapInitializers;
 	}
-	
+
 	public void addSetInit(SetInit init) {
 		setInitializers.add(init);
 	}
@@ -219,7 +219,7 @@ public abstract class InheritanceType extends CompoundType {
 	public Collection<SetInit> getSetInits() {
 		return setInitializers;
 	}
-	
+
 	/**
 	 * Check, if this type is a direct sub type of another type.
 	 * This means, that this type inherited from the other type.

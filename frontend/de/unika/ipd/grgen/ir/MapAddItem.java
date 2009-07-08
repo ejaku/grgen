@@ -15,22 +15,22 @@ public class MapAddItem extends EvalStatement {
 	Qualification target;
 	Expression keyExpr;
     Expression valueExpr;
-    
+
 	public MapAddItem(Qualification target, Expression keyExpr, Expression valueExpr) {
 		super("map add item");
 		this.target = target;
 		this.keyExpr = keyExpr;
 		this.valueExpr = valueExpr;
 	}
-	
+
 	public Qualification getTarget() {
 		return target;
 	}
-	
+
 	public Expression getKeyExpr() {
 		return keyExpr;
 	}
-	
+
 	public Expression getValueExpr() {
 		return valueExpr;
 	}

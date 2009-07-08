@@ -16,7 +16,7 @@ package de.unika.ipd.grgen.parser.antlr;
 public class Coords extends de.unika.ipd.grgen.parser.Coords {
 
 	/**
-	 * Construct coordinates from an ANTLR token. 
+	 * Construct coordinates from an ANTLR token.
 	 * @param tok The ANTLR token.
 	 */
 	public Coords(org.antlr.runtime.Token tok) {

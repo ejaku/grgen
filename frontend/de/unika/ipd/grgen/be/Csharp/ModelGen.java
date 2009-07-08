@@ -882,7 +882,7 @@ member_loop:
 			Entity overriddenMember = type.getOverriddenMember(e);
 			if(overriddenMember != null) {
 				routedSB.append("\n\t\tobject "
-						+ formatElementInterfaceRef((InheritanceType) overriddenMember.getOwner())
+						+ formatElementInterfaceRef(overriddenMember.getOwner())
 						+ ".@" + attrName + "\n"
 						+ "\t\t{\n"
 						+ "\t\t\tget { return _" + attrName + "; }\n"
@@ -1012,7 +1012,7 @@ member_loop:
 						+ "((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);\n");
 			sb.append("\t\t}\n");
 		}
-		
+
 		sb.append("\t\tpublic override bool IsAbstract { get { return " + (type.isAbstract() ? "true" : "false") + "; } }\n");
 		sb.append("\t\tpublic override bool IsConst { get { return " + (type.isConst() ? "true" : "false") + "; } }\n");
 

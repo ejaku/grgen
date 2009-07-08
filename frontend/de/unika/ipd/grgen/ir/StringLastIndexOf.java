@@ -12,17 +12,17 @@ package de.unika.ipd.grgen.ir;
 
 public class StringLastIndexOf extends Expression {
 	private Expression stringExpr, stringToSearchForExpr;
-	
+
 	public StringLastIndexOf(Expression stringExpr, Expression stringToSearchForExpr) {
 		super("string lastIndexOf", IntType.getType());
 		this.stringExpr = stringExpr;
 		this.stringToSearchForExpr = stringToSearchForExpr;
 	}
-	
+
 	public Expression getStringExpr() {
 		return stringExpr;
 	}
-	
+
 	public Expression getStringToSearchForExpr() {
 		return stringToSearchForExpr;
 	}

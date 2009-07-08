@@ -152,7 +152,7 @@ public class Unit extends IR {
 			subpatternRule.pattern.resolvePatternLockedModifier();
 		}
 	}
-	
+
 	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern() {
 		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
 		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();

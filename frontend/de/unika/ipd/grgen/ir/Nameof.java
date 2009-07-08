@@ -25,7 +25,7 @@ public class Nameof extends Expression {
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNeededEntities() */
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.needsGraph();
-		
+
 		if(entity==null)
 			return;
 		else

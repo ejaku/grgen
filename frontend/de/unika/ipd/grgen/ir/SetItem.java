@@ -13,12 +13,12 @@ package de.unika.ipd.grgen.ir;
 
 public class SetItem extends IR {
 	Expression valueExpr;
-	
+
 	public SetItem(Expression valueExpr) {
 		super("set item");
 		this.valueExpr = valueExpr;
 	}
-		
+
 	public Expression getValueExpr() {
 		return valueExpr;
 	}

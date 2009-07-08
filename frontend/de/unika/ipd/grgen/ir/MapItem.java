@@ -14,17 +14,17 @@ package de.unika.ipd.grgen.ir;
 public class MapItem extends IR {
 	Expression keyExpr;
 	Expression valueExpr;
-	
+
 	public MapItem(Expression keyExpr, Expression valueExpr) {
 		super("map item");
 		this.keyExpr = keyExpr;
 		this.valueExpr = valueExpr;
 	}
-	
+
 	public Expression getKeyExpr() {
 		return keyExpr;
 	}
-	
+
 	public Expression getValueExpr() {
 		return valueExpr;
 	}

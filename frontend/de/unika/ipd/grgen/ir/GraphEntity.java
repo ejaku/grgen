@@ -131,11 +131,11 @@ public abstract class GraphEntity extends Entity {
 	public void setParameterInterfaceType(InheritanceType type) {
 		parameterInterfaceType = type;
 	}
-	
+
 	public InheritanceType getParameterInterfaceType() {
 		return parameterInterfaceType;
 	}
-	
+
 	public final Collection<InheritanceType> getConstraints() {
 		return Collections.unmodifiableCollection(constraints);
 	}

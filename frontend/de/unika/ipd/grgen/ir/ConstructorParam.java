@@ -13,17 +13,17 @@ package de.unika.ipd.grgen.ir;
 public class ConstructorParam extends IR {
 	private Entity entity;
 	private Expression defValue;
-	
+
 	public ConstructorParam(Entity entity, Expression defValue) {
 		super("constructor param");
 		this.entity = entity;
 		this.defValue = defValue;
 	}
-	
+
 	public Entity getEntity() {
 		return entity;
 	}
-	
+
 	public Expression getDefValue() {
 		return defValue;
 	}

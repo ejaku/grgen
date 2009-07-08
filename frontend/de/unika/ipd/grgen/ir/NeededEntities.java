@@ -70,12 +70,12 @@ public class NeededEntities {
 	 * The entities needed (nodes, edges, and variables).
 	 */
 	public HashSet<Entity> entities;
-	
+
 	/**
 	 * The graph entities needed for attributes mapped to the according attributes.
 	 */
 	public HashMap<GraphEntity, HashSet<Entity>> attrEntityMap;
-	
+
 	/**
 	 * The nodes needed for attributes.
 	 */
@@ -85,17 +85,17 @@ public class NeededEntities {
 	 * The edges needed for attributes.
 	 */
 	public HashSet<Edge> attrEdges;
-	
+
 	/**
 	 * Specifies whether map and set expressions should be collected.
 	 */
 	public boolean collectMapSetExprs;
-	
+
 	/**
 	 * The map and set expressions.
 	 */
 	public HashSet<Expression> mapSetExprs;
-	
+
 	/**
 	 * Adds a needed graph entity.
 	 * @param entity The needed entity.
@@ -109,10 +109,10 @@ public class NeededEntities {
 		}
 		else
 			throw new UnsupportedOperationException("Unsupported entity (" + entity + ")");
-		
+
 		if(entities != null) entities.add(entity);
 	}
-	
+
 	/**
 	 * Adds a needed node.
 	 * @param node The needed node.
@@ -139,7 +139,7 @@ public class NeededEntities {
 		if(variables != null) variables.add(var);
 		if(entities != null) entities.add(var);
 	}
-	
+
 	/**
 	 * Adds a needed attribute.
 	 * @param grEnt The entity being accessed.
@@ -150,12 +150,12 @@ public class NeededEntities {
 			add(grEnt);
 			return;
 		}
-		
+
 		HashSet<Entity> attrs = attrEntityMap.get(grEnt);
 		if(attrs == null)
 			attrEntityMap.put(grEnt, attrs = new LinkedHashSet<Entity>());
 		attrs.add(attr);
-		
+
 		if(grEnt instanceof Node)
 			attrNodes.add((Node) grEnt);
 		else if(grEnt instanceof Edge)
@@ -163,7 +163,7 @@ public class NeededEntities {
 		else
 			throw new UnsupportedOperationException("Unsupported entity (" + grEnt + ")");
 	}
-	
+
 	/**
 	 * Adds a map or set expression.
 	 * @param expr The map or set expressions.

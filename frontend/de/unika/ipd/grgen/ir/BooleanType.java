@@ -26,7 +26,7 @@ public class BooleanType extends PrimitiveType {
 	public int classify() {
 		return IS_BOOLEAN;
 	}
-	
+
 	public static Type getType() {
 		return BasicTypeNode.booleanType.checkIR(Type.class);
 	}

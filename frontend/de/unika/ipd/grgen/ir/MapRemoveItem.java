@@ -14,17 +14,17 @@ package de.unika.ipd.grgen.ir;
 public class MapRemoveItem extends EvalStatement {
 	Qualification target;
 	Expression keyExpr;
-	
+
 	public MapRemoveItem(Qualification target, Expression keyExpr) {
 		super("map remove item");
 		this.target = target;
 		this.keyExpr = keyExpr;
 	}
-	
+
 	public Qualification getTarget() {
 		return target;
 	}
-	
+
 	public Expression getKeyExpr() {
 		return keyExpr;
 	}

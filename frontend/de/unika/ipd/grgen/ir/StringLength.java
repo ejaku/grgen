@@ -12,12 +12,12 @@ package de.unika.ipd.grgen.ir;
 
 public class StringLength extends Expression {
 	private Expression stringExpr;
-	
+
 	public StringLength(Expression stringExpr) {
 		super("string length", IntType.getType());
 		this.stringExpr = stringExpr;
 	}
-	
+
 	public Expression getStringExpr() {
 		return stringExpr;
 	}

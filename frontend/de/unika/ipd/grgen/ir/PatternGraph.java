@@ -97,11 +97,11 @@ public class PatternGraph extends Graph {
 	public void addIterated(Rule iter) {
 		iters.add(iter);
 	}
-	
+
 	public Collection<Rule> getIters() {
 		return Collections.unmodifiableCollection(iters);
 	}
-	
+
 	public void addNegGraph(PatternGraph neg) {
 		int patternNameNumber = negs.size();
 		neg.setName("N" + patternNameNumber);
@@ -215,12 +215,12 @@ public class PatternGraph extends Graph {
 
 	public void resolvePatternLockedModifier() {
 		// in pre-order walk: add all elements of parent to child if child requests so by pattern locked modifier
-		
+
 		// if nested negative requests so, add all of our elements to it
 		for (PatternGraph negative : getNegs()) {
 			if((negative.modifiers&PatternGraphNode.MOD_PATTERN_LOCKED)!=PatternGraphNode.MOD_PATTERN_LOCKED)
 				continue;
-			
+
 			for(Node node : getNodes()) {
 				if(!negative.hasNode(node)) {
 					negative.addSingleNode(node);
@@ -232,12 +232,12 @@ public class PatternGraph extends Graph {
 				}
 			}
 		}
-		
+
 		// if nested independent requests so, add all of our elements to it
 		for (PatternGraph independent : getIdpts()) {
 			if((independent.modifiers&PatternGraphNode.MOD_PATTERN_LOCKED)!=PatternGraphNode.MOD_PATTERN_LOCKED)
 				continue;
-			
+
 			for(Node node : getNodes()) {
 				if(!independent.hasNode(node)) {
 					independent.addSingleNode(node);
@@ -249,7 +249,7 @@ public class PatternGraph extends Graph {
 				}
 			}
 		}
-		
+
 		// recursive descend
 		for (PatternGraph negative : getNegs()) {
 			negative.resolvePatternLockedModifier();
@@ -258,7 +258,7 @@ public class PatternGraph extends Graph {
 			independent.resolvePatternLockedModifier();
 		}
 	}
-	
+
 	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 			HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges) {
 		///////////////////////////////////////////////////////////////////////////////
@@ -276,7 +276,7 @@ public class PatternGraph extends Graph {
 		for(Alternative alternative : getAlts()) {
 			for(Rule altCase : alternative.getAlternativeCases()) {
 				altCase.getLeft().insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(altCase.getRight());
-				
+
 				PatternGraph altCasePattern = altCase.getLeft();
 				HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 				HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
@@ -287,21 +287,21 @@ public class PatternGraph extends Graph {
 
 		for(Rule iterated : getIters()) {
 			iterated.getLeft().insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(iterated.getRight());
-			
+
 			PatternGraph iteratedPattern = iterated.getLeft();
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			iteratedPattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodesClone, alreadyDefinedEdgesClone);
 		}
-		
+
 		for (PatternGraph negative : getNegs()) {
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			negative.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
 					alreadyDefinedNodesClone, alreadyDefinedEdgesClone);
 		}
-		
+
 		for (PatternGraph independent : getIdpts()) {
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
@@ -386,7 +386,7 @@ public class PatternGraph extends Graph {
 				}
 			}
 		}
-		
+
 		// add elements needed in nested idpt, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
 		for (PatternGraph independent : getIdpts()) {
@@ -404,7 +404,7 @@ public class PatternGraph extends Graph {
 			}
 		}
 	}
-	
+
 	public void insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(PatternGraph right) {
 		// insert all elements, which are used (not declared)  on the right hand side and not declared on left hand side,
 		// (which means they are declared in some pattern the left hand side is nested in,)
@@ -413,7 +413,7 @@ public class PatternGraph extends Graph {
 		if(right==null) {
 			return;
 		}
-		
+
 		for(Node n : right.getNodes()) {
 			if(n.directlyNestingLHSGraph!=this) {
 				if(!hasNode(n)) {
@@ -422,7 +422,7 @@ public class PatternGraph extends Graph {
 				}
 			}
 		}
-		
+
 		for(Edge e : right.getEdges()) {
 			if(e.directlyNestingLHSGraph!=this) {
 				if(!hasEdge(e)) {

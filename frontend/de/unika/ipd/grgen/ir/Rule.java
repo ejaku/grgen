@@ -65,7 +65,7 @@ public class Rule extends MatchingAction {
 	 * @param left The left side graph of the rule.
 	 * @param right The right side graph of the rule.
 	 */
-	public Rule(Ident ident, PatternGraph left, PatternGraph right, 
+	public Rule(Ident ident, PatternGraph left, PatternGraph right,
 			int minMatches, int maxMatches) {
 		super("rule", ident, left);
 		setChildrenNames(childrenNames);
@@ -80,7 +80,7 @@ public class Rule extends MatchingAction {
 		this.minMatches = minMatches;
 		this.maxMatches = maxMatches;
 	}
-	
+
 	/** @return A collection containing all eval assignments of this rule. */
 	public Collection<EvalStatement> getEvals() {
 		return Collections.unmodifiableCollection(evals);
@@ -137,7 +137,7 @@ public class Rule extends MatchingAction {
 	public PatternGraph getRight() {
 		return right;
 	}
-	
+
 	/** @return Minimum number of how often the pattern must get matched. */
 	public int getMinMatches() {
 		return minMatches;

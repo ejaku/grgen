@@ -26,7 +26,7 @@ public class Node extends GraphEntity {
 
 	// in case of retyped node thats the pattern graph of the old node, otherwise of the node itself
 	public PatternGraph directlyNestingLHSGraph;
-	
+
 	/**
 	 * Make a new node.
 	 * @param ident The identifier for the node.
@@ -49,7 +49,7 @@ public class Node extends GraphEntity {
 	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy.
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
 	 */
-	public Node(Ident ident, NodeType type, 
+	public Node(Ident ident, NodeType type,
 			PatternGraph directlyNestingLHSGraph, boolean maybeDeleted, boolean maybeRetyped) {
 		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, maybeDeleted, maybeRetyped);
 	}

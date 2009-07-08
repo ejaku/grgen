@@ -13,18 +13,18 @@ package de.unika.ipd.grgen.ir;
 
 public class SetSizeExpr extends Expression {
 	Expression targetExpr;
-	
+
 	public SetSizeExpr(Expression targetExpr) {
 		super("set size expression", IntType.getType());
 		this.targetExpr = targetExpr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.add(this);
 		targetExpr.collectNeededEntities(needs);
 	}
-	
+
 	public Expression getTargetExpr() {
 		return targetExpr;
-	}	
+	}
 }

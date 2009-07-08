@@ -330,7 +330,7 @@ public class ModifyGen extends CSharpBase {
 			}
 			++i;
 		}
-		
+
 		i = 0;
 		for(Rule iter : rule.getLeft().getIters()) {
 			String iterName = "iter_" + i;
@@ -350,7 +350,7 @@ public class ModifyGen extends CSharpBase {
 
 		for(Edge edge : left.getEdges())
 			if(edge.getEdgeType().isAbstract()) return true;
-		
+
 		return false;
 	}
 
@@ -467,7 +467,7 @@ public class ModifyGen extends CSharpBase {
 		}
 		sb.append(")\n");
 		sb.append("\t\t{\n");
-	
+
 		// Emit dispatcher calling the modify-method of the iterated pattern which was matched
 		sb.append("\t\t\tfor(Match_"+pathPrefix+iterName+" curMatch=curMatches.Root;"
 				+" curMatch!=null; curMatch=curMatch.next) {\n");
@@ -494,7 +494,7 @@ public class ModifyGen extends CSharpBase {
 					  + "GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefix+iterName
 					  + ", IMatch_"+pathPrefix+iterName+"> curMatches)\n");
 		sb.append("\t\t{\n");
-	
+
 		// Emit dispatcher calling the modify-method of the iterated pattern which was matched
 		sb.append("\t\t\tfor(Match_"+pathPrefix+iterName+" curMatch=curMatches.Root;"
 				+" curMatch!=null; curMatch=curMatch.next) {\n");
@@ -592,11 +592,11 @@ public class ModifyGen extends CSharpBase {
 				state.nodesNeededAsElements, state.nodesNeededAsTypes);
 
 		genPreEmits(sb2, stateConst, task);
-		
+
 		genSubpatternModificationCalls(sb2, task, pathPrefix, state.nodesNeededAsElements);
 
 		genIteratedModificationCalls(sb2, task, pathPrefix);
-		
+
 		genAlternativeModificationCalls(sb2, task, pathPrefix);
 
 		genTypeChangesNodes(sb2, stateConst, task,
@@ -621,7 +621,7 @@ public class ModifyGen extends CSharpBase {
 		genDelNodes(sb3, stateConst, state.nodesNeededAsElements);
 
 		genDelSubpatternCalls(sb3, stateConst);
-		
+
 		genMapAndSetVariablesBeforeImperativeStatements(sb3, stateConst);
 
 		state.useVarForMapResult = true;
@@ -682,7 +682,7 @@ public class ModifyGen extends CSharpBase {
 			outParameters.append(" output_"+i);
 			++i;
 		}
-		
+
 		switch(task.typeOfTask) {
 		case TYPE_OF_TASK_MODIFY:
 			if(pathPrefix=="" && !task.isSubpattern) {
@@ -1622,7 +1622,7 @@ public class ModifyGen extends CSharpBase {
 		for(SubpatternUsage subUsage : state.newSubpatternUsages()) {
 			if(hasAbstractElements(subUsage.getSubpatternAction().getPattern()))
 				continue;
-			
+
 			sb.append("\t\t\tPattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
 					"_Create(graph");
