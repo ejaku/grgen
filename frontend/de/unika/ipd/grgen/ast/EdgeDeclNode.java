@@ -129,6 +129,18 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 				reportWarning("type of edge " + typeEdgeDecl.ident
 						+ " is statically known");
 			}
+
+			EdgeDeclNode typeofEdge = typeEdgeDecl;
+
+			// As long as the type is statically known
+			while (typeofEdge.typeEdgeDecl != null
+					&& (typeofEdge.typeEdgeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+				typeofEdge = typeofEdge.typeEdgeDecl;
+			}
+
+			// Update type
+			typeEdgeDecl = typeofEdge.typeEdgeDecl;
+			typeTypeDecl = typeofEdge.typeTypeDecl;
 		}
 	}
 

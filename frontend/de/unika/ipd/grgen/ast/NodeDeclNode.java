@@ -134,6 +134,18 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 			if ((typeNodeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 				reportWarning("type of node " + typeNodeDecl.ident
 						+ " is statically known");
+
+				NodeDeclNode typeofNode = typeNodeDecl;
+
+				// As long as the type is statically known
+				while (typeofNode.typeNodeDecl != null
+						&& (typeofNode.typeNodeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+					typeofNode = typeofNode.typeNodeDecl;
+				}
+
+				// Update type
+				typeNodeDecl = typeofNode.typeNodeDecl;
+				typeTypeDecl = typeofNode.typeTypeDecl;
 			}
 		}
 	}
