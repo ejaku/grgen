@@ -190,7 +190,7 @@ public abstract class Graph extends IR {
 	/**
 	 * Get a read-only collection containing all nodes in this graph.
 	 * @return A collection containing all nodes in this graph.
-	 * @note The collection is read-only and may not be modified.
+	 * Note: The collection is read-only and may not be modified.
 	 */
 	public Collection<Node> getNodes() {
 		return Collections.unmodifiableCollection(nodes.keySet());
@@ -199,7 +199,7 @@ public abstract class Graph extends IR {
 	/**
 	 * Get a read-only collection containing all edges in this graph.
 	 * @return A collection containing all edges in this graph.
-	 * @note The collection is read-only and may not be modified.
+	 * Note: The collection is read-only and may not be modified.
 	 */
 	public Collection<Edge> getEdges() {
 		return Collections.unmodifiableCollection(edges.keySet());
@@ -208,7 +208,7 @@ public abstract class Graph extends IR {
 	/**
 	 * Get a read-only collection containing all subpattern usages in this graph.
 	 * @return A collection containing all subpattern usages in this graph.
-	 * @note The collection is read-only and may not be modified.
+	 * Note: The collection is read-only and may not be modified.
 	 */
 	public Collection<SubpatternUsage> getSubpatternUsages() {
 		return Collections.unmodifiableCollection(subpatternUsages);
@@ -217,7 +217,7 @@ public abstract class Graph extends IR {
 	/**
 	 * Get a read-only collection containing all dependent subpattern replacements in this graph.
 	 * @return A collection containing all dependent subpattern replacements in this graph.
-	 * @note The collection is read-only and may not be modified.
+	 * Note: The collection is read-only and may not be modified.
 	 */
 	public Collection<SubpatternDependentReplacement> getSubpatternDependentReplacements() {
 		return Collections.unmodifiableCollection(subpatternDependentReplacement);

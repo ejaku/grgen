@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.parser.Symbol;
 
 /**
  * Base class for all AST nodes representing compound types.
- * @note The scope stored in the node
+ * Note: The scope stored in the node
  * (accessible via {@link BaseNode#getScope()}) is the scope,
  * this compound type owns, not the scope it is declared in.
  */
