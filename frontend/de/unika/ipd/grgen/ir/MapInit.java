@@ -19,8 +19,8 @@ public class MapInit extends Expression {
 	private MapType mapType;
 	private boolean isConst;
 	private int anonymousMapId;
-	static private int anonymousMapCounter;
-	
+	private static int anonymousMapCounter;
+
 	public MapInit(Collection<MapItem> mapItems, Entity member, MapType mapType, boolean isConst) {
 		super("map init", member!=null ? member.getType() : mapType);
 		this.mapItems = mapItems;
@@ -32,27 +32,27 @@ public class MapInit extends Expression {
 			++anonymousMapCounter;
 		}
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.add(this);
 	}
-	
+
 	public Collection<MapItem> getMapItems() {
 		return mapItems;
 	}
-	
+
 	public Entity getMember() {
 		return member;
 	}
-	
+
 	public MapType getMapType() {
 		return mapType;
 	}
-	
+
 	public boolean isConstant() {
 		return isConst;
 	}
-	
+
 	public String getAnonymnousMapName() {
 		return "anonymous_map_" + anonymousMapId;
 	}

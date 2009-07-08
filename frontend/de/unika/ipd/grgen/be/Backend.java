@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.be;
 import java.io.File;
 
 import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Unit;
 
 /**

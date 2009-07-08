@@ -89,7 +89,7 @@ tokens {
 
 	private static Map<Integer, Integer> opIds = new HashMap<Integer, Integer>();
 
-	private static final void putOpId(int tokenId, int opId) {
+	private static void putOpId(int tokenId, int opId) {
 		opIds.put(new Integer(tokenId), new Integer(opId));
 	}
 

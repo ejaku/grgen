@@ -12,7 +12,6 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**

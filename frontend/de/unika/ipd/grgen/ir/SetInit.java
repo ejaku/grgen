@@ -19,8 +19,8 @@ public class SetInit extends Expression {
 	private SetType setType;
 	private boolean isConst;
 	private int anonymousSetId;
-	static private int anonymousSetCounter;
-	
+	private static int anonymousSetCounter;
+
 	public SetInit(Collection<SetItem> setItems, Entity member, SetType setType, boolean isConst) {
 		super("set init", member!=null ? member.getType() : setType);
 		this.setItems = setItems;
@@ -32,7 +32,7 @@ public class SetInit extends Expression {
 			++anonymousSetCounter;
 		}
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.add(this);
 	}
@@ -40,19 +40,19 @@ public class SetInit extends Expression {
 	public Collection<SetItem> getSetItems() {
 		return setItems;
 	}
-	
+
 	public Entity getMember() {
 		return member;
 	}
-	
+
 	public SetType getSetType() {
 		return setType;
 	}
-	
+
 	public boolean isConstant() {
 		return isConst;
 	}
-	
+
 	public String getAnonymnousSetName() {
 		return "anonymous_set_" + anonymousSetId;
 	}
