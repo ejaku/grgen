@@ -13,7 +13,7 @@ import java.util.Vector;
 /**
  * Type of rule decl node declaration.
  */
-class RuleTypeNode extends TypeNode {
+public class RuleTypeNode extends TypeNode {
 	static {
 		setName(RuleTypeNode.class, "rule type");
 	}

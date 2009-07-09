@@ -54,7 +54,7 @@ public abstract class OpNode extends ExprNode
 			res = false;
 		}
 
-		//Here the error must have been already reported
+		// Here the error must have been already reported
 		if(type.isEqual(BasicTypeNode.errorType))
 			res = false;
 

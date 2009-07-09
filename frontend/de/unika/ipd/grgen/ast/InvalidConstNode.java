@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.parser.Coords;
 
 
-class InvalidConstNode extends ConstNode
+public class InvalidConstNode extends ConstNode
 {
 	static {
 		setName(InvalidConstNode.class, "invalid const");

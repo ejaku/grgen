@@ -69,12 +69,6 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal() {
-		return true;
-	}
-
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
 	@Override
 	public EnumItemNode getDecl() {

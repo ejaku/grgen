@@ -13,7 +13,7 @@ import java.util.Vector;
 /**
  * Type of alternative case node declaration.
  */
-class AlternativeCaseTypeNode extends TypeNode {
+public class AlternativeCaseTypeNode extends TypeNode {
 	static {
 		setName(AlternativeCaseTypeNode.class, "alternative case type");
 	}

@@ -72,7 +72,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	@Override
 	protected boolean checkLocal()
 	{
-		boolean res = true;
+		boolean res = super.checkLocal();
 		getAllSuperTypes();
 
 		for(DeclNode member : getAllMembers().values()) {

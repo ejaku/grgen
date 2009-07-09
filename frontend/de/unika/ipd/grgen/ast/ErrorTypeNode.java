@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.ir.VoidType;
  * TODO: Why compatible to no other type? The error node within an compiler
  * should be compatible to every other node, to protect against error avalanches
  */
-class ErrorTypeNode extends TypeNode {
+public class ErrorTypeNode extends TypeNode {
 	static {
 		setName(ErrorTypeNode.class, "error type");
 	}

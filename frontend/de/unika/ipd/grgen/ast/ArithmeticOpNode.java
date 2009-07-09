@@ -117,13 +117,6 @@ public class ArithmeticOpNode extends OpNode {
 		return getOperator().evaluate(this, args);
 	}
 
-	/** All children of this expression node must be expression nodes, too.
-	 *  @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	@Override
-	protected boolean checkLocal() {
-		return super.checkLocal();
-	}
-
 	/** mark to break set/map assignment of set/map expression up into set/map add/remove to/from target statements */
 	protected void markToBreakUpIntoStateChangingOperations(QualIdentNode target) {
 		this.target = target;

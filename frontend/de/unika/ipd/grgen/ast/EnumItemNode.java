@@ -79,6 +79,7 @@ public class EnumItemNode extends MemberDeclNode {
 	 */
 	@Override
 	protected boolean checkLocal() {
+		boolean res = super.checkLocal();
 		// Check, if this enum item was defined with a latter one.
 		// This may not be.
 		HashSet<EnumItemNode> visitedEnumItems = new HashSet<EnumItemNode>();
@@ -103,7 +104,7 @@ public class EnumItemNode extends MemberDeclNode {
 			value = newValue;
 		}
 
-		return true;
+		return res;
 	}
 
 	/**

@@ -13,7 +13,7 @@ import java.util.Vector;
 /**
  * Type of all node declaration.
  */
-class IteratedTypeNode extends TypeNode {
+public class IteratedTypeNode extends TypeNode {
 	static {
 		setName(IteratedTypeNode.class, "iterated type");
 	}

@@ -13,7 +13,7 @@ import java.util.Vector;
 /**
  * Type of test decl node declaration.
  */
-class TestTypeNode extends TypeNode {
+public class TestTypeNode extends TypeNode {
 	static {
 		setName(TestTypeNode.class, "test type");
 	}

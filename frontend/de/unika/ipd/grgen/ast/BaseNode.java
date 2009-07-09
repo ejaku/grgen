@@ -580,9 +580,11 @@ public abstract class BaseNode extends Base
 	}
 
 	/**
-	 * local checking of the current node to be implemented by the subclasses, called from the check AST walk
+	 * Local checking of the current node to be implemented by the subclasses,
+	 * called from the check AST walk.
+	 *
 	 * @return true, if checking of the AST locally finished successfully;
-	 * false, if there was some error.
+	 *         false, if there was some error.
 	 */
 	protected abstract boolean checkLocal();
 

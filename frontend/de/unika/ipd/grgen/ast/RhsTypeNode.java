@@ -13,7 +13,7 @@ import java.util.Vector;
 /**
  * Type of right-hand side decl node declaration.
  */
-class RhsTypeNode extends TypeNode {
+public class RhsTypeNode extends TypeNode {
 	static {
 		setName(RhsTypeNode.class, "right-hand side type");
 	}

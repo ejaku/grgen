@@ -47,7 +47,6 @@ public abstract class TypeNode extends BaseNode {
 		return true;
 	}
 
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {

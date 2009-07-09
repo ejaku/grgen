@@ -13,7 +13,7 @@ import java.util.Vector;
 /**
  * Type of model node declaration.
  */
-class ModelTypeNode extends TypeNode {
+public class ModelTypeNode extends TypeNode {
 	static {
 		setName(ModelTypeNode.class, "model type");
 	}

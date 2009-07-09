@@ -13,7 +13,7 @@ import java.util.Vector;
 /**
  * Type of pattern decl node declaration.
  */
-class SubpatternTypeNode extends TypeNode {
+public class SubpatternTypeNode extends TypeNode {
 	static {
 		setName(SubpatternTypeNode.class, "subpattern type");
 	}
