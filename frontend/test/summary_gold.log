@@ -309,7 +309,7 @@ WARNED should_warn/exec_002.grg
 WARNED should_warn/exec_003.grg
 WARNED should_warn/exec_004.grg
 OK     should_warn/exec_005.grg
-OK     should_warn/hom_001.grg
+WARNED should_warn/hom_001.grg
 WARNED should_warn/hom_002.grg
 WARNED should_warn/hom_010.grg
 WARNED should_warn/induced_001.grg
