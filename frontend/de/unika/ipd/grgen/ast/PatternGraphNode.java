@@ -330,12 +330,64 @@ public class PatternGraphNode extends GraphNode {
 		return homSets;
 	}
 
+	/**
+	 * Warn if two homomorphic elements can never be matched homomorphic,
+	 * because they have incompatible types.
+	 */
+	private void warnOnSuperfluousHoms() {
+		Collection<Set<ConstraintDeclNode>> homSets = getHoms();
+
+		for (Set<ConstraintDeclNode> homSet : homSets) {
+			Set<ConstraintDeclNode> alreadyProcessed = new LinkedHashSet<ConstraintDeclNode>();
+
+			for (ConstraintDeclNode elem1 : homSet) {
+				InheritanceTypeNode type1 = elem1.getDeclType();
+				Collection<InheritanceTypeNode> subTypes1 = type1.getAllSubTypes();
+				for (ConstraintDeclNode elem2 : homSet) {
+					if (elem1 == elem2 || alreadyProcessed.contains(elem2))
+						continue;
+
+					InheritanceTypeNode type2 = elem2.getDeclType();
+					Collection<InheritanceTypeNode> subTypes2 = type2.getAllSubTypes();
+
+					boolean hasCommonSubType = type1.isA(type2) || type2.isA(type1);
+
+					if (hasCommonSubType)
+						continue;
+
+					for (TypeNode typeNode2 : subTypes2) {
+						if (subTypes1.contains(typeNode2)) {
+							hasCommonSubType = true;
+							break;
+						}
+					}
+
+					if (!hasCommonSubType) {
+						// search hom statement
+						HomNode hom = null;
+						for (HomNode homNode : homs.getChildren()) {
+							Collection<BaseNode> homChildren = homNode.getChildren();
+							if (homChildren.contains(elem1) && homChildren.contains(elem2)) {
+								hom = homNode;
+								break;
+							}
+						}
+
+						hom.reportWarning(elem1.ident + " and " + elem2.ident
+								+ " have no common subtype and thus can never match the same element");
+					}
+				}
+
+				alreadyProcessed.add(elem1);
+			}
+		}
+	}
+
 	@Override
 	protected boolean checkLocal() {
 		boolean childs = super.checkLocal();
 
 		boolean expr = true;
-		boolean homcheck = true;
 		if (childs) {
 			for (ExprNode exp : conditions.getChildren()) {
 				if (!exp.getType().isEqual(BasicTypeNode.booleanType)) {
@@ -354,7 +406,9 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		return childs && expr && homcheck && noReturnInNegOrIdpt;
+		warnOnSuperfluousHoms();
+
+		return childs && expr && noReturnInNegOrIdpt;
 	}
 
 	/**

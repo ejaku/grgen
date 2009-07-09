@@ -85,6 +85,11 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 		body = bodyResolver.resolve(bodyUnresolved, this);
 		extend = extendResolver.resolve(extendUnresolved, this);
 
+		// Initialize direct sub types
+		for (InheritanceTypeNode type : extend.getChildren()) {
+			type.addDirectSubType(this);
+		}
+
 		return body != null && extend != null;
 	}
 

@@ -13,6 +13,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Vector;
 
@@ -49,6 +50,31 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 
 	/** Contains all super types of this type (not including this itself) */
 	private Collection<InheritanceTypeNode> allSuperTypes = null;
+
+	/** Contains all direct sub types of this type */
+	private Collection<InheritanceTypeNode> directSubTypes = new LinkedHashSet<InheritanceTypeNode>();
+
+	/** Contains all sub types of this type (not including this itself) */
+	private Collection<InheritanceTypeNode> allSubTypes = null;
+
+	protected void addDirectSubType(InheritanceTypeNode type) {
+		directSubTypes.add(type);
+	}
+
+	/** Returns all super types of this type (not including itself). */
+	protected Collection<InheritanceTypeNode> getAllSubTypes() {
+		assert isResolved();
+
+		if (allSubTypes == null) {
+			allSubTypes = new HashSet<InheritanceTypeNode>();
+
+			for(InheritanceTypeNode type : directSubTypes) {
+				allSubTypes.addAll(type.getAllSubTypes());
+				allSubTypes.add(type);
+			}
+		}
+		return allSubTypes;
+	}
 
 	protected boolean isA(InheritanceTypeNode type) {
 		assert type != null;
