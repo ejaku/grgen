@@ -29,7 +29,6 @@ public class EnumItemNode extends MemberDeclNode {
 
 	private ExprNode value;
 	private EnumConstNode constValue;
-	private EnumTypeNode type;
 
 	/** Position of this item in the enum. */
 	private final int pos;
