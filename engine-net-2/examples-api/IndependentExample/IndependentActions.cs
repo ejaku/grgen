@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sun Jun 28 20:17:33 GMT+01:00 2009
+// Generated from "..\..\tests\independent\Independent.grg" on Mon Jul 13 02:24:20 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -127,7 +127,12 @@ namespace de.unika.ipd.grGen.Action_Independent
 			int[] iteratedPath_alt_0_recursive_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode iteratedPath_alt_0_recursive_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "iteratedPath_alt_0_recursive_node_intermediate", "intermediate", iteratedPath_alt_0_recursive_node_intermediate_AllowedTypes, iteratedPath_alt_0_recursive_node_intermediate_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge iteratedPath_alt_0_recursive_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "iteratedPath_alt_0_recursive_edge__edge0", "_edge0", iteratedPath_alt_0_recursive_edge__edge0_AllowedTypes, iteratedPath_alt_0_recursive_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding iteratedPath_alt_0_recursive__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_iteratedPath.Instance, new GRGEN_LGSP.PatternElement[] { iteratedPath_alt_0_recursive_node_intermediate, iteratedPath_node_end });
+			GRGEN_LGSP.PatternGraphEmbedding iteratedPath_alt_0_recursive__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_iteratedPath.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("iteratedPath_alt_0_recursive_node_intermediate"),
+					new GRGEN_EXPR.GraphEntityExpression("iteratedPath_node_end"),
+				}, 
+				new string[] { "iteratedPath_alt_0_recursive_node_intermediate", "iteratedPath_node_end" }, new string[] {  }, new string[] {  });
 			iteratedPath_alt_0_recursive = new GRGEN_LGSP.PatternGraph(
 				"recursive",
 				"iteratedPath_alt_0_",
@@ -248,7 +253,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			GRGEN_MODEL.@Node node_end = GRGEN_MODEL.@Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_iteratedPath_alt_0_recursive_addedEdgeNames );
 			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_beg, node_intermediate);
-			Pattern_iteratedPath.Instance.iteratedPath_Create(graph, node_intermediate, node_end);
+			Pattern_iteratedPath.Instance.iteratedPath_Create(graph, (GRGEN_MODEL.@Node)(node_intermediate), (GRGEN_MODEL.@Node)(node_end));
 		}
 		private static string[] create_iteratedPath_alt_0_recursive_addedNodeNames = new string[] { "beg", "intermediate", "end" };
 		private static string[] create_iteratedPath_alt_0_recursive_addedEdgeNames = new string[] { "_edge0" };
@@ -728,7 +733,11 @@ namespace de.unika.ipd.grGen.Action_Independent
 			int[] iteratedPathToIntNode_alt_0_recursive_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode iteratedPathToIntNode_alt_0_recursive_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "iteratedPathToIntNode_alt_0_recursive_node_intermediate", "intermediate", iteratedPathToIntNode_alt_0_recursive_node_intermediate_AllowedTypes, iteratedPathToIntNode_alt_0_recursive_node_intermediate_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge iteratedPathToIntNode_alt_0_recursive_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "iteratedPathToIntNode_alt_0_recursive_edge__edge0", "_edge0", iteratedPathToIntNode_alt_0_recursive_edge__edge0_AllowedTypes, iteratedPathToIntNode_alt_0_recursive_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding iteratedPathToIntNode_alt_0_recursive__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_iteratedPathToIntNode.Instance, new GRGEN_LGSP.PatternElement[] { iteratedPathToIntNode_alt_0_recursive_node_intermediate });
+			GRGEN_LGSP.PatternGraphEmbedding iteratedPathToIntNode_alt_0_recursive__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_iteratedPathToIntNode.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("iteratedPathToIntNode_alt_0_recursive_node_intermediate"),
+				}, 
+				new string[] { "iteratedPathToIntNode_alt_0_recursive_node_intermediate" }, new string[] {  }, new string[] {  });
 			iteratedPathToIntNode_alt_0_recursive = new GRGEN_LGSP.PatternGraph(
 				"recursive",
 				"iteratedPathToIntNode_alt_0_",
@@ -849,7 +858,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			GRGEN_MODEL.@Node node_intermediate = GRGEN_MODEL.@Node.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_iteratedPathToIntNode_alt_0_recursive_addedEdgeNames );
 			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_beg, node_intermediate);
-			Pattern_iteratedPathToIntNode.Instance.iteratedPathToIntNode_Create(graph, node_intermediate);
+			Pattern_iteratedPathToIntNode.Instance.iteratedPathToIntNode_Create(graph, (GRGEN_MODEL.@Node)(node_intermediate));
 		}
 		private static string[] create_iteratedPathToIntNode_alt_0_recursive_addedNodeNames = new string[] { "beg", "intermediate" };
 		private static string[] create_iteratedPathToIntNode_alt_0_recursive_addedEdgeNames = new string[] { "_edge0" };
@@ -3319,8 +3328,17 @@ namespace de.unika.ipd.grGen.Action_Independent
 			int[] findChainPlusChainToInt_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode findChainPlusChainToInt_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findChainPlusChainToInt_node_beg", "beg", findChainPlusChainToInt_node_beg_AllowedTypes, findChainPlusChainToInt_node_beg_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode findChainPlusChainToInt_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findChainPlusChainToInt_node_end", "end", findChainPlusChainToInt_node_end_AllowedTypes, findChainPlusChainToInt_node_end_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToInt__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_iteratedPath.Instance, new GRGEN_LGSP.PatternElement[] { findChainPlusChainToInt_node_beg, findChainPlusChainToInt_node_end });
-			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToInt__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_iteratedPathToIntNode.Instance, new GRGEN_LGSP.PatternElement[] { findChainPlusChainToInt_node_end });
+			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToInt__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_iteratedPath.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToInt_node_beg"),
+					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToInt_node_end"),
+				}, 
+				new string[] { "findChainPlusChainToInt_node_beg", "findChainPlusChainToInt_node_end" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToInt__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_iteratedPathToIntNode.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToInt_node_end"),
+				}, 
+				new string[] { "findChainPlusChainToInt_node_end" }, new string[] {  }, new string[] {  });
 			pat_findChainPlusChainToInt = new GRGEN_LGSP.PatternGraph(
 				"findChainPlusChainToInt",
 				"",
@@ -3538,14 +3556,23 @@ namespace de.unika.ipd.grGen.Action_Independent
 			int[] findChainPlusChainToIntIndependent_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode findChainPlusChainToIntIndependent_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findChainPlusChainToIntIndependent_node_beg", "beg", findChainPlusChainToIntIndependent_node_beg_AllowedTypes, findChainPlusChainToIntIndependent_node_beg_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode findChainPlusChainToIntIndependent_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findChainPlusChainToIntIndependent_node_end", "end", findChainPlusChainToIntIndependent_node_end_AllowedTypes, findChainPlusChainToIntIndependent_node_end_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToIntIndependent__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_iteratedPath.Instance, new GRGEN_LGSP.PatternElement[] { findChainPlusChainToIntIndependent_node_beg, findChainPlusChainToIntIndependent_node_end });
+			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToIntIndependent__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_iteratedPath.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToIntIndependent_node_beg"),
+					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToIntIndependent_node_end"),
+				}, 
+				new string[] { "findChainPlusChainToIntIndependent_node_beg", "findChainPlusChainToIntIndependent_node_end" }, new string[] {  }, new string[] {  });
 			bool[,] findChainPlusChainToIntIndependent_idpt_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] findChainPlusChainToIntIndependent_idpt_0_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] findChainPlusChainToIntIndependent_idpt_0_minMatches = new int[0] ;
 			int[] findChainPlusChainToIntIndependent_idpt_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToIntIndependent_idpt_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_iteratedPathToIntNode.Instance, new GRGEN_LGSP.PatternElement[] { findChainPlusChainToIntIndependent_node_end });
+			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToIntIndependent_idpt_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_iteratedPathToIntNode.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToIntIndependent_node_end"),
+				}, 
+				new string[] { "findChainPlusChainToIntIndependent_node_end" }, new string[] {  }, new string[] {  });
 			findChainPlusChainToIntIndependent_idpt_0 = new GRGEN_LGSP.PatternGraph(
 				"idpt_0",
 				"findChainPlusChainToIntIndependent_",

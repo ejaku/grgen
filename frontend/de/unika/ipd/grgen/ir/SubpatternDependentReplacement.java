@@ -14,9 +14,10 @@ import java.util.List;
 
 public class SubpatternDependentReplacement extends Identifiable {
 	SubpatternUsage subpatternUsage;
-	List<GraphEntity> replConnections;
+	List<Expression> replConnections;
 
-	public SubpatternDependentReplacement(String name, Ident ident, SubpatternUsage subpatternUsage, List<GraphEntity> replConnections) {
+	public SubpatternDependentReplacement(String name, Ident ident,
+			SubpatternUsage subpatternUsage, List<Expression> replConnections) {
 		super(name, ident);
 		this.subpatternUsage = subpatternUsage;
 		this.replConnections = replConnections;
@@ -26,7 +27,7 @@ public class SubpatternDependentReplacement extends Identifiable {
 		return subpatternUsage;
 	}
 
-	public List<GraphEntity> getReplConnections() {
+	public List<Expression> getReplConnections() {
 		return replConnections;
 	}
 }

@@ -448,6 +448,8 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 			} else if (decl instanceof EdgeCharacter) {
 				Edge e = ((EdgeCharacter)decl).getEdge();
 				patternGraph.addSingleEdge(e);
+			} else if(decl instanceof VarDeclNode) {
+				patternGraph.addVariable(((VarDeclNode) decl).getVariable());
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}

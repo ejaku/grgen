@@ -14,9 +14,9 @@ import java.util.List;
 
 public class SubpatternUsage extends Identifiable {
 	MatchingAction subpatternAction;
-	List<GraphEntity> subpatternConnections;
+	List<Expression> subpatternConnections;
 
-	public SubpatternUsage(String name, Ident ident, MatchingAction subpatternAction, List<GraphEntity> connections) {
+	public SubpatternUsage(String name, Ident ident, MatchingAction subpatternAction, List<Expression> connections) {
 		super(name, ident);
 		this.subpatternAction = subpatternAction;
 		this.subpatternConnections = connections;
@@ -26,7 +26,7 @@ public class SubpatternUsage extends Identifiable {
 		return subpatternAction;
 	}
 
-	public List<GraphEntity> getSubpatternConnections() {
+	public List<Expression> getSubpatternConnections() {
 		return subpatternConnections;
 	}
 }

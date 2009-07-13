@@ -157,12 +157,6 @@ namespace de.unika.ipd.grGen.libGr
         /// The embedded subpattern
         /// </summary>
         IPatternGraph EmbeddedGraph { get; }
-
-        /// <summary>
-        /// An array with the connections telling how the subpattern is connected to the containing pattern,
-        /// that are the pattern elements of the containing pattern used for that purpose
-        /// </summary>
-        IPatternElement[] Connections { get; }
     }
 
     /// <summary>

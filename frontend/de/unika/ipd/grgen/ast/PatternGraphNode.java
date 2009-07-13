@@ -27,6 +27,7 @@ import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
@@ -491,8 +492,10 @@ public class PatternGraphNode extends GraphNode {
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
 		for(BaseNode n : subpatterns.getChildren()) {
-			List<GraphEntity> connections = n.checkIR(SubpatternUsage.class).getSubpatternConnections();
-			for(GraphEntity connection : connections) {
+			List<Expression> connections = n.checkIR(SubpatternUsage.class).getSubpatternConnections();
+			for(Expression e : connections) {
+				if(!(e instanceof GraphEntityExpression)) continue;
+				GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
 				if(connection instanceof Node) {
 					Node neededNode = (Node)connection;
 					if(!gr.hasNode(neededNode)) {

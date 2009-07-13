@@ -1,4 +1,4 @@
-/*pattern SpanningTreeMinOne(root:Node)
+pattern SpanningTreeMinOne(root:Node)
 {
 	multiple {
 		root -- next:Node;
@@ -87,7 +87,7 @@ pattern ListReverse(prev:Node)
 	
 	modify { }
 }
-*/
+
 pattern OptionalTwice
 {
 	x:Node;

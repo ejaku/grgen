@@ -171,16 +171,10 @@ namespace de.unika.ipd.grGen.lgsp
             //    - as subpattern connections
             foreach (PatternGraphEmbedding sub in patternGraph.embeddedGraphs)
             {
-                foreach (PatternElement element in sub.connections)
-                {
-                    if (element.PointOfDefinition!=patternGraph)
-                    {
-                        if (element is PatternNode)
-                            patternGraph.neededNodes[element.name] = true;
-                        else // element is PatternEdge
-                            patternGraph.neededEdges[element.name] = true;
-                    }
-                }
+                foreach (String neededNode in sub.neededNodes)
+                    patternGraph.neededNodes[neededNode] = true;
+                foreach (String neededEdge in sub.neededEdges)
+                    patternGraph.neededEdges[neededEdge] = true;
             }
 
             // d) it filters out the elements needed (by the nested patterns) which are defined locally

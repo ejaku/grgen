@@ -3761,23 +3761,20 @@ namespace de.unika.ipd.grGen.lgsp
             string subpatternName,
             string subpatternElementName,
             string[] connectionName,
-            string[] patternElementBoundToConnectionName,
-            bool[] patternElementBoundToConnectionIsNode,
+            string[] argumentExpressions,
             string negativeIndependentNamePrefix,
             string searchPatternpath,
             string matchOfNestingPattern,
             string lastMatchAtPreviousNestingLevel)
         {
-            Debug.Assert(connectionName.Length == patternElementBoundToConnectionName.Length
-                && patternElementBoundToConnectionName.Length == patternElementBoundToConnectionIsNode.Length);
+            Debug.Assert(connectionName.Length == argumentExpressions.Length);
             Debug.Assert(type == PushAndPopSubpatternTaskTypes.Subpattern);
             Type = type;
             SubpatternName = subpatternName;
             SubpatternElementName = subpatternElementName;
 
             ConnectionName = connectionName;
-            PatternElementBoundToConnectionName = patternElementBoundToConnectionName;
-            PatternElementBoundToConnectionIsNode = patternElementBoundToConnectionIsNode;
+            ArgumentExpressions = argumentExpressions;
 
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
 
@@ -3792,15 +3789,13 @@ namespace de.unika.ipd.grGen.lgsp
             string alternativeOrIteratedName,
             string rulePatternClassName,
             string[] connectionName,
-            string[] patternElementBoundToConnectionName,
-            bool[] patternElementBoundToConnectionIsNode,
+            string[] argumentExpressions,
             string negativeIndependentNamePrefix,
             string searchPatternpath,
             string matchOfNestingPattern,
             string lastMatchAtPreviousNestingLevel)
         {
-            Debug.Assert(connectionName.Length == patternElementBoundToConnectionName.Length
-                && patternElementBoundToConnectionName.Length == patternElementBoundToConnectionIsNode.Length);
+            Debug.Assert(connectionName.Length == argumentExpressions.Length);
             Debug.Assert(type == PushAndPopSubpatternTaskTypes.Alternative
                 || type == PushAndPopSubpatternTaskTypes.Iterated);
             Type = type;
@@ -3809,8 +3804,7 @@ namespace de.unika.ipd.grGen.lgsp
             RulePatternClassName = rulePatternClassName;
 
             ConnectionName = connectionName;
-            PatternElementBoundToConnectionName = patternElementBoundToConnectionName;
-            PatternElementBoundToConnectionIsNode = patternElementBoundToConnectionIsNode;
+            ArgumentExpressions = argumentExpressions;
 
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
 
@@ -3838,9 +3832,8 @@ namespace de.unika.ipd.grGen.lgsp
             builder.Append("with ");
             for (int i = 0; i < ConnectionName.Length; ++i)
             {
-                builder.AppendFormat("{0} <- {1} isNode:{2} ",
-                    ConnectionName[i], PatternElementBoundToConnectionName[i], 
-                    PatternElementBoundToConnectionIsNode[i]);
+                builder.AppendFormat("{0} <- {1} ",
+                    ConnectionName[i], ArgumentExpressions[i]);
             }
             builder.Append("\n");
         }
@@ -3888,10 +3881,8 @@ namespace de.unika.ipd.grGen.lgsp
             // fill in connections
             for (int i = 0; i < ConnectionName.Length; ++i)
             {
-                string variableContainingPatternElementToBeBound = 
-                    NamesOfEntities.CandidateVariable(PatternElementBoundToConnectionName[i]);
                 sourceCode.AppendFrontFormat("{0}.{1} = {2};\n",
-                    variableContainingTask, ConnectionName[i], variableContainingPatternElementToBeBound);
+                    variableContainingTask, ConnectionName[i], ArgumentExpressions[i]);
             }
 
             // fill in values needed for patternpath handling
@@ -3913,8 +3904,7 @@ namespace de.unika.ipd.grGen.lgsp
         string AlternativeOrIteratedName; // only valid if Type==Alternative|Iterated
         string RulePatternClassName; // only valid if Type==Alternative|Iterated
         public string[] ConnectionName;
-        public string[] PatternElementBoundToConnectionName;
-        public bool[] PatternElementBoundToConnectionIsNode;
+        public string[] ArgumentExpressions;
         public string NegativeIndependentNamePrefix;
         public string SearchPatternpath;
         public string MatchOfNestingPattern;

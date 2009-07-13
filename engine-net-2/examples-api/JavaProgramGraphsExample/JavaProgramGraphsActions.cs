@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs\JavaProgramGraphs.grg" on Sun Jun 28 20:17:43 GMT+01:00 2009
+// Generated from "..\..\examples\JavaProgramGraphs\JavaProgramGraphs.grg" on Mon Jul 13 02:24:30 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -92,7 +92,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] MultipleContainedPackagesOrClasses_iter_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode MultipleContainedPackagesOrClasses_iter_0_node_sub = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Package, "GRGEN_MODEL.IPackage", "MultipleContainedPackagesOrClasses_iter_0_node_sub", "sub", MultipleContainedPackagesOrClasses_iter_0_node_sub_AllowedTypes, MultipleContainedPackagesOrClasses_iter_0_node_sub_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge MultipleContainedPackagesOrClasses_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@belongsTo, "GRGEN_MODEL.IbelongsTo", "MultipleContainedPackagesOrClasses_iter_0_edge__edge0", "_edge0", MultipleContainedPackagesOrClasses_iter_0_edge__edge0_AllowedTypes, MultipleContainedPackagesOrClasses_iter_0_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding MultipleContainedPackagesOrClasses_iter_0_mpc = new GRGEN_LGSP.PatternGraphEmbedding("mpc", Pattern_MultipleContainedPackagesOrClasses.Instance, new GRGEN_LGSP.PatternElement[] { MultipleContainedPackagesOrClasses_iter_0_node_sub });
+			GRGEN_LGSP.PatternGraphEmbedding MultipleContainedPackagesOrClasses_iter_0_mpc = new GRGEN_LGSP.PatternGraphEmbedding("mpc", Pattern_MultipleContainedPackagesOrClasses.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MultipleContainedPackagesOrClasses_iter_0_node_sub"),
+				}, 
+				new string[] { "MultipleContainedPackagesOrClasses_iter_0_node_sub" }, new string[] {  }, new string[] {  });
 			MultipleContainedPackagesOrClasses_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleContainedPackagesOrClasses_",
@@ -132,8 +136,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] MultipleContainedPackagesOrClasses_iter_1_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode MultipleContainedPackagesOrClasses_iter_1_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "MultipleContainedPackagesOrClasses_iter_1_node_c", "c", MultipleContainedPackagesOrClasses_iter_1_node_c_AllowedTypes, MultipleContainedPackagesOrClasses_iter_1_node_c_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge MultipleContainedPackagesOrClasses_iter_1_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@belongsTo, "GRGEN_MODEL.IbelongsTo", "MultipleContainedPackagesOrClasses_iter_1_edge__edge0", "_edge0", MultipleContainedPackagesOrClasses_iter_1_edge__edge0_AllowedTypes, MultipleContainedPackagesOrClasses_iter_1_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding MultipleContainedPackagesOrClasses_iter_1_mm = new GRGEN_LGSP.PatternGraphEmbedding("mm", Pattern_MultipleMethodBodies.Instance, new GRGEN_LGSP.PatternElement[] { MultipleContainedPackagesOrClasses_iter_1_node_c });
-			GRGEN_LGSP.PatternGraphEmbedding MultipleContainedPackagesOrClasses_iter_1_mv = new GRGEN_LGSP.PatternGraphEmbedding("mv", Pattern_MultipleVariables.Instance, new GRGEN_LGSP.PatternElement[] { MultipleContainedPackagesOrClasses_iter_1_node_c });
+			GRGEN_LGSP.PatternGraphEmbedding MultipleContainedPackagesOrClasses_iter_1_mm = new GRGEN_LGSP.PatternGraphEmbedding("mm", Pattern_MultipleMethodBodies.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MultipleContainedPackagesOrClasses_iter_1_node_c"),
+				}, 
+				new string[] { "MultipleContainedPackagesOrClasses_iter_1_node_c" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding MultipleContainedPackagesOrClasses_iter_1_mv = new GRGEN_LGSP.PatternGraphEmbedding("mv", Pattern_MultipleVariables.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MultipleContainedPackagesOrClasses_iter_1_node_c"),
+				}, 
+				new string[] { "MultipleContainedPackagesOrClasses_iter_1_node_c" }, new string[] {  }, new string[] {  });
 			MultipleContainedPackagesOrClasses_iter_1 = new GRGEN_LGSP.PatternGraph(
 				"iter_1",
 				"MultipleContainedPackagesOrClasses_",
@@ -300,7 +312,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Package node_p = GRGEN_MODEL.@Package.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_MultipleContainedPackagesOrClasses_iter_0_addedEdgeNames );
 			GRGEN_MODEL.@belongsTo edge__edge0 = GRGEN_MODEL.@belongsTo.CreateEdge(graph, node_sub, node_p);
-			Pattern_MultipleContainedPackagesOrClasses.Instance.MultipleContainedPackagesOrClasses_Create(graph, node_sub);
+			Pattern_MultipleContainedPackagesOrClasses.Instance.MultipleContainedPackagesOrClasses_Create(graph, (GRGEN_MODEL.@Package)(node_sub));
 		}
 		private static string[] create_MultipleContainedPackagesOrClasses_iter_0_addedNodeNames = new string[] { "sub", "p" };
 		private static string[] create_MultipleContainedPackagesOrClasses_iter_0_addedEdgeNames = new string[] { "_edge0" };
@@ -380,8 +392,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Package node_p = GRGEN_MODEL.@Package.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_MultipleContainedPackagesOrClasses_iter_1_addedEdgeNames );
 			GRGEN_MODEL.@belongsTo edge__edge0 = GRGEN_MODEL.@belongsTo.CreateEdge(graph, node_c, node_p);
-			Pattern_MultipleMethodBodies.Instance.MultipleMethodBodies_Create(graph, node_c);
-			Pattern_MultipleVariables.Instance.MultipleVariables_Create(graph, node_c);
+			Pattern_MultipleMethodBodies.Instance.MultipleMethodBodies_Create(graph, (GRGEN_MODEL.@Class)(node_c));
+			Pattern_MultipleVariables.Instance.MultipleVariables_Create(graph, (GRGEN_MODEL.@Class)(node_c));
 		}
 		private static string[] create_MultipleContainedPackagesOrClasses_iter_1_addedNodeNames = new string[] { "c", "p" };
 		private static string[] create_MultipleContainedPackagesOrClasses_iter_1_addedEdgeNames = new string[] { "_edge0" };
@@ -1272,7 +1284,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] MultipleMethodBodies_iter_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode MultipleMethodBodies_iter_0_node_mb = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "MultipleMethodBodies_iter_0_node_mb", "mb", MultipleMethodBodies_iter_0_node_mb_AllowedTypes, MultipleMethodBodies_iter_0_node_mb_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge MultipleMethodBodies_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@belongsTo, "GRGEN_MODEL.IbelongsTo", "MultipleMethodBodies_iter_0_edge__edge0", "_edge0", MultipleMethodBodies_iter_0_edge__edge0_AllowedTypes, MultipleMethodBodies_iter_0_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding MultipleMethodBodies_iter_0_bi = new GRGEN_LGSP.PatternGraphEmbedding("bi", Pattern_MethodBodyAndImplementation.Instance, new GRGEN_LGSP.PatternElement[] { MultipleMethodBodies_iter_0_node_mb });
+			GRGEN_LGSP.PatternGraphEmbedding MultipleMethodBodies_iter_0_bi = new GRGEN_LGSP.PatternGraphEmbedding("bi", Pattern_MethodBodyAndImplementation.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MultipleMethodBodies_iter_0_node_mb"),
+				}, 
+				new string[] { "MultipleMethodBodies_iter_0_node_mb" }, new string[] {  }, new string[] {  });
 			MultipleMethodBodies_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleMethodBodies_",
@@ -1420,7 +1436,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Class node_c = GRGEN_MODEL.@Class.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_MultipleMethodBodies_iter_0_addedEdgeNames );
 			GRGEN_MODEL.@belongsTo edge__edge0 = GRGEN_MODEL.@belongsTo.CreateEdge(graph, node_mb, node_c);
-			Pattern_MethodBodyAndImplementation.Instance.MethodBodyAndImplementation_Create(graph, node_mb);
+			Pattern_MethodBodyAndImplementation.Instance.MethodBodyAndImplementation_Create(graph, (GRGEN_MODEL.@MethodBody)(node_mb));
 		}
 		private static string[] create_MultipleMethodBodies_iter_0_addedNodeNames = new string[] { "mb", "c" };
 		private static string[] create_MultipleMethodBodies_iter_0_addedEdgeNames = new string[] { "_edge0" };
@@ -1746,7 +1762,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] MethodBodyAndImplementation_iter_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode MethodBodyAndImplementation_iter_0_node_op = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Operation, "GRGEN_MODEL.IOperation", "MethodBodyAndImplementation_iter_0_node_op", "op", MethodBodyAndImplementation_iter_0_node_op_AllowedTypes, MethodBodyAndImplementation_iter_0_node_op_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge MethodBodyAndImplementation_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@binding, "GRGEN_MODEL.Ibinding", "MethodBodyAndImplementation_iter_0_edge__edge0", "_edge0", MethodBodyAndImplementation_iter_0_edge__edge0_AllowedTypes, MethodBodyAndImplementation_iter_0_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding MethodBodyAndImplementation_iter_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_MultipleParameters.Instance, new GRGEN_LGSP.PatternElement[] { MethodBodyAndImplementation_iter_0_node_op });
+			GRGEN_LGSP.PatternGraphEmbedding MethodBodyAndImplementation_iter_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_MultipleParameters.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MethodBodyAndImplementation_iter_0_node_op"),
+				}, 
+				new string[] { "MethodBodyAndImplementation_iter_0_node_op" }, new string[] {  }, new string[] {  });
 			MethodBodyAndImplementation_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MethodBodyAndImplementation_",
@@ -1786,7 +1806,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] MethodBodyAndImplementation_iter_1_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode MethodBodyAndImplementation_iter_1_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Block, "GRGEN_MODEL.IBlock", "MethodBodyAndImplementation_iter_1_node_b", "b", MethodBodyAndImplementation_iter_1_node_b_AllowedTypes, MethodBodyAndImplementation_iter_1_node_b_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge MethodBodyAndImplementation_iter_1_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@belongsTo, "GRGEN_MODEL.IbelongsTo", "MethodBodyAndImplementation_iter_1_edge__edge0", "_edge0", MethodBodyAndImplementation_iter_1_edge__edge0_AllowedTypes, MethodBodyAndImplementation_iter_1_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding MethodBodyAndImplementation_iter_1_me = new GRGEN_LGSP.PatternGraphEmbedding("me", Pattern_MultipleExpressions.Instance, new GRGEN_LGSP.PatternElement[] { MethodBodyAndImplementation_iter_1_node_b });
+			GRGEN_LGSP.PatternGraphEmbedding MethodBodyAndImplementation_iter_1_me = new GRGEN_LGSP.PatternGraphEmbedding("me", Pattern_MultipleExpressions.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MethodBodyAndImplementation_iter_1_node_b"),
+				}, 
+				new string[] { "MethodBodyAndImplementation_iter_1_node_b" }, new string[] {  }, new string[] {  });
 			MethodBodyAndImplementation_iter_1 = new GRGEN_LGSP.PatternGraph(
 				"iter_1",
 				"MethodBodyAndImplementation_",
@@ -1938,7 +1962,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@MethodBody node_mb = GRGEN_MODEL.@MethodBody.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_MethodBodyAndImplementation_iter_0_addedEdgeNames );
 			GRGEN_MODEL.@binding edge__edge0 = GRGEN_MODEL.@binding.CreateEdge(graph, node_op, node_mb);
-			Pattern_MultipleParameters.Instance.MultipleParameters_Create(graph, node_op);
+			Pattern_MultipleParameters.Instance.MultipleParameters_Create(graph, (GRGEN_MODEL.@Operation)(node_op));
 		}
 		private static string[] create_MethodBodyAndImplementation_iter_0_addedNodeNames = new string[] { "op", "mb" };
 		private static string[] create_MethodBodyAndImplementation_iter_0_addedEdgeNames = new string[] { "_edge0" };
@@ -2006,7 +2030,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@MethodBody node_mb = GRGEN_MODEL.@MethodBody.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_MethodBodyAndImplementation_iter_1_addedEdgeNames );
 			GRGEN_MODEL.@belongsTo edge__edge0 = GRGEN_MODEL.@belongsTo.CreateEdge(graph, node_b, node_mb);
-			Pattern_MultipleExpressions.Instance.MultipleExpressions_Create(graph, node_b);
+			Pattern_MultipleExpressions.Instance.MultipleExpressions_Create(graph, (GRGEN_MODEL.@Block)(node_b));
 		}
 		private static string[] create_MethodBodyAndImplementation_iter_1_addedNodeNames = new string[] { "b", "mb" };
 		private static string[] create_MethodBodyAndImplementation_iter_1_addedEdgeNames = new string[] { "_edge0" };
@@ -2896,7 +2920,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] MultipleExpressions_iter_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode MultipleExpressions_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "MultipleExpressions_iter_0_node_next", "next", MultipleExpressions_iter_0_node_next_AllowedTypes, MultipleExpressions_iter_0_node_next_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge MultipleExpressions_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, "GRGEN_MODEL.Iexpression", "MultipleExpressions_iter_0_edge__edge0", "_edge0", MultipleExpressions_iter_0_edge__edge0_AllowedTypes, MultipleExpressions_iter_0_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding MultipleExpressions_iter_0_ec = new GRGEN_LGSP.PatternGraphEmbedding("ec", Pattern_ExpressionChain.Instance, new GRGEN_LGSP.PatternElement[] { MultipleExpressions_iter_0_node_next });
+			GRGEN_LGSP.PatternGraphEmbedding MultipleExpressions_iter_0_ec = new GRGEN_LGSP.PatternGraphEmbedding("ec", Pattern_ExpressionChain.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MultipleExpressions_iter_0_node_next"),
+				}, 
+				new string[] { "MultipleExpressions_iter_0_node_next" }, new string[] {  }, new string[] {  });
 			MultipleExpressions_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleExpressions_",
@@ -2936,8 +2964,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] MultipleExpressions_iter_1_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode MultipleExpressions_iter_1_node_call = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Call, "GRGEN_MODEL.ICall", "MultipleExpressions_iter_1_node_call", "call", MultipleExpressions_iter_1_node_call_AllowedTypes, MultipleExpressions_iter_1_node_call_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge MultipleExpressions_iter_1_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, "GRGEN_MODEL.Iexpression", "MultipleExpressions_iter_1_edge__edge0", "_edge0", MultipleExpressions_iter_1_edge__edge0_AllowedTypes, MultipleExpressions_iter_1_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding MultipleExpressions_iter_1_ec = new GRGEN_LGSP.PatternGraphEmbedding("ec", Pattern_ExpressionChain.Instance, new GRGEN_LGSP.PatternElement[] { MultipleExpressions_iter_1_node_call });
-			GRGEN_LGSP.PatternGraphEmbedding MultipleExpressions_iter_1__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_MultipleActualParameters.Instance, new GRGEN_LGSP.PatternElement[] { MultipleExpressions_iter_1_node_call });
+			GRGEN_LGSP.PatternGraphEmbedding MultipleExpressions_iter_1_ec = new GRGEN_LGSP.PatternGraphEmbedding("ec", Pattern_ExpressionChain.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MultipleExpressions_iter_1_node_call"),
+				}, 
+				new string[] { "MultipleExpressions_iter_1_node_call" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding MultipleExpressions_iter_1__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_MultipleActualParameters.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MultipleExpressions_iter_1_node_call"),
+				}, 
+				new string[] { "MultipleExpressions_iter_1_node_call" }, new string[] {  }, new string[] {  });
 			MultipleExpressions_iter_1 = new GRGEN_LGSP.PatternGraph(
 				"iter_1",
 				"MultipleExpressions_",
@@ -3096,7 +3132,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Expression node_next = GRGEN_MODEL.@Expression.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_MultipleExpressions_iter_0_addedEdgeNames );
 			GRGEN_MODEL.@expression edge__edge0 = GRGEN_MODEL.@expression.CreateEdge(graph, node_b, node_next);
-			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, node_next);
+			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, (GRGEN_MODEL.@Expression)(node_next));
 		}
 		private static string[] create_MultipleExpressions_iter_0_addedNodeNames = new string[] { "b", "next" };
 		private static string[] create_MultipleExpressions_iter_0_addedEdgeNames = new string[] { "_edge0" };
@@ -3166,8 +3202,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Call node_call = GRGEN_MODEL.@Call.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_MultipleExpressions_iter_1_addedEdgeNames );
 			GRGEN_MODEL.@expression edge__edge0 = GRGEN_MODEL.@expression.CreateEdge(graph, node_b, node_call);
-			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, node_call);
-			Pattern_MultipleActualParameters.Instance.MultipleActualParameters_Create(graph, node_call);
+			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, (GRGEN_MODEL.@Call)(node_call));
+			Pattern_MultipleActualParameters.Instance.MultipleActualParameters_Create(graph, (GRGEN_MODEL.@Call)(node_call));
 		}
 		private static string[] create_MultipleExpressions_iter_1_addedNodeNames = new string[] { "b", "call" };
 		private static string[] create_MultipleExpressions_iter_1_addedEdgeNames = new string[] { "_edge0" };
@@ -3640,7 +3676,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] ExpressionChain_alt_0_ExprAndAgain_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ExpressionChain_alt_0_ExprAndAgain_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "ExpressionChain_alt_0_ExprAndAgain_node_next", "next", ExpressionChain_alt_0_ExprAndAgain_node_next_AllowedTypes, ExpressionChain_alt_0_ExprAndAgain_node_next_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ExpressionChain_alt_0_ExprAndAgain_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, "GRGEN_MODEL.Iexpression", "ExpressionChain_alt_0_ExprAndAgain_edge__edge0", "_edge0", ExpressionChain_alt_0_ExprAndAgain_edge__edge0_AllowedTypes, ExpressionChain_alt_0_ExprAndAgain_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding ExpressionChain_alt_0_ExprAndAgain_ec = new GRGEN_LGSP.PatternGraphEmbedding("ec", Pattern_ExpressionChain.Instance, new GRGEN_LGSP.PatternElement[] { ExpressionChain_alt_0_ExprAndAgain_node_next });
+			GRGEN_LGSP.PatternGraphEmbedding ExpressionChain_alt_0_ExprAndAgain_ec = new GRGEN_LGSP.PatternGraphEmbedding("ec", Pattern_ExpressionChain.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("ExpressionChain_alt_0_ExprAndAgain_node_next"),
+				}, 
+				new string[] { "ExpressionChain_alt_0_ExprAndAgain_node_next" }, new string[] {  }, new string[] {  });
 			ExpressionChain_alt_0_ExprAndAgain = new GRGEN_LGSP.PatternGraph(
 				"ExprAndAgain",
 				"ExpressionChain_alt_0_",
@@ -3680,8 +3720,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] ExpressionChain_alt_0_CallAndAgain_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ExpressionChain_alt_0_CallAndAgain_node_call = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Call, "GRGEN_MODEL.ICall", "ExpressionChain_alt_0_CallAndAgain_node_call", "call", ExpressionChain_alt_0_CallAndAgain_node_call_AllowedTypes, ExpressionChain_alt_0_CallAndAgain_node_call_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge ExpressionChain_alt_0_CallAndAgain_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, "GRGEN_MODEL.Iexpression", "ExpressionChain_alt_0_CallAndAgain_edge__edge0", "_edge0", ExpressionChain_alt_0_CallAndAgain_edge__edge0_AllowedTypes, ExpressionChain_alt_0_CallAndAgain_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding ExpressionChain_alt_0_CallAndAgain_ec = new GRGEN_LGSP.PatternGraphEmbedding("ec", Pattern_ExpressionChain.Instance, new GRGEN_LGSP.PatternElement[] { ExpressionChain_alt_0_CallAndAgain_node_call });
-			GRGEN_LGSP.PatternGraphEmbedding ExpressionChain_alt_0_CallAndAgain__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_MultipleActualParameters.Instance, new GRGEN_LGSP.PatternElement[] { ExpressionChain_alt_0_CallAndAgain_node_call });
+			GRGEN_LGSP.PatternGraphEmbedding ExpressionChain_alt_0_CallAndAgain_ec = new GRGEN_LGSP.PatternGraphEmbedding("ec", Pattern_ExpressionChain.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("ExpressionChain_alt_0_CallAndAgain_node_call"),
+				}, 
+				new string[] { "ExpressionChain_alt_0_CallAndAgain_node_call" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding ExpressionChain_alt_0_CallAndAgain__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_MultipleActualParameters.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("ExpressionChain_alt_0_CallAndAgain_node_call"),
+				}, 
+				new string[] { "ExpressionChain_alt_0_CallAndAgain_node_call" }, new string[] {  }, new string[] {  });
 			ExpressionChain_alt_0_CallAndAgain = new GRGEN_LGSP.PatternGraph(
 				"CallAndAgain",
 				"ExpressionChain_alt_0_",
@@ -3931,7 +3979,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Expression node_next = GRGEN_MODEL.@Expression.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ExpressionChain_alt_0_ExprAndAgain_addedEdgeNames );
 			GRGEN_MODEL.@expression edge__edge0 = GRGEN_MODEL.@expression.CreateEdge(graph, node_e, node_next);
-			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, node_next);
+			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, (GRGEN_MODEL.@Expression)(node_next));
 		}
 		private static string[] create_ExpressionChain_alt_0_ExprAndAgain_addedNodeNames = new string[] { "e", "next" };
 		private static string[] create_ExpressionChain_alt_0_ExprAndAgain_addedEdgeNames = new string[] { "_edge0" };
@@ -3978,8 +4026,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Call node_call = GRGEN_MODEL.@Call.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_ExpressionChain_alt_0_CallAndAgain_addedEdgeNames );
 			GRGEN_MODEL.@expression edge__edge0 = GRGEN_MODEL.@expression.CreateEdge(graph, node_e, node_call);
-			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, node_call);
-			Pattern_MultipleActualParameters.Instance.MultipleActualParameters_Create(graph, node_call);
+			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, (GRGEN_MODEL.@Call)(node_call));
+			Pattern_MultipleActualParameters.Instance.MultipleActualParameters_Create(graph, (GRGEN_MODEL.@Call)(node_call));
 		}
 		private static string[] create_ExpressionChain_alt_0_CallAndAgain_addedNodeNames = new string[] { "e", "call" };
 		private static string[] create_ExpressionChain_alt_0_CallAndAgain_addedEdgeNames = new string[] { "_edge0" };
@@ -4669,7 +4717,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] MultipleActualParameters_iter_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode MultipleActualParameters_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "MultipleActualParameters_iter_0_node_next", "next", MultipleActualParameters_iter_0_node_next_AllowedTypes, MultipleActualParameters_iter_0_node_next_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge MultipleActualParameters_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@actualParameter, "GRGEN_MODEL.IactualParameter", "MultipleActualParameters_iter_0_edge__edge0", "_edge0", MultipleActualParameters_iter_0_edge__edge0_AllowedTypes, MultipleActualParameters_iter_0_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding MultipleActualParameters_iter_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ExpressionChain.Instance, new GRGEN_LGSP.PatternElement[] { MultipleActualParameters_iter_0_node_next });
+			GRGEN_LGSP.PatternGraphEmbedding MultipleActualParameters_iter_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ExpressionChain.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MultipleActualParameters_iter_0_node_next"),
+				}, 
+				new string[] { "MultipleActualParameters_iter_0_node_next" }, new string[] {  }, new string[] {  });
 			MultipleActualParameters_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleActualParameters_",
@@ -4709,8 +4761,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] MultipleActualParameters_iter_1_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode MultipleActualParameters_iter_1_node_call = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Call, "GRGEN_MODEL.ICall", "MultipleActualParameters_iter_1_node_call", "call", MultipleActualParameters_iter_1_node_call_AllowedTypes, MultipleActualParameters_iter_1_node_call_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge MultipleActualParameters_iter_1_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@actualParameter, "GRGEN_MODEL.IactualParameter", "MultipleActualParameters_iter_1_edge__edge0", "_edge0", MultipleActualParameters_iter_1_edge__edge0_AllowedTypes, MultipleActualParameters_iter_1_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding MultipleActualParameters_iter_1__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ExpressionChain.Instance, new GRGEN_LGSP.PatternElement[] { MultipleActualParameters_iter_1_node_call });
-			GRGEN_LGSP.PatternGraphEmbedding MultipleActualParameters_iter_1__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_MultipleActualParameters.Instance, new GRGEN_LGSP.PatternElement[] { MultipleActualParameters_iter_1_node_call });
+			GRGEN_LGSP.PatternGraphEmbedding MultipleActualParameters_iter_1__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_ExpressionChain.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MultipleActualParameters_iter_1_node_call"),
+				}, 
+				new string[] { "MultipleActualParameters_iter_1_node_call" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding MultipleActualParameters_iter_1__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_MultipleActualParameters.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MultipleActualParameters_iter_1_node_call"),
+				}, 
+				new string[] { "MultipleActualParameters_iter_1_node_call" }, new string[] {  }, new string[] {  });
 			MultipleActualParameters_iter_1 = new GRGEN_LGSP.PatternGraph(
 				"iter_1",
 				"MultipleActualParameters_",
@@ -4863,7 +4923,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Expression node_next = GRGEN_MODEL.@Expression.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_MultipleActualParameters_iter_0_addedEdgeNames );
 			GRGEN_MODEL.@actualParameter edge__edge0 = GRGEN_MODEL.@actualParameter.CreateEdge(graph, node_c, node_next);
-			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, node_next);
+			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, (GRGEN_MODEL.@Expression)(node_next));
 		}
 		private static string[] create_MultipleActualParameters_iter_0_addedNodeNames = new string[] { "c", "next" };
 		private static string[] create_MultipleActualParameters_iter_0_addedEdgeNames = new string[] { "_edge0" };
@@ -4927,8 +4987,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Call node_call = GRGEN_MODEL.@Call.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_MultipleActualParameters_iter_1_addedEdgeNames );
 			GRGEN_MODEL.@actualParameter edge__edge0 = GRGEN_MODEL.@actualParameter.CreateEdge(graph, node_c, node_call);
-			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, node_call);
-			Pattern_MultipleActualParameters.Instance.MultipleActualParameters_Create(graph, node_call);
+			Pattern_ExpressionChain.Instance.ExpressionChain_Create(graph, (GRGEN_MODEL.@Call)(node_call));
+			Pattern_MultipleActualParameters.Instance.MultipleActualParameters_Create(graph, (GRGEN_MODEL.@Call)(node_call));
 		}
 		private static string[] create_MultipleActualParameters_iter_1_addedNodeNames = new string[] { "c", "call" };
 		private static string[] create_MultipleActualParameters_iter_1_addedEdgeNames = new string[] { "_edge0" };
@@ -5367,7 +5427,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] MultipleExtendingClasses_iter_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode MultipleExtendingClasses_iter_0_node_sub = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "MultipleExtendingClasses_iter_0_node_sub", "sub", MultipleExtendingClasses_iter_0_node_sub_AllowedTypes, MultipleExtendingClasses_iter_0_node_sub_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge MultipleExtendingClasses_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@extends_, "GRGEN_MODEL.Iextends_", "MultipleExtendingClasses_iter_0_edge__edge0", "_edge0", MultipleExtendingClasses_iter_0_edge__edge0_AllowedTypes, MultipleExtendingClasses_iter_0_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding MultipleExtendingClasses_iter_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_MultipleExtendingClasses.Instance, new GRGEN_LGSP.PatternElement[] { MultipleExtendingClasses_iter_0_node_sub });
+			GRGEN_LGSP.PatternGraphEmbedding MultipleExtendingClasses_iter_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_MultipleExtendingClasses.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("MultipleExtendingClasses_iter_0_node_sub"),
+				}, 
+				new string[] { "MultipleExtendingClasses_iter_0_node_sub" }, new string[] {  }, new string[] {  });
 			MultipleExtendingClasses_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"MultipleExtendingClasses_",
@@ -5509,7 +5573,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Class node_c = GRGEN_MODEL.@Class.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_MultipleExtendingClasses_iter_0_addedEdgeNames );
 			GRGEN_MODEL.@extends_ edge__edge0 = GRGEN_MODEL.@extends_.CreateEdge(graph, node_sub, node_c);
-			Pattern_MultipleExtendingClasses.Instance.MultipleExtendingClasses_Create(graph, node_sub);
+			Pattern_MultipleExtendingClasses.Instance.MultipleExtendingClasses_Create(graph, (GRGEN_MODEL.@Class)(node_sub));
 		}
 		private static string[] create_MultipleExtendingClasses_iter_0_addedNodeNames = new string[] { "sub", "c" };
 		private static string[] create_MultipleExtendingClasses_iter_0_addedEdgeNames = new string[] { "_edge0" };
@@ -5842,7 +5906,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] InClass_alt_0_Previous_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode InClass_alt_0_Previous_node_prev = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "InClass_alt_0_Previous_node_prev", "prev", InClass_alt_0_Previous_node_prev_AllowedTypes, InClass_alt_0_Previous_node_prev_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge InClass_alt_0_Previous_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, "GRGEN_MODEL.Iexpression", "InClass_alt_0_Previous_edge__edge0", "_edge0", InClass_alt_0_Previous_edge__edge0_AllowedTypes, InClass_alt_0_Previous_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding InClass_alt_0_Previous__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_InClass.Instance, new GRGEN_LGSP.PatternElement[] { InClass_alt_0_Previous_node_prev, InClass_node_c });
+			GRGEN_LGSP.PatternGraphEmbedding InClass_alt_0_Previous__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_InClass.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("InClass_alt_0_Previous_node_prev"),
+					new GRGEN_EXPR.GraphEntityExpression("InClass_node_c"),
+				}, 
+				new string[] { "InClass_alt_0_Previous_node_prev", "InClass_node_c" }, new string[] {  }, new string[] {  });
 			InClass_alt_0_Previous = new GRGEN_LGSP.PatternGraph(
 				"Previous",
 				"InClass_alt_0_",
@@ -6008,7 +6077,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Class node_c = GRGEN_MODEL.@Class.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_InClass_alt_0_Previous_addedEdgeNames );
 			GRGEN_MODEL.@expression edge__edge0 = GRGEN_MODEL.@expression.CreateEdge(graph, node_prev, node_e);
-			Pattern_InClass.Instance.InClass_Create(graph, node_prev, node_c);
+			Pattern_InClass.Instance.InClass_Create(graph, (GRGEN_MODEL.@Expression)(node_prev), (GRGEN_MODEL.@Class)(node_c));
 		}
 		private static string[] create_InClass_alt_0_Previous_addedNodeNames = new string[] { "prev", "e", "c" };
 		private static string[] create_InClass_alt_0_Previous_addedEdgeNames = new string[] { "_edge0" };
@@ -6548,7 +6617,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] methodNameExistsSuper_alt_0_super_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode methodNameExistsSuper_alt_0_super_node_super = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "methodNameExistsSuper_alt_0_super_node_super", "super", methodNameExistsSuper_alt_0_super_node_super_AllowedTypes, methodNameExistsSuper_alt_0_super_node_super_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge methodNameExistsSuper_alt_0_super_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@extends_, "GRGEN_MODEL.Iextends_", "methodNameExistsSuper_alt_0_super_edge__edge0", "_edge0", methodNameExistsSuper_alt_0_super_edge__edge0_AllowedTypes, methodNameExistsSuper_alt_0_super_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding methodNameExistsSuper_alt_0_super__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_methodNameExistsSuper.Instance, new GRGEN_LGSP.PatternElement[] { methodNameExistsSuper_node_opForName, methodNameExistsSuper_alt_0_super_node_super });
+			GRGEN_LGSP.PatternGraphEmbedding methodNameExistsSuper_alt_0_super__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_methodNameExistsSuper.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("methodNameExistsSuper_node_opForName"),
+					new GRGEN_EXPR.GraphEntityExpression("methodNameExistsSuper_alt_0_super_node_super"),
+				}, 
+				new string[] { "methodNameExistsSuper_node_opForName", "methodNameExistsSuper_alt_0_super_node_super" }, new string[] {  }, new string[] {  });
 			methodNameExistsSuper_alt_0_super = new GRGEN_LGSP.PatternGraph(
 				"super",
 				"methodNameExistsSuper_alt_0_",
@@ -6679,7 +6753,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.@Operation node_opForName = GRGEN_MODEL.@Operation.CreateNode(graph);
 			graph.SettingAddedEdgeNames( create_methodNameExistsSuper_alt_0_super_addedEdgeNames );
 			GRGEN_MODEL.@extends_ edge__edge0 = GRGEN_MODEL.@extends_.CreateEdge(graph, node_cls, node_super);
-			Pattern_methodNameExistsSuper.Instance.methodNameExistsSuper_Create(graph, node_opForName, node_super);
+			Pattern_methodNameExistsSuper.Instance.methodNameExistsSuper_Create(graph, (GRGEN_MODEL.@Operation)(node_opForName), (GRGEN_MODEL.@Class)(node_super));
 		}
 		private static string[] create_methodNameExistsSuper_alt_0_super_addedNodeNames = new string[] { "cls", "super", "opForName" };
 		private static string[] create_methodNameExistsSuper_alt_0_super_addedEdgeNames = new string[] { "_edge0" };
@@ -13620,7 +13694,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] emitSpanningTree_iter_0_minMatches = new int[0] ;
 			int[] emitSpanningTree_iter_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode emitSpanningTree_iter_0_node_p = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Package, "GRGEN_MODEL.IPackage", "emitSpanningTree_iter_0_node_p", "p", emitSpanningTree_iter_0_node_p_AllowedTypes, emitSpanningTree_iter_0_node_p_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding emitSpanningTree_iter_0_mpc = new GRGEN_LGSP.PatternGraphEmbedding("mpc", Pattern_MultipleContainedPackagesOrClasses.Instance, new GRGEN_LGSP.PatternElement[] { emitSpanningTree_iter_0_node_p });
+			GRGEN_LGSP.PatternGraphEmbedding emitSpanningTree_iter_0_mpc = new GRGEN_LGSP.PatternGraphEmbedding("mpc", Pattern_MultipleContainedPackagesOrClasses.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("emitSpanningTree_iter_0_node_p"),
+				}, 
+				new string[] { "emitSpanningTree_iter_0_node_p" }, new string[] {  }, new string[] {  });
 			bool[,] emitSpanningTree_iter_0_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -18108,7 +18186,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool[,] adaptAccess_neg_0_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] adaptAccess_neg_0_minMatches = new int[0] ;
 			int[] adaptAccess_neg_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternGraphEmbedding adaptAccess_neg_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_InClass.Instance, new GRGEN_LGSP.PatternElement[] { adaptAccess_node_a, adaptAccess_node_c });
+			GRGEN_LGSP.PatternGraphEmbedding adaptAccess_neg_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_InClass.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("adaptAccess_node_a"),
+					new GRGEN_EXPR.GraphEntityExpression("adaptAccess_node_c"),
+				}, 
+				new string[] { "adaptAccess_node_a", "adaptAccess_node_c" }, new string[] {  }, new string[] {  });
 			adaptAccess_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"adaptAccess_",
@@ -18527,7 +18610,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool[,] adaptUpdate_neg_0_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] adaptUpdate_neg_0_minMatches = new int[0] ;
 			int[] adaptUpdate_neg_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternGraphEmbedding adaptUpdate_neg_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_InClass.Instance, new GRGEN_LGSP.PatternElement[] { adaptUpdate_node_u, adaptUpdate_node_c });
+			GRGEN_LGSP.PatternGraphEmbedding adaptUpdate_neg_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_InClass.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("adaptUpdate_node_u"),
+					new GRGEN_EXPR.GraphEntityExpression("adaptUpdate_node_c"),
+				}, 
+				new string[] { "adaptUpdate_node_u", "adaptUpdate_node_c" }, new string[] {  }, new string[] {  });
 			adaptUpdate_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"adaptUpdate_",
@@ -21869,7 +21957,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode methodNameExists_node_mb = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "methodNameExists_node_mb", "mb", methodNameExists_node_mb_AllowedTypes, methodNameExists_node_mb_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode methodNameExists_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "methodNameExists_node_tgt", "tgt", methodNameExists_node_tgt_AllowedTypes, methodNameExists_node_tgt_IsAllowedType, 5.5F, 1);
 			GRGEN_LGSP.PatternEdge methodNameExists_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "methodNameExists_edge__edge0", "_edge0", methodNameExists_edge__edge0_AllowedTypes, methodNameExists_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding methodNameExists__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_methodNameExistsSuper.Instance, new GRGEN_LGSP.PatternElement[] { methodNameExists_node_op, methodNameExists_node_tgt });
+			GRGEN_LGSP.PatternGraphEmbedding methodNameExists__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_methodNameExistsSuper.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("methodNameExists_node_op"),
+					new GRGEN_EXPR.GraphEntityExpression("methodNameExists_node_tgt"),
+				}, 
+				new string[] { "methodNameExists_node_op", "methodNameExists_node_tgt" }, new string[] {  }, new string[] {  });
 			pat_methodNameExists = new GRGEN_LGSP.PatternGraph(
 				"methodNameExists",
 				"",

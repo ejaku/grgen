@@ -147,6 +147,12 @@ namespace de.unika.ipd.grGen.lgsp
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
+            for(int i = 0; i < patternGraph.variables.Length; i++)
+            {
+                PatternVariable var = patternGraph.variables[i];
+                insertionPoint = insertionPoint.Append(new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name));
+            }
+
             // initialize task/result-pushdown handling in subpattern matcher
             InitializeSubpatternMatching initialize = 
                 new InitializeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Normal);
@@ -1808,23 +1814,25 @@ namespace de.unika.ipd.grGen.lgsp
 
                 int numElements = neededNodes.Count + neededEdges.Count;
                 string[] connectionName = new string[numElements];
-                string[] patternElementBoundToConnectionName = new string[numElements];
-                bool[] patternElementBoundToConnectionIsNode = new bool[numElements];
+                string[] argumentExpressions = new string[numElements];
                 int j = 0;
                 foreach (KeyValuePair<string, bool> node in neededNodes)
                 {
                     connectionName[j] = node.Key;
-                    patternElementBoundToConnectionName[j] = node.Key;
-                    patternElementBoundToConnectionIsNode[j] = true;
+                    SourceBuilder argumentExpression = new SourceBuilder();
+                    (new de.unika.ipd.grGen.expression.GraphEntityExpression(node.Key)).Emit(argumentExpression);
+                    argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
                 foreach (KeyValuePair<string, bool> edge in neededEdges)
                 {
                     connectionName[j] = edge.Key;
-                    patternElementBoundToConnectionName[j] = edge.Key;
-                    patternElementBoundToConnectionIsNode[j] = false;
+                    SourceBuilder argumentExpression = new SourceBuilder();
+                    (new de.unika.ipd.grGen.expression.GraphEntityExpression(edge.Key)).Emit(argumentExpression);
+                    argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
+                // todo: needed VariableExpression
 
                 PushSubpatternTask pushTask =
                     new PushSubpatternTask(
@@ -1833,8 +1841,7 @@ namespace de.unika.ipd.grGen.lgsp
                         alternative.name,
                         rulePatternClassName,
                         connectionName,
-                        patternElementBoundToConnectionName,
-                        patternElementBoundToConnectionIsNode,
+                        argumentExpressions,
                         negativeIndependentNamePrefix,
                         searchPatternpath,
                         matchOfNestingPattern,
@@ -1851,23 +1858,25 @@ namespace de.unika.ipd.grGen.lgsp
 
                 int numElements = iter.neededNodes.Count + iter.neededEdges.Count;
                 string[] connectionName = new string[numElements];
-                string[] patternElementBoundToConnectionName = new string[numElements];
-                bool[] patternElementBoundToConnectionIsNode = new bool[numElements];
+                string[] argumentExpressions = new string[numElements]; 
                 int j = 0;
                 foreach (KeyValuePair<string, bool> node in iter.neededNodes)
                 {
                     connectionName[j] = node.Key;
-                    patternElementBoundToConnectionName[j] = node.Key;
-                    patternElementBoundToConnectionIsNode[j] = true;
+                    SourceBuilder argumentExpression = new SourceBuilder();
+                    (new de.unika.ipd.grGen.expression.GraphEntityExpression(node.Key)).Emit(argumentExpression);
+                    argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
                 foreach (KeyValuePair<string, bool> edge in iter.neededEdges)
                 {
                     connectionName[j] = edge.Key;
-                    patternElementBoundToConnectionName[j] = edge.Key;
-                    patternElementBoundToConnectionIsNode[j] = false;
+                    SourceBuilder argumentExpression = new SourceBuilder();
+                    (new de.unika.ipd.grGen.expression.GraphEntityExpression(edge.Key)).Emit(argumentExpression);
+                    argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
+                // todo: needed VariableExpression
 
                 PushSubpatternTask pushTask =
                     new PushSubpatternTask(
@@ -1876,8 +1885,7 @@ namespace de.unika.ipd.grGen.lgsp
                         iter.name,
                         rulePatternClassName,
                         connectionName,
-                        patternElementBoundToConnectionName,
-                        patternElementBoundToConnectionIsNode,
+                        argumentExpressions,
                         negativeIndependentNamePrefix,
                         searchPatternpath,
                         matchOfNestingPattern,
@@ -1893,12 +1901,12 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternGraphEmbedding subpattern = patternGraph.embeddedGraphs[i];
                 Debug.Assert(subpattern.matchingPatternOfEmbeddedGraph.inputNames.Length == subpattern.connections.Length);
                 string[] connectionName = subpattern.matchingPatternOfEmbeddedGraph.inputNames;
-                string[] patternElementBoundToConnectionName = new string[subpattern.connections.Length];
-                bool[] patternElementBoundToConnectionIsNode = new bool[subpattern.connections.Length];
+                string[] argumentExpressions = new string[subpattern.connections.Length];
                 for (int j = 0; j < subpattern.connections.Length; ++j)
                 {
-                    patternElementBoundToConnectionName[j] = subpattern.connections[j].name;
-                    patternElementBoundToConnectionIsNode[j] = subpattern.connections[j] is PatternNode;
+                    SourceBuilder argumentExpression = new SourceBuilder();
+                    subpattern.connections[j].Emit(argumentExpression);
+                    argumentExpressions[j] = argumentExpression.ToString();
                 }
 
                 PushSubpatternTask pushTask =
@@ -1907,8 +1915,7 @@ namespace de.unika.ipd.grGen.lgsp
                         subpattern.matchingPatternOfEmbeddedGraph.name,
                         subpattern.name,
                         connectionName,
-                        patternElementBoundToConnectionName,
-                        patternElementBoundToConnectionIsNode,
+                        argumentExpressions,
                         negativeIndependentNamePrefix,
                         searchPatternpath,
                         matchOfNestingPattern,

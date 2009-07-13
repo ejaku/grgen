@@ -5268,12 +5268,6 @@
             The embedded subpattern
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraphEmbedding.Connections">
-            <summary>
-            An array with the connections telling how the subpattern is connected to the containing pattern,
-            that are the pattern elements of the containing pattern used for that purpose
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IAlternative">
             <summary>
             An alternative is a pattern graph element containing subpatterns

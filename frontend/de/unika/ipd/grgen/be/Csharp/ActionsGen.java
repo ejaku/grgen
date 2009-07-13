@@ -958,9 +958,22 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\tGRGEN_LGSP.PatternGraphEmbedding " + subName
 					+ " = new GRGEN_LGSP.PatternGraphEmbedding(");
 			sb.append("\"" + formatIdentifiable(sub) + "\", ");
-			sb.append("Pattern_"+ sub.getSubpatternAction().getIdent().toString() + ".Instance, ");
-			sb.append("new GRGEN_LGSP.PatternElement[] ");
-			genEntitySet(sb, sub.getSubpatternConnections(), "", "", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append("Pattern_"+ sub.getSubpatternAction().getIdent().toString() + ".Instance, \n");
+			sb.append("\t\t\t\tnew GRGEN_EXPR.Expression[] {\n");
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
+			for(Expression expr : sub.getSubpatternConnections()) {
+				expr.collectNeededEntities(needs);
+				sb.append("\t\t\t\t\t");
+				genExpressionTree(sb, expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
+				sb.append(",\n");
+			}
+			sb.append("\t\t\t\t}, \n");
+			sb.append("\t\t\t\tnew string[] ");
+			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new string[] ");
+			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new string[] ");
+			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(");\n");
 			alreadyDefinedIdentifiableToName.put(sub, subName);
 			aux.append("\t\t\t" + subName + ".PointOfDefinition = " + patGraphVarName + ";\n");

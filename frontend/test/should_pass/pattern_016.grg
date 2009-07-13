@@ -1,0 +1,25 @@
+pattern Foo(var i:int)
+{
+	x:Node;
+	if { !visited(x, i); }
+	
+	modify bla
+	{
+		eval { visited(x, i) = true; }
+	}
+}
+
+rule r(var i:int)
+{
+	x:Node;
+	if { !visited(x, i); }
+	
+	foo:Foo(i);
+	//foo:Foo(i+1);
+
+	modify
+	{
+		eval { visited(x, i) = true; }
+		foo();
+	}
+}

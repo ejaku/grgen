@@ -15,10 +15,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.CollectPairResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
@@ -30,16 +28,15 @@ public class SubpatternUsageNode extends DeclNode {
 		setName(SubpatternUsageNode.class, "subpattern node");
 	}
 
-	private CollectNode<ConstraintDeclNode> connections;
-	private CollectNode<IdentNode> connectionsUnresolved;
+	private CollectNode<ExprNode> connections;
 
 	protected SubpatternDeclNode type = null;
 
 
-	public SubpatternUsageNode(IdentNode n, BaseNode t, CollectNode<IdentNode> c) {
+	public SubpatternUsageNode(IdentNode n, BaseNode t, CollectNode<ExprNode> c) {
 		super(n, t);
-		this.connectionsUnresolved = c;
-		becomeParent(this.connectionsUnresolved);
+		this.connections = c;
+		becomeParent(this.connections);
 	}
 
 	@Override
@@ -60,7 +57,7 @@ public class SubpatternUsageNode extends DeclNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		children.add(getValidVersion(connectionsUnresolved, connections));
+		children.add(connections);
 		return children;
 	}
 
@@ -75,16 +72,13 @@ public class SubpatternUsageNode extends DeclNode {
 
 	private static final DeclarationResolver<SubpatternDeclNode> actionResolver =
 		new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class);
-	private static final CollectPairResolver<ConstraintDeclNode> connectionsResolver =
-		new CollectPairResolver<ConstraintDeclNode>(new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
 		fixupDefinition((IdentNode)typeUnresolved, typeUnresolved.getScope());
 		type        = actionResolver.resolve(typeUnresolved, this);
-		connections = connectionsResolver.resolve(connectionsUnresolved, this);
-		return type != null && connections != null;
+		return type != null;
 	}
 
 	/*
@@ -136,14 +130,19 @@ public class SubpatternUsageNode extends DeclNode {
 		boolean res = true;
 		Vector<DeclNode> formalParameters = type.pattern.getParamDecls();
 		for (int i = 0; i < connections.children.size(); ++i) {
-			ConstraintDeclNode actualParameter = connections.children.get(i);
-			ConstraintDeclNode formalParameter = (ConstraintDeclNode)formalParameters.get(i);
-			InheritanceTypeNode actualParameterType = actualParameter.getDeclType();
-			InheritanceTypeNode formalParameterType = formalParameter.getDeclType();
-
-			if(!actualParameterType.isA(formalParameterType)) {
+			ExprNode actualParameter = connections.children.get(i);
+			TypeNode actualParameterType = actualParameter.getType();
+			DeclNode formalParameter = formalParameters.get(i);				
+			TypeNode formalParameterType = formalParameter.getDeclType();
+			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;
-				actualParameter.ident.reportError("Subpattern usage parameter \"" + actualParameter.ident.toString() + "\" has wrong type");
+				String exprTypeName;
+				if(actualParameterType instanceof InheritanceTypeNode)
+					exprTypeName = ((InheritanceTypeNode) actualParameterType).getIdentNode().toString();
+				else
+					exprTypeName = actualParameterType.toString();
+				ident.reportError("Cannot convert " + (i + 1) + ". subpattern usage argument from \""
+						+ exprTypeName + "\" to \"" + formalParameterType.toString() + "\"");
 			}
 		}
 
@@ -153,9 +152,9 @@ public class SubpatternUsageNode extends DeclNode {
 
 	@Override
 	protected IR constructIR() {
-		List<GraphEntity> subpatternConnections = new LinkedList<GraphEntity>();
-		for (ConstraintDeclNode c : connections.getChildren()) {
-			subpatternConnections.add(c.checkIR(GraphEntity.class));
+		List<Expression> subpatternConnections = new LinkedList<Expression>();
+		for (ExprNode e : connections.getChildren()) {
+			subpatternConnections.add(e.checkIR(Expression.class));
 		}
 		return new SubpatternUsage("subpattern", getIdentNode().getIdent(),
 				type.checkIR(MatchingAction.class), subpatternConnections);

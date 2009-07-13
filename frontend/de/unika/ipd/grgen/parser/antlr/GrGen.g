@@ -481,13 +481,13 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 		constr = TypeExprNode.getEmpty();
 		annots = env.getEmptyAnnotations();
 		boolean hasAnnots = false;
-		CollectNode<IdentNode> subpatternConn = new CollectNode<IdentNode>();
-		CollectNode<IdentNode> subpatternReplConn = new CollectNode<IdentNode>();
+		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
+		CollectNode<ExprNode> subpatternReplConn = new CollectNode<ExprNode>();
 		BaseNode n = null;
 	}
 
 	: id=entIdentUse firstEdgeContinuation[id, conn, context, directlyNestingLHSGraph] // use of already declared node, continue looking for first edge
-	| id=entIdentUse l=LPAREN subpatternConnections[subpatternReplConn] RPAREN // use of already declared subpattern
+	| id=entIdentUse l=LPAREN arguments[subpatternReplConn] RPAREN // use of already declared subpattern
 		{ subpatternReplacements.addChild(new SubpatternReplNode(id, subpatternReplConn)); }
 	| id=entIdentDecl cc=COLON // node or subpattern declaration
 		( // node declaration
@@ -515,7 +515,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 			}
 			firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 		| // subpattern declaration
-			type=patIdentUse LPAREN subpatternConnections[subpatternConn] RPAREN
+			type=patIdentUse LPAREN arguments[subpatternConn] RPAREN
 			{ subpatterns.addChild(new SubpatternUsageNode(id, type, subpatternConn)); }
 		)
 	| ( annots=annotations { hasAnnots = true; } )?
@@ -548,7 +548,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 			| // subpattern declaration
 				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
-				type=patIdentUse LPAREN subpatternConnections[subpatternConn] RPAREN
+				type=patIdentUse LPAREN arguments[subpatternConn] RPAREN
 				{ subpatterns.addChild(new SubpatternUsageNode(id, type, subpatternConn)); }
 			)
 			{ if (hasAnnots) { id.setAnnotations(annots); } }
@@ -827,8 +827,12 @@ edgeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 			}
 	;
 
-subpatternConnections[CollectNode<IdentNode> subpatternConn]
-	: ( id=entIdentUse { subpatternConn.addChild(id); } (COMMA id=entIdentUse { subpatternConn.addChild(id); } )* )?
+arguments[CollectNode<ExprNode> args]
+	: ( arg=argument[args] ( COMMA argument[args] )* )?
+	;
+	
+argument[CollectNode<ExprNode> args]
+	: arg=expr[false] { args.addChild(arg); }
 	;
 
 homStatement returns [ HomNode res = null ]

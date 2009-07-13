@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Jun 28 20:18:18 GMT+01:00 2009
+// Generated from "..\..\tests\TNT\TNT.grg" on Mon Jul 13 02:24:55 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -3071,9 +3071,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternNode TriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c2", "c2", TriNitro_node_c2_AllowedTypes, TriNitro_node_c2_IsAllowedType, 5.5F, 0);
 			GRGEN_LGSP.PatternNode TriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c4", "c4", TriNitro_node_c4_AllowedTypes, TriNitro_node_c4_IsAllowedType, 5.5F, 1);
 			GRGEN_LGSP.PatternNode TriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c6", "c6", TriNitro_node_c6_AllowedTypes, TriNitro_node_c6_IsAllowedType, 5.5F, 2);
-			GRGEN_LGSP.PatternGraphEmbedding TriNitro__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TriNitro_node_c2 });
-			GRGEN_LGSP.PatternGraphEmbedding TriNitro__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TriNitro_node_c4 });
-			GRGEN_LGSP.PatternGraphEmbedding TriNitro__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TriNitro_node_c6 });
+			GRGEN_LGSP.PatternGraphEmbedding TriNitro__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TriNitro_node_c2"),
+				}, 
+				new string[] { "TriNitro_node_c2" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TriNitro__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TriNitro_node_c4"),
+				}, 
+				new string[] { "TriNitro_node_c4" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TriNitro__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TriNitro_node_c6"),
+				}, 
+				new string[] { "TriNitro_node_c6" }, new string[] {  }, new string[] {  });
 			pat_TriNitro = new GRGEN_LGSP.PatternGraph(
 				"TriNitro",
 				"",
@@ -3114,9 +3126,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			graph.SettingAddedNodeNames( create_TriNitro_addedNodeNames );
 			graph.SettingAddedEdgeNames( create_TriNitro_addedEdgeNames );
-			Pattern_Nitro.Instance.Nitro_Create(graph, node_c2);
-			Pattern_Nitro.Instance.Nitro_Create(graph, node_c4);
-			Pattern_Nitro.Instance.Nitro_Create(graph, node_c6);
+			Pattern_Nitro.Instance.Nitro_Create(graph, (GRGEN_MODEL.@C)(node_c2));
+			Pattern_Nitro.Instance.Nitro_Create(graph, (GRGEN_MODEL.@C)(node_c4));
+			Pattern_Nitro.Instance.Nitro_Create(graph, (GRGEN_MODEL.@C)(node_c6));
 		}
 		private static string[] create_TriNitro_addedNodeNames = new string[] {  };
 		private static string[] create_TriNitro_addedEdgeNames = new string[] {  };
@@ -3313,10 +3325,28 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c4", "c4", ToluolCoreThenTriNitro_node_c4_AllowedTypes, ToluolCoreThenTriNitro_node_c4_IsAllowedType, 5.5F, 3);
 			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c5", "c5", ToluolCoreThenTriNitro_node_c5_AllowedTypes, ToluolCoreThenTriNitro_node_c5_IsAllowedType, 5.5F, 4);
 			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c6", "c6", ToluolCoreThenTriNitro_node_c6_AllowedTypes, ToluolCoreThenTriNitro_node_c6_IsAllowedType, 5.5F, 5);
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Methyl.Instance, new GRGEN_LGSP.PatternElement[] { ToluolCoreThenTriNitro_node_c1 });
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { ToluolCoreThenTriNitro_node_c3 });
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { ToluolCoreThenTriNitro_node_c5 });
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_TriNitro.Instance, new GRGEN_LGSP.PatternElement[] { ToluolCoreThenTriNitro_node_c2, ToluolCoreThenTriNitro_node_c4, ToluolCoreThenTriNitro_node_c6 });
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Methyl.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c1"),
+				}, 
+				new string[] { "ToluolCoreThenTriNitro_node_c1" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c3"),
+				}, 
+				new string[] { "ToluolCoreThenTriNitro_node_c3" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c5"),
+				}, 
+				new string[] { "ToluolCoreThenTriNitro_node_c5" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_TriNitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c2"),
+					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c4"),
+					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c6"),
+				}, 
+				new string[] { "ToluolCoreThenTriNitro_node_c2", "ToluolCoreThenTriNitro_node_c4", "ToluolCoreThenTriNitro_node_c6" }, new string[] {  }, new string[] {  });
 			pat_ToluolCoreThenTriNitro = new GRGEN_LGSP.PatternGraph(
 				"ToluolCoreThenTriNitro",
 				"",
@@ -3364,10 +3394,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			graph.SettingAddedNodeNames( create_ToluolCoreThenTriNitro_addedNodeNames );
 			graph.SettingAddedEdgeNames( create_ToluolCoreThenTriNitro_addedEdgeNames );
-			Pattern_Methyl.Instance.Methyl_Create(graph, node_c1);
-			Pattern_Hydrogen.Instance.Hydrogen_Create(graph, node_c3);
-			Pattern_Hydrogen.Instance.Hydrogen_Create(graph, node_c5);
-			Pattern_TriNitro.Instance.TriNitro_Create(graph, node_c2, node_c4, node_c6);
+			Pattern_Methyl.Instance.Methyl_Create(graph, (GRGEN_MODEL.@C)(node_c1));
+			Pattern_Hydrogen.Instance.Hydrogen_Create(graph, (GRGEN_MODEL.@C)(node_c3));
+			Pattern_Hydrogen.Instance.Hydrogen_Create(graph, (GRGEN_MODEL.@C)(node_c5));
+			Pattern_TriNitro.Instance.TriNitro_Create(graph, (GRGEN_MODEL.@C)(node_c2), (GRGEN_MODEL.@C)(node_c4), (GRGEN_MODEL.@C)(node_c6));
 		}
 		private static string[] create_ToluolCoreThenTriNitro_addedNodeNames = new string[] {  };
 		private static string[] create_ToluolCoreThenTriNitro_addedEdgeNames = new string[] {  };
@@ -3558,7 +3588,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] BenzolRing_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] BenzolRing_minMatches = new int[0] ;
 			int[] BenzolRing_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternGraphEmbedding BenzolRing__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRing.Instance, new GRGEN_LGSP.PatternElement[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding BenzolRing__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRing.Instance, 
+				new GRGEN_EXPR.Expression[] {
+				}, 
+				new string[] {  }, new string[] {  }, new string[] {  });
 			pat_BenzolRing = new GRGEN_LGSP.PatternGraph(
 				"BenzolRing",
 				"",
@@ -3763,13 +3796,46 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c4", "c4", TNTTotallyFolded_node_c4_AllowedTypes, TNTTotallyFolded_node_c4_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c5", "c5", TNTTotallyFolded_node_c5_AllowedTypes, TNTTotallyFolded_node_c5_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c6", "c6", TNTTotallyFolded_node_c6_AllowedTypes, TNTTotallyFolded_node_c6_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, new GRGEN_LGSP.PatternElement[] { TNTTotallyFolded_node_c1, TNTTotallyFolded_node_c2, TNTTotallyFolded_node_c3, TNTTotallyFolded_node_c4, TNTTotallyFolded_node_c5, TNTTotallyFolded_node_c6 });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new GRGEN_LGSP.PatternElement[] { TNTTotallyFolded_node_c1 });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TNTTotallyFolded_node_c2 });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { TNTTotallyFolded_node_c3 });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern4 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern4", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TNTTotallyFolded_node_c4 });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern5 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { TNTTotallyFolded_node_c5 });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern6 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern6", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TNTTotallyFolded_node_c6 });
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c1"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c2"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c3"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c4"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c5"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c6"),
+				}, 
+				new string[] { "TNTTotallyFolded_node_c1", "TNTTotallyFolded_node_c2", "TNTTotallyFolded_node_c3", "TNTTotallyFolded_node_c4", "TNTTotallyFolded_node_c5", "TNTTotallyFolded_node_c6" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c1"),
+				}, 
+				new string[] { "TNTTotallyFolded_node_c1" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c2"),
+				}, 
+				new string[] { "TNTTotallyFolded_node_c2" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c3"),
+				}, 
+				new string[] { "TNTTotallyFolded_node_c3" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern4 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern4", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c4"),
+				}, 
+				new string[] { "TNTTotallyFolded_node_c4" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern5 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c5"),
+				}, 
+				new string[] { "TNTTotallyFolded_node_c5" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__subpattern6 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern6", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c6"),
+				}, 
+				new string[] { "TNTTotallyFolded_node_c6" }, new string[] {  }, new string[] {  });
 			pat_TNTTotallyFolded = new GRGEN_LGSP.PatternGraph(
 				"TNTTotallyFolded",
 				"",
@@ -4053,8 +4119,26 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternNode TNTChain_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c4", "c4", TNTChain_node_c4_AllowedTypes, TNTChain_node_c4_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternNode TNTChain_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c5", "c5", TNTChain_node_c5_AllowedTypes, TNTChain_node_c5_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternNode TNTChain_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c6", "c6", TNTChain_node_c6_AllowedTypes, TNTChain_node_c6_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding TNTChain__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, new GRGEN_LGSP.PatternElement[] { TNTChain_node_c1, TNTChain_node_c2, TNTChain_node_c3, TNTChain_node_c4, TNTChain_node_c5, TNTChain_node_c6 });
-			GRGEN_LGSP.PatternGraphEmbedding TNTChain__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_ToluolCoreThenTriNitro.Instance, new GRGEN_LGSP.PatternElement[] { TNTChain_node_c1, TNTChain_node_c2, TNTChain_node_c3, TNTChain_node_c4, TNTChain_node_c5, TNTChain_node_c6 });
+			GRGEN_LGSP.PatternGraphEmbedding TNTChain__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c1"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c2"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c3"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c4"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c5"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c6"),
+				}, 
+				new string[] { "TNTChain_node_c1", "TNTChain_node_c2", "TNTChain_node_c3", "TNTChain_node_c4", "TNTChain_node_c5", "TNTChain_node_c6" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNTChain__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_ToluolCoreThenTriNitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c1"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c2"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c3"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c4"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c5"),
+					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c6"),
+				}, 
+				new string[] { "TNTChain_node_c1", "TNTChain_node_c2", "TNTChain_node_c3", "TNTChain_node_c4", "TNTChain_node_c5", "TNTChain_node_c6" }, new string[] {  }, new string[] {  });
 			pat_TNTChain = new GRGEN_LGSP.PatternGraph(
 				"TNTChain",
 				"",
@@ -4283,8 +4367,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 			int[] ToluolCore_minMatches = new int[0] ;
 			int[] ToluolCore_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ToluolCore_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCore_node_c1", "c1", ToluolCore_node_c1_AllowedTypes, ToluolCore_node_c1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCore__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC1Exposed.Instance, new GRGEN_LGSP.PatternElement[] { ToluolCore_node_c1 });
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCore__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new GRGEN_LGSP.PatternElement[] { ToluolCore_node_c1 });
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCore__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC1Exposed.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("ToluolCore_node_c1"),
+				}, 
+				new string[] { "ToluolCore_node_c1" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCore__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("ToluolCore_node_c1"),
+				}, 
+				new string[] { "ToluolCore_node_c1" }, new string[] {  }, new string[] {  });
 			pat_ToluolCore = new GRGEN_LGSP.PatternGraph(
 				"ToluolCore",
 				"",
@@ -4483,8 +4575,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 			int[] ToluolCoreNotC6Nitro_minMatches = new int[0] ;
 			int[] ToluolCoreNotC6Nitro_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ToluolCoreNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreNotC6Nitro_node_c1", "c1", ToluolCoreNotC6Nitro_node_c1_AllowedTypes, ToluolCoreNotC6Nitro_node_c1_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreNotC6Nitro__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC1ExposedNotC6Nitro.Instance, new GRGEN_LGSP.PatternElement[] { ToluolCoreNotC6Nitro_node_c1 });
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreNotC6Nitro__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new GRGEN_LGSP.PatternElement[] { ToluolCoreNotC6Nitro_node_c1 });
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreNotC6Nitro__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC1ExposedNotC6Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreNotC6Nitro_node_c1"),
+				}, 
+				new string[] { "ToluolCoreNotC6Nitro_node_c1" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreNotC6Nitro__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreNotC6Nitro_node_c1"),
+				}, 
+				new string[] { "ToluolCoreNotC6Nitro_node_c1" }, new string[] {  }, new string[] {  });
 			pat_ToluolCoreNotC6Nitro = new GRGEN_LGSP.PatternGraph(
 				"ToluolCoreNotC6Nitro",
 				"",
@@ -4703,13 +4803,46 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternNode Toluol_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c4", "c4", Toluol_node_c4_AllowedTypes, Toluol_node_c4_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternNode Toluol_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c5", "c5", Toluol_node_c5_AllowedTypes, Toluol_node_c5_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternNode Toluol_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c6", "c6", Toluol_node_c6_AllowedTypes, Toluol_node_c6_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, new GRGEN_LGSP.PatternElement[] { Toluol_node_c1, Toluol_node_c2, Toluol_node_c3, Toluol_node_c4, Toluol_node_c5, Toluol_node_c6 });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new GRGEN_LGSP.PatternElement[] { Toluol_node_c1 });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { Toluol_node_c2 });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { Toluol_node_c3 });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern4 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { Toluol_node_c4 });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern5 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { Toluol_node_c5 });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern6 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern6", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { Toluol_node_c6 });
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c1"),
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c2"),
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c3"),
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c4"),
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c5"),
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c6"),
+				}, 
+				new string[] { "Toluol_node_c1", "Toluol_node_c2", "Toluol_node_c3", "Toluol_node_c4", "Toluol_node_c5", "Toluol_node_c6" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c1"),
+				}, 
+				new string[] { "Toluol_node_c1" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c2"),
+				}, 
+				new string[] { "Toluol_node_c2" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c3"),
+				}, 
+				new string[] { "Toluol_node_c3" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern4 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c4"),
+				}, 
+				new string[] { "Toluol_node_c4" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern5 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c5"),
+				}, 
+				new string[] { "Toluol_node_c5" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__subpattern6 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern6", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c6"),
+				}, 
+				new string[] { "Toluol_node_c6" }, new string[] {  }, new string[] {  });
 			pat_Toluol = new GRGEN_LGSP.PatternGraph(
 				"Toluol",
 				"",
@@ -5030,12 +5163,36 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternEdge TNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge6", "_edge6", TNT_edge__edge6_AllowedTypes, TNT_edge__edge6_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge TNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge7", "_edge7", TNT_edge__edge7_AllowedTypes, TNT_edge__edge7_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge TNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge8", "_edge8", TNT_edge__edge8_AllowedTypes, TNT_edge__edge8_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Methyl.Instance, new GRGEN_LGSP.PatternElement[] { TNT_node_c1 });
-			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TNT_node_c2 });
-			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { TNT_node_c3 });
-			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TNT_node_c4 });
-			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern4 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { TNT_node_c5 });
-			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern5 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern5", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TNT_node_c6 });
+			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Methyl.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c1"),
+				}, 
+				new string[] { "TNT_node_c1" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c2"),
+				}, 
+				new string[] { "TNT_node_c2" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c3"),
+				}, 
+				new string[] { "TNT_node_c3" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c4"),
+				}, 
+				new string[] { "TNT_node_c4" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern4 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c5"),
+				}, 
+				new string[] { "TNT_node_c5" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNT__subpattern5 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern5", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c6"),
+				}, 
+				new string[] { "TNT_node_c6" }, new string[] {  }, new string[] {  });
 			pat_TNT = new GRGEN_LGSP.PatternGraph(
 				"TNT",
 				"",
@@ -6365,12 +6522,36 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternEdge DNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge6", "_edge6", DNT_edge__edge6_AllowedTypes, DNT_edge__edge6_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge DNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge7", "_edge7", DNT_edge__edge7_AllowedTypes, DNT_edge__edge7_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge DNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge8", "_edge8", DNT_edge__edge8_AllowedTypes, DNT_edge__edge8_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Methyl.Instance, new GRGEN_LGSP.PatternElement[] { DNT_node_c1 });
-			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { DNT_node_c2 });
-			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { DNT_node_c3 });
-			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { DNT_node_c4 });
-			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern4 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { DNT_node_c5 });
-			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern5 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { DNT_node_c6 });
+			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Methyl.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c1"),
+				}, 
+				new string[] { "DNT_node_c1" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c2"),
+				}, 
+				new string[] { "DNT_node_c2" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c3"),
+				}, 
+				new string[] { "DNT_node_c3" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c4"),
+				}, 
+				new string[] { "DNT_node_c4" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern4 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c5"),
+				}, 
+				new string[] { "DNT_node_c5" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding DNT__subpattern5 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c6"),
+				}, 
+				new string[] { "DNT_node_c6" }, new string[] {  }, new string[] {  });
 			pat_DNT = new GRGEN_LGSP.PatternGraph(
 				"DNT",
 				"",
@@ -7648,12 +7829,36 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternEdge TNB_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge6", "_edge6", TNB_edge__edge6_AllowedTypes, TNB_edge__edge6_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge TNB_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge7", "_edge7", TNB_edge__edge7_AllowedTypes, TNB_edge__edge7_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternEdge TNB_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge8", "_edge8", TNB_edge__edge8_AllowedTypes, TNB_edge__edge8_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { TNB_node_c1 });
-			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TNB_node_c2 });
-			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { TNB_node_c3 });
-			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TNB_node_c4 });
-			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern4 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new GRGEN_LGSP.PatternElement[] { TNB_node_c5 });
-			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern5 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern5", Pattern_Nitro.Instance, new GRGEN_LGSP.PatternElement[] { TNB_node_c6 });
+			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c1"),
+				}, 
+				new string[] { "TNB_node_c1" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c2"),
+				}, 
+				new string[] { "TNB_node_c2" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern2 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c3"),
+				}, 
+				new string[] { "TNB_node_c3" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern3 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern3", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c4"),
+				}, 
+				new string[] { "TNB_node_c4" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern4 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c5"),
+				}, 
+				new string[] { "TNB_node_c5" }, new string[] {  }, new string[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding TNB__subpattern5 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern5", Pattern_Nitro.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c6"),
+				}, 
+				new string[] { "TNB_node_c6" }, new string[] {  }, new string[] {  });
 			pat_TNB = new GRGEN_LGSP.PatternGraph(
 				"TNB",
 				"",
@@ -8844,7 +9049,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] keepBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] keepBenzolRingPattern_minMatches = new int[0] ;
 			int[] keepBenzolRingPattern_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternGraphEmbedding keepBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, new GRGEN_LGSP.PatternElement[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding keepBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, 
+				new GRGEN_EXPR.Expression[] {
+				}, 
+				new string[] {  }, new string[] {  }, new string[] {  });
 			pat_keepBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"keepBenzolRingPattern",
 				"",
@@ -9212,7 +9420,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] deleteBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] deleteBenzolRingPattern_minMatches = new int[0] ;
 			int[] deleteBenzolRingPattern_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternGraphEmbedding deleteBenzolRingPattern__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRing.Instance, new GRGEN_LGSP.PatternElement[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding deleteBenzolRingPattern__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_BenzolRing.Instance, 
+				new GRGEN_EXPR.Expression[] {
+				}, 
+				new string[] {  }, new string[] {  }, new string[] {  });
 			pat_deleteBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"deleteBenzolRingPattern",
 				"",
@@ -9401,7 +9612,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] deleteInModifyBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] deleteInModifyBenzolRingPattern_minMatches = new int[0] ;
 			int[] deleteInModifyBenzolRingPattern_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternGraphEmbedding deleteInModifyBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, new GRGEN_LGSP.PatternElement[] {  });
+			GRGEN_LGSP.PatternGraphEmbedding deleteInModifyBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, 
+				new GRGEN_EXPR.Expression[] {
+				}, 
+				new string[] {  }, new string[] {  }, new string[] {  });
 			pat_deleteInModifyBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"deleteInModifyBenzolRingPattern",
 				"",

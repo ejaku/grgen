@@ -677,11 +677,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IPatternGraph EmbeddedGraph { get { return matchingPatternOfEmbeddedGraph.patternGraph; } }
 
-        /// <summary>
-        /// An array with the connections telling how the subpattern is connected to the containing pattern,
-        /// that are the pattern elements of the containing pattern used for that purpose
-        /// </summary>
-        public IPatternElement[] Connections { get { return connections; } }
 
         /// <summary>
         /// The pattern where this complex subpattern element gets matched.
@@ -699,25 +694,43 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPMatchingPattern matchingPatternOfEmbeddedGraph;
 
         /// <summary>
-        /// An array with the connections telling how the subpattern is connected to the containing pattern,
-        /// that are the pattern elements of the containing pattern used for that purpose.
+        /// An array with the expressions giving the arguments to the subpattern,
+        /// that are the pattern variables plus the pattern elements,
+        /// with which the subpattern gets connected to the containing pattern.
         /// </summary>
-        public PatternElement[] connections;
+        public Expression[] connections;
+
+        /// <summary>
+        /// An array of node names needed by this subpattern embedding.
+        /// </summary>
+        public String[] neededNodes;
+
+        /// <summary>
+        /// An array of edge names needed by this subpattern embedding.
+        /// </summary>
+        public String[] neededEdges;
+
+        /// <summary>
+        /// An array of variable names needed by this subpattern embedding.
+        /// </summary>
+        public String[] neededVariables;
 
         /// <summary>
         /// Constructs a PatternGraphEmbedding object.
         /// </summary>
         /// <param name="name">The name of the usage of the subpattern.</param>
         /// <param name="matchingPatternOfEmbeddedGraph">The embedded subpattern.</param>
-        /// <param name="connections">An array with the connections telling how the subpattern is connected
-        /// to the containing pattern, that are the pattern elements of the containing pattern used for
-        /// that purpose.</param>
+        /// <param name="connections">An array with the expressions defining how the subpattern is connected
+        /// to the containing pattern (graph elements and basic variables) .</param>
         public PatternGraphEmbedding(String name, LGSPMatchingPattern matchingPatternOfEmbeddedGraph,
-                PatternElement[] connections)
+                Expression[] connections, String[] neededNodes, String[] neededEdges, String[] neededVariables)
         {
             this.name = name;
             this.matchingPatternOfEmbeddedGraph = matchingPatternOfEmbeddedGraph;
             this.connections = connections;
+            this.neededNodes = neededNodes;
+            this.neededEdges = neededEdges;
+            this.neededVariables = neededVariables;
         }
     }
 

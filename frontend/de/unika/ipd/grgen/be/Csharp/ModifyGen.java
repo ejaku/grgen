@@ -286,8 +286,6 @@ public class ModifyGen extends CSharpBase {
 					} else if(entity instanceof Edge) {
 						Edge edge = (Edge)entity;
 						task.left.addSingleEdge(edge);
-					} else {
-						assert false;
 					}
 				}
 				genModifyRuleOrSubrule(sb, task, pathPrefix);
@@ -310,8 +308,6 @@ public class ModifyGen extends CSharpBase {
 				} else if(entity instanceof Edge) {
 					Edge edge = (Edge)entity;
 					task.right.addSingleEdge(edge);
-				} else {
-					assert false;
 				}
 			}
 			genModifyRuleOrSubrule(sb, task, pathPrefix);
@@ -593,7 +589,8 @@ public class ModifyGen extends CSharpBase {
 
 		genPreEmits(sb2, stateConst, task);
 
-		genSubpatternModificationCalls(sb2, task, pathPrefix, state.nodesNeededAsElements);
+		genSubpatternModificationCalls(sb2, task, pathPrefix, stateConst,
+				state.nodesNeededAsElements, state.neededVariables);
 
 		genIteratedModificationCalls(sb2, task, pathPrefix);
 
@@ -836,7 +833,7 @@ public class ModifyGen extends CSharpBase {
 				if(entity instanceof Node) {
 					commonNodes.add((Node)entity);
 				}
-				else {
+				else if(entity instanceof Edge) {
 					commonEdges.add((Edge)entity);
 				}
 			}
@@ -1294,7 +1291,7 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genSubpatternModificationCalls(StringBuffer sb, ModifyGenerationTask task, String pathPrefix,
-			HashSet<Node> nodesNeededAsElements) {
+			ExpressionGenerationState state, HashSet<Node> nodesNeededAsElements, HashSet<Variable> neededVariables) {
 		if(task.right==task.left) { // test needs top-level-modify due to interface, but not more
 			return;
 		}
@@ -1305,11 +1302,25 @@ public class ModifyGen extends CSharpBase {
 			sb.append("\t\t\tPattern_" + formatIdentifiable(subRep.getSubpatternUsage().getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subRep.getSubpatternUsage().getSubpatternAction()) +
 					"_Modify(graph, subpattern_" + subName);
-			for(Entity entity : subRep.getReplConnections()) {
-				Node node = (Node)entity;
-				sb.append(", " + formatEntity(node));
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
+			for(Expression expr: subRep.getReplConnections()) {
+				expr.collectNeededEntities(needs);
+				sb.append(", ");
+				if(expr instanceof GraphEntityExpression) {
+					sb.append("(" + formatElementClassRef(expr.getType()) + ")(");
+				} else {
+					sb.append("(" + formatAttributeType(expr.getType()) + ") (");
+				}
+				genExpression(sb, expr, state);
+				sb.append(")");
+			}
+			for(Node node : needs.nodes) {
 				nodesNeededAsElements.add(node);
 			}
+			for(Variable var : needs.variables) {
+				neededVariables.add(var);
+			}
+						
 			sb.append(");\n");
 		}
 	}
@@ -1626,8 +1637,15 @@ public class ModifyGen extends CSharpBase {
 			sb.append("\t\t\tPattern_" + formatIdentifiable(subUsage.getSubpatternAction())
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
 					"_Create(graph");
-			for(Entity entity : subUsage.getSubpatternConnections()) {
-				sb.append(", " + formatEntity(entity));
+			for(Expression expr: subUsage.getSubpatternConnections()) {
+				sb.append(", ");
+				if(expr instanceof GraphEntityExpression) {
+					sb.append("(" + formatElementClassRef(expr.getType()) + ")(");
+				} else {
+					sb.append("(" + formatAttributeType(expr.getType()) + ") (");
+				}
+				genExpression(sb, expr, state);
+				sb.append(")");
 			}
 			sb.append(");\n");
 		}

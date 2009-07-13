@@ -2008,6 +2008,11 @@ exitSecondLoop: ;
                     sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.name + ";\n");
                 }
             }
+            for (int i = 0; i < patternGraph.variables.Length; ++i)
+            {
+                PatternVariable variable = patternGraph.variables[i];
+                sb.AppendFront("public " +TypesHelper.TypeName(variable.Type) + " " + variable.name + ";\n");
+            }
 
             GenerateIndependentsMatchObjects(sb, matchingPatternClassName, patternGraph);
 

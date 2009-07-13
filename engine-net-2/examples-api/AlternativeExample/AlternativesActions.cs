@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Jun 28 20:17:14 GMT+01:00 2009
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Mon Jul 13 02:24:02 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -7156,7 +7156,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			int[] XtoAorB_minMatches = new int[0] ;
 			int[] XtoAorB_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode XtoAorB_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "XtoAorB_node_x", "x", XtoAorB_node_x_AllowedTypes, XtoAorB_node_x_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternGraphEmbedding XtoAorB__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_toAorB.Instance, new GRGEN_LGSP.PatternElement[] { XtoAorB_node_x });
+			GRGEN_LGSP.PatternGraphEmbedding XtoAorB__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_toAorB.Instance, 
+				new GRGEN_EXPR.Expression[] {
+					new GRGEN_EXPR.GraphEntityExpression("XtoAorB_node_x"),
+				}, 
+				new string[] { "XtoAorB_node_x" }, new string[] {  }, new string[] {  });
 			pat_XtoAorB = new GRGEN_LGSP.PatternGraph(
 				"XtoAorB",
 				"",

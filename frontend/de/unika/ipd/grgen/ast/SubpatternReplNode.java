@@ -18,7 +18,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
@@ -30,22 +30,21 @@ public class SubpatternReplNode extends BaseNode {
 
 	private IdentNode subpatternUnresolved;
 	private SubpatternUsageNode subpattern;
-	private CollectNode<IdentNode> replConnectionsUnresolved;
-	private CollectNode<ConstraintDeclNode> replConnections;
+	private CollectNode<ExprNode> replConnections;
 
 
-	public SubpatternReplNode(IdentNode n, CollectNode<IdentNode> c) {
+	public SubpatternReplNode(IdentNode n, CollectNode<ExprNode> c) {
 		this.subpatternUnresolved = n;
 		becomeParent(this.subpatternUnresolved);
-		this.replConnectionsUnresolved = c;
-		becomeParent(this.replConnectionsUnresolved);
+		this.replConnections = c;
+		becomeParent(this.replConnections);
 	}
 
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(subpatternUnresolved, subpattern));
-		children.add(getValidVersion(replConnectionsUnresolved, replConnections));
+		children.add(replConnections);
 		return children;
 	}
 
@@ -59,15 +58,12 @@ public class SubpatternReplNode extends BaseNode {
 
 	private static final DeclarationResolver<SubpatternUsageNode> subpatternResolver =
 		new DeclarationResolver<SubpatternUsageNode>(SubpatternUsageNode.class);
-	private static final CollectPairResolver<ConstraintDeclNode> connectionsResolver =
-		new CollectPairResolver<ConstraintDeclNode>(new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
 		subpattern = subpatternResolver.resolve(subpatternUnresolved, this);
-		replConnections = connectionsResolver.resolve(replConnectionsUnresolved, this);
-		return subpattern!=null && replConnections!=null;
+		return subpattern!=null;
 	}
 
 	@Override
@@ -87,12 +83,11 @@ public class SubpatternReplNode extends BaseNode {
 	/** Check whether the subpattern replacement usage adheres to the signature of the subpattern replacement declaration */
 	private boolean checkSubpatternSignatureAdhered() {
 		// check if the number of parameters is correct
-		Collection<RhsDeclNode> right = subpattern.type.right.getChildren();
 		String patternName = subpattern.type.pattern.nameOfGraph;
+		Collection<RhsDeclNode> right = subpattern.type.right.getChildren();
 		Vector<DeclNode> formalReplacementParameters = right.iterator().next().graph.getParamDecls();
-		Vector<ConstraintDeclNode> actualReplacementParameters = replConnections.children;
 		int expected = formalReplacementParameters.size();
-		int actual = actualReplacementParameters.size();
+		int actual = replConnections.children.size();
 		if (expected != actual) {
 			subpattern.ident.reportError("The dependent replacement specified in \"" + patternName + "\" needs "
 			        + expected + " parameters, given by replacement usage " + subpattern.ident.toString() + " are " + actual);
@@ -102,14 +97,19 @@ public class SubpatternReplNode extends BaseNode {
 		// check if the types of the parameters are correct
 		boolean res = true;
 		for (int i = 0; i < formalReplacementParameters.size(); ++i) {
-			ConstraintDeclNode actualParameter = actualReplacementParameters.get(i);
-			ConstraintDeclNode formalParameter = (ConstraintDeclNode)formalReplacementParameters.get(i);
-			InheritanceTypeNode actualParameterType = actualParameter.getDeclType();
-			InheritanceTypeNode formalParameterType = formalParameter.getDeclType();
-
-			if(!actualParameterType.isA(formalParameterType)) {
+			ExprNode actualParameter = replConnections.children.get(i);
+			TypeNode actualParameterType = actualParameter.getType();
+			DeclNode formalParameter = (ConstraintDeclNode)formalReplacementParameters.get(i);
+			TypeNode formalParameterType = formalParameter.getDeclType();
+			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;
-				actualParameter.ident.reportError("Subpattern replacement usage parameter \"" + actualParameter.ident.toString() + "\" has wrong type");
+				String exprTypeName;
+				if(actualParameterType instanceof InheritanceTypeNode)
+					exprTypeName = ((InheritanceTypeNode) actualParameterType).getIdentNode().toString();
+				else
+					exprTypeName = actualParameterType.toString();
+				subpatternUnresolved.reportError("Cannot convert " + (i + 1) + ". subpattern replacement argument from \""
+						+ exprTypeName + "\" to \"" + formalParameterType.toString() + "\"");
 			}
 		}
 
@@ -118,9 +118,9 @@ public class SubpatternReplNode extends BaseNode {
 
 	@Override
 	protected IR constructIR() {
-		List<GraphEntity> replConnections = new LinkedList<GraphEntity>();
-    	for (ConstraintDeclNode c : this.replConnections.getChildren()) {
-    		replConnections.add(c.checkIR(GraphEntity.class));
+		List<Expression> replConnections = new LinkedList<Expression>();
+    	for (ExprNode e : this.replConnections.getChildren()) {
+    		replConnections.add(e.checkIR(Expression.class));
     	}
 		return new SubpatternDependentReplacement("dependent replacement", subpatternUnresolved.getIdent(),
 				subpattern.checkIR(SubpatternUsage.class), replConnections);
