@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Mon Jul 13 02:24:20 GMT+01:00 2009
+// Generated from "..\..\tests\independent\Independent.grg" on Tue Jul 21 00:01:08 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -132,7 +132,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 					new GRGEN_EXPR.GraphEntityExpression("iteratedPath_alt_0_recursive_node_intermediate"),
 					new GRGEN_EXPR.GraphEntityExpression("iteratedPath_node_end"),
 				}, 
-				new string[] { "iteratedPath_alt_0_recursive_node_intermediate", "iteratedPath_node_end" }, new string[] {  }, new string[] {  });
+				new string[] { "iteratedPath_alt_0_recursive_node_intermediate", "iteratedPath_node_end" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			iteratedPath_alt_0_recursive = new GRGEN_LGSP.PatternGraph(
 				"recursive",
 				"iteratedPath_alt_0_",
@@ -737,7 +737,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("iteratedPathToIntNode_alt_0_recursive_node_intermediate"),
 				}, 
-				new string[] { "iteratedPathToIntNode_alt_0_recursive_node_intermediate" }, new string[] {  }, new string[] {  });
+				new string[] { "iteratedPathToIntNode_alt_0_recursive_node_intermediate" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			iteratedPathToIntNode_alt_0_recursive = new GRGEN_LGSP.PatternGraph(
 				"recursive",
 				"iteratedPathToIntNode_alt_0_",
@@ -3333,12 +3333,12 @@ namespace de.unika.ipd.grGen.Action_Independent
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToInt_node_beg"),
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToInt_node_end"),
 				}, 
-				new string[] { "findChainPlusChainToInt_node_beg", "findChainPlusChainToInt_node_end" }, new string[] {  }, new string[] {  });
+				new string[] { "findChainPlusChainToInt_node_beg", "findChainPlusChainToInt_node_end" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToInt__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_iteratedPathToIntNode.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToInt_node_end"),
 				}, 
-				new string[] { "findChainPlusChainToInt_node_end" }, new string[] {  }, new string[] {  });
+				new string[] { "findChainPlusChainToInt_node_end" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_findChainPlusChainToInt = new GRGEN_LGSP.PatternGraph(
 				"findChainPlusChainToInt",
 				"",
@@ -3561,7 +3561,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToIntIndependent_node_beg"),
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToIntIndependent_node_end"),
 				}, 
-				new string[] { "findChainPlusChainToIntIndependent_node_beg", "findChainPlusChainToIntIndependent_node_end" }, new string[] {  }, new string[] {  });
+				new string[] { "findChainPlusChainToIntIndependent_node_beg", "findChainPlusChainToIntIndependent_node_end" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			bool[,] findChainPlusChainToIntIndependent_idpt_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -3572,7 +3572,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToIntIndependent_node_end"),
 				}, 
-				new string[] { "findChainPlusChainToIntIndependent_node_end" }, new string[] {  }, new string[] {  });
+				new string[] { "findChainPlusChainToIntIndependent_node_end" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			findChainPlusChainToIntIndependent_idpt_0 = new GRGEN_LGSP.PatternGraph(
 				"idpt_0",
 				"findChainPlusChainToIntIndependent_",

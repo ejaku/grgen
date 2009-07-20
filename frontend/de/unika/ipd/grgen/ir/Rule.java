@@ -92,8 +92,8 @@ public class Rule extends MatchingAction {
 	}
 
 	/** Add a replacement parameter to the rule. */
-	public void addReplParameter(Node id) {
-		replParams.add(id);
+	public void addReplParameter(Entity entity) {
+		replParams.add(entity);
 	}
 
 	/** Get all replacement parameters of this rule (may currently contain only nodes). */

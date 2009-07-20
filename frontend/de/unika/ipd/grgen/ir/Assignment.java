@@ -10,6 +10,8 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import java.util.HashSet;
+
 
 /**
  * Represents an assignment statement in the IR.
@@ -38,5 +40,31 @@ public class Assignment extends EvalStatement {
 
 	public String toString() {
 		return getTarget() + " = " + getExpression();
+	}
+	
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		Expression target = getTarget();
+		Entity entity;
+
+		if(target instanceof Qualification)
+			entity = ((Qualification) target).getOwner();
+		else if(target instanceof Visited) {
+			Visited visTgt = (Visited) target;
+			entity = visTgt.getEntity();
+			visTgt.getVisitorID().collectNeededEntities(needs);
+		}
+		else
+			throw new UnsupportedOperationException("Unsupported assignment target (" + target + ")");
+
+		needs.add((GraphEntity) entity);
+
+		// Temporarily do not collect variables for target
+		HashSet<Variable> varSet = needs.variables;
+		needs.variables = null;
+		target.collectNeededEntities(needs);
+		needs.variables = varSet;
+
+		getExpression().collectNeededEntities(needs);
 	}
 }

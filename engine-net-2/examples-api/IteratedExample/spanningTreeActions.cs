@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Mon Jul 13 02:24:24 GMT+01:00 2009
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Tue Jul 21 00:01:12 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -81,7 +81,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTree_iter_0_node_next"),
 				}, 
-				new string[] { "SpanningTree_iter_0_node_next" }, new string[] {  }, new string[] {  });
+				new string[] { "SpanningTree_iter_0_node_next" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			SpanningTree_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTree_",
@@ -548,7 +548,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeReverse_iter_0_node_next"),
 				}, 
-				new string[] { "SpanningTreeReverse_iter_0_node_next" }, new string[] {  }, new string[] {  });
+				new string[] { "SpanningTreeReverse_iter_0_node_next" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			SpanningTreeReverse_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTreeReverse_",
@@ -1025,7 +1025,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeOutgoing_iter_0_node_next"),
 				}, 
-				new string[] { "SpanningTreeOutgoing_iter_0_node_next" }, new string[] {  }, new string[] {  });
+				new string[] { "SpanningTreeOutgoing_iter_0_node_next" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			SpanningTreeOutgoing_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTreeOutgoing_",
@@ -1428,7 +1428,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeIncoming_iter_0_node_next"),
 				}, 
-				new string[] { "SpanningTreeIncoming_iter_0_node_next" }, new string[] {  }, new string[] {  });
+				new string[] { "SpanningTreeIncoming_iter_0_node_next" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			SpanningTreeIncoming_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTreeIncoming_",
@@ -2449,7 +2449,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTree_node_root"),
 				}, 
-				new string[] { "spanningTree_node_root" }, new string[] {  }, new string[] {  });
+				new string[] { "spanningTree_node_root" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_spanningTree = new GRGEN_LGSP.PatternGraph(
 				"spanningTree",
 				"",
@@ -2655,7 +2655,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			GRGEN_LGSP.PatternEdge edgesVisited_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "edgesVisited_edge_e", "e", edgesVisited_edge_e_AllowedTypes, edgesVisited_edge_e_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited("edgesVisited_edge_e", new GRGEN_EXPR.Constant("0")),
-				new string[] {  }, new string[] { "edgesVisited_edge_e" }, new string[] {  });
+				new string[] {  }, new string[] { "edgesVisited_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_edgesVisited = new GRGEN_LGSP.PatternGraph(
 				"edgesVisited",
 				"",
@@ -2842,7 +2842,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			GRGEN_LGSP.PatternNode nodesVisited_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "nodesVisited_node_n", "n", nodesVisited_node_n_AllowedTypes, nodesVisited_node_n_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited("nodesVisited_node_n", new GRGEN_EXPR.Constant("0")),
-				new string[] { "nodesVisited_node_n" }, new string[] {  }, new string[] {  });
+				new string[] { "nodesVisited_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_nodesVisited = new GRGEN_LGSP.PatternGraph(
 				"nodesVisited",
 				"",
@@ -3032,7 +3032,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeReverse_node_root"),
 				}, 
-				new string[] { "spanningTreeReverse_node_root" }, new string[] {  }, new string[] {  });
+				new string[] { "spanningTreeReverse_node_root" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_spanningTreeReverse = new GRGEN_LGSP.PatternGraph(
 				"spanningTreeReverse",
 				"",
@@ -3236,7 +3236,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeOutgoing_node_root"),
 				}, 
-				new string[] { "spanningTreeOutgoing_node_root" }, new string[] {  }, new string[] {  });
+				new string[] { "spanningTreeOutgoing_node_root" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_spanningTreeOutgoing = new GRGEN_LGSP.PatternGraph(
 				"spanningTreeOutgoing",
 				"",
@@ -3432,7 +3432,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeIncoming_node_root"),
 				}, 
-				new string[] { "spanningTreeIncoming_node_root" }, new string[] {  }, new string[] {  });
+				new string[] { "spanningTreeIncoming_node_root" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_spanningTreeIncoming = new GRGEN_LGSP.PatternGraph(
 				"spanningTreeIncoming",
 				"",

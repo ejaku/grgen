@@ -1,0 +1,63 @@
+using attrib_model_001;
+
+rule r {
+	x:NINT;
+	iterated {
+		y:NINT;
+		modify {
+			x --> y;
+			eval {
+				y.a = x.a; // x only referenced in eval -- must be propagated internally into lhs 
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+test t(var x:int) {
+	iterated {
+		if { x!=42; } // x only referenced in if  -- must be propagated internally into lhs
+	}	
+}
+
+pattern Alts(var i:int, var j:string, var k:boolean, var l:double, var m:object)
+{
+	iterated {
+		nint:NINT;
+		nbool:NBOOL;
+		ndouble:NDOUBLE;
+		nobject:NOBJECT;
+		nstring:NSTRING;
+		modify(var mi:int, var mj:string, var mk:boolean, var ml:double, var mm:object) {
+			eval {
+				nint.a = mi + i; // var parameters only referenced in eval -- msut be propagated internally to lhs
+				nbool.a = mk || k;
+				ndouble.a = ml - l;
+				nobject.a = mm!=null ? mm : m;
+				nstring.a = mj + j;
+			}
+		}
+	}
+	
+	iterated {
+		modify(var mi:int, var mj:string, var mk:boolean, var ml:double, var mm:object) {
+			nint:NINT;
+			nbool:NBOOL;
+			ndouble:NDOUBLE;
+			nobject:NOBJECT;
+			nstring:NSTRING;
+			eval {
+				nint.a = mi;
+				nbool.a = mk;
+				ndouble.a = ml;
+				nobject.a = mm;
+				nstring.a = mj;
+			}
+		}
+	}
+	
+	modify(var mi:int, var mj:string, var mk:boolean, var ml:double, var mm:object) {
+	}
+}

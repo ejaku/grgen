@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import java.util.HashSet;
+
 public class MapRemoveItem extends EvalStatement {
 	Qualification target;
 	Expression keyExpr;
@@ -27,5 +29,24 @@ public class MapRemoveItem extends EvalStatement {
 
 	public Expression getKeyExpr() {
 		return keyExpr;
+	}
+	
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		Qualification target = getTarget();
+		Entity entity = (target).getOwner();
+		needs.add((GraphEntity) entity);
+
+		// Temporarily do not collect variables for target
+		HashSet<Variable> varSet = needs.variables;
+		needs.variables = null;
+		target.collectNeededEntities(needs);
+		needs.variables = varSet;
+
+		getKeyExpr().collectNeededEntities(needs);
+
+		if(getNext()!=null) {
+			getNext().collectNeededEntities(needs);
+		}
 	}
 }

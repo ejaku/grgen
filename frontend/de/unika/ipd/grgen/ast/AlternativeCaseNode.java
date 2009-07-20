@@ -24,6 +24,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Variable;
 
 
 /**
@@ -440,12 +441,15 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		}
 
 		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
-			rule.addReplParameter(decl.checkIR(Node.class));
 			if(decl instanceof NodeCharacter) {
-				right.addSingleNode(((NodeCharacter)decl).getNode());
+				rule.addReplParameter(decl.checkIR(Node.class));
+				right.addSingleNode(((NodeCharacter) decl).getNode());
+			} else if(decl instanceof VarDeclNode) {
+				rule.addReplParameter(decl.checkIR(Variable.class));
+				right.addVariable(((VarDeclNode) decl).getVariable());
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
-			}
+			}			
 		}
 	}
 
@@ -477,7 +481,6 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 		Rule altCaseRule = new Rule(getIdentNode().getIdent(), left, right);
 
-		constructImplicitLhsElements();
 		constructImplicitNegs(left);
 		constructIRaux(altCaseRule);
 
@@ -490,20 +493,6 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		}
 
 		return altCaseRule;
-	}
-
-	private void constructImplicitLhsElements()
-	{
-		if(right.children.size()>0) {
-			PatternGraph left = pattern.getPatternGraph();
-			PatternGraph right = this.right.children.get(0).getPatternGraph(left);
-
-			for(Node node : right.getNodes()) {
-				if(node.getPointOfDefinition()!=right) {
-					/*TODO*/;
-				}
-			}
-		}
 	}
 
 	// TODO use this to create IR patterns, that is currently not supported by

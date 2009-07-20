@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Mon Jul 13 02:24:02 GMT+01:00 2009
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Tue Jul 21 00:00:48 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -7160,7 +7160,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("XtoAorB_node_x"),
 				}, 
-				new string[] { "XtoAorB_node_x" }, new string[] {  }, new string[] {  });
+				new string[] { "XtoAorB_node_x" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_XtoAorB = new GRGEN_LGSP.PatternGraph(
 				"XtoAorB",
 				"",

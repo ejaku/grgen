@@ -63,7 +63,9 @@ public class ReplaceDeclNode extends RhsDeclNode {
 
 	@Override
 	protected PatternGraph getPatternGraph(PatternGraph left) {
-		return graph.getGraph();
+		PatternGraph right = graph.getGraph();
+		insertElementsFromEvalIntoRhs(left, right);
+		return right;
 	}
 
 	@Override

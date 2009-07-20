@@ -370,8 +370,13 @@ public class ModifyGen extends CSharpBase {
 					  + pathPrefix+altName+"_" + (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
 					  + "(GRGEN_LGSP.LGSPGraph graph, IMatch_"+pathPrefix+altName+" curMatch");
 		for(Entity entity : replParameters) {
-			Node node = (Node)entity;
-			sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(node));
+			if(entity instanceof Node) {
+				Node node = (Node)entity;
+				sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(node));
+			} else {
+				Variable var = (Variable)entity;
+				sb.append(", " + formatAttributeType(var)+ " " + formatEntity(var));
+			}
 		}
 		sb.append(")\n");
 		sb.append("\t\t{\n");
@@ -393,8 +398,7 @@ public class ModifyGen extends CSharpBase {
 					+ (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
 					+ "(graph, (Match_"+pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+")curMatch");
 			for(Entity entity : replParameters) {
-				Node node = (Node)entity;
-				sb.append(", " + formatEntity(node));
+				sb.append(", " + formatEntity(entity));
 			}
 			sb.append(");\n");
 			sb.append("\t\t\t\treturn;\n");
@@ -458,8 +462,13 @@ public class ModifyGen extends CSharpBase {
 					  + "GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefix+iterName
 					  + ", IMatch_"+pathPrefix+iterName+"> curMatches");
 		for(Entity entity : replParameters) {
-			Node node = (Node)entity;
-			sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(node));
+			if(entity instanceof Node) {
+				Node node = (Node)entity;
+				sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(node));
+			} else {
+				Variable var = (Variable)entity;
+				sb.append(", " + formatAttributeType(var)+ " " + formatEntity(var));
+			}
 		}
 		sb.append(")\n");
 		sb.append("\t\t{\n");
@@ -471,8 +480,7 @@ public class ModifyGen extends CSharpBase {
 				+ (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
 				+ "(graph, curMatch");
 		for(Entity entity : replParameters) {
-			Node node = (Node)entity;
-			sb.append(", " + formatEntity(node));
+			sb.append(", " + formatEntity(entity));
 		}
 		sb.append(");\n");
 		sb.append("\t\t\t}\n");
@@ -643,7 +651,7 @@ public class ModifyGen extends CSharpBase {
 
 		genExtractElementsFromMatch(sb, stateConst, pathPrefix, task.left.getNameOfGraph());
 
-		genExtractVariablesFromMatch(sb, stateConst, pathPrefix, task.left.getNameOfGraph());
+		genExtractVariablesFromMatch(sb, task, stateConst, pathPrefix, task.left.getNameOfGraph());
 
 		genExtractSubmatchesFromMatch(sb, pathPrefix, task.left);
 
@@ -694,8 +702,13 @@ public class ModifyGen extends CSharpBase {
 						+ pathPrefix+task.left.getNameOfGraph() + "_Modify"+noReuse
 						+ "(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch");
 				for(Entity entity : task.replParameters) {
-					Node node = (Node)entity;
-					sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(node));
+					if(entity instanceof Node) {
+						Node node = (Node)entity;
+						sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(node));
+					} else {
+						Variable var = (Variable)entity;
+						sb.append(", " + formatAttributeType(var)+ " " + formatEntity(var));
+					}
 				}
 				sb.append(")\n");
 				sb.append("\t\t{\n");
@@ -707,8 +720,14 @@ public class ModifyGen extends CSharpBase {
 					+ pathPrefix+task.left.getNameOfGraph() + "_Create"
 					+ "(GRGEN_LGSP.LGSPGraph graph");
 			for(Entity entity : task.parameters) {
-				sb.append((entity instanceof Node ? ", GRGEN_LGSP.LGSPNode "
-								 : ", GRGEN_LGSP.LGSPEdge " )+ formatEntity(entity));
+				if(entity instanceof Node) {
+					sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(entity));					
+				} else if (entity instanceof Edge) {
+					sb.append(", GRGEN_LGSP.LGSPEdge " + formatEntity(entity));
+				} else {
+					// var parameters can't be used in creation, so just skip them
+					//sb.append(", " + formatAttributeType(entity.getType()) + " " + formatEntity(entity));
+				}
 			}
 			sb.append(")\n");
 			sb.append("\t\t{\n");
@@ -798,8 +817,10 @@ public class ModifyGen extends CSharpBase {
 		// and which are not in the replacement parameters of a subpattern
 		if(task.isSubpattern) {
 			for(Entity entity : task.replParameters) {
-				Node node = (Node)entity;
-				newNodes.remove(node);
+				if(entity instanceof Node) {
+					Node node = (Node)entity;
+					newNodes.remove(node);
+				}
 			}
 		}
 	}
@@ -880,127 +901,7 @@ public class ModifyGen extends CSharpBase {
 	private void collectElementsAndAttributesNeededByEvals(ModifyGenerationTask task, NeededEntities needs)
 	{
 		for(EvalStatement evalStmt : task.evals) {
-			if(evalStmt instanceof Assignment) {
-				Assignment ass = (Assignment) evalStmt;
-				Expression target = ass.getTarget();
-				Entity entity;
-
-				if(target instanceof Qualification)
-					entity = ((Qualification) target).getOwner();
-				else if(target instanceof Visited) {
-					Visited visTgt = (Visited) target;
-					entity = visTgt.getEntity();
-					visTgt.getVisitorID().collectNeededEntities(needs);
-				}
-				else
-					throw new UnsupportedOperationException("Unsupported assignment target (" + target + ")");
-
-				needs.add((GraphEntity) entity);
-
-				// Temporarily do not collect variables for target
-				HashSet<Variable> varSet = needs.variables;
-				needs.variables = null;
-				target.collectNeededEntities(needs);
-				needs.variables = varSet;
-
-				ass.getExpression().collectNeededEntities(needs);
-			}
-			else if(evalStmt instanceof MapAddItem
-					|| evalStmt instanceof MapRemoveItem
-					|| evalStmt instanceof SetAddItem
-					|| evalStmt instanceof SetRemoveItem) {
-				collectMapSetEvalStmt(needs, evalStmt);
-			}
-			else {
-				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");
-			}
-		}
-	}
-
-	private void collectMapSetEvalStmt(NeededEntities needs, EvalStatement evalStmt) {
-		if(evalStmt instanceof MapRemoveItem) {
-			collectMapRemoveItem(needs, (MapRemoveItem) evalStmt);
-		} else if(evalStmt instanceof MapAddItem) {
-			collectMapAddItem(needs, (MapAddItem) evalStmt);
-		} else if(evalStmt instanceof SetRemoveItem) {
-			collectSetRemoveItem(needs, (SetRemoveItem) evalStmt);
-		} else if(evalStmt instanceof SetAddItem) {
-			collectSetAddItem(needs, (SetAddItem) evalStmt);
-		} else {
-			throw new UnsupportedOperationException("Unexpected eval statement \"" + evalStmt + "\"");
-		}
-	}
-
-	private void collectMapRemoveItem(NeededEntities needs, MapRemoveItem mri) {
-		Qualification target = mri.getTarget();
-		Entity entity = (target).getOwner();
-		needs.add((GraphEntity) entity);
-
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.collectNeededEntities(needs);
-		needs.variables = varSet;
-
-		mri.getKeyExpr().collectNeededEntities(needs);
-
-		if(mri.getNext()!=null) {
-			collectMapSetEvalStmt(needs, mri.getNext());
-		}
-	}
-
-	private void collectMapAddItem(NeededEntities needs, MapAddItem mai) {
-		Qualification target = mai.getTarget();
-		Entity entity = (target).getOwner();
-		needs.add((GraphEntity) entity);
-
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.collectNeededEntities(needs);
-		needs.variables = varSet;
-
-		mai.getKeyExpr().collectNeededEntities(needs);
-		mai.getValueExpr().collectNeededEntities(needs);
-
-		if(mai.getNext()!=null) {
-			collectMapSetEvalStmt(needs, mai.getNext());
-		}
-	}
-
-	private void collectSetRemoveItem(NeededEntities needs, SetRemoveItem sri) {
-		Qualification target = sri.getTarget();
-		Entity entity = (target).getOwner();
-		needs.add((GraphEntity) entity);
-
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.collectNeededEntities(needs);
-		needs.variables = varSet;
-
-		sri.getValueExpr().collectNeededEntities(needs);
-
-		if(sri.getNext()!=null) {
-			collectMapSetEvalStmt(needs, sri.getNext());
-		}
-	}
-
-	private void collectSetAddItem(NeededEntities needs, SetAddItem sai) {
-		Qualification target = sai.getTarget();
-		Entity entity = (target).getOwner();
-		needs.add((GraphEntity) entity);
-
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.collectNeededEntities(needs);
-		needs.variables = varSet;
-
-		sai.getValueExpr().collectNeededEntities(needs);
-
-		if(sai.getNext()!=null) {
-			collectMapSetEvalStmt(needs, sai.getNext());
+			evalStmt.collectNeededEntities(needs);
 		}
 	}
 
@@ -1246,8 +1147,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
 						(task.reuseNodesAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, alternative_" + altName);
 				for(Entity entity : task.replParameters) {
-					Node node = (Node)entity;
-					sb.append(", " + formatEntity(node));
+					sb.append(", " + formatEntity(entity));
 				}
 				sb.append(");\n");
 			}
@@ -1274,8 +1174,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+iterName+"_" +
 						(task.reuseNodesAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, iterated_" + iterName);
 				for(Entity entity : task.replParameters) {
-					Node node = (Node)entity;
-					sb.append(", " + formatEntity(node));
+					sb.append(", " + formatEntity(entity));
 				}
 				sb.append(");\n");
 			}
@@ -1371,9 +1270,12 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genExtractVariablesFromMatch(StringBuffer sb, ModifyGenerationStateConst state,
-			String pathPrefix, String patternName) {
+	private void genExtractVariablesFromMatch(StringBuffer sb, ModifyGenerationTask task,
+			ModifyGenerationStateConst state, String pathPrefix, String patternName) {
 		for(Variable var : state.neededVariables()) {
+			if(task.replParameters.contains(var)) {
+				continue; // skip replacement parameters, they are handed in as parameters
+			}
 			String type = formatAttributeType(var);
 			sb.append("\t\t\t" + type + " " + formatEntity(var)
 					+ " = curMatch."+formatEntity(var, "_")+";\n");
@@ -1638,14 +1540,13 @@ public class ModifyGen extends CSharpBase {
 					+ ".Instance." + formatIdentifiable(subUsage.getSubpatternAction()) +
 					"_Create(graph");
 			for(Expression expr: subUsage.getSubpatternConnections()) {
-				sb.append(", ");
+				// var parameters can't be used in creation, so just skip them
 				if(expr instanceof GraphEntityExpression) {
+					sb.append(", ");
 					sb.append("(" + formatElementClassRef(expr.getType()) + ")(");
-				} else {
-					sb.append("(" + formatAttributeType(expr.getType()) + ") (");
+					genExpression(sb, expr, state);
+					sb.append(")");
 				}
-				genExpression(sb, expr, state);
-				sb.append(")");
 			}
 			sb.append(");\n");
 		}

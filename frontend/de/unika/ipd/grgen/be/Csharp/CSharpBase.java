@@ -126,6 +126,19 @@ public abstract class CSharpBase {
 			sb.append(" }");
 	}
 
+	public void genVarTypeSet(StringBuffer sb, Collection<? extends Entity> set, boolean brackets) {
+		if (brackets)
+			sb.append("{ ");
+		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
+			Entity id = iter.next();
+			sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof("+ formatAttributeType(id) + "))");
+			if(iter.hasNext())
+				sb.append(", ");
+		}
+		if (brackets)
+			sb.append(" }");
+	}
+	
 	public void genSubpatternUsageSet(StringBuffer sb, Collection<? extends SubpatternUsage> set, String pre, String post,
 									  boolean brackets, String pathPrefix, HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName) {
 		if (brackets)

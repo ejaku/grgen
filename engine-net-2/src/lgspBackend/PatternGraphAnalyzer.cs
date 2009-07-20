@@ -117,6 +117,7 @@ namespace de.unika.ipd.grGen.lgsp
             // a) it creates the local needed element sets
             patternGraph.neededNodes = new Dictionary<String, bool>();
             patternGraph.neededEdges = new Dictionary<String, bool>();
+            patternGraph.neededVariables = new Dictionary<String, GrGenType>();
 
             // b) it adds the needed elements of the nested patterns (just computed)
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
@@ -125,6 +126,8 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
                 foreach (KeyValuePair<string, bool> neededEdge in neg.neededEdges)
                     patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
+                foreach (KeyValuePair<string, GrGenType> neededVariable in neg.neededVariables)
+                    patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
             }
             foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
             {
@@ -132,7 +135,8 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
                 foreach (KeyValuePair<string, bool> neededEdge in idpt.neededEdges)
                     patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
-
+                foreach (KeyValuePair<string, GrGenType> neededVariable in idpt.neededVariables)
+                    patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
             }
             foreach (Alternative alt in patternGraph.alternatives)
             {
@@ -142,6 +146,8 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
                     foreach (KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
                         patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
+                    foreach (KeyValuePair<string, GrGenType> neededVariable in altCase.neededVariables)
+                        patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
                 }
             }
             foreach (PatternGraph iter in patternGraph.iterateds)
@@ -150,6 +156,8 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
                 foreach (KeyValuePair<string, bool> neededEdge in iter.neededEdges)
                     patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
+                foreach (KeyValuePair<string, GrGenType> neededVariable in iter.neededVariables)
+                    patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
             }
 
             // c) it adds it's own locally needed elements
@@ -160,6 +168,9 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.neededNodes[neededNode] = true;
                 foreach (String neededEdge in cond.NeededEdges)
                     patternGraph.neededEdges[neededEdge] = true;
+                for (int i = 0; i < cond.NeededVariables.Length; ++i) {
+                    patternGraph.neededVariables[cond.NeededVariables[i]] = cond.NeededVariableTypes[i];
+                }
             }
             //    - in the pattern
             foreach (PatternNode node in patternGraph.nodes)
@@ -168,6 +179,9 @@ namespace de.unika.ipd.grGen.lgsp
             foreach (PatternEdge edge in patternGraph.edges)
                 if (edge.PointOfDefinition != patternGraph)
                     patternGraph.neededEdges[edge.name] = true;
+            foreach (PatternVariable variable in patternGraph.variables)
+                if (variable.PointOfDefinition != patternGraph)
+                    patternGraph.neededVariables[variable.name] = variable.Type;
             //    - as subpattern connections
             foreach (PatternGraphEmbedding sub in patternGraph.embeddedGraphs)
             {
@@ -175,6 +189,8 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.neededNodes[neededNode] = true;
                 foreach (String neededEdge in sub.neededEdges)
                     patternGraph.neededEdges[neededEdge] = true;
+                for (int i = 0; i < sub.neededVariables.Length; ++i)
+                    patternGraph.neededVariables[sub.neededVariables[i]] = sub.neededVariableTypes[i];
             }
 
             // d) it filters out the elements needed (by the nested patterns) which are defined locally
@@ -184,6 +200,9 @@ namespace de.unika.ipd.grGen.lgsp
             foreach (PatternEdge edge in patternGraph.edges)
                 if (edge.PointOfDefinition == patternGraph)
                     patternGraph.neededEdges.Remove(edge.name);
+            foreach (PatternVariable variable in patternGraph.variables)
+                if (variable.PointOfDefinition == patternGraph)
+                    patternGraph.neededVariables.Remove(variable.name);
         }
 
         /// <summary>

@@ -24,6 +24,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Variable;
 
 
 /**
@@ -445,12 +446,15 @@ public class IteratedNode extends ActionDeclNode  {
 		}
 
 		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
-			rule.addReplParameter(decl.checkIR(Node.class));
 			if(decl instanceof NodeCharacter) {
-				right.addSingleNode(((NodeCharacter)decl).getNode());
+				rule.addReplParameter(decl.checkIR(Node.class));
+				right.addSingleNode(((NodeCharacter) decl).getNode());
+			} else if(decl instanceof VarDeclNode) {
+				rule.addReplParameter(decl.checkIR(Variable.class));
+				right.addVariable(((VarDeclNode) decl).getVariable());
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
-			}
+			}	
 		}
 	}
 

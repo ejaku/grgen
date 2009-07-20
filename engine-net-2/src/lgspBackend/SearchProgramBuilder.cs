@@ -224,7 +224,15 @@ namespace de.unika.ipd.grGen.lgsp
                     scheduledSearchPlan.PatternGraph.name,
                     rulePatternClassName);
                 matchAlternative.OperationsList = new SearchProgramList(matchAlternative);
-                insertionPoint = insertionPoint.Append(matchAlternative);
+                SearchProgramOperation continuationPointAfterAltCase = insertionPoint.Append(matchAlternative);
+                
+                // at level of the current alt case
+                insertionPoint = matchAlternative.OperationsList;
+                for (int j = 0; j < altCase.variables.Length; j++)
+                {
+                    PatternVariable var = altCase.variables[j];
+                    insertionPoint = insertionPoint.Append(new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name));
+                }
 
                 patternGraphWithNestingPatterns.Push(altCase);
                 isNegative = false;
@@ -233,7 +241,10 @@ namespace de.unika.ipd.grGen.lgsp
                 // start building with first operation in scheduled search plan
                 BuildScheduledSearchPlanOperationIntoSearchProgram(
                     0,
-                    matchAlternative.OperationsList);
+                    insertionPoint);
+
+                // back to level of alt cases
+                insertionPoint = continuationPointAfterAltCase;
 
                 // save matches found by alternative case to get clean start for matching next alternative case
                 if(i<alternative.alternativeCases.Length-1)
@@ -278,6 +289,12 @@ namespace de.unika.ipd.grGen.lgsp
                 "myMatch");
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
+
+            for (int i = 0; i < iter.variables.Length; i++)
+            {
+                PatternVariable var = iter.variables[i];
+                insertionPoint = insertionPoint.Append(new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name));
+            }
 
             // initialize task/result-pushdown handling in subpattern matcher for iteration
             InitializeSubpatternMatching initialize = 

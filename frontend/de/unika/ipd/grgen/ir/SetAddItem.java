@@ -11,6 +11,8 @@
 
 package de.unika.ipd.grgen.ir;
 
+import java.util.HashSet;
+
 public class SetAddItem extends EvalStatement {
 	Qualification target;
     Expression valueExpr;
@@ -27,5 +29,24 @@ public class SetAddItem extends EvalStatement {
 
 	public Expression getValueExpr() {
 		return valueExpr;
+	}
+	
+	public void collectNeededEntities(NeededEntities needs)
+	{
+		Qualification target = getTarget();
+		Entity entity = (target).getOwner();
+		needs.add((GraphEntity) entity);
+
+		// Temporarily do not collect variables for target
+		HashSet<Variable> varSet = needs.variables;
+		needs.variables = null;
+		target.collectNeededEntities(needs);
+		needs.variables = varSet;
+
+		getValueExpr().collectNeededEntities(needs);
+
+		if(getNext()!=null) {
+			getNext().collectNeededEntities(needs);
+		}
 	}
 }

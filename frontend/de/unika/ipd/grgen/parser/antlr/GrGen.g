@@ -356,7 +356,7 @@ param [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNo
 		res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY);
 	}
 
-	| v=varDecl[context] { res = v; }
+	| v=varDecl[context, directlyNestingLHSGraph] { res = v; }
 
 	| node=nodeDeclParam[context, directlyNestingLHSGraph]
 	{
@@ -695,22 +695,22 @@ nodeDeclParam [ int context, PatternGraphNode directlyNestingLHSGraph ] returns 
 			}
 	;
 
-varDecl [ int context ] returns [ BaseNode res = env.initNode() ]
+varDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
 	: VAR id=entIdentDecl COLON
 		(
 			type=typeIdentUse
 			{
-				res = new VarDeclNode(id, type);
+				res = new VarDeclNode(id, type, directlyNestingLHSGraph);
 			}
 		|
 			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				res = new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
+				res = new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType), directlyNestingLHSGraph);
 			}
 		|
 			SET LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				res = new VarDeclNode(id, SetTypeNode.getSetType(keyType));
+				res = new VarDeclNode(id, SetTypeNode.getSetType(keyType), directlyNestingLHSGraph);
 			}
 		)
 	;

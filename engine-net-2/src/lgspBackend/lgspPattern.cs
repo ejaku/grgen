@@ -227,6 +227,11 @@ namespace de.unika.ipd.grGen.lgsp
         public String UnprefixedName { get { return unprefixedName; } }
 
         /// <summary>
+        /// The pattern where this element gets matched (null if rule parameter).
+        /// </summary>
+        public PatternGraph PointOfDefinition;
+
+        /// <summary>
         /// The GrGen type of the variable.
         /// </summary>
         public VarType Type;
@@ -288,19 +293,26 @@ namespace de.unika.ipd.grGen.lgsp
         public String[] NeededVariables;
 
         /// <summary>
+        /// An array of variable types (corresponding to the variable names) needed by this condition.
+        /// </summary>
+        public VarType[] NeededVariableTypes;
+
+        /// <summary>
         /// Constructs a PatternCondition object.
         /// </summary>
         /// <param name="conditionExpression">The condition expression to evaluate.</param>
         /// <param name="neededNodes">An array of node names needed by this condition.</param>
         /// <param name="neededEdges">An array of edge names needed by this condition.</param>
         /// <param name="neededVariables">An array of variable names needed by this condition.</param>
+        /// <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this condition.</param>
         public PatternCondition(Expression conditionExpression, 
-            String[] neededNodes, String[] neededEdges, String[] neededVariables)
+            String[] neededNodes, String[] neededEdges, String[] neededVariables, VarType[] neededVariableTypes)
         {
             ConditionExpression = conditionExpression;
             NeededNodes = neededNodes;
             NeededEdges = neededEdges;
             NeededVariables = neededVariables;
+            NeededVariableTypes = neededVariableTypes;
         }
     }
 
@@ -648,6 +660,12 @@ namespace de.unika.ipd.grGen.lgsp
         public Dictionary<String, bool> neededEdges;
 
         /// <summary>
+        /// The variables from the enclosing graph(s) used in this graph or one of it's subgraphs.
+        /// Map of names to types
+        /// </summary>
+        public Dictionary<String, GrGenType> neededVariables;
+
+        /// <summary>
         /// The subpatterns used by this pattern (directly as well as indirectly),
         /// only filled/valid if this is a top level pattern graph of a rule or subpattern.
         /// Set of matching patterns, with dummy null matching pattern due to lacking set class in c#
@@ -716,6 +734,11 @@ namespace de.unika.ipd.grGen.lgsp
         public String[] neededVariables;
 
         /// <summary>
+        /// An array of variable types (corresponding to the variable names) needed by this embedding.
+        /// </summary>
+        public VarType[] neededVariableTypes;
+
+        /// <summary>
         /// Constructs a PatternGraphEmbedding object.
         /// </summary>
         /// <param name="name">The name of the usage of the subpattern.</param>
@@ -723,7 +746,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="connections">An array with the expressions defining how the subpattern is connected
         /// to the containing pattern (graph elements and basic variables) .</param>
         public PatternGraphEmbedding(String name, LGSPMatchingPattern matchingPatternOfEmbeddedGraph,
-                Expression[] connections, String[] neededNodes, String[] neededEdges, String[] neededVariables)
+                Expression[] connections, String[] neededNodes, String[] neededEdges,
+                String[] neededVariables, VarType[] neededVariableTypes)
         {
             this.name = name;
             this.matchingPatternOfEmbeddedGraph = matchingPatternOfEmbeddedGraph;
@@ -731,6 +755,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.neededNodes = neededNodes;
             this.neededEdges = neededEdges;
             this.neededVariables = neededVariables;
+            this.neededVariableTypes = neededVariableTypes;
         }
     }
 

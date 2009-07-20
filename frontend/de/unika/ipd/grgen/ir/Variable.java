@@ -14,8 +14,12 @@
 package de.unika.ipd.grgen.ir;
 
 public class Variable extends Entity {
-	public Variable(String name, Ident ident, Type type) {
+	// the pattern graph of the variable
+	public PatternGraph directlyNestingLHSGraph;
+	
+	public Variable(String name, Ident ident, Type type, PatternGraph directlyNestingLHSGraph) {
 		super(name, ident, type, false);
+		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
 }
 

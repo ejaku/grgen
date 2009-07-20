@@ -2049,12 +2049,15 @@ exitSecondLoop: ;
 
             Dictionary<string, bool> neededNodes = new Dictionary<string,bool>();
             Dictionary<string, bool> neededEdges = new Dictionary<string,bool>();
+            Dictionary<string, GrGenType> neededVariables = new Dictionary<string, GrGenType>();
             foreach (PatternGraph altCase in alternative.alternativeCases)
             {
                 foreach (KeyValuePair<string, bool> neededNode in altCase.neededNodes)
                     neededNodes[neededNode.Key] = neededNode.Value;
                 foreach (KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
                     neededEdges[neededEdge.Key] = neededEdge.Value;
+                foreach (KeyValuePair<string, GrGenType> neededVariable in altCase.neededVariables)
+                    neededVariables[neededVariable.Key] = neededVariable.Value;
             }
             foreach (KeyValuePair<string, bool> node in neededNodes)
             {
@@ -2064,7 +2067,11 @@ exitSecondLoop: ;
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.Key + ";\n");
             }
-
+            foreach (KeyValuePair<string, GrGenType> variable in neededVariables)
+            {
+                sb.AppendFront("public " + TypesHelper.TypeName(variable.Value) + " " + variable.Key + ";\n");
+            }
+    
             foreach (PatternGraph altCase in alternative.alternativeCases)
             {
                 GenerateIndependentsMatchObjects(sb, matchingPattern.GetType().Name, altCase);
@@ -2113,10 +2120,13 @@ exitSecondLoop: ;
 
             Dictionary<string, bool> neededNodes = new Dictionary<string, bool>();
             Dictionary<string, bool> neededEdges = new Dictionary<string, bool>();
+            Dictionary<string, GrGenType> neededVariables = new Dictionary<string, GrGenType>();
             foreach (KeyValuePair<string, bool> neededNode in iter.neededNodes)
                 neededNodes[neededNode.Key] = neededNode.Value;
             foreach (KeyValuePair<string, bool> neededEdge in iter.neededEdges)
                 neededEdges[neededEdge.Key] = neededEdge.Value;
+            foreach (KeyValuePair<string, GrGenType> neededVariable in iter.neededVariables)
+                neededVariables[neededVariable.Key] = neededVariable.Value;
             foreach (KeyValuePair<string, bool> node in neededNodes)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPNode " + node.Key + ";\n");
@@ -2124,6 +2134,10 @@ exitSecondLoop: ;
             foreach (KeyValuePair<string, bool> edge in neededEdges)
             {
                 sb.AppendFront("public GRGEN_LGSP.LGSPEdge " + edge.Key + ";\n");
+            }
+            foreach (KeyValuePair<string, GrGenType> variable in neededVariables)
+            {
+                sb.AppendFront("public " + TypesHelper.TypeName(variable.Value) + " " + variable.Key + ";\n");
             }
 
             GenerateIndependentsMatchObjects(sb, matchingPattern.GetType().Name, iter);

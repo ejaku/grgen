@@ -21,6 +21,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
@@ -365,10 +366,10 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 
 				// check if the types of the parameters are the same
 				for (int i = 0; i < parameters.size(); ++i) {
-					ConstraintDeclNode parameter = (ConstraintDeclNode)parameters.get(i);
-					ConstraintDeclNode parameterInNestedAlternativeCase = (ConstraintDeclNode)parametersInNestedAlternativeCase.get(i);
-					InheritanceTypeNode parameterType = parameter.getDeclType();
-					InheritanceTypeNode parameterInNestedAlternativeCaseType = parameterInNestedAlternativeCase.getDeclType();
+					DeclNode parameter = (DeclNode)parameters.get(i);
+					DeclNode parameterInNestedAlternativeCase = (DeclNode)parametersInNestedAlternativeCase.get(i);
+					TypeNode parameterType = parameter.getDeclType();
+					TypeNode parameterInNestedAlternativeCaseType = parameterInNestedAlternativeCase.getDeclType();
 
 					if(!parameterType.isEqual(parameterInNestedAlternativeCaseType)) {
 						parameterInNestedAlternativeCase.ident.reportError("Different type of replacement parameter in nested alternative case " + altCase.ident.toString()
@@ -466,9 +467,12 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		}
 
 		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
-			rule.addReplParameter(decl.checkIR(Node.class));
 			if(decl instanceof NodeCharacter) {
-				right.addSingleNode(((NodeCharacter)decl).getNode());
+				rule.addReplParameter(decl.checkIR(Node.class));
+				right.addSingleNode(((NodeCharacter) decl).getNode());
+			} else if(decl instanceof VarDeclNode) {
+				rule.addReplParameter(decl.checkIR(Variable.class));
+				right.addVariable(((VarDeclNode) decl).getVariable());
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}

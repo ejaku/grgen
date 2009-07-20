@@ -1,0 +1,7 @@
+test nested
+{
+	iterated {
+		optional {
+		}
+	}
+}

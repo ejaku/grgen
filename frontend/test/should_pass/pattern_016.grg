@@ -1,21 +1,69 @@
-pattern Foo(var i:int)
+using attrib_model_001;
+
+pattern Bar(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 {
-	x:Node;
-	if { !visited(x, i); }
 	
-	modify bla
+	modify(var mi:int, var mj:string, var mk:boolean, var ml:double, var mm:object)
 	{
-		eval { visited(x, i) = true; }
+		nint:NINT;
+		nbool:NBOOL;
+		ndouble:NDOUBLE;
+		nobject:NOBJECT;
+		nstring:NSTRING;
+		eval {
+			nint.a = mi + i;
+			nbool.a = mk || k;
+			ndouble.a = ml - l;
+			nobject.a = mm!=null ? mm : m;
+			nstring.a = mj + j;
+		}
 	}
 }
 
-rule r(var i:int)
+pattern Foo(var i:int, var j:string, var k:boolean, var l:double, var m:object)
+{
+	nint:NINT;
+	nbool:NBOOL;
+	nfloat:NFLOAT;
+	ndouble:NDOUBLE;
+	nobject:NOBJECT;
+	nstring:NSTRING;
+	-eint:EINT->;
+	-ebool:EBOOL->;
+	-estring:ESTRING->;
+	-efloat:EFLOAT->;
+	-edouble:EDOUBLE->;
+	-eobject:EOBJECT->;
+
+	if { i>0; }
+	if { nstring.a.indexOf(j)==j.length(); }
+	if { l<ndouble.a+0.00000001 && l>ndouble.a+0.00000001; }
+	if { (k || nbool.a) && m==eobject.a; }
+	
+	bar:Bar(i-1, j+" deeper", k&&ebool.a, l*l, m!=null ? m : nobject.a);
+	alts:Bar(i-1, j+" deeper", k&&ebool.a, l*l, m!=null ? m : nobject.a);
+	
+	modify
+	{
+		eval { visited(eint, i) = true; }
+		eval { nint.a = i + 1; } // todo:allow var param assignment?
+		eval { estring.a = j + " Welt"; }
+		eval { nbool.a = !k; }
+		eval { ndouble.a = l + 3.141592654; }
+		eval { eobject.a = m; }
+		
+		bar(i, j.substring(1, j.length()-1), k, l - 2.0, m);
+		alts(i, j.substring(1, j.length()-1), k, l - 2.0, m);
+	}
+}
+
+rule r(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 {
 	x:Node;
 	if { !visited(x, i); }
 	
-	foo:Foo(i);
-	//foo:Foo(i+1);
+	foo:Foo(i, "Hallo", true, 2.718281828, null);
+	footoo:Foo(i-1, "Ollah"+j, k||true, 1.0+l, m);
 
 	modify
 	{

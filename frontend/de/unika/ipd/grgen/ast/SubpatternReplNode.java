@@ -15,8 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.CollectPairResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -99,7 +97,7 @@ public class SubpatternReplNode extends BaseNode {
 		for (int i = 0; i < formalReplacementParameters.size(); ++i) {
 			ExprNode actualParameter = replConnections.children.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
-			DeclNode formalParameter = (ConstraintDeclNode)formalReplacementParameters.get(i);
+			DeclNode formalParameter = formalReplacementParameters.get(i);
 			TypeNode formalParameterType = formalParameter.getDeclType();
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;

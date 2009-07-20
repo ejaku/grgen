@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Jul 13 02:24:09 GMT+01:00 2009
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Jul 21 00:00:59 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -63,7 +63,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_LGSP.PatternEdge readZeroRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readZero, "GRGEN_MODEL.IreadZero", "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "readZeroRule_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
-				new string[] { "readZeroRule_node_bp" }, new string[] {  }, new string[] {  });
+				new string[] { "readZeroRule_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_readZeroRule = new GRGEN_LGSP.PatternGraph(
 				"readZeroRule",
 				"",
@@ -307,7 +307,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_LGSP.PatternEdge readOneRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readOne, "GRGEN_MODEL.IreadOne", "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "readOneRule_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
-				new string[] { "readOneRule_node_bp" }, new string[] {  }, new string[] {  });
+				new string[] { "readOneRule_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_readOneRule = new GRGEN_LGSP.PatternGraph(
 				"readOneRule",
 				"",
@@ -1842,7 +1842,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_LGSP.PatternNode countZeros_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "bp", countZeros_node_bp_AllowedTypes, countZeros_node_bp_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
-				new string[] { "countZeros_node_bp" }, new string[] {  }, new string[] {  });
+				new string[] { "countZeros_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_countZeros = new GRGEN_LGSP.PatternGraph(
 				"countZeros",
 				"",
@@ -2036,7 +2036,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_LGSP.PatternNode countOnes_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "bp", countOnes_node_bp_AllowedTypes, countOnes_node_bp_IsAllowedType, 5.5F, -1);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
-				new string[] { "countOnes_node_bp" }, new string[] {  }, new string[] {  });
+				new string[] { "countOnes_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_countOnes = new GRGEN_LGSP.PatternGraph(
 				"countOnes",
 				"",

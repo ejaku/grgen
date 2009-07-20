@@ -161,6 +161,8 @@ public class ModifyDeclNode extends RhsDeclNode {
 				right.addSubpatternUsage(sub);
 			}
 		}
+		
+		insertElementsFromEvalIntoRhs(left, right);
 
 	    return right;
 	}

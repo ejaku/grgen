@@ -31,6 +31,7 @@ import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
@@ -453,11 +454,12 @@ public class PatternGraphNode extends GraphNode {
 	protected void addParamsToConnections(CollectNode<BaseNode> params)
     {
     	for (BaseNode n : params.getChildren()) {
-			if(n instanceof VarDeclNode) continue;
-
 			// directly nesting lhs pattern is null for parameters of lhs pattern
 			// because it doesn't exist at the time the parameters are parsed -> fix it in here
-			if(n instanceof SingleNodeConnNode) {
+			if(n instanceof VarDeclNode) {
+				((VarDeclNode)n).directlyNestingLHSGraph = this;
+				continue;
+			} else if(n instanceof SingleNodeConnNode) {
 				SingleNodeConnNode sncn = (SingleNodeConnNode)n;
 				((NodeDeclNode)sncn.nodeUnresolved).directlyNestingLHSGraph = this;
 			} else if(n instanceof ConstraintDeclNode) {
@@ -549,7 +551,7 @@ public class PatternGraphNode extends GraphNode {
 
 		// add Condition elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the condition)
-		NeededEntities needs = new NeededEntities(true, true, false, false, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, false);
 		for(Expression cond : gr.getConditions()) {
 			cond.collectNeededEntities(needs);
 		}
@@ -563,6 +565,11 @@ public class PatternGraphNode extends GraphNode {
 			if(!gr.hasEdge(neededEdge)) {
 				gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
 				gr.addHomToAll(neededEdge);
+			}
+		}
+		for(Variable neededVariable : needs.variables) {
+			if(!gr.hasVar(neededVariable)) {
+				gr.addVariable(neededVariable);
 			}
 		}
 

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Mon Jul 13 02:24:44 GMT+01:00 2009
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Tue Jul 21 00:01:33 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -79,7 +79,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Subclasses_iter_0_node_sub"),
 				}, 
-				new string[] { "Subclasses_iter_0_node_sub" }, new string[] {  }, new string[] {  });
+				new string[] { "Subclasses_iter_0_node_sub" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			Subclasses_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Subclasses_",
@@ -453,12 +453,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Subclass_node_sub"),
 				}, 
-				new string[] { "Subclass_node_sub" }, new string[] {  }, new string[] {  });
+				new string[] { "Subclass_node_sub" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			GRGEN_LGSP.PatternGraphEmbedding Subclass__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Subclasses.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Subclass_node_sub"),
 				}, 
-				new string[] { "Subclass_node_sub" }, new string[] {  }, new string[] {  });
+				new string[] { "Subclass_node_sub" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_Subclass = new GRGEN_LGSP.PatternGraph(
 				"Subclass",
 				"",
@@ -682,7 +682,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Features_node_c"),
 				}, 
-				new string[] { "Features_node_c" }, new string[] {  }, new string[] {  });
+				new string[] { "Features_node_c" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			Features_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Features_",
@@ -1102,12 +1102,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("FeaturePattern_alt_0_MethodBody_node_b"),
 				}, 
-				new string[] { "FeaturePattern_alt_0_MethodBody_node_b" }, new string[] {  }, new string[] {  });
+				new string[] { "FeaturePattern_alt_0_MethodBody_node_b" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			GRGEN_LGSP.PatternGraphEmbedding FeaturePattern_alt_0_MethodBody__subpattern1 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern1", Pattern_Statements.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("FeaturePattern_alt_0_MethodBody_node_b"),
 				}, 
-				new string[] { "FeaturePattern_alt_0_MethodBody_node_b" }, new string[] {  }, new string[] {  });
+				new string[] { "FeaturePattern_alt_0_MethodBody_node_b" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			FeaturePattern_alt_0_MethodBody = new GRGEN_LGSP.PatternGraph(
 				"MethodBody",
 				"FeaturePattern_alt_0_",
@@ -2046,7 +2046,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Parameters_node_b"),
 				}, 
-				new string[] { "Parameters_node_b" }, new string[] {  }, new string[] {  });
+				new string[] { "Parameters_node_b" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			Parameters_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Parameters_",
@@ -3002,7 +3002,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Statements_node_b"),
 				}, 
-				new string[] { "Statements_node_b" }, new string[] {  }, new string[] {  });
+				new string[] { "Statements_node_b" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			Statements_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Statements_",
@@ -3416,7 +3416,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Statement_alt_0_Assignment_node_e"),
 				}, 
-				new string[] { "Statement_alt_0_Assignment_node_e" }, new string[] {  }, new string[] {  });
+				new string[] { "Statement_alt_0_Assignment_node_e" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			Statement_alt_0_Assignment = new GRGEN_LGSP.PatternGraph(
 				"Assignment",
 				"Statement_alt_0_",
@@ -3464,7 +3464,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Statement_alt_0_Call_node_e"),
 				}, 
-				new string[] { "Statement_alt_0_Call_node_e" }, new string[] {  }, new string[] {  });
+				new string[] { "Statement_alt_0_Call_node_e" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			Statement_alt_0_Call = new GRGEN_LGSP.PatternGraph(
 				"Call",
 				"Statement_alt_0_",
@@ -4214,7 +4214,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Expressions_node_e"),
 				}, 
-				new string[] { "Expressions_node_e" }, new string[] {  }, new string[] {  });
+				new string[] { "Expressions_node_e" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			Expressions_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Expressions_",
@@ -4609,7 +4609,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ExpressionPattern_node_sub"),
 				}, 
-				new string[] { "ExpressionPattern_node_sub" }, new string[] {  }, new string[] {  });
+				new string[] { "ExpressionPattern_node_sub" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			ExpressionPattern_alt_0_Call = new GRGEN_LGSP.PatternGraph(
 				"Call",
 				"ExpressionPattern_alt_0_",
@@ -5190,7 +5190,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 					new GRGEN_EXPR.GraphEntityExpression("Bodies_node_m5"),
 					new GRGEN_EXPR.GraphEntityExpression("Bodies_node_c1"),
 				}, 
-				new string[] { "Bodies_node_m5", "Bodies_node_c1" }, new string[] {  }, new string[] {  });
+				new string[] { "Bodies_node_m5", "Bodies_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			Bodies_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"Bodies_",
@@ -5634,12 +5634,12 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Body_node_b"),
 				}, 
-				new string[] { "Body_node_b" }, new string[] {  }, new string[] {  });
+				new string[] { "Body_node_b" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			GRGEN_LGSP.PatternGraphEmbedding Body_s = new GRGEN_LGSP.PatternGraphEmbedding("s", Pattern_Statements.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Body_node_b"),
 				}, 
-				new string[] { "Body_node_b" }, new string[] {  }, new string[] {  });
+				new string[] { "Body_node_b" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_Body = new GRGEN_LGSP.PatternGraph(
 				"Body",
 				"",
@@ -6543,7 +6543,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 					new GRGEN_EXPR.GraphEntityExpression("pullUpMethod_node_m5"),
 					new GRGEN_EXPR.GraphEntityExpression("pullUpMethod_node_c1"),
 				}, 
-				new string[] { "pullUpMethod_node_m5", "pullUpMethod_node_c1" }, new string[] {  }, new string[] {  });
+				new string[] { "pullUpMethod_node_m5", "pullUpMethod_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_pullUpMethod = new GRGEN_LGSP.PatternGraph(
 				"pullUpMethod",
 				"",
@@ -6810,7 +6810,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("matchAll_node_c1"),
 				}, 
-				new string[] { "matchAll_node_c1" }, new string[] {  }, new string[] {  });
+				new string[] { "matchAll_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_matchAll = new GRGEN_LGSP.PatternGraph(
 				"matchAll",
 				"",

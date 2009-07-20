@@ -974,6 +974,8 @@ public class ActionsGen extends CSharpBase {
 			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new string[] ");
 			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LIBGR.VarType[] ");
+			genVarTypeSet(sb, needs.variables, true);
 			sb.append(");\n");
 			alreadyDefinedIdentifiableToName.put(sub, subName);
 			aux.append("\t\t\t" + subName + ".PointOfDefinition = " + patGraphVarName + ";\n");
@@ -994,6 +996,8 @@ public class ActionsGen extends CSharpBase {
 			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new string[] ");
 			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LIBGR.VarType[] ");
+			genVarTypeSet(sb, needs.variables, true);
 			sb.append(");\n");
 			condCnt++;
 		}
