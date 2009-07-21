@@ -1,0 +1,6 @@
+pattern Foo()
+{
+	x:Node;
+	
+	return(x);
+}
