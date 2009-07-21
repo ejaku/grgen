@@ -19,7 +19,6 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EvalStatement;
-import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
@@ -188,7 +187,7 @@ public abstract class RhsDeclNode extends DeclNode {
 
 		return null;
 	}
-	
+
 	protected Collection<EvalStatement> getEvalStatements() {
 		Collection<EvalStatement> ret = new LinkedHashSet<EvalStatement>();
 
@@ -198,20 +197,20 @@ public abstract class RhsDeclNode extends DeclNode {
 
 		return ret;
 	}
-	
+
 	protected void insertElementsFromEvalIntoRhs(PatternGraph left, PatternGraph right)
 	{
-		// insert all elements, which are used in eval statements (of the right hand side) and 
+		// insert all elements, which are used in eval statements (of the right hand side) and
 		// neither declared on the local left hand nor on the right hand side to the right hand side
-		// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs) 
+		// further code (PatternGraph::insertElementsFromRhsDeclaredInNestingLhsToLocalLhs)
 		// will add them to the left hand side, too
-		
+
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, false);
 		Collection<EvalStatement> evalStatements = getEvalStatements();
 		for(EvalStatement eval : evalStatements) {
 			eval.collectNeededEntities(needs);
 		}
-		
+
 		for(Node neededNode : needs.nodes) {
 			if(neededNode.directlyNestingLHSGraph!=left) {
 				if(!right.hasNode(neededNode)) {
