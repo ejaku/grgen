@@ -96,29 +96,6 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	}
 
 	/** Check that only graph elements are returned, that are not deleted. */
-	/* FIXME Use it */
-	private boolean checkReturnedElemsNotDeleted(PatternGraphNode left, RhsDeclNode right) {
-		assert isResolved();
-
-		boolean res = true;
-		Set<DeclNode> delete = right.getDelete(left);
-
-		for (ExprNode expr : right.graph.returns.getChildren()) {
-			if(!(expr instanceof DeclExprNode)) continue;
-			ConstraintDeclNode retElem = ((DeclExprNode) expr).getConstraintDeclNode();
-			if(retElem == null) continue;
-
-			if (delete.contains(retElem)) {
-				res = false;
-
-				ident.reportError("The deleted " + retElem.getUseString()
-						+ " \"" + retElem.ident + "\" must not be returned");
-			}
-		}
-		return res;
-	}
-
-	/** Check that only graph elements are returned, that are not deleted. */
 	private boolean checkExecParamsNotDeleted() {
 		boolean res = true;
 
