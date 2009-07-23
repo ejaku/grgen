@@ -18,9 +18,10 @@ import java.util.HashMap;
  * It maps strings to symbols.
  */
 public class SymbolTable {
+	public static final int IRRELEVANT = 0;
 
 	private static final SymbolTable INVALID =
-		new SymbolTable("<invalid>");
+		new SymbolTable("<invalid>", IRRELEVANT);
 
 	/** The string - symbol map. */
 	private final HashMap<String, Symbol> symbolMap = new HashMap<String, Symbol>();
@@ -28,6 +29,9 @@ public class SymbolTable {
 	/** The name of the symbol table. */
 	private final String name;
 
+	/** Id/Classification of the symbol table */
+	private final int id;
+	
 	public static final SymbolTable getInvalid() {
 		return INVALID;
 	}
@@ -35,8 +39,9 @@ public class SymbolTable {
 	/**
 	 * Make a new symbol table.
 	 */
-	public SymbolTable(String name) {
+	public SymbolTable(String name, int id) {
 		this.name = name;
+		this.id = id;
 	}
 
 	/**
@@ -109,7 +114,6 @@ public class SymbolTable {
 		return symbolMap.get(text);
 	}
 
-
 	/**
 	 * Test a symbol for a string.
 	 * @param text The string.
@@ -117,5 +121,10 @@ public class SymbolTable {
 	 */
 	public boolean test(String text) {
 		return symbolMap.containsKey(text);
+	}
+	
+	/** returns the id/classification of this symbol table */
+	int getSymbolTableId() {
+		return id;
 	}
 }

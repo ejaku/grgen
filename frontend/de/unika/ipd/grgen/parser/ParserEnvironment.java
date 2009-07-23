@@ -53,12 +53,12 @@ public abstract class ParserEnvironment extends Base {
 	public static final int MODELS = 5;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
-		new SymbolTable("types"),        // types and patterns
-		new SymbolTable("entities"),     // entities and actions
-		new SymbolTable("alternatives"),
-		new SymbolTable("iterateds"),
-		new SymbolTable("replaces"),
-		new SymbolTable("models"),
+		new SymbolTable("types", TYPES),        // types and patterns
+		new SymbolTable("entities", ENTITIES),     // entities and actions
+		new SymbolTable("alternatives", ALTERNATIVES),
+		new SymbolTable("iterateds", ITERATEDS),
+		new SymbolTable("replaces", REPLACES),
+		new SymbolTable("models", MODELS),
 	};
 
 	private final IntConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
@@ -317,7 +317,6 @@ public abstract class ParserEnvironment extends Base {
 
 		keywords.add("abstract");
 		keywords.add("actions");
-		keywords.add("all");
 		keywords.add("alternative");
 		keywords.add("arbitrary");
 		keywords.add("class");
@@ -341,13 +340,16 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("in");
 		keywords.add("independent");
 		keywords.add("induced");
+		keywords.add("iterated");
 		keywords.add("map");
 		keywords.add("model");
 		keywords.add("modify");
+		keywords.add("multiple");
 		keywords.add("nameof");
 		keywords.add("negative");
 		keywords.add("node");
 		keywords.add("null");
+		keywords.add("optional");
 		keywords.add("pattern");
 		keywords.add("patternpath");
 		keywords.add("replace");

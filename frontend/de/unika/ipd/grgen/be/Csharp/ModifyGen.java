@@ -1290,10 +1290,10 @@ public class ModifyGen extends CSharpBase {
 		}
 		for(int i = 0; i < pattern.getIters().size(); i++) {
 			String iterName = "iter_" + i;
-			String iterType = "GRGEN_LGSP.LGSPMatchesList<Match_"+pattern.getNameOfGraph()+"_"+pathPrefix+iterName
-			  + ", IMatch_"+pattern.getNameOfGraph()+"_"+pathPrefix+iterName+">";
+			String iterType = "GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefix+pattern.getNameOfGraph()+"_"+iterName
+			  + ", IMatch_"+pathPrefix+pattern.getNameOfGraph()+"_"+iterName+">";
 			sb.append("\t\t\t"+iterType+" iterated_" + iterName
-					+ " = curMatch._"+pathPrefix+iterName+";\n");
+					+ " = curMatch._"+iterName+";\n");
 		}
 		for(int i = 0; i < pattern.getAlts().size(); i++) {
 			String altName = "alt_" + i;
