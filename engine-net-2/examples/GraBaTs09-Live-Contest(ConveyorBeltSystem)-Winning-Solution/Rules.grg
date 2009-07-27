@@ -1,0 +1,208 @@
+using Model;
+
+// test 1
+
+rule InitialGraph {
+	replace {
+		ls:LuggageSystem;
+		c1: Conveyor	<-:Contains- ls;
+		c2: Conveyor	<-:Contains- ls;
+		c3: DCV			<-:Contains- ls;
+		c4: DCV			<-:Contains- ls;
+		c5: Conveyor	<-:Contains- ls;
+		
+		c1 -j1:Junction-> c3;
+		c2 -:Junction-> c3;
+		c3 -:Junction-> c4;
+		c3 -:Junction-> c5;
+		// c5 -:Junction-> c1;  // a cycle
+		
+		eval {
+			j1.IsScreeningPoint = true;
+			c1.Capacity = 5;
+			c2.Capacity = 4;
+			c3.Capacity = 3;
+			c4.Capacity = 0; // 0 == sink
+			c5.Capacity = 0; // 0 == sink
+		}
+	}
+}
+
+// test 2
+
+rule InitStatechart {
+	replace {
+		:Statechart;
+	}
+}
+
+rule CreateCompoundStateAndInit : (State) {
+    chart:Statechart;
+	c: Carrier;
+	negative {
+		c -:Link->;
+	}
+	modify {
+		cs: CompoundState <-:Contains- chart;
+		c -l:Link-> cs -:Contains-> s:InitialState -:CurrentState-> s;
+		eval { 
+			l.Counter = 0;
+		} 
+		return (s);
+	}
+}
+
+rule CreateStates(predState:State) : (State) {
+	c: Carrier -l:Link-> cs: CompoundState;
+	if { c.Capacity > l.Counter; }
+	modify {
+		predState -:Forward-> s:State -:Backward-> predState;
+		cs -:Contains-> s;
+		eval {
+			l.Counter = l.Counter + 1;
+		}
+		return (s);
+	}
+}
+
+rule FixupInitialStates {
+	s:InitialState;
+	negative {
+		s <-:Transition->;
+	}
+	modify {
+		s -:Forward-> s <-:Backward- s;
+	}
+}
+
+
+// find cyc
+
+
+test FindCycle()
+{
+	c:Carrier;
+	:Cycl(c,c);
+}
+
+pattern Cycl(begin:Carrier, end:Carrier)
+{
+	alternative {
+		found {
+			begin -:Junction-> end;
+		}
+		further {
+			begin -:Junction-> intermediate:Carrier;
+			:Cycl(intermediate, end);
+		}
+	}
+}
+
+
+
+// test 3
+
+
+rule LableLinks(var i:int) : (int) {
+	-l:Link->;
+	if { !visited(l); }
+	modify {
+		eval {
+			visited(l) = true;
+			l.Id = i;
+		}
+		return(i+1);
+	}
+}
+
+rule CreatePredSucc {
+	s1:Carrier-j:Junction->s2:Carrier;
+	s1 -l1:Link-> cs1:CompoundState -:Contains-> is1:InitialState;
+	s2 -l2:Link-> cs2:CompoundState -:Contains-> is2:InitialState;
+	
+	-t11:Transition-> is1 -t12:Transition->;
+	-t21:Transition-> is2 -t22:Transition->;
+	
+	if { !visited(j); }
+	
+	modify {
+		eval {
+			t11.succ = t11.succ | {l2.Id};
+			t12.succ = t12.succ | {l2.Id};
+			t21.pred = t21.pred | {l1.Id};
+			t22.pred = t22.pred | {l1.Id};
+			visited(j) = true;
+		}			
+	}
+}
+
+rule CopyPredSucc {
+	s : State \ InitialState;
+	-in1:Transition-> s -out1:Transition->;
+	-in2:Transition-> s -out2:Transition->;
+	if { 
+		in1.pred.size() == 0 && in1.succ.size() == 0 && out1.pred.size() == 0 && out1.succ.size() == 0;
+		(in2.pred.size() != 0 || in2.succ.size() != 0) && (out2.pred.size() != 0 || out2.succ.size() != 0);
+	}
+	modify {
+		eval {
+			in1.pred = in2.pred;
+			in1.succ = in2.succ;
+			out1.pred = out2.pred;
+			out1.succ = out2.succ;
+		}
+	}
+}
+
+
+rule LuggageInput {
+	s:State -cs:CurrentState->;
+	s -f:Forward-> succState:State;
+	if {
+		f.pred.size() == 0;
+	}
+	modify {
+		delete(cs);
+		succState -:CurrentState-> succState;
+	}
+}
+
+rule Fire {
+	cs1:CompoundState <-l1:Link-;
+	cs2:CompoundState <-l2:Link-;
+	cs1 -:Contains-> s1:State -curr1:CurrentState->;
+	cs2 -:Contains-> s2:State -curr2:CurrentState->;
+	
+	s1pred:State -f1:Forward-> s1;
+	s2 -f2:Forward-> s2succ:State;
+	if { 
+		l2.Id in f1.succ;  
+	}
+	modify {
+		delete(curr1, curr2);
+		s1pred -:CurrentState-> s1pred;
+		s2succ -:CurrentState-> s2succ;
+	}
+}
+
+rule FireFinal {
+	cs1:CompoundState <-l1:Link-;
+	cs2:CompoundState <-l2:Link-;
+	cs1 -:Contains-> s1:State -curr1:CurrentState->;
+	cs2 -:Contains-> s2:State -curr2:CurrentState->;
+	
+	s1pred:State -f1:Forward-> s1;
+	negative {
+		s2 -f2:Forward-> s2succ:State;
+	}
+	if { 
+		l2.Id in f1.succ;  
+	}
+	modify {
+		delete(curr1);
+		s1pred -:CurrentState-> s1pred;
+	}
+}
+
+
+

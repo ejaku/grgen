@@ -1,0 +1,56 @@
+// Meta
+
+edge class Link {
+	Counter : int;
+	Id : int;
+}
+
+edge class Contains;
+
+
+// ********* Source Domain *********
+
+// nodes
+
+node class LuggageSystem;
+
+node class Carrier {
+	Capacity : int;
+	Distance : int;
+}
+
+node class Conveyor extends Carrier;
+
+node class DCV extends Carrier;
+
+// edges
+
+edge class Junction {
+	IsScreeningPoint : boolean = false;
+}
+
+// ********* Target Domain *********
+
+// nodes
+
+node class Statechart;
+
+node class CompoundState;
+
+node class State;
+
+node class InitialState extends State;
+
+// edges
+
+edge class Transition {
+	pred : set<int>;
+	succ : set<int>;
+}
+
+edge class Forward extends Transition;
+
+edge class Backward extends Transition;
+
+edge class CurrentState;
+
