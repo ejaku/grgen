@@ -18,10 +18,10 @@ debug enable
 # option: replace getters/setters in class itself - yes/no
 
 #ask for class and variable to refactor
-debug apply (c,v)=getClassAndVariable(?,?)
+#debug apply (c,v)=getClassAndVariable(?,?)
 #or use this one / set them in shell
-#c = I176 # class Node
-#v = I350 # variable _name
+c = I176 # class Node
+v = I350 # variable _name
 getterName = "getName"
 setterName = "setName"
 

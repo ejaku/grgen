@@ -22,12 +22,15 @@ PARSER_BEGIN(GrShell)
         bool readFromConsole = false;
         public IWorkaround workaround; 
         bool noError;
+        bool exitOnError = false;
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             String command = null;
             ArrayList scriptFilename = new ArrayList();
             bool showUsage = false;
+            int errorCode = 0; // 0==success, the return value
+            bool nonDebugNonGuiExitOnError = false;
             
             GrShellImpl.PrintVersion();
 
@@ -40,20 +43,27 @@ PARSER_BEGIN(GrShell)
                         if(command != null)
                         {
                             Console.WriteLine("Another command has already been specified with -C!");
+                            errorCode = -1;
                             showUsage = true;
                             break;
                         }
                         if(i + 1 >= args.Length)
                         {
                             Console.WriteLine("Missing parameter for -C option!");
+                            errorCode = -1;
                             showUsage = true;
                             break;
                         }
                         command = args[i + 1];
                         i++;
                     }
+                    else if(args[i] == "-N")
+                    {
+						nonDebugNonGuiExitOnError = true;
+                    }
                     else if(args[i] == "--help")
                     {
+	                    Console.WriteLine("Displays help");                       
                         showUsage = true;
                         break;
                     }
@@ -61,6 +71,7 @@ PARSER_BEGIN(GrShell)
                     {
                         Console.WriteLine("Illegal option: " + args[i]);
                         showUsage = true;
+                        errorCode = -1;
                         break;
                     }
                 }
@@ -74,6 +85,7 @@ PARSER_BEGIN(GrShell)
                         {
                             Console.WriteLine("The script file \"" + args[i] + "\" or \"" + filename + "\" does not exist!");
                             showUsage = true;
+                            errorCode = -1;
                             break;
                         }
                     }
@@ -86,11 +98,13 @@ PARSER_BEGIN(GrShell)
             if(showUsage)
             {
                 Console.WriteLine("Usage: GrShell [-C <command>] [<grs-file>]...");
+                Console.WriteLine("If called without options, GrShell is started awaiting user input. (Type help for help.)");
                 Console.WriteLine("Options:");
                 Console.WriteLine("  -C <command> Specifies a command to be executed >first<. Using");
                 Console.WriteLine("               ';;' as a delimiter it can actually contain multiple shell commands");
+                Console.WriteLine("  -N           non-interactive non-gui shell which exits on error instead of waiting for user input");
                 Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
-                return;
+                return errorCode;
             }
             
             IWorkaround workaround = WorkaroundManager.Workaround;
@@ -113,7 +127,7 @@ PARSER_BEGIN(GrShell)
                 catch(Exception e)
                 {
                     Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
-                    return;
+                    return -1;
                 }
                 scriptFilename.RemoveAt(0);
                 showPrompt = false;
@@ -132,6 +146,7 @@ PARSER_BEGIN(GrShell)
             shell.workaround = workaround;
             shell.impl = new GrShellImpl();
             shell.impl.TokenSourceStack.AddFirst(shell.token_source);
+            shell.impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
             try
             {
                 while(!shell.Quit && !shell.Eof)
@@ -139,6 +154,10 @@ PARSER_BEGIN(GrShell)
                     bool noError = shell.ParseShellCommand();
                     if(!shell.readFromConsole && (shell.Eof || !noError))
                     {
+	                    if(nonDebugNonGuiExitOnError && !noError) {
+		                    return -1;
+	                    } 
+	                    
                         if(scriptFilename.Count != 0)
                         {
                             TextReader newReader;
@@ -149,7 +168,7 @@ PARSER_BEGIN(GrShell)
                             catch(Exception e)
                             {
                                 Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
-                                return;
+                                return -1;
                             }
                             scriptFilename.RemoveAt(0);
                             shell.ReInit(newReader);
@@ -174,6 +193,7 @@ PARSER_BEGIN(GrShell)
             {
                 shell.impl.Cleanup();
             }
+            return errorCode;
         }
     }
 PARSER_END(GrShell)

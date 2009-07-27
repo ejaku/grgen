@@ -87,6 +87,7 @@ namespace de.unika.ipd.grGen.grShell
         Debugger debugger = null;
         bool pendingDebugEnable = false;
         String debugLayout = "Orthogonal";
+        public bool nonDebugNonGuiExitOnError = false;
 
         /// <summary>
         /// Maps layouts to layout option names to their values.
@@ -1637,6 +1638,7 @@ namespace de.unika.ipd.grGen.grShell
         public void ShowGraphWith(String programName, String arguments)
         {
             if(!GraphExists()) return;
+            if(nonDebugNonGuiExitOnError) return;
 
             String filename;
             int id = 0;
@@ -2272,6 +2274,10 @@ namespace de.unika.ipd.grGen.grShell
         /// <returns>True, if the mode has the desired value at the end of the function.</returns>
         public bool SetDebugMode(bool enable)
         {
+            if(nonDebugNonGuiExitOnError) {
+                return true;
+            }
+
             if(enable)
             {
                 if(CurrentShellGraph == null)
@@ -2475,6 +2481,12 @@ namespace de.unika.ipd.grGen.grShell
 
         public void DebugRewriteSequence(Sequence seq)
         {
+            if(nonDebugNonGuiExitOnError)
+            {
+                ApplyRewriteSequence(seq, false);
+                return;
+            }
+
             bool debugModeActivated;
 
             if(!CheckDebuggerAlive())
